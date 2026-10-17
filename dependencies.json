@@ -1,0 +1,12 @@
+{
+  "vhyl": {
+    "repository": "https://github.com/tashmurra/vhyl.git",
+    "version": "v0.2.1",
+    "revision": "53dbf3b94bb12f269fc447c414bff09fc0b7e46d"
+  },
+  "compiler": {
+    "repository": "https://github.com/tashmurra/zebulon-lang.git",
+    "version": "v0.1.2",
+    "revision": "089a6f1d2a55014d0e89bb78d35f82647fdcea61"
+  }
+}

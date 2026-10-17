@@ -1,0 +1,27 @@
+site_name: vhyl-rpg Pre-release Reference
+site_description: Mundane character and challenge mechanics for hybrid vhyl adventures.
+site_url: https://tashmurra.github.io/vhyl-rpg/
+repo_url: https://github.com/tashmurra/vhyl-rpg
+edit_uri: ''
+docs_dir: build/docs-src
+site_dir: build/site
+theme:
+  name: readthedocs
+plugins:
+  - search
+markdown_extensions:
+  - tables
+  - fenced_code
+  - toc:
+      permalink: true
+nav:
+  - Overview: index.md
+  - Authoring challenges: docs/authoring.md
+  - Assessments and dice reports: docs/reporting.md
+  - Library reference: reference/index.md
+  - Classes and objects: reference/types.md
+  - Functions: reference/functions.md
+  - Alphabetical symbols: reference/symbols.md
+  - Alphabetical members: reference/members.md
+  - Development and releases: docs/development.md
+  - Provenance: docs/provenance.md
