@@ -458,11 +458,7 @@ class RpgLiteBattle: object
                 else fighter.weapon.ready = true;
             }
             if (request.kind == 'nothing' && fighter.profile.fearSeconds == 0 && (fighter.profile.stunned || fighter.profile.mentalStun))
-            {
-                local check = rpgLiteAttributeCheck(fighter.profile, fighter.profile.mentalStun ? rpgIQ : rpgHT,
-                    fighter.profile.mentalStun ? 'mental-stun' : 'stun', 0);
-                if (check.achieved) { fighter.profile.stunned = nil; fighter.profile.mentalStun = nil; }
-            }
+                rpgLiteRecoverStun(fighter.profile);
         }
         fighter.profile.shock = fighter.profile.level('high-pain-threshold') > 0 ? 0
             : result.counterInjury > 4 ? 4 : result.counterInjury;

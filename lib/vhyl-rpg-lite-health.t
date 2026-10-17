@@ -163,6 +163,16 @@ class RpgLiteTreatment: object
     }
 ;
 
+/** Attempt end-of-turn stun recovery; fixed Fright durations cannot be shortened. */
+rpgLiteRecoverStun(profile)
+{
+    if ((!profile.stunned && !profile.mentalStun) || profile.unconscious || profile.dead || profile.fearSeconds > 0) return nil;
+    local check = rpgLiteAttributeCheck(profile, profile.mentalStun ? rpgIQ : rpgHT,
+        profile.mentalStun ? 'mental-stun' : 'stun', 0);
+    if (check.achieved) { profile.stunned = nil; profile.mentalStun = nil; }
+    return check;
+}
+
 /** Advance quiet rest or sleep and eligible recovery; consumes the stated game time. */
 rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
 {
@@ -170,6 +180,9 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     local result = new RpgLiteHealthResult(); result.seconds = seconds;
     if (profile.dead) { result.status = 'blocked'; return result; }
     rpgSpendTime(seconds);
+    for (local elapsed = 0; elapsed < seconds && (profile.stunned || profile.mentalStun)
+        && !profile.unconscious && profile.fearSeconds == 0; elapsed += 1) rpgLiteRecoverStun(profile);
+    profile.shock = 0;
     if (food) profile.hunger = 0;
     if (water)
     {

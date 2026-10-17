@@ -201,6 +201,10 @@ def test_care(session):
     assert state(session)['hp'] == 8
     action(session, 17)
     assert state(session)['hp'] == 8, 'fresh treatment farmed bandaging'
+    action(session, 27)
+    action(session, 3, 60)
+    current = state(session)
+    assert current['shock'] == 0 and not current['stunned'], 'quiet recovery retained combat penalties'
 
 
 def test_needs(session):

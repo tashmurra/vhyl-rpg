@@ -200,6 +200,10 @@ negative-HP/FP effort. `RpgLiteTreatment` persists bandaging and treatment,
 prevents repeated bandage healing on unchanged wounds, and consumes supplies.
 `rpgLiteRest` recovers only eligible fatigue and daily natural healing; food,
 water, sleep, illness and temperature impose their respective restrictions.
+It also expires one-turn shock and allows stun recovery outside combat.
+For individual noncombat turns, resolve the action with its current shock and
+then clear `shock`; use `rpgLiteRecoverStun` on a recovery turn. Do not clear shock
+globally at round boundaries, which would erase a later fighter's wound penalty.
 
 Use one `RpgLiteNeeds` per character with meals supplied per day, water quarts,
 climate-required quarts and active/inactive status. It tracks missing meals,

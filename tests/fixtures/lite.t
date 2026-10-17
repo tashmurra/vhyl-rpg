@@ -111,6 +111,7 @@ class LiteTestAction: Action
             local treatment = liteCare.advance(1860);
             event('test.default-aid'); eventValue(treatment.check.score);
         }
+        if (code == 27) { liteHero.stunned = true; liteHero.ht = 20; }
         if (value != nil)
         {
             event('test.health'); eventValue(value.status); eventValue(value.injury);
