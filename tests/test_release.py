@@ -13,10 +13,10 @@ import build_release as release
 
 
 class ReleaseTests(unittest.TestCase):
-    def test_only_explicit_prerelease_versions_are_accepted(self):
-        for value in ('0.1.0-alpha.1', '1.2.3-beta.0', '1.0.0-rc.2'):
+    def test_stable_and_explicit_prerelease_versions_are_accepted(self):
+        for value in ('1.0.0', '0.1.0', '0.1.0-alpha.1', '1.2.3-beta.0', '1.0.0-rc.2'):
             self.assertEqual(release.validate_version(value), value)
-        for value in ('0.1.0', 'v0.1.0-alpha.1', '../secret', '01.0.0-alpha.1', '1.0.0-rc.01'):
+        for value in ('1.0', '1.0.0-dev', '1.0.0+local', 'v0.1.0-alpha.1', '../secret', '01.0.0-alpha.1', '1.0.0-rc.01'):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 release.validate_version(value)
 

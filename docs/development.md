@@ -1,7 +1,7 @@
-# Development and pre-release publication
+# Development and release publication
 
-This is the **resilience and progression pre-release, v0.2.0-alpha.1**. Development is
-integrated through pull requests into `main`; prerelease tags identify packaged
+This is the **Lite conversion release, v1.0.0**. Development is
+integrated through pull requests into `main`; version tags identify packaged
 snapshots. API names, event contracts and save compatibility may change before a
 stable release. Injury, recovery, bounded conflicts and advancement are optional
 modules. Supernatural abilities remain a future module.
@@ -79,10 +79,10 @@ The workflow tests and builds before deploying the generated artifact using the
 `github-pages` environment. The Pages workflow publishes documentation separately
 from versioned library releases.
 
-## Build a pre-release
+## Build a release
 
 `VERSION` is the package version, without the leading `v` used for Git tags.
-The current pre-release is [v0.2.0-alpha.1](releases/v0.2.0-alpha.1.md). This is a
+The current release is [v1.0.0](releases/v1.0.0.md). This is a
 source library included in a game at compile time, so it has no standalone library
 executable. Release assets contain the library sources, examples, tests, guides
 and dependency pins, plus a separate browsable offline documentation archive.
@@ -146,11 +146,12 @@ failures stop promotion. It never treats missing evidence as a successful check.
 The search considers the most recent 100 successful workflow runs; older evidence
 can be refreshed with a new validation run.
 
-A tag must match `v` followed by `VERSION`, use `alpha.N`, `beta.N` or `rc.N`, and
-identify a commit reachable from `main`. After either fresh validation or verified
-reuse succeeds, the workflow creates a draft GitHub pre-release, uploads the
-packages and provenance, and publishes it with the pre-release flag and without
-marking it as the latest stable release. PRs and branch builds do not publish.
+A tag must match `v` followed by `VERSION` and identify a commit reachable from
+`main`. Versions may be stable `X.Y.Z`, or use an `alpha.N`, `beta.N` or `rc.N`
+suffix. After fresh validation or verified reuse succeeds, the workflow creates
+a draft GitHub release, uploads packages and provenance, and publishes it.
+Stable versions become the latest release; suffixed versions retain the
+pre-release flag and are not latest. PRs and branch builds do not publish.
 
 Run `python tools/promote_release.py verify --directory PATH` to check a downloaded
 build against the current checkout. Promotion tests cover changed source, skipped

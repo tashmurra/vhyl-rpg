@@ -312,3 +312,5 @@ def test(build):
     print('  playable host and language-independent module: passed', flush=True)
     import resilience
     resilience.test(build)
+    import lite
+    lite.test(build)

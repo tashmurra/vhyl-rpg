@@ -75,6 +75,9 @@ class ReferenceTests(unittest.TestCase):
         self.assertIn('disclosureFor', {m.name for m in named['RpgApproach'].members})
         self.assertIn('odds', {m.name for m in named['RpgAssessment'].members})
         self.assertEqual(named['rpgInteger'].audience, 'internal helper')
+        for name in ('RpgLiteProfile', 'RpgLiteBattle', 'RpgLiteExposure', 'rpgLiteClimbData'):
+            self.assertEqual(named[name].audience, 'author / trusted game code')
+            self.assertTrue(named[name].description)
         for name in ('rpgST', 'rpgDX', 'rpgIQ', 'rpgHT', 'rpgWill', 'rpgPerception'):
             self.assertEqual(named[name].kind, 'enum')
 

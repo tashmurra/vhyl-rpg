@@ -1,8 +1,9 @@
 # vhyl-rpg
 
-**Pre-release: v0.2.0-alpha.1.** Development follows `main`, with tagged snapshots
-for releases. API and save contracts may change before a stable release.
-See the [release notes](docs/releases/v0.2.0-alpha.1.md) and
+**Release: v1.0.0.** Development follows `main`, with tagged snapshots
+for releases. Saves identify the exact compiled game; upgrades require a new game
+unless the game author supplies a migration.
+See the [release notes](docs/releases/v1.0.0.md) and
 [release builds](docs/development.md) for packages and validation.
 Browse the [searchable documentation and library reference](https://tashmurra.github.io/vhyl-rpg/).
 
@@ -10,12 +11,18 @@ Mundane character and challenge mechanics for hybrid vhyl adventures, written
 in Zebulon. Parser commands, structured actions and dialogue choices can all
 commit the same attempt through one resolver.
 
-The prototype includes character attributes, trained and default skills, narrow
+The core includes character attributes, trained and default skills, narrow
 trait modifiers, three-die checks, opposed checks, automatic solutions, authored
 consequences, energy/time costs and persistent retry records. Optional modules
 add [injury, treatment and bounded conflicts](docs/resilience.md), plus
-[milestone progression](docs/progression.md). Supernatural abilities remain a
-future module.
+[milestone progression](docs/progression.md).
+
+The opt-in [Lite rules layer](docs/lite.md) implements character creation,
+the advantage/disadvantage and skill catalogues, equipment, second-by-second
+combat, social checks, travel, injury, fatigue, recovery and hazards from
+**GURPS Lite Fourth Edition (August 2004, Rev. 07/12/04)**. Jumper is included;
+magic systems from other books are not. The guide distinguishes executable
+mechanics from GM-authored setting and narrative decisions.
 
 The optional [reporting extension](docs/reporting.md) adds exact success odds,
 ability/modifier explanations and recorded individual dice. Author disclosure
@@ -90,6 +97,11 @@ The other modules are opt-in too: `<vhyl-rpg-resilience.t>` adds injuries and
 recovery; `<vhyl-rpg-conflict.t>` follows resilience and adds short physical
 conflicts and social disposition; `<vhyl-rpg-progression.t>` needs only the core.
 The original core-only and reporting integrations continue to work.
+
+For Lite, include `<vhyl-rpg-progression.t>` and then `<vhyl-rpg-lite.t>` after
+the core. Use `RpgLiteProfile`, not the simplified resilience/conflict pools,
+for Lite characters. See [the Lite guide](docs/lite.md) and
+[the training-yard example](examples/lite/main.t).
 
 ## Play resilience and progression
 
