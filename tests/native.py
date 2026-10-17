@@ -310,3 +310,5 @@ def test(build):
         assert last(s, 'rpg.result')[4:6] == ['resolved', 'success']
     fresh(Session, minimal, event_only)
     print('  playable host and language-independent module: passed', flush=True)
+    import resilience
+    resilience.test(build)

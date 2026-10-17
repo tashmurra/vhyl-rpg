@@ -49,3 +49,11 @@ class PresentationTests(unittest.TestCase):
         r = [1, 'records', 'key', 'pc', 'resolved', 'automatic', 'success', True,
              5, 0, None, None, None, None, None, None, 0, 0]
         self.assertEqual(presentation.report_lines([event('rpg.roll', r)]), ['Automatic success; no dice rolled.'])
+
+    def test_conflict_faces_and_injury_are_disclosed_values(self):
+        strike = [1, 'gate.conflict', 'acting', 'hit', 11, 7, 12, 4, 2,
+                  3, 3, 1, 1, 2, 4, 5, 3, 4, 6]
+        lines = presentation.report_lines([event('rpg.strike', strike)])
+        self.assertEqual(lines, ['Your attack: 1 + 2 + 4 = 7, against 11 — hit',
+                                 'Defense: 5 + 3 + 4 = 12', 'Damage 4; injury 2.'])
+        self.assertEqual(presentation.report_lines([event('rpg.conflict', [1, 'gate.conflict'])]), [])

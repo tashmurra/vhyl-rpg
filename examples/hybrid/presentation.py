@@ -13,9 +13,12 @@ LABELS = {
     'survey.uncertain': 'Outcome uncertain',
     'training-required': 'training required', 'too-difficult': 'better preparation required',
     'insufficient-energy': 'insufficient energy', 'survey.need-key': 'take the key first',
+    'gate.first-aid': 'First aid', 'gate.brawling': 'Brawling', 'gate.negotiation': 'Negotiation',
+    'gate.nerves': 'Nerves', 'gate.poise': 'Composure', 'gate.uncertain': 'Outcome uncertain',
+    'rpg.modifier.shock': 'injury shock', 'rpg.modifier.exhaustion': 'exhaustion',
 }
 APPROACHES = {'inspect': 'Inspect panel', 'pick': 'Pick hatch', 'force': 'Force hatch',
-              'persuade': 'Persuade keeper', 'key': 'Use key'}
+              'persuade': 'Persuade keeper', 'key': 'Use key', 'parley': 'Negotiate passage'}
 OUTCOMES = {'success': 'success', 'costly-success': 'success with a cost',
             'setback': 'goal not achieved', 'complication': 'complication', 'tie': 'tie'}
 
@@ -57,7 +60,16 @@ def report_lines(events):
     lines = []
     for event in events:
         v = event['values']
-        if event['id'] == 'rpg.assessment':
+        if event['id'] == 'rpg.strike':
+            _, _, side, outcome, score, total, defense, damage, injury, own, other, harm, *faces = v
+            text = ('Your attack' if side == 'acting' else 'Opponent attack') + ': '
+            text += ' + '.join(map(str, faces[:own])) + f' = {total}, against {score} — {outcome}'
+            lines.append(text)
+            if other:
+                lines.append('Defense: ' + ' + '.join(map(str, faces[own:own + other])) + f' = {defense}')
+            if outcome == 'hit':
+                lines.append(f'Damage {damage}; injury {injury}.')
+        elif event['id'] == 'rpg.assessment':
             _, goal, method, _, status, reason, kind, seconds, energy, estimate, total, achieved, success, costly, *rest = v
             name = APPROACHES.get(method, 'Approach')
             if status in ('complete', 'settled'):

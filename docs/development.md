@@ -1,10 +1,10 @@
 # Development and pre-release publication
 
-This is the **mundane prototype pre-release, v0.1.0-alpha.1**. Development is
+This is the **resilience and progression pre-release, v0.2.0-alpha.1**. Development is
 integrated through pull requests into `main`; prerelease tags identify packaged
 snapshots. API names, event contracts and save compatibility may change before a
-stable release. Injury, recovery, advancement and supernatural abilities remain
-future modules.
+stable release. Injury, recovery, bounded conflicts and advancement are optional
+modules. Supernatural abilities remain a future module.
 
 ## Pinned dependencies
 
@@ -35,7 +35,8 @@ the toolchain described in
 [vhyl's development guide](https://tashmurra.github.io/vhyl/development/).
 Run the [source and native validation commands](../README.md) before changing
 mechanics, persistence or event contracts. Native checks cover the current host;
-the documentation workflow does not run the compiler or native suite.
+the release workflow also validates Linux, Windows and macOS. The separate Pages
+workflow builds documentation.
 
 ## Build the documentation
 
@@ -81,7 +82,7 @@ from versioned library releases.
 ## Build a pre-release
 
 `VERSION` is the package version, without the leading `v` used for Git tags.
-The first pre-release is [v0.1.0-alpha.1](releases/v0.1.0-alpha.1.md). This is a
+The current pre-release is [v0.2.0-alpha.1](releases/v0.2.0-alpha.1.md). This is a
 source library included in a game at compile time, so it has no standalone library
 executable. Release assets contain the library sources, examples, tests, guides
 and dependency pins, plus a separate browsable offline documentation archive.
@@ -99,17 +100,59 @@ builds the reference against that commit and writes a release manifest and
 the documentation archive and serve its directory with `python3 -m http.server`
 to use search offline. The Markdown guides are also in the source package.
 
-`.github/workflows/release.yml` checks pull requests to `main`, updates to `main`
-and pre-release tags. It builds the pinned compiler and validates source, protocol
-and native behavior on Linux x86-64, Windows x86-64 and Apple Silicon macOS.
-The macOS compiler emits universal output; CI executes the Apple Silicon slice.
-Intel macOS execution was also verified locally for the initial prototype.
-The workflow builds release archives and documentation on Linux. A tag must
-match `v` followed by `VERSION`, and use an `alpha.N`, `beta.N` or `rc.N` suffix.
-The tag must identify a commit reachable from `main`.
+`.github/workflows/release.yml` validates PR source snapshots against the pinned
+compiler and native toolchains on Linux x86-64, Windows x86-64 and Apple Silicon
+macOS. It builds source and documentation archives once on Linux. macOS output
+is universal; CI executes the Apple Silicon slice. Intel macOS is also tested
+locally. Native example bundles are validation output rather than release assets.
 
-After all jobs pass on a tag, the workflow creates a draft GitHub pre-release,
-uploads the verified packages, manifest and checksums, then publishes it with
-the pre-release flag and without marking it as the latest stable release.
-Branch and PR builds upload check artifacts without publishing a release.
-Native example bundles are validation output rather than release assets.
+## Promote an existing build instead of rebuilding
+
+A merge commit and a PR head can have different commit IDs while their **Git
+trees** are identical. Trees identify all tracked file contents, paths and modes,
+including dependency pins, tests, build scripts and workflows. An unchanged tree
+does not need another native build or another set of archives when tagged.
+
+PR jobs check out the PR's actual head commit and always run full validation.
+On a merge to `main` or a tag, `tools/promote_release.py` searches recent successful
+runs of this repository's release workflow. Reuse requires:
+
+- The same Git tree as the merge/tag target, not just the same version label.
+- Successful native jobs on all three platforms and a successful package job.
+- A merged PR targeting this repository's `main`, or a directly validated `main`
+  run. Fork runs and main runs that merely skipped their native jobs are not fresh
+  validation evidence.
+- An available, unexpired `release-packages` artifact.
+- A matching version, dependency lock, build revision and tree in the manifest.
+- Valid checksums, exact source archive contents compared with Git, and offline
+  documentation identifying the validated source commit.
+
+The workflow downloads and verifies those packages, skips duplicate compiler and
+native work, and promotes the **same source and HTML archive bytes**. The manifest
+and original `SHA256SUMS` are also unchanged. A new `release-provenance.json`
+records the published merge/tag commit, validated build commit, shared tree,
+validation run URL and hashes of all four original assets. The original manifest
+and HTML source links continue to identify the commit that was actually built.
+This metadata is a provenance record, not a cryptographic signature.
+
+The original checksum file covers the two archives and build manifest; provenance
+contains hashes of those assets and the checksum file itself. GitHub supplies an
+asset digest for the additional provenance file. There is no second native build
+or documentation build just to change the embedded commit label.
+
+If the merge changes tracked files, required checks are missing or artifacts have
+expired, the workflow builds and validates a fresh snapshot. API or integrity
+failures stop promotion. It never treats missing evidence as a successful check.
+The search considers the most recent 100 successful workflow runs; older evidence
+can be refreshed with a new validation run.
+
+A tag must match `v` followed by `VERSION`, use `alpha.N`, `beta.N` or `rc.N`, and
+identify a commit reachable from `main`. After either fresh validation or verified
+reuse succeeds, the workflow creates a draft GitHub pre-release, uploads the
+packages and provenance, and publishes it with the pre-release flag and without
+marking it as the latest stable release. PRs and branch builds do not publish.
+
+Run `python tools/promote_release.py verify --directory PATH` to check a downloaded
+build against the current checkout. Promotion tests cover changed source, skipped
+or missing jobs, unmerged PRs, foreign repositories/workflows, expired artifacts,
+corrupt or rehashed archives and unsafe archive paths.

@@ -26,8 +26,9 @@ def validate_version(version: str) -> str:
     return version
 
 
-def git(*args: str, root: Path = ROOT) -> bytes:
-    return subprocess.check_output(['git', *args], cwd=root)
+def git(*args: str, root: Path = ROOT, quiet: bool = False) -> bytes:
+    return subprocess.check_output(['git', *args], cwd=root,
+                                   stderr=subprocess.DEVNULL if quiet else None)
 
 
 def release_identity(root: Path = ROOT) -> tuple[str, str, int]:
@@ -92,10 +93,11 @@ def build(out: Path) -> None:
         source_archive(stage / f'{name}.tar.gz', revision, name, epoch)
         docs_archive(stage / f'{name}-docs.tar.gz', ROOT / 'build/site', name + '-docs', epoch)
         manifest = {
-            'schema_version': 1,
+            'schema_version': 2,
             'version': version,
             'tag': tag,
             'revision': revision,
+            'tree': git('rev-parse', f'{revision}^{{tree}}').decode().strip(),
             'commit_time': datetime.fromtimestamp(epoch, timezone.utc).isoformat(),
             'dependencies': json.loads((ROOT / 'dependencies.json').read_text(encoding='utf-8')),
             'artifacts': sorted(file.name for file in stage.iterdir()),

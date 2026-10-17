@@ -22,8 +22,8 @@ class RpgSkill: object
     defaultPenalty = nil
 ;
 
-/** Starting investment in one skill. points is a positive authored integer;
- * this record does not award advancement or spend an experience pool. */
+/** Investment in one skill. Zero reserves an untrained slot for progression;
+ * positive values buy training. The core never awards or spends points itself. */
 class RpgTraining: object
     skill = nil
     points = 1
@@ -37,8 +37,8 @@ class RpgTrait: object
 ;
 
 /** Share this model between protagonists and supporting characters.
- * skills and traits are authored lists. energy is a small expenditure pool;
- * this prototype does not implement injury, exhaustion thresholds or healing. */
+ * skills and traits are authored lists. Optional modules add injury, recovery
+ * and progression; a core-only profile retains the simple energy pool. */
 class RpgProfile: object
     actor = nil
     st = 10
@@ -52,6 +52,11 @@ class RpgProfile: object
     energy = (maxEnergy)
     skills = []
     traits = []
+
+    /* Observational extension points. Optional modules supply condition state. */
+    blockedReason(c) { return nil; }
+    modifiersFor(c) { return []; }
+    afterAttempt(c, result) { return nil; }
 
     attributeScore(which)
     {
@@ -74,6 +79,7 @@ class RpgProfile: object
         {
             if (training.skill != skill) continue;
             local points = training.points;
+            if (points == 0) continue;
             if (points >= 8) return base + 3 - skill.difficulty + (points - 8) / 4;
             if (points >= 4) return base + 2 - skill.difficulty;
             if (points >= 2) return base + 1 - skill.difficulty;
@@ -91,7 +97,7 @@ class RpgChallenge: object
     id = nil
     completed = nil
     revision = 0
-    advance() { self.revision += 1; return nil; }
+    advance() { rpgInteger(self.revision, 0, 2147483646); self.revision += 1; return nil; }
 ;
 
 /** One method of pursuing a goal. Hooks use original game-specific content.
@@ -275,6 +281,14 @@ class RpgAttempt: object
  * vhyl continues to schedule one cycle per accepted command. */
 rpgLedger: object seconds = 0;
 
+/** Charge explicit adventure time with a checked persistent counter. */
+rpgSpendTime(seconds)
+{
+    rpgInteger(seconds, 0, 86400);
+    rpgInteger(rpgLedger.seconds, 0, 2147483647 - seconds);
+    rpgLedger.seconds += seconds; return nil;
+}
+
 /** Deterministic, journalled generator with overflow-safe arithmetic.
  * Set a seed from 1 through 2147483646 at game initialisation. */
 rpgRandom: object
@@ -385,7 +399,7 @@ rpgCalculate(c)
     {
         value.training = value.baseScore == nil ? 'unavailable' : 'default';
         foreach (local training in c.profile.skills)
-            if (training.skill == c.skill) value.training = 'trained';
+            if (training.skill == c.skill && training.points > 0) value.training = 'trained';
         if (value.training == 'default')
         {
             value.defaultPenalty = c.skill.defaultPenalty;
@@ -404,6 +418,13 @@ rpgCalculate(c)
     {
         local adjustment = trait.modifierFor(c); modifier += adjustment;
         rpgAddModifier(value, 'trait', trait.labelId, adjustment);
+    }
+    local extras = c.profile.modifiersFor(c);
+    if (extras.length() % 3 != 0) throw new RpgError();
+    for (local i = 1; i <= extras.length(); i += 3)
+    {
+        modifier += extras[i + 2];
+        rpgAddModifier(value, extras[i], extras[i + 1], extras[i + 2]);
     }
     rpgInteger(modifier, -500, 500);
     if (value.otherModifier != 0)
@@ -468,6 +489,8 @@ rpgPrepare(profile, approach)
     local challenge = approach.challenge;
     if (challenge.completed) { result.status = 'complete'; return result; }
     local c = rpgContext(profile, approach, nil);
+    result.reason = profile.blockedReason(c);
+    if (result.reason != nil) return result;
     result.reason = approach.blockedReason(c);
     if (result.reason != nil) return result;
     if (slot.revision == challenge.revision)
@@ -491,7 +514,10 @@ rpgPrepare(profile, approach)
         if (score < 3) { result.reason = 'too-difficult'; return result; }
         if (approach.opponent != nil)
         {
-            result.oppositionCalculation = rpgCalculate(rpgContext(approach.opponent, approach, true));
+            local defense = rpgContext(approach.opponent, approach, true);
+            if (approach.opponent.blockedReason(defense) != nil)
+            { result.reason = 'opposition-unavailable'; return result; }
+            result.oppositionCalculation = rpgCalculate(defense);
             local opposingScore = result.oppositionCalculation.effectiveScore;
             if (opposingScore == nil || opposingScore < 3)
             { result.reason = 'opposition-unavailable'; return result; }
@@ -530,12 +556,13 @@ rpgResolve(profile, approach)
     result.kind = prepared.kind; result.calculation = prepared.calculation;
     result.oppositionCalculation = prepared.oppositionCalculation;
     profile.energy -= approach.energyCost;
-    rpgLedger.seconds += approach.timeCost;
+    rpgSpendTime(approach.timeCost);
     result.timeSpent = approach.timeCost; result.energySpent = approach.energyCost;
     result.recordedTimeSpent = result.timeSpent; result.recordedEnergySpent = result.energySpent;
     /* Cache before consequences, preventing a hook from resolving itself twice. */
     rpgAttemptFor(profile, approach).remember(result);
     if (result.achieved && approach.completesChallenge) approach.challenge.completed = true;
+    profile.afterAttempt(rpgContext(profile, approach, nil), result);
     approach.apply(rpgContext(profile, approach, nil), result);
     return result;
 }
@@ -575,7 +602,7 @@ rpgValidation: InitObject
                 if (!training.ofKind(RpgTraining) || training.skill == nil
                     || !training.skill.ofKind(RpgSkill) || holds(seen, training.skill))
                     throw new RpgError();
-                rpgInteger(training.points, 1, 10000); seen = seen + [training.skill];
+                rpgInteger(training.points, 0, 10000); seen = seen + [training.skill];
             }
             foreach (local trait in p.traits)
                 if (!trait.ofKind(RpgTrait)) throw new RpgError();
