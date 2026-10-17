@@ -147,7 +147,9 @@ class RpgLiteTreatment: object
             }
         }
         if (self.elapsed < extra + 60) return result;
-        local context = new RpgLiteContext(); context.skill = self.skill; context.modifier = self.modifier;
+        local context = new RpgLiteContext();
+        context.skill = self.skill == nil ? rpgLiteTraining(self.healer, 'first-aid', self.techLevel, nil) : self.skill;
+        context.modifier = self.modifier;
         result.check = rpgLiteCheck(self.healer, context); self.completed = true; self.supplies -= 1;
         if (result.check.critical == 'failure') result.injury = rpgLiteWound(self.patient, 2 + self.bandageHealing).injury;
         else if (result.check.achieved)

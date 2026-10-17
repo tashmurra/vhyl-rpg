@@ -78,6 +78,8 @@ taken. Cultural and fictional permission remain authored, not inferred from IDs.
 
 Languages have independent spoken/written levels 0–3 and an optional native
 allowance. Language Talent changes effective comprehension, not purchased points.
+`rpgLiteRead` rejects illiterate reading, checks IQ for semi-literacy, and allows
+fluent comprehension automatically without dice.
 Use `rpgLiteCharacterCost(profile,nil)` for total points and `true` for negative
 components. Call `rpgLiteValidateCharacter` after assembling the sheet; it checks
 budgets, incompatible variants, duplicate traits/languages and technological

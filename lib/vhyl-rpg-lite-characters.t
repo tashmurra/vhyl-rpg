@@ -271,6 +271,16 @@ rpgLiteAttributeCheck(profile, attribute, kind, modifier)
     return rpgLiteCheck(profile, context);
 }
 
+/** Resolve written comprehension; semi-literacy needs an IQ roll and fluent reading is automatic. */
+rpgLiteRead(profile, languageId)
+{
+    local comprehension = profile.language(languageId, true);
+    if (comprehension == 1) return rpgLiteAttributeCheck(profile, rpgIQ, 'reading', 0);
+    local result = new RpgResult();
+    if (comprehension == 0) { result.reason = 'illiterate'; return result; }
+    result.status = 'resolved'; result.achieved = true; result.outcome = 'automatic'; return result;
+}
+
 /** Resolve a controlled disadvantage against 12, or voluntarily yield without rolling. */
 rpgLiteSelfControl(profile, trait, modifier, giveIn)
 {

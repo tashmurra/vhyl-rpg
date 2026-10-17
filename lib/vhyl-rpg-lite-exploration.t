@@ -124,6 +124,9 @@ class RpgLiteJourney: object
         local result = new RpgLiteHealthResult();
         if (self.profile.dead || self.profile.unconscious || self.fallen)
         { result.status = 'blocked'; return result; }
+        if (!rpgLiteCanAct(self.profile, nil)) { result.status = 'blocked'; return result; }
+        if (self.skill == nil && holds(['climbing','swimming','swim-fast'], self.kind))
+            self.skill = rpgLiteTraining(self.profile, self.kind == 'climbing' ? 'climbing' : 'swimming', nil, nil);
         self.profile.restClock = 0;
         if (!self.entered && holds(['swimming','swim-fast','climbing'], self.kind))
         {

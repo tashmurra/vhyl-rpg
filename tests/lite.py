@@ -165,6 +165,18 @@ def test_character(session):
     action(session, 23)
     current = state(session)
     assert current['points'] == 6 and current['traits'] == 0 and current['skills'] == 1
+    before = state(session)['draws']
+    action(session,24,0)
+    assert last(session,'test.reading')[2] == 'illiterate'
+    action(session,24,3)
+    assert last(session,'test.reading') == ['resolved','automatic',None]
+    assert state(session)['draws'] == before
+    action(session,24,1)
+    assert state(session)['draws'] == before + 3
+    action(session,25)
+    assert last(session,'test.default-skill') == ['climbing',5]
+    action(session,26)
+    assert last(session,'test.default-aid') == [16]
 
 
 def test_blocked_combat(session):

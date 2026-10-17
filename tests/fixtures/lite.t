@@ -93,6 +93,24 @@ class LiteTestAction: Action
             rpgLiteBuyOff(liteHero, item);
             rpgLiteLearn(liteHero, rpgLiteMakeSkill('karate', nil, nil), 4, nil);
         }
+        if (code == 24)
+        {
+            local tongue = new RpgLiteLanguage(); tongue.id = 'test-language'; tongue.written = args[2];
+            liteHero.languages = [tongue];
+            local reading = rpgLiteRead(liteHero, tongue.id);
+            event('test.reading'); eventValue(reading.status); eventValue(reading.outcome); eventValue(reading.reason);
+        }
+        if (code == 25)
+        {
+            liteJourney.kind = 'climbing'; liteJourney.surface = 'ladder-up'; liteJourney.advance(1);
+            event('test.default-skill'); eventValue(liteJourney.skill.id); eventValue(liteHero.skillScore(liteJourney.skill));
+        }
+        if (code == 26)
+        {
+            liteCare.skill = nil; liteCare.techLevel = 3; liteEnemy.iq = 20;
+            local treatment = liteCare.advance(1860);
+            event('test.default-aid'); eventValue(treatment.check.score);
+        }
         if (value != nil)
         {
             event('test.health'); eventValue(value.status); eventValue(value.injury);
