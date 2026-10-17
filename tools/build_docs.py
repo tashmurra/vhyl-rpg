@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the source-derived pre-release reference and searchable MkDocs site."""
+"""Build the source-derived reference and searchable MkDocs site."""
 from __future__ import annotations
 
 import argparse
@@ -17,7 +17,11 @@ from docscan import Symbol, parse_source
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = ('lib/vhyl-rpg.t', 'lib/vhyl-rpg-report.t', 'lib/vhyl-rpg-resilience.t',
-           'lib/vhyl-rpg-conflict.t', 'lib/vhyl-rpg-progression.t')
+           'lib/vhyl-rpg-conflict.t', 'lib/vhyl-rpg-progression.t',
+           'lib/vhyl-rpg-lite-characters.t', 'lib/vhyl-rpg-lite-catalogue.t',
+           'lib/vhyl-rpg-lite-equipment.t', 'lib/vhyl-rpg-lite-health.t',
+           'lib/vhyl-rpg-lite-combat.t', 'lib/vhyl-rpg-lite-exploration.t',
+           'lib/vhyl-rpg-lite-traits.t')
 REPOSITORY = 'https://github.com/tashmurra/vhyl-rpg'
 PUBLIC = {
     'Thing', 'RpgError', 'RpgSkill', 'RpgTraining', 'RpgTrait', 'RpgProfile',
@@ -84,8 +88,9 @@ def model(root: Path = ROOT) -> list[Symbol]:
     if len(anchors) != len(set(anchors)):
         raise ValueError('duplicate symbol URL')
     for sym in symbols:
-        sym.audience = 'author / trusted game code' if sym.name in PUBLIC else 'internal helper'
-        if sym.name in PUBLIC and not sym.description:
+        public = sym.name in PUBLIC or sym.name.startswith(('RpgLite', 'rpgLite'))
+        sym.audience = 'author / trusted game code' if public else 'internal helper'
+        if public and not sym.description:
             raise ValueError(f'public declaration lacks a description: {sym.name}')
     return symbols
 
@@ -180,7 +185,7 @@ def render(symbols: list[Symbol], stage: Path, revision: str, root: Path = ROOT)
         page += f'\n[GitHub source]({REPOSITORY}/blob/{revision}/{sym.source}#L{sym.line})\n'
         (reference / symbol_file(sym)).write_text(page, encoding='utf-8')
     index = [
-        '# Library reference', '', '**Pre-release:** API and event contracts may change.', '',
+        '# Library reference', '', 'Source-linked API reference for the versioned library.', '',
         'Declarations, signatures, property defaults and adjacent comments are extracted from the '
         'library modules. Extensions are merged into their declaring type and retain their '
         'own source links. Member indexes cover declared members; type pages also show local inheritance.', '',

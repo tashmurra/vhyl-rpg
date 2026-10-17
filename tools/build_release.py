@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a committed pre-release source package, offline reference and checksums."""
+"""Build a committed release source package, offline reference and checksums."""
 from __future__ import annotations
 
 import argparse
@@ -17,12 +17,12 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 NUMBER = r'(?:0|[1-9][0-9]*)'
-PRE_RELEASE = re.compile(rf'{NUMBER}\.{NUMBER}\.{NUMBER}-(?:alpha|beta|rc)\.{NUMBER}')
+RELEASE = re.compile(rf'{NUMBER}\.{NUMBER}\.{NUMBER}(?:-(?:alpha|beta|rc)\.{NUMBER})?')
 
 
 def validate_version(version: str) -> str:
-    if not PRE_RELEASE.fullmatch(version):
-        raise ValueError('VERSION must be a pre-release such as 0.1.0-alpha.1')
+    if not RELEASE.fullmatch(version):
+        raise ValueError('VERSION must be X.Y.Z or X.Y.Z-(alpha|beta|rc).N')
     return version
 
 
