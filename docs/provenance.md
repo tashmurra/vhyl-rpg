@@ -8,7 +8,7 @@ The declaration scanner in `tools/docscan.py` is adapted from
 [vhyl's documentation builder at v0.2.1](https://github.com/tashmurra/vhyl/blob/53dbf3b94bb12f269fc447c414bff09fc0b7e46d/tools/build_docs.py),
 copyright 2026 John Cunningham, under the MIT licence. The original notice is
 retained in [third-party notices](../THIRD_PARTY_NOTICES.md). The reference
-renderer uses that scanner to index this repository's two library modules;
+renderer uses that scanner to index this repository's library modules;
 neither the documentation builder nor mechanics import compiler internals.
 
 vhyl and Zebulon remain external dependencies pinned in

@@ -14,8 +14,8 @@ identifies the associated world entity. A `Thing` can refer to the record throug
 | --- | --- | --- |
 | `st`, `dx`, `iq`, `ht` | 10 | Strength, coordination, mental ability and physical resilience |
 | `will`, `perception` | `iq` | Mental resistance and noticing ability; independently overridable |
-| `maxHP` | `st` | Capacity reserved for future injury rules; no injury tracking yet |
-| `maxEnergy`, `energy` | `ht`, `maxEnergy` | Capacity and available effort; expenditure does not implement fatigue thresholds |
+| `maxHP` | `st` | HP capacity; the optional resilience module tracks injury as a deficit |
+| `maxEnergy`, `energy` | `ht`, `maxEnergy` | Capacity and available effort; resilience optionally adds exhaustion thresholds |
 | `skills` | `[]` | Authored `RpgTraining` records |
 | `traits` | `[]` | Authored `RpgTrait` records |
 
@@ -29,7 +29,9 @@ The game decides cultural familiarity and access when defining its skill roster
 and approach prerequisites. The attribute used for an untrained default is capped
 at 20 before adding the declared penalty.
 
-`RpgTraining` associates `skill` and positive `points`. The following offsets
+`RpgTraining` associates `skill` and `points`. Zero reserves an untrained slot
+for a later development opportunity; it still uses the explicit default, or nil
+if training is required. Positive investments use the following offsets
 apply to the current governing attribute:
 
 | Points invested | Difficulty 0 | Difficulty 1 | Difficulty 2 |
@@ -42,7 +44,8 @@ apply to the current governing attribute:
 
 Training never silently falls back to a better untrained rating. Duplicate
 training for a skill is a configuration error. Point investments are authored
-starting data; this module does not award or spend advancement points.
+starting data; the optional [progression module](progression.md) awards and spends
+earned points through authored milestone receipts and development offers.
 
 `RpgTrait.modifierFor(context)` returns a small numeric modifier. Keep the hook
 observational and narrowly conditioned on its intended activity. A trait can
@@ -208,13 +211,31 @@ verb codes. The example uses 100–104 and fixtures use additional local codes.
 The optional [reporting extension](reporting.md) adds assessment and roll events.
 Its example query uses code 105 and does not enter the gameplay action cycle.
 
+## Condition extension hooks
+
+The core's `RpgProfile.blockedReason(context)` and `modifiersFor(context)` are
+observational hooks. The first returns a reason ID or nil; the second returns
+flat category/label/amount triples, which become part of the saved calculation.
+They apply to protagonists and opposition. Missing condition modules leave both
+hooks neutral. Profile permissions are checked before cached attempts are reused.
+
+`RpgProfile.afterAttempt(context, result)` runs once for a fresh resolution,
+after the result is cached and before the approach's consequences. It may make
+journalled changes. Resilience uses it to expire shock and interrupt rest after
+the current check has used those conditions. Call inherited hooks when extending
+them. Non-RPG actions need explicit condition checks and rest interruption in
+their own adapters; this library does not override every adventure verb.
+
+`rpgSpendTime(seconds)` charges the shared RPG ledger with overflow checks. It
+accepts 0–86400 seconds per call. It does not advance the adventure scheduler.
+
 ## Authoring safeguards
 
 Validation during `vhylStart()` rejects invalid skill definitions, duplicate
 training, invalid profile values, malformed costs, invalid opposing profiles,
 duplicate goal/approach IDs and duplicate attempt slots. Skill ratings change
 with their governing attributes. Author settings should remain within documented
-integer ranges: attributes 1–100, training 1–10000, costs 0–86400 seconds and
+integer ranges: attributes 1–100, training 0–10000 (zero reserves a slot), costs 0–86400 seconds and
 0–1000 energy, modifiers −500–500, effective scores −1000–1000. Maintained
 counters are checked signed 32-bit integers; overflow fails the turn.
 

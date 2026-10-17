@@ -16,7 +16,8 @@ from urllib.parse import unquote
 from docscan import Symbol, parse_source
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCES = ('lib/vhyl-rpg.t', 'lib/vhyl-rpg-report.t')
+SOURCES = ('lib/vhyl-rpg.t', 'lib/vhyl-rpg-report.t', 'lib/vhyl-rpg-resilience.t',
+           'lib/vhyl-rpg-conflict.t', 'lib/vhyl-rpg-progression.t')
 REPOSITORY = 'https://github.com/tashmurra/vhyl-rpg'
 PUBLIC = {
     'Thing', 'RpgError', 'RpgSkill', 'RpgTraining', 'RpgTrait', 'RpgProfile',
@@ -25,6 +26,12 @@ PUBLIC = {
     'rpgResolve', 'rpgPublish', 'RpgDisclosure', 'rpgFullDisclosure', 'RpgOdds',
     'rpgAssess', 'rpgOddsFor', 'rpgRecordedResult', 'rpgPublishAssessment',
     'rpgPublishRoll', 'rpgST', 'rpgDX', 'rpgIQ', 'rpgHT', 'rpgWill', 'rpgPerception',
+    'rpgSpendTime', 'RpgBody', 'RpgCareResult', 'RpgTreatment', 'rpgInjuryFor',
+    'rpgWound', 'rpgTreat', 'rpgRest', 'rpgRecoverStun', 'rpgPublishBody',
+    'RpgDisposition', 'RpgSocialApproach', 'RpgCombatant', 'RpgConflict', 'RpgStrike',
+    'RpgConflictResult', 'rpgBeginConflict', 'rpgConflictStep', 'rpgPublishConflict',
+    'RpgMilestone', 'RpgAward', 'RpgDevelopment', 'RpgProgressResult',
+    'rpgAwardMilestone', 'rpgAssessDevelopment', 'rpgDevelop', 'rpgPublishProgress',
 }
 
 
@@ -175,7 +182,7 @@ def render(symbols: list[Symbol], stage: Path, revision: str, root: Path = ROOT)
     index = [
         '# Library reference', '', '**Pre-release:** API and event contracts may change.', '',
         'Declarations, signatures, property defaults and adjacent comments are extracted from the '
-        'two library modules. Extensions are merged into their declaring type and retain their '
+        'library modules. Extensions are merged into their declaring type and retain their '
         'own source links. Member indexes cover declared members; type pages also show local inheritance.', '',
         'The guides describe behavior and disclosure requirements. Trusted assessment objects may '
         'contain hidden information: publish the redacted event envelopes to a player-facing host.', '',
@@ -183,7 +190,9 @@ def render(symbols: list[Symbol], stage: Path, revision: str, root: Path = ROOT)
         '[Alphabetical symbols](symbols.md) · [Alphabetical members](members.md)', '',
         f'Built from [revision `{revision}`]({REPOSITORY}/tree/{revision}).', '',
     ]
-    groups = {'Core mechanics': SOURCES[0], 'Optional reporting': SOURCES[1]}
+    groups = {'Core mechanics': SOURCES[0], 'Optional reporting': SOURCES[1],
+              'Playable resilience': SOURCES[2], 'Physical and social conflicts': SOURCES[3],
+              'Progression': SOURCES[4]}
     for label, source in groups.items():
         index += [f'## {label}', '']
         for sym in sorted(symbols, key=lambda s: s.name.casefold()):

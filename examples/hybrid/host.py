@@ -6,6 +6,10 @@ import os
 from pathlib import Path
 from presentation import report_lines
 
+DEVELOPMENTS = {'gate.study-aid': 'Study first aid', 'gate.practice': 'Practise brawling',
+                'gate.resolve': 'Strengthen resolve', 'gate.learn-poise': 'Learn composure',
+                'gate.overcome-nerves': 'Overcome nerves'}
+
 
 def show_output(session, details=False):
     for line in session.raw_lines:
@@ -16,12 +20,27 @@ def show_output(session, details=False):
             print(event['values'][0])
         elif event['id'] == 'dialogue.utterance' and event['values'][3] is not None:
             print(event['values'][3])
+        elif event['id'] == 'rpg.body':
+            _, _, condition, hp, maximum, energy, maximum_energy, _ = event['values']
+            print(f'Condition: {condition.replace("-", " ")}. HP {hp}/{maximum}; energy {energy}/{maximum_energy}.')
+        elif event['id'] == 'rpg.progress':
+            _, _, kind, name, status, reason, points, bank, earned, _ = event['values']
+            name = DEVELOPMENTS.get(name, 'Development opportunity')
+            if status == 'ready':
+                print(f'{name}: available for {points} points; {bank} unspent.')
+            elif status == 'resolved':
+                print(f'{"Milestone" if kind == "award" else "Development"}: {points} points; {bank} unspent.')
+            elif status == 'blocked':
+                print(f'{name}: {str(reason or "unavailable").removeprefix("rpg.").replace("-", " ")}; {bank} unspent.')
+        elif event['id'] == 'rpg.conflict':
+            _, _, status, reason, maneuver, outcome, exchanges, _ = event['values']
+            print(f'Confrontation: {outcome or reason or status} (exchange {exchanges}).')
     if details:
         for line in report_lines(session.log):
             print(line)
 
 
-def main():
+def main(*, title='Survey Office', plan='survey-plan', assessment_verb=105):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('bundle', type=Path)
     parser.add_argument('--vhyl', type=Path, default=os.environ.get('VHYL_ROOT'))
@@ -35,7 +54,7 @@ def main():
     spec.loader.exec_module(module)
     session = module.Session(args.bundle)
     try:
-        print('Survey Office. Type :plan for choices, :odds for assessments, :quit to leave, or a parser command.')
+        print(f'{title}. Type :plan for choices, :odds for assessments, :quit to leave, or a parser command.')
         show_output(session, args.details)
         while True:
             line = input('> ').strip()
@@ -46,11 +65,11 @@ def main():
             session.raw_lines.clear()
             session.log.clear()
             if line == ':plan':
-                session.action(80, 'survey-plan')
+                session.action(80, plan)
                 if args.details:
-                    session.action(105)
+                    session.action(assessment_verb)
             elif line == ':odds':
-                session.action(105)
+                session.action(assessment_verb)
             elif line.startswith((':save ', ':restore ')):
                 # Consumer control commands need a following query to produce
                 # a ready boundary. A dialogue refresh does not advance time.

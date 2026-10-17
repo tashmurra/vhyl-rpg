@@ -10,10 +10,44 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
+  reuse:
+    name: Select validated source tree
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+    outputs:
+      reused: ${{ steps.select.outputs.reused }}
+      run_id: ${{ steps.select.outputs.run_id }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Check pre-release tag
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          test "$GITHUB_REF_NAME" = "v$(cat VERSION)"
+          git merge-base --is-ancestor HEAD origin/main
+      - name: Select successful build with identical tracked files
+        id: select
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/promote_release.py select
+
   native:
     name: Native checks (${{ matrix.os }})
+    needs: reuse
+    if: needs.reuse.outputs.reused != 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -23,6 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
       - uses: actions/setup-python@v7.0.0
         with:
@@ -74,51 +109,71 @@ jobs:
 
   package:
     name: Source and documentation packages
+    needs: reuse
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7.0.1
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-python@v7.0.0
         with:
           python-version: '3.13'
       - name: Install documentation builder
+        if: needs.reuse.outputs.reused != 'true'
         run: python -m pip install -r requirements-docs.txt
       - name: Python and packaging tests
+        if: needs.reuse.outputs.reused != 'true'
         run: python -m unittest discover -s tests -p 'test_*.py'
-      - name: Check release tag
-        if: startsWith(github.ref, 'refs/tags/')
-        shell: bash
-        run: |
-          test "$GITHUB_REF_NAME" = "v$(cat VERSION)"
-          git merge-base --is-ancestor HEAD origin/main
       - name: Build packages and verify checksums
+        if: needs.reuse.outputs.reused != 'true'
         run: |
           python tools/build_release.py --out build/release
           cd build/release
           sha256sum --check SHA256SUMS
+      - name: Download validated packages
+        if: needs.reuse.outputs.reused == 'true'
+        uses: actions/download-artifact@v8.0.2
+        with:
+          name: release-packages
+          path: build/release
+          run-id: ${{ needs.reuse.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - name: Verify source tree, archive contents and checksums
+        run: python tools/promote_release.py verify
       - uses: actions/upload-artifact@v7.0.2
         with:
           name: release-packages
           path: build/release/
           if-no-files-found: error
+          overwrite: true
 
   publish:
     name: Publish GitHub pre-release
-    if: startsWith(github.ref, 'refs/tags/')
-    needs: [native, package]
+    if: >-
+      always() && startsWith(github.ref, 'refs/tags/') &&
+      needs.reuse.result == 'success' && needs.package.result == 'success' &&
+      (needs.native.result == 'success' ||
+       (needs.native.result == 'skipped' && needs.reuse.outputs.reused == 'true'))
+    needs: [reuse, native, package]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v7.0.1
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/download-artifact@v8.0.2
         with:
           name: release-packages
           path: build/release
+      - uses: actions/setup-python@v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Bind published tag to validated build
+        run: python tools/promote_release.py attest --run-id "${{ needs.reuse.outputs.run_id }}"
       - name: Publish complete pre-release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -127,5 +182,5 @@ jobs:
           cd build/release
           sha256sum --check SHA256SUMS
           cd ../..
-          gh release create "$GITHUB_REF_NAME" build/release/* --verify-tag --draft --prerelease --latest=false --title "vhyl-rpg $GITHUB_REF_NAME — Mundane prototype" --notes-file "docs/releases/$GITHUB_REF_NAME.md"
+          gh release create "$GITHUB_REF_NAME" build/release/* --verify-tag --draft --prerelease --latest=false --title "vhyl-rpg $GITHUB_REF_NAME" --notes-file "docs/releases/$GITHUB_REF_NAME.md"
           gh release edit "$GITHUB_REF_NAME" --draft=false --prerelease --latest=false

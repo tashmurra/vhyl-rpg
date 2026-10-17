@@ -1,8 +1,8 @@
 # vhyl-rpg
 
-**Pre-release: v0.1.0-alpha.1.** Development follows `main`, with tagged snapshots
+**Pre-release: v0.2.0-alpha.1.** Development follows `main`, with tagged snapshots
 for releases. API and save contracts may change before a stable release.
-See the [release notes](docs/releases/v0.1.0-alpha.1.md) and
+See the [release notes](docs/releases/v0.2.0-alpha.1.md) and
 [release builds](docs/development.md) for packages and validation.
 Browse the [searchable documentation and library reference](https://tashmurra.github.io/vhyl-rpg/).
 
@@ -12,8 +12,10 @@ commit the same attempt through one resolver.
 
 The prototype includes character attributes, trained and default skills, narrow
 trait modifiers, three-die checks, opposed checks, automatic solutions, authored
-consequences, energy/time costs and persistent retry records. Injury, recovery,
-advancement and supernatural abilities are later modules.
+consequences, energy/time costs and persistent retry records. Optional modules
+add [injury, treatment and bounded conflicts](docs/resilience.md), plus
+[milestone progression](docs/progression.md). Supernatural abilities remain a
+future module.
 
 The optional [reporting extension](docs/reporting.md) adds exact success odds,
 ability/modifier explanations and recorded individual dice. Author disclosure
@@ -84,6 +86,31 @@ Include `<vhyl-rpg-report.t>` after the core to use `rpgAssess`,
 `rpgPublishAssessment`, `rpgPublishRoll` and `rpgRecordedResult`. Reporting is
 opt-in per approach; it does not change the existing `rpg.result` event.
 
+The other modules are opt-in too: `<vhyl-rpg-resilience.t>` adds injuries and
+recovery; `<vhyl-rpg-conflict.t>` follows resilience and adds short physical
+conflicts and social disposition; `<vhyl-rpg-progression.t>` needs only the core.
+The original core-only and reporting integrations continue to work.
+
+## Play resilience and progression
+
+Build `examples/resilience/main.t` using the same include directories and native
+options as above, with a new output directory such as `build/gatehouse`. Then run:
+
+```sh
+python3 examples/resilience/host.py build/gatehouse --vhyl "$VHYL_ROOT" --details
+```
+
+You arrive wounded and tired. `treat wounds`, `rest`, `find permit` and `show
+permit` provide a peaceful route. Completing the objective awards points once;
+`train aid`, `train resolve`, `learn poise` and `overcome nerves` spend them at a
+quiet pause. `:plan` offers numbered choices and `:odds` shows current permitted
+assessments and development costs without taking a turn.
+
+In a fresh run, `confront guard` starts a short encounter. Choose `attack`,
+`defend`, `recover`, `escape` or `surrender`. A stalemate ends it after six
+exchanges. Incapacitation has an authored `accept help` route; combat is optional.
+Undo and logical saves preserve conditions, supplies, points and conflict state.
+
 ## Validation
 
 ```sh
@@ -101,9 +128,17 @@ Reporting checks independently enumerate die faces, verify hidden and reduced
 disclosures, and confirm saved reports preserve the original calculation after
 attributes, training, labels or costs change. Presentation tests cover the
 example's detailed and minimal views.
+Additional native checks cover treatment budgets, rest boundaries, incapacitation
+and rescue, social permission, conflict replay and restore, one-time milestones,
+owned training, attribute dependencies, purchase rollback and hybrid parity.
 
 Use `--out NEW_DIRECTORY` to retain bundles and saves. Failed runs always retain
 their output and print its location. `--runtime-cache DIRECTORY` reuses native
 runtime builds across runs. Generated files are ignored by Git.
 
 Original source and examples are distributed under the [MIT licence](LICENSE).
+
+Tags reuse successful PR validation and packages when the complete Git tree
+matches. Source and HTML archives remain byte-for-byte identical; publication
+adds a small provenance file tying the validated build to the release commit.
+A changed tree or unavailable build evidence requires fresh validation.
