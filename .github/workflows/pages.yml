@@ -2,7 +2,7 @@ name: Pre-release reference Pages
 
 on:
   push:
-    branches: [pre-release/mundane-rpg, main]
+    branches: [main]
     paths:
       - '.github/workflows/pages.yml'
       - 'README.md'
@@ -28,7 +28,7 @@ concurrency:
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/pre-release/mundane-rpg' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7.0.1

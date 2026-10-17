@@ -44,7 +44,8 @@ def release_identity(root: Path = ROOT) -> tuple[str, str, int]:
 
 def source_archive(path: Path, revision: str, prefix: str, epoch: int, root: Path = ROOT) -> None:
     """Use Git's tracked snapshot; local dependencies and bundles cannot enter it."""
-    archive = git('archive', '--format=tar', f'--prefix={prefix}/', revision, root=root)
+    archive = git('-c', 'core.autocrlf=false', 'archive', '--format=tar',
+                  f'--prefix={prefix}/', revision, root=root)
     with path.open('wb') as output:
         with gzip.GzipFile(filename='', fileobj=output, mode='wb', mtime=epoch) as compressed:
             compressed.write(archive)

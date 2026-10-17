@@ -70,11 +70,9 @@ The published reference is at
 [tashmurra.github.io/vhyl-rpg](https://tashmurra.github.io/vhyl-rpg/).
 Repository Pages must use **GitHub Actions** as its build source.
 `.github/workflows/pages.yml` builds and deploys documentation when relevant
-files change on `pre-release/mundane-rpg` or `main`. A push to the pre-release
-branch can publish without adding a workflow to `main`. Manual dispatch is also
-declared; GitHub makes it available once the workflow exists on the default
-branch. Both allowed branches publish to the same site; its latest deployment
-is authoritative.
+files change on `main`, with manual dispatch also available from that branch.
+The online reference follows the latest successful deployment from `main`;
+offline references attached to pre-releases retain their tagged source links.
 
 The workflow tests and builds before deploying the generated artifact using the
 `github-pages` environment. The Pages workflow publishes documentation separately

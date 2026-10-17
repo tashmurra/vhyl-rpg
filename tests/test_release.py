@@ -28,6 +28,8 @@ class ReleaseTests(unittest.TestCase):
             git('init', '-q')
             git('config', 'user.name', 'Release fixture')
             git('config', 'user.email', 'release@example.invalid')
+            # Git archive otherwise applies the caller's checkout line endings.
+            git('config', 'core.autocrlf', 'true')
             (root / 'VERSION').write_bytes(b'0.1.0-alpha.1\n')
             (root / '.gitignore').write_text('.tools/\nbuild/\n')
             (root / 'library.t').write_text('class Sample: object;\n')
