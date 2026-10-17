@@ -1,10 +1,10 @@
 # Development and pre-release publication
 
-This is the **mundane prototype pre-release**, developed on
-[`pre-release/mundane-rpg`](https://github.com/tashmurra/vhyl-rpg/tree/pre-release/mundane-rpg).
-It has not been merged to `main`. API names, event contracts and save compatibility
-may change before a stable release. Injury, recovery, advancement and supernatural
-abilities remain future modules.
+This is the **mundane prototype pre-release, v0.1.0-alpha.1**. Development is
+integrated through pull requests into `main`; prerelease tags identify packaged
+snapshots. API names, event contracts and save compatibility may change before a
+stable release. Injury, recovery, advancement and supernatural abilities remain
+future modules.
 
 ## Pinned dependencies
 
@@ -77,6 +77,41 @@ branch. Both allowed branches publish to the same site; its latest deployment
 is authoritative.
 
 The workflow tests and builds before deploying the generated artifact using the
-`github-pages` environment. Deploying documentation does not merge branches,
-create a package release, or upload native bundles. The mechanics remain a
-pre-release until a separate release decision.
+`github-pages` environment. The Pages workflow publishes documentation separately
+from versioned library releases.
+
+## Build a pre-release
+
+`VERSION` is the package version, without the leading `v` used for Git tags.
+The first pre-release is [v0.1.0-alpha.1](releases/v0.1.0-alpha.1.md). This is a
+source library included in a game at compile time, so it has no standalone library
+executable. Release assets contain the library sources, examples, tests, guides
+and dependency pins, plus a separate browsable offline documentation archive.
+Obtain the pinned vhyl sources and compiler separately.
+
+With a clean committed checkout and documentation dependencies installed:
+
+```sh
+.tools/docs/bin/python tools/build_release.py --out build/release
+```
+
+The output directory must be new. The builder archives the exact Git commit,
+builds the reference against that commit and writes a release manifest and
+`SHA256SUMS`. It excludes ignored local tools and native build outputs. Extract
+the documentation archive and serve its directory with `python3 -m http.server`
+to use search offline. The Markdown guides are also in the source package.
+
+`.github/workflows/release.yml` checks pull requests to `main`, updates to `main`
+and pre-release tags. It builds the pinned compiler and validates source, protocol
+and native behavior on Linux x86-64, Windows x86-64 and Apple Silicon macOS.
+The macOS compiler emits universal output; CI executes the Apple Silicon slice.
+Intel macOS execution was also verified locally for the initial prototype.
+The workflow builds release archives and documentation on Linux. A tag must
+match `v` followed by `VERSION`, and use an `alpha.N`, `beta.N` or `rc.N` suffix.
+The tag must identify a commit reachable from `main`.
+
+After all jobs pass on a tag, the workflow creates a draft GitHub pre-release,
+uploads the verified packages, manifest and checksums, then publishes it with
+the pre-release flag and without marking it as the latest stable release.
+Branch and PR builds upload check artifacts without publishing a release.
+Native example bundles are validation output rather than release assets.

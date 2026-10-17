@@ -1,8 +1,9 @@
 # vhyl-rpg
 
-**Pre-release:** the mundane prototype is on
-[`pre-release/mundane-rpg`](https://github.com/tashmurra/vhyl-rpg/tree/pre-release/mundane-rpg).
-It has not been merged to `main`; API and save contracts may change.
+**Pre-release: v0.1.0-alpha.1.** Development follows `main`, with tagged snapshots
+for releases. API and save contracts may change before a stable release.
+See the [release notes](docs/releases/v0.1.0-alpha.1.md) and
+[release builds](docs/development.md) for packages and validation.
 Browse the [searchable documentation and library reference](https://tashmurra.github.io/vhyl-rpg/).
 
 Mundane character and challenge mechanics for hybrid vhyl adventures, written

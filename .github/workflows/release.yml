@@ -1,0 +1,131 @@
+name: Build and pre-release
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    tags: ['v*-*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native:
+    name: Native checks (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Initialize Windows SDK and MSVC
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+      - name: Read immutable dependency pins
+        id: pins
+        shell: bash
+        run: |
+          python -c 'import json,os; p=json.load(open("dependencies.json")); f=open(os.environ["GITHUB_OUTPUT"],"a"); print("compiler="+p["compiler"]["revision"],file=f); print("vhyl="+p["vhyl"]["revision"],file=f)'
+      - uses: actions/checkout@v7.0.1
+        with:
+          repository: tashmurra/vhyl
+          ref: ${{ steps.pins.outputs.vhyl }}
+          path: .tools/vhyl
+          persist-credentials: false
+      - uses: actions/checkout@v7.0.1
+        with:
+          repository: tashmurra/zebulon-lang
+          ref: ${{ steps.pins.outputs.compiler }}
+          path: .tools/zebulon
+          persist-credentials: false
+      - name: Install pinned Rust
+        run: rustup toolchain install 1.98.1 --profile minimal
+      - name: Build pinned compiler
+        working-directory: .tools/zebulon
+        run: cargo +1.98.1 build --locked --release -p zebc
+      - name: Select dependencies
+        shell: bash
+        run: |
+          python -c 'import os,pathlib; root=pathlib.Path.cwd(); exe="zebc.exe" if os.name=="nt" else "zebc"; f=open(os.environ["GITHUB_ENV"],"a"); print("ZEBC="+str(root/".tools/zebulon/target/release"/exe),file=f); print("VHYL_ROOT="+str(root/".tools/vhyl"),file=f)'
+      - name: Source and Python checks
+        run: python -X utf8 tools/test.py
+      - name: Install universal macOS Rust libraries
+        if: runner.os == 'macOS'
+        run: rustup target add --toolchain 1.98.1 x86_64-apple-darwin aarch64-apple-darwin
+      - name: Provision pinned native LLVM
+        shell: bash
+        run: |
+          python .tools/zebulon/tools/bootstrap_llvm.py "$RUNNER_TEMP/vhyl-rpg-llvm" --config-out "$RUNNER_TEMP/vhyl-rpg-llvm.json"
+          python -c 'import json,os; p=json.load(open(os.path.join(os.environ["RUNNER_TEMP"],"vhyl-rpg-llvm.json"))); f=open(os.environ["GITHUB_ENV"],"a"); print("ZEB_LLVM_CONFIG="+p["llvm_config"],file=f)'
+          echo "ZEB_RUSTC=$(rustup which --toolchain 1.98.1 rustc)" >> "$GITHUB_ENV"
+      - name: Native behavior and persistence checks
+        run: python -X utf8 tools/test.py --native
+
+  package:
+    name: Source and documentation packages
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Install documentation builder
+        run: python -m pip install -r requirements-docs.txt
+      - name: Python and packaging tests
+        run: python -m unittest discover -s tests -p 'test_*.py'
+      - name: Check release tag
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          test "$GITHUB_REF_NAME" = "v$(cat VERSION)"
+          git merge-base --is-ancestor HEAD origin/main
+      - name: Build packages and verify checksums
+        run: |
+          python tools/build_release.py --out build/release
+          cd build/release
+          sha256sum --check SHA256SUMS
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: release-packages
+          path: build/release/
+          if-no-files-found: error
+
+  publish:
+    name: Publish GitHub pre-release
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [native, package]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v8.0.2
+        with:
+          name: release-packages
+          path: build/release
+      - name: Publish complete pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          cd build/release
+          sha256sum --check SHA256SUMS
+          cd ../..
+          gh release create "$GITHUB_REF_NAME" build/release/* --verify-tag --draft --prerelease --latest=false --title "vhyl-rpg $GITHUB_REF_NAME — Mundane prototype" --notes-file "docs/releases/$GITHUB_REF_NAME.md"
+          gh release edit "$GITHUB_REF_NAME" --draft=false --prerelease --latest=false
