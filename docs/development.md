@@ -73,7 +73,7 @@ Repository Pages must use **GitHub Actions** as its build source.
 `.github/workflows/pages.yml` builds and deploys documentation when relevant
 files change on `main`, with manual dispatch also available from that branch.
 The online reference follows the latest successful deployment from `main`;
-offline references attached to pre-releases retain their tagged source links.
+offline references attached to pre-releases retain their validated build's source links.
 
 The workflow tests and builds before deploying the generated artifact using the
 `github-pages` environment. The Pages workflow publishes documentation separately

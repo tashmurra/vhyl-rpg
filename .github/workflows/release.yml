@@ -16,6 +16,10 @@ jobs:
   reuse:
     name: Select validated source tree
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
     outputs:
       reused: ${{ steps.select.outputs.reused }}
       run_id: ${{ steps.select.outputs.run_id }}
