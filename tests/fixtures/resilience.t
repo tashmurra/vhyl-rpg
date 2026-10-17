@@ -83,6 +83,7 @@ class ResilienceTestAction: Action
         else if (self.code == 530) gateTreatment.modifier = -12;
         else if (self.code == 531) rpgRandom.seed(4);
         else if (self.code == 532) value = rpgWound(gateGuardProfile, 100, 0, 1, 1);
+        else if (self.code == 533) { gateHero.ht = 2; gateHero.energy = 2; }
         if (value != nil)
         {
             event('test.care'); eventValue(value.status); eventValue(value.reason);
@@ -161,6 +162,9 @@ vTest531: Verb code = 531 action = testAction531 label = 'test-531';
 
 testAction532: ResilienceTestAction code = 532;
 vTest532: Verb code = 532 action = testAction532 label = 'test-532';
+
+testAction533: ResilienceTestAction code = 533;
+vTest533: Verb code = 533 action = testAction533 label = 'test-533';
 
 act(verb, args)
 {

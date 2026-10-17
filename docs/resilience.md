@@ -45,6 +45,8 @@ from temporarily reduced strength. A zero-capacity energy pool opts out of effor
 exhaustion. The default `lethal = nil` makes defeat survivable; death requires an
 explicit author setting. There are no repeated consciousness/death rolls on
 ordinary parser commands, automatic bleeding timers or mortal-wound subsystem.
+Health below three cannot pass recovery checks; a major wound still uses the
+rolled failure margin to determine whether the character loses consciousness.
 The library also does not drop inventory or force posture changes on a failed
 major-wound check; add those consequences explicitly if the scene supports them.
 

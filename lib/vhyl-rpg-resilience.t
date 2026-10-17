@@ -143,11 +143,12 @@ rpgWound(profile, damage, armor, numerator, denominator)
     value.injury = amount;
     if (amount * 2 > capacity && !body.unconscious)
     {
-        value.check = rpgCheck(profile.attributeScore(rpgHT), rpgRandom.roll());
+        local health = profile.attributeScore(rpgHT); local roll = rpgRandom.roll();
+        value.check = rpgCheck(health, roll);
         if (!value.check.achieved)
         {
             body.stunned = true;
-            if (value.check.margin <= -5 || value.check.critical == 'failure')
+            if (health - roll <= -5 || value.check.critical == 'failure')
                 body.unconscious = true;
         }
     }

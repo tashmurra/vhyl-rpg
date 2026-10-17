@@ -75,6 +75,14 @@ def test_treatment(s):
     assert current['injury'] >= 2 and current['aid'] == 0 and current['charges'] == 0
 
 
+def test_low_health_major_wound(s):
+    s.action(533)
+    s.action(501)
+    current = state(s)
+    assert current['injury'] == 9 and current['draws'] == 3
+    assert current['stunned'] is True and current['unconscious'] is True
+
+
 def test_treatment_failure(s):
     s.action(530)
     s.action(403)
@@ -350,7 +358,7 @@ def parity(Session, bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('resilience', ROOT / 'tests/fixtures/resilience.t')
-    for case in (test_injury, test_major_wound_and_lethality, test_treatment, test_treatment_failure,
+    for case in (test_injury, test_major_wound_and_lethality, test_low_health_major_wound, test_treatment, test_treatment_failure,
                  test_treatment_critical_failure, test_rest, test_interruption_and_exhaustion,
                  test_stun, test_shock_assessment, test_social, test_social_permission, test_progression, test_attributes,
                  test_attribute_limit, test_rollbacks, test_conflict, test_surrender,
