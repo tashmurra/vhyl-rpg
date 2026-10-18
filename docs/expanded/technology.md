@@ -1,17 +1,48 @@
 # Expanded technology
 
-**Status: pending.** Electronics, inventions, artifact investigation, object damage,
+**Status: partial.** Electronics, inventions, artifact investigation, object damage,
 maintenance and repair. Neutral source: `full-2008`, B471–B479; B483–B485; B529–B533; B546.
 
 [Library selection](../libraries.md) · [Integration](index.md) ·
 [Coverage ledger](coverage.json) · [Procedure inventory](inventory/technology.json) ·
 [Outcome tables](inventory/technology-outcomes.json)
 
-This module has not been implemented. Its proposed filename,
-`vhyl-rpg-expanded-technology.t`, remains reserved in the catalogue; do not include
-it in a game. The first text pass covers these sections and records their tables
-as pending requirements. Underlying traits, equipment definitions, cross-references,
-visual table checks and executable tests still need completion.
+Include `vhyl-rpg-expanded-technology.t` after the expanded foundation. The current
+runtime provides a pure disabled-weapon assessment only. Other inventoried
+procedures remain pending, including object damage, actual piece creation,
+maintenance, repair and invention projects.
+
+## Disabled and destroyed weapons
+
+`rpgExpandedBrokenWeapon(state, weightHundredths, missile, family, die, reach)`
+assesses the B485 broken-weapon procedure without changing inventory or consuming
+dice or time. `state` is `disabled` or `destroyed`; weight uses hundredths of a
+pound. Destroyed weapons, disabled missile weapons and disabled weapons weighing
+at most one pound are unusable without a die roll. Supply `nil` for `die` in those
+cases; an unused die is rejected.
+
+Other disabled weapons require a supplied die from one through six. A missing die
+returns `needs-roll`. Supported families are `axe-mace`, `polearm`, `rapier`,
+`smallsword`, `spear`, `sword`, `saber` and `two-handed-axe-mace`. Unlisted forms
+return `broken-weapon-analogy-required`; the author must establish the closest
+listed form before assessment. The caller establishes whether the weapon was
+actually disabled or destroyed; a critical-miss label alone is not that evidence.
+
+The result distinguishes unusable outcomes from surviving pieces. Each
+`RpgExpandedBrokenPiece` names its new `form`, held/ground `placement`, and any
+attack, reach or damage overrides. New forms use their own skill and catalogue
+statistics. `nil` means the procedure does not override that statistic, not zero.
+Sword/saber remnants instead retain the original form: cutting damage loses two,
+thrust becomes ordinary thrust crushing, and reach two becomes one. These overrides
+must replace incompatible old modes rather than leaving an impaling attack usable.
+
+This assessment does not create pieces, rebind hands, divide weight, alter money,
+apply object injury or repair anything. Those owned transformations remain pending.
+There is no generic callback counted as implementing them. The minimal
+[technology fixture](../../tests/fixtures/expanded-technology.t) and
+`test_broken_weapons` record all six die faces for each family, light/missile and
+destroyed exceptions, missing dice, unknown forms, piece modifiers and preview
+purity. Fixtures are authored and unrun while checks are paused.
 
 ## Equipment operation
 

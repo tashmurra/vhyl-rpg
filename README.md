@@ -47,6 +47,10 @@ modules add owned injury/recovery, treatment, infection and aging procedures.
 These share character balances and retain explicit unsupported cases; their
 recent transaction and save-continuation fixtures are authored but unrun while
 checks are paused.
+The partial [technology module](docs/expanded/technology.md) assesses disabled and
+destroyed weapon outcomes, including surviving forms and their combat overrides.
+It does not yet commit object damage, transform inventory pieces or perform repairs.
+
 The partial [combat module](docs/expanded/combat.md) adds pure ordinary rapid-fire
 assessments; ammunition and per-hit injury integration remain incomplete.
 Try the [signal workshop](examples/expanded/main.t) with the corresponding

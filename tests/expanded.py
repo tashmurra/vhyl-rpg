@@ -973,6 +973,51 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_broken_weapons(s):
+    def assess(family, die, weight=200, missile=0, state='disabled', reach=2):
+        s.action(2050,state,weight,missile,family,die,reach)
+        assert last(s,'test.broken-purity') == [0,0]
+        return last(s,'test.broken-weapon')
+    unusable = ['ready',None,0,0,0,None,None,None,0]
+    assert assess('sword',0,state='destroyed') == unusable
+    assert assess('sword',0,weight=100) == unusable
+    assert assess('sword',0,weight=99) == unusable
+    assert assess('spear',0,missile=1) == unusable
+    assert assess('unlisted',0)[:2] == ['blocked','broken-weapon-analogy-required']
+    assert assess('sword',0)[:2] == ['needs-roll','broken-weapon-die-required']
+    # Independent B485 branch expectations, including all six supplied die faces.
+    rows = {
+        'axe-mace': [('light-club',None)]*3 + [(None,None)]*3,
+        'polearm': [('long-spear',None)]*2 + [('quarterstaff','axe')]*2 + [('light-club','great-axe')]*2,
+        'rapier': [('smallsword',None)]*3 + [(None,None)]*3,
+        'smallsword': [('dagger',None)]*3 + [(None,None)]*3,
+        'spear': [('quarterstaff',None)]*3 + [('baton','spear')]*3,
+        'two-handed-axe-mace': [('quarterstaff',None)]*3 + [('light-club','axe')]*3,
+        'sword': [('original',None)]*3 + [(None,None)]*3,
+        'saber': [('original',None)]*3 + [(None,None)]*3,
+    }
+    for family, outcomes in rows.items():
+        for die, (held,ground) in enumerate(outcomes,1):
+            result = assess(family,die,weight=101)
+            assert result[:3] == ['ready',None,int(held is not None)]
+            assert result[-1] == int(held is not None)+int(ground is not None)
+            if held:
+                expected = [held,'held',0,None,None,None,None]
+                if family == 'polearm' and die <= 2:
+                    expected[4:] = ['thrust',2,'cr']
+                if family in ['rapier','smallsword']:
+                    expected[-1] = 'imp'
+                assert last(s,'test.broken-held') == expected
+            if ground:
+                penalty = -4 if ground == 'axe' else -2 if ground == 'great-axe' else 0
+                assert last(s,'test.broken-ground') == [ground,'ground',penalty,2 if ground == 'great-axe' else 1,None,None,None]
+            if held == 'original':
+                assert result[3:8] == [1,-2,'thrust','cr',1]
+            else:
+                assert result[3:8] == [0,0,None,None,None]
+    assert assess('sword',1,reach=1)[7] == 1
+
+
 def shield_ready_state(s):
     s.action(2041)
     return last(s,'test.shield-ready-state')
@@ -5093,6 +5138,8 @@ def test(build):
     fresh(Session,combat,test_critical_hit_assessments)
     fresh(Session,combat,test_weapon_miss_assessments)
     fresh(Session,combat,test_unarmed_miss_assessments)
+    technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')
+    fresh(Session,technology,test_broken_weapons)
     shield_ready = build.build('expanded-shield-ready',ROOT / 'tests/fixtures/expanded-shield-ready.t')
     fresh(Session,shield_ready,test_shield_ready)
     fresh(Session,shield_ready,test_shield_ready_health)

@@ -4,12 +4,14 @@ This branch implements an incomplete experimental suite. It is not a stable
 release and does not claim full-reference coverage. VERSION remains unchanged;
 no tag or release publication is part of this work.
 
-The expanded foundation and convenience umbrella currently include eleven partial
-feature modules: campaign, characters, development, equipment, exploration,
-hazards, health, skills, social, templates and traits. Combat, creatures, magic,
-psionics, tactical, technology and vehicles remain proposed modules with no
-standalone runtime library. Available include paths are distinguished from
-proposals in the [library catalogue](../libraries.md).
+The expanded foundation and convenience umbrella currently include thirteen partial
+feature modules: campaign, characters, combat, development, equipment, exploration,
+hazards, health, skills, social, technology, templates and traits. Creatures, magic,
+psionics, tactical and vehicles remain proposed modules without standalone runtime
+libraries. Available include paths are distinguished from proposals in the
+[library catalogue](../libraries.md). Technology currently supplies only a pure
+assessment of disabled-weapon outcomes; object damage, inventory transformation,
+maintenance, repair and inventions remain unfinished.
 
 The implemented subsets include secondary purchases and character accounting,
 trait pricing, richer skill/default/technique procedures, template composition,

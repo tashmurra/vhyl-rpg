@@ -284,8 +284,11 @@
       "title": "Electronics, inventions, artifacts and object damage",
       "pages": "B471-B479; B483-B485; B529-B533; B546",
       "source": "full-2008",
-      "status": "pending",
-      "tests": []
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_broken_weapons"
+      ],
+      "validation_note": "B485 supplied-die disabled/destroyed weapon assessment authored; fixtures unrun. Owned object damage, piece transformations and remaining technology procedures are pending."
     },
     {
       "id": "templates",

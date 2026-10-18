@@ -16,3 +16,5 @@
 #include <vhyl-rpg-expanded-hazards.t>
 
 #include <vhyl-rpg-expanded-combat.t>
+
+#include <vhyl-rpg-expanded-technology.t>
