@@ -766,6 +766,6 @@ default. Fixtures remain unrun while checks are paused.
 from full-2008 B182. Custom defaults, specialties, alternate attributes and
 technology levels reject. The exploration library's
 `RpgExpandedBreathPreparation` can execute its trained check and apply the
-breath-duration bonus through an owned receipt. That operation does not implement
-the skill's separate fatigue-recovery use. The `test_breath_preparation` fixture
+breath-duration bonus through an owned receipt. The separate `RpgExpandedBreathingRecovery` operation implements two-minute
+quiet-rest checks through the shared fatigue ledger. The `test_breath_preparation` fixture
 covers this integration and remains unrun.

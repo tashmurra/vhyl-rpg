@@ -1615,8 +1615,31 @@ preparation flags remain available when no receipt is selected.
 
 Combat preparation currently rejects with
 `breath-preparation-combat-adapter-required`; it requires integration with the
-concentration maneuver. Hyperventilation, oxygen supply and the skill's separate
-fatigue-recovery use are outside this preparation operation.
+concentration maneuver. Hyperventilation and oxygen supply remain outside this preparation operation.
+The separate fatigue-recovery operation is described below.
 `expanded-breath-preparation.t` / `test_breath_preparation` specify successful,
 failed and absent skill checks, unpaid-skill rejection, replay, rollback, undo
 and separate-process continuation. Fixtures remain unrun.
+
+
+## Quiet breathing recovery
+
+`RpgExpandedBreathingRecovery` takes `id`, `profile`, a purchased breathing
+control `skill`, `approved` and evidence for two minutes of quiet rest without
+restorative magic (full-2008 B182, B427). `restorativeMagic = true` blocks the
+operation. The author must establish that fact; this interface does not inspect
+unimplemented spell systems. Rest restrictions and protected fatigue use the
+existing profile hooks.
+
+`assess()` spends nothing. `apply()` rolls the skill and calls ordinary rest for
+120 seconds, preserving shared condition clocks. On success it restores one
+eligible FP unless ordinary recovery already restored it during those seconds,
+and clears the rest credit consumed by accelerated recovery. On failure the
+quiet rest still earns ordinary rest credit. No fatigue caused by hunger,
+thirst, missed sleep or another protected cause is converted into ordinary FP.
+
+The owned result contains `check`, `rest` and `recovered`; repeated application
+returns `reused`. The `test_breathing_recovery` fixture covers success, failure,
+ordinary-recovery overlap, incompatible magic, no recoverable fatigue, rollback,
+undo and saved replay. Fixtures are unrun. Interruptible sessions and automatic
+integration with future restorative spell effects remain incomplete.

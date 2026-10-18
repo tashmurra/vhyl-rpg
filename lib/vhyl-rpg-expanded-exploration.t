@@ -3287,3 +3287,79 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+class RpgExpandedBreathingRecoveryResult: RpgExpandedResult
+    rest = nil
+    recovered = 0
+;
+
+/** B182 two minutes of quiet breathing, sharing the ordinary recovery ledger. */
+class RpgExpandedBreathingRecovery: object
+    id = nil
+    profile = nil
+    skill = nil
+    approved = nil
+    evidence = nil
+    restorativeMagic = nil
+    completedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition() { return [self.id,self.profile,self.skill,self.approved,self.evidence,self.restorativeMagic]; }
+    assess()
+    {
+        local value = new RpgExpandedBreathingRecoveryResult();
+        if (self.result != nil)
+        {
+            local facts = self.definition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('breathing-recovery-binding');
+            if (!holds(self.profile.breathingRecoveries,self)) rpgExpandedReject('breathing-recovery-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)) rpgExpandedReject('breathing-recovery-definition');
+        self.skill.validateBreathControl();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'breathing-recovery-quiet-rest-required'; return value; }
+        if (self.restorativeMagic) { value.reason = 'breathing-recovery-magic-incompatible'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.stunned || self.profile.mentalStun
+            || self.profile.mortal) { value.reason = 'breathing-recovery-incapacitated'; return value; }
+        local trained = nil;
+        foreach (local training in self.profile.skills)
+            if (training.skill == self.skill && training.points > 0) trained = true;
+        if (!trained) { value.reason = 'breath-control-training-required'; return value; }
+        self.profile.validateNaturalRecovery(120,nil,nil);
+        local locked = self.profile.hunger + self.profile.thirst + self.profile.sleepDebt + self.profile.temperatureFatigue
+            + self.profile.additionalRecoveryLockedFatigue();
+        if (self.profile.fatigue <= locked) { value.reason = 'breathing-recovery-no-ordinary-fatigue'; return value; }
+        foreach (local prior in self.profile.breathingRecoveries)
+            if (prior.id == self.id) rpgExpandedReject('breathing-recovery-duplicate');
+        local context = new RpgLiteContext(); context.skill = self.skill; context.kind = 'breathing-recovery';
+        local score = rpgLiteScore(self.profile,context);
+        if (score == nil || score < 3) { value.reason = 'breath-control-score-unavailable'; return value; }
+        value.seconds = 120; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local context = new RpgLiteContext(); context.skill = self.skill; context.kind = 'breathing-recovery';
+        value.check = rpgLiteCheck(self.profile,context);
+        local before = self.profile.fatigue;
+        value.rest = rpgLiteRest(self.profile,120,nil,nil,nil,nil);
+        if (value.check.achieved)
+        {
+            local locked = self.profile.hunger + self.profile.thirst + self.profile.sleepDebt + self.profile.temperatureFatigue
+                + self.profile.additionalRecoveryLockedFatigue();
+            /* The same interval cannot earn both accelerated and ordinary FP. */
+            if (self.profile.fatigue == before && self.profile.fatigue > locked) self.profile.fatigue -= 1;
+            self.profile.restClock = 0; self.profile.afterFatigueRecovery();
+        }
+        value.recovered = before - self.profile.fatigue;
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        value.status = 'resolved'; self.result = value;
+        self.profile.breathingRecoveries = self.profile.breathingRecoveries + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    breathingRecoveries = []
+;

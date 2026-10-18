@@ -9342,6 +9342,8 @@ def test(build):
     test_breath_handoff(Session, breath_handoff, build.out)
     breath_preparation = build.build("expanded-breath-preparation",ROOT / "tests/fixtures/expanded-breath-preparation.t")
     test_breath_preparation(Session, breath_preparation, build.out)
+    breathing_recovery = build.build("expanded-breathing-recovery",ROOT / "tests/fixtures/expanded-breathing-recovery.t")
+    test_breathing_recovery(Session, breathing_recovery, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22973,5 +22975,46 @@ def test_breath_preparation(Session, bundle, out):
                 s.action(1900,code)
             assert last(s,'test.breath-preparation-result') == ['blocked',reason]
             assert last(s,'test.breath-preparation-state') == [0,0,0,0,0]
+        finally:
+            s.close()
+
+
+def test_breathing_recovery(Session, bundle, out):
+    """Two-minute skill recovery shares time and cannot double ordinary FP; unrun."""
+    for setup, expected in ((None,[4,0,120,3,1]),(17902,[5,120,120,3,1]),(18002,[4,0,120,3,1])):
+        s = Session(bundle)
+        try:
+            if setup is not None:
+                s.action(1900,setup)
+            initial = [5,590 if setup == 18002 else 0,0,0,0]
+            for code in (18006,18001,18005):
+                s.action(1900,code)
+            assert last(s,'test.breathing-recovery-state') == initial
+            s.action(1900,18000)
+            s.command('undo')
+            s.action(1900,18005)
+            assert last(s,'test.breathing-recovery-state') == initial
+            for code in (18000,18000,18005):
+                s.action(1900,code)
+            assert last(s,'test.breathing-recovery-state') == expected
+            path = out / f'breathing-recovery-{setup}.zsave'
+            s.command(f':save {path}\n@1901')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@1901')
+            for code in (18000,18005):
+                s.action(1900,code)
+            assert last(s,'test.breathing-recovery-state') == expected
+        finally:
+            s.close()
+    for setup, reason in ((18003,'breathing-recovery-magic-incompatible'),(18004,'breathing-recovery-no-ordinary-fatigue')):
+        s = Session(bundle)
+        try:
+            for code in (setup,18000,18005):
+                s.action(1900,code)
+            assert last(s,'test.breathing-recovery-result') == ['blocked',reason]
+            assert last(s,'test.breathing-recovery-state')[2:] == [0,0,0]
         finally:
             s.close()

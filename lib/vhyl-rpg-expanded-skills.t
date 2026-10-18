@@ -1179,12 +1179,12 @@ modify RpgExpandedBoatingContext
 
 /** Full-2008 B182 trained health-based breath efficiency, without defaults. */
 class RpgExpandedBreathControlSkill: RpgExpandedSkill
-    id = 'breath-control'
+    id = 'breathing-control'
     attribute = rpgHT
     difficulty = 2
     validateDefinition()
     {
-        if (self.id != 'breath-control' || self.attribute != rpgHT || self.difficulty != 2
+        if (self.id != 'breathing-control' || self.attribute != rpgHT || self.difficulty != 2
             || self.defaultPenalty != nil || self.defaultAttribute != nil || self.alternateAttribute != nil
             || self.defaults.length() != 0 || self.attributeDefaults.length() != 0 || self.wildcard
             || self.optionalParent != nil || self.specialty != nil || self.techLevel != nil)
