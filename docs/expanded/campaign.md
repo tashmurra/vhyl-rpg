@@ -165,3 +165,12 @@ Preview purity, deterministic replay, rollback, undo and save continuation must 
 employment, recruitment, transit, private knowledge and long downtime intervals.
 Build checks remain suspended during implementation. These inventories and authoring
 requirements are not evidence of completed runtime behavior.
+
+
+[Innate travel and fictional legal permissions](inventory/traits-catalogue-h.json)
+need specific author contracts. Travel distinguishes same-location arrival safety
+from other hazards, memorized worlds from unknown destinations, ordinary passengers
+from following travelers, and combined teleport/travel partial successes. Artifact
+attempts and temporary portals retain identities and expiry. Legal authority and
+exemptions use authored jurisdictions, duties and sanctions; the source's game
+models are not descriptions of current real-world law. These effects remain pending.

@@ -141,3 +141,16 @@ with separate evidence for sound, tracks, shadows and reflection. Neither is a
 single universal immunity flag. Intuitive guidance also retains a question identity
 and bounded authored outputs so repeated previews cannot reveal hidden answers.
 All of these effects remain pending implementation and validation.
+
+
+The [eighth catalogue segment](inventory/traits-catalogue-h.json) records innate
+travel, legal permissions, real-play rerolls, magical aptitude and mental effects.
+Real-play cooldowns need an explicit clock policy and roll-event window; advancing
+the fictional clock cannot refresh them. A reroll must replace the selected result
+before its consequences are committed, including when the roll remains private.
+
+Mental command, conditioning, probing and thought reading have different subject
+histories, expiry rules and output contracts. A question identity must survive
+rephrasing; a new action object cannot bypass a subject cooldown. A mental shield
+also retains its voluntary state while unconscious. These effects are pending,
+and the rapport entry continues onto the next source page.

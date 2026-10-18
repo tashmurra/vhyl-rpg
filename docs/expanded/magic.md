@@ -66,3 +66,12 @@ Full module validation also requires the complete spell catalogue, resistance,
 maintenance, interruption and expiry, plus preview purity, replay, rollback, undo
 and cross-process save continuation. Checks remain suspended during implementation;
 this inventory does not establish executable spell coverage.
+
+
+[Trait integration at B66–B68](inventory/traits-catalogue-h.json) adds aptitude,
+restricted rituals, resistance and local magical-energy changes. Aptitude discounts
+exclude the foundation purchase. Energy changes affect carried subjects by default,
+with a separate area enhancement beginning at one yard. Overlapping enhancers use
+the highest increase; suppression interactions still need the energy chapter.
+Item sensing retains separate first-sight and first-touch history. None of these
+requirements is implemented by a generic trait-cost calculation.
