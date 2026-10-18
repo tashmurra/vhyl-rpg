@@ -908,6 +908,61 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_critical_hit_assessments(s):
+    # Fields after location: multiplier, maximum, ignore DR, halve DR, round up,
+    # major, double shock, temporary cripple, drop held, drop weapon, idle, deaf, scar, DR.
+    general = {
+        3: [3,0,0,0,0,0,0,0,0,0,0,0,0,5],
+        4: [1,0,0,1,0,0,0,0,0,0,0,0,0,2],
+        5: [2,0,0,0,0,0,0,0,0,0,0,0,0,5],
+        6: [1,1,0,0,0,0,0,0,0,0,0,0,0,5],
+        7: [1,0,0,0,0,1,0,0,0,0,0,0,0,5],
+        8: [1,0,0,0,0,0,1,1,0,0,0,0,0,5],
+        9: [1,0,0,0,0,0,0,0,0,0,0,0,0,5],
+        12:[1,0,0,0,0,0,0,0,1,0,0,0,0,5]}
+    for roll, row in [(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(10,9),
+                      (11,9),(12,12),(13,7),(14,7),(15,6),(16,5),(17,4),(18,3)]:
+        s.action(2016, roll, 'arm', 'cr', 0)
+        assert last(s, 'test.critical-hit') == ['arm'] + general[row]
+        assert last(s, 'test.burst-purity') == [0,0]
+    head = {
+        3: [1,1,1,0,0,0,0,0,0,0,0,0,0,0],
+        4: [1,0,0,1,1,1,0,0,0,0,0,0,0,3],
+        6: [1,0,0,0,0,0,0,0,0,0,0,0,0,5],
+        8: [1,0,0,0,0,0,0,0,0,0,1,0,0,5],
+        12:[1,0,0,0,0,0,0,0,0,0,0,1,0,5],
+        14:[1,0,0,0,0,0,0,0,0,1,0,0,0,5],
+        15:[1,1,0,0,0,0,0,0,0,0,0,0,0,5],
+        16:[2,0,0,0,0,0,0,0,0,0,0,0,0,5],
+        17:[1,0,0,1,1,0,0,0,0,0,0,0,0,3],
+        18:[3,0,0,0,0,0,0,0,0,0,0,0,0,5]}
+    for roll, row in [(3,3),(4,4),(5,4),(6,6),(7,6),(8,8),(9,6),(10,6),
+                      (11,6),(12,12),(13,12),(14,14),(15,15),(16,16),(17,17),(18,18)]:
+        s.action(2016, roll, 'skull', 'cr', 1)
+        assert last(s, 'test.critical-hit') == ['eye' if roll in [6,7] else 'skull'] + head[row]
+        assert last(s, 'test.burst-purity') == [0,0]
+    for roll in [6,7]:
+        s.action(2016, roll, 'face', 'cut', 0)
+        assert last(s, 'test.critical-hit') == ['face'] + head[4]
+    for damage, loss in [('cut',1),('imp',1),('burn',2),('cor',2)]:
+        s.action(2016, 12, 'face', damage, 1)
+        expected = head[6].copy(); expected[12] = loss
+        assert last(s, 'test.critical-hit') == ['face'] + expected
+    for roll, location, shock, penetrated, expected in [
+            (3,'torso',3,1,[21,5,3]),(5,'torso',3,1,[14,5,3]),
+            (6,'torso',3,1,[12,5,3]),(4,'torso',3,1,[7,2,3]),
+            (8,'torso',3,1,[7,5,6]),(8,'torso',5,1,[7,5,8]),
+            (8,'torso',3,0,[7,5,3]),(8,'torso',0,1,[7,5,0]),
+            (3,'skull',3,1,[12,0,3]),(4,'skull',3,1,[7,3,3])]:
+        s.action(2018, roll, location, shock, penetrated)
+        assert last(s, 'test.critical-arithmetic') == expected
+        assert last(s, 'test.burst-purity') == [0,0]
+    for health, seconds in [(1,15),(10,6),(13,3),(14,2),(15,2),(20,2)]:
+        s.action(2017, health)
+        assert last(s, 'test.critical-cripple') == [seconds]
+        assert last(s, 'test.burst-purity') == [0,0]
+
+
 def test_combat_check_classification(s):
     for kind, score, roll, expected in [
             ('ranged',3,13,['resolved',None,0,None,'setback']),
@@ -4583,6 +4638,7 @@ def test(build):
     combat = build.build('expanded-combat',ROOT / 'tests/fixtures/expanded-combat.t')
     fresh(Session,combat,test_rapid_fire_assessments)
     fresh(Session,combat,test_combat_check_classification)
+    fresh(Session,combat,test_critical_hit_assessments)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_airless_seconds)

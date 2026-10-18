@@ -32,9 +32,10 @@
       "status": "partial",
       "tests": [
         "tests/expanded.py::test_rapid_fire_assessments",
-        "tests/expanded.py::test_combat_check_classification"
+        "tests/expanded.py::test_combat_check_classification",
+        "tests/expanded.py::test_critical_hit_assessments"
       ],
-      "validation_note": "Pure ordinary burst, hit/Dodge and combat-check classification authored, including ranged critical-miss exceptions and malfunction precedence. Fixtures unrun. Owned attacks, ammunition, critical/malfunction effects, per-hit injury and broad integration remain incomplete."
+      "validation_note": "Pure rapid-fire, combat-check and critical-hit table assessments authored; fixtures unrun. Numeric damage, armor and shock effects are assessed. Owned attacks, ammunition, critical/malfunction consequences, per-hit injury and broad integration remain incomplete."
     },
     {
       "id": "creatures",

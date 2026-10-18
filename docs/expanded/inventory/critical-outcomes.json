@@ -21,9 +21,12 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Critical multipliers modify basic damage before armor and injury factors. Critical hits disallow active defense. Preserve separate damage, penetration and injury values.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-success-boundaries",
@@ -51,13 +54,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Multiply basic damage by three.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 3
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-4",
@@ -65,13 +71,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After armor divisors, halve DR and round down.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 4
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-5",
@@ -79,13 +88,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Double basic damage.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 5
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-6",
@@ -93,13 +105,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use maximum normal damage.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 6
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-7",
@@ -107,13 +122,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 7
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-8",
@@ -121,13 +139,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Positive penetration doubles shock with a limit of -8; a struck limb or extremity becomes temporarily unusable for max(2,16-HT) seconds unless ordinary injury causes lasting crippling.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 8
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-9",
@@ -135,13 +156,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply ordinary damage only.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 9
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-10",
@@ -149,13 +173,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply ordinary damage only.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 10
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-11",
@@ -163,13 +190,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply ordinary damage only.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 11
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-12",
@@ -177,13 +207,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply ordinary damage and release all held objects even with zero penetration.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 12
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-13",
@@ -191,13 +224,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 13
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-14",
@@ -205,13 +241,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 14
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-15",
@@ -219,13 +258,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use maximum normal damage.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 15
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-16",
@@ -233,13 +275,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Double basic damage.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 16
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-17",
@@ -247,13 +292,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After armor divisors, halve DR and round down.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 17
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-hit-18",
@@ -261,13 +309,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Multiply basic damage by three.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "hit",
         "roll": 18
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-3",
@@ -275,13 +326,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use maximum normal damage with no DR protection.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 3
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-4",
@@ -289,13 +343,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After armor divisors, halve DR rounding up; positive penetration also triggers major-wound handling.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 4
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-5",
@@ -303,13 +360,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After armor divisors, halve DR rounding up; positive penetration also triggers major-wound handling.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 5
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-6",
@@ -317,13 +377,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A face or skull hit becomes an eye hit even for normally ineligible damage types. If the angle makes an eye hit impossible, apply head outcome 4. Resolve pre-existing eye targets explicitly.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 6
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-7",
@@ -331,13 +394,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A face or skull hit becomes an eye hit even for normally ineligible damage types. If the angle makes an eye hit impossible, apply head outcome 4. Resolve pre-existing eye targets explicitly.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 7
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-8",
@@ -345,13 +411,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply ordinary head damage and require inactivity next turn without forbidding normal defenses.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 8
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-9",
@@ -359,13 +428,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply ordinary head damage only.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 9
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-10",
@@ -373,13 +445,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply ordinary head damage only.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 10
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-11",
@@ -387,13 +462,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply ordinary head damage only.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 11
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-12",
@@ -401,13 +479,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "With positive penetration, crushing causes deafness whose recovery uses crippling duration; other damage reduces appearance by one level, or two for burning/corrosion.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 12
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-13",
@@ -415,13 +496,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "With positive penetration, crushing causes deafness whose recovery uses crippling duration; other damage reduces appearance by one level, or two for burning/corrosion.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 13
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-14",
@@ -429,13 +513,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply ordinary head damage and drop the weapon; select randomly between two held weapons.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 14
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-15",
@@ -443,13 +530,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use maximum normal damage.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 15
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-16",
@@ -457,13 +547,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Double basic damage.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 16
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-17",
@@ -471,13 +564,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After armor divisors, halve DR rounding up.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 17
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-head-18",
@@ -485,13 +581,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Multiply basic damage by three.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
       "outcome_data": {
         "table": "head",
         "roll": 18
-      }
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
     },
     {
       "id": "critical-weapon-miss-3",

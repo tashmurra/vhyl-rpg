@@ -90,6 +90,45 @@ unimplemented. The supplied dice are never rerolled and no resources are spent.
 Dodge margins, skill-sixteen and natural-roll boundaries, below-three attack
 rejection, defense denial and malfunction precedence. These cases remain unrun.
 
+## Critical-hit effect assessments
+
+`rpgExpandedCriticalHit(roll, location, damageType, eyePossible)` assesses the
+B556 general or head critical-hit table using a supplied table roll. Face, skull
+and eye select the head table. The supported ordinary locations are torso,
+vitals, groin, neck, arm, hand, leg and foot. `eyePossible` is an authored fact
+about the shot line and anatomy. An unavailable eye converts the head-table eye
+redirect to that table's half-armor/major-wound effect. Directly declaring an
+unavailable eye target is rejected.
+
+The result separates numeric effects from consequences that still need owned
+execution. `rpgExpandedCriticalDamage(effect, rolledBasic, maximumBasic)` applies
+maximum damage or the basic-damage multiplier before armor and injury factors.
+`rpgExpandedCriticalArmor(effect, dividedArmor)` receives DR after ordinary armor
+divisors: general-table halving rounds down; head-table halving rounds up; the
+armor-ignoring head result returns zero. These helpers do not roll damage.
+
+Major-wound, double-shock, temporary-crippling, deafness and appearance-loss fields
+are explicitly conditional on penetration. `rpgExpandedCriticalShock` doubles
+normal shock only when required and caps that critical effect at eight. Apply
+ordinary trait exemptions when obtaining normal shock. For a limb/extremity that
+was not already crippled by its injury, `rpgExpandedCriticalCrippleSeconds(HT)`
+gives the temporary duration with its two-second minimum.
+
+`dropHeld` applies even without penetration. The head table's `dropWeapon` effect
+instead requires selecting the actual weapon, randomly if two are held.
+`forcedDoNothing` requires that maneuver on the next turn but does not itself
+remove active defenses. Crushing head effects can require deafness recovery;
+other penetrating head effects can require one appearance-level loss, or two for
+burning/corrosion. Those equipment, condition, disability and appearance commits
+are not implemented by this assessment. Do not treat the flags as completed
+persistent consequences or grant normal defenses against a critical hit.
+
+`test_critical_hit_assessments` records every general and head table roll,
+eye-redirection fallback, damage-type scarring, armor rounding, maximum and
+multiplied basic damage, penetration-dependent shock, and duration boundaries.
+All cases are authored but unrun. Critical-miss tables, multi-hit critical routing
+and owned injury/equipment/condition integration remain incomplete.
+
 ## Modifier-table requirements
 
 The [combat summary inventory](inventory/combat-modifiers.json) records B547–B549

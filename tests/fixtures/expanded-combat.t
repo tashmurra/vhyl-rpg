@@ -38,6 +38,27 @@ act(verb,args)
         event('test.ranged-outcome'); eventValue(value.status); eventValue(value.reason); eventValue(value.outcome);
         eventValue(value.malfunction ? 1 : 0); eventValue(value.defenseAllowed ? 1 : 0); eventValue(value.criticalTable);
     }
+    else if (verb == 2016)
+    {
+        local value = rpgExpandedCriticalHit(args[1],args[2],args[3],args[4] == 1);
+        event('test.critical-hit'); eventValue(value.location); eventValue(value.basicDamageMultiplier);
+        eventValue(value.maximumDamage ? 1 : 0); eventValue(value.ignoreArmor ? 1 : 0);
+        eventValue(value.halveArmor ? 1 : 0); eventValue(value.roundArmorUp ? 1 : 0);
+        eventValue(value.majorWoundOnPenetration ? 1 : 0); eventValue(value.doubleShockOnPenetration ? 1 : 0);
+        eventValue(value.temporaryCrippleOnPenetration ? 1 : 0); eventValue(value.dropHeld ? 1 : 0);
+        eventValue(value.dropWeapon ? 1 : 0); eventValue(value.forcedDoNothing ? 1 : 0);
+        eventValue(value.deafenOnPenetration ? 1 : 0); eventValue(value.appearanceLossOnPenetration);
+        eventValue(rpgExpandedCriticalArmor(value,5));
+    }
+    else if (verb == 2017)
+    { event('test.critical-cripple'); eventValue(rpgExpandedCriticalCrippleSeconds(args[1])); }
+    else if (verb == 2018)
+    {
+        local value = rpgExpandedCriticalHit(args[1],args[2],'cr',true);
+        event('test.critical-arithmetic'); eventValue(rpgExpandedCriticalDamage(value,7,12));
+        eventValue(rpgExpandedCriticalArmor(value,5));
+        eventValue(rpgExpandedCriticalShock(value,args[3],args[4] == 1));
+    }
     else return vhylAct(verb,args);
     event('test.burst-purity'); eventValue(rpgRandom.draws - draws); eventValue(rpgLedger.seconds - clock); return nil;
 }
