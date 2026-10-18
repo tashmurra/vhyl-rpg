@@ -9137,6 +9137,8 @@ def test(build):
     test_talent_communication_study(Session, talent_communication)
     talent_reaction = build.build('expanded-talent-reaction',ROOT / 'tests/fixtures/expanded-talent-reaction.t')
     test_talent_reaction(Session, talent_reaction, build.out)
+    talent_catalogue = build.build('expanded-talent-catalogue',ROOT / 'tests/fixtures/expanded-talent-catalogue.t')
+    test_talent_catalogue(Session, talent_catalogue)
     talent_check = build.build('expanded-talent-check',ROOT / 'tests/fixtures/expanded-talent-check.t')
     test_talent_check(Session, talent_check)
     test_talent_scores(Session, talent_check)
@@ -18525,5 +18527,34 @@ def test_talent_specialty_validation(Session, bundle):
         for code in (7107, 7108):
             s.action(2285, code)
         assert last(s, 'test.talent-invalid') == ['duplicate-check-talent', 0, 0]
+    finally:
+        s.close()
+
+
+def test_talent_catalogue(Session, bundle):
+    for code, cost in ((7200, 10), (7201, 20), (7202, 10), (7203, 10),
+                       (7204, 20), (7205, 20), (7206, 10)):
+        s = Session(bundle)
+        try:
+            for action in (code, 7207, 7000):
+                s.action(2285, action)
+            assert last(s, 'test.talent-catalogue') == [cost, 11, 80, 0, 0]
+            assert last(s, 'test.talent-reaction-preview') == [2, 'ready', 0, 0]
+        finally:
+            s.close()
+    for changes, expected in (([7210], [60, 17, 60, 0, 0]),
+                              ([7206, 7211], [10, 9, 100, 0, 0]),
+                              ([7206, 7212], [10, 11, 80, 0, 0])):
+        s = Session(bundle)
+        try:
+            for action in changes + [7207]:
+                s.action(2285, action)
+            assert last(s, 'test.talent-catalogue') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 7213)
+        assert last(s, 'test.talent-catalogue-error') == ['unapproved-trait', 0, 0]
     finally:
         s.close()

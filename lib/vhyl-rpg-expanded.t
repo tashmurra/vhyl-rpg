@@ -26,6 +26,8 @@ class RpgExpandedProfile: RpgLiteProfile
     ancestrySkillModifier(skill) { return 0; }
     studyTimePercent(skill) { return 100; }
     catalogueTalentSkills(id) { return []; }
+    catalogueTalentApplies(id,skill)
+    { return skill != nil && skill.ofKind(RpgLiteSkill) && holds(self.catalogueTalentSkills(id),skill.studyIdentity()); }
     catalogueTalentSkillModifier(skill) { return 0; }
     talentBonusInSkillScore() { return nil; }
     /* Character module supplies creation-budget assessment for cash exchanges. */
@@ -592,4 +594,5 @@ modify RpgExpandedProfile
 
 modify RpgLiteSkill
     studyIdentity() { return self.id; }
+    studySpecialty() { return self.specialty; }
 ;

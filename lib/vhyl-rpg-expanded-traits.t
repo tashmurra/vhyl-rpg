@@ -1342,26 +1342,74 @@ modify rpgExpandedTemplateTraits
 ;
 
 
+/** B90-B91 fixed catalogue additions. Each purchase needs campaign approval. */
+rpgExpandedTalentCatalogue: object
+    ids = ['artificer','outdoorsman','smooth-operator','animal-aptitude','commercial-aptitude',
+        'artistic-aptitude','plant-aptitude','medical-aptitude','numerical-aptitude','musical-aptitude']
+    price(id)
+    {
+        if (holds(['animal-aptitude','artistic-aptitude','plant-aptitude','musical-aptitude'],id)) return 5;
+        if (holds(['artificer','outdoorsman','commercial-aptitude','medical-aptitude','numerical-aptitude'],id)) return 10;
+        if (id == 'smooth-operator') return 15;
+        rpgExpandedReject('catalogue-talent-id');
+    }
+;
+class RpgExpandedCatalogueTalent: RpgLiteTrait
+    approved = nil
+    templatePurchaseKind = 'expanded-catalogue-talent'
+    creationCost()
+    {
+        if (!self.approved) rpgExpandedReject('unapproved-trait');
+        if (self.scope != nil || self.controlled || self.skills.length() != 0)
+            rpgExpandedReject('catalogue-talent-definition');
+        rpgInteger(self.level,1,4);
+        local price = rpgExpandedTalentCatalogue.price(self.id);
+        if (self.points != price) rpgExpandedReject('catalogue-talent-price');
+        return price * self.level;
+    }
+;
+rpgExpandedMakeCatalogueTalent(id,level,approved)
+{
+    local trait = new RpgExpandedCatalogueTalent(); trait.id = id; trait.labelId = id;
+    trait.level = level; trait.points = rpgExpandedTalentCatalogue.price(id); trait.approved = approved;
+    trait.creationCost(); return trait;
+}
+
 /** B89-B91 shared talent membership for learning and demonstrated reactions. */
 modify RpgExpandedProfile
     validateFeatures()
     {
         inherited();
-        foreach (local talentId in ['artificer','outdoorsman','smooth-operator'])
+        foreach (local talentId in rpgExpandedTalentCatalogue.ids)
         {
             local count = 0;
             foreach (local trait in self.traits)
                 if (trait.id == talentId)
                 {
                     if (!trait.ofKind(RpgLiteTrait)) rpgExpandedReject('catalogue-talent-definition');
-                    rpgInteger(trait.level,1,4); count += 1;
+                    rpgInteger(trait.level,1,4);
+                    if (trait.ofKind(RpgExpandedCatalogueTalent)) trait.creationCost();
+                    count += 1;
                 }
             if (count > 1) rpgExpandedReject('duplicate-check-talent');
         }
         return nil;
     }
+    catalogueTalentApplies(id,skill)
+    {
+        if (!inherited(id,skill)) return nil;
+        if (id != 'musical-aptitude' || skill.studyIdentity() != 'group-performance') return true;
+        return skill.studySpecialty() == 'conducting';
+    }
     catalogueTalentSkills(id)
     {
+        if (id == 'animal-aptitude') return ['animal-handling','falconry','packing','riding','teamster','veterinary'];
+        if (id == 'commercial-aptitude') return ['accounting','administration','economics','finance','gambling','market-analysis','merchant','propaganda'];
+        if (id == 'artistic-aptitude') return ['artist','jeweler','leatherworking','photography','sewing'];
+        if (id == 'plant-aptitude') return ['biology','farming','gardening','herb-lore','naturalist'];
+        if (id == 'medical-aptitude') return ['diagnosis','esoteric-medicine','first-aid','pharmacy','physician','physiology','psychology','surgery','veterinary'];
+        if (id == 'numerical-aptitude') return ['accounting','astronomy','cryptography','engineer','finance','market-analysis','mathematics','physics'];
+        if (id == 'musical-aptitude') return ['group-performance','musical-composition','musical-influence','musical-instrument','singing'];
         if (id == 'artificer') return ['armoury','carpentry','electrician','electronics-repair','engineer','machinist','masonry','mechanic','smith'];
         if (id == 'outdoorsman') return ['camouflage','fishing','mimicry','naturalist','navigation','survival','tracking'];
         if (id == 'smooth-operator') return ['acting','carousing','detect-lies','diplomacy','fast-talk','intimidation','leadership',
@@ -1376,14 +1424,15 @@ modify RpgExpandedProfile
     {
         if (!skill.ofKind(RpgLiteSkill)) return 0;
         local id = skill.studyIdentity(); local bonus = 0;
-        foreach (local talentId in ['artificer','outdoorsman','smooth-operator'])
-            if (holds(self.catalogueTalentSkills(talentId),id))
+        foreach (local talentId in rpgExpandedTalentCatalogue.ids)
+            if (self.catalogueTalentApplies(talentId,skill))
             {
                 local count = 0;
                 foreach (local trait in self.traits)
                     if (trait.id == talentId)
                     {
                         count += 1; rpgInteger(trait.level,1,4);
+                        if (trait.ofKind(RpgExpandedCatalogueTalent)) trait.creationCost();
                         if (trait.active && !trait.mitigated) bonus += trait.level;
                     }
                 if (count > 1) rpgExpandedReject('duplicate-check-talent');
@@ -1395,14 +1444,15 @@ modify RpgExpandedProfile
         local percent = inherited(skill);
         if (skill == nil || !skill.ofKind(RpgLiteSkill)) return percent;
         local id = skill.studyIdentity(); local level = 0;
-        foreach (local talentId in ['artificer','outdoorsman','smooth-operator'])
-            if (holds(self.catalogueTalentSkills(talentId),id))
+        foreach (local talentId in rpgExpandedTalentCatalogue.ids)
+            if (self.catalogueTalentApplies(talentId,skill))
             {
                 local count = 0;
                 foreach (local trait in self.traits)
                     if (trait.id == talentId)
                     {
                         count += 1; rpgInteger(trait.level,1,4);
+                        if (trait.ofKind(RpgExpandedCatalogueTalent)) trait.creationCost();
                         if (trait.active && !trait.mitigated && trait.level > level) level = trait.level;
                     }
                 if (count > 1) rpgExpandedReject('duplicate-study-talent');

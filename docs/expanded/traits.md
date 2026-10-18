@@ -1143,3 +1143,33 @@ The fixture covers both levels, group-size boundaries, reaction ownership,
 exceptions and missing facts before randomness. It remains unrun. Automatic
 scene membership and integration with every specialized skill operation remain
 pending, so the inventory entry remains partial.
+
+## Additional catalogue talents
+
+Use `rpgExpandedMakeCatalogueTalent(id, level, approved)` to create a fresh
+purchase, then install it in the character's owned `traits` list. Approval records
+the campaign's permission; levels are 1–4. Prices are per level (full-2008,
+B89–B91). Skill memberships are fixed in `catalogueTalentSkills(id)`.
+
+| ID | Points per level | Eligible reaction audience, subject to demonstrated and appreciated aptitude |
+|---|---:|---|
+| `animal-aptitude` | 5 | Animals |
+| `artistic-aptitude` | 5 | Buyers or critics of the subject's artwork |
+| `commercial-aptitude` | 10 | Business counterparts |
+| `medical-aptitude` | 10 | Current or former patients |
+| `musical-aptitude` | 5 | Listeners or critics of the subject's music |
+| `numerical-aptitude` | 10 | Engineers or scientists |
+| `plant-aptitude` | 5 | Gardeners or sentient plants |
+
+The existing three talent IDs remain supported. Musical aptitude includes only
+the conducting specialty of group performance; other included skills receive
+their usual specialty coverage. `catalogueTalentApplies(id, skill)` is the shared
+predicate for skill, study and reaction eligibility. Optional specialties retain
+the parent's required specialty through `studySpecialty()`.
+
+Overlapping catalogue talents add skill bonuses, including totals above four.
+Study uses the greatest applicable level, so reductions do not stack. Reaction
+contexts still select one demonstrated talent and require authored audience facts;
+combining several talent reaction claims remains unsupported. These purchases do
+not yet have template-row reconstruction support. Custom talent groups and
+source-skill default transfers remain pending. Fixtures are authored but unrun.

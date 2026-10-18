@@ -1983,9 +1983,9 @@ class RpgExpandedTalentReactionContext: RpgLiteSocialContext
         local count = 0;
         foreach (local trait in profile.traits) if (trait.id == self.talent.id) count += 1;
         if (count != 1) rpgExpandedReject('talent-reaction-purchase');
-        rpgInteger(self.talent.level,1,4);
+        rpgInteger(self.talent.level,1,4); self.talent.creationCost();
         if (self.demonstratedSkill == nil || !self.demonstratedSkill.ofKind(RpgLiteSkill)
-            || !holds(skills,self.demonstratedSkill.studyIdentity())) rpgExpandedReject('talent-reaction-skill');
+            || !profile.catalogueTalentApplies(self.talent.id,self.demonstratedSkill)) rpgExpandedReject('talent-reaction-skill');
         local bonus = self.talent.active && !self.talent.mitigated && self.observedPerformance
             && self.eligibleAudience && self.impressed
             && !(self.talent.id == 'smooth-operator' && self.manipulatingObserver) ? self.talent.level : 0;

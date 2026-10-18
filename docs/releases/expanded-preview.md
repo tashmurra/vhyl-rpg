@@ -1379,3 +1379,9 @@ Boundary and pure repeated-assessment fixtures are authored but unrun.
 Catalogue talent purchase validation now runs for the entire expanded profile,
 so an unrelated skill check cannot bypass duplicate-purchase rejection. Optional
 specialty skill and study-rate fixtures were added; checks remain paused.
+
+Seven additional catalogue talent groups now have approved purchase factories,
+fixed prices and shared skill/study/reaction membership. Musical group performance
+is restricted to conducting. Overlap adds skill bonuses but uses only the strongest
+study reduction. Catalogue, reaction-preview, overlap and specialty assertions
+are authored but unrun; template reconstruction and custom groups remain pending.

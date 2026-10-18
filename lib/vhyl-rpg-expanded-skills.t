@@ -5,6 +5,7 @@
 class RpgExpandedSkill: RpgLiteSkill
     validateDefinition() { return nil; }
     studyIdentity() { rpgExpandedValidateSkill(self); return self.optionalParent == nil ? self.id : self.optionalParent.id; }
+    studySpecialty() { rpgExpandedValidateSkill(self); return self.optionalParent == nil ? self.specialty : self.optionalParent.specialty; }
     defaults = []
     wildcard = nil
     prerequisite = nil
