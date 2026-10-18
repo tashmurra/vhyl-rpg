@@ -27,6 +27,19 @@ modify PositionTestAction
         if (code == 80) { positionHero.posture = 'crouching'; pathRequest.move = 3; }
         if (code == 81) pathRequest.finalFacing = 1;
         if (code == 82) pathRequest.maneuver = 'committed-attack';
+        if (code == 84)
+        {
+            pathFirst.kind = 'small-jump'; pathFirst.actorSize = 0; pathFirst.obstacleSize = -3;
+            pathFirst.jumpApproved = true; pathFirst.jumpEvidence = 'The only obstruction is an ordinary small obstacle';
+            positionEastCell.severeObstruction = true;
+        }
+        if (code == 85) pathFirst.obstacleSize = -2;
+        if (code == 86) pathFirst.significant = true;
+        if (code == 87) pathRequest.maneuver = 'move-attack';
+        if (code == 88) pathFirst.jumpApproved = nil;
+        if (code == 89) pathFirst.obstacleSize = -4;
+        if (code == 90) { pathFirst.actorSize = -1; pathFirst.obstacleSize = -3; }
+        if (code == 91) pathRequest.move = 5;
         local value = pathRequest.assess();
         event('test.tactical-path'); eventValue(value.status); eventValue(value.reason);
         eventValue(value.destination == nil ? nil : value.destination.q);

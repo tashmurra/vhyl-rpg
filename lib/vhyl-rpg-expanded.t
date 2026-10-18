@@ -350,3 +350,10 @@ class RpgExpandedJumpPositionPlan: object
 modify RpgExpandedProfile
     jumpPositionRequired() { return nil; }
 ;
+
+/** B352 ordinary obstacle threshold; significant hazards use the full procedure. */
+rpgExpandedCanJumpAutomatically(actorSize, obstacleSize, significant)
+{
+    rpgInteger(actorSize,-20,20); rpgInteger(obstacleSize,-20,20);
+    return !significant && obstacleSize <= actorSize - 3;
+}

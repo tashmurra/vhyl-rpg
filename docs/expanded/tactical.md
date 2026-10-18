@@ -407,3 +407,28 @@ rejected rather than instantly placed; multi-turn travel remains pending.
 `expanded-jump-placement.t` covers success, prone and critical failure, blocked
 terrain, occupied cells, missing plans, rollback, undo and saved replay. Assertions
 are authored, unrun while checks are paused.
+
+## Small-obstacle jumps in a path
+
+Set a `RpgExpandedPathLeg` to `kind = 'small-jump'` for the B352 automatic
+small-obstacle procedure. Supply `actorSize`, `obstacleSize`, `jumpApproved` and
+`jumpEvidence`; set `significant` when the obstacle is a deliberate hazard.
+The author must establish the current character's size and that the described
+small obstacle is the obstruction being crossed. The obstacle must be at least
+three size steps smaller. Significant or larger obstacles require the full jump
+procedure. This entry is permitted only during Move, from standing or crouching,
+and currently excludes deep-water jumping.
+
+`RpgExpandedSmallJumpEntry` adds two half-points (one movement point) to the
+ordinary adjacent-entry cost. Other terrain, crouching and ally costs remain
+additive. Do not also count this same obstacle in `minorObstructions`; that field
+represents additional obstructions. A terrain `severeObstruction` flag can be
+satisfied by this explicitly approved small jump, but solid barriers and unknown
+cells remain blocked. The ordinary path allowance and final-facing rules still
+apply. No accuracy roll or separate concentration/launch action is charged.
+
+This extends pure path assessment; committing the complete path remains separate.
+`test_tactical_small_jumps` covers the exact size boundary, smaller obstacles,
+actor-relative size, significant hazards, Move restriction, approval, crouching,
+deep water and preview purity. Assertions are authored, unrun while checks remain
+paused.

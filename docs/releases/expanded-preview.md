@@ -1011,3 +1011,8 @@ success/failure endpoints, including the prone failure footprint. Both outcomes
 are checked before dice; mapped profiles require a placement plan. Vertical and
 multi-second enhanced-jump placement remain unsupported. Terrain, occupancy,
 rollback, undo and saved-replay fixtures are authored, unrun.
+
+Small ordinary obstacles now have a pure automatic-jump size test and a tactical
+path entry costing one extra movement point. The entry requires Move and rejects
+significant hazards, missing approval and unsupported posture/water combinations.
+Boundary, additive-cost and purity assertions are authored, unrun.

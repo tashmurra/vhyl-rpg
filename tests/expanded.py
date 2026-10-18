@@ -9278,6 +9278,7 @@ def test(build):
     fresh(Session, tactical, test_tactical_movement_values)
     paths = build.build('expanded-tactical-path', ROOT / 'tests/fixtures/expanded-tactical-path.t')
     test_tactical_paths(Session, paths)
+    test_tactical_small_jumps(Session, paths)
     positions = build.build('expanded-tactical-positions', ROOT / 'tests/fixtures/expanded-tactical-positions.t')
     fresh(Session, positions, test_tactical_positions)
     fresh(Session, positions, test_tactical_footprints)
@@ -15649,3 +15650,30 @@ def test_jump_placement(Session, bundle, out):
         assert state(s) == [3,0,None,1,3,2]
     finally:
         s.close()
+
+
+def test_tactical_small_jumps(Session, bundle):
+    for changes, points in (((),6),((89,),6),((80,91),8)):
+        s = Session(bundle)
+        try:
+            for code in (70,84,*changes):
+                s.action(2278,code)
+            for _ in range(2):
+                s.action(2278,83)
+                assert last(s,'test.tactical-path') == ['ready',None,2,0,0,points,10,2,None,None,0,0]
+            s.action(2279)
+            assert last(s,'test.tactical-position-state')[4:7] == [0,0,0]
+        finally:
+            s.close()
+    for change, reason in ((85,'small-jump-full-procedure-required'),
+                           (86,'small-jump-full-procedure-required'),
+                           (87,'small-jump-move-required'),(88,'small-jump-author-facts'),
+                           (90,'small-jump-full-procedure-required'),(76,'small-jump-posture-or-water')):
+        s = Session(bundle)
+        try:
+            for code in (70,84,change):
+                s.action(2278,code)
+            assert last(s,'test.tactical-path')[:2] == ['blocked',reason]
+            assert last(s,'test.tactical-path')[-2:] == [0,0]
+        finally:
+            s.close()

@@ -168,6 +168,8 @@ class RpgExpandedHexEntry: object
     footingEvidence = nil
     stairs = nil
     water = 'none'
+    obstructionReason() { return self.severeObstruction ? 'tactical-jump-required' : nil; }
+    extraEntryHalfPoints() { return 0; }
     assess()
     {
         local value = new RpgExpandedMovementResult();
@@ -192,14 +194,14 @@ class RpgExpandedHexEntry: object
             rpgExpandedReject('tactical-terrain-target');
         if (terrainResult.status != 'ready') { value.reason = terrainResult.reason; return value; }
         if (self.posture == 'sitting') { value.reason = 'tactical-sitting'; return value; }
-        if (self.severeObstruction) { value.reason = 'tactical-jump-required'; return value; }
+        value.reason = self.obstructionReason(); if (value.reason != nil) return value;
         if (self.enemyPresent) { value.reason = 'tactical-evasion-required'; return value; }
         if (self.travel == 'forward' && facingResult.side != 'front')
         { value.reason = 'tactical-forward-direction'; return value; }
         if (self.maneuver == 'committed-attack' && facingResult.side != 'front')
         { value.reason = 'tactical-committed-direction'; return value; }
         value.heading = self.travel == 'forward' ? facingResult.heading : self.facing;
-        value.halfPoints = self.travel == 'forward' ? 2 : 4;
+        value.halfPoints = (self.travel == 'forward' ? 2 : 4) + self.extraEntryHalfPoints();
         if (self.posture == 'crouching') value.halfPoints += 1;
         if (self.posture == 'kneeling' || self.posture == 'crawling') value.halfPoints += 4;
         value.halfPoints += self.minorObstructions * 2;
@@ -667,7 +669,7 @@ class RpgExpandedMovementPath: object
                 if (turn.status != 'ready') { value.reason = turn.reason; return value; }
                 spent += turn.halfPoints; paidTurns += turn.halfPoints; heading = turn.heading;
             }
-            else if (leg.kind == 'entry')
+            else if (leg.kind == 'entry' || leg.kind == 'small-jump')
             {
                 if (whole) { value.reason = 'tactical-whole-allowance-path'; return value; }
                 local occupancy = self.figure.map.occupancy(leg.destination);
@@ -680,7 +682,12 @@ class RpgExpandedMovementPath: object
                         allyCount += 1;
                     }
                 local cell = self.figure.map.cellAt(leg.destination);
-                local entry = new RpgExpandedHexEntry();
+                local entry = leg.kind == 'small-jump' ? new RpgExpandedSmallJumpEntry() : new RpgExpandedHexEntry();
+                if (leg.kind == 'small-jump')
+                {
+                    entry.actorSize = leg.actorSize; entry.obstacleSize = leg.obstacleSize;
+                    entry.significant = leg.significant; entry.approved = leg.jumpApproved; entry.evidence = leg.jumpEvidence;
+                }
                 entry.origin = current; entry.target = leg.destination; entry.facing = heading;
                 entry.maneuver = self.maneuver; entry.travel = leg.travel;
                 entry.posture = self.figure.profile.posture; entry.terrain = cell;
@@ -813,4 +820,33 @@ class RpgExpandedJumpPlacement: RpgExpandedJumpPositionPlan
         self.figure.jumpPlacements = self.figure.jumpPlacements + [self];
         value.status = 'resolved'; self.result = value; return value;
     }
+;
+
+
+/** B352 automatic small-obstacle jump; no accuracy roll or separate turn. */
+class RpgExpandedSmallJumpEntry: RpgExpandedHexEntry
+    actorSize = 0
+    obstacleSize = 0
+    significant = nil
+    approved = nil
+    evidence = nil
+    obstructionReason()
+    {
+        rpgInteger(self.actorSize,-20,20); rpgInteger(self.obstacleSize,-20,20);
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'small-jump-author-facts';
+        if (self.maneuver != 'move') return 'small-jump-move-required';
+        if (!holds(['standing','crouching'],self.posture) || self.water == 'deep')
+            return 'small-jump-posture-or-water';
+        if (!rpgExpandedCanJumpAutomatically(self.actorSize,self.obstacleSize,self.significant))
+            return 'small-jump-full-procedure-required';
+        return nil;
+    }
+    extraEntryHalfPoints() { return 2; }
+;
+modify RpgExpandedPathLeg
+    actorSize = 0
+    obstacleSize = 0
+    significant = nil
+    jumpApproved = nil
+    jumpEvidence = nil
 ;

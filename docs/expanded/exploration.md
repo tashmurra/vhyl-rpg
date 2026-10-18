@@ -1245,3 +1245,13 @@ successful and prone-failure destinations. Launch preflights both outcomes and
 commits the selected location in the same transaction as its roll and any fall
 injury. Horizontal placement retains the existing figure and facing. Vertical
 placement, enhanced multi-second travel and interruption remain unsupported.
+
+### Ordinary small obstacles
+
+`rpgExpandedCanJumpAutomatically(actorSize, obstacleSize, significant)` evaluates
+the B352 automatic-jump threshold. It returns true only for an ordinary obstacle
+at least three size steps smaller than the character. Supply current size facts
+and mark deliberate hazards significant; this helper does not move the actor.
+During combat, use the tactical
+[small-obstacle path entry](tactical.md#small-obstacle-jumps-in-a-path), which
+requires Move and adds one movement point within the existing allowance.
