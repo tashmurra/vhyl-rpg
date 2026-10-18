@@ -244,7 +244,9 @@
         "tests/expanded.py::test_critical_defense_failures",
         "tests/expanded.py::test_critical_readiness_persistence",
         "tests/expanded.py::test_shield_ready",
-        "tests/expanded.py::test_shield_ready_health"
+        "tests/expanded.py::test_shield_ready_health",
+        "tests/expanded.py::test_shield_ready_routes",
+        "tests/expanded.py::test_shield_ready_persistence"
       ],
       "validation_note": "Owned failure and battle Ready recovery authored, including shared time and expanded health permission. Fixtures unrun; automatic attack dispatch remains pending."
     },

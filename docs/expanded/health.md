@@ -24,6 +24,13 @@ and integrated repeated-wound/resistance cases.
 scaling and rejection before injury or randomness is spent. These cases have not
 run while checks are paused.
 
+Critical-hit doubled shock remains assessment-only. The existing battle result
+retains aggregate counter-injury, not per-wound critical effects. Committed support
+must preserve which wounds survive the actor's turn boundary, apply the critical
+cap without letting a later ordinary wound reduce an existing penalty, and retain
+high-pain immunity. Merely doubling the stored shock value would also double
+unrelated earlier injury and would not satisfy this contract.
+
 Broader detailed injury, anatomy exceptions, medical care, recovery
 and fear remain pending. This option does not enable a complete expanded injury profile;
 other wound behavior remains the explicitly selected existing foundation behavior.

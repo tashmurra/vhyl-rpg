@@ -554,3 +554,12 @@ only for shield recovery. The [shield fixture](../../tests/fixtures/expanded-shi
 and `test_shield_ready` / `test_shield_ready_health` cover weaponless recovery,
 blocked repeated actions, rollback, undo, one shared battle second, historical
 failure replay and expanded fatigue permission. Fixtures are authored and unrun.
+
+
+Shield recovery also has shared parser, structured-action and dialogue routes in
+the same fixture. `test_shield_ready_routes` exercises rollback and undo on each
+route, for healthy and exhausted actors, and compares the final readiness, clock,
+random draws and permission receipts. `test_shield_ready_persistence` saves before
+recovery, immediately afterward, and after the other participant's turn; a new
+process continues the same encounter without repeating permission or time costs.
+These additional fixtures are authored and unrun while checks remain paused.

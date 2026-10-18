@@ -1014,6 +1014,80 @@ def test_shield_ready_health(s):
     assert shield_ready_state(s) == [0,1,0,0,0,1,0]
 
 
+def test_shield_ready_routes(Session,bundle):
+    for exhausted in [False,True]:
+        outcomes = []
+        for route in ['parser','structured','dialogue']:
+            s = Session(bundle)
+            try:
+                s.action(2040,0)
+                if exhausted:
+                    s.action(2040,5); s.action(2040,8)
+                initial = shield_ready_state(s)
+                def perform(operation):
+                    if route == 'parser':
+                        s.command({'restore':'restore grip','rollback':'rollback grip',
+                                   'wait':'wait opponent'}[operation])
+                    elif route == 'structured':
+                        s.action({'restore':2042,'rollback':2043,'wait':2044}[operation])
+                    else:
+                        s.action(80,'shield-plan'); s.select(operation)
+                perform('rollback')
+                assert shield_ready_state(s) == initial
+                perform('restore')
+                expected = [1,2,0,0,3 if exhausted else 0,1,1 if exhausted else 0]
+                assert shield_ready_state(s) == expected
+                assert last(s,'test.shield-ready-operation') == ['resolved',None,'ready']
+                s.command('undo')
+                assert shield_ready_state(s) == initial
+                perform('restore'); perform('wait')
+                expected[1:4] = [1,1,1]
+                assert shield_ready_state(s) == expected
+                perform('restore')
+                assert last(s,'test.shield-ready-operation') == ['blocked','shield-already-ready',None]
+                assert shield_ready_state(s) == expected
+                outcomes.append(expected)
+            finally:
+                s.close()
+        assert outcomes[0] == outcomes[1] == outcomes[2]
+
+
+def test_shield_ready_persistence(Session,bundle,out):
+    for exhausted in [False,True]:
+        for stage in [0,1,2]:
+            path = out / f'expanded-shield-ready-{exhausted}-{stage}.zsave'
+            first = Session(bundle)
+            try:
+                first.action(2040,0)
+                if exhausted:
+                    first.action(2040,5); first.action(2040,8)
+                if stage >= 1:
+                    first.action(2042)
+                if stage == 2:
+                    first.action(2044)
+                saved = shield_ready_state(first)
+                first.command(f':save {path}')
+            finally:
+                first.close()
+            second = Session(bundle)
+            try:
+                second.command(f':restore {path}\n@2041')
+                assert shield_ready_state(second) == saved
+                second.action(2040,7)
+                if stage == 0:
+                    second.action(2042)
+                if stage < 2:
+                    second.action(2044)
+                expected = [1,1,1,1,3 if exhausted else 0,1,1 if exhausted else 0]
+                assert shield_ready_state(second) == expected
+                second.action(2040,4)
+                second.action(2042)
+                assert last(second,'test.shield-ready-operation') == ['blocked','shield-already-ready',None]
+                assert shield_ready_state(second) == expected
+            finally:
+                second.close()
+
+
 def critical_readiness_state(s):
     s.action(2032)
     return last(s,'test.critical-readiness-state')
@@ -4966,6 +5040,8 @@ def test(build):
     shield_ready = build.build('expanded-shield-ready',ROOT / 'tests/fixtures/expanded-shield-ready.t')
     fresh(Session,shield_ready,test_shield_ready)
     fresh(Session,shield_ready,test_shield_ready_health)
+    test_shield_ready_routes(Session,shield_ready)
+    test_shield_ready_persistence(Session,shield_ready,build.out)
     combat_drop = build.build('expanded-combat-drop',ROOT / 'tests/fixtures/expanded-combat-drop.t')
     fresh(Session,combat_drop,test_critical_drop_transactions)
     fresh(Session,combat_drop,test_critical_readiness)
