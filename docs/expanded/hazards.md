@@ -805,3 +805,39 @@ already represent received radiation and are not divided again. Replaying a
 committed exposure retains the original dose even if the trait later changes.
 `test_radiation_traits` covers the nine factors and costs, inactive and mitigated
 traits, exact fractions, replay and modifier rejection. It remains unrun.
+
+
+### Preventive medication
+
+`RpgExpandedRadiationPreventive` is an inventory item with technology level seven
+and a reference price of 500 per dose (`full-2008`, B436). Set an item ID, quantity
+and authored weight. Use the equipment acquisition interface when purchasing it;
+administering an already-owned dose does not charge money again.
+
+`RpgExpandedRadiationPrevention` records an administration. Supply a unique `id`,
+`profile`, owned `medicine`, `approved` and concrete `administrationEvidence`.
+The evidence confirms that administration is possible and has occurred at the
+current shared clock; the source specifies no administration action duration.
+The operation consumes exactly one dose, removes an empty stack from inventory,
+and retains the receipt in `profile.radiationPreventions`. Preview spends nothing.
+Apply inside an engine action transaction. Duplicate ownership, altered receipt
+bindings, unavailable supplies and a dead patient are rejected or blocked.
+
+New shielded exposures receive a further divisor of two from 3,600 through
+10,800 elapsed seconds, inclusive. The exposure result records this factor as
+`preventiveDivisor`; the final dose also incorporates shielding and trait
+resistance. Direct received-dose records are not reduced again. Existing doses
+and their recovery dates remain unchanged. Expiry is derived from the clock,
+so no timer callback or second resource ledger is required.
+
+An administration while an earlier administration is at most three hours old is
+blocked as an unsupported overlap, even during its first hour. This is an explicit
+implementation restriction, not a claimed reference prohibition. Replay retains
+the original timestamp and never consumes additional stock. Procurement and
+administration of a new dose must be separate from replaying an old receipt.
+
+`tests/fixtures/expanded-radiation-prevention.t` is the minimal integration fixture.
+`test_radiation_prevention` specifies both timing edges, exact single-dose use,
+preview, rollback, undo, nonretroactivity and cross-process saved continuation.
+These cases are authored and unrun. Chelation, advanced resistance treatment,
+syndrome execution and broader radiation treatment remain incomplete.

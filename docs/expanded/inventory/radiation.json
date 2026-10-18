@@ -289,9 +289,12 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At technology seven, a 500-unit preventive treatment taken one through three hours before exposure halves effective dose; it is not a retroactive eraser of absorbed radiation.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_prevention"
+      ],
+      "implementation": "Owned administration consumes one existing inventory dose, retains its timestamp, and halves new exposure from one through three hours afterward. The item provides the reference unit price; normal acquisition handles payment. Repeated overlapping administrations are rejected. Fixtures for boundaries, inventory, preview, rollback, undo and saved continuation are authored and unrun."
     },
     {
       "id": "radiation-early-chelation",

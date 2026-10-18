@@ -1559,6 +1559,7 @@ class RpgExpandedShieldedRadiationResult: RpgExpandedResult
     wholeRads = 0
     fractional = nil
     resistanceDivisor = 1
+    preventiveDivisor = 1
     dose = nil
 ;
 
@@ -1604,6 +1605,8 @@ class RpgExpandedRadiationExposure: object
         value.resistanceDivisor = self.profile.radiationDivisor();
         local quantity = rpgExpandedDivideRadiation(rpgExpandedRadQuantity(value.numerator,value.denominator),
             value.resistanceDivisor);
+        value.preventiveDivisor = self.profile.radiationPreventiveDivisor();
+        quantity = rpgExpandedDivideRadiation(quantity,value.preventiveDivisor);
         value.dose.profile = self.profile; value.dose.source = self.source;
         value.dose.rads = quantity.numerator; value.dose.radDenominator = quantity.denominator;
         value.dose.approved = self.approved; value.dose.evidence = self.evidence;
@@ -1698,3 +1701,91 @@ rpgExpandedDivideRadiation(quantity, divisor)
     if (normalized.denominator > 20000000 / multiplier) rpgExpandedReject('radiation-quantity-capacity');
     return rpgExpandedRadQuantity(normalized.numerator / left,normalized.denominator * multiplier);
 }
+
+/** B436 preventive medication. Price is per dose; authors supply package weight. */
+class RpgExpandedRadiationPreventive: RpgLiteItem
+    cost = 500
+    techLevel = 7
+;
+
+modify RpgExpandedProfile
+    radiationPreventions = []
+    radiationPreventiveDivisor()
+    {
+        local active = 0;
+        foreach (local treatment in self.radiationPreventions)
+        {
+            treatment.validateReceipt();
+            local elapsed = rpgLedger.seconds - treatment.administeredAt;
+            if (elapsed >= 3600 && elapsed <= 10800) active += 1;
+        }
+        if (active > 1) rpgExpandedReject('radiation-prevention-overlap');
+        return active == 1 ? 2 : 1;
+    }
+;
+
+/** An authored administration consumes one owned dose; purchase remains separate. */
+class RpgExpandedRadiationPrevention: object
+    id = nil
+    profile = nil
+    medicine = nil
+    approved = nil
+    administrationEvidence = nil
+    administeredAt = nil
+    boundDefinition = nil
+    result = nil
+    definition() { return [self.id,self.profile,self.medicine,self.approved,self.administrationEvidence]; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || self.administeredAt == nil)
+            rpgExpandedReject('radiation-prevention-uncommitted');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('radiation-prevention-binding');
+        if (!holds(self.profile.radiationPreventions,self)) rpgExpandedReject('radiation-prevention-history');
+        rpgInteger(self.administeredAt,0,rpgLedger.seconds); return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.medicine == nil || !self.medicine.ofKind(RpgExpandedRadiationPreventive))
+            rpgExpandedReject('radiation-prevention-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        rpgExpandedValidate(self.profile);
+        if (!self.approved || self.administrationEvidence == nil || self.administrationEvidence == '')
+        { value.reason = 'radiation-prevention-administration-required'; return value; }
+        if (self.profile.dead) { value.reason = 'radiation-prevention-patient-dead'; return value; }
+        rpgInteger(self.medicine.techLevel,7,12); rpgInteger(self.medicine.quantity,0,1000000);
+        if (!holds(self.profile.equipment,self.medicine) || self.medicine.quantity == 0
+            || !self.medicine.usableBy(self.profile))
+        { value.reason = 'radiation-prevention-supply'; return value; }
+        local count = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            foreach (local item in owner.equipment) if (item == self.medicine) count += 1;
+        if (count != 1) rpgExpandedReject('radiation-prevention-supply-ownership');
+        foreach (local prior in self.profile.radiationPreventions)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id) rpgExpandedReject('radiation-prevention-duplicate');
+            /* Repeated-dose pharmacology is unspecified; reject overlapping windows. */
+            if (rpgLedger.seconds - prior.administeredAt <= 10800)
+            { value.reason = 'radiation-prevention-overlap'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.medicine.quantity -= 1;
+        if (self.medicine.quantity == 0)
+        {
+            local remaining = [];
+            foreach (local item in self.profile.equipment) if (item != self.medicine) remaining = remaining + [item];
+            self.profile.equipment = remaining;
+        }
+        self.administeredAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.profile.radiationPreventions = self.profile.radiationPreventions + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

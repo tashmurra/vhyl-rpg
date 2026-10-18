@@ -231,3 +231,10 @@ Radiation resistance now prices all nine reference tiers and applies their dose
 divisors after shielding. Received doses retain exact fractions and their original
 receipt when traits change later. Modifier combinations and advancement remain
 unsupported; the new integration fixture is authored and unrun.
+
+
+Preventive radiation medication now uses the shared inventory and clock: one
+owned dose grants the reference reduction during its one-to-three-hour window.
+Receipts prevent duplicate consumption and preserve already-recorded exposure.
+Overlapping administrations are explicitly unsupported. Boundary and persistence
+fixtures are authored and unrun; other radiation treatments remain pending.

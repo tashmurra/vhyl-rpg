@@ -8894,6 +8894,8 @@ def test(build):
     test_fractional_radiation(Session, radiation, build.out)
     radiation_traits = build.build('expanded-radiation-traits', ROOT / 'tests/fixtures/expanded-radiation-traits.t')
     test_radiation_traits(Session, radiation_traits)
+    radiation_prevention = build.build('expanded-radiation-prevention', ROOT / 'tests/fixtures/expanded-radiation-prevention.t')
+    test_radiation_prevention(Session, radiation_prevention, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10001,5 +10003,68 @@ def test_radiation_traits(Session, bundle):
         s.action(2291, 10, 0)
         s.action(2295)
         assert last(s, 'test.radiation-ratio') == [0, 1, 0, 0, 0]
+    finally:
+        s.close()
+
+
+def test_radiation_prevention(Session, bundle, out):
+    # B436: inclusive one-to-three-hour preventive window, no retroactive erasure.
+    for elapsed, expected in [(0, 100), (3599, 100), (3600, 50),
+                              (7200, 50), (10800, 50), (10801, 100)]:
+        s = Session(bundle)
+        try:
+            s.action(2291, 20, 0)
+            s.action(2291, 30, elapsed)
+            s.action(2291, 10, 0)
+            s.action(2295)
+            assert last(s, 'test.radiation-ratio') == [expected, 1, 1, elapsed, 0]
+            s.action(2291, 20, 0)  # Reusing administration never consumes a second dose.
+            s.action(2291, 31, 0)
+            assert last(s, 'test.radiation-prevention') == [1, 1, 2 if 3600 <= elapsed <= 10800 else 1, 1, elapsed, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2291, 21, 0)
+        s.action(2291, 22, 0)
+        s.action(2291, 31, 0)
+        assert last(s, 'test.radiation-prevention') == [2, 0, 1, 1, 0, 0]
+        s.action(2291, 20, 0)
+        s.command('undo')
+        s.action(2291, 31, 0)
+        assert last(s, 'test.radiation-prevention') == [2, 0, 1, 1, 0, 0]
+        s.action(2291, 10, 0)  # Dose before administration remains unchanged.
+        s.action(2291, 20, 0)
+        s.action(2291, 24, 0)
+        assert last(s, 'test.radiation-prevention-result') == ['blocked', 'radiation-prevention-overlap']
+        s.action(2291, 30, 10801)
+        s.action(2291, 24, 0)
+        s.action(2291, 31, 0)
+        assert last(s, 'test.radiation-prevention') == [0, 2, 1, 0, 10801, 0]
+        s.action(2291, 30, 3600)
+        s.action(2291, 10, 0)
+        s.action(2295)
+        assert last(s, 'test.radiation-ratio') == [100, 1, 1, 14401, 0]
+    finally:
+        s.close()
+
+    path = out / 'expanded-radiation-prevention.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2291, 20, 0)
+        s.action(2291, 30, 3599)
+        s.command(f':save {path}\n@2295')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2295')
+        s.action(2291, 20, 0)
+        s.action(2291, 30, 1)
+        s.action(2291, 10, 0)
+        s.action(2295)
+        assert last(s, 'test.radiation-ratio') == [50, 1, 1, 3600, 0]
+        s.action(2291, 31, 0)
+        assert last(s, 'test.radiation-prevention') == [1, 1, 2, 1, 3600, 0]
     finally:
         s.close()
