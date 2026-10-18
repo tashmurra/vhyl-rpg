@@ -433,5 +433,18 @@ act(verb,args)
         }
         return nil;
     }
+    if (verb == 1940)
+    {
+        local time = rpgLedger.seconds; local draws = rpgRandom.draws;
+        local value = rpgExpandedExhaustionOutcome(args[1],args[2],args[3] == 1,args[4],args[5],args[6],args[7],args[8]);
+        event('test.exhaustion-outcome'); eventValue(value.allowed ? 1 : 0); eventValue(value.incapacitated ? 1 : 0);
+        eventValue(value.unconscious ? 1 : 0); eventValue(value.cardiacTrigger ? 1 : 0); eventValue(value.reason);
+        eventValue(value.check == nil ? 0 : 1); eventValue(value.healthCheck == nil ? 0 : 1);
+        eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws); return nil;
+    }
+    if (verb == 1941)
+    {
+        event('test.low-fatigue-value'); eventValue(rpgExpandedLowFatigueValue(args[1],args[2],args[3])); return nil;
+    }
     return vhylAct(verb,args);
 }

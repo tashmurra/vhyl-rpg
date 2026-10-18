@@ -1003,3 +1003,40 @@ failed attempt, after revival and after death. Continuation preserves attempted
 care, elapsed time, shared fatigue/injury and random state. Historical successful
 and failed treatment requests must not reroll or recharge time. All fixtures are
 unrun while checks are paused; no passing persistence claim is made.
+
+
+## Expanded exhaustion assessments
+
+`rpgExpandedExhaustionOutcome(remaining, capacity, collapsed, purpose,
+willScore, willRoll, healthScore, healthRoll)` assesses B426 using supplied rolls.
+Purpose is `action`, `talk`, `rest` or `do-nothing`. Positive remaining fatigue
+permits the action without this check. At zero or less, a new action needs a Will
+check; talking, resting and doing nothing are exempt until an existing collapse
+prevents activity. A previously collapsed actor cannot obtain another effort roll
+while fatigue remains nonpositive. Resting or doing nothing remains available.
+
+Ordinary failure returns `incapacitated` without declaring unconsciousness.
+Critical failure additionally assesses the supplied HT roll; failure returns
+`cardiacTrigger`. This flag is a trigger for the owned cardiac condition, whose
+immunity check must still run. It does not itself apply cardiac collapse or start
+a deadline. At negative full fatigue capacity, the outcome instead identifies
+unconsciousness without an effort roll. Scores and rolls are only required for
+checks that the selected branch actually uses.
+
+`rpgExpandedLowFatigueValue(value, remaining, capacity)` supplies the B426 halving
+arithmetic for Move, Dodge or effective ST: strictly below one-third remaining
+fatigue, halve and round up. It must not be used to reduce HP, damage or other
+ST-based derived quantities. This numeric helper grants no permission to act;
+a deeply exhausted actor can have a computed movement value while unable to use it.
+
+Both helpers are pure. They do not mutate collapse, resolve a cardiac trigger,
+spend time or draw randomness. Existing Lite action dispatch remains unchanged.
+A complete expanded action path still needs owned effort attempts, recovery of
+collapse state, cardiac commitment and parser/structured/dialogue integration.
+Consequently these assessments are partial source coverage, not an implemented
+replacement for `rpgLiteCanAct`.
+
+`test_exhaustion_assessments` records positive-fatigue exemptions, ordinary and
+critical effort failures, HT resistance, high-score automatic failure, prevention
+of repeated efforts during collapse, negative-limit unconsciousness and exact
+one-third rounding boundaries. Fixtures remain unrun while checks are paused.

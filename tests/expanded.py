@@ -896,6 +896,29 @@ def test_swimming_assessments(s):
         assert last(s, 'test.lifesaving') == expected
 
 
+def test_exhaustion_assessments(s):
+    for remaining, capacity, collapsed, purpose, will, roll, health, health_roll, expected in [
+            (1,10,0,'action',0,0,0,0,[1,0,0,0,None,0,0,0,0]),
+            (1,10,1,'action',0,0,0,0,[1,0,0,0,None,0,0,0,0]),
+            (0,10,0,'talk',0,0,0,0,[1,0,0,0,None,0,0,0,0]),
+            (-2,10,0,'rest',0,0,0,0,[1,0,0,0,None,0,0,0,0]),
+            (0,10,0,'action',10,10,0,0,[1,0,0,0,None,1,0,0,0]),
+            (0,10,0,'action',10,11,0,0,[0,1,0,0,'exhaustion-effort-failed',1,0,0,0]),
+            (-2,10,0,'action',10,17,10,10,[0,1,0,0,'exhaustion-effort-failed',1,1,0,0]),
+            (-2,10,0,'action',10,18,10,11,[0,1,0,1,'exhaustion-effort-failed',1,1,0,0]),
+            (0,10,0,'action',18,17,0,0,[0,1,0,0,'exhaustion-effort-failed',1,0,0,0]),
+            (0,10,1,'action',0,0,0,0,[0,1,0,0,'exhaustion-collapse',0,0,0,0]),
+            (0,10,1,'rest',0,0,0,0,[1,1,0,0,None,0,0,0,0]),
+            (-10,10,0,'action',0,0,0,0,[0,1,1,0,'exhaustion-unconscious',0,0,0,0]),
+            (-10,10,0,'rest',0,0,0,0,[1,1,1,0,None,0,0,0,0])]:
+        s.action(1940, remaining, capacity, collapsed, purpose, will, roll, health, health_roll)
+        assert last(s, 'test.exhaustion-outcome') == expected
+    for value, remaining, capacity, expected in [(7,4,12,7),(7,3,12,4),(8,3,12,4),
+            (1,0,10,1),(0,0,10,0),(9,4,10,9),(9,3,10,5),(9,-10,10,5)]:
+        s.action(1941, value, remaining, capacity)
+        assert last(s, 'test.low-fatigue-value') == [expected]
+
+
 def cardiac_state(s):
     s.action(1931)
     return last(s, 'test.cardiac-state')
@@ -4121,6 +4144,7 @@ def test(build):
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
     fresh(Session,hazards,test_cardiac_resuscitation)
+    fresh(Session,hazards,test_exhaustion_assessments)
     cardiac_transactions = build.build('expanded-cardiac-transactions',ROOT / 'tests/fixtures/expanded-cardiac-transactions.t')
     fresh(Session,cardiac_transactions,test_cardiac_transactions)
     fresh(Session,cardiac_transactions,test_cardiac_deadline_transactions)

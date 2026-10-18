@@ -1708,9 +1708,12 @@
       "pages": "B426",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Below one-third fatigue capacity, halve movement, dodge and strength rounding up; this strength reduction does not change strength-based quantities such as health or damage.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_exhaustion_assessments"
+      ],
+      "validation_note": "Pure action outcome and low-fatigue arithmetic authored; fixtures unrun. Owned effort, live dispatch, cardiac commitment, collapse recovery and interaction validation remain incomplete; Lite dispatch is unchanged."
     },
     {
       "id": "health-fatigue-overflow",
@@ -1728,9 +1731,12 @@
       "pages": "B426",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At zero or lower fatigue, anything except talk or rest requires a will check; in combat check before maneuvers other than doing nothing.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_exhaustion_assessments"
+      ],
+      "validation_note": "Pure action outcome and low-fatigue arithmetic authored; fixtures unrun. Owned effort, live dispatch, cardiac commitment, collapse recovery and interaction validation remain incomplete; Lite dispatch is unchanged."
     },
     {
       "id": "health-fatigue-action-failure",
@@ -1738,9 +1744,12 @@
       "pages": "B426",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An ordinary failed effort check incapacitates until fatigue becomes positive; critical failure requires an immediate health check and failure causes a heart attack.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_exhaustion_assessments"
+      ],
+      "validation_note": "Pure action outcome and low-fatigue arithmetic authored; fixtures unrun. Owned effort, live dispatch, cardiac commitment, collapse recovery and interaction validation remain incomplete; Lite dispatch is unchanged."
     },
     {
       "id": "health-fatigue-unconscious",
@@ -1748,9 +1757,12 @@
       "pages": "B426",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At negative full fatigue capacity, the actor becomes unconscious, rests at the normal recovery rate and awakens at positive fatigue, subject to other unresolved causes.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_exhaustion_assessments"
+      ],
+      "validation_note": "Pure action outcome and low-fatigue arithmetic authored; fixtures unrun. Owned effort, live dispatch, cardiac commitment, collapse recovery and interaction validation remain incomplete; Lite dispatch is unchanged."
     },
     {
       "id": "health-battle-fatigue",

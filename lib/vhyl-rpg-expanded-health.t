@@ -1766,3 +1766,52 @@ class RpgExpandedCardiacResuscitation: object
         self.arrest.attempts = self.arrest.attempts + [self]; value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+class RpgExpandedExhaustionOutcome: RpgExpandedResult
+    allowed = nil
+    incapacitated = nil
+    unconscious = nil
+    cardiacTrigger = nil
+    healthCheck = nil
+;
+
+/** Pure B426 action assessment with supplied rolls and existing collapse state. */
+rpgExpandedExhaustionOutcome(remaining, capacity, collapsed, purpose, willScore, willRoll, healthScore, healthRoll)
+{
+    rpgInteger(capacity,1,1000); rpgInteger(remaining,-capacity,capacity);
+    if (!holds(['action','talk','rest','do-nothing'],purpose)) rpgExpandedReject('exhaustion-purpose');
+    local value = new RpgExpandedExhaustionOutcome(); value.status = 'ready';
+    if (remaining <= -capacity)
+    {
+        value.unconscious = true; value.incapacitated = true;
+        value.allowed = purpose == 'rest' || purpose == 'do-nothing';
+        if (!value.allowed) value.reason = 'exhaustion-unconscious';
+        return value;
+    }
+    if (collapsed && remaining <= 0)
+    {
+        value.incapacitated = true; value.allowed = purpose == 'rest' || purpose == 'do-nothing';
+        if (!value.allowed) value.reason = 'exhaustion-collapse';
+        return value;
+    }
+    if (remaining > 0 || purpose != 'action') { value.allowed = true; return value; }
+    rpgInteger(willScore,3,1000); value.check = rpgCheck(willScore,willRoll);
+    value.allowed = value.check.achieved;
+    if (!value.allowed)
+    {
+        value.incapacitated = true; value.reason = 'exhaustion-effort-failed';
+        if (value.check.critical == 'failure')
+        {
+            rpgInteger(healthScore,3,1000); value.healthCheck = rpgCheck(healthScore,healthRoll);
+            value.cardiacTrigger = !value.healthCheck.achieved;
+        }
+    }
+    return value;
+}
+
+/** Low-fatigue Move/Dodge/effective ST arithmetic; do not use for HP or damage. */
+rpgExpandedLowFatigueValue(value, remaining, capacity)
+{
+    rpgInteger(value,0,100000); rpgInteger(capacity,1,1000); rpgInteger(remaining,-capacity,capacity);
+    return remaining * 3 < capacity ? (value + 1) / 2 : value;
+}
