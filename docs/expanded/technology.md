@@ -1130,3 +1130,39 @@ narrative chooses what the tester understands.
 `test_prototype_testing_persistence` author all supported result branches, previews,
 clock-event rollback, undo, replay, policy rejection and separate-process
 continuation. Fixtures remain unrun. Source: `full-2008`, B474.
+
+
+## Production arithmetic and line funding
+
+`rpgExpandedAssessProduction(retailPrice, prototypeSeconds, line, paidLabor)`
+returns exact reduced fractions for per-copy money and seconds, plus the line's
+setup cost. Individual copies cost one fifth of retail for parts alone or full
+retail including labor, and take half the supplied prototype duration. A line
+costs twenty times retail; each copy costs one fifth for parts or one half with
+labor. Its time is the lesser of one seventh of prototype duration and retail
+price divided by one hundred hours. No extra one-day minimum is applied to
+production copies.
+
+The caller must state the basis of `prototypeSeconds`, such as the actual recorded
+prototype duration; the helper does not roll a replacement duration or silently
+choose between alternatives. Fractions remain explicit: a price of 101 yields
+101/5 for parts, not a rounded charge. Future committed production must resolve
+unsupported fractional ledger amounts explicitly. Prices through 100 million and
+prototype durations through one billion seconds are supported; comparisons avoid
+multiplication overflow at the upper bounds.
+
+`RpgExpandedProductionLine` records a unique line id, project, expanded payer,
+approval, availability, permission and evidence. The current implementation
+requires a working prototype on that project. `assess()` checks the capital
+payment before mutation; `establish()` charges twenty times the bound retail
+price once and records the line in `project.productionLines`. This payment is
+separate from prototype facilities and per-copy production. Replay does not charge
+again. It does not yet manufacture items or schedule setup work: evidence must
+establish the available installation rather than implying a universal setup time.
+
+`test_production_assessments`, `test_production_line` and
+`test_production_line_persistence` author price/time fractions, branch boundaries,
+large values, working-prototype and funds gates, previews, rollback, undo, replay
+and save continuation. Fixtures remain unrun. Per-copy execution, fractional
+currency handling, production without a locally built prototype, defect propagation
+and production scheduling remain incomplete. Source: `full-2008`, B474.

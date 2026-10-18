@@ -531,9 +531,12 @@
       "pages": "B474",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An individual copy costs twenty percent retail for parts alone or full retail with labor; production time is half the prototype duration. Record whether duration is derived from a prior prototype or newly assessed as required by the selected procedure.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_production_assessments"
+      ],
+      "validation_note": "Exact price/time fraction assessments and owned line capital funding authored; fixtures unrun. Per-copy execution, fractional ledger policy, scheduling and defect propagation remain incomplete."
     },
     {
       "id": "technology-production-line",
@@ -541,9 +544,14 @@
       "pages": "B474",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A production line costs twenty times retail to establish. Per-copy time is min(prototype duration divided by seven, retail/100 hours); parts cost twenty percent retail, or fifty percent with labor.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_production_assessments",
+        "tests/expanded.py::test_production_line",
+        "tests/expanded.py::test_production_line_persistence"
+      ],
+      "validation_note": "Exact price/time fraction assessments and owned line capital funding authored; fixtures unrun. Per-copy execution, fractional ledger policy, scheduling and defect propagation remain incomplete."
     },
     {
       "id": "technology-patron-funding",

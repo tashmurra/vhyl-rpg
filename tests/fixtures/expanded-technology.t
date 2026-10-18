@@ -23,6 +23,13 @@ modify gameMain initialRoom = technologyRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2117)
+    {
+        local value = rpgExpandedAssessProduction(args[1],args[2],args[3] != 0,args[4] != 0);
+        event('test.production-assessment'); eventValue(value.setupMoney); eventValue(value.moneyNumerator);
+        eventValue(value.moneyDenominator); eventValue(value.secondsNumerator); eventValue(value.secondsDenominator);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2101)
     {
         event('test.prototype-team'); eventValue(rpgExpandedPrototypeTeamModifier(inventionProposal,[prototypeHelper,prototypeJunior],args[1]));

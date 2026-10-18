@@ -78,3 +78,12 @@ Dodge hit reduction. It is listed in the library catalogue and available through
 the umbrella. Minimal dependency and expected-value fixtures are authored but
 unrun. Complete attack execution, ammunition expenditure and per-hit injury remain
 unimplemented. This preview is not a release or a complete conversion claim.
+
+
+The technology preview now includes owned invention concept attempts, blueprint
+entry, facilities and attempt funding, work intervals, secret completion and
+accident consequences through the shared health ledger. Supported executable
+prototype defects can be assigned, surfaced by operation failures and discovered
+through complete-week testing. Exact production fractions and line capital funding
+are available. Per-copy production, broader defect effects and interrupted testing
+remain incomplete. All newly authored fixtures remain unrun while checks are paused.

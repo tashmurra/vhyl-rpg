@@ -973,6 +973,71 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def production_line_state(s):
+    s.action(2119)
+    return last(s,'test.production-line-state')
+
+
+def test_production_line(s):
+    s.action(2118,1)
+    assert last(s,'test.production-line') == ['blocked','production-line-working-prototype-required',0]
+    s.action(2118,0)
+    initial = [899000,0,1,3,345600]
+    for code in [3,2]:
+        s.action(2118,code)
+        assert production_line_state(s) == initial
+    for code,reason in [(4,'production-line-funds'),(6,'production-line-author-facts')]:
+        s.action(2118,code)
+        assert last(s,'test.production-line') == ['blocked',reason,0]
+        s.command('undo')
+        assert production_line_state(s) == initial
+    s.action(2118,1)
+    assert last(s,'test.production-line') == ['resolved',None,20000]
+    funded = [879000,1,1,3,345600]
+    assert production_line_state(s) == funded
+    s.command('undo')
+    assert production_line_state(s) == initial
+    s.action(2118,1)
+    for code in [1,5]:
+        s.action(2118,code)
+        assert production_line_state(s) == funded
+
+
+def test_production_line_persistence(Session,bundle,out):
+    path = out / 'expanded-production-line.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2118,0)
+        first.action(2118,1)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2119')
+        second.action(2118,1)
+        assert production_line_state(second) == [879000,1,1,3,345600]
+    finally:
+        second.close()
+
+
+def test_production_assessments(s):
+    for args,expected in [
+            ((1000,345600,0,0),[0,200,1,172800,1]),
+            ((1000,345600,0,1),[0,1000,1,172800,1]),
+            ((1000,345600,1,0),[20000,200,1,36000,1]),
+            ((1000,345600,1,1),[20000,500,1,36000,1]),
+            ((2000,345600,1,1),[40000,1000,1,345600,7]),
+            ((101,101,0,0),[0,101,5,101,2]),
+            ((101,101,1,1),[2020,101,2,101,7]),
+            ((1,252,1,0),[20,1,5,36,1]),
+            ((1,251,1,0),[20,1,5,251,7]),
+            ((0,86400,1,0),[0,0,1,0,1]),
+            ((100000000,1000000000,1,1),[2000000000,50000000,1,1000000000,7])]:
+        s.action(2117,*args)
+        assert last(s,'test.production-assessment') == expected + [0,0]
+
+
 def prototype_testing_state(s):
     s.action(2116)
     return last(s,'test.prototype-testing-state')
@@ -6597,6 +6662,8 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_production_line)
+    test_production_line_persistence(Session,invention,build.out)
     fresh(Session,invention,test_prototype_testing)
     test_prototype_testing_outcomes(Session,invention)
     test_prototype_testing_persistence(Session,invention,build.out)
@@ -6625,6 +6692,7 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')
+    fresh(Session,technology,test_production_assessments)
     fresh(Session,technology,test_prototype_assessments)
     test_invention_proposals(Session,technology)
     fresh(Session,technology,test_broken_weapons)

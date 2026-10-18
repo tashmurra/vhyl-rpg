@@ -62,11 +62,33 @@ prototypeUse: RpgExpandedPrototypeOperation id = 'survey-use' profile = conceptU
 prototypeTest: RpgExpandedPrototypeTest id = 'first-test-week' profile = conceptUser item = prototypeProduct skill = conceptSkill
     discoveryDefect = prototypeMinor1 failureDefect = prototypeMajor approved = true uninterrupted = true
     evidence = 'Full week of suitable operation testing';
+prototypeLine: RpgExpandedProductionLine id = 'survey-line' project = conceptProject payer = conceptUser
+    approved = true available = true permitted = true evidence = 'Available authorized production equipment';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 180)
+        {
+            if (code == 180)
+            {
+                conceptBlueprint.apply(); conceptFacilities.fund(); prototypeStart.begin();
+                for (local day = 1; day <= 4; day += 1)
+                {
+                    local work = new RpgExpandedPrototypeWork(); work.id = day; work.attempt = prototypeStart;
+                    work.seconds = 86400; work.approved = true; work.uninterrupted = true; work.evidence = 'Complete day'; work.apply();
+                }
+                rpgRandom.seed(6); prototypeCompletion.knowledge = 'model'; prototypeCompletion.variantBonus = 5;
+                prototypeCompletion.apply(); return nil;
+            }
+            if (code == 184) conceptUser.money = 19999;
+            if (code == 185) prototypeLine.evidence = 'Changed production line';
+            if (code == 186) prototypeLine.permitted = nil;
+            local value = code == 183 ? prototypeLine.assess() : prototypeLine.establish();
+            event('test.production-line'); eventValue(value.status); eventValue(value.reason); eventValue(value.money);
+            if (code == 182) throw new RpgError(); return nil;
+        }
         if (code >= 160)
         {
             if (code == 160)
@@ -253,6 +275,12 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2118) { conceptInput.code = 180 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2119)
+    {
+        event('test.production-line-state'); eventValue(conceptUser.money); eventValue(conceptProject.productionLines.length());
+        eventValue(conceptUser.equipment.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2115) { conceptInput.code = 160 + args[1]; return vhylAct(2097,args); }
     if (verb == 2116)
     {

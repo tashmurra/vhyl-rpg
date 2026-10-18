@@ -2466,3 +2466,101 @@ class RpgExpandedPrototypeTest: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+class RpgExpandedProductionAssessment: RpgExpandedResult
+    setupMoney = 0
+    moneyNumerator = 0
+    moneyDenominator = 1
+    secondsNumerator = 0
+    secondsDenominator = 1
+;
+
+/** Exact fractions avoid an invented rounding rule for currency and subsecond work. */
+rpgExpandedProductionFraction(numerator, denominator)
+{
+    rpgInteger(numerator,0,1000000000); rpgInteger(denominator,1,7);
+    local left = numerator; local right = denominator;
+    while (right != 0) { local remainder = left % right; left = right; right = remainder; }
+    return [numerator / left,denominator / left];
+}
+
+/** B474 production table; supplied prototype duration must have an explicit author basis. */
+rpgExpandedAssessProduction(retailPrice, prototypeSeconds, line, paidLabor)
+{
+    rpgInteger(retailPrice,0,100000000); rpgInteger(prototypeSeconds,1,1000000000);
+    local value = new RpgExpandedProductionAssessment();
+    local money = rpgExpandedProductionFraction(retailPrice,paidLabor ? (line ? 2 : 1) : 5);
+    value.moneyNumerator = money[1]; value.moneyDenominator = money[2];
+    local time = nil;
+    if (line)
+    {
+        value.setupMoney = retailPrice * 20;
+        // Compare before multiplication: the chosen price-based branch cannot overflow.
+        time = retailPrice <= prototypeSeconds / 252
+            ? rpgExpandedProductionFraction(retailPrice * 36,1)
+            : rpgExpandedProductionFraction(prototypeSeconds,7);
+    }
+    else time = rpgExpandedProductionFraction(prototypeSeconds,2);
+    value.secondsNumerator = time[1]; value.secondsDenominator = time[2];
+    value.status = 'ready'; return value;
+}
+
+modify RpgExpandedInventionProject
+    productionLines = []
+;
+
+/** One approved production-line capital payment, B474. */
+class RpgExpandedProductionLine: object
+    id = nil
+    project = nil
+    payer = nil
+    approved = nil
+    available = nil
+    permitted = nil
+    evidence = nil
+    result = nil
+    boundId = nil
+    boundProject = nil
+    boundPayer = nil
+    boundEvidence = nil
+    retailPrice = nil
+    assess()
+    {
+        if (self.project == nil || !self.project.ofKind(RpgExpandedInventionProject)
+            || self.payer == nil || !self.payer.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('production-line-definition');
+        self.project.validate(); local value = new RpgExpandedInventionFundingResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.project != self.boundProject || self.payer != self.boundPayer
+                || self.evidence != self.boundEvidence || self.retailPrice != self.project.proposal.retailPrice
+                || !holds(self.project.productionLines,self))
+                rpgExpandedReject('production-line-binding');
+            value.status = 'reused'; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('production-line-id');
+        if (!self.approved || !self.available || !self.permitted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'production-line-author-facts'; return value; }
+        local prototype = self.project.workingPrototype;
+        if (prototype == nil || !prototype.ofKind(RpgExpandedPrototypeCompletion)
+            || prototype.result == nil || !prototype.result.outcome.working)
+        { value.reason = 'production-line-working-prototype-required'; return value; }
+        prototype.assess();
+        foreach (local line in self.project.productionLines)
+            if (line.id == self.id) rpgExpandedReject('production-line-duplicate');
+        rpgExpandedValidate(self.payer); rpgInteger(self.payer.money,0,2147483647);
+        rpgInteger(self.project.proposal.retailPrice,0,100000000);
+        local cost = self.project.proposal.retailPrice * 20;
+        if (cost > self.payer.money) { value.reason = 'production-line-funds'; return value; }
+        value.money = cost; value.status = 'ready'; return value;
+    }
+    establish()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.payer.money -= value.money;
+        self.retailPrice = self.project.proposal.retailPrice;
+        self.boundId = self.id; self.boundProject = self.project; self.boundPayer = self.payer; self.boundEvidence = self.evidence;
+        self.project.productionLines = self.project.productionLines + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
