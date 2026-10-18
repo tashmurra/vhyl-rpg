@@ -537,3 +537,54 @@ class RpgExpandedJob: object
         value.status = 'ready'; return value;
     }
 ;
+
+/** Exact whole-unit job percentages; unresolved fractional currency is rejected. */
+rpgExpandedJobPercent(amount, percent)
+{
+    rpgInteger(amount,0,2147483647); rpgInteger(percent,0,10100);
+    local quotient = amount / 100; local remainder = (amount % 100) * percent;
+    if (remainder % 100 != 0) rpgExpandedReject('job-fractional-money');
+    local tail = remainder / 100;
+    if (percent > 0 && quotient > (2147483647 - tail) / percent) rpgExpandedReject('job-money-limit');
+    return quotient * percent + tail;
+}
+
+class RpgExpandedJobEarnings: RpgExpandedResult
+    money = 0
+    nextPay = 0
+    consequenceRequired = nil
+;
+
+/** Pure monthly wage outcome from an already selected roll, full-2008 B516.
+ * Raise timing is an explicit author choice because the source does not specify
+ * whether the permanent increase begins in the rolled month or the next one. */
+rpgExpandedJobEarnings(monthlyPay, variable, score, roll, raiseTiming)
+{
+    rpgInteger(monthlyPay,0,2147483647);
+    local value = new RpgExpandedJobEarnings(); value.nextPay = monthlyPay;
+    value.check = rpgCheck(score,roll);
+    if (value.check.status != 'resolved') { value.reason = value.check.reason; return value; }
+    if (value.check.critical == 'failure')
+    { value.consequenceRequired = true; value.status = 'ready'; return value; }
+    if (value.check.critical == 'success')
+    {
+        if (variable) value.money = rpgExpandedJobPercent(monthlyPay,300);
+        else
+        {
+            if (!holds(['this-month','next-month'],raiseTiming))
+            { value.reason = 'job-raise-timing-required'; return value; }
+            value.nextPay = rpgExpandedJobPercent(monthlyPay,110);
+            value.money = raiseTiming == 'this-month' ? value.nextPay : monthlyPay;
+        }
+    }
+    else if (!variable) value.money = monthlyPay;
+    else
+    {
+        if (!value.check.achieved && value.check.margin > 0)
+        { value.reason = 'job-automatic-failure-margin-unresolved'; return value; }
+        local percent = 100 + value.check.margin * 10;
+        if (percent < 0) { value.reason = 'job-negative-income-unresolved'; return value; }
+        value.money = rpgExpandedJobPercent(monthlyPay,percent);
+    }
+    value.status = 'ready'; return value;
+}

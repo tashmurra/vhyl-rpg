@@ -382,3 +382,36 @@ Wealth scaling, monthly settlement and earnings-driven wealth advancement remain
 pending. `tests/expanded.py::test_job_qualifications` contains expected table values,
 relative skill thresholds, purchased-skill gates, and fixed/attribute roll cases.
 These authored checks remain unrun while checks are paused.
+
+
+## Monthly earnings assessment
+
+`rpgExpandedJobEarnings(monthlyPay, variable, score, roll, raiseTiming)` is the pure
+wage calculation from full-2008 B516. It accepts an already determined check roll;
+it never consumes randomness or credits money. The result contains `check`, `money`,
+`nextPay` and `consequenceRequired`.
+
+Ordinary fixed-pay outcomes receive the normal salary even on ordinary failure.
+A critical success raises the ongoing salary by ten percent. The supplied text
+does not identify which month first receives that raise, so `raiseTiming` must be
+`this-month` or `next-month`; an unspecified choice is blocked on that outcome.
+Variable work receives normal pay on an exact success, adjusts it by ten percent
+per success/failure margin, and triples the month's income on critical success
+without permanently changing the underlying pay.
+
+Critical failure returns zero pay and `consequenceRequired = true`. A settlement
+must implement an explicit job consequence before recording the month as complete;
+the flag alone is not an implemented demotion, dismissal, loss, accident or arrest.
+A variable-pay automatic failure whose numerical margin is positive is blocked as
+`job-automatic-failure-margin-unresolved`, rather than paying a success bonus for
+failure. Negative-income interpretations are also explicitly unsupported.
+
+`rpgExpandedJobPercent` calculates exact whole-unit amounts and rejects fractional
+money or overflow. This preserves the existing currency precision without silently
+rounding wages. Monthly commitment, permanent-raise state, critical-failure
+consequences, partial months and pay scaling remain implementation work.
+
+`tests/expanded.py::test_job_earnings` runs through the minimal campaign fixture
+when checks resume. Its authored cases cover fixed/variable outcomes, both explicit
+raise timings, critical failures, unresolved margin handling and arithmetic limits.
+No checks have been run for this addition.

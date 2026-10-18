@@ -939,6 +939,28 @@ def test_loyalty_pay(s):
     assert loyalty_pay_state(s) == [14, 12, 2, 100, 2, 99, 0]
 
 
+def test_job_earnings(s):
+    cases = [
+        ((400, 0, 12, 10, 'next-month'), ['ready', None, 400, 400, 0]),
+        ((400, 0, 12, 14, 'next-month'), ['ready', None, 400, 400, 0]),
+        ((400, 0, 12, 3, 'next-month'), ['ready', None, 400, 440, 0]),
+        ((400, 0, 12, 3, 'this-month'), ['ready', None, 440, 440, 0]),
+        ((400, 0, 12, 3, 'unspecified'), ['blocked', 'job-raise-timing-required', 0, 400, 0]),
+        ((400, 1, 12, 12, 'next-month'), ['ready', None, 400, 400, 0]),
+        ((400, 1, 12, 10, 'next-month'), ['ready', None, 480, 400, 0]),
+        ((400, 1, 12, 14, 'next-month'), ['ready', None, 320, 400, 0]),
+        ((400, 1, 12, 3, 'next-month'), ['ready', None, 1200, 400, 0]),
+        ((400, 1, 12, 18, 'next-month'), ['ready', None, 0, 400, 1]),
+        ((400, 0, 12, 18, 'next-month'), ['ready', None, 0, 400, 1]),
+        ((400, 1, 20, 17, 'next-month'), ['blocked', 'job-automatic-failure-margin-unresolved', 0, 400, 0]),
+    ]
+    for args, expected in cases:
+        s.action(1213, *args)
+        assert last(s, 'test.job-earnings') == expected
+    s.action(1214)
+    assert last(s, 'test.job-money-limits') == ['job-fractional-money', 'job-money-limit', 2000000000]
+
+
 def test_job_qualifications(s):
     for tl, expected in enumerate([625, 650, 675, 700, 800, 1100, 1600, 2100, 2600, 3600, 5600, 8100, 10600]):
         s.action(1211, tl)
@@ -1298,6 +1320,7 @@ def test(build):
     fresh(Session,social,test_trade_modifiers)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
+    fresh(Session,minimal,test_job_earnings)
     test_trade_persistence(Session,bundle,build.out)
     test_reputation_persistence(Session,bundle,build.out)
     test_equipment_persistence(Session,bundle,build.out)

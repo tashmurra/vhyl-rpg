@@ -820,6 +820,18 @@
         "tests/expanded.py::test_job_qualifications"
       ],
       "validation_note": "Purchased skill prerequisites, roll selection and typical pay table authored. Checks unrun; non-skill requirements and monthly job execution remain pending."
+    },
+    {
+      "id": "monthly-job-earnings",
+      "module": "campaign",
+      "pages": "B516",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedJobEarnings",
+      "tests": [
+        "tests/expanded.py::test_job_earnings"
+      ],
+      "validation_note": "Pure fixed/variable earnings and next-pay calculation authored. Checks unrun; monthly commitment, consequences, fractional currency and ambiguous automatic-failure margins pending."
     }
   ],
   "detailed_inventories": [

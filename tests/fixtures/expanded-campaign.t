@@ -21,5 +21,20 @@ act(verb,args)
         local value = access.assess(); event('test.campaign-minimal');
         eventValue(value.reason); eventValue(value.licenseEligible); return nil;
     }
+    if (verb == 1213)
+    {
+        local value = rpgExpandedJobEarnings(args[1],args[2] == 1,args[3],args[4],args[5]);
+        event('test.job-earnings'); eventValue(value.status); eventValue(value.reason); eventValue(value.money);
+        eventValue(value.nextPay); eventValue(value.consequenceRequired ? 1 : 0); return nil;
+    }
+    if (verb == 1214)
+    {
+        event('test.job-money-limits');
+        try { rpgExpandedJobPercent(625,110); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { rpgExpandedJobPercent(1000000000,300); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        eventValue(rpgExpandedJobPercent(2000000000,100)); return nil;
+    }
     return vhylAct(verb,args);
 }
