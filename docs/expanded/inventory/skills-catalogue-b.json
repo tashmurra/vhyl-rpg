@@ -424,9 +424,10 @@
       "pages": "B187",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Skip rolls for obvious injuries; restrict revealed findings by technology and evidence, applying equipment, physiology, internal-injury and rarity modifiers.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_diagnosis"],
+      "validation_note": "Typed defaults and owned diagnostic case authored, including obvious no-roll findings, postmortem use, internal injury, rarity and physiology checks. Findings and equipment are explicitly authored; automatic equipment and treatment handoff remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",

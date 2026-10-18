@@ -9360,6 +9360,8 @@ def test(build):
     test_body_physiology(Session, body_physiology, build.out)
     surgical_physiology = build.build("expanded-surgical-physiology",ROOT / "tests/fixtures/expanded-surgical-physiology.t")
     test_surgical_physiology(Session, surgical_physiology)
+    diagnosis = build.build("expanded-diagnosis",ROOT / "tests/fixtures/expanded-diagnosis.t")
+    test_diagnosis(Session, diagnosis)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23293,5 +23295,37 @@ def test_surgical_physiology(Session, bundle):
         for code in (18803,18802):
             s.action(2285,code)
         assert last(s,'test.surgical-physiology') == ['blocked','surgical-physiology-machine-inapplicable',None,-3,0]
+    finally:
+        s.close()
+
+
+def test_diagnosis(Session, bundle):
+    """B187 supports obvious findings, limited hints and postmortem diagnosis; unrun."""
+    for setup, rolls, finding in ((None,3,'The symptoms point to an internal injury'),
+                                 (18903,0,'The symptoms point to an internal injury'),
+                                 (18905,3,None),(18907,3,'The symptoms point to an internal injury')):
+        s = Session(bundle)
+        try:
+            if setup is not None:
+                s.action(2285,setup)
+            for code in (18902,18906):
+                s.action(2285,code)
+            assert last(s,'test.diagnosis-state') == [0,0,0,0]
+            s.action(2285,18901)
+            assert last(s,'test.diagnosis-result') == ['resolved',finding,'hint' if finding else None]
+            s.command('undo')
+            s.action(2285,18906)
+            assert last(s,'test.diagnosis-state') == [0,0,0,0]
+            for code in (18901,18901,18906):
+                s.action(2285,code)
+            assert last(s,'test.diagnosis-state') == [1,0,rolls,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285,18900)
+        assert last(s,'test.diagnosis-score') == ['ready',15]
+        s.action(2285,18904); s.action(2285,18900)
+        assert last(s,'test.diagnosis-score') == ['ready',7]
     finally:
         s.close()

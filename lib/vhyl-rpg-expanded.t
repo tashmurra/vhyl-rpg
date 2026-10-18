@@ -765,3 +765,7 @@ class RpgExpandedPhysiologyReceipt: object
     result = nil
     validateReceipt() { rpgExpandedReject('physiology-check-skills-required'); }
 ;
+
+modify RpgLiteSkill
+    validateDiagnosis() { rpgExpandedReject('diagnosis-expanded-skill-required'); }
+;

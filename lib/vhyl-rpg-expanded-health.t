@@ -8424,3 +8424,101 @@ modify RpgExpandedProfile
         wound.amount = 1; wound.dropDestination = destination; return wound;
     }
 ;
+
+class RpgExpandedDiagnosisResult: RpgExpandedResult
+    context = nil
+    score = nil
+    finding = nil
+    findingKind = nil
+;
+
+/** B187 a bounded authored finding; diagnosis never grants treatment or HP. */
+class RpgExpandedDiagnosis: object
+    id = nil
+    caseId = nil
+    examiner = nil
+    patient = nil
+    skill = nil
+    obvious = nil
+    internalInjury = nil
+    rarityModifier = 0
+    equipmentModifier = 0
+    physiology = 'same'
+    speciesModifier = 0
+    subjectSpecies = nil
+    physiologyCheck = nil
+    finding = nil
+    findingKind = 'hint'
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    boundFinding = nil
+    definition()
+    {
+        return [self.id,self.caseId,self.examiner,self.patient,self.skill,self.obvious,self.internalInjury,
+            self.rarityModifier,self.equipmentModifier,self.physiology,self.speciesModifier,self.subjectSpecies,
+            self.physiologyCheck,self.finding,self.findingKind,self.approved,self.evidence];
+    }
+    assess()
+    {
+        local value = new RpgExpandedDiagnosisResult();
+        if (self.result != nil)
+        {
+            local facts = self.definition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('diagnosis-binding');
+            if (!holds(self.examiner.diagnoses,self) || self.result.finding != self.boundFinding)
+                rpgExpandedReject('diagnosis-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.id == nil || self.id == '' || self.caseId == nil || self.caseId == ''
+            || self.examiner == nil || !self.examiner.ofKind(RpgExpandedProfile)
+            || self.patient == nil || !self.patient.ofKind(RpgLiteProfile)) rpgExpandedReject('diagnosis-definition');
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.finding == nil || self.finding == '')
+        { value.reason = 'diagnosis-authored-finding-required'; return value; }
+        if (!holds(['hint','diagnosis'],self.findingKind)) rpgExpandedReject('diagnosis-finding-kind');
+        if (self.examiner.dead || self.examiner.unconscious || self.examiner.stunned || self.examiner.mentalStun)
+        { value.reason = 'diagnosis-examiner-unavailable'; return value; }
+        foreach (local prior in self.examiner.diagnoses)
+            if (prior.id == self.id || prior.patient == self.patient && prior.caseId == self.caseId)
+                rpgExpandedReject('diagnosis-repeat-case');
+        if (!holds(['same','similar','different','alien','machine'],self.physiology)) rpgExpandedReject('diagnosis-physiology');
+        if (self.physiology == 'machine') { value.reason = 'diagnosis-machine-inapplicable'; return value; }
+        if (self.obvious) { value.status = 'ready'; return value; }
+        if (self.skill == nil || !self.skill.ofKind(RpgLiteSkill)) rpgExpandedReject('diagnosis-skill');
+        self.skill.validateDiagnosis();
+        rpgInteger(self.equipmentModifier,-100,100); rpgInteger(self.rarityModifier,-100,0); rpgInteger(self.speciesModifier,-100,0);
+        if (self.rarityModifier != 0 && self.rarityModifier > -5) rpgExpandedReject('diagnosis-rarity');
+        if (self.physiology == 'same' && self.speciesModifier != 0
+            || self.physiology == 'similar' && !holds([-2,-3,-4],self.speciesModifier)
+            || self.physiology == 'different' && self.speciesModifier != -5
+            || self.physiology == 'alien' && self.speciesModifier > -6) rpgExpandedReject('diagnosis-species-modifier');
+        local species = self.speciesModifier;
+        if (self.physiologyCheck != nil)
+        {
+            local check = self.physiologyCheck;
+            if (!check.ofKind(RpgExpandedPhysiologyReceipt) || check.operation != self || check.profile != self.examiner
+                || check.subject != self.patient || self.subjectSpecies == nil || check.species != self.subjectSpecies)
+                rpgExpandedReject('diagnosis-physiology-check-binding');
+            if (check.result == nil) { value.reason = 'diagnosis-physiology-check-unresolved'; return value; }
+            check.validateReceipt(); if (check.result.check.achieved) species = 0;
+        }
+        value.context = new RpgLiteContext(); value.context.skill = self.skill; value.context.kind = 'diagnosis';
+        value.context.modifier = self.equipmentModifier + self.rarityModifier + species + (self.internalInjury ? -5 : 0);
+        value.score = rpgLiteScore(self.examiner,value.context);
+        if (value.score == nil || value.score < 3) { value.reason = 'diagnosis-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (!self.obvious) value.check = rpgLiteCheck(self.examiner,value.context);
+        if (self.obvious || value.check.achieved) { value.finding = self.finding; value.findingKind = self.findingKind; }
+        self.boundDefinition = self.definition(); self.boundFinding = value.finding;
+        value.status = 'resolved'; self.result = value; self.examiner.diagnoses = self.examiner.diagnoses + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    diagnoses = []
+;

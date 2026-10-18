@@ -3711,3 +3711,28 @@ category, species and receipt, including for derived stabilization procedures.
 score arithmetic, unchanged authored conditions, machine exclusion and patient
 species binding. Fixtures are unrun. Diagnosis, first aid and other medical
 procedures still require their own adapters to this shared receipt contract.
+
+
+## Diagnosis and bounded findings
+
+`RpgExpandedDiagnosis` binds an examiner, patient, unique `id` and authored
+`caseId`. Supply `approved`, evidence that the finding is supportable at the
+examiner's technology level, `finding`, and `findingKind` (`hint` or `diagnosis`).
+A successful check reveals that finding. A failed check reveals none. Obvious
+injuries (`obvious = true`) require neither a roll nor a skill; diagnosis can
+also examine a dead patient (full-2008 B187).
+
+For non-obvious cases, use `RpgExpandedDiagnosisSkill`: IQ/Hard at an explicit
+technology level, default IQ-6, or paid same-technology first aid-8, physician-4
+or veterinary-5. Assessment applies the authored `equipmentModifier`, -5 for
+`internalInjury`, and `rarityModifier` (zero or -5 and worse). Physiology follows
+the typed surgery categories and can use a successful `physiologyCheck` bound
+to this exact case, examiner, patient and `subjectSpecies`. Machines reject.
+
+`assess()` does not reveal the finding or roll. `apply()` records a result once;
+another request for the same patient and case rejects. No healing, treatment or
+fixed duration is implied. Authors must establish examination access, equipment
+and the technology-limited finding; automatic equipment and diagnosis-to-surgery
+handoff remain incomplete. `test_diagnosis` specifies obvious and rolled findings,
+failed checks, postmortem use, modifier arithmetic, replay, rollback and undo.
+Fixtures remain unrun.

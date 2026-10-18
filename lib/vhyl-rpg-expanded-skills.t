@@ -1319,3 +1319,32 @@ class RpgExpandedPhysiologyCheck: RpgExpandedPhysiologyReceipt
 modify RpgExpandedProfile
     physiologyChecks = []
 ;
+
+/** Full-2008 B187 diagnosis at an explicit technology level. */
+class RpgExpandedDiagnosisSkill: RpgExpandedSkill
+    id = 'diagnosis'
+    attribute = rpgIQ
+    difficulty = 2
+    defaultPenalty = -6
+    validateDefinition()
+    {
+        if (self.id != 'diagnosis' || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != -6
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil || self.specialty != nil
+            || self.techLevel == nil) rpgExpandedReject('diagnosis-skill-definition');
+        rpgInteger(self.techLevel,0,12); return nil;
+    }
+    validateDiagnosis() { return self.validateDefinition(); }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill) || source.techLevel != self.techLevel) continue;
+            local penalty = source.id == 'first-aid' ? -8 : source.id == 'physician' ? -4 : source.id == 'veterinary' ? -5 : nil;
+            if (penalty != nil) edges = edges + [[source,penalty]];
+        }
+        return edges;
+    }
+;
