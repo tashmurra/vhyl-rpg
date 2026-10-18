@@ -46,3 +46,10 @@ chains, separate specialties, caps and cinematic exceptions. The camera techniqu
 is explicitly uncapped; ranged weapon retention has a Dexterity-based variant.
 Rope descent does not restate its difficulty, so that interpretation remains
 explicitly unresolved. These records do not expand the current runtime interface.
+
+The [first skill-summary segment](inventory/skill-summary-a.json) maps 44 rows.
+It exposed missing Dexterity defaults for aerial and aquatic acrobatics and missing
+melee group defaults; these are now recorded alongside the detailed skill edges.
+The summary omits other valid defaults, so it cannot replace the detailed catalogue.
+Reciprocal default edges do not permit chains through untrained skills. Full field
+reconciliation and executable coverage are still pending.

@@ -2784,6 +2784,18 @@
           [
             "knife",
             -4
+          ],
+          [
+            "rapier",
+            -3
+          ],
+          [
+            "saber",
+            -3
+          ],
+          [
+            "smallsword",
+            -3
           ]
         ],
         "prerequisites": []
@@ -2810,6 +2822,18 @@
           [
             "broadsword",
             -4
+          ],
+          [
+            "off-hand-fencing",
+            -3
+          ],
+          [
+            "saber",
+            -3
+          ],
+          [
+            "smallsword",
+            -3
           ]
         ],
         "prerequisites": []
@@ -2840,6 +2864,18 @@
           [
             "shortsword",
             -4
+          ],
+          [
+            "off-hand-fencing",
+            -3
+          ],
+          [
+            "rapier",
+            -3
+          ],
+          [
+            "smallsword",
+            -3
           ]
         ],
         "prerequisites": []
@@ -2866,6 +2902,18 @@
           [
             "shortsword",
             -4
+          ],
+          [
+            "off-hand-fencing",
+            -3
+          ],
+          [
+            "rapier",
+            -3
+          ],
+          [
+            "saber",
+            -3
           ]
         ],
         "prerequisites": []
@@ -2892,6 +2940,10 @@
           [
             "axe-mace",
             -4
+          ],
+          [
+            "two-hand-flail",
+            -3
           ]
         ],
         "prerequisites": []
@@ -2922,6 +2974,10 @@
           [
             "two-hand-axe-mace",
             -4
+          ],
+          [
+            "flail",
+            -3
           ]
         ],
         "prerequisites": []
@@ -2948,6 +3004,10 @@
           [
             "flail",
             -4
+          ],
+          [
+            "two-hand-axe-mace",
+            -3
           ]
         ],
         "prerequisites": []
@@ -2978,6 +3038,10 @@
           [
             "two-hand-flail",
             -4
+          ],
+          [
+            "axe-mace",
+            -3
           ]
         ],
         "prerequisites": []
@@ -3310,6 +3374,18 @@
           [
             "dx",
             -5
+          ],
+          [
+            "weighted-chain",
+            -3
+          ],
+          [
+            "monofilament-whip",
+            -3
+          ],
+          [
+            "whip",
+            -3
           ]
         ],
         "prerequisites": []
@@ -3336,6 +3412,18 @@
           [
             "two-hand-flail",
             -4
+          ],
+          [
+            "energy-whip",
+            -3
+          ],
+          [
+            "monofilament-whip",
+            -3
+          ],
+          [
+            "whip",
+            -3
           ]
         ],
         "prerequisites": []
@@ -3358,6 +3446,18 @@
           [
             "dx",
             -6
+          ],
+          [
+            "energy-whip",
+            -3
+          ],
+          [
+            "weighted-chain",
+            -3
+          ],
+          [
+            "whip",
+            -3
           ]
         ],
         "prerequisites": []
@@ -3380,6 +3480,18 @@
           [
             "dx",
             -5
+          ],
+          [
+            "energy-whip",
+            -3
+          ],
+          [
+            "weighted-chain",
+            -3
+          ],
+          [
+            "monofilament-whip",
+            -3
           ]
         ],
         "prerequisites": []
