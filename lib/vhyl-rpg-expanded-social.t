@@ -2422,3 +2422,19 @@ modify RpgExpandedProfile
         return required ? 'dependent-session-closure-required' : nil;
     }
 ;
+
+
+modify RpgExpandedDependent
+    /** Copy only authored purchase facts; no profile or adventure histories. */
+    templateCopy(profile)
+    {
+        if (self.owner != nil) rpgExpandedReject('dependent-template-owned-definition');
+        local copy = new RpgExpandedDependent();
+        copy.id = self.id; copy.owner = profile; copy.dependent = self.dependent;
+        copy.principalPoints = self.principalPoints; copy.dependentPoints = self.dependentPoints;
+        copy.importance = self.importance; copy.frequency = self.frequency;
+        copy.group = self.group; copy.credited = self.credited; copy.constantAttachment = self.constantAttachment;
+        copy.approved = self.approved; copy.evidence = self.evidence;
+        return copy;
+    }
+;

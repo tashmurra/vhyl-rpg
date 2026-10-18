@@ -29,6 +29,7 @@ class RpgExpandedTemplate: object
     moveAdjustment = 0
     skillRows = []
     traitRows = []
+    contributionDefinitions = []
     choiceGroups = []
     nativePressureHundredths = 100
     campaignTL = 3
@@ -66,6 +67,15 @@ class RpgExpandedTemplate: object
         foreach (local row in self.traitRows)
         {
             p.traits = p.traits + [rpgExpandedTemplateTrait(row)];
+        }
+        foreach (local definition in self.contributionDefinitions)
+        {
+            if (definition == nil || !definition.ofKind(RpgExpandedContribution) || definition.owner != nil)
+                rpgExpandedReject('template-contribution-definition');
+            local copy = definition.templateCopy(p);
+            if (copy == nil || !copy.ofKind(RpgExpandedContribution) || copy == definition || copy.owner != p)
+                rpgExpandedReject('template-contribution-copy');
+            p.contributions = p.contributions + [copy];
         }
         return p;
     }
@@ -357,6 +367,7 @@ modify RpgExpandedTemplate
         resolved.nativePressureHundredths = self.nativePressureHundredths;
         resolved.pointBudget = self.pointBudget; resolved.disadvantageLimit = self.disadvantageLimit;
         resolved.skillRows = skillRows; resolved.traitRows = traitRows;
+        resolved.contributionDefinitions = self.contributionDefinitions;
         local profile = resolved.assembleProfile(rules); profile.templateChoices = receipt; return profile;
     }
 ;

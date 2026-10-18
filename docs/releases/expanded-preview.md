@@ -1793,3 +1793,9 @@ the existing milestone award path. Serious harm blocks session points; an
 authored failure-to-rescue judgment can deny bonus awards without removing prior
 earnings. Live rescue routing and permanent-loss settlement remain pending.
 The integration fixtures are authored but unrun while checks remain paused.
+
+
+Fixed and selected templates can now construct fresh owned dependent purchases
+from unowned contribution definitions. Unsupported contribution copying rejects;
+contribution-bearing package composition remains pending. Isolation and save
+fixtures are authored but unrun while checks remain paused.

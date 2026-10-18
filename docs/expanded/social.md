@@ -1180,7 +1180,7 @@ outcome. Appearing means this relationship should cause authored trouble, not an
 automatic move, injury or kidnapping. The author supplies that concrete scene.
 
 Live rescue routing, proportional advancement,
-permanent-loss replacement, combined helpful/troublesome roles, template copying
+permanent-loss replacement, combined helpful/troublesome roles, combined-package copying
 and group incidents remain pending. Pricing and appearance alone do not mark the
 relationship fully implemented.
 [`expanded-dependents.t`](../../tests/fixtures/expanded-dependents.t) and
@@ -1222,3 +1222,25 @@ currently supplied by the author. `expanded-dependent-sessions.t` and
 `test_dependent_sessions` specify closure requirements, serious harm, discretionary
 bonus denial, ordinary objective awards, preview, replay, rollback, undo and saved
 continuation. These fixtures remain unrun while checks are paused.
+
+
+### Dependent purchases in templates
+
+`RpgExpandedTemplate.contributionDefinitions` accepts unowned contribution
+prototypes with an explicit `templateCopy(profile)` implementation. The default
+contribution implementation rejects unsupported copying. A dependent prototype
+uses the same approved build totals, importance, frequency and identity as a
+normal dependent purchase, with `owner = nil`. The fixed package and
+`createSelected` path each construct fresh purchases owned by the new profile.
+The completed character still validates credit slots, duplicate identities,
+appearance restrictions and point/disadvantage budgets.
+
+Copies preserve the authored dependent identity (two characters may protect the
+same person), but share no mutable purchase object, appearance history or session
+closure history. Changing one character's purchase does not edit the prototype or
+another character. Templates reject already-owned purchase definitions.
+This adds reusable purchase construction for B131 and B258; contribution-bearing
+package combination and per-option contribution choices remain unsupported.
+`expanded-dependent-templates.t` / `test_dependent_templates` cover fixed and
+selected construction, ownership, accounting, isolation, rollback, undo and saved
+continuation. Fixtures are authored but unrun while checks remain paused.

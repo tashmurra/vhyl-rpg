@@ -9252,6 +9252,8 @@ def test(build):
     test_dependents(Session, dependents, build.out)
     dependent_sessions = build.build('expanded-dependent-sessions',ROOT / 'tests/fixtures/expanded-dependent-sessions.t')
     test_dependent_sessions(Session, dependent_sessions, build.out)
+    dependent_templates = build.build('expanded-dependent-templates',ROOT / 'tests/fixtures/expanded-dependent-templates.t')
+    test_dependent_templates(Session, dependent_templates, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21261,3 +21263,35 @@ def test_dependent_sessions(Session, bundle, out):
             assert last(s, 'test.dependent-session-binding') == ['dependent-session-binding']
         finally:
             s.close()
+
+
+def test_dependent_templates(Session, bundle, out):
+    """B131/B258 fresh relationship purchases through fixed and selected templates; unrun."""
+    path = out / 'dependent-templates.zsave'
+    s = Session(bundle)
+    try:
+        for code in (13601, 13602):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-template') == [0, 0]
+        s.action(2285, 13600)
+        s.command('undo')
+        s.action(2285, 13602)
+        assert last(s, 'test.dependent-template') == [0, 0]
+        for code in (13600, 13602):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-template') == [1, 1, 1, 1, 1, 1, -20, -20, 0, 0]
+        for code in (13603, 13602):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-template') == [1, 1, 1, 1, 1, 1, -40, -20, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 13602)
+        assert last(s, 'test.dependent-template') == [1, 1, 1, 1, 1, 1, -40, -20, 0, 0]
+        s.action(2285, 13604)
+        assert last(s, 'test.dependent-template-rejection') == ['template-contribution-definition']
+    finally:
+        s.close()
