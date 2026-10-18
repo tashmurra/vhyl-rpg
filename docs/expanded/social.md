@@ -1597,8 +1597,25 @@ The author decides what prediction or finding the available evidence supports.
 A success is not mind-reading and does not force the subject to act as predicted.
 The operation neither broadcasts the result nor alters another character's beliefs,
 health or decisions. It has no automatic time charge; authors account for any
-interview, observation or travel separately. Small-group prediction and explicit
-knowledge delivery still need their own integration.
+interview, observation or travel separately. Small-group prediction still needs integration; individual knowledge delivery is
+described below.
 
 `test_psychology_assessment` covers success/failure, pure preview, changed context,
 rollback, undo, replay and cross-process save continuation. Fixtures remain unrun.
+
+
+## Receiving a psychology finding
+
+`RpgExpandedPsychologyDisclosure` connects a completed assessment to its
+observer's owned `RpgExpandedKnowledge`. Set a unique `id`, the `assessment` and
+its observer profile as `recipient`. `assess()` checks eligibility without
+returning a statement. `deliver()` records the exact successful finding once in
+received knowledge and returns it. Unresolved and failed assessments are blocked.
+
+Replay validates the assessment, recipient, knowledge object, received row,
+statement and original delivery time. It returns the existing statement without
+another roll or time charge. The operation does not add beliefs or fabrications,
+or inform another character; communicating an inference needs a separate authored
+conversation. `test_psychology_disclosure` covers preview purity, success/failure,
+rollback, undo, replay, save continuation and timestamp tampering. Fixtures remain
+unrun while checks are paused.

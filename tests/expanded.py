@@ -9404,6 +9404,8 @@ def test(build):
     test_psychology_context(Session, psychology_context)
     psychology_assessment = build.build("expanded-psychology-assessment",ROOT / "tests/fixtures/expanded-psychology-assessment.t")
     test_psychology_assessment(Session, psychology_assessment, build.out)
+    psychology_disclosure = build.build("expanded-psychology-disclosure",ROOT / "tests/fixtures/expanded-psychology-disclosure.t")
+    test_psychology_disclosure(Session, psychology_disclosure, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24006,3 +24008,43 @@ def test_psychology_assessment(Session, bundle, out):
             assert last(s,'test.psychology-binding') == ['psychology-assessment-binding']
         finally:
             s.close()
+
+
+def test_psychology_disclosure(Session, bundle, out):
+    """A successful assessment supplies one observer-only finding; unrun."""
+    path = out / 'psychology-disclosure.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,21100)
+        assert last(s,'test.psychology-disclosure') == ['blocked','psychology-disclosure-unresolved',[]]
+        s.action(1680,21000); s.action(1680,21104)
+        assert last(s,'test.psychology-disclosure-preview') == ['ready',0]
+        s.action(1680,21101); s.action(1680,21102)
+        assert last(s,'test.psychology-knowledge') == [0,0,3]
+        s.action(1680,21100)
+        assert last(s,'test.psychology-disclosure') == ['resolved',None,['The traveler is likely to leave when the crowd arrives']]
+        s.command('undo'); s.action(1680,21102)
+        assert last(s,'test.psychology-knowledge') == [0,0,3]
+        for code in (21100,21100,21102):
+            s.action(1680,code)
+        assert last(s,'test.psychology-knowledge') == [1,0,3]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681')
+        s.action(1680,21100); s.action(1680,21102)
+        assert last(s,'test.psychology-knowledge') == [1,0,3]
+        s.action(1680,21103)
+        assert last(s,'test.psychology-disclosure-error') == ['psychology-disclosure-clock']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (21003,21000,21100,21102):
+            s.action(1680,code)
+        assert last(s,'test.psychology-disclosure') == ['blocked','psychology-disclosure-no-finding',[]]
+        assert last(s,'test.psychology-knowledge') == [0,0,3]
+    finally:
+        s.close()
