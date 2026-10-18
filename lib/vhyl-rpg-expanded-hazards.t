@@ -1464,24 +1464,26 @@ modify RpgExpandedProfile
     radiationDoses = []
 ;
 
-/** One received whole-rad dose, with its own recovery epoch and source identity.
+/** One received exact dose, with its own recovery epoch and source identity.
  * Shielding, tolerance and syndrome resolution are separate pending operations. */
 class RpgExpandedRadiationDose: object
     id = nil
     profile = nil
     source = nil
     rads = 0
+    radDenominator = 1
     approved = nil
     evidence = nil
     receivedAt = nil
     boundDefinition = nil
     result = nil
-    definition() { return [self.id,self.profile,self.source,self.rads,self.approved,self.evidence]; }
+    definition() { return [self.id,self.profile,self.source,self.rads,self.radDenominator,self.approved,self.evidence]; }
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
             || self.source == nil) rpgExpandedReject('radiation-dose-definition');
-        rpgInteger(self.rads,1,1000000); local value = new RpgExpandedResult();
+        rpgInteger(self.rads,1,100000000); rpgInteger(self.radDenominator,1,20000000);
+        local value = new RpgExpandedResult();
         if (self.result != nil)
         {
             local current = self.definition();
@@ -1505,26 +1507,20 @@ class RpgExpandedRadiationDose: object
         self.profile.radiationDoses = self.profile.radiationDoses + [self];
         value.status = 'resolved'; self.result = value; return value;
     }
-    remainingTenths()
+    remainingQuantity()
     {
         if (self.result == nil) rpgExpandedReject('radiation-dose-unreceived');
         self.assess(); rpgInteger(self.receivedAt,0,rpgLedger.seconds);
-        return rpgExpandedRadiationRemainingTenths(self.rads,(rpgLedger.seconds - self.receivedAt) / 86400);
+        return rpgExpandedRadiationRemainingQuantity(self.rads,self.radDenominator,
+            (rpgLedger.seconds - self.receivedAt) / 86400);
     }
+    remainingTenths() { return self.remainingQuantity().tenths(); }
 ;
 
 /** Sum independently recovering doses; assessment never consumes exposure state. */
 rpgExpandedRadiationTotalTenths(profile)
 {
-    rpgExpandedValidate(profile); local total = 0; local ids = [];
-    foreach (local dose in profile.radiationDoses)
-    {
-        if (dose == nil || !dose.ofKind(RpgExpandedRadiationDose) || dose.profile != profile || holds(ids,dose.id))
-            rpgExpandedReject('radiation-dose-history');
-        ids = ids + [dose.id]; local amount = dose.remainingTenths();
-        rpgInteger(total,0,2147483647 - amount); total += amount;
-    }
-    return total;
+    return rpgExpandedRadiationTotal(profile).tenths();
 }
 
 /** B436 reference samples only; no interpolation across thicknesses/materials. */
@@ -1569,7 +1565,7 @@ modify RpgExpandedProfile
     radiationExposures = []
 ;
 
-/** Shielded whole-rad exposure composed with the shared dose history. */
+/** Shielded exact exposure composed with the shared dose history. */
 class RpgExpandedRadiationExposure: object
     id = nil
     profile = nil
@@ -1600,12 +1596,13 @@ class RpgExpandedRadiationExposure: object
         }
         local value = rpgExpandedShieldedRadiation(self.incidentRads,self.protection,self.spectrum);
         if (value.status != 'ready') return value;
-        if (value.fractional) { value.status = 'blocked'; value.reason = 'radiation-fractional-dose-unimplemented'; return value; }
         rpgExpandedValidate(self.profile);
         foreach (local prior in self.profile.radiationExposures)
             if (prior.id == self.id) rpgExpandedReject('radiation-exposure-duplicate');
         value.dose = new RpgExpandedRadiationDose(); value.dose.id = self.id;
-        value.dose.profile = self.profile; value.dose.source = self.source; value.dose.rads = value.wholeRads;
+        local quantity = rpgExpandedRadQuantity(value.numerator,value.denominator);
+        value.dose.profile = self.profile; value.dose.source = self.source;
+        value.dose.rads = quantity.numerator; value.dose.radDenominator = quantity.denominator;
         value.dose.approved = self.approved; value.dose.evidence = self.evidence;
         local prepared = value.dose.assess();
         if (prepared.status != 'ready') { value.status = 'blocked'; value.reason = prepared.reason; }
@@ -1620,3 +1617,68 @@ class RpgExpandedRadiationExposure: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+
+/** Exact nonnegative rad quantity. Conversion refuses precision loss. */
+class RpgExpandedRadQuantity: object
+    numerator = 0
+    denominator = 1
+    tenths()
+    {
+        if (10 % self.denominator != 0) rpgExpandedReject('radiation-finer-than-tenth');
+        local multiplier = 10 / self.denominator;
+        rpgInteger(self.numerator,0,2147483647 / multiplier);
+        return self.numerator * multiplier;
+    }
+;
+
+/** Reduce a bounded integer ratio without floating-point or dose rounding. */
+rpgExpandedRadQuantity(numerator, denominator)
+{
+    rpgInteger(numerator,0,2147483647); rpgInteger(denominator,1,2147483647);
+    local left = numerator; local right = denominator;
+    while (right != 0) { local remainder = left % right; left = right; right = remainder; }
+    local value = new RpgExpandedRadQuantity();
+    value.numerator = numerator / left; value.denominator = denominator / left; return value;
+}
+
+/** Per-dose daily recovery with an exact one-tenth residual, B435. */
+rpgExpandedRadiationRemainingQuantity(numerator, denominator, elapsedDays)
+{
+    rpgInteger(numerator,1,100000000); rpgInteger(denominator,1,20000000);
+    rpgInteger(elapsedDays,0,1000000);
+    if (elapsedDays <= 30) return rpgExpandedRadQuantity(numerator,denominator);
+    local days = elapsedDays - 30;
+    local daily = denominator * 100;
+    /* Compare before multiplying days: large elapsed times cannot overflow. */
+    if (days > numerator * 9 / daily) return rpgExpandedRadQuantity(numerator,denominator * 10);
+    return rpgExpandedRadQuantity(numerator * 10 - days * daily,denominator * 10);
+}
+
+/** Exact sum with reduced denominator and explicit arithmetic capacity checks. */
+rpgExpandedAddRadiation(left, right)
+{
+    local a = rpgExpandedRadQuantity(left.numerator,left.denominator);
+    local b = rpgExpandedRadQuantity(right.numerator,right.denominator);
+    local x = a.denominator; local y = b.denominator;
+    while (y != 0) { local remainder = x % y; x = y; y = remainder; }
+    local leftFactor = b.denominator / x; local rightFactor = a.denominator / x;
+    if (a.denominator > 2147483647 / leftFactor || a.numerator > 2147483647 / leftFactor
+        || b.numerator > 2147483647 / rightFactor) rpgExpandedReject('radiation-quantity-capacity');
+    local first = a.numerator * leftFactor; local second = b.numerator * rightFactor;
+    if (first > 2147483647 - second) rpgExpandedReject('radiation-quantity-capacity');
+    return rpgExpandedRadQuantity(first + second,a.denominator * leftFactor);
+}
+
+/** Independently age and sum every owned dose, retaining fractional residues. */
+rpgExpandedRadiationTotal(profile)
+{
+    rpgExpandedValidate(profile); local total = rpgExpandedRadQuantity(0,1); local ids = [];
+    foreach (local dose in profile.radiationDoses)
+    {
+        if (dose == nil || !dose.ofKind(RpgExpandedRadiationDose) || dose.profile != profile || holds(ids,dose.id))
+            rpgExpandedReject('radiation-dose-history');
+        ids = ids + [dose.id]; total = rpgExpandedAddRadiation(total,dose.remainingQuantity());
+    }
+    return total;
+}

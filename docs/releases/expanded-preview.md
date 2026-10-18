@@ -220,3 +220,8 @@ Radiation shielding now exposes the printed PF samples and exact received-dose
 ratios, with an owned whole-rad exposure adapter. Fractional received-dose
 integration and cosmic PF below one remain explicit unresolved cases.
 New fixtures are authored and unrun.
+
+Radiation doses now retain exact fractions through shielding, independent
+recovery, permanent residue and summation. Lossy tenth-rad conversions are
+rejected, with bounded integer arithmetic. Effects-table selection for fractional
+totals remains unresolved; fractional persistence fixtures are authored and unrun.

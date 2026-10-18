@@ -8891,6 +8891,7 @@ def test(build):
     radiation = build.build('expanded-radiation', ROOT / 'tests/fixtures/expanded-radiation.t')
     test_radiation_doses(Session, radiation, build.out)
     test_radiation_exposures(Session, radiation)
+    test_fractional_radiation(Session, radiation, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -9870,6 +9871,13 @@ def test_radiation_doses(Session, bundle, out):
 
 
 def test_radiation_shielding(s):
+    for numerator, denominator, days, expected in [
+            (1, 2, 30, [1, 2, 5]), (1, 2, 31, [1, 20, 'radiation-finer-than-tenth']),
+            (1, 3, 31, [1, 30, 'radiation-finer-than-tenth']),
+            (200, 1, 48, [20, 1, 200]), (15, 2, 31, [3, 4, 'radiation-finer-than-tenth']),
+            (100000000, 20000000, 1000000, [1, 2, 5])]:
+        s.action(2296, numerator, denominator, days)
+        assert last(s, 'test.radiation-fraction') == expected
     s.action(2294)
     assert last(s, 'test.radiation-materials') == [2, 2, 2, 8, 27, 64]
     for incident, protection, spectrum, ratio in [
@@ -9905,8 +9913,7 @@ def test_radiation_exposures(Session, bundle):
         assert state(s) == after
     finally:
         s.close()
-    for change, reason in [(13, 'radiation-fractional-dose-unimplemented'),
-                           (15, 'radiation-subunit-protection-unresolved')]:
+    for change, reason in [(15, 'radiation-subunit-protection-unresolved')]:
         s = Session(bundle)
         try:
             s.action(2291, change, 0)
@@ -9916,3 +9923,43 @@ def test_radiation_exposures(Session, bundle):
             assert state(s) == before
         finally:
             s.close()
+
+
+def test_fractional_radiation(Session, bundle, out):
+    def ratio(s):
+        s.action(2295)
+        return last(s, 'test.radiation-ratio')
+    path = out / 'expanded-radiation-fractional.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2291, 13, 0)
+        before = ratio(s)
+        s.action(2291, 11, 0)
+        assert last(s, 'test.radiation-exposure') == ['ready', None]
+        assert ratio(s) == before
+        s.action(2291, 12, 0)
+        assert ratio(s) == before
+        s.action(2291, 10, 0)
+        assert ratio(s) == [1, 2, 1, 0, 0]
+        s.action(2291, 17, 0)
+        assert ratio(s) == [5, 6, 2, 0, 0]
+        s.command('undo')
+        assert ratio(s) == [1, 2, 1, 0, 0]
+        s.action(2291, 17, 0)
+        s.action(2291, 3, 31)
+        saved = ratio(s)
+        assert saved == [1, 12, 2, 2678400, 0]
+        s.command(f':save {path}\n@2295')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2295')
+        assert ratio(s) == saved
+        s.action(2291, 10, 0)
+        s.action(2291, 17, 0)
+        assert ratio(s) == saved
+        s.action(2291, 3, 50)
+        assert ratio(s) == [1, 12, 2, 6998400, 0]
+    finally:
+        s.close()

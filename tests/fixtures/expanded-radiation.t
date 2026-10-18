@@ -21,6 +21,8 @@ radiationSecond: RpgExpandedRadiationDose id = 'later-exposure' profile = radiat
     rads = 100 approved = true evidence = 'A separately measured later dose';
 radiationExposure: RpgExpandedRadiationExposure id = 'shielded' profile = radiationProfile source = radiationSource
     incidentRads = 200 protection = 2 approved = true evidence = 'A half-inch lead shield covers the source';
+radiationFractional: RpgExpandedRadiationExposure id = 'third-rad' profile = radiationProfile source = radiationSource
+    incidentRads = 1 protection = 3 approved = true evidence = 'Verified protection factor';
 radiationInput: object code = 0 days = 0;
 class RadiationTestAction: Action
     exec(context)
@@ -28,6 +30,7 @@ class RadiationTestAction: Action
         local code = radiationInput.code;
         if (code >= 10)
         {
+            if (code == 17) { radiationFractional.apply(); return nil; }
             if (code == 13) { radiationExposure.incidentRads = 1; return nil; }
             if (code == 14) { radiationExposure.spectrum = 'solar-belt'; return nil; }
             if (code == 15) { radiationExposure.spectrum = 'cosmic'; return nil; }
@@ -58,6 +61,13 @@ act(verb,args)
         eventValue(rpgExpandedRadiationTotalTenths(radiationProfile));
         eventValue(radiationFirst.receivedAt); eventValue(radiationSecond.receivedAt);
         eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 2295)
+    {
+        local quantity = rpgExpandedRadiationTotal(radiationProfile);
+        event('test.radiation-ratio'); eventValue(quantity.numerator); eventValue(quantity.denominator);
+        eventValue(radiationProfile.radiationDoses.length()); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws);
+        return nil;
     }
     return vhylAct(verb,args);
 }

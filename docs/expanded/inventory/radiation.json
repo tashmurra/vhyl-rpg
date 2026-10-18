@@ -15,9 +15,10 @@
       "acceptance": "Record each received radiation dose and its date separately; ongoing exposures must not merge all doses into one recovery start date.",
       "tests": [
         "tests/expanded.py::test_radiation_doses",
-        "tests/expanded.py::test_radiation_tables"
+        "tests/expanded.py::test_radiation_tables",
+        "tests/expanded.py::test_fractional_radiation"
       ],
-      "validation_note": "Owned whole-rad history and independent daily decay with tenth-rad residue authored. Fractional received doses and exposure/condition integration pending. Fixtures unrun."
+      "validation_note": "Exact fractional dose storage, shielding ratios and independent recovery with rational residues authored. Effects-table fractional band selection and syndrome integration pending. Fixtures unrun."
     },
     {
       "id": "radiation-dose-recovery",
@@ -29,9 +30,10 @@
       "acceptance": "Each dose begins diminishing after thirty days at ten rads per day, stopping at ten percent of that original dose; the permanent residue remains unless specifically removed.",
       "tests": [
         "tests/expanded.py::test_radiation_doses",
-        "tests/expanded.py::test_radiation_tables"
+        "tests/expanded.py::test_radiation_tables",
+        "tests/expanded.py::test_fractional_radiation"
       ],
-      "validation_note": "Owned whole-rad history and independent daily decay with tenth-rad residue authored. Fractional received doses and exposure/condition integration pending. Fixtures unrun."
+      "validation_note": "Exact fractional dose storage, shielding ratios and independent recovery with rational residues authored. Effects-table fractional band selection and syndrome integration pending. Fixtures unrun."
     },
     {
       "id": "radiation-living-check",
@@ -246,9 +248,10 @@
       "acceptance": "Divide received dose by protection factor from actual intervening shielding; preserve exposure geometry and distinguish protection from subsequent dose recovery.",
       "tests": [
         "tests/expanded.py::test_radiation_shielding",
-        "tests/expanded.py::test_radiation_exposures"
+        "tests/expanded.py::test_radiation_exposures",
+        "tests/expanded.py::test_fractional_radiation"
       ],
-      "validation_note": "Reference PF samples, exact spectrum-adjusted ratios and whole-rad exposure recording authored. Fractional dose integration and sub-one cosmic PF policy pending. Fixtures unrun."
+      "validation_note": "Exact fractional dose storage, shielding ratios and independent recovery with rational residues authored. Effects-table fractional band selection and syndrome integration pending. Fixtures unrun."
     },
     {
       "id": "radiation-solar-shielding",
@@ -260,9 +263,10 @@
       "acceptance": "Multiply shielding protection factor by twenty against the specified solar-flare and planetary-belt radiation.",
       "tests": [
         "tests/expanded.py::test_radiation_shielding",
-        "tests/expanded.py::test_radiation_exposures"
+        "tests/expanded.py::test_radiation_exposures",
+        "tests/expanded.py::test_fractional_radiation"
       ],
-      "validation_note": "Reference PF samples, exact spectrum-adjusted ratios and whole-rad exposure recording authored. Fractional dose integration and sub-one cosmic PF policy pending. Fixtures unrun."
+      "validation_note": "Exact fractional dose storage, shielding ratios and independent recovery with rational residues authored. Effects-table fractional band selection and syndrome integration pending. Fixtures unrun."
     },
     {
       "id": "radiation-cosmic-shielding",
@@ -274,9 +278,10 @@
       "acceptance": "Divide protection factor by one hundred against cosmic radiation; resolve effective factors below one without silently converting shielding into extra dose.",
       "tests": [
         "tests/expanded.py::test_radiation_shielding",
-        "tests/expanded.py::test_radiation_exposures"
+        "tests/expanded.py::test_radiation_exposures",
+        "tests/expanded.py::test_fractional_radiation"
       ],
-      "validation_note": "Reference PF samples, exact spectrum-adjusted ratios and whole-rad exposure recording authored. Fractional dose integration and sub-one cosmic PF policy pending. Fixtures unrun."
+      "validation_note": "Exact fractional dose storage, shielding ratios and independent recovery with rational residues authored. Effects-table fractional band selection and syndrome integration pending. Fixtures unrun."
     },
     {
       "id": "radiation-advance-prophylaxis",

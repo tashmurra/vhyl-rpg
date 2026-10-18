@@ -687,20 +687,22 @@ mappings do not claim full suffocation coverage.
 
 ## Radiation dose history and table assessments
 
-`RpgExpandedRadiationDose` records one received whole-rad dose from `full-2008`
+`RpgExpandedRadiationDose` records one received dose from `full-2008`
 B435. Supply `id`, expanded `profile`, concrete `source` identity, `rads`,
-`approved` and evidence for the received amount. `apply()` records `receivedAt`
+`approved` and evidence for the received amount. `radDenominator` defaults to one;
+set it explicitly when `rads` is the numerator of a fractional received dose. `apply()` records `receivedAt`
 on the common clock and installs the dose in `profile.radiationDoses`. It does
 not charge exposure time, perform a resistance check or apply symptoms. The
 source dose must already account for shielding and tolerance; those calculations
 are not implemented by this recording interface. Replay preserves the original
 dose and date, and changed definitions are rejected.
 
-`remainingTenths()` and `rpgExpandedRadiationTotalTenths(profile)` assess the
-remaining dose without consuming history. Every dose has its own recovery epoch.
+`remainingQuantity()` and `rpgExpandedRadiationTotal(profile)` assess the
+remaining dose as exact fractions without consuming history. The older
+`remainingTenths()` and `rpgExpandedRadiationTotalTenths(profile)` conversions
+reject values that cannot be represented exactly in tenths. Every dose has its own recovery epoch.
 After thirty elapsed days, each further whole day removes ten rads until ten
-percent of that dose remains. Values are returned in tenths of a rad, preserving
-residue from a one-rad dose. This daily boundary policy does not interpolate
+percent of that dose remains. Exact fractions preserve the permanent residue even below one tenth of a rad. This daily boundary policy does not interpolate
 partial days. `rpgExpandedRadiationRemainingTenths(originalRads, elapsedDays)`
 exposes the arithmetic; the printed 200-rad example reaches twenty rads after
 48 days. Dose reduction does not heal injury or reverse symptoms.
@@ -722,7 +724,7 @@ The [dose fixture](../../tests/fixtures/expanded-radiation.t),
 `test_radiation_doses` and `test_radiation_tables` specify row boundaries, all four
 outcome columns, the printed recovery example, permanent residue, independently
 aged doses, preview, rollback, undo, replay and cross-process continuation.
-They are authored and unrun. Exposure scheduling, fractional received doses,
+They are authored and unrun. Exposure scheduling,
 living/machine resistance cadence, all syndrome execution, treatment, reproductive
 consequences and protection still prevent complete radiation support.
 
@@ -743,7 +745,7 @@ The source does not specify how a resulting PF below one should behave; cosmic
 protection below 100 returns `radiation-subunit-protection-unresolved` rather than
 inventing amplification or a minimum-protection rule.
 
-`RpgExpandedRadiationExposure` links a supported shielding result to the existing
+`RpgExpandedRadiationExposure` links a shielding result to the existing
 dose ledger. Supply `id`, `profile`, `source`, `incidentRads`, `protection`,
 `spectrum`, `approved` and evidence for the source/path shielding. `assess()` is
 pure; `apply()` creates exactly one received dose and retains its exposure receipt
@@ -751,10 +753,38 @@ in `profile.radiationExposures`. It spends no exposure time again. IDs share the
 dose namespace, so a separate manually recorded dose cannot duplicate that ID.
 Replay changes neither dose nor recovery epoch.
 
-The current recorder accepts only exact whole-rad results. Fractional exposure
-returns `radiation-fractional-dose-unimplemented` with the exact ratio retained.
+The recorder retains whole and fractional results as reduced exact ratios.
 Radiation tolerance, overlapping shielding materials, treatment effects, syndrome
 checks and source-specific exposure cadence remain pending; this interface does
 not imply they were applied. `test_radiation_shielding` and
 `test_radiation_exposures` specify reference factors, spectra, exact ratios,
 blocked cases, preview, rollback, undo and replay. They are authored and unrun.
+
+
+### Exact fractional radiation quantities
+
+`RpgExpandedRadQuantity` has integer `numerator` and `denominator` fields.
+`rpgExpandedRadQuantity(numerator, denominator)` constructs a reduced,
+nonnegative ratio. Its `tenths()` method returns an integer only when conversion
+is exact; otherwise it raises `radiation-finer-than-tenth`. Never discard the
+remainder to force a dose into the current whole-rad effects table.
+
+`RpgExpandedRadiationDose.rads` is the numerator and `radDenominator` defaults to
+one, preserving existing whole-rad declarations. The supported numerator range
+is one through 100 million and denominator range one through 20 million.
+`rpgExpandedRadiationRemainingQuantity(numerator, denominator, elapsedDays)`
+implements the same daily recovery and exact ten-percent floor for these ratios.
+Its arithmetic checks the recovery floor before multiplying by elapsed days.
+
+`rpgExpandedAddRadiation(left, right)` and `rpgExpandedRadiationTotal(profile)`
+reduce fractions and check arithmetic capacity. An unsupported numerator or
+common denominator raises `radiation-quantity-capacity` rather than wrapping or
+rounding. This is an implementation bound, not a new exposure rule. Shielded
+exposure recording normalizes the received ratio into one owned dose.
+
+`test_fractional_radiation` specifies half- and third-rad exposures, their
+five-sixths total, the permanent one-twelfth residue, and rollback, undo, replay
+and cross-process continuation. Pure cases also cover fractional residues,
+large elapsed periods and refused lossy conversion. They remain unrun. The
+fractional-dose storage gap is now addressed; fractional effects-table selection,
+exposure checks and symptom execution remain pending.

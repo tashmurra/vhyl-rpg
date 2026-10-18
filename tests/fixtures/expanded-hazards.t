@@ -12,6 +12,14 @@ modify gameMain initialRoom = hazardRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2296)
+    {
+        local value = rpgExpandedRadiationRemainingQuantity(args[1],args[2],args[3]);
+        event('test.radiation-fraction'); eventValue(value.numerator); eventValue(value.denominator);
+        try { eventValue(value.tenths()); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     if (verb == 2293)
     {
         local spectra = ['ordinary','solar-belt','cosmic'];
