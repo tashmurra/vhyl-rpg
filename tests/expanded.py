@@ -9149,6 +9149,7 @@ def test(build):
     test_decompression_assessment(Session, decompression_assessment)
     decompression_plan = build.build('expanded-decompression-plan',ROOT / 'tests/fixtures/expanded-decompression-plan.t')
     test_decompression_plan(Session, decompression_plan, build.out)
+    test_decompression_pressure_checks(Session, decompression_plan)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19125,5 +19126,29 @@ def test_decompression_plan(Session, bundle, out):
         assert last(s, 'test.decompression-plan') == [2, 60, 120, 2, 2, 120, 0]
         s.action(2285, 8506)
         assert last(s, 'test.decompression-clock') == ['accepted', 121]
+    finally:
+        s.close()
+
+
+def test_decompression_pressure_checks(Session, bundle):
+    s = Session(bundle)
+    try:
+        for code in (30, 8510, 8501, 8504):
+            s.action(2285, code)
+        # An unresolved entry check rejects and rolls back the progress marker.
+        assert last(s, 'test.decompression-plan') == [1, 0, None, 0, 1, 0, 3]
+        for code in (8512, 8501, 8513, 8504):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-stage-end') == ['blocked', 'pressure-check-due']
+        assert last(s, 'test.decompression-plan') == [1, 60, None, 1, 1, 60, 6]
+        for code in (8514, 8502, 8503, 8502, 8504):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-plan') == [2, 60, 120, 2, 2, 120, 9]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 8515)
+        assert last(s, 'test.decompression-stage-error') == ['decompression-plan-repeated-pressure', 0, 0]
     finally:
         s.close()

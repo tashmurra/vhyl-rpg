@@ -1910,9 +1910,10 @@ continuation fixtures are authored but unrun.
 `RpgExpandedDecompressionPlan` executes an author-approved schedule (full-2008,
 B435). Supply `id`, the completed source `RpgExpandedPressureExposure`, `stages`
 as `[pressureHundredths, durationSeconds]` rows, `approved` and `evidence` explaining
-why that exact schedule is accepted for the exposure. Pressures must descend or
-stay level, never below native pressure, and the last stage must be at native
-pressure. Every stage has positive duration. No duration is generated from the
+why that exact schedule is accepted for the exposure. Pressures must strictly descend from the source pressure, never below native
+pressure, and the last stage must be at native pressure. Combine equal-pressure
+holds into one row; hold time at the original pressure belongs to the source
+exposure before it is closed. Every stage has positive duration. No duration is generated from the
 sparse printed examples, and approval is not inferred from the list's shape.
 
 Begin immediately when the source interval ends. `begin()` creates the first
@@ -1934,3 +1935,10 @@ ascent and illness from failed decompression remain explicitly unsupported.
 A completed plan proves execution of the authored schedule, not independently
 verified safety. Shared-clock exclusion, repeat-safe credit, multi-stage execution,
 rollback, undo and cross-process continuation fixtures are authored but unrun.
+
+Crushing checks remain mandatory inside a decompression stage: the entry check
+must resolve before time advances, and a check due exactly when a stage's hold
+ends must resolve before `finishStage()`. A rejected progress action must unwind
+through the engine transaction so its in-flight marker rolls back. Integration
+fixtures cover these boundaries and reject repeated-pressure rows without time
+or randomness; they remain unrun.

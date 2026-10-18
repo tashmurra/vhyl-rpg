@@ -1464,3 +1464,7 @@ Authored decompression schedules now execute through owned pressure stages and
 repeat-safe shared-clock progress. Stage credit is checked against receipt history;
 unrelated time advances and concurrent schedules reject. Abandonment and illness
 remain pending. Multi-stage lifecycle fixtures are authored but unrun.
+
+Decompression schedules reject repeated-pressure rows to avoid duplicate entry
+checks. New integration fixtures cover crushing checks at stage entry and exact
+hold-end boundaries, including rollback of rejected progress. Checks remain paused.

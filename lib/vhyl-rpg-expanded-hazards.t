@@ -4362,6 +4362,7 @@ class RpgExpandedDecompressionPlan: object
         {
             if (row.length() != 2) rpgExpandedReject('decompression-plan-stage');
             rpgInteger(row[1],self.source.resolvedNativePressure(),priorPressure);
+            if (row[1] == priorPressure) rpgExpandedReject('decompression-plan-repeated-pressure');
             rpgInteger(row[2],1,2147483647); priorPressure = row[1];
         }
         if (priorPressure != self.source.resolvedNativePressure()) rpgExpandedReject('decompression-plan-destination');
