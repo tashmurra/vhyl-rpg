@@ -118,9 +118,10 @@
       "acceptance": "Check health after eating, foul odors, failed fear checks or stun and hourly in free fall or motion-sickness conditions; a recent rich meal gives -2 and a remedy +2. Failure causes retching for twenty-five minus health seconds.",
       "tests": [
         "tests/expanded.py::test_retching_remedy",
-        "tests/expanded.py::test_remedy_persistence"
+        "tests/expanded.py::test_remedy_persistence",
+        "tests/expanded.py::test_nausea_triggers"
       ],
-      "validation_note": "Owned oral nausea remedy with explicit authored timing supplies the source +2 trigger modifier without stacking; recent rich meals contribute -2. Retching atomically revokes reviewed remedy and meal records. Other medicines, general nausea state and trigger scheduling remain incomplete. New fixtures, including save continuation, are unrun."
+      "validation_note": "Owned event-driven checks for meals, odors, failed fear and stun compose the nausea-adjusted HT check with rich-meal/remedy modifiers and reviewed oral-benefit revocation. Failure starts shared fixed-duration retching; its ending charges fatigue once without an extra check or second. Hourly motion scheduling and automatic event adapters remain pending. Fixtures authored and unrun."
     },
     {
       "id": "condition-moderate-pain",

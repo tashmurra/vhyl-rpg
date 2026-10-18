@@ -1987,3 +1987,36 @@ those triggers or retching consequences have run. The fixture
 `tests/fixtures/expanded-nausea.t` and `test_nausea_episodes` cover attribute/defense
 penalties, independent overlapping causes, expiry, ending one cause, preview,
 rollback, undo, replay and saved continuation. They are authored and unrun.
+
+
+### Nausea events and fixed-duration vomiting
+
+`RpgExpandedNauseaTrigger` accepts `kind` values `meal`, `odor`, `fear-failure`
+and `stun`. Supply a unique `eventId`, `profile`, `observedAt` equal to the current
+clock, `approved`, and concrete evidence of the event. `richMealWithinHour`
+records the authored dietary fact. This explicit event interface does not itself
+hook every parser, fear or combat event; those automatic adapters remain pending.
+Hourly free-fall and motion-sickness scheduling remains pending as well.
+
+Prepare an unstarted `RpgExpandedRetching` episode with an approved
+`RpgExpandedRetchingContext` for the same profile. It requires the existing oral
+benefit review and exact affected meal/remedy records. Trigger assessment validates
+the possible vomiting outcome before dice. It uses the shared HT context, including
+the nausea penalty, and the rich-meal/remedy modifier. Success records the check
+without starting vomiting. Failure starts the prepared episode and atomically
+revokes reviewed oral benefits. A used event cannot roll or start vomiting twice.
+
+The general `RpgExpandedRetching` uses the fixed `(25 - HT)`-second duration from
+B428. At its endpoint, apply `RpgExpandedRetchingRecovery` to finish the condition
+and charge its one fatigue point, including supported overflow injury. This fixed
+ending consumes no extra second or random roll; the clock cannot skip it. The
+existing `RpgExpandedFearRetching` identifier remains a subclass with its distinct
+fear-table recovery-check procedure. Both share physical penalties, oral-benefit
+handling, fatigue and receipts. Fear recovery checks now use the shared HT score
+so active health penalties apply.
+
+Exceptional HT of 25 or higher, unsupported oral-benefit revocation and unavailable
+scores are rejected before the trigger roll. `tests/fixtures/expanded-nausea-trigger.t`
+and `test_nausea_triggers` specify success, failure, preflight, fixed-end timing,
+no duplicate fatigue, preview, rollback, undo, replay and saved continuation.
+Existing fear/meal/remedy fixtures remain required regressions. All are unrun.

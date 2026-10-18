@@ -8912,6 +8912,8 @@ def test(build):
     test_radiation_recovery(Session, radiation_recovery, build.out)
     nausea = build.build('expanded-nausea', ROOT / 'tests/fixtures/expanded-nausea.t')
     test_nausea_episodes(Session, nausea, build.out)
+    nausea_trigger = build.build('expanded-nausea-trigger', ROOT / 'tests/fixtures/expanded-nausea-trigger.t')
+    test_nausea_triggers(Session, nausea_trigger, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10470,3 +10472,48 @@ def test_nausea_episodes(Session, bundle, out):
         assert state(s) == [10] * 6 + [0, 2, 60, 0]
     finally:
         s.close()
+
+
+def test_nausea_triggers(Session, bundle, out):
+    def state(s):
+        s.action(2291, 54, 0)
+        return last(s, 'test.nausea-trigger')
+    path = out / 'expanded-nausea-trigger.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2291, 20, 0)
+        s.action(2291, 51, 0)
+        s.action(2291, 52, 0)
+        assert state(s) == [0, 0, 0, None, 0, 0]
+        s.action(2291, 50, 0)  # Seed 1 rolls 10 against nausea-adjusted HT 8.
+        s.command('undo')
+        assert state(s) == [0, 0, 0, None, 0, 0]
+        s.action(2291, 50, 0)
+        s.action(2291, 50, 0)
+        assert state(s) == [1, 1, 0, 15, 3, 0]
+        s.action(2291, 30, 16)
+        assert state(s) == [1, 1, 0, 15, 3, 0]
+        s.action(2291, 30, 14)
+        s.command(f':save {path}\n@2295')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2295')
+        s.action(2291, 53, 0)
+        assert state(s) == [1, 1, 0, 15, 3, 14]
+        s.action(2291, 30, 1)
+        s.action(2291, 53, 0)
+        s.action(2291, 53, 0)
+        assert state(s) == [1, 0, 1, 15, 3, 15]
+    finally:
+        s.close()
+    for setup, expected in [(40, [1, 0, 0, None, 3, 0]), (41, [0, 0, 0, None, 0, 0])]:
+        s = Session(bundle)
+        try:
+            s.action(2291, 20, 0)
+            s.action(2291, setup, 0)
+            s.action(2291, 50, 0)
+            assert state(s) == expected
+        finally:
+            s.close()
