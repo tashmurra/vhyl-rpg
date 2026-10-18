@@ -283,3 +283,9 @@ Fulfilled sustenance deadlines can now anchor explicit successive periods, with
 bound predecessor history and no duplicate inventory charge. Calendar successors
 keep their calendar and require a new authored boundary. Initial satisfied state
 and automatic scheduling remain pending; recurrence persistence fixtures are unrun.
+
+
+Periodic sustenance tracking can now start from an authored satisfied-access
+receipt without fictional deprivation or an extra inventory charge. Duplicate
+or post-history initialization rejects. Continuous initialization and automatic
+setup remain pending; rollback, undo and save-continuation fixtures are unrun.

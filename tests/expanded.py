@@ -9230,6 +9230,8 @@ def test(build):
     test_sustenance_timely_contact(Session, sustenance_timely_contact, build.out)
     sustenance_recurrence = build.build('expanded-sustenance-recurrence',ROOT / 'tests/fixtures/expanded-sustenance-recurrence.t')
     test_sustenance_recurrence(Session, sustenance_recurrence, build.out)
+    sustenance_initial = build.build('expanded-sustenance-initial',ROOT / 'tests/fixtures/expanded-sustenance-initial.t')
+    test_sustenance_initial(Session, sustenance_initial, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20900,5 +20902,34 @@ def test_sustenance_recurrence(Session, bundle, out):
         for code in (12401, 12403, 12404, 12404, 12405):
             s.action(2285, code)
         assert last(s, 'test.sustenance-recurrence') == [2, 0, 172800, 1, 1, 172800, 0]
+    finally:
+        s.close()
+
+
+def test_sustenance_initial(Session, bundle, out):
+    """An initial satisfied fact starts tracking without fictional deprivation; unrun."""
+    path = out / 'expanded-sustenance-initial.zsave'
+    s = Session(bundle)
+    try:
+        for code in (12500, 12502, 12503):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-initial-state') == [0, 0, 1, 0, 0]
+        s.action(2285, 12501)
+        s.command('undo')
+        s.action(2285, 12503)
+        assert last(s, 'test.sustenance-initial-state') == [0, 0, 1, 0, 0]
+        for code in (12501, 12501, 12504, 12102, 12503):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-initial-duplicate') == ['sustenance-initial-duplicate']
+        assert last(s, 'test.sustenance-initial-state') == [1, 0, 1, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (12501, 12104, 12202, 12202, 12503):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-initial-state') == [1, 0, 0, 86400, 0]
     finally:
         s.close()

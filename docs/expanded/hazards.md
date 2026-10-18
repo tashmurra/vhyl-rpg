@@ -2282,8 +2282,8 @@ its first injury is one injury interval later, not at the missed deadline.
 Replay retains both receipts without another episode or time charge.
 
 The missed-deadline path, timely substance doses and full uninterrupted contact
-ending at the deadline are supported. Early access, initial access before any deprivation
-and automatic recurrence remain pending. Do not register a cycle that needs
+ending at the deadline are supported. Early access and automatic recurrence remain pending; initial access uses the
+explicit campaign-start receipt described below. Do not register a cycle that needs
 those unsupported paths. Continuous requirements use a separate access model and reject
 this periodic API.
 
@@ -2357,8 +2357,29 @@ after restoration, that episode starts its own deadline chain. Replays and saved
 successors preserve the original due time and do not consume more stock.
 
 Registration remains an explicit author action, normally in the same transaction
-as fulfillment. There is no automatic calendar generator or catch-up loop. Initial
-access without a prior deprivation, early access, and automatic setup remain
-pending. [`expanded-sustenance-recurrence.t`](../../tests/fixtures/expanded-sustenance-recurrence.t)
+as fulfillment. There is no automatic calendar generator or catch-up loop. Early access and automatic setup remain pending. Initial access without a prior
+deprivation uses the receipt below. [`expanded-sustenance-recurrence.t`](../../tests/fixtures/expanded-sustenance-recurrence.t)
 and `test_sustenance_recurrence` specify successive daily periods, the unfulfilled
 predecessor gate, replay, rollback, undo and save continuation. Fixtures are unrun.
+
+
+### Starting from satisfied access
+
+`RpgExpandedSustenanceInitialAccess` records an initial campaign fact. Supply
+unique `id`, `profile`, owned periodic `requirement`, approval and evidence that
+sufficient access has just occurred and its resources are already reflected in
+the starting state. `record()` binds the current shared time and definition once;
+it creates no deprivation, injury, time charge or inventory change. It is an
+initialization interface, not an alternative live consumption action.
+
+Use this receipt as a deadline's `source` and register at the same clock time.
+Subsequent deadlines, timely doses, contact and missed-period transitions use the
+ordinary owned procedures. The receipt rejects another initial record for the
+requirement, or an initial record after existing deprivation/deadline history,
+so it cannot reset an active obligation. Continuous access remains a separate
+unsupported initialization case.
+
+[`expanded-sustenance-initial.t`](../../tests/fixtures/expanded-sustenance-initial.t)
+and `test_sustenance_initial` specify no initial resource charge or fictional
+injury, duplicate rejection, rollback, undo, save continuation and later inventory
+consumption. Fixtures remain unrun.

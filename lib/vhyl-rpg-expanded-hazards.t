@@ -5618,17 +5618,18 @@ class RpgExpandedSustenanceDeadline: object
     }
     assess()
     {
-        if (self.id == nil || self.id == '' || self.source == nil || !self.source.ofKind(RpgExpandedSustenanceDeprivation))
+        if (self.id == nil || self.id == '' || self.source == nil
+            || (!self.source.ofKind(RpgExpandedSustenanceDeprivation) && !self.source.ofKind(RpgExpandedSustenanceInitialAccess)))
             rpgExpandedReject('sustenance-deadline-definition');
         self.source.validateReceipt(); local value = new RpgExpandedResult();
         if (self.registeredAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
         if (self.boundDefinition != nil || self.dueAt != nil || self.missedEpisode != nil || self.fulfillment != nil || self.timelyContact != nil)
             rpgExpandedReject('sustenance-deadline-uncommitted-state');
-        if (self.source.restoration == nil) { value.reason = 'sustenance-deadline-restoration-required'; return value; }
+        if (self.source.satisfiedAt() == nil) { value.reason = 'sustenance-deadline-restoration-required'; return value; }
         if (self.source.profile.dead) { value.reason = 'sustenance-dead'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'sustenance-deadline-author-facts'; return value; }
-        local anchor = self.source.restoration.completedAt;
+        local anchor = self.source.satisfiedAt();
         if (self.previous != nil)
         {
             if (!self.previous.ofKind(RpgExpandedSustenanceDeadline) || self.previous == self || self.previous.source != self.source)
@@ -5849,5 +5850,65 @@ class RpgExpandedSustenanceDueContact: object
         { value.status = 'blocked'; value.reason = 'sustenance-contact-continuity-evidence'; return value; }
         self.completedAt = rpgLedger.seconds; self.completionEvidence = evidence; self.boundCompletion = [self.completedAt,self.completionEvidence];
         self.deadline.fulfillment = self; value.status = 'resolved'; return value;
+    }
+;
+
+modify RpgExpandedSustenanceDeprivation
+    satisfiedAt() { return self.restoration == nil ? nil : self.restoration.completedAt; }
+;
+modify RpgExpandedProfile
+    sustenanceInitialAccess = []
+;
+/** Initial campaign fact only; live ingestion uses inventory-backed dose operations. */
+class RpgExpandedSustenanceInitialAccess: object
+    id = nil
+    profile = nil
+    requirement = nil
+    approved = nil
+    evidence = nil
+    completedAt = nil
+    boundDefinition = nil
+    satisfiedAt() { return self.completedAt; }
+    definition()
+    {
+        return [self.id,self.profile,self.requirement,self.approved,self.evidence,self.completedAt,
+            self.requirement.scope,self.requirement.level,self.requirement.points] + self.requirement.templatePurchaseOptions();
+    }
+    validateReceipt()
+    {
+        if (self.completedAt == nil || self.boundDefinition == nil || !holds(self.profile.sustenanceInitialAccess,self))
+            rpgExpandedReject('sustenance-initial-history');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sustenance-initial-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.requirement == nil)
+            rpgExpandedReject('sustenance-initial-definition');
+        local value = new RpgExpandedResult();
+        if (self.completedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundDefinition != nil) rpgExpandedReject('sustenance-initial-uncommitted-state');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'sustenance-initial-author-facts'; return value; }
+        if (self.profile.dead) { value.reason = 'sustenance-dead'; return value; }
+        self.profile.sustenancePeriod(self.requirement);
+        foreach (local prior in self.profile.sustenanceInitialAccess)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.requirement == self.requirement) rpgExpandedReject('sustenance-initial-duplicate');
+        }
+        foreach (local episode in self.profile.sustenanceDeprivations)
+            if (episode.requirement == self.requirement) rpgExpandedReject('sustenance-initial-existing-history');
+        foreach (local deadline in self.profile.sustenanceDeadlines)
+            if (deadline.source.requirement == self.requirement) rpgExpandedReject('sustenance-initial-existing-history');
+        value.status = 'ready'; return value;
+    }
+    record()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.profile.sustenanceInitialAccess = self.profile.sustenanceInitialAccess + [self]; value.status = 'resolved'; return value;
     }
 ;
