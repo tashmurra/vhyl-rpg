@@ -349,8 +349,11 @@
       "title": "Hex movement, facing and close combat",
       "pages": "B384-B392",
       "source": "full-2008",
-      "status": "pending",
-      "tests": []
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_tactical_geometry"
+      ],
+      "validation_note": "Hex geometry, adjacent facing and explicit barrier assessments authored; fixtures unrun. Persistent figures, movement and tactical combat remain pending."
     },
     {
       "id": "technology",

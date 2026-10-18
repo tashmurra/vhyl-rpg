@@ -9049,6 +9049,40 @@ def test(build):
     test_familiarity_persistence(Session,bundle,build.out)
     test_persistence(Session,bundle,build.out)
     print('  expanded cross-process persistence: passed',flush=True)
+    tactical = build.build('expanded-tactical', ROOT / 'tests/fixtures/expanded-tactical.t')
+    fresh(Session, tactical, test_tactical_geometry)
     example = build.build('expanded-example',ROOT / 'examples/expanded/main.t')
     test_example(Session,example)
     print('  expanded example parser/action/dialogue parity: passed',flush=True)
+
+
+def test_tactical_geometry(s):
+    # Explicit clockwise diagram neighbors; rotate facing through all six headings.
+    neighbors = [(1, 0), (0, 1), (-1, 1), (-1, 0), (0, -1), (1, -1)]
+    sides = ['front', 'front', 'right', 'back', 'left', 'front']
+    for facing in range(6):
+        for heading, (q, r) in enumerate(neighbors):
+            side = sides[(heading - facing) % 6]
+            for hand in (0, 1):
+                s.action(2270, facing, q, r, hand)
+                weapon = side == ('right' if hand == 0 else 'left')
+                shield = side == ('left' if hand == 0 else 'right')
+                assert last(s, 'test.tactical-facing') == [
+                    'ready', None, heading, side, weapon or None, shield or None]
+    for q, r in [(0, 0), (2, 0), (-2, 1)]:
+        s.action(2270, 0, q, r, 0)
+        assert last(s, 'test.tactical-facing') == [
+            'blocked', 'tactical-adjacent-required', None, None, None, None]
+    for coords, distance in [((0, 0, 0, 0), 0), ((0, 0, 3, 0), 3),
+                             ((0, 0, 2, 2), 4), ((0, 0, -2, 2), 2),
+                             ((-4, 3, 2, -1), 6),
+                             ((-1000000, -1000000, 1000000, 1000000), 4000000)]:
+        s.action(2271, *coords)
+        assert last(s, 'test.tactical-distance') == [distance, 0, 0]
+    for barrier, blocked, evidence, status, reason in [
+            (0, 0, 0, 'ready', None), (1, 0, 0, 'ready', None),
+            (2, 0, 0, 'blocked', 'tactical-solid-barrier'),
+            (1, 1, 0, 'error', 'tactical-partial-ruling-evidence'),
+            (1, 1, 1, 'blocked', 'tactical-partial-barrier-ruling')]:
+        s.action(2272, barrier, blocked, evidence)
+        assert last(s, 'test.tactical-terrain') == [status, reason, 0, 0]

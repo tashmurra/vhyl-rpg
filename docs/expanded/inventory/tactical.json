@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "full-2008",
   "pages": "B384-B392",
-  "review": "Tactical chapter text and numeric cost/coverage rows inventoried. Facing, reach and multi-hex diagrams on B385/B388/B392 visually inspected; exact coordinate fixtures, vision diagram review and cross-rule precedence remain pending.",
+  "review": "Tactical chapter text and numeric cost/coverage rows inventoried. Facing, reach and multi-hex diagrams on B385/B388/B392 visually inspected; exact coordinate fixtures, vision diagram review and cross-rule precedence remain pending. Geometry and barrier assessments authored; coordinate fixtures unrun, complete path and figure-state coverage pending.",
   "enumeration_complete": false,
   "entries": [
     {
@@ -11,9 +11,12 @@
       "pages": "B384",
       "module": "tactical",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Each hex represents one yard. Human-sized or smaller combatants occupy one hex except actual close combat, swarms and noncombat crowding; up to four friendly ordinary humans can crowd without gaining normal fighting space.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_tactical_geometry"
+      ],
+      "implementation_note": "Pure geometric/terrain assessment only. Owned positions, occupancy and path integration remain incomplete; fixtures unrun."
     },
     {
       "id": "tactical-partial-hex",
@@ -21,9 +24,12 @@
       "pages": "B385",
       "module": "tactical",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A partly obstructed boundary hex counts as full unless the author rules otherwise. Fully solid hexes remain impassable; use explicit terrain facts, not center-point occupancy alone.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_tactical_geometry"
+      ],
+      "implementation_note": "Pure geometric/terrain assessment only. Owned positions, occupancy and path integration remain incomplete; fixtures unrun."
     },
     {
       "id": "tactical-facing",
@@ -31,9 +37,12 @@
       "pages": "B385",
       "module": "tactical",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Store one of six headings; three adjacent directions are front, one left, one right and one back. Handedness determines weapon/shield sides. Rotation must preserve relative classification.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_tactical_geometry"
+      ],
+      "implementation_note": "Pure geometric/terrain assessment only. Owned positions, occupancy and path integration remain incomplete; fixtures unrun."
     },
     {
       "id": "tactical-prone-footprint",

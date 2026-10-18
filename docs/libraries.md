@@ -3,7 +3,7 @@
 Essential means required by the selected integration, not enabled in every game.
 Include the engine once. For Lite, include progression followed by the Lite umbrella; do not also include its components separately. Expanded integrations add the expanded foundation after this sequence.
 
-**The expanded conversion is incomplete.** Fifteen feature modules currently provide the scoped mechanics described below. Remaining modules are a roadmap, not includeable libraries. The [coverage ledger](expanded/coverage.json) is a chapter-level inventory; detailed catalogue enumeration remains unfinished.
+**The expanded conversion is incomplete.** Sixteen feature modules currently provide the scoped mechanics described below. Remaining modules are a roadmap, not includeable libraries. The [coverage ledger](expanded/coverage.json) is a chapter-level inventory; detailed catalogue enumeration remains unfinished.
 
 ## Core / essential
 
@@ -41,7 +41,7 @@ Include the engine once. For Lite, include progression followed by the Lite umbr
 | Expanded psionics | `vhyl-rpg-expanded-psionics.t` | Expanded foundation | Expanded profiles | Partial: power definitions, talent advancement, latent eligibility, danger warnings, resistance and absolute static | [Guide](expanded/psionics.md) / [minimal fixture](../tests/fixtures/expanded-psionics.t) |
 | Expanded skills | `vhyl-rpg-expanded-skills.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/skills.md) / [example](../examples/expanded/main.t) |
 | Expanded social | `vhyl-rpg-expanded-social.t` | Expanded foundation | Expanded profiles | Partial: standing, reactions, trade, information and loyalty | [Guide](expanded/social.md) / [minimal fixture](../tests/fixtures/expanded-social.t) |
-| Expanded tactical | `vhyl-rpg-expanded-tactical.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/tactical.md) / no example yet |
+| Expanded tactical | `vhyl-rpg-expanded-tactical.t` | Expanded foundation | Pure assessments; no movement integration | Partial: hex geometry, adjacent facing and barriers | [Guide](expanded/tactical.md) / [minimal fixture](../tests/fixtures/expanded-tactical.t) |
 | Expanded technology | `vhyl-rpg-expanded-technology.t` | Expanded foundation, equipment | Explicit assessments; owned faults, computers and projects | Partial: object assessments, computer operations and invention/production stages | [Guide](expanded/technology.md) / [minimal fixture](../tests/fixtures/expanded-technology.t) |
 | Expanded templates | `vhyl-rpg-expanded-templates.t` | Expanded foundation + characters + skills | Expanded profiles | Partial | [Guide](expanded/templates.md) / [example](../examples/expanded/main.t) |
 | Expanded traits | `vhyl-rpg-expanded-traits.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/traits.md) / [example](../examples/expanded/main.t) |

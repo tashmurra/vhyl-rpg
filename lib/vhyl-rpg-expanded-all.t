@@ -22,3 +22,5 @@
 #include <vhyl-rpg-expanded-creatures.t>
 
 #include <vhyl-rpg-expanded-psionics.t>
+
+#include <vhyl-rpg-expanded-tactical.t>

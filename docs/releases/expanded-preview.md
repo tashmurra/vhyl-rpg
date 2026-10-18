@@ -1,13 +1,13 @@
 # Unreleased expanded preview
 
 This branch implements an incomplete experimental suite. It is not a stable
-release and does not claim full-reference coverage. VERSION remains unchanged;
-no tag or release publication is part of this work.
+release and does not claim full-reference coverage. VERSION follows the merged
+main prerelease; no new tag or release publication is part of this work.
 
-The expanded foundation and convenience umbrella currently include fifteen partial
+The expanded foundation and convenience umbrella currently include sixteen partial
 feature modules: campaign, characters, combat, creatures, development, equipment,
-exploration, hazards, health, psionics, skills, social, technology, templates and
-traits. Magic, tactical and vehicles remain proposed modules without standalone runtime
+exploration, hazards, health, psionics, skills, social, tactical, technology, templates
+and traits. Magic and vehicles remain proposed modules without standalone runtime
 libraries. Available include paths are distinguished from proposals in the
 [library catalogue](../libraries.md). Technology currently supplies pure object-capacity,
 injury-threshold and disabled-weapon assessments, owned environmental faults and
@@ -133,3 +133,15 @@ boundaries. Ordinary waking cannot bypass the episode, and time advancement
 cannot skip its due checks. The conditional- and unconditional-injury faint
 outcomes use owned wounds with preflight before randomness. Broader overlap
 timing remains incomplete; new fixtures are unrun.
+
+
+The branch now includes the main character/social prerelease, its Town Registry
+example and regression fixtures. Original prerelease evidence is retained in its
+own release note; it does not validate the merged expanded suite. Build checks
+remain paused.
+
+Sixteen feature modules now have partial implementations. Tactical adds pure hex
+distance, adjacent facing and barrier assessments, with a minimal fixture covering
+rotations and handedness. It does not yet supply persistent figures or movement.
+Magic and vehicles still have no standalone runtime module. All newly authored
+fixtures remain unrun, and the full suite remains incomplete.
