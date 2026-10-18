@@ -1743,3 +1743,39 @@ class RpgExpandedPsychologyDefault: object
         rpgInteger(self.penalty,-100,0); return [self.source,self.penalty];
     }
 ;
+
+/** B216 individual psychology modifiers, with explicit situational evidence. */
+class RpgExpandedPsychologyContext: RpgExpandedSkillContext
+    subject = nil
+    subjectSpecies = nil
+    purpose = 'prediction'
+    knownWell = nil
+    knownPersonalityType = nil
+    subjectPresent = nil
+    empathyModifier = 0
+    approved = nil
+    evidence = nil
+    validatePsychology()
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedPsychologySkill)
+            || self.subject == nil || !self.subject.ofKind(RpgLiteProfile) || self.subjectSpecies == nil
+            || self.subjectSpecies != self.skill.specialty || self.fixedBase != nil || self.rollAttribute != nil)
+            rpgExpandedReject('psychology-context-definition');
+        self.skill.validateDefinition();
+        if (self.skill.discipline == 'experimental') rpgExpandedReject('psychology-applied-context-required');
+        if (!holds(['prediction','diagnosis','exploit-weakness'],self.purpose)) rpgExpandedReject('psychology-context-purpose');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('psychology-context-evidence');
+        if (!holds([-3,0,1,3],self.empathyModifier)) rpgExpandedReject('psychology-context-empathy');
+        if (self.empathyModifier != 0 && (self.purpose != 'diagnosis' || !self.subjectPresent))
+            rpgExpandedReject('psychology-empathy-inapplicable');
+        return nil;
+    }
+    unavailableReason(profile) { self.validatePsychology(); return inherited(profile); }
+    skillUseModifier(profile)
+    {
+        self.validatePsychology(); local base = inherited(profile);
+        if (base == nil) return nil;
+        return base + (self.knownWell ? 3 : 0) + (self.knownPersonalityType ? 3 : 0) + self.empathyModifier
+            - (profile.callousnessActive() && self.purpose != 'exploit-weakness' ? 3 : 0);
+    }
+;

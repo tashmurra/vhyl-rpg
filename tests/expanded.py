@@ -9400,6 +9400,8 @@ def test(build):
     test_animal_handling_skill(Session, animal_handling_skill)
     psychology_skill = build.build("expanded-psychology-skill",ROOT / "tests/fixtures/expanded-psychology-skill.t")
     test_psychology_skill(Session, psychology_skill)
+    psychology_context = build.build("expanded-psychology-context",ROOT / "tests/fixtures/expanded-psychology-context.t")
+    test_psychology_context(Session, psychology_context)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23945,3 +23947,27 @@ def test_psychology_skill(Session, bundle):
         assert last(s,'test.psychology-error') == ['psychology-split-evidence']
     finally:
         s.close()
+
+
+def test_psychology_context(Session, bundle):
+    """B216 situational bonuses and the explicit callousness exception; unrun."""
+    for setup, score in (((),17),((20901,),20),((20902,),20),((20901,20902),23),
+                         ((20903,),20),((20903,20908),14),((20903,20909),18),
+                         ((20904,),14),((20904,20905),17),((20901,20902,20903,20904),23)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,20900):
+                s.action(1680,code)
+            assert last(s,'test.psychology-context') == [score,0]
+        finally:
+            s.close()
+    for setup, reason in (((20903,20906),'psychology-empathy-inapplicable'),
+                          ((20903,20905),'psychology-empathy-inapplicable'),
+                          ((20907,),'psychology-applied-context-required')):
+        s = Session(bundle)
+        try:
+            for code in (*setup,20900):
+                s.action(1680,code)
+            assert last(s,'test.psychology-context-error') == [reason]
+        finally:
+            s.close()

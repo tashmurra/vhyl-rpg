@@ -953,7 +953,31 @@ used by lie detection and body reading, and an untrained applied intermediary
 cannot create a default chain. Existing authored skill definitions retain their
 previous behavior.
 
-Behavior prediction, subject familiarity, empathy and callousness still need their
-own operation/context integration. `test_psychology_skill` specifies the one-way
+Behavior prediction still needs an owned result operation; situational modifiers
+use the context below. `test_psychology_skill` specifies the one-way
 discipline default, attribute fallback, social-inference default eligibility and
 campaign-approval rejection. Fixtures remain unrun while checks are paused.
+
+
+## Individual psychology contexts
+
+Use `RpgExpandedPsychologyContext` with a typed general or applied psychology
+skill, a `subject` profile and matching `subjectSpecies` (full-2008 B216). Set
+`purpose` to `prediction`, `diagnosis` or `exploit-weakness`. Supply `approved`
+and concrete `evidence` establishing the subject and relevant circumstances.
+Experimental psychology cannot directly serve as the skill for this context;
+select the applied definition to use its eligible default instead.
+
+`knownWell` and `knownPersonalityType` each add +3. The authored `empathyModifier`
+may be -3, 0, +1 or +3; a nonzero value is allowed only for diagnosis with
+`subjectPresent`. The author establishes the applicable empathy ability; the
+context does not infer or purchase it. Active purchased callousness subtracts 3
+except when the purpose is specifically to identify exploitable weaknesses.
+Callousness is read from the profile, so authors should not repeat that penalty
+in `modifier`. Keep other justified situational adjustments there.
+
+The context computes and rolls competence through existing skill interfaces.
+It does not choose a character's behavior, grant knowledge or resolve treatment. An owned prediction operation and authored fictional
+findings remain separate work. `test_psychology_context` covers each printed
+modifier, combinations, active callousness, its exception and inapplicable empathy
+or discipline rejection. Fixtures remain unrun while checks are paused.
