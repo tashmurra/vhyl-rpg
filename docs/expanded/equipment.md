@@ -46,3 +46,11 @@ reload mass, individual loading, rated strength, hand requirements, reach change
 parry restrictions and mounted use all have distinct meanings. A missing field is
 not zero. Existing numeric helpers do not implement these rules or the item tables;
 source review, catalogue definitions and executable integration remain pending.
+
+
+The [first melee catalogue segment](inventory/melee-catalogue-a.json) records the
+visually reviewed B271–B272 rows, with individual attack modes and the shared B274
+notes. Blade quality, readiness, electrical contact duration, thrown modes and
+weapon-specific defense penalties remain executable requirements. Multiple skill
+uses must refer to one owned item, not duplicate purchases or mass. Later melee
+rows and cross-skill identity reconciliation remain pending.
