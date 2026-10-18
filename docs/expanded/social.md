@@ -1643,3 +1643,20 @@ identity for the same group rather than creating fresh identities to reroll.
 Knowledge delivery uses the same observer-only finding record as individual
 assessment. `test_psychology_group` specifies preview, eligibility, membership,
 rollback, undo and replay. Fixtures remain unrun.
+
+
+## Psychology through native actions
+
+`RpgExpandedPsychologyAction` binds an `assessment` and `operation` (`assess` or
+`receive`). For `receive`, also bind a `disclosure` for that same assessment and
+observer. Attach the action to an authored verb/parser rule, or call
+`perform(context.asker)` from a dialogue choice. Normal execution uses
+`context.actor`. The acting character's `rpgProfile` must be the observer.
+
+Both operations share the underlying histories and replay protection. Receiving
+before assessment is blocked; another character cannot run either operation for
+the observer. The `rpg.expanded.psychology` event contains operation, status and
+reason only. Present returned findings only through the intended observer-facing
+interface. The library installs no automatic grammar or dialogue choices.
+`test_psychology_actions` covers parser, structured-action and dialogue parity,
+wrong-actor rejection, rollback, undo and replay. Fixtures remain unrun.

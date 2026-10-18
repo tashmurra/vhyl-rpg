@@ -3408,3 +3408,25 @@ class RpgExpandedPsychologyDisclosure: object
 ;
 
 
+
+/** One actor-bound route for inference and receiving its finding. */
+class RpgExpandedPsychologyAction: Action
+    assessment = nil
+    disclosure = nil
+    operation = 'assess'
+    perform(actor)
+    {
+        if (self.assessment == nil || !self.assessment.ofKind(RpgExpandedPsychologyAssessment)
+            || !holds(['assess','receive'],self.operation)) rpgExpandedReject('psychology-action-definition');
+        if (self.operation == 'receive' && (self.disclosure == nil || !self.disclosure.ofKind(RpgExpandedPsychologyDisclosure)
+            || self.disclosure.assessment != self.assessment || self.disclosure.recipient != self.assessment.profile))
+            rpgExpandedReject('psychology-action-disclosure');
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile != self.assessment.profile)
+            value.reason = 'psychology-action-observer-required';
+        else value = self.operation == 'assess' ? self.assessment.resolve() : self.disclosure.deliver();
+        event('rpg.expanded.psychology'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;

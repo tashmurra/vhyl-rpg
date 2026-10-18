@@ -9408,6 +9408,8 @@ def test(build):
     test_psychology_disclosure(Session, psychology_disclosure, build.out)
     psychology_group = build.build("expanded-psychology-group",ROOT / "tests/fixtures/expanded-psychology-group.t")
     test_psychology_group(Session, psychology_group)
+    psychology_actions = build.build("expanded-psychology-actions",ROOT / "tests/fixtures/expanded-psychology-actions.t")
+    test_psychology_actions(Session, psychology_actions)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24077,5 +24079,43 @@ def test_psychology_group(Session, bundle):
         try:
             s.action(1680,code)
             assert last(s,'test.psychology-group-error') == [reason]
+        finally:
+            s.close()
+
+
+def test_psychology_actions(Session, bundle):
+    """Assessment and disclosure share actor ownership on every native route; unrun."""
+    for route in ('parser','structured','dialogue'):
+        s = Session(bundle)
+        try:
+            def perform(operation):
+                if route == 'parser':
+                    s.command({'assess':'assess behavior','receive':'receive finding','rollback':'rollback assessment'}[operation])
+                elif route == 'structured':
+                    s.action({'assess':21310,'receive':21311,'rollback':21312}[operation])
+                else:
+                    s.action(80,'psychology-plan'); s.select(operation)
+            perform('receive')
+            assert last(s,'rpg.expanded.psychology') == ['receive','blocked','psychology-disclosure-unresolved']
+            perform('rollback'); s.action(1680,21002)
+            assert last(s,'test.psychology-history') == [0,0,0]
+            perform('assess'); perform('receive')
+            assert last(s,'rpg.expanded.psychology') == ['receive','resolved',None]
+            s.command('undo'); s.action(1680,21102)
+            assert last(s,'test.psychology-knowledge') == [0,0,3]
+            perform('receive'); perform('receive'); perform('assess')
+            assert last(s,'rpg.expanded.psychology') == ['assess','reused',None]
+            s.action(1680,21102)
+            assert last(s,'test.psychology-knowledge') == [1,0,3]
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.action(1680,21300)
+            for operation in ('assess','receive'):
+                perform(operation)
+                assert last(s,'rpg.expanded.psychology') == [operation,'blocked','psychology-action-observer-required']
+            s.action(1680,21002)
+            assert last(s,'test.psychology-history') == [0,0,0]
         finally:
             s.close()
