@@ -127,3 +127,17 @@ An existing owned item must retain its identity when revealed. Improvised device
 also need materials, skill resolution and a committed failed-use cost. Growth
 requires separate supporting strength and checks against actual surrounding
 space, with timed barrier penetration when eligible.
+
+
+The [seventh catalogue segment](inventory/traits-catalogue-g.json) covers sensory
+bands, injury anatomy, damaging powers, alternate attacks, phasing and invisibility.
+Anatomical protections compose through explicit included traits and incompatible
+body forms. A purchased attack retains damage type, delivery and exact fractional
+dice pricing; an alternate family also owns shared failure and suppression state.
+
+Phasing needs region-level material state, barrier eligibility, respiration and
+carried-object transitions. Invisibility needs observer and sensing-domain checks,
+with separate evidence for sound, tracks, shadows and reflection. Neither is a
+single universal immunity flag. Intuitive guidance also retains a question identity
+and bounded authored outputs so repeated previews cannot reveal hidden answers.
+All of these effects remain pending implementation and validation.
