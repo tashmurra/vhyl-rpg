@@ -78,6 +78,7 @@ crewDanger: RpgExpandedLoyaltyDanger loyalty = crewLoyalty incident = 'noncombat
     necessary = true noncombatant = true;
 crewPerformance: RpgExpandedLoyaltyChange loyalty = crewLoyalty id = 'survey-expedition'
     evidence = 'expedition-complete' continuing = true adventureComplete = true performance = 'great-success';
+crewAnniversary: RpgExpandedServiceAnniversary loyalty = crewLoyalty year = 1 anniversaryAt = 100 completedService = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -245,6 +246,16 @@ class ExpandedTestAction: Action
             local change = new RpgExpandedLoyaltyChange(); change.loyalty = crewLoyalty; change.id = 'abandoned-post';
             change.kind = 'forgiveness'; change.forgiven = true; change.evidence = 'forgiveness-dialogue';
             local value = change.apply(); event('test.loyalty-change'); eventValue(value.status); eventValue(value.change);
+        }
+        if (code == 58 || code == 59 || code == 60 || code == 61 || code == 62)
+        {
+            if (code == 60) crewLoyalty.preset = 9;
+            if (code == 61) crewLoyalty.preset = 20;
+            crewLoyalty.initialize();
+            if (code != 62) rpgSpendTime(100);
+            local value = crewAnniversary.resolve(); event('test.service-anniversary');
+            eventValue(value.status); eventValue(value.rating); eventValue(value.check); eventValue(value.change);
+            if (code == 59) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -1273,6 +1284,22 @@ act(verb, args)
     {
         event('test.loyalty-change-state'); eventValue(crewLoyalty.base); eventValue(crewLoyalty.changes.length());
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1207)
+    {
+        event('test.service-state'); eventValue(crewLoyalty.base); eventValue(crewLoyalty.lastServiceYear);
+        eventValue(crewLoyalty.serviceYears.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1208)
+    {
+        local profile = new RpgExpandedProfile(); profile.rules = expandedRules;
+        local loyalty = new RpgExpandedLoyalty(); loyalty.id = 'temporary-service'; loyalty.subject = profile;
+        loyalty.employer = 'employer'; loyalty.preset = 12; profile.loyalties = [loyalty]; loyalty.initialize();
+        local anniversary = new RpgExpandedServiceAnniversary(); anniversary.loyalty = loyalty;
+        anniversary.anniversaryAt = rpgLedger.seconds + 1;
+        event('test.service-gates'); eventValue(anniversary.assess().reason);
+        anniversary.completedService = true; eventValue(anniversary.assess().reason);
+        anniversary.year = 2; eventValue(anniversary.assess().reason); return nil;
     }
     return vhylAct(verb,args);
 }

@@ -1041,3 +1041,61 @@ class RpgExpandedLoyaltyChange: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedLoyalty
+    serviceYears = []
+    lastServiceYear = 0
+    lastAnniversaryAt = 0
+;
+
+class RpgExpandedServiceResult: RpgExpandedLoyaltyResult
+    change = 0
+;
+
+/** B519 annual service check. The campaign calendar supplies an absolute due
+ * time; this operation never assumes 365 days or charges elapsed time again. */
+class RpgExpandedServiceAnniversary: object
+    loyalty = nil
+    year = 1
+    anniversaryAt = nil
+    completedService = nil
+    assess()
+    {
+        if (self.loyalty == nil || !self.loyalty.ofKind(RpgExpandedLoyalty))
+            rpgExpandedReject('service-loyalty');
+        self.loyalty.validate(); rpgInteger(self.year,1,10000);
+        local value = new RpgExpandedServiceResult();
+        foreach (local receipt in self.loyalty.serviceYears)
+            if (receipt[1] == self.year) { value.status = 'reused'; return value; }
+        if (!self.loyalty.initialized) { value.reason = 'loyalty-uninitialized'; return value; }
+        if (self.year != self.loyalty.lastServiceYear + 1)
+        { value.reason = 'service-year-gap'; return value; }
+        rpgInteger(self.anniversaryAt,1,2147483647);
+        if (self.anniversaryAt <= self.loyalty.lastAnniversaryAt)
+            rpgExpandedReject('service-anniversary-order');
+        if (!self.completedService) { value.reason = 'service-year-incomplete'; return value; }
+        if (rpgLedger.seconds < self.anniversaryAt) { value.reason = 'service-anniversary-not-due'; return value; }
+        rpgInteger(self.loyalty.base,-1000,1017);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess();
+        if (value.status == 'reused')
+        {
+            foreach (local receipt in self.loyalty.serviceYears)
+                if (receipt[1] == self.year)
+                { value.rating = receipt[3]; value.check = receipt[4]; value.loyal = receipt[5]; }
+            return value;
+        }
+        if (value.status != 'ready') return value;
+        value.rating = self.loyalty.rating();
+        if (value.rating >= 20) value.loyal = true;
+        else { value.check = rpgRandom.roll(); value.loyal = value.check <= value.rating; }
+        value.change = value.loyal ? 1 : 0; self.loyalty.base += value.change;
+        self.loyalty.serviceYears = self.loyalty.serviceYears
+            + [[self.year,self.anniversaryAt,value.rating,value.check,value.loyal]];
+        self.loyalty.lastServiceYear = self.year; self.loyalty.lastAnniversaryAt = self.anniversaryAt;
+        value.status = 'resolved'; return value;
+    }
+;

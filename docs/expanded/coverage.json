@@ -767,6 +767,20 @@
         "tests/expanded.py::test_loyalty_forgiveness_low"
       ],
       "validation_note": "Completed-adventure and forgiveness changes with persistent event receipts authored. Checks unrun; rescue, pay and anniversaries pending."
+    },
+    {
+      "id": "loyalty-service-anniversaries",
+      "module": "social",
+      "pages": "B519",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedServiceAnniversary",
+      "tests": [
+        "tests/expanded.py::test_service_anniversary",
+        "tests/expanded.py::test_service_failure",
+        "tests/expanded.py::test_service_automatic"
+      ],
+      "validation_note": "Chronological authored anniversary dates, annual checks and one-time base bonuses implemented. Checks unrun; calendar scheduling and full loyalty integration pending."
     }
   ],
   "detailed_inventories": [

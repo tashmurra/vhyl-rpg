@@ -841,6 +841,40 @@ def test_loyalty_forgiveness_low(s):
     assert loyalty_change_state(s) == [15, 1, 3, 0]
 
 
+def service_state(s):
+    s.action(1207)
+    return last(s, 'test.service-state')
+
+
+def test_service_anniversary(s):
+    initial = service_state(s)
+    s.action(1208)
+    assert last(s, 'test.service-gates') == ['service-year-incomplete', 'service-anniversary-not-due', 'service-year-gap']
+    assert service_state(s) == initial
+    s.action(1100, 59)
+    assert service_state(s) == initial
+    s.action(1100, 58)
+    assert last(s, 'test.service-anniversary') == ['resolved', 12, 10, 1]
+    assert service_state(s) == [13, 1, 1, 3, 100]
+    s.command('undo')
+    assert service_state(s) == initial
+    s.action(1100, 58); s.action(1100, 62)
+    assert last(s, 'test.service-anniversary') == ['reused', 12, 10, 0]
+    assert service_state(s) == [13, 1, 1, 3, 100]
+
+
+def test_service_failure(s):
+    s.action(1100, 60)
+    assert last(s, 'test.service-anniversary') == ['resolved', 9, 10, 0]
+    assert service_state(s) == [9, 1, 1, 3, 100]
+
+
+def test_service_automatic(s):
+    s.action(1100, 61)
+    assert last(s, 'test.service-anniversary') == ['resolved', 20, None, 1]
+    assert service_state(s) == [21, 1, 1, 0, 100]
+
+
 def test_loyalty(s):
     initial = loyalty_state(s)
     s.action(1203)
@@ -1179,7 +1213,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_service_anniversary,test_service_failure,test_service_automatic,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')

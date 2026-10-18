@@ -524,3 +524,29 @@ Authored cases `test_loyalty_performance`, `test_loyalty_botched`,
 cover signed changes, duplicate events, the eligibility threshold, zero-change
 receipts, rollback and undo. Checks remain paused and unrun. Rescue, pay and
 service-anniversary changes remain pending.
+
+
+## Service anniversaries
+
+`RpgExpandedServiceAnniversary` implements the annual check from full-2008 B519.
+Supply the owned `loyalty`, sequential `year` starting at 1, `anniversaryAt` on the
+shared clock, and the authored `completedService` fact. The campaign calendar must
+calculate the real service anniversary; the runtime does not impose a 365-day year.
+Due dates must increase, years cannot be skipped, and a check cannot run before its
+date. This operation does not itself advance time.
+
+`assess()` reveals no rating or check result. `resolve()` checks current loyalty,
+gives a permanent +1 on success, and records the year even on failure. Effective
+loyalty of 20 or higher succeeds without dice. Results are stored in `serviceYears`,
+with `lastServiceYear` and `lastAnniversaryAt` enforcing chronological processing.
+A repeated year, including a new operation object, reuses the prior result with
+zero additional change. Catch-up must process outstanding years in order; author
+simulation must supply the loyalty state appropriate to each past anniversary,
+rather than silently applying today's state to an earlier year.
+
+Authored cases `test_service_anniversary`, `test_service_failure` and
+`test_service_automatic` in `tests/expanded.py` cover prerequisites, early dates,
+skipped years, success/failure, automatic outcomes, duplicate years, rollback and
+undo. The fixture uses a deliberately short authored calendar interval to exercise
+date behavior without assuming a world calendar. Checks remain paused and unrun.
+Calendar scheduling and rescue/pay integration are still incomplete.
