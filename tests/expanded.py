@@ -96,6 +96,19 @@ def test_technique_bases(s):
     assert state(s) == before, 'technique assessment changed persistent state'
 
 
+def test_learning_requirements(s):
+    before = state(s)
+    # B169 requires paid prerequisite training, even when its default is higher.
+    s.action(1118)
+    assert last(s, 'test.learning-requirements') == [
+        'skill-prerequisite', 'skill-prerequisite', None,
+        'skill-prerequisite', None, None, 'cyclic-prerequisite']
+    s.action(1119)
+    assert last(s, 'test.learning-gates') == [
+        'skill-prerequisite', 'skill-prerequisite', 10, 0, 0, 0, 'skill-prerequisite']
+    assert state(s) == before, 'rejected learning spent time or randomness'
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -173,7 +186,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     test_persistence(Session,bundle,build.out)

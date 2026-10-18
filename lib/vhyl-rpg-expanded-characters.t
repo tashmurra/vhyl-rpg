@@ -64,6 +64,11 @@ rpgExpandedValidateCharacter(profile)
     {
         if (training.skill == nil || holds(skills, training.skill)) rpgExpandedReject('duplicate-training');
         skills = skills + [training.skill]; rpgInteger(training.points, 0, 1000000);
+        if (training.points > 0)
+        {
+            local reason = profile.skillLearningReason(training.skill);
+            if (reason != nil) rpgExpandedReject(reason);
+        }
     }
     if (rpgExpandedCharacterCost(profile, nil) > profile.pointBudget
         || -rpgExpandedCharacterCost(profile, true) > profile.disadvantageLimit)

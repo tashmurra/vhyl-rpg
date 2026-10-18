@@ -208,6 +208,54 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1118)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.dx = 12;
+        local basic = new RpgExpandedSkill(); basic.attribute = rpgDX;
+        basic.difficulty = 1; basic.defaultPenalty = 0;
+        local advanced = new RpgExpandedSkill();
+        local req = new RpgExpandedPrerequisite(); req.skill = basic; req.minimum = 12;
+        advanced.prerequisite = req;
+        local training = new RpgExpandedTraining(); training.skill = basic; training.points = 0;
+        p.skills = [training];
+        event('test.learning-requirements'); eventValue(p.skillLearningReason(advanced));
+        training.points = 1; eventValue(p.skillLearningReason(advanced));
+        training.points = 4; eventValue(p.skillLearningReason(advanced));
+        local traitReq = new RpgExpandedPrerequisite(); traitReq.kind = 'trait';
+        traitReq.traitId = 'learning-gift'; traitReq.traitLevel = 2;
+        local group = new RpgExpandedPrerequisite(); group.kind = 'all';
+        group.children = [req,traitReq]; advanced.prerequisite = group;
+        eventValue(p.skillLearningReason(advanced));
+        group.kind = 'any'; eventValue(p.skillLearningReason(advanced));
+        training.points = 0;
+        local gift = new RpgLiteTrait(); gift.id = 'learning-gift'; gift.level = 2;
+        gift.active = nil; p.traits = [gift]; eventValue(p.skillLearningReason(advanced));
+        group.children = [req,group];
+        try { p.skillLearningReason(advanced); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1119)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        p.developmentOpen = true; p.unspentPoints = 10;
+        local basic = new RpgExpandedSkill(); local advanced = new RpgExpandedSkill();
+        local req = new RpgExpandedPrerequisite(); req.skill = basic;
+        advanced.prerequisite = req;
+        local training = new RpgExpandedTraining(); training.skill = advanced; training.points = 0;
+        p.skills = [training];
+        local offer = new RpgDevelopment(); offer.profile = p; offer.training = training;
+        offer.unlocked = true;
+        local study = new RpgExpandedStudy(); study.profile = p; study.training = training;
+        study.permitted = true;
+        event('test.learning-gates'); eventValue(rpgDevelop(offer).reason);
+        eventValue(study.advance(3600).reason); eventValue(p.unspentPoints);
+        eventValue(training.points); eventValue(study.credit); eventValue(p.developmentRevision);
+        training.points = 1;
+        try { rpgExpandedValidateCharacter(p); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

@@ -180,3 +180,29 @@ inferred from a default graph.
 parent advancement, contribution accounting, attribute caps, uncapped ratings,
 cycles, ambiguous bases, ownership and preview purity. These new checks have not
 run while build validation is paused.
+
+## Learning prerequisites
+
+An expanded skill's `prerequisite` can be an `RpgExpandedPrerequisite` tree.
+A `kind = 'skill'` leaf names `skill` and optionally `minimum`: it requires
+at least one purchased point and, when specified, that paid level. An untrained
+default does not satisfy either requirement. A `kind = 'trait'` leaf names
+`traitId` and `traitLevel` (default one); possession is checked independently of
+temporary activation or suppression. `kind = 'all'` or `'any'` combines nonempty
+`children`. Cycles and malformed requirements are rejected, including malformed
+branches of an otherwise satisfied alternative.
+
+`profile.skillLearningReason(skill)` returns `nil` or `'skill-prerequisite'`.
+Character validation checks purchased skills. Advancement purchase assessment and
+study check eligibility before committing points, time or study credit. The base
+progression hook returns `nil`, preserving eligibility for profiles without
+expanded rules. Acquisition requirements do not lower a skill's rating or grant
+permission to use equipment; familiarity and operational restrictions are separate.
+Authors must supply the actual prerequisite definitions: this interface does not
+instantiate the catalogue. Conditional campaign requirements and prerequisite
+loss after character creation still require their owning procedures.
+
+The native cases in `tests/expanded.py::test_learning_requirements` exercise paid
+minimums, trait possession, alternative/conjunctive requirements, cycle rejection,
+and blocked purchases/study with unchanged ledgers. They are authored but unrun
+while validation is paused.

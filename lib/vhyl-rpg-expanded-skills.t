@@ -5,6 +5,7 @@
 class RpgExpandedSkill: RpgLiteSkill
     defaults = []
     wildcard = nil
+    prerequisite = nil
     maximumDifficulty() { return 3; }
 ;
 
@@ -164,5 +165,62 @@ class RpgExpandedTechnique: RpgExpandedContribution
         if (base == nil) rpgExpandedReject('technique-prerequisite');
         local improvement = self.points - (self.hard && self.points > 0 ? 1 : 0);
         return base + self.penalty + improvement;
+    }
+;
+
+/** Declarative learning requirement, B169. A skill leaf requires purchased
+ * training; its optional minimum is a paid level, never an untrained default.
+ * Trait leaves describe possession, not whether a power is currently active. */
+class RpgExpandedPrerequisite: object
+    kind = 'skill'
+    skill = nil
+    minimum = nil
+    traitId = nil
+    traitLevel = 1
+    children = []
+    satisfied(profile, visited)
+    {
+        if (holds(visited, self)) rpgExpandedReject('cyclic-prerequisite');
+        if (self.kind == 'all' || self.kind == 'any')
+        {
+            if (self.children.length() == 0) rpgExpandedReject('empty-prerequisite');
+            local all = true; local any = nil;
+            foreach (local child in self.children)
+            {
+                if (!child.ofKind(RpgExpandedPrerequisite)) rpgExpandedReject('invalid-prerequisite');
+                local matches = child.satisfied(profile, visited + [self]);
+                if (matches) any = true; else all = nil;
+            }
+            return self.kind == 'all' ? all : any;
+        }
+        if (self.kind == 'skill')
+        {
+            if (self.skill == nil || !self.skill.ofKind(RpgSkill))
+                rpgExpandedReject('invalid-prerequisite');
+            if (self.minimum != nil) rpgInteger(self.minimum, 1, 1000);
+            local training = rpgExpandedTrainingFor(profile, self.skill);
+            if (training == nil || training.points < 1) return nil;
+            if (self.minimum == nil) return true;
+            local score = rpgExpandedPaidSkill(profile, self.skill, []);
+            return score != nil && score >= self.minimum;
+        }
+        if (self.kind == 'trait')
+        {
+            if (self.traitId == nil) rpgExpandedReject('invalid-prerequisite');
+            rpgInteger(self.traitLevel, 1, 1000);
+            local trait = profile.trait(self.traitId);
+            return trait != nil && trait.level >= self.traitLevel;
+        }
+        rpgExpandedReject('invalid-prerequisite');
+    }
+;
+
+modify RpgExpandedProfile
+    skillLearningReason(skill)
+    {
+        if (!skill.ofKind(RpgExpandedSkill) || skill.prerequisite == nil) return nil;
+        if (!skill.prerequisite.ofKind(RpgExpandedPrerequisite))
+            rpgExpandedReject('invalid-prerequisite');
+        return skill.prerequisite.satisfied(self, []) ? nil : 'skill-prerequisite';
     }
 ;

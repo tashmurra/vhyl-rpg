@@ -307,6 +307,18 @@
       "tests": [
         "tests/expanded.py::test_negative_pricing"
       ]
+    },
+    {
+      "id": "learning-prerequisites",
+      "module": "skills",
+      "pages": "B169",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedPrerequisite",
+      "tests": [
+        "tests/expanded.py::test_learning_requirements"
+      ],
+      "validation_note": "Declarative skill, level and trait requirements gate character validation, purchases and study. New native checks unrun; catalogue wiring and conditional prerequisites remain pending."
     }
   ],
   "detailed_inventories": [

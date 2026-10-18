@@ -6,6 +6,8 @@ modify RpgProfile
     unspentPoints = 0
     developmentOpen = nil
     developmentRevision = 0
+    /* Optional profile rules may reject learning before any resources are spent. */
+    skillLearningReason(skill) { return nil; }
 ;
 
 /** Authored objective award. Eligibility is observational; apply can unlock
@@ -119,6 +121,11 @@ rpgAssessDevelopment(offer)
         local delta = offer.target - p.iq;
         if (p.will + delta > 100 || p.perception + delta > 100)
         { value.reason = 'rpg.attribute-limit'; return value; }
+    }
+    if (offer.kind == 'skill')
+    {
+        value.reason = p.skillLearningReason(offer.training.skill);
+        if (value.reason != nil) return value;
     }
     value.reason = offer.available(p);
     if (value.reason != nil) return value;
