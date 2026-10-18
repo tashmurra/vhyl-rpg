@@ -12,6 +12,12 @@ modify gameMain initialRoom = collisionRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2294)
+    {
+        event('test.collision-cap');
+        eventValue(rpgExpandedCollisionCap(args[1],args[2] == 0 ? nil : args[2],args[2] == 0 ? nil : args[3]));
+        eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
     if (verb == 2293)
     {
         local value = rpgExpandedAssessFallProtection(args[1],args[2],args[3] == 1 ? 'armor' : 'innate');

@@ -19,6 +19,9 @@ modify BleedTestAction
         if (code == 834) { fallInjury.location = 'arm'; return nil; }
         if (code == 835) { fallInjury.protectionKind = 'innate'; return nil; }
         if (code == 836) { fallInjury.damage = 11; return nil; }
+        if (code == 837) { fallInjury.damage = 20; fallInjury.resistance = 0; fallInjury.obstacleHP = 2; fallInjury.obstacleDR = 1; return nil; }
+        if (code == 838) { fallInjury.obstacleDR = nil; return nil; }
+        if (code == 839) { fallInjury.resistance = 10; return nil; }
         return inherited(context);
     }
 ;

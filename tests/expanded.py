@@ -8901,6 +8901,7 @@ def test(build):
     test_fall_protection(Session, collision)
     fall_injury = build.build('expanded-fall-injury',ROOT / 'tests/fixtures/expanded-fall-injury.t')
     test_fall_injury(Session, fall_injury, build.out)
+    test_collision_cap(Session, collision, fall_injury)
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_radiation_tables)
     fresh(Session,hazards,test_radiation_shielding)
@@ -13725,5 +13726,29 @@ def test_fall_injury(Session, bundle, out):
             if setup == 834:
                 s.action(2285,830)
                 assert last(s,'test.fall-preview') == ['blocked','fall-injury-location-unavailable']
+        finally:
+            s.close()
+
+
+def test_collision_cap(Session, collision, fall):
+    s = Session(collision)
+    try:
+        for damage, hp, dr, expected in [(10,0,0,10),(2,2,1,2),(3,2,1,3),(20,2,1,3),(0,2,1,0)]:
+            s.action(2294,damage,hp,dr)
+            assert last(s,'test.collision-cap') == [expected,0,0]
+    finally:
+        s.close()
+    for setup, expected in [((837,),3),((837,839),0),((837,838),0)]:
+        s = Session(fall)
+        try:
+            for code in setup:
+                s.action(2285,code)
+            s.action(2285,832)
+            s.action(2285,833)
+            assert last(s,'test.fall-owned') == [0,0,0,0,0]
+            for code in (831,831,833):
+                s.action(2285,code)
+            count = 0 if 838 in setup else 1
+            assert last(s,'test.fall-owned') == [expected,count,count,0,0]
         finally:
             s.close()

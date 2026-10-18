@@ -1688,9 +1688,28 @@ fully protected zero-injury fall retains its receipt so it cannot later be rerol
 through this operation. Normal wound consequences use the existing injury ledger.
 
 Only `location = 'torso'` is supported here. Random hit locations, uncapped limb
-injury, multiple crippled limbs, mixed protection, special anatomy, collision caps,
+injury, multiple crippled limbs, mixed protection, special anatomy, obstacle damage,
 landing maneuvers and automatic linkage from an owned climb remain incomplete.
 This bridge must not be used as a fallback for those rules. The authored fixture
 covers preview, replay, changed-request rejection, rollback, undo, cross-process
 save continuation, armor blunt injury, penetration and innate protection. Checks
 remain paused; none of these new assertions has run.
+
+
+### Breakable landing obstacles
+
+`rpgExpandedCollisionCap(damage, obstacleHP, obstacleDR)` caps basic impact damage
+at the breakable immovable obstacle's HP plus DR (source `full-2008`, B431).
+Pass `nil` for both obstacle values when this rule does not apply. A partly
+specified obstacle is rejected. This calculation is pure and does not apply
+armor or damage either participant.
+
+`RpgExpandedFallInjury` accepts the same optional `obstacleHP` and `obstacleDR`
+fields. Its evidence must establish that the obstacle is breakable and immovable.
+It records `impactDamage` after the cap, then assesses protection and the wound.
+The cap therefore also limits damage used to calculate blunt trauma. Both obstacle
+values become part of the receipt's binding. The obstacle's own damage and any
+subsequent fall remain unimplemented; authors must not treat the receipt as a
+complete resolution of an obstacle breaking. The new fixtures cover exact and
+exceeded caps, absent and incomplete facts, ordering before armor, replay and
+rollback. They remain unrun while checks are paused.

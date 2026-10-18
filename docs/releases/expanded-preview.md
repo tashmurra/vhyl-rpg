@@ -785,3 +785,7 @@ An owned torso fall-injury operation now connects already resolved crushing dama
 and homogeneous protection to the existing wound ledger. Reapplication uses its
 bound receipt. Preview, transaction, undo and cross-process save fixtures are
 provided but unrun. Location rules and the rest of fall execution remain partial.
+
+Owned torso falls now apply an optional breakable-obstacle cap before protection
+and blunt trauma. The cap and its source facts are bound to the receipt. Obstacle
+damage and subsequent impacts remain unfinished; new fixtures are unrun.

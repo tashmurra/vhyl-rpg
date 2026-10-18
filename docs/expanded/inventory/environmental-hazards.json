@@ -986,9 +986,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A moving object striking an immovable obstacle both inflicts and receives its calculated collision damage; a breakable obstacle caps damage at its health capacity plus armor resistance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_collision_cap"
+      ],
+      "validation_note": "Pure breakable-obstacle cap and owned torso-fall integration before protection are implemented. Boundary, missing-fact, ordering, rollback and replay assertions authored, unrun. Obstacle damage and subsequent impacts remain incomplete."
     },
     {
       "id": "collision-hard",

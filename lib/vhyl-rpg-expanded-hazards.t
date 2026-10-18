@@ -3891,6 +3891,7 @@ modify RpgExpandedProfile
 class RpgExpandedFallInjuryResult: RpgExpandedResult
     protection = nil
     wound = nil
+    impactDamage = 0
 ;
 /** Owned bridge from an already resolved fall damage roll to torso injury.
  * Location rules, mixed protection and special anatomy must not use this adapter. */
@@ -3898,6 +3899,8 @@ class RpgExpandedFallInjury: object
     id = nil
     profile = nil
     damage = 0
+    obstacleHP = nil
+    obstacleDR = nil
     resistance = 0
     protectionKind = 'armor'
     location = 'torso'
@@ -3909,7 +3912,7 @@ class RpgExpandedFallInjury: object
     committedAt = nil
     definition()
     { return [self.id,self.profile,self.damage,self.resistance,self.protectionKind,self.location,
-        self.approved,self.evidence,self.dropDestination]; }
+        self.approved,self.evidence,self.dropDestination,self.obstacleHP,self.obstacleDR]; }
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
@@ -3929,7 +3932,8 @@ class RpgExpandedFallInjury: object
         if (self.location != 'torso') { value.reason = 'fall-injury-location-unavailable'; return value; }
         foreach (local prior in self.profile.fallInjuries)
             if (prior.id == self.id) rpgExpandedReject('fall-injury-duplicate');
-        value.protection = rpgExpandedAssessFallProtection(self.damage,self.resistance,self.protectionKind);
+        value.impactDamage = rpgExpandedCollisionCap(self.damage,self.obstacleHP,self.obstacleDR);
+        value.protection = rpgExpandedAssessFallProtection(value.impactDamage,self.resistance,self.protectionKind);
         value.wound = new RpgExpandedWound(); value.wound.id = self.id; value.wound.profile = self.profile;
         value.wound.amount = value.protection.penetratingDamage + value.protection.bluntInjury;
         value.wound.dropDestination = self.dropDestination;
@@ -3947,3 +3951,15 @@ class RpgExpandedFallInjury: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B431: cap both sides' basic impact damage for a breakable immovable obstacle.
+ * nil/nil means no breakable-obstacle cap; this does not commit obstacle damage. */
+rpgExpandedCollisionCap(damage,obstacleHP,obstacleDR)
+{
+    rpgInteger(damage,0,100000000);
+    if (obstacleHP == nil && obstacleDR == nil) return damage;
+    if (obstacleHP == nil || obstacleDR == nil) rpgExpandedReject('collision-obstacle-facts');
+    rpgInteger(obstacleHP,1,100000000); rpgInteger(obstacleDR,0,100000000);
+    local limit = obstacleHP + obstacleDR;
+    return damage < limit ? damage : limit;
+}
