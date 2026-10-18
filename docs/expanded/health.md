@@ -3689,3 +3689,25 @@ invalidate or repeat a previously consumed meal.
 `expanded-food-access.t` / `test_food_access` cover stored, in-flight and shared
 food, duplicate inventory entries, missing ration receipts, atomic consumption
 rollback, undo and replay after storage/save. Fixtures are authored but unrun.
+
+
+## Surgery across species
+
+A `RpgExpandedSurgicalOperation` can select `physiology` as `same`, `similar`,
+`different`, `alien` or `machine` (full-2008 B181). Its conditions must use the
+corresponding `physiologyModifier`: 0, -2 through -4, -5, or -6 and worse.
+Machines reject. The default `authored` mode preserves the existing explicit
+modifier interface when no physiology check is supplied.
+
+To apply relevant knowledge, bind a `RpgExpandedPhysiologyCheck` through
+`physiologyCheck`, with `subjectSpecies` matching its species. The check must
+belong to the surgeon, target the patient and name this exact operation.
+Resolve it before surgery starts. Success removes only the species penalty;
+failure retains it. `assessForPhysiology()` prepares a score without rewriting
+the original conditions object. The operation history binds the selected
+category, species and receipt, including for derived stabilization procedures.
+
+`test_surgical_physiology` specifies unresolved-check rejection, success/failure,
+score arithmetic, unchanged authored conditions, machine exclusion and patient
+species binding. Fixtures are unrun. Diagnosis, first aid and other medical
+procedures still require their own adapters to this shared receipt contract.

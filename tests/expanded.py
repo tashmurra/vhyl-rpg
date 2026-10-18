@@ -9358,6 +9358,8 @@ def test(build):
     test_body_reading(Session, body_reading)
     body_physiology = build.build("expanded-body-physiology",ROOT / "tests/fixtures/expanded-body-physiology.t")
     test_body_physiology(Session, body_physiology, build.out)
+    surgical_physiology = build.build("expanded-surgical-physiology",ROOT / "tests/fixtures/expanded-surgical-physiology.t")
+    test_surgical_physiology(Session, surgical_physiology)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23269,5 +23271,27 @@ def test_body_physiology(Session, bundle, out):
         for code in (18700,18702):
             s.action(1100,code)
         assert last(s,'test.physiology-reading') == ['ready',None,15,3,1]
+    finally:
+        s.close()
+
+
+def test_surgical_physiology(Session, bundle):
+    """B181 removes only the surgery species penalty on a bound success; unrun."""
+    for code, score in ((18800,10),(18801,7)):
+        s = Session(bundle)
+        try:
+            s.action(2285,18802)
+            assert last(s,'test.surgical-physiology') == ['blocked','surgical-physiology-check-unresolved',None,-3,0]
+            s.action(2285,code); s.action(2285,18802)
+            assert last(s,'test.surgical-physiology') == ['ready',None,score,-3,3]
+            s.action(2285,18804)
+            assert last(s,'test.surgical-physiology-error') == ['surgical-physiology-check-binding']
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (18803,18802):
+            s.action(2285,code)
+        assert last(s,'test.surgical-physiology') == ['blocked','surgical-physiology-machine-inapplicable',None,-3,0]
     finally:
         s.close()

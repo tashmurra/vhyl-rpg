@@ -1574,4 +1574,4 @@ library depends only on the foundation's receipt contract.
 
 `test_body_physiology` covers success/failure, the biology alternative, operation
 binding, replay, rollback, undo and separate-process continuation. Fixtures
-remain unrun. Medical procedures have not yet adopted this receipt interface.
+remain unrun. Surgical operations also accept this receipt interface; other medical adapters remain pending.

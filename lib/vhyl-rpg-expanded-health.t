@@ -1549,7 +1549,8 @@ class RpgExpandedSurgicalAssessment: object
     surgeon = nil
     skill = nil
     conditions = nil
-    assess()
+    assess() { return self.assessForPhysiology(nil); }
+    assessForPhysiology(physiologyOverride)
     {
         if (self.surgeon == nil || !self.surgeon.ofKind(RpgLiteProfile)
             || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)
@@ -1590,7 +1591,7 @@ class RpgExpandedSurgicalAssessment: object
         prepared.physicianTrained = physician;
         prepared.fieldExpedient = self.conditions.fieldExpedient;
         prepared.equipmentQualityModifier = self.conditions.equipmentQualityModifier;
-        prepared.physiologyModifier = self.conditions.physiologyModifier;
+        prepared.physiologyModifier = physiologyOverride == nil ? self.conditions.physiologyModifier : physiologyOverride;
         prepared.otherMissingEquipmentModifier = self.conditions.otherMissingEquipmentModifier;
         prepared.earlyAntisepsis = self.conditions.earlyAntisepsis;
         value = prepared.assess();
@@ -4502,7 +4503,31 @@ modify RpgExpandedProfile
     surgicalOperations = []
 ;
 class RpgExpandedSurgicalOperation: object
-    prepareRoll() { return self.assessment.assess(); }
+    physiology = 'authored'
+    subjectSpecies = nil
+    physiologyCheck = nil
+    prepareRoll()
+    {
+        if (self.physiology == 'authored' && self.physiologyCheck == nil) return self.assessment.assess();
+        local value = new RpgExpandedSurgeryAssessment();
+        if (!holds(['same','similar','different','alien','machine'],self.physiology))
+            rpgExpandedReject('surgical-physiology-category');
+        if (self.physiology == 'machine') { value.reason = 'surgical-physiology-machine-inapplicable'; return value; }
+        local modifier = self.assessment.conditions.physiologyModifier;
+        if (self.physiology == 'same' && modifier != 0 || self.physiology == 'similar' && !holds([-2,-3,-4],modifier)
+            || self.physiology == 'different' && modifier != -5 || self.physiology == 'alien' && modifier > -6)
+            rpgExpandedReject('surgical-physiology-modifier');
+        if (self.physiologyCheck != nil)
+        {
+            local check = self.physiologyCheck;
+            if (!check.ofKind(RpgExpandedPhysiologyReceipt) || check.operation != self || check.profile != self.assessment.surgeon
+                || check.subject != self.patient || self.subjectSpecies == nil || check.species != self.subjectSpecies)
+                rpgExpandedReject('surgical-physiology-check-binding');
+            if (check.result == nil) { value.reason = 'surgical-physiology-check-unresolved'; return value; }
+            check.validateReceipt(); if (check.result.check.achieved) modifier = 0;
+        }
+        return self.assessment.assessForPhysiology(modifier);
+    }
     infectionReason() { return 'surgical-operation-infection-unimplemented'; }
     id = nil
     patient = nil
@@ -4523,7 +4548,7 @@ class RpgExpandedSurgicalOperation: object
             skill.attribute,skill.difficulty,skill.techLevel,c,self.durationSeconds,self.approved,
             self.procedureEvidence,self.dropDestination,c.techLevel,c.anesthetic,c.sterile,c.site,
             c.diagnosed,c.fieldExpedient,c.equipmentQualityModifier,c.physiologyModifier,
-            c.otherMissingEquipmentModifier,c.earlyAntisepsis];
+            c.otherMissingEquipmentModifier,c.earlyAntisepsis,self.physiology,self.subjectSpecies,self.physiologyCheck];
     }
     validateReceipt()
     {
