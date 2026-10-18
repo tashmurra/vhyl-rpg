@@ -108,3 +108,42 @@ bonus ceiling, purchased limits and replacement rejection. The minimal social
 fixture checks rank price and standing-bonus boundaries without the campaign
 module. All cases remain unrun while checks are paused. Full reactions, social
 permissions and institutional prerequisite execution remain incomplete.
+
+
+## Reputation and recognition
+
+`RpgExpandedReputation` is an owned contribution with a unique `id`, concrete
+`details`, `facets` and a recognition `frequency`. A facet is
+`[audienceId, reactionModifier, breadth]`. Modifiers range from -4 to +4. Breadth
+is `all`, `most`, `large`, `small` or `negligible`, corresponding to factors 1,
+2/3, 1/2, 1/3 or zero on the five-point-per-modifier cost. Multiple facets require
+an explicit `disjoint` assertion: these are mutually exclusive audience categories
+within a single reputation. Overlapping reputations use separate contributions.
+
+Facet costs are rounded down, then summed. Frequency is `always`, `sometimes`
+(10 or less), or `occasionally` (7 or less); apply factors 1, 1/2 or 1/3 to that
+sum and round down again. These are the explicit exceptions in full-2008 B27–B28,
+including downward rounding for negative values. A zero-net reputation remains
+recorded. Mixing this representation with Lite reputation traits is rejected.
+
+Use `RpgExpandedReputationRecognition` with the owned reputation, a stable person
+or small-group `audience` identity and its applicable `facet`. Supply `inArea` and
+`identityExposed` (a name or face is sufficient) from world facts. Pure `assess()`
+returns readiness without a recognition result or random draw. `resolve()` rolls
+3d for the two limited frequencies; automatic recognition rolls nothing. Success
+or failure is retained in `reputation.recognitions`. A new recognition object for
+the same audience reuses that result. Changing its audience facet is rejected.
+For a large crowd, explicitly identify distinct groups when the author chooses
+multiple recognition rolls; changing IDs merely to retry is outside the contract.
+
+`rpgExpandedReputationModifier(recognitions)` combines resolved reputations for
+one subject and audience, limiting the total to -4 through +4. Unresolved entries,
+duplicated reputations and mixed audiences are rejected. This is a modifier
+assessment, not a full reaction-table resolver. Geographic loss of reputation,
+buyoff, changed reputation over time and resulting world consequences remain
+pending. Stored results are historical snapshots, not automatic recalculations.
+
+`tests/expanded.py::test_reputation` contains expected price checks, a multifaceted
+zero cost, geographic/identity gates, duplicate audiences, pure previews,
+deterministic recognition, rollback and undo. These authored cases remain unrun;
+failure-path and cross-process continuation coverage is still pending.

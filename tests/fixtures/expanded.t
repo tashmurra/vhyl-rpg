@@ -44,6 +44,11 @@ monthlyIncome: RpgExpandedMonthlyFinance id = 'pension' owner = monthlyHero weal
 monthlyPayment: RpgExpandedMonthlySettlement finance = monthlyIncome due = true;
 exchangeHero: RpgExpandedProfile rules = expandedRules campaignTL = 8 creationComplete = true unspentPoints = 5;
 exchangeOffer: RpgExpandedMoneyExchange id = 'supply-fund' profile = exchangeHero points = 2 permitted = true;
+reputationHero: RpgExpandedProfile rules = expandedRules contributions = [publicReputation];
+publicReputation: RpgExpandedReputation id = 'bridge-rescuer' owner = reputationHero
+    details = 'Rescued workers from a collapsed bridge' facets = [['town',2,'all']] frequency = 'sometimes';
+reputationRecognition: RpgExpandedReputationRecognition reputation = publicReputation
+    audience = 'market-group' facet = 'town' inArea = true identityExposed = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -114,6 +119,12 @@ class ExpandedTestAction: Action
             local value = exchangeOffer.exchange(); event('test.exchange');
             eventValue(value.status); eventValue(value.points); eventValue(value.money);
             if (code == 26) throw new RpgError();
+        }
+        if (code == 27 || code == 28)
+        {
+            local value = reputationRecognition.resolve(); event('test.reputation-recognition');
+            eventValue(value.status); eventValue(value.check); eventValue(value.modifier);
+            if (code == 28) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -966,6 +977,44 @@ act(verb, args)
         eventValue(structure.standing(p)); eventValue(rank.amounts(p)[1]);
         rank.replacesStatus = nil;
         try { structure.standing(p); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1171)
+    {
+        local rep = new RpgExpandedReputation(); rep.details = 'Known for a specific public deed';
+        rep.facets = [['local',args[1],args[2]]]; rep.frequency = args[3];
+        event('test.reputation-price'); eventValue(rep.amounts(nil)[1]); return nil;
+    }
+    if (verb == 1172)
+    {
+        event('test.reputation-state'); eventValue(publicReputation.recognitions.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1173)
+    {
+        local value = reputationRecognition.assess(); event('test.reputation-preview');
+        eventValue(value.status); eventValue(value.check); eventValue(value.modifier); return nil;
+    }
+    if (verb == 1174)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        local rep = new RpgExpandedReputation(); rep.id = 'public-record'; rep.owner = p;
+        rep.details = 'Exposed fraud; distrusted by the implicated organization'; rep.disjoint = true;
+        rep.facets = [['public',3,'most'],['organization',-4,'large']]; p.contributions = [rep];
+        event('test.reputation-gates'); eventValue(rep.amounts(p)[1]);
+        local recognition = new RpgExpandedReputationRecognition(); recognition.reputation = rep;
+        recognition.audience = 'crowd'; recognition.facet = 'public';
+        eventValue(recognition.assess().reason); recognition.inArea = true;
+        eventValue(recognition.assess().reason); recognition.identityExposed = true;
+        eventValue(recognition.resolve().modifier); eventValue(rpgExpandedReputationModifier([recognition]));
+        local duplicate = new RpgExpandedReputationRecognition(); duplicate.reputation = rep;
+        duplicate.audience = 'crowd'; duplicate.facet = 'public';
+        eventValue(duplicate.resolve().status);
+        try { rpgExpandedReputationModifier([recognition,duplicate]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        duplicate.facet = 'organization';
+        try { duplicate.resolve(); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }

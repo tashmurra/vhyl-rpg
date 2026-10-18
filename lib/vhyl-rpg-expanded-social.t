@@ -141,3 +141,122 @@ class RpgExpandedSocialStructure: object
         rpgInteger(total, -100, 100); return total;
     }
 ;
+
+/** Reputation uses its explicit downward rounding exception, B27-B28. */
+rpgExpandedReputationFraction(amount, numerator, denominator)
+{
+    rpgInteger(amount, -1000000, 1000000);
+    rpgInteger(numerator, 0, 1000); rpgInteger(denominator, 1, 1000);
+    local product = amount * numerator;
+    return product < 0 ? -((-product + denominator - 1) / denominator) : product / denominator;
+}
+
+/** Facets are [audience-id, modifier, breadth]. Multifaceted audiences must be
+ * authored as disjoint. A zero-net reputation remains an owned contribution. */
+class RpgExpandedReputation: RpgExpandedContribution
+    details = nil
+    facets = []
+    disjoint = nil
+    frequency = 'always'
+    recognitions = []
+    validateDefinition()
+    {
+        if (self.details == nil || self.facets.length() == 0) rpgExpandedReject('reputation-description');
+        if (!holds(['always','sometimes','occasionally'],self.frequency)) rpgExpandedReject('reputation-frequency');
+        if (self.facets.length() > 1 && !self.disjoint) rpgExpandedReject('reputation-overlapping-facets');
+        local ids = [];
+        foreach (local facet in self.facets)
+        {
+            if (facet.length() != 3 || facet[1] == nil || holds(ids,facet[1]))
+                rpgExpandedReject('reputation-facet');
+            ids = ids + [facet[1]]; rpgInteger(facet[2], -4, 4);
+            if (!holds(['all','most','large','small','negligible'],facet[3]))
+                rpgExpandedReject('reputation-breadth');
+        }
+        return nil;
+    }
+    amounts(profile)
+    {
+        self.validateDefinition(); local total = 0;
+        foreach (local facet in self.facets)
+        {
+            local cost = facet[2] * 5;
+            if (facet[3] == 'most') cost = rpgExpandedReputationFraction(cost,2,3);
+            if (facet[3] == 'large') cost = rpgExpandedReputationFraction(cost,1,2);
+            if (facet[3] == 'small') cost = rpgExpandedReputationFraction(cost,1,3);
+            if (facet[3] == 'negligible') cost = 0;
+            total += cost;
+        }
+        if (self.frequency == 'sometimes') total = rpgExpandedReputationFraction(total,1,2);
+        if (self.frequency == 'occasionally') total = rpgExpandedReputationFraction(total,1,3);
+        return [total];
+    }
+    validate(profile)
+    {
+        self.validateDefinition();
+        foreach (local trait in profile.traits)
+            if (trait.ofKind(RpgLiteTrait) && holds(['reputation','bad-reputation'],trait.id))
+                rpgExpandedReject('mixed-reputation-profiles');
+        return nil;
+    }
+;
+
+/** Recognition is retained per reputation/audience, including failure. The
+ * author supplies audience membership, geographic scope and identity exposure. */
+class RpgExpandedReputationRecognition: object
+    reputation = nil
+    audience = nil
+    facet = nil
+    inArea = nil
+    identityExposed = nil
+    assess()
+    {
+        if (self.reputation == nil || !self.reputation.ofKind(RpgExpandedReputation)
+            || self.reputation.owner == nil || !self.reputation.owner.ofKind(RpgExpandedProfile)
+            || !holds(self.reputation.owner.contributions,self.reputation) || self.audience == nil)
+            rpgExpandedReject('reputation-recognition-target');
+        rpgExpandedValidate(self.reputation.owner);
+        local value = new RpgExpandedResult(); local selected = nil;
+        foreach (local row in self.reputation.facets) if (row[1] == self.facet) selected = row;
+        if (selected == nil) rpgExpandedReject('reputation-audience-facet');
+        foreach (local row in self.reputation.recognitions)
+            if (row[1] == self.audience)
+            {
+                if (row[2] != self.facet) rpgExpandedReject('reputation-audience-changed');
+                value.status = 'reused'; value.check = row[3]; value.modifier = row[4]; return value;
+            }
+        if (!self.inArea) { value.reason = 'reputation-outside-area'; return value; }
+        if (!self.identityExposed) { value.reason = 'reputation-identity-hidden'; return value; }
+        value.modifier = selected[2]; value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.reputation.frequency != 'always')
+        {
+            value.check = rpgRandom.roll();
+            if (value.check > (self.reputation.frequency == 'sometimes' ? 10 : 7)) value.modifier = 0;
+        }
+        self.reputation.recognitions = self.reputation.recognitions
+            + [[self.audience,self.facet,value.check,value.modifier]];
+        value.status = 'resolved'; return value;
+    }
+;
+
+/** Combine already-resolved reputations for one person/group, capped at +/-4. */
+rpgExpandedReputationModifier(recognitions)
+{
+    local seen = []; local audience = nil; local subject = nil; local total = 0;
+    foreach (local recognition in recognitions)
+    {
+        if (!recognition.ofKind(RpgExpandedReputationRecognition)) rpgExpandedReject('reputation-recognition-list');
+        local value = recognition.assess();
+        if (value.status != 'reused') rpgExpandedReject('reputation-recognition-unresolved');
+        if (holds(seen,recognition.reputation)) rpgExpandedReject('duplicate-reputation-recognition');
+        if (seen.length() > 0 && (recognition.audience != audience || recognition.reputation.owner != subject))
+            rpgExpandedReject('reputation-recognition-audience');
+        seen = seen + [recognition.reputation]; audience = recognition.audience;
+        subject = recognition.reputation.owner; total += value.modifier;
+    }
+    return total > 4 ? 4 : total < -4 ? -4 : total;
+}
