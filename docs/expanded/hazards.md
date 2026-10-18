@@ -1812,3 +1812,13 @@ Owned leg and foot fall locations are now accepted with matching body parts and
 resolved-location evidence. They preserve full injury and force lying when crippled.
 Extra leg crippling affects other legs only. Supported locomotion remains blocked
 pending its aid/movement adapter; new fixtures remain unrun.
+
+
+## Critical jump falls
+
+`RpgExpandedJumpFallImpact` adapts a preflighted `RpgExpandedFallImpact` to a
+jump launch. The impact must belong to the launch profile and occurrence, and
+its velocity must match the authored fall height. The adapter rejects reuse
+before a new launch and validates recorded child outcomes during replay.
+See [critical-jump falling damage](exploration.md#critical-jump-falling-damage).
+This adapter adds no separate time charge or duplicate injury ledger.

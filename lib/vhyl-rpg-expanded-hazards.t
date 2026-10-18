@@ -4080,3 +4080,36 @@ class RpgExpandedFallImpact: object
         self.injury.profile.fallImpacts = self.injury.profile.fallImpacts + [self]; return value;
     }
 ;
+
+/** Critical jump failure consumes the existing owned collision and wound pipeline. */
+class RpgExpandedJumpFallImpact: RpgExpandedJumpFallPlan
+    impact = nil
+    validateOwner(profile,fall,velocity)
+    {
+        if (self.impact == nil || !self.impact.ofKind(RpgExpandedFallImpact) || self.impact.injury == nil
+            || !self.impact.injury.ofKind(RpgExpandedFallInjury) || self.impact.injury.profile != profile
+            || self.impact.injury.fall != fall || self.impact.injury.damageVelocity != velocity)
+            rpgExpandedReject('jump-fall-plan-owner');
+        return nil;
+    }
+    assessFor(profile,fall,velocity)
+    {
+        self.validateOwner(profile,fall,velocity);
+        if (self.impact.result != nil)
+        { local value = new RpgExpandedResult(); value.reason = 'jump-fall-plan-used'; return value; }
+        return self.impact.assess();
+    }
+    applyFor(profile,fall,velocity)
+    {
+        local value = self.assessFor(profile,fall,velocity);
+        if (value.status != 'ready') rpgExpandedReject('jump-fall-plan-changed');
+        return self.impact.apply();
+    }
+    validateResult(profile,fall,velocity)
+    {
+        self.validateOwner(profile,fall,velocity);
+        if (self.impact.result == nil || self.impact.assess().status != 'reused')
+            rpgExpandedReject('jump-fall-plan-history');
+        return nil;
+    }
+;

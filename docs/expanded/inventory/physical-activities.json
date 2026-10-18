@@ -348,9 +348,10 @@
       "status": "partial",
       "acceptance": "A failed difficult jump leaves the actor fallen and requires two posture changes to stand; critical failure invokes falling damage from the actual height.",
       "tests": [
-        "tests/expanded.py::test_jump_launch"
+        "tests/expanded.py::test_jump_launch",
+        "tests/expanded.py::test_jump_launch_fall"
       ],
-      "validation_note": " Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending."
+      "validation_note": "Owned launch failure sets prone posture. Critical failure consumes an authored fall-height plan through the owned collision/protection/wound pipeline; the complete possible damage range is preflighted before accuracy dice. Success and ordinary failure leave the plan unused. Replay validates the child impact. Damage, armor, missing-plan, rollback, undo and saved continuation assertions authored, unrun. Actual destination placement, travel interruption and newly reactive landing maneuvers remain pending."
     },
     {
       "id": "activity-jump-clamber",

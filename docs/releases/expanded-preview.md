@@ -999,3 +999,9 @@ maneuver's concentration reset and record required DX/Jumping accuracy once.
 Failed accuracy leaves the actor prone; critical failure marks pending fall
 consequences. Position changes and falling-damage settlement remain incomplete.
 Range, outcome, rollback, undo and saved-replay fixtures are authored, unrun.
+
+Critical jump failures now consume an authored, preflighted fall-impact plan
+inside the launch transaction. Success and ordinary failure do not use it;
+recorded critical outcomes validate the existing child injury on replay. Missing
+plans fail before rolls. Armor, rollback, undo and saved-replay assertions are
+authored, unrun. Position changes and reactive landing maneuvers remain pending.

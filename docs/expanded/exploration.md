@@ -1198,8 +1198,8 @@ another launch. The battle remains the sole owner of time advancement.
 
 An accuracy check uses contextual DX or the selected paid Jumping skill, whichever
 is higher. Ordinary failed checks leave the profile lying down. Critical failure
-also sets `fallRequired` on the result: actual falling damage must still be
-resolved from the authored height. The launch records a roll outcome, not a
+also sets `fallRequired` and applies the preflighted fall plan; `fallOutcome`
+contains the owned impact result. The launch records a roll outcome, not a
 position change or complete travel/landing operation. `assess()` on a committed
 launch returns `reused`; a new occurrence is required for another jump. The
 health maneuver refuses to execute an already committed launch.
@@ -1207,5 +1207,31 @@ health maneuver refuses to execute an already committed launch.
 The launch fixture covers range rejection before permission or randomness,
 prepared success, ordinary and critical failure, single consumption, exception
 rollback, undo and save continuation. All assertions remain unrun while checks
-are paused. Destination placement, travel interruption and critical-fall settlement
-are still explicit implementation gaps.
+are paused. Destination placement and travel interruption remain explicit implementation gaps.
+
+### Critical-jump falling damage
+
+Every launch that requires an accuracy roll must supply `fallYards` and a
+`fallPlan` implementing `RpgExpandedJumpFallPlan`. Height is the authored fall
+to the actual lower surface, independent of jump distance, within the current
+ordinary-gravity table's zero-to-112-yard range. Missing plans are rejected before
+health permission or accuracy dice.
+
+Hazards supplies `RpgExpandedJumpFallImpact`. Its `impact` is an uncommitted
+`RpgExpandedFallImpact` whose injury template names the launch profile and
+occurrence and whose `damageVelocity` matches the height table. The existing
+impact preview checks the full possible damage range, protection and anatomy.
+Thus a critical failure cannot first discover an unsupported injury location
+after rolling. A plan already used elsewhere is rejected.
+
+On critical failure only, launch commit consumes this impact once. Its damage
+dice, protection and owned wound are part of the same transaction as the launch
+roll and health permission. Ordinary failure still leaves the actor prone without
+using the impact. Historical launch assessment validates the committed child
+impact instead of rolling or injuring again. Authoring must currently supply any
+landing-protection receipt in the template with compatible velocity; creating a
+new reactive landing maneuver during the critical-fall transaction is pending.
+
+`test_jump_launch_fall` covers critical damage, armor, missing-plan rejection,
+rollback, undo and cross-process continuation. These assertions are authored,
+unrun while checks remain paused.

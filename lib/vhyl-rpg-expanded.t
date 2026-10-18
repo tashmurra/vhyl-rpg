@@ -332,3 +332,10 @@ class RpgExpandedJumpLaunchReceipt: object
     assess() { local value = new RpgExpandedResult(); value.reason = 'jump-launch-unavailable'; return value; }
     commit(value) { rpgExpandedReject('jump-launch-unavailable'); }
 ;
+
+class RpgExpandedJumpFallPlan: object
+    assessFor(profile,fall,velocity)
+    { local value = new RpgExpandedResult(); value.reason = 'jump-fall-plan-unavailable'; return value; }
+    applyFor(profile,fall,velocity) { rpgExpandedReject('jump-fall-plan-unavailable'); }
+    validateResult(profile,fall,velocity) { rpgExpandedReject('jump-fall-plan-unavailable'); }
+;

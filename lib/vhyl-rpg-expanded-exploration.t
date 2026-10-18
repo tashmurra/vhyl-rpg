@@ -2423,6 +2423,8 @@ class RpgExpandedJumpLaunchResult: RpgExpandedResult
     score = nil
     succeeded = nil
     fallRequired = nil
+    fallOutcome = nil
+    fallVelocity = 0
 ;
 modify RpgExpandedProfile
     jumpLaunches = []
@@ -2436,6 +2438,8 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
     jumping = nil
     direction = 'horizontal'
     requiredInchTenths = 0
+    fallYards = nil
+    fallPlan = nil
     difficult = nil
     penalty = 0
     approved = nil
@@ -2447,7 +2451,7 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
         self.requiredInchTenths,self.difficult,self.penalty,self.approved,self.evidence,
         self.jumping.profile,self.jumping.skill,self.jumping.runYards,self.jumping.preparation,
         self.jumping.strengthOption,self.jumping.bodyWeightHundredths,self.jumping.bodyWeightEvidence,
-        self.jumping.encumbranceOption]; }
+        self.jumping.encumbranceOption,self.fallYards,self.fallPlan]; }
     assess()
     {
         if (self.id == nil || self.id == '' || self.occurrence == nil || dataType(self.occurrence) != TypeObject
@@ -2461,6 +2465,7 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
             for (local index = 1; index <= value.definition.length(); index += 1)
                 if (value.definition[index] != self.boundDefinition[index]) rpgExpandedReject('jump-launch-binding');
             if (!holds(self.fighter.profile.jumpLaunches,self)) rpgExpandedReject('jump-launch-history');
+            if (self.result.fallRequired) self.fallPlan.validateResult(self.fighter.profile,self.occurrence,self.result.fallVelocity);
             value.status = 'reused'; return value;
         }
         foreach (local prior in self.fighter.profile.jumpLaunches)
@@ -2488,6 +2493,11 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
             }
             if (value.score == nil || value.score < 3) { value.reason = 'jump-launch-score'; return value; }
             rpgInteger(value.score,3,1000);
+            if (self.fallPlan == nil || !self.fallPlan.ofKind(RpgExpandedJumpFallPlan))
+            { value.reason = 'jump-launch-fall-plan-required'; return value; }
+            rpgInteger(self.fallYards,0,112); value.fallVelocity = rpgExpandedFallVelocity(self.fallYards);
+            local fallAssessment = self.fallPlan.assessFor(self.fighter.profile,self.occurrence,value.fallVelocity);
+            if (fallAssessment.status != 'ready') { value.reason = fallAssessment.reason; return value; }
         }
         value.status = 'ready'; return value;
     }
@@ -2505,6 +2515,11 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
         value.fallRequired = value.check != nil && value.check.critical == 'failure';
         if (!value.succeeded)
         { self.fighter.profile.posture = 'lying'; self.fighter.profile.onKnockdown(); }
+        if (value.fallRequired)
+        {
+            value.fallOutcome = self.fallPlan.applyFor(self.fighter.profile,self.occurrence,value.fallVelocity);
+            if (value.fallOutcome.status != 'resolved') rpgExpandedReject('jump-fall-unresolved');
+        }
         self.boundDefinition = value.definition; self.result = value;
         self.fighter.profile.jumpLaunches = self.fighter.profile.jumpLaunches + [self];
         value.status = 'resolved'; return value;
