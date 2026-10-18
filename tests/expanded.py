@@ -9050,6 +9050,8 @@ def test(build):
     test_social_inhibition(Session, social_inhibition, build.out)
     social_inhibition_minimal = build.build('expanded-social-inhibition-minimal',ROOT / 'tests/fixtures/expanded-social-inhibition-minimal.t')
     test_social_inhibition_minimal(Session, social_inhibition_minimal)
+    emotional_understanding = build.build('expanded-emotional-understanding',ROOT / 'tests/fixtures/expanded-emotional-understanding.t')
+    test_emotional_understanding(Session, emotional_understanding)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16656,5 +16658,35 @@ def test_social_inhibition_minimal(Session, bundle):
     try:
         s.action(2285,2810)
         assert last(s,'test.social-learning-minimal') == ['social-inhibition-learning-prohibited']
+    finally:
+        s.close()
+
+
+def test_emotional_understanding(Session, bundle):
+    for setup,score in (((),10),((2901,),9),((2902,),13),((2903,),13),((2907,),10)):
+        s = Session(bundle)
+        try:
+            for code in setup+(2900,):
+                s.action(2285,code)
+            assert last(s,'test.emotional-understanding') == [-20,score,None,0]
+        finally:
+            s.close()
+    for action,reason in ((2904,'emotional-understanding-incompatible'),(2905,'duplicate-emotional-understanding')):
+        s = Session(bundle)
+        try:
+            s.action(2285,action)
+            assert last(s,'test.emotional-definition') == [reason]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285,2808)
+        assert last(s,'test.social-inhibition-unaffected') == [10]
+        for code in (2906,2808):
+            s.action(2285,code)
+        assert last(s,'test.social-inhibition-unaffected') == [7]
+        for code in (2410,2500,2503):
+            s.action(2285,code)
+        assert last(s,'test.reaction-preparation-state') == [1,3,60,-2]
     finally:
         s.close()

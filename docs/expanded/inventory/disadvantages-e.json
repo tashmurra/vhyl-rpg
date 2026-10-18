@@ -261,9 +261,12 @@
       "pages": "B142",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Low emotional understanding costs -20 and gives -3 to emotion-dependent skills, including acting, revelry, criminology, lie detection, diplomacy, audience influence, fast-talk, interrogation, leadership, merchant, politics, psychology, etiquette, attraction, sociology and street contacts. These remain learnable. Incompatible with empathy, callousness and social obliviousness.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_emotional_understanding"
+      ],
+      "validation_note": "Neutral EmotionalUnderstandingDeficit class implements fixed -20 cost, contextual -3 on printed emotion-dependent skills and explicitly tagged additional skills, active/mitigated effects, duplicate checks and incompatible empathy/callousness/emotional-obliviousness identities. Learning remains permitted. Shared scoring composes with social inhibition and counts applicability once. Cost, stacking, mitigation, compatibility, custom applicability and owned Carousing integration assertions authored, unrun. Modified variants, complete catalogue mapping and setting-specific authored reasoning contracts remain pending."
     },
     {
       "id": "disadvantages-e-pain-sensitivity",

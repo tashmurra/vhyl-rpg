@@ -927,3 +927,10 @@ Carousing preparation now also consumes the traits module's
 [social-inhibition penalty](traits.md#social-inhibition) through the shared score
 hook. Its -1/-2/-4 is separate from entertainment's +1 to +3 and is applied once.
 Other emotional-motivation and pleasure-related trait penalties remain pending.
+
+The traits module now supplies the
+[emotional-understanding deficit](traits.md#emotional-understanding-deficit)
+through the same context hook as social inhibition. Carousing and other listed
+emotion-dependent checks take -3; the skills remain learnable. This replaces the
+earlier missing emotional-motivation penalty for this concrete trait definition.
+Pleasure-related effects and other trait integrations remain pending.

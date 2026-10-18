@@ -913,3 +913,32 @@ penalties, default use, learning rejection, mitigation, duplicate definitions an
 an actual Carousing preparation. Assertions are authored, unrun. Roleplay remains
 authored; later acquisition with existing skills and modified variants remain
 pending.
+
+## Emotional-understanding deficit
+
+`RpgExpandedEmotionalUnderstandingDeficit` implements the ordinary B142 trait
+under a neutral identifier. It costs -20 points, requires approval, and rejects
+levels, self-control and percentage-modifier variants. It applies -3 to the
+printed emotion-dependent skills, including Acting, Carousing, Criminology,
+Detect Lies, Diplomacy, the audience-influence skills, Fast-Talk, Interrogation,
+Leadership, Merchant, Politics, Psychology, Savoir-Faire, Sex Appeal, Sociology
+and Streetwise. These skills remain learnable.
+
+An additional authored skill can set `requiresEmotionalUnderstanding` when it
+relies on emotional motivation. The flag and the printed list identify one
+applicability condition; appearing in both does not apply the penalty twice.
+The shared context hook adds this penalty to other distinct effects such as
+social inhibition. It contributes zero when inactive or mitigated, with its
+purchased point cost unchanged. It does not remove the character's own emotions.
+
+Profile validation rejects duplicate instances and incompatible traits with IDs
+`empathy`, `callous`/`callousness`, or `oblivious`/`emotional-obliviousness`.
+The last pair identifies the B146 emotional-motivation disadvantage, not every
+other form of social awkwardness. Custom trait definitions must preserve those
+semantic identities for the compatibility check.
+
+The emotional-understanding fixture covers pricing, penalties, stacking,
+mitigation, learning permission, explicit additional-skill applicability,
+incompatible traits and a Carousing preparation. Assertions are authored, unrun.
+Modified variants, complete catalogue mapping and any setting-specific emotional
+reasoning contracts remain pending.

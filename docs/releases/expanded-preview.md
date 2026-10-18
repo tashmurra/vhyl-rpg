@@ -1128,3 +1128,9 @@ and the strongest tier's learning prohibition. Default use, mitigation and absen
 expansion behavior retain explicit paths; already-paid affected skills at the
 strongest tier are rejected pending acquisition rules. Price, score, duplicate
 and Carousing integration fixtures are authored, unrun.
+
+The emotional-understanding deficit now has fixed pricing, -3 contextual skill
+penalties and incompatible-trait validation. It stacks with distinct social
+inhibition penalties without duplicate application and does not prohibit skill
+learning. Cost, applicability, mitigation, compatibility and Carousing fixtures
+are authored, unrun.

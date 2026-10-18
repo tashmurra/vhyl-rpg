@@ -474,3 +474,7 @@ modify RpgExpandedProfile
 modify RpgLiteSkill
     requiresSocialInteraction = nil
 ;
+
+modify RpgLiteSkill
+    requiresEmotionalUnderstanding = nil
+;

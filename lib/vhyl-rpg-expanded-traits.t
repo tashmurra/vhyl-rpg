@@ -783,3 +783,49 @@ modify RpgLiteContext
         return amount - penalty;
     }
 ;
+
+/** B142 ordinary emotional-understanding deficit, without modified variants. */
+class RpgExpandedEmotionalUnderstandingDeficit: RpgExpandedDisadvantage
+    id = 'emotional-understanding-deficit'
+    points = -20
+    creationCost()
+    {
+        if (!self.approved || self.id != 'emotional-understanding-deficit' || self.points != -20 || self.level != 1
+            || self.percentages.length() != 0 || self.selfControlRating != nil || self.controlled)
+            rpgExpandedReject('emotional-understanding-definition');
+        return -20;
+    }
+;
+rpgExpandedEmotionalUnderstandingApplies(skill)
+{
+    if (skill == nil || !skill.ofKind(RpgLiteSkill)) return nil;
+    return skill.requiresEmotionalUnderstanding || holds(['acting','carousing','criminology','detect-lies','diplomacy',
+        'enthrallment','captivate','persuade','suggest','sway-emotions','fast-talk','interrogation','leadership',
+        'merchant','politics','psychology','savoir-faire','sex-appeal','sociology','streetwise'],skill.id);
+}
+modify RpgExpandedProfile
+    emotionalUnderstandingPenalty()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedEmotionalUnderstandingDeficit))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-emotional-understanding'); found = trait;
+            }
+        if (found == nil) return 0;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgLiteTrait) && holds(['empathy','callous','callousness','oblivious','emotional-obliviousness'],trait.id))
+                rpgExpandedReject('emotional-understanding-incompatible');
+        return !found.active || found.mitigated ? 0 : 3;
+    }
+    validateFeatures()
+    { inherited(); self.emotionalUnderstandingPenalty(); return nil; }
+;
+modify RpgLiteContext
+    socialTraitModifier(profile)
+    {
+        local amount = inherited(profile);
+        if (!profile.ofKind(RpgExpandedProfile) || !rpgExpandedEmotionalUnderstandingApplies(self.skill)) return amount;
+        return amount - profile.emotionalUnderstandingPenalty();
+    }
+;
