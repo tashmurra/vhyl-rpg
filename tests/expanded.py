@@ -9310,6 +9310,8 @@ def test(build):
     test_motion_journey(Session, motion_journey, build.out)
     motion_scores = build.build("expanded-motion-scores",ROOT / "tests/fixtures/expanded-motion-scores.t")
     test_motion_scores(Session, motion_scores, build.out)
+    motion_catalogue = build.build("expanded-motion-catalogue",ROOT / "tests/fixtures/expanded-motion-catalogue.t")
+    test_motion_catalogue(Session, motion_catalogue)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22431,5 +22433,21 @@ def test_motion_scores(Session, bundle, out):
         for code in (16200, 16301):
             s.action(1100, code)
         assert last(s, 'test.motion-score-binding') == ['motion-journey-penalty-binding']
+    finally:
+        s.close()
+
+
+def test_motion_catalogue(Session, bundle):
+    """Existing operation skills and optional specialties cannot bypass learning restrictions; unrun."""
+    s = Session(bundle)
+    try:
+        for code in (16400, 16401):
+            s.action(1100, code)
+        assert last(s, 'test.motion-catalogue') == [1, 'motion-susceptibility-learning'] * 5 + [0, None]
+        assert last(s, 'test.motion-specialty') == ['motion-susceptibility-learning']
+        s.action(1100, 16402)
+        assert last(s, 'test.motion-specialty') == ['vehicle-operation-specialty-conflict']
+        s.action(1100, 16403)
+        assert last(s, 'test.motion-class-conflict') == ['vehicle-operation-class-conflict']
     finally:
         s.close()

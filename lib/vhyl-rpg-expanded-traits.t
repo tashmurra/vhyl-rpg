@@ -2838,6 +2838,33 @@ class RpgExpandedMotionSusceptibility: RpgLiteTrait
 modify RpgSkill
     /* nil means unclassified, 0 non-operation, 1 vehicle operation. */
     vehicleOperationClass = nil
+    vehicleOperationClassification() { return self.vehicleOperationClass; }
+;
+modify RpgLiteSkill
+    vehicleOperationClassification()
+    {
+        if (holds(['bicycling','boating','driving','piloting','submarine'],self.studyIdentity()))
+        {
+            if (self.vehicleOperationClass != nil && self.vehicleOperationClass != 1)
+                rpgExpandedReject('vehicle-operation-class-conflict');
+            return 1;
+        }
+        if (self.vehicleOperationClass != nil) return self.vehicleOperationClass;
+        foreach (local row in rpgLiteCatalogue.skills)
+            if (row[1] == self.studyIdentity()) return 0;
+        return nil;
+    }
+;
+modify RpgExpandedSkill
+    vehicleOperationClassification()
+    {
+        if (self.optionalParent == nil) return inherited();
+        rpgExpandedValidateSkill(self);
+        local parent = self.optionalParent.vehicleOperationClassification();
+        if (self.vehicleOperationClass != nil && self.vehicleOperationClass != parent)
+            rpgExpandedReject('vehicle-operation-specialty-conflict');
+        return parent;
+    }
 ;
 modify RpgExpandedProfile
     motionSusceptible(activeOnly)
@@ -2857,9 +2884,10 @@ modify RpgExpandedProfile
     {
         if (!self.motionSusceptible(nil)) return nil;
         if (skill == nil || !skill.ofKind(RpgSkill)) rpgExpandedReject('motion-susceptibility-skill');
-        if (skill.vehicleOperationClass == nil) return 'motion-skill-classification-required';
-        rpgInteger(skill.vehicleOperationClass,0,1);
-        return skill.vehicleOperationClass == 1 ? 'motion-susceptibility-learning' : nil;
+        local operation = skill.vehicleOperationClassification();
+        if (operation == nil) return 'motion-skill-classification-required';
+        rpgInteger(operation,0,1);
+        return operation == 1 ? 'motion-susceptibility-learning' : nil;
     }
     physiologySkillLearningReason(skill)
     {

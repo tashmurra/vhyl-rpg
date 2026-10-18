@@ -1665,7 +1665,7 @@ from currently active symptoms. Mitigation suppresses active susceptibility; it
 does not grant permission to learn prohibited skills.
 
 For characters with this purchase, classify each skill's `vehicleOperationClass`
-as 1 for vehicle operation or 0 for other skills. The default nil is explicitly
+as 1 for vehicle operation or 0 for other skills. For authored skills outside the existing catalogue, nil is explicitly
 unclassified and rejects learning. This author classification must follow the
 actual task; it is not inferred from arbitrary skill IDs. Learning hooks and
 character validation reject paid vehicle-operation training, while unrelated
@@ -1673,3 +1673,19 @@ classified skills remain available. Full catalogue classification remains
 pending. `expanded-motion-trait.t` / `test_motion_trait` specify cost, independent
 template copying, mitigation, classification and existing-training rejection.
 Fixtures remain unrun; persistent journey symptoms are still outstanding.
+
+
+The existing Lite catalogue now supplies operation classification through
+`vehicleOperationClassification()`: bicycling, boating, driving, piloting and
+submarine are operation skills (full-2008 B180, B188, B214 and B223). Other
+existing catalogue entries default to non-operation. This does not install the
+full expanded skill catalogue or change Lite behavior when the expansion is
+absent. An explicit contradictory classification on a known operation skill
+rejects. Optional expanded specialties inherit classification from their parent
+and reject conflicting overrides. Remaining authored skills still require an
+explicit classification when the susceptibility restriction applies.
+
+`expanded-motion-catalogue.t` / `test_motion_catalogue` specify the five operation
+identities, navigation exclusion, optional specialty inheritance and conflicting
+overrides. Fixtures remain unrun. Expanded crew, command and custom operation
+skills still need their source-specific catalogue definitions.
