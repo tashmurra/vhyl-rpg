@@ -119,5 +119,22 @@ act(verb,args)
         eventValue(value.status); eventValue(value.reason); eventValue(value.loss);
         eventValue(rpgExpandedAgingModifier(args[4],args[5])); return nil;
     }
+    if (verb == 1807)
+    {
+        local patient = new RpgExpandedProfile(); patient.st = args[1]; patient.dx = 11; patient.iq = 12; patient.ht = 10;
+        patient.hpAdjustment = 2; patient.fpAdjustment = 1; patient.willAdjustment = 1;
+        patient.perceptionAdjustment = 2; patient.speedQuarterAdjustment = 1; patient.moveAdjustment = 1;
+        patient.unspentPoints = 7; patient.earnedPoints = 7; patient.injury = 2;
+        local time = rpgLedger.seconds; local draws = rpgRandom.draws;
+        local value = rpgExpandedAgingSequence(patient,3,0,args[2] == 1,[11,17,10,18]);
+        event('test.aging-sequence'); foreach (local score in value.scoresAfter) eventValue(score);
+        foreach (local loss in value.losses) eventValue(loss);
+        eventValue(value.pointLoss); eventValue(value.naturalDeath ? 1 : 0);
+        eventValue(value.healthCapacity); eventValue(value.fatigueCapacity); eventValue(value.will); eventValue(value.perception);
+        eventValue(value.speedQuarters); eventValue(value.move);
+        event('test.aging-purity'); eventValue(patient.st); eventValue(patient.dx); eventValue(patient.iq); eventValue(patient.ht);
+        eventValue(patient.unspentPoints); eventValue(patient.earnedPoints); eventValue(patient.injury);
+        eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws); return nil;
+    }
     return vhylAct(verb,args);
 }

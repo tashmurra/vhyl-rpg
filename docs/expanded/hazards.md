@@ -285,3 +285,27 @@ account for character points. Ordered four-attribute events, the prohibition on
 luck, natural death, alternative equal-value losses and rejuvenation history
 remain incomplete. `test_aging_assessments` provides source-row, rounding,
 modifier and roll-boundary expectations. These fixtures remain unrun.
+
+
+`rpgExpandedAgingSequence(profile, medicalTL, fitness, longevity, rolls)` assesses
+four supplied rolls in strength, dexterity, intelligence and health order. It
+returns `scoresBefore`, `scoresAfter`, `losses`, `rolls`, `pointLoss` and
+`naturalDeath`. All four checks use the pre-event health score plus the aging
+modifier: health is the final attribute in the ordered sequence. Loss is capped
+at the attribute's current value, so a terminal result reaches zero rather than
+creating a negative base score.
+
+The result also exposes projected `healthCapacity`, `fatigueCapacity`, `will`,
+`perception`, `speedQuarters` and `move`, preserving independently purchased
+secondary adjustments. `pointLoss` uses the standard base-attribute prices;
+it is a change in character value, not a charge against earned or unspent
+advancement points. Skill training points remain unchanged while attribute-based
+skill values will follow the base changes when an owned event is committed.
+
+This interface is a projection. It does not change the profile, apply natural
+death, enforce birthdays, replace losses with traits, or restore youth. A future
+committed event must also handle invalid derived states and validate interactions
+with capacity-limited traits. No luck or random helper is called by this
+supplied-roll interface. `test_aging_sequence` records independent expected
+losses, point values, derived characteristics, the zero-attribute boundary and
+preview purity. These fixtures remain unrun while checks are paused.

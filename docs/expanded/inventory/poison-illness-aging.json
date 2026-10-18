@@ -1322,9 +1322,12 @@
       "pages": "B444",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Each aging event makes four health rolls in order for strength, dexterity, intelligence and health; luck cannot alter these rolls.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_aging_sequence"
+      ],
+      "validation_note": "Pure ordered four-roll projection records base and derived values, point-value loss and terminal zero scores without spending advancement points. Fixtures unrun. Calendar-owned execution, committed death, trait interactions and rejuvenation remain incomplete."
     },
     {
       "id": "aging-technology-modifier",
@@ -1384,9 +1387,12 @@
       "pages": "B444",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Aging loss reduces character value and all dependent secondary characteristics and skills; it grants no spendable point refund.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_aging_sequence"
+      ],
+      "validation_note": "Pure ordered four-roll projection records base and derived values, point-value loss and terminal zero scores without spending advancement points. Fixtures unrun. Calendar-owned execution, committed death, trait interactions and rejuvenation remain incomplete."
     },
     {
       "id": "aging-death",
@@ -1394,9 +1400,12 @@
       "pages": "B444",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An attribute reduced to zero by aging causes natural death.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_aging_sequence"
+      ],
+      "validation_note": "Pure ordered four-roll projection records base and derived values, point-value loss and terminal zero scores without spending advancement points. Fixtures unrun. Calendar-owned execution, committed death, trait interactions and rejuvenation remain incomplete."
     },
     {
       "id": "aging-alternative-loss",

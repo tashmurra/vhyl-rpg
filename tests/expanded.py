@@ -549,6 +549,16 @@ def test_infection_progression(s):
     assert last(s, 'test.infection-recovered') == [1,5,2,0,2,0,3]
 
 
+def test_aging_sequence(s):
+    for strength, longevity, expected in [
+            (10,0,[9,9,12,8,1,2,0,2,70,0,11,9,13,14,18,5]),
+            (1,0,[0,9,12,8,1,2,0,2,70,1,2,9,13,14,18,5]),
+            (10,1,[10,10,12,9,0,1,0,1,30,0,12,10,13,14,20,6])]:
+        s.action(1807, strength, longevity)
+        assert last(s, 'test.aging-sequence') == expected
+        assert last(s, 'test.aging-purity') == [strength,11,12,10,7,7,2,0,0]
+
+
 def test_aging_assessments(s):
     for short, extended, values in [
             (0,0,[18,50,'year',1,70,'month',6,90,'month',3]),
@@ -3181,6 +3191,7 @@ def test(build):
     fresh(Session,hazards,test_specific_natural_immunity)
     fresh(Session,hazards,test_infection_supervision)
     fresh(Session,hazards,test_aging_assessments)
+    fresh(Session,hazards,test_aging_sequence)
     fresh(Session,hazards,test_infection_progression)
     hazard_transactions = build.build('expanded-hazards-transactions',ROOT / 'tests/fixtures/expanded-hazards-transactions.t')
     fresh(Session,hazard_transactions,test_immunity_transactions)

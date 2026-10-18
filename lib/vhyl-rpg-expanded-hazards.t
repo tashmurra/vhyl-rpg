@@ -393,3 +393,50 @@ rpgExpandedAgingLoss(score, roll, longevity)
     }
     value.status = 'ready'; return value;
 }
+
+class RpgExpandedAgingSequence: RpgExpandedResult
+    scoresBefore = []
+    scoresAfter = []
+    losses = []
+    rolls = []
+    pointLoss = 0
+    naturalDeath = nil
+    healthCapacity = 0
+    fatigueCapacity = 0
+    will = 0
+    perception = 0
+    speedQuarters = 0
+    move = 0
+;
+
+/** Four supplied aging rolls in ST, DX, IQ, HT order. B444. No mutation or luck. */
+rpgExpandedAgingSequence(profile, medicalTL, fitness, longevity, rolls)
+{
+    if (profile == nil || !profile.ofKind(RpgExpandedProfile) || rolls == nil || rolls.length() != 4)
+        rpgExpandedReject('aging-sequence-definition');
+    local value = new RpgExpandedAgingSequence();
+    value.scoresBefore = [profile.st,profile.dx,profile.iq,profile.ht];
+    foreach (local score in value.scoresBefore) rpgInteger(score,1,1000);
+    foreach (local roll in rolls) rpgInteger(roll,3,18);
+    if (profile.dead) { value.reason = 'aging-patient-dead'; return value; }
+    local target = profile.ht + rpgExpandedAgingModifier(medicalTL,fitness);
+    rpgInteger(target,-1000,1000); local prices = [10,20,20,10];
+    for (local index = 1; index <= 4; index += 1)
+    {
+        local outcome = rpgExpandedAgingLoss(target,rolls[index],longevity);
+        if (outcome.status != 'ready') { value.reason = outcome.reason; return value; }
+        local loss = outcome.loss;
+        if (loss > value.scoresBefore[index]) loss = value.scoresBefore[index];
+        local after = value.scoresBefore[index] - loss;
+        value.scoresAfter = value.scoresAfter + [after]; value.losses = value.losses + [loss];
+        value.pointLoss += loss * prices[index]; if (after == 0) value.naturalDeath = true;
+    }
+    value.rolls = rolls;
+    value.healthCapacity = value.scoresAfter[1] + profile.hpAdjustment;
+    value.fatigueCapacity = value.scoresAfter[4] + profile.fpAdjustment;
+    value.will = value.scoresAfter[3] + profile.willAdjustment;
+    value.perception = value.scoresAfter[3] + profile.perceptionAdjustment;
+    value.speedQuarters = value.scoresAfter[2] + value.scoresAfter[4] + profile.speedQuarterAdjustment;
+    value.move = value.speedQuarters / 4 + profile.moveAdjustment;
+    value.status = 'ready'; return value;
+}
