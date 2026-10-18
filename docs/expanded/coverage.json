@@ -101,7 +101,11 @@
         "tests/expanded.py::test_cold_transactions",
         "tests/expanded.py::test_cold_persistence",
         "tests/expanded.py::test_heat_assessments",
-        "tests/expanded.py::test_thermal_shock_assessments"
+        "tests/expanded.py::test_thermal_shock_assessments",
+        "tests/expanded.py::test_immersion_intervals",
+        "tests/expanded.py::test_immersion_scheduler_conflict",
+        "tests/expanded.py::test_immersion_transactions",
+        "tests/expanded.py::test_immersion_persistence"
       ],
       "validation_note": "Owned infection progression integrates the qualified roster bonus with antibiotic modifiers and shared recovery restrictions. Fixtures authored but unrun. Automatic care scheduling, interruption, catch-up, broader disease treatment and verified cross-module behavior remain incomplete."
     },

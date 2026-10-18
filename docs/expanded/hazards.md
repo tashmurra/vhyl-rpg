@@ -554,7 +554,54 @@ Automatic failure on seventeen or eighteen can occur without a positive failure
 margin at high scores. The supplied passage does not specify the fatigue cost in
 that case; the helper returns `thermal-shock-forced-failure-margin` rather than
 inventing a minimum or granting fatigue. This remains an unresolved inventory
-case. The assessment neither charges fatigue nor starts an exposure. Owned
-immersion intervals, overflow injuries, recovery locks and drowning integration
-remain incomplete. `test_thermal_shock_assessments` records the expected outcomes,
+case. The assessment neither charges fatigue nor starts an exposure. The owned
+procedure below supports intervals that cannot overflow into injury; overflow
+injuries and drowning integration remain incomplete. `test_thermal_shock_assessments` records the expected outcomes,
 dry-suit routing and purity; it remains unrun while checks are paused.
+
+
+## Owned immersion and rescue
+
+Create `RpgExpandedImmersion` with a unique `id`, an expanded `profile` and
+`evidence` establishing icy immersion without a waterproof dry suit. Breathing
+must be handled separately by the author. Call `start()` once; repeated calls
+reuse the same start time. A character cannot start ordinary cold exposure while
+immersed, or start immersion during an active ordinary cold exposure. This
+prevents two schedulers charging the same exposure.
+
+Create a distinct `RpgExpandedImmersionInterval` for each minute, with a unique
+`id` and the `exposure`. Call `assess()` or `apply()` at exactly the next sixty-second
+boundary on the shared clock. Assessment spends no time, resources or randomness.
+Execution checks HT with the shared temperature context, charges the outcome's
+fatigue once, and records the interval. It adds the same amount to the exposure's
+owned recovery restriction and the character's existing `temperatureFatigue`.
+Replaying an interval returns its receipt, including after rescue.
+
+The current implementation rejects a check before randomness if any possible
+result could exhaust the available positive fatigue and overflow into injury.
+It also rejects scores of seventeen or more because an automatic failure can
+have no positive failure margin. These are explicit incomplete cases, not alternate
+injury or high-score rules. No automatic catch-up is available for missed minutes.
+
+`leave(evidence)` ends immersion without restoring fatigue or releasing its recovery
+restriction. Resolve any due minute before leaving. The author may then begin an
+ordinary cold exposure using the actual air, clothing and wind conditions.
+`warm(shelter, heatSource, evidence)` requires the character to have left the
+water and have both shelter and heat. It releases only that immersion's recovery
+restriction. It neither heals the character nor clears restrictions from another
+exposure. Multiple exited episodes retain separate restrictions until warmed.
+
+`RpgLiteClimate.advance()` now calls `profile.validateClimateAdvance()` before any
+mutation. Its default is inert. With the hazards module installed, it rejects an
+active expanded cold or immersion exposure, or an unwarmed immersion restriction,
+because the Lite climate procedure resets global temperature restrictions. Use
+one scheduler for the character. The guard does not add random draws or time.
+
+`test_immersion_intervals` covers success, failure margins, repeat protection,
+exit, warmth and unsupported overflow preflight. `test_immersion_scheduler_conflict`
+covers duplicate climate ownership. The dedicated
+[`expanded-immersion-transactions.t`](../../tests/fixtures/expanded-immersion-transactions.t)
+adds preview, exception rollback, undo, replay and cross-process save continuation
+fixtures for exposure, its due boundary, fatigue loss, exit and warming. All these
+fixtures are authored but unrun while checks are paused. Existing Lite regressions
+must verify the default dispatch hook when checks resume.

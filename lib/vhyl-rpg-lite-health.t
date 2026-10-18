@@ -335,6 +335,8 @@ modify RpgLiteProfile
     temperatureInjury = 0
     temperatureFatigue = 0
     heatExtra = 0
+    /* Optional hazard libraries may reject conflicting climate ownership. */
+    validateClimateAdvance() { return nil; }
 ;
 
 /** Authored poison or disease parameters: resistance, delay, cycle, damage and recovery modifier. */
@@ -443,6 +445,7 @@ class RpgLiteClimate: object
     advance(seconds)
     {
         rpgInteger(seconds, 0, 86400);
+        self.profile.validateClimateAdvance();
         self.profile.heatExtra = self.fahrenheit >= 121 ? 2 : self.fahrenheit >= 91 ? 1 : 0;
         if (self.sheltered || self.fahrenheit >= 35 && self.fahrenheit <= 80)
         {

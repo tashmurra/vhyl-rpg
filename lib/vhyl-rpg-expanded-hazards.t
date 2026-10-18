@@ -759,7 +759,7 @@ class RpgExpandedColdExposure: RpgExpandedColdContext
         local value = self.assess(); if (value.status != 'ready') return value;
         if (!value.checkRequired) { value.status = 'blocked'; value.reason = 'cold-exposure-not-required'; return value; }
         if (self.id == nil || self.id == '') rpgExpandedReject('cold-exposure-id');
-        if (self.profile.coldExposure != nil) { value.status = 'blocked'; value.reason = 'cold-exposure-active'; return value; }
+        if (self.profile.coldExposure != nil || self.profile.immersion != nil) { value.status = 'blocked'; value.reason = 'cold-exposure-active'; return value; }
         foreach (local prior in self.profile.coldHistory)
             if (prior.id == self.id) rpgExpandedReject('cold-exposure-duplicate');
         self.boundId = self.id; self.boundProfile = self.profile; self.boundTemperature = self.effectiveF;
@@ -956,3 +956,196 @@ rpgExpandedThermalShock(drySuit, score, roll)
     }
     value.status = 'ready'; return value;
 }
+
+modify RpgExpandedProfile
+    immersion = nil
+    immersionHistory = []
+;
+
+/** Author establishes icy immersion and handles breathing independently. */
+class RpgExpandedImmersion: object
+    id = nil
+    profile = nil
+    evidence = nil
+    startedAt = nil
+    lastCheckAt = nil
+    exitedAt = nil
+    exitEvidence = nil
+    warmedAt = nil
+    warmthEvidence = nil
+    lockedFatigue = 0
+    intervals = []
+    boundId = nil
+    boundProfile = nil
+    boundEvidence = nil
+    validateBinding()
+    {
+        if (self.id != self.boundId || self.profile != self.boundProfile || self.evidence != self.boundEvidence
+            || !holds(self.profile.immersionHistory,self)) rpgExpandedReject('immersion-binding');
+        return nil;
+    }
+    start()
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil)
+        { self.validateBinding(); value.status = 'reused'; return value; }
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('immersion-profile');
+        if (self.id == nil || self.id == '') rpgExpandedReject('immersion-id');
+        if (self.evidence == nil || self.evidence == '')
+        { value.reason = 'immersion-evidence'; return value; }
+        if (self.profile.dead) { value.reason = 'immersion-patient-dead'; return value; }
+        if (self.profile.immersion != nil || self.profile.coldExposure != nil)
+        { value.reason = 'immersion-exposure-active'; return value; }
+        foreach (local prior in self.profile.immersionHistory)
+            if (prior.id == self.id) rpgExpandedReject('immersion-duplicate');
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundEvidence = self.evidence;
+        self.startedAt = rpgLedger.seconds; self.lastCheckAt = self.startedAt;
+        self.profile.immersionHistory = self.profile.immersionHistory + [self]; self.profile.immersion = self;
+        value.status = 'resolved'; return value;
+    }
+    leave(evidence)
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt == nil) { value.reason = 'immersion-not-started'; return value; }
+        self.validateBinding();
+        if (self.exitedAt != nil) { value.status = 'reused'; return value; }
+        if (evidence == nil || evidence == '') { value.reason = 'immersion-exit-evidence'; return value; }
+        if (rpgLedger.seconds >= self.lastCheckAt + 60)
+        { value.reason = 'immersion-unresolved-interval'; return value; }
+        if (self.profile.immersion != self) rpgExpandedReject('immersion-owner');
+        self.exitedAt = rpgLedger.seconds; self.exitEvidence = evidence; self.profile.immersion = nil;
+        value.status = 'resolved'; return value;
+    }
+    warm(shelter, heatSource, evidence)
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt == nil) { value.reason = 'immersion-not-started'; return value; }
+        self.validateBinding();
+        if (self.warmedAt != nil) { value.status = 'reused'; return value; }
+        if (self.exitedAt == nil) { value.reason = 'immersion-not-exited'; return value; }
+        if (!shelter || !heatSource || evidence == nil || evidence == '')
+        { value.reason = 'immersion-recovery-shelter-and-heat'; return value; }
+        if (self.lockedFatigue > self.profile.temperatureFatigue) rpgExpandedReject('immersion-balance');
+        self.profile.temperatureFatigue -= self.lockedFatigue; self.lockedFatigue = 0;
+        self.warmedAt = rpgLedger.seconds; self.warmthEvidence = evidence;
+        value.status = 'resolved'; return value;
+    }
+;
+
+class RpgExpandedImmersionResult: RpgExpandedResult
+    context = nil
+    score = nil
+    fatigue = 0
+;
+
+class RpgExpandedImmersionInterval: object
+    id = nil
+    exposure = nil
+    completedAt = nil
+    result = nil
+    boundId = nil
+    boundExposure = nil
+    assess()
+    {
+        local value = new RpgExpandedImmersionResult();
+        if (self.exposure == nil || !self.exposure.ofKind(RpgExpandedImmersion)) rpgExpandedReject('immersion-interval-exposure');
+        if (self.exposure.startedAt == nil) { value.reason = 'immersion-not-started'; return value; }
+        self.exposure.validateBinding();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.exposure != self.boundExposure || !holds(self.exposure.intervals,self))
+                rpgExpandedReject('immersion-interval-binding');
+            value.status = 'reused'; value.check = self.result.check; value.fatigue = self.result.fatigue; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('immersion-interval-id');
+        foreach (local prior in self.exposure.intervals)
+            if (prior.id == self.id) rpgExpandedReject('immersion-interval-duplicate');
+        if (self.exposure.exitedAt != nil || self.exposure.profile.immersion != self.exposure)
+        { value.reason = 'immersion-not-active'; return value; }
+        local patient = self.exposure.profile;
+        if (patient.dead) { value.reason = 'immersion-patient-dead'; return value; }
+        local due = self.exposure.lastCheckAt + 60;
+        if (rpgLedger.seconds != due)
+        { value.reason = rpgLedger.seconds < due ? 'immersion-interval-not-due' : 'immersion-missed-boundary'; return value; }
+        value.context = new RpgLiteContext(); value.context.attribute = rpgHT; value.context.kind = 'temperature';
+        value.score = rpgLiteScore(patient,value.context);
+        if (value.score == nil || value.score < 3)
+        { value.reason = 'immersion-resistance-unavailable'; return value; }
+        if (value.score >= 17)
+        { value.reason = 'thermal-shock-forced-failure-margin'; return value; }
+        /* Every possible result must be supported before consuming randomness. */
+        if (patient.fp() < 18 - value.score)
+        { value.reason = 'immersion-overflow-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.exposure.profile,value.context);
+        local outcome = rpgExpandedThermalShock(nil,value.score,value.check.roll);
+        if (outcome.status != 'ready') rpgExpandedReject('immersion-outcome-changed');
+        local remaining = outcome.fatigue;
+        while (remaining > 0)
+        {
+            value.fatigue += rpgLiteFatigueIncrement(self.exposure.profile,'temperature'); remaining -= 1;
+        }
+        self.exposure.profile.temperatureFatigue += value.fatigue; self.exposure.lockedFatigue += value.fatigue;
+        self.boundId = self.id; self.boundExposure = self.exposure; self.completedAt = rpgLedger.seconds;
+        self.exposure.lastCheckAt = self.completedAt; self.exposure.intervals = self.exposure.intervals + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local ids = []; local active = nil; local locked = 0;
+        foreach (local exposure in self.immersionHistory)
+        {
+            if (exposure == nil || !exposure.ofKind(RpgExpandedImmersion) || exposure.profile != self
+                || holds(ids,exposure.id) || exposure.startedAt == nil || exposure.startedAt > rpgLedger.seconds)
+                rpgExpandedReject('immersion-history');
+            exposure.validateBinding(); ids = ids + [exposure.id];
+            local lastTime = exposure.startedAt; local fatigue = 0; local intervals = [];
+            foreach (local interval in exposure.intervals)
+            {
+                if (interval == nil || !interval.ofKind(RpgExpandedImmersionInterval) || interval.exposure != exposure
+                    || interval.result == nil || holds(intervals,interval.id)
+                    || interval.completedAt != lastTime + 60 || interval.completedAt > rpgLedger.seconds
+                    || interval.assess().status != 'reused') rpgExpandedReject('immersion-interval-history');
+                intervals = intervals + [interval.id]; lastTime = interval.completedAt; fatigue += interval.result.fatigue;
+            }
+            if (exposure.lastCheckAt != lastTime || exposure.lockedFatigue != (exposure.warmedAt == nil ? fatigue : 0))
+                rpgExpandedReject('immersion-fatigue-history');
+            locked += exposure.lockedFatigue;
+            if (exposure.exitedAt == nil)
+            {
+                if (active != nil || exposure.warmedAt != nil) rpgExpandedReject('immersion-active-history');
+                active = exposure;
+            }
+            else if (exposure.exitedAt < lastTime || exposure.exitedAt >= lastTime + 60
+                || exposure.exitedAt > rpgLedger.seconds || exposure.exitEvidence == nil)
+                rpgExpandedReject('immersion-exit-history');
+            if (exposure.warmedAt != nil && (exposure.warmedAt < exposure.exitedAt
+                || exposure.warmedAt > rpgLedger.seconds || exposure.warmthEvidence == nil))
+                rpgExpandedReject('immersion-warmth-history');
+        }
+        foreach (local cold in self.coldHistory) locked += cold.lockedFatigue;
+        if (self.immersion != active || locked > self.temperatureFatigue || active != nil && self.coldExposure != nil)
+            rpgExpandedReject('immersion-restriction-history');
+        return nil;
+    }
+;
+
+/** Lite climate has a global recovery reset; do not mix ownership models. */
+modify RpgExpandedProfile
+    validateClimateAdvance()
+    {
+        inherited();
+        if (self.coldExposure != nil || self.immersion != nil)
+            rpgExpandedReject('climate-expanded-exposure-active');
+        foreach (local exposure in self.immersionHistory)
+            if (exposure.lockedFatigue > 0) rpgExpandedReject('climate-expanded-recovery-owned');
+        return nil;
+    }
+;

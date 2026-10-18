@@ -646,9 +646,13 @@
       "status": "partial",
       "acceptance": "Without a waterproof dry suit, icy immersion requires a health check each minute without clothing modifiers; success loses one fatigue and failure loses fatigue equal to its margin. Resolve drowning independently.",
       "tests": [
-        "tests/expanded.py::test_thermal_shock_assessments"
+        "tests/expanded.py::test_thermal_shock_assessments",
+        "tests/expanded.py::test_immersion_intervals",
+        "tests/expanded.py::test_immersion_scheduler_conflict",
+        "tests/expanded.py::test_immersion_transactions",
+        "tests/expanded.py::test_immersion_persistence"
       ],
-      "validation_note": "Pure outcomes and dry-suit routing authored; fixtures unrun. Forced failures without a positive margin need source resolution. Owned immersion, overflow, recovery and drowning integration remain incomplete."
+      "validation_note": "Owned minute intervals, exit and warming with shared fatigue restrictions authored; all fixtures unrun. Overflow injury, forced failures without positive margins, drowning and catch-up remain incomplete."
     },
     {
       "id": "environment-thermal-dry-suit",

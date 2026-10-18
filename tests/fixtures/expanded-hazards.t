@@ -260,5 +260,45 @@ act(verb,args)
         eventValue(value.ordinaryCold ? 1 : 0); eventValue(value.intervalSeconds); eventValue(value.fatigue);
         eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws); return nil;
     }
+    if (verb == 1853)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        patient.fatigue = args[1]; patient.temperatureFatigue = 2;
+        local exposure = new RpgExpandedImmersion(); exposure.id = 'icy-water'; exposure.profile = patient;
+        exposure.evidence = 'Sudden icy immersion without a waterproof dry suit; breathing handled separately';
+        local started = exposure.start(); local repeatStart = exposure.start();
+        local interval = new RpgExpandedImmersionInterval(); interval.id = 'minute-one'; interval.exposure = exposure;
+        rpgRandom.seed(args[2]); local early = interval.apply(); rpgSpendTime(60);
+        local time = rpgLedger.seconds; local preview = interval.assess(); local value = interval.apply();
+        event('test.immersion-interval'); eventValue(started.status); eventValue(repeatStart.status);
+        eventValue(early.reason); eventValue(preview.status); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.fatigue); eventValue(patient.fatigue); eventValue(patient.temperatureFatigue);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds - time);
+        if (value.status != 'resolved') return nil;
+        local repeated = interval.apply(); local beforeExit = exposure.warm(true,true,'Warm shelter');
+        local exited = exposure.leave('Removed from the icy water');
+        local cold = new RpgExpandedColdExposure(); cold.id = 'post-immersion'; cold.profile = patient;
+        cold.temperatureEvidence = 'Freezing air after rescue'; local coldStart = cold.start();
+        local noHeat = exposure.warm(true,nil,'Shelter without heat');
+        local warmed = exposure.warm(true,true,'Shelter and external heat');
+        patient.validateFeatures();
+        event('test.immersion-recovery'); eventValue(repeated.status); eventValue(beforeExit.reason);
+        eventValue(exited.status); eventValue(coldStart.status); eventValue(noHeat.reason); eventValue(warmed.status);
+        eventValue(patient.fatigue); eventValue(patient.temperatureFatigue); eventValue(exposure.lockedFatigue);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds - time); return nil;
+    }
+    if (verb == 1854)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        local exposure = new RpgExpandedImmersion(); exposure.id = 'water'; exposure.profile = patient;
+        exposure.evidence = 'Icy immersion'; exposure.start();
+        local cold = new RpgExpandedColdExposure(); cold.id = 'duplicate'; cold.profile = patient;
+        cold.temperatureEvidence = 'Freezing conditions'; local blocked = cold.start();
+        local climate = new RpgLiteClimate(); climate.profile = patient;
+        local rejected = nil;
+        try { climate.advance(60); } catch (RpgExpandedError error) { rejected = true; }
+        event('test.immersion-conflict'); eventValue(blocked.reason); eventValue(rejected ? 1 : 0);
+        eventValue(climate.elapsed); eventValue(rpgRandom.draws); return nil;
+    }
     return vhylAct(verb,args);
 }

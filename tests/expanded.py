@@ -760,6 +760,90 @@ def test_cold_persistence(Session, bundle, out):
             second.close()
 
 
+def immersion_state(s):
+    s.action(1861)
+    return last(s, 'test.immersion-state')
+
+
+def test_immersion_transactions(s):
+    s.action(1860, 0)
+    assert immersion_state(s) == [2,2,1,0,0,0,0,0]
+    s.action(1860, 1)
+    due = immersion_state(s)
+    for code in [9,3,4,6]:
+        s.action(1860, code)
+        assert immersion_state(s) == due
+    s.action(1860, 2)
+    immersed = immersion_state(s)
+    assert immersed == [9,9,1,1,0,0,3,60]
+    s.command('undo')
+    assert immersion_state(s) == due
+    s.action(1860, 2)
+    for code in [2,5,8]:
+        s.action(1860, code)
+        assert immersion_state(s) == immersed
+    s.action(1860, 4)
+    exited = immersion_state(s)
+    assert exited == [9,9,0,1,1,0,3,60]
+    s.command('undo')
+    assert immersion_state(s) == immersed
+    s.action(1860, 4)
+    s.action(1860, 7)
+    assert immersion_state(s) == exited
+    s.action(1860, 6)
+    assert immersion_state(s) == [9,2,0,1,1,1,3,60]
+    s.command('undo')
+    assert immersion_state(s) == exited
+    for code in [6,6,2,4,8]:
+        s.action(1860, code)
+        assert immersion_state(s) == [9,2,0,1,1,1,3,60]
+
+
+def test_immersion_persistence(Session, bundle, out):
+    for stage in range(5):
+        path = out / f'expanded-immersion-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1860, 0)
+            for code in [1,2,4,6][:stage]:
+                first.action(1860, code)
+            saved = immersion_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1861')
+            assert immersion_state(second) == saved
+            second.action(1860, 8)
+            for code in [1,2,4,6][stage:]:
+                second.action(1860, code)
+            assert immersion_state(second) == [9,2,0,1,1,1,3,60]
+            second.action(1860, 8)
+        finally:
+            second.close()
+
+
+def test_immersion_intervals(s):
+    for seed, loss in [(1,1),(5,7)]:
+        s.action(1853, 2, seed)
+        assert last(s, 'test.immersion-interval') == [
+            'resolved','reused','immersion-interval-not-due','ready','resolved',None,
+            loss,2+loss,2+loss,3,0]
+        assert last(s, 'test.immersion-recovery') == [
+            'reused','immersion-not-exited','resolved','resolved',
+            'immersion-recovery-shelter-and-heat','resolved',2+loss,2,0,3,0]
+    s.action(1853, 3, 5)
+    assert last(s, 'test.immersion-interval') == [
+        'resolved','reused','immersion-interval-not-due','blocked','blocked',
+        'immersion-overflow-unavailable',0,3,2,0,0]
+
+
+def test_immersion_scheduler_conflict(s):
+    s.action(1854)
+    assert last(s, 'test.immersion-conflict') == ['cold-exposure-active',1,0,0]
+
+
 def test_thermal_shock_assessments(s):
     # B430: success still costs one; failure uses its actual margin, even critical.
     for score, roll, fatigue in [(10,10,1),(10,3,1),(10,11,1),(10,16,6),
@@ -3480,6 +3564,11 @@ def test(build):
     fresh(Session,hazards,test_cold_overflow)
     fresh(Session,hazards,test_heat_assessments)
     fresh(Session,hazards,test_thermal_shock_assessments)
+    fresh(Session,hazards,test_immersion_intervals)
+    fresh(Session,hazards,test_immersion_scheduler_conflict)
+    immersion_transactions = build.build('expanded-immersion-transactions',ROOT / 'tests/fixtures/expanded-immersion-transactions.t')
+    fresh(Session,immersion_transactions,test_immersion_transactions)
+    test_immersion_persistence(Session,immersion_transactions,build.out)
     cold_transactions = build.build('expanded-cold-transactions',ROOT / 'tests/fixtures/expanded-cold-transactions.t')
     fresh(Session,cold_transactions,test_cold_transactions)
     test_cold_persistence(Session,cold_transactions,build.out)
