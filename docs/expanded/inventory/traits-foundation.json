@@ -155,9 +155,12 @@
       "pages": "B35",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Signal-dependent orientation modifier -20% requires compatible functioning navigation network and can be jammed. Validate world facts without inventing signal coverage.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_orientation_signal"
+      ],
+      "validation_note": "Fixed -20% cost and copied option; immutable current-time/frame reports explicitly bind availability, compatibility, network and jamming. Shared effective ability gates numeric bonuses, north and route recall. Automatic network/jamming contests, modifier combinations and ancestry integration remain pending. Lifecycle and cost fixtures authored, unrun."
     },
     {
       "id": "traits-first-time-sense",

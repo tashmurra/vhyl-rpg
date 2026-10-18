@@ -2832,7 +2832,7 @@ class RpgExpandedOrientationResult: RpgExpandedResult
 rpgExpandedOrientationAvailable(profile)
 {
     if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('orientation-profile');
-    local level = profile.orientationSenseLevel();
+    local level = profile.effectiveOrientationSenseLevel();
     if (level == 0) return 'orientation-trait-required';
     if (!holds(['local','deep-space','cross-dimensional'],profile.orientationEnvironment)) return 'orientation-environment-required';
     if (profile.orientationEnvironment == 'cross-dimensional' || level == 1 && profile.orientationEnvironment == 'deep-space')

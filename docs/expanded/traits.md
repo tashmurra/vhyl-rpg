@@ -1268,7 +1268,39 @@ supports characters using the foundation without the expanded skill resolver.
 
 North answers and whole-route retracing now have explicit world-fact interfaces
 in the [exploration guide](exploration.md). Automatic world/calendar feeds,
-partial routes, signal dependence, ancestry composition and world-transition
+partial routes, automatic network coverage, ancestry composition and world-transition
 automation remain pending. Those interfaces preserve the original journey ledger and require authored world facts.
 See [`expanded-orientation-sense.t`](../../tests/fixtures/expanded-orientation-sense.t)
 for the minimal fixture and independent bonus/default/cap expectations; unrun.
+
+
+## Signal-dependent orientation
+
+Set `RpgExpandedOrientationSense.signalDependent = true` for the printed -20%
+limitation (`full-2008`, B35). Total cost is 4 points at level one or 8 at level
+two. Template copying preserves this flag. The reduction does not itself declare
+that a network exists or works in the character's location.
+
+The world author sets `profile.orientationFrame` to an identity for the current
+location/context and records a `RpgExpandedOrientationSignalReport` with matching
+`frame`, a unique `id`, `profile`, `approved = true` and original `evidence`.
+`available`, `compatible` and `jammed` describe the actual signal; an available
+signal also requires a `network` identity. `assess()` previews these facts and
+`record()` stores an immutable observation at the shared clock time, making it
+the character's current report. Reports consume no randomness or elapsed time.
+
+The ability works only with available, compatible, unjammed coverage. A known
+unavailable/incompatible/jammed signal suppresses both skill bonuses and the
+north/retracing interfaces. Missing reports, reports from another character, a
+changed frame or elapsed time reject the query until a fresh report is recorded.
+This deliberately requires current author facts instead of silently extending
+coverage. Replaying an old report does not refresh its timestamp or replace a
+newer report. Historical reports remain available for save, undo and audit.
+
+Character cost validation does not require a current signal; the observation is
+required when using the limited ability. Automatic coverage sensors, jamming
+contests, combinations with other trait modifiers and ancestry composition remain
+pending. The fixture
+[`expanded-orientation-signal.t`](../../tests/fixtures/expanded-orientation-signal.t)
+covers costs, copying, eligibility, time/frame staleness, preview, replay,
+rollback, undo and save continuation. It remains unrun while checks are paused.

@@ -9171,6 +9171,8 @@ def test(build):
     test_orientation_sense(Session, orientation)
     orientation_route = build.build('expanded-orientation-route',ROOT / 'tests/fixtures/expanded-orientation-route.t')
     test_orientation_route(Session, orientation_route, build.out)
+    orientation_signal = build.build('expanded-orientation-signal',ROOT / 'tests/fixtures/expanded-orientation-signal.t')
+    test_orientation_signal(Session, orientation_signal, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19642,5 +19644,50 @@ def test_orientation_route(Session, bundle, out):
         for code in (9400, 9500, 9511, 9511, 9503):
             s.action(2285, code)
         assert last(s, 'test.orientation-route') == ['blocked', 'orientation-route-abandoned']
+    finally:
+        s.close()
+
+
+def test_orientation_signal(Session, bundle, out):
+    """B35 cost limitation and authored network eligibility; unrun."""
+    path = out / 'expanded-orientation-signal.zsave'
+    s = Session(bundle)
+    try:
+        for code in (9600, 9609, 9607, 9605):
+            s.action(2285, code)
+        assert last(s, 'test.orientation-signal-error') == ['orientation-signal-report-required', 0]
+        s.action(2285, 9601)
+        s.command('undo')
+        s.action(2285, 9605)
+        assert last(s, 'test.orientation-signal-error') == ['orientation-signal-report-required', 0]
+        for code in (9601, 9601, 9604, 9606):
+            s.action(2285, code)
+        assert last(s, 'test.orientation-signal') == [8, 7, 2, 1, 0, 0]
+        assert last(s, 'test.orientation-signal-copy') == [1, 8, 1]
+        for code in (9602, 9604):
+            s.action(2285, code)
+        assert last(s, 'test.orientation-signal') == [8, 5, 0, 2, 0, 0]
+        for code in (9603, 9604, 8905, 9605):
+            s.action(2285, code)
+        assert last(s, 'test.orientation-signal') == [8, 5, 0, 3, 0, 0]
+        assert last(s, 'test.orientation-signal-error') == ['orientation-signal-observation-stale', 3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (9608, 9604):
+            s.action(2285, code)
+        assert last(s, 'test.orientation-signal') == [8, 7, 2, 4, 1, 0]
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (9600, 9610, 9601, 9604, 9611, 9605):
+            s.action(2285, code)
+        assert last(s, 'test.orientation-signal') == [4, 5, 1, 1, 0, 0]
+        assert last(s, 'test.orientation-signal-error') == ['orientation-signal-observation-stale', 1]
     finally:
         s.close()

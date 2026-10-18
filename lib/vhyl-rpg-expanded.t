@@ -624,3 +624,7 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     orientationSenseLevel() { return 0; }
 ;
+
+modify RpgExpandedProfile
+    effectiveOrientationSenseLevel() { return self.orientationSenseLevel(); }
+;

@@ -1529,3 +1529,9 @@ Orientation now has pure north answers and journey-backed whole-route memories,
 with explicit world/arrival facts, calendar cutoff, endpoint validation and
 interruption cancellation. Movement/time are not charged twice. Partial routes
 and automatic world/calendar integration remain pending; fixtures are unrun.
+
+
+Signal-dependent orientation now has the printed cost reduction and immutable
+current-time/frame observations for network availability, compatibility and
+jamming. Stale facts reject; known interference disables the ability. Automatic
+network integration and modifier composition remain pending; fixtures are unrun.

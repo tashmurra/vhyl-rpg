@@ -1666,6 +1666,7 @@ class RpgExpandedOrientationSense: RpgLiteTrait
     id = 'orientation-sense'
     labelId = 'orientation-sense'
     points = 5
+    signalDependent = nil
     approved = nil
     templatePurchaseKind = 'expanded-orientation-sense'
     creationCost()
@@ -1674,7 +1675,7 @@ class RpgExpandedOrientationSense: RpgLiteTrait
         rpgInteger(self.level,1,2);
         if (self.id != 'orientation-sense' || self.points != 5 || self.scope != nil || self.controlled || self.skills.length() != 0)
             rpgExpandedReject('orientation-sense-definition');
-        return self.level * 5;
+        return self.level * (self.signalDependent ? 4 : 5);
     }
 ;
 modify RpgExpandedProfile
@@ -1694,7 +1695,7 @@ modify RpgExpandedProfile
     }
     orientationSkillModifier(skill)
     {
-        local level = self.orientationSenseLevel();
+        local level = self.effectiveOrientationSenseLevel();
         if (level == 0 || skill == nil || !skill.ofKind(RpgLiteSkill)) return 0;
         if (!holds(['local','deep-space','cross-dimensional'],self.orientationEnvironment)) rpgExpandedReject('orientation-environment-required');
         if (self.orientationEnvironment == 'cross-dimensional' || level == 1 && self.orientationEnvironment == 'deep-space') return 0;
@@ -1720,6 +1721,77 @@ modify rpgExpandedTemplateTraits
     copy(trait)
     {
         if (!trait.ofKind(RpgExpandedOrientationSense)) return inherited(trait);
-        trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
+        trait.creationCost(); local copy = self.plain(trait.id,trait.level,trait.scope);
+        copy.signalDependent = trait.signalDependent; copy.creationCost(); return copy;
+    }
+;
+
+
+/** B35 explicit current navigation-network facts, preserved as immutable reports. */
+class RpgExpandedOrientationSignalReport: object
+    id = nil
+    profile = nil
+    frame = nil
+    network = nil
+    available = nil
+    compatible = nil
+    jammed = nil
+    approved = nil
+    evidence = nil
+    recordedAt = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.frame,self.network,self.available,self.compatible,self.jammed,self.approved,self.evidence,self.recordedAt]; }
+    validateReceipt()
+    {
+        if (self.recordedAt == nil || !holds(self.profile.orientationSignalReports,self)) rpgExpandedReject('orientation-signal-owner');
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('orientation-signal-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('orientation-signal-definition');
+        local value = new RpgExpandedResult();
+        if (self.recordedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.frame == nil
+            || self.frame != self.profile.orientationFrame || self.available && self.network == nil)
+        { value.reason = 'orientation-signal-world-facts'; return value; }
+        foreach (local prior in self.profile.orientationSignalReports)
+        { prior.validateReceipt(); if (prior.id == self.id) rpgExpandedReject('orientation-signal-duplicate'); }
+        value.status = 'ready'; return value;
+    }
+    record()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.profile.orientationSignalReports = self.profile.orientationSignalReports + [self];
+        self.profile.orientationSignal = self; value.status = 'resolved'; return value;
+    }
+    functionsFor(profile)
+    {
+        self.validateReceipt();
+        if (self.profile != profile || profile.orientationSignal != self) rpgExpandedReject('orientation-signal-current-owner');
+        if (self.recordedAt != rpgLedger.seconds || self.frame != profile.orientationFrame)
+            rpgExpandedReject('orientation-signal-observation-stale');
+        return self.available && self.compatible && !self.jammed;
+    }
+;
+modify RpgExpandedProfile
+    orientationFrame = nil
+    orientationSignal = nil
+    orientationSignalReports = []
+    effectiveOrientationSenseLevel()
+    {
+        local level = self.orientationSenseLevel(); if (level == 0) return 0;
+        foreach (local trait in self.traits)
+            if (trait.id == 'orientation-sense' && trait.signalDependent)
+            {
+                if (self.orientationSignal == nil || !self.orientationSignal.ofKind(RpgExpandedOrientationSignalReport))
+                    rpgExpandedReject('orientation-signal-report-required');
+                if (!self.orientationSignal.functionsFor(self)) return 0;
+            }
+        return level;
     }
 ;
