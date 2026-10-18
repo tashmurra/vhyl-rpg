@@ -314,3 +314,6 @@ def test(build):
     resilience.test(build)
     import lite
     lite.test(build)
+
+    import bellwether
+    bellwether.test(build)
