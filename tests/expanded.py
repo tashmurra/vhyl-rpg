@@ -9080,6 +9080,8 @@ def test(build):
     test_callous_interrogation(Session, callous_interrogation, build.out)
     compelled_aid = build.build('expanded-compelled-aid',ROOT / 'tests/fixtures/expanded-compelled-aid.t')
     test_compelled_aid(Session, compelled_aid, build.out)
+    low_motivation = build.build('expanded-low-motivation',ROOT / 'tests/fixtures/expanded-low-motivation.t')
+    test_low_motivation(Session, low_motivation, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17283,5 +17285,55 @@ def test_compelled_aid(Session, bundle, out):
         for code in (4301,4304,4303,4308):
             s.action(2285,code)
         assert last(s,'test.aid-state') == [0,1,1,3,0]
+    finally:
+        s.close()
+
+
+def test_low_motivation(Session, bundle, out):
+    for setup,active in (((),1),((4405,),0),((4407,),1)):
+        s = Session(bundle)
+        try:
+            for code in (30,)+setup+(4400,4408):
+                s.action(2285,code)
+            assert last(s,'test.motivation-state') == [0,0,0,0,0]
+            for code in (4401,4401,4408,4403):
+                s.action(2285,code)
+            assert last(s,'test.motivation-state') == [active,1,0,3,0]
+            assert last(s,'test.motivation-choice') == (['blocked','motivation-least-effort-required'] if active
+                                                       else ['resolved','remain'])
+            if active:
+                for code in (4404,4403,4403,4408):
+                    s.action(2285,code)
+                assert last(s,'test.motivation-state') == [0,1,1,3,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (4406,4401,4408):
+            s.action(2285,code)
+        assert last(s,'test.motivation-trigger') == ['blocked','motivation-no-trigger']
+        assert last(s,'test.motivation-state') == [0,0,0,0,0]
+    finally:
+        s.close()
+    path = out / 'expanded-low-motivation.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,4402,4408):
+            s.action(2285,code)
+        assert last(s,'test.motivation-state') == [0,0,0,0,0]
+        s.action(2285,4401)
+        s.command('undo')
+        s.action(2285,4408)
+        assert last(s,'test.motivation-state') == [0,0,0,0,0]
+        s.action(2285,4401)
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (4401,4404,4403,4408):
+            s.action(2285,code)
+        assert last(s,'test.motivation-state') == [0,1,1,3,0]
     finally:
         s.close()

@@ -191,9 +191,9 @@
       "pages": "B126",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Persistent low motivation is base -15 with self-control. Outside minimum survival necessities, decisions or initiative require a check; failure selects the least-effort course, often inactivity or following a demanding companion. Implement this printed fictional behavior as an authored choice constraint, not a clinical model.",
-      "tests": []
+      "tests": ["tests/fixtures/expanded-low-motivation.t", "tests/expanded.py::test_low_motivation"]
     },
     {
       "id": "disadvantages-b-motivation-transition",

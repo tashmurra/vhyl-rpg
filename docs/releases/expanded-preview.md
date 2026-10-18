@@ -1204,3 +1204,7 @@ expanded influence procedure remains partial.
   and owned offer/decline decisions. Failed resistance requires an offer without
   automatically spending promised resources. Added unrun persistence fixtures;
   automatic scene discovery remains pending (full-2008 B125).
+
+- Added low-motivation self-control and owned authored-choice constraints,
+  including minimum-survival exemptions and companion-led least-effort choices.
+  Added unrun persistence fixtures; trait transitions remain pending (B126).

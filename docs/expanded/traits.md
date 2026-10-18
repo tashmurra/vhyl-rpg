@@ -1074,3 +1074,25 @@ interface; automatic parser/dialogue discovery of aid opportunities is pending.
 The fixture covers resistance, surrender, invalid opportunities, required offers,
 replay, rollback, undo and save continuation. It remains unrun while checks are
 paused, so the inventory entry remains partial.
+
+### Low motivation (full-2008, B126)
+
+`RpgExpandedLowMotivation` has a -15 base cost and shared self-control pricing.
+`RpgExpandedMotivationTrigger` supplies a unique occurrence, distinct string
+`choices`, an authored `leastEffort` choice, approval and evidence. Describe the
+actual available courses of action, including a companion's demand when that is
+the easier course. Failed resistance constrains the decision to that choice;
+success permits any listed choice. This implements a fictional behavior rule,
+not a clinical model or an inference about a person's intentions.
+
+With `minimumNecessitiesOnly` and exactly one choice, assessment returns
+`motivation-no-trigger` without a roll; perform that ordinary action through its
+normal interface. Multiple choices still call for resistance. Mitigation also
+returns no trigger. `RpgExpandedMotivationDecision` records a resolved choice
+once and clears its obligation; the subsequent action retains its ordinary time
+and resource costs. Authors must route the scene choice through this interface.
+
+The self-control receipt binds the full choice list and prevents rerolls of the
+same occurrence. Fixtures cover least-effort choices, resistance, minimum needs,
+replay, rollback, undo and saved obligations, but remain unrun. Trait replacement
+and transition accounting, plus automatic parser/dialogue discovery, are pending.

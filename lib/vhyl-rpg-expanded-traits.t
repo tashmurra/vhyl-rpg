@@ -385,6 +385,7 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
         if (self.result != nil)
         {
             local current = self.definition();
+            if (current.length() != self.boundDefinition.length()) rpgExpandedReject('self-control-trigger-binding');
             for (local index = 1; index <= current.length(); index += 1)
                 if (current[index] != self.boundDefinition[index]) rpgExpandedReject('self-control-trigger-binding');
             if (!holds(self.profile.selfControlTriggers,self)) rpgExpandedReject('self-control-trigger-history');
@@ -1151,5 +1152,79 @@ class RpgExpandedAidDecision: object
         self.boundSource = self.source; self.boundChoice = self.choice; self.source.decision = self;
         self.source.active = nil; value.reason = self.choice == 'offer' ? 'assistance-offered' : 'assistance-declined';
         value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+/** B126 fictional initiative constraint; not a clinical simulation. */
+class RpgExpandedLowMotivation: RpgExpandedDisadvantage
+    id = 'low-motivation'
+    points = -15
+    controlled = true
+    validateDefinition()
+    {
+        if (self.id != 'low-motivation' || self.points != -15 || self.level != 1 || !self.controlled
+            || self.percentages.length() != 0) rpgExpandedReject('low-motivation-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedMotivationTrigger: RpgExpandedSelfControlTrigger
+    choices = []
+    leastEffort = nil
+    minimumNecessitiesOnly = nil
+    approved = nil
+    decision = nil
+    definition() { return inherited() + [self.leastEffort,self.minimumNecessitiesOnly,self.approved] + self.choices; }
+    assess()
+    {
+        if (self.trait == nil || !self.trait.ofKind(RpgExpandedLowMotivation))
+            rpgExpandedReject('motivation-trait');
+        rpgInteger(self.choices.length(),1,100);
+        local seen = [];
+        foreach (local choice in self.choices)
+        {
+            if (dataType(choice) != TypeSString || choice == '' || holds(seen,choice)) rpgExpandedReject('motivation-choices');
+            seen = seen + [choice];
+        }
+        if (!holds(self.choices,self.leastEffort)) rpgExpandedReject('motivation-least-effort');
+        local value = inherited(); if (value.status != 'ready') return value;
+        if (!self.approved) { value.status = 'blocked'; value.reason = 'motivation-authorship-required'; return value; }
+        if (self.trait.mitigated || self.minimumNecessitiesOnly && self.choices.length() == 1)
+        { value.status = 'blocked'; value.reason = 'motivation-no-trigger'; return value; }
+        return value;
+    }
+;
+class RpgExpandedMotivationDecision: object
+    source = nil
+    choice = nil
+    result = nil
+    boundSource = nil
+    boundChoice = nil
+    assess()
+    {
+        if (self.source == nil || !self.source.ofKind(RpgExpandedMotivationTrigger)
+            || !holds(self.source.choices,self.choice)) rpgExpandedReject('motivation-decision');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.source != self.boundSource || self.choice != self.boundChoice || self.source.decision != self)
+                rpgExpandedReject('motivation-decision-binding');
+            self.source.assess(); value.status = 'reused'; return value;
+        }
+        if (self.source.result == nil) { value.reason = 'motivation-unresolved'; return value; }
+        self.source.assess();
+        if (self.source.decision != nil) { value.reason = 'motivation-already-decided'; return value; }
+        if (self.source.active && self.choice != self.source.leastEffort)
+        { value.reason = 'motivation-least-effort-required'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundSource = self.source; self.boundChoice = self.choice;
+        self.source.decision = self; self.source.active = nil;
+        value.status = 'resolved'; value.reason = self.choice; self.result = value; return value;
     }
 ;
