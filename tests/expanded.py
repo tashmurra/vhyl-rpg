@@ -9145,6 +9145,8 @@ def test(build):
     pressure = build.build('expanded-pressure',ROOT / 'tests/fixtures/expanded-pressure.t')
     test_pressure(Session, pressure, build.out)
     test_pressure_clock(Session, pressure)
+    decompression_assessment = build.build('expanded-decompression-assessment',ROOT / 'tests/fixtures/expanded-decompression-assessment.t')
+    test_decompression_assessment(Session, decompression_assessment)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     native_pressure_template = build.build('expanded-native-pressure-template',ROOT / 'tests/fixtures/expanded-native-pressure-template.t')
@@ -19042,3 +19044,28 @@ def test_pressure_clock(Session, bundle):
             assert last(s, 'test.pressure-clock') == expected
         finally:
             s.close()
+
+
+def test_decompression_assessment(Session, bundle):
+    cases = {
+        8400: ['ready', None, 1, 0, None, 0],
+        8401: ['ready', None, 1, 0, 4800, 0],
+        8402: ['ready', None, 0, 1, 4800, 0],
+        8403: ['blocked', 'decompression-approximate-limit', 0, 0, 1320, 1],
+        8404: ['ready', None, 0, 1, 0, 0],
+        8405: ['blocked', 'decompression-schedule-required', 0, 0, None, 0],
+        8406: ['blocked', 'decompression-schedule-required', 0, 0, None, 0],
+        8407: ['ready', None, 1, 0, None, 0],
+        8408: ['ready', None, 0, 1, 0, 0],
+        8409: ['ready', None, 1, 0, None, 0],
+        8410: ['blocked', 'decompression-schedule-required', 0, 0, None, 0],
+    }
+    s = Session(bundle)
+    try:
+        for code, expected in cases.items():
+            s.action(2285, code)
+            assert last(s, 'test.decompression-assessment') == expected + [0, 0]
+        s.action(2285, 8411)
+        assert last(s, 'test.decompression-exposure') == [1, 4800, 0]
+    finally:
+        s.close()

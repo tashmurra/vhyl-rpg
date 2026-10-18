@@ -1869,3 +1869,29 @@ Pressure deadlines are validated against entry time and the owned ordered check
 history. Editing a deadline or end marker rejects rather than allowing an action
 to bypass exposure. Clock-boundary, immunity, ended-exposure and schedule-mutation
 fixtures are authored but unrun.
+
+## Decompression examples
+
+`rpgExpandedAssessDecompression(pressure, nativePressure, support, seconds,
+humanExamples)` assesses return to native pressure using only full-2008 B435's
+printed boundaries. Pressure inputs use hundredths of an atmosphere. The general
+risk thresholds and support immunity apply first. Set `humanExamples` only when
+the author confirms the reference's baseline-human examples are appropriate;
+those examples require native pressure 100.
+
+At up to two atmospheres the baseline return is safe regardless of duration. Up
+to 2.5 atmospheres the listed safe duration is 4,800 seconds; beyond that, slow
+decompression is required. At 5.5 atmospheres or above there is no listed safe
+period. Exactly four atmospheres returns the approximate reference value 1,320
+seconds with `approximate = true` and blocked status requiring author judgment.
+No interpolation is made for other pressures or native environments.
+
+A ready result sets either `safeReturn` or `slowRequired`. A blocked result means
+the reference has not supplied a sufficiently exact limit; neither false flag
+establishes safety. `referenceSafeSeconds` is informational. No result simulates
+a decompression schedule, rolls for illness or moves the character.
+
+`exposure.assessReturnToNative(humanExamples)` uses the bound constant exposure's
+elapsed duration, or its recorded end time after closure. It is a pure assessment
+and does not end an interval or clear a due crushing check. Boundary, support,
+unknown-environment and recorded-duration fixtures are authored but unrun.

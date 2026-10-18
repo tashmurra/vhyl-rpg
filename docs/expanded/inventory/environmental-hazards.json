@@ -2528,9 +2528,12 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At up to two atmospheres, a baseline human can return without slow decompression after any duration.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_decompression_assessment"
+      ],
+      "validation_note": "Pure assessment exposes exact printed two/2.5/5.5-atmosphere boundaries, support exemptions and the approximate four-atmosphere reference without invented interpolation. Bound constant exposures supply duration. Approximate/unspecified cases require authored schedules; illness and committed decompression remain pending. Assertions authored, unrun."
     },
     {
       "id": "decompression-safe-example-two-and-half",
@@ -2538,9 +2541,12 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At up to 2.5 atmospheres, the listed safe duration is eighty minutes.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_decompression_assessment"
+      ],
+      "validation_note": "Pure assessment exposes exact printed two/2.5/5.5-atmosphere boundaries, support exemptions and the approximate four-atmosphere reference without invented interpolation. Bound constant exposures supply duration. Approximate/unspecified cases require authored schedules; illness and committed decompression remain pending. Assertions authored, unrun."
     },
     {
       "id": "decompression-safe-example-four",
@@ -2548,9 +2554,12 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At four atmospheres, the listed safe duration is about twenty-two minutes.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_decompression_assessment"
+      ],
+      "validation_note": "Pure assessment exposes exact printed two/2.5/5.5-atmosphere boundaries, support exemptions and the approximate four-atmosphere reference without invented interpolation. Bound constant exposures supply duration. Approximate/unspecified cases require authored schedules; illness and committed decompression remain pending. Assertions authored, unrun."
     },
     {
       "id": "decompression-safe-example-five-and-half",
@@ -2558,9 +2567,12 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At 5.5 atmospheres or more, no safe exposure period is given.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_decompression_assessment"
+      ],
+      "validation_note": "Pure assessment exposes exact printed two/2.5/5.5-atmosphere boundaries, support exemptions and the approximate four-atmosphere reference without invented interpolation. Bound constant exposures supply duration. Approximate/unspecified cases require authored schedules; illness and committed decompression remain pending. Assertions authored, unrun."
     }
   ],
   "exclusions": [

@@ -4281,3 +4281,44 @@ modify rpgLedger
         return nil;
     }
 ;
+
+/** B435 printed return-to-native-pressure examples, without interpolated schedules. */
+class RpgExpandedDecompressionAssessment: RpgExpandedResult
+    safeReturn = nil
+    slowRequired = nil
+    referenceSafeSeconds = nil
+    approximate = nil
+;
+rpgExpandedAssessDecompression(pressure,nativePressure,support,seconds,humanExamples)
+{
+    local exposure = rpgExpandedAssessPressure(pressure,nativePressure,support,0);
+    rpgInteger(seconds,0,2147483647);
+    local value = new RpgExpandedDecompressionAssessment();
+    if (!exposure.bendsRisk)
+    { value.safeReturn = true; value.status = 'ready'; return value; }
+    if (!humanExamples || nativePressure != 100)
+    { value.reason = 'decompression-schedule-required'; return value; }
+    if (pressure <= 250)
+    {
+        value.referenceSafeSeconds = 4800; value.safeReturn = seconds <= 4800;
+        value.slowRequired = !value.safeReturn; value.status = 'ready'; return value;
+    }
+    if (pressure == 400)
+    {
+        value.referenceSafeSeconds = 1320; value.approximate = true;
+        value.reason = 'decompression-approximate-limit'; return value;
+    }
+    if (pressure >= 550)
+    { value.referenceSafeSeconds = 0; value.slowRequired = true; value.status = 'ready'; return value; }
+    value.reason = 'decompression-schedule-required'; return value;
+}
+modify RpgExpandedPressureExposure
+    assessReturnToNative(humanExamples)
+    {
+        self.validateBinding();
+        local end = self.endedAt == nil ? rpgLedger.seconds : self.endedAt;
+        if (end < self.startedAt) rpgExpandedReject('pressure-interval');
+        return rpgExpandedAssessDecompression(self.pressure,self.resolvedNativePressure(),
+            self.resolvedSupport(),end - self.startedAt,humanExamples);
+    }
+;

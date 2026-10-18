@@ -1449,3 +1449,8 @@ unrun.
 Active pressure exposures now guard the shared clock against skipped entry/minute
 checks. Deadlines are validated against owned check history; immune and ended
 exposures impose no deadline. Boundary and mutation fixtures are authored but unrun.
+
+Decompression assessment now exposes the printed safe-duration examples and
+support exemptions, using owned constant-exposure duration when available.
+Approximate and unspecified cases require author judgment; no schedule is
+interpolated. Boundary fixtures are authored but unrun.
