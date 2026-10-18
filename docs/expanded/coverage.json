@@ -752,6 +752,21 @@
         "tests/expanded.py::test_loyalty_danger"
       ],
       "validation_note": "Once-per-incident failed exposure penalty and shared-clock expiry authored. Checks unrun; overlapping exposure policy and permanent effects unresolved."
+    },
+    {
+      "id": "permanent-loyalty-events",
+      "module": "social",
+      "pages": "B519",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLoyaltyChange",
+      "tests": [
+        "tests/expanded.py::test_loyalty_performance",
+        "tests/expanded.py::test_loyalty_botched",
+        "tests/expanded.py::test_loyalty_forgiveness",
+        "tests/expanded.py::test_loyalty_forgiveness_low"
+      ],
+      "validation_note": "Completed-adventure and forgiveness changes with persistent event receipts authored. Checks unrun; rescue, pay and anniversaries pending."
     }
   ],
   "detailed_inventories": [

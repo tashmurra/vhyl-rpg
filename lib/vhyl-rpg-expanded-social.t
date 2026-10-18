@@ -981,3 +981,63 @@ class RpgExpandedLoyaltyDanger: RpgExpandedLoyaltyCheck
         return value;
     }
 ;
+
+modify RpgExpandedLoyalty
+    changes = []
+;
+
+class RpgExpandedLoyaltyChangeResult: RpgExpandedResult
+    change = 0
+;
+
+/** Permanent changes from explicit completed-world events, full-2008 B519.
+ * IDs identify an adventure or a previously checked incident, not an API call. */
+class RpgExpandedLoyaltyChange: object
+    loyalty = nil
+    id = nil
+    kind = 'performance'
+    evidence = nil
+    continuing = nil
+    adventureComplete = nil
+    performance = 'ordinary'
+    forgiven = nil
+    assess()
+    {
+        if (self.loyalty == nil || !self.loyalty.ofKind(RpgExpandedLoyalty) || self.id == nil)
+            rpgExpandedReject('loyalty-change-target');
+        self.loyalty.validate();
+        if (!holds(['performance','forgiveness'],self.kind)) rpgExpandedReject('loyalty-change-kind');
+        local value = new RpgExpandedLoyaltyChangeResult();
+        foreach (local receipt in self.loyalty.changes)
+            if (receipt[1] == self.kind && receipt[2] == self.id) { value.status = 'reused'; return value; }
+        if (!self.loyalty.initialized) { value.reason = 'loyalty-uninitialized'; return value; }
+        if (self.evidence == nil) { value.reason = 'loyalty-change-evidence'; return value; }
+        if (self.kind == 'performance')
+        {
+            if (!holds(['ordinary','great-success','botched'],self.performance)) rpgExpandedReject('loyalty-performance');
+            if (!self.continuing || !self.adventureComplete)
+            { value.reason = 'loyalty-adventure-incomplete'; return value; }
+        }
+        else
+        {
+            if (!self.forgiven) { value.reason = 'loyalty-not-forgiven'; return value; }
+            local failed = nil;
+            foreach (local receipt in self.loyalty.incidents)
+                if (receipt[1] == self.id && !receipt[4]) failed = true;
+            if (!failed) { value.reason = 'loyalty-no-failed-incident'; return value; }
+        }
+        /* Reserve room for either one-point outcome before committing anything. */
+        rpgInteger(self.loyalty.base,-999,1017);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.kind == 'performance')
+            value.change = self.performance == 'great-success' ? 1 : self.performance == 'botched' ? -1 : 0;
+        else value.change = self.loyalty.rating() >= 16 ? 1 : 0;
+        self.loyalty.base += value.change;
+        self.loyalty.changes = self.loyalty.changes + [[self.kind,self.id,value.change,self.evidence]];
+        value.status = 'resolved'; return value;
+    }
+;

@@ -494,3 +494,33 @@ coverage requirements.
 `tests/expanded.py::test_loyalty_danger` contains failed exposure, repeat protection,
 rollback, undo, overlap rejection and exact expiry-boundary cases. The cases remain
 unrun while checks are paused.
+
+
+## Permanent loyalty changes
+
+`RpgExpandedLoyaltyChange` records specific completed events from full-2008 B519.
+Supply the `loyalty`, event `id` and a concrete authored `evidence` reference.
+For `kind = 'performance'`, set `continuing` and `adventureComplete`, then choose
+`performance = 'great-success'`, `'botched'` or `'ordinary'`. The permanent change
+is respectively +1, -1 or zero. The ID identifies the adventure, so another change
+object cannot reclassify or reapply that adventure's result.
+
+For `kind = 'forgiveness'`, the ID must identify an existing failed loyalty incident.
+Set `forgiven` only after the employer has actually forgiven the hireling, with or
+without punishment. On commitment, current effective loyalty of 16 or higher gives
++1 to base loyalty; below that threshold the event is recorded with zero change.
+Recording the zero change prevents later attempts to collect a bonus for the same
+forgiveness after loyalty rises. These operations add no time, randomness, money
+or character points.
+
+`assess()` checks authored event prerequisites without returning the private rating
+or prospective change. `apply()` changes the base and records
+`[kind, id, change, evidence]` in the relationship's `changes`. These are private
+author interfaces. They do not create the adventure outcome, forgiveness dialogue,
+or a character's decision to forgive.
+
+Authored cases `test_loyalty_performance`, `test_loyalty_botched`,
+`test_loyalty_forgiveness` and `test_loyalty_forgiveness_low` in `tests/expanded.py`
+cover signed changes, duplicate events, the eligibility threshold, zero-change
+receipts, rollback and undo. Checks remain paused and unrun. Rescue, pay and
+service-anniversary changes remain pending.

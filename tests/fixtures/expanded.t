@@ -76,6 +76,8 @@ crewLoyalty: RpgExpandedLoyalty id = 'crew-service' subject = loyaltyHero employ
 crewCheck: RpgExpandedLoyaltyCheck loyalty = crewLoyalty incident = 'dangerous-crossing' necessary = true;
 crewDanger: RpgExpandedLoyaltyDanger loyalty = crewLoyalty incident = 'noncombatant-exposure'
     necessary = true noncombatant = true;
+crewPerformance: RpgExpandedLoyaltyChange loyalty = crewLoyalty id = 'survey-expedition'
+    evidence = 'expedition-complete' continuing = true adventureComplete = true performance = 'great-success';
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -221,6 +223,29 @@ class ExpandedTestAction: Action
             rpgSpendTime(86399);
         }
         if (code == 51) rpgSpendTime(1);
+        if (code == 52 || code == 53 || code == 57)
+        {
+            if (code == 57) crewPerformance.performance = 'botched';
+            crewLoyalty.initialize(); local value = crewPerformance.apply();
+            event('test.loyalty-change'); eventValue(value.status); eventValue(value.change);
+            if (code == 53) throw new RpgError();
+        }
+        if (code == 54)
+        {
+            local change = new RpgExpandedLoyaltyChange(); change.loyalty = crewLoyalty; change.id = 'survey-expedition';
+            change.evidence = 'attempted-reclassification'; change.continuing = true;
+            change.adventureComplete = true; change.performance = 'botched';
+            local value = change.apply(); event('test.loyalty-change'); eventValue(value.status); eventValue(value.change);
+        }
+        if (code == 55 || code == 56)
+        {
+            crewLoyalty.preset = code == 55 ? 17 : 15; crewLoyalty.initialize();
+            local check = new RpgExpandedLoyaltyCheck(); check.loyalty = crewLoyalty; check.incident = 'abandoned-post';
+            check.necessary = true; check.modifier = -10; check.resolve();
+            local change = new RpgExpandedLoyaltyChange(); change.loyalty = crewLoyalty; change.id = 'abandoned-post';
+            change.kind = 'forgiveness'; change.forgiven = true; change.evidence = 'forgiveness-dialogue';
+            local value = change.apply(); event('test.loyalty-change'); eventValue(value.status); eventValue(value.change);
+        }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
@@ -1243,6 +1268,11 @@ act(verb, args)
         exposure.incident = 'another-exposure'; exposure.necessary = true; exposure.noncombatant = true;
         local value = exposure.assess(); event('test.loyalty-danger-preview');
         eventValue(value.status); eventValue(value.reason); return nil;
+    }
+    if (verb == 1206)
+    {
+        event('test.loyalty-change-state'); eventValue(crewLoyalty.base); eventValue(crewLoyalty.changes.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     return vhylAct(verb,args);
 }
