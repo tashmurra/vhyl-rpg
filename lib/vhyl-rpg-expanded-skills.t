@@ -2875,3 +2875,64 @@ class RpgExpandedShadowingContext: RpgExpandedSkillContext
             + self.distinctiveModifier + self.crowdModifier;
     }
 ;
+
+/** B222 Stealth has both DX and IQ attribute defaults. */
+class RpgExpandedStealthSkill: RpgExpandedSkill
+    id = 'stealth'
+    attribute = rpgDX
+    difficulty = 1
+    defaultPenalty = -5
+    attributeDefaults = [[rpgIQ,-5]]
+    validateDefinition()
+    {
+        if (self.id != 'stealth' || self.attribute != rpgDX || self.difficulty != 1 || self.defaultPenalty != -5
+            || self.techLevel != nil || self.specialty != nil || self.defaultAttribute != nil || self.alternateAttribute != nil
+            || self.defaults.length() != 0 || self.attributeDefaults.length() != 1
+            || self.attributeDefaults[1].length() != 2 || self.attributeDefaults[1][1] != rpgIQ || self.attributeDefaults[1][2] != -5
+            || self.wildcard || self.optionalParent != nil) rpgExpandedReject('stealth-skill-definition');
+        return nil;
+    }
+;
+class RpgExpandedStealthContext: RpgExpandedSkillContext
+    kind = 'stealth'
+    hiding = nil
+    movingSilently = nil
+    bareRoom = nil
+    naturalCover = 'ordinary'
+    coverBonus = 0
+    fasterThanMoveOne = nil
+    scentObserver = nil
+    approved = nil
+    evidence = nil
+    stealthFacts()
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedStealthSkill) || self.kind != 'stealth'
+            || self.fixedBase != nil || self.rollAttribute != nil || (!self.hiding && !self.movingSilently)
+            || !holds(['none','ordinary','many'],self.naturalCover)) rpgExpandedReject('stealth-context');
+        self.skill.validateDefinition(); rpgInteger(self.coverBonus,0,100);
+        if ((self.naturalCover == 'many' && self.coverBonus < 3) || (self.naturalCover != 'many' && self.coverBonus != 0)
+            || (!self.hiding && (self.naturalCover != 'ordinary' || self.bareRoom))
+            || (!self.movingSilently && self.fasterThanMoveOne)) rpgExpandedReject('stealth-task-facts');
+        if (self.scentObserver != nil && !self.scentObserver.ofKind(RpgExpandedProfile)) rpgExpandedReject('stealth-scent-observer');
+        return [self.skill,self.hiding,self.movingSilently,self.bareRoom,self.naturalCover,self.coverBonus,
+            self.fasterThanMoveOne,self.scentObserver,self.approved,self.evidence,self.modifier,self.equipmentTL,self.familiarity]
+            + self.culturalTaskFacts();
+    }
+    taskUnavailableReason(profile)
+    {
+        self.stealthFacts();
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'stealth-world-facts-required';
+        if (self.hiding && self.bareRoom) return 'stealth-no-concealment-possible';
+        return inherited(profile);
+    }
+    skillUseModifier(profile)
+    {
+        if (self.taskUnavailableReason(profile) != nil) return nil;
+        local modifier = inherited(profile); if (modifier == nil) return nil;
+        modifier -= profile.encumbrance();
+        if (self.hiding) modifier += self.naturalCover == 'none' ? -5 : self.coverBonus;
+        if (self.movingSilently && self.fasterThanMoveOne) modifier -= 5;
+        if (self.scentObserver != nil && self.scentObserver.sensoryRecognitionBonus('smell') > 0) modifier -= 5;
+        return modifier;
+    }
+;

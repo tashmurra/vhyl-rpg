@@ -9560,6 +9560,8 @@ def test(build):
     test_shadowing_context(Session,shadowing_context)
     shadowing_outcome = build.build('expanded-shadowing-outcome',ROOT / 'tests/fixtures/expanded-shadowing-outcome.t')
     test_shadowing_outcome(Session,shadowing_outcome)
+    stealth_context = build.build('expanded-stealth-context',ROOT / 'tests/fixtures/expanded-stealth-context.t')
+    test_stealth_context(Session,stealth_context)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27406,5 +27408,19 @@ def test_shadowing_outcome(Session, bundle):
                 s.action(1680,code)
             s.action(1680,29200); assert last(s,'test.shadowing-outcome') == expected+[0,0]
             s.action(1680,29200); assert last(s,'test.shadowing-outcome') == expected+[0,0]
+        finally:
+            s.close()
+
+
+def test_stealth_context(Session, bundle):
+    """B222 IQ alternative default, cover, silence speed and fine-scent observer; unrun."""
+    for codes,score,encumbrance in (((),7,0),((29301,),7,0),((29302,),2,0),((29303,),10,0),((29304,),None,0),
+                        ((29305,),2,0),((29306,),2,0),((29306,29307),7,0),((29303,29308),10,0),((29309,),6,1)):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,29300)
+            assert last(s,'test.stealth-score') == [score,encumbrance,0,0]
         finally:
             s.close()

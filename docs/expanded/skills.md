@@ -1403,3 +1403,27 @@ from the conditional Stealth default also remain unsupported and are rejected by
 the shared paid-default validator. `test_shadowing_context` specifies defaults,
 vehicle exclusion, unfamiliar/known targets, crowd penalties, noisy-target
 bonuses and uninvested sources. Fixtures remain unrun.
+
+
+## Stealth contexts
+
+`RpgExpandedStealthSkill` supplies the DX/Average definition with DX-5 and IQ-5
+attribute defaults (full-2008 B222). `RpgExpandedStealthContext` requires that
+skill, `approved`, concrete `evidence`, and at least one of `hiding` or
+`movingSilently`. It applies the profile's encumbrance level as a penalty.
+
+For hiding, `bareRoom` blocks concealment. Otherwise `naturalCover` is `none`
+(-5), `ordinary` (zero), or `many` with an authored `coverBonus` of at least +3.
+For silent movement, `fasterThanMoveOne` applies -5. The context rejects cover
+facts without a hiding task and speed facts without silent movement.
+
+If the attempt must fool a scent observer, set `scentObserver` to that profile
+and justify relevance in `evidence`. An active, unmitigated fine-smell purchase
+on that observer applies -5. Suppression removes this penalty. Naming the
+observer does not generate an opposing roll, and the context does not grant
+successful concealment or movement by itself.
+
+Unopposed concealment resolution, alert-observer contests, game stalking and
+shadowing evasion integration remain pending. `test_stealth_context` specifies
+both attribute defaults, a known light load, cover boundaries, bare-room denial,
+silent movement and scent-observer suppression. Fixtures remain unrun.

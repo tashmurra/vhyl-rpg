@@ -3928,9 +3928,11 @@
       "pages": "B222",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Distinguish unopposed concealment from alert-observer contests; apply encumbrance, hiding opportunities, movement speed and scent detection correctly.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_stealth_context"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -3946,7 +3948,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed DX/Average skill with DX/IQ defaults and contextual encumbrance, hiding cover, bare-room blocking, silent-speed and fine-scent-observer penalties implemented. Concealment outcomes, alert-observer contests, stalking and shadowing evasion integration remain pending. Fixtures authored, unrun."
     },
     {
       "id": "catalogue-stealth-game-stalking",
