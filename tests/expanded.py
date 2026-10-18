@@ -973,6 +973,56 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_prototype_work(s):
+    s.action(2106,0)
+    initial = [899000,1,345600,0,2,0]
+    for code in [3,2,6]:
+        s.action(2106,code)
+        assert prototype_start_state(s) == initial
+    for code,reason in [(4,'prototype-work-author-facts'),(5,'prototype-facilities-required')]:
+        s.action(2106,code)
+        assert last(s,'test.prototype-work') == ['blocked',reason,0]
+        s.command('undo')
+        assert prototype_start_state(s) == initial
+    s.action(2106,1)
+    worked = [899000,1,345600,86400,2,86400]
+    assert last(s,'test.prototype-work') == ['resolved',None,86400]
+    assert prototype_start_state(s) == worked
+    s.command('undo')
+    assert prototype_start_state(s) == initial
+    s.action(2106,1)
+    for code in [1,8]:
+        s.action(2106,code)
+        assert prototype_start_state(s) == worked
+    for day in [2,3,4]:
+        s.action(2106,9)
+        assert prototype_start_state(s) == [899000,1,345600,day*86400,2,day*86400]
+    s.action(2106,7)
+    assert last(s,'test.prototype-work') == ['blocked','prototype-work-exceeds-remaining',0]
+    assert prototype_start_state(s) == [899000,1,345600,345600,2,345600]
+
+
+def test_prototype_work_persistence(Session,bundle,out):
+    path = out / 'expanded-prototype-work.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2106,0)
+        first.action(2106,1)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2105')
+        assert prototype_start_state(second) == [899000,1,345600,86400,2,86400]
+        second.action(2106,1)
+        assert prototype_start_state(second) == [899000,1,345600,86400,2,86400]
+        second.action(2106,7)
+        assert prototype_start_state(second) == [899000,1,345600,90000,2,90000]
+    finally:
+        second.close()
+
+
 def prototype_start_state(s):
     s.action(2105)
     return last(s,'test.prototype-start-state')
@@ -6266,6 +6316,8 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_prototype_work)
+    test_prototype_work_persistence(Session,invention,build.out)
     fresh(Session,invention,test_prototype_start)
     fresh(Session,invention,test_prototype_start_calendar)
     test_prototype_start_persistence(Session,invention,build.out)

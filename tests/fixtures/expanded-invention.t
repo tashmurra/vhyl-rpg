@@ -29,11 +29,39 @@ prototypeStart: RpgExpandedPrototypeStart id = 'prototype-one' project = concept
     approved = true evidence = 'Fund one attempt with the inventor working alone';
 prototypeSecond: RpgExpandedPrototypeStart id = 'prototype-two' project = conceptProject payer = conceptUser
     approved = true evidence = 'Second attempt';
+prototypeWork: RpgExpandedPrototypeWork id = 'first-day' attempt = prototypeStart seconds = 86400
+    approved = true uninterrupted = true evidence = 'Team and laboratory available for the interval';
+prototypeClockFault: object enabled = nil;
+modify rpgLedger
+    afterAdvance(previousSeconds)
+    {
+        inherited(previousSeconds);
+        if (prototypeClockFault.enabled) conceptUser.unconscious = true;
+    }
+;
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 60)
+        {
+            if (code == 60) { conceptBlueprint.apply(); conceptFacilities.fund(); prototypeStart.begin(); return nil; }
+            if (code == 64) prototypeWork.uninterrupted = nil;
+            if (code == 65) conceptFacilities.destroyed = true;
+            if (code == 66) prototypeClockFault.enabled = true;
+            if (code == 68) prototypeWork.evidence = 'Changed work';
+            local request = prototypeWork;
+            if (code == 67 || code == 69)
+            {
+                request = new RpgExpandedPrototypeWork(); request.id = prototypeStart.workIntervals.length() + 1;
+                request.attempt = prototypeStart; request.seconds = code == 69 ? 86400 : 3600;
+                request.approved = true; request.uninterrupted = true; request.evidence = 'Next team interval';
+            }
+            local value = code == 63 ? request.assess() : request.apply();
+            event('test.prototype-work'); eventValue(value.status); eventValue(value.reason); eventValue(value.seconds);
+            if (code == 62) throw new RpgError(); return nil;
+        }
         if (code >= 40)
         {
             if (code == 49) { conceptProposal.category = 'complex'; conceptBlueprint.apply(); conceptFacilities.fund(); return nil; }
@@ -89,6 +117,7 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2106) { conceptInput.code = 60 + args[1]; return vhylAct(2097,args); }
     if (verb == 2104) { conceptInput.code = 40 + args[1]; return vhylAct(2097,args); }
     if (verb == 2105)
     {

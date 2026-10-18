@@ -1826,3 +1826,86 @@ class RpgExpandedPrototypeStart: object
         self.project.activePrototype = self; value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedPrototypeStart
+    workIntervals = []
+    workReason()
+    {
+        if (self.result == nil) return 'prototype-not-started';
+        self.assess();
+        if (self.project.activePrototype != self) return 'prototype-not-active';
+        if (self.facilities == nil || self.project.facilities != self.facilities || self.facilities.destroyed)
+            return 'prototype-facilities-required';
+        self.facilities.assess();
+        foreach (local participant in [self.project.proposal.inventor] + self.assistants)
+        {
+            if (participant.dead || participant.unconscious || participant.stunned || participant.hp() <= 0 || participant.fp() <= 0)
+                return 'prototype-participant-unavailable';
+            local trained = nil;
+            foreach (local subject in [self.project.proposal.skill] + self.project.proposal.relatedSkills)
+                foreach (local training in participant.skills)
+                    if (training.skill == subject && training.points > 0) trained = true;
+            if (!trained) return 'prototype-worker-unskilled';
+        }
+        return nil;
+    }
+;
+
+class RpgExpandedPrototypeWork: object
+    id = nil
+    attempt = nil
+    seconds = 0
+    uninterrupted = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundId = nil
+    boundAttempt = nil
+    boundSeconds = nil
+    boundEvidence = nil
+    startedAt = nil
+    endedAt = nil
+    assess()
+    {
+        if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedPrototypeStart))
+            rpgExpandedReject('prototype-work-attempt');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.attempt != self.boundAttempt || self.seconds != self.boundSeconds
+                || self.evidence != self.boundEvidence || !holds(self.attempt.workIntervals,self))
+                rpgExpandedReject('prototype-work-binding');
+            self.attempt.assess(); value.status = 'reused'; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('prototype-work-id');
+        rpgInteger(self.seconds,1,86400);
+        if (!self.approved || !self.uninterrupted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'prototype-work-author-facts'; return value; }
+        value.reason = self.attempt.workReason(); if (value.reason != nil) return value;
+        rpgInteger(self.attempt.workedSeconds,0,self.attempt.result.seconds);
+        foreach (local prior in self.attempt.workIntervals)
+        {
+            if (prior == nil || !prior.ofKind(RpgExpandedPrototypeWork) || prior.result == nil || prior.attempt != self.attempt)
+                rpgExpandedReject('prototype-work-history');
+            if (prior.id == self.id) rpgExpandedReject('prototype-work-duplicate');
+        }
+        if (self.seconds > self.attempt.result.seconds - self.attempt.workedSeconds)
+        { value.reason = 'prototype-work-exceeds-remaining'; return value; }
+        value.seconds = self.seconds; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local previous = self.attempt.workedSeconds; local start = rpgLedger.seconds;
+        rpgSpendTime(value.seconds);
+        local refreshed = self.assess();
+        if (refreshed.status != 'ready' || self.attempt.workedSeconds != previous
+            || rpgLedger.seconds != start + value.seconds)
+            rpgExpandedReject('prototype-work-conditions-changed');
+        self.attempt.workedSeconds += value.seconds;
+        self.boundId = self.id; self.boundAttempt = self.attempt; self.boundSeconds = self.seconds; self.boundEvidence = self.evidence;
+        self.startedAt = start; self.endedAt = rpgLedger.seconds;
+        self.attempt.workIntervals = self.attempt.workIntervals + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

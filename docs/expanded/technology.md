@@ -908,3 +908,37 @@ cannot yet be completed through this interface.
 `test_prototype_start_persistence` author preflight rejection, rollback, undo,
 replay, exact seeded duration, explicit month conversion and save continuation.
 They remain unrun while checks are paused. Source: `full-2008`, B474.
+
+
+## Committed prototype work intervals
+
+`RpgExpandedPrototypeWork` records an interval with a unique attempt-local `id`,
+the begun `attempt`, one through 86,400 `seconds`, approval, `uninterrupted` and
+evidence of the whole team's availability and access to the bound facilities.
+The author must establish that participants are not assigned incompatible work
+elsewhere; this is not a future calendar reservation service.
+
+`assess()` checks the active attempt, current facilities, available trained
+participants and remaining work. `apply()` advances the shared clock once for
+the team, then checks those conditions again before increasing `workedSeconds`.
+A clock event that incapacitates a participant, destroys the facilities, changes
+work credit or advances additional time raises an error; the enclosing action
+transaction rolls back the entire interval. No work is credited automatically
+for unrelated time passing.
+
+Receipts in `attempt.workIntervals` retain actual start/end times. Replaying one
+adds no time or work, even after later progress. A new interval cannot exceed the
+remaining duration. No extra currency or random draw is involved. Prototype
+completion remains a separate secret operation: reaching the required duration
+does not yet roll or create a working object, and the attempt remains active.
+
+The original team and time basis stay bound. Participant substitution, partial
+credit for an interrupted interval, simultaneous unrelated projects, automatic
+work/rest scheduling and completion consequences remain incomplete. Day/month
+project durations are elapsed project intervals; this interface does not declare
+that every elapsed second is strenuous labor or award study credit for it.
+
+`test_prototype_work` and `test_prototype_work_persistence` author preview purity,
+rollback, clock-triggered interruption, facility loss, undo, replay, exact remaining
+work, and cross-process continuation. These fixtures remain unrun while checks
+are paused. Source: `full-2008`, B474.

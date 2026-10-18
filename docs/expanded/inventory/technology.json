@@ -427,9 +427,11 @@
         "tests/expanded.py::test_prototype_assessments",
         "tests/expanded.py::test_prototype_start",
         "tests/expanded.py::test_prototype_start_calendar",
-        "tests/expanded.py::test_prototype_start_persistence"
+        "tests/expanded.py::test_prototype_start_persistence",
+        "tests/expanded.py::test_prototype_work",
+        "tests/expanded.py::test_prototype_work_persistence"
       ],
-      "validation_note": "Owned attempt funding and rolled duration with explicit month intervals authored; fixtures unrun. Work scheduling, completion, accidents and defect lifecycle remain incomplete."
+      "validation_note": "Owned funded duration and transactional team work intervals authored; fixtures unrun. Participant substitution, future scheduling, partial interruptions and secret completion remain incomplete."
     },
     {
       "id": "technology-ordinary-facilities",
