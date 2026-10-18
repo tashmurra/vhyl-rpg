@@ -539,6 +539,6 @@ in the same transaction. Direct field edits are not a substitute for event dispa
 
 The new fixture covers notification, duplicate notification, rollback and undo of
 the health change, blocked time before and after recovery, saved pending state,
-and release allowing time to advance. Assertions remain unrun. Dedicated limb-wound
-integration fixtures, remaining support-loss causes, retention/reallocation and
-coordinated movement remain incomplete.
+and release allowing time to advance. Assertions remain unrun. Dedicated limb-wound fixtures now cover bound hands, parent arms, unbound hands
+and combined knockdown/unconsciousness; they remain unrun. Remaining support-loss
+causes, retention/reallocation and coordinated movement remain incomplete.

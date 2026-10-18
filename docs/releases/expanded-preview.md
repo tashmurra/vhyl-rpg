@@ -741,3 +741,7 @@ repairs and other tool uses remain incomplete.
   disablement hooks. Pending support loss blocks further time until adjudication,
   survives recovery and save continuation, and clears on emergency release.
   Notification/rollback fixtures are authored; checks remain paused.
+
+- Added shared-carry integration fixtures using real limb-wound operations, covering
+  bound hands, parent arms, unbound-hand exclusion, combined incapacitation events,
+  rollback, undo and saved injury continuation. All assertions remain unrun.

@@ -2717,3 +2717,12 @@ blocks subsequent positive game-time advancement until its load is adjudicated.
 See [pending support-loss events](equipment.md#pending-support-loss-events). These
 hooks do not invent drop or impact consequences; notification/persistence fixtures
 are authored and unrun, and dedicated limb-wound coverage remains pending.
+
+The `expanded-shared-limb.t` fixture now exercises actual committed limb wounds
+while a helper supports a shared item. It specifies that a disabling bound hand
+or its parent arm creates a support-loss event, while an injury to an unbound hand
+does not. A critical knockdown failure records knockdown, unconsciousness and the
+disabling support injury without duplicating the wound or rolling again on replay.
+The fixture also specifies wound/event rollback, undo, saved pending injury and
+emergency release. Expected injury limits use full-2008 B421; knockdown uses B420.
+These assertions are authored and unrun, not evidence of passing integration.

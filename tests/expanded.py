@@ -8989,6 +8989,8 @@ def test(build):
     shared_release = build.build('expanded-shared-release', ROOT / 'tests/fixtures/expanded-shared-release.t')
     test_shared_release(Session, shared_release, build.out)
     test_shared_support_loss(Session, shared_release, build.out)
+    shared_limb = build.build('expanded-shared-limb', ROOT / 'tests/fixtures/expanded-shared-limb.t')
+    test_shared_limb(Session, shared_limb, build.out)
     lifting_skill = build.build('expanded-lifting-skill', ROOT / 'tests/fixtures/expanded-lifting-skill.t')
     test_lifting_skill(Session, lifting_skill, build.out)
     test_skilled_pickup(Session, lifting_skill, build.out)
@@ -13478,5 +13480,61 @@ def test_shared_support_loss(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.shared-support-clock') == ['advanced',5]
         assert state(s) == [1,0,0,5]
+    finally:
+        s.close()
+
+
+def test_shared_limb(Session, bundle, out):
+    def state(s):
+        s.action(2285, 812)
+        return last(s, 'test.shared-limb')
+    clear = [0,0,0,0,0,0,4,0]
+    injured = [4,1,0,1,1,1,4,3]
+    path = out / 'expanded-shared-limb.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,781,811):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 810)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (810,810,801):
+            s.action(2285, code)
+        assert last(s, 'test.shared-support-clock') == ['shared-support-loss-unresolved',4]
+        assert state(s) == injured
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        assert state(s) == injured
+        for code in (791,791,783):
+            s.action(2285, code)
+        assert last(s, 'test.shared-carry') == [0,0,1,0,1,1,0,4,3]
+        assert state(s) == [4,1,0,1,0,1,4,3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,813,781,810):
+            s.action(2285, code)
+        assert state(s) == [6,0,1,1,1,1,4,3], 'parent arm loss did not invalidate its bound hand'
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,815,814,781,810):
+            s.action(2285, code)
+        assert state(s) == [4,0,0,0,0,1,2,3], 'unbound hand injury created a support-loss event'
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (816,781,810,810,802):
+            s.action(2285, code)
+        assert last(s, 'test.shared-support-loss') == [3,1,1,4]
+        assert state(s) == [4,1,0,3,1,1,4,3]
     finally:
         s.close()
