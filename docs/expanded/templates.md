@@ -816,3 +816,26 @@ purchase objects and leave prototypes and gameplay ledgers unchanged.
 `expanded-dependent-choices.t` and `test_dependent_choices` specify signed bounds,
 combined credit slots, disadvantage limits, rollback, undo and saved continuation;
 the fixtures remain unrun.
+
+
+## Exceptional breath reserve purchases
+
+Use a configured trait row with explicit eligibility and evidence:
+
+```text
+['breath-reserve', 2, nil, nil, ['nonhuman', 'Approved exceptional air storage']]
+```
+
+The options are the eligibility (`nonhuman` or `super`) and its evidence.
+Unconfigured rows reject instead of assuming a character is eligible. The row
+creates a fresh `RpgExpandedBreathReserveTrait` and uses its normal point cost.
+
+Compatible character packages retain the higher purchased level. Compatible
+ancestry packages add levels (full-2008 B261), charge the resulting level once,
+and retain both ancestry origins. Composition requires matching eligibility and
+evidence; conflicting options require an authored resolution. Combined levels
+above the current supported bound of ten reject before changing the purchase.
+
+`test_breath_reserve_templates` specifies independent package creation, cost,
+ordinary package merging, additive ancestry merging and invalid configuration
+rejection. Fixtures remain unrun.

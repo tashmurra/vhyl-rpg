@@ -950,6 +950,12 @@ rpgExpandedMergeAncestryTrait(existing, incoming)
         if (level > 4) rpgExpandedReject('ancestry-trait-level-limit');
         existing.level = level; existing.creationCost();
     }
+    else if (existing.templatePurchaseKind == 'expanded-breath-reserve')
+    {
+        local level = existing.level + incoming.level;
+        if (level > 10) rpgExpandedReject('ancestry-trait-level-limit');
+        existing.level = level; existing.creationCost();
+    }
     else if (existing.templatePurchaseKind == 'shared-catalogue'
         && holds(['acute-hearing','acute-vision','acute-touch','acute-taste-smell',
             'charisma','fearlessness','hard-to-kill','night-vision'],existing.id))

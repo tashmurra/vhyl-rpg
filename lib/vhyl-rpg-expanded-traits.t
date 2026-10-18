@@ -2977,3 +2977,19 @@ modify rpgExpandedTemplateTraits
         value.evidence = trait.evidence; value.creationCost(); return value;
     }
 ;
+
+modify rpgExpandedTemplateTraits
+    configured(id,level,scope,options)
+    {
+        if (id != 'breath-reserve') return inherited(id,level,scope,options);
+        if (options.length() != 2) rpgExpandedReject('breath-reserve-template-options');
+        local trait = new RpgExpandedBreathReserveTrait(); trait.level = level; trait.scope = scope;
+        trait.approved = true; trait.eligibility = options[1]; trait.evidence = options[2];
+        trait.creationCost(); return trait;
+    }
+    plain(id,level,scope)
+    {
+        if (id == 'breath-reserve') rpgExpandedReject('breath-reserve-template-options');
+        return inherited(id,level,scope);
+    }
+;

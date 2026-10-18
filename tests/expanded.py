@@ -9348,6 +9348,8 @@ def test(build):
     test_breathing_restrictions(Session, breathing_restrictions)
     reserve_trait = build.build("expanded-breath-reserve-trait",ROOT / "tests/fixtures/expanded-breath-reserve-trait.t")
     test_breath_reserve_trait(Session, reserve_trait)
+    reserve_templates = build.build("expanded-breath-reserve-templates",ROOT / "tests/fixtures/expanded-breath-reserve-templates.t")
+    test_breath_reserve_templates(Session, reserve_templates)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23089,3 +23091,25 @@ def test_breath_reserve_trait(Session, bundle):
         assert last(s,'test.reserve-trait-copy') == [1,2,6,'nonhuman',1]
     finally:
         s.close()
+
+
+def test_breath_reserve_templates(Session, bundle):
+    """Configured purchases retain costs and distinguish package/ancestry merging; unrun."""
+    for operation, expected in ((18300,[2,4,1]),(18301,[3,6,1]),(18302,[3,6,1])):
+        s = Session(bundle)
+        try:
+            for code in (operation,18303):
+                s.action(1100,code)
+            assert last(s,'test.reserve-package') == expected
+            if operation == 18300:
+                s.action(1100,18304)
+                assert last(s,'test.reserve-package-isolation') == [0,2]
+        finally:
+            s.close()
+    for operation, reason in ((18305,'template-trait-purchase-conflict'),(18306,'breath-reserve-template-options')):
+        s = Session(bundle)
+        try:
+            s.action(1100,operation)
+            assert last(s,'test.reserve-package-error') == [reason]
+        finally:
+            s.close()
