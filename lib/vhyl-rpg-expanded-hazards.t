@@ -4145,7 +4145,7 @@ class RpgExpandedPressureExposure: object
     id = nil
     profile = nil
     pressure = 100
-    nativePressure = 100
+    nativePressure = nil
     support = 0
     sizeModifier = 0
     approved = nil
@@ -4155,7 +4155,15 @@ class RpgExpandedPressureExposure: object
     endedAt = nil
     checks = []
     boundDefinition = nil
-    definition() { return [self.id,self.profile,self.pressure,self.nativePressure,self.support,self.sizeModifier,self.approved,self.evidence]; }
+    resolvedNativePressure() { return self.nativePressure == nil ? self.profile.nativePressureHundredths : self.nativePressure; }
+    resolvedSupport()
+    {
+        rpgInteger(self.support,0,3);
+        local innate = self.profile.pressureSupportLevel();
+        return innate > self.support ? innate : self.support;
+    }
+    definition() { return [self.id,self.profile,self.pressure,self.nativePressure,self.support,self.sizeModifier,
+        self.approved,self.evidence,self.resolvedNativePressure(),self.resolvedSupport()]; }
     validateBinding()
     {
         if (self.startedAt == nil || !holds(self.profile.pressureExposures,self)) rpgExpandedReject('pressure-owner');
@@ -4169,7 +4177,7 @@ class RpgExpandedPressureExposure: object
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
             rpgExpandedReject('pressure-definition');
         rpgExpandedValidate(self.profile);
-        local value = rpgExpandedAssessPressure(self.pressure,self.nativePressure,self.support,self.sizeModifier);
+        local value = rpgExpandedAssessPressure(self.pressure,self.resolvedNativePressure(),self.resolvedSupport(),self.sizeModifier);
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.status = 'blocked'; value.reason = 'pressure-evidence'; return value; }
         if (self.startedAt != nil)
@@ -4194,7 +4202,7 @@ class RpgExpandedPressureExposure: object
     {
         self.validateBinding(); local value = new RpgExpandedResult();
         if (self.endedAt != nil) { value.status = 'reused'; return value; }
-        local assessment = rpgExpandedAssessPressure(self.pressure,self.nativePressure,self.support,self.sizeModifier);
+        local assessment = rpgExpandedAssessPressure(self.pressure,self.resolvedNativePressure(),self.resolvedSupport(),self.sizeModifier);
         if (assessment.checkRequired && !self.profile.dead && rpgLedger.seconds >= self.dueAt)
         { value.reason = 'pressure-check-due'; return value; }
         self.endedAt = rpgLedger.seconds; value.status = 'resolved'; return value;
@@ -4216,8 +4224,8 @@ class RpgExpandedPressureCheck: object
             value.status = 'reused'; return value;
         }
         if (self.exposure.endedAt != nil || self.exposure.profile.dead) { value.reason = 'pressure-exposure-ended'; return value; }
-        local assessment = rpgExpandedAssessPressure(self.exposure.pressure,self.exposure.nativePressure,
-            self.exposure.support,self.exposure.sizeModifier);
+        local assessment = rpgExpandedAssessPressure(self.exposure.pressure,self.exposure.resolvedNativePressure(),
+            self.exposure.resolvedSupport(),self.exposure.sizeModifier);
         if (!assessment.checkRequired) { value.reason = 'pressure-check-unnecessary'; return value; }
         if (rpgLedger.seconds < self.exposure.dueAt) { value.reason = 'pressure-check-not-due'; return value; }
         if (rpgLedger.seconds > self.exposure.dueAt) { value.reason = 'pressure-check-missed'; return value; }

@@ -23,6 +23,8 @@ class RpgExpandedRules: object
 class RpgExpandedProfile: RpgLiteProfile
     rules = nil
     contributions = []
+    nativePressureHundredths = 100
+    pressureSupportLevel() { return 0; }
     ancestrySkillModifier(skill) { return 0; }
     studyTimePercent(skill) { return 100; }
     catalogueTalentSkills(id) { return []; }

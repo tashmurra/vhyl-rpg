@@ -1431,3 +1431,8 @@ Crushing pressure now has source-based threshold assessment and owned constant
 exposures with entry/minute checks, size-scaled injury and explicit missed-deadline
 rejection. Decompression illness and schedules remain pending. Boundary and
 lifecycle fixtures are authored but unrun.
+
+Pressure-support purchases now supply active protection to owned exposures at
+five points per tier. Template copying and zero-point native-pressure features are
+available; active intervals bind effective protection and native pressure. Tier,
+mitigation and mutation-boundary fixtures are authored but unrun.

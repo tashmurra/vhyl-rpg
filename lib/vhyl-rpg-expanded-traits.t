@@ -1546,3 +1546,49 @@ modify rpgExpandedTemplateTraits
         return rpgExpandedMakeCatalogueTalent(trait.id,trait.level,trait.approved);
     }
 ;
+
+/** B77-B78 uniform ambient pressure protection, not crushing attack armor. */
+class RpgExpandedPressureSupport: RpgLiteTrait
+    id = 'pressure-support'
+    labelId = 'pressure-support'
+    points = 5
+    approved = nil
+    templatePurchaseKind = 'expanded-pressure-support'
+    creationCost()
+    {
+        if (!self.approved) rpgExpandedReject('unapproved-trait');
+        rpgInteger(self.level,1,3);
+        if (self.id != 'pressure-support' || self.points != 5 || self.scope != nil
+            || self.controlled || self.skills.length() != 0) rpgExpandedReject('pressure-support-definition');
+        return self.level * 5;
+    }
+;
+modify RpgExpandedProfile
+    pressureSupportLevel()
+    {
+        local count = 0; local level = 0;
+        foreach (local trait in self.traits)
+            if (trait.id == 'pressure-support')
+            {
+                if (!trait.ofKind(RpgExpandedPressureSupport)) rpgExpandedReject('pressure-support-definition');
+                trait.creationCost(); count += 1;
+                if (trait.active && !trait.mitigated) level = trait.level;
+            }
+        if (count > 1) rpgExpandedReject('pressure-support-duplicate');
+        return level;
+    }
+    validateFeatures() { inherited(); self.pressureSupportLevel(); return nil; }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id != 'pressure-support') return inherited(id,level,scope);
+        local trait = new RpgExpandedPressureSupport(); trait.level = level; trait.scope = scope; trait.approved = true;
+        trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedPressureSupport)) return inherited(trait);
+        trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
+    }
+;

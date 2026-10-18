@@ -2298,9 +2298,10 @@
       "status": "partial",
       "acceptance": "Second-level pressure support changes crushing threshold and penalty increments from ten to one hundred times native pressure.",
       "tests": [
-        "tests/expanded.py::test_pressure"
+        "tests/expanded.py::test_pressure",
+        "tests/expanded.py::test_pressure_support"
       ],
-      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun."
+      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun. Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun."
     },
     {
       "id": "hazard-pressure-support-three",
@@ -2311,9 +2312,10 @@
       "status": "partial",
       "acceptance": "Third-level pressure support grants pressure immunity; do not schedule crushing checks for immune actors.",
       "tests": [
-        "tests/expanded.py::test_pressure"
+        "tests/expanded.py::test_pressure",
+        "tests/expanded.py::test_pressure_support"
       ],
-      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun."
+      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun. Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun."
     },
     {
       "id": "hazard-bends-trigger",

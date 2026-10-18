@@ -9144,6 +9144,8 @@ def test(build):
     test_strength_handling(Session, strength_reduction)
     pressure = build.build('expanded-pressure',ROOT / 'tests/fixtures/expanded-pressure.t')
     test_pressure(Session, pressure, build.out)
+    pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
+    test_pressure_support(Session, pressure_support)
     talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
     test_talent_study(Session, talent_study, build.out)
     talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
@@ -18924,3 +18926,32 @@ def test_pressure(Session, bundle, out):
             assert last(s, 'test.pressure') == expected
         finally:
             s.close()
+
+
+def test_pressure_support(Session, bundle):
+    for setup, expected in (([8100], [5, 1, 1, -1, 1, 0]),
+                            ([8101], [10, 2, 0, 0, 0, 0]),
+                            ([8102], [15, 3, 0, 0, 0, 0]),
+                            ([8102, 8111], [15, 0, 1, -1, 1, 0]),
+                            ([8112], [5, 1, 1, 1, 1, 0])):
+        s = Session(bundle)
+        try:
+            for code in setup + [8110]:
+                s.action(2285, code)
+            assert last(s, 'test.pressure-support') == expected
+        finally:
+            s.close()
+    for mutation in (8111, 8112):
+        s = Session(bundle)
+        try:
+            for code in (8101, 8000, mutation, 8113):
+                s.action(2285, code)
+            assert last(s, 'test.pressure-support-error') == ['pressure-binding', 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 8114)
+        assert last(s, 'test.pressure-support-copy') == [1, 10]
+    finally:
+        s.close()

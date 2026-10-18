@@ -71,9 +71,12 @@
       "pages": "B77-B78",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Pressure adaptation tier 1 costs 5, tolerating ten times native pressure. Nonstandard native pressure is a zero-point feature. Lower-than-native pressure and vacuum remain separately handled.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_pressure_support"
+      ],
+      "validation_note": " Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun."
     },
     {
       "id": "traits-j-pressure-2",
@@ -81,9 +84,12 @@
       "pages": "B77-B78",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Pressure adaptation tier 2 costs 10, tolerating one hundred times native pressure. Nonstandard native pressure is a zero-point feature. Lower-than-native pressure and vacuum remain separately handled.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_pressure_support"
+      ],
+      "validation_note": " Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun."
     },
     {
       "id": "traits-j-pressure-3",
@@ -91,9 +97,12 @@
       "pages": "B77-B78",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Pressure adaptation tier 3 costs 15, tolerating arbitrarily high pressure. Nonstandard native pressure is a zero-point feature. Lower-than-native pressure and vacuum remain separately handled.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_pressure_support"
+      ],
+      "validation_note": " Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun."
     },
     {
       "id": "traits-j-pressure-scope",
@@ -101,9 +110,12 @@
       "pages": "B78",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Pressure adaptation protects against sustained uniform ambient pressure and whole-body ambient compression. It does not reduce localized crushing or transient explosions. Sealing is a separate capability, not a prerequisite or included benefit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_pressure_support"
+      ],
+      "validation_note": " Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun."
     },
     {
       "id": "traits-j-sense-protection",

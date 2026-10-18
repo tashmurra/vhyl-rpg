@@ -1199,3 +1199,20 @@ A custom purchase cannot be shared by profiles or reconstructed by template
 composition. Template cloning, custom specialty-only groups, group amendments
 and exceptional prices remain unsupported. Price-boundary, ownership, binding,
 reaction, mitigation, undo and save-continuation fixtures are authored but unrun.
+
+## Pressure support
+
+`RpgExpandedPressureSupport` implements the three standard ambient-pressure tiers
+(full-2008, B77–B78): set `level` to 1, 2 or 3 and `approved = true`, then install
+the purchase in the character's traits. Costs are 5, 10 and 15 points. Template
+rows `['pressure-support', level, nil]` create fresh approved purchases, and
+composition reconstructs them without sharing objects.
+
+`profile.pressureSupportLevel()` returns active, unmitigated protection and
+validates the purchase. The hazard module uses it for constant-pressure exposure
+thresholds and decompression risk. It does not grant armor against localized
+crushing, explosions, vacuum protection, sealing or breathable air. Nonstandard
+`profile.nativePressureHundredths` is a zero-point authored feature (default 100).
+Native-pressure template configuration and changing-pressure procedures remain
+pending. Tier, mitigation, purchase-copy and exposure-binding fixtures are
+authored but unrun.

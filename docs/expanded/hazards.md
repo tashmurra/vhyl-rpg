@@ -1848,7 +1848,17 @@ currently due check. Pressure/protection changes require ending the interval and
 starting a new one; overlapping intervals are rejected. This is an explicit
 constant-exposure adapter, not an automatic world clock monitor.
 
-Support-trait purchase accounting, changing-pressure travel, decompression illness
+Changing-pressure travel, decompression illness
 and safe decompression schedules remain pending. Threshold, size, duplicate,
 missed-deadline, rollback, undo and save-continuation fixtures are authored but
 unrun while checks are paused.
+
+Pressure exposures now default native pressure from
+`profile.nativePressureHundredths`; an explicit `nativePressure` overrides it.
+`resolvedSupport()` uses the greater of authored external support and the profile's
+active pressure-support purchase. Neither adds to the other. Effective protection
+and native pressure are bound when the interval begins. A changed feature,
+mitigated purchase or different effective tier rejects before the next check;
+finish/reassess exposure through an authored transition instead of silently
+changing an active interval. Purchase support is supplied by the traits module;
+the hazards module remains usable without it.
