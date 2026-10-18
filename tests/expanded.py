@@ -9410,6 +9410,8 @@ def test(build):
     test_psychology_group(Session, psychology_group)
     psychology_actions = build.build("expanded-psychology-actions",ROOT / "tests/fixtures/expanded-psychology-actions.t")
     test_psychology_actions(Session, psychology_actions)
+    native_planet_template = build.build("expanded-native-planet-template",ROOT / "tests/fixtures/expanded-native-planet-template.t")
+    test_native_planet_template(Session, native_planet_template)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24117,5 +24119,31 @@ def test_psychology_actions(Session, bundle):
                 assert last(s,'rpg.expanded.psychology') == [operation,'blocked','psychology-action-observer-required']
             s.action(1680,21002)
             assert last(s,'test.psychology-history') == [0,0,0]
+        finally:
+            s.close()
+
+
+def test_native_planet_template(Session, bundle):
+    """Template construction preserves native-world defaults without inventing a background; unrun."""
+    for create in (21400,21402):
+        s = Session(bundle)
+        try:
+            s.action(1680,21401); s.action(1680,21403)
+            assert last(s,'test.planet-template') == [None,None,0,0]
+            s.action(1680,create); s.command('undo'); s.action(1680,21403)
+            assert last(s,'test.planet-template') == [None,None,0,0]
+            s.action(1680,create); s.action(1680,21403)
+            assert last(s,'test.planet-template') == ['habitable',6,0,0]
+            s.action(1680,21406); s.action(1680,21403)
+            assert last(s,'test.planet-template') == ['rocky',None,0,0]
+            s.action(1680,create); s.action(1680,21403)
+            assert last(s,'test.planet-template') == ['habitable',6,0,0]
+        finally:
+            s.close()
+    for code, reason in ((21404,'template-native-planet-conflict'),(21405,'biology-native-planet-type')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code)
+            assert last(s,'test.planet-template-error') == [reason]
         finally:
             s.close()

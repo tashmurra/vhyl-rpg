@@ -839,3 +839,24 @@ above the current supported bound of ten reject before changing the purchase.
 `test_breath_reserve_templates` specifies independent package creation, cost,
 ordinary package merging, additive ancestry merging and invalid configuration
 rejection. Fixtures remain unrun.
+
+
+## Native planet-type background
+
+Set `RpgExpandedTemplate.nativePlanetType` when the character's upbringing is
+known. Template construction copies it into the fresh profile, preserving the
+biology catalogue's conditional native-world IQ default (full-2008 B180).
+Omitting the field leaves the background unspecified and grants no native-world
+default. The six supported values are documented in the skills guide.
+
+Combined occupational packages retain a supplied background when other packages
+leave it unspecified. Different explicit planet types reject with
+`template-native-planet-conflict`; authors must resolve that character-background
+choice rather than receiving whichever package happened to be processed last.
+The background belongs to personal upbringing, not automatically to ancestry.
+Invalid profile planet-type identifiers reject during feature validation.
+
+Skill rows continue to retain their typed catalogue definitions while each
+created character owns fresh training records. `test_native_planet_template`
+specifies native biology scoring, package composition, background conflicts,
+invalid values, profile isolation, rollback and undo. Fixtures remain unrun.

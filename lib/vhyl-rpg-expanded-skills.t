@@ -1497,6 +1497,14 @@ modify RpgExpandedFirstAidSkill
 /** B180 native background for conditional scientific attribute defaults. */
 modify RpgExpandedProfile
     nativePlanetType = nil
+    validateFeatures()
+    {
+        inherited();
+        if (self.nativePlanetType != nil
+            && !holds(['habitable','gas-giant','hostile-terrestrial','icy-small-body','ice-covered','rocky'],self.nativePlanetType))
+            rpgExpandedReject('biology-native-planet-type');
+        return nil;
+    }
 ;
 
 /** B180 biology: scientific knowledge of a planet type at an explicit TL. */

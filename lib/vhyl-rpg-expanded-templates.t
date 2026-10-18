@@ -31,6 +31,7 @@ class RpgExpandedTemplate: object
     traitRows = []
     contributionDefinitions = []
     choiceGroups = []
+    nativePlanetType = nil
     nativePressureHundredths = 100
     campaignTL = 3
     techLevel = nil
@@ -49,6 +50,7 @@ class RpgExpandedTemplate: object
         if (self.choiceGroups.length() != 0) rpgExpandedReject('template-unresolved-choices');
         local p = new RpgExpandedProfile(); p.rules = rules;
         p.nativePressureHundredths = self.nativePressureHundredths;
+        p.nativePlanetType = self.nativePlanetType;
         p.campaignTL = self.campaignTL;
         p.techLevel = self.techLevel == nil ? self.campaignTL : self.techLevel;
         p.st = self.st; p.dx = self.dx; p.iq = self.iq; p.ht = self.ht;
@@ -155,6 +157,12 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
         if (first) result.nativePressureHundredths = source.nativePressureHundredths;
         else if (result.nativePressureHundredths != source.nativePressureHundredths)
             rpgExpandedReject('template-native-pressure-conflict');
+        if (source.nativePlanetType != nil)
+        {
+            if (result.nativePlanetType != nil && result.nativePlanetType != source.nativePlanetType)
+                rpgExpandedReject('template-native-planet-conflict');
+            result.nativePlanetType = source.nativePlanetType;
+        }
         foreach (local training in source.skills)
         {
             local skill = training.skill;
