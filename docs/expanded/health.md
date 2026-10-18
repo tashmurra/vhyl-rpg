@@ -4041,7 +4041,8 @@ premature direct application of the owned cost, is rejected.
 
 This is the travel substrate for shorter tracking deadlines. Tracking encounters
 must still cap requested steps at their next required check and resolve it before
-continuing. That connection remains pending. Rest/resumption, mixed conditions,
+continuing. The fixed-terrain tracking encounter in the exploration guide supplies that
+connection. Rest/resumption, mixed conditions,
 party step orchestration and combat interruption of a partial hour also remain
 pending; the existing whole-hour pathways are retained.
 

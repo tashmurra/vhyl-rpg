@@ -2381,3 +2381,37 @@ context/outcome tampering, rollback, undo and saved continuation. Fixtures remai
 unrun. Following the trail, continuation deadlines, movement/exertion, evolving
 trail age and terrain transitions still need an encounter implementation;
 acquisition alone does not implement those procedures.
+
+
+## Continuous ordinary tracking encounters
+
+`RpgExpandedTrackingEncounter` names an `id` and a successful owned
+`acquisition`. `start()` retains the encounter without time or randomness.
+Each `RpgExpandedTrackingStep` supplies an `id`, that encounter, a fresh
+`RpgExpandedTrackingContext` and an unused `RpgExpandedMarchStep` as `march`.
+The marcher must be the acquiring profile. The terrain, skill and subject
+category must match the acquisition; concealed trails remain unsupported.
+
+Use steps no longer than the time remaining to the next terrain check. The
+encounter rejects boundary overflow instead of silently shortening a marching
+request. Partial steps consume marching time once and make no tracking roll.
+A step ending exactly at the boundary makes one continuation roll after marching
+and any due hourly fatigue. Success resets tracking progress; failure records a
+lost trail and blocks future steps. Replaying a step returns its retained result.
+Health-denied marching spends no tracking time and makes no continuation roll.
+
+Supply a separate context for each step. Its `trailAgeSeconds` must equal the
+age at acquisition plus elapsed world time since acquisition plus the requested
+step duration. This prevents carrying a fresh-trail score across an age boundary.
+Other authored context facts establish conditions through the step. Do not mutate
+contexts retained by earlier receipts. No travel distance is inferred.
+
+Tracking owns each marching step it consumes. The marching ledger remains the
+sole source of time and hourly fatigue charges. Both encounter and marching
+continuity are required; idle gaps, terrain transitions, rest/resumption,
+concealment contests, group tracking and reacquisition after loss remain pending.
+Those cases must not be approximated through this fixed-terrain adapter.
+
+`test_tracking_encounter` specifies partial intervals, exactly one boundary roll,
+shared time, failure/loss, oversized steps, age and terrain rejection, replay,
+rollback, undo, outcome tampering and saved continuation. Fixtures remain unrun.

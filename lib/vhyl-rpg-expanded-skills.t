@@ -2787,3 +2787,7 @@ rpgExpandedTrackingWindow(terrain,elapsed,requestedSeconds)
     value.elapsed += value.seconds; value.remaining -= value.seconds; value.unusedSeconds -= value.seconds;
     value.checkDue = value.remaining == 0; value.status = 'ready'; return value;
 }
+
+modify RpgExpandedTrackingContext
+    trackingWindow(elapsed,seconds) { self.trackingFacts(); return rpgExpandedTrackingWindow(self.terrain,elapsed,seconds); }
+;

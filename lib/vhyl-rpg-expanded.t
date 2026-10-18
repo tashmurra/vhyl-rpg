@@ -1080,3 +1080,12 @@ modify RpgExpandedProfile
 modify RpgLiteContext
     trackingFacts() { rpgExpandedReject('tracking-skills-module-required'); }
 ;
+
+class RpgExpandedMarchStepReceipt: object
+    trackingOwner = nil
+    trackingProfile() { rpgExpandedReject('tracking-march-health-required'); }
+    trackingDefinition() { rpgExpandedReject('tracking-march-health-required'); }
+;
+modify RpgLiteContext
+    trackingWindow(elapsed,seconds) { rpgExpandedReject('tracking-skills-module-required'); }
+;

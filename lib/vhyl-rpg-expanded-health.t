@@ -9150,7 +9150,7 @@ class RpgExpandedMarchStepResult: RpgExpandedResult
     gate = nil
     allowed = nil
 ;
-class RpgExpandedMarchStep: object
+class RpgExpandedMarchStep: RpgExpandedMarchStepReceipt
     id = nil
     progress = nil
     seconds = nil
@@ -9277,4 +9277,9 @@ modify RpgExpandedMarchHourCost
                     rpgExpandedReject('march-hour-progress-not-complete');
         return inherited();
     }
+;
+
+modify RpgExpandedMarchStep
+    trackingProfile() { return self.progress == nil || self.progress.cost == nil ? nil : self.progress.cost.profile; }
+    trackingDefinition() { return self.definition() + self.progress.cost.definition(); }
 ;

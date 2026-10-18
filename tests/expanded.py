@@ -9548,6 +9548,8 @@ def test(build):
     test_tracking_window(Session,tracking_window)
     march_steps = build.build('expanded-march-steps',ROOT / 'tests/fixtures/expanded-march-steps.t')
     test_march_steps(Session,march_steps,build.out)
+    tracking_encounter = build.build('expanded-tracking-encounter',ROOT / 'tests/fixtures/expanded-tracking-encounter.t')
+    test_tracking_encounter(Session,tracking_encounter,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27164,5 +27166,46 @@ def test_march_steps(Session, bundle, out):
     try:
         s.action(1680,28700); s.action(1680,28707); s.action(1680,28702)
         assert state(s) == [60,1,61,0,0,0]
+    finally:
+        s.close()
+
+
+def test_tracking_encounter(Session, bundle, out):
+    """B226 continuation uses incremental marching time and one roll at a boundary; unrun."""
+    def state(s):
+        s.action(1680,28804)
+        return last(s,'test.tracking-encounter')
+    def start(s):
+        s.action(1680,28500); s.action(1680,28800); s.action(1680,28801)
+    s = Session(bundle)
+    path = out / 'tracking-encounter.zsave'
+    try:
+        start(s); assert state(s) == [1,30,0,30,3,30,0]
+        s.action(1680,28809)
+        assert last(s,'test.follow-preview') == ['ready',None]
+        s.action(1680,28803); assert state(s) == [1,30,0,30,3,30,0]
+        s.action(1680,28802); s.command('undo'); assert state(s) == [1,30,0,30,3,30,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,28802); s.action(1680,28802)
+        assert state(s) == [2,0,0,60,6,60,0]
+        s.action(1680,28808); assert state(s) == [2,0,0,60,6,60,0]
+    finally:
+        s.close()
+    for code in (28805,28806,28807):
+        s = Session(bundle)
+        try:
+            start(s); s.action(1680,code); s.action(1680,28802)
+            assert state(s) == [1,30,0,30,3,30,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        start(s); s.action(1680,27004); s.action(1680,28802); s.action(1680,28802)
+        assert state(s) == [2,0,1,60,6,60,0]
+        s.action(1680,28810); assert state(s) == [2,0,1,60,6,60,0]
     finally:
         s.close()

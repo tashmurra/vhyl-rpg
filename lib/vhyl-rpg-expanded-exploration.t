@@ -4969,3 +4969,168 @@ modify RpgExpandedProfile
     }
 ;
 
+
+/** B226 following one acquired ordinary trail in a fixed terrain. */
+class RpgExpandedTrackingEncounter: object
+    id = nil
+    acquisition = nil
+    startedAt = nil
+    boundDefinition = nil
+    steps = []
+    definition() { return [self.id,self.acquisition,self.startedAt]; }
+    validate()
+    {
+        if (self.id == nil || self.id == '' || self.acquisition == nil || !self.acquisition.ofKind(RpgExpandedTrackingAcquisition))
+            rpgExpandedReject('tracking-encounter-definition');
+        if (self.startedAt == nil) return nil;
+        local facts = self.definition();
+        if (self.boundDefinition == nil || !holds(self.acquisition.profile.trackingEncounters,self)) rpgExpandedReject('tracking-encounter-history');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('tracking-encounter-binding');
+        if (self.acquisition.assess().status != 'reused' || !self.acquisition.result.acquired || self.startedAt > rpgLedger.seconds)
+            rpgExpandedReject('tracking-encounter-acquisition');
+        local previous = self.startedAt; local ids = [];
+        foreach (local step in self.steps)
+        {
+            if (step == nil || !step.ofKind(RpgExpandedTrackingStep) || step.encounter != self || holds(ids,step.id))
+                rpgExpandedReject('tracking-encounter-step');
+            step.validateReceipt();
+            if (step.startedAt != previous) rpgExpandedReject('tracking-encounter-continuity');
+            previous = step.completedAt; ids = ids + [step.id];
+        }
+        return nil;
+    }
+    elapsed()
+    {
+        local seconds = 0;
+        foreach (local step in self.steps)
+        { seconds += step.result.seconds; if (step.result.check != nil) seconds = 0; }
+        return seconds;
+    }
+    lost()
+    {
+        foreach (local step in self.steps)
+            if (step.result.check != nil && !step.result.check.achieved) return true;
+        return nil;
+    }
+    start()
+    {
+        self.validate(); local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { value.status = 'reused'; return value; }
+        if (self.steps.length() != 0 || self.boundDefinition != nil) rpgExpandedReject('tracking-encounter-uncommitted');
+        if (self.acquisition.result == nil) { value.reason = 'tracking-encounter-acquisition-required'; return value; }
+        self.acquisition.assess();
+        if (!self.acquisition.result.acquired) { value.reason = 'tracking-encounter-trail-not-acquired'; return value; }
+        foreach (local prior in self.acquisition.profile.trackingEncounters)
+            if (prior.id == self.id || prior.acquisition == self.acquisition) rpgExpandedReject('tracking-encounter-duplicate');
+        self.startedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.acquisition.profile.trackingEncounters = self.acquisition.profile.trackingEncounters + [self];
+        value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedTrackingStepResult: RpgExpandedResult
+    march = nil
+    followed = nil
+;
+class RpgExpandedTrackingStep: object
+    id = nil
+    encounter = nil
+    context = nil
+    march = nil
+    result = nil
+    startedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.encounter == nil || !self.encounter.ofKind(RpgExpandedTrackingEncounter)
+            || self.context == nil || !self.context.ofKind(RpgLiteContext) || self.march == nil || !self.march.ofKind(RpgExpandedMarchStepReceipt))
+            rpgExpandedReject('tracking-step-definition');
+        return [self.id,self.encounter,self.context,self.march] + self.context.trackingFacts() + self.march.trackingDefinition();
+    }
+    outcomeDefinition()
+    {
+        local facts = [self.startedAt,self.completedAt,self.result,self.result.seconds,self.result.march,self.result.followed,self.result.check];
+        if (self.result.check != nil) facts = facts + [self.result.check.score,self.result.check.roll,self.result.check.margin,self.result.check.achieved,self.result.check.critical];
+        return facts;
+    }
+    validateReceipt()
+    {
+        local facts = self.definition();
+        if (self.result == nil || self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('tracking-step-history');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('tracking-step-binding');
+        local outcome = self.outcomeDefinition();
+        if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('tracking-step-outcome');
+        for (local i = 1; i <= outcome.length(); i += 1)
+            if (outcome[i] != self.boundOutcome[i]) rpgExpandedReject('tracking-step-outcome');
+        if (self.march.trackingOwner != self || self.march.assess().status != 'reused' || self.result.march != self.march.result
+            || self.completedAt != self.startedAt+self.result.seconds || self.completedAt > rpgLedger.seconds)
+            rpgExpandedReject('tracking-step-march-receipt');
+        return nil;
+    }
+    assess()
+    {
+        self.definition(); self.encounter.validate(); local value = new RpgExpandedTrackingStepResult();
+        if (self.result != nil)
+        { if (!holds(self.encounter.steps,self)) rpgExpandedReject('tracking-step-owner'); self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.startedAt != nil || self.completedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('tracking-step-uncommitted');
+        if (self.encounter.startedAt == nil) { value.reason = 'tracking-encounter-not-started'; return value; }
+        if (self.encounter.lost()) { value.reason = 'tracking-trail-lost'; return value; }
+        local acquisition = self.encounter.acquisition; local profile = acquisition.profile;
+        if (self.march.trackingProfile() != profile) { value.reason = 'tracking-step-march-owner'; return value; }
+        if (self.march.result != nil || self.march.trackingOwner != nil) rpgExpandedReject('tracking-step-march-used');
+        if (self.context.terrain != acquisition.context.terrain || self.context.skill != acquisition.context.skill
+            || self.context.subjectCategory != acquisition.context.subjectCategory) { value.reason = 'tracking-step-scope-changed'; return value; }
+        foreach (local prior in self.encounter.steps)
+            if (prior.id == self.id) rpgExpandedReject('tracking-step-id-used');
+        local previous = self.encounter.steps.length() == 0 ? self.encounter.startedAt : self.encounter.steps[self.encounter.steps.length()].completedAt;
+        if (previous != rpgLedger.seconds) { value.reason = 'tracking-step-not-continuous'; return value; }
+        local window = self.context.trackingWindow(self.encounter.elapsed(),self.march.seconds);
+        if (window.status != 'ready' || window.unusedSeconds != 0) { value.reason = 'tracking-step-check-boundary'; return value; }
+        if (self.context.trailAgeSeconds != acquisition.context.trailAgeSeconds+rpgLedger.seconds-acquisition.completedAt+self.march.seconds)
+        { value.reason = 'tracking-step-trail-age'; return value; }
+        value.reason = self.context.taskUnavailableReason(profile); if (value.reason != nil) return value;
+        local score = rpgLiteScore(profile,self.context);
+        if (score == nil || score < 3) { value.reason = 'tracking-step-score'; return value; }
+        local prepared = self.march.assess(); if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds;
+        local window = self.context.trackingWindow(self.encounter.elapsed(),self.march.seconds);
+        value.march = self.march.apply(); if (value.march.status != 'resolved') rpgExpandedReject('tracking-step-march-changed');
+        value.seconds = value.march.seconds;
+        local current = self.definition();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != current[i]) rpgExpandedReject('tracking-step-changed');
+        if (value.march.allowed && window.checkDue)
+        {
+            local score = rpgLiteScore(self.encounter.acquisition.profile,self.context);
+            if (score == nil || score < 3) rpgExpandedReject('tracking-step-score-changed');
+            value.check = rpgCheck(score,rpgRandom.roll()); value.followed = value.check.achieved;
+        }
+        else value.followed = value.march.allowed;
+        if (!value.march.allowed) value.reason = value.march.reason;
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = facts; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = self.outcomeDefinition(); self.march.trackingOwner = self; self.encounter.steps = self.encounter.steps + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    trackingEncounters = []
+    validateFeatures()
+    {
+        inherited(); local ids = []; local acquisitions = [];
+        foreach (local encounter in self.trackingEncounters)
+        {
+            if (encounter == nil || !encounter.ofKind(RpgExpandedTrackingEncounter) || encounter.acquisition.profile != self
+                || holds(ids,encounter.id) || holds(acquisitions,encounter.acquisition)) rpgExpandedReject('tracking-encounter-profile');
+            encounter.validate(); ids = ids + [encounter.id]; acquisitions = acquisitions + [encounter.acquisition];
+        }
+        return nil;
+    }
+;
