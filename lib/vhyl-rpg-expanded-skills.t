@@ -1348,3 +1348,11 @@ class RpgExpandedDiagnosisSkill: RpgExpandedSkill
         return edges;
     }
 ;
+
+modify RpgExpandedDiagnosisSkill
+    diagnosisContext(equipmentTL)
+    {
+        self.validateDefinition(); local context = new RpgExpandedSkillContext();
+        context.skill = self; context.kind = 'diagnosis'; context.equipmentTL = equipmentTL; return context;
+    }
+;

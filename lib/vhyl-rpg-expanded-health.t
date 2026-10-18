@@ -8555,16 +8555,18 @@ class RpgExpandedDiagnosis: object
             if (check.result == nil) { value.reason = 'diagnosis-physiology-check-unresolved'; return value; }
             check.validateReceipt(); if (check.result.check.achieved) species = 0;
         }
-        local equipment = self.equipmentModifier;
+        local equipment = self.equipmentModifier; local equipmentTL = nil;
         if (self.equipmentAssessment != nil)
         {
             if (self.equipmentModifier != 0) rpgExpandedReject('diagnosis-equipment-double-modifier');
             local tools = rpgExpandedDiagnosticEquipment.assess(self.equipmentAssessment,self.examiner,self.skill);
             if (tools.status != 'ready') { value.reason = tools.reason; return value; }
-            equipment = tools.modifier;
+            equipment = tools.modifier; equipmentTL = tools.equipmentTL;
         }
-        value.context = new RpgLiteContext(); value.context.skill = self.skill; value.context.kind = 'diagnosis';
+        value.context = self.skill.diagnosisContext(equipmentTL);
         value.context.modifier = equipment + self.rarityModifier + species + (self.internalInjury ? -5 : 0);
+        local unavailable = value.context.unavailableReason(self.examiner);
+        if (unavailable != nil) { value.reason = unavailable; return value; }
         value.score = rpgLiteScore(self.examiner,value.context);
         if (value.score == nil || value.score < 3) { value.reason = 'diagnosis-score-unavailable'; return value; }
         value.status = 'ready'; return value;

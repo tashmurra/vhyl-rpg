@@ -9368,6 +9368,8 @@ def test(build):
     test_diagnosis_surgery(Session, diagnosis_surgery)
     diagnostic_consultation = build.build("expanded-diagnostic-consultation",ROOT / "tests/fixtures/expanded-diagnostic-consultation.t")
     test_diagnostic_consultation(Session, diagnostic_consultation, build.out)
+    diagnostic_technology = build.build("expanded-diagnostic-technology",ROOT / "tests/fixtures/expanded-diagnostic-technology.t")
+    test_diagnostic_technology(Session, diagnostic_technology)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23449,5 +23451,19 @@ def test_diagnostic_consultation(Session, bundle, out):
                 s.action(2285,code)
             assert last(s,'test.consultation-result') == ['blocked',reason]
             assert last(s,'test.consultation-state') == [0,3,0]
+        finally:
+            s.close()
+
+
+def test_diagnostic_technology(Session, bundle):
+    """B168 IQ-skill technology penalties combine once with B345 fine-kit quality; unrun."""
+    rows = ((19300,'ready',None,16),(19301,'ready',None,17),(19302,'ready',None,12),
+            (19303,'ready',None,7),(19304,'blocked','diagnosis-score-unavailable',2),
+            (19305,'blocked','technology-too-advanced',None))
+    for code, status, reason, score in rows:
+        s = Session(bundle)
+        try:
+            s.action(2285,code)
+            assert last(s,'test.diagnostic-technology') == [status,reason,score,0]
         finally:
             s.close()

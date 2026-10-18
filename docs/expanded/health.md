@@ -3791,3 +3791,14 @@ conversation remain the author's responsibility.
 `test_diagnostic_consultation` covers complete findings, hints, comprehension
 failure, absent findings, replay, rollback, undo and separate-process continuation.
 Fixtures remain unrun.
+
+
+Diagnostic equipment assessments also carry their technology level into the
+expanded skill context (full-2008 B168). Quality and technology modifiers each
+apply once. A fine kit does not waive a technology mismatch; equipment four or
+more levels above the applicable IQ-based skill is unavailable. Selected tools
+other than `quality = 'none'` require an explicit technology level. Manual
+`equipmentModifier` mode remains an authored modifier without an inferred tool
+technology. `test_diagnostic_technology` specifies the complete -1 through +4
+technology-difference sequence around the examiner's skill level, with no
+assessment randomness. Fixtures remain unrun.

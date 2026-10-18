@@ -1763,6 +1763,10 @@ modify rpgExpandedDiagnosticEquipment
     }
     assess(assessment,profile,skill)
     {
-        self.definition(assessment); return assessment.assessFor(profile,skill);
+        self.definition(assessment);
+        if (assessment.quality != 'none' && assessment.techLevel == nil) rpgExpandedReject('diagnosis-equipment-technology-required');
+        local tools = assessment.assessFor(profile,skill); local value = new RpgExpandedDiagnosticEquipmentResult();
+        value.status = tools.status; value.reason = tools.reason; value.modifier = tools.modifier;
+        value.equipmentTL = assessment.quality == 'none' ? nil : assessment.techLevel; return value;
     }
 ;

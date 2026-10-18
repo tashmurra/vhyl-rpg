@@ -775,3 +775,10 @@ rpgExpandedDiagnosticEquipment: object
     definition(assessment) { rpgExpandedReject('diagnosis-equipment-module-required'); }
     assess(assessment,profile,skill) { rpgExpandedReject('diagnosis-equipment-module-required'); }
 ;
+
+class RpgExpandedDiagnosticEquipmentResult: RpgExpandedResult
+    equipmentTL = nil
+;
+modify RpgLiteSkill
+    diagnosisContext(equipmentTL) { rpgExpandedReject('diagnosis-expanded-skill-required'); }
+;
