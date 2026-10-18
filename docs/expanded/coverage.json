@@ -58,8 +58,11 @@
       "title": "Animals, body forms, mounts and swarms",
       "pages": "B455-B461",
       "source": "full-2008",
-      "status": "pending",
-      "tests": []
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables",
+        "tests/expanded.py::test_animal_training_plans"
+      ]
     },
     {
       "id": "development",

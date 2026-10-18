@@ -151,9 +151,12 @@
       "pages": "B458",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Animal training requires the appropriate handling specialty and a declared attainable training level for that creature's intelligence.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_plans"
+      ],
+      "validation_note": "Pure approved plan and schedule assessment authored; fixtures unrun. Daily execution and learned behavior remain pending."
     },
     {
       "id": "creature-training-schedule",
@@ -161,9 +164,12 @@
       "pages": "B458",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Training durations assume approximately four hours daily in two two-hour sessions; create owned progress records and reserve both trainer and animal time.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_plans"
+      ],
+      "validation_note": "Pure approved plan and schedule assessment authored; fixtures unrun. Daily execution and learned behavior remain pending."
     },
     {
       "id": "creature-training-general-versus-trick",
@@ -171,9 +177,12 @@
       "pages": "B458",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The general training-level table and learning a single new trick are distinct operations; finishing one trick must not grant the whole level.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_plans"
+      ],
+      "validation_note": "Pure approved plan and schedule assessment authored; fixtures unrun. Daily execution and learned behavior remain pending."
     },
     {
       "id": "creature-wild-training",
@@ -181,9 +190,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Training a wild mental-package animal imposes -5 to handling, plus any separately applicable species modifier.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_plans"
+      ],
+      "validation_note": "Pure approved plan and schedule assessment authored; fixtures unrun. Daily execution and learned behavior remain pending."
     },
     {
       "id": "creature-war-baseline",
@@ -491,9 +503,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 2, training level 2 requires 60 scheduled training days at the stated daily workload.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-2-3",
@@ -501,9 +516,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 2, training level 3 is impossible and must be rejected before spending time.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-2-4",
@@ -511,9 +529,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 2, training level 4 is impossible and must be rejected before spending time.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-2-5",
@@ -521,9 +542,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 2, training level 5 is impossible and must be rejected before spending time.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-3-2",
@@ -531,9 +555,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 3, training level 2 requires 30 scheduled training days at the stated daily workload.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-3-3",
@@ -541,9 +568,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 3, training level 3 requires 360 scheduled training days at the stated daily workload.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-3-4",
@@ -551,9 +581,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 3, training level 4 is impossible and must be rejected before spending time.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-3-5",
@@ -561,9 +594,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 3, training level 5 is impossible and must be rejected before spending time.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-4-2",
@@ -571,9 +607,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 4, training level 2 requires 7 scheduled training days at the stated daily workload.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-4-3",
@@ -581,9 +620,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 4, training level 3 requires 180 scheduled training days at the stated daily workload.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-4-4",
@@ -591,9 +633,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 4, training level 4 requires 360 scheduled training days at the stated daily workload.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-4-5",
@@ -601,9 +646,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 4, training level 5 is impossible and must be rejected before spending time.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-5-2",
@@ -611,9 +659,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 5, training level 2 requires 2 scheduled training days at the stated daily workload.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-5-3",
@@ -621,9 +672,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 5, training level 3 requires 90 scheduled training days at the stated daily workload.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-5-4",
@@ -631,9 +685,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 5, training level 4 requires 180 scheduled training days at the stated daily workload.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-time-5-5",
@@ -641,9 +698,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For animal intelligence 5, training level 5 requires 720 scheduled training days at the stated daily workload.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-trick-time-3",
@@ -651,9 +711,12 @@
       "pages": "B458",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A specifically authorized new trick takes 90 training days for intelligence 3; track it separately from general training level.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-trick-time-4",
@@ -661,9 +724,12 @@
       "pages": "B458",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A specifically authorized new trick takes 30 training days for intelligence 4; track it separately from general training level.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-trick-time-5",
@@ -671,9 +737,12 @@
       "pages": "B458",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A specifically authorized new trick takes 14 training days for intelligence 5; track it separately from general training level.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
     },
     {
       "id": "creature-training-value-two",
@@ -2161,6 +2230,45 @@
       "status": "pending",
       "acceptance": "The ground-biter example moves four, inflicts one die cutting each turn, uses ordinary armor resistance and disperses after six health loss.",
       "tests": []
+    },
+    {
+      "id": "creature-handling-task-modifiers",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Unfamiliar handlers and stressful circumstances each impose -5; complex tasks impose an authored penalty of at least -3.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure modifier assessment authored; fixtures unrun. Task and combat integration remain pending."
+    },
+    {
+      "id": "creature-handling-calming",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Wild or very frightened animals impose -5; man-killers impose -10. Do not stack mutually selected categories.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure modifier assessment authored; fixtures unrun. Task and combat integration remain pending."
+    },
+    {
+      "id": "creature-handling-combat-prediction",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Handling at 15 imposes -1 on attacks and defenses by animals in the specialty against the handler; at 20 this becomes -2.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure modifier assessment authored; fixtures unrun. Task and combat integration remain pending."
     }
   ],
   "exclusions": [

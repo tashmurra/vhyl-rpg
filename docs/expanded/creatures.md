@@ -12,11 +12,11 @@ and tactical modules. A hit to the mount can require a rider check; rider stun o
 knockback can cause a fall without injuring the mount. These procedures remain
 pending implementation and validation.
 
-**Status: pending.** Animals, body forms, mounts and swarms. Neutral source: `full-2008`, B455-B461.
+**Status: partial; fixtures unrun.** Training assessments and handling modifiers are available. Animals, body forms, mounts and swarms remain incomplete. Neutral source: `full-2008`, B175 and B455–B461.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
-This module has not been implemented. Its proposed filename is reserved in the catalogue only; do not include it in a game.
+Include `vhyl-rpg-expanded-creatures.t` after the expanded foundation. It currently provides pure assessments; it does not yet execute training days or creature combat. The convenience umbrella includes it without activating any rules.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
 
@@ -24,8 +24,8 @@ Implementation must verify each applicable source procedure and catalogue entry,
 
 The [creature inventory](inventory/creatures.json) records the first text pass
 through B455–B461. It includes each printed encounter profile, the training-time
-table, mount pricing, natural attacks and swarm examples. Every entry remains
-pending implementation and independent validation.
+table, mount pricing, natural attacks and swarm examples. The training table and eligibility entries have partial implementations; independent
+validation and the remaining entries are pending.
 
 Printed encounter statistics are abbreviated. They preserve explicit secondary
 score overrides, but omit traits needed for full character-point accounting.
@@ -64,3 +64,41 @@ occupants. Internal payload is part of the body for movement and limited-capacit
 abilities, while exposed payload loses the owner's defensive protection. Passenger
 control requires a separate purchase. Body occupation must preserve separate
 injury and resource histories for host and occupant. These effects are pending.
+
+## Training assessments
+
+`rpgExpandedAnimalTrainingDays(intelligence, level)` implements all sixteen cells
+of the general training table for intelligence and training levels two through
+five. Impossible cells return `nil`. `rpgExpandedAnimalTrickDays(intelligence)`
+returns the separate single-trick duration; intelligence two returns `nil` because
+no single-trick duration is supplied. Values outside the table reject explicitly.
+
+Create `RpgExpandedAnimalTrainingPlan` with separate expanded `animal` and
+`trainer` profiles, a purchased `animal-handling` skill, `appropriateSpecialty`,
+`approved` and evidence. The author confirms species suitability and specialty
+matching. For general training set `kind = 'general'` and `level`; for one trick
+set `kind = 'trick'` and a neutral `trick` identifier. Set `wild` to match the
+animal's authored mental package; the plan reports its -5 training modifier.
+
+`assess()` returns structured eligibility, days and the source schedule: four
+hours daily in two two-hour sessions. It neither rolls nor spends time, awards
+behavior or changes character points. Daily handling rolls, failed-day progress,
+attack consequences and shared trainer/animal scheduling remain pending. A plan
+must not be treated as a completed course.
+
+## Handling modifiers
+
+`rpgExpandedAnimalTaskModifier(familiar, stressful, complexityPenalty)` combines
+unfamiliar-handler and stressful-circumstance penalties with an authored complex
+task penalty. Use zero for a noncomplex task, or at least three for a complex one.
+`rpgExpandedAnimalCalmingModifier(wild, frightened, manKiller)` selects the severe
+calming category without counting wild and frightened twice.
+`rpgExpandedAnimalCombatPenalty(handlingScore)` returns the animal's attack and
+defense penalty at handling scores fifteen and twenty. These helpers do not
+perform the task or install combat modifiers automatically.
+
+The [minimal fixture](../../tests/fixtures/expanded-creatures.t) uses only the
+foundation and this module. `test_animal_training_tables` authors all table cells,
+trick times and modifier boundaries. `test_animal_training_plans` authors training
+eligibility, specialty, wild modifier and preview purity. Fixtures are unrun while
+checks are paused. Sources: `full-2008`, B175 and B458–B459.

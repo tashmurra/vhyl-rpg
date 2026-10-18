@@ -56,6 +56,10 @@ whole-week testing and bug-free one-copy production. These are partial interface
 with explicit limits and unrun fixtures. Structural object damage, transformed
 inventory pieces and broader technology procedures remain incomplete.
 
+The partial [creature module](docs/expanded/creatures.md) adds the animal
+training-time table, training-plan eligibility and handling modifier assessments.
+It does not yet execute training courses, mounts or swarms; fixtures are unrun.
+
 The partial [combat module](docs/expanded/combat.md) adds pure ordinary rapid-fire
 assessments; ammunition and per-hit injury integration remain incomplete.
 Try the [signal workshop](examples/expanded/main.t) with the corresponding

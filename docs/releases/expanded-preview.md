@@ -89,3 +89,8 @@ through complete-week testing. Exact production fractions and line capital fundi
 are available. Supported whole-unit production orders fund and deliver bug-free
 physical copies. Fractional ledger amounts, broader defect effects and interrupted
 testing remain incomplete. All newly authored fixtures remain unrun while checks are paused.
+
+The creature library now provides pure general-training and single-trick durations,
+training-plan eligibility and handling modifiers (`full-2008`, B175 and B458–B459).
+Its minimal dependency fixture is authored but unrun. Daily courses, creature
+profiles, mounts and swarms remain incomplete.

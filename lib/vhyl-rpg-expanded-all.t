@@ -18,3 +18,5 @@
 #include <vhyl-rpg-expanded-combat.t>
 
 #include <vhyl-rpg-expanded-technology.t>
+
+#include <vhyl-rpg-expanded-creatures.t>

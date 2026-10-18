@@ -1371,6 +1371,42 @@ def test_device_analysis(Session,bundle):
         s.close()
 
 
+def test_animal_training_tables(s):
+    expected = {
+        2: ([60,None,None,None],None),
+        3: ([30,360,None,None],90),
+        4: ([7,180,360,None],30),
+        5: ([2,90,180,720],14),
+    }
+    for intelligence,(levels,trick) in expected.items():
+        for level,days in enumerate(levels,2):
+            s.action(2200,intelligence,level)
+            assert last(s,'test.animal-days') == [days,trick]
+    for args,expected in [
+            ((1,0,0,0,0,0,14),[0,0,0]),
+            ((0,1,3,1,1,0,15),[-13,-5,-1]),
+            ((1,1,5,1,1,1,20),[-10,-10,-2]),
+            ((0,0,0,0,1,0,19),[-5,-5,-1]),
+            ((1,0,0,0,0,1,25),[0,-10,-2])]:
+        s.action(2201,*args)
+        assert last(s,'test.animal-modifiers') == expected
+
+
+def test_animal_training_plans(Session,bundle):
+    for code,status,reason,days,modifier in [
+            (0,'ready',None,360,0),(1,'ready',None,360,-5),
+            (2,'blocked','animal-training-author-facts',None,0),
+            (3,'blocked','animal-training-specialty-required',None,0),
+            (4,'blocked','animal-training-unattainable',None,0),
+            (5,'ready',None,30,0),(6,'blocked','animal-training-intelligence-unavailable',None,0)]:
+        s = Session(bundle)
+        try:
+            s.action(2202,code)
+            assert last(s,'test.animal-plan') == [status,reason,days,modifier,14400,2,7200,0,0]
+        finally:
+            s.close()
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -7230,6 +7266,9 @@ def test(build):
     fresh(Session,invention,test_invention_concept)
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
+    creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
+    fresh(Session,creatures,test_animal_training_tables)
+    test_animal_training_plans(Session,creatures)
     technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')
     test_inventor_permission(Session,technology)
     fresh(Session,technology,test_cinematic_invention_assessments)
