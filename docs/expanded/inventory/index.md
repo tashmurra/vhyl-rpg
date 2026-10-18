@@ -39,6 +39,8 @@ copies of the reference books.
 | `full-2008` | B552–B553 | [Anatomy and hit locations](anatomy-locations.json) | Body-form cells and injury exceptions transcribed; nonhuman table visually checked; integration pending |
 | `full-2008` | B554–B555 | [Vehicle locations and occupants](vehicle-locations.json) | Component effects and occupant thresholds transcribed; occupant matrix visually checked; integration pending |
 | `full-2008` | B556–B557 | [Critical outcomes](critical-outcomes.json) | Four tables recorded by outcome; detailed exceptions and visual audit pending |
+| `full-2008` | B557–B559 | [Object durability and cover](object-durability.json) | Weight, structure and cover tables visually checked; erosion, rounding and damage integration pending |
+| `full-2008` | B559–B562 | [Reaction contexts and outcomes](reactions.json) | Eight bands across six contexts and modifier procedures enumerated; bargaining inconsistency confirmed visually |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 

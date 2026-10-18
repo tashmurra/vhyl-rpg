@@ -124,3 +124,16 @@ Preview purity, deterministic replay, rollback, undo and save continuation need
 ongoing projects and damaged objects, not only isolated arithmetic. Checks remain
 suspended while implementation continues; none of this new inventory is claimed
 as tested runtime behavior.
+
+The [durability inventory](inventory/object-durability.json) adds the B557–B559
+object, structure and cover tables. Weight lookup and the optional cube-root
+formula are separate selection policies. Door and wall values apply to a section,
+while building values describe the whole structure. An object’s own armor is
+also distinct from the protection its thickness provides as cover.
+
+Repeated attacks can erode armor at a specific small spot. That damage must keep
+its position, material floor and damage-type history instead of reducing every
+surface of the object. Some source details remain unresolved, including the
+wallboard erosion floor and rounding for calculated building capacity. The table
+values have been visually compared with the supplied printing; this does not
+establish runtime implementation or test coverage.

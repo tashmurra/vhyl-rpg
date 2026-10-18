@@ -306,6 +306,8 @@
     "inventory/anatomy-locations.json",
     "inventory/vehicle-locations.json",
     "inventory/maneuvers-postures.json",
-    "inventory/critical-outcomes.json"
+    "inventory/critical-outcomes.json",
+    "inventory/object-durability.json",
+    "inventory/reactions.json"
   ]
 }
