@@ -260,3 +260,99 @@ rpgExpandedReputationModifier(recognitions)
     }
     return total > 4 ? 4 : total < -4 ? -4 : total;
 }
+
+/** Reaction bands from full-2008 B560-B561, ordered from 0 (worst) to 7. */
+rpgExpandedReactionBand(total)
+{
+    rpgInteger(total, -10000, 10000);
+    return total <= 0 ? 0 : total <= 3 ? 1 : total <= 6 ? 2 : total <= 9 ? 3
+        : total <= 12 ? 4 : total <= 15 ? 5 : total <= 18 ? 6 : 7;
+}
+
+modify RpgExpandedProfile
+    reactionEncounters = []
+;
+
+/** Persistent private encounter record; consequences are resolved separately.
+ * The author registers it in subject.reactionEncounters with a unique id. */
+class RpgExpandedReactionEncounter: object
+    id = nil
+    subject = nil
+    audience = nil
+    worstBand = 0
+    bestBand = 7
+    predeterminedBand = nil
+    fighting = nil
+    history = []
+    nuisanceCount = 0
+    validate()
+    {
+        if (self.id == nil || self.subject == nil || !self.subject.ofKind(RpgExpandedProfile)
+            || self.audience == nil || !holds(self.subject.reactionEncounters,self))
+            rpgExpandedReject('reaction-encounter-owner');
+        foreach (local entry in self.subject.reactionEncounters)
+            if (entry != self && entry.id == self.id) rpgExpandedReject('duplicate-reaction-encounter');
+        rpgInteger(self.worstBand, 0, 7); rpgInteger(self.bestBand, self.worstBand, 7);
+        if (self.predeterminedBand != nil) rpgInteger(self.predeterminedBand,self.worstBand,self.bestBand);
+        rpgInteger(self.nuisanceCount,0,1000); return nil;
+    }
+;
+
+class RpgExpandedReactionResult: RpgExpandedResult
+    band = nil
+    total = nil
+;
+
+/** A distinct authored approach. assess() never exposes saved attitudes or dice.
+ * resolve() is an author-only operation: do not emit its private result directly. */
+class RpgExpandedReactionAttempt: object
+    encounter = nil
+    approach = nil
+    modifier = 0
+    approvedChange = nil
+    nuisance = nil
+    waitedReasonably = nil
+    assess()
+    {
+        if (self.encounter == nil || !self.encounter.ofKind(RpgExpandedReactionEncounter) || self.approach == nil)
+            rpgExpandedReject('reaction-attempt');
+        self.encounter.validate(); rpgInteger(self.modifier,-1000,1000);
+        local value = new RpgExpandedReactionResult();
+        foreach (local row in self.encounter.history)
+            if (row[1] == self.approach) { value.status = 'reused'; return value; }
+        if (self.encounter.history.length() > 0)
+        {
+            if (self.encounter.fighting) { value.reason = 'reaction-fight-started'; return value; }
+            if (self.encounter.predeterminedBand != nil)
+            { value.reason = 'reaction-predetermined'; return value; }
+            if (!self.approvedChange) { value.reason = 'reaction-approach-unchanged'; return value; }
+        }
+        if (self.encounter.nuisanceCount >= 1000) rpgExpandedReject('reaction-retry-limit');
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess();
+        if (value.status == 'reused')
+        {
+            foreach (local row in self.encounter.history)
+                if (row[1] == self.approach)
+                { value.check = row[2]; value.total = row[3]; value.band = row[4]; }
+            return value;
+        }
+        if (value.status != 'ready') return value;
+        local count = self.waitedReasonably ? 0 : self.encounter.nuisanceCount;
+        if (self.encounter.history.length() > 0 && self.nuisance && !self.waitedReasonably) count += 1;
+        if (self.encounter.predeterminedBand != nil) value.band = self.encounter.predeterminedBand;
+        else
+        {
+            value.check = rpgRandom.roll(); value.total = value.check + self.modifier - count * 2;
+            value.band = rpgExpandedReactionBand(value.total);
+            if (value.band < self.encounter.worstBand) value.band = self.encounter.worstBand;
+            if (value.band > self.encounter.bestBand) value.band = self.encounter.bestBand;
+        }
+        self.encounter.nuisanceCount = count;
+        self.encounter.history = self.encounter.history + [[self.approach,value.check,value.total,value.band]];
+        value.status = 'resolved'; return value;
+    }
+;

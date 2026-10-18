@@ -146,4 +146,43 @@ pending. Stored results are historical snapshots, not automatic recalculations.
 `tests/expanded.py::test_reputation` contains expected price checks, a multifaceted
 zero cost, geographic/identity gates, duplicate audiences, pure previews,
 deterministic recognition, rollback and undo. These authored cases remain unrun;
-failure-path and cross-process continuation coverage is still pending.
+`test_reputation_failure` and `test_reputation_persistence` additionally cover
+failed recognition and cross-process reuse; they too remain unrun.
+
+
+## Private reaction encounters
+
+Register a `RpgExpandedReactionEncounter` in `subject.reactionEncounters`, with
+unique `id` and a stable `audience`. The encounter owns its history across requests.
+`RpgExpandedReactionAttempt` identifies an authored `approach` and its numeric
+`modifier`. This low-level modifier must already incorporate applicable traits,
+standing, recognized reputations and world conditions exactly once; automatic
+catalogue-wide modifier collection remains pending.
+
+`assess()` checks readiness but never exposes the saved attitude, total or dice.
+`resolve()` returns private author data and records it. Do not send that data to
+player-facing events: portray what the NPC says and does instead. Reaction totals
+use 3d plus modifiers, with higher totals favorable; they are not success rolls.
+Bands are 0 through 7, with upper boundaries 0, 3, 6, 9, 12, 15, 18, then unbounded
+above (full-2008 B560–B561). `worstBand` and `bestBand` clamp the resulting band.
+A `predeterminedBand` supplies the attitude without consuming randomness.
+
+Repeating an approach reuses its record. A new approach requires `approvedChange`
+after the first request; the author must actually change the offer, speaker,
+information or other relevant approach. Set encounter `fighting` when a previous
+request starts a fight; further request rolls are blocked. A predetermined attitude
+also blocks retries until the author explicitly changes that policy.
+
+When the NPC considers further requests a nuisance, set attempt `nuisance`.
+The encounter accumulates a -2 penalty per such retry. An authored
+`waitedReasonably` decision resets that accumulation; it does not itself advance
+time. Any actual waiting must use the shared time ledger once. Set this only when
+the elapsed time satisfies the NPC's circumstances. Attempt history, penalties
+and random state remain within normal transactions and saves.
+
+This implements the roll and retry machinery, not the table's context-specific
+world consequences. Combat/morale, trade, aid, information and loyalty outcomes
+remain pending. A favorable combat reaction must not be interpreted as friendship.
+`tests/expanded.py::test_reaction_encounter` covers band boundaries, private previews,
+predetermined attitudes, retry gates, nuisance accumulation, rollback and undo.
+All authored cases are unrun while checks are paused.

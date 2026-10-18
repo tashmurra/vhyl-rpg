@@ -49,6 +49,9 @@ publicReputation: RpgExpandedReputation id = 'bridge-rescuer' owner = reputation
     details = 'Rescued workers from a collapsed bridge' facets = [['town',2,'all']] frequency = 'sometimes';
 reputationRecognition: RpgExpandedReputationRecognition reputation = publicReputation
     audience = 'market-group' facet = 'town' inArea = true identityExposed = true;
+reactionHero: RpgExpandedProfile rules = expandedRules reactionEncounters = [reactionEncounter];
+reactionEncounter: RpgExpandedReactionEncounter id = 'archive-request' subject = reactionHero audience = 'archivist';
+reactionAttempt: RpgExpandedReactionAttempt encounter = reactionEncounter approach = 'initial-request';
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -120,11 +123,25 @@ class ExpandedTestAction: Action
             eventValue(value.status); eventValue(value.points); eventValue(value.money);
             if (code == 26) throw new RpgError();
         }
-        if (code == 27 || code == 28)
+        if (code == 29) publicReputation.frequency = 'occasionally';
+        if (code == 27 || code == 28 || code == 29)
         {
             local value = reputationRecognition.resolve(); event('test.reputation-recognition');
             eventValue(value.status); eventValue(value.check); eventValue(value.modifier);
             if (code == 28) throw new RpgError();
+        }
+        if (code == 30 || code == 31)
+        {
+            local value = reactionAttempt.resolve(); event('test.reaction');
+            eventValue(value.status); eventValue(value.check); eventValue(value.total); eventValue(value.band);
+            if (code == 31) throw new RpgError();
+        }
+        if (code == 32)
+        {
+            reactionAttempt.approach = 'revised-request'; reactionAttempt.approvedChange = true;
+            reactionAttempt.nuisance = true;
+            local value = reactionAttempt.resolve(); event('test.reaction');
+            eventValue(value.status); eventValue(value.check); eventValue(value.total); eventValue(value.band);
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -1017,6 +1034,33 @@ act(verb, args)
         try { duplicate.resolve(); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
+    }
+    if (verb == 1175)
+    {
+        event('test.reaction-band'); eventValue(rpgExpandedReactionBand(args[1])); return nil;
+    }
+    if (verb == 1176)
+    {
+        event('test.reaction-state'); eventValue(reactionEncounter.history.length());
+        eventValue(reactionEncounter.nuisanceCount); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
+        return nil;
+    }
+    if (verb == 1177)
+    {
+        local value = reactionAttempt.assess(); event('test.reaction-preview');
+        eventValue(value.status); eventValue(value.check); eventValue(value.total); eventValue(value.band); return nil;
+    }
+    if (verb == 1178)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        local encounter = new RpgExpandedReactionEncounter(); encounter.id = 'fixed'; encounter.subject = p;
+        encounter.audience = 'gatekeeper'; encounter.predeterminedBand = 4; p.reactionEncounters = [encounter];
+        local attempt = new RpgExpandedReactionAttempt(); attempt.encounter = encounter; attempt.approach = 'first';
+        local value = attempt.resolve(); event('test.reaction-gates'); eventValue(value.band); eventValue(value.check);
+        attempt.approach = 'second'; eventValue(attempt.assess().reason);
+        encounter.predeterminedBand = nil; eventValue(attempt.assess().reason);
+        attempt.approvedChange = true; encounter.fighting = true; eventValue(attempt.assess().reason);
+        encounter.fighting = nil; eventValue(attempt.assess().status); return nil;
     }
     return vhylAct(verb,args);
 }

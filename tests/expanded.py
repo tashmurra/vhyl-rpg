@@ -552,6 +552,69 @@ def exchange_state(s):
     return last(s, 'test.exchange-state')
 
 
+def reaction_state(s):
+    s.action(1176)
+    return last(s, 'test.reaction-state')
+
+
+def test_reaction_encounter(s):
+    for total, band in [(-10, 0), (0, 0), (1, 1), (3, 1), (4, 2), (6, 2),
+                        (7, 3), (9, 3), (10, 4), (12, 4), (13, 5), (15, 5),
+                        (16, 6), (18, 6), (19, 7), (30, 7)]:
+        s.action(1175, total)
+        assert last(s, 'test.reaction-band') == [band]
+    initial = reaction_state(s)
+    s.action(1177)
+    assert last(s, 'test.reaction-preview') == ['ready', None, None, None]
+    s.action(1178)
+    assert last(s, 'test.reaction-gates') == [
+        4, None, 'reaction-predetermined', 'reaction-approach-unchanged', 'reaction-fight-started', 'ready']
+    assert reaction_state(s) == initial
+    s.action(1100, 31)
+    assert reaction_state(s) == initial
+    s.action(1100, 30)
+    assert last(s, 'test.reaction') == ['resolved', 10, 10, 4]
+    s.action(1177)
+    assert last(s, 'test.reaction-preview') == ['reused', None, None, None]
+    s.command('undo')
+    assert reaction_state(s) == initial
+    s.action(1100, 30); s.action(1100, 30)
+    assert reaction_state(s) == [1, 0, 3, 0]
+    s.action(1100, 32)
+    result = last(s, 'test.reaction')
+    assert result[0] == 'resolved' and result[2] == result[1] - 2
+    assert reaction_state(s) == [2, 1, 6, 0]
+
+
+def test_reputation_failure(s):
+    s.action(1100, 29)
+    assert last(s, 'test.reputation-recognition') == ['resolved', 10, 0]
+    s.action(1100, 29)
+    assert last(s, 'test.reputation-recognition') == ['reused', 10, 0]
+    assert reputation_state(s) == [1, 3, 0]
+
+
+def test_reputation_persistence(Session, bundle, out):
+    path = out / 'expanded-reputation.zsave'
+    first = Session(bundle)
+    try:
+        first.action(1100, 29)
+        saved = reputation_state(first)
+        first.command(f':save {path}\n@1172')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@1172')
+        assert reputation_state(second) == saved
+        second.action(1100, 29)
+        assert last(second, 'test.reputation-recognition') == ['reused', 10, 0]
+        assert reputation_state(second) == saved
+    finally:
+        second.close()
+
+
 def reputation_state(s):
     s.action(1172)
     return last(s, 'test.reputation-state')
@@ -772,13 +835,14 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')
     fresh(Session,social,test_social_status)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
+    test_reputation_persistence(Session,bundle,build.out)
     test_equipment_persistence(Session,bundle,build.out)
     test_recognition_persistence(Session,bundle,build.out)
     test_familiarity_persistence(Session,bundle,build.out)

@@ -599,9 +599,23 @@
       "status": "partial",
       "symbol": "RpgExpandedReputation",
       "tests": [
-        "tests/expanded.py::test_reputation"
+        "tests/expanded.py::test_reputation",
+        "tests/expanded.py::test_reputation_failure",
+        "tests/expanded.py::test_reputation_persistence"
       ],
-      "validation_note": "Multifaceted pricing and persistent audience recognition authored. Checks unrun; failure/save coverage, buyoff and evolving-reputation procedures pending."
+      "validation_note": "Multifaceted pricing and persistent recognition authored, including failure and save-continuation cases. Checks unrun; buyoff and evolving reputations pending."
+    },
+    {
+      "id": "private-reaction-encounters",
+      "module": "social",
+      "pages": "B494-B495; B560-B561",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedReactionEncounter",
+      "tests": [
+        "tests/expanded.py::test_reaction_encounter"
+      ],
+      "validation_note": "Owned reaction history, private previews, predetermined/bounded attitudes and authored retries implemented; checks unrun. Context-specific consequences and automatic modifier collection pending."
     }
   ],
   "detailed_inventories": [
