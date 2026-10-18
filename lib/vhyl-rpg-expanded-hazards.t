@@ -100,7 +100,7 @@ class RpgExpandedInfectionExposure: object
                 || self.conditions.untreatedDirtyWound != self.untreatedDirtyWound)
                 rpgExpandedReject('infection-exposure-binding');
             value.status = 'reused'; value.check = self.result.check;
-            value.immune = self.result.immune; value.infected = self.result.infected; value.prevented = self.result.prevented; return value;
+            value.immune = self.result.immune; value.condition = self.result.condition; value.infected = self.result.infected; value.prevented = self.result.prevented; return value;
         }
         if (self.wound.health == nil || self.wound.profile != self.wound.boundProfile
             || !holds(self.wound.profile.expandedWounds,self.wound))
@@ -2638,6 +2638,7 @@ rpgExpandedPoisonDose(doublings, delay, interval)
     value.status = 'ready'; return value;
 }
 class RpgExpandedPoisonResult: RpgExpandedResult
+    condition = nil
     immune = nil
     fatigue = 0
     fatigueLoss = nil
@@ -2663,6 +2664,14 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
     boundDefinition = nil
     result = nil
     cycleHistory = []
+    condition = nil
+    causesCoughing() { return self.hazard.ofKind(RpgExpandedCataloguePoison) && self.hazard.coughingEffect; }
+    newCoughing(tailSeconds)
+    {
+        local episode = new RpgExpandedEnvironmentalCoughing(); episode.id = 'poison-cough-' + self.id;
+        episode.profile = self.profile; episode.exposure = self; episode.durationSeconds = tailSeconds;
+        episode.approved = true; episode.evidence = self.effectEvidence; return episode;
+    }
     symptomInjury = 0
     lockedFatigue = 0
     hasDexteritySymptoms() { return self.hazard.ofKind(RpgExpandedCataloguePoison) && self.hazard.dexteritySymptoms; }
@@ -2749,7 +2758,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         if (!self.approved || self.effectEvidence == nil || self.effectEvidence == '')
         { value.reason = 'poison-exposure-effect-evidence'; return value; }
         rpgInteger(self.hazard.cycles,1,10000); rpgInteger(self.hazard.interval,1,86400);
-        rpgInteger(self.hazard.dice,0,100); rpgInteger(self.hazard.adds,self.hazard.dice == 0 ? 1 : 0,1000);
+        rpgInteger(self.hazard.dice,0,100); rpgInteger(self.hazard.adds,self.hazard.dice == 0 && !self.causesCoughing() ? 1 : 0,1000);
         rpgInteger(self.hazard.resistanceModifier,-100,100);
         if (self.profile.dead) { value.reason = 'poison-exposure-dead'; return value; }
         local susceptibility = new RpgExpandedPoisonSusceptibilityResult(); susceptibility.status = 'ready';
@@ -2787,6 +2796,18 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             local score = rpgLiteScore(self.profile,value.context);
             if (score == nil || score < 3) { value.reason = 'poison-resistance-score'; return value; }
         }
+        if (self.causesCoughing())
+        {
+            if (!self.ofKind(RpgExpandedEnvironmentalPoisonExposure))
+            { value.reason = 'poison-coughing-environment-required'; return value; }
+            local score = rpgLiteScore(self.profile,value.context);
+            if (score > 16) { value.reason = 'poison-nonpositive-failure-duration-unimplemented'; return value; }
+            local tail = (18 - score) * 60;
+            rpgInteger(rpgLedger.seconds,0,2147483647 - value.seconds - tail);
+            local effect = self.newCoughing(tail).assess();
+            if (effect.status != 'ready') { value.reason = effect.reason; return value; }
+        }
+        else
         for (local amount = self.hazard.dice + self.hazard.adds; amount <= 6 * self.hazard.dice + self.hazard.adds; amount += 1)
         {
             local harm = self.hazard.fatigueDamage ? self.failureFatigue(amount * dose.damageMultiplier).assess()
@@ -2843,7 +2864,7 @@ class RpgExpandedPoisonCycle: object
             local reused = new RpgExpandedPoisonResult(); reused.status = 'reused';
             reused.check = self.result.check; reused.injury = self.result.injury;
             reused.wound = self.result.wound; reused.resisted = self.result.resisted;
-            reused.fatigue = self.result.fatigue; reused.fatigueLoss = self.result.fatigueLoss; return reused;
+            reused.fatigue = self.result.fatigue; reused.fatigueLoss = self.result.fatigueLoss; reused.condition = self.result.condition; return reused;
         }
         if (self.id == nil || self.id == '' || self.exposure == nil
             || !self.exposure.ofKind(RpgExpandedPoisonExposure)) rpgExpandedReject('poison-cycle-definition');
@@ -2873,7 +2894,14 @@ class RpgExpandedPoisonCycle: object
         local e = self.exposure;
         if (value.context != nil) value.check = rpgLiteCheck(e.profile,value.context);
         value.resisted = value.check != nil && value.check.achieved;
-        if (!value.resisted)
+        if (!value.resisted && e.causesCoughing())
+        {
+            value.condition = e.newCoughing(-value.check.margin * 60);
+            local effect = value.condition.apply();
+            if (effect.status != 'resolved') rpgExpandedReject('poison-coughing-changed');
+            e.condition = value.condition;
+        }
+        else if (!value.resisted)
         {
             local baseDamage = e.hazard.dice == 0 ? e.hazard.adds : rpgLiteRollDamage(e.hazard.dice,e.hazard.adds,'tox',nil);
             local amount = baseDamage * e.doseAssessment().damageMultiplier;
@@ -3343,12 +3371,13 @@ class RpgExpandedCataloguePoison: RpgLiteHazard
     deliveryMethod = nil
     unpreparedFear = nil
     dexteritySymptoms = nil
+    coughingEffect = nil
     route = nil
     techLevel = 0
     unitCost = 0
     legality = 1
     signature() { return [self.kind,self.delay,self.interval,self.cycles,self.dice,self.adds,
-        self.fatigueDamage,self.resistible,self.resistanceModifier,self.techLevel,self.unitCost,self.legality,self.deliveryMethod,self.unpreparedFear,self.dexteritySymptoms]; }
+        self.fatigueDamage,self.resistible,self.resistanceModifier,self.techLevel,self.unitCost,self.legality,self.deliveryMethod,self.unpreparedFear,self.dexteritySymptoms,self.coughingEffect]; }
     validateCatalogue()
     {
         local expected = rpgExpandedPoisonCatalogue(self.catalogueId,self.route).signature();
@@ -3396,6 +3425,12 @@ rpgExpandedPoisonCatalogue(id, route)
             value.interval = 3600; value.cycles = 6;
         }
     }
+    else if (id == 'combustion-smoke')
+    {
+        if (route != 'respiratory') rpgExpandedReject('poison-catalogue-route');
+        value.techLevel = nil; value.unitCost = nil; value.legality = 4;
+        value.deliveryMethod = 'area'; value.delay = 10; value.dice = 0; value.adds = 0; value.coughingEffect = true;
+    }
     else rpgExpandedReject('poison-catalogue-entry-unimplemented');
     return value;
 }
@@ -3406,6 +3441,7 @@ rpgExpandedPoisonCatalogueStock(stockId, catalogueId, route, doses)
     if (stockId == nil || stockId == '') rpgExpandedReject('poison-stock-id');
     rpgInteger(doses,1,1000000);
     local hazard = rpgExpandedPoisonCatalogue(catalogueId,route);
+    if (hazard.unitCost == nil || hazard.techLevel == nil) rpgExpandedReject('poison-catalogue-not-marketed');
     local stock = new RpgExpandedPoisonStock(); stock.id = stockId; stock.hazard = hazard;
     stock.quantity = doses; stock.techLevel = hazard.techLevel; stock.legality = hazard.legality;
     stock.cost = doses * hazard.unitCost; return stock;
@@ -3522,7 +3558,7 @@ class RpgExpandedPoisonIdentification: object
         {
             local effects = nil;
             foreach (local cycle in e.cycleHistory)
-                if (cycle.result.injury > 0 || cycle.result.fatigue > 0) effects = true;
+                if (cycle.result.injury > 0 || cycle.result.fatigue > 0 || cycle.result.condition != nil) effects = true;
             if (!self.observedSymptoms || !effects)
             { value.reason = 'poison-identification-no-symptoms'; return value; }
         }
@@ -3620,7 +3656,13 @@ class RpgExpandedEnvironmentalPoisonExposure: RpgExpandedPoisonExposure
             if (evidence != self.leaveEvidence) rpgExpandedReject('poison-environment-leave-binding');
             value.status = 'reused'; return value;
         }
+        if (self.condition != nil)
+        {
+            self.condition.validateReceipt();
+            rpgInteger(rpgLedger.seconds,0,2147483647 - self.condition.durationSeconds);
+        }
         self.leftAt = rpgLedger.seconds; self.leaveEvidence = evidence;
+        if (self.condition != nil) self.condition.expiresAt = self.leftAt + self.condition.durationSeconds;
         if (!self.environmentAffected && !self.finished)
         {
             self.finished = true; self.remaining = 0; self.completedAt = rpgLedger.seconds;
@@ -3684,5 +3726,36 @@ class RpgExpandedPoisonSusceptibility: object
         { value.reason = 'poison-susceptibility-combination'; return value; }
         value.immune = self.immune; value.modifier = self.resistanceModifier;
         value.status = 'ready'; return value;
+    }
+;
+
+
+/** B439 coughing persists in the environment, then for failure-margin minutes. */
+class RpgExpandedEnvironmentalCoughing: RpgExpandedCoughing
+    exposure = nil
+    definition() { return inherited() + [self.exposure]; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.exposure == nil || self.exposure.condition != self
+            || self.profile != self.exposure.profile || !holds(self.profile.coughingHistory,self))
+            rpgExpandedReject('environmental-coughing-history');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('environmental-coughing-binding');
+        self.exposure.validateReceipt();
+        if (self.exposure.leftAt == nil ? self.expiresAt != nil : self.expiresAt != self.exposure.leftAt + self.durationSeconds)
+            rpgExpandedReject('environmental-coughing-expiry');
+        return nil;
+    }
+    active()
+    {
+        self.validateReceipt();
+        return !self.profile.dead && (self.expiresAt == nil || rpgLedger.seconds < self.expiresAt);
+    }
+    apply()
+    {
+        local value = inherited();
+        if (value.status == 'resolved') self.expiresAt = nil;
+        return value;
     }
 ;

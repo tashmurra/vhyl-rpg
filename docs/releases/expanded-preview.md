@@ -505,3 +505,11 @@ block Stealth, while preserving temporary-attribute defensive and secondary
 exceptions. Expiry follows the shared clock without extra rolls. Added a minimal
 health-only fixture, authored and unrun. Poison/environment cause integration and
 overlapping durations remain incomplete.
+
+
+Ordinary smoke now uses the owned environmental poison path to apply coughing
+without injury. Symptoms persist in the area and expire after departure plus the
+resistance failure margin in minutes. No price or technology is invented for
+smoke. Authored fixtures cover retry, continuous symptoms, exact expiry, undo and
+saved continuation; they remain unrun. Dense smoke and ambiguous nonpositive
+failure-margin durations remain incomplete.

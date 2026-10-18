@@ -11841,6 +11841,51 @@ def test_poison_exposure(Session, bundle, out):
     finally:
         s.close()
 
+    # B439 smoke: no damage, continuous coughing, then failure-margin minutes.
+    s = Session(bundle)
+    try:
+        for code in (420, 266, 383, 421, 384, 422):
+            s.action(2285, code)
+        assert last(s, 'test.poison-smoke') == [0, None, None, 0, 0, 10, 3, 0]
+        for code in (421, 265, 389, 422):
+            s.action(2285, code)
+        assert last(s, 'test.poison-smoke') == [0, None, None, 0, 0, 20, 3, 0]
+        s.action(2285, 385)
+        s.command('undo')
+        s.action(2285, 422)
+        assert last(s, 'test.poison-smoke') == [0, None, None, 0, 0, 20, 3, 0]
+        for code in (385, 385, 423, 422):
+            s.action(2285, code)
+        assert last(s, 'test.poison-smoke') == [1, 420, None, 0, 0, 120, 6, 1]
+        s.action(2285, 388)
+        s.command('undo')
+        s.action(2285, 422)
+        assert last(s, 'test.poison-smoke') == [1, 420, None, 0, 0, 120, 6, 1]
+        for code in (388, 388, 422):
+            s.action(2285, code)
+        assert last(s, 'test.poison-smoke') == [1, 420, 540, 0, 0, 120, 6, 1]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (424, 422):
+            s.action(2285, code)
+        assert last(s, 'test.poison-smoke') == [1, 420, 540, 0, 0, 539, 6, 1]
+        for code in (382, 422):
+            s.action(2285, code)
+        assert last(s, 'test.poison-smoke') == [0, 420, 540, 0, 0, 540, 6, 1]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (420, 425, 383, 422):
+            s.action(2285, code)
+        assert last(s, 'test.poison-smoke') == [0, None, None, 0, 0, 0, 0, 0]
+    finally:
+        s.close()
+
 
 def test_coughing(Session, bundle, out):
     def state(s):

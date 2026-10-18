@@ -289,6 +289,24 @@ modify BleedTestAction
             eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
         }
         if (code == 406) { environmentExposure.susceptibility = poisonSusceptibility; return nil; }
+        if (code == 420)
+        {
+            environmentExposure.hazard = rpgExpandedPoisonCatalogue('combustion-smoke','respiratory');
+            environmentEntry.route = 'respiratory'; environmentEntry.inhaled = true;
+            environmentExposure.effectEvidence = 'Ordinary smoke uses the catalogue coughing condition'; return nil;
+        }
+        if (code == 421) { rpgSpendTime(10); return nil; }
+        if (code == 422)
+        {
+            event('test.poison-smoke'); eventValue(bleedProfile.coughing() ? 1 : 0);
+            eventValue(environmentExposure.condition == nil ? nil : environmentExposure.condition.durationSeconds);
+            eventValue(environmentExposure.condition == nil ? nil : environmentExposure.condition.expiresAt);
+            eventValue(bleedProfile.injury); eventValue(bleedProfile.fatigue); eventValue(rpgLedger.seconds);
+            eventValue(rpgRandom.draws); eventValue(bleedProfile.coughingHistory.length()); return nil;
+        }
+        if (code == 423) { rpgSpendTime(100); return nil; }
+        if (code == 424) { rpgSpendTime(419); return nil; }
+        if (code == 425) { bleedProfile.ht = 20; return nil; }
         return inherited(context);
     }
 ;

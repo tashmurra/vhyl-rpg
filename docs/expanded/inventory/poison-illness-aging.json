@@ -504,9 +504,13 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Area respiratory delivery, ten-second delay and health resistance; failure causes coughing for exposure duration plus failure-margin minutes. Legality four, with denser damaging smoke explicitly defined separately.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure",
+        "tests/expanded.py::test_coughing"
+      ],
+      "validation_note": "Neutral ordinary-smoke catalogue now executes ten-second respiratory onset/retries and owned coughing without damage, persisting until departure plus failure-margin minutes. Exact expiry and save/undo fixtures authored, unrun. Dense-smoke injury, cloud lifecycle, overlapping cough causes and nonpositive automatic-failure margins remain unfinished or explicitly blocked."
     },
     {
       "id": "poison-catalogue-dual-irritant",

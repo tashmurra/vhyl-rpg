@@ -1530,3 +1530,36 @@ procedure and remain unsupported.
 Fixtures specify immune replay and saved continuation, ordinary resistance
 adjustment, immunity to an unresistible agent, wrong targets, invalid combinations,
 post-admission mutation and immune environmental contact. They remain unrun.
+
+
+### Ordinary smoke and environmental coughing
+
+The neutral `combustion-smoke` catalogue entry implements ordinary smoke from
+full-2008 B439: area respiratory delivery, ten-second onset, unmodified HT
+resistance, and coughing on failure. Use it with
+`RpgExpandedEnvironmentalPoisonExposure`. Success schedules another environmental
+resistance attempt; failure records an owned `RpgExpandedEnvironmentalCoughing`
+condition in both the cycle result and exposure. It causes no HP/FP loss and draws
+no damage dice. Dense damaging smoke requires a separate authored definition.
+
+The condition remains active while the patient stays in the environment. Its
+`durationSeconds` is the resistance failure margin times sixty: the recovery tail
+after departure. Until departure, `expiresAt` is nil. The exposure's owned
+`leave(evidence)` sets expiry to departure time plus that tail, validates clock
+capacity, and preserves receipt replay. The coughing modifiers and Stealth block
+come from the health library; crossing expiry removes them without a recovery
+roll. Symptom-based identification recognizes this actual condition even though
+it caused no injury.
+
+The source gives legality four but no dose price or technology for ordinary
+smoke. These fields remain unspecified, and the catalogue stock factory rejects
+commercial stock creation for this entry. It does not invent a purchase price.
+The source's default failure-margin duration is ambiguous for an automatic failed
+roll with a nonpositive numerical failure margin; admission currently rejects
+resistance scores above sixteen for this condition until that case is resolved.
+Overlapping coughing causes remain unsupported.
+
+Fixtures specify successful retry, failed onset without damage, continuous
+symptoms, departure and exact tail expiry, rollback, undo and cross-process
+continuation. They are authored and unrun. Dense-smoke injury, changed protection,
+re-entry and broader cloud lifecycle integration remain incomplete.
