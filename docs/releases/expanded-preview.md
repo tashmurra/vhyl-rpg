@@ -931,3 +931,9 @@ lifting exclusions. Landing settlement clears that state without duplicating
 ownership or moving a retrieved item on replay. Unresolved flight blocks positive
 time advancement. Fixtures remain unrun; complete action timing, catches and
 impact consequences still require integration.
+
+Recorded thrown damage can now feed owned ordinary torso wounds for the target
+and a represented thrown character. Supported protection applies outer DR before
+flexible armour, separates blunt injury from penetration and prevents duplicate
+receipt-side injury. Fixtures remain unrun; other locations, anatomy, material
+objects and complete action composition remain unfinished.

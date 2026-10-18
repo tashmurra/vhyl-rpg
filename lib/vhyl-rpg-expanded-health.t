@@ -6542,3 +6542,86 @@ modify RpgExpandedProfile
         gate.requiresMovement = true; gate.evidence = evidence; return gate;
     }
 ;
+
+class RpgExpandedThrownProtection: RpgExpandedResult
+    penetratingDamage = 0
+    bluntInjury = 0
+    healthLoss = 0
+;
+/** B379 ordinary torso protection: one outer non-flexible layer followed by
+ * flexible DR. This does not approximate other layer orderings or anatomy. */
+rpgExpandedAssessThrownProtection(damage, damageType, outerDR, flexibleDR)
+{
+    rpgInteger(damage,0,100000); rpgInteger(outerDR,0,100000); rpgInteger(flexibleDR,0,100000);
+    if (!holds(['cr','cut','pi','imp'],damageType)) rpgExpandedReject('thrown-protection-damage-type');
+    local value = new RpgExpandedThrownProtection();
+    local remaining = damage > outerDR ? damage - outerDR : 0;
+    value.penetratingDamage = remaining > flexibleDR ? remaining - flexibleDR : 0;
+    if (value.penetratingDamage == 0 && flexibleDR > 0)
+        value.bluntInjury = remaining / (damageType == 'cr' ? 5 : 10);
+    local multiplier = damageType == 'cut' ? 3 : damageType == 'imp' ? 4 : 2;
+    value.healthLoss = value.penetratingDamage * multiplier / 2 + value.bluntInjury;
+    value.status = 'ready'; return value;
+}
+class RpgExpandedThrownInjuryResult: RpgExpandedResult
+    protection = nil
+    wound = nil
+;
+modify RpgExpandedProfile
+    thrownInjuries = []
+;
+/** Apply one side of a bound damage receipt to its actual character target.
+ * Armour facts must describe the stated layer ordering and ordinary torso. */
+class RpgExpandedThrownInjury: object
+    id = nil
+    receipt = nil
+    side = 'target'
+    outerDR = 0
+    flexibleDR = 0
+    location = 'torso'
+    approved = nil
+    evidence = nil
+    dropDestination = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.receipt,self.side,self.outerDR,self.flexibleDR,self.location,self.approved,self.evidence,self.dropDestination]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.receipt == nil || !self.receipt.ofKind(RpgExpandedThrownDamageReceipt))
+            rpgExpandedReject('thrown-injury-definition');
+        local value = new RpgExpandedThrownInjuryResult(); local facts = self.receipt.injuryAssessment(self.side);
+        if (facts.status != 'ready') { value.reason = facts.reason; return value; }
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('thrown-injury-binding');
+            if (!holds(facts.profile.thrownInjuries,self) || self.result.wound.assess().status != 'reused')
+                rpgExpandedReject('thrown-injury-history');
+            value.status = 'reused'; return value;
+        }
+        foreach (local prior in facts.profile.thrownInjuries)
+            if (prior.id == self.id || prior.receipt == self.receipt && prior.side == self.side)
+                rpgExpandedReject('thrown-injury-duplicate');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'thrown-injury-protection-facts'; return value; }
+        if (self.location != 'torso') { value.reason = 'thrown-injury-location-adapter-required'; return value; }
+        value.protection = rpgExpandedAssessThrownProtection(facts.damage,facts.damageType,self.outerDR,self.flexibleDR);
+        value.wound = new RpgExpandedWound(); value.wound.id = 'thrown-' + self.id + '-' + self.side;
+        value.wound.profile = facts.profile; value.wound.amount = value.protection.healthLoss;
+        value.wound.dropDestination = self.dropDestination;
+        local prepared = value.wound.assess();
+        if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        if (value.wound.apply().status != 'resolved') rpgExpandedReject('thrown-injury-wound-changed');
+        self.boundDefinition = self.definition(); self.result = value;
+        value.wound.profile.thrownInjuries = value.wound.profile.thrownInjuries + [self];
+        value.status = 'resolved'; return value;
+    }
+;

@@ -1902,7 +1902,8 @@ class RpgExpandedThrownDamageResult: RpgExpandedResult
 /** B355 damage-roll stage for one confirmed ordinary hit. Defense adjudication
  * precedes this stage; protection and injury follow it. A fragile thrown object
  * or character receives a separate damage roll, not a copy of the target roll. */
-class RpgExpandedThrownDamage: object
+class RpgExpandedThrownDamage: RpgExpandedThrownDamageReceipt
+    objectProfile = nil
     id = nil
     attempt = nil
     objectKind = 'durable'
@@ -1916,7 +1917,7 @@ class RpgExpandedThrownDamage: object
     boundDefinition = nil
     definition()
     { return [self.id,self.attempt,self.objectKind,self.damageType,self.shapeEvidence,
-        self.defensesResolved,self.hitConfirmed,self.approved,self.evidence]; }
+        self.defensesResolved,self.hitConfirmed,self.approved,self.evidence,self.objectProfile]; }
     assess()
     {
         if (self.id == nil || self.id == '' || self.attempt == nil || !self.attempt.ofKind(RpgExpandedThrowAttempt))
@@ -1986,5 +1987,23 @@ modify RpgExpandedThrowAttempt
         { value.reason = 'throw-release-critical-failure-required'; return value; }
         value.profile = self.request.profile; value.item = self.request.item;
         value.weight = self.result.assessment.weightHundredths; value.status = 'ready'; return value;
+    }
+;
+
+
+modify RpgExpandedThrownDamage
+    injuryAssessment(side)
+    {
+        if (!holds(['target','object'],side)) rpgExpandedReject('thrown-injury-side');
+        local value = new RpgExpandedThrownInjuryFacts();
+        if (self.result == nil) { value.reason = 'thrown-injury-damage-unresolved'; return value; }
+        if (self.assess().status != 'reused') rpgExpandedReject('thrown-injury-damage-history');
+        if (side == 'object' && self.objectKind != 'character')
+        { value.reason = 'thrown-injury-object-health-unavailable'; return value; }
+        value.profile = side == 'target' ? self.attempt.request.targetEntity : self.objectProfile;
+        if (value.profile == nil || !value.profile.ofKind(RpgExpandedProfile))
+        { value.reason = 'thrown-injury-profile-required'; return value; }
+        value.damage = side == 'target' ? self.result.targetDamage : self.result.objectDamage;
+        value.damageType = self.damageType; value.status = 'ready'; return value;
     }
 ;

@@ -3034,3 +3034,39 @@ Throw-roll stages obtain an owned `RpgExpandedActionGate` through
 `profile.prepareThrowGate(id, evidence)`. Permission denial is retained by the
 throw attempt without generating a throw roll. This is an action permission
 integration, not a physical release, defense or injury operation.
+
+## Applying ordinary thrown torso injury
+
+`rpgExpandedAssessThrownProtection(damage, damageType, outerDR, flexibleDR)`
+implements the supported B379 protection order for `cr`, `cut`, `pi` and `imp`:
+subtract outer non-flexible protection, then flexible DR. If flexible DR stops
+all remaining damage, full groups of five crushing or ten other supported
+points cause blunt injury. Any penetration suppresses that blunt branch;
+penetration instead receives the ordinary damage-type multiplier. Blunt injury
+has no wound multiplier. This function is pure.
+
+`RpgExpandedThrownInjury` applies one side of an owned
+`RpgExpandedThrownDamageReceipt` to the receipt's actual character profile.
+Supply `id`, `receipt`, `side = 'target'` or `'object'`, the two DR values,
+`approved`, protection `evidence` and any required `dropDestination`.
+`location` currently must be `torso`. Other locations, anatomy and layer orders
+need their own procedure and must not be represented by these fields.
+
+The exploration damage record supplies target identity from its bound throw
+request. For the independent thrown-character side, set its `objectProfile`
+before resolving damage and declare `objectKind = 'character'`. This binding
+identifies the represented character; it does not implement carrying a creature.
+Ordinary material objects require the technology object-damage procedure and
+cannot be passed through this character-health adapter.
+
+`assess()` preflights an owned `RpgExpandedWound`. `apply()` commits it once to
+the existing health ledger, retaining protection and wound results and adding
+one entry to `profile.thrownInjuries`. Another ID cannot apply the same receipt
+side again. Each side can have its own DR and major-wound consequences. Replays
+preserve those results without repeating health checks or injury.
+
+The fixture `tests/fixtures/expanded-thrown-injury.t` covers outer/flexible
+protection, penetration, blunt injury, zero injury, both character targets,
+major-wound rolls, duplicate applications, rollback, undo and saved continuation.
+Assertions remain unrun. Full timed action composition, critical effects,
+non-torso locations, other anatomy and material-object impact remain incomplete.

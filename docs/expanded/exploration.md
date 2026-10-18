@@ -960,3 +960,11 @@ in-flight inventory state and an authored resting location, respectively; see
 no include cycle: the receipt interface lives in the expanded foundation.
 The complete timed action, catching, impact application and critical-failure
 release remain incomplete.
+
+Recorded thrown damage now implements the foundation's
+`RpgExpandedThrownDamageReceipt` interface for health integration. A target
+profile comes from the bound `targetEntity`; a represented thrown character
+uses `objectProfile`, declared before damage resolution. Health's
+`RpgExpandedThrownInjury` consumes either side once with ordinary torso
+protection. See [applying thrown injury](health.md#applying-ordinary-thrown-torso-injury).
+This does not complete material-object damage or full throw action composition.

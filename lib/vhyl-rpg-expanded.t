@@ -248,3 +248,12 @@ class RpgExpandedThrowReleaseFacts: RpgExpandedResult
 class RpgExpandedThrowReceipt: object
     releaseAssessment() { local value = new RpgExpandedThrowReleaseFacts(); value.reason = 'throw-release-receipt-unavailable'; return value; }
 ;
+
+class RpgExpandedThrownInjuryFacts: RpgExpandedResult
+    profile = nil
+    damage = 0
+    damageType = 'cr'
+;
+class RpgExpandedThrownDamageReceipt: object
+    injuryAssessment(side) { local value = new RpgExpandedThrownInjuryFacts(); value.reason = 'thrown-injury-receipt-unavailable'; return value; }
+;

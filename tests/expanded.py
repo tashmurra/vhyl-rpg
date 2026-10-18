@@ -9022,6 +9022,8 @@ def test(build):
     test_throw_release(Session, throw_release, build.out)
     thrown_damage = build.build('expanded-thrown-damage',ROOT / 'tests/fixtures/expanded-thrown-damage.t')
     test_thrown_damage(Session, thrown_damage, build.out)
+    thrown_injury = build.build('expanded-thrown-injury',ROOT / 'tests/fixtures/expanded-thrown-injury.t')
+    test_thrown_injury(Session, thrown_injury, build.out)
     catch_assessment = build.build('expanded-catch-assessment',ROOT / 'tests/fixtures/expanded-catch-assessment.t')
     test_catch_assessment(Session, catch_assessment)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
@@ -14947,5 +14949,62 @@ def test_throw_release(Session, bundle, out):
             s.action(2285,code)
         assert state(s) == [1,0,0,0,1,3,0]
         assert last(s,'test.throw-clock') == ['throw-flight-settlement-required']
+    finally:
+        s.close()
+
+
+def test_thrown_injury(Session, bundle, out):
+    def state(s):
+        s.action(2285,1233)
+        return last(s,'test.thrown-injury')
+    path = out / 'expanded-thrown-injury.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,1240)
+        assert last(s,'test.thrown-protection') == [0,2,2,1,0,1,10,0,15,0,1,1,10,0,20,10,0,10,0,0,0,0,0]
+        s.action(2285,1230)
+        assert last(s,'test.thrown-injury-preview') == ['blocked','thrown-injury-damage-unresolved',0]
+        for code in (30,1171,1181,1232):
+            s.action(2285,code)
+        assert state(s) == [0,0,0,0,5,0]
+        s.action(2285,1231)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,5,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1231,1231,1234):
+            s.action(2285,code)
+        assert state(s) == [2,0,1,0,5,0]
+        assert last(s,'test.thrown-injury-duplicate') == ['thrown-injury-duplicate']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,1231)
+        assert state(s) == [2,0,1,0,5,0]
+    finally:
+        s.close()
+    for codes, expected in (((30,1171,1181,1236,1231),[0,0,1,0,5,0]),
+                            ((30,1190,1171,1181,1235,1231),[1,0,1,0,9,0]),
+                            ((30,1190,1237,1171,1181,1231,1238,1238),[9,7,1,1,15,0])):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(2285,code)
+            assert state(s) == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,1171,1181,1239,1230,1231):
+            s.action(2285,code)
+        assert last(s,'test.thrown-injury-preview') == ['blocked','thrown-injury-location-adapter-required',5]
+        assert state(s) == [0,0,0,0,5,0]
     finally:
         s.close()

@@ -81,9 +81,12 @@
       "pages": "B379",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "When eligible flexible armor completely stops a hit, each full five crushing damage or ten cutting/impaling/piercing damage causes one injury with no wound multiplier. Any penetration prevents this trauma branch. Outer rigid layers first reduce damage reaching flexible protection.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_thrown_injury"
+      ],
+      "validation_note": " Ordinary thrown torso impacts now support crushing, cutting, piercing and impaling with an outer non-flexible layer followed by flexible DR. Blunt injury occurs only without penetration and uses damage remaining after the outer layer. Expected-value fixtures are authored, unrun. Other damage types, layer orders, anatomy, locations and general attack integration remain incomplete."
     },
     {
       "id": "damage-readiness-corrosion",
@@ -111,9 +114,12 @@
       "pages": "B379",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Multiply positive penetration by the applicable wound factor, round down and impose minimum one injury. Blunt trauma bypasses this multiplier. Location and anatomy can replace ordinary factors; fatigue-type effects require the fatigue ledger.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_thrown_injury"
+      ],
+      "validation_note": " Ordinary thrown torso impacts now support crushing, cutting, piercing and impaling with an outer non-flexible layer followed by flexible DR. Blunt injury occurs only without penetration and uses damage remaining after the outer layer. Expected-value fixtures are authored, unrun. Other damage types, layer orders, anatomy, locations and general attack integration remain incomplete."
     },
     {
       "id": "damage-readiness-fast-hits",
