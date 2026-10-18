@@ -15,10 +15,36 @@ inventionRelatedTraining: RpgTraining skill = inventionRelated points = 16;
 inventionProposal: RpgExpandedInventionProposal inventor = inventionUser skill = inventionSkill
     description = 'A compact survey instrument' mechanism = 'Optical measurement'
     evidence = 'Feasible optical design' approved = true techLevel = 8 category = 'average' retailPrice = 1000;
+prototypeHelper: RpgLiteProfile skills = [prototypeHelperTraining];
+prototypeHelperTraining: RpgTraining skill = inventionSkill points = 44;
+prototypeJunior: RpgLiteProfile skills = [prototypeJuniorTraining];
+prototypeJuniorTraining: RpgTraining skill = inventionSkill points = 40;
 modify gameMain initialRoom = technologyRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2101)
+    {
+        event('test.prototype-team'); eventValue(rpgExpandedPrototypeTeamModifier(inventionProposal,[prototypeHelper,prototypeJunior],args[1]));
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2099)
+    {
+        local dice = []; for (local index = 3; index <= args.length(); index += 1) dice = dice + [args[index]];
+        local value = rpgExpandedPrototypeDuration(args[1],dice,args[2]);
+        event('test.prototype-duration'); eventValue(value.numerator); eventValue(value.denominator);
+        eventValue(value.unit); eventValue(value.minimumDays); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2100)
+    {
+        local dice = []; for (local index = 4; index <= args.length(); index += 1) dice = dice + [args[index]];
+        local value = rpgExpandedPrototypeOutcome(args[1],args[2],args[3] != 0,dice);
+        event('test.prototype-outcome'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.working ? 1 : 0); eventValue(value.revealedFlaw ? 1 : 0);
+        eventValue(value.accident ? 1 : 0); eventValue(value.minimumDamageDice);
+        eventValue(value.facilitiesDestroyed ? 1 : 0); eventValue(value.majorBugs); eventValue(value.minorBugs);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2095)
     {
         local code = args[1];

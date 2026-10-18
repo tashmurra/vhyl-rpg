@@ -973,6 +973,32 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_prototype_assessments(s):
+    for penalty in [0,1,10]:
+        s.action(2101,penalty)
+        assert last(s,'test.prototype-team') == [1-penalty,0,0]
+    for args,expected in [
+            (('simple',1,1),[1,1,'days',1]),(('simple',1,6),[4,1,'days',1]),
+            (('simple',4,6),[4,4,'days',1]),(('average',2,3,4),[7,2,'days',1]),
+            (('average',20,6,6),[20,20,'days',1]),(('complex',3,5),[5,3,'months',1]),
+            (('amazing',4,2,3,4),[9,4,'months',1])]:
+        s.action(2099,*args)
+        assert last(s,'test.prototype-duration') == expected + [0,0]
+    for args,expected in [
+            ((12,10,0,5,6),['resolved',None,1,0,0,0,0,2,6]),
+            ((13,10,0,5),['resolved',None,1,0,0,0,0,0,2]),
+            ((13,10,0,1),['resolved',None,1,0,0,0,0,0,0]),
+            ((12,4,0),['resolved',None,1,0,0,0,0,0,0]),
+            ((12,13,0),['resolved',None,0,0,0,0,0,0,0]),
+            ((12,17,0),['resolved',None,0,0,1,2,1,0,0]),
+            ((12,10,1),['resolved',None,0,0,0,0,0,0,0]),
+            ((12,4,1),['resolved',None,0,1,0,0,0,0,0]),
+            ((12,17,1),['resolved',None,0,0,1,2,1,0,0]),
+            ((2,4,0),['blocked','too-difficult',0,0,0,0,0,0,0])]:
+        s.action(2100,*args)
+        assert last(s,'test.prototype-outcome') == expected + [0,0]
+
+
 def concept_state(s):
     s.action(2098)
     return last(s,'test.concept-state')
@@ -6063,6 +6089,7 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')
+    fresh(Session,technology,test_prototype_assessments)
     test_invention_proposals(Session,technology)
     fresh(Session,technology,test_broken_weapons)
     fresh(Session,technology,test_object_capacity)

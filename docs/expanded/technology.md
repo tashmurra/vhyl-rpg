@@ -774,3 +774,39 @@ theories, previews, rollback, replay, proposal retargeting, global daily limits,
 clock boundaries, undo and cross-process continuation. These fixtures are unrun.
 Blueprint entry, prototype construction, discovering flawed theories, calendar
 variants and cinematic invention remain incomplete.
+
+
+## Prototype duration and secret outcomes
+
+`rpgExpandedPrototypeDuration(category, dice, workers)` accepts exactly the
+source-prescribed number of supplied dice. It returns a rational duration through
+`numerator`, `denominator` and `unit`, plus `minimumDays = 1`. Day-based results
+already enforce that minimum; month-based results retain calendar units, with the
+minimum to be applied when an authored calendar resolves the duration. A month is
+not silently treated as thirty days. The worker count must represent the skilled
+people actually assigned; this helper does not reserve their schedules.
+
+`rpgExpandedPrototypeTeamModifier(proposal, assistants, toolsPenalty)` counts each
+unique assistant once when they have a trained required skill of at least twenty,
+caps the assistant bonus at four, and subtracts an authored tools penalty from
+zero through ten. The inventor cannot be included as their own assistant. This
+is qualification arithmetic, not proof of availability for the whole project.
+
+`rpgExpandedPrototypeOutcome(score, roll, flawed, bugDice)` assesses a supplied
+secret roll. A flawed theory cannot yield a working prototype; critical success
+reveals its flaw. Critical failure marks facilities destroyed and an accident
+requiring at least two damage dice for each participant. It does not apply injury
+or invent the accident's damage type, protection interaction or extra severity.
+
+Working critical success needs no bug dice. Other success needs one die for a
+margin of at least three, otherwise two dice (major count first, minor count
+second). Half-die bug counts round down under the general character-result
+rounding convention in B9. Irrelevant or missing dice reject. The result carries
+counts only; concrete defect descriptions, discovery and consequences remain to
+be authored in the owned prototype stage.
+
+All three helpers are pure assessments. Funding, work reservations, elapsed time,
+prototype creation, actual accident injuries and defect lifecycle remain pending.
+`test_prototype_assessments` authors duration boundaries, team qualification,
+margin boundaries, odd half-dice, flawed theories and accidents; it is unrun while
+checks remain paused. Neutral source: `full-2008`, B9 and B474.

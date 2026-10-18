@@ -381,9 +381,12 @@
       "pages": "B473-B474",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Prototype checks are secret and retain concept modifiers. Each qualifying assistant with a required skill at least twenty adds +1, maximum +4; inadequate facilities impose an authored -1 through -10.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_prototype_assessments"
+      ],
+      "validation_note": "Pure supplied-dice duration, qualified-team modifiers and secret outcome assessments authored; fixtures unrun. Owned work/funding, injuries, actual defects and lifecycle remain pending."
     },
     {
       "id": "technology-prototype-failure",
@@ -391,9 +394,12 @@
       "pages": "B474",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Failed prototypes may be retried only with new time and attempt cost. Critical failure causes an authored accident dealing at least two dice damage to inventor and every assistant and destroys facilities, requiring full rebuilding.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_prototype_assessments"
+      ],
+      "validation_note": "Pure supplied-dice duration, qualified-team modifiers and secret outcome assessments authored; fixtures unrun. Owned work/funding, injuries, actual defects and lifecycle remain pending."
     },
     {
       "id": "technology-flawed-theory",
@@ -411,9 +417,12 @@
       "pages": "B474",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Divide prototype work duration by skilled workers, with minimum one day. Physically huge projects can require an authored extension; retain each participant's time reservation.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_prototype_assessments"
+      ],
+      "validation_note": "Pure supplied-dice duration, qualified-team modifiers and secret outcome assessments authored; fixtures unrun. Owned work/funding, injuries, actual defects and lifecycle remain pending."
     },
     {
       "id": "technology-ordinary-facilities",
@@ -441,9 +450,12 @@
       "pages": "B474",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Critical prototype success has no bugs; success by at least three creates half a die of minor bugs; other success creates half a die major plus one die minor bugs. Resolve fractional counts using the supplied general rounding rule after cross-reference verification.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_prototype_assessments"
+      ],
+      "validation_note": "Pure supplied-dice duration, qualified-team modifiers and secret outcome assessments authored; fixtures unrun. Owned work/funding, injuries, actual defects and lifecycle remain pending."
     },
     {
       "id": "technology-testing",

@@ -1516,3 +1516,83 @@ class RpgExpandedInventionConcept: object
         self.project.theory = value.theory; value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+class RpgExpandedPrototypeDuration: object
+    numerator = 0
+    denominator = 1
+    unit = 'days'
+    minimumDays = 1
+;
+
+/** Supplied dice preserve preview purity; months remain authored calendar units. */
+rpgExpandedPrototypeDuration(category, dice, workers)
+{
+    if (!holds(['simple','average','complex','amazing'],category)) rpgExpandedReject('prototype-category');
+    rpgInteger(workers,1,1000000);
+    local count = category == 'average' ? 2 : category == 'amazing' ? 3 : 1;
+    if (dice.length() != count) rpgExpandedReject('prototype-duration-dice');
+    local total = 0;
+    foreach (local die in dice) { rpgInteger(die,1,6); total += die; }
+    local value = new RpgExpandedPrototypeDuration(); value.denominator = workers;
+    value.unit = category == 'simple' || category == 'average' ? 'days' : 'months';
+    if (category == 'simple') total -= 2;
+    if (value.unit == 'days' && total < workers) total = workers;
+    value.numerator = total; return value;
+}
+
+class RpgExpandedPrototypeOutcome: RpgExpandedResult
+    working = nil
+    revealedFlaw = nil
+    accident = nil
+    minimumDamageDice = 0
+    facilitiesDestroyed = nil
+    majorBugs = 0
+    minorBugs = 0
+;
+
+/** Secret result assessment, B474; no damage, purchases or calendar advancement. */
+rpgExpandedPrototypeOutcome(score, roll, flawed, bugDice)
+{
+    local value = new RpgExpandedPrototypeOutcome(); value.check = rpgCheck(score,roll);
+    if (value.check.status != 'resolved')
+    {
+        if (bugDice.length() != 0) rpgExpandedReject('prototype-unused-bug-dice');
+        value.reason = value.check.reason; return value;
+    }
+    value.status = 'resolved';
+    if (value.check.critical == 'failure')
+    { value.accident = true; value.minimumDamageDice = 2; value.facilitiesDestroyed = true; }
+    if (flawed)
+    { value.revealedFlaw = value.check.critical == 'success'; }
+    else if (value.check.achieved) value.working = true;
+    local count = !value.working || value.check.critical == 'success' ? 0 : value.check.margin >= 3 ? 1 : 2;
+    if (bugDice.length() != count) rpgExpandedReject('prototype-bug-dice');
+    foreach (local die in bugDice) rpgInteger(die,1,6);
+    if (count == 1) value.minorBugs = bugDice[1] / 2;
+    if (count == 2) { value.majorBugs = bugDice[1] / 2; value.minorBugs = bugDice[2]; }
+    return value;
+}
+
+/** B474 assistants contribute at most four; tool shortcomings are an authored penalty. */
+rpgExpandedPrototypeTeamModifier(proposal, assistants, toolsPenalty)
+{
+    if (proposal == nil || !proposal.ofKind(RpgExpandedInventionProposal)) rpgExpandedReject('prototype-proposal');
+    rpgInteger(toolsPenalty,0,10);
+    local seen = [proposal.inventor]; local bonus = 0;
+    foreach (local assistant in assistants)
+    {
+        if (assistant == nil || !assistant.ofKind(RpgLiteProfile) || holds(seen,assistant))
+            rpgExpandedReject('prototype-assistant');
+        seen = seen + [assistant]; local qualifies = nil;
+        foreach (local subject in [proposal.skill] + proposal.relatedSkills)
+        {
+            local trained = nil;
+            foreach (local training in assistant.skills)
+                if (training.skill == subject && training.points > 0) trained = true;
+            local score = trained ? assistant.skillScore(subject) : nil;
+            if (score != nil && score >= 20) qualifies = true;
+        }
+        if (qualifies && bonus < 4) bonus += 1;
+    }
+    return bonus - toolsPenalty;
+}
