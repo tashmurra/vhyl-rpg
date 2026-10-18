@@ -1320,7 +1320,7 @@ class RpgExpandedBandage: object
         { value.reason = 'bandage-earlier-wound-unavailable'; return value; }
         if (self.healer == nil || !self.healer.ofKind(RpgLiteProfile))
             rpgExpandedReject('bandage-healer');
-        if (patient.dead || patient.mortal || self.healer.dead || self.healer.unconscious || self.healer.stunned)
+        if (patient.dead || patient.mortal || self.healer.voluntaryMovementUnavailable() || self.healer.dead || self.healer.unconscious || self.healer.stunned)
         { value.reason = 'bandage-condition'; return value; }
         if (patient.diseaseInjury > 0 || patient.temperatureInjury > 0 || patient.level('unhealing') > 0)
         { value.reason = 'bandage-injury-eligibility-unavailable'; return value; }
@@ -1421,7 +1421,7 @@ class RpgExpandedFirstAid: object
             || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)
             || self.skill.id != 'first-aid' || self.skill.techLevel == nil)
             rpgExpandedReject('first-aid-definition');
-        if (patient.dead || patient.mortal || self.healer.dead || self.healer.unconscious || self.healer.stunned)
+        if (patient.dead || patient.mortal || self.healer.voluntaryMovementUnavailable() || self.healer.dead || self.healer.unconscious || self.healer.stunned)
         { value.reason = 'first-aid-condition'; return value; }
         if (patient.diseaseInjury > 0 || patient.temperatureInjury > 0 || patient.level('unhealing') > 0)
         { value.reason = 'first-aid-injury-eligibility-unavailable'; return value; }
@@ -1539,7 +1539,7 @@ class RpgExpandedSurgicalAssessment: object
             || self.conditions == nil || !self.conditions.ofKind(RpgExpandedSurgeryContext))
             rpgExpandedReject('surgical-assessment-definition');
         local value = new RpgExpandedSurgeryAssessment();
-        if (self.surgeon.dead || self.surgeon.unconscious || self.surgeon.stunned
+        if (self.surgeon.voluntaryMovementUnavailable() || self.surgeon.dead || self.surgeon.unconscious || self.surgeon.stunned
             || self.surgeon.mentalStun || self.surgeon.mortal || self.surgeon.fp() <= 0)
         { value.reason = 'surgical-assessment-incapacity'; return value; }
         local technology = rpgExpandedTechnologyModifier(self.skill.techLevel,self.conditions.techLevel,true);
@@ -1846,7 +1846,7 @@ class RpgExpandedCardiacResuscitation: object
             || !holds(['first-aid','physician'],self.skill.id) || self.skill.techLevel == nil
             || self.skill.attribute != rpgIQ || self.skill.difficulty != (self.skill.id == 'first-aid' ? 0 : 2))
             rpgExpandedReject('resuscitation-definition');
-        if (self.healer.dead || self.healer.unconscious || self.healer.stunned || self.healer.mentalStun
+        if (self.healer.voluntaryMovementUnavailable() || self.healer.dead || self.healer.unconscious || self.healer.stunned || self.healer.mentalStun
             || self.healer.mortal || self.healer.fp() <= 0 || patient.mortal)
         { value.reason = 'resuscitation-condition-unavailable'; return value; }
         if (self.careEvidence == nil || self.careEvidence == '')
@@ -3582,7 +3582,7 @@ class RpgExpandedBleedingAid: object
         local patient = self.episode.classification.wound.profile;
         if (self.episode.stoppedAt != nil || patient.dead || patient.bleedingEpisode != self.episode)
         { value.reason = 'bleeding-episode-inactive'; return value; }
-        if (self.healer.dead || self.healer.unconscious || self.healer.mortal
+        if (self.healer.voluntaryMovementUnavailable() || self.healer.dead || self.healer.unconscious || self.healer.mortal
             || self.healer.stunned || self.healer.mentalStun)
         { value.reason = 'bleeding-aid-healer-incapacity'; return value; }
         if (!self.approved || self.careEvidence == nil || self.careEvidence == '')
@@ -4354,7 +4354,7 @@ class RpgExpandedClottingBandage: RpgExpandedBandage
         if (self.episode.care != 'untreated' || self.episode.firstAid != nil || self.wound.bandage != nil)
         { value.reason = 'clotting-bandage-already-treated'; return value; }
         if (self.healer == nil || !self.healer.ofKind(RpgLiteProfile)) rpgExpandedReject('clotting-bandage-healer');
-        if (patient.dead || patient.mortal || self.healer.dead || self.healer.unconscious || self.healer.stunned)
+        if (patient.dead || patient.mortal || self.healer.voluntaryMovementUnavailable() || self.healer.dead || self.healer.unconscious || self.healer.stunned)
         { value.reason = 'clotting-bandage-condition'; return value; }
         if (patient.diseaseInjury > 0 || patient.temperatureInjury > 0 || patient.level('unhealing') > 0)
         { value.reason = 'clotting-bandage-injury-combination-unimplemented'; return value; }
@@ -4380,7 +4380,7 @@ class RpgExpandedClottingBandage: RpgExpandedBandage
             if (current[index] != definition[index]) rpgExpandedReject('clotting-bandage-interrupted');
         if (rpgLedger.seconds != start + 60 || self.episode.care != 'untreated' || self.wound.bandage != nil
             || self.wound.profile.dead || self.wound.profile.mortal || self.healer.dead
-            || self.healer.unconscious || self.healer.stunned) rpgExpandedReject('clotting-bandage-interrupted');
+            || self.healer.voluntaryMovementUnavailable() || self.healer.unconscious || self.healer.stunned) rpgExpandedReject('clotting-bandage-interrupted');
         return self.commitHealing(value);
     }
     commitHealing(value)
@@ -4918,7 +4918,7 @@ class RpgExpandedTraumaMaintenance: object
         if (self.skill.techLevel < 6) { value.reason = 'trauma-maintenance-technology'; return value; }
         if (!self.approved || self.equipmentEvidence == nil || self.equipmentEvidence == '')
         { value.reason = 'trauma-maintenance-equipment'; return value; }
-        if (!self.patient.mortal || self.patient.dead || self.caregiver.dead || self.caregiver.unconscious
+        if (!self.patient.mortal || self.patient.dead || self.caregiver.voluntaryMovementUnavailable() || self.caregiver.dead || self.caregiver.unconscious
             || self.caregiver.mortal || self.caregiver.stunned || self.caregiver.mentalStun)
         { value.reason = 'trauma-maintenance-condition'; return value; }
         if (self.startedAt == nil)
@@ -5295,7 +5295,7 @@ class RpgExpandedPersistentDressing: object
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'persistent-dressing-care-required'; return value; }
         if (self.patient.dead || self.patient.level('persistent-wound') == 0
-            || self.healer.dead || self.healer.unconscious || self.healer.mortal || self.healer.stunned || self.healer.mentalStun)
+            || self.healer.voluntaryMovementUnavailable() || self.healer.dead || self.healer.unconscious || self.healer.mortal || self.healer.stunned || self.healer.mentalStun)
         { value.reason = 'persistent-dressing-condition'; return value; }
         foreach (local prior in self.patient.persistentDressings)
         {

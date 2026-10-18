@@ -28,6 +28,14 @@ modify BleedTestAction
         if (code == 457) { paralysisMental.requiresSpeech = true; return nil; }
         if (code == 458) { paralysisEpisode.balanced = true; return nil; }
         if (code == 459) { paralysisEpisode.positionAssessed = nil; return nil; }
+        if (code == 460) { bleedBandage.healer = bleedProfile; bleedAid.healer = bleedProfile; return nil; }
+        if (code == 461)
+        {
+            local value = bleedBandage.apply(); event('test.paralysis-care');
+            eventValue(value.status); eventValue(value.reason); eventValue(bleedProfile.injury);
+            eventValue(bleedBandage.result == nil ? 0 : 1);
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
         return inherited(context);
     }
 ;

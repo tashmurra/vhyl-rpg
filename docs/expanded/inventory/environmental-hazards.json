@@ -258,7 +258,7 @@
       "tests": [
         "tests/expanded.py::test_paralysis"
       ],
-      "validation_note": "Owned finite conscious paralysis now applies balanced-position onset, voluntary movement/speech restrictions, Do Nothing handling and explicit mental-ability permission through the shared action gate. Permission fields are receipt-bound. Fixtures authored, unrun. Poison causes, height falls and individual power/defense adapters remain incomplete."
+      "validation_note": "Owned finite conscious paralysis now applies balanced-position onset, voluntary movement/speech restrictions, Do Nothing handling and explicit mental-ability permission through the shared action gate. Permission fields are receipt-bound. Physical medical care now consults movement availability; bandaging boundary assertions specify no time, healing or randomness while paralyzed and normal care after expiry. Fixtures authored, unrun. Poison causes, height falls and individual power/defense adapters remain incomplete."
     },
     {
       "id": "condition-retching",

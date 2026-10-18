@@ -534,3 +534,11 @@ restricts voluntary movement and speech. Explicit mental abilities requiring
 neither can use the existing owned action gate, with receipt-bound permissions.
 Added a minimal authored, unrun fixture for expiry, rollback, undo and saved
 continuation. Poison causes and specialized combat adapters remain incomplete.
+
+
+Physical medical procedures now consult the practitioner's movement availability
+before starting care. This closes a conscious-paralysis bypass in bandaging,
+first aid, surgery, resuscitation, bleeding/clotting care, trauma maintenance,
+dressing and poison treatment. Identified-antidote administration also checks
+movement. Added authored, unrun bandaging boundary assertions; checks remain
+paused during implementation.

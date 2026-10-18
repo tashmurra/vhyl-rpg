@@ -3048,7 +3048,7 @@ class RpgExpandedAntidoteAdministration: object
             if (self.identification.exposure != e || self.identification.examiner != self.administrator
                 || !self.identification.result.identified)
             { value.reason = 'antidote-not-identified'; return value; }
-            if (self.administrator.dead || self.administrator.unconscious || self.administrator.mortal
+            if (self.administrator.voluntaryMovementUnavailable() || self.administrator.dead || self.administrator.unconscious || self.administrator.mortal
                 || self.administrator.stunned || self.administrator.mentalStun)
             { value.reason = 'antidote-administrator-condition'; return value; }
         }
@@ -3176,7 +3176,7 @@ class RpgExpandedPoisonTreatment: object
         if ((self.kind == 'wound' && !holds(['blood','follow-up'],e.entry.route))
             || (self.kind == 'digestive' && e.entry.route != 'digestive'))
         { value.reason = 'poison-treatment-route'; return value; }
-        if (self.healer.dead || self.healer.unconscious || self.healer.mortal || self.healer.stunned || self.healer.mentalStun)
+        if (self.healer.voluntaryMovementUnavailable() || self.healer.dead || self.healer.unconscious || self.healer.mortal || self.healer.stunned || self.healer.mentalStun)
         { value.reason = 'poison-treatment-healer-condition'; return value; }
         foreach (local prior in e.profile.poisonTreatments)
         {

@@ -2587,3 +2587,14 @@ blocked physical action and speech, a permitted mental ability, rejection when
 speech is required, exact expiry, preview, replay, rollback, undo and saved
 continuation. Fixtures remain unrun. Poison-caused paralysis, cause-specific
 recovery and falling from height still need their own integrations.
+
+
+Physical medical care checks the practitioner's `voluntaryMovementUnavailable()`
+hook before starting: bandaging, first aid, bleeding control, surgical assessment,
+resuscitation, clotting care, trauma maintenance and persistent-wound dressing.
+The hazards library also checks poison treatment and identified-antidote
+administration. The Lite hook defaults to false. A paralyzed practitioner cannot
+spend the care interval to wait out paralysis and then receive credit for care.
+The paralysis fixture specifies blocked bandaging at onset and just before
+expiry, followed by normal care after expiry; these assertions remain unrun.
+Cognitive observation and knowledge checks retain their separate permissions.

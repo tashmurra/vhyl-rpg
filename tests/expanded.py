@@ -12053,3 +12053,19 @@ def test_paralysis(Session, bundle, out):
         assert state(s) == clear
     finally:
         s.close()
+
+    # B429: physical care is unavailable even when its check would use IQ.
+    # Rejected care cannot wait out the condition or grant a healing receipt.
+    s = Session(bundle)
+    try:
+        for code in (0, 460, 451, 461):
+            s.action(2285, code)
+        assert last(s, 'test.paralysis-care') == ['blocked', 'bandage-condition', 2, 0, 0, 0]
+        s.action(2285, 414)
+        s.action(2285, 461)
+        assert last(s, 'test.paralysis-care') == ['blocked', 'bandage-condition', 2, 0, 59, 0]
+        s.action(2285, 415)
+        s.action(2285, 461)
+        assert last(s, 'test.paralysis-care') == ['resolved', None, 1, 1, 120, 0]
+    finally:
+        s.close()
