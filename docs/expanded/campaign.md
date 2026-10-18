@@ -244,3 +244,41 @@ retarget rejection, exception rollback and undo. See `test_control_table`,
 `test_control_question` and `test_control_certain` in `tests/expanded.py`. These
 checks remain unrun; reaction encounters and their concrete consequences are still
 separate pending integrations.
+
+## Starting wealth
+
+Install one owned `RpgExpandedWealth` in `profile.contributions`. Its `wealthLevel`
+selects `none`, `poor`, `struggling`, `average`, `comfortable`, `wealthy`,
+`very-wealthy`, `filthy-rich` or `multimillionaire`. The last uses positive
+`extraLevels`; other levels require zero. Its point cost contributes to the normal
+character ledger. Combining it with another wealth contribution or a Lite wealth
+trait is rejected. Spending cash does not automatically change purchased wealth.
+
+`startingValue(campaignTL)` implements B25–B27's wealth factors and technology
+values. It uses the campaign level, regardless of personal technology. The ordinary
+levels range from no assets through 100 times average; each extra high-wealth
+level costs another 25 points and multiplies assets by ten. Values exceeding the
+signed integer money bound are rejected before multiplication. Associated employment,
+status and ongoing economic effects remain pending.
+
+An owned `RpgExpandedWealthAllocation` references the profile and its wealth
+contribution. Before any equipment purchases and before `creationComplete`, use
+`assess()` and then `allocate()` inside an action. The default puts 20% in the
+existing money ledger and records 80% as `settledAssets` in the allocation receipt.
+That property value is not another spendable bank. Set `mobile` and
+`mobileApproved` for an authored exception allocating all starting assets to
+movable possessions. Poverty alone does not automatically approve the exception.
+
+Allocation requires a zero opening cash balance and empty equipment inventory.
+Repeated use returns the stored allocation; another allocation for the same profile
+is blocked. A committed allocation cannot be moved to a different profile or wealth
+purchase. Validate the completed character with the characters module to enforce
+its overall point budget; allocation does not grant permission to bypass that
+budget. Actual homes, wardrobes and other settled possessions still require their
+item/economic implementation, and existing-inventory reconciliation remains
+unsupported rather than crediting starting funds twice.
+
+`tests/expanded.py::test_starting_wealth` includes every technology row, wealth
+factors and costs, integer limits, campaign-versus-personal technology, allocation
+approval, preview purity, one-time funding, rollback and undo. These cases are
+authored but unrun while validation is paused.

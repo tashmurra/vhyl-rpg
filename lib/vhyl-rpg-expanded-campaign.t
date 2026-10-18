@@ -179,3 +179,113 @@ class RpgExpandedControlQuestion: object
         self.outcome = result; self.evidence = evidence; return self.receipt('resolved');
     }
 ;
+
+/** Purchased wealth contribution, B25-B27. Financial status is separate from
+ * current cash: neither spending nor receiving money changes this purchase. */
+class RpgExpandedWealth: RpgExpandedContribution
+    id = 'wealth'
+    wealthLevel = 'average'
+    extraLevels = 0
+    rank()
+    {
+        local levels = ['none','poor','struggling','average','comfortable','wealthy','very-wealthy','filthy-rich','multimillionaire'];
+        rpgInteger(self.extraLevels, 0, 8);
+        if (self.wealthLevel == 'multimillionaire' ? self.extraLevels < 1 : self.extraLevels != 0)
+            rpgExpandedReject('wealth-level');
+        for (local index = 1; index <= levels.length(); index += 1)
+            if (levels[index] == self.wealthLevel) return index;
+        rpgExpandedReject('wealth-level'); return nil;
+    }
+    amounts(profile)
+    {
+        local prices = [-25,-15,-10,0,10,20,30,50,50];
+        return [prices[self.rank()] + self.extraLevels * 25];
+    }
+    validate(profile)
+    {
+        self.rank();
+        foreach (local entry in profile.contributions)
+            if (entry != self && entry.ofKind(RpgExpandedWealth)) rpgExpandedReject('duplicate-wealth');
+        foreach (local trait in profile.traits)
+            if (trait.ofKind(RpgLiteTrait) && holds(['dead-broke','poor','struggling','comfortable','wealthy','very-wealthy','filthy-rich'],trait.id))
+                rpgExpandedReject('duplicate-wealth');
+        return nil;
+    }
+    startingValue(campaignTL)
+    {
+        rpgInteger(campaignTL, 0, 12);
+        local values = [250,500,750,1000,2000,5000,10000,15000,20000,30000,50000,75000,100000];
+        local amount = values[campaignTL + 1]; local rank = self.rank();
+        if (rank == 1) return 0;
+        if (rank == 2) return amount / 5;
+        if (rank == 3) return amount / 2;
+        if (rank == 5) amount *= 2;
+        if (rank == 6) amount *= 5;
+        if (rank == 7) amount *= 20;
+        if (rank >= 8) amount *= 100;
+        for (local index = 0; index < self.extraLevels; index += 1)
+        {
+            if (amount > 214748364) rpgExpandedReject('wealth-value-limit');
+            amount *= 10;
+        }
+        return amount;
+    }
+;
+
+modify RpgExpandedProfile
+    startingWealthAllocation = nil
+;
+
+class RpgExpandedWealthResult: RpgExpandedResult
+    total = 0
+    cash = 0
+    settledAssets = 0
+;
+
+/** Allocate starting property once, before item purchases. Settled assets are
+ * an earmarked property value in this receipt, never a second spendable bank. */
+class RpgExpandedWealthAllocation: object
+    profile = nil
+    wealth = nil
+    mobile = nil
+    mobileApproved = nil
+    boundProfile = nil
+    boundWealth = nil
+    total = 0
+    cash = 0
+    settledAssets = 0
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.wealth == nil || !self.wealth.ofKind(RpgExpandedWealth)
+            || self.wealth.owner != self.profile || !holds(self.profile.contributions,self.wealth))
+            rpgExpandedReject('wealth-allocation-owner');
+        if (self.boundProfile != nil && (self.profile != self.boundProfile || self.wealth != self.boundWealth))
+            rpgExpandedReject('wealth-allocation-retargeted');
+        local value = new RpgExpandedWealthResult();
+        if (self.profile.startingWealthAllocation != nil)
+        {
+            if (self.profile.startingWealthAllocation != self)
+            { value.reason = 'starting-wealth-already-allocated'; return value; }
+            value.status = 'reused'; value.total = self.total; value.cash = self.cash;
+            value.settledAssets = self.settledAssets; return value;
+        }
+        rpgExpandedValidate(self.profile);
+        if (self.profile.creationComplete) { value.reason = 'starting-wealth-creation-only'; return value; }
+        if (self.profile.money != 0 || self.profile.equipment.length() != 0)
+        { value.reason = 'starting-wealth-opening-balance'; return value; }
+        if (self.mobile && !self.mobileApproved)
+        { value.reason = 'mobile-wealth-unapproved'; return value; }
+        value.total = self.wealth.startingValue(self.profile.campaignTL);
+        value.cash = self.mobile ? value.total : value.total / 5;
+        value.settledAssets = value.total - value.cash; value.status = 'ready'; return value;
+    }
+    allocate()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.total = value.total; self.cash = value.cash; self.settledAssets = value.settledAssets;
+        self.boundProfile = self.profile; self.boundWealth = self.wealth;
+        self.profile.money = value.cash; self.profile.startingWealthAllocation = self;
+        value.status = 'resolved'; return value;
+    }
+;

@@ -514,6 +514,18 @@
         "tests/expanded.py::test_control_certain"
       ],
       "validation_note": "Owned uncertain-question roll, deterministic outcomes and explicit tie-completion contract authored. New checks unrun; reaction/encounter consequence integration pending."
+    },
+    {
+      "id": "starting-wealth-allocation",
+      "module": "campaign",
+      "pages": "B25-B27",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedWealthAllocation",
+      "tests": [
+        "tests/expanded.py::test_starting_wealth"
+      ],
+      "validation_note": "Wealth costs, full technology/factor table and one-time cash/property allocation authored. Checks unrun; associated status, employment and actual settled possessions pending."
     }
   ],
   "detailed_inventories": [

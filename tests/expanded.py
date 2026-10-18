@@ -528,6 +528,43 @@ def test_control_certain(s):
     assert control_state(s) == ['overlooked', None, True, None, 0, 0]
 
 
+def wealth_state(s):
+    s.action(1156)
+    return last(s, 'test.wealth-state')
+
+
+def test_starting_wealth(s):
+    for tl, amount in enumerate([250, 500, 750, 1000, 2000, 5000, 10000,
+                                 15000, 20000, 30000, 50000, 75000, 100000]):
+        s.action(1155, tl, 'average', 0)
+        assert last(s, 'test.wealth-table') == [amount, 0]
+    for level, extra, amount, cost in [
+            ('none', 0, 0, -25), ('poor', 0, 4000, -15), ('struggling', 0, 10000, -10),
+            ('comfortable', 0, 40000, 10), ('wealthy', 0, 100000, 20),
+            ('very-wealthy', 0, 400000, 30), ('filthy-rich', 0, 2000000, 50),
+            ('multimillionaire', 1, 20000000, 75), ('multimillionaire', 3, 2000000000, 125)]:
+        s.action(1155, 8, level, extra)
+        assert last(s, 'test.wealth-table') == [amount, cost]
+    initial = wealth_state(s)
+    s.action(1157)
+    assert last(s, 'test.wealth-preview') == ['ready', 20000, 4000, 16000]
+    assert wealth_state(s) == initial
+    s.action(1158)
+    assert last(s, 'test.wealth-gates') == [
+        'mobile-wealth-unapproved', 200, 'starting-wealth-opening-balance',
+        'starting-wealth-creation-only', 'wealth-value-limit']
+    s.action(1100, 22)
+    assert wealth_state(s) == initial
+    s.action(1100, 21)
+    funded = wealth_state(s)
+    assert funded == [4000, 20000, 4000, 16000, 0, 0]
+    s.command('undo')
+    assert wealth_state(s) == initial
+    s.action(1100, 21); s.action(1100, 21)
+    assert last(s, 'test.wealth-allocation') == ['reused', None, 4000]
+    assert wealth_state(s) == funded
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -605,7 +642,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')

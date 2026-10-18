@@ -34,6 +34,9 @@ purchaseItem: RpgLiteItem id = 'field-tools' cost = 40 weight = 200 dr = 3;
 purchaseOffer: RpgExpandedAcquisition profile = purchaseHero item = purchaseItem available = true permitted = true;
 purchaseStorage: RpgExpandedEquipmentStorage profile = purchaseHero item = purchaseItem destination = 'workshop' accessible = true;
 controlQuestion: RpgExpandedControlQuestion subject = expandedHero contextId = 'checkpoint' controlRating = 2 approved = true;
+wealthHero: RpgExpandedProfile rules = expandedRules campaignTL = 8 techLevel = 10 contributions = [wealthPurchase];
+wealthPurchase: RpgExpandedWealth owner = wealthHero;
+wealthAllocation: RpgExpandedWealthAllocation profile = wealthHero wealth = wealthPurchase;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -86,6 +89,12 @@ class ExpandedTestAction: Action
         {
             local value = controlQuestion.completeEncounter('overlooked','checkpoint-dialogue');
             event('test.control'); eventValue(value.status); eventValue(value.reason); eventValue(value.outcome);
+        }
+        if (code == 21 || code == 22)
+        {
+            local value = wealthAllocation.allocate(); event('test.wealth-allocation');
+            eventValue(value.status); eventValue(value.reason); eventValue(value.cash);
+            if (code == 22) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -787,6 +796,38 @@ act(verb, args)
     {
         local value = controlQuestion.assess(); event('test.control');
         eventValue(value.status); eventValue(value.reason); eventValue(value.outcome); return nil;
+    }
+    if (verb == 1155)
+    {
+        local wealth = new RpgExpandedWealth(); wealth.wealthLevel = args[2]; wealth.extraLevels = args[3];
+        event('test.wealth-table'); eventValue(wealth.startingValue(args[1])); eventValue(wealth.amounts(nil)[1]);
+        return nil;
+    }
+    if (verb == 1156)
+    {
+        event('test.wealth-state'); eventValue(wealthHero.money); eventValue(wealthAllocation.total);
+        eventValue(wealthAllocation.cash); eventValue(wealthAllocation.settledAssets);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1157)
+    {
+        local value = wealthAllocation.assess(); event('test.wealth-preview'); eventValue(value.status);
+        eventValue(value.total); eventValue(value.cash); eventValue(value.settledAssets); return nil;
+    }
+    if (verb == 1158)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        local wealth = new RpgExpandedWealth(); wealth.owner = p; wealth.wealthLevel = 'poor';
+        p.contributions = [wealth];
+        local allocation = new RpgExpandedWealthAllocation(); allocation.profile = p; allocation.wealth = wealth;
+        allocation.mobile = true; event('test.wealth-gates'); eventValue(allocation.assess().reason);
+        allocation.mobileApproved = true; eventValue(allocation.assess().cash);
+        p.money = 1; eventValue(allocation.assess().reason); p.money = 0;
+        p.creationComplete = true; eventValue(allocation.assess().reason);
+        wealth.wealthLevel = 'multimillionaire'; wealth.extraLevels = 4;
+        try { wealth.startingValue(8); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
     }
     return vhylAct(verb,args);
 }
