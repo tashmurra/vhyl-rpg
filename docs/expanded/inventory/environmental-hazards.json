@@ -2510,9 +2510,10 @@
       "status": "partial",
       "acceptance": "A drowning rescue also requires the specified first-aid/resuscitation success to clear water; access to clean air alone is insufficient.",
       "tests": [
-        "tests/expanded.py::test_drowning_care"
+        "tests/expanded.py::test_drowning_care",
+        "tests/expanded.py::test_drowning_interruption"
       ],
-      "validation_note": "Owned staged B425 minute validates healer, technology, skill and access, retaining ongoing shared airless-second costs. Successful medical check authorizes clean-air recovery and applicable brain-loss checks, without healing injury/fatigue. Concurrent and early attempts reject. Interrupted treatment and native rescuer actions remain pending. Fixtures authored, unrun."
+      "validation_note": "Owned staged B425 minute validates healer, technology, skill and access, retaining ongoing shared airless-second costs. Successful medical check authorizes clean-air recovery and applicable brain-loss checks, without healing injury/fatigue. Concurrent and early attempts reject. Explicit interruption retains elapsed exposure costs, releases a distinct retry and blocks cancelled completion. The shared clock cannot skip an unfinished completion boundary. Native rescuer actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "hazard-suffocation-brain",

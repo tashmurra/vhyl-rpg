@@ -6710,6 +6710,7 @@ class RpgExpandedDrowningExposure: RpgExpandedAirlessExposure
             || self.clearedBy.result.check == nil || !self.clearedBy.result.check.achieved
             || !holds(self.resuscitations,self.clearedBy))
         { value.reason = 'drowning-resuscitation-required'; return value; }
+        self.clearedBy.validateReceipt();
         return inherited(evidence);
     }
 ;
@@ -6731,10 +6732,46 @@ class RpgExpandedDrowningResuscitation: object
     evidence = nil
     startedAt = nil
     completedAt = nil
+    cancelledAt = nil
+    cancellationEvidence = nil
+    boundCancellation = nil
+    boundCancelledAt = nil
+    boundStartedAt = nil
+    boundSucceeded = nil
     boundDefinition = nil
     result = nil
     definition()
     { return [self.id,self.exposure,self.healer,self.skill,self.modernTechnique,self.modifier,self.approved,self.evidence]; }
+    validateReceipt()
+    {
+        if (self.startedAt == nil || self.startedAt != self.boundStartedAt || self.boundDefinition == nil
+            || !holds(self.exposure.resuscitations,self)) rpgExpandedReject('drowning-care-history');
+        local facts = self.definition();
+        if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('drowning-care-binding');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('drowning-care-binding');
+        if (self.cancelledAt != nil)
+        {
+            if (self.cancelledAt != self.boundCancelledAt || self.cancelledAt < self.startedAt || self.cancelledAt > rpgLedger.seconds
+                || self.cancellationEvidence != self.boundCancellation || self.result != nil || self.completedAt != nil)
+                rpgExpandedReject('drowning-care-cancellation-binding');
+        }
+        else if (self.result != nil && (self.completedAt != self.startedAt + 60 || self.completedAt > rpgLedger.seconds
+            || self.result.check == nil || self.result.check.achieved != self.boundSucceeded))
+            rpgExpandedReject('drowning-care-result-binding');
+        return nil;
+    }
+    cancel(evidence)
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt == nil) { value.reason = 'drowning-care-not-started'; return value; }
+        self.validateReceipt();
+        if (self.cancelledAt != nil) { value.status = 'reused'; return value; }
+        if (self.result != nil) { value.reason = 'drowning-care-already-completed'; return value; }
+        if (evidence == nil || evidence == '') { value.reason = 'drowning-care-cancellation-evidence'; return value; }
+        self.cancelledAt = rpgLedger.seconds; self.boundCancelledAt = self.cancelledAt; self.cancellationEvidence = evidence; self.boundCancellation = evidence;
+        value.status = 'resolved'; return value;
+    }
     assess()
     {
         local value = new RpgExpandedDrowningCareResult();
@@ -6744,13 +6781,8 @@ class RpgExpandedDrowningResuscitation: object
             || self.skill.difficulty != (self.skill.id == 'first-aid' ? 0 : 2) || self.skill.techLevel == nil)
             rpgExpandedReject('drowning-care-definition');
         self.exposure.validateBinding();
-        if (self.startedAt != nil)
-        {
-            local facts = self.definition();
-            for (local i = 1; i <= facts.length(); i += 1)
-                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('drowning-care-binding');
-            if (!holds(self.exposure.resuscitations,self)) rpgExpandedReject('drowning-care-history');
-        }
+        if (self.startedAt != nil) self.validateReceipt();
+        if (self.cancelledAt != nil) { value.reason = 'drowning-care-cancelled'; return value; }
         if (self.result != nil) { value.status = 'reused'; return value; }
         local patient = self.exposure.profile;
         if (patient.dead || self.exposure.endedAt != nil || patient.airlessExposure != self.exposure)
@@ -6770,7 +6802,7 @@ class RpgExpandedDrowningResuscitation: object
         local score = rpgLiteScore(self.healer,value.context);
         if (score == nil || score < 3) { value.reason = 'drowning-care-score-unavailable'; return value; }
         foreach (local prior in self.exposure.resuscitations)
-            if (prior != self && (prior.id == self.id || prior.result == nil))
+            if (prior != self && (prior.id == self.id || prior.result == nil && prior.cancelledAt == nil))
                 rpgExpandedReject('drowning-care-overlap');
         if (self.startedAt == nil && patient.airClock + procedure.seconds >= 240)
         { value.reason = 'drowning-care-insufficient-time'; return value; }
@@ -6782,7 +6814,8 @@ class RpgExpandedDrowningResuscitation: object
         if (self.startedAt != nil) { value.status = 'reused'; return value; }
         if (rpgLedger.seconds != self.exposure.lastSecondAt)
         { value.status = 'blocked'; value.reason = 'drowning-care-unresolved-air'; return value; }
-        self.startedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        rpgInteger(rpgLedger.seconds,0,2147483587);
+        self.startedAt = rpgLedger.seconds; self.boundStartedAt = self.startedAt; self.boundDefinition = self.definition();
         self.exposure.resuscitations = self.exposure.resuscitations + [self]; value.status = 'resolved'; return value;
     }
     finish()
@@ -6793,12 +6826,27 @@ class RpgExpandedDrowningResuscitation: object
         local recovery = self.exposure.assessAirRecovery(self.evidence);
         if (recovery.status != 'ready') { value.status = 'blocked'; value.reason = recovery.reason; return value; }
         value.check = rpgLiteCheck(self.healer,value.context);
-        self.completedAt = rpgLedger.seconds; self.result = value;
+        self.completedAt = rpgLedger.seconds; self.boundSucceeded = value.check.achieved; self.result = value;
         if (value.check.achieved)
         {
             self.exposure.clearedBy = self; value.recovery = self.exposure.resumeAir(self.evidence);
             if (value.recovery.status != 'resolved') rpgExpandedReject('drowning-care-recovery-changed');
         }
         value.status = 'resolved'; return value;
+    }
+;
+
+
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local care = firstObj(RpgExpandedDrowningResuscitation); care != nil; care = nextObj(care,RpgExpandedDrowningResuscitation))
+            if (care.startedAt != nil && care.cancelledAt == nil && care.result == nil && !care.exposure.profile.dead)
+            {
+                care.validateReceipt();
+                if (self.seconds + seconds > care.startedAt + 60) rpgExpandedReject('drowning-care-completion-boundary');
+            }
+        return nil;
     }
 ;

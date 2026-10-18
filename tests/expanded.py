@@ -9332,6 +9332,8 @@ def test(build):
     test_swim_submersion(Session, swim_submersion, build.out)
     drowning_care = build.build("expanded-drowning-care",ROOT / "tests/fixtures/expanded-drowning-care.t")
     test_drowning_care(Session, drowning_care, build.out)
+    drowning_interruption = build.build("expanded-drowning-interruption",ROOT / "tests/fixtures/expanded-drowning-interruption.t")
+    test_drowning_interruption(Session, drowning_interruption, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22736,5 +22738,48 @@ def test_drowning_care(Session, bundle, out):
         for code in (17402,17404):
             s.action(1910,code)
         assert last(s, 'test.drowning-care') == [1,0,-10,60,62,12]
+    finally:
+        s.close()
+
+
+def test_drowning_interruption(Session, bundle, out):
+    """Interrupted treatment releases ownership without resetting air costs; unrun."""
+    path = out / 'drowning-interruption.zsave'
+    s = Session(bundle)
+    try:
+        for code in (17000,17001,17003,17300,17400,17303,17501,17503):
+            s.action(1910,code)
+        assert last(s, 'test.care-interruption') == [0,0,1,1,3,9]
+        s.action(1910,17500)
+        s.command('undo')
+        s.action(1910,17503)
+        assert last(s, 'test.care-interruption') == [0,0,1,1,3,9]
+        for code in (17500,17500):
+            s.action(1910,code)
+        assert last(s, 'test.care-cancel')[0] == 'reused'
+        s.action(1910,17402)
+        assert last(s, 'test.drowning-care-result') == ['blocked','drowning-care-cancelled']
+        for code in (17502,17503):
+            s.action(1910,code)
+        assert last(s, 'test.care-interruption') == [1,1,2,1,3,9]
+        s.command(f':save {path}\n@1911')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1911')
+        for code in (17502,17503):
+            s.action(1910,code)
+        assert last(s, 'test.care-interruption') == [1,1,2,1,3,9]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (17000,17001,17003,17300,17400,17401,17504,17503):
+            s.action(1910,code)
+        assert last(s, 'test.care-interruption') == [0,0,1,60,62,9]
+        for code in (17500,17504,17503):
+            s.action(1910,code)
+        assert last(s, 'test.care-interruption') == [1,0,1,60,63,9]
     finally:
         s.close()

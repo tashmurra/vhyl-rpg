@@ -2696,5 +2696,13 @@ and clean-air recovery without successful water clearing reject.
 air costs, successful recovery, rollback, undo and saved replay. The synthetic
 patient has unusually high health capacity to isolate the full minute from death
 thresholds; this does not imply ordinary drowning victims survive that delay.
-Fixtures remain unrun. Interrupted or abandoned treatment and native rescuer
-actions remain outstanding.
+Call `cancel(evidence)` when care is interrupted or abandoned. Cancellation
+retains elapsed time, exposure and injury, releases the attempt for a distinct
+retry, and prevents the cancelled attempt from finishing. Repeated cancellation
+is harmless. The shared clock rejects advancing beyond an unfinished minute;
+finish or cancel that attempt before advancing further. A dead patient no longer
+holds this clock boundary.
+
+`expanded-drowning-interruption.t` / `test_drowning_interruption` specify
+cancellation, retry, completion boundaries, rollback, undo and saved replay.
+Fixtures remain unrun. Native rescuer actions remain outstanding.
