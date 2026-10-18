@@ -294,9 +294,10 @@
       "status": "partial",
       "acceptance": "Cardiac arrest sets fatigue to negative full capacity and establishes a death deadline of health/3 minutes unless resuscitated; surviving health becomes the lower of zero and current health.",
       "tests": [
-        "tests/expanded.py::test_cardiac_condition"
+        "tests/expanded.py::test_cardiac_condition",
+        "tests/expanded.py::test_cardiac_resuscitation"
       ],
-      "validation_note": "Owned onset, anatomy immunity and untreated expiry plus pure post-arrest health floors authored; fixtures unrun. Revival treatment, automatic deadlines, other death causes and transaction/persistence coverage remain incomplete."
+      "validation_note": "Owned onset, immunity, untreated expiry and uninterrupted cardiac resuscitation authored; fixtures unrun. Automatic deadlines, interrupted care, other death causes and transaction/persistence coverage remain incomplete."
     },
     {
       "id": "condition-heart-attack-death-value",

@@ -405,5 +405,33 @@ act(verb,args)
         eventValue(repeat.status); eventValue(patient.temperatureFatigue); eventValue(patient.temperatureInjury);
         eventValue(rpgRandom.draws); return nil;
     }
+    if (verb == 1922)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.ht = args[1]; patient.injury = args[2];
+        local arrest = new RpgExpandedCardiacArrest(); arrest.id = 'treated'; arrest.profile = patient; arrest.evidence = 'Confirmed trigger'; arrest.start();
+        local healer = new RpgLiteProfile(); healer.iq = 14; healer.techLevel = args[4];
+        local skill = new RpgLiteSkill(); skill.id = args[3]; skill.attribute = rpgIQ;
+        skill.difficulty = skill.id == 'first-aid' ? 0 : 2; skill.techLevel = args[4];
+        local training = new RpgTraining(); training.skill = skill; training.points = 1; healer.skills = [training];
+        local attempt = new RpgExpandedCardiacResuscitation(); attempt.id = 'one'; attempt.arrest = arrest;
+        attempt.healer = healer; attempt.skill = skill; attempt.careEvidence = 'One uninterrupted minute with appropriate equipment';
+        rpgRandom.seed(args[5]); local time = rpgLedger.seconds; local preview = attempt.assess();
+        local value = attempt.apply(); local repeat = attempt.apply(); patient.validateFeatures();
+        event('test.cardiac-treatment'); eventValue(preview.status); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.check == nil ? nil : value.check.score); eventValue(value.revived ? 1 : 0);
+        eventValue(value.injuryAdded); eventValue(patient.injury); eventValue(patient.fatigue);
+        eventValue(patient.cardiacArrest == nil ? 0 : 1); eventValue(repeat.status);
+        eventValue(arrest.attempts.length()); eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws);
+        if (value.status == 'resolved' && !value.revived)
+        {
+            local retry = new RpgExpandedCardiacResuscitation(); retry.id = 'two'; retry.arrest = arrest;
+            retry.healer = healer; retry.skill = skill; retry.careEvidence = attempt.careEvidence;
+            rpgRandom.seed(1); local next = retry.apply(); patient.validateFeatures();
+            event('test.cardiac-retry'); eventValue(next.status); eventValue(next.revived ? 1 : 0);
+            eventValue(patient.injury); eventValue(arrest.attempts.length()); eventValue(rpgLedger.seconds - time);
+            eventValue(rpgRandom.draws); return nil;
+        }
+        return nil;
+    }
     return vhylAct(verb,args);
 }

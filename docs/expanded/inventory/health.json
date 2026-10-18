@@ -941,9 +941,10 @@
       "status": "partial",
       "acceptance": "Each resuscitation attempt takes one minute and uses physician at technology seven or higher, or first aid at that technology with -4; preserve the cause-specific revival deadline.",
       "tests": [
-        "tests/expanded.py::test_resuscitation_assessment"
+        "tests/expanded.py::test_resuscitation_assessment",
+        "tests/expanded.py::test_cardiac_resuscitation"
       ],
-      "validation_note": "Pure duration and modifier assessment authored; fixtures unrun. Owned attempts, skill execution, cause-specific deadlines and revival effects remain incomplete."
+      "validation_note": "Pure procedure assessment and owned uninterrupted cardiac attempts authored; fixtures unrun. Drowning/asphyxiation revival, interrupted care, broad deadline scheduling and transaction/persistence validation remain incomplete."
     },
     {
       "id": "health-resuscitation-trained-aid",

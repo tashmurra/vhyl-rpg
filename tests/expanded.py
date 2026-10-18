@@ -896,6 +896,21 @@ def test_swimming_assessments(s):
         assert last(s, 'test.lifesaving') == expected
 
 
+def test_cardiac_resuscitation(s):
+    for kind, score in [('physician',12),('first-aid',10)]:
+        s.action(1922, 10, 2, kind, 7, 1)
+        assert last(s, 'test.cardiac-treatment') == ['ready','resolved',None,score,1,8,10,20,0,'reused',1,60,3]
+    s.action(1922, 10, 15, 'physician', 7, 1)
+    assert last(s, 'test.cardiac-treatment') == ['ready','resolved',None,12,1,0,15,20,0,'reused',1,60,3]
+    s.action(1922, 10, 2, 'physician', 7, 5)
+    assert last(s, 'test.cardiac-treatment') == ['ready','resolved',None,12,0,0,2,20,1,'reused',1,60,3]
+    assert last(s, 'test.cardiac-retry') == ['resolved',1,10,2,120,3]
+    s.action(1922, 3, 2, 'physician', 7, 1)
+    assert last(s, 'test.cardiac-treatment') == ['blocked','blocked','resuscitation-insufficient-time',None,0,0,2,6,1,'blocked',0,0,0]
+    s.action(1922, 10, 2, 'physician', 6, 1)
+    assert last(s, 'test.cardiac-treatment') == ['blocked','blocked','resuscitation-technology-unavailable',None,0,0,2,20,1,'blocked',0,0,0]
+
+
 def test_cardiac_condition(s):
     for capacity, injury, survived, total, added in [(10,2,1,10,8),(10,10,1,10,0),
             (10,15,1,15,0),(10,2,0,20,18),(10,25,0,25,0),(15,7,0,30,23)]:
@@ -4015,6 +4030,7 @@ def test(build):
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
+    fresh(Session,hazards,test_cardiac_resuscitation)
     fresh(Session,hazards,test_airless_duration)
     fresh(Session,hazards,test_airless_scheduler_conflict)
     airless_transactions = build.build('expanded-airless-transactions',ROOT / 'tests/fixtures/expanded-airless-transactions.t')

@@ -931,8 +931,8 @@ The B429 deadline is twenty seconds per point of HT, captured at onset. Repeatin
 `start()` cannot refresh it. `assessExpiry()` is pure; `expire()` at or after the
 deadline records death and clears active condition ownership. The author must
 schedule this deadline on the shared clock. Ordinary rest is rejected while the
-condition is active. This stage does not implement resuscitation, changing
-physiology or interactions with other causes of death. Do not clear the active
+condition is active. The cardiac treatment below supports uninterrupted resuscitation. Changing
+physiology and interactions with other causes of death remain incomplete. Do not clear the active
 condition manually as a substitute for a successful treatment procedure.
 
 `rpgExpandedCardiacHealth(capacity, injury, survived)` supplies the condition's
@@ -940,11 +940,50 @@ health floor using the existing injury-deficit representation. Survival requires
 at least full capacity in injury, meaning zero current HP; death requires at least
 twice capacity, meaning negative full HP. A worse existing injury total is retained.
 The helper itself changes nothing. Untreated expiry applies the death consequence
-directly without attack damage, shock or survival rolls. The successful-revival
-consequence remains an assessment until treatment integration is implemented.
+directly without attack damage, shock or survival rolls. A successful cardiac resuscitation applies the survival consequence directly,
+without an attack damage roll.
 
 `test_cardiac_condition` records duration, fatigue assignment without overflow,
 repeated onset, early expiry, exact expiry, preserved recovery restrictions,
 immunities and both health-floor formulas. Fixtures remain unrun while checks are
-paused. Treatment integration, transaction rollback, undo, save continuation and
-automatic deadline dispatch remain outstanding.
+paused. Transaction rollback, undo, save continuation, interrupted care and automatic
+deadline dispatch remain outstanding.
+
+
+## Committed cardiac resuscitation
+
+`RpgExpandedCardiacResuscitation` owns one uninterrupted attempt against an active
+`arrest`. Supply a unique `id`, an able `healer`, a technology-specific `skill`,
+any assessed contextual `modifier`, and `careEvidence` establishing uninterrupted
+access and suitable equipment for the full minute. Skill must be IQ/Easy first aid
+or IQ/Hard physician at technology seven or later. The healer's actual training
+and defaults are resolved through the shared skill scorer. First aid retains the
+minus-four cardiac penalty; the drowning/asphyxiation rescue-breathing reduction
+does not apply to cardiac arrest.
+
+`assess()` previews the attempt without spending time or randomness. It rejects
+an invalid skill, an incapacitated or exhausted healer, concurrent mortal injury,
+a missing care contract, or a completion time at or beyond the arrest deadline.
+`apply()` charges sixty seconds once and makes the skill check. Failure leaves the
+arrest active; another attempt needs a new ID and enough remaining time. Replaying
+an attempt returns its receipt, so neither a success nor a failure can be rerolled
+or refunded. The shared action transaction must enclose this operation.
+
+On success, the case records `revivedBy`, releases active arrest ownership and
+raises the injury deficit to at least full health capacity. Worse existing injury
+is retained. This is the specified post-arrest condition consequence, without
+attack shock, knockdown or a new survival roll. Fatigue remains at its negative
+capacity limit and ordinary recovery is subsequently allowed. Successful revival
+therefore does not immediately awaken or fully heal the patient. The old deadline
+cannot kill a successfully revived case.
+
+The operation supports only the uninterrupted minute asserted by the care
+contract. It does not schedule other actors' events during that minute; scenarios
+with intervening hazards, interrupted treatment, multiple simultaneous providers
+or additional revival restrictions require further integration. Drowning and
+asphyxiation treatment remain separate incomplete procedures.
+
+`test_cardiac_resuscitation` records physician and first-aid targets, a retained
+worse injury total, repeat protection, failed-then-successful treatment, unavailable
+technology and a deadline that cannot accommodate an attempt. Fixtures remain
+unrun while checks are paused; persistence and rollback validation are outstanding.
