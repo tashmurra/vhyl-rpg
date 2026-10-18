@@ -9468,6 +9468,8 @@ def test(build):
     test_begging_traits(Session,begging_traits)
     appearance = build.build('expanded-appearance',ROOT / 'tests/fixtures/expanded-appearance.t')
     test_expanded_appearance(Session,appearance)
+    begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
+    test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
     test_travel_digging(Session,travel_digging,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
@@ -25416,3 +25418,39 @@ def test_expanded_appearance(Session, bundle):
             assert last(s,'test.appearance') == [16,bonus]
         finally:
             s.close()
+
+
+def test_begging_appearance(Session, bundle, out):
+    """B212 inversion uses B21 observer facts and preserves historical earnings; unrun."""
+    for setup, expected in (((),4),((24712,),12),((24701,),6),((24704,),5),
+                            ((24706,),8),((24707,),8),((24708,),8),
+                            ((24710,),'begging-appearance-inversion'),((24711,),'begging-appearance-inversion')):
+        s = Session(bundle)
+        try:
+            for code in (*setup,24800):
+                s.action(1680,code)
+            assert last(s,'test.begging-appearance') == [expected]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,24801)
+        assert last(s,'test.begging-appearance') == ['begging-purchased-appearance-context-required']
+    finally:
+        s.close()
+    path = out / 'begging-appearance.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,24300); s.action(1680,24718); s.action(1680,24300); s.action(1680,24303)
+        assert last(s,'test.begging-hour-state') == [2,3600,3,1,'A resident offers a meal']
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,24300); s.action(1680,24303)
+        assert last(s,'test.begging-hour-state') == [2,3600,3,1,'A resident offers a meal']
+        s.action(1680,24802)
+        assert last(s,'test.begging-appearance-binding') == ['begging-hour-binding']
+    finally:
+        s.close()

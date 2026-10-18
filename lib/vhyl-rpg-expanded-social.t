@@ -3794,3 +3794,17 @@ class RpgExpandedAppearanceReactionContext: RpgLiteSocialContext
         return inherited(profile,target);
     }
 ;
+
+modify RpgExpandedAppearanceReactionContext
+    beggingAppearanceFacts()
+    {
+        return [self.subject,self.observer,self.compatibleAppearance,self.sameSex,self.otherReactionPenalties,
+            self.approved,self.evidence,self.sees,self.attracted];
+    }
+    beggingAppearanceModifier(profile)
+    {
+        local amount = self.appearanceModifier(profile); local trait = profile.appearanceTrait();
+        if (trait.active && !trait.mitigated && trait.tier <= -4) rpgExpandedReject('begging-appearance-inversion');
+        return -amount;
+    }
+;

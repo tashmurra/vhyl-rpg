@@ -978,3 +978,8 @@ modify RpgLiteProfile
 modify RpgExpandedProfile
     appearanceTrait() { return nil; }
 ;
+
+modify RpgLiteSocialContext
+    beggingAppearanceFacts() { rpgExpandedReject('begging-appearance-context-required'); }
+    beggingAppearanceModifier(profile) { rpgExpandedReject('begging-appearance-context-required'); }
+;

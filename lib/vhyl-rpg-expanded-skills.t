@@ -2106,6 +2106,7 @@ class RpgExpandedBeggingContext: RpgExpandedSkillContext
     shynessPenalty = 0
     invertAppearance = nil
     appearanceModifier = 0
+    appearanceContext = nil
     extremeAppearance = nil
     crowdModifier = 0
     validateBegging()
@@ -2118,11 +2119,22 @@ class RpgExpandedBeggingContext: RpgExpandedSkillContext
         rpgInteger(self.shynessPenalty,-4,0); rpgInteger(self.appearanceModifier,-1000,1000);
         rpgInteger(self.crowdModifier,-1000,1000);
         if (self.invertAppearance && self.extremeAppearance) rpgExpandedReject('begging-appearance-inversion');
+        if (self.appearanceContext != nil && (!self.appearanceContext.ofKind(RpgLiteSocialContext)
+            || self.appearanceModifier != 0 || self.extremeAppearance)) rpgExpandedReject('begging-appearance-duplicate-facts');
         return nil;
+    }
+    appearanceAdjustment(profile)
+    {
+        if (!self.invertAppearance) return 0;
+        if (self.appearanceContext != nil) return self.appearanceContext.beggingAppearanceModifier(profile);
+        if (profile.ofKind(RpgExpandedProfile) && profile.appearanceTrait() != nil)
+            rpgExpandedReject('begging-purchased-appearance-context-required');
+        return -self.appearanceModifier;
     }
     unavailableReason(profile)
     {
-        self.validateBegging(); local reason = profile.beggingAuthoredTraitReason(self.pitiable,self.shynessPenalty);
+        self.validateBegging(); self.appearanceAdjustment(profile);
+        local reason = profile.beggingAuthoredTraitReason(self.pitiable,self.shynessPenalty);
         return reason == nil ? inherited(profile) : reason;
     }
     skillUseModifier(profile)
@@ -2131,7 +2143,7 @@ class RpgExpandedBeggingContext: RpgExpandedSkillContext
         local reason = profile.beggingAuthoredTraitReason(self.pitiable,self.shynessPenalty);
         if (reason != nil) rpgExpandedReject(reason);
         return base + profile.level('charisma') + (self.pitiable || profile.sympathyActive() ? 3 : 0) + self.shynessPenalty
-            + (self.invertAppearance ? -self.appearanceModifier : 0) + self.crowdModifier;
+            + self.appearanceAdjustment(profile) + self.crowdModifier;
     }
 ;
 
@@ -2139,8 +2151,9 @@ modify RpgExpandedBeggingContext
     beggingFacts()
     {
         self.validateBegging();
-        return [self.skill,self.approved,self.evidence,self.pitiable,self.shynessPenalty,self.invertAppearance,
+        local facts = [self.skill,self.approved,self.evidence,self.pitiable,self.shynessPenalty,self.invertAppearance,
             self.appearanceModifier,self.extremeAppearance,self.crowdModifier,self.modifier,self.familiarity,
-            self.equipmentTL,self.rollAttribute,self.fixedBase,self.interaction];
+            self.equipmentTL,self.rollAttribute,self.fixedBase,self.interaction,self.appearanceContext];
+        return self.appearanceContext == nil ? facts : facts + self.appearanceContext.beggingAppearanceFacts();
     }
 ;

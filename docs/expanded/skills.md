@@ -1095,3 +1095,19 @@ With the traits library installed, begging automatically receives active sympath
 and social-inhibition effects. Leave authored `pitiable` and `shynessPenalty`
 unset when those purchased traits supply the effect. The context rejects duplicate
 sources instead of stacking them. Appearance and crowd facts remain authored.
+
+For purchased expanded appearance, set begging's `appearanceContext` to an
+approved `RpgExpandedAppearanceReactionContext` and choose `invertAppearance`.
+The subject must be the beggar; the observer and evidence describe the audience
+whose appearance response applies. The context computes the B21 modifier and
+negates it for B212. It respects visibility, compatibility, attraction and the
+flat presentation options. Active tiers −5 and −4 prohibit inversion.
+
+Leave raw `appearanceModifier` and `extremeAppearance` unset with this adapter.
+Purchased appearance cannot be bypassed with a raw number. An audience containing
+different observer responses still needs an authored selection or ruling; this
+interface does not invent an averaging rule. Hourly receipts bind the selected
+observer facts. Later character appearance changes do not recalculate completed
+earnings, while rewriting the recorded audience facts rejects replay.
+`test_begging_appearance` specifies inversion, exclusions and save continuation;
+fixtures remain unrun.
