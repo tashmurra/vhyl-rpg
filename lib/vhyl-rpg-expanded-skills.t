@@ -2033,3 +2033,33 @@ modify RpgExpandedPaleontologyContext
             : facts + rpgExpandedPaleontologyEquipment.definition(self.laboratoryEquipment,self);
     }
 ;
+
+/** Full-2008 B212: pack-animal logistics. */
+class RpgExpandedPackingSkill: RpgExpandedSkill
+    id = 'packing'
+    attribute = rpgIQ
+    difficulty = 1
+    defaultPenalty = -5
+    validateDefinition()
+    {
+        if (self.id != 'packing' || self.attribute != rpgIQ || self.difficulty != 1 || self.defaultPenalty != -5
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil
+            || self.techLevel != nil || self.specialty != nil) rpgExpandedReject('packing-skill-definition');
+        return nil;
+    }
+    validatePacking() { return self.validateDefinition(); }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill)) continue;
+            local general = source.ofKind(RpgExpandedSkill) && source.optionalParent != nil ? source.optionalParent : source;
+            if (general.id == 'animal-handling' && general.specialty == 'equines' && general.techLevel == nil)
+                edges = edges + [[general,-5]];
+        }
+        return edges;
+    }
+;

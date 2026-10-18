@@ -3596,3 +3596,33 @@ modify RpgExpandedProfile
     }
 ;
 
+
+class RpgExpandedPackTrainResult: RpgExpandedResult
+    speedPercent = nil
+    master = nil
+;
+/** B212: members are [profile, packing skill] pairs participating in this caravan. */
+class RpgExpandedPackTrain: object
+    members = []
+    approved = nil
+    evidence = nil
+    assess()
+    {
+        local value = new RpgExpandedPackTrainResult();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'pack-train-participation-required'; return value; }
+        local seen = [];
+        foreach (local row in self.members)
+        {
+            if (row.length() != 2 || row[1] == nil || !row[1].ofKind(RpgExpandedProfile)
+                || row[2] == nil || !row[2].ofKind(RpgLiteSkill)) rpgExpandedReject('pack-train-member');
+            if (holds(seen,row[1])) rpgExpandedReject('pack-train-duplicate-member');
+            seen = seen + [row[1]]; row[2].validatePacking();
+            if (row[1].dead || row[1].unconscious || row[1].stunned) continue;
+            local score = row[1].skillScore(row[2]);
+            if (score != nil && score >= 15 && value.master == nil) value.master = row[1];
+        }
+        value.speedPercent = value.master == nil ? 80 : 100;
+        value.status = 'ready'; return value;
+    }
+;

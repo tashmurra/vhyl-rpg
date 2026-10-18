@@ -825,3 +825,7 @@ rpgExpandedPaleontologyEquipment: object
     definition(assessment,context) { rpgExpandedReject('paleontology-equipment-module-required'); }
     assess(assessment,profile,context) { rpgExpandedReject('paleontology-equipment-module-required'); }
 ;
+
+modify RpgLiteSkill
+    validatePacking() { rpgExpandedReject('packing-expanded-skill-required'); }
+;

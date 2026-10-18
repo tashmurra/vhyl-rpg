@@ -1812,3 +1812,11 @@ Changing the bound familiarity identity or penalty rejects reuse.
 `test_paleontology_familiarity` specifies preview purity, the initial penalty,
 practice removing the penalty for a new study, old-result replay, rollback, undo,
 save continuation and receipt tampering. It remains unrun while checks are paused.
+
+
+## Pack-train expertise
+
+`RpgExpandedPackTrain` exposes the full-2008 B212 caravan speed percentage from
+participating packers' skill. See [Packing and caravan expertise](skills.md#packing-and-caravan-expertise)
+for its member contract and remaining journey/task integration. It reports a
+percentage without charging movement time or rounding the caravan's normal speed.

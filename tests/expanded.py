@@ -9430,6 +9430,8 @@ def test(build):
     test_paleontology_equipment(Session,paleontology_equipment,build.out)
     paleontology_familiarity = build.build("expanded-paleontology-familiarity",ROOT / "tests/fixtures/expanded-paleontology-familiarity.t")
     test_paleontology_familiarity(Session,paleontology_familiarity,build.out)
+    packing_skill = build.build("expanded-packing-skill",ROOT / "tests/fixtures/expanded-packing-skill.t")
+    test_packing_skill(Session,packing_skill)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24463,3 +24465,24 @@ def test_paleontology_familiarity(Session, bundle, out):
             assert last(s,'test.fossil-familiarity-error') == [reason]
         finally:
             s.close()
+
+
+def test_packing_skill(Session, bundle):
+    """B212 defaults and caravan skill-15 boundary; unrun."""
+    for setup, score, speed, master in (((),7,80,0),((22401,),15,100,1),
+                                        ((22401,22402),14,80,0),((22403,),13,80,0),
+                                        ((22403,22404),7,80,0),((22403,22405),7,80,0),
+                                        ((22401,22406),15,80,0),((22407,),7,80,0)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,22400):
+                s.action(1680,code)
+            assert last(s,'test.packing') == [score,speed,master,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,22408)
+        assert last(s,'test.packing-error') == ['pack-train-duplicate-member']
+    finally:
+        s.close()

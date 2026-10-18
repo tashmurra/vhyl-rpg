@@ -550,9 +550,10 @@
       "pages": "B212",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require a handling check first for difficult animals; without skill fifteen in the caravan, cap ordinary travel to eighty percent. Keep load and route decisions authored.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_packing_skill"],
+      "validation_note": "Typed packing defaults and pure caravan expertise threshold implemented. Difficult-animal prerequisites, committed tasks and journey execution integration remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "average",

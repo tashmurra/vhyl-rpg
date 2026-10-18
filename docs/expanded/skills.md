@@ -1047,3 +1047,25 @@ scientific conclusion. Include exploration for owned specimen findings through
 `laboratoryEquipment` for live ownership and access checks. `test_paleontology_skill` specifies printed defaults,
 inter-specialty transfer, missing-laboratory rejection and age equipment scoring.
 Fixtures remain unrun while checks are paused.
+
+
+## Packing and caravan expertise
+
+`RpgExpandedPackingSkill` supplies the full-2008 B212 IQ/Average skill with IQ-5
+and purchased Animal Handling (`equines`)-5 defaults. Other animal specialties do
+not supply that default. The definition has no required specialty or technology
+level; ordinary optional-specialty source adjustments use the common resolver.
+
+The exploration library's `RpgExpandedPackTrain` assesses the caravan's expertise.
+Its `members` are `[profile, packingSkill]` rows, with `approved` and `evidence`
+establishing participation. `assess()` returns `speedPercent` 100 when an available
+member has skill 15 or higher, otherwise 80, including an empty packer roster.
+`master` identifies the first qualifying participant. Duplicate participants reject;
+dead, unconscious or stunned members cannot supply expertise. The pure assessment
+spends no time or randomness. Apply its percentage once to the caravan's otherwise
+normal travel speed; it does not assign loads or choose a route.
+
+Difficult-animal handling prerequisites, committed packing tasks and integration
+with journey execution remain incomplete. `test_packing_skill` specifies the
+attribute and equine defaults, non-equine and untrained rejection, the 14/15 speed
+boundary, unavailable packers and duplicate members. Fixtures remain unrun.
