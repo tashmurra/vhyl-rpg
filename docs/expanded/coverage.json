@@ -298,9 +298,11 @@
         "tests/expanded.py::test_major_repair_parts",
         "tests/expanded.py::test_major_parts_preflight",
         "tests/expanded.py::test_major_parts_persistence",
-        "tests/expanded.py::test_computer_reservations"
+        "tests/expanded.py::test_computer_reservations",
+        "tests/expanded.py::test_terminal_switches",
+        "tests/expanded.py::test_computer_persistence"
       ],
-      "validation_note": "Object assessments, environmental-fault repairs and owned computer processing reservations authored; fixtures unrun. Storage, terminals, task software, structural injury/repair, maintenance scheduling and broader technology remain incomplete."
+      "validation_note": "Object assessments, fault repairs, computer processing reservations and ordinary terminal switches authored; fixtures unrun. Storage, network access, task software, structural injury/repair and maintenance scheduling remain incomplete."
     },
     {
       "id": "templates",

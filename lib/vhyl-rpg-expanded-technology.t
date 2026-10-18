@@ -528,3 +528,96 @@ class RpgExpandedProgramRun: object
         self.active = nil; self.stoppedAt = rpgLedger.seconds; return 'resolved';
     }
 ;
+
+/** One ordinary human terminal; connected hosts are explicit, pre-authorized world facts. */
+class RpgExpandedTerminal: object
+    controller = nil
+    hosts = []
+    current = nil
+    powered = nil
+    switches = []
+    validate()
+    {
+        if (self.controller == nil || !self.controller.ofKind(RpgLiteProfile) || self.current == nil
+            || !holds(self.hosts,self.current)) rpgExpandedReject('terminal-definition');
+        local seen = [];
+        foreach (local host in self.hosts)
+        {
+            if (host == nil || !host.ofKind(RpgExpandedComputer) || holds(seen,host))
+                rpgExpandedReject('terminal-hosts');
+            seen = seen + [host];
+        }
+        local ids = [];
+        foreach (local request in self.switches)
+        {
+            if (request == nil || !request.ofKind(RpgExpandedTerminalSwitch) || request.terminal != self
+                || request.result == nil || holds(ids,request.id)) rpgExpandedReject('terminal-switch-history');
+            request.validateBinding(); ids = ids + [request.id];
+        }
+        return nil;
+    }
+;
+
+class RpgExpandedTerminalResult: RpgExpandedResult
+    previous = nil
+    selected = nil
+;
+
+/** A recorded one-second terminal switch; replay does not undo a later selection. */
+class RpgExpandedTerminalSwitch: object
+    id = nil
+    terminal = nil
+    target = nil
+    evidence = nil
+    result = nil
+    completedAt = nil
+    boundId = nil
+    boundTerminal = nil
+    boundTarget = nil
+    boundOperator = nil
+    boundEvidence = nil
+    validateBinding()
+    {
+        if (self.id != self.boundId || self.terminal != self.boundTerminal || self.target != self.boundTarget
+            || self.evidence != self.boundEvidence || self.terminal.controller != self.boundOperator
+            || !holds(self.terminal.switches,self)) rpgExpandedReject('terminal-switch-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.terminal == nil || !self.terminal.ofKind(RpgExpandedTerminal)) rpgExpandedReject('terminal-switch-definition');
+        local value = new RpgExpandedTerminalResult();
+        if (self.result != nil)
+        {
+            self.validateBinding(); value.status = 'reused'; value.previous = self.result.previous;
+            value.selected = self.result.selected; return value;
+        }
+        self.terminal.validate();
+        if (self.id == nil || self.id == '') rpgExpandedReject('terminal-switch-id');
+        foreach (local prior in self.terminal.switches)
+            if (prior.id == self.id) rpgExpandedReject('terminal-switch-duplicate');
+        if (self.target == nil || !self.target.ofKind(RpgExpandedComputer) || !holds(self.terminal.hosts,self.target))
+        { value.reason = 'terminal-host-not-connected'; return value; }
+        if (self.evidence == nil || self.evidence == '')
+        { value.reason = 'terminal-switch-evidence'; return value; }
+        if (!self.terminal.powered || !self.target.powered || self.target.item == nil
+            || !self.target.item.ofKind(RpgLiteItem) || self.target.item.environmentFailure != nil)
+        { value.reason = 'terminal-switch-unavailable'; return value; }
+        local controller = self.terminal.controller;
+        if (controller.dead || controller.unconscious || controller.stunned || controller.hp() <= 0 || controller.fp() <= 0)
+        { value.reason = 'terminal-switch-operator-unavailable'; return value; }
+        value.previous = self.terminal.current; value.selected = self.target;
+        value.seconds = self.terminal.current == self.target ? 0 : 1;
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (value.seconds > 0) rpgSpendTime(value.seconds);
+        self.terminal.current = self.target;
+        self.boundId = self.id; self.boundTerminal = self.terminal; self.boundTarget = self.target;
+        self.boundOperator = self.terminal.controller; self.boundEvidence = self.evidence;
+        self.completedAt = rpgLedger.seconds; self.terminal.switches = self.terminal.switches + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

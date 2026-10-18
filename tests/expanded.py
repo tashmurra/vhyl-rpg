@@ -973,6 +973,74 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def terminal_state(s):
+    s.action(2082)
+    return last(s,'test.terminal-state')
+
+
+def test_terminal_switches(s):
+    s.action(2080,0)
+    initial = ['original',0,0,0,100]
+    assert terminal_state(s) == initial
+    for code in [22,21]:
+        s.action(2080,code)
+        assert terminal_state(s) == initial
+    for code,reason in [(25,'terminal-host-not-connected'),(26,'terminal-switch-unavailable')]:
+        s.action(2080,code)
+        assert last(s,'test.terminal-operation') == ['blocked',reason,0]
+        assert terminal_state(s) == initial
+        s.command('undo')
+    s.action(2080,24)
+    assert terminal_state(s) == ['original',1,0,0,100]
+    s.command('undo')
+    assert terminal_state(s) == initial
+    s.action(2080,20)
+    assert terminal_state(s) == ['other',1,0,1,100]
+    s.command('undo')
+    assert terminal_state(s) == initial
+    s.action(2080,20); s.action(2080,23)
+    final = ['original',2,0,2,100]
+    assert terminal_state(s) == final
+    for code in [20,23,27,28]:
+        s.action(2080,code)
+        assert terminal_state(s) == final
+
+
+def test_computer_persistence(Session,bundle,out):
+    for stage in range(4):
+        path = out / f'expanded-computer-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2080,0); first.action(2080,5)
+            if stage >= 1:
+                first.action(2080,20)
+            if stage >= 2:
+                first.action(2080,3)
+            if stage >= 3:
+                first.action(2080,23)
+            saved = (computer_state(first),terminal_state(first))
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2082')
+            assert (computer_state(second),terminal_state(second)) == saved
+            if stage < 1:
+                second.action(2080,20)
+            if stage < 2:
+                second.action(2080,3)
+            if stage < 3:
+                second.action(2080,23)
+            expected = ([100,200,11,0,0,2],['original',2,0,2,100])
+            assert (computer_state(second),terminal_state(second)) == expected
+            for code in [0,3,20,23,28]:
+                second.action(2080,code)
+                assert (computer_state(second),terminal_state(second)) == expected
+        finally:
+            second.close()
+
+
 def computer_state(s):
     s.action(2081)
     return last(s,'test.computer-state')
@@ -5449,6 +5517,8 @@ def test(build):
     fresh(Session,combat,test_unarmed_miss_assessments)
     computer = build.build('expanded-computer',ROOT / 'tests/fixtures/expanded-computer.t')
     fresh(Session,computer,test_computer_reservations)
+    fresh(Session,computer,test_terminal_switches)
+    test_computer_persistence(Session,computer,build.out)
     maintenance_price = build.build('expanded-maintenance-price',ROOT / 'tests/fixtures/expanded-maintenance-price.t')
     fresh(Session,maintenance_price,test_maintenance_prices)
     breakdown = build.build('expanded-breakdown',ROOT / 'tests/fixtures/expanded-breakdown.t')

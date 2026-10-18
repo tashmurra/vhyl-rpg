@@ -367,5 +367,35 @@ remains to be implemented.
 cover preview purity, start/stop rollback, undo, host limits, a mixed workload,
 capacity rejection, historical replay and release/reallocation. They are authored
 and unrun. Software purchase, storage allocation, equipment bonuses, task
-prerequisites, terminals, network permissions and save-continuation fixtures remain
-unfinished; processing reservations do not substitute for those systems.
+prerequisites and network permissions remain unfinished; processing reservations do not substitute for those systems.
+
+## Ordinary terminal switching
+
+`RpgExpandedTerminal` declares a `controller`, an explicit list of connected
+`hosts`, the initially selected `current` host, and its `powered` state. These are
+world facts established after connection and authorization; adding a host to the
+list is not a substitute for resolving compatibility, addresses or credentials.
+The current implementation supports the ordinary one-host-at-a-time terminal.
+Special hardware for simultaneous human access remains unsupported.
+
+`RpgExpandedTerminalSwitch` owns one selection request with `id`, `terminal`,
+`target` and `evidence`. `assess()` rejects disconnected or unavailable targets,
+unpowered terminals and unsupported incapacitated/nonpositive-HP-or-fatigue
+controllers before spending time. `apply()` changes the selected host and charges
+one second through the existing clock. Selecting the already current host charges
+zero seconds. There is no new interaction roll and no effect on either host's
+processing reservations.
+
+The request records the previous host, selected host and completion time in
+`terminal.switches`. Replay is historical: it does not switch back after a later
+selection or charge another second. Mutating a recorded request's controller,
+target or evidence rejects. This currently binds a terminal to its authored
+controller; handing it to someone else needs a separate lifecycle operation.
+Run switches within the enclosing action transaction.
+
+`test_terminal_switches` covers preflight, disconnected and unpowered hosts,
+zero-cost repeated selection, rollback, undo, processing-state preservation and
+historical replay. `test_computer_persistence` saves mixed workloads before and
+after a switch, process stop and return switch, then continues in a separate
+process. These fixtures are authored and unrun. Terminal switching does not yet
+supply network connection establishment, task-specific software use or data transfer.

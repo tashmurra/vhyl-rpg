@@ -144,7 +144,8 @@
       "status": "partial",
       "acceptance": "A program cannot run above the host complexity. Concurrent capacity equals two host-level programs, twenty one level below, two hundred two below, and so on; mixed loads consume the same weighted capacity.",
       "tests": [
-        "tests/expanded.py::test_computer_reservations"
+        "tests/expanded.py::test_computer_reservations",
+        "tests/expanded.py::test_computer_persistence"
       ],
       "validation_note": "Owned mixed-workload processing reservations and host-bound copy authorization authored; fixtures unrun. Software purchasing, lifecycle effects, terminal/network access and storage remain incomplete."
     },
@@ -164,9 +165,13 @@
       "pages": "B472",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Human computer use requires a terminal. A terminal connected to several hosts normally operates one at a time and takes one second to switch, unless explicit special hardware changes that.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_terminal_switches",
+        "tests/expanded.py::test_computer_persistence"
+      ],
+      "validation_note": "Owned ordinary terminal switching with shared time, rollback and historical replay authored; fixtures unrun. Special hardware, controller handoff and network establishment remain incomplete."
     },
     {
       "id": "technology-computer-link",
@@ -227,7 +232,8 @@
       "status": "partial",
       "acceptance": "A purchased software copy belongs to a host and permits multiple simultaneous instances within processing capacity. Copying and legal permissions use campaign decisions; each instance does not incur a new purchase.",
       "tests": [
-        "tests/expanded.py::test_computer_reservations"
+        "tests/expanded.py::test_computer_reservations",
+        "tests/expanded.py::test_computer_persistence"
       ],
       "validation_note": "Owned mixed-workload processing reservations and host-bound copy authorization authored; fixtures unrun. Software purchasing, lifecycle effects, terminal/network access and storage remain incomplete."
     },
