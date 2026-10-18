@@ -276,6 +276,22 @@
           [
             "dx",
             -4
+          ],
+          [
+            "direct-heavy-fire-cannon",
+            -4
+          ],
+          [
+            "direct-heavy-fire-mechanical-bolts",
+            -4
+          ],
+          [
+            "direct-heavy-fire-machine-gun",
+            -4
+          ],
+          [
+            "direct-heavy-fire-rockets",
+            -4
           ]
         ],
         "prerequisites": []
@@ -297,6 +313,22 @@
         "defaults": [
           [
             "dx",
+            -4
+          ],
+          [
+            "direct-heavy-fire-beams",
+            -4
+          ],
+          [
+            "direct-heavy-fire-mechanical-bolts",
+            -4
+          ],
+          [
+            "direct-heavy-fire-machine-gun",
+            -4
+          ],
+          [
+            "direct-heavy-fire-rockets",
             -4
           ]
         ],
@@ -320,6 +352,22 @@
           [
             "dx",
             -4
+          ],
+          [
+            "direct-heavy-fire-beams",
+            -4
+          ],
+          [
+            "direct-heavy-fire-cannon",
+            -4
+          ],
+          [
+            "direct-heavy-fire-machine-gun",
+            -4
+          ],
+          [
+            "direct-heavy-fire-rockets",
+            -4
           ]
         ],
         "prerequisites": []
@@ -342,6 +390,22 @@
           [
             "dx",
             -4
+          ],
+          [
+            "direct-heavy-fire-beams",
+            -4
+          ],
+          [
+            "direct-heavy-fire-cannon",
+            -4
+          ],
+          [
+            "direct-heavy-fire-mechanical-bolts",
+            -4
+          ],
+          [
+            "direct-heavy-fire-rockets",
+            -4
           ]
         ],
         "prerequisites": []
@@ -363,6 +427,22 @@
         "defaults": [
           [
             "dx",
+            -4
+          ],
+          [
+            "direct-heavy-fire-beams",
+            -4
+          ],
+          [
+            "direct-heavy-fire-cannon",
+            -4
+          ],
+          [
+            "direct-heavy-fire-mechanical-bolts",
+            -4
+          ],
+          [
+            "direct-heavy-fire-machine-gun",
             -4
           ]
         ],
@@ -396,6 +476,38 @@
           [
             "dx",
             -4
+          ],
+          [
+            "guns-miniature-rocket",
+            -4
+          ],
+          [
+            "guns-light-antitank",
+            -4
+          ],
+          [
+            "guns-light-machine-gun",
+            -4
+          ],
+          [
+            "guns-musket",
+            -4
+          ],
+          [
+            "guns-pistol",
+            -4
+          ],
+          [
+            "guns-rifle",
+            -4
+          ],
+          [
+            "guns-shotgun",
+            -4
+          ],
+          [
+            "guns-submachine-gun",
+            -4
           ]
         ],
         "prerequisites": []
@@ -417,6 +529,38 @@
         "defaults": [
           [
             "dx",
+            -4
+          ],
+          [
+            "guns-grenade-launcher",
+            -4
+          ],
+          [
+            "guns-light-antitank",
+            -4
+          ],
+          [
+            "guns-light-machine-gun",
+            -4
+          ],
+          [
+            "guns-musket",
+            -4
+          ],
+          [
+            "guns-pistol",
+            -4
+          ],
+          [
+            "guns-rifle",
+            -4
+          ],
+          [
+            "guns-shotgun",
+            -4
+          ],
+          [
+            "guns-submachine-gun",
             -4
           ]
         ],
@@ -440,6 +584,38 @@
           [
             "dx",
             -4
+          ],
+          [
+            "guns-grenade-launcher",
+            -4
+          ],
+          [
+            "guns-miniature-rocket",
+            -4
+          ],
+          [
+            "guns-light-machine-gun",
+            -4
+          ],
+          [
+            "guns-musket",
+            -4
+          ],
+          [
+            "guns-pistol",
+            -4
+          ],
+          [
+            "guns-rifle",
+            -4
+          ],
+          [
+            "guns-shotgun",
+            -4
+          ],
+          [
+            "guns-submachine-gun",
+            -4
           ]
         ],
         "prerequisites": []
@@ -462,6 +638,38 @@
           [
             "dx",
             -4
+          ],
+          [
+            "guns-grenade-launcher",
+            -4
+          ],
+          [
+            "guns-miniature-rocket",
+            -4
+          ],
+          [
+            "guns-light-antitank",
+            -4
+          ],
+          [
+            "guns-musket",
+            -2
+          ],
+          [
+            "guns-pistol",
+            -2
+          ],
+          [
+            "guns-rifle",
+            -2
+          ],
+          [
+            "guns-shotgun",
+            -2
+          ],
+          [
+            "guns-submachine-gun",
+            -2
           ]
         ],
         "prerequisites": []
@@ -484,6 +692,38 @@
           [
             "dx",
             -4
+          ],
+          [
+            "guns-grenade-launcher",
+            -4
+          ],
+          [
+            "guns-miniature-rocket",
+            -4
+          ],
+          [
+            "guns-light-antitank",
+            -4
+          ],
+          [
+            "guns-light-machine-gun",
+            -2
+          ],
+          [
+            "guns-pistol",
+            -2
+          ],
+          [
+            "guns-rifle",
+            -2
+          ],
+          [
+            "guns-shotgun",
+            -2
+          ],
+          [
+            "guns-submachine-gun",
+            -2
           ]
         ],
         "prerequisites": []
@@ -492,11 +732,11 @@
     {
       "id": "catalogue-skill-guns-pistol",
       "source": "full-2008",
-      "pages": "B198-B199",
+      "pages": "B198-B199; B179",
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Use the appropriate handheld projectile-weapon category; resolve intelligence-based immediate action, weapon/action/grip familiarity and repair modifiers.",
+      "acceptance": "Use the appropriate handheld projectile-weapon category; resolve intelligence-based immediate action, weapon/action/grip familiarity and repair modifiers. The matching beam/projectile default is available only in a campaign containing both weapon technologies; do not treat it as an unconditional edge.",
       "tests": [],
       "reference_data": {
         "attribute": "dx",
@@ -506,19 +746,58 @@
           [
             "dx",
             -4
+          ],
+          [
+            "guns-grenade-launcher",
+            -4
+          ],
+          [
+            "guns-miniature-rocket",
+            -4
+          ],
+          [
+            "guns-light-antitank",
+            -4
+          ],
+          [
+            "guns-light-machine-gun",
+            -2
+          ],
+          [
+            "guns-musket",
+            -2
+          ],
+          [
+            "guns-rifle",
+            -2
+          ],
+          [
+            "guns-shotgun",
+            -2
+          ],
+          [
+            "guns-submachine-gun",
+            -2
+          ],
+          [
+            "beam-weapons-pistol",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "beam-weapons-pistol": "campaign includes both beam and projectile weapons"
+        }
       }
     },
     {
       "id": "catalogue-skill-guns-rifle",
       "source": "full-2008",
-      "pages": "B198-B199",
+      "pages": "B198-B199; B179",
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Use the appropriate handheld projectile-weapon category; resolve intelligence-based immediate action, weapon/action/grip familiarity and repair modifiers.",
+      "acceptance": "Use the appropriate handheld projectile-weapon category; resolve intelligence-based immediate action, weapon/action/grip familiarity and repair modifiers. The matching beam/projectile default is available only in a campaign containing both weapon technologies; do not treat it as an unconditional edge.",
       "tests": [],
       "reference_data": {
         "attribute": "dx",
@@ -528,9 +807,48 @@
           [
             "dx",
             -4
+          ],
+          [
+            "guns-grenade-launcher",
+            -4
+          ],
+          [
+            "guns-miniature-rocket",
+            -4
+          ],
+          [
+            "guns-light-antitank",
+            -4
+          ],
+          [
+            "guns-light-machine-gun",
+            -2
+          ],
+          [
+            "guns-musket",
+            -2
+          ],
+          [
+            "guns-pistol",
+            -2
+          ],
+          [
+            "guns-shotgun",
+            -2
+          ],
+          [
+            "guns-submachine-gun",
+            -2
+          ],
+          [
+            "beam-weapons-rifle",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "beam-weapons-rifle": "campaign includes both beam and projectile weapons"
+        }
       }
     },
     {
@@ -550,6 +868,38 @@
           [
             "dx",
             -4
+          ],
+          [
+            "guns-grenade-launcher",
+            -4
+          ],
+          [
+            "guns-miniature-rocket",
+            -4
+          ],
+          [
+            "guns-light-antitank",
+            -4
+          ],
+          [
+            "guns-light-machine-gun",
+            -2
+          ],
+          [
+            "guns-musket",
+            -2
+          ],
+          [
+            "guns-pistol",
+            -2
+          ],
+          [
+            "guns-rifle",
+            -2
+          ],
+          [
+            "guns-submachine-gun",
+            -2
           ]
         ],
         "prerequisites": []
@@ -572,6 +922,38 @@
           [
             "dx",
             -4
+          ],
+          [
+            "guns-grenade-launcher",
+            -4
+          ],
+          [
+            "guns-miniature-rocket",
+            -4
+          ],
+          [
+            "guns-light-antitank",
+            -4
+          ],
+          [
+            "guns-light-machine-gun",
+            -2
+          ],
+          [
+            "guns-musket",
+            -2
+          ],
+          [
+            "guns-pistol",
+            -2
+          ],
+          [
+            "guns-rifle",
+            -2
+          ],
+          [
+            "guns-shotgun",
+            -2
           ]
         ],
         "prerequisites": []
@@ -1189,6 +1571,18 @@
           [
             "dx",
             -4
+          ],
+          [
+            "innate-aim-breath",
+            -2
+          ],
+          [
+            "innate-aim-gaze",
+            -2
+          ],
+          [
+            "innate-aim-hand-projectile",
+            -2
           ]
         ],
         "prerequisites": []
@@ -1211,6 +1605,18 @@
           [
             "dx",
             -4
+          ],
+          [
+            "innate-aim-hand-beam",
+            -2
+          ],
+          [
+            "innate-aim-gaze",
+            -2
+          ],
+          [
+            "innate-aim-hand-projectile",
+            -2
           ]
         ],
         "prerequisites": []
@@ -1233,6 +1639,18 @@
           [
             "dx",
             -4
+          ],
+          [
+            "innate-aim-hand-beam",
+            -2
+          ],
+          [
+            "innate-aim-breath",
+            -2
+          ],
+          [
+            "innate-aim-hand-projectile",
+            -2
           ]
         ],
         "prerequisites": []
@@ -1255,6 +1673,18 @@
           [
             "dx",
             -4
+          ],
+          [
+            "innate-aim-hand-beam",
+            -2
+          ],
+          [
+            "innate-aim-breath",
+            -2
+          ],
+          [
+            "innate-aim-gaze",
+            -2
           ]
         ],
         "prerequisites": []
@@ -1798,6 +2228,18 @@
           [
             "dx",
             -4
+          ],
+          [
+            "liquid-projector-spray",
+            -4
+          ],
+          [
+            "liquid-projector-squirt",
+            -4
+          ],
+          [
+            "liquid-projector-water-cannon",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1819,6 +2261,18 @@
         "defaults": [
           [
             "dx",
+            -4
+          ],
+          [
+            "liquid-projector-flame",
+            -4
+          ],
+          [
+            "liquid-projector-squirt",
+            -4
+          ],
+          [
+            "liquid-projector-water-cannon",
             -4
           ]
         ],
@@ -1842,6 +2296,18 @@
           [
             "dx",
             -4
+          ],
+          [
+            "liquid-projector-flame",
+            -4
+          ],
+          [
+            "liquid-projector-spray",
+            -4
+          ],
+          [
+            "liquid-projector-water-cannon",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1863,6 +2329,18 @@
         "defaults": [
           [
             "dx",
+            -4
+          ],
+          [
+            "liquid-projector-flame",
+            -4
+          ],
+          [
+            "liquid-projector-spray",
+            -4
+          ],
+          [
+            "liquid-projector-squirt",
             -4
           ]
         ],

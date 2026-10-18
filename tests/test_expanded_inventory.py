@@ -8,6 +8,59 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_aiming_catalogue_default_edges(self):
+        """Source-definition expectations, not proof of runtime integration."""
+        entries = {}
+        for suffix in ('a', 'c'):
+            path = ROOT / f'docs/expanded/inventory/skills-catalogue-{suffix}.json'
+            for entry in json.loads(path.read_text())['entries']:
+                if 'reference_data' in entry:
+                    entries[entry['id'].removeprefix('catalogue-skill-')] = entry['reference_data']
+        families = [
+            (['beam-weapons-pistol', 'beam-weapons-projector', 'beam-weapons-rifle'], -4),
+            (['direct-heavy-fire-beams', 'direct-heavy-fire-cannon',
+              'direct-heavy-fire-mechanical-bolts', 'direct-heavy-fire-machine-gun',
+              'direct-heavy-fire-rockets'], -4),
+            (['innate-aim-hand-beam', 'innate-aim-breath', 'innate-aim-gaze',
+              'innate-aim-hand-projectile'], -2),
+            (['liquid-projector-flame', 'liquid-projector-spray',
+              'liquid-projector-squirt', 'liquid-projector-water-cannon'], -4),
+        ]
+        for family, modifier in families:
+            for target in family:
+                for source in family:
+                    with self.subTest(target=target, source=source):
+                        edges = dict(entries[target]['defaults'])
+                        if source == target:
+                            self.assertNotIn(source, edges)
+                        else:
+                            self.assertEqual(edges[source], modifier)
+                self.assertEqual(dict(entries[target]['defaults'])['dx'], -4)
+
+        # B198-B199: exceptional small arms have -4 edges in BOTH directions.
+        ordinary = ['light-machine-gun', 'musket', 'pistol', 'rifle', 'shotgun',
+                    'submachine-gun']
+        exceptional = ['grenade-launcher', 'miniature-rocket', 'light-antitank']
+        for target in ordinary + exceptional:
+            edges = dict(entries['guns-' + target]['defaults'])
+            for source in ordinary + exceptional:
+                if source == target:
+                    self.assertNotIn('guns-' + source, edges)
+                    continue
+                modifier = -4 if target in exceptional or source in exceptional else -2
+                self.assertEqual(edges['guns-' + source], modifier)
+
+        # B179: matching pistol/rifle edges depend on campaign technology.
+        for specialty in ('pistol', 'rifle'):
+            for target, source in [('beam-weapons', 'guns'), ('guns', 'beam-weapons')]:
+                data = entries[target + '-' + specialty]
+                key = source + '-' + specialty
+                self.assertEqual(dict(data['defaults'])[key], -4)
+                self.assertEqual(data['default_conditions'][key],
+                                 'campaign includes both beam and projectile weapons')
+        self.assertFalse(any(key.startswith('guns-') for key, _ in
+                             entries['beam-weapons-projector']['defaults']))
+
     def test_detailed_inventory_references_and_completion_claims(self):
         """Structural integrity only; this does not validate source mechanics."""
         base = ROOT / 'docs/expanded'

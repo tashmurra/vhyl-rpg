@@ -53,3 +53,17 @@ melee group defaults; these are now recorded alongside the detailed skill edges.
 The summary omits other valid defaults, so it cannot replace the detailed catalogue.
 Reciprocal default edges do not permit chains through untrained skills. Full field
 reconciliation and executable coverage are still pending.
+
+The detailed aiming-skill groups now record their cross-specialty default edges:
+beam weapons and mounted direct fire at −4, built-in ranged attacks at −2,
+and liquid projectors at −4. Projectile small arms use −2 except that an edge
+involving a grenade launcher, miniature rocket or light antitank weapon uses −4.
+Matching beam/projectile pistol and rifle defaults require a campaign containing
+both weapon technologies. Familiarity penalties remain separate from defaults.
+These are source definitions awaiting runtime integration; the abbreviated summary
+table does not list every edge.
+
+The [second skill-summary segment](inventory/skill-summary-b.json) maps 103
+rows, including group headings and concrete skills. Group headings resolve to
+their detailed specializations; they must not create duplicate purchasable skills.
+The summary field comparison remains pending.

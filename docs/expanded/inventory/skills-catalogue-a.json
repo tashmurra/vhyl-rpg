@@ -1320,7 +1320,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Use -4 between specialties, treat beam type as familiarity and apply ordinary firearm context modifiers.",
+      "acceptance": "Use -4 between specialties, treat beam type as familiarity and apply ordinary firearm context modifiers. The matching beam/projectile default is available only in a campaign containing both weapon technologies; do not treat it as an unconditional edge.",
       "tests": [],
       "reference_data": {
         "attribute": "dx",
@@ -1330,9 +1330,24 @@
           [
             "dx",
             -4
+          ],
+          [
+            "beam-weapons-projector",
+            -4
+          ],
+          [
+            "beam-weapons-rifle",
+            -4
+          ],
+          [
+            "guns-pistol",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "guns-pistol": "campaign includes both beam and projectile weapons"
+        }
       }
     },
     {
@@ -1352,6 +1367,14 @@
           [
             "dx",
             -4
+          ],
+          [
+            "beam-weapons-pistol",
+            -4
+          ],
+          [
+            "beam-weapons-rifle",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1364,7 +1387,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Use -4 between specialties, treat beam type as familiarity and apply ordinary firearm context modifiers.",
+      "acceptance": "Use -4 between specialties, treat beam type as familiarity and apply ordinary firearm context modifiers. The matching beam/projectile default is available only in a campaign containing both weapon technologies; do not treat it as an unconditional edge.",
       "tests": [],
       "reference_data": {
         "attribute": "dx",
@@ -1374,9 +1397,24 @@
           [
             "dx",
             -4
+          ],
+          [
+            "beam-weapons-pistol",
+            -4
+          ],
+          [
+            "beam-weapons-projector",
+            -4
+          ],
+          [
+            "guns-rifle",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "guns-rifle": "campaign includes both beam and projectile weapons"
+        }
       }
     },
     {

@@ -1,0 +1,3496 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B302 skill table",
+  "review": "All second-page skill-summary rows visually located and mapped to neutral detailed entries. Detailed aiming-family defaults separately reconciled; complete summary field comparison and executable fixtures remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "skill-summary-b-chemistry",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 1,
+        "neutral_key": "chemistry",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "magical-chemistry:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-chemistry"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-climbing",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 2,
+        "neutral_key": "climbing",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-climbing"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-cloak",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 3,
+        "neutral_key": "cloak",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-5",
+          "net:-4",
+          "shield-any:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-cloak"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-combat-art-sport",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 4,
+        "neutral_key": "combat-art-sport",
+        "attribute": "dx",
+        "difficulty": "varies",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "special"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-combat-art-sport"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-cinematic-computer-intrusion",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 5,
+        "neutral_key": "cinematic-computer-intrusion",
+        "attribute": "iq",
+        "difficulty": "very-hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-cinematic-computer-intrusion"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-computer-operation",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 6,
+        "neutral_key": "computer-operation",
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-computer-operation"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-programming",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 7,
+        "neutral_key": "programming",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-programming"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-appraisal",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 8,
+        "neutral_key": "appraisal",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "special"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-appraisal-dance"
+          },
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-appraisal-literature"
+          },
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-appraisal-music"
+          },
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-appraisal-visual-art"
+          },
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-appraisal-wine"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-cooking",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 9,
+        "neutral_key": "cooking",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "housekeeping:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-cooking"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-counterfeiting",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 10,
+        "neutral_key": "counterfeiting",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "forgery:-2"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-counterfeiting"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-crew",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 11,
+        "neutral_key": "crew",
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-airship-crew"
+          },
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-surface-crew"
+          },
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-space-crew"
+          },
+          {
+            "file": "skills-catalogue-a.json",
+            "entry": "catalogue-skill-submarine-crew"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-criminology",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 12,
+        "neutral_key": "criminology",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "psychology:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-criminology"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-crossbow",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 13,
+        "neutral_key": "crossbow",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-crossbow"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-cryptography",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 14,
+        "neutral_key": "cryptography",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "mathematics-cryptology:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-cryptography"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-news",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 15,
+        "neutral_key": "news",
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-4",
+          "research:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-news-business"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-news-headlines"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-news-high-culture"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-news-people"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-news-politics"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-news-popular-culture"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-news-regional"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-news-science-technology"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-news-sports"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-news-travel"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-dancing",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 16,
+        "neutral_key": "dancing",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-dancing"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-lie-detection",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 17,
+        "neutral_key": "lie-detection",
+        "attribute": "perception",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "perception:-6",
+          "body-reading:-4",
+          "psychology:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-lie-detection"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-diagnosis",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 18,
+        "neutral_key": "diagnosis",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "first-aid:-8",
+          "physician:-4",
+          "veterinary:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-diagnosis"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-diplomacy",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 19,
+        "neutral_key": "diplomacy",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "politics:-6"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-diplomacy"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-disguise",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 20,
+        "neutral_key": "disguise",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "makeup:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-disguise"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-diving-suit",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 21,
+        "neutral_key": "diving-suit",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-5",
+          "powered-suit:-4",
+          "protective-suit:-4",
+          "scuba:-2",
+          "vacuum-suit:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-diving-suit"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-dream-control",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 22,
+        "neutral_key": "dream-control",
+        "attribute": "will",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "will:-6"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-dream-control"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-driving",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 23,
+        "neutral_key": "driving",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "dx:-5",
+          "iq:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-driving-automobile"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-driving-construction"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-driving-halftrack"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-driving-heavy-wheeled"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-driving-hovercraft"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-driving-rail"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-driving-articulated"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-driving-motorcycle"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-driving-tracked"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-aerial-dropping",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 24,
+        "neutral_key": "aerial-dropping",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-3",
+          "throwing:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-aerial-dropping"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-economics",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 25,
+        "neutral_key": "economics",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "finance:-3",
+          "market-analysis:-5",
+          "commerce:-6"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-economics"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-electrical-work",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 26,
+        "neutral_key": "electrical-work",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "engineering-electrical:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electrical-work"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-electronics-operation",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 27,
+        "neutral_key": "electronics-operation",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "electronics-repair-same:-5",
+          "engineering-electronics:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-communications"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-electronic-warfare"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-force-barriers"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-matter-transfer"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-media"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-medical"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-world-transfer"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-psychic-devices"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-scientific"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-security"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-sensors"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-sonar"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-surveillance"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-operation-time-transfer"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-electronics-repair",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 28,
+        "neutral_key": "electronics-repair",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "electronics-operation-same:-3",
+          "engineering-electronics:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-communications"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-electronic-warfare"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-force-barriers"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-matter-transfer"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-media"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-medical"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-world-transfer"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-psychic-devices"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-scientific"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-security"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-sensors"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-sonar"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-surveillance"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-time-transfer"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-electronics-repair-computers"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-engineering",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 29,
+        "neutral_key": "engineering",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "special"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-artillery"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-civil"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-clockwork"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-combat"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-electrical"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-electronics"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-materials"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-micromachines"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-mining"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-nanomachines"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-world-transfer"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-psychic-devices"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-robotics"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-small-arms"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-time-transfer"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-engineering-vehicle-category"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-story-influence",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 30,
+        "neutral_key": "story-influence",
+        "attribute": "will",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-story-persuasion"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-story-suggestion"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-story-loyalty"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-story-emotion"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-environment-suit",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 31,
+        "neutral_key": "environment-suit",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-5",
+          "special"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-powered-suit"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-diving-suit"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-protective-suit"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-vacuum-suit"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-intimate-performance",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 32,
+        "neutral_key": "intimate-performance",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-5",
+          "acrobatics:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-intimate-performance"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-escape",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 33,
+        "neutral_key": "escape",
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-6"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-escape"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-traditional-treatment",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 34,
+        "neutral_key": "traditional-treatment",
+        "attribute": "perception",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "perception:-6"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-traditional-treatment"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-spirit-expulsion",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 35,
+        "neutral_key": "spirit-expulsion",
+        "attribute": "will",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "will:-6",
+          "religious-ritual-any:-3",
+          "ritual-magic-any:-3",
+          "theology-any:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-spirit-expulsion"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-expert",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 36,
+        "neutral_key": "expert",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-expert-computer-security"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-expert-conspiracies"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-expert-ancient-civilization"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-expert-epidemiology"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-expert-hydrology"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-expert-military-science"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-expert-early-natural-philosophy"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-expert-political-science"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-expert-psychic-biology"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-expert-death-studies"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-expert-alien-cultures"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-explosives",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 37,
+        "neutral_key": "explosives",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "special"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-explosives-demolition"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-explosives-disposal"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-explosives-pyrotechnics"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-explosives-nuclear-disposal"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-explosives-underwater-demolition"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-falconry",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 38,
+        "neutral_key": "falconry",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "animal-handling-raptors:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-falconry"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-farming",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 39,
+        "neutral_key": "farming",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "biology:-5",
+          "gardening:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-farming"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-quick-draw",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 40,
+        "neutral_key": "quick-draw",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-quick-draw-energy-blade"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-quick-draw-knife"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-quick-draw-long-firearm"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-quick-draw-pistol"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-quick-draw-one-hand-sword"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-quick-draw-two-hand-sword"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-quick-draw-arrow"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-quick-draw-ammunition"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-quick-persuasion",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 41,
+        "neutral_key": "quick-persuasion",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "acting:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-quick-persuasion"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-snatching",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 42,
+        "neutral_key": "snatching",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-5",
+          "pickpocket:-4",
+          "sleight-of-hand:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-snatching"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-finance",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 43,
+        "neutral_key": "finance",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "bookkeeping:-4",
+          "economics:-3",
+          "commerce:-6"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-finance"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-flame-performance",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 44,
+        "neutral_key": "flame-performance",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-flame-performance"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-first-aid",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 45,
+        "neutral_key": "first-aid",
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-4",
+          "traditional-treatment:0",
+          "physician:0",
+          "veterinary:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-first-aid"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-fishing",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 46,
+        "neutral_key": "fishing",
+        "attribute": "perception",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "perception:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-fishing"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-flail",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 47,
+        "neutral_key": "flail",
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "axe-mace:-4",
+          "two-hand-flail:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-flail"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-endurance-flight",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 48,
+        "neutral_key": "endurance-flight",
+        "attribute": "ht",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "ht:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-endurance-flight"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-empowered-leap",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 49,
+        "neutral_key": "empowered-leap",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-empowered-leap"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-energy-sword",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 50,
+        "neutral_key": "energy-sword",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "any-sword:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-energy-sword"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-energy-whip",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 51,
+        "neutral_key": "energy-whip",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "weighted-chain:-3",
+          "monofilament-whip:-3",
+          "whip:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-energy-whip"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-forced-entry",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 52,
+        "neutral_key": "forced-entry",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-forced-entry"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-forensics",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 53,
+        "neutral_key": "forensics",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "criminology:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-forensics"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-forgery",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 54,
+        "neutral_key": "forgery",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "counterfeiting:-2"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-forgery"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-fortune-reading",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 55,
+        "neutral_key": "fortune-reading",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "quick-persuasion:-3",
+          "occultism:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-fortune-reading-astrology"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-fortune-reading-natural-omens"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-fortune-reading-crystal-reading"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-fortune-reading-dream-interpretation"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-fortune-reading-spatial-symbolism"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-fortune-reading-palm-reading"
+          },
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-fortune-reading-card-reading"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-forward-observation",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 56,
+        "neutral_key": "forward-observation",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "indirect-fire-any:-5",
+          "special"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-forward-observation"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-zero-gravity",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 57,
+        "neutral_key": "zero-gravity",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-5",
+          "ht:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-zero-gravity"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-freight-handling",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 58,
+        "neutral_key": "freight-handling",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-freight-handling"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-gambling",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 59,
+        "neutral_key": "gambling",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "mathematics-statistics:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-gambling"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-games",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 60,
+        "neutral_key": "games",
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-games"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-gardening",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 61,
+        "neutral_key": "gardening",
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-4",
+          "farming:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-gardening"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-strangling-cord",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 62,
+        "neutral_key": "strangling-cord",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-strangling-cord"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-geography",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 63,
+        "neutral_key": "geography",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "special"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-geography-physical"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-geography-political"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-geography-regional"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-geology",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 64,
+        "neutral_key": "geology",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "geography-physical:-4",
+          "prospecting:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-geology"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-gesture",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 65,
+        "neutral_key": "gesture",
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-gesture"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-group-performance",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 66,
+        "neutral_key": "group-performance",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "special"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-dance-direction"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-music-direction"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-acting-direction"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-combat-direction"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-direct-heavy-fire",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 67,
+        "neutral_key": "direct-heavy-fire",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "dx:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-direct-heavy-fire-beams"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-direct-heavy-fire-cannon"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-direct-heavy-fire-mechanical-bolts"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-direct-heavy-fire-machine-gun"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-direct-heavy-fire-rockets"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-guns",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 68,
+        "neutral_key": "guns",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "dx:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-guns-grenade-launcher"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-guns-miniature-rocket"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-guns-light-antitank"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-guns-light-machine-gun"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-guns-musket"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-guns-pistol"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-guns-rifle"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-guns-shotgun"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-guns-submachine-gun"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-hazardous-materials",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 69,
+        "neutral_key": "hazardous-materials",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-hazardous-materials-biological"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-hazardous-materials-chemical"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-hazardous-materials-radioactive"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-hazardous-materials-magical"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-hazardous-materials-nanotechnology"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-heraldry",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 70,
+        "neutral_key": "heraldry",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "etiquette-high-society:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-heraldry"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-magical-herbalism",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 71,
+        "neutral_key": "magical-herbalism",
+        "attribute": "iq",
+        "difficulty": "very-hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-magical-herbalism"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-secret-lore",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 72,
+        "neutral_key": "secret-lore",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-secret-lore-conspiracies"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-secret-lore-infernal-beings"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-secret-lore-otherworld-beings"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-secret-lore-spirits"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-hiking",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 73,
+        "neutral_key": "hiking",
+        "attribute": "ht",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "ht:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-hiking"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-history",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 74,
+        "neutral_key": "history",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-6"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-history"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-hobby",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 75,
+        "neutral_key": "hobby",
+        "attribute": "dx-or-iq",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-4-or-iq:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-hobby-dx"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-hobby-iq"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-conceal-item",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 76,
+        "neutral_key": "conceal-item",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "sleight-of-hand:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-conceal-item"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-housekeeping",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 77,
+        "neutral_key": "housekeeping",
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-housekeeping"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-hypnosis",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 78,
+        "neutral_key": "hypnosis",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-hypnosis"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-anchored-stance",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 79,
+        "neutral_key": "anchored-stance",
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-anchored-stance"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-innate-aim",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 80,
+        "neutral_key": "innate-aim",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "dx:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-innate-aim-hand-beam"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-innate-aim-breath"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-innate-aim-gaze"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-innate-aim-hand-projectile"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-intelligence-analysis",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 81,
+        "neutral_key": "intelligence-analysis",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "strategy-any:-6"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-intelligence-analysis"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-interrogation",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 82,
+        "neutral_key": "interrogation",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "intimidation:-3",
+          "psychology:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-interrogation"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-intimidation",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 83,
+        "neutral_key": "intimidation",
+        "attribute": "will",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "will:-5",
+          "acting:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-intimidation"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-unnoticed-presence",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 84,
+        "neutral_key": "unnoticed-presence",
+        "attribute": "iq",
+        "difficulty": "very-hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-unnoticed-presence"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-jewelry-work",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 85,
+        "neutral_key": "jewelry-work",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "metalwork-copper:-4",
+          "metalwork-lead-tin:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-jewelry-work"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-tined-blade",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 86,
+        "neutral_key": "tined-blade",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "energy-sword:-4",
+          "off-hand-fencing:-4",
+          "shortsword:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-tined-blade"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-throw-grappling",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 87,
+        "neutral_key": "throw-grappling",
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-throw-grappling"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-jumping",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 88,
+        "neutral_key": "jumping",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-jumping"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-advanced-striking",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 89,
+        "neutral_key": "advanced-striking",
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-advanced-striking"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-stunning-shout",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 90,
+        "neutral_key": "stunning-shout",
+        "attribute": "ht",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-stunning-shout"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-knife",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 91,
+        "neutral_key": "knife",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "energy-sword:-3",
+          "off-hand-fencing:-3",
+          "shortsword:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-knife"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-knot-tying",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 92,
+        "neutral_key": "knot-tying",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-4",
+          "climbing:-4",
+          "surface-crew:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-knot-tying"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-weighted-chain",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 93,
+        "neutral_key": "weighted-chain",
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "energy-whip:-3",
+          "monofilament-whip:-3",
+          "two-hand-flail:-4",
+          "whip:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-weighted-chain"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-lance",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 94,
+        "neutral_key": "lance",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-5",
+          "spear:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-lance"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-lasso",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 95,
+        "neutral_key": "lasso",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-lasso"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-law",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 96,
+        "neutral_key": "law",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-6"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-law"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-leadership",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 97,
+        "neutral_key": "leadership",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-leadership"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-leatherworking",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 98,
+        "neutral_key": "leatherworking",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-leatherworking"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-lifting",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 99,
+        "neutral_key": "lifting",
+        "attribute": "ht",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-lifting"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-light-footfall",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 100,
+        "neutral_key": "light-footfall",
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-light-footfall"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-linguistics",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 101,
+        "neutral_key": "linguistics",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-linguistics"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-lip-reading",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 102,
+        "neutral_key": "lip-reading",
+        "attribute": "perception",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "perception:-10"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-lip-reading"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    },
+    {
+      "id": "skill-summary-b-liquid-projector",
+      "source": "full-2008",
+      "pages": "B302 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 103,
+        "neutral_key": "liquid-projector",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "dx:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-liquid-projector-flame"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-liquid-projector-spray"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-liquid-projector-squirt"
+          },
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-liquid-projector-water-cannon"
+          }
+        ],
+        "reconciliation": "mapped; full field comparison pending"
+      }
+    }
+  ],
+  "exclusions": [
+    "No source names or descriptive prose reproduced. Summary rows are cross-references, not additional purchasable skill definitions."
+  ]
+}

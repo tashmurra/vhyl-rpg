@@ -368,6 +368,7 @@
     "inventory/example-compositions.json",
     "inventory/spell-summary.json",
     "inventory/technique-summary.json",
-    "inventory/skill-summary-a.json"
+    "inventory/skill-summary-a.json",
+    "inventory/skill-summary-b.json"
   ]
 }
