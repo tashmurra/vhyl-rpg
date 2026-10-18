@@ -2512,9 +2512,10 @@
       "tests": [
         "tests/expanded.py::test_drowning_care",
         "tests/expanded.py::test_drowning_interruption",
-        "tests/expanded.py::test_drowning_ownership"
+        "tests/expanded.py::test_drowning_ownership",
+        "tests/expanded.py::test_drowning_actions"
       ],
-      "validation_note": "Owned staged B425 minute validates healer, technology, skill and access, retaining ongoing shared airless-second costs. Successful medical check authorizes clean-air recovery and applicable brain-loss checks, without healing injury/fatigue. Concurrent and early attempts reject. Explicit interruption retains elapsed exposure costs, releases a distinct retry and blocks cancelled completion. The shared clock cannot skip an unfinished completion boundary. Cross-patient rescuer contention and profile treatment-history validation are authored. Native rescuer actions remain pending. Fixtures authored, unrun."
+      "validation_note": "Owned staged B425 minute validates healer, technology, skill and access, retaining ongoing shared airless-second costs. Successful medical check authorizes clean-air recovery and applicable brain-loss checks, without healing injury/fatigue. Concurrent and early attempts reject. Explicit interruption retains elapsed exposure costs, releases a distinct retry and blocks cancelled completion. The shared clock cannot skip an unfinished completion boundary. Cross-patient rescuer contention and profile treatment-history validation are authored. Native action adapter binds the acting healer and shares start/finish/cancel with parser, structured and dialogue routes. Patient retrieval and dynamic world access remain authored integration work. Fixtures authored, unrun."
     },
     {
       "id": "hazard-suffocation-brain",

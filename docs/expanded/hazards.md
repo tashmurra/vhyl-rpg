@@ -2705,7 +2705,7 @@ holds this clock boundary.
 
 `expanded-drowning-interruption.t` / `test_drowning_interruption` specify
 cancellation, retry, completion boundaries, rollback, undo and saved replay.
-Fixtures remain unrun. Native rescuer actions remain outstanding.
+Fixtures remain unrun. The native rescue-action adapter is described below; patient retrieval and changing world access remain authored responsibilities.
 
 
 ### Rescuer ownership and treatment history
@@ -2722,3 +2722,26 @@ patient ownership, bound completion and cancellation state. Removing a receipt
 from the patient's exposure does not make its committed object reusable.
 `expanded-drowning-ownership.t` / `test_drowning_ownership` cover cross-patient
 contention, release, saved replay and altered histories. These fixtures are unrun.
+
+
+### Native rescue actions
+
+`RpgExpandedDrowningCareAction` extends the engine's `Action`. Bind `attempt`
+to an owned `RpgExpandedDrowningResuscitation` and choose `operation` as `start`,
+`finish` or `cancel`. Cancellation also requires `cancellationEvidence`. Bind
+the rescuer's world actor through `rpgProfile` to the attempt's `healer`; a
+mismatched actor is blocked before the treatment is changed.
+
+Attach the action to authored grammar and a `Verb` for parser and structured
+requests. A dialogue choice calls `action.perform(context.asker)`. Both entry
+points delegate to the same treatment methods and emit
+`rpg.expanded.drowning-care` with `[operation, status, reason]`. Reporting and
+player-facing labels remain authored. The adapter does not advance time or
+resolve airless seconds; the existing scheduler must do that exactly once.
+
+The concrete three-route integration is in
+`tests/fixtures/expanded-drowning-actions.t`. Its `test_drowning_actions`
+fixture specifies early completion, successful finish, replay, cancellation,
+incorrect actor binding, exception rollback and undo. Fixtures remain unrun.
+World movement, patient retrieval and dynamic access changes still require
+an authored integration; this adapter does not infer those world facts.

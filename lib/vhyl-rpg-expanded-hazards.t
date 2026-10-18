@@ -6888,3 +6888,25 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Native action adapter. Authors bind an attempt and expose their own verbs.
+ * Dialogue choices call perform(context.asker) to share the same transaction. */
+class RpgExpandedDrowningCareAction: Action
+    attempt = nil
+    operation = 'start'
+    cancellationEvidence = nil
+    perform(actor)
+    {
+        if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedDrowningResuscitation)
+            || !holds(['start','finish','cancel'],self.operation)) rpgExpandedReject('drowning-care-action-definition');
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile != self.attempt.healer)
+            value.reason = 'drowning-care-acting-healer-required';
+        else if (self.operation == 'start') value = self.attempt.start();
+        else if (self.operation == 'finish') value = self.attempt.finish();
+        else value = self.attempt.cancel(self.cancellationEvidence);
+        event('rpg.expanded.drowning-care'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;

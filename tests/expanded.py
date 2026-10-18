@@ -9336,6 +9336,8 @@ def test(build):
     test_drowning_interruption(Session, drowning_interruption, build.out)
     drowning_ownership = build.build("expanded-drowning-ownership",ROOT / "tests/fixtures/expanded-drowning-ownership.t")
     test_drowning_ownership(Session, drowning_ownership, build.out)
+    drowning_actions = build.build("expanded-drowning-actions",ROOT / "tests/fixtures/expanded-drowning-actions.t")
+    test_drowning_actions(Session, drowning_actions)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22825,3 +22827,63 @@ def test_drowning_ownership(Session, bundle, out):
             assert last(s, 'test.care-owner-history') == [reason]
         finally:
             s.close()
+
+
+def test_drowning_actions(Session, bundle):
+    """Parser, structured action and dialogue dispatch the same owned care; unrun."""
+    outcomes = []
+    for route in ('parser','structured','dialogue'):
+        s = Session(bundle)
+        try:
+            def perform(operation):
+                if route == 'parser':
+                    s.command(operation + ' care')
+                elif route == 'structured':
+                    s.action({'start':17710,'finish':17711,'cancel':17712,'rollback':17713}[operation])
+                else:
+                    s.action(80,'care-plan'); s.select(operation)
+            for code in (17000,17001,17003,17300):
+                s.action(1910,code)
+            perform('rollback')
+            s.action(1910,17702)
+            assert last(s, 'test.care-action-state') == [0,0,0,0,2,9]
+            perform('start')
+            perform('finish')
+            assert last(s, 'rpg.expanded.drowning-care') == ['finish','blocked','drowning-care-minute-not-complete']
+            s.action(1910,17401)
+            s.action(1910,17700)
+            perform('finish')
+            assert last(s, 'rpg.expanded.drowning-care') == ['finish','resolved',None]
+            s.command('undo')
+            s.action(1910,17404)
+            assert last(s, 'test.drowning-care') == [0,60,-10,60,62,9]
+            perform('finish')
+            perform('finish')
+            assert last(s, 'rpg.expanded.drowning-care') == ['finish','reused',None]
+            s.action(1910,17404)
+            outcomes.append(last(s, 'test.drowning-care'))
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            for code in (17000,17001,17003,17300):
+                s.action(1910,code)
+            perform('start')
+            perform('cancel')
+            perform('finish')
+            assert last(s, 'rpg.expanded.drowning-care') == ['finish','blocked','drowning-care-cancelled']
+            s.action(1910,17702)
+            assert last(s, 'test.care-action-state') == [1,1,1,0,2,9]
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            for code in (17000,17001,17003,17300,17701):
+                s.action(1910,code)
+            perform('start')
+            assert last(s, 'rpg.expanded.drowning-care') == ['start','blocked','drowning-care-acting-healer-required']
+            s.action(1910,17702)
+            assert last(s, 'test.care-action-state') == [0,0,0,0,2,9]
+        finally:
+            s.close()
+    assert outcomes == [[1,0,-10,60,62,12]] * 3
