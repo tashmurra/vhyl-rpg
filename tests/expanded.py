@@ -9122,6 +9122,8 @@ def test(build):
     test_ancestry_conflicts(Session, ancestry_conflicts, build.out)
     ancestry_features = build.build('expanded-ancestry-features',ROOT / 'tests/fixtures/expanded-ancestry-features.t')
     test_ancestry_features(Session, ancestry_features, build.out)
+    ancestry_omissions = build.build('expanded-ancestry-omissions',ROOT / 'tests/fixtures/expanded-ancestry-omissions.t')
+    test_ancestry_omissions(Session, ancestry_omissions, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -18114,5 +18116,56 @@ def test_ancestry_features(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.ancestry-features') == expected
         assert last(s, 'test.ancestry-feature-learning') == [0, 100, 0, 0]
+    finally:
+        s.close()
+
+
+def test_ancestry_omissions(Session, bundle, out):
+    path = out / 'expanded-ancestry-omissions.zsave'
+    positive = [0, -15, 0, 0, 15, -15, 0, 0]
+    for mutation, reason in ((6403, 'point-budget'), (6404, 'ancestry-omission-definition'), (6405, 'ancestry-omission-missing')):
+        s = Session(bundle)
+        try:
+            for code in (6400, mutation, 6406, 6401):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-omission-error') == [reason]
+            assert last(s, 'test.ancestry-omission') == positive
+        finally:
+            s.close()
+    for mutation, reason in ((6407, 'ancestry-omission-accounting'), (6408, 'ancestry-omission-restoration-required')):
+        s = Session(bundle)
+        try:
+            for code in (6400, mutation, 5907):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-score-error') == [reason]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (6402, 6400, 6401):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-omission') == [0, -10, 10, 0, -10, 10, 0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (6400, 6409):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-restoration') == ['ancestry-omission-restoration-required', 100, 0]
+        s.action(2285, 6408)
+        s.command('undo')
+        for code in (6405, 6401):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-omission') == positive
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (6401, 6409):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-omission') == positive
+        assert last(s, 'test.ancestry-restoration') == ['ancestry-omission-restoration-required', 100, 0]
     finally:
         s.close()

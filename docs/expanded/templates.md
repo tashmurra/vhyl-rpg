@@ -467,8 +467,8 @@ Validation rejects missing mandatory purchases or edits to their cost, level,
 rating, scope, identity or skill list. Activation and mitigation may still change
 through normal play. Ordinary disadvantage buyoff and removal offers cannot
 remove mandatory ancestry purchases, even with a separate buyoff approval.
-Permitted ancestry omissions require the explicit replacement accounting in B262;
-that interface is still pending.
+Permitted complete ancestry omissions use the explicit replacement accounting
+interface below. Partial and modifier-bearing replacements remain pending.
 
 Overlapping personal and ancestry traits currently reject under ordinary trait
 validation. Supported ancestry-to-ancestry stacking is described below. Personal
@@ -540,8 +540,7 @@ The combined price is recomputed from retained components; a discarded component
 contributes neither cost nor disadvantage exemption. Decision snapshots are stored
 in the owned ancestry receipt and survive later changes to author definitions.
 This is conflict resolution between ancestries, not a personal omission of a
-mandatory ancestry trait. Personal omissions still require the separate B262
-replacement accounting and remain unsupported.
+mandatory ancestry trait. Personal omissions use the separate B262 replacement accounting below.
 
 `test_ancestry_conflicts` specifies retaining either side of a positive/negative
 conflict, retaining one rated purchase, invalid and contradictory decisions,
@@ -575,3 +574,38 @@ Sources: `full-2008`, B261 and B452. `test_ancestry_features` specifies zero cos
 mandatory constraint ownership, prohibited initial purchases, direct learning,
 rejected edits and removals, source-definition isolation, undo and save
 continuation. Assertions are authored but unrun.
+
+## Approved personal omissions
+
+`rpgExpandedCreateCustomizedAncestryCharacter(personal, ancestries, resolutions,
+omissions, rules)` adds approved complete omissions after ancestry conflicts and
+stacking have been resolved. Each `RpgExpandedAncestryOmission` specifies a unique
+`id`, the combined ancestry `traitId` and `scope`, `approved`, and nonempty
+`evidence`. Missing or ambiguous targets reject. The target must be an ancestry
+purchase; the interface cannot remove unrelated personal investments.
+
+The omitted trait is absent from the character's active trait list. Its original
+purchase remains in the ancestry receipt, and an owned accounting contribution
+records the original ancestry cost plus an equal, opposite personal adjustment.
+For example, omitting a 15-point ancestry benefit gives entries +15 and −15:
+the net cost is zero, but the personal −15 counts against the disadvantage cap.
+Omitting a −10 ancestry disadvantage gives entries −10 and +10: the net cost is
+zero and the ancestry −10 remains exempt from the personal cap. This is different
+from discarding a conflicting ancestry component before composition.
+
+The accounting contribution and original purchase are bound to the character.
+Removing that contribution, editing the recorded purchase, or directly restoring
+the omitted trait rejects. Ordinary trait development offers cannot restore it
+and leave the personal adjustment in place. A dedicated restoration/advancement
+procedure is still needed. Changing the author request after creation does not
+rewrite an existing character.
+
+Only complete, unmodified omissions of currently supported ancestry trait
+purchases are implemented. Partial omissions, enhancements/limitations on the
+replacement, zero-cost feature omissions, and restoration remain unfinished.
+Other ancestry obligations and final character constraints remain in force.
+
+Source: `full-2008`, B262. `test_ancestry_omissions` specifies both price signs,
+the personal negative-cap boundary, required approval and target identity,
+accounting ownership, unchanged prior characters, restoration rejection before
+spending, undo and save continuation. These assertions are authored but unrun.

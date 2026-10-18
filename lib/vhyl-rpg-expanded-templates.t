@@ -538,6 +538,31 @@ class RpgExpandedAncestryTemplate: RpgExpandedAncestryScoreTemplate
     supportsTraits = true
 ;
 
+/** Author-approved complete omission; partial or modified replacements are separate. */
+class RpgExpandedAncestryOmission: object
+    id = nil
+    traitId = nil
+    scope = nil
+    approved = nil
+    evidence = nil
+;
+class RpgExpandedAncestryOmissionAccounting: RpgExpandedContribution
+    id = 'ancestry-omissions'
+    receipt = nil
+    validate(profile)
+    {
+        if (self.owner != profile || self.receipt == nil || self.receipt != profile.ancestryScores
+            || self.receipt.omissionAccounting != self) rpgExpandedReject('ancestry-omission-accounting');
+        self.receipt.validate(profile); return nil;
+    }
+    amounts(profile)
+    {
+        self.validate(profile); local amounts = [];
+        foreach (local omission in self.receipt.omissions) amounts = amounts + [omission[4],-omission[4]];
+        return amounts;
+    }
+;
+
 /** Owned immutable ancestry score origins; later personal advancement changes totals. */
 class RpgExpandedAncestryScores: object
     owner = nil
@@ -556,6 +581,44 @@ class RpgExpandedAncestryScores: object
     boundConstraints = []
     features = []
     boundFeatures = []
+    omissions = []
+    boundOmissions = []
+    omissionAccounting = nil
+    omit(profile, requests)
+    {
+        local ids = [];
+        foreach (local request in requests)
+        {
+            if (request == nil || !request.ofKind(RpgExpandedAncestryOmission) || request.id == nil || request.id == ''
+                || !request.approved || request.evidence == nil || request.evidence == '')
+                rpgExpandedReject('ancestry-omission-definition');
+            if (holds(ids,request.id)) rpgExpandedReject('ancestry-omission-duplicate');
+            ids = ids + [request.id]; local found = 0;
+            for (local i = 1; i <= self.traits.length(); i += 1)
+                if (self.traits[i].id == request.traitId && self.traits[i].scope == request.scope)
+                {
+                    if (found != 0) rpgExpandedReject('ancestry-omission-ambiguous');
+                    found = i;
+                }
+            if (found == 0) rpgExpandedReject('ancestry-omission-missing');
+            local trait = self.traits[found]; local cost = trait.creationCost();
+            if (cost == 0) rpgExpandedReject('ancestry-omission-zero-cost');
+            self.omissions = self.omissions + [[request.id,trait,self.traitOrigins[found],cost,
+                self.traitDefinition(trait,self.traitOrigins[found]),request.evidence]];
+            local keptTraits = []; local keptOrigins = []; local keptProfile = [];
+            for (local i = 1; i <= self.traits.length(); i += 1)
+                if (i != found) { keptTraits = keptTraits + [self.traits[i]]; keptOrigins = keptOrigins + [self.traitOrigins[i]]; }
+            foreach (local current in profile.traits) if (current != trait) keptProfile = keptProfile + [current];
+            self.traits = keptTraits; self.traitOrigins = keptOrigins; profile.traits = keptProfile;
+        }
+        self.boundOmissions = self.omissions;
+        if (self.omissions.length() != 0)
+        {
+            local accounting = new RpgExpandedAncestryOmissionAccounting(); accounting.owner = profile; accounting.receipt = self;
+            self.omissionAccounting = accounting; profile.contributions = profile.contributions + [accounting];
+        }
+        return nil;
+    }
     constraintDefinition(constraint)
     {
         return [constraint,constraint.id,constraint.owner,constraint.traitIds,constraint.skills,
@@ -572,6 +635,25 @@ class RpgExpandedAncestryScores: object
             || self.boundChanges.length() != 10 || self.origins.length() != self.boundOrigins.length())
             rpgExpandedReject('ancestry-score-ownership');
         if (self.nonhuman != self.boundNonhuman) rpgExpandedReject('ancestry-score-binding');
+        if (self.omissions.length() != self.boundOmissions.length()) rpgExpandedReject('ancestry-omission-binding');
+        for (local i = 1; i <= self.omissions.length(); i += 1)
+        {
+            local omission = self.omissions[i];
+            if (omission != self.boundOmissions[i]) rpgExpandedReject('ancestry-omission-binding');
+            local definition = self.traitDefinition(omission[2],omission[3]);
+            for (local j = 1; j <= definition.length(); j += 1)
+                if (definition[j] != omission[5][j]) rpgExpandedReject('ancestry-omission-binding');
+            foreach (local trait in profile.traits)
+                if (trait.id == omission[2].id && (trait.id != 'quirk' || trait.scope == omission[2].scope))
+                    rpgExpandedReject('ancestry-omission-restoration-required');
+        }
+        if (self.omissions.length() != 0)
+        {
+            local count = 0;
+            foreach (local contribution in profile.contributions) if (contribution == self.omissionAccounting) count += 1;
+            if (count != 1 || self.omissionAccounting.owner != profile || self.omissionAccounting.receipt != self)
+                rpgExpandedReject('ancestry-omission-accounting');
+        }
         if (self.constraints.length() != self.boundConstraints.length()) rpgExpandedReject('ancestry-taboo-binding');
         for (local i = 1; i <= self.constraints.length(); i += 1)
         {
@@ -646,6 +728,10 @@ modify RpgExpandedProfile
             self.ancestryScores.validate(self);
             if (offer.kind == 'remove-trait' && holds(self.ancestryScores.traits,offer.trait))
                 return 'ancestry-trait-mandatory';
+            if (offer.kind == 'trait' && offer.trait != nil)
+                foreach (local omission in self.ancestryScores.omissions)
+                    if (offer.trait.id == omission[2].id && (offer.trait.id != 'quirk' || offer.trait.scope == omission[2].scope))
+                        return 'ancestry-omission-restoration-required';
         }
         return inherited(offer);
     }
@@ -677,6 +763,7 @@ modify RpgExpandedProfile
         foreach (local cost in self.ancestryScores.amounts(self)) if (cost < 0) amount -= cost;
         foreach (local trait in self.ancestryScores.traits)
             if (trait.creationCost() < 0) amount -= trait.creationCost();
+        foreach (local omission in self.ancestryScores.omissions) if (omission[4] < 0) amount -= omission[4];
         return amount;
     }
 ;
@@ -779,6 +866,12 @@ rpgExpandedCreateAncestryCharacter(personal, ancestries, rules)
 /** Resolve identified ancestry conflicts before assembling the combined character. */
 rpgExpandedCreateResolvedAncestryCharacter(personal, ancestries, resolutions, rules)
 {
+    return rpgExpandedCreateCustomizedAncestryCharacter(personal,ancestries,resolutions,[],rules);
+}
+
+/** B262: preserve ancestry cost and add an opposite personal omission adjustment. */
+rpgExpandedCreateCustomizedAncestryCharacter(personal, ancestries, resolutions, omissions, rules)
+{
     if (personal == nil || !personal.ofKind(RpgExpandedTemplate)
         && !personal.ofKind(RpgExpandedTemplateSelection) && !personal.ofKind(RpgExpandedTemplateCustomization))
         rpgExpandedReject('ancestry-personal-template');
@@ -866,6 +959,7 @@ rpgExpandedCreateResolvedAncestryCharacter(personal, ancestries, resolutions, ru
                 receipt.traitOrigins = updated;
             }
         }
+    receipt.omit(p,omissions);
     for (local i = 1; i <= receipt.traits.length(); i += 1)
         receipt.boundTraits = receipt.boundTraits + [receipt.traitDefinition(receipt.traits[i],receipt.traitOrigins[i])];
     p.st += changes[1]; p.dx += changes[2]; p.iq += changes[3]; p.ht += changes[4];

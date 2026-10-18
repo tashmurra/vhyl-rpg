@@ -253,9 +253,12 @@
       "pages": "B262; B454",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An approved omission of a positive ancestry trait retains the original ancestry price and records an equal negative personal replacement; that replacement counts against the personal negative cap.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_omissions"
+      ],
+      "validation_note": "Approved complete omissions retain original ancestry cost and an opposite personal adjustment in an owned accounting contribution. Positive omissions count against personal negative limits; negative ancestry components remain exempt. Ordinary restoration rejects. Modified/partial replacements and restoration remain pending; assertions authored, unrun."
     },
     {
       "id": "ancestry-omission-negative",
@@ -263,9 +266,12 @@
       "pages": "B262; B454",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An approved omission of a negative ancestry trait retains the original ancestry price and adds an equal positive personal replacement.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_omissions"
+      ],
+      "validation_note": "Approved complete omissions retain original ancestry cost and an opposite personal adjustment in an owned accounting contribution. Positive omissions count against personal negative limits; negative ancestry components remain exempt. Ordinary restoration rejects. Modified/partial replacements and restoration remain pending; assertions authored, unrun."
     },
     {
       "id": "ancestry-omission-modifiers",

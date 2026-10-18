@@ -1327,3 +1327,9 @@ Ancestry packages now install owned mandatory purchase prohibitions and retain
 zero-cost cosmetic notes with ancestry provenance. Shared learning rejects
 removed or altered constraint records. Cosmetic notes grant no numerical
 abilities. Creation, ownership, undo and save fixtures remain unrun.
+
+Approved complete ancestry-trait omissions retain the original ancestry cost and
+an opposite personal adjustment, with correct personal disadvantage accounting.
+The omitted effect is absent, and ordinary restoration is blocked until its
+accounting can be updated explicitly. Partial/modified omissions and restoration
+remain unfinished. Pricing, rejection, undo and save fixtures are unrun.
