@@ -5550,13 +5550,7 @@ class RpgExpandedSustenanceDose: object
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        self.stock.quantity -= 1;
-        if (self.stock.quantity == 0)
-        {
-            local remaining = [];
-            foreach (local item in self.episode.profile.equipment) if (item != self.stock) remaining = remaining + [item];
-            self.episode.profile.equipment = remaining;
-        }
+        rpgExpandedConsumeSustenanceUnit(self.episode.profile,self.stock);
         self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition(); self.episode.restoration = self;
         value.status = 'resolved'; return value;
     }
@@ -5578,6 +5572,7 @@ class RpgExpandedSustenanceDeadline: object
     dueAt = nil
     boundDefinition = nil
     missedEpisode = nil
+    fulfillment = nil
     definition()
     {
         return [self.id,self.source,self.approved,self.evidence,self.calendarId,self.boundaryId,self.calendarDueAt,
@@ -5597,6 +5592,12 @@ class RpgExpandedSustenanceDeadline: object
                 rpgExpandedReject('sustenance-deadline-missed-binding');
             self.missedEpisode.validateReceipt();
         }
+        if (self.fulfillment != nil)
+        {
+            if (self.missedEpisode != nil || !self.fulfillment.ofKind(RpgExpandedSustenanceDueDose) || self.fulfillment.deadline != self)
+                rpgExpandedReject('sustenance-deadline-fulfillment-history');
+            self.fulfillment.validateReceipt();
+        }
         return nil;
     }
     assess()
@@ -5605,7 +5606,7 @@ class RpgExpandedSustenanceDeadline: object
             rpgExpandedReject('sustenance-deadline-definition');
         self.source.validateReceipt(); local value = new RpgExpandedResult();
         if (self.registeredAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
-        if (self.boundDefinition != nil || self.dueAt != nil || self.missedEpisode != nil)
+        if (self.boundDefinition != nil || self.dueAt != nil || self.missedEpisode != nil || self.fulfillment != nil)
             rpgExpandedReject('sustenance-deadline-uncommitted-state');
         if (self.source.restoration == nil) { value.reason = 'sustenance-deadline-restoration-required'; return value; }
         if (self.source.profile.dead) { value.reason = 'sustenance-dead'; return value; }
@@ -5649,6 +5650,7 @@ class RpgExpandedSustenanceDeadline: object
             if (episode != self.missedEpisode) rpgExpandedReject('sustenance-deadline-replacement');
             value.status = 'reused'; return value;
         }
+        if (self.fulfillment != nil) { value.reason = 'sustenance-deadline-fulfilled'; return value; }
         if (episode == nil || !episode.ofKind(RpgExpandedSustenanceDeprivation) || episode.startedAt != nil
             || episode.profile != self.source.profile || episode.requirement != self.source.requirement)
             rpgExpandedReject('sustenance-deadline-episode');
@@ -5669,9 +5671,76 @@ modify rpgLedger
             if (deadline.registeredAt != nil)
             {
                 deadline.validateReceipt();
-                if (!deadline.source.profile.dead && deadline.missedEpisode == nil && self.seconds + seconds > deadline.dueAt)
+                if (!deadline.source.profile.dead && deadline.missedEpisode == nil && deadline.fulfillment == nil && self.seconds + seconds > deadline.dueAt)
                     rpgExpandedReject('sustenance-deadline-boundary');
             }
         return nil;
+    }
+;
+
+/** Commit only after the caller's ownership, availability and action preflight. */
+rpgExpandedConsumeSustenanceUnit(profile,stock)
+{
+    stock.quantity -= 1;
+    if (stock.quantity == 0)
+    {
+        local remaining = [];
+        foreach (local item in profile.equipment) if (item != stock) remaining = remaining + [item];
+        profile.equipment = remaining;
+    }
+    return nil;
+}
+/** A sufficient dose exactly at an owned deadline, before deprivation begins. */
+class RpgExpandedSustenanceDueDose: object
+    deadline = nil
+    stock = nil
+    approved = nil
+    evidence = nil
+    completedAt = nil
+    boundDefinition = nil
+    definition() { return [self.deadline,self.stock,self.approved,self.evidence,self.completedAt,self.stock.id,self.stock.requirementScope]; }
+    validateReceipt()
+    {
+        if (self.completedAt == nil || self.boundDefinition == nil || self.deadline.fulfillment != self
+            || self.deadline.missedEpisode != nil || self.completedAt != self.deadline.dueAt)
+            rpgExpandedReject('sustenance-due-dose-history');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sustenance-due-dose-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.deadline == nil || !self.deadline.ofKind(RpgExpandedSustenanceDeadline)
+            || self.stock == nil || !self.stock.ofKind(RpgExpandedSustenanceStock)) rpgExpandedReject('sustenance-due-dose-definition');
+        self.deadline.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.completedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundDefinition != nil) rpgExpandedReject('sustenance-due-dose-uncommitted-state');
+        if (self.deadline.fulfillment != nil || self.deadline.missedEpisode != nil)
+        { value.reason = 'sustenance-deadline-already-settled'; return value; }
+        local profile = self.deadline.source.profile; local requirement = self.deadline.source.requirement;
+        profile.validateSustenanceDose(requirement);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'sustenance-dose-ingestion-evidence'; return value; }
+        if (profile.dead || profile.unconscious || profile.retchingEpisode != nil)
+        { value.reason = 'sustenance-dose-ingestion-unavailable'; return value; }
+        if (rpgLedger.seconds != self.deadline.dueAt) { value.reason = 'sustenance-deadline-not-due'; return value; }
+        if (self.stock.id == nil || self.stock.id == '' || self.stock.requirementScope != requirement.scope)
+            rpgExpandedReject('sustenance-dose-mismatch');
+        rpgInteger(self.stock.quantity,0,1000000);
+        if (!holds(profile.equipment,self.stock) || !self.stock.usableBy(profile) || self.stock.quantity == 0)
+        { value.reason = 'sustenance-dose-unavailable'; return value; }
+        local owners = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            foreach (local item in owner.equipment) if (item == self.stock) owners += 1;
+        if (owners != 1) rpgExpandedReject('sustenance-dose-ownership');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        rpgExpandedConsumeSustenanceUnit(self.deadline.source.profile,self.stock);
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition(); self.deadline.fulfillment = self;
+        value.status = 'resolved'; return value;
     }
 ;

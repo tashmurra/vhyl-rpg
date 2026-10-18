@@ -265,3 +265,9 @@ Sustenance deadlines now bind fixed periods or explicit campaign-calendar dates
 after restoration. Missed deadlines start one new deprivation episode under a
 clock guard. Timely fulfillment and automatic recurrence remain pending; fixed
 and calendar-boundary persistence fixtures are authored but unrun.
+
+
+Timely substance doses now settle owned deadlines without entering deprivation,
+consuming one shared inventory unit exactly once. Fulfilled and missed outcomes
+are mutually exclusive. Timely contact, early dosing and automatic next-period
+registration remain pending. Persistence fixtures are authored but unrun.

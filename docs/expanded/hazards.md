@@ -2281,13 +2281,35 @@ The clock cannot cross it unsettled. At exactly `dueAt`, supply a fresh matching
 its first injury is one injury interval later, not at the missed deadline.
 Replay retains both receipts without another episode or time charge.
 
-This covers the missed-deadline path. Settling the deadline with timely access,
-early doses, initial access before any deprivation and automatic recurrence are
-still pending. Do not register a cycle whose timely satisfaction needs those
-unsupported paths. Continuous requirements use a separate access model and reject
+The missed-deadline path and timely substance doses are supported. Timely
+object/environment contact, early doses, initial access before any deprivation
+and automatic recurrence remain pending. Do not register a cycle that needs
+those unsupported paths. Continuous requirements use a separate access model and reject
 this periodic API.
 
 [`expanded-sustenance-deadline.t`](../../tests/fixtures/expanded-sustenance-deadline.t)
 and `test_sustenance_deadline` specify a fixed day, an authored 28-day calendar
 month, boundary guards, replay, rollback, undo and save continuation. Fixtures
 remain unrun; the calendar example is not a universal month-length rule.
+
+
+### Timely substance doses
+
+`RpgExpandedSustenanceDueDose` supplies a registered `deadline`, matching owned
+`stock`, approval and evidence of actual ingestion. It is available exactly at the
+owned due time, before the deadline is declared missed. Assessment is pure and
+performs the same stock availability, unique ownership and ingestion eligibility
+checks as deprivation-restoring doses. `apply()` consumes one ordinary inventory
+unit and records the deadline's `fulfillment` once. An exhausted stack leaves the
+inventory. It adds no injury, deprivation episode, randomness or time charge.
+
+A deadline cannot be both fulfilled and missed. Repeated application reuses its
+receipt after the stock is exhausted, and time can advance beyond the settled
+boundary. Early dosing and automatic next-period registration remain pending;
+this operation does not silently choose a rolling or fixed schedule for early
+access. Timely contact requirements need a separate duration-aware settlement.
+
+[`expanded-sustenance-timely-dose.t`](../../tests/fixtures/expanded-sustenance-timely-dose.t)
+and `test_sustenance_timely_dose` specify fixed and calendar deadlines, premature
+requests, mutually exclusive outcomes, one-time consumption, rollback, undo and
+cross-process save continuation. Fixtures remain unrun.
