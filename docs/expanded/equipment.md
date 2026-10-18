@@ -51,6 +51,16 @@ source review, catalogue definitions and executable integration remain pending.
 The [first melee catalogue segment](inventory/melee-catalogue-a.json) records the
 visually reviewed B271–B272 rows, with individual attack modes and the shared B274
 notes. Blade quality, readiness, electrical contact duration, thrown modes and
-weapon-specific defense penalties remain executable requirements. Multiple skill
-uses must refer to one owned item, not duplicate purchases or mass. Later melee
-rows and cross-skill identity reconciliation remain pending.
+weapon-specific defense penalties remain executable requirements. The
+[second segment](inventory/melee-catalogue-b.json) adds the remaining melee rows
+and shared physical-item keys across skill uses. These uses must refer to one
+owned item, not duplicate purchases or mass; runtime identity integration remains
+pending.
+
+
+Shield-spike values add to the host shield, and electric-prodding modes have a
+linked affliction rather than a second independently fired attack. Staff and sword
+skills can produce different reach, damage, parry and minimum-strength values for
+the same item. Mode selection must retain ownership, damage and readiness state.
+The melee tables now have a first enumeration pass, with independent fixtures and
+runtime integration still pending.

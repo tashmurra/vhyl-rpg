@@ -1,0 +1,1183 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B273-B274 melee tables",
+  "review": "Remaining melee table rows visually compared and represented as modes with shared physical identities. Defaults, shield upgrades and linked effects recorded; executable behavior and independent validation pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "melee-b-rapier",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "rapier",
+        "physical_key": "rapier",
+        "technology": 4,
+        "cost": 500,
+        "weight_pounds": 2.75,
+        "skill": "rapier",
+        "modes": [
+          {
+            "damage": "thr+1 imp",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0F",
+            "minimum_strength": 9,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-fencing-saber",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fencing-saber",
+        "physical_key": "fencing-saber",
+        "technology": 4,
+        "cost": 700,
+        "weight_pounds": 2,
+        "skill": "fencing-saber",
+        "modes": [
+          {
+            "damage": "sw-1 cut",
+            "reach": [
+              1
+            ],
+            "parry": "0F",
+            "minimum_strength": 8,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr+1 imp",
+            "reach": [
+              1
+            ],
+            "parry": "0F",
+            "minimum_strength": 8,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-shield-bash",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "shield-bash",
+        "physical_key": "shield",
+        "technology": 0,
+        "cost": "host shield",
+        "weight_pounds": "host shield",
+        "skill": "shield",
+        "modes": [
+          {
+            "damage": "thr cr",
+            "reach": [
+              1
+            ],
+            "parry": "none",
+            "minimum_strength": null,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-spiked-shield-bash",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "spiked-shield-bash",
+        "physical_key": "shield",
+        "technology": 1,
+        "cost": {
+          "add_to_host": 20
+        },
+        "weight_pounds": {
+          "add_to_host": 5
+        },
+        "skill": "shield",
+        "modes": [
+          {
+            "damage": "thr+1 cr",
+            "reach": [
+              1
+            ],
+            "parry": "none",
+            "minimum_strength": null,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-baton",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "baton",
+        "physical_key": "baton",
+        "technology": 0,
+        "cost": 20,
+        "weight_pounds": 1,
+        "skill": "short-blade",
+        "modes": [
+          {
+            "damage": "sw cr",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 6,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr cr",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 6,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-short-blade",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "short-blade",
+        "physical_key": "short-blade",
+        "technology": 2,
+        "cost": 400,
+        "weight_pounds": 2,
+        "skill": "short-blade",
+        "modes": [
+          {
+            "damage": "sw cut",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 8,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr imp",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 8,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-guarded-short-blade",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "guarded-short-blade",
+        "physical_key": "guarded-short-blade",
+        "technology": 4,
+        "cost": 300,
+        "weight_pounds": 2,
+        "skill": "short-blade",
+        "modes": [
+          {
+            "damage": "sw cut",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 8,
+            "notes": [
+              10
+            ],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr imp",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 8,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-electric-prod",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "electric-prod",
+        "physical_key": "electric-prod",
+        "technology": 7,
+        "cost": 50,
+        "weight_pounds": 2,
+        "skill": "short-blade",
+        "modes": [
+          {
+            "damage": "1d-3 burn",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 3,
+            "notes": [],
+            "hand_rule": null,
+            "linked_effects": [
+              {
+                "resistance": "HT-3",
+                "armor_divisor": [
+                  1,
+                  2
+                ],
+                "effect": "affliction",
+                "notes": [
+                  5
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-short-staff",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "short-staff",
+        "physical_key": "short-staff",
+        "technology": 0,
+        "cost": 20,
+        "weight_pounds": 1,
+        "skill": "small-sword",
+        "modes": [
+          {
+            "damage": "sw cr",
+            "reach": [
+              1
+            ],
+            "parry": "0F",
+            "minimum_strength": 6,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr cr",
+            "reach": [
+              1
+            ],
+            "parry": "0F",
+            "minimum_strength": 6,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-small-sword",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "small-sword",
+        "physical_key": "small-sword",
+        "technology": 4,
+        "cost": 400,
+        "weight_pounds": 1.5,
+        "skill": "small-sword",
+        "modes": [
+          {
+            "damage": "thr+1 imp",
+            "reach": [
+              1
+            ],
+            "parry": "0F",
+            "minimum_strength": 5,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-spear",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "spear",
+        "physical_key": "spear",
+        "technology": 0,
+        "cost": 40,
+        "weight_pounds": 4,
+        "skill": "spear",
+        "modes": [
+          {
+            "damage": "thr+2 imp",
+            "reach": {
+              "distances": [
+                1
+              ],
+              "ready_change": true
+            },
+            "parry": "0",
+            "minimum_strength": 9,
+            "notes": [
+              1
+            ],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr+3 imp",
+            "reach": {
+              "distances": [
+                1,
+                2
+              ],
+              "ready_change": true
+            },
+            "parry": "0",
+            "minimum_strength": 9,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-javelin",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "javelin",
+        "physical_key": "javelin",
+        "technology": 1,
+        "cost": 30,
+        "weight_pounds": 2,
+        "skill": "spear",
+        "modes": [
+          {
+            "damage": "thr+1 imp",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 6,
+            "notes": [
+              1
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-long-spear",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "long-spear",
+        "physical_key": "long-spear",
+        "technology": 2,
+        "cost": 60,
+        "weight_pounds": 5,
+        "skill": "spear",
+        "modes": [
+          {
+            "damage": "thr+2 imp",
+            "reach": {
+              "distances": [
+                2,
+                3
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr+3 imp",
+            "reach": {
+              "distances": [
+                2,
+                3
+              ],
+              "ready_change": true
+            },
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-quarterstaff-staff-use",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "quarterstaff-staff-use",
+        "physical_key": "quarterstaff",
+        "technology": 0,
+        "cost": 10,
+        "weight_pounds": 4,
+        "skill": "staff",
+        "modes": [
+          {
+            "damage": "sw+2 cr",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "+2",
+            "minimum_strength": 7,
+            "notes": [],
+            "hand_rule": "two-hand"
+          },
+          {
+            "damage": "thr+2 cr",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "+2",
+            "minimum_strength": 7,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-light-pole-blade-staff-use",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "light-pole-blade-staff-use",
+        "physical_key": "light-pole-blade",
+        "technology": 2,
+        "cost": 100,
+        "weight_pounds": 6,
+        "skill": "staff",
+        "modes": [
+          {
+            "damage": "sw+2 cr",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0U",
+            "minimum_strength": 9,
+            "notes": [
+              "blunt-end"
+            ],
+            "hand_rule": "two-hand"
+          },
+          {
+            "damage": "thr+2 cr",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 9,
+            "notes": [
+              "blunt-end"
+            ],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-maul",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "maul",
+        "physical_key": "maul",
+        "technology": 0,
+        "cost": 80,
+        "weight_pounds": 12,
+        "skill": "two-handed-axe-mace",
+        "modes": [
+          {
+            "damage": "sw+4 cr",
+            "reach": {
+              "distances": [
+                1,
+                2
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 13,
+            "notes": [],
+            "hand_rule": "heavy-two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-great-axe",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "great-axe",
+        "physical_key": "great-axe",
+        "technology": 1,
+        "cost": 100,
+        "weight_pounds": 8,
+        "skill": "two-handed-axe-mace",
+        "modes": [
+          {
+            "damage": "sw+3 cut",
+            "reach": {
+              "distances": [
+                1,
+                2
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 12,
+            "notes": [],
+            "hand_rule": "heavy-two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-piercing-hammer",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "piercing-hammer",
+        "physical_key": "piercing-hammer",
+        "technology": 3,
+        "cost": 100,
+        "weight_pounds": 7,
+        "skill": "two-handed-axe-mace",
+        "modes": [
+          {
+            "damage": "sw+3 imp",
+            "reach": {
+              "distances": [
+                1,
+                2
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 12,
+            "notes": [
+              2
+            ],
+            "hand_rule": "heavy-two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-scythe",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "scythe",
+        "physical_key": "scythe",
+        "technology": 1,
+        "cost": 15,
+        "weight_pounds": 5,
+        "skill": "two-handed-axe-mace",
+        "modes": [
+          {
+            "damage": "sw+2 cut",
+            "reach": [
+              1
+            ],
+            "parry": "0U",
+            "minimum_strength": 11,
+            "notes": [],
+            "hand_rule": "heavy-two-hand"
+          },
+          {
+            "damage": "sw imp",
+            "reach": [
+              1
+            ],
+            "parry": "0U",
+            "minimum_strength": 11,
+            "notes": [
+              2
+            ],
+            "hand_rule": "heavy-two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-powered-cutting-tool",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "powered-cutting-tool",
+        "physical_key": "powered-cutting-tool",
+        "technology": 6,
+        "cost": 150,
+        "weight_pounds": 13,
+        "skill": "two-handed-axe-mace",
+        "modes": [
+          {
+            "damage": "sw+1d cut",
+            "reach": [
+              1
+            ],
+            "parry": "none",
+            "minimum_strength": 10,
+            "notes": [
+              11
+            ],
+            "hand_rule": "heavy-two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-long-flail",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "long-flail",
+        "physical_key": "long-flail",
+        "technology": 2,
+        "cost": 100,
+        "weight_pounds": 8,
+        "skill": "two-handed-flail",
+        "modes": [
+          {
+            "damage": "sw+4 cr",
+            "reach": {
+              "distances": [
+                1,
+                2
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 13,
+            "notes": [
+              6
+            ],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-quarterstaff-sword-use",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "quarterstaff-sword-use",
+        "physical_key": "quarterstaff",
+        "technology": 0,
+        "cost": 10,
+        "weight_pounds": 4,
+        "skill": "two-handed-sword",
+        "modes": [
+          {
+            "damage": "sw+2 cr",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 9,
+            "notes": [],
+            "hand_rule": "two-hand"
+          },
+          {
+            "damage": "thr+1 cr",
+            "reach": [
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 9,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-light-pole-blade-sword-use",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "light-pole-blade-sword-use",
+        "physical_key": "light-pole-blade",
+        "technology": 2,
+        "cost": 100,
+        "weight_pounds": 6,
+        "skill": "two-handed-sword",
+        "modes": [
+          {
+            "damage": "sw+3 cut",
+            "reach": [
+              2
+            ],
+            "parry": "0U",
+            "minimum_strength": 9,
+            "notes": [],
+            "hand_rule": "two-hand"
+          },
+          {
+            "damage": "thr+3 imp",
+            "reach": [
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 9,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-hand-and-half-two-hand",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "hand-and-half-two-hand",
+        "physical_key": "hand-and-half-blade",
+        "technology": 3,
+        "cost": 650,
+        "weight_pounds": 5,
+        "skill": "two-handed-sword",
+        "modes": [
+          {
+            "damage": "sw+2 cut",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": "two-hand"
+          },
+          {
+            "damage": "thr+2 cr",
+            "reach": [
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-great-blade",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "great-blade",
+        "physical_key": "great-blade",
+        "technology": 3,
+        "cost": 800,
+        "weight_pounds": 7,
+        "skill": "two-handed-sword",
+        "modes": [
+          {
+            "damage": "sw+3 cut",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 12,
+            "notes": [],
+            "hand_rule": "two-hand"
+          },
+          {
+            "damage": "thr+2 cr",
+            "reach": [
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 12,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-curved-long-two-hand",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "curved-long-two-hand",
+        "physical_key": "curved-long-blade",
+        "technology": 3,
+        "cost": 650,
+        "weight_pounds": 5,
+        "skill": "two-handed-sword",
+        "modes": [
+          {
+            "damage": "sw+2 cut",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": "two-hand"
+          },
+          {
+            "damage": "thr+1 imp",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-pointed-hand-and-half-two-hand",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "pointed-hand-and-half-two-hand",
+        "physical_key": "pointed-hand-and-half-blade",
+        "technology": 3,
+        "cost": 750,
+        "weight_pounds": 5,
+        "skill": "two-handed-sword",
+        "modes": [
+          {
+            "damage": "sw+2 cut",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": "two-hand"
+          },
+          {
+            "damage": "thr+3 imp",
+            "reach": [
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-pointed-great-blade",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "pointed-great-blade",
+        "physical_key": "pointed-great-blade",
+        "technology": 3,
+        "cost": 900,
+        "weight_pounds": 7,
+        "skill": "two-handed-sword",
+        "modes": [
+          {
+            "damage": "sw+3 cut",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 12,
+            "notes": [],
+            "hand_rule": "two-hand"
+          },
+          {
+            "damage": "thr+3 imp",
+            "reach": [
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 12,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-flexible-whip",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement each recorded mode using its selected skill and handling rules. The physical key identifies the same item across alternate skill rows; never duplicate its mass, purchase or durability. Shared notes are recorded in melee-catalogue-a. Source row visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "flexible-whip",
+        "physical_key": "flexible-whip",
+        "technology": 1,
+        "cost": {
+          "per_yard": 20
+        },
+        "weight_pounds": {
+          "per_yard": 2
+        },
+        "skill": "whip",
+        "modes": [
+          {
+            "damage": "sw-2(0.5) cr",
+            "reach": {
+              "maximum_selected_yards": 7,
+              "ready_change": true
+            },
+            "parry": "-2U",
+            "minimum_strength": "five plus selected yards",
+            "notes": [
+              12
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-b-skill-defaults",
+      "source": "full-2008",
+      "pages": "B273-B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Full skill integration must preserve printed defaults: rapier dexterity-5, broad blade-4, parrying dagger-3, fencing saber-3, small sword-3; fencing saber dexterity-5, broad blade-4, parrying dagger-3, rapier-3, short blade-4, small sword-3; shield dexterity-4; short blade dexterity-5, broad blade-2, energy blade-4, trapping baton-3, knife-4, fencing saber-4, small sword-4, side-handle baton-3; small sword dexterity-5, parrying dagger-3, rapier-3, fencing saber-3, short blade-4; spear dexterity-5, polearm-4, staff-2; staff dexterity-5, polearm-4, spear-2; two-handed axe/mace dexterity-5, axe/mace-3, polearm-4, two-handed flail-4; two-handed flail dexterity-6, flail-3, weighted chain-4, two-handed axe/mace-4; two-handed sword dexterity-5, broad blade-4, energy blade-4; whip dexterity-5, weighted chain-3, filament whip-3. Reconcile neutral skill keys to the skill catalogue before runtime use.",
+      "tests": []
+    },
+    {
+      "id": "melee-b-mode-identity",
+      "source": "full-2008",
+      "pages": "B271-B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Quarterstaff, light pole blade, hand-and-half blades and curved long blade have multiple skill uses but one physical item. Store selected skill/grip/attack mode on the action. Changing mode cannot reset damage, ownership, readiness or quality; apply any required grip/reach-change action.",
+      "tests": []
+    },
+    {
+      "id": "melee-b-shield-upgrade",
+      "source": "full-2008",
+      "pages": "B273",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shield-spike price and five-pound mass are additions to a separately defined shield, not the total item price/mass. Bash has no parry but ordinary shield blocking remains possible under its own rules. A spiked bash remains crushing damage as printed.",
+      "tests": []
+    },
+    {
+      "id": "melee-b-linked-prod",
+      "source": "full-2008",
+      "pages": "B273-B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The electric prod carries burning damage and linked resisted stun on one attack, not two separately fired modes. Use shared note five for contact duration and recovery; the affliction armor divisor does not automatically modify the burning component.",
+      "tests": []
+    },
+    {
+      "id": "melee-b-catalogue-first-pass",
+      "source": "full-2008",
+      "pages": "B271-B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The two melee segments cover each printed skill-group row and alternate attack line, including natural attacks and shared item identities. This first-pass enumeration still requires completeness reconciliation, independent expected-value fixtures and executable integration; it does not establish a completed library.",
+      "tests": []
+    }
+  ]
+}
