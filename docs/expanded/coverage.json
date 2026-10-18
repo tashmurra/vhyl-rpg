@@ -190,7 +190,8 @@
         "tests/expanded.py::test_radiation_treatment",
         "tests/expanded.py::test_fallout_treatment",
         "tests/expanded.py::test_radiation_checks",
-        "tests/expanded.py::test_radiation_burns"
+        "tests/expanded.py::test_radiation_burns",
+        "tests/expanded.py::test_terminal_condition"
       ],
       "validation_note": "Owned infection progression integrates the qualified roster bonus with antibiotic modifiers and shared recovery restrictions. Fixtures authored but unrun. Automatic care scheduling, interruption, catch-up, broader disease treatment and verified cross-module behavior remain incomplete."
     },
@@ -299,7 +300,8 @@
         "tests/expanded.py::test_bleeding_aid",
         "tests/expanded.py::test_bleeding_bandage",
         "tests/expanded.py::test_bleeding_care_boundaries",
-        "tests/expanded.py::test_pain_sensitivity"
+        "tests/expanded.py::test_pain_sensitivity",
+        "tests/expanded.py::test_terminal_condition"
       ],
       "validation_note": "Partial recovery includes scheduled physician checks and owned bandaging/post-bandaging treatment using shared time and health. Source outcome, rollback, undo and save-continuation fixtures authored but unrun. Interrupted care, bleeding, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },
@@ -501,7 +503,8 @@
         "tests/expanded.py::test_fear_quirk_stun",
         "tests/character_social.py::test_trait_prices",
         "tests/expanded.py::test_radiation_traits",
-        "tests/expanded.py::test_pain_sensitivity"
+        "tests/expanded.py::test_pain_sensitivity",
+        "tests/expanded.py::test_terminal_condition"
       ]
     },
     {

@@ -1919,3 +1919,40 @@ reaction. Those world-observation and social consequences remain incomplete.
 shock, cost, resistance modifiers, cry-out thresholds, unavailable-score rejection,
 preview, rollback, undo, replay and saved continuation. Existing scaled-shock
 fixtures now expect the supported pain-sensitive case. All remain unrun.
+
+
+## Acquired one-year terminal condition
+
+`RpgExpandedTerminalCondition` implements the acquired one-year tier from
+`full-2008`, B158, as a prerequisite for radiation's lasting consequences.
+Supply `profile`, positive `yearSeconds`, `approved`, `calendarEvidence` describing
+the campaign calendar, and `meaningfulDuration = true` when that duration matters
+to the campaign. The library does not assume a 365-day year. The approval covers
+the authored cause and duration; no disease or radiation roll is implied by
+acquiring the condition directly.
+
+`assess()` is pure. `acquire()` requires completed character creation and a living
+patient, installs this concrete trait in the existing trait list, records ownership
+in `profile.terminalConditions`, and advances `developmentRevision` once. Character
+value falls by 75; earned and unspent points do not change. An acquired negative
+value is excluded from the creation disadvantage limit through the existing
+allowance hook. Duplicate, repeated or pre-existing terminal conditions are
+explicitly unsupported.
+
+The condition stores `acquiredAt` and `deathDue`. Its calendar and ownership
+bindings are checked on replay and time advancement. The shared clock cannot
+advance beyond a pending deadline for a living patient. At exactly `deathDue`,
+`resolveDeath()` commits death and unconsciousness once without a random roll;
+`assessDeath()` is pure. A patient already dead from another cause does not hold
+the clock at this deadline. Use engine transactions for acquisition and death.
+
+This interface implements one-year acquired conditions only. Creation purchases,
+other duration tiers, miraculous cures, replacement disadvantages and point-funded
+buy-off remain pending. Deleting, deactivating or mitigating the trait is not a
+supported cure and is rejected by receipt validation. Radiation recovery still
+needs its own checks and acquisition integration.
+
+`tests/fixtures/expanded-terminal-condition.t` and `test_terminal_condition`
+specify character-value accounting, unchanged spendable points, deadline edges,
+preview, replay, rollback, undo and cross-process continuation. They are authored
+and unrun.

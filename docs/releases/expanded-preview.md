@@ -274,3 +274,9 @@ a one-week effective pain-trait change that preserves purchased traits. The cloc
 protects pending onset, and receipts prevent repeated injury. Recovery checks,
 higher syndromes and overlapping episodes remain pending. New fixtures are
 authored and unrun.
+
+
+An acquired one-year terminal condition now has shared trait accounting and an
+owned, calendar-defined death deadline. It does not award spendable points or
+permit time to skip its pending resolution. Other tiers, cures and radiation
+recovery integration remain pending; new fixtures are authored and unrun.

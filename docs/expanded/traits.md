@@ -625,3 +625,9 @@ one HP. Its shared health result exposes the cry-out outcome. Modifier pricing,
 observer-dependent discovery and optional reaction consequences remain incomplete.
 See the [health guide](health.md#pain-sensitivity-in-the-injury-pipeline) and
 `tests/fixtures/expanded-pain-sensitivity.t`; the fixture is authored and unrun.
+
+
+The health module also supplies `RpgExpandedTerminalCondition` for an acquired
+one-year deadline with -75 character value. See its [authoring contract](health.md#acquired-one-year-terminal-condition).
+It participates in shared character accounting without awarding spendable points.
+Other duration tiers, creation purchases and cure/buy-off are still pending.

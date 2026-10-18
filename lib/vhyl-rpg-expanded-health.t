@@ -3621,3 +3621,106 @@ modify RpgExpandedProfile
         return value;
     }
 ;
+
+/** B158 one-year terminal condition acquired during play. Calendar length is authored. */
+class RpgExpandedTerminalCondition: RpgLiteTrait
+    id = 'terminal-condition'
+    points = -75
+    profile = nil
+    yearSeconds = nil
+    approved = nil
+    calendarEvidence = nil
+    meaningfulDuration = nil
+    acquiredAt = nil
+    deathDue = nil
+    deathAt = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.yearSeconds,self.approved,self.calendarEvidence,self.meaningfulDuration]; }
+    creationCost()
+    {
+        if (self.id != 'terminal-condition' || self.points != -75 || self.level != 1
+            || !self.active || self.mitigated) rpgExpandedReject('terminal-condition-definition');
+        return -75;
+    }
+    validateReceipt()
+    {
+        if (self.acquiredAt == nil || self.boundDefinition == nil) rpgExpandedReject('terminal-condition-unacquired');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('terminal-condition-binding');
+        self.creationCost();
+        if (!holds(self.profile.terminalConditions,self) || !holds(self.profile.traits,self))
+            rpgExpandedReject('terminal-condition-ownership');
+        if (self.deathDue != self.acquiredAt + self.yearSeconds) rpgExpandedReject('terminal-condition-deadline');
+        return nil;
+    }
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('terminal-condition-profile');
+        local value = new RpgExpandedResult(); self.creationCost();
+        if (self.acquiredAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        rpgExpandedValidate(self.profile); rpgInteger(self.yearSeconds,1,2147483647);
+        if (!self.approved || !self.meaningfulDuration || self.calendarEvidence == nil || self.calendarEvidence == '')
+        { value.reason = 'terminal-condition-author-evidence'; return value; }
+        if (!self.profile.creationComplete) { value.reason = 'terminal-condition-after-creation'; return value; }
+        if (self.profile.dead) { value.reason = 'terminal-condition-patient-dead'; return value; }
+        foreach (local trait in self.profile.traits)
+            if (trait.id == self.id) { value.reason = 'terminal-condition-existing'; return value; }
+        if (self.profile.terminalConditions.length() != 0) { value.reason = 'terminal-condition-reacquisition-unimplemented'; return value; }
+        if (rpgLedger.seconds > 2147483647 - self.yearSeconds) rpgExpandedReject('terminal-condition-time-capacity');
+        rpgInteger(self.profile.developmentRevision,0,2147483646);
+        value.points = -75; value.status = 'ready'; return value;
+    }
+    acquire()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.acquiredAt = rpgLedger.seconds; self.deathDue = self.acquiredAt + self.yearSeconds;
+        self.boundDefinition = self.definition();
+        self.profile.traits = self.profile.traits + [self];
+        self.profile.terminalConditions = self.profile.terminalConditions + [self];
+        self.profile.developmentRevision += 1; value.status = 'resolved'; return value;
+    }
+    assessDeath()
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.deathAt != nil) { value.status = 'reused'; return value; }
+        if (self.profile.dead) { value.reason = 'terminal-condition-already-dead'; return value; }
+        if (rpgLedger.seconds != self.deathDue) { value.reason = 'terminal-condition-not-due'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolveDeath()
+    {
+        local value = self.assessDeath(); if (value.status != 'ready') return value;
+        self.profile.dead = true; self.profile.becomeUnconscious(); self.deathAt = rpgLedger.seconds;
+        value.status = 'resolved'; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    terminalConditions = []
+    postCreationDisadvantageAllowance()
+    {
+        local value = inherited();
+        foreach (local condition in self.terminalConditions)
+        {
+            if (!condition.ofKind(RpgExpandedTerminalCondition) || condition.profile != self)
+                rpgExpandedReject('terminal-condition-history');
+            condition.validateReceipt(); value += 75;
+        }
+        return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local condition = firstObj(RpgExpandedTerminalCondition); condition != nil;
+            condition = nextObj(condition,RpgExpandedTerminalCondition))
+            if (condition.acquiredAt != nil && condition.deathAt == nil && !condition.profile.dead)
+            {
+                condition.validateReceipt();
+                if (self.seconds + seconds > condition.deathDue) rpgExpandedReject('terminal-condition-death-boundary');
+            }
+        return nil;
+    }
+;

@@ -211,9 +211,12 @@
       "pages": "B158",
       "module": "hazards",
       "kind": "table",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Terminal deadline costs -100/-75/-50 for death within one month/one year/two years. Beyond two years grants no credit, and short campaigns should disallow irrelevant deadlines. Persist actual source/calendar deadline rather than rerolling lifespan on load.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_terminal_condition"
+      ],
+      "implementation": "Health provides an acquired one-year condition, fixed -75 character value, explicit authored calendar length and guarded death deadline. No spendable points are awarded. Other duration tiers, creation purchases, cure and buy-off remain pending. Deadline and persistence fixtures authored and unrun."
     },
     {
       "id": "disadvantages-h-terminal-cure",

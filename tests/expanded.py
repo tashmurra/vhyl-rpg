@@ -8906,6 +8906,8 @@ def test(build):
     test_pain_sensitivity(Session, pain, build.out)
     radiation_burn = build.build('expanded-radiation-burn', ROOT / 'tests/fixtures/expanded-radiation-burn.t')
     test_radiation_burns(Session, radiation_burn, build.out)
+    terminal = build.build('expanded-terminal-condition', ROOT / 'tests/fixtures/expanded-terminal-condition.t')
+    test_terminal_condition(Session, terminal, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10334,5 +10336,48 @@ def test_radiation_burns(Session, bundle, out):
         assert state(s) == [2, 0, 0, 0, 1, 36000, 36000, 4, 36000]
         s.action(2291, 3, 7)
         assert state(s)[2:4] == [0, 1]
+    finally:
+        s.close()
+
+
+def test_terminal_condition(Session, bundle, out):
+    def state(s):
+        s.action(2291, 31, 0)
+        return last(s, 'test.terminal')
+    path = out / 'expanded-terminal-condition.zsave'
+    s = Session(bundle)
+    try:
+        initial = [0, 0, 0, 0, None, 0, 0, 0]
+        s.action(2291, 21, 0)
+        s.action(2291, 22, 0)
+        assert state(s) == initial
+        s.action(2291, 20, 0)
+        s.command('undo')
+        assert state(s) == initial
+        s.action(2291, 20, 0)
+        s.action(2291, 20, 0)
+        assert state(s) == [-75, 0, 1, 75, 31536000, 0, 0, 0]
+        for days in (100, 100, 100, 64):
+            s.action(2291, 3, days)
+        s.action(2291, 30, 86399)
+        s.command(f':save {path}\n@2295')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2295')
+        s.action(2291, 30, 2)
+        assert state(s)[5:] == [0, 31535999, 0]
+        s.action(2291, 23, 0)
+        assert state(s)[5:] == [0, 31535999, 0]
+        s.action(2291, 30, 1)
+        s.action(2291, 24, 0)
+        assert state(s)[5:] == [0, 31536000, 0]
+        s.action(2291, 23, 0)
+        s.command('undo')
+        assert state(s)[5:] == [0, 31536000, 0]
+        s.action(2291, 23, 0)
+        s.action(2291, 23, 0)
+        assert state(s) == [-75, 0, 1, 75, 31536000, 1, 31536000, 0]
     finally:
         s.close()
