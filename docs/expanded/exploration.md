@@ -1983,3 +1983,13 @@ identity and day. The next unreserved day permits those activities again.
 rollback, undo, save continuation and next-day eligibility. Fixtures remain unrun.
 Work, other timed activities and complete daily-distance execution still need
 reservation integration; this interface must not be counted as full travel completion.
+
+
+Digging-hour execution also checks the full-travel-day reservation. An individual
+worker is blocked before time or fatigue is spent; a team is blocked if any worker
+has a conflicting reservation. Commit checks the original work interval again,
+so an operation ending at a day boundary does not accidentally test the following
+hour. Replaying an already completed digging receipt remains valid.
+`test_travel_digging` specifies individual/team rejection, unchanged work state,
+save continuation and eligibility on the next day. Fixtures remain unrun. Other
+work and employment scheduling adapters are still incomplete.

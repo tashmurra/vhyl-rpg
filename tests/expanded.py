@@ -9454,6 +9454,8 @@ def test(build):
     test_packing_pace(Session,packing_pace)
     travel_day = build.build("expanded-travel-day",ROOT / "tests/fixtures/expanded-travel-day.t")
     test_travel_day(Session,travel_day,build.out)
+    travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
+    test_travel_digging(Session,travel_digging,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -25095,5 +25097,34 @@ def test_travel_day(Session, bundle, out):
             s.action(1680,code)
         assert last(s,'test.travel-reserve') == ['blocked','travel-dedicated-foraging-day']
         assert last(s,'test.travel-state') == [0,0,0]
+    finally:
+        s.close()
+
+
+def test_travel_digging(Session, bundle, out):
+    """Full daily travel blocks both individual work and a team containing that worker; unrun."""
+    path = out / 'travel-digging.zsave'
+    s = Session(bundle)
+    try:
+        for code in (24001,24002):
+            s.action(2285,code)
+        assert last(s,'test.travel-dig-team') == ['ready',None]
+        assert last(s,'test.travel-dig-solo') == ['ready',None]
+        for code in (24000,24001,24002,611,641,24005):
+            s.action(2285,code)
+        assert last(s,'test.travel-dig-team') == ['blocked','activity-dedicated-travel-day']
+        assert last(s,'test.travel-dig-solo') == ['blocked','activity-dedicated-travel-day']
+        assert last(s,'test.travel-dig-state') == [0,0,0,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286'); s.action(2285,24001)
+        assert last(s,'test.travel-dig-team') == ['blocked','activity-dedicated-travel-day']
+        for code in (24004,24001,24002):
+            s.action(2285,code)
+        assert last(s,'test.travel-dig-team') == ['ready',None]
+        assert last(s,'test.travel-dig-solo') == ['ready',None]
     finally:
         s.close()

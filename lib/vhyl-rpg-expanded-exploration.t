@@ -824,6 +824,11 @@ class RpgExpandedDiggingHour: object
         foreach (local prior in self.profile.diggingHours)
             if (prior.id == self.id) rpgExpandedReject('digging-hour-duplicate');
         local value = self.prepare();
+        if (value.status == 'ready')
+        {
+            value.reason = self.profile.nonTravelScheduleReason(rpgLedger.seconds,3600);
+            if (value.reason != nil) { value.status = 'blocked'; return value; }
+        }
         if (value.status == 'ready') { rpgInteger(rpgLedger.seconds,0,2147480047); rpgLedger.validateAdvance(3600); }
         return value;
     }
@@ -837,6 +842,7 @@ class RpgExpandedDiggingHour: object
     commitPrepared(value,start,definition)
     {
         if (self.result != nil) rpgExpandedReject('digging-hour-already-committed');
+        if (self.profile.nonTravelScheduleReason(start,3600) != nil) rpgExpandedReject('digging-travel-conflict');
         local current = self.definition();
         for (local index = 1; index <= current.length(); index += 1)
             if (current[index] != definition[index]) rpgExpandedReject('digging-hour-interrupted');
@@ -944,6 +950,12 @@ class RpgExpandedDiggingTeamHour: object
             local reused = new RpgExpandedDiggingTeamAssessment(); reused.status = 'reused'; return reused;
         }
         local value = self.prepare();
+        if (value.status == 'ready')
+            foreach (local work in self.members)
+            {
+                value.reason = work.profile.nonTravelScheduleReason(rpgLedger.seconds,3600);
+                if (value.reason != nil) { value.status = 'blocked'; return value; }
+            }
         foreach (local prior in self.site.teams) if (prior.id == self.id) rpgExpandedReject('digging-team-duplicate');
         if (value.status == 'ready') { rpgInteger(rpgLedger.seconds,0,2147480047); rpgLedger.validateAdvance(3600); }
         return value;
