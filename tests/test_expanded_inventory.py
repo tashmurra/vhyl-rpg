@@ -44,6 +44,24 @@ class ExpandedInventoryTests(unittest.TestCase):
                         self.assertTrue(entry.get('interfaces'))
                     if entry['status'] == 'adjudicated':
                         self.assertTrue(entry.get('author_contract'))
+                    if 'reference_data' in entry:
+                        data = entry['reference_data']
+                        self.assertEqual(entry['kind'], 'catalogue-entry')
+                        self.assertIn(data['attribute'], {
+                            'st', 'dx', 'iq', 'ht', 'will', 'perception'})
+                        self.assertIn(data['difficulty'], {
+                            'easy', 'average', 'hard', 'very-hard'})
+                        self.assertIsInstance(data['technology_qualified'], bool)
+                        self.assertIsInstance(data['prerequisites'], list)
+                        for prerequisite in data['prerequisites']:
+                            self.assertIsInstance(prerequisite, str)
+                            self.assertTrue(prerequisite)
+                        for default in data['defaults']:
+                            self.assertEqual(len(default), 2)
+                            self.assertIsInstance(default[0], str)
+                            self.assertTrue(default[0])
+                            self.assertIsInstance(default[1], int)
+                            self.assertLessEqual(default[1], 0)
                     for reference in entry['tests']:
                         test_path, name = reference.split('::')
                         tree = ast.parse((ROOT / test_path).read_text())

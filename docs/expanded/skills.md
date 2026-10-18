@@ -15,6 +15,15 @@ The module provides only these interfaces. Its full catalogue and remaining chap
 The [skill procedure inventory](inventory/skills-procedures.json) records individual
 cost-table cells, default rules, familiarity requirements and technique definitions.
 Attribute-based techniques and technique-to-technique defaults remain unsupported.
-The [first catalogue segment](inventory/skills-catalogue-a.json) covers B174–B185;
-later catalogue pages remain uninventoried. Its definition metadata is not an
-executable catalogue and does not imply completed skill effects.
+The catalogue inventory currently covers [B174–B185](inventory/skills-catalogue-a.json),
+[B186–B197](inventory/skills-catalogue-b.json) and
+[B198–B209](inventory/skills-catalogue-c.json). Later catalogue pages remain
+uninventoried. Definition metadata is not an executable catalogue and does not
+imply completed skill effects.
+
+The recorded procedures include persistent code-breaking attempts, combined
+impersonation checks, audience-specific storytelling effects, timed induction and
+suggestions, vehicle/equipment skill caps, and weapon-specific attack and defense
+rules. These need owning state and integration tests in addition to catalogue
+score definitions. Source text that leaves a boundary or consequence unspecified
+requires an explicit author contract; it must not acquire an invented numeric rule.

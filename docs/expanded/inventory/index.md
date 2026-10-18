@@ -11,6 +11,8 @@ copies of the reference books.
 | `full-2008` | B10–B31 | [Character creation](creation.json) | Text reviewed; table verification and complete enumeration still open |
 | `full-2008` | B167–B173; B229–B233 | [Skill and technique procedures](skills-procedures.json) | Text reviewed; main skill catalogue and table verification still open |
 | `full-2008` | B174–B185 | [Skill catalogue, first segment](skills-catalogue-a.json) | Text and definition metadata transcribed; procedures and cross-references pending |
+| `full-2008` | B186–B197 | [Skill catalogue, second segment](skills-catalogue-b.json) | Definition metadata, timed procedures and specialty requirements transcribed |
+| `full-2008` | B198–B209 | [Skill catalogue, third segment](skills-catalogue-c.json) | Includes weapon groups and their separate integration obligations |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 
