@@ -24,6 +24,7 @@ copies of the reference books.
 | `full-2008` | B428–B437, excluding poison and radiation | [Conditions and environmental hazards](environmental-hazards.json) | Conditions, exposure, collisions, fire, electricity and pressure enumerated; falling formula conflict open |
 | `full-2008` | B435–B436 | [Radiation](radiation.json) | Dose histories, effects, shielding and treatment enumerated; overlapping printed boundary confirmed visually and unresolved |
 | `full-2008` | B437–B444 | [Poison, illness and aging](poison-illness-aging.json) | Delivery, catalogue entries, intoxication, withdrawal, contagion, infection and aging enumerated; cross-reference audit open |
+| `full-2008` | B455–B461 | [Creatures, training and swarms](creatures.json) | Encounter values, training table, natural damage and swarm procedures transcribed; full trait and ancestry resolution pending |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 
@@ -72,6 +73,13 @@ for component accounting. It is not permission to charge that number without
 resolving the package's components and choices. Power membership entries record
 `trait_pages` for their underlying abilities: enumerating membership does not
 implement activation, resistance, ongoing effects or the referenced trait.
+
+Creature entries may include `encounter_data` with printed attributes, secondary
+scores, skills, traits, movement modes, occupied hexes and prices. Inherited trait
+references and choices are unresolved implementation inputs. Minimum-price and
+minimum-weight qualifiers preserve the source's lower bounds. These abbreviated
+records are not fully priced ancestry templates and cannot serve as complete
+player-character definitions without resolving the omitted traits and accounting.
 
 Entries of kind `author-decision` remain pending until a concrete contract exists.
 For example, permission to grant a character-creation reward needs the award
