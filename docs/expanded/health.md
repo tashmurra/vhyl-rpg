@@ -1286,3 +1286,42 @@ qualification or drop destination; undo; and rejection of changed historical
 flags or destinations. `test_critical_major_persistence` saves before and after
 the wound, then continues in another process without repeating the check or
 inventory transfer. These fixtures remain unrun while checks are paused.
+
+## Full-reference fear assessments
+
+`rpgExpandedAssessFear(will, modifier, unfazeable)` applies the B360 initial
+check cap after the supplied modifiers: modified Will above thirteen becomes
+thirteen. Immunity returns without a score or random draw. Scores below three
+are explicitly unavailable in this interface. The cap must not be reused for
+ordinary Will checks or later fear recovery. This helper does not assemble
+situational modifiers or execute the check.
+
+`rpgExpandedFearTable(total)` records the B360–B361 consequence specification
+for every printed result from four through forty, with higher totals selecting
+the forty-plus row. The caller must supply the three-die table roll plus failure
+magnitude; this helper does not roll, commit consequences or invoke the Lite
+fear formula. It returns the selected kind, duration dice/unit, fixed duration,
+recovery policy, fatigue and injury dice, conditional injury, trait requirements,
+repeat durations and aftereffects. A negative `traitPoints` is a required
+character-value change, not an award of spendable points.
+
+Conditional fields matter: the injury on rows eighteen, twenty-six and
+twenty-seven requires a failed immediate health check; row thirty-one likewise
+conditions injury and separately specifies permanent health loss on a critical
+failure. Row twenty-five first attempts a related self-control reduction, with
+`fallbackTraitPoints` identifying the alternative. Catatonia records escalating
+neglect injury and a recovery penalty lasting as long as the episode. Extreme
+panic requires authored consequential reactions, preceded by its specified
+reaction dice. No generic callback is treated as implementing these outcomes.
+
+Row twenty's post-duration recovery is marked `source-followup-required` because
+the inspected paragraph specifies duration and fatigue without explicitly
+repeating a recovery roll. Do not silently select a recovery policy. All rows
+still need owned execution, exact resource spending, recovery scheduling and
+where applicable author-selected trait or behavior consequences. Terrifying
+object-history readings therefore remain blocked.
+
+`test_fear_assessments` supplies independent expected initial-score boundaries
+and every primary table row. Conditional resource and aftereffect fields still
+need independent validation when their executors are added. The fixture is
+unrun while checks are paused; this is partial source coverage only.

@@ -251,7 +251,8 @@
         "tests/expanded.py::test_effort_persistence",
         "tests/expanded.py::test_critical_major_wound",
         "tests/expanded.py::test_critical_major_transactions",
-        "tests/expanded.py::test_critical_major_persistence"
+        "tests/expanded.py::test_critical_major_persistence",
+        "tests/expanded.py::test_fear_assessments"
       ],
       "validation_note": "Partial recovery includes scheduled physician checks and owned bandaging/post-bandaging treatment using shared time and health. Source outcome, rollback, undo and save-continuation fixtures authored but unrun. Interrupted care, bleeding, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },

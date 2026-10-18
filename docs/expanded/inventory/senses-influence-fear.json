@@ -471,9 +471,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An unflappable actor does not make fear checks; do not consume random dice before deciding immunity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending."
     },
     {
       "id": "fear-cap",
@@ -481,9 +484,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After modifiers cap fear-check will at thirteen, so fourteen or higher fails; do not apply this cap to ordinary will or later recovery checks.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending."
     },
     {
       "id": "fear-table-roll",
@@ -491,9 +497,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "On failure roll three further dice, add failure magnitude and select the full outcome table; do not substitute Lite stun/faint duration formulas.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending."
     },
     {
       "id": "fear-trait-award",
@@ -811,9 +820,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Stun for one second, then recover automatically.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-6-7",
@@ -821,9 +833,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Stun for one second, then check unmodified will each second until recovery.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-8-9",
@@ -831,9 +846,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Stun for one second, then check will with the original fear modifiers each second until recovery; do not reuse the fear-only thirteen cap.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-10",
@@ -841,9 +859,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Stun for one die of seconds, then use the modified-will recovery sequence.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-11",
@@ -851,9 +872,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Stun for two dice of seconds, then use the modified-will recovery sequence.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-12",
@@ -861,9 +885,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Retch for twenty-five minus health seconds, then check health each second to recover; apply the incapacitating-condition rules.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-13",
@@ -871,9 +898,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Acquire an event-related mental quirk, including beyond the ordinary personal quirk limit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-14-15",
@@ -881,9 +911,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Lose one die of fatigue and independently roll one die of initial stun seconds, followed by modified-will recovery.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-16",
@@ -891,9 +924,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply the one-die stun and modified-will recovery sequence plus a new event-related quirk.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-17",
@@ -901,9 +937,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Faint for one die of minutes, then check health each minute to recover.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-18",
@@ -911,9 +950,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use the one-die faint sequence and make an immediate health check; failure causes one injury during the collapse.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-19",
@@ -921,9 +963,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Faint for two dice of minutes, then check health each minute; suffer one injury.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-20",
@@ -931,9 +976,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Faint for four dice of minutes and lose one die of fatigue; preserve both separately rolled quantities.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-21",
@@ -941,9 +989,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An authored panic behavior lasts one die of minutes, then unmodified will is checked each minute for recovery.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-22",
@@ -951,9 +1002,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Acquire an event-related delusion worth negative ten points.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-23",
@@ -961,9 +1015,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Acquire an event-related phobia or other mental disadvantage worth negative ten points.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-24",
@@ -971,9 +1028,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An authored physical effect adds negative fifteen points of physical disadvantages; each year of event-induced aging counts as negative three points for this selection.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-25",
@@ -981,9 +1041,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Worsen a logically related mental disadvantage's self-control by one step; if none applies or it is already six, add a new negative-ten-point mental disadvantage instead.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-26",
@@ -991,9 +1054,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply the row-eighteen faint/collapse-injury sequence and a negative-ten-point delusion.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-27",
@@ -1001,9 +1067,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply the row-eighteen faint/collapse-injury sequence and a negative-ten-point mental disadvantage.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-28",
@@ -1011,9 +1080,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Remain unconscious until a successful health check at a thirty-minute boundary; after waking apply -2 to all skills and attribute checks for six hours.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-29",
@@ -1021,9 +1093,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Remain in a coma for one die of hours, then check health; failure schedules another independently rolled one-die-hour interval. Preserve the row-twenty-eight six-hour recovery penalty.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-30",
@@ -1031,9 +1106,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Catatonia lasts one die of days before a health check, repeating on failure; without medical care injury increases from one on day one to two on day two and so on. After recovery apply -2 to skills and attributes for the same number of days as the episode lasted.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-31",
@@ -1041,9 +1119,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A seizure lasts one die of minutes and costs one die of fatigue; a health failure causes one die of injury and critical failure also permanently reduces health by one.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-32",
@@ -1051,9 +1132,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Collapse and suffer two dice of injury from the acute physical event.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-33",
@@ -1061,9 +1145,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Author a panic reaction informed by a three-die severity roll; if the actor survives, check will. Failure triggers another severity roll and reaction until recovery.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-34",
@@ -1071,9 +1158,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Acquire an event-related delusion worth negative fifteen points.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-35",
@@ -1081,9 +1171,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Acquire an event-related phobia or other mental disadvantage worth negative fifteen points.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-36",
@@ -1091,9 +1184,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply an authored physical effect worth negative twenty points using the row-twenty-four selection policy.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-37",
@@ -1101,9 +1197,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply an authored physical effect worth negative thirty points using the row-twenty-four selection policy.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-38",
@@ -1111,9 +1210,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Combine the row-twenty-nine coma sequence with a negative-fifteen-point delusion.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-39",
@@ -1121,9 +1223,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Combine the row-twenty-nine coma sequence with a negative-fifteen-point phobia or other mental disadvantage.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     },
     {
       "id": "fear-outcome-40-plus",
@@ -1131,9 +1236,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply row thirty-nine and permanently reduce intelligence by one, updating all intelligence-based skills and spells without refunding their investment.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_assessments"
+      ],
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
     }
   ],
   "exclusions": [

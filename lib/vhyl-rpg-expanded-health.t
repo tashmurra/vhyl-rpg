@@ -2121,3 +2121,109 @@ modify RpgExpandedProfile
         wound.amount = amount; wound.dropDestination = destination; return wound;
     }
 ;
+
+class RpgExpandedFearAssessment: RpgExpandedResult
+    score = nil
+    immune = nil
+;
+
+/** B360: cap only the initial fear check, after all explicit modifiers. */
+rpgExpandedAssessFear(will, modifier, unfazeable)
+{
+    rpgInteger(will,1,1000); rpgInteger(modifier,-1000,1000);
+    local value = new RpgExpandedFearAssessment();
+    if (unfazeable) { value.immune = true; value.status = 'ready'; return value; }
+    value.score = will + modifier; if (value.score > 13) value.score = 13;
+    if (value.score < 3) { value.reason = 'fear-score-unavailable'; return value; }
+    value.status = 'ready'; return value;
+}
+
+class RpgExpandedFearTableResult: RpgExpandedResult
+    row = 0
+    kind = nil
+    durationDice = 0
+    durationUnit = 1
+    fixedSeconds = 0
+    recovery = nil
+    recoveryInterval = 0
+    fatigueDice = 0
+    injuryDice = 0
+    fixedInjury = 0
+    traitPoints = 0
+    traitKind = nil
+    iqLoss = 0
+    durationFormula = nil
+    injuryCondition = nil
+    criticalHealthLoss = 0
+    repeatDurationDice = 0
+    aftereffectPenalty = 0
+    aftereffectSeconds = 0
+    aftereffectMatchesDuration = nil
+    escalatingNeglectInjury = nil
+    reactionDice = 0
+    fallbackTraitPoints = 0
+;
+
+/** B360-B361 consequence specification only; caller supplies the table roll. */
+rpgExpandedFearTable(total)
+{
+    rpgInteger(total,4,1000000);
+    local value = new RpgExpandedFearTableResult(); value.row = total > 40 ? 40 : total;
+    local row = value.row;
+    if (row <= 11)
+    {
+        value.kind = 'stun'; value.fixedSeconds = row <= 9 ? 1 : 0;
+        value.durationDice = row == 10 ? 1 : row == 11 ? 2 : 0;
+        value.recovery = row <= 5 ? 'automatic' : row <= 7 ? 'unmodified-will' : 'modified-will';
+        value.recoveryInterval = row <= 5 ? 0 : 1;
+    }
+    if (row == 12) { value.kind = 'retch'; value.recovery = 'health'; value.recoveryInterval = 1; }
+    if (row == 13 || row == 16) { value.traitKind = 'mental-quirk'; value.traitPoints = -1; }
+    if (row == 13) value.kind = 'trait';
+    if (row >= 14 && row <= 16)
+    {
+        value.kind = 'stun'; value.durationDice = 1; value.recovery = 'modified-will'; value.recoveryInterval = 1;
+        if (row <= 15) value.fatigueDice = 1;
+    }
+    if ((row >= 17 && row <= 20) || row == 26 || row == 27)
+    {
+        value.kind = 'faint'; value.durationUnit = 60;
+        value.durationDice = row == 19 ? 2 : row == 20 ? 4 : 1;
+        value.recovery = row == 20 ? 'source-followup-required' : 'health'; value.recoveryInterval = row == 20 ? 0 : 60;
+        if (row == 19) value.fixedInjury = 1;
+        if (row == 18 || row == 26 || row == 27) value.recovery = 'immediate-health-injury-then-health';
+        if (row == 20) value.fatigueDice = 1;
+    }
+    if (row == 21)
+    { value.kind = 'panic'; value.durationDice = 1; value.durationUnit = 60; value.recovery = 'unmodified-will'; value.recoveryInterval = 60; }
+    if (holds([22,23,24,25,34,35,36,37],row)) value.kind = 'trait';
+    if (holds([22,26,34,38],row)) value.traitKind = 'delusion';
+    if (holds([23,27,35,39,40],row)) value.traitKind = 'mental-disadvantage';
+    if (holds([24,36,37],row)) value.traitKind = 'physical-disadvantages';
+    if (row == 25) value.traitKind = 'worsen-self-control-or-mental-disadvantage';
+    if (holds([22,23,25,26,27],row)) value.traitPoints = -10;
+    if (holds([24,34,35,38,39,40],row)) value.traitPoints = -15;
+    if (row == 36) value.traitPoints = -20;
+    if (row == 37) value.traitPoints = -30;
+    if (row == 28 || row == 29 || row >= 38)
+    {
+        value.kind = 'coma'; value.recovery = 'health';
+        value.durationDice = row == 28 ? 0 : 1; value.durationUnit = 3600;
+        value.recoveryInterval = row == 28 ? 1800 : 0;
+    }
+    if (row == 30) { value.kind = 'catatonia'; value.durationDice = 1; value.durationUnit = 86400; value.recovery = 'health'; }
+    if (row == 31)
+    { value.kind = 'seizure'; value.durationDice = 1; value.durationUnit = 60; value.fatigueDice = 1; value.injuryDice = 1; value.recovery = 'immediate-health-injury'; }
+    if (row == 32) { value.kind = 'injury'; value.injuryDice = 2; }
+    if (row == 33) { value.kind = 'extreme-panic'; value.recovery = 'unmodified-will-after-authored-reaction'; }
+    if (row == 12) value.durationFormula = '25-minus-health';
+    if (holds([18,26,27],row)) { value.fixedInjury = 1; value.injuryCondition = 'failed-health'; }
+    if (row == 31) { value.injuryCondition = 'failed-health'; value.criticalHealthLoss = 1; }
+    if (row == 29 || row == 30 || row >= 38) value.repeatDurationDice = 1;
+    if (row == 28 || row == 29 || row >= 38) { value.aftereffectPenalty = -2; value.aftereffectSeconds = 21600; }
+    if (row == 30) { value.aftereffectPenalty = -2; value.aftereffectMatchesDuration = true; value.escalatingNeglectInjury = true; }
+    if (row == 33) value.reactionDice = 3;
+    if (row == 25) { value.traitPoints = 0; value.fallbackTraitPoints = -10; }
+    if (row == 40) value.iqLoss = 1;
+    value.status = 'ready'; return value;
+}

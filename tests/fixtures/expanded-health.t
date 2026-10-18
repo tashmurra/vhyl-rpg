@@ -10,6 +10,19 @@ modify gameMain initialRoom = healthRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2247)
+    {
+        local value = rpgExpandedAssessFear(args[1],args[2],args[3] != 0);
+        event('test.fear-assessment'); eventValue(value.status); eventValue(value.reason); eventValue(value.score);
+        eventValue(value.immune ? 1 : 0); return nil;
+    }
+    if (verb == 2248)
+    {
+        local value = rpgExpandedFearTable(args[1]);
+        event('test.fear-table'); eventValue(value.row); eventValue(value.kind); eventValue(value.durationDice);
+        eventValue(value.durationUnit); eventValue(value.fixedSeconds); eventValue(value.recovery);
+        eventValue(value.traitPoints); eventValue(value.traitKind); eventValue(value.iqLoss); return nil;
+    }
     if (verb == 2022)
     {
         local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();

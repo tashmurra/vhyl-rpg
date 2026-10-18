@@ -1664,6 +1664,43 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_fear_assessments(s):
+    for will,modifier,immune,status,reason,score in [(20,10,0,'ready',None,13),
+            (13,0,0,'ready',None,13),(10,2,0,'ready',None,12),
+            (10,-8,0,'blocked','fear-score-unavailable',2),(10,-20,1,'ready',None,None)]:
+        s.action(2247,will,modifier,immune)
+        assert last(s,'test.fear-assessment') == [status,reason,score,immune]
+    # Literal source rows; later state-machine tests must verify the consequences themselves.
+    rows=[
+        (4,'stun',0,1,1,'automatic',0,None,0),(5,'stun',0,1,1,'automatic',0,None,0),
+        (6,'stun',0,1,1,'unmodified-will',0,None,0),(7,'stun',0,1,1,'unmodified-will',0,None,0),
+        (8,'stun',0,1,1,'modified-will',0,None,0),(9,'stun',0,1,1,'modified-will',0,None,0),
+        (10,'stun',1,1,0,'modified-will',0,None,0),(11,'stun',2,1,0,'modified-will',0,None,0),
+        (12,'retch',0,1,0,'health',0,None,0),(13,'trait',0,1,0,None,-1,'mental-quirk',0),
+        (14,'stun',1,1,0,'modified-will',0,None,0),(15,'stun',1,1,0,'modified-will',0,None,0),
+        (16,'stun',1,1,0,'modified-will',-1,'mental-quirk',0),
+        (17,'faint',1,60,0,'health',0,None,0),(18,'faint',1,60,0,'immediate-health-injury-then-health',0,None,0),
+        (19,'faint',2,60,0,'health',0,None,0),(20,'faint',4,60,0,'source-followup-required',0,None,0),
+        (21,'panic',1,60,0,'unmodified-will',0,None,0),
+        (22,'trait',0,1,0,None,-10,'delusion',0),(23,'trait',0,1,0,None,-10,'mental-disadvantage',0),
+        (24,'trait',0,1,0,None,-15,'physical-disadvantages',0),
+        (25,'trait',0,1,0,None,0,'worsen-self-control-or-mental-disadvantage',0),
+        (26,'faint',1,60,0,'immediate-health-injury-then-health',-10,'delusion',0),
+        (27,'faint',1,60,0,'immediate-health-injury-then-health',-10,'mental-disadvantage',0),
+        (28,'coma',0,3600,0,'health',0,None,0),(29,'coma',1,3600,0,'health',0,None,0),
+        (30,'catatonia',1,86400,0,'health',0,None,0),(31,'seizure',1,60,0,'immediate-health-injury',0,None,0),
+        (32,'injury',0,1,0,None,0,None,0),(33,'extreme-panic',0,1,0,'unmodified-will-after-authored-reaction',0,None,0),
+        (34,'trait',0,1,0,None,-15,'delusion',0),(35,'trait',0,1,0,None,-15,'mental-disadvantage',0),
+        (36,'trait',0,1,0,None,-20,'physical-disadvantages',0),(37,'trait',0,1,0,None,-30,'physical-disadvantages',0),
+        (38,'coma',1,3600,0,'health',-15,'delusion',0),(39,'coma',1,3600,0,'health',-15,'mental-disadvantage',0),
+        (40,'coma',1,3600,0,'health',-15,'mental-disadvantage',1)]
+    for row in rows:
+        s.action(2248,row[0])
+        assert last(s,'test.fear-table') == list(row)
+    s.action(2248,100)
+    assert last(s,'test.fear-table') == list(rows[-1])
+
+
 def test_history_purchase(Session,bundle):
     def state(s):
         s.action(2246)
@@ -8180,6 +8217,7 @@ def test(build):
     fresh(Session,hazard_transactions,test_infection_transactions)
     test_infection_persistence(Session,hazard_transactions,build.out)
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
+    fresh(Session,health,test_fear_assessments)
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)
     fresh(Session,health,test_knockdown_assessment)
