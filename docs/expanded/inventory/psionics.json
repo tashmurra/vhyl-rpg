@@ -117,9 +117,10 @@
       "status": "partial",
       "acceptance": "Possessing at least one ability establishes membership in its associated power; talent alone represents latent access, not an active ability.",
       "tests": [
-        "tests/expanded.py::test_psionic_purchase"
+        "tests/expanded.py::test_psionic_purchase",
+        "tests/expanded.py::test_history_purchase"
       ],
-      "validation_note": "Owned executable warning purchase and shared point/revision accounting authored, with latent/new-family gates and save-continuation fixture; unrun. Other ability purchases and broad membership integration remain pending."
+      "validation_note": "Two executable sensory abilities now establish power membership and share owned purchases, point/revision accounting and talent access; fixtures unrun. Other abilities and broader interference remain incomplete."
     },
     {
       "id": "psionic-latent-advancement",
@@ -132,9 +133,10 @@
       "tests": [
         "tests/expanded.py::test_psionic_talents",
         "tests/expanded.py::test_psionic_advancement",
-        "tests/expanded.py::test_psionic_purchase"
+        "tests/expanded.py::test_psionic_purchase",
+        "tests/expanded.py::test_history_purchase"
       ],
-      "validation_note": "Owned executable warning purchase and shared point/revision accounting authored, with latent/new-family gates and save-continuation fixture; unrun. Other ability purchases and broad membership integration remain pending."
+      "validation_note": "Two executable sensory abilities now establish power membership and share owned purchases, point/revision accounting and talent access; fixtures unrun. Other abilities and broader interference remain incomplete."
     },
     {
       "id": "psionic-existing-power-advancement",
@@ -591,10 +593,11 @@
       "status": "partial",
       "acceptance": "Permit object-history as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B78, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
       "tests": [
-        "tests/expanded.py::test_psionic_history"
+        "tests/expanded.py::test_psionic_history",
+        "tests/expanded.py::test_history_purchase"
       ],
       "trait_pages": "B78",
-      "validation_note": "Owned one-second secret object-history reading, supported age bands, authored true/vision/misleading outputs and failed-reading retry deadline authored; fixtures unrun. Fright, spontaneous impressions, older ages and broader integration remain pending."
+      "validation_note": "Two executable sensory abilities now establish power membership and share owned purchases, point/revision accounting and talent access; fixtures unrun. Other abilities and broader interference remain incomplete."
     },
     {
       "id": "psionic-membership-extrasensory-ancestral-memory",

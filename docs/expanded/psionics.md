@@ -226,7 +226,7 @@ can explicitly waive that requirement. Purchases also honour
 `developmentSpendingReason`, so mandatory spending cannot be bypassed.
 
 An existing talent establishes access to its own family. The implemented danger
-warning ability also establishes membership even without talent. With neither,
+warning and object-history abilities also establish membership without talent. With neither,
 `newPowerApproved` is required. Membership from other abilities must be added
 alongside their actual implementations; a string in a catalogue does not count
 as an owned power. Duplicate talent families and conflicting trait IDs are
@@ -252,7 +252,8 @@ through arbitrary unimplemented abilities remain pending.
 `RpgExpandedDangerSensePurchase` installs the implemented danger-warning trait.
 Set `id`, `profile`, an approved `RpgExpandedPsionicDangerSense` as `ability`,
 `permitted` and `evidence`. An owned talent in the same power establishes latent
-eligibility. Otherwise `newPowerApproved` is required; membership from other,
+eligibility. An already owned object-history ability in the same power also establishes
+membership. Otherwise `newPowerApproved` is required; membership from
 unimplemented abilities is not inferred. An existing warning ability, ordinary
 danger sense, precognition or conflicting trait ID blocks the purchase.
 
@@ -314,7 +315,34 @@ is author-only and `lastCheck` is unchanged.
 Terrifying impressions are explicitly blocked until the expanded fright result
 can be committed with the reading. Suppression from established countermeasures
 is currently an authored gate; static-contact integration, optional spontaneous
-impressions, older age bands and purchases of this ability remain incomplete.
+impressions, older age bands remain incomplete.
 `test_psionic_history` specifies all supported age modifiers, one-second cost,
 ordinary and critical information, severe-failure boundaries, the exact retry
 deadline, replay and rollback. These fixtures remain unrun.
+
+## Purchasing object-history reading
+
+`RpgExpandedObjectHistoryPurchase` uses the shared
+`RpgExpandedPsionicAbilityPurchase` transaction with an approved
+`RpgExpandedPsionicObjectHistory` instance. The cost is eighteen points.
+The existing `RpgExpandedDangerSensePurchase` interface remains available and
+still accepts only its own ability type. The shared base accepts only these two
+implemented sensory abilities; it cannot buy arbitrary catalogue declarations.
+
+`rpgExpandedPsionicPowerMember(profile, power)` recognizes validated owned
+warning and history-reading instances. An owned ability establishes membership
+even while temporarily inactive. A talent alone supplies latent eligibility,
+not an active ability. Conflicting power definitions with the same ID are
+rejected. These membership rules now apply to both talent advancement and
+supported ability purchases.
+
+A matching latent talent or an existing implemented ability in the family
+permits the purchase; an unrelated family requires `newPowerApproved`. Duplicate
+history-reading abilities are rejected before points are spent. Both concrete
+purchase classes retain the shared downtime, spending-priority, receipt and
+revision behavior described above.
+
+`test_history_purchase` specifies the eighteen-point debit, latent and existing
+ability eligibility, new-family permission, insufficient funds, replay, preview,
+rollback and actual reading after purchase. It also specifies buying talent
+from existing history-reading membership. Fixtures remain unrun.

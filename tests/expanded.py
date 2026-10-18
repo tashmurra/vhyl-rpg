@@ -1664,6 +1664,43 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_history_purchase(Session,bundle):
+    def state(s):
+        s.action(2246)
+        return last(s,'test.history-purchase-state')
+    s=Session(bundle)
+    try:
+        s.action(2245,7)
+        assert last(s,'test.bought-history')[:2] == ['blocked','psionic-history-ability-required']
+        for code in [1,2]:
+            s.action(2245,code)
+            assert state(s) == [0,20,0,0,2,0,0]
+        s.action(2245,0)
+        assert last(s,'test.history-purchase') == ['resolved',None,18]
+        assert state(s) == [1,2,1,1,2,0,0]
+        s.action(2245,0)
+        assert last(s,'test.history-purchase') == ['reused',None,0]
+        s.action(2245,7)
+        assert last(s,'test.bought-history') == ['resolved',None,'Someone argued here.']
+        assert state(s) == [1,2,1,1,2,3,1]
+        s.command('undo')
+        assert state(s) == [1,2,1,1,2,0,0]
+    finally: s.close()
+    for code,status,reason,points in [(3,'blocked','rpg.insufficient-points',18),
+            (4,'resolved',None,18),(5,'blocked','psionic-new-power-permission',0),(6,'resolved',None,18)]:
+        s=Session(bundle)
+        try:
+            s.action(2245,code)
+            assert last(s,'test.history-purchase') == [status,reason,points]
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        s.action(2245,8)
+        assert last(s,'test.history-talent') == ['resolved',15]
+        assert state(s) == [1,5,1,0,3,0,0]
+    finally: s.close()
+
+
 def test_psionic_history(Session,bundle):
     def state(s):
         s.action(2243)
@@ -8022,6 +8059,7 @@ def test(build):
     test_psionic_advancement(Session,psionics)
     test_psionic_purchase(Session,psionics,build.out)
     test_psionic_history(Session,psionics)
+    test_history_purchase(Session,psionics)
     test_psionic_resistance(Session,psionics)
     fresh(Session,psionics,test_psionic_static)
     static_ready = build.build('expanded-static-ready',ROOT / 'tests/fixtures/expanded-static-ready.t')

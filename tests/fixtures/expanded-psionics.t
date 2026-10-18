@@ -35,7 +35,7 @@ latentPurchase: RpgExpandedDangerSensePurchase id = 'first-warning' profile = la
 latentWarning: RpgExpandedDangerWarning id = 'first-hazard' profile = latentProfile ability = latentAbility
     hazardPresent = true approved = true interferenceKnown = true evidence = 'Known impending fall'
     warningText = 'Step back.' detailText = 'The roof is falling.';
-historyPower: RpgExpandedPsionicPower id = 'history-power' abilityIds = ['object-history'] powerModifier = -10
+historyPower: RpgExpandedPsionicPower id = 'history-power' abilityIds = ['object-history','danger-sense'] powerModifier = -10
     approved = true evidence = 'Permitted historical impressions';
 historyAbility: RpgExpandedPsionicObjectHistory power = historyPower approved = true evidence = 'Paid ability';
 historyTalent: RpgExpandedPsionicTalent id = 'history-talent' power = historyPower level = 2 approved = true evidence = 'Paid talent';
@@ -48,6 +48,15 @@ class HistoryTestRequest: RpgExpandedHistoryReading
     misleadingText = 'The cup was a peaceful wedding gift.'
 ;
 historyRequest: HistoryTestRequest id = 'cup-reading';
+historyBuyingTalent: RpgExpandedPsionicTalent id = 'buyer-history-talent' power = historyPower level = 2
+    approved = true evidence = 'Owned latent potential';
+historyBuyerAbility: RpgExpandedPsionicObjectHistory power = historyPower approved = true evidence = 'Approved history ability';
+historyBuyerWarning: RpgExpandedPsionicDangerSense power = historyPower approved = true evidence = 'Existing related ability';
+historyBuyer: RpgExpandedProfile iq = 8 traits = [historyBuyingTalent] rules = warningRules
+    creationComplete = true developmentOpen = true earnedPoints = 20 unspentPoints = 20;
+historyPurchase: RpgExpandedObjectHistoryPurchase id = 'buy-history' profile = historyBuyer ability = historyBuyerAbility
+    permitted = true evidence = 'Study during downtime';
+historyBuyerReading: HistoryTestRequest id = 'bought-reading' profile = historyBuyer ability = historyBuyerAbility;
 modify rpgRandom
     roll()
     {
@@ -59,6 +68,29 @@ class WarningTestAction: Action
     exec(context)
     {
         local code = warningInput.code;
+        if (code >= 80)
+        {
+            if (code == 83) historyBuyer.unspentPoints = 0;
+            if (code == 84) historyBuyer.traits = [historyBuyerWarning];
+            if (code == 85 || code == 86) historyBuyer.traits = [];
+            if (code == 86) historyPurchase.newPowerApproved = true;
+            if (code == 87)
+            {
+                local reading = historyBuyerReading.apply(); event('test.bought-history');
+                eventValue(reading.status); eventValue(reading.reason); eventValue(reading.information); return nil;
+            }
+            if (code == 88)
+            {
+                historyBuyer.traits = [historyBuyerAbility];
+                local advancement = new RpgExpandedPsionicTalentAdvancement(); advancement.id = 'talent-after-history';
+                advancement.profile = historyBuyer; advancement.talent = historyBuyingTalent; advancement.targetLevel = 3;
+                advancement.permitted = true; advancement.evidence = 'Existing historical power';
+                local value = advancement.apply(); event('test.history-talent'); eventValue(value.status); eventValue(value.points); return nil;
+            }
+            local value = code == 81 ? historyPurchase.assess() : historyPurchase.apply();
+            event('test.history-purchase'); eventValue(value.status); eventValue(value.reason); eventValue(value.points);
+            if (code == 82) throw new RpgError(); return nil;
+        }
         if (code >= 60)
         {
             if (code == 64) historyRequest.terrifying = true;
@@ -141,6 +173,14 @@ warningVerb: Verb code = 2231 action = warningAction label = 'sense danger';
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2245) { warningInput.code = 80 + args[1]; return vhylAct(2231,args); }
+    if (verb == 2246)
+    {
+        event('test.history-purchase-state'); eventValue(holds(historyBuyer.traits,historyBuyerAbility) ? 1 : 0);
+        eventValue(historyBuyer.unspentPoints); eventValue(historyBuyer.developmentRevision);
+        eventValue(historyBuyer.psionicAbilityPurchases.length()); eventValue(rpgExpandedPsionicTalentBonus(historyBuyer,historyPower));
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2244)
     {
         local request = new HistoryTestRequest(); request.id = 'age-preview'; request.ageBand = args[1];

@@ -278,9 +278,10 @@
         "tests/expanded.py::test_static_health_defaults",
         "tests/expanded.py::test_psionic_advancement",
         "tests/expanded.py::test_psionic_purchase",
-        "tests/expanded.py::test_psionic_history"
+        "tests/expanded.py::test_psionic_history",
+        "tests/expanded.py::test_history_purchase"
       ],
-      "validation_note": "Owned one-second secret object-history reading, supported age bands, authored true/vision/misleading outputs and failed-reading retry deadline authored; fixtures unrun. Fright, spontaneous impressions, older ages and broader integration remain pending."
+      "validation_note": "Two executable sensory abilities now establish power membership and share owned purchases, point/revision accounting and talent access; fixtures unrun. Other abilities and broader interference remain incomplete."
     },
     {
       "id": "skills",
