@@ -6450,6 +6450,7 @@ rpgExpandedSeasickness(health,susceptible,movingVehicle,seagoing,stabilized,day,
     if (!value.checkRequired) { value.status = 'ready'; return value; }
     rpgInteger(roll,3,18);
     value.score = health + (susceptible ? 0 : 5);
+    if (value.score > 1000) rpgExpandedReject('seasickness-score-limit');
     if (value.score < 3) { value.reason = 'seasickness-score-unavailable'; return value; }
     value.check = rpgCheck(value.score,roll);
     if (!value.check.achieved) { value.vomits = true; value.penalty = -5; }

@@ -9304,6 +9304,8 @@ def test(build):
     test_food_access(Session, food_access, build.out)
     seasickness = build.build("expanded-seasickness",ROOT / "tests/fixtures/expanded-seasickness.t")
     test_seasickness(Session, seasickness)
+    motion_trait = build.build("expanded-motion-trait",ROOT / "tests/fixtures/expanded-motion-trait.t")
+    test_motion_trait(Session, motion_trait)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22331,5 +22333,21 @@ def test_seasickness(Session, bundle):
         ]:
             s.action(1100, code)
             assert last(s, 'test.seasickness') == expected
+    finally:
+        s.close()
+
+
+def test_motion_trait(Session, bundle):
+    """B144 purchase, template copy and explicit vehicle-operation learning classification; unrun."""
+    s = Session(bundle)
+    try:
+        for code in (16100, 16101, 16103):
+            s.action(1100, code)
+        assert last(s, 'test.motion-trait') == [-10, 1, 'motion-susceptibility-learning', None, 'motion-skill-classification-required']
+        assert last(s, 'test.motion-template') == [1, -10]
+        assert last(s, 'test.motion-training') == ['motion-susceptibility-learning']
+        for code in (16102, 16100):
+            s.action(1100, code)
+        assert last(s, 'test.motion-trait') == [-10, 0, 'motion-susceptibility-learning', None, 'motion-skill-classification-required']
     finally:
         s.close()

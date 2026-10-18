@@ -1653,3 +1653,23 @@ The hazards module requires an owned aging advance on every associated injury
 and executes supported crossed boundaries through the shared aging history.
 See [deprivation-related aging](hazards.md#applying-deprivation-related-aging)
 for age evidence, calendar requirements and explicit unsupported combinations.
+
+
+## Motion susceptibility
+
+`RpgExpandedMotionSusceptibility` is an approved −10-point purchase (full-2008,
+B144), with no levels, scope or self-control multiplier. The template trait
+factory supports independent copies under `motion-susceptibility`.
+`profile.motionSusceptible(activeOnly)` distinguishes the purchased restriction
+from currently active symptoms. Mitigation suppresses active susceptibility; it
+does not grant permission to learn prohibited skills.
+
+For characters with this purchase, classify each skill's `vehicleOperationClass`
+as 1 for vehicle operation or 0 for other skills. The default nil is explicitly
+unclassified and rejects learning. This author classification must follow the
+actual task; it is not inferred from arbitrary skill IDs. Learning hooks and
+character validation reject paid vehicle-operation training, while unrelated
+classified skills remain available. Full catalogue classification remains
+pending. `expanded-motion-trait.t` / `test_motion_trait` specify cost, independent
+template copying, mitigation, classification and existing-training rejection.
+Fixtures remain unrun; persistent journey symptoms are still outstanding.

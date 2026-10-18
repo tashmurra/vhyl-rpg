@@ -2818,3 +2818,88 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** B144 purchased susceptibility. Journey effects are owned by hazards. */
+class RpgExpandedMotionSusceptibility: RpgLiteTrait
+    id = 'motion-susceptibility'
+    labelId = 'motion-susceptibility'
+    points = -10
+    approved = nil
+    templatePurchaseKind = 'expanded-motion-susceptibility'
+    creationCost()
+    {
+        if (!self.approved) rpgExpandedReject('unapproved-trait');
+        if (self.id != 'motion-susceptibility' || self.points != -10 || self.level != 1
+            || self.scope != nil || self.controlled || self.skills.length() != 0)
+            rpgExpandedReject('motion-susceptibility-definition');
+        return -10;
+    }
+;
+modify RpgSkill
+    /* nil means unclassified, 0 non-operation, 1 vehicle operation. */
+    vehicleOperationClass = nil
+;
+modify RpgExpandedProfile
+    motionSusceptible(activeOnly)
+    {
+        local count = 0; local present = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'motion-susceptibility')
+            {
+                if (!trait.ofKind(RpgExpandedMotionSusceptibility)) rpgExpandedReject('motion-susceptibility-definition');
+                trait.creationCost(); count += 1;
+                if (!activeOnly || trait.active && !trait.mitigated) present = true;
+            }
+        if (count > 1) rpgExpandedReject('motion-susceptibility-duplicate');
+        return present;
+    }
+    motionSkillLearningReason(skill)
+    {
+        if (!self.motionSusceptible(nil)) return nil;
+        if (skill == nil || !skill.ofKind(RpgSkill)) rpgExpandedReject('motion-susceptibility-skill');
+        if (skill.vehicleOperationClass == nil) return 'motion-skill-classification-required';
+        rpgInteger(skill.vehicleOperationClass,0,1);
+        return skill.vehicleOperationClass == 1 ? 'motion-susceptibility-learning' : nil;
+    }
+    physiologySkillLearningReason(skill)
+    {
+        local reason = self.motionSkillLearningReason(skill);
+        return reason == nil ? inherited(skill) : reason;
+    }
+    validateFeatures()
+    {
+        inherited();
+        if (self.motionSusceptible(nil))
+            foreach (local training in self.skills)
+                if (training.points > 0)
+                {
+                    local reason = self.motionSkillLearningReason(training.skill);
+                    if (reason != nil) rpgExpandedReject(reason);
+                }
+        return nil;
+    }
+    skillScore(skill)
+    {
+        if (self.motionSusceptible(nil))
+            foreach (local training in self.skills)
+                if (training.skill == skill && training.points > 0)
+                {
+                    local reason = self.motionSkillLearningReason(skill);
+                    if (reason != nil) rpgExpandedReject(reason);
+                }
+        return inherited(skill);
+    }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id != 'motion-susceptibility') return inherited(id,level,scope);
+        local trait = new RpgExpandedMotionSusceptibility(); trait.level = level; trait.scope = scope; trait.approved = true;
+        trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedMotionSusceptibility)) return inherited(trait);
+        trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
+    }
+;
