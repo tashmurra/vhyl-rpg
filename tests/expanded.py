@@ -1010,6 +1010,47 @@ def test_household_payment(s):
     assert living_state(s) == [1100, 1, 1, 0, -1, 0, 0]
 
 
+def test_employment_market(s):
+    # B517: all job wealth rows at TL8; the worker's wealth is deliberately absent.
+    for status, pay in zip(range(-2, 9), [520, 1300, 2600, 5200, 13000, 52000,
+                                           260000, 2600000, 26000000, 260000000,
+                                           'job-money-limit']):
+        s.action(1223, 8, status)
+        assert last(s, 'test.job-wealth-pay') == [pay]
+    for tl, status, expected in [(0, -2, 125), (0, -1, 'job-fractional-money'),
+                                 (7, 1, 4200), (9, 1, 7200), (0, 8, 625000000)]:
+        s.action(1223, tl, status)
+        assert last(s, 'test.job-wealth-pay') == [expected]
+    for population, modifier in [(0,-3),(99,-3),(100,-2),(999,-2),(1000,-1),
+                                 (4999,-1),(5000,0),(9999,0),(10000,1),(49999,1),
+                                 (50000,2),(99999,2),(100000,3),(2147483647,3)]:
+        s.action(1224, population)
+        assert last(s, 'test.employment-population') == [modifier]
+    for pay, budget, recruiting, bonus in [
+            (1000,49,0,0),(1000,50,0,1),(1000,499,0,1),(1000,500,0,2),
+            (1000,4999,0,2),(1000,5000,0,3),(1000,499,1,0),(1000,500,1,1),
+            (1000,5000,1,2),(1000,50000,1,3),
+            (625,31,0,0),(625,32,0,1),(625,312,0,1),(625,313,0,2),
+            (625,3124,0,2),(625,3125,0,3),(625,312,1,0),(625,313,1,1),
+            (1,0,0,0),(1,1,0,2),(1,2147483647,0,11),
+            (2147483647,2147483647,1,1)]:
+        s.action(1225, pay, budget, recruiting)
+        assert last(s, 'test.employment-advertising') == [bonus]
+    for offered, bonus in [(1000,0),(1199,0),(1200,1),(1499,1),(1500,2),(1999,2),(2000,3),(5000,3)]:
+        s.action(1226,1000,offered,0,0,0,0,0)
+        assert last(s, 'test.recruiting-modifiers') == [bonus]
+    for pay, offered, bonus in [(3,3,0),(3,4,1),(3,5,2),(3,6,3),
+                                (2147483647,2147483647,0)]:
+        s.action(1226,pay,offered,0,0,0,0,0)
+        assert last(s, 'test.recruiting-modifiers') == [bonus]
+    for risk, combatant, illegal, streetwise, waiver, expected in [
+            (1,0,0,0,0,-2),(1,1,0,0,0,0),(0,0,1,0,0,-5),
+            (0,0,1,1,0,-5),(0,0,1,1,1,0),(1,0,1,1,1,-2),
+            (0,0,1,0,1,'recruiting-illegal-waiver')]:
+        s.action(1226,1000,1000,risk,combatant,illegal,streetwise,waiver)
+        assert last(s, 'test.recruiting-modifiers') == [expected]
+
+
 def test_lifestyle_prices(s):
     for status, expected in zip(range(-2, 9), [100, 300, 600, 1200, 3000, 12000, 60000, 600000, 6000000, 60000000, 600000000]):
         s.action(1217, status)
@@ -1439,6 +1480,7 @@ def test(build):
     fresh(Session,minimal,test_campaign_minimal)
     fresh(Session,minimal,test_job_earnings)
     fresh(Session,minimal,test_lifestyle_prices)
+    fresh(Session,minimal,test_employment_market)
     test_living_persistence(Session,bundle,build.out)
     test_trade_persistence(Session,bundle,build.out)
     test_reputation_persistence(Session,bundle,build.out)

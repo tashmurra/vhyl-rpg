@@ -872,6 +872,18 @@
         "tests/expanded.py::test_living_persistence"
       ],
       "validation_note": "Full-period household costs and per-beneficiary receipts authored, including dependent support. Checks unrun; installments, local overrides and lifestyle consequences pending."
+    },
+    {
+      "id": "employment-market-assessments",
+      "module": "campaign",
+      "pages": "B517-B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedRecruitingModifiers",
+      "tests": [
+        "tests/expanded.py::test_employment_market"
+      ],
+      "validation_note": "Job wealth pay, population, advertising and recruiting modifiers authored. Checks unrun; persistent search resolution and job-seeker-specific modifiers remain pending."
     }
   ],
   "detailed_inventories": [

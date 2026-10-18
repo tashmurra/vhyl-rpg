@@ -47,5 +47,33 @@ act(verb,args)
         local value = context.assess(); event('test.lifestyle-price'); eventValue(value.money);
         eventValue(value.weight); eventValue(value.minimumWeight ? 1 : 0); return nil;
     }
+    if (verb == 1223)
+    {
+        event('test.job-wealth-pay');
+        try { eventValue(rpgExpandedJobWealthPay(args[1],args[2])); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1224)
+    {
+        event('test.employment-population'); eventValue(rpgExpandedEmploymentPopulation(args[1])); return nil;
+    }
+    if (verb == 1225)
+    {
+        event('test.employment-advertising');
+        eventValue(rpgExpandedEmploymentAdvertising(args[1],args[2],args[3] == 1)); return nil;
+    }
+    if (verb == 1226)
+    {
+        local context = new RpgExpandedRecruitingModifiers(); context.population = 5000;
+        context.normalPay = args[1]; context.offeredPay = args[2];
+        context.combatRisk = args[3] == 1; context.combatantRole = args[4] == 1;
+        context.illegal = args[5] == 1; context.streetwiseSearch = args[6] == 1;
+        context.waiveIllegalPenalty = args[7] == 1;
+        event('test.recruiting-modifiers');
+        try { local value = context.assess(); eventValue(value.modifier); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }

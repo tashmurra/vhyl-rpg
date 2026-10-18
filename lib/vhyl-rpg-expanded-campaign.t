@@ -809,3 +809,87 @@ class RpgExpandedLivingPayment: object
         value.status = 'resolved'; return value;
     }
 ;
+
+/** Employment wealth scales belong to the job, not to the worker, B517. */
+rpgExpandedJobWealthPay(techLevel, supportedStatus)
+{
+    rpgInteger(supportedStatus,-2,8);
+    local amount = rpgExpandedTypicalJobPay(techLevel);
+    if (supportedStatus < 0)
+    {
+        local divisor = supportedStatus == -2 ? 5 : 2;
+        if (amount % divisor != 0) rpgExpandedReject('job-fractional-money');
+        return amount / divisor;
+    }
+    local multipliers = [1,2,5,20,100,1000,10000,100000,1000000];
+    local factor = multipliers[supportedStatus + 1];
+    if (amount > 2147483647 / factor) rpgExpandedReject('job-money-limit');
+    return amount * factor;
+}
+
+/** Population modifier shared by recruiting and job seeking, B517-B518. */
+rpgExpandedEmploymentPopulation(population)
+{
+    rpgInteger(population,0,2147483647);
+    if (population < 100) return -3;
+    if (population < 1000) return -2;
+    if (population < 5000) return -1;
+    if (population < 10000) return 0;
+    if (population < 50000) return 1;
+    if (population < 100000) return 2;
+    return 3;
+}
+
+/** Advertising thresholds are exact fractions of pay; integer budgets must meet
+ * the next whole-unit ceiling. Keep the remainder when multiplying thresholds. */
+rpgExpandedEmploymentAdvertising(monthlyPay, budget, recruiting)
+{
+    rpgInteger(monthlyPay,1,2147483647); rpgInteger(budget,0,2147483647);
+    local divisor = recruiting ? 2 : 20;
+    local quotient = monthlyPay / divisor; local remainder = monthlyPay % divisor;
+    local bonus = 0;
+    while (quotient < budget || (quotient == budget && remainder == 0))
+    {
+        bonus += 1;
+        local tail = (remainder * 10) / divisor;
+        if (quotient > (2147483647 - tail) / 10) return bonus;
+        quotient = quotient * 10 + tail; remainder = (remainder * 10) % divisor;
+    }
+    return bonus;
+}
+
+/** Pure recruiting modifiers, B518. The search operation owns expenditure and
+ * the weekly attempt limit; this assessment never creates or hires an NPC. */
+class RpgExpandedRecruitingModifiers: object
+    population = 0
+    normalPay = 1
+    offeredPay = 1
+    advertising = 0
+    combatRisk = nil
+    combatantRole = nil
+    illegal = nil
+    streetwiseSearch = nil
+    waiveIllegalPenalty = nil
+    assess()
+    {
+        rpgInteger(self.normalPay,1,2147483647); rpgInteger(self.offeredPay,0,2147483647);
+        if (self.waiveIllegalPenalty && (!self.illegal || !self.streetwiseSearch))
+            rpgExpandedReject('recruiting-illegal-waiver');
+        local value = new RpgExpandedResult();
+        value.modifier = rpgExpandedEmploymentPopulation(self.population)
+            + rpgExpandedEmploymentAdvertising(self.normalPay,self.advertising,true);
+        // Compare exact ratios without overflowing a multiplication of large pay.
+        local quotient = self.normalPay / 10; local remainder = self.normalPay % 10;
+        local factors = [12,15,20]; local bonus = 0; local index = 0;
+        foreach (local factor in factors)
+        {
+            index += 1; local tail = (remainder * factor + 9) / 10;
+            if (quotient <= (2147483647 - tail) / factor
+                && self.offeredPay >= quotient * factor + tail) bonus = index;
+        }
+        value.modifier += bonus;
+        if (self.combatRisk && !self.combatantRole) value.modifier -= 2;
+        if (self.illegal && !self.waiveIllegalPenalty) value.modifier -= 5;
+        value.status = 'ready'; return value;
+    }
+;

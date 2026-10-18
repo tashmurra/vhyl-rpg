@@ -513,3 +513,42 @@ supported by this full-period operation. It does not advance the shared clock.
 The authored `test_household_payment` and `test_living_persistence` cover independent
 cost totals, preview purity, repeated payment, competing payers, rollback, undo and
 cross-process receipt preservation. These tests remain unrun while checks are paused.
+
+
+## Employment markets and recruitment modifiers
+
+`rpgExpandedJobWealthPay(techLevel, supportedStatus)` applies the B517 employment
+wealth scale to typical monthly pay. Supported status -2 through 8 selects the
+corresponding job category, from poor employment through the highest tabulated
+fortune category. This is a job classification, not the worker's purchased status
+or personal wealth. At technology level 8, the category supporting status 1 pays
+5,200; its adjacent-level range is 4,200 to 7,200. Use explicit authored ranges at
+technology endpoints rather than extrapolating unavailable levels. Fractional
+currency and amounts exceeding the money limit are rejected.
+
+`rpgExpandedEmploymentPopulation(population)` supplies the shared population
+modifier for recruiting and job seeking. `rpgExpandedEmploymentAdvertising(pay,
+budget, recruiting)` uses prospective monthly pay and the actual advertising
+budget: recruiting starts at half a month's pay, job seeking at one twentieth.
+Each subsequent bonus requires ten times the previous threshold. Whole-unit
+budgets must reach the exact threshold; fractional thresholds are rounded up only
+for that comparison. These helpers neither spend the budget nor consume time.
+
+`RpgExpandedRecruitingModifiers` combines population, advertising, offered pay,
+combat risk and illegality. Set `normalPay`, `offeredPay`, `advertising`,
+`population`, `combatRisk`, `combatantRole` and `illegal`. Offered pay gives bonuses
+at 120%, 150% and 200% of normal pay, capped at +3. An authored combatant role
+avoids the obvious-combat-risk penalty. Waiving the illegal-work penalty requires
+both `streetwiseSearch` and `waiveIllegalPenalty`; using that skill alone does not
+silently grant the waiver.
+
+This assessment returns a modifier only. It does not resolve a search, spend
+advertising funds, create a candidate or establish employment. Weekly party-wide
+attempt limits, qualification checks, repeat permission, candidate selection and
+critical-failure legal consequences still require the search operation. In
+particular, waiving the illegal-work penalty must not waive those consequences.
+
+`test_employment_market` independently enumerates employment pay categories,
+population boundaries, advertising thresholds, offered-pay thresholds and risk
+exceptions. The minimal campaign fixture includes these cases. They remain unrun
+while checks are paused.
