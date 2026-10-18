@@ -3189,3 +3189,30 @@ modify rpgLedger
         return nil;
     }
 ;
+
+/** Pure optional bleeding-minute outcome, full-2008 B420. The caller supplies
+ * the verified loss basis and actual die roll; this never draws or spends. */
+rpgExpandedBleedingOutcome(health, lossBasis, modifier, roll, clearMinutes)
+{
+    rpgInteger(health,1,1000); rpgInteger(lossBasis,0,1000000);
+    rpgInteger(modifier,-1000,1000); rpgInteger(roll,3,18); rpgInteger(clearMinutes,0,2);
+    local value = new RpgExpandedBleedingResult();
+    value.modifier = modifier - lossBasis / 5;
+    local score = health + value.modifier;
+    if (score < 3) { value.reason = 'bleeding-score-unavailable'; return value; }
+    value.check = rpgCheck(score,roll);
+    if (value.check.critical == 'success')
+    { value.stopped = true; value.clearMinutes = clearMinutes + 1; }
+    else if (value.check.achieved)
+    { value.clearMinutes = clearMinutes + 1; value.stopped = value.clearMinutes >= 3; }
+    else
+    { value.injury = value.check.critical == 'failure' ? 3 : 1; value.clearMinutes = 0; }
+    value.status = 'ready'; return value;
+}
+
+/** A minute's bleeding consequence, before shared injury-ledger execution. */
+class RpgExpandedBleedingResult: RpgExpandedResult
+    injury = 0
+    clearMinutes = 0
+    stopped = nil
+;

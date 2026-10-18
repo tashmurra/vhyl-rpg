@@ -10,6 +10,14 @@ modify gameMain initialRoom = healthRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2284)
+    {
+        local value = rpgExpandedBleedingOutcome(args[1],args[2],args[3],args[4],args[5]);
+        event('test.bleeding-outcome'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.modifier); eventValue(value.check == nil ? nil : value.check.score);
+        eventValue(value.injury); eventValue(value.clearMinutes); eventValue(value.stopped ? 1 : 0);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2254)
     {
         local attributes = [rpgST,rpgDX,rpgIQ,rpgHT,rpgWill,rpgPerception];

@@ -179,3 +179,9 @@ Ordered tactical path assessment now composes entry costs, paid turns, final
 facing, ally traversal, occupied endpoints, one-hex minimum progress and
 whole-allowance terrain. It does not yet execute movement or interrupts.
 The path fixtures are authored and unrun.
+
+The active completion scope now targets health/hazards, character construction,
+traits/skills/templates, social play, equipment and exploration. Other unfinished
+areas will be listed at delivery. The B420 supplied-roll bleeding outcome and
+clear-minute streak are now assessed explicitly; owned bleeding execution remains
+pending. New fixtures are authored and unrun.

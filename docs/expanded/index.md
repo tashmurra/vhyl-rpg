@@ -171,3 +171,6 @@ The [subset integration guide](character-social.md) documents the smaller
 instead of the all-module umbrella, never alongside it: both include foundation
 and shared components. The original prerelease validation record does not certify
 this merged branch; checks remain paused.
+
+The [current completion scope](current-scope.md) identifies the selected modules
+and the remaining acceptance obligations.

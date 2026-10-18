@@ -1697,3 +1697,31 @@ occurs. Replay never rolls or injures again.
 `test_fear_faint_injury` specifies conditional and unconditional injury, both
 durations, successful immediate resistance, zero-cost rejection, preview,
 rollback, undo, replay and saved-game continuation. These fixtures remain unrun.
+
+
+## Optional bleeding: minute outcome
+
+`rpgExpandedBleedingOutcome(health, lossBasis, modifier, roll, clearMinutes)`
+implements the supplied-roll minute outcome from `full-2008` B420. It subtracts
+one from the HT score per full five HP in `lossBasis`, then adds the explicitly
+supplied contextual `modifier`. It returns the ordinary check plus `injury`,
+`clearMinutes` and `stopped`. Ordinary failure loses one HP, critical failure
+three; either resets the clear-minute streak. Ordinary success increments the
+streak, stopping at three; critical success stops immediately.
+
+The prior streak must be zero, one or two. A completed bleeding episode must not
+be assessed as another active minute. A score below three returns an explicit
+unavailable result. The helper consumes no randomness or time and commits no
+injury. Its `ready` result is an assessment, not a resolved bleeding episode.
+
+The caller must supply a verified loss basis; this helper does not decide whether
+partially healed injuries, multiple wound times or subsequent blood loss alter
+that basis. Those policies need reconciliation in the owned episode implementation.
+Bleeding eligibility remains a concrete author decision tied to actual wounds.
+Campaign selection, persistent episodes, minute scheduling, injury execution and
+successful first-aid termination are still pending. Merely including health does
+not activate bleeding.
+
+`test_bleeding_outcomes` specifies five-HP boundaries, ordinary and critical
+results, three consecutive clear minutes, failure resetting the streak, modifiers
+and blocked scores. The fixture is authored and unrun while checks are paused.

@@ -8983,6 +8983,7 @@ def test(build):
     test_retching_persistence(Session,retching,build.out)
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)
+    fresh(Session,health,test_bleeding_outcomes)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
     fresh(Session,health,test_critical_major_wound)
@@ -9442,3 +9443,19 @@ def test_tactical_paths(Session, bundle):
             assert tactical_footprint_state(s)[1:6] == [0, 0, None, None, 0]
         finally:
             s.close()
+
+
+def test_bleeding_outcomes(s):
+    # B420: every full five lost HP adds -1; losses are not rounded up.
+    for loss, penalty in [(0, 0), (4, 0), (5, -1), (9, -1), (10, -2), (14, -2), (15, -3)]:
+        s.action(2284, 12, loss, 0, 5, 0)
+        assert last(s, 'test.bleeding-outcome') == ['ready', None, penalty, 12 + penalty, 0, 1, 0, 0, 0]
+    for roll, prior, injury, clear, stop in [(10, 0, 0, 1, 0), (10, 1, 0, 2, 0),
+                                           (10, 2, 0, 3, 1), (11, 2, 1, 0, 0),
+                                           (18, 2, 3, 0, 0), (3, 0, 0, 1, 1)]:
+        s.action(2284, 10, 0, 0, roll, prior)
+        assert last(s, 'test.bleeding-outcome') == ['ready', None, 0, 10, injury, clear, stop, 0, 0]
+    s.action(2284, 10, 10, 2, 10, 2)
+    assert last(s, 'test.bleeding-outcome') == ['ready', None, 0, 10, 0, 3, 1, 0, 0]
+    s.action(2284, 3, 5, 0, 3, 0)
+    assert last(s, 'test.bleeding-outcome') == ['blocked', 'bleeding-score-unavailable', -1, None, 0, 0, 0, 0, 0]

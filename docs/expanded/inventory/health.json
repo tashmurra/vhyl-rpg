@@ -283,9 +283,12 @@
       "pages": "B420",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ordinary bleeding failure loses one health, critical failure loses three, critical success ends bleeding, and ordinary success prevents that minute's loss.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_bleeding_outcomes"
+      ],
+      "validation_note": "Pure supplied-roll outcome and streak arithmetic authored; persistent episodes, shared injury execution, wound loss basis and first-aid termination pending. Fixtures unrun."
     },
     {
       "id": "health-bleeding-streak",
@@ -293,9 +296,12 @@
       "pages": "B420",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Three consecutive minutes without bleeding end the episode; a bleeding minute resets the streak and successful first aid can stop further losses.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_bleeding_outcomes"
+      ],
+      "validation_note": "Pure supplied-roll outcome and streak arithmetic authored; persistent episodes, shared injury execution, wound loss basis and first-aid termination pending. Fixtures unrun."
     },
     {
       "id": "health-bleeding-wound-policy",

@@ -20,6 +20,7 @@ nav:
   - Library selection: docs/libraries.md
   - Rules comparison: docs/rules-comparison.md
   - Expanded integration: docs/expanded/index.md
+  - Current completion scope: docs/expanded/current-scope.md
   - Expanded source inventory: docs/expanded/inventory/index.md
   - Authoring challenges: docs/authoring.md
   - Assessments and dice reports: docs/reporting.md
