@@ -1,0 +1,705 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B384-B392",
+  "review": "Tactical chapter text and numeric cost/coverage rows inventoried. Facing, reach and multi-hex diagrams on B385/B388/B392 visually inspected; exact coordinate fixtures, vision diagram review and cross-rule precedence remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "tactical-scale",
+      "source": "full-2008",
+      "pages": "B384",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each hex represents one yard. Human-sized or smaller combatants occupy one hex except actual close combat, swarms and noncombat crowding; up to four friendly ordinary humans can crowd without gaining normal fighting space.",
+      "tests": []
+    },
+    {
+      "id": "tactical-partial-hex",
+      "source": "full-2008",
+      "pages": "B385",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A partly obstructed boundary hex counts as full unless the author rules otherwise. Fully solid hexes remain impassable; use explicit terrain facts, not center-point occupancy alone.",
+      "tests": []
+    },
+    {
+      "id": "tactical-facing",
+      "source": "full-2008",
+      "pages": "B385",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Store one of six headings; three adjacent directions are front, one left, one right and one back. Handedness determines weapon/shield sides. Rotation must preserve relative classification.",
+      "tests": []
+    },
+    {
+      "id": "tactical-prone-footprint",
+      "source": "full-2008",
+      "pages": "B385",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A human-sized prone or horizontal actor occupies two hexes. On falling, lower body remains in original hex and upper body occupies a selected legal neighbor; rising can use either occupied hex.",
+      "tests": []
+    },
+    {
+      "id": "tactical-committed-path",
+      "source": "full-2008",
+      "pages": "B385",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Committed attack moves before attacking, never afterward. It can stay, turn in place or move forward; movement permits two hexes or ceil(move/2) points, whichever is greater. It forbids end-of-move facing change. Reconcile the two-hex allowance with terrain costs explicitly.",
+      "tests": []
+    },
+    {
+      "id": "tactical-allowances",
+      "source": "full-2008",
+      "pages": "B385-B386",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Move and move-and-attack grant movement points equal to movement; increased dodge grants ceil(move/2). Other maneuver exceptions must not be replaced by one universal budget.",
+      "tests": []
+    },
+    {
+      "id": "tactical-forward",
+      "source": "full-2008",
+      "pages": "B386",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Forward entry costs one point and goes into one of three front neighbors. Straight entry preserves facing; diagonal-front entry rotates one side toward the entered hex.",
+      "tests": []
+    },
+    {
+      "id": "tactical-back-side",
+      "source": "full-2008",
+      "pages": "B386",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Side/back movement preserves heading and costs two points, permitted for move, move-and-attack and increased dodge but not committed attack.",
+      "tests": []
+    },
+    {
+      "id": "tactical-front-sidestep",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A front-hex sidestep preserves heading at two points and is permitted during committed attack as well as other movement maneuvers.",
+      "tests": []
+    },
+    {
+      "id": "tactical-turn-en-route",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rotating before/during eligible move, move-and-attack or increased dodge costs one point per hex-side. A half-turn costs three; do not confuse this with free final facing.",
+      "tests": []
+    },
+    {
+      "id": "tactical-final-facing",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Move/move-and-attack spending at most half budget may finish at any heading; spending more permits one-side rotation. Increased dodge permits any final heading. The summary free-turn wording does not override committed attack prohibition.",
+      "tests": []
+    },
+    {
+      "id": "tactical-step",
+      "source": "full-2008",
+      "pages": "B386-B387",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A step permits its normal hex distance in any direction and free facing before/after. Terrain/posture movement point costs do not reduce step distance; still validate actual traversal, space and specific maneuver restrictions.",
+      "tests": []
+    },
+    {
+      "id": "tactical-minimum-progress",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Eligible movement maneuvers allow at least one hex despite high costs. This is not permission to enter solid terrain, ignore sitting prohibition, bypass enemies or traverse impossible obstacles; document exact precedence.",
+      "tests": []
+    },
+    {
+      "id": "tactical-wait-intercept",
+      "source": "full-2008",
+      "pages": "B385",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A declared wait can interrupt a path between hex entries. An actor who has not moved can take the allowed step and strike; a surviving mover resumes with remaining budget and updated state.",
+      "tests": []
+    },
+    {
+      "id": "tactical-reach",
+      "source": "full-2008",
+      "pages": "B388",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Close reach targets own hex; forward reach one/two/three uses the depicted three/five/seven-cell front rings. Keep current weapon grip separate from maximum weapon reach and reconcile increased body-size reach under B402.",
+      "tests": []
+    },
+    {
+      "id": "tactical-melee-line",
+      "source": "full-2008",
+      "pages": "B388",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reach at least two can attack through an ally without penalty or an enemy at -4. A line on a hex boundary is obstructed only if both adjacent cells are occupied, treated friendly unless both occupants are foes.",
+      "tests": []
+    },
+    {
+      "id": "tactical-wild",
+      "source": "full-2008",
+      "pages": "B388-B389",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Side, rear or unseen melee attacks use the worse of -5 or visibility penalty and cap final skill at nine. No selected hit location; randomize if locations enabled. Wild thrust reach cannot exceed one yard.",
+      "tests": []
+    },
+    {
+      "id": "tactical-wild-options",
+      "source": "full-2008",
+      "pages": "B389",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Wild committed attacks cannot select the accurate +4 option. Combining wild with move-and-attack uses the more severe penalties rather than adding duplicate penalties.",
+      "tests": []
+    },
+    {
+      "id": "tactical-wide-vision",
+      "source": "full-2008",
+      "pages": "B389",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Peripheral vision permits ordinary two-handed side attacks and same-side one-handed attacks; opposite-side and rear attacks remain wild. All-around vision removes wild classification but imposes -2 for rear/opposite-side awkward attacks. Specific techniques can override independently.",
+      "tests": []
+    },
+    {
+      "id": "tactical-ranged-arc",
+      "source": "full-2008",
+      "pages": "B389",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ranged eligibility follows the diagram\u2019s ordinary, peripheral or all-around vision arc. Exact boundary hexes require diagram-based coordinate fixtures before implementation completeness.",
+      "tests": []
+    },
+    {
+      "id": "tactical-blind-fire",
+      "source": "full-2008",
+      "pages": "B389",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shooting outside vision arc or without sight uses -10 and final skill cap nine, forbids aim and inherits random-location restrictions. Preserve stray-shot consequences rather than treating a miss as harmless.",
+      "tests": []
+    },
+    {
+      "id": "tactical-line-of-fire",
+      "source": "full-2008",
+      "pages": "B389",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Select a straight line between some part of shooter and target hexes that avoids solid obstacles. Each intervening person imposes -4; a shared edge imposes one -4 only if both neighboring hexes are occupied. Record chosen line to reuse for misses.",
+      "tests": []
+    },
+    {
+      "id": "tactical-posture-occlusion",
+      "source": "full-2008",
+      "pages": "B389",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Prone interveners do not obstruct unless shooter is grounded; kneeling/sitting interveners do not obstruct unless shooter or target is likewise low. Wrong-target text uses a shorter same-level rule; reconcile exact posture combinations explicitly.",
+      "tests": []
+    },
+    {
+      "id": "tactical-large-occlusion",
+      "source": "full-2008",
+      "pages": "B389",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Intervener size at least two above shooter completely blocks sight, or three if kneeling/horizontal, four if prone, unless elevation permits seeing over. This is denial, not another -4.",
+      "tests": []
+    },
+    {
+      "id": "tactical-stray-order",
+      "source": "full-2008",
+      "pages": "B389-B390",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "On ranged miss check possible targets along actual shot line nearest first at min(9,intentional target score). Boundary-pair ordering is random. Miss/dodge continues; hit or successful block/parry stops. Use each target\u2019s legal defenses.",
+      "tests": []
+    },
+    {
+      "id": "tactical-overshoot",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After intended target dodges, continue stray checks only beyond that target. Successful block/parry ends the projectile path. Do not reroll for nearer bystanders already passed.",
+      "tests": []
+    },
+    {
+      "id": "tactical-opportunity-declare",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Opportunity fire requires stationary wait, facing a declared watched area entirely inside vision arc and doing nothing else. Keep opposing players\u2019 declarations private. Trigger first entrant unless discrimination was selected.",
+      "tests": []
+    },
+    {
+      "id": "tactical-opportunity-simultaneous",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Several opportunity attacks on the same entrant resolve simultaneously. Snapshot eligibility before consequences and avoid sequentially suppressing an already-triggered attack merely because another hit resolves first.",
+      "tests": []
+    },
+    {
+      "id": "tactical-opportunity-aim",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary opportunity fire gets no aim bonus. Watching exactly one hex is an exception: each waiting second also accumulates aim; apply the actual accumulated duration when triggered.",
+      "tests": []
+    },
+    {
+      "id": "tactical-opportunity-line",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Covering one straight crossing line applies -2 instead of watched-area band penalties.",
+      "tests": []
+    },
+    {
+      "id": "tactical-opportunity-discriminate",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional target discrimination uses a hidden vision check when a target appears and adds -2 attack penalty. Report perceived friend/foe, not omniscient identity; author the failed-perception result contract.",
+      "tests": []
+    },
+    {
+      "id": "tactical-popup",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Eligible thrown, firearm or crossbow attacks can emerge no more than one hex, shoot and return to cover in one attack maneuver. Bows/slings are excluded; no aim, -2 attack. Trigger opportunity attacks while exposed and permit only dodge against them.",
+      "tests": []
+    },
+    {
+      "id": "tactical-side-defense",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Side attacks give -2 defense unless vision capability removes it. Shield block still cannot cover weapon side; one-handed parry cannot cover opposite side unless arm flexibility or body flexibility permits.",
+      "tests": []
+    },
+    {
+      "id": "tactical-rear-defense",
+      "source": "full-2008",
+      "pages": "B391",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rear attacks prohibit defense without suitable vision: peripheral allows -2, all-around none. Rear parry adds another -2 and rear block is prohibited unless stated flexibility exceptions apply; define exception precedence precisely.",
+      "tests": []
+    },
+    {
+      "id": "tactical-runaround",
+      "source": "full-2008",
+      "pages": "B391",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An attacker observed starting in front then running behind is treated as a side attack for defense, not an unseen rear attack. Track origin and awareness during the path.",
+      "tests": []
+    },
+    {
+      "id": "tactical-retreat",
+      "source": "full-2008",
+      "pages": "B391",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Retreat moves a step directly away, cannot enter occupied hex and permits one-side facing change. Close-combat retreat uses its own three-hex exit rule.",
+      "tests": []
+    },
+    {
+      "id": "tactical-close-entry",
+      "source": "full-2008",
+      "pages": "B391",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Any sufficient movement can enter a foe\u2019s hex, immediately starting close combat. Move/move-and-attack/committed attack may stop there facing foe; continuing through requires evasion or collision within maneuver permissions.",
+      "tests": []
+    },
+    {
+      "id": "tactical-close-halves",
+      "source": "full-2008",
+      "pages": "B391",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Store entry side within a shared hex. Entrant occupies the near half and foe the far half; crossing into far-side front hexes requires evasion. Hex coordinate alone is insufficient.",
+      "tests": []
+    },
+    {
+      "id": "tactical-evasion-budget",
+      "source": "full-2008",
+      "pages": "B391",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Evasion requires enough movement to both enter and leave the enemy hex. Ending movement within it cannot count as successful evasion.",
+      "tests": []
+    },
+    {
+      "id": "tactical-close-exit",
+      "source": "full-2008",
+      "pages": "B391",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An unrestrained actor can leave through the three near-side hexes, paying direction/turning costs on movement maneuvers or using a step. Passing to far side requires evasion; grappling restricts departure under its detailed exceptions.",
+      "tests": []
+    },
+    {
+      "id": "tactical-close-attack",
+      "source": "full-2008",
+      "pages": "B391",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Melee attacks require close reach; ranged attacks use bulk instead of ordinary speed/range penalty. Other accuracy and legality requirements remain applicable.",
+      "tests": []
+    },
+    {
+      "id": "tactical-close-ready",
+      "source": "full-2008",
+      "pages": "B391",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Readying in close combat requires dexterity; failure consumes the action without progress. Fast draw needs both dexterity and skill checks; failed fast draw but successful dexterity uses a full ready action. Grappled-ready failure drops the item instead, requiring explicit precedence.",
+      "tests": []
+    },
+    {
+      "id": "tactical-close-defense",
+      "source": "full-2008",
+      "pages": "B392",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Close combat permits ordinary dodge, and parry only with free hand or close-reach weapon; block is forbidden. Unrestrained retreat exits through a legal near-side hex and grants normal bonus.",
+      "tests": []
+    },
+    {
+      "id": "tactical-close-shield",
+      "source": "full-2008",
+      "pages": "B392",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shield retains applicable defense bonus but penalizes attacks by its bonus after the initial entering attack, and dexterity checks after the first close-combat turn. Removing it costs one ready turn and successful dexterity check.",
+      "tests": []
+    },
+    {
+      "id": "tactical-close-many",
+      "source": "full-2008",
+      "pages": "B392",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Multiple participants can share close combat; record actual shared occupancy even if visual display places markers nearby. Do not infer mechanical separation from display layout.",
+      "tests": []
+    },
+    {
+      "id": "tactical-combined-grapple",
+      "source": "full-2008",
+      "pages": "B392",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At most two attackers combine takedown or three combine pin. Use strongest relevant score plus floor(each helper\u2019s relevant score/5); retain each participant\u2019s actual contribution, availability and restraint state.",
+      "tests": []
+    },
+    {
+      "id": "tactical-external-close-attack",
+      "source": "full-2008",
+      "pages": "B392",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Attacking into others\u2019 close combat adds -2 plus posture modifiers. Target uses close defenses. Miss or dodge checks other occupants at min(9,intentional score), randomly ordering candidates, until exhausted or a hit; reconcile successful parry stopping with ranged stray rules.",
+      "tests": []
+    },
+    {
+      "id": "tactical-large-movement",
+      "source": "full-2008",
+      "pages": "B392",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Head/front controls multi-hex movement distance, heading and vision; body follows and can sweep farther than head. Persist full footprint path and authored body geometry, including potential collisions from swept portions.",
+      "tests": []
+    },
+    {
+      "id": "tactical-large-clearance",
+      "source": "full-2008",
+      "pages": "B392",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Multi-hex actor cannot pass a gap narrower than its widest part; partial wall hex leniency needs explicit authored map clearance. Head-only path validity does not prove whole-body legality.",
+      "tests": []
+    },
+    {
+      "id": "tactical-large-arcs",
+      "source": "full-2008",
+      "pages": "B392",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Multi-hex front/side/back regions follow the illustrated body outline, while sight originates at head. Rear body can lie outside own vision. Define coordinate fixtures for each supported footprint.",
+      "tests": []
+    },
+    {
+      "id": "tactical-overrun",
+      "source": "full-2008",
+      "pages": "B392",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A figure occupying at least two hexes moving through a smaller figure resolves a collision giving the smaller actor defense. Larger actor continues unless itself knocked down; retain remaining path and movement budget.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-crouch",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Crouching adds one half point per hex.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-kneel",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Kneeling adds two points per hex.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-crawl",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Crawling adds two points per hex.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-lie",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Lying spends the entire allowance to move one hex.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-sit",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Sitting prohibits displacement.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-minor",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each minor obstruction, including ally or grounded body, adds one point.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-severe",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Severe obstruction requires bypass or legal jump, not an invented finite surcharge.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-enemy",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Enemy occupancy requires the applicable close-entry/evasion procedure.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-treacherous",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Poor footing adds one point or an explicitly authored greater cost.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-stairs",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Stairs in either vertical direction add one point per hex.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-shallow-water",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Water depth at most one sixth actor height adds one point per hex.",
+      "tests": []
+    },
+    {
+      "id": "tactical-cost-deep-water",
+      "source": "full-2008",
+      "pages": "B387",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Deeper water consumes all movement points for one hex; reconcile swimming modes separately.",
+      "tests": []
+    },
+    {
+      "id": "tactical-watch-1",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Watching 1 through 1 hexes gives attack modifier 0. Validate area size and entire arc before reserving opportunity fire.",
+      "tests": []
+    },
+    {
+      "id": "tactical-watch-2",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Watching 2 through 2 hexes gives attack modifier -1. Validate area size and entire arc before reserving opportunity fire.",
+      "tests": []
+    },
+    {
+      "id": "tactical-watch-3",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Watching 3 through 4 hexes gives attack modifier -2. Validate area size and entire arc before reserving opportunity fire.",
+      "tests": []
+    },
+    {
+      "id": "tactical-watch-5",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Watching 5 through 6 hexes gives attack modifier -3. Validate area size and entire arc before reserving opportunity fire.",
+      "tests": []
+    },
+    {
+      "id": "tactical-watch-7",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Watching 7 through 10 hexes gives attack modifier -4. Validate area size and entire arc before reserving opportunity fire.",
+      "tests": []
+    },
+    {
+      "id": "tactical-watch-11",
+      "source": "full-2008",
+      "pages": "B390",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Watching 11 through unbounded hexes gives attack modifier -5. Validate area size and entire arc before reserving opportunity fire.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B384-B392",
+      "reason": "Miniature-product promotion, source artwork and illustrative prose are excluded; diagram-derived geometric requirements are retained without reproducing artwork."
+    }
+  ]
+}

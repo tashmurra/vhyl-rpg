@@ -312,6 +312,7 @@
     "inventory/combat-turns.json",
     "inventory/appendix.json",
     "inventory/attacks-defenses.json",
-    "inventory/damage-readiness.json"
+    "inventory/damage-readiness.json",
+    "inventory/tactical.json"
   ]
 }
