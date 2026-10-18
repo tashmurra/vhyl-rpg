@@ -41,9 +41,12 @@
       "pages": "B419",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At zero or lower health, check health at the next turn start and on subsequent active turns, at -1 per full multiple of health capacity below zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_action_gate"
+      ],
+      "validation_note": "Owned action gate combines effort and injury-consciousness checks with recorded replay. Fixture authored but unrun. Turn-start and defense dispatch integration, nonliving physiology and recovery-state validation remain incomplete."
     },
     {
       "id": "health-zero-health-rest",
@@ -51,9 +54,12 @@
       "pages": "B419",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Doing nothing without an active defense avoids the consciousness roll; a defense or other maneuver triggers it even if no attack is attempted.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_action_gate"
+      ],
+      "validation_note": "Owned action gate combines effort and injury-consciousness checks with recorded replay. Fixture authored but unrun. Turn-start and defense dispatch integration, nonliving physiology and recovery-state validation remain incomplete."
     },
     {
       "id": "health-zero-health-failure",
@@ -61,9 +67,12 @@
       "pages": "B419",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Failed consciousness checking incapacitates the actor, or stops a nonliving actor from functioning, and starts the appropriate recovery state.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_action_gate"
+      ],
+      "validation_note": "Owned action gate combines effort and injury-consciousness checks with recorded replay. Fixture authored but unrun. Turn-start and defense dispatch integration, nonliving physiology and recovery-state validation remain incomplete."
     },
     {
       "id": "health-death-thresholds",
@@ -1736,6 +1745,7 @@
       "tests": [
         "tests/expanded.py::test_exhaustion_assessments",
         "tests/expanded.py::test_owned_effort",
+        "tests/expanded.py::test_action_gate",
         "tests/expanded.py::test_effort_recovery",
         "tests/expanded.py::test_effort_transactions",
         "tests/expanded.py::test_effort_persistence"
@@ -1753,6 +1763,7 @@
       "tests": [
         "tests/expanded.py::test_exhaustion_assessments",
         "tests/expanded.py::test_owned_effort",
+        "tests/expanded.py::test_action_gate",
         "tests/expanded.py::test_effort_recovery",
         "tests/expanded.py::test_effort_transactions",
         "tests/expanded.py::test_effort_persistence"
@@ -1770,6 +1781,7 @@
       "tests": [
         "tests/expanded.py::test_exhaustion_assessments",
         "tests/expanded.py::test_owned_effort",
+        "tests/expanded.py::test_action_gate",
         "tests/expanded.py::test_effort_recovery",
         "tests/expanded.py::test_effort_transactions",
         "tests/expanded.py::test_effort_persistence"

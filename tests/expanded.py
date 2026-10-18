@@ -908,6 +908,20 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_action_gate(s):
+    for fatigue, injury, seed, purpose, expected in [
+            (10,10,1,'action',[0,'action-gate-unconscious',10,11,1,0,0,6,'reused',0,11,0]),
+            (10,10,9,'action',[0,'exhaustion-effort-failed',11,0,0,1,0,3,'reused',0,0,0]),
+            (10,10,11,'action',[0,'exhaustion-effort-failed',17,0,1,1,1,6,'reused',0,0,0]),
+            (0,10,1,'action',[1,None,0,10,0,0,0,3,'reused',1,10,0]),
+            (0,10,5,'action',[0,'action-gate-unconscious',0,17,1,0,0,3,'reused',0,17,0]),
+            (0,20,1,'action',[0,'action-gate-unconscious',0,10,1,0,0,3,'reused',0,10,0]),
+            (10,10,11,'do-nothing',[1,None,0,0,0,0,0,0,'reused',1,0,0])]:
+        s.action(1970, fatigue, injury, seed, purpose)
+        assert last(s, 'test.action-gate-preview') == ['ready',0,0,0]
+        assert last(s, 'test.action-gate') == expected
+
+
 def effort_state(s):
     s.action(1961)
     return last(s, 'test.effort-state')
@@ -4230,6 +4244,7 @@ def test(build):
     fresh(Session,hazards,test_cardiac_resuscitation)
     fresh(Session,hazards,test_exhaustion_assessments)
     fresh(Session,hazards,test_owned_effort)
+    fresh(Session,hazards,test_action_gate)
     fresh(Session,hazards,test_effort_recovery)
     effort_transactions = build.build('expanded-effort-transactions',ROOT / 'tests/fixtures/expanded-effort-transactions.t')
     fresh(Session,effort_transactions,test_effort_transactions)

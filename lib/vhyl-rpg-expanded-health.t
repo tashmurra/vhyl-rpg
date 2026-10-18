@@ -1835,6 +1835,8 @@ modify RpgExpandedProfile
 ;
 
 class RpgExpandedEffortResult: RpgExpandedExhaustionOutcome
+    consciousnessContext = nil
+    consciousnessCheck = nil
     willContext = nil
     healthContext = nil
     cardiac = nil
@@ -1864,6 +1866,7 @@ class RpgExpandedEffort: object
             value.status = 'reused'; value.allowed = self.result.allowed; value.incapacitated = self.result.incapacitated;
             value.unconscious = self.result.unconscious; value.cardiacTrigger = self.result.cardiacTrigger;
             value.check = self.result.check; value.healthCheck = self.result.healthCheck; value.cardiac = self.result.cardiac;
+            value.consciousnessCheck = self.result.consciousnessCheck;
             value.reason = self.result.reason; return value;
         }
         if (self.id == nil || self.id == '') rpgExpandedReject('effort-id');
@@ -1941,5 +1944,41 @@ modify RpgExpandedProfile
             ids = ids + [effort.id];
         }
         return nil;
+    }
+;
+
+/** One owned active-turn permission combining exhaustion and injury consciousness. */
+class RpgExpandedActionGate: RpgExpandedEffort
+    assess()
+    {
+        local value = inherited();
+        if (value.status != 'ready') return value;
+        if (!holds(['action','do-nothing'],self.purpose)) rpgExpandedReject('action-gate-purpose');
+        if (self.profile.unconscious || self.profile.mortal)
+        { value.status = 'blocked'; value.reason = 'action-gate-incapacity'; return value; }
+        if (self.purpose != 'do-nothing' && self.profile.hp() <= 0)
+        {
+            rpgInteger(self.profile.maxHP,1,1000);
+            value.consciousnessContext = new RpgLiteContext();
+            value.consciousnessContext.attribute = rpgHT;
+            value.consciousnessContext.kind = 'consciousness';
+            value.consciousnessContext.modifier = -(-self.profile.hp() / self.profile.maxHP);
+            local score = rpgLiteScore(self.profile,value.consciousnessContext);
+            if (score == nil || score < 3)
+            { value.status = 'blocked'; value.reason = 'action-gate-consciousness-score'; }
+        }
+        return value;
+    }
+    apply()
+    {
+        local value = inherited();
+        if (value.status != 'resolved' || !value.allowed || value.consciousnessContext == nil) return value;
+        value.consciousnessCheck = rpgLiteCheck(self.profile,value.consciousnessContext);
+        if (!value.consciousnessCheck.achieved)
+        {
+            self.profile.unconscious = true; value.unconscious = true; value.incapacitated = true;
+            value.allowed = nil; value.reason = 'action-gate-unconscious';
+        }
+        return value;
     }
 ;

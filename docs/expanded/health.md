@@ -1077,3 +1077,30 @@ changed-evidence rejection, recovery rollback and historical replay after recove
 `test_effort_persistence` saves each branch and continues it in a separate process,
 including the link to its owned cardiac condition. Fixtures remain unrun while
 checks are paused. Broad action-dispatch integration remains outstanding.
+
+## Owned action health gate
+
+`RpgExpandedActionGate` extends `RpgExpandedEffort` for an active turn. Use purpose
+`action` or `do-nothing`. It combines the B426 effort procedure with the B419
+injury-consciousness check, so authors using its permission must not call
+`rpgLiteCanAct` again for that turn. Other legality, action costs and execution
+remain the action's responsibility and must be preflighted before this gate.
+
+Assessment prepares both potential checks without spending randomness. Execution
+first resolves exhaustion; only an allowed active action then checks consciousness
+if current HP is zero or lower. That HT check has -1 per full HP capacity below
+zero. Do Nothing skips both checks, but cannot grant an action to an already
+unconscious or mortally wounded character. A consciousness failure sets
+unconsciousness without adding exhaustion collapse. The receipt exposes
+`consciousnessCheck` separately from its effort `check` and cardiac `healthCheck`.
+
+The result belongs to one authored turn. Repeated calls return the recorded
+permission and checks without rerolling, including after consciousness failure.
+The gate charges no time or fatigue. Use it inside the enclosing action transaction.
+The parser, structured and dialogue adapters still need explicit integration;
+merely including this class does not replace their existing health gate.
+
+`test_action_gate` records the combined-roll order, early stop on exhausted
+collapse or cardiac onset, injury-only checks, the full-negative-HP penalty,
+Do Nothing exemptions, preview purity and historical replay. It is authored but
+unrun while checks are paused.

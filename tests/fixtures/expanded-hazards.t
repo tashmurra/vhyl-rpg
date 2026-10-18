@@ -12,6 +12,26 @@ modify gameMain initialRoom = hazardRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 1970)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        patient.fatigue = args[1]; patient.injury = args[2];
+        local gate = new RpgExpandedActionGate(); gate.id = 'turn'; gate.profile = patient;
+        gate.purpose = args[4]; gate.evidence = 'One authored turn';
+        rpgRandom.seed(args[3]); local clock = rpgLedger.seconds; local preview = gate.assess();
+        event('test.action-gate-preview'); eventValue(preview.status); eventValue(rpgRandom.draws);
+        eventValue(patient.effortHistory.length()); eventValue(rpgLedger.seconds - clock);
+        local value = gate.apply(); local repeat = gate.apply(); patient.validateFeatures();
+        event('test.action-gate'); eventValue(value.allowed ? 1 : 0); eventValue(value.reason);
+        eventValue(value.check == nil ? 0 : value.check.roll);
+        eventValue(value.consciousnessCheck == nil ? 0 : value.consciousnessCheck.roll);
+        eventValue(patient.unconscious ? 1 : 0); eventValue(patient.exhaustionCollapsed ? 1 : 0);
+        eventValue(patient.cardiacHistory.length()); eventValue(rpgRandom.draws);
+        eventValue(repeat.status); eventValue(repeat.allowed ? 1 : 0);
+        eventValue(repeat.consciousnessCheck == nil ? 0 : repeat.consciousnessCheck.roll);
+        eventValue(rpgLedger.seconds - clock); return nil;
+    }
+
     if (verb == 1800)
     {
         local context = new RpgExpandedInfectionContext(); context.infectedMatter = args[2] == 1;
