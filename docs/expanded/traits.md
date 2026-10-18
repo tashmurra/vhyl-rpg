@@ -1518,3 +1518,49 @@ discovery remain unfinished.
 `test_voice_origin` specify origin exclusions, historical cost, affordability,
 downtime and approval gates, preview, single charging, episode closure, replay,
 rollback, undo and cross-process save continuation. Assertions remain unrun.
+
+
+## Fixed beliefs and fear acquisition
+
+`RpgExpandedFixedBelief` represents the three severity tiers in `full-2008`,
+B130: `level` 1/2/3 costs -5/-10/-15. Supply a distinct nonempty `scope`,
+original `beliefText`, `behaviorText` describing its actual behavioral impact,
+and `approved = true`. Approval includes campaign suitability, particularly for
+the most disruptive tier. Severity follows behavior, not the unusual wording of
+the belief alone. The one-point harmless form remains a separate quirk.
+
+Expanded character validation permits distinct scoped purchases of this type
+under the common neutral ID. It rejects repeated scopes, invalid definitions and
+a combined value over forty points. `traitMayRepeat(trait)` defaults to the
+existing quirk-only exception for ordinary profiles. Mixing these purchases with
+the older `delusions` identifier rejects until composition is implemented.
+Above-cap ownership without further credit is also not yet represented.
+
+Template copying creates a fresh purchase with the same severity, scope and
+author text. Plain shorthand rejects with
+`fixed-belief-authored-definition-required`, because a name and severity alone
+cannot supply the belief and behavior. Historical acquisition receipts are not
+copied to the new purchase.
+
+`RpgExpandedFixedBeliefAcquisition` executes the accounting part of fear rows
+twenty-two and thirty-four (B361). Set unique `id` and `eventId`, `profile`, an
+unowned authored `trait`, `tableTotal = 22` or `34`, `approved = true` and
+`evidence` connecting the purchase to that selected outcome. It requires a
+completed creation profile and exactly the row's -10 or -15 value.
+
+`assess()` is pure. `apply()` installs the purchase once, records the event and
+increments the development revision. It does not award earned or unspent points.
+The post-creation disadvantage allowance keeps this involuntary acquisition from
+retroactively violating the creation disadvantage limit. Repeated application
+returns its receipt without another purchase or revision.
+
+Observer reactions, concrete behavioral adjudication, revelations that a belief
+is true, buyoff and compound fear outcomes remain pending. Stored author text
+alone does not count as executable behavioral coverage; these entries remain
+partial. The beliefs are character fiction, not automatically established world
+facts or additional abilities.
+
+[`expanded-fixed-beliefs.t`](../../tests/fixtures/expanded-fixed-beliefs.t) and
+`test_fixed_beliefs` specify both fear prices, unchanged earned/unspent points,
+creation-limit allowance, multiple scopes, the forty-point boundary, duplicate
+scopes, preview, replay, rollback, undo and save continuation. They remain unrun.

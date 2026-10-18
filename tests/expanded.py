@@ -9204,6 +9204,8 @@ def test(build):
     test_fear_coma(Session, fear_coma, build.out)
     catatonia = build.build('expanded-catatonia',ROOT / 'tests/fixtures/expanded-catatonia.t')
     test_catatonia(Session, catatonia, build.out)
+    fixed_beliefs = build.build('expanded-fixed-beliefs',ROOT / 'tests/fixtures/expanded-fixed-beliefs.t')
+    test_fixed_beliefs(Session, fixed_beliefs, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20392,3 +20394,50 @@ def test_catatonia(Session, bundle, out):
             assert last(s, 'test.cat-state')[-1] == 10
         finally:
             s.close()
+
+
+def test_fixed_beliefs(Session, bundle, out):
+    """B130 severity/cap and B361 acquisition without earned-point income; unrun."""
+    for setup, cost in (((), 10), ((11210,), 15)):
+        path = out / f'expanded-fixed-belief-{cost}.zsave'
+        s = Session(bundle)
+        try:
+            for code in (11200,) + setup + (11201, 11203, 11204):
+                s.action(2285, code)
+            assert last(s, 'test.belief-preview') == [-cost, 0]
+            assert last(s, 'test.belief-state') == [0, 9, 7, 0, 0, 0]
+            s.action(2285, 11202)
+            s.command('undo')
+            s.action(2285, 11204)
+            assert last(s, 'test.belief-state') == [0, 9, 7, 0, 0, 0]
+            for code in (11202, 11202, 11205, 11204):
+                s.action(2285, code)
+            assert last(s, 'test.belief-state') == [1, 9, 7, 1, cost, 0]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (11202, 11205, 11204):
+                s.action(2285, code)
+            assert last(s, 'test.belief-state') == [1, 9, 7, 1, cost, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (11200, 11206, 11208):
+            s.action(2285, code)
+        assert last(s, 'test.belief-limit') == ['accepted']
+        for code in (11207, 11208):
+            s.action(2285, code)
+        assert last(s, 'test.belief-limit') == ['fixed-belief-point-limit']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (11200, 11206, 11209, 11208):
+            s.action(2285, code)
+        assert last(s, 'test.belief-limit') == ['fixed-belief-duplicate-scope']
+    finally:
+        s.close()

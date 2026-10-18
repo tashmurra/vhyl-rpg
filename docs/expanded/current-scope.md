@@ -209,3 +209,10 @@ injury and an equal-duration shared-scoring aftereffect. Receipt histories bind
 the timeline, and common action gates prevent purposeful activity. Intermittent
 care, independent incapacitation and full fear selection remain pending. Daily
 care and persistence fixtures are authored but unrun.
+
+
+Fixed-belief purchases now have explicit severity pricing, distinct scoped
+identity and a supported forty-point limit. Fear rows twenty-two and thirty-four
+have owned acquisition accounting without spendable-point income. Reaction and
+behavioral integration, above-cap composition and compound outcomes remain
+pending; accounting and persistence fixtures are authored but unrun.

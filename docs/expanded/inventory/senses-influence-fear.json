@@ -1137,9 +1137,10 @@
       "status": "partial",
       "acceptance": "Acquire an event-related delusion worth negative ten points.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fixed_beliefs"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned fixed-belief acquisition validates exact -10/-15 severity, records event identity, adjusts character-value allowance and increments development revision without spendable-point income. Catalog reaction/portrayal integration, full fear selection and compound rows remain pending. Lifecycle fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-23",
@@ -1298,9 +1299,10 @@
       "status": "partial",
       "acceptance": "Acquire an event-related delusion worth negative fifteen points.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fixed_beliefs"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned fixed-belief acquisition validates exact -10/-15 severity, records event identity, adjusts character-value allowance and increments development revision without spendable-point income. Catalog reaction/portrayal integration, full fear selection and compound rows remain pending. Lifecycle fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-35",

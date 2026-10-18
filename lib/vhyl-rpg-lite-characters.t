@@ -432,7 +432,7 @@ rpgLiteValidateTraits(profile)
     local ids = []; local quirks = 0;
     foreach (local trait in profile.traits)
     {
-        if (!trait.ofKind(RpgLiteTrait) || trait.id == nil || holds(ids, trait.id) && trait.id != 'quirk') rpgLiteInvalidCharacter('duplicate-or-invalid-trait');
+        if (!trait.ofKind(RpgLiteTrait) || trait.id == nil || holds(ids, trait.id) && !profile.traitMayRepeat(trait)) rpgLiteInvalidCharacter('duplicate-or-invalid-trait');
         ids = ids + [trait.id];
         if ((trait.id == 'quirk' || trait.scope == 'quirk') && profile.quirkCountsTowardCreationLimit(trait)) quirks += 1;
         if (trait.id == 'night-vision' && trait.level > 9
@@ -631,4 +631,8 @@ modify RpgLiteSocialContext
 
 modify RpgLiteProfile
     validateDirectSelfControl(giveIn) { return nil; }
+;
+
+modify RpgLiteProfile
+    traitMayRepeat(trait) { return trait.id == 'quirk'; }
 ;

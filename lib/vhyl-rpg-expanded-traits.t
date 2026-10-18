@@ -2339,3 +2339,122 @@ class RpgExpandedVoiceExorcism: object
         self.origin.cure = self; value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B130 severity costs; scope identifies a distinct authored belief. */
+class RpgExpandedFixedBelief: RpgLiteTrait
+    id = 'fixed-belief'
+    labelId = 'fixed-belief'
+    points = -5
+    approved = nil
+    beliefText = nil
+    behaviorText = nil
+    fearAcquisition = nil
+    templatePurchaseKind = 'expanded-fixed-belief'
+    creationCost()
+    {
+        rpgInteger(self.level,1,3);
+        if (!self.approved || self.id != 'fixed-belief' || self.points != -5 || self.scope == nil || self.scope == '' || self.scope == 'quirk'
+            || self.beliefText == nil || self.beliefText == '' || self.behaviorText == nil || self.behaviorText == ''
+            || self.controlled || self.skills.length() != 0) rpgExpandedReject('fixed-belief-definition');
+        return -5 * self.level;
+    }
+;
+modify RpgExpandedProfile
+    fixedBeliefAcquisitions = []
+    traitMayRepeat(trait) { return trait.ofKind(RpgExpandedFixedBelief) || inherited(trait); }
+    validateFixedBeliefs(extra)
+    {
+        local beliefs = self.traits; if (extra != nil) beliefs = beliefs + [extra];
+        local scopes = []; local total = 0;
+        foreach (local trait in beliefs)
+            if (trait.id == 'fixed-belief')
+            {
+                if (!trait.ofKind(RpgExpandedFixedBelief)) rpgExpandedReject('fixed-belief-type');
+                total -= trait.creationCost();
+                if (holds(scopes,trait.scope)) rpgExpandedReject('fixed-belief-duplicate-scope');
+                scopes = scopes + [trait.scope];
+            }
+        if (total > 40) rpgExpandedReject('fixed-belief-point-limit');
+        if (total > 0 && self.trait('delusions') != nil) rpgExpandedReject('fixed-belief-legacy-combination');
+        return nil;
+    }
+    validateFeatures() { inherited(); self.validateFixedBeliefs(nil); return nil; }
+    postCreationDisadvantageAllowance()
+    {
+        local value = inherited();
+        if (self.creationComplete)
+            foreach (local award in self.fixedBeliefAcquisitions)
+                if (holds(self.traits,award.trait)) { award.assess(); value -= award.trait.creationCost(); }
+        return value;
+    }
+;
+/** B361 rows 22/34, post-creation character-value loss without point income. */
+class RpgExpandedFixedBeliefAcquisition: object
+    id = nil
+    eventId = nil
+    profile = nil
+    trait = nil
+    tableTotal = 22
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    {
+        return [self.id,self.eventId,self.profile,self.trait,self.tableTotal,self.approved,self.evidence,
+            self.trait.scope,self.trait.level,self.trait.beliefText,self.trait.behaviorText];
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.eventId == nil || self.eventId == '' || self.profile == nil
+            || !self.profile.ofKind(RpgExpandedProfile) || self.trait == nil || !self.trait.ofKind(RpgExpandedFixedBelief))
+            rpgExpandedReject('fixed-belief-acquisition-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.fixedBeliefAcquisitions,self) || self.trait.fearAcquisition != self)
+                rpgExpandedReject('fixed-belief-acquisition-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('fixed-belief-acquisition-binding');
+            self.trait.creationCost(); value.status = 'reused'; value.points = self.trait.creationCost(); return value;
+        }
+        if (!holds([22,34],self.tableTotal)) rpgExpandedReject('fixed-belief-fear-row');
+        if (!self.profile.creationComplete) { value.reason = 'fixed-belief-after-creation'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'fixed-belief-event-evidence'; return value; }
+        if (self.profile.dead) { value.reason = 'fixed-belief-dead'; return value; }
+        if (holds(self.profile.traits,self.trait) || self.trait.fearAcquisition != nil)
+        { value.reason = 'fixed-belief-already-owned'; return value; }
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            if (holds(owner.traits,self.trait)) rpgExpandedReject('fixed-belief-foreign-owner');
+        value.points = self.trait.creationCost();
+        if (value.points != (self.tableTotal == 22 ? -10 : -15)) rpgExpandedReject('fixed-belief-fear-severity');
+        rpgExpandedValidate(self.profile); self.profile.validateFixedBeliefs(self.trait);
+        foreach (local prior in self.profile.fixedBeliefAcquisitions)
+            if (prior.id == self.id || prior.eventId == self.eventId) rpgExpandedReject('fixed-belief-event-duplicate');
+        rpgInteger(self.profile.developmentRevision,0,2147483646); value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.trait.fearAcquisition = self;
+        self.profile.traits = self.profile.traits + [self.trait];
+        self.profile.fixedBeliefAcquisitions = self.profile.fixedBeliefAcquisitions + [self];
+        self.profile.developmentRevision += 1; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id == 'fixed-belief') rpgExpandedReject('fixed-belief-authored-definition-required');
+        return inherited(id,level,scope);
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedFixedBelief)) return inherited(trait);
+        trait.creationCost(); local copy = new RpgExpandedFixedBelief(); copy.level = trait.level; copy.scope = trait.scope;
+        copy.beliefText = trait.beliefText; copy.behaviorText = trait.behaviorText; copy.approved = true;
+        copy.creationCost(); return copy;
+    }
+;
