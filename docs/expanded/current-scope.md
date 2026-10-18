@@ -320,3 +320,9 @@ Explicit campaign month-start dates and day-band origins now support day-based
 sustenance aging checks without fixed month-length assumptions. Exact offsets stay
 in the owned advance and losses use shared aging history. Between-month starting
 ages and day-precise rejuvenation remain pending; calendar fixtures are unrun.
+
+
+Sustenance-aging increments may now begin within a month using explicit authored
+anniversary dates. The receipt binds exact endpoints and rejects backward overlap
+with prior increments. Sub-day precision and day-precise rejuvenation remain
+pending. Execution and save-continuation fixtures are authored but unrun.

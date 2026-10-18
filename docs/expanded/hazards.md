@@ -2509,11 +2509,34 @@ aging history. Owned boundary identities avoid collisions between same-month
 checks. No day/month ratio is inferred. The shared aging history still records
 whole-year age labels; exact offsets remain in the causal advance.
 
-Starting ages between month boundaries and day-precise rejuvenation remain
-pending. Missing or inconsistent calendar facts reject before injury rather than
+Starting ages between month boundaries use the explicit endpoint extension
+below. Day-precise rejuvenation remains pending. Missing or inconsistent calendar facts reject before injury rather than
 using a partial plan. Ordinary month-based advances can still omit the calendar.
 [`expanded-sustenance-aging-calendar.t`](../../tests/fixtures/expanded-sustenance-aging-calendar.t)
 and `test_sustenance_aging_calendar` specify a calendar-specific transition to
 45-day checks, all crossed boundaries, inconsistent-origin rejection and save
 continuation. Fixtures remain unrun; the example's month lengths are authored
 world facts, not source rules.
+
+
+### Two-year increments starting within a month
+
+Set both `startDay` and `endDay` on the aging calendar to author exact endpoints.
+In this form, supply 26 ordered month-start rows: the first 25 cover the starting
+month through the month two years later, and the final row bounds that ending
+month. `startDay` must lie within the first month and `endDay` within the
+corresponding month two years later. Approval and evidence establish that these
+are the actual two-year anniversary dates, including the campaign's handling of
+unequal months and leap dates. The engine does not invent that calendar policy.
+
+The planner excludes the starting day and includes the ending day. It records
+`oldAgeCalendarDay` and `newAgeCalendarDay` alongside month labels and exact check
+dates. The causal receipt binds these endpoints. Successive increments in the
+same rejuvenation era cannot move backward within the ending month; a later
+month-only assertion cannot erase already-known day precision. Whole-month plans
+retain their existing 25-row form when both endpoint fields are omitted.
+
+[`expanded-sustenance-aging-dates.t`](../../tests/fixtures/expanded-sustenance-aging-dates.t)
+and `test_sustenance_aging_dates` specify a between-month anniversary, the checks
+it crosses, owned execution, replay and cross-process save continuation. Fixtures
+remain unrun. Sub-day age precision and day-precise rejuvenation remain pending.

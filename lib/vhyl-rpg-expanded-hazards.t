@@ -6117,7 +6117,7 @@ class RpgExpandedSustenanceAgingAdvance: object
     }
     planFacts()
     {
-        return [self.plan.oldAgeMonths,self.plan.newAgeMonths,self.plan.addedYears,self.plan.boundaryAgeMonths.length()]
+        return [self.plan.oldAgeMonths,self.plan.newAgeMonths,self.plan.addedYears,self.plan.oldAgeCalendarDay,self.plan.newAgeCalendarDay,self.plan.boundaryAgeMonths.length()]
             + self.plan.boundaryAgeMonths + [self.plan.boundaryCalendarDays.length()] + self.plan.boundaryCalendarDays;
     }
     validateBinding()
@@ -6165,6 +6165,9 @@ class RpgExpandedSustenanceAgingAdvance: object
                 rpgExpandedReject('sustenance-aging-duplicate');
             if (prior.era == profile.rejuvenations.length() && prior.oldAgeMonths + 24 > self.oldAgeMonths)
                 rpgExpandedReject('sustenance-aging-age-overlap');
+            if (prior.era == profile.rejuvenations.length() && prior.oldAgeMonths + 24 == self.oldAgeMonths
+                && prior.plan.newAgeCalendarDay != nil && (plan.oldAgeCalendarDay == nil || plan.oldAgeCalendarDay < prior.plan.newAgeCalendarDay))
+                rpgExpandedReject('sustenance-aging-day-overlap');
             if (!profile.dead && prior.boundaries.length() != prior.plan.boundaryAgeMonths.length())
                 rpgExpandedReject('sustenance-aging-unsettled');
         }
@@ -6272,9 +6275,13 @@ class RpgExpandedSustenanceAgingCalendar: object
     evidence = nil
     months = []
     dayBandOrigins = []
+    startDay = nil
+    endDay = nil
+    firstDay() { return self.startDay == nil ? self.months[1][2] : self.startDay; }
+    lastDay() { return self.endDay == nil ? self.months[25][2] : self.endDay; }
     definition()
     {
-        local facts = [self.calendarId,self.approved,self.evidence,self.months.length(),self.dayBandOrigins.length()];
+        local facts = [self.calendarId,self.approved,self.evidence,self.startDay,self.endDay,self.months.length(),self.dayBandOrigins.length()];
         foreach (local row in self.months) facts = facts + row;
         foreach (local row in self.dayBandOrigins) facts = facts + row;
         return facts;
@@ -6282,7 +6289,8 @@ class RpgExpandedSustenanceAgingCalendar: object
     validate(oldAgeMonths)
     {
         if (self.calendarId == nil || self.calendarId == '' || !self.approved || self.evidence == nil || self.evidence == ''
-            || self.months.length() != 25) rpgExpandedReject('sustenance-aging-calendar-definition');
+            || (self.startDay == nil) != (self.endDay == nil)
+            || self.months.length() != (self.startDay == nil ? 25 : 26)) rpgExpandedReject('sustenance-aging-calendar-definition');
         local index = 0; local prior = nil;
         foreach (local row in self.months)
         {
@@ -6291,7 +6299,12 @@ class RpgExpandedSustenanceAgingCalendar: object
             if (prior != nil && row[2] <= prior) rpgExpandedReject('sustenance-aging-calendar-day-order');
             prior = row[2]; index += 1;
         }
-        rpgInteger(self.months[25][2] - self.months[1][2],1,10000);
+        if (self.startDay != nil)
+        {
+            rpgInteger(self.startDay,self.months[1][2],self.months[2][2] - 1);
+            rpgInteger(self.endDay,self.months[25][2],self.months[26][2] - 1);
+        }
+        rpgInteger(self.lastDay() - self.firstDay(),1,10000);
         local ages = [];
         foreach (local row in self.dayBandOrigins)
         {
@@ -6310,6 +6323,8 @@ class RpgExpandedSustenanceAgingCalendar: object
 ;
 modify RpgExpandedSustenanceAgingPlan
     boundaryCalendarDays = []
+    oldAgeCalendarDay = nil
+    newAgeCalendarDay = nil
 ;
 rpgExpandedSustenanceCalendarAgingPlan(profile,oldAgeMonths,calendar)
 {
@@ -6319,8 +6334,9 @@ rpgExpandedSustenanceCalendarAgingPlan(profile,oldAgeMonths,calendar)
     local value = new RpgExpandedSustenanceAgingPlan(); value.oldAgeMonths = oldAgeMonths; value.newAgeMonths = oldAgeMonths + 24;
     local schedule = rpgExpandedAgingSchedule(profile.level('short-lifespan'),profile.level('extended-lifespan'));
     if (schedule.status != 'ready') { value.reason = schedule.reason; return value; }
+    value.oldAgeCalendarDay = calendar.firstDay(); value.newAgeCalendarDay = calendar.lastDay();
     local monthIndex = 1;
-    for (local day = calendar.months[1][2] + 1; day <= calendar.months[25][2]; day += 1)
+    for (local day = calendar.firstDay() + 1; day <= calendar.lastDay(); day += 1)
     {
         while (monthIndex < 25 && calendar.months[monthIndex + 1][2] <= day) monthIndex += 1;
         local month = calendar.months[monthIndex]; local band = nil;

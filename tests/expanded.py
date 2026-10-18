@@ -9242,6 +9242,8 @@ def test(build):
     test_sustenance_aging_adjustments(Session, sustenance_aging_adjustments)
     sustenance_aging_calendar = build.build('expanded-sustenance-aging-calendar',ROOT / 'tests/fixtures/expanded-sustenance-aging-calendar.t')
     test_sustenance_aging_calendar(Session, sustenance_aging_calendar, build.out)
+    sustenance_aging_dates = build.build('expanded-sustenance-aging-dates',ROOT / 'tests/fixtures/expanded-sustenance-aging-dates.t')
+    test_sustenance_aging_dates(Session, sustenance_aging_dates, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21090,5 +21092,28 @@ def test_sustenance_aging_calendar(Session, bundle, out):
         for code in (13000, 13003, 13004):
             s.action(2285, code)
         assert last(s, 'test.sustenance-calendar-error') == ['sustenance-aging-calendar-origin-date']
+    finally:
+        s.close()
+
+
+def test_sustenance_aging_dates(Session, bundle, out):
+    """Exact authored two-year anniversaries between month boundaries; unrun."""
+    path = out / 'expanded-sustenance-aging-dates.zsave'
+    s = Session(bundle)
+    try:
+        for code in (13000, 13100, 30, 13101, 11701, 11703, 13002, 12803):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-aging-dates') == [15855, 16575, 12, 15930, 16560, 0]
+        assert last(s, 'test.sustenance-aging-state') == [552, 12, 12, 1, 144]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (11703, 13002, 13101, 12803):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-aging-dates') == [15855, 16575, 12, 15930, 16560, 144]
+        assert last(s, 'test.sustenance-aging-state') == [552, 12, 12, 1, 144]
     finally:
         s.close()
