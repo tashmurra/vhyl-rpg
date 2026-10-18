@@ -42,6 +42,8 @@ monthlyHero: RpgExpandedProfile rules = expandedRules campaignTL = 8
 monthlyWealth: RpgExpandedWealth owner = monthlyHero;
 monthlyIncome: RpgExpandedMonthlyFinance id = 'pension' owner = monthlyHero wealth = monthlyWealth levels = 3;
 monthlyPayment: RpgExpandedMonthlySettlement finance = monthlyIncome due = true;
+exchangeHero: RpgExpandedProfile rules = expandedRules campaignTL = 8 creationComplete = true unspentPoints = 5;
+exchangeOffer: RpgExpandedMoneyExchange id = 'supply-fund' profile = exchangeHero points = 2 permitted = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -106,6 +108,12 @@ class ExpandedTestAction: Action
             local value = monthlyPayment.settle(); event('test.monthly-payment');
             eventValue(value.status); eventValue(value.money);
             if (code == 24) throw new RpgError();
+        }
+        if (code == 25 || code == 26)
+        {
+            local value = exchangeOffer.exchange(); event('test.exchange');
+            eventValue(value.status); eventValue(value.points); eventValue(value.money);
+            if (code == 26) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -903,6 +911,34 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         wealth.wealthLevel = 'poor'; p.campaignTL = 0; debt.levels = 1;
         try { debt.monthlyAmount(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1164)
+    {
+        event('test.exchange-state'); eventValue(exchangeHero.money); eventValue(exchangeHero.unspentPoints);
+        eventValue(exchangeHero.moneyExchanges.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
+        return nil;
+    }
+    if (verb == 1165)
+    {
+        local value = exchangeOffer.assess(); event('test.exchange');
+        eventValue(value.status); eventValue(value.points); eventValue(value.money); return nil;
+    }
+    if (verb == 1166)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.campaignTL = 3;
+        p.pointBudget = 20; p.st = 11;
+        local offer = new RpgExpandedMoneyExchange(); offer.id = 'opening-fund'; offer.profile = p; offer.points = 11;
+        event('test.exchange-gates'); eventValue(offer.assess().reason); offer.permitted = true;
+        eventValue(offer.assess().reason); offer.points = 10;
+        eventValue(offer.exchange().money); eventValue(p.pointBudget); eventValue(rpgExpandedCharacterCost(p,nil));
+        eventValue(p.unspentPoints);
+        local duplicate = new RpgExpandedMoneyExchange(); duplicate.id = 'opening-fund'; duplicate.profile = p;
+        duplicate.permitted = true; eventValue(duplicate.exchange().status); eventValue(p.money);
+        p.creationComplete = true; duplicate.id = 'later-fund'; eventValue(duplicate.assess().reason);
+        p.unspentPoints = 1; p.money = 2147483640;
+        try { duplicate.assess(); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }

@@ -551,6 +551,18 @@
         "tests/expanded.py::test_monthly_undo"
       ],
       "validation_note": "Whole-unit recurring finance, point contributions and per-month settlement receipts authored; tests unrun. Fractional currency, consequence execution, calendar scheduling and buyoff remain pending."
+    },
+    {
+      "id": "points-for-money",
+      "module": "campaign",
+      "pages": "B26",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedMoneyExchange",
+      "tests": [
+        "tests/expanded.py::test_money_exchange"
+      ],
+      "validation_note": "Creation budget and advancement-point exchange paths with per-profile opportunity receipts authored. Checks unrun."
     }
   ],
   "detailed_inventories": [

@@ -388,3 +388,63 @@ class RpgExpandedMonthlySettlement: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    moneyExchanges = []
+;
+
+class RpgExpandedMoneyExchangeResult: RpgExpandedResult
+    money = 0
+;
+
+/** Permanently exchange points for cash, full-2008 B26. The exchange is not a
+ * character advantage. Its id identifies an authored opportunity per profile. */
+class RpgExpandedMoneyExchange: object
+    id = nil
+    profile = nil
+    points = 1
+    permitted = nil
+    claimed = nil
+    boundProfile = nil
+    boundId = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.id == nil)
+            rpgExpandedReject('money-exchange-target');
+        if (self.claimed && (self.profile != self.boundProfile || self.id != self.boundId))
+            rpgExpandedReject('money-exchange-retargeted');
+        local value = new RpgExpandedMoneyExchangeResult();
+        if (self.claimed || holds(self.profile.moneyExchanges,self.id))
+        { value.status = 'reused'; return value; }
+        rpgInteger(self.points, 1, 1000000); rpgExpandedValidate(self.profile);
+        rpgInteger(self.profile.money, 0, 2147483647);
+        if (!self.permitted) { value.reason = 'money-exchange-unapproved'; return value; }
+        if (self.profile.creationComplete)
+        {
+            rpgInteger(self.profile.unspentPoints, 0, 1000000);
+            if (self.profile.unspentPoints < self.points)
+            { value.reason = 'money-exchange-points'; return value; }
+        }
+        else
+        {
+            value.reason = self.profile.creationMoneyReason(self.points);
+            if (value.reason != nil) return value;
+        }
+        local average = new RpgExpandedWealth();
+        local perPoint = average.startingValue(self.profile.campaignTL) / 10;
+        if (self.points > (2147483647 - self.profile.money) / perPoint)
+            rpgExpandedReject('money-exchange-money-limit');
+        value.money = perPoint * self.points; value.points = self.points;
+        value.status = 'ready'; return value;
+    }
+    exchange()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.profile.creationComplete) self.profile.unspentPoints -= value.points;
+        else self.profile.pointBudget -= value.points;
+        self.profile.money += value.money;
+        self.profile.moneyExchanges = self.profile.moneyExchanges + [self.id];
+        self.claimed = true; self.boundProfile = self.profile; self.boundId = self.id;
+        value.status = 'resolved'; return value;
+    }
+;

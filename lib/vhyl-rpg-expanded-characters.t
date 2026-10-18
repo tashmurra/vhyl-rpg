@@ -75,3 +75,13 @@ rpgExpandedValidateCharacter(profile)
         rpgExpandedReject('point-budget');
     return true;
 }
+
+modify RpgExpandedProfile
+    /** Creation exchanges burn unused budget; they do not add trait value. */
+    creationMoneyReason(points)
+    {
+        rpgExpandedValidateCharacter(self);
+        return points > self.pointBudget || self.pointBudget - rpgExpandedCharacterCost(self,nil) < points
+            ? 'money-exchange-points' : nil;
+    }
+;

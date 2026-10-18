@@ -23,6 +23,8 @@ class RpgExpandedRules: object
 class RpgExpandedProfile: RpgLiteProfile
     rules = nil
     contributions = []
+    /* Character module supplies creation-budget assessment for cash exchanges. */
+    creationMoneyReason(points) { return 'creation-money-accounting-unavailable'; }
     validateFeatures() { return nil; }
     hpAdjustment = 0
     fpAdjustment = 0

@@ -547,6 +547,32 @@ def wealth_state(s):
     return last(s, 'test.wealth-state')
 
 
+def exchange_state(s):
+    s.action(1164)
+    return last(s, 'test.exchange-state')
+
+
+def test_money_exchange(s):
+    initial = exchange_state(s)
+    assert initial == [0, 5, 0, 0, 0]
+    s.action(1165)
+    assert last(s, 'test.exchange') == ['ready', 2, 4000]
+    assert exchange_state(s) == initial
+    s.action(1166)
+    assert last(s, 'test.exchange-gates') == [
+        'money-exchange-unapproved', 'money-exchange-points', 1000, 10, 10, 0,
+        'reused', 1000, 'money-exchange-points', 'money-exchange-money-limit']
+    s.action(1100, 26)
+    assert exchange_state(s) == initial
+    s.action(1100, 25)
+    assert exchange_state(s) == [4000, 3, 1, 0, 0]
+    s.command('undo')
+    assert exchange_state(s) == initial
+    s.action(1100, 25); s.action(1100, 25)
+    assert last(s, 'test.exchange') == ['reused', 0, 0]
+    assert exchange_state(s) == [4000, 3, 1, 0, 0]
+
+
 def monthly_state(s):
     s.action(1161)
     return last(s, 'test.monthly-state')
@@ -689,7 +715,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')

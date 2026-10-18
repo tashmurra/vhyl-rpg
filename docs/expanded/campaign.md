@@ -8,8 +8,9 @@ B486–B546 (mechanical content only).
 [Coverage ledger](coverage.json)
 
 Include `vhyl-rpg-expanded-campaign.t` after the expanded foundation and equipment
-module. The available interface currently covers equipment legal access and uncertain control-rating decisions;
-economics, employment, wider legal procedures and world travel remain pending.
+module. Available interfaces cover equipment legal access, uncertain control-rating
+decisions, starting wealth, recurring income/debt and point-for-money exchanges.
+Employment, wider economic/legal procedures and world travel remain pending.
 The detailed source inventory contains:
 
 - [Campaign procedures](inventory/campaign-procedures.json): profile choices,
@@ -320,3 +321,33 @@ fractional currency, and obligation buyoff remain pending.
 Authored `test_monthly_finance` and `test_monthly_undo` cases in `tests/expanded.py`
 cover costs, amounts, due dates, duplicate receipts, defaults, funds, period gaps,
 preview purity, exception rollback and undo. Checks remain paused and unrun.
+
+
+## Trading points for money
+
+`RpgExpandedMoneyExchange` implements full-2008 B26. Supply an authored `id`,
+`profile`, positive `points` and explicit `permitted` fact. `assess()` is pure;
+`exchange()` commits within an action. Each point yields ten percent of average
+starting wealth for the campaign technology level, independent of personal wealth
+and personal technology. No elapsed time or random draws are charged.
+
+During creation, include the characters module. The exchange verifies that the
+current build leaves enough unused budget, then reduces `pointBudget`. It does not
+add an advantage or increase the character's value. Creation exchanges without the
+characters module are explicitly unsupported. In play, it deducts `unspentPoints`
+from the existing advancement bank. Earned-point history remains intact.
+
+The profile records redeemed opportunity IDs in `moneyExchanges`; creating a second
+object with the same ID cannot pay again. Use a fresh ID for an intentionally new
+exchange. A claimed receipt cannot be retargeted. Insufficient points and currency
+overflow are rejected before changing either balance. These exchanges do not
+require downtime or a training offer; authorization is the explicit campaign choice.
+
+For creation, allocate starting wealth before exchanging points: starting-wealth
+allocation rejects an already funded opening balance. The exchange then adds to
+that same balance, which can fund ordinary equipment purchases.
+
+`tests/expanded.py::test_money_exchange` contains independent expected payouts,
+creation-budget accounting, duplicate opportunities, approval/funds rejection,
+preview purity, overflow, exception rollback and undo. The cases are authored and
+unrun while checks are paused.
