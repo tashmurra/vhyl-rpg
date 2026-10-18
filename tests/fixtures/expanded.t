@@ -829,6 +829,36 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1159)
+    {
+        event('test.starting-price');
+        eventValue(rpgExpandedStartingEquipmentPrice(args[1],args[2],args[3]));
+        return nil;
+    }
+    if (verb == 1160)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        p.campaignTL = 3; p.techLevel = 8; p.money = 50000;
+        local item = new RpgLiteItem(); item.cost = 1500; item.techLevel = 8;
+        local offer = new RpgExpandedAcquisition(); offer.profile = p; offer.item = item;
+        offer.available = true; offer.permitted = true; offer.startingPurchase = true;
+        event('test.starting-price-gates'); eventValue(offer.assess().money); eventValue(p.money);
+        p.techLevel = 3; eventValue(offer.assess().money);
+        p.creationComplete = true; eventValue(offer.assess().reason);
+        offer.startingPurchase = nil; eventValue(offer.assess().money);
+        offer.quote = 1700; eventValue(offer.assess().money);
+        offer.startingPurchase = true;
+        try { offer.assess(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        offer.quote = nil; p.creationComplete = nil; item.techLevel = nil;
+        try { offer.assess(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        item.techLevel = 8; eventValue(offer.acquire().money); eventValue(p.money);
+        eventValue(offer.acquire().status); eventValue(p.equipment.length());
+        try { rpgExpandedStartingEquipmentPrice(1073741824,4,3); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

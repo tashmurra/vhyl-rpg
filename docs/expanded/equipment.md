@@ -237,9 +237,8 @@ price, quantity and bounded total item weight before changing state.
 Availability and permission are explicit authored world facts. The reference's
 item technology indicates earliest availability, not a universal prohibition on
 buying above one's personal level. This interface does not infer market supply,
-licenses or legality from that level. Detailed legality/control interactions,
-merchant-to-buyer transfers, starting-wealth allocation and sale/resale procedures
-remain pending. Carried versus stored equipment uses the interface below. Existing `rpgLiteBuy`
+licenses or legality from that level. The campaign module supplies legal-access checks and starting-wealth allocation.
+Merchant-to-buyer transfers and sale/resale procedures remain pending. Carried versus stored equipment uses the interface below. Existing `rpgLiteBuy`
 retains its original contract; use this acquisition object for the expanded path.
 
 `tests/expanded.py::test_acquisition` covers pure previews, affordability and
@@ -273,3 +272,27 @@ stale equipment flags, attack/reload/shield exclusion, access rejection, undo an
 cross-process save continuation. The restored acquisition receipt also prevents a
 second charge. See `test_equipment_storage` and `test_equipment_persistence` in
 `tests/expanded.py`; these checks remain unrun.
+
+
+## Starting equipment and technology
+
+Set `startingPurchase = true` on an acquisition during character creation to use
+full-2008 B27 prices. Supply the item's `techLevel` and its unadjusted `cost`.
+Generic items default to an unknown technology level (`nil`); weapons retain their
+existing declared level. A starting purchase without a known level is rejected.
+Each level above `profile.campaignTL` doubles the base price; a lower level never
+reduces it. Personal technology affects access through authored world facts, not
+the multiplier. The pure helper `rpgExpandedStartingEquipmentPrice(basePrice,
+itemTL, campaignTL)` exposes the same calculation with overflow rejection.
+
+Starting purchases require purchase mode, no separate `quote`, and an unfinished
+creation profile. This prevents multiplying an already adjusted market quote.
+After creation, use an ordinary acquisition with an authored price and explicit
+availability/permission. A previously completed receipt remains reusable without
+another charge even after creation ends. All purchases use the existing money and
+inventory ledgers; the price calculation spends no time or randomness.
+
+`tests/expanded.py::test_starting_equipment_price` covers the printed five-level
+price example, equal/lower technology, bounded arithmetic, pure assessment,
+creation restrictions, quote ambiguity, personal-level independence and repeated
+acquisition. These cases are authored and unrun while checks are paused.

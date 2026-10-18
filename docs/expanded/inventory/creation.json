@@ -2184,9 +2184,12 @@
       "pages": "B27",
       "module": "equipment",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply successive price doublings relative to campaign technology and separately validate access.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_starting_equipment_price"
+      ],
+      "implementation_note": "Bounded price doubling is integrated with explicit starting acquisitions; authored tests remain unrun."
     },
     {
       "id": "reputation-base",

@@ -526,6 +526,18 @@
         "tests/expanded.py::test_starting_wealth"
       ],
       "validation_note": "Wealth costs, full technology/factor table and one-time cash/property allocation authored. Checks unrun; associated status, employment and actual settled possessions pending."
+    },
+    {
+      "id": "starting-equipment-price",
+      "module": "equipment",
+      "pages": "B27",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedStartingEquipmentPrice",
+      "tests": [
+        "tests/expanded.py::test_starting_equipment_price"
+      ],
+      "validation_note": "Starting purchase multiplier and creation-only acquisition integration authored. Checks unrun; availability remains an explicit world fact."
     }
   ],
   "detailed_inventories": [

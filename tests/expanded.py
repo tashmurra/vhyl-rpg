@@ -379,6 +379,20 @@ def acquisition_state(s):
     return last(s, 'test.acquisition-state')
 
 
+def test_starting_equipment_price(s):
+    # Independent B27 examples and boundary values, not a second price algorithm.
+    for price, item_tl, campaign_tl, expected in [
+            (1500, 8, 3, 48000), (1500, 3, 8, 1500), (1500, 8, 8, 1500),
+            (1, 12, 0, 4096), (0, 12, 0, 0), (1073741823, 4, 3, 2147483646)]:
+        s.action(1159, price, item_tl, campaign_tl)
+        assert last(s, 'test.starting-price') == [expected]
+    s.action(1160)
+    assert last(s, 'test.starting-price-gates') == [
+        48000, 50000, 48000, 'starting-equipment-creation-only', 1500, 1700,
+        'starting-equipment-price-source', 'starting-equipment-technology-required',
+        48000, 2000, 'reused', 1, 'starting-equipment-price-limit']
+
+
 def test_acquisition(s):
     initial = acquisition_state(s)
     assert initial == [100, 0, None, 0, 0, 0]
@@ -642,7 +656,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')

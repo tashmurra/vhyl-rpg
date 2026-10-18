@@ -125,6 +125,20 @@ modify RpgLiteContext
     }
 ;
 
+/** Starting equipment price at the campaign technology level, full-2008 B27. */
+rpgExpandedStartingEquipmentPrice(basePrice, itemTL, campaignTL)
+{
+    rpgInteger(basePrice, 0, 2147483647);
+    rpgInteger(itemTL, 0, 12); rpgInteger(campaignTL, 0, 12);
+    local price = basePrice;
+    for (local level = campaignTL; level < itemTL; level += 1)
+    {
+        if (price > 1073741823) rpgExpandedReject('starting-equipment-price-limit');
+        price *= 2;
+    }
+    return price;
+}
+
 /** Acquisition receipt; money is the nonnegative amount charged, not points. */
 class RpgExpandedAcquisitionResult: RpgExpandedResult
     money = 0
@@ -138,6 +152,7 @@ class RpgExpandedAcquisition: object
     item = nil
     mode = 'purchase'
     quote = nil
+    startingPurchase = nil
     available = nil
     permitted = nil
     claimed = nil
@@ -160,6 +175,14 @@ class RpgExpandedAcquisition: object
         rpgInteger(self.item.weight, 0, 2147483647 / self.item.quantity);
         rpgInteger(self.item.cost, 0, 2147483647);
         if (self.quote != nil) rpgInteger(self.quote, 0, 2147483647);
+        if (self.startingPurchase)
+        {
+            if (self.mode != 'purchase' || self.quote != nil)
+                rpgExpandedReject('starting-equipment-price-source');
+            if (self.item.techLevel == nil) rpgExpandedReject('starting-equipment-technology-required');
+            if (self.profile.creationComplete)
+            { value.reason = 'starting-equipment-creation-only'; return value; }
+        }
         if (self.mode == 'issue' && self.quote != nil && self.quote != 0)
             rpgExpandedReject('issued-equipment-price');
         if (!self.available) { value.reason = 'equipment-unavailable'; return value; }
@@ -169,6 +192,8 @@ class RpgExpandedAcquisition: object
             if (owner.ofKind(RpgLiteProfile) && holds(owner.equipment,self.item))
             { value.reason = 'equipment-already-owned'; return value; }
         local price = self.mode == 'issue' ? 0 : self.quote == nil ? self.item.cost : self.quote;
+        if (self.startingPurchase)
+            price = rpgExpandedStartingEquipmentPrice(price,self.item.techLevel,self.profile.campaignTL);
         if (self.profile.money < price) { value.reason = 'equipment-unaffordable'; return value; }
         value.money = price; value.status = 'ready'; return value;
     }
@@ -184,6 +209,8 @@ class RpgExpandedAcquisition: object
 ;
 
 modify RpgLiteItem
+    /* Generic items require an authored level for starting-price calculations. */
+    techLevel = nil
     /* nil means carried; a non-nil authored location means stored off-character. */
     storageLocation = nil
     usableBy(profile) { return self.storageLocation == nil; }
