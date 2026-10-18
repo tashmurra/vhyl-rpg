@@ -91,9 +91,11 @@
         "tests/expanded.py::test_expanded_wound_commit",
         "tests/expanded.py::test_owned_wound_transactions",
         "tests/expanded.py::test_owned_wound_persistence",
-        "tests/expanded.py::test_knockdown_equipment_drop"
+        "tests/expanded.py::test_knockdown_equipment_drop",
+        "tests/expanded.py::test_knockdown_equipment_retained",
+        "tests/expanded.py::test_knockdown_drop_persistence"
       ],
-      "validation_note": "Owned wounds and concrete optional-equipment forced drops authored with shared inventory/load state. Transaction and continuation cases unrun; broader anatomy, crippling and low-target checks remain unresolved."
+      "validation_note": "Owned wounds and optional-equipment forced drops authored. Cases cover rejection, successful retention, transactions, save continuation and pickup/reuse but remain unrun. Broader anatomy, crippling and low-target checks unresolved."
     },
     {
       "id": "magic",

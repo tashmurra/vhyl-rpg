@@ -335,10 +335,12 @@ class RpgExpandedKnockdownDrop: RpgExpandedResult
     commit()
     {
         if (self.committed) return 'reused';
-        if (self.status != 'ready' || self.profile == nil || self.destination == nil)
+        if (self.status != 'ready' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.destination == nil)
             rpgExpandedReject('knockdown-drop-unprepared');
         foreach (local item in self.items)
-            if (!holds(self.profile.equipment,item) || item.storageLocation != nil || item.worn)
+            if (item == nil || !item.ofKind(RpgLiteItem) || !holds(self.profile.equipment,item)
+                || item.storageLocation != nil || item.worn)
                 rpgExpandedReject('knockdown-drop-item-changed');
         foreach (local item in self.items)
         {

@@ -69,8 +69,8 @@ class RpgExpandedWoundResult: RpgExpandedResult
 ;
 
 /** Owned standard-anatomy wound. Amount is final injury, not raw attack damage.
- * Unsupported anatomy, held-item dropping and low-target checks reject before
- * commit. Run apply() inside the existing action transaction. */
+ * Unsupported anatomy and low-target checks reject before commit; held-item
+ * dropping requires the equipment module and an authored destination. Run apply() inside the existing action transaction. */
 class RpgExpandedWound: object
     id = nil
     profile = nil

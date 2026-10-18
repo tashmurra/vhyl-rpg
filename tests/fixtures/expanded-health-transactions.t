@@ -20,10 +20,19 @@ healthInput: object code = 0;
 class HealthFixtureAction: Action
     exec(context)
     {
-        if (healthInput.code == 5 || healthInput.code == 6 || healthInput.code == 7)
+        if (healthInput.code == 5 || healthInput.code == 6 || healthInput.code == 7 || healthInput.code == 8)
         {
             healthPatient.equipment = [healthHeld,healthWorn,healthPacked];
             if (healthInput.code != 7) healthWound.dropDestination = 'floor';
+        }
+        if (healthInput.code == 8) healthPatient.ht = 15;
+        if (healthInput.code == 9) healthWound.dropDestination = 'different-floor';
+        if (healthInput.code == 10)
+        {
+            /* Isolate inventory continuation after an authored later recovery. */
+            healthPatient.unconscious = nil;
+            local pickup = new RpgExpandedEquipmentStorage(); pickup.profile = healthPatient;
+            pickup.item = healthHeld; pickup.accessible = true; pickup.move(); healthHeld.ready = true;
         }
         if (healthInput.code == 3) healthWound.amount = 7;
         if (healthInput.code == 4)

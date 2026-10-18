@@ -331,6 +331,45 @@ def test_knockdown_equipment_drop(s):
     assert owned_wound_state(s)[-2:] == [3, 0]
 
 
+def test_knockdown_equipment_retained(s):
+    s.action(1610, 8)
+    assert owned_wound_state(s) == [6, 4, 0, 0, 'standing', 1, 1, 6, 10, 3, 0]
+    assert wound_drop_state(s) == [1, None, 1, 1, 1, None, 600, 0, 2]
+    s.action(1610, 9)
+    assert wound_drop_state(s) == [1, None, 1, 1, 1, None, 600, 0, 2]
+    s.action(1610, 1)
+    assert last(s, 'test.owned-wound') == ['reused']
+
+
+def test_knockdown_drop_persistence(Session, bundle, out):
+    for succeeds in [False, True]:
+        path = out / f'expanded-drop-{succeeds}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1610, 8 if succeeds else 5)
+            wound = owned_wound_state(first)
+            equipment = wound_drop_state(first)
+            first.command(f':save {path}\n@1611')
+            assert any('[save ok code=0]' in line for line in first.raw_lines)
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1611')
+            assert owned_wound_state(second) == wound
+            assert wound_drop_state(second) == equipment
+            second.action(1610, 1)
+            assert last(second, 'test.owned-wound') == ['reused']
+            assert wound_drop_state(second) == equipment
+            if not succeeds:
+                second.action(1610, 10)
+                assert last(second, 'test.owned-wound') == ['reused']
+                assert wound_drop_state(second) == [1, None, 1, 1, 1, None, 600, 1, 0]
+                assert owned_wound_state(second)[-2:] == [3, 0]
+        finally:
+            second.close()
+
+
 def test_numbers(s):
     before = state(s)
     # Full-2008 B170. Enumerated offsets rather than the implementation formula.
@@ -2083,6 +2122,8 @@ def test(build):
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_knockdown_equipment_drop)
+    fresh(Session,wounds,test_knockdown_equipment_retained)
+    test_knockdown_drop_persistence(Session,wounds,build.out)
     test_owned_wound_persistence(Session,wounds,build.out)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)

@@ -218,3 +218,12 @@ storage-transfer procedure and its accessibility checks.
 
 `test_knockdown_equipment_drop` covers missing-destination rejection, item/load
 changes, aim cleanup, rollback, undo and repeat protection. It remains unrun.
+
+
+`test_knockdown_equipment_retained` covers a successful check retaining the held
+item and rejecting a changed destination on the committed request.
+`test_knockdown_drop_persistence` saves and restores both successful and failed
+checks, preserves the drop receipt's item identities, and checks that retrieving
+a dropped item does not let replay of the old wound drop it again. Its pickup
+fixture assumes an authored later recovery; it is not a medical recovery test.
+These cases remain unrun under the build-check pause.
