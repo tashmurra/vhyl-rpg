@@ -9550,6 +9550,7 @@ def test(build):
     test_march_steps(Session,march_steps,build.out)
     tracking_encounter = build.build('expanded-tracking-encounter',ROOT / 'tests/fixtures/expanded-tracking-encounter.t')
     test_tracking_encounter(Session,tracking_encounter,build.out)
+    test_tracking_marching_boundaries(Session,tracking_encounter,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27207,5 +27208,49 @@ def test_tracking_encounter(Session, bundle, out):
         start(s); s.action(1680,27004); s.action(1680,28802); s.action(1680,28802)
         assert state(s) == [2,0,1,60,6,60,0]
         s.action(1680,28810); assert state(s) == [2,0,1,60,6,60,0]
+    finally:
+        s.close()
+
+
+def test_tracking_marching_boundaries(Session, bundle, out):
+    """B226/B426 all terrain intervals and coincident fatigue/check settlement; unrun."""
+    def state(s):
+        s.action(1680,28804)
+        return last(s,'test.tracking-encounter')
+    for index,interval in enumerate((1800,1800,1800,900,900,900,900,300,60)):
+        s = Session(bundle)
+        try:
+            for code in (28820+index,28500,28800,28801):
+                s.action(1680,code)
+            assert state(s) == [1,interval//2,0,interval//2,3,interval//2,0]
+            s.action(1680,28832); assert state(s) == [1,interval//2,0,interval//2,3,interval//2,0]
+            s.action(1680,28802); s.action(1680,28802); s.action(1680,28831)
+            assert state(s) == [2,0,0,interval,6,interval,0]
+        finally:
+            s.close()
+    path = out / 'tracking-hour-boundary.zsave'
+    s = Session(bundle)
+    try:
+        for code in (28830,28500,28800,28801):
+            s.action(1680,code)
+        assert state(s) == [1,0,0,1800,6,1800,0]
+        s.action(1680,28803); assert state(s) == [1,0,0,1800,6,1800,0]
+        s.action(1680,28802); s.command('undo'); assert state(s) == [1,0,0,1800,6,1800,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,28802); s.action(1680,28831)
+        assert state(s) == [2,0,0,3600,9,3600,1]
+        s.action(1680,28802); s.action(1680,28705)
+        assert state(s) == [2,0,0,3600,9,3600,1]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (28500,28800,27009,28801,28801):
+            s.action(1680,code)
+        assert state(s)[:6] == [1,0,0,0,6,0]
     finally:
         s.close()

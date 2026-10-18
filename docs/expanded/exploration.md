@@ -2415,3 +2415,12 @@ Those cases must not be approximated through this fixed-terrain adapter.
 `test_tracking_encounter` specifies partial intervals, exactly one boundary roll,
 shared time, failure/loss, oversized steps, age and terrain rejection, replay,
 rollback, undo, outcome tampering and saved continuation. Fixtures remain unrun.
+
+
+`test_tracking_marching_boundaries` additionally specifies every terrain interval
+using two partial steps, rejects reuse of a marching receipt, and covers a
+woodland continuation check coinciding with the 3,600-second fatigue charge.
+Rollback, undo and saved continuation at that combined boundary must preserve
+both histories: exactly one hourly cost and one continuation check. A denied
+marching gate must add neither tracking progress nor a continuation roll. These
+integration fixtures remain unrun and do not establish validated coverage.
