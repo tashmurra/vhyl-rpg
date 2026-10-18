@@ -979,6 +979,31 @@ def test_job_variable_month(s):
     assert job_state(s) == [580, 400, 1, 1, 3, 100]
 
 
+def test_lifestyle_prices(s):
+    for status, expected in zip(range(-2, 9), [100, 300, 600, 1200, 3000, 12000, 60000, 600000, 6000000, 60000000, 600000000]):
+        s.action(1217, status)
+        assert last(s, 'test.living-cost') == [expected]
+    cases = [
+        ((0, 'monthly', 0, 0), [600, None, 0]),
+        ((0, 'travel-month', 0, 0), [3600, None, 0]),
+        ((0, 'lodging-day', 0, 0), [120, None, 0]),
+        ((0, 'breakfast', 0, 0), [6, None, 0]),
+        ((0, 'dinner', 0, 0), [12, None, 0]),
+        ((0, 'rations-week', 0, 0), [30, 1400, 0]),
+        ((8, 'liquor-bottle', 0, 0), [120, None, 0]),
+        ((8, 'wardrobe', 0, 0), [600000000, 2000, 1]),
+        ((8, 'ordinary-outfit', 0, 0), [2400, 200, 0]),
+        ((8, 'ordinary-outfit', 1, 0), [600, 200, 0]),
+        ((8, 'ordinary-outfit', 1, 1), [2400, 200, 0]),
+        ((0, 'winter-outfit', 0, 0), [180, 400, 0]),
+        ((0, 'formal-outfit', 0, 0), [240, 200, 0]),
+        ((0, 'cosmetics-month', 0, 0), [60, 200, 0]),
+    ]
+    for args, expected in cases:
+        s.action(1218, *args)
+        assert last(s, 'test.lifestyle-price') == expected
+
+
 def test_job_earnings(s):
     cases = [
         ((400, 0, 12, 10, 'next-month'), ['ready', None, 400, 400, 0]),
@@ -1361,6 +1386,7 @@ def test(build):
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
     fresh(Session,minimal,test_job_earnings)
+    fresh(Session,minimal,test_lifestyle_prices)
     test_trade_persistence(Session,bundle,build.out)
     test_reputation_persistence(Session,bundle,build.out)
     test_equipment_persistence(Session,bundle,build.out)

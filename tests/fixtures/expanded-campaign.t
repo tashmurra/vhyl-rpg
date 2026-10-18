@@ -36,5 +36,16 @@ act(verb,args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         eventValue(rpgExpandedJobPercent(2000000000,100)); return nil;
     }
+    if (verb == 1217)
+    {
+        event('test.living-cost'); eventValue(rpgExpandedLivingCost(args[1])); return nil;
+    }
+    if (verb == 1218)
+    {
+        local context = new RpgExpandedLifestyle(); context.status = args[1]; context.kind = args[2];
+        context.conservativeOutfit = args[3] == 1; context.fashionBenefit = args[4] == 1;
+        local value = context.assess(); event('test.lifestyle-price'); eventValue(value.money);
+        eventValue(value.weight); eventValue(value.minimumWeight ? 1 : 0); return nil;
+    }
     return vhylAct(verb,args);
 }

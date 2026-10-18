@@ -691,3 +691,53 @@ class RpgExpandedJobMonth: object
         value.status = 'resolved'; return value;
     }
 ;
+
+/** Generic monthly living costs by supported status, full-2008 B265. */
+rpgExpandedLivingCost(status)
+{
+    rpgInteger(status,-2,8);
+    local costs = [100,300,600,1200,3000,12000,60000,600000,6000000,60000000,600000000];
+    return costs[status + 3];
+}
+
+class RpgExpandedLifestylePrice: RpgExpandedResult
+    money = 0
+    weight = nil
+    minimumWeight = nil
+;
+
+/** Living-cost-derived prices, B265-B266. Status is the chosen service level,
+ * already adjusted by the author for organizational support or local exceptions. */
+class RpgExpandedLifestyle: object
+    status = 0
+    kind = 'monthly'
+    conservativeOutfit = nil
+    fashionBenefit = nil
+    assess()
+    {
+        rpgInteger(self.status,-2,8);
+        if (!holds(['monthly','travel-month','lodging-day','breakfast','lunch','dinner',
+            'rations-week','liquor-bottle','wardrobe','ordinary-outfit','winter-outfit','formal-outfit','cosmetics-month'],self.kind))
+            rpgExpandedReject('lifestyle-price-kind');
+        local level = self.status;
+        local singleOutfit = holds(['ordinary-outfit','winter-outfit','formal-outfit'],self.kind);
+        if (holds(['breakfast','lunch','dinner','rations-week','liquor-bottle'],self.kind) || singleOutfit)
+            if (level > 3) level = 3;
+        if (singleOutfit && self.conservativeOutfit && !(self.fashionBenefit && self.status >= 3) && level > 2)
+            level = 2;
+        if (self.conservativeOutfit && !singleOutfit) rpgExpandedReject('lifestyle-outfit-convention');
+        local percent = 100; local value = new RpgExpandedLifestylePrice();
+        if (self.kind == 'travel-month') percent = 600;
+        if (self.kind == 'lodging-day') percent = 20;
+        if (holds(['breakfast','lunch','liquor-bottle'],self.kind)) percent = 1;
+        if (self.kind == 'dinner') percent = 2;
+        if (self.kind == 'rations-week') { percent = 5; value.weight = 1400; }
+        if (self.kind == 'wardrobe') { value.weight = 2000; value.minimumWeight = true; }
+        if (self.kind == 'ordinary-outfit') { percent = 20; value.weight = 200; }
+        if (self.kind == 'winter-outfit') { percent = 30; value.weight = 400; }
+        if (self.kind == 'formal-outfit') { percent = 40; value.weight = 200; }
+        if (self.kind == 'cosmetics-month') { percent = 10; value.weight = 200; }
+        value.money = rpgExpandedJobPercent(rpgExpandedLivingCost(level),percent);
+        value.status = 'ready'; return value;
+    }
+;

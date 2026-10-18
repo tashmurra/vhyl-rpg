@@ -451,3 +451,37 @@ work-based study, wealth advancement and real employer payments remains pending.
 The authored `test_job_month`, `test_job_demotion`, `test_job_dismissal` and
 `test_job_variable_month` cases cover earnings, consequences, clock ownership,
 repeat protection, rollback and undo. They remain unrun while checks are paused.
+
+
+## Living costs and related purchases
+
+`rpgExpandedLivingCost(status)` returns the generic monthly table for status -2
+through 8 (full-2008 B265). The author supplies the supported status, including
+any organizational support: free standing from rank does not require personally
+funding that rank bonus's lifestyle. Choosing a cheaper or more expensive lifestyle
+does not itself change purchased status or grant social permissions.
+
+`RpgExpandedLifestyle` takes `status` and `kind`. Available kinds are `monthly`,
+`travel-month`, `lodging-day`, `breakfast`, `lunch`, `dinner`, `rations-week`,
+`liquor-bottle`, `wardrobe`, `ordinary-outfit`, `winter-outfit`, `formal-outfit` and
+`cosmetics-month`. `assess()` returns `money` and, where the source specifies it,
+`weight` in hundredths of a pound. Wardrobe weight is a minimum (`minimumWeight`).
+Unknown weights remain nil rather than being treated as weightless goods.
+
+The default travel-month estimate is six times monthly cost; daily lodging is one
+fifth. Meals, rations and liquor use their B265 percentages and cap ordinary status
+pricing at 3. Single outfits also cap at 3, while complete wardrobes use full
+status. `conservativeOutfit` selects the B266 conservative-clothing convention,
+which the author must verify applies to that world and character; it lowers the
+single-outfit cap to 2. `fashionBenefit` at status 3+ retains the full status-3 cost.
+The convention cannot be applied to non-outfit purchases.
+
+These are price assessments, not money deductions or inventory creation. Use an
+acquisition for physical goods and assign authored weights where the table supplies
+none. Monthly payment, dependent support, hospitality exceptions, regional price
+variations and consequences of living below status remain pending. Values beyond
+the supported money range are explicitly rejected.
+
+`tests/expanded.py::test_lifestyle_prices` covers the complete monthly table, price
+percentages, weight units, status caps and clothing exceptions. These cases remain
+unrun while checks are paused.
