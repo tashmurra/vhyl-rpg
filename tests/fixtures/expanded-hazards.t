@@ -262,7 +262,7 @@ act(verb,args)
     }
     if (verb == 1853)
     {
-        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.rules.scaledInjuryShock = true;
         patient.fatigue = args[1]; patient.temperatureFatigue = 2;
         local exposure = new RpgExpandedImmersion(); exposure.id = 'icy-water'; exposure.profile = patient;
         exposure.evidence = 'Sudden icy immersion without a waterproof dry suit; breathing handled separately';
@@ -299,6 +299,30 @@ act(verb,args)
         try { climate.advance(60); } catch (RpgExpandedError error) { rejected = true; }
         event('test.immersion-conflict'); eventValue(blocked.reason); eventValue(rejected ? 1 : 0);
         eventValue(climate.elapsed); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 1855)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        patient.rules.scaledInjuryShock = args[3] == 1; patient.fatigue = args[1];
+        patient.temperatureFatigue = 2; patient.injury = args.length() > 3 ? args[4] : 2; patient.temperatureInjury = 2;
+        local exposure = new RpgExpandedImmersion(); exposure.id = 'overflow'; exposure.profile = patient;
+        exposure.evidence = 'Unprotected icy immersion'; exposure.start(); rpgSpendTime(60);
+        local interval = new RpgExpandedImmersionInterval(); interval.id = 'one'; interval.exposure = exposure;
+        rpgRandom.seed(args[2]); local value = interval.apply();
+        patient.validateFeatures();
+        event('test.immersion-overflow'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.requestedFatigue); eventValue(value.fatigue); eventValue(value.injury);
+        eventValue(patient.fatigue); eventValue(patient.injury); eventValue(patient.temperatureFatigue);
+        eventValue(patient.temperatureInjury); eventValue(patient.fatigueCollapse ? 1 : 0);
+        eventValue(value.wounds.length()); eventValue(rpgRandom.draws);
+        event('test.immersion-terminal'); eventValue(patient.dead ? 1 : 0); eventValue(patient.mortal ? 1 : 0);
+        if (value.status == 'resolved')
+        {
+            interval.apply(); exposure.leave('Rescued'); exposure.warm(true,true,'Shelter and heat'); patient.validateFeatures();
+            event('test.immersion-overflow-recovery'); eventValue(patient.fatigue); eventValue(patient.injury);
+            eventValue(patient.temperatureFatigue); eventValue(patient.temperatureInjury); eventValue(rpgRandom.draws);
+        }
+        return nil;
     }
     return vhylAct(verb,args);
 }

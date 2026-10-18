@@ -10,8 +10,8 @@
 #include <vhyl-rpg-expanded-health.t>
 #include <vhyl-rpg-expanded-hazards.t>
 immersionRoom: Room 'Rescue Platform';
-immersionRules: RpgExpandedRules;
-immersionPatient: RpgExpandedProfile rules = immersionRules fatigue = 2 temperatureFatigue = 2;
+immersionRules: RpgExpandedRules scaledInjuryShock = true;
+immersionPatient: RpgExpandedProfile rules = immersionRules fatigue = 10 temperatureFatigue = 2 injury = 2 temperatureInjury = 2;
 immersionExposure: RpgExpandedImmersion id = 'rescue' profile = immersionPatient evidence = 'Icy immersion without dry suit';
 immersionInterval: RpgExpandedImmersionInterval id = 'first-minute' exposure = immersionExposure;
 immersionInput: object code = 0;
@@ -49,6 +49,7 @@ act(verb,args)
         eventValue(immersionPatient.immersion == immersionExposure ? 1 : 0);
         eventValue(immersionExposure.intervals.length()); eventValue(immersionExposure.exitedAt == nil ? 0 : 1);
         eventValue(immersionExposure.warmedAt == nil ? 0 : 1); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
+        eventValue(immersionPatient.injury); eventValue(immersionPatient.temperatureInjury);
         return nil;
     }
     return vhylAct(verb,args);

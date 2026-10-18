@@ -767,7 +767,7 @@ def immersion_state(s):
 
 def test_immersion_transactions(s):
     s.action(1860, 0)
-    assert immersion_state(s) == [2,2,1,0,0,0,0,0]
+    assert immersion_state(s) == [10,2,1,0,0,0,0,0,2,2]
     s.action(1860, 1)
     due = immersion_state(s)
     for code in [9,3,4,6]:
@@ -775,7 +775,7 @@ def test_immersion_transactions(s):
         assert immersion_state(s) == due
     s.action(1860, 2)
     immersed = immersion_state(s)
-    assert immersed == [9,9,1,1,0,0,3,60]
+    assert immersed == [17,9,1,1,0,0,3,60,9,9]
     s.command('undo')
     assert immersion_state(s) == due
     s.action(1860, 2)
@@ -784,19 +784,19 @@ def test_immersion_transactions(s):
         assert immersion_state(s) == immersed
     s.action(1860, 4)
     exited = immersion_state(s)
-    assert exited == [9,9,0,1,1,0,3,60]
+    assert exited == [17,9,0,1,1,0,3,60,9,9]
     s.command('undo')
     assert immersion_state(s) == immersed
     s.action(1860, 4)
     s.action(1860, 7)
     assert immersion_state(s) == exited
     s.action(1860, 6)
-    assert immersion_state(s) == [9,2,0,1,1,1,3,60]
+    assert immersion_state(s) == [17,2,0,1,1,1,3,60,9,2]
     s.command('undo')
     assert immersion_state(s) == exited
     for code in [6,6,2,4,8]:
         s.action(1860, code)
-        assert immersion_state(s) == [9,2,0,1,1,1,3,60]
+        assert immersion_state(s) == [17,2,0,1,1,1,3,60,9,2]
 
 
 def test_immersion_persistence(Session, bundle, out):
@@ -818,7 +818,7 @@ def test_immersion_persistence(Session, bundle, out):
             second.action(1860, 8)
             for code in [1,2,4,6][stage:]:
                 second.action(1860, code)
-            assert immersion_state(second) == [9,2,0,1,1,1,3,60]
+            assert immersion_state(second) == [17,2,0,1,1,1,3,60,9,2]
             second.action(1860, 8)
         finally:
             second.close()
@@ -833,10 +833,26 @@ def test_immersion_intervals(s):
         assert last(s, 'test.immersion-recovery') == [
             'reused','immersion-not-exited','resolved','resolved',
             'immersion-recovery-shelter-and-heat','resolved',2+loss,2,0,3,0]
-    s.action(1853, 3, 5)
-    assert last(s, 'test.immersion-interval') == [
-        'resolved','reused','immersion-interval-not-due','blocked','blocked',
-        'immersion-overflow-unavailable',0,3,2,0,0]
+
+
+def test_immersion_overflow(s):
+    for fatigue, seed, requested, charged, injury, collapsed in [
+            (9,5,7,7,6,0),(10,5,7,7,7,0),(19,5,7,1,7,1),(20,5,7,0,7,1),
+            (10,1,1,1,1,0)]:
+        s.action(1855, fatigue, seed, 1)
+        assert last(s, 'test.immersion-overflow') == [
+            'resolved',None,requested,charged,injury,fatigue+charged,2+injury,
+            2+charged,2+injury,collapsed,injury,3]
+        assert last(s, 'test.immersion-overflow-recovery') == [fatigue+charged,2+injury,2,2,3]
+    # A seven-point loss crosses a death boundary on its first overflow wound.
+    # Seed eleven gives resistance 17 and survival 13: death stops further wounds.
+    s.action(1855, 10, 11, 1, 19)
+    assert last(s, 'test.immersion-overflow') == ['resolved',None,7,7,1,17,20,9,3,0,1,6]
+    assert last(s, 'test.immersion-terminal') == [1,0]
+    assert last(s, 'test.immersion-overflow-recovery') == [17,20,2,2,6]
+    s.action(1855, 10, 5, 0)
+    assert last(s, 'test.immersion-overflow') == [
+        'blocked','expanded-wound-shock-rule-required',0,0,0,10,2,2,2,0,0,0]
 
 
 def test_immersion_scheduler_conflict(s):
@@ -3565,6 +3581,7 @@ def test(build):
     fresh(Session,hazards,test_heat_assessments)
     fresh(Session,hazards,test_thermal_shock_assessments)
     fresh(Session,hazards,test_immersion_intervals)
+    fresh(Session,hazards,test_immersion_overflow)
     fresh(Session,hazards,test_immersion_scheduler_conflict)
     immersion_transactions = build.build('expanded-immersion-transactions',ROOT / 'tests/fixtures/expanded-immersion-transactions.t')
     fresh(Session,immersion_transactions,test_immersion_transactions)

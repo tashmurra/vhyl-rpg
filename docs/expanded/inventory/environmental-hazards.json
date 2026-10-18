@@ -650,9 +650,10 @@
         "tests/expanded.py::test_immersion_intervals",
         "tests/expanded.py::test_immersion_scheduler_conflict",
         "tests/expanded.py::test_immersion_transactions",
-        "tests/expanded.py::test_immersion_persistence"
+        "tests/expanded.py::test_immersion_persistence",
+        "tests/expanded.py::test_immersion_overflow"
       ],
-      "validation_note": "Owned minute intervals, exit and warming with shared fatigue restrictions authored; all fixtures unrun. Overflow injury, forced failures without positive margins, drowning and catch-up remain incomplete."
+      "validation_note": "Owned minute intervals, overflow wounds, exit and warming with shared fatigue/injury restrictions authored; all fixtures unrun. Forced failures without positive margins, drowning and catch-up remain incomplete."
     },
     {
       "id": "environment-thermal-dry-suit",

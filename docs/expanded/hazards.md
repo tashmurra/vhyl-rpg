@@ -555,8 +555,8 @@ margin at high scores. The supplied passage does not specify the fatigue cost in
 that case; the helper returns `thermal-shock-forced-failure-margin` rather than
 inventing a minimum or granting fatigue. This remains an unresolved inventory
 case. The assessment neither charges fatigue nor starts an exposure. The owned
-procedure below supports intervals that cannot overflow into injury; overflow
-injuries and drowning integration remain incomplete. `test_thermal_shock_assessments` records the expected outcomes,
+procedure below supports owned fatigue loss and overflow injury; drowning
+integration remains incomplete. `test_thermal_shock_assessments` records the expected outcomes,
 dry-suit routing and purity; it remains unrun while checks are paused.
 
 
@@ -577,11 +577,22 @@ fatigue once, and records the interval. It adds the same amount to the exposure'
 owned recovery restriction and the character's existing `temperatureFatigue`.
 Replaying an interval returns its receipt, including after rescue.
 
-The current implementation rejects a check before randomness if any possible
-result could exhaust the available positive fatigue and overflow into injury.
-It also rejects scores of seventeen or more because an automatic failure can
-have no positive failure margin. These are explicit incomplete cases, not alternate
-injury or high-score rules. No automatic catch-up is available for missed minutes.
+Before randomness, assessment prepares one-point owned wounds for every possible
+overflow point. The maximum loss is eighteen minus the effective resistance score.
+Each possible wound must be supported by the health module; set `dropDestination`
+on the interval if its consequences require an equipment drop. Execution applies
+only the needed wounds, before each corresponding fatigue increment, and preserves
+the shared fatigue floor and collapse behavior. The result distinguishes
+`requestedFatigue`, charged `fatigue`, actual `injury` and committed `wounds`.
+Unused prepared wounds are discarded. Death prevents subsequent injury, following
+the shared fatigue procedure; the remaining fatigue increments still respect the
+existing floor.
+
+The exposure owns both `lockedFatigue` and `lockedInjury`; warming releases its
+contribution to `temperatureFatigue` and `temperatureInjury` without healing either.
+A check still rejects scores of seventeen or more because an automatic failure
+can have no positive failure margin. This remains an explicit incomplete source
+case. No automatic catch-up is available for missed minutes.
 
 `leave(evidence)` ends immersion without restoring fatigue or releasing its recovery
 restriction. Resolve any due minute before leaving. The author may then begin an
@@ -598,10 +609,13 @@ because the Lite climate procedure resets global temperature restrictions. Use
 one scheduler for the character. The guard does not add random draws or time.
 
 `test_immersion_intervals` covers success, failure margins, repeat protection,
-exit, warmth and unsupported overflow preflight. `test_immersion_scheduler_conflict`
+exit and warmth. `test_immersion_overflow` covers crossing zero fatigue, the
+fatigue floor, successful resistance that still loses fatigue, death during an
+overflow sequence and unsupported wound preflight. `test_immersion_scheduler_conflict`
 covers duplicate climate ownership. The dedicated
 [`expanded-immersion-transactions.t`](../../tests/fixtures/expanded-immersion-transactions.t)
 adds preview, exception rollback, undo, replay and cross-process save continuation
-fixtures for exposure, its due boundary, fatigue loss, exit and warming. All these
+fixtures for exposure, its due boundary, multi-point fatigue and overflow injury,
+exit and warming. All these
 fixtures are authored but unrun while checks are paused. Existing Lite regressions
 must verify the default dispatch hook when checks resume.

@@ -103,6 +103,7 @@
         "tests/expanded.py::test_heat_assessments",
         "tests/expanded.py::test_thermal_shock_assessments",
         "tests/expanded.py::test_immersion_intervals",
+        "tests/expanded.py::test_immersion_overflow",
         "tests/expanded.py::test_immersion_scheduler_conflict",
         "tests/expanded.py::test_immersion_transactions",
         "tests/expanded.py::test_immersion_persistence"
