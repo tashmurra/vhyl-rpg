@@ -325,3 +325,14 @@ Secrets require a transactional replacement when disclosed, while social stigmas
 need concrete, campaign-specific restrictions and observer knowledge. Merely
 storing their names or reaction penalties would leave their applicable procedures
 unimplemented. These entries and their validating fixtures remain pending.
+
+
+The [eighth disadvantage segment](inventory/disadvantages-h.json) separates
+resistance susceptibility, post-armor injury multiplication and timed exposure
+loss. Their affected rolls, order of operations and clocks differ. The vulnerability
+price table has been visually reviewed; executable behavior and expected-value
+fixtures remain pending.
+
+Alternate personality packages must share the actor's physical state and ledgers.
+Conditional healing, session misfortune and supernatural event traits also need
+specific authored contracts, not unrestricted callbacks or duplicate actors.
