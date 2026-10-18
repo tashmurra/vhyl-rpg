@@ -2355,3 +2355,114 @@ class RpgExpandedPrototypeOperation: object
         self.definitionSnapshot = self.definition(); value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedPrototypeDefectSet
+    tests = []
+;
+class RpgExpandedPrototypeTestResult: RpgExpandedResult
+    discovered = []
+    activated = nil
+    falseConfidence = nil
+    score = nil
+;
+
+/** One complete uninterrupted testing week. Critical failure policy is explicit. */
+class RpgExpandedPrototypeTest: object
+    id = nil
+    profile = nil
+    item = nil
+    skill = nil
+    discoveryDefect = nil
+    failureDefect = nil
+    criticalPolicy = 'false-confidence'
+    approved = nil
+    uninterrupted = nil
+    evidence = nil
+    result = nil
+    defects = nil
+    definitionSnapshot = nil
+    startedAt = nil
+    endedAt = nil
+    definition()
+    { return [self.id,self.profile,self.item,self.skill,self.discoveryDefect,self.failureDefect,self.criticalPolicy,self.evidence]; }
+    context()
+    {
+        local value = new RpgLiteContext(); value.skill = self.skill; value.prototypeItem = self.item;
+        value.modifier = -3; return value;
+    }
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgLiteProfile) || self.item == nil || !self.item.ofKind(RpgLiteItem)
+            || self.skill == nil || !self.skill.ofKind(RpgSkill)) rpgExpandedReject('prototype-test-definition');
+        local value = new RpgExpandedPrototypeTestResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.definitionSnapshot.length()) rpgExpandedReject('prototype-test-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('prototype-test-binding');
+            if (self.item.prototypeDefects != self.defects || !holds(self.defects.tests,self))
+                rpgExpandedReject('prototype-test-history');
+            value.status = 'reused'; value.check = self.result.check; value.discovered = self.result.discovered;
+            value.activated = self.result.activated; value.falseConfidence = self.result.falseConfidence; value.score = self.result.score; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('prototype-test-id');
+        if (!self.approved || !self.uninterrupted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'prototype-test-author-facts'; return value; }
+        if (self.criticalPolicy != 'false-confidence')
+        { value.reason = 'prototype-test-incident-policy-unavailable'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.stunned || self.profile.hp() <= 0 || self.profile.fp() <= 0)
+        { value.reason = 'prototype-tester-unavailable'; return value; }
+        local faults = self.item.prototypeDefects;
+        if (faults == nil || !faults.ofKind(RpgExpandedPrototypeDefectSet) || faults.result == nil)
+        { value.reason = 'prototype-test-defects-required'; return value; }
+        faults.assess();
+        foreach (local prior in faults.tests)
+            if (prior.id == self.id) rpgExpandedReject('prototype-test-duplicate');
+        local unknown = []; local major = [];
+        foreach (local defect in faults.defects)
+        {
+            if (!defect.discovered) unknown = unknown + [defect];
+            if (defect.severity == 'major') major = major + [defect];
+        }
+        if (unknown.length() > 0 && !holds(unknown,self.discoveryDefect)
+            || major.length() > 0 && !holds(major,self.failureDefect))
+        { value.reason = 'prototype-test-fault-choice'; return value; }
+        if (unknown.length() == 0 && self.discoveryDefect != nil || major.length() == 0 && self.failureDefect != nil)
+            rpgExpandedReject('prototype-test-unused-fault');
+        local context = self.context(); value.score = rpgLiteScore(self.profile,context);
+        if (value.score == nil) { value.reason = context.unavailableReason(self.profile); return value; }
+        if (value.score < 3) { value.reason = 'too-difficult'; return value; }
+        value.seconds = 604800; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local start = rpgLedger.seconds;
+        for (local day = 1; day <= 7; day += 1)
+        {
+            rpgSpendTime(86400);
+            if (self.assess().status != 'ready' || rpgLedger.seconds != start + day*86400)
+                rpgExpandedReject('prototype-test-conditions-changed');
+        }
+        value.check = rpgLiteCheck(self.profile,self.context()); value.score = value.check.score;
+        if (value.check.status != 'resolved') rpgExpandedReject('prototype-test-check-changed');
+        self.defects = self.item.prototypeDefects;
+        if (value.check.achieved)
+        {
+            if (value.check.critical == 'success')
+            {
+                foreach (local defect in self.defects.defects)
+                    if (!defect.discovered) value.discovered = value.discovered + [defect];
+            }
+            else if (self.discoveryDefect != nil) value.discovered = [self.discoveryDefect];
+        }
+        else if (value.check.critical == 'failure') value.falseConfidence = true;
+        else if (self.failureDefect != nil) value.activated = self.failureDefect;
+        foreach (local defect in value.discovered) defect.discovered = true;
+        if (value.activated != nil) { value.activated.active = true; value.activated.discovered = true; }
+        self.startedAt = start; self.endedAt = rpgLedger.seconds;
+        self.defects.tests = self.defects.tests + [self]; self.definitionSnapshot = self.definition();
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

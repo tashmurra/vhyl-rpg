@@ -1093,3 +1093,40 @@ testing remain incomplete.
 fault at critical failure with a small margin, preflight choices, clock interruption,
 rollback, undo, replay and separate-process continuation. Fixtures remain unrun.
 Source: `full-2008`, B474.
+
+
+## A complete week of prototype testing
+
+`RpgExpandedPrototypeTest` owns one complete uninterrupted testing week. Supply a
+unique test `id`, tester profile, item, operation skill, approval, uninterrupted
+availability and evidence. Select `discoveryDefect` from undiscovered faults and
+`failureDefect` from existing major faults, omitting a selection only when its
+eligible set is empty. Choices are authored before rolling.
+
+The check uses the operation skill at minus three, retaining current contextual
+conditions and active faults. The interface advances seven successive 86,400-second
+intervals through the shared clock and revalidates availability after each. Any
+invalidating event raises an error for rollback of the entire week. It supports
+complete weeks only; partial testing, tester substitution and interruption credit
+remain pending. Approval must establish the tester's availability across the week;
+no automatic employment or study credit is awarded.
+
+Ordinary success discovers the selected fault without activating it. Critical
+success discovers every remaining unknown fault. Ordinary failure activates an
+existing major fault if present. The supported explicit `criticalPolicy` is
+`false-confidence`: critical failure records the tester's mistaken belief that no
+bugs remain, without discovering or activating any real fault. The alternative
+major-like incident policy rejects until a concrete consequence contract is
+implemented. Actual discovery state and false confidence remain separate.
+
+The request records its check, discoveries, activated fault, belief and start/end
+times in `defects.tests`. Replay charges no additional week and changes no fault
+state. Finding a fault is not repairing it. Active blocking faults can prevent
+further operation-based testing; repairs and broader diagnostic procedures remain
+separate incomplete work. Keep the structured result private until the authored
+narrative chooses what the tester understands.
+
+`test_prototype_testing`, `test_prototype_testing_outcomes` and
+`test_prototype_testing_persistence` author all supported result branches, previews,
+clock-event rollback, undo, replay, policy rejection and separate-process
+continuation. Fixtures remain unrun. Source: `full-2008`, B474.

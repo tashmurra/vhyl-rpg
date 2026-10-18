@@ -501,9 +501,14 @@
       "pages": "B474",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Each testing week allows an operation-skill check at -3: success discovers one bug, critical success all. Ordinary failure triggers a present major bug or finds nothing; critical failure creates an authored major-like incident or false confidence without identifying a real bug.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_prototype_testing",
+        "tests/expanded.py::test_prototype_testing_outcomes",
+        "tests/expanded.py::test_prototype_testing_persistence"
+      ],
+      "validation_note": "Owned full-week testing supports discovery, major-fault activation and explicit false-confidence critical failures; fixtures unrun. Partial weeks, major-like incident policy, repairs and specialized diagnostics remain incomplete."
     },
     {
       "id": "technology-latent-bug",

@@ -59,11 +59,38 @@ prototypeOperation: RpgLiteContext skill = conceptSkill prototypeItem = prototyp
 prototypeUse: RpgExpandedPrototypeOperation id = 'survey-use' profile = conceptUser item = prototypeProduct skill = conceptSkill
     modifier = -10 seconds = 60 marginDefect = prototypeMinor1 criticalDefect = prototypeMajor
     approved = true uninterrupted = true evidence = 'One difficult survey observation with authored fault choices';
+prototypeTest: RpgExpandedPrototypeTest id = 'first-test-week' profile = conceptUser item = prototypeProduct skill = conceptSkill
+    discoveryDefect = prototypeMinor1 failureDefect = prototypeMajor approved = true uninterrupted = true
+    evidence = 'Full week of suitable operation testing';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 160)
+        {
+            if (code == 160)
+            {
+                conceptBlueprint.apply(); conceptFacilities.fund(); prototypeStart.begin();
+                for (local day = 1; day <= 4; day += 1)
+                {
+                    local work = new RpgExpandedPrototypeWork(); work.id = day; work.attempt = prototypeStart;
+                    work.seconds = 86400; work.approved = true; work.uninterrupted = true; work.evidence = 'Complete day'; work.apply();
+                }
+                rpgRandom.seed(1); prototypeCompletion.knowledge = 'model'; prototypeCompletion.apply();
+                prototypeDefects.apply(); rpgRandom.seed(1); return nil;
+            }
+            if (code == 164) conceptUser.iq = 7;
+            if (code == 165) rpgRandom.seed(5);
+            if (code == 166) { conceptUser.iq = 13; rpgRandom.seed(6); }
+            if (code == 167) prototypeClockFault.enabled = true;
+            if (code == 168) prototypeTest.criticalPolicy = 'incident';
+            if (code == 169) prototypeTest.evidence = 'Changed testing';
+            local value = code == 163 ? prototypeTest.assess() : prototypeTest.apply();
+            event('test.prototype-testing'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.discovered.length()); eventValue(value.falseConfidence ? 1 : 0);
+            if (code == 162) throw new RpgError(); return nil;
+        }
         if (code >= 140)
         {
             if (code == 140)
@@ -226,6 +253,14 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2115) { conceptInput.code = 160 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2116)
+    {
+        local known = 0; foreach (local defect in prototypeDefects.defects) if (defect.discovered) known += 1;
+        event('test.prototype-testing-state'); eventValue(known); eventValue(prototypeMajor.active ? 1 : 0);
+        eventValue(prototypeDefects.tests.length()); eventValue(prototypeTest.result != nil && prototypeTest.result.falseConfidence ? 1 : 0);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2113) { conceptInput.code = 140 + args[1]; return vhylAct(2097,args); }
     if (verb == 2114)
     {
