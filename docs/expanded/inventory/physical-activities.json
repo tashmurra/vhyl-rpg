@@ -53,8 +53,8 @@
       "kind": "procedure",
       "status": "partial",
       "acceptance": "Compute cubic-foot volume from dimensions and divide by the applicable cubic-feet-per-hour rate to obtain duration; preserve fractional lifting capacity and work credit.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_work"],
-      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned full hours now validate actual tools, advance the shared clock, charge fatigue and credit exact removed volume for loose/ordinary/hard-solo sites. Work fixtures authored, unrun. Partial hours, separate-stage stockpiles, team labor and exhausted/heat-adjusted work remain incomplete."
+      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_work"],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Partial hours, concurrent teams and exhausted/heat-adjusted work remain incomplete."
     },
     {
       "id": "activity-dig-tools",
@@ -64,8 +64,8 @@
       "kind": "procedure",
       "status": "partial",
       "acceptance": "The listed digging rates assume iron or steel tools; wooden tools halve them and improvised tools divide them by at least four according to an authored equipment condition.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_work"],
-      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned full hours now validate actual tools, advance the shared clock, charge fatigue and credit exact removed volume for loose/ordinary/hard-solo sites. Work fixtures authored, unrun. Partial hours, separate-stage stockpiles, team labor and exhausted/heat-adjusted work remain incomplete."
+      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_work"],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Partial hours, concurrent teams and exhausted/heat-adjusted work remain incomplete."
     },
     {
       "id": "activity-hike-base-distance",
@@ -732,8 +732,8 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Loose soil removal rate is twice lifting capacity cubic feet per hour; fatigue cost is one per work hour.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_work"],
-      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned full hours now validate actual tools, advance the shared clock, charge fatigue and credit exact removed volume for loose/ordinary/hard-solo sites. Work fixtures authored, unrun. Partial hours, separate-stage stockpiles, team labor and exhausted/heat-adjusted work remain incomplete."
+      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_work"],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Partial hours, concurrent teams and exhausted/heat-adjusted work remain incomplete."
     },
     {
       "id": "digging-rate-ordinary",
@@ -743,8 +743,8 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Ordinary soil removal rate is lifting capacity cubic feet per hour; fatigue cost is two per hour.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_work"],
-      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned full hours now validate actual tools, advance the shared clock, charge fatigue and credit exact removed volume for loose/ordinary/hard-solo sites. Work fixtures authored, unrun. Partial hours, separate-stage stockpiles, team labor and exhausted/heat-adjusted work remain incomplete."
+      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_work"],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Partial hours, concurrent teams and exhausted/heat-adjusted work remain incomplete."
     },
     {
       "id": "digging-rate-ordinary-pick",
@@ -754,8 +754,8 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "A pick loosens ordinary soil at four times lifting capacity cubic feet per hour; removal of that loosened material is separately accounted.",
-      "tests": ["tests/expanded.py::test_digging_assessment"],
-      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
+      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material"],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Partial hours, concurrent teams and exhausted/heat-adjusted work remain incomplete."
     },
     {
       "id": "digging-rate-hard-pick",
@@ -765,8 +765,8 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "A pick breaks hard soil at twice lifting capacity cubic feet per hour before shoveling.",
-      "tests": ["tests/expanded.py::test_digging_assessment"],
-      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
+      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material"],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Partial hours, concurrent teams and exhausted/heat-adjusted work remain incomplete."
     },
     {
       "id": "digging-rate-hard-shovel",
@@ -776,8 +776,8 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Broken hard soil is shoveled at twice lifting capacity cubic feet per hour; hard-soil work costs three fatigue per hour.",
-      "tests": ["tests/expanded.py::test_digging_assessment"],
-      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
+      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material"],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Partial hours, concurrent teams and exhausted/heat-adjusted work remain incomplete."
     },
     {
       "id": "digging-rate-hard-solo",
@@ -787,8 +787,8 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "One worker alternating pick and shovel removes hard soil at 0.6 times lifting capacity cubic feet per hour.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_work"],
-      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned full hours now validate actual tools, advance the shared clock, charge fatigue and credit exact removed volume for loose/ordinary/hard-solo sites. Work fixtures authored, unrun. Partial hours, separate-stage stockpiles, team labor and exhausted/heat-adjusted work remain incomplete."
+      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_work"],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Partial hours, concurrent teams and exhausted/heat-adjusted work remain incomplete."
     },
     {
       "id": "digging-rate-rock-pick",
@@ -798,8 +798,8 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "A pick breaks rock at lifting capacity cubic feet per hour or a specifically slower authored rate for unusually hard rock.",
-      "tests": ["tests/expanded.py::test_digging_assessment"],
-      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
+      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material"],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Partial hours, concurrent teams and exhausted/heat-adjusted work remain incomplete."
     },
     {
       "id": "digging-rate-rock-shovel",
@@ -809,8 +809,8 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Broken rock is removed at lifting capacity cubic feet per hour; rock work costs four fatigue per hour.",
-      "tests": ["tests/expanded.py::test_digging_assessment"],
-      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
+      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material"],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Partial hours, concurrent teams and exhausted/heat-adjusted work remain incomplete."
     },
     {
       "id": "hiking-terrain-very-bad",

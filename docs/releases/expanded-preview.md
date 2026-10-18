@@ -639,3 +639,10 @@ work. Actual tool ownership, site capacity and worker conditions are checked;
 clock time, fatigue and exact excavation credit commit once. Authored, unrun
 fixtures cover rates, limits, rollback, undo and saved continuation. Partial hours,
 separate-stage material stocks and exhausted/heat-adjusted work remain incomplete.
+
+
+Digging now separates preparation from removal for ordinary soil, hard soil and
+rock. Owned stock prevents removal before breaking or double-crediting material.
+Changing tool rates rescales persistent volumes exactly from original receipts.
+Added authored, unrun stock, rescaling and transactional/save continuation fixtures.
+Concurrent teams, partial hours and advanced fatigue remain incomplete.

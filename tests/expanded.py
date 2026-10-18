@@ -8961,6 +8961,7 @@ def test(build):
     test_digging_assessment(Session, digging)
     digging_work = build.build('expanded-digging-work', ROOT / 'tests/fixtures/expanded-digging-work.t')
     test_digging_work(Session, digging_work, build.out)
+    test_digging_material(Session, digging_work, build.out)
     temporary_blindness = build.build('expanded-temporary-blindness', ROOT / 'tests/fixtures/expanded-temporary-blindness.t')
     test_temporary_blindness(Session, temporary_blindness, build.out)
     paralysis = build.build('expanded-paralysis', ROOT / 'tests/fixtures/expanded-paralysis.t')
@@ -12652,3 +12653,60 @@ def test_digging_work(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_digging_material(Session, bundle, out):
+    def state(s):
+        s.action(2285, 634)
+        return last(s, 'test.digging-material')
+    path = out / 'expanded-digging-material.zsave'
+    s = Session(bundle)
+    try:
+        for code in (630,612):
+            s.action(2285, code)
+        assert state(s) == [0,0,None,0,0,0]
+        s.action(2285, 611)
+        assert state(s) == [8000,0,100,2,3600,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (631,611):
+            s.action(2285, code)
+        s.command('undo')
+        assert state(s) == [8000,0,100,2,3600,0]
+        for code in (611,611):
+            s.action(2285, code)
+        assert state(s) == [4000,4000,100,3,7200,0]
+        for code in (638,611):
+            s.action(2285, code)
+        assert state(s) == [0,8000,100,4,10800,0]
+    finally:
+        s.close()
+    for setup, prepared, fatigue in [(632,4000,3),(633,2000,4)]:
+        s = Session(bundle)
+        try:
+            for code in (setup,611):
+                s.action(2285, code)
+            assert state(s) == [prepared,0,100,fatigue,3600,0]
+            for code in (614,611):
+                s.action(2285, code)
+            assert state(s) == [0,prepared,100,2*fatigue,7200,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (630,611,631,635,611):
+            s.action(2285, code)
+        assert state(s) == [12000,4000,200,3,7200,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (636,611):
+            s.action(2285, code)
+        assert state(s) == [0,0,None,0,0,0]
+    finally:
+        s.close()

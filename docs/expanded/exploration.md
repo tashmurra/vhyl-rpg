@@ -290,8 +290,8 @@ volume, and absence of time/randomness changes. Assertions are authored and unru
 
 ## Owned digging hours
 
-`RpgExpandedDiggingSite` owns excavation credit for `loose`, `ordinary` or
-`hard-solo` work. Set its unique `id`, `stage` and whole-cubic-foot
+`RpgExpandedDiggingSite` owns excavation and prepared-material credit for
+`loose`, `ordinary`, `hard-solo` or `rock` sites. Set its unique `id`, `stage` and whole-cubic-foot
 `capacityCubicFeet`. Completed work is exact: `removedNumerator / rateDenominator`
 is the removed volume, backed by the site's `hours` receipts.
 
@@ -308,11 +308,37 @@ receipt. Any change that invalidates the hour after time advances rejects the
 transaction; normal undo and save continuation include tools, fatigue, time and
 work receipts. Breaking and removal are not double-credited.
 
-Separate pick/shovel stockpiles, team labor, partial hours, changing denominator
-scales within a site, heat-adjusted work, critical-health workers and fatigue
-reaching zero remain unsupported and reject explicitly. Each supported hour must
+Simultaneous team labor, partial hours, heat-adjusted work, critical-health
+workers and fatigue reaching zero remain unsupported and reject explicitly. Each supported hour must
 fit the remaining site volume and leave positive fatigue. Those limits describe
 unfinished adapters, not changes to the source rules. `expanded-digging-work.t`
 specifies three work stages, wood tools, fractional lifting capacity, missing
 equipment, exhaustion rejection, site capacity, preview, replay, rollback, undo
 and saved continuation. Assertions remain unrun.
+
+
+## Separate breaking and removal stages
+
+An hour may set `stage` independently of its site's material. Ordinary sites allow
+`ordinary` direct removal, `ordinary-pick` preparation, and `loose` removal of
+prepared stock. Hard-soil sites (`site.stage = 'hard-solo'`) allow `hard-solo`
+direct removal, `hard-pick` preparation and `hard-shovel` removal. Rock sites allow
+`rock-pick` and `rock-shovel`. Pick-only work requires the owned pick; removal
+requires the owned shovel. Alternating hard-solo work still requires both.
+
+The site stores `preparedNumerator` alongside `removedNumerator`, using the same
+`rateDenominator`. Preparing material consumes remaining unworked capacity;
+removing prepared material consumes that stock. Neither operation can credit more
+than the remaining source volume. Preparation produces no excavation credit by
+itself, and direct removal cannot consume prepared stock a second time.
+
+Rates with different denominators, such as a switch to wooden tools, use an exact
+common denominator. Existing work receipts retain their original rates; the site
+validates both current totals by reconstructing them from those receipts. Bounds
+reject unrepresentable scales before time or fatigue is spent. `rockDivisor` on
+a rock-pick hour supplies the authored reduction for unusually hard material.
+
+`test_digging_material` specifies preparation/removal pairs for all three materials,
+insufficient-stock rejection, exact rescaling, replay, rollback, undo and saved
+continuation. Assertions remain unrun. These are sequential work hours; scheduling
+several workers concurrently, partial hours and advanced fatigue remain unfinished.

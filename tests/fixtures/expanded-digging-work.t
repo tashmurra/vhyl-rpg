@@ -32,6 +32,19 @@ modify BleedTestAction
         if (code == 619) { bleedProfile.fatigue = 9; return nil; }
         if (code == 620) { bleedProfile.st = 11; return nil; }
         if (code == 621) { digHourInput.request = digThird; return nil; }
+        if (code == 630) { digSite.stage = 'ordinary'; digHour.stage = 'ordinary-pick'; return nil; }
+        if (code == 631) { digHourInput.request = digSecond; digSecond.stage = 'loose'; return nil; }
+        if (code == 632) { digSite.stage = 'hard-solo'; digHour.stage = 'hard-pick'; digSecond.stage = 'hard-shovel'; return nil; }
+        if (code == 633) { digSite.stage = 'rock'; digHour.stage = 'rock-pick'; digSecond.stage = 'rock-shovel'; return nil; }
+        if (code == 634)
+        {
+            digSite.validate(); event('test.digging-material'); eventValue(digSite.preparedNumerator);
+            eventValue(digSite.removedNumerator); eventValue(digSite.rateDenominator);
+            eventValue(bleedProfile.fatigue); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 635) { digSecond.toolMaterial = 'wood'; return nil; }
+        if (code == 636) { digSite.stage = 'hard-solo'; digHour.stage = 'hard-shovel'; return nil; }
+        if (code == 638) { digHourInput.request = digThird; digThird.stage = 'loose'; return nil; }
         return inherited(context);
     }
 ;
