@@ -641,3 +641,20 @@ still partial: the health module has a pure care-stage assessment and prevents
 ordinary bleeding from silently approximating it. See the
 [health contract](health.md#impaired-clotting-assessment) for the unresolved owned
 loss and treatment work. The fixture is authored and unrun.
+
+### Persistent open wound
+
+`RpgExpandedPersistentWound` is the fixed -5-point disadvantage from `full-2008`,
+B162. It requires approval, one level and no percentage or self-control modifiers.
+Acquiring it does not remove HP. The health module provides an explicit
+`RpgExpandedRecoveryWoundAcquisition` for a critical mortal-recovery consequence;
+ordinary creation can use the trait's normal character-cost contribution.
+
+`rpgExpandedAssessPersistentWound` exposes B162's source values from explicit
+facts: an informed attacker can target the opening at -7 with a 3/2 wounding
+multiplier; a blood agent that actually reaches it has a broken-skin entry route;
+an undressed wound in plague-ridden surroundings gives -3 infection resistance.
+These are assessments, not automatic attack, poison or treatment execution.
+Damage-type/location composition, daily dressing and live exposure integration
+remain unfinished. Do not apply the assessed multiplier twice or treat it as a
+new HP loss merely for having the trait.

@@ -333,3 +333,16 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** B162 permanent open wound; buying it does not subtract HP. */
+class RpgExpandedPersistentWound: RpgExpandedDisadvantage
+    id = 'persistent-wound'
+    points = -5
+    creationCost()
+    {
+        if (!self.approved || self.id != 'persistent-wound' || self.points != -5 || self.level != 1
+            || self.percentages.length() != 0 || self.selfControlRating != nil)
+            rpgExpandedReject('persistent-wound-definition');
+        return -5;
+    }
+;

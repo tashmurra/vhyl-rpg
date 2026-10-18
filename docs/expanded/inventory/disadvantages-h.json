@@ -614,9 +614,12 @@
       "pages": "B162",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Persistent open wound costs -5 without initially missing health. Informed attackers can target it at -7 with one-and-a-half wounding multiplier; blood agents reaching it count as entering broken skin. Daily first-aid/physician dressing prevents the -3 infection-resistance penalty in disease-ridden surroundings. Own dressing date and wound location; resolve its multiplier with location/type rules.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_recovery_wound"
+      ],
+      "validation_note": "Fixed trait price, source effect assessment and owned critical-recovery acquisition without HP loss or spendable points authored. Fixtures unrun. Daily dressing and live combat, poison and infection integration remain incomplete."
     },
     {
       "id": "disadvantages-h-stranger-affinity",

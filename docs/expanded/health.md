@@ -2446,3 +2446,26 @@ performed only by a genuine transition out of the mortal condition.
 once-only HT/revision changes, unchanged advancement balances, actual event time
 and replay/undo of the author decision. They are authored and unrun; the existing
 surgical persistence fixtures also exercise the shared receipt path.
+
+### Persistent wound after critical recovery
+
+`RpgExpandedRecoveryWoundAcquisition` implements one concrete B423/B162 author
+choice after a critical permanent-health failure. Supply the owned `recovery`
+receipt, an approved -5-point `persistent-wound` trait, anatomical `location`,
+`approved` and evidence explaining the consequence. The patient must have finished
+creation, be alive and have no existing trait of this identity. The trait object
+must not already belong to another character. `assess()` is observational;
+`apply()` commits one trait and one decision receipt.
+
+The acquisition leaves HP, earned points and unspent points unchanged. It increments
+development revision once and contributes five points to the post-creation
+disadvantage allowance. Replay cannot install it again, replace a prior decision
+or recalculate a different price. The original HT loss remains a separate,
+already-committed recovery consequence. Source-specific dressing, attacks and
+exposures remain partial; the accompanying pure assessment is not a substitute
+for those runtime procedures.
+
+`expanded-recovery-wound.t` and `test_recovery_wound` specify approval/ownership,
+once-only acquisition, unchanged HP/advancement balances, source assessment values,
+decision conflict, preview, rollback, undo and cross-process continuation. The
+fixtures are authored and unrun.

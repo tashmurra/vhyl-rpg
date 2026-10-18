@@ -649,9 +649,10 @@
       "acceptance": "After recovery from a mortal wound, make one health check; failure permanently loses one health and critical failure may also produce an explicitly authored lasting consequence.",
       "tests": [
         "tests/expanded.py::test_mortal_recovery",
-        "tests/expanded.py::test_mortal_stabilization"
+        "tests/expanded.py::test_mortal_stabilization",
+        "tests/expanded.py::test_recovery_wound"
       ],
-      "validation_note": "All three recovery sources now dispatch one recorded permanent-health check, HT loss and development revision. A critical receipt permits an explicit no-additional-consequence decision. Fixtures unrun. Additional authored consequences and minimum-HT source interactions remain incomplete."
+      "validation_note": "All three recovery sources now dispatch one recorded permanent-health check, HT loss and development revision. A critical receipt permits an explicit no-additional-consequence decision. Fixtures unrun. Additional authored consequences and minimum-HT source interactions remain incomplete. A concrete persistent-wound consequence can now be acquired once with location/evidence and shared accounting. Its downstream effects remain partial."
     },
     {
       "id": "health-postmortem-injury",

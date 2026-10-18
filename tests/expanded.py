@@ -8938,6 +8938,8 @@ def test(build):
     test_mortal_suspension(Session, mortal_suspension, build.out)
     mortal_recovery = build.build('expanded-mortal-recovery', ROOT / 'tests/fixtures/expanded-mortal-recovery.t')
     test_mortal_recovery(Session, mortal_recovery)
+    recovery_wound = build.build('expanded-recovery-wound', ROOT / 'tests/fixtures/expanded-recovery-wound.t')
+    test_recovery_wound(Session, recovery_wound, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -11192,5 +11194,46 @@ def test_mortal_recovery(Session, bundle):
                 s.action(2285, 213)
                 s.action(2285, 212)
                 assert last(s, 'test.mortal-recovery') == [1, cause, at, 10, 9, 9, 1, 0, 0, 'none']
+        finally:
+            s.close()
+
+
+def test_recovery_wound(Session, bundle, out):
+    def state(s):
+        s.action(2285, 224)
+        return last(s, 'test.recovery-wound')
+    path = out / 'expanded-recovery-wound.zsave'
+    s = Session(bundle)
+    try:
+        for code in (170, 210, 220, 221, 223):
+            s.action(2285, code)
+        initial = [0, 79, 9, 1, 0, 0, 0, 0]
+        assert state(s) == initial
+        s.action(2285, 222)
+        s.command('undo')
+        assert state(s) == initial
+        s.action(2285, 222)
+        s.action(2285, 222)
+        assert state(s) == [1, 79, 9, 2, 5, 0, 0, 1]
+        s.action(2285, 225)
+        assert last(s, 'test.persistent-wound') == [-5, -7, 3, 2, 1, -3]
+        s.action(2285, 213)  # cannot replace the committed consequence with none
+        assert state(s) == [1, 79, 9, 2, 5, 0, 0, 1]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 222)
+        assert state(s) == [1, 79, 9, 2, 5, 0, 0, 1]
+    finally:
+        s.close()
+    for code in (226, 227):
+        s = Session(bundle)
+        try:
+            for setup in (170, 210, 220, code, 222):
+                s.action(2285, setup)
+            assert state(s) == [0, 79, 9, 1, 0, 0, 0, 0]
         finally:
             s.close()

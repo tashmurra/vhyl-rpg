@@ -379,3 +379,9 @@ Healing, spontaneous survival and surgery now share owned mortal-recovery
 consequences. A failed permanent-health check changes HT and development revision
 once without awarding points. Critical receipts allow an explicit decision to add
 no discretionary consequence. Fixtures remain authored and unrun.
+
+Critical mortal recovery can now acquire an approved persistent-wound disadvantage
+with a bound location and decision receipt, without additional HP loss or spendable
+points. Its source assessment is available; daily dressing and live combat/exposure
+integration remain incomplete. Acquisition/persistence fixtures are authored and
+unrun.

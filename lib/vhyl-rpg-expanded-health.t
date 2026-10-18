@@ -5158,3 +5158,95 @@ modify rpgLedger
         return nil;
     }
 ;
+
+/** B162 assessment keeps the open wound separate from lost HP. Dressing and
+ * exposure facts must describe the current day and surroundings. */
+class RpgExpandedPersistentWoundAssessment: RpgExpandedResult
+    targetModifier = 0
+    woundingNumerator = 1
+    woundingDenominator = 1
+    bloodAgentEntry = nil
+    infectionModifier = 0
+;
+rpgExpandedAssessPersistentWound(informedAttacker, woundReached, dressedToday, plagueRidden)
+{
+    local value = new RpgExpandedPersistentWoundAssessment();
+    if (informedAttacker)
+    { value.targetModifier = -7; value.woundingNumerator = 3; value.woundingDenominator = 2; }
+    value.bloodAgentEntry = woundReached;
+    value.infectionModifier = plagueRidden && !dressedToday ? -3 : 0;
+    value.status = 'ready'; return value;
+}
+
+/** Explicit B423/B162 critical-recovery consequence. It grants no HP loss or
+ * spendable points and cannot be applied twice to one recovery receipt. */
+class RpgExpandedRecoveryWoundAcquisition: object
+    recovery = nil
+    trait = nil
+    approved = nil
+    location = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    {
+        return [self.recovery,self.trait,self.approved,self.location,self.evidence,
+            self.trait.id,self.trait.level,self.trait.points,self.trait.creationCost()];
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.recovery == nil || !self.recovery.ofKind(RpgExpandedMortalRecoveryReceipt)
+            || self.recovery.patient == nil || !holds(self.recovery.patient.mortalRecoveryHistory,self.recovery))
+            rpgExpandedReject('recovery-wound-receipt');
+        local patient = self.recovery.patient;
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('recovery-wound-binding');
+            if (self.recovery.additionalConsequence != self || !holds(patient.recoveryWoundAcquisitions,self)
+                || !holds(patient.traits,self.trait)) rpgExpandedReject('recovery-wound-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.recovery.check.critical != 'failure' || self.recovery.additionalConsequence != nil)
+        { value.reason = 'recovery-wound-decision-unavailable'; return value; }
+        if (!patient.creationComplete || patient.dead)
+        { value.reason = 'recovery-wound-character-state'; return value; }
+        if (!self.approved || self.location == nil || self.location == '' || self.evidence == nil || self.evidence == '')
+        { value.reason = 'recovery-wound-evidence'; return value; }
+        if (self.trait == nil || !self.trait.ofKind(RpgLiteTrait) || self.trait.id != 'persistent-wound'
+            || self.trait.level != 1 || self.trait.points != -5 || self.trait.creationCost() != -5
+            || !self.trait.active || self.trait.mitigated) rpgExpandedReject('recovery-wound-trait');
+        if (patient.trait('persistent-wound') != nil)
+        { value.reason = 'recovery-wound-existing-trait'; return value; }
+        for (local profile = firstObj(RpgLiteProfile); profile != nil; profile = nextObj(profile,RpgLiteProfile))
+            if (holds(profile.traits,self.trait)) rpgExpandedReject('recovery-wound-trait-already-owned');
+        rpgInteger(patient.developmentRevision,0,2147483646);
+        value.points = -5; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local patient = self.recovery.patient;
+        patient.traits = patient.traits + [self.trait];
+        patient.recoveryWoundAcquisitions = patient.recoveryWoundAcquisitions + [self];
+        self.recovery.additionalConsequence = self; self.recovery.decisionEvidence = self.evidence;
+        self.boundDefinition = self.definition(); patient.developmentRevision += 1;
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+modify RpgExpandedProfile
+    recoveryWoundAcquisitions = []
+    postCreationDisadvantageAllowance()
+    {
+        local value = inherited();
+        foreach (local acquisition in self.recoveryWoundAcquisitions)
+        {
+            if (!acquisition.ofKind(RpgExpandedRecoveryWoundAcquisition) || acquisition.recovery.patient != self
+                || acquisition.assess().status != 'reused') rpgExpandedReject('recovery-wound-accounting');
+            value += 5;
+        }
+        return value;
+    }
+;
