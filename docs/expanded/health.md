@@ -3288,3 +3288,28 @@ before crediting sleep. A changed recurrent-pain receipt rejects the operation;
 propagate the error so the transaction rolls back both time and the hook change.
 The default interval hook is inert without an expansion, preserving ordinary
 rest behavior. The authored interruption fixture remains unrun.
+
+## Adjudicated instant death
+
+`RpgExpandedInstantDeath` implements full-2008 B423's obviously lethal attack on
+a helpless or unconscious victim. Set a unique `id`, the victim `profile`,
+`approved`, `evidence`, and `obviouslyLethal`. Set `helpless` only when the author
+has established actual helplessness; being unaware or surprised is insufficient.
+The profile's existing unconscious state also satisfies the victim requirement.
+The author must account for anatomy, protection and any special survival ability
+when deciding whether the described attack is obviously lethal.
+
+`assess()` returns a structured eligibility result and prospective injury without
+changing state. `apply()` uses the shared injury ledger to bring health to negative
+five times capacity, marks death and invokes the existing unconsciousness hook.
+It never reduces already greater injury. No damage, attack or survival roll is
+made, and no time is charged here; the enclosing authored action owns its time.
+A dead victim is rejected rather than receiving another resolution.
+
+The profile owns the bound result in `instantDeathHistory`. Repeating the same
+resolution returns its original result without further injury. Changed adjudication
+fields reject on replay. Call inside an engine action transaction: exceptions,
+including state changes from unconsciousness hooks, roll back the operation.
+This procedure does not infer body destruction or grant a dying action. Preview,
+eligibility, replay, rollback, undo and save-continuation fixtures are authored but
+unrun while checks are paused.

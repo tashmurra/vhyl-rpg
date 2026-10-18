@@ -7296,3 +7296,71 @@ class RpgExpandedPainSleeplessRest: object
 modify RpgExpandedRecurrentPainDay
     sleeplessRests = []
 ;
+
+/** B423 explicitly adjudicated lethal attack on a helpless victim. */
+class RpgExpandedInstantDeathResult: RpgExpandedResult
+    injuryAdded = 0
+;
+modify RpgExpandedProfile
+    instantDeathHistory = []
+;
+class RpgExpandedInstantDeath: object
+    id = nil
+    profile = nil
+    approved = nil
+    evidence = nil
+    helpless = nil
+    obviouslyLethal = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.approved,self.evidence,self.helpless,self.obviouslyLethal]; }
+    validateBinding()
+    {
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('instant-death-binding');
+        if (!holds(self.profile.instantDeathHistory,self)) rpgExpandedReject('instant-death-owner');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedInstantDeathResult();
+        if (self.result != nil)
+        {
+            self.validateBinding(); value.status = 'reused'; value.injuryAdded = self.result.injuryAdded; return value;
+        }
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.id == nil || self.id == '')
+            rpgExpandedReject('instant-death-definition');
+        rpgExpandedValidate(self.profile);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'instant-death-approval'; return value; }
+        foreach (local prior in self.profile.instantDeathHistory)
+            if (prior.id == self.id) rpgExpandedReject('instant-death-duplicate');
+        if (self.profile.dead) { value.reason = 'instant-death-already-dead'; return value; }
+        if (!self.helpless && !self.profile.unconscious)
+        { value.reason = 'instant-death-victim-not-helpless'; return value; }
+        if (!self.obviouslyLethal) { value.reason = 'instant-death-lethality'; return value; }
+        rpgInteger(self.profile.maxHP,1,1000);
+        rpgInteger(self.profile.injury,0,1000000);
+        value.injuryAdded = 6 * self.profile.maxHP - self.profile.injury;
+        if (value.injuryAdded < 0) value.injuryAdded = 0;
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess();
+        if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local capacity = self.profile.maxHP;
+        local injury = self.profile.injury + value.injuryAdded;
+        self.boundDefinition = self.definition();
+        self.profile.injury = injury; self.profile.dead = true;
+        self.profile.instantDeathHistory = self.profile.instantDeathHistory + [self];
+        value.status = 'resolved'; self.result = value;
+        self.profile.becomeUnconscious();
+        self.validateBinding();
+        if (self.profile.maxHP != capacity || self.profile.injury != injury || !self.profile.dead || !self.profile.unconscious)
+            rpgExpandedReject('instant-death-state-changed');
+        return value;
+    }
+;

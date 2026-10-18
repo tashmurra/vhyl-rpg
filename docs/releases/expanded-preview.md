@@ -1396,3 +1396,7 @@ size-based prices, and integrate with skill, study and demonstrated reactions.
 Changed membership, shared ownership and price tampering reject before checks.
 Template reconstruction and exceptional pricing remain unsupported. Boundary and
 lifecycle fixtures are authored but unrun.
+
+Adjudicated instant death now has an owned receipt, explicit helplessness/lethality
+requirements and shared injury/death state without damage rolls. Preview, replay,
+rollback, undo and saved-continuation fixtures are authored but unrun.

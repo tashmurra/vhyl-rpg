@@ -9131,6 +9131,8 @@ def test(build):
     test_ancestry_prerequisite(Session, ancestry_bonus)
     ancestry_incompetence = build.build('expanded-ancestry-incompetence',ROOT / 'tests/fixtures/expanded-ancestry-incompetence.t')
     test_ancestry_incompetence(Session, ancestry_incompetence, build.out)
+    instant_death = build.build('expanded-instant-death',ROOT / 'tests/fixtures/expanded-instant-death.t')
+    test_instant_death(Session, instant_death, build.out)
     talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
     test_talent_study(Session, talent_study, build.out)
     talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
@@ -18630,5 +18632,56 @@ def test_custom_talent(Session, bundle, out):
         for action in (7416, 7410):
             s.action(2285, action)
         assert last(s, 'test.custom-talent') == [10, 9, 100, 0, 0]
+    finally:
+        s.close()
+
+
+def test_instant_death(Session, bundle, out):
+    path = out / 'expanded-instant-death.zsave'
+    for mutation, reason in ((7503, 'instant-death-victim-not-helpless'),
+                             (7505, 'instant-death-lethality'), (7506, 'instant-death-approval')):
+        s = Session(bundle)
+        try:
+            for code in (mutation, 7501, 7502):
+                s.action(2285, code)
+            assert last(s, 'test.instant-death') == ['blocked', reason, 0]
+            assert last(s, 'test.instant-death-state') == [10, 0, 0, 0, 0, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (7503, 7504, 7507, 7500):
+            s.action(2285, code)
+        assert last(s, 'test.instant-death') == ['ready', None, 55]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (7500, 7502):
+            s.action(2285, code)
+        assert last(s, 'test.instant-death') == ['ready', None, 60]
+        assert last(s, 'test.instant-death-state') == [10, 0, 0, 0, 0, 0]
+        for code in (7508, 7502):
+            s.action(2285, code)
+        assert last(s, 'test.instant-death-state') == [10, 0, 0, 0, 0, 0]
+        s.action(2285, 7501)
+        s.command('undo')
+        s.action(2285, 7502)
+        assert last(s, 'test.instant-death-state') == [10, 0, 0, 0, 0, 0]
+        for code in (7501, 7501, 7502):
+            s.action(2285, code)
+        assert last(s, 'test.instant-death-state') == [-50, 1, 1, 1, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (7501, 7502):
+            s.action(2285, code)
+        assert last(s, 'test.instant-death-state') == [-50, 1, 1, 1, 0, 0]
+        for code in (7509, 7510):
+            s.action(2285, code)
+        assert last(s, 'test.instant-death-error') == ['instant-death-binding']
     finally:
         s.close()

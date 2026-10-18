@@ -670,9 +670,12 @@
       "pages": "B423",
       "module": "health",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An authored obviously lethal attack on a helpless or unconscious victim can set health to negative five times capacity without damage rolls; merely unaware targets do not qualify.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_instant_death"
+      ],
+      "validation_note": "Owned approved lethal-attack receipt checks actual helplessness or current unconsciousness, rejects mere awareness loss, sets shared injury to at least six times capacity and marks death without rolls. Bound replay, preview, rollback, undo and cross-process save fixtures authored but unrun. Author must adjudicate anatomy and special survival exceptions; no claim of execution validation."
     },
     {
       "id": "health-dying-action",
