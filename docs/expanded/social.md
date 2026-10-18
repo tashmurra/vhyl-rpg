@@ -934,3 +934,25 @@ through the same context hook as social inhibition. Carousing and other listed
 emotion-dependent checks take -3; the skills remain learnable. This replaces the
 earlier missing emotional-motivation penalty for this concrete trait definition.
 Pleasure-related effects and other trait integrations remain pending.
+
+## Observed lack of appreciation
+
+Set a reaction attempt's `socialContext` to
+`RpgExpandedPleasureReactionContext` for the B141 reaction effect. Identify the
+subject and observer matching the encounter, set `noticeable`, choose a penalty
+from 1 to 3, and provide approval and evidence describing what the observer
+noticed. The penalty applies only while the subject's pleasure-loss trait is
+active and unmitigated. The context also uses the ordinary visible/heard reaction
+modifiers; do not add those or this penalty manually to the attempt's modifier.
+A nil `socialContext` preserves the previous reaction calculation.
+
+Use `consequence(band)` for this context's adverse response. It accepts only
+`adverseResponse = 'ridicule'` or `'rejection'`; violent choices are rejected before
+the reaction roll. An unfavorable band returns that authored social consequence
+when the trait is noticeable. Otherwise it returns `ordinary-social-response`.
+Do not feed this trait's adverse reaction into the potential-combat interpreter:
+the source explicitly makes this ridicule or rejection rather than violence.
+
+The fixture covers notice, mitigation, penalty endpoints, private reaction
+replay and nonviolent response validation. Assertions are authored, unrun.
+Cross-context narrative consequences and modified trait variants remain pending.

@@ -942,3 +942,19 @@ mitigation, learning permission, explicit additional-skill applicability,
 incompatible traits and a Carousing preparation. Assertions are authored, unrun.
 Modified variants, complete catalogue mapping and any setting-specific emotional
 reasoning contracts remain pending.
+
+## Loss of pleasure
+
+`RpgExpandedPleasureLoss` implements the ordinary B140-B141 trait at -15 points.
+It applies -3 through the shared context hook to Carousing, Connoisseur, Erotic
+Art and Gambling. It rejects duplicate instances and modified/self-control
+variants. Inactive or mitigated instances contribute no current penalty; their
+purchased cost is unchanged.
+
+The social module provides an explicit observation context for the separate
+reaction effect. The trait does not automatically penalize every observer or
+invent an influence immunity. Narrative appreciation, motivation and setting
+consequences remain authored; modified variants and those broader authoring
+contracts remain pending. The pleasure-loss fixture covers all four skill
+categories, an unaffected skill and scoped reaction behavior; assertions are
+unrun.

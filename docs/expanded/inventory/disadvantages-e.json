@@ -121,9 +121,12 @@
       "pages": "B140-B141",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Loss of pleasure costs -15, with -3 to social revelry, connoisseurship, intimate performance and gambling. Observers react -1 to -3 when the lack of appreciation is evident; adverse reactions mean ridicule/rejection rather than automatic violence.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_pleasure_loss"
+      ],
+      "validation_note": "Neutral PleasureLoss class implements fixed -15 cost and -3 contextual penalties on the four printed skills. The social observation context checks participants, author evidence, visibility of the effect and the 1-3 penalty, then feeds ordinary reaction scoring once. Its adverse-response interface accepts ridicule/rejection and rejects violence before rolling. Skill, scope, mitigation, endpoint, replay and response assertions authored, unrun. Modified variants and broader narrative motivation/appreciation contracts remain pending."
     },
     {
       "id": "disadvantages-e-theft-compulsion",

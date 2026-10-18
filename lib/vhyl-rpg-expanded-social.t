@@ -309,6 +309,7 @@ class RpgExpandedReactionResult: RpgExpandedResult
 /** A distinct authored approach. assess() never exposes saved attitudes or dice.
  * resolve() is an author-only operation: do not emit its private result directly. */
 class RpgExpandedReactionAttempt: object
+    socialContext = nil
     mastery = nil
     encounter = nil
     approach = nil
@@ -332,6 +333,12 @@ class RpgExpandedReactionAttempt: object
             if (!self.approvedChange) { value.reason = 'reaction-approach-unchanged'; return value; }
         }
         if (self.encounter.nuisanceCount >= 1000) rpgExpandedReject('reaction-retry-limit');
+        if (self.socialContext != nil && self.encounter.predeterminedBand == nil)
+        {
+            if (!self.socialContext.ofKind(RpgLiteSocialContext)) rpgExpandedReject('reaction-social-context');
+            self.socialContext.validateParticipants(self.encounter.subject,self.encounter.audience);
+            rpgLiteReactionModifier(self.encounter.subject,self.socialContext);
+        }
         if (self.encounter.skillPreparation != nil && self.encounter.predeterminedBand == nil)
         {
             local preparation = self.encounter.skillPreparation;
@@ -361,12 +368,14 @@ class RpgExpandedReactionAttempt: object
         }
         if (value.status != 'ready') return value;
         local mastery = self.mastery == nil || self.encounter.predeterminedBand != nil ? nil : self.mastery.assess();
+        local contextual = self.socialContext == nil || self.encounter.predeterminedBand != nil ? 0
+            : rpgLiteReactionModifier(self.encounter.subject,self.socialContext);
         local count = self.waitedReasonably ? 0 : self.encounter.nuisanceCount;
         if (self.encounter.history.length() > 0 && self.nuisance && !self.waitedReasonably) count += 1;
         if (self.encounter.predeterminedBand != nil) value.band = self.encounter.predeterminedBand;
         else
         {
-            value.check = rpgRandom.roll(); value.total = value.check + self.modifier + (mastery == nil ? 0 : mastery.modifier)
+            value.check = rpgRandom.roll(); value.total = value.check + self.modifier + contextual + (mastery == nil ? 0 : mastery.modifier)
                 + (self.encounter.skillPreparation == nil ? 0 : self.encounter.skillPreparation.result.modifier) - count * 2;
             value.band = rpgExpandedReactionBand(value.total);
             if (value.band < self.encounter.worstBand) value.band = self.encounter.worstBand;
@@ -1751,5 +1760,39 @@ class RpgExpandedCarousingEntertainment: object
         self.payer.money -= self.price; self.provider.money += self.price;
         self.boundDefinition = self.definition(); self.result = value;
         self.payer.entertainmentPurchases = self.payer.entertainmentPurchases + [self]; value.status = 'resolved'; return value;
+    }
+;
+
+/** B141 observed lack of appreciation. Adverse outcomes must stay nonviolent. */
+class RpgExpandedPleasureReactionContext: RpgLiteSocialContext
+    subject = nil
+    observer = nil
+    noticeable = nil
+    penalty = 1
+    adverseResponse = 'ridicule'
+    approved = nil
+    evidence = nil
+    traitReactionModifier(profile)
+    {
+        if (self.subject == nil || !self.subject.ofKind(RpgExpandedProfile) || profile != self.subject
+            || self.observer == nil || !self.observer.ofKind(RpgLiteProfile) || self.observer == self.subject)
+            rpgExpandedReject('pleasure-reaction-participants');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('pleasure-reaction-evidence');
+        rpgInteger(self.penalty,1,3);
+        if (!holds(['ridicule','rejection'],self.adverseResponse)) rpgExpandedReject('pleasure-reaction-nonviolent-response');
+        return inherited(profile) - (self.noticeable && self.subject.pleasureLossActive() ? self.penalty : 0);
+    }
+    validateParticipants(profile, target)
+    {
+        self.traitReactionModifier(profile);
+        if (target != self.observer) rpgExpandedReject('pleasure-reaction-observer');
+        return nil;
+    }
+    consequence(band)
+    {
+        self.traitReactionModifier(self.subject); rpgInteger(band,0,7);
+        local value = new RpgExpandedResult(); value.status = 'ready';
+        value.reason = self.noticeable && self.subject.pleasureLossActive() && band < 4
+            ? self.adverseResponse : 'ordinary-social-response'; return value;
     }
 ;

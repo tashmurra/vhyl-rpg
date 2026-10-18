@@ -9052,6 +9052,8 @@ def test(build):
     test_social_inhibition_minimal(Session, social_inhibition_minimal)
     emotional_understanding = build.build('expanded-emotional-understanding',ROOT / 'tests/fixtures/expanded-emotional-understanding.t')
     test_emotional_understanding(Session, emotional_understanding)
+    pleasure_loss = build.build('expanded-pleasure-loss',ROOT / 'tests/fixtures/expanded-pleasure-loss.t')
+    test_pleasure_loss(Session, pleasure_loss)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16690,3 +16692,28 @@ def test_emotional_understanding(Session, bundle):
         assert last(s,'test.reaction-preparation-state') == [1,3,60,-2]
     finally:
         s.close()
+
+
+def test_pleasure_loss(Session, bundle):
+    s = Session(bundle)
+    try:
+        s.action(2285,3000)
+        assert last(s,'test.pleasure-skills') == [-15,-3,-3,-3,-3,0]
+        s.action(2285,3004)
+        assert last(s,'test.pleasure-violence') == ['pleasure-reaction-nonviolent-response']
+        s.action(2285,2405)
+        assert last(s,'test.reaction-mastery-state') == [0,0,0,None]
+    finally:
+        s.close()
+    for setup,total,response in (((),9,'ridicule'),((3003,),9,'rejection'),
+                                 ((3001,),12,'ordinary-social-response'),
+                                 ((3002,),11,'ordinary-social-response'),
+                                 ((3005,),12,'ordinary-social-response')):
+        s = Session(bundle)
+        try:
+            for code in (2410,)+setup+(2403,2403,2405,3006):
+                s.action(2285,code)
+            assert last(s,'test.reaction-mastery-state') == [1,0,3,total]
+            assert last(s,'test.pleasure-response') == [response]
+        finally:
+            s.close()

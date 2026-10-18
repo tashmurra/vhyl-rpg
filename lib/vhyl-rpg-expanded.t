@@ -478,3 +478,7 @@ modify RpgLiteSkill
 modify RpgLiteSkill
     requiresEmotionalUnderstanding = nil
 ;
+
+modify RpgExpandedProfile
+    pleasureLossActive() { return nil; }
+;

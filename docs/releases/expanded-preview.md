@@ -1134,3 +1134,9 @@ penalties and incompatible-trait validation. It stacks with distinct social
 inhibition penalties without duplicate application and does not prohibit skill
 learning. Cost, applicability, mitigation, compatibility and Carousing fixtures
 are authored, unrun.
+
+Loss of pleasure now has fixed pricing and its four contextual skill penalties.
+An explicit observer context applies the authored -1 to -3 reaction penalty when
+noticeable and exposes only nonviolent adverse responses. Reaction attempts can
+now consume an optional social context directly. Scope, replay and response
+fixtures are authored, unrun.

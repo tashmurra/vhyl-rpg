@@ -829,3 +829,38 @@ modify RpgLiteContext
         return amount - profile.emotionalUnderstandingPenalty();
     }
 ;
+
+/** B140-B141 ordinary loss of pleasure, with fixed cost and skill effects. */
+class RpgExpandedPleasureLoss: RpgExpandedDisadvantage
+    id = 'pleasure-loss'
+    points = -15
+    creationCost()
+    {
+        if (!self.approved || self.id != 'pleasure-loss' || self.points != -15 || self.level != 1
+            || self.percentages.length() != 0 || self.selfControlRating != nil || self.controlled)
+            rpgExpandedReject('pleasure-loss-definition');
+        return -15;
+    }
+;
+modify RpgExpandedProfile
+    pleasureLossActive()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedPleasureLoss))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-pleasure-loss'); found = trait;
+            }
+        return found != nil && found.active && !found.mitigated;
+    }
+    validateFeatures() { inherited(); self.pleasureLossActive(); return nil; }
+;
+modify RpgLiteContext
+    socialTraitModifier(profile)
+    {
+        local amount = inherited(profile);
+        if (profile.ofKind(RpgExpandedProfile) && self.skill != nil && self.skill.ofKind(RpgLiteSkill)
+            && holds(['carousing','connoisseur','erotic-art','gambling'],self.skill.id) && profile.pleasureLossActive()) amount -= 3;
+        return amount;
+    }
+;
