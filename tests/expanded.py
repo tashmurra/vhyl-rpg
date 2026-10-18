@@ -408,6 +408,61 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def immunity_state(s):
+    s.action(1812)
+    return last(s, 'test.immunity-state')
+
+
+def test_immunity_transactions(s):
+    s.action(1810, 0)
+    before = immunity_state(s)
+    assert before == [0,0,0,0,0,4]
+    s.action(1810, 13)
+    assert immunity_state(s) == before
+    s.action(1810, 11)
+    immune = immunity_state(s)
+    assert immune == [1,3,1,0,3,4]
+    s.command('undo')
+    assert immunity_state(s) == before
+    s.action(1810, 11)
+    assert immunity_state(s) == immune
+    s.action(1810, 14)
+    assert immunity_state(s) == immune
+    s.action(1810, 12)
+    later = immunity_state(s)
+    assert later == [1,3,1,1,3,5]
+    s.command('undo')
+    assert immunity_state(s) == immune
+    for code in [12,12,11,9]:
+        s.action(1810, code)
+        assert immunity_state(s) == later
+
+
+def test_immunity_persistence(Session, bundle, out):
+    for code, roll in [(11,3),(15,4)]:
+        for later in [False,True]:
+            path = out / f'expanded-immunity-{roll}-{later}.zsave'
+            first = Session(bundle)
+            try:
+                first.action(1810, 0); first.action(1810, code)
+                if later:
+                    first.action(1810, 12)
+                saved = immunity_state(first)
+                first.command(f':save {path}')
+            finally:
+                first.close()
+            second = Session(bundle)
+            try:
+                second.command(f':restore {path}\n@1812')
+                assert immunity_state(second) == saved
+                second.action(1810, 9); second.action(1810, code)
+                assert immunity_state(second) == saved
+                second.action(1810, 12)
+                assert immunity_state(second) == [1,roll,1,1,3,5]
+            finally:
+                second.close()
+
+
 def hazard_state(s):
     s.action(1811)
     return last(s, 'test.hazard-state')
@@ -3092,6 +3147,8 @@ def test(build):
     fresh(Session,hazards,test_specific_natural_immunity)
     fresh(Session,hazards,test_infection_progression)
     hazard_transactions = build.build('expanded-hazards-transactions',ROOT / 'tests/fixtures/expanded-hazards-transactions.t')
+    fresh(Session,hazard_transactions,test_immunity_transactions)
+    test_immunity_persistence(Session,hazard_transactions,build.out)
     fresh(Session,hazard_transactions,test_infection_transactions)
     test_infection_persistence(Session,hazard_transactions,build.out)
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')

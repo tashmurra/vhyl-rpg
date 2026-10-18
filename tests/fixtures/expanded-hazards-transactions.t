@@ -17,6 +17,9 @@ hazardExposure: RpgExpandedInfectionExposure diseaseId = 'wound-agent' wound = h
     evidence = 'Observed open wound in dirty conditions';
 hazardFirstDay: RpgExpandedInfectionDay id = 'first' exposure = hazardExposure careEvidence = 'No antibacterial care';
 hazardSecondDay: RpgExpandedInfectionDay id = 'second' exposure = hazardExposure careEvidence = 'No antibacterial care';
+immuneWound: RpgExpandedWound id = 'later-exposure' profile = hazardPatient amount = 1;
+immuneExposure: RpgExpandedInfectionExposure diseaseId = 'wound-agent' wound = immuneWound conditions = hazardConditions
+    evidence = 'Later exposure to the same agent';
 hazardInput: object code = 0;
 class HazardFixtureAction: Action
     exec(context)
@@ -43,8 +46,15 @@ class HazardFixtureAction: Action
             value = hazardSecondDay.apply();
         }
         else if (code == 10) value = hazardFirstDay.assess();
+        else if (code == 11 || code == 13 || code == 15)
+        {
+            if (hazardExposure.result == nil) rpgRandom.seed(code == 15 ? 55 : 48);
+            value = hazardExposure.apply();
+        }
+        else if (code == 12 || code == 14)
+        { immuneWound.apply(); value = immuneExposure.apply(); }
         event('test.hazard-operation'); eventValue(value.status); eventValue(value.reason);
-        if (code == 2 || code == 5 || code == 7) throw new RpgError();
+        if (code == 2 || code == 5 || code == 7 || code == 13 || code == 14) throw new RpgError();
         return nil;
     }
 ;
@@ -64,6 +74,14 @@ act(verb,args)
         eventValue(hazardExposure.ended ? 1 : 0); eventValue(hazardPatient.expandedWounds.length());
         eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); eventValue(hazardConditions.infectedMatter ? 1 : 0);
         return nil;
+    }
+    if (verb == 1812)
+    {
+        local record = hazardPatient.diseaseResistance('wound-agent');
+        event('test.immunity-state'); eventValue(hazardPatient.diseaseResistances.length());
+        eventValue(record == nil ? 0 : record.firstRoll); eventValue(record == nil ? 0 : record.immune ? 1 : 0);
+        eventValue(immuneExposure.result == nil ? 0 : immuneExposure.result.immune ? 1 : 0);
+        eventValue(rpgRandom.draws); eventValue(hazardPatient.injury); return nil;
     }
     return vhylAct(verb,args);
 }

@@ -220,4 +220,10 @@ immunity after recovery and authored physiology exceptions remain incomplete.
 `test_specific_natural_immunity` covers both qualifying raw rolls, an ordinary
 first success followed by a later natural three, different disease identities,
 no extra randomness for immunity, and profile history validation. The fixture
-is authored but unrun; immunity-specific transaction/save coverage is pending.
+is authored but unrun. `test_immunity_transactions` covers rollback and undo of
+both the first-attempt record and later immune exposure, then repeats each
+operation to check that it consumes no additional randomness.
+`test_immunity_persistence` restores separate-process saves for natural three and
+four, before and after a later exposure. It checks the original roll, immunity,
+injury and random draw count, including history validation after restoration.
+These fixtures also remain unrun while checks are paused.
