@@ -1301,6 +1301,7 @@ class RpgExpandedInterrogationQuestion: object
     approved = nil
     evidence = nil
     loyaltyResists = nil
+    pastVictim = nil
     means = 'ordinary'
     modifier = 0
     startedAt = nil
@@ -1310,7 +1311,7 @@ class RpgExpandedInterrogationQuestion: object
     definition()
     {
         return [self.id,self.session,self.question,self.truthfulAnswer,self.falseAnswer,self.failureResponse,
-            self.approved,self.evidence,self.loyaltyResists,self.means,self.modifier] + self.session.definition();
+            self.approved,self.evidence,self.loyaltyResists,self.means,self.modifier,self.pastVictim] + self.session.definition();
     }
     validateReceipt()
     {
@@ -1340,6 +1341,7 @@ class RpgExpandedInterrogationQuestion: object
         rpgInteger(self.modifier,-100,100);
         value.modifier = self.modifier - (self.loyaltyResists ? 5 : 0) - (actor.level('low-empathy') > 0 ? 3 : 0)
             + (self.session.elapsed() + 300 > 7200 ? 2 : 0);
+        if (self.pastVictim && actor.callousnessActive()) value.modifier -= 3;
         if (self.means != 'ordinary') value.modifier += (self.means == 'torture' ? 6 : 3) + (actor.level('callous') > 0 || actor.callousnessActive() ? 1 : 0);
         local context = new RpgLiteContext(); context.skill = self.session.skill; context.kind = 'interrogation';
         context.modifier = value.modifier; value.actorScore = rpgLiteScore(actor,context);

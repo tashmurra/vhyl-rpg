@@ -9076,6 +9076,8 @@ def test(build):
     test_communication_study(Session, communication_study, build.out)
     study_ownership = build.build('expanded-study-ownership',ROOT / 'tests/fixtures/expanded-study-ownership.t')
     test_study_ownership(Session, study_ownership)
+    callous_interrogation = build.build('expanded-callous-interrogation',ROOT / 'tests/fixtures/expanded-callous-interrogation.t')
+    test_callous_interrogation(Session, callous_interrogation, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17181,3 +17183,52 @@ def test_study_ownership(Session, bundle):
                 assert last(s,'test.study-ownership') == ['study-shared-training',0,1,10,0]
             finally:
                 s.close()
+
+
+def test_callous_interrogation(Session, bundle, out):
+    for setup,modifier in (((),0),((4200,),-3),((527,),4),((528,),7),
+                           ((4200,527),1),((4200,528),4),((4200,527,4201),3),
+                           ((4200,4202),0)):
+        s = Session(bundle)
+        try:
+            for code in setup+(4204,4204):
+                s.action(2285,code)
+            assert last(s,'test.callous-question-score') == [10+modifier,modifier,0]
+            for code in (521,521,523):
+                s.action(2285,code)
+            result = last(s,'test.interrogation')
+            assert result[:4] == [1,300,300,6]
+            assert result[-1] == modifier
+        finally:
+            s.close()
+    path = out / 'expanded-callous-interrogation.zsave'
+    s = Session(bundle)
+    try:
+        for code in (4205,523):
+            s.action(2285,code)
+        assert last(s,'test.interrogation') == [0,0,0,0,None,None,None]
+        for code in (4200,527,521):
+            s.action(2285,code)
+        s.command('undo')
+        s.action(2285,523)
+        assert last(s,'test.interrogation') == [0,0,0,0,None,None,None]
+        s.action(2285,521)
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,521)
+        s.action(2285,523)
+        assert last(s,'test.interrogation')[:4] == [1,300,300,6]
+        assert last(s,'test.interrogation')[-1] == 1
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (521,4200,4203):
+            s.action(2285,code)
+        assert last(s,'test.callous-question-binding') == ['interrogation-question-binding',6,300]
+    finally:
+        s.close()

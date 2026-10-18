@@ -995,9 +995,9 @@ penalty descriptions apply once. Ordinary research receives no penalty.
 Supply these facts for the particular interaction; the engine cannot infer a
 history of mistreatment from dialogue. Pass this context to the shared skill or
 influence operation. The existing interrogation question procedure recognizes
-the new trait for its threat/torture bonus. Its victim-specific penalty still
-requires the author's explicit question modifier; do not also add its coercion
-bonus manually. Inactive or mitigated traits retain their cost but suspend their
+the new trait for its threat/torture bonus. Set the question's `pastVictim` fact
+when the prisoner previously suffered from the interrogator's conduct; the
+question then applies -3 as well. Do not repeat either effect in its modifier. Inactive or mitigated traits retain their cost but suspend their
 effects. The emotional-understanding deficit remains incompatible.
 
 `RpgExpandedCallousnessReactionContext` in the social library names an observer

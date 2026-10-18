@@ -988,3 +988,11 @@ The development library can credit the sender’s recorded interval through
 `RpgExpandedCommunicationStudy`; other channels remain pending. Authored fixtures cover all three
 interpretations, unavailable observation, interruption, undo and save replay;
 checks remain paused.
+
+Interrogation questions accept the authored `pastVictim` fact (full-2008 B125).
+For an interrogator with active callousness it applies -3, independently of the
+existing +1 coercion bonus. Include the basis in the question's evidence; do not
+also subtract it through `modifier`. The fact is bound to the question receipt,
+so changing it during elapsed time rejects the question and changing it after
+completion rejects replay. The integration fixture covers ordinary questioning,
+threats, torture, mitigation, interruption and save continuation; it is unrun.

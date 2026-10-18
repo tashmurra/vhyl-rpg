@@ -1195,3 +1195,7 @@ expanded influence procedure remains partial.
 - Study now rejects shared or duplicated training objects before awarding credit,
   including communication credit and ownership changes during elapsed-time hooks.
   Added unrun ownership fixtures and an interruption regression case.
+
+- Interrogation questions now apply callousness's past-victim penalty from an
+  explicit bound fact, alongside the existing coercion bonus. Added unrun
+  integration, interruption, undo and save fixtures (full-2008 B125).
