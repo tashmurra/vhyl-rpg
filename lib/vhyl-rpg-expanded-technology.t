@@ -815,3 +815,108 @@ class RpgExpandedComputerLink: object
         self.connected = nil; self.disconnectedAt = rpgLedger.seconds; return 'resolved';
     }
 ;
+
+modify RpgExpandedSoftwareCopy
+    dataSharing = nil
+;
+
+modify RpgExpandedComputerLink
+    transfers = []
+;
+
+rpgExpandedSharingAvailable(program, host)
+{
+    if (program == nil || !program.ofKind(RpgExpandedProgramRun) || program.result == nil
+        || program.host != host || !program.active) return nil;
+    program.validateBinding();
+    return program.copy.approved && program.copy.dataSharing && holds(host.copies,program.copy);
+}
+
+class RpgExpandedDataTransferResult: RpgExpandedResult
+    delivery = nil
+;
+
+/** Owned fictional data copy over a live link, using existing processing and storage ledgers. */
+class RpgExpandedDataTransfer: object
+    id = nil
+    dataId = nil
+    link = nil
+    source = nil
+    target = nil
+    senderProgram = nil
+    receiverProgram = nil
+    copyApproved = nil
+    uninterrupted = nil
+    durationSeconds = nil
+    evidence = nil
+    result = nil
+    boundId = nil
+    boundDataId = nil
+    boundLink = nil
+    boundSource = nil
+    boundTarget = nil
+    boundSender = nil
+    boundReceiver = nil
+    boundDuration = nil
+    boundEvidence = nil
+    assess()
+    {
+        if (self.link == nil || !self.link.ofKind(RpgExpandedComputerLink)
+            || self.source == nil || !self.source.ofKind(RpgExpandedStoredData))
+            rpgExpandedReject('data-transfer-definition');
+        local value = new RpgExpandedDataTransferResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.dataId != self.boundDataId || self.link != self.boundLink
+                || self.source != self.boundSource || self.target != self.boundTarget
+                || self.senderProgram != self.boundSender || self.receiverProgram != self.boundReceiver
+                || self.durationSeconds != self.boundDuration || self.evidence != self.boundEvidence
+                || !self.copyApproved || !self.uninterrupted || !holds(self.link.transfers,self))
+                rpgExpandedReject('data-transfer-binding');
+            self.result.delivery.validateBinding();
+            value.status = 'reused'; value.delivery = self.result.delivery; return value;
+        }
+        if (self.id == nil || self.id == '' || self.dataId == nil || self.dataId == '')
+            rpgExpandedReject('data-transfer-id');
+        rpgInteger(self.durationSeconds,0,86400);
+        if (!self.copyApproved || !self.uninterrupted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'data-transfer-author-facts'; return value; }
+        if (!self.link.usable()) { value.reason = 'data-transfer-link-unavailable'; return value; }
+        if (self.source.result == nil || !self.source.present)
+        { value.reason = 'data-transfer-source-unavailable'; return value; }
+        self.source.validateBinding();
+        if (!(self.source.host == self.link.first && self.target == self.link.second
+            || self.source.host == self.link.second && self.target == self.link.first))
+            rpgExpandedReject('data-transfer-endpoints');
+        if (!rpgExpandedSharingAvailable(self.senderProgram,self.source.host)
+            || !rpgExpandedSharingAvailable(self.receiverProgram,self.target))
+        { value.reason = 'data-transfer-software-unavailable'; return value; }
+        self.source.host.used(); self.target.used(); self.source.host.usedStorageMB();
+        foreach (local prior in self.link.transfers)
+        {
+            if (prior == nil || !prior.ofKind(RpgExpandedDataTransfer) || prior.link != self.link
+                || prior.result == nil || prior.assess().status != 'reused') rpgExpandedReject('data-transfer-history');
+            if (prior.id == self.id) rpgExpandedReject('data-transfer-duplicate');
+        }
+        value.delivery = new RpgExpandedStoredData(); value.delivery.id = self.dataId; value.delivery.host = self.target;
+        value.delivery.reference = self.source.reference; value.delivery.sizeMB = self.source.sizeMB;
+        value.delivery.approved = true; value.delivery.evidence = self.evidence;
+        local allocation = value.delivery.assess();
+        if (allocation.status != 'ready') { value.reason = allocation.reason; return value; }
+        value.seconds = self.durationSeconds; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (value.seconds > 0) rpgSpendTime(value.seconds);
+        local refreshed = self.assess();
+        if (refreshed.status != 'ready') rpgExpandedReject('data-transfer-conditions-changed');
+        value.delivery = refreshed.delivery;
+        local stored = value.delivery.store();
+        if (stored.status != 'resolved') rpgExpandedReject('data-transfer-storage-changed');
+        self.boundId = self.id; self.boundDataId = self.dataId; self.boundLink = self.link;
+        self.boundSource = self.source; self.boundTarget = self.target; self.boundSender = self.senderProgram;
+        self.boundReceiver = self.receiverProgram; self.boundDuration = self.durationSeconds; self.boundEvidence = self.evidence;
+        self.link.transfers = self.link.transfers + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;

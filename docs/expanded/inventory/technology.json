@@ -187,9 +187,11 @@
       "acceptance": "Linking computers requires authored compatibility, an available connection, known address and applicable credentials. Suitable installed software permits data transfer or using the weaker host as a terminal.",
       "tests": [
         "tests/expanded.py::test_computer_links",
-        "tests/expanded.py::test_computer_link_persistence"
+        "tests/expanded.py::test_computer_link_persistence",
+        "tests/expanded.py::test_computer_transfers",
+        "tests/expanded.py::test_computer_transfer_persistence"
       ],
-      "validation_note": "Owned fictional links check compatibility, medium, address and credentials; fixtures unrun. Transfers, sharing software and terminal-link roles remain incomplete."
+      "validation_note": "Owned links and data transfers enforce compatibility/access facts, active sharing software and storage; fixtures unrun. Terminal-link roles and interrupted transfers remain incomplete."
     },
     {
       "id": "technology-recorder",

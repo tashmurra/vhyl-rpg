@@ -973,6 +973,71 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def computer_transfer_state(s):
+    s.action(2087)
+    return last(s,'test.transfer-state')
+
+
+def test_computer_transfers(s):
+    s.action(2080,80)
+    initial = [10,0,100,10,0,0,0,0]
+    for code in [83,82,91]:
+        s.action(2080,code)
+        assert computer_transfer_state(s) == initial
+    for code,reason in [(84,'data-transfer-author-facts'),(85,'data-transfer-software-unavailable'),
+                         (86,'computer-storage-full'),(87,'data-transfer-link-unavailable'),
+                         (88,'data-transfer-source-unavailable')]:
+        s.action(2080,code)
+        assert last(s,'test.transfer-operation') == ['blocked',reason,0]
+        expected = initial.copy()
+        if code == 85:
+            expected[3] = 0
+        if code == 88:
+            expected[0] = 0
+        assert computer_transfer_state(s) == expected
+        s.command('undo')
+        assert computer_transfer_state(s) == initial
+    s.action(2080,81)
+    delivered = [10,10,100,10,1,0,3,1]
+    assert computer_transfer_state(s) == delivered
+    s.command('undo')
+    assert computer_transfer_state(s) == initial
+    s.action(2080,81)
+    for code in [81,90]:
+        s.action(2080,code)
+        assert computer_transfer_state(s) == delivered
+    s.action(2080,89)
+    removed = [10,0,100,10,1,0,3,0]
+    s.action(2080,81)
+    assert computer_transfer_state(s) == removed
+
+
+def test_computer_transfer_persistence(Session,bundle,out):
+    for stage in range(3):
+        path = out / f'expanded-data-transfer-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2080,80)
+            if stage >= 1:
+                first.action(2080,81)
+            if stage == 2:
+                first.action(2080,89)
+            saved = computer_transfer_state(first); first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2087')
+            assert computer_transfer_state(second) == saved
+            second.action(2080,81)
+            expected = [10,10 if stage < 2 else 0,100,10,1,0,3,1 if stage < 2 else 0]
+            assert computer_transfer_state(second) == expected
+            second.action(2080,81)
+            assert computer_transfer_state(second) == expected
+        finally:
+            second.close()
+
+
 def computer_link_state(s):
     s.action(2086)
     return last(s,'test.link-state')
@@ -5662,6 +5727,8 @@ def test(build):
     fresh(Session,computer,test_terminal_switches)
     fresh(Session,computer,test_computer_storage)
     fresh(Session,computer,test_computer_links)
+    fresh(Session,computer,test_computer_transfers)
+    test_computer_transfer_persistence(Session,computer,build.out)
     test_computer_link_persistence(Session,computer,build.out)
     test_computer_storage_persistence(Session,computer,build.out)
     test_computer_persistence(Session,computer,build.out)

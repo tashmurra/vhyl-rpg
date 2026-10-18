@@ -12,14 +12,14 @@ computerRoom: Room 'Control Room';
 computerItem: RpgLiteItem;
 computerHost: RpgExpandedComputer item = computerItem complexity = 2 powered = true storageMB = 100
     copies = [computerFull,computerSmall,computerLarge];
-computerFull: RpgExpandedSoftwareCopy id = 'full' host = computerHost complexity = 2 approved = true evidence = 'Installed copy';
+computerFull: RpgExpandedSoftwareCopy dataSharing = true id = 'full' host = computerHost complexity = 2 approved = true evidence = 'Installed copy';
 computerSmall: RpgExpandedSoftwareCopy id = 'small' host = computerHost complexity = 1 approved = true evidence = 'Installed copy';
 computerLarge: RpgExpandedSoftwareCopy id = 'large' host = computerHost complexity = 3 approved = true evidence = 'Installed copy';
 computerRun: RpgExpandedProgramRun id = 'primary' host = computerHost copy = computerFull;
 computerNext: RpgExpandedProgramRun id = 'next' host = computerHost copy = computerFull;
 terminalUser: RpgLiteProfile;
 terminalOtherItem: RpgLiteItem;
-terminalOther: RpgExpandedComputer item = terminalOtherItem complexity = 1 powered = true;
+terminalOther: RpgExpandedComputer item = terminalOtherItem complexity = 1 powered = true storageMB = 100 copies = [receiverCopy];
 terminalUnknown: RpgExpandedComputer item = terminalOtherItem complexity = 1 powered = true;
 computerTerminal: RpgExpandedTerminal controller = terminalUser hosts = [computerHost,terminalOther]
     current = computerHost powered = true;
@@ -40,11 +40,42 @@ computerRefill: RpgExpandedStoredData id = 'replacement-data' host = computerHos
 computerLink: RpgExpandedComputerLink id = 'local-link' first = computerHost second = terminalOther
     compatible = true mediumAvailable = true addressKnown = true credentialsSatisfied = true
     evidence = 'Compatible hosts with a known local connection and credentials';
+receiverCopy: RpgExpandedSoftwareCopy id = 'receiver' host = terminalOther complexity = 1
+    approved = true dataSharing = true evidence = 'Installed sharing program';
+receiverRun: RpgExpandedProgramRun id = 'receiver-process' host = terminalOther copy = receiverCopy;
+computerTransfer: RpgExpandedDataTransfer id = 'copy-log' dataId = 'received-log' link = computerLink
+    source = computerData target = terminalOther senderProgram = computerRun receiverProgram = receiverRun
+    copyApproved = true uninterrupted = true durationSeconds = 3 evidence = 'Authorized three-second log copy';
+transferClockFault: object enabled = nil;
+modify rpgLedger
+    afterAdvance(previousSeconds)
+    {
+        inherited(previousSeconds);
+        if (transferClockFault.enabled) computerLink.credentialsSatisfied = nil;
+        return nil;
+    }
+;
 computerInput: object code = 0;
 class ComputerAction: Action
     exec(context)
     {
         local code = computerInput.code;
+        if (code >= 80)
+        {
+            if (code == 80)
+            { computerLink.connect(); computerData.store(); computerRun.start(); receiverRun.start(); return nil; }
+            if (code == 84) computerTransfer.copyApproved = nil;
+            if (code == 85) receiverRun.stop();
+            if (code == 86) terminalOther.storageMB = 9;
+            if (code == 87) computerLink.credentialsSatisfied = nil;
+            if (code == 88) computerData.remove();
+            if (code == 89) { computerTransfer.result.delivery.remove(); return nil; }
+            if (code == 90) computerTransfer.evidence = 'Changed transfer';
+            if (code == 91) transferClockFault.enabled = true;
+            local transferred = code == 83 ? computerTransfer.assess() : computerTransfer.apply();
+            event('test.transfer-operation'); eventValue(transferred.status); eventValue(transferred.reason); eventValue(transferred.seconds);
+            if (code == 82) throw new RpgError(); return nil;
+        }
         if (code >= 60)
         {
             if (code == 63 || code == 64)
@@ -122,6 +153,13 @@ turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
     if (verb == 2080) { computerInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2087)
+    {
+        event('test.transfer-state'); eventValue(computerHost.usedStorageMB()); eventValue(terminalOther.usedStorageMB());
+        eventValue(computerHost.used()); eventValue(terminalOther.used()); eventValue(computerLink.transfers.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
+        eventValue(computerTransfer.result != nil && computerTransfer.result.delivery.present ? 1 : 0); return nil;
+    }
     if (verb == 2086)
     {
         event('test.link-state'); eventValue(computerLink.connected ? 1 : 0); eventValue(computerLink.usable() ? 1 : 0);

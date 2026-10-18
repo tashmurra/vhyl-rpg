@@ -469,11 +469,50 @@ never reconnects a disconnected record; a new connection needs a new ID.
 The endpoints and event evidence are bound. Access conditions are intentionally
 live world facts and may change, while retargeting the connection is rejected.
 Mutations belong in the existing action transaction. Suitable sharing software,
-copy permission and destination storage must still be assessed by a later data
-transfer; an established link alone grants none of those capabilities.
+copy permission and destination storage are separately assessed by the owned data
+transfer below; an established link alone grants none of those capabilities.
 
 `test_computer_links` and `test_computer_link_persistence` cover every prerequisite,
 preview purity, reciprocal registration, rollback, undo, credential revocation,
 restoration, disconnect replay and separate-process continuation. Fixtures are
 authored and unrun. Connection establishment remains partial until integrated with
 transfers, terminal-link roles and the relevant software capabilities.
+
+
+## Owned data transfer over a link
+
+`RpgExpandedDataTransfer` copies a present `RpgExpandedStoredData` record through
+an established usable `link` to its opposite endpoint. Supply a unique transfer
+`id`, unique destination `dataId`, `source`, `target`, active `senderProgram` and
+`receiverProgram`, `copyApproved`, `uninterrupted`, `durationSeconds` and `evidence`.
+Both programs must use approved installed copies with `dataSharing = true` and
+must already hold their normal processing reservations. A link alone does not
+supply software, permission to copy the data or room at the destination.
+
+`assess()` checks those conditions and destination capacity without mutation.
+`apply()` spends the declared duration once, rechecks conditions after clock events,
+and stores a new destination record through the existing storage API. It retains
+the source and creates no additional program instance. Completion and its delivery
+remain in `link.transfers`. A removed delivery is not recreated by replay, and a
+completed transfer does not charge again. Request identity, endpoints, programs,
+author evidence and duration are bound to the receipt.
+
+B472 permits data sharing but supplies no universal transfer rate. The duration is
+therefore an explicit author timing decision from zero through 86,400 seconds;
+there is no invented bandwidth derived from computer complexity. `uninterrupted`
+asserts that the authored transfer can proceed for that interval. Changed link or
+storage conditions detected at completion raise an error so the enclosing action
+transaction rolls back its time and other changes. Incremental interrupted
+transfers and resumable partial data remain unsupported.
+
+This operation copies an in-game content reference and its declared size. It does
+not perform real networking or file I/O. Software effects beyond sharing, terminal
+access through a remote host and physical recording remain separate integrations.
+
+`test_computer_transfers` covers preview purity, missing software/permission/link,
+missing source, full destination, rollback, undo, completion-time loss of access,
+historical replay and deletion of the delivered record. The clock-failure fixture
+changes access during elapsed time to exercise rollback rather than merely
+rejecting the initial request. `test_computer_transfer_persistence` resumes before
+transfer, after completion and after delivery removal in separate processes.
+All fixtures are authored and unrun while checks remain paused.
