@@ -1239,3 +1239,27 @@ changes and unavailable prosthetics/tools during direct scoring.
 diagnostics, invalid scope/equipment and no preview resource consumption. Existing
 procedure fixtures cover the other affected paths. All remain unrun while checks
 are paused.
+
+## Cultural facts on existing contexts
+
+With the expanded foundation installed, any ordinary skill context may set
+`taskCulture` and `taskCultureEvidence`. The evidence must explain why this task
+has a significant cultural component. The shared `culturalUseModifier(profile)`
+hook then applies the profile's cultural penalty once, in addition to ordinary
+skill, equipment and situational modifiers. This supports existing context
+subclasses without replacing their other rules. The profile must be expanded
+and the characters module must provide its cultural background.
+
+Leave both fields nil for unchanged behavior. The Lite hook returns zero and
+consumes no resources or randomness. `RpgExpandedCulturalSkillContext` and its
+Gesture subclass retain their existing `culture` interface and use the same
+scoring hook; setting both interfaces is rejected to prevent duplicate modifiers.
+For owned custom procedures, append `context.culturalTaskFacts()` to the stored
+request definition. Makeup, begging, psychology and fossil-study facts already
+do this. Other authored receipt integrations must preserve these fields before
+using the generic interface; automatic context selection remains incomplete.
+
+`test_cultural_scoring` specifies ordinary and expanded contexts, specialized
+contexts, exactly one penalty, familiar cultures, additive situational modifiers,
+missing evidence, duplicate interfaces and retained makeup request binding.
+These fixtures remain unrun while checks are paused.

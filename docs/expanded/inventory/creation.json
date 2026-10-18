@@ -1789,9 +1789,10 @@
       "acceptance": "Price related and alien cultures and apply the unfamiliar-culture penalty to each designated skill using authored culture relations.",
       "tests": [
         "tests/expanded.py::test_cultures",
-        "tests/expanded.py::test_culture_templates"
+        "tests/expanded.py::test_culture_templates",
+        "tests/expanded.py::test_cultural_scoring"
       ],
-      "validation_note": "Explicit native culture, one/two-point owned familiarity and duplicate rejection now use character accounting; culturally significant contexts apply unfamiliarity -3. Automatic designation of all applicable skill operations remain pending. Fixtures authored, unrun. Occupational template creation, selection and composition retain native culture and copy owned familiarity purchases; conflicts and duplicate costs are handled. Ancestry transformations remain pending. Template fixtures unrun."
+      "validation_note": "Explicit native culture, one/two-point owned familiarity and duplicate rejection now use character accounting; culturally significant contexts apply unfamiliarity -3. Automatic designation of all applicable skill operations remain pending. Fixtures authored, unrun. Occupational template creation, selection and composition retain native culture and copy owned familiarity purchases; conflicts and duplicate costs are handled. Ancestry transformations remain pending. Template fixtures unrun. Common skill scoring now supports explicit cultural facts across existing context subclasses with a zero-default Lite hook; selected owned request definitions retain those facts. Other receipt adapters and automatic context selection remain incomplete. Fixtures unrun."
     },
     {
       "id": "language-none",

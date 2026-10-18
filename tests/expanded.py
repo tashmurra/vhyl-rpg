@@ -9506,6 +9506,8 @@ def test(build):
     test_task_availability(Session,task_availability)
     gesture_actions = build.build('expanded-gesture-actions',ROOT / 'tests/fixtures/expanded-gesture-actions.t')
     test_gesture_actions(Session,gesture_actions,build.out)
+    cultural_scoring = build.build('expanded-cultural-scoring',ROOT / 'tests/fixtures/expanded-cultural-scoring.t')
+    test_cultural_scoring(Session,cultural_scoring)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26287,3 +26289,27 @@ def test_gesture_actions(Session, bundle, out):
                     assert state(s) == [0,0,None,0,0]
             finally:
                 s.close()
+
+
+def test_cultural_scoring(Session, bundle):
+    """Shared hook applies once across existing context classes; unrun."""
+    for code,scores in ((None,[5,5,5,5]),(26801,[7,7,7,7]),(26802,[8,8,8,8]),(26803,[8,8,5,8])):
+        s = Session(bundle)
+        try:
+            if code is not None:
+                s.action(1680,code)
+            s.action(1680,26800)
+            assert last(s,'test.cultural-scoring') == scores + [0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (26804,26805):
+            s.action(1680,code); s.action(1680,26800)
+            assert last(s,'test.cultural-scoring') == [5,5,5,5,0,0]
+        s.action(1680,25600); s.action(1680,26806); s.action(1680,26800)
+        assert last(s,'test.cultural-scoring') == [5,5,5,5,3,600]
+        s.action(1680,25600); s.action(1680,25603)
+        assert last(s,'test.makeup-state') == [1,1,600,3]
+    finally:
+        s.close()

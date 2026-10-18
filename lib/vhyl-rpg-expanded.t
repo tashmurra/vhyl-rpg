@@ -1044,3 +1044,22 @@ modify RpgLiteContext
 modify RpgLiteContext
     taskUnavailableReason(profile) { return nil; }
 ;
+
+/** Optional cultural facts compose through common scoring, independent of skill context subclass. */
+modify RpgLiteContext
+    taskCulture = nil
+    taskCultureEvidence = nil
+    culturalTaskFacts() { return [self.taskCulture,self.taskCultureEvidence]; }
+    culturalUseModifier(profile)
+    {
+        if (self.taskCulture == nil)
+        {
+            if (self.taskCultureEvidence != nil) rpgExpandedReject('cultural-task-culture-required');
+            return 0;
+        }
+        if (self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || !profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('cultural-task-skill-profile-required');
+        if (self.taskCultureEvidence == nil || self.taskCultureEvidence == '') rpgExpandedReject('cultural-task-evidence-required');
+        return profile.culturalPenalty(self.taskCulture);
+    }
+;

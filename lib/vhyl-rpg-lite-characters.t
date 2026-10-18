@@ -255,6 +255,7 @@ class RpgLiteContext: object
     limbUseModifier(profile) { return 0; }
     equipmentUseModifier(profile) { return 0; }
     socialTraitModifier(profile) { return 0; }
+    culturalUseModifier(profile) { return 0; }
     validateInfluenceTarget(target) { return nil; }
     influenceResistanceModifier(target) { return 0; }
     unavailableReason(profile) { return 'training-required'; }
@@ -275,7 +276,9 @@ rpgLiteScore(profile, context)
     if (useModifier == nil) return nil;
     local equipmentModifier = context.equipmentUseModifier(profile);
     if (equipmentModifier == nil) return nil;
-    local adjustment = context.modifier + useModifier + equipmentModifier
+    local cultureModifier = context.culturalUseModifier(profile);
+    if (cultureModifier == nil) return nil;
+    local adjustment = context.modifier + useModifier + equipmentModifier + cultureModifier
         + profile.healthAttributeModifier(context) + context.limbUseModifier(profile) + context.socialTraitModifier(profile);
     if (context.offHand && profile.level('ambidexterity') == 0 && skillId != 'karate') adjustment -= 4;
     local darkness = context.darkness;

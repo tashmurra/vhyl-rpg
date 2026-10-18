@@ -1824,7 +1824,7 @@ modify RpgExpandedPsychologyContext
         return [self.skill,self.subject,self.subjectSpecies,self.purpose,self.knownWell,self.knownPersonalityType,
             self.subjectPresent,self.empathyModifier,self.approved,self.evidence,self.modifier,
             self.skill.specialty,self.skill.discipline,self.skill.splitApproved,self.skill.splitEvidence,
-            self.group,self.smallGroupApproved,self.members.length()] + self.members;
+            self.group,self.smallGroupApproved,self.members.length()] + self.members + self.culturalTaskFacts();
     }
 ;
 
@@ -2033,6 +2033,7 @@ modify RpgExpandedPaleontologyContext
             rpgExpandedReject('familiarity-context');
         local facts = [self.skill,self.task,self.laboratory,self.equipmentModifier,self.approved,self.evidence,
             self.modifier,self.equipmentTL,self.softwareTechnologyEnabled,self.skill.specialty,self.skill.techLevel,self.laboratoryEquipment];
+        facts = facts + self.culturalTaskFacts();
         if (self.familiarity != nil)
             facts = facts + [self.familiarity,self.familiarity.owner,self.familiarity.skill,self.familiarity.equipmentType,
                 self.familiarity.initial,self.familiarity.requiredSeconds,self.familiarity.penalty];
@@ -2159,6 +2160,7 @@ modify RpgExpandedBeggingContext
         local facts = [self.skill,self.approved,self.evidence,self.pitiable,self.shynessPenalty,self.invertAppearance,
             self.appearanceModifier,self.extremeAppearance,self.crowdModifier,self.modifier,self.familiarity,
             self.equipmentTL,self.rollAttribute,self.fixedBase,self.interaction,self.appearanceContext];
+        facts = facts + self.culturalTaskFacts();
         return self.appearanceContext == nil ? facts : facts + self.appearanceContext.beggingAppearanceFacts();
     }
 ;
@@ -2420,6 +2422,7 @@ class RpgExpandedMakeupContext: RpgExpandedSkillContext
             rpgExpandedReject('makeup-context-evidence');
         local facts = [self.skill,self.skill.techLevel,self.subject,self.presentation,self.prosthetics,self.heightChange,
             self.approved,self.evidence,self.modifier,self.equipmentTL,self.familiarity,self.toolkitAssessment];
+        facts = facts + self.culturalTaskFacts();
         return self.toolkitAssessment == nil ? facts : facts + rpgExpandedMakeupEquipment.definition(self.toolkitAssessment,self);
     }
     taskUnavailableReason(profile)
@@ -2460,6 +2463,7 @@ class RpgExpandedCulturalSkillContext: RpgExpandedSkillContext
     cultureEvidence = nil
     cultureReason(profile)
     {
+        if (self.taskCulture != nil || self.taskCultureEvidence != nil) rpgExpandedReject('duplicate-cultural-context');
         if (self.skill == nil || !self.skill.ofKind(RpgExpandedSkill) || self.culture == nil)
             rpgExpandedReject('cultural-skill-context');
         if (!self.culturallySignificant || self.cultureEvidence == nil || self.cultureEvidence == '')
@@ -2473,7 +2477,11 @@ class RpgExpandedCulturalSkillContext: RpgExpandedSkillContext
     skillUseModifier(profile)
     {
         if (self.cultureReason(profile) != nil) return nil;
-        local amount = inherited(profile); return amount == nil ? nil : amount + profile.culturalPenalty(self.culture);
+        return inherited(profile);
+    }
+    culturalUseModifier(profile)
+    {
+        return self.cultureReason(profile) == nil ? profile.culturalPenalty(self.culture) : nil;
     }
 ;
 /** B198 improvised simple hand signals. */
