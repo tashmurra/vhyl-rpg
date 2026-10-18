@@ -9386,6 +9386,8 @@ def test(build):
     test_biology_skill(Session, biology_skill)
     biology_subfields = build.build("expanded-biology-subfields",ROOT / "tests/fixtures/expanded-biology-subfields.t")
     test_biology_subfields(Session, biology_subfields)
+    biology_foraging = build.build("expanded-biology-foraging",ROOT / "tests/fixtures/expanded-biology-foraging.t")
+    test_biology_foraging(Session, biology_foraging)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23736,5 +23738,28 @@ def test_biology_subfields(Session, bundle):
         try:
             s.action(1680,code)
             assert last(s,'test.biology-subfield-error') == [reason]
+        finally:
+            s.close()
+
+
+def test_biology_foraging(Session, bundle):
+    """B211 Biology-3 and B170 subfield-5 feed the existing forage ledger; unrun."""
+    for setup, score in (((),11),((20200,),4),((20201,),4),((20202,),5)):
+        s = Session(bundle)
+        try:
+            for code in (31,*setup,2208,1602):
+                s.action(2285,code)
+            assert last(s,'test.nature-score') == [score,0]
+            assert last(s,'test.plant-preview') == ['ready',None]
+            s.action(2285,1601)
+            s.action(2285,1603)
+            assert last(s,'test.plant-owned') == [0,0,0,None,0]
+            s.action(2285,1600)
+            s.command('undo')
+            s.action(2285,1603)
+            assert last(s,'test.plant-owned') == [0,0,0,None,0]
+            for code in (1600,1600,1603):
+                s.action(2285,code)
+            assert last(s,'test.plant-owned') == [1,3,0,1,0]
         finally:
             s.close()

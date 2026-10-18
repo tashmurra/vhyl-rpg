@@ -868,3 +868,21 @@ optional specialty is validated.
 `test_biology_subfields` specifies direct, general and cross-planet ratings,
 invalid approval/evidence/parent definitions, rollback and undo. Fixtures remain
 unrun; catalogue completion still requires the paused validation work.
+
+
+## Biology defaults for practical nature knowledge
+
+`RpgExpandedNaturalistSkill` now discovers purchased biology training for its
+`planetType` and supplies the printed Biology-3 default (full-2008 B211).
+Its existing planetary specialization and same-type planet-to-planet defaults
+remain in place. Use the same neutral planet-type identifiers as the biology
+catalogue. A biology specialty for another planet type does not directly supply
+this default, and an untrained biology skill cannot create a default chain.
+
+Purchased optional biology subfields supply the same practical knowledge at -5,
+combining the printed -3 with the optional-specialty adjustment of -2. The
+scientific parent need not be trained. These scores feed existing naturalist
+operations, including plant foraging, without a separate time or food ledger.
+Authored site availability, daily attempt limits and poisoning consequences still
+apply. `test_biology_foraging` covers scoring, preview, rollback, undo and replay
+through the owned forage operation. These fixtures remain unrun.

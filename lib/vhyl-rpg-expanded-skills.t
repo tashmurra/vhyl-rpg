@@ -703,7 +703,11 @@ class RpgExpandedNaturalistSkill: RpgExpandedSkill
         foreach (local training in profile.skills)
         {
             local source = training.skill;
-            if (source == self || !source.ofKind(RpgExpandedNaturalistSkill)) continue;
+            if (source == self || training.points <= 0) continue;
+            local general = source.ofKind(RpgExpandedSkill) && source.optionalParent != nil ? source.optionalParent : source;
+            if (general.ofKind(RpgExpandedBiologySkill) && general.specialty == self.planetType)
+            { general.validateDefinition(); edges = edges + [[general,-3]]; }
+            if (!source.ofKind(RpgExpandedNaturalistSkill)) continue;
             source.validateDefinition();
             if (source.planet == self.planet && source.planetType != self.planetType)
                 rpgExpandedReject('nature-planet-classification');
