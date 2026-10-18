@@ -147,7 +147,7 @@ def test_character_contracts(s):
     for variant, reason in [(1,'secondary-limit'),(2,'duplicate-language'),(3,'native-language'),
                             (4,'incompatible-traits'),(5,'point-budget')]:
         s.action(1455,variant)
-        assert last(s, 'test.invalid-character') == [reason]
+        assert last(s, 'test.invalid-character') == [reason], (variant, reason, last(s, 'test.invalid-character'))
     s.action(1456)
     assert last(s, 'test.template-ownership') == [8,4,1]
     # Expanded difficulty does not widen the accepted core/Lite declarations.

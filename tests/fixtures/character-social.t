@@ -62,7 +62,7 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 1400) { fixtureInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1400) { fixtureInput.code = args[1]; return vhylAct(verb,[]); }
     if (verb == 1450)
     {
         event('test.character-social-state'); eventValue(fixtureReputation.recognitions.length());
@@ -103,13 +103,13 @@ act(verb,args)
         if (args[1] == 1) p.hpAdjustment = 4;
         if (args[1] == 2)
         {
-            local language = new RpgLiteLanguage(); language.id = 'native'; language.native = true;
-            p.languages = [language,language];
+            local duplicateLanguage = new RpgLiteLanguage(); duplicateLanguage.id = 'native'; duplicateLanguage.native = true;
+            p.languages = [duplicateLanguage,duplicateLanguage];
         }
         if (args[1] == 3)
         {
-            local language = new RpgLiteLanguage(); language.id = 'native'; language.native = true; language.spoken = 2;
-            p.languages = [language];
+            local nonfluentLanguage = new RpgLiteLanguage(); nonfluentLanguage.id = 'native'; nonfluentLanguage.native = true; nonfluentLanguage.spoken = 2;
+            p.languages = [nonfluentLanguage];
         }
         if (args[1] == 4) p.traits = [rpgLiteMakeTrait('luck',1,nil),rpgLiteMakeTrait('unluckiness',1,nil)];
         if (args[1] == 5) { p.iq = 12; p.pointBudget = 10; }
