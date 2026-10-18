@@ -270,9 +270,10 @@
       "source": "full-2008",
       "status": "partial",
       "tests": [
-        "tests/expanded.py::test_psionic_talents"
+        "tests/expanded.py::test_psionic_talents",
+        "tests/expanded.py::test_psionic_warning"
       ],
-      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
+      "validation_note": "Owned source-priced danger warning, secret perception/talent check, authored warning information and once-per-situation receipt authored; fixtures unrun. Countermeasure execution and broader ability integration remain pending."
     },
     {
       "id": "skills",

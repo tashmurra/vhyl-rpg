@@ -486,10 +486,13 @@
       "pages": "B256",
       "module": "psionics",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Permit danger-warning as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B47, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
-      "tests": [],
-      "trait_pages": "B47"
+      "tests": [
+        "tests/expanded.py::test_psionic_warning"
+      ],
+      "trait_pages": "B47",
+      "validation_note": "Owned source-priced danger warning, secret perception/talent check, authored warning information and once-per-situation receipt authored; fixtures unrun. Countermeasure execution and broader ability integration remain pending."
     },
     {
       "id": "psionic-membership-extrasensory-psychic-detection",
@@ -1052,9 +1055,12 @@
       "pages": "B257",
       "module": "psionics",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Danger warning with the -10% extrasensory source modifier costs 14 after the required rounding, even without talent.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_psionic_warning"
+      ],
+      "validation_note": "Owned source-priced danger warning, secret perception/talent check, authored warning information and once-per-situation receipt authored; fixtures unrun. Countermeasure execution and broader ability integration remain pending."
     },
     {
       "id": "psionic-worked-cost-short-relocation",

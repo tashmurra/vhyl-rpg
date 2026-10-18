@@ -1,6 +1,6 @@
 # Expanded psionics
 
-**Status: partial; fixtures unrun.** Power definitions, talent pricing and latent eligibility. Ability effects and interference remain pending. Neutral source: `full-2008`, B254-B257.
+**Status: partial; fixtures unrun.** Power definitions, talent pricing, latent eligibility and secret danger warnings. Other ability effects and interference remain pending. Neutral source: `full-2008`, B254-B257.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
@@ -66,3 +66,42 @@ The [minimal fixture](../../tests/fixtures/expanded-psionics.t) and
 `test_psionic_talents` specify five-point costs, the four-level limit, explicit
 higher-level permission, inactive talent, broad-family pricing and unrelated
 ability rejection. They remain unrun while checks are paused.
+
+## Secret danger warning
+
+`RpgExpandedPsionicDangerSense` implements the B47 warning check with the B257
+source discount: its expanded creation cost is fourteen points. Set `power` to
+a definition that includes `danger-sense` and has `powerModifier = -10`, with
+`approved` and `evidence`. The owned trait has the distinct ID
+`psionic-danger-warning`, so the Lite notice fallback cannot roll it again.
+This version supports no additional ability modifiers. A second warning trait,
+an ordinary danger-sense trait or precognition cannot coexist for execution.
+
+For each impending hazard, create one `RpgExpandedDangerWarning` with a stable
+situation `id`, `profile`, owned `ability`, `hazardPresent`, `approved`,
+`interferenceKnown` and `evidence`. Supply `warningText` that gives enough notice
+to act and `detailText` that adds the nature of the danger. These are authored
+world facts, not text generated from the die result. Set `suppressed` only when
+an established countermeasure currently blocks the power. Countermeasure
+resolution itself is still pending; unknown interference blocks the request.
+
+`assess()` is pure. `apply()` runs inside an action transaction and secretly
+rolls Perception plus the matching active talent. Success returns the ordinary
+warning; rolls of three or four return the detailed warning. Failure returns no
+warning. A successful roll of five does not reveal details merely because it
+qualifies as a critical success at a high score. The operation consumes three
+dice, no energy and no time, and never overwrites the profile's `lastCheck`.
+The author may inspect `secretCheck`, but must not send it to a player-facing
+report. The returned result contains only the selected warning text and status,
+not the roll or effective score.
+
+The owned situation history prevents repeat rolls, including a second request
+object with the same situation ID. Replaying the original receipt returns its
+existing warning without randomness. Use this interface directly for a psionic
+warning, rather than invoking the Lite danger fallback as well. Other sensory
+information abilities and automatic parser integration remain pending.
+
+`test_psionic_warning` covers the source cost, real seeded success and failure,
+explicit three/four detail boundaries, ordinary five, suppression, duplicate
+situations, replay, hidden-result handling, rollback and undo. Its fixtures are
+authored but unrun.

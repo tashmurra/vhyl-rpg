@@ -88,3 +88,94 @@ rpgExpandedPsionicLatentEligibility(profile, power, abilityId)
     if (!owned) { value.reason = 'psionic-latent-talent-required'; return value; }
     value.status = 'ready'; return value;
 }
+
+/** B47 and B257: the ordinary danger-warning trait with its -10% source modifier. */
+class RpgExpandedPsionicDangerSense: RpgLiteTrait
+    id = 'psionic-danger-warning'
+    power = nil
+    approved = nil
+    evidence = nil
+    validateAbility()
+    {
+        if (self.power == nil || !self.power.ofKind(RpgExpandedPsionicPower)) rpgExpandedReject('psionic-danger-power');
+        self.power.validate();
+        if (self.power.powerModifier != -10 || !holds(self.power.abilityIds,'danger-sense'))
+            rpgExpandedReject('psionic-danger-power-definition');
+        if (self.level != 1 || !self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('psionic-danger-author-facts');
+        return true;
+    }
+    creationCost() { self.validateAbility(); return 14; }
+;
+
+modify RpgExpandedProfile
+    psionicDangerWarnings = []
+;
+
+class RpgExpandedDangerWarningResult: RpgExpandedResult
+    warning = nil
+;
+
+/** One secret check for an authored hazard situation; only warning text is public. */
+class RpgExpandedDangerWarning: object
+    id = nil
+    profile = nil
+    ability = nil
+    hazardPresent = nil
+    approved = nil
+    interferenceKnown = nil
+    suppressed = nil
+    warningText = nil
+    detailText = nil
+    evidence = nil
+    result = nil
+    secretCheck = nil
+    snapshot = nil
+    definition()
+    { return [self.id,self.profile,self.ability,self.ability.power,self.warningText,self.detailText,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.ability == nil || !self.ability.ofKind(RpgExpandedPsionicDangerSense))
+            rpgExpandedReject('psionic-danger-request');
+        local value = new RpgExpandedDangerWarningResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.snapshot == nil || self.snapshot.length() != current.length()) rpgExpandedReject('psionic-danger-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.snapshot[index]) rpgExpandedReject('psionic-danger-binding');
+            if (!holds(self.profile.psionicDangerWarnings,self)) rpgExpandedReject('psionic-danger-history');
+            value.status = 'reused'; value.warning = self.result.warning; return value;
+        }
+        self.ability.validateAbility();
+        if (!holds(self.profile.traits,self.ability) || !self.ability.active)
+        { value.reason = 'psionic-danger-ability-required'; return value; }
+        foreach (local trait in self.profile.traits)
+            if (trait.ofKind(RpgExpandedPsionicDangerSense) && trait != self.ability)
+            { value.reason = 'psionic-danger-duplicate-ability'; return value; }
+        if (self.profile.level('precognition') > 0 || self.profile.level('danger-sense') > 0)
+        { value.reason = 'psionic-danger-duplicate-ability'; return value; }
+        if (!self.approved || !self.hazardPresent || !self.interferenceKnown || self.evidence == nil || self.evidence == ''
+            || self.warningText == nil || self.warningText == '' || self.detailText == nil || self.detailText == '')
+        { value.reason = 'psionic-danger-situation-required'; return value; }
+        if (self.suppressed) { value.reason = 'psionic-power-suppressed'; return value; }
+        if (self.profile.dead || self.profile.unconscious)
+        { value.reason = 'psionic-danger-observer-unavailable'; return value; }
+        foreach (local prior in self.profile.psionicDangerWarnings)
+            if (prior.id == self.id) { value.reason = 'psionic-danger-situation-used'; return value; }
+        local score = self.profile.attributeScore(rpgPerception) + rpgExpandedPsionicTalentBonus(self.profile,self.ability.power);
+        if (score < 3) { value.reason = 'psionic-danger-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local score = self.profile.attributeScore(rpgPerception) + rpgExpandedPsionicTalentBonus(self.profile,self.ability.power);
+        self.secretCheck = rpgCheck(score,rpgRandom.roll());
+        if (self.secretCheck.achieved)
+            value.warning = self.secretCheck.roll <= 4 ? self.detailText : self.warningText;
+        self.snapshot = self.definition(); self.profile.psionicDangerWarnings = self.profile.psionicDangerWarnings + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

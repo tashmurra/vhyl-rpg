@@ -1664,6 +1664,42 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_psionic_warning(Session,bundle):
+    def state(s):
+        s.action(2232)
+        return last(s,'test.warning-state')
+    s=Session(bundle)
+    try:
+        for code in [1,2]:
+            s.action(2231,code)
+            assert state(s) == [0,0,0,0,14]
+        s.action(2231,0)
+        assert last(s,'test.warning') == ['resolved',None,'Pause: something is wrong.']
+        assert state(s) == [1,0,3,0,14]
+        s.action(2231,0)
+        assert last(s,'test.warning') == ['reused',None,'Pause: something is wrong.']
+        assert state(s) == [1,0,3,0,14]
+        s.action(2231,10)
+        assert last(s,'test.warning')[:2] == ['blocked','psionic-danger-situation-used']
+        s.action(2231,9)
+        assert state(s) == [1,0,3,0,14]
+    finally: s.close()
+    for code,status,reason,text,draws in [
+            (4,'blocked','psionic-power-suppressed',None,0),
+            (5,'resolved',None,None,3),
+            (6,'resolved',None,'Pause: something is wrong.',3),
+            (7,'resolved',None,'Loose masonry above the doorway is about to fall.',3),
+            (8,'resolved',None,'Loose masonry above the doorway is about to fall.',3)]:
+        s=Session(bundle)
+        try:
+            s.action(2231,code)
+            assert last(s,'test.warning') == [status,reason,text]
+            assert state(s) == [int(status == 'resolved'),0,draws,0,14]
+            s.command('undo')
+            assert state(s) == [0,0,0,0,14]
+        finally: s.close()
+
+
 def test_psionic_talents(s):
     for level,permission,active,mode,ability,cost,bonus,status,reason in [
             (1,0,1,0,'danger-sense',5,1,'ready',None),
@@ -7777,6 +7813,7 @@ def test(build):
     test_invention_concept_persistence(Session,invention,build.out)
     psionics = build.build('expanded-psionics',ROOT / 'tests/fixtures/expanded-psionics.t')
     fresh(Session,psionics,test_psionic_talents)
+    test_psionic_warning(Session,psionics)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
     swarms = build.build('expanded-swarms',ROOT / 'tests/fixtures/expanded-swarms.t')
     test_swarm_attacks(Session,swarms)
