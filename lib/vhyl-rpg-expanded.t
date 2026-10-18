@@ -974,3 +974,7 @@ modify RpgLiteProfile
     sympathyActive() { return nil; }
     beggingAuthoredTraitReason(sympathy, shyness) { return nil; }
 ;
+
+modify RpgExpandedProfile
+    appearanceTrait() { return nil; }
+;

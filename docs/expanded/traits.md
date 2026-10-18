@@ -1732,3 +1732,32 @@ Callous observers receive no bonus. The context verifies the reaction's observer
 identity. `test_begging_traits` specifies costs, tiers, learning restrictions,
 mitigation, observer exclusions and duplicate modifier rejection. Fixtures remain
 unrun; modified trait variants and appearance interpretation remain unsupported.
+
+### Expanded appearance
+
+`RpgExpandedAppearance` implements the fixed tiers from full-2008 B21. Install
+one approved trait with `tier` from −5 through 4. In ascending order the point
+costs are −24, −20, −16, −8, −4, 0, 4, 12, 16 and 20. Tier zero is ordinary
+appearance. Duplicate expanded appearances and simultaneous legacy appearance
+traits are rejected, including when temporarily mitigated.
+
+The corresponding reaction modifiers through tier 1 are −6, −5, −4, −2, −1, 0
+and +1. Tiers 2–4 give +4/+6/+8 to attracted observers and +2 otherwise.
+For ordinary presentation at tiers 3–4, a same-sex observer with other reaction
+penalties totaling below −4 instead gives −2. Supply the negative penalties
+before offsetting bonuses; −4 exactly does not trigger resentment.
+
+`presentation = 'androgynous'` is available at tiers 2–4; `'impressive'` is
+available from tier 1. At tiers 2–4 these use flat +3/+4/+5 modifiers. Visibility,
+compatibility, activation and mitigation still apply. Percentage-modified variants
+are rejected; universal applicability and standardized looks remain pending.
+
+Use `RpgExpandedAppearanceReactionContext` with subject, observer, approval and
+evidence. Its `compatibleAppearance`, inherited `sees` and `attracted`, `sameSex`
+and `otherReactionPenalties` fields describe the specific observer. It validates
+the observer identity and contributes the appearance modifier to the ordinary
+reaction calculation. This does not automatically simulate social exclusion or
+attention from strangers associated with extreme tiers; those incidents remain
+an author integration gap. `test_expanded_appearance` specifies the fixed table,
+flat options, visibility, compatibility, mitigation and resentment threshold.
+Fixtures remain unrun.

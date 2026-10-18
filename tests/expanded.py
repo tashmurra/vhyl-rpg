@@ -9466,6 +9466,8 @@ def test(build):
     test_begging_gift(Session,begging_gift,build.out)
     begging_traits = build.build('expanded-begging-traits',ROOT / 'tests/fixtures/expanded-begging-traits.t')
     test_begging_traits(Session,begging_traits)
+    appearance = build.build('expanded-appearance',ROOT / 'tests/fixtures/expanded-appearance.t')
+    test_expanded_appearance(Session,appearance)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
     test_travel_digging(Session,travel_digging,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
@@ -25391,5 +25393,26 @@ def test_begging_traits(Session, bundle):
         try:
             s.action(1680,code)
             assert last(s,'test.begging-trait-conflict') == [reason]
+        finally:
+            s.close()
+
+
+def test_expanded_appearance(Session, bundle):
+    """B21 fixed prices, observer applicability and resentment threshold; unrun."""
+    for tier, cost, bonus in ((-5,-24,-6),(-4,-20,-5),(-3,-16,-4),(-2,-8,-2),(-1,-4,-1),
+                               (0,0,0),(1,4,1),(2,12,4),(3,16,6),(4,20,8)):
+        s = Session(bundle)
+        try:
+            s.action(1680,24715+tier); s.action(1680,24700)
+            assert last(s,'test.appearance') == [cost,bonus]
+        finally:
+            s.close()
+    for setup, bonus in (((24701,),2),((24702,),-2),((24702,24703),6),
+                         ((24704,),4),((24705,),4),((24706,),0),((24707,),0),((24708,),0)):
+        s = Session(bundle)
+        try:
+            for code in (24718,*setup,24700):
+                s.action(1680,code)
+            assert last(s,'test.appearance') == [16,bonus]
         finally:
             s.close()

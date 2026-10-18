@@ -3767,3 +3767,30 @@ class RpgExpandedSympathyReactionContext: RpgLiteSocialContext
         return inherited(profile,target);
     }
 ;
+
+/** B21 the author identifies visibility, attraction, compatibility and penalties. */
+class RpgExpandedAppearanceReactionContext: RpgLiteSocialContext
+    subject = nil
+    observer = nil
+    compatibleAppearance = nil
+    sameSex = nil
+    otherReactionPenalties = 0
+    approved = nil
+    evidence = nil
+    appearanceModifier(profile)
+    {
+        if (profile != self.subject || self.subject == nil || !self.subject.ofKind(RpgExpandedProfile)
+            || self.observer == nil || !self.observer.ofKind(RpgLiteProfile) || self.observer == self.subject)
+            rpgExpandedReject('appearance-reaction-participants');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('appearance-reaction-facts');
+        local trait = profile.appearanceTrait(); if (trait == nil) rpgExpandedReject('appearance-trait-required');
+        return trait.modifierForObserver(self.sees,self.compatibleAppearance,self.attracted,self.sameSex,self.otherReactionPenalties);
+    }
+    traitReactionModifier(profile) { return inherited(profile) + self.appearanceModifier(profile); }
+    validateParticipants(profile, target)
+    {
+        self.appearanceModifier(profile);
+        if (target != self.observer) rpgExpandedReject('appearance-reaction-observer');
+        return inherited(profile,target);
+    }
+;

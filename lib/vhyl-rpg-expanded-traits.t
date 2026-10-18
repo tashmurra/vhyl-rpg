@@ -3024,3 +3024,48 @@ modify RpgExpandedProfile
     }
     validateFeatures() { inherited(); self.sympathyActive(); return nil; }
 ;
+
+/** B21 fixed appearance tiers, lowest -5 through highest 4; zero is ordinary. */
+class RpgExpandedAppearance: RpgLiteTrait
+    id = 'appearance'
+    tier = 0
+    presentation = 'ordinary'
+    approved = nil
+    percentages = []
+    creationCost()
+    {
+        if (!self.approved || self.id != 'appearance' || self.level != 1 || self.controlled
+            || self.percentages.length() != 0 || !holds(['ordinary','androgynous','impressive'],self.presentation))
+            rpgExpandedReject('appearance-definition');
+        rpgInteger(self.tier,-5,4);
+        if (self.presentation == 'androgynous' && self.tier < 2 || self.presentation == 'impressive' && self.tier < 1)
+            rpgExpandedReject('appearance-presentation-tier');
+        return [-24,-20,-16,-8,-4,0,4,12,16,20][self.tier+6];
+    }
+    modifierForObserver(sees, compatible, attracted, sameSex, otherPenalties)
+    {
+        self.creationCost(); rpgInteger(otherPenalties,-1000,0);
+        if (!self.active || self.mitigated || !sees || !compatible) return 0;
+        if (self.tier <= 1) return [-6,-5,-4,-2,-1,0,1][self.tier+6];
+        if (self.presentation != 'ordinary') return self.tier+1;
+        if (self.tier >= 3 && sameSex && otherPenalties < -4) return -2;
+        return attracted ? self.tier*2 : 2;
+    }
+;
+modify RpgExpandedProfile
+    appearanceTrait()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedAppearance))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-appearance'); found = trait;
+            }
+        if (found != nil)
+            foreach (local trait in self.traits)
+                if (trait != found && holds(['hideous','ugly','unattractive','attractive','handsome','very-handsome'],trait.id))
+                    rpgExpandedReject('appearance-legacy-conflict');
+        return found;
+    }
+    validateFeatures() { inherited(); self.appearanceTrait(); return nil; }
+;

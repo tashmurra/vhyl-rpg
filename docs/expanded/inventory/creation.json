@@ -1544,9 +1544,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-severe-negative",
@@ -1554,9 +1555,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-strong-negative",
@@ -1564,9 +1566,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-moderate-negative",
@@ -1574,9 +1577,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-mild-negative",
@@ -1584,9 +1588,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-ordinary",
@@ -1594,9 +1599,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-mild-positive",
@@ -1604,9 +1610,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-strong-positive",
@@ -1614,9 +1621,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-exceptional-positive",
@@ -1624,9 +1632,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-idealized-positive",
@@ -1634,9 +1643,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-broad-appeal",
@@ -1644,9 +1654,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate eligible appearance levels, pricing and the appropriate replacement reaction modifier.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-presence",
@@ -1654,9 +1665,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate eligible appearance levels, pricing and the appropriate replacement reaction modifier.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_expanded_appearance"],
+      "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Narrative incidents and modified variants remain pending; fixtures unrun."
     },
     {
       "id": "appearance-universal-audience",
