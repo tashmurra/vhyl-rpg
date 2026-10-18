@@ -701,6 +701,18 @@
         "tests/expanded.py::test_trade_reactions"
       ],
       "validation_note": "Unambiguous fair-price table and favorable offer limits authored. Checks unrun; altered counteroffer source conflict, fractional currency and committed trades remain unresolved."
+    },
+    {
+      "id": "agreed-inventory-trade",
+      "module": "equipment",
+      "pages": "B264-B267; B560-B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedTradeTransfer",
+      "tests": [
+        "tests/expanded.py::test_trade_transfer"
+      ],
+      "validation_note": "Atomic agreed item/bundle transfer with sole ownership, payment, legality and receipts authored. Checks unrun; partial bundles, containers and transport execution pending."
     }
   ],
   "detailed_inventories": [

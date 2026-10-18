@@ -741,6 +741,31 @@ def test_information_delivery(s):
     assert information_state(s) == [1, 0, 0, 0, 'bridge-open', 'ferry-closed', 'river-rising']
 
 
+def trade_state(s):
+    s.action(1194)
+    return last(s, 'test.trade-state')
+
+
+def test_trade_transfer(s):
+    initial = trade_state(s)
+    assert initial == [100, 20, 0, 1, 0, 'shop', 1, 1, 0, 0]
+    s.action(1195)
+    assert last(s, 'test.trade-preview') == ['ready', 40]
+    s.action(1196)
+    assert last(s, 'test.trade-gates') == [
+        'trade-agreement', 'trade-item-unavailable', 'trade-permission', 'trade-funds', 'trade-item-ownership', 'local-prohibition']
+    assert trade_state(s) == initial
+    s.action(1100, 43)
+    assert trade_state(s) == initial
+    s.action(1100, 42)
+    assert trade_state(s) == [60, 60, 1, 0, 1, None, 0, 0, 0, 0]
+    s.command('undo')
+    assert trade_state(s) == initial
+    s.action(1100, 42); s.action(1100, 42)
+    assert last(s, 'test.trade-transfer') == ['reused', 0]
+    assert trade_state(s) == [60, 60, 1, 0, 1, None, 0, 0, 0, 0]
+
+
 def test_trade_reactions(s):
     for band, buy, sell in [(1, 900, 100), (2, 600, 150), (3, 360, 225),
                              (4, 300, 300), (5, 300, 300), (6, 300, 300), (7, 300, 300)]:
@@ -1014,7 +1039,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')

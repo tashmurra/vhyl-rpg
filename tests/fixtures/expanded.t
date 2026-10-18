@@ -66,6 +66,11 @@ uncertainKnowledge: RpgExpandedKnowledge owner = uncertainHero;
 uncertainContext: RpgLiteContext kind = 'knowledge' attribute = rpgIQ;
 uncertainCheck: RpgExpandedKnowledgeCheck knowledge = uncertainKnowledge statement = 'old-ford-location'
     context = uncertainContext plausible = true;
+tradeBuyer: RpgExpandedProfile rules = expandedRules money = 100;
+tradeSeller: RpgExpandedProfile rules = expandedRules money = 20 equipment = [tradeItem];
+tradeItem: RpgLiteItem id = 'compass' weight = 100 worn = true ready = true storageLocation = 'shop';
+tradeTransfer: RpgExpandedTradeTransfer id = 'compass-sale' buyer = tradeBuyer seller = tradeSeller
+    item = tradeItem price = 40 buyerAgrees = true sellerAgrees = true available = true permitted = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -184,6 +189,11 @@ class ExpandedTestAction: Action
             eventValue(value.status); eventValue(value.known ? 1 : 0);
             eventValue(value.check == nil ? nil : value.check.roll);
             if (code == 40) throw new RpgError();
+        }
+        if (code == 42 || code == 43)
+        {
+            local value = tradeTransfer.transfer(); event('test.trade-transfer'); eventValue(value.status); eventValue(value.money);
+            if (code == 43) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -1160,6 +1170,31 @@ act(verb, args)
     {
         local value = uncertainCheck.assess(); event('test.knowledge-preview');
         eventValue(value.status); eventValue(value.check); eventValue(value.known); return nil;
+    }
+    if (verb == 1194)
+    {
+        event('test.trade-state'); eventValue(tradeBuyer.money); eventValue(tradeSeller.money);
+        eventValue(tradeBuyer.equipment.length()); eventValue(tradeSeller.equipment.length());
+        eventValue(tradeBuyer.tradeReceipts.length()); eventValue(tradeItem.storageLocation);
+        eventValue(tradeItem.ready ? 1 : 0); eventValue(tradeItem.worn ? 1 : 0);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1195)
+    {
+        local value = tradeTransfer.assess(); event('test.trade-preview'); eventValue(value.status); eventValue(value.money); return nil;
+    }
+    if (verb == 1196)
+    {
+        local transfer = new RpgExpandedTradeTransfer(); transfer.id = 'other-sale'; transfer.buyer = tradeBuyer;
+        transfer.seller = tradeSeller; transfer.item = tradeItem; transfer.price = 101;
+        event('test.trade-gates'); eventValue(transfer.assess().reason);
+        transfer.buyerAgrees = true; transfer.sellerAgrees = true; eventValue(transfer.assess().reason);
+        transfer.available = true; eventValue(transfer.assess().reason); transfer.permitted = true;
+        eventValue(transfer.assess().reason); transfer.price = 40; transfer.item = purchaseItem;
+        eventValue(transfer.assess().reason);
+        transfer.item = tradeItem;
+        local policy = new RpgExpandedLegalAccess(); policy.subject = tradeBuyer; policy.equipment = tradeItem;
+        policy.exception = 'deny'; transfer.legalAccess = policy; eventValue(transfer.assess().reason); return nil;
     }
     return vhylAct(verb,args);
 }

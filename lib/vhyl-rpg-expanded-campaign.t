@@ -455,3 +455,17 @@ class RpgExpandedMoneyExchange: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedTradeTransfer
+    legalAccess = nil
+    authorizationReason()
+    {
+        local reason = inherited();
+        if (reason != nil || self.legalAccess == nil) return reason;
+        if (!self.legalAccess.ofKind(RpgExpandedLegalAccess)) rpgExpandedReject('legal-policy');
+        if (self.legalAccess.subject != self.buyer) rpgExpandedReject('legal-policy-subject');
+        if (self.legalAccess.equipment != self.item) rpgExpandedReject('legal-policy-item');
+        local value = self.legalAccess.assess();
+        return value.status == 'ready' ? nil : value.reason;
+    }
+;

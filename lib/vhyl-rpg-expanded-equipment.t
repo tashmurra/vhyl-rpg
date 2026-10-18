@@ -248,3 +248,79 @@ class RpgExpandedEquipmentStorage: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    tradeReceipts = []
+;
+
+/** Commit a quoted sale of one existing inventory item/bundle. Price is the
+ * agreed whole-item price, not multiplied by the item's quantity. */
+class RpgExpandedTradeTransfer: object
+    id = nil
+    buyer = nil
+    seller = nil
+    item = nil
+    price = 0
+    buyerAgrees = nil
+    sellerAgrees = nil
+    available = nil
+    permitted = nil
+    claimed = nil
+    boundBuyer = nil
+    boundSeller = nil
+    boundItem = nil
+    boundId = nil
+    authorizationReason() { return self.permitted ? nil : 'trade-permission'; }
+    assess()
+    {
+        if (self.id == nil || self.buyer == nil || !self.buyer.ofKind(RpgExpandedProfile)
+            || self.seller == nil || !self.seller.ofKind(RpgExpandedProfile) || self.buyer == self.seller
+            || self.item == nil || !self.item.ofKind(RpgLiteItem))
+            rpgExpandedReject('trade-transfer-target');
+        if (self.claimed && (self.buyer != self.boundBuyer || self.seller != self.boundSeller
+            || self.item != self.boundItem || self.id != self.boundId)) rpgExpandedReject('trade-transfer-retargeted');
+        local value = new RpgExpandedAcquisitionResult(); value.item = self.item;
+        foreach (local receipt in self.buyer.tradeReceipts)
+            if (receipt[1] == self.id)
+            {
+                if (receipt[2] != self.seller || receipt[3] != self.item) rpgExpandedReject('trade-transfer-id-conflict');
+                value.status = 'reused'; return value;
+            }
+        rpgExpandedValidate(self.buyer); rpgExpandedValidate(self.seller);
+        rpgInteger(self.price,0,2147483647);
+        rpgInteger(self.buyer.money,0,2147483647); rpgInteger(self.seller.money,0,2147483647);
+        rpgInteger(self.item.quantity,1,1000000); rpgInteger(self.item.weight,0,2147483647 / self.item.quantity);
+        if (!self.buyerAgrees || !self.sellerAgrees) { value.reason = 'trade-agreement'; return value; }
+        if (!self.available) { value.reason = 'trade-item-unavailable'; return value; }
+        value.reason = self.authorizationReason(); if (value.reason != nil) return value;
+        local owners = 0;
+        for (local profile = firstObj(RpgProfile); profile != nil; profile = nextObj(profile,RpgProfile))
+            if (profile.ofKind(RpgLiteProfile))
+                foreach (local entry in profile.equipment)
+                    if (entry == self.item)
+                    {
+                        if (profile != self.seller) { value.reason = 'trade-item-ownership'; return value; }
+                        owners += 1;
+                    }
+        if (owners != 1) { value.reason = 'trade-item-ownership'; return value; }
+        if (self.buyer.money < self.price) { value.reason = 'trade-funds'; return value; }
+        if (self.seller.money > 2147483647 - self.price) rpgExpandedReject('trade-money-limit');
+        value.money = self.price; value.status = 'ready'; return value;
+    }
+    transfer()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local remaining = [];
+        foreach (local entry in self.seller.equipment) if (entry != self.item) remaining = remaining + [entry];
+        self.seller.equipment = remaining; self.buyer.equipment = self.buyer.equipment + [self.item];
+        self.buyer.money -= value.money; self.seller.money += value.money;
+        self.item.storageLocation = nil; self.item.worn = nil; self.item.ready = nil;
+        for (local fighter = firstObj(RpgLiteFighter); fighter != nil; fighter = nextObj(fighter,RpgLiteFighter))
+            if (fighter.aimWeapon == self.item)
+            { fighter.aimSeconds = 0; fighter.aimTarget = nil; fighter.aimWeapon = nil; }
+        self.buyer.tradeReceipts = self.buyer.tradeReceipts + [[self.id,self.seller,self.item,value.money]];
+        self.claimed = true; self.boundBuyer = self.buyer; self.boundSeller = self.seller;
+        self.boundItem = self.item; self.boundId = self.id;
+        value.status = 'resolved'; return value;
+    }
+;

@@ -238,7 +238,8 @@ Availability and permission are explicit authored world facts. The reference's
 item technology indicates earliest availability, not a universal prohibition on
 buying above one's personal level. This interface does not infer market supply,
 licenses or legality from that level. The campaign module supplies legal-access checks and starting-wealth allocation.
-Merchant-to-buyer transfers and sale/resale procedures remain pending. Carried versus stored equipment uses the interface below. Existing `rpgLiteBuy`
+Agreed merchant transfers use the interface below; contextual sale/resale pricing
+remains partly implemented in the social module. Carried versus stored equipment uses the interface below. Existing `rpgLiteBuy`
 retains its original contract; use this acquisition object for the expanded path.
 
 `tests/expanded.py::test_acquisition` covers pure previews, affordability and
@@ -296,3 +297,31 @@ inventory ledgers; the price calculation spends no time or randomness.
 price example, equal/lower technology, bounded arithmetic, pure assessment,
 creation restrictions, quote ambiguity, personal-level independence and repeated
 acquisition. These cases are authored and unrun while checks are paused.
+
+
+## Transfer an agreed trade
+
+`RpgExpandedTradeTransfer` commits a sale of an existing physical item or bundle.
+Set its unique `id`, `buyer`, `seller`, `item`, agreed `price`, `buyerAgrees`,
+`sellerAgrees`, `available` and `permitted`. The price is for the whole item/bundle,
+not per quantity. It may come from a ready, non-refused social trade assessment;
+the author freezes the agreed quote here rather than rerolling during purchase.
+
+`assess()` verifies exactly one inventory occurrence, owned by the seller, as well
+as consent, availability, permission, bounded weight and both money balances.
+`transfer()` moves the same object to the buyer, transfers the price once, clears
+storage/worn/ready state and any aim using the item, and saves a buyer receipt.
+The buyer now carries the item. No time or randomness is consumed; transport and
+handling time remain part of the encompassing authored operation. Partial bundle
+sales and nested containers are not represented by this operation.
+
+Receipts are `[id, seller, item, price]` in `buyer.tradeReceipts`. A new transfer
+object with the same buyer and ID cannot repeat the payment or movement. IDs
+cannot be reused for different sellers/items. Claimed transfer objects cannot be
+retargeted. The campaign module optionally adds `legalAccess`, bound to the buyer
+and item, using the same legality policy as acquisition. The permission fact must
+also cover any seller-side restrictions in the authored jurisdiction.
+
+`tests/expanded.py::test_trade_transfer` covers pure preview, consent/access/funds,
+sole ownership, local prohibition, movement and payment, rollback, undo and repeat
+execution. These authored checks remain unrun while checks are paused.
