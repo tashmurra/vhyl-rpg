@@ -153,3 +153,10 @@ ordinary hearing and spoken input before rolling, while written and explicitly
 non-auditory tasks remain available. Intervals have authored endings and respect
 episode boundaries, mitigation and overlapping episodes. Full fear integration
 remains pending; channel and lifecycle fixtures are authored but unrun.
+
+
+Voice-origin records now distinguish private psychological and possession causes,
+explicitly exclude psychotherapy for possession and support author-confirmed
+funded exorcism buyoff through the existing point ledger. Cure and episode closure
+commit together. Unfunded/outside-downtime cures, exorcism rolls and psychotherapy
+procedures remain pending; the new fixtures are authored but unrun.

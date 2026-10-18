@@ -9188,6 +9188,8 @@ def test(build):
     test_voice_command(Session, voice_command, build.out)
     voice_mask = build.build('expanded-voice-mask',ROOT / 'tests/fixtures/expanded-voice-mask.t')
     test_voice_mask(Session, voice_mask, build.out)
+    voice_origin = build.build('expanded-voice-origin',ROOT / 'tests/fixtures/expanded-voice-origin.t')
+    test_voice_origin(Session, voice_origin, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20040,5 +20042,54 @@ def test_voice_mask(Session, bundle, out):
         for code in (10300, 10302, 10309, 10306, 10304):
             s.action(2285, code)
         assert last(s, 'test.voice-mask-state') == [1, 1, 0, 6]
+    finally:
+        s.close()
+
+
+def test_voice_origin(Session, bundle, out):
+    """B148 private origin and funded cure via the existing historical buyoff ledger; unrun."""
+    path = out / 'expanded-voice-origin.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10400, 10401, 10403, 10404):
+            s.action(2285, code)
+        assert last(s, 'test.voice-origin') == ['voice-origin-psychotherapy-cannot-discover-or-cure', 'ready', None, 5, 3]
+        assert last(s, 'test.voice-cure-state') == [1, 8, 1, 0, 3]
+        s.action(2285, 10402)
+        s.command('undo')
+        s.action(2285, 10404)
+        assert last(s, 'test.voice-cure-state') == [1, 8, 1, 0, 3]
+        for code in (10402, 10402, 10404):
+            s.action(2285, code)
+        assert last(s, 'test.voice-cure') == ['reused', 5]
+        assert last(s, 'test.voice-cure-state') == [0, 3, 0, 0, 3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10402, 10404):
+            s.action(2285, code)
+        assert last(s, 'test.voice-cure') == ['reused', 5]
+        assert last(s, 'test.voice-cure-state') == [0, 3, 0, 0, 3]
+    finally:
+        s.close()
+    for change, reason, cost in ((10405, 'rpg.insufficient-points', 5),
+                                 (10406, 'rpg.downtime-required', 0),
+                                 (10407, 'buyoff-original-cost-required', 0)):
+        s = Session(bundle)
+        try:
+            for code in (10400, change, 10401):
+                s.action(2285, code)
+            assert last(s, 'test.voice-origin') == ['voice-origin-psychotherapy-cannot-discover-or-cure', 'blocked', reason, cost, 3]
+        finally:
+            s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (10408, 10400, 10401):
+            s.action(2285, code)
+        assert last(s, 'test.voice-origin') == ['voice-origin-psychotherapy-procedure-required', 'blocked', 'voice-exorcism-origin-category', 0, 3]
     finally:
         s.close()

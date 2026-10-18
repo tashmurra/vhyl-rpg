@@ -1354,8 +1354,9 @@ explanations of the character's experiences.
 Mandatory checks after relevant full fear results remain pending. Direct rolled
 self-control and abridged fear calls reject active phantom-voice combinations
 before randomness; owned self-control triggers integrate as described below.
-Episode-induced fear, origin-aware treatment and buyoff remain incomplete.
-Command resistance and sound masking use the concrete interfaces below. This interface must not be presented
+Episode-induced fear and broader treatment procedures remain incomplete.
+Command resistance, sound masking and a funded origin-aware cure path use the
+concrete interfaces below. This interface must not be presented
 as the complete disadvantage.
 
 [`expanded-phantom-voices.t`](../../tests/fixtures/expanded-phantom-voices.t)
@@ -1476,3 +1477,44 @@ the supplied entry.
 extra dice/time, preview, replay, overlapping episodes, mitigation, rollback, undo
 and cross-process save continuation. These assertions remain unrun. Startling
 voices still require the pending full fear integration.
+
+
+### Private origins and funded exorcism buyoff
+
+`RpgExpandedVoiceOrigin` records author-known cause (`full-2008`, B148). Set the
+expanded `profile`, owned `RpgExpandedPhantomVoices` purchase in `trait`,
+`origin = 'psychological'` or `'possession'`, `approved = true` and original
+`evidence`. `assess()` is pure; `record()` stores the immutable origin without
+rolling or charging time. One origin record is allowed per purchase. This is
+private author state, not a diagnosis or knowledge automatically available to
+the character.
+
+`assessPsychotherapy()` explicitly blocks discovering or curing a possession
+cause with `voice-origin-psychotherapy-cannot-discover-or-cure`. For psychological
+origin it returns `voice-origin-psychotherapy-procedure-required`: knowing the
+category does not itself perform diagnosis, treatment or recovery.
+
+`RpgExpandedVoiceExorcism` supports a funded cure after author-confirmed successful
+exorcism. Set the recorded `origin`, `successful = true`, `approved = true` and
+`evidence` describing the externally resolved exorcism. It requires possession,
+an approved historical `RpgExpandedBuyoffBasis`, open development time, sufficient
+unspent points and no spending restriction. Assessment returns the exact original
+award as `points`; it does not guess the cost from the current severity.
+
+`apply()` delegates to `rpgLiteBuyOff`, removing the purchase and spending that
+amount once. It then closes active voice episodes and records the cure on the
+origin. Commands, masks and historical checks remain as receipts; no check is
+rerolled and no extra time is charged. Repeating the cure returns `reused` and
+the original charge without spending again. The existing engine transaction
+restores the purchase, points and episodes together on failure or undo.
+
+This path does not roll the exorcism itself. A cure without sufficient funds or
+outside the existing buyoff downtime gate is explicitly blocked pending a
+source-grounded deferred-payment procedure. The game must not present such a
+blocked transaction as a completed cure. Psychotherapy and automatic origin
+discovery remain unfinished.
+
+[`expanded-voice-origin.t`](../../tests/fixtures/expanded-voice-origin.t) and
+`test_voice_origin` specify origin exclusions, historical cost, affordability,
+downtime and approval gates, preview, single charging, episode closure, replay,
+rollback, undo and cross-process save continuation. Assertions remain unrun.

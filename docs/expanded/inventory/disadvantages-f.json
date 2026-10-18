@@ -326,9 +326,12 @@
       "pages": "B148",
       "module": "traits",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "If voices arise from supernatural possession, psychotherapy cannot reveal or cure that origin. Exorcism removes the cause and requires buying off the trait. Keep author-known cause distinct from the character belief and ordinary treatment assessment.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_voice_origin"
+      ],
+      "validation_note": "Owned immutable private origin distinguishes psychological causes from possession. Psychotherapy explicitly cannot discover or cure possession. Author-confirmed successful exorcism supports funded downtime buyoff via the existing original-award ledger and closes active episodes atomically. Unfunded/outside-downtime cures, exorcism rolls and psychotherapy procedures remain pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-f-phobia-resolution",

@@ -2237,3 +2237,105 @@ modify RpgExpandedProfile
         return required ? 'phantom-voices-sound-masked' : nil;
     }
 ;
+
+modify RpgExpandedProfile
+    voiceOrigins = []
+;
+class RpgExpandedVoiceOrigin: object
+    profile = nil
+    trait = nil
+    origin = nil
+    approved = nil
+    evidence = nil
+    recordedAt = nil
+    boundDefinition = nil
+    cure = nil
+    definition() { return [self.profile,self.trait,self.origin,self.approved,self.evidence,self.recordedAt]; }
+    validateReceipt()
+    {
+        if (self.recordedAt == nil || !holds(self.profile.voiceOrigins,self)) rpgExpandedReject('voice-origin-history');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('voice-origin-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.trait == nil
+            || !self.trait.ofKind(RpgExpandedPhantomVoices)) rpgExpandedReject('voice-origin-definition');
+        local value = new RpgExpandedResult();
+        if (self.recordedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundDefinition != nil || self.cure != nil) rpgExpandedReject('voice-origin-uncommitted-state');
+        if (!holds(self.profile.traits,self.trait)) rpgExpandedReject('voice-origin-purchase');
+        self.trait.creationCost(); self.profile.phantomVoiceSeverity();
+        if (!holds(['psychological','possession'],self.origin)) rpgExpandedReject('voice-origin-category');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'voice-origin-author-facts'; return value; }
+        foreach (local prior in self.profile.voiceOrigins)
+        {
+            prior.validateReceipt(); if (prior.trait == self.trait) rpgExpandedReject('voice-origin-duplicate');
+        }
+        value.status = 'ready'; return value;
+    }
+    record()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.recordedAt = self.profile.timeElapsed; self.boundDefinition = self.definition();
+        self.profile.voiceOrigins = self.profile.voiceOrigins + [self]; value.status = 'resolved'; return value;
+    }
+    assessPsychotherapy()
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.origin == 'possession') { value.reason = 'voice-origin-psychotherapy-cannot-discover-or-cure'; return value; }
+        value.reason = 'voice-origin-psychotherapy-procedure-required'; return value;
+    }
+;
+/** B148 cure plus B291 funded buyoff; the exorcism's success is an authored fact. */
+class RpgExpandedVoiceExorcism: object
+    origin = nil
+    successful = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    recordedAt = nil
+    boundDefinition = nil
+    chargedPoints = nil
+    definition() { return [self.origin,self.successful,self.approved,self.evidence,self.recordedAt]; }
+    assess()
+    {
+        if (self.origin == nil || !self.origin.ofKind(RpgExpandedVoiceOrigin)) rpgExpandedReject('voice-exorcism-origin');
+        self.origin.validateReceipt(); local value = new RpgExpandedResult(); local profile = self.origin.profile;
+        if (self.result != nil)
+        {
+            if (self.origin.cure != self) rpgExpandedReject('voice-exorcism-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('voice-exorcism-binding');
+            if (holds(profile.traits,self.origin.trait)) rpgExpandedReject('voice-exorcism-purchase-restored');
+            value.status = 'reused'; value.points = self.chargedPoints; return value;
+        }
+        if (self.recordedAt != nil || self.boundDefinition != nil || self.chargedPoints != nil) rpgExpandedReject('voice-exorcism-uncommitted-state');
+        if (self.origin.cure != nil) rpgExpandedReject('voice-exorcism-already-recorded');
+        if (self.origin.origin != 'possession') { value.reason = 'voice-exorcism-origin-category'; return value; }
+        if (!self.successful || !self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'voice-exorcism-author-facts'; return value; }
+        if (!holds(profile.traits,self.origin.trait)) rpgExpandedReject('voice-exorcism-purchase');
+        if (!profile.developmentOpen) { value.reason = 'rpg.downtime-required'; return value; }
+        local cost = profile.disadvantageBuyoffCost(self.origin.trait);
+        if (cost == nil) { value.reason = 'buyoff-original-cost-required'; return value; }
+        value.points = cost; value.reason = profile.developmentSpendingReason(); if (value.reason != nil) return value;
+        if (profile.unspentPoints < cost) { value.reason = 'rpg.insufficient-points'; return value; }
+        foreach (local occurrence in profile.phantomVoiceOccurrences) occurrence.validateReceipt();
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local profile = self.origin.profile;
+        if (!rpgLiteBuyOff(profile,self.origin.trait)) rpgExpandedReject('voice-exorcism-buyoff-changed');
+        foreach (local occurrence in profile.phantomVoiceOccurrences)
+            if (occurrence.result.occurred && occurrence.endedAt == nil)
+                occurrence.end(true,self.evidence);
+        self.recordedAt = profile.timeElapsed; self.boundDefinition = self.definition(); self.chargedPoints = value.points;
+        self.origin.cure = self; value.status = 'resolved'; self.result = value; return value;
+    }
+;
