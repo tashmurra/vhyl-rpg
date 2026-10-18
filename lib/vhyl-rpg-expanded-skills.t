@@ -487,10 +487,15 @@ class RpgExpandedSkillContext: RpgLiteContext
             rpgExpandedReject('technology-skill-required');
         return rpgExpandedTechnologyModifier(level,self.equipmentTL,self.skill.attribute == rpgIQ);
     }
-    unavailableReason(profile)
+    taskUnavailableReason(profile)
     {
         if (self.technologyModifierFor(profile) == nil) return self.technologyUnavailableReason(profile);
         return inherited(profile);
+    }
+    unavailableReason(profile)
+    {
+        local reason = self.taskUnavailableReason(profile);
+        return reason == nil ? inherited(profile) : reason;
     }
     skillUseModifier(profile)
     {
@@ -1150,7 +1155,7 @@ class RpgExpandedBoatingContext: RpgExpandedSkillContext
         if (self.eventKind == 'routine') return nil;
         return self.eventKind != 'enter' || rpgExpandedPaidSkill(profile,self.skill,[]) == nil;
     }
-    unavailableReason(profile)
+    taskUnavailableReason(profile)
     {
         if (!self.checkRequired(profile)) return 'boating-check-not-required';
         return inherited(profile);
@@ -1177,7 +1182,7 @@ modify RpgExpandedBoatingContext
         value.checkRequired = self.checkRequired(profile);
         if (value.checkRequired)
         {
-            value.reason = self.unavailableReason(profile); if (value.reason != nil) return value;
+            value.reason = self.taskUnavailableReason(profile); if (value.reason != nil) return value;
             local score = rpgLiteScore(profile,self);
             if (score == nil || score < 3) { value.reason = 'boat-entry-score-unavailable'; return value; }
         }
@@ -1635,7 +1640,7 @@ class RpgExpandedVeterinaryContext: RpgExpandedSkillContext
         if (self.unfamiliarPenalty == -1) rpgExpandedReject('veterinary-unfamiliar-minimum');
         return nil;
     }
-    unavailableReason(profile) { self.validateVeterinary(); return inherited(profile); }
+    taskUnavailableReason(profile) { self.validateVeterinary(); return inherited(profile); }
     skillUseModifier(profile)
     {
         self.validateVeterinary(); local base = inherited(profile);
@@ -1802,7 +1807,7 @@ class RpgExpandedPsychologyContext: RpgExpandedSkillContext
             rpgExpandedReject('psychology-empathy-inapplicable');
         return nil;
     }
-    unavailableReason(profile) { self.validatePsychology(); return inherited(profile); }
+    taskUnavailableReason(profile) { self.validatePsychology(); return inherited(profile); }
     skillUseModifier(profile)
     {
         self.validatePsychology(); local base = inherited(profile);
@@ -1982,7 +1987,7 @@ class RpgExpandedPaleontologyContext: RpgExpandedSkillContext
         }
         return nil;
     }
-    unavailableReason(profile)
+    taskUnavailableReason(profile)
     {
         self.validatePaleontology();
         if (self.laboratoryEquipment != nil)
@@ -2131,7 +2136,7 @@ class RpgExpandedBeggingContext: RpgExpandedSkillContext
             rpgExpandedReject('begging-purchased-appearance-context-required');
         return -self.appearanceModifier;
     }
-    unavailableReason(profile)
+    taskUnavailableReason(profile)
     {
         self.validateBegging(); self.appearanceAdjustment(profile);
         local reason = profile.beggingAuthoredTraitReason(self.pitiable,self.shynessPenalty);
@@ -2215,7 +2220,7 @@ class RpgExpandedDisguiseContext: RpgExpandedSkillContext
         rpgInteger(self.equipmentModifier,-1000,1000); rpgInteger(self.differentAppearancePenalty,-5,0);
         rpgInteger(self.sizeModifierDifference,-100,100); return nil;
     }
-    unavailableReason(profile)
+    taskUnavailableReason(profile)
     {
         self.validateDisguise();
         if (self.sizeModifierDifference != 0) return 'disguise-size-difference-unsupported';
@@ -2357,7 +2362,7 @@ class RpgExpandedAnimalDisguiseContext: RpgExpandedSkillContext
         if (!self.study.result.allowed) return 'animal-disguise-study-denied';
         return nil;
     }
-    unavailableReason(profile)
+    taskUnavailableReason(profile)
     {
         local reason = self.animalDisguiseReason(profile); return reason == nil ? inherited(profile) : reason;
     }
@@ -2417,7 +2422,7 @@ class RpgExpandedMakeupContext: RpgExpandedSkillContext
             self.approved,self.evidence,self.modifier,self.equipmentTL,self.familiarity,self.toolkitAssessment];
         return self.toolkitAssessment == nil ? facts : facts + rpgExpandedMakeupEquipment.definition(self.toolkitAssessment,self);
     }
-    unavailableReason(profile)
+    taskUnavailableReason(profile)
     {
         self.makeupFacts();
         if (self.heightChange != 0) return 'makeup-height-change-impossible';
@@ -2433,6 +2438,7 @@ class RpgExpandedMakeupContext: RpgExpandedSkillContext
     }
     skillUseModifier(profile)
     {
+        if (self.taskUnavailableReason(profile) != nil) return nil;
         local amount = inherited(profile); if (amount == nil || self.toolkitAssessment == nil) return amount;
         local tools = rpgExpandedMakeupEquipment.assess(self.toolkitAssessment,profile,self);
         return tools.status == 'ready' ? amount + tools.modifier : nil;
@@ -2460,7 +2466,7 @@ class RpgExpandedCulturalSkillContext: RpgExpandedSkillContext
             return 'cultural-skill-evidence-required';
         profile.culturalPenalty(self.culture); return nil;
     }
-    unavailableReason(profile)
+    taskUnavailableReason(profile)
     {
         local reason = self.cultureReason(profile); return reason == nil ? inherited(profile) : reason;
     }
@@ -2500,7 +2506,7 @@ class RpgExpandedGestureContext: RpgExpandedCulturalSkillContext
         if (!self.observed) return 'gesture-not-observed';
         return self.cultureReason(profile);
     }
-    unavailableReason(profile)
+    taskUnavailableReason(profile)
     {
         local reason = self.gestureReason(profile); return reason == nil ? inherited(profile) : reason;
     }

@@ -9502,6 +9502,8 @@ def test(build):
     test_cultural_adaptation(Session,cultural_adaptation,build.out)
     gesture_attempt = build.build('expanded-gesture-attempt',ROOT / 'tests/fixtures/expanded-gesture-attempt.t')
     test_gesture_attempt(Session,gesture_attempt,build.out)
+    task_availability = build.build('expanded-task-availability',ROOT / 'tests/fixtures/expanded-task-availability.t')
+    test_task_availability(Session,task_availability)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26215,5 +26217,24 @@ def test_gesture_attempt(Session, bundle, out):
             s.action(1680,code); s.action(1680,26502); s.action(1680,26500)
             assert last(s,'test.gesture-preview') == ['blocked',reason]
             assert state(s) == initial
+        finally:
+            s.close()
+
+
+def test_task_availability(Session, bundle):
+    """Valid preflight is distinct from failed-score fallback; no Lite behavior change. Unrun."""
+    for code,reason,score in ((None,None,10),(25604,'makeup-height-change-impossible',None),
+                              (25802,'makeup-prosthetics-technology',None),
+                              (25801,'owned-equipment-inaccessible',None)):
+        s = Session(bundle)
+        try:
+            if code is not None:
+                s.action(1680,code)
+            s.action(1680,26600)
+            assert last(s,'test.task-availability') == [None,'training-required','training-required',8,reason,score,0,0]
+            s.action(1680,25602)
+            assert last(s,'test.makeup-preview') == (['ready',None] if reason is None else ['blocked',reason])
+            s.action(1680,25600); s.action(1680,25603)
+            assert last(s,'test.makeup-state') == ([1,1,600,3] if reason is None else [0,0,0,0])
         finally:
             s.close()

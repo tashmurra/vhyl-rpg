@@ -1039,3 +1039,8 @@ modify RpgLiteContext
     gestureAttemptFacts() { rpgExpandedReject('gesture-context-required'); }
     gestureAttemptReason(profile) { return 'gesture-context-required'; }
 ;
+
+/** Task preconditions differ from the explanation for an unavailable score. */
+modify RpgLiteContext
+    taskUnavailableReason(profile) { return nil; }
+;

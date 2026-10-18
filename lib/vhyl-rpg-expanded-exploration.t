@@ -3628,7 +3628,7 @@ class RpgExpandedPaleontologyAssessment: RpgExpandedPaleontologyReceipt
             prior.validateReceipt();
             if (prior.id == self.id || prior.specimen == self.specimen && prior.context.task == self.context.task) rpgExpandedReject('paleontology-assessment-repeat');
         }
-        local reason = self.context.unavailableReason(self.profile);
+        local reason = self.context.taskUnavailableReason(self.profile);
         if (reason != nil) { value.reason = reason; return value; }
         value.familiarityModifier = self.context.paleontologyFamiliarityModifier(self.profile);
         value.score = rpgLiteScore(self.profile,self.context);

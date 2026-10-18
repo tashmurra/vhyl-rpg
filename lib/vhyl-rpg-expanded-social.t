@@ -3311,7 +3311,7 @@ class RpgExpandedPsychologyAssessment: object
         foreach (local prior in self.profile.psychologyAssessments)
             if (prior.id == self.id || prior.situation == self.situation && prior.context.psychologySubjectIdentity() == self.context.psychologySubjectIdentity()
                 && prior.context.purpose == self.context.purpose) rpgExpandedReject('psychology-assessment-repeat');
-        local reason = self.context.unavailableReason(self.profile);
+        local reason = self.context.taskUnavailableReason(self.profile);
         if (reason != nil) { value.reason = reason; return value; }
         value.score = rpgLiteScore(self.profile,self.context);
         if (value.score == nil || value.score < 3) { value.reason = 'psychology-assessment-score-unavailable'; return value; }
@@ -4001,7 +4001,7 @@ class RpgExpandedMakeupApplication: object
             if (prior.id == self.id) rpgExpandedReject('makeup-application-duplicate');
         value.reason = self.profile.nonTravelScheduleReason(rpgLedger.seconds,self.seconds);
         if (value.reason != nil) return value;
-        value.reason = self.context.unavailableReason(self.profile); if (value.reason != nil) return value;
+        value.reason = self.context.taskUnavailableReason(self.profile); if (value.reason != nil) return value;
         value.score = rpgLiteScore(self.profile,self.context);
         if (value.score == nil || value.score < 3) { value.reason = 'makeup-application-score'; return value; }
         value.gate = self.profile.prepareSocialGate(self.id,self.context.evidence,nil);

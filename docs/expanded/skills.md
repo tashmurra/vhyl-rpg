@@ -1217,3 +1217,25 @@ have no score. This context does not grant language comprehension or replace the
 existing player-authored gesture exchange. The social library supplies owned skill-roll communication through
 `RpgExpandedGestureAttempt`; its player-action interface remains pending. `test_cultures` includes default and
 cultural score cases, scope rejection and persistence; fixtures remain unrun.
+
+## Task preconditions versus unavailable-score diagnostics
+
+Use `context.taskUnavailableReason(profile)` for pure preflight: nil means the
+context has no task-specific blocker. Expanded skill contexts check technology
+and their specialized requirements through this method. Continue to calculate
+`rpgLiteScore` and reject nil or an unusable score separately.
+
+`context.unavailableReason(profile)` remains the explanation used after scoring
+has failed. Its inherited `training-required` fallback is intentional and is not
+an affirmative task-availability check. The Lite fallback is unchanged. Expanded
+specializations route their contextual reasons through `taskUnavailableReason`,
+so failed-score diagnostics still report those reasons when applicable.
+
+Medical equipment contexts, diagnosis, psychology, fossil study, boat entry and
+makeup now preflight with the task-specific method. This corrects valid requests
+being blocked by the diagnostic fallback. Makeup also rejects forbidden height
+changes and unavailable prosthetics/tools during direct scoring.
+`test_task_availability` specifies successful preflight/execution, unchanged Lite
+diagnostics, invalid scope/equipment and no preview resource consumption. Existing
+procedure fixtures cover the other affected paths. All remain unrun while checks
+are paused.

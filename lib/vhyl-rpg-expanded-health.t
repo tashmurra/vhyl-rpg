@@ -1584,7 +1584,7 @@ class RpgExpandedFirstAid: object
             local tools = rpgExpandedFirstAidEquipment.assess(self.equipmentAssessment,self.healer,self.skill);
             if (tools.status != 'ready') { value.reason = tools.reason; return value; }
             equipment = tools.modifier; value.context = self.skill.firstAidContext(tools.equipmentTL);
-            local unavailable = value.context.unavailableReason(self.healer);
+            local unavailable = value.context.taskUnavailableReason(self.healer);
             if (unavailable != nil) { value.reason = unavailable; return value; }
         }
         else { value.context = new RpgLiteContext(); value.context.skill = self.skill; }
@@ -8779,7 +8779,7 @@ class RpgExpandedDiagnosis: object
         }
         value.context = self.skill.diagnosisContext(equipmentTL);
         value.context.modifier = equipment + self.rarityModifier + species + (self.internalInjury ? -5 : 0);
-        local unavailable = value.context.unavailableReason(self.examiner);
+        local unavailable = value.context.taskUnavailableReason(self.examiner);
         if (unavailable != nil) { value.reason = unavailable; return value; }
         value.score = rpgLiteScore(self.examiner,value.context);
         if (value.score == nil || value.score < 3) { value.reason = 'diagnosis-score-unavailable'; return value; }
