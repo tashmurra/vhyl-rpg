@@ -1812,7 +1812,13 @@
             "entry": "traits-c-culture-broad"
           }
         ],
-        "reconciliation": "mapped; full price, classification and effect comparison pending"
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "cultural-adaptation",
+          "total_point_cost": 10,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        }
       }
     },
     {
@@ -2490,7 +2496,13 @@
             "entry": "traits-d-memory-learning"
           }
         ],
-        "reconciliation": "mapped; full price, classification and effect comparison pending"
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "recall",
+          "total_point_cost": 5,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        }
       }
     },
     {
@@ -2542,7 +2554,13 @@
             "entry": "traits-d-empathic-tiers"
           }
         ],
-        "reconciliation": "mapped; full price, classification and effect comparison pending"
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "empathy",
+          "total_point_cost": 15,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        }
       }
     },
     {
@@ -2958,7 +2976,13 @@
             "entry": "traits-e-fitness-basic"
           }
         ],
-        "reconciliation": "mapped; full price, classification and effect comparison pending"
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "fitness",
+          "total_point_cost": 5,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        }
       }
     },
     {

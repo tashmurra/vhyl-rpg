@@ -374,7 +374,7 @@ once. Group summary rows are navigation to actual modifiers, not extra purchases
 
 The [first trait-summary segment](inventory/trait-summary-a.json) maps 112 rows
 to the detailed character and trait ledgers. These include named tiers, sensory
-variants, relationship groups, perks and skill aptitudes. The remaining trait
+variants, relationship groups, perks and skill aptitudes. The remaining negative-trait
 summary pages and full field comparison are still pending.
 
 Orientation, internal timekeeping and bodily flexibility have alternative tiers.
@@ -389,3 +389,18 @@ one or two arms, and strength pricing covers one through three. Broader purchase
 use the overall attribute. Alternate identities have separate legal/illegal costs
 and eligibility, but never create funds. These records await executable character
 accounting, application and advancement fixtures.
+
+The [second trait-summary segment](inventory/trait-summary-b.json) maps another
+148 rows, completing the positive-trait summary mapping. It records further tier
+families and bundled senses. Exclusive low-frequency hearing, ultrasonic hearing
+and ultraviolet sight have zero-point forms; retaining ordinary senses costs
+extra. The corresponding speech traits include their special hearing capability.
+A summary range must not become an arbitrary price slider: detailed ultrasonic
+speech has zero- and ten-point variants.
+
+Base-plus-level prices also need a defined level origin. The life-draining bite's
+base price includes one health point per second; its increments buy additional
+drain. Tunneling increments instead price each movement point, and fear increments
+price each added penalty point. The summary ledger stores these distinctions for
+future accounting tests. The detailed higher recovery tier still has its recorded
+source-wording discrepancy; mapping its summary does not resolve that behavior.

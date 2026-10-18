@@ -8,6 +8,38 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_second_trait_summary_bundles_and_price_origins(self):
+        """Protect source distinctions before the full runtime catalogue exists."""
+        base = ROOT / 'docs/expanded/inventory'
+        ledger = json.loads((base / 'trait-summary-b.json').read_text())
+        rows = [entry['summary_data'] for entry in ledger['entries']]
+        self.assertEqual(len(rows), 148)
+        self.assertEqual([r['row'] for r in rows], list(range(1, 149)))
+        for row in rows:
+            self.assertTrue(row['targets'])
+            for target in row['targets']:
+                detail = json.loads((base / target['file']).read_text())
+                self.assertIn(target['entry'], {e['id'] for e in detail['entries']})
+        by_key = {row['neutral_key']: row for row in rows}
+        for speech, hearing in [('low-frequency-speech', 'low-frequency-hearing'),
+                                ('ultrasonic-speech', 'ultrasonic-hearing')]:
+            self.assertEqual(by_key[speech]['included_trait'], hearing)
+            variants = {v['key']: v for v in by_key[speech]['variants']}
+            self.assertEqual(variants['exclusive']['point_cost'], 0)
+            self.assertFalse(variants['exclusive']['ordinary_speech'])
+            self.assertEqual(variants['switchable']['point_cost'], 10)
+            self.assertTrue(variants['switchable']['ordinary_speech'])
+        for key, base_cost, increment, included in [
+                ('magical-aptitude', 5, 10, 0),
+                ('fear-aura', 30, 10, 0),
+                ('tunneling', 30, 5, 0),
+                ('life-draining-bite', 30, 5, 1)]:
+            formula = by_key[key]['point_formula']
+            self.assertEqual(formula['base_cost'], base_cost)
+            self.assertEqual(formula['cost_per_additional_unit'], increment)
+            self.assertEqual(formula['units_included_in_base'], included)
+        self.assertTrue(by_key['faster-healing']['source_disagreement'])
+
     def test_trait_summary_tier_and_sense_distinctions(self):
         """Source metadata expectations; runtime accounting still needs fixtures."""
         base = ROOT / 'docs/expanded/inventory'
