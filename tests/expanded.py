@@ -8886,6 +8886,9 @@ def test(build):
     test_critical_drop_persistence(Session,combat_drop,build.out)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
+    fresh(Session,hazards,test_radiation_tables)
+    radiation = build.build('expanded-radiation', ROOT / 'tests/fixtures/expanded-radiation.t')
+    test_radiation_doses(Session, radiation, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -9786,5 +9789,79 @@ def test_bleeding_care_boundaries(Session, bundle, out):
         s.action(2285, 4)  # Cancelled care releases seventy; next bleed remains 120.
         assert state(s)[6] == 120
         assert state(s)[-1] == before[-1]
+    finally:
+        s.close()
+
+
+def test_radiation_tables(s):
+    # Fixed outcomes at effective score ten: critical success, success, failure, critical failure.
+    for dose, penalty, outcomes in [
+            (1, 0, ['none', 'none', 'burns', 'blood']),
+            (10, 0, ['none', 'none', 'burns', 'blood']),
+            (11, 0, ['none', 'burns', 'blood', 'digestive']),
+            (20, 0, ['none', 'burns', 'blood', 'digestive']),
+            (21, 0, ['burns', 'blood', 'digestive', 'terminal']),
+            (40, 0, ['burns', 'blood', 'digestive', 'terminal']),
+            (41, -1, ['burns', 'blood', 'digestive', 'terminal']),
+            (80, -1, ['burns', 'blood', 'digestive', 'terminal']),
+            (81, -3, ['burns', 'blood', 'digestive', 'terminal']),
+            (160, -3, ['burns', 'blood', 'digestive', 'terminal']),
+            (161, -4, ['burns', 'blood', 'digestive', 'terminal']),
+            (799, -4, ['burns', 'blood', 'digestive', 'terminal']),
+            (801, -5, ['digestive', 'terminal', 'acute-brain', 'acute-brain']),
+            (4000, -5, ['digestive', 'terminal', 'acute-brain', 'acute-brain']),
+            (4001, -5, ['terminal', 'acute-brain', 'acute-brain', 'acute-brain'])]:
+        for roll, outcome in zip([3, 10, 11, 18], outcomes):
+            s.action(2289, 10 - penalty, dose, 0, roll)
+            assert last(s, 'test.radiation-table') == ['ready', None, penalty, outcome, 0, 0]
+    s.action(2289, 10, 800, 0, 10)
+    assert last(s, 'test.radiation-table')[:2] == ['blocked', 'radiation-eight-hundred-overlap']
+    s.action(2289, 3, 81, 0, 3)
+    assert last(s, 'test.radiation-table')[:2] == ['blocked', 'radiation-score-unavailable']
+    for dose, day, tenths in [(200, 0, 2000), (200, 30, 2000), (200, 31, 1900),
+                               (200, 47, 300), (200, 48, 200), (200, 100, 200),
+                               (1, 31, 1), (15, 31, 50), (15, 32, 15)]:
+        s.action(2290, dose, day)
+        assert last(s, 'test.radiation-decay') == [tenths, 0, 0]
+
+
+def test_radiation_doses(Session, bundle, out):
+    def state(s):
+        s.action(2292)
+        return last(s, 'test.radiation-state')
+    s = Session(bundle)
+    path = out / 'expanded-radiation-doses.zsave'
+    try:
+        before = state(s)
+        s.action(2291, 1, 0)
+        assert last(s, 'test.radiation-dose') == ['ready', None]
+        assert state(s) == before
+        s.action(2291, 2, 0)
+        assert state(s) == before
+        s.action(2291, 0, 0)
+        assert state(s) == [1, 2000, 0, None, 0, 0]
+        s.command('undo')
+        assert state(s) == before
+        s.action(2291, 0, 0)
+        s.action(2291, 3, 30)
+        s.action(2291, 4, 0)
+        assert state(s) == [2, 3000, 0, 2592000, 2592000, 0]
+        s.action(2291, 3, 1)
+        saved = state(s)
+        assert saved == [2, 2900, 0, 2592000, 2678400, 0]
+        s.action(2291, 0, 0)
+        assert last(s, 'test.radiation-dose') == ['reused', None]
+        assert state(s) == saved
+        s.command(f':save {path}\n@2292')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2292')
+        assert state(s) == saved
+        for days, total in [(17, 1200), (13, 1100), (8, 300)]:
+            s.action(2291, 3, days)
+            assert state(s)[1] == total
+            assert state(s)[-1] == 0
     finally:
         s.close()

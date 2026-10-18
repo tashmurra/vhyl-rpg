@@ -12,6 +12,18 @@ modify gameMain initialRoom = hazardRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2289)
+    {
+        local value = rpgExpandedRadiationOutcome(args[1],args[2],args[3],args[4]);
+        event('test.radiation-table'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.modifier); eventValue(value.effect);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2290)
+    {
+        event('test.radiation-decay'); eventValue(rpgExpandedRadiationRemainingTenths(args[1],args[2]));
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 1993)
     {
         local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.fatigue = 10;

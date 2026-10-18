@@ -1411,3 +1411,118 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Pure full-2008 B436 table lookup for whole-rad accumulated doses. The
+ * supplied printing overlaps at 800: that value requires source resolution. */
+rpgExpandedRadiationBand(rads)
+{
+    rpgInteger(rads,1,1000000);
+    local value = new RpgExpandedRadiationResult();
+    if (rads == 800) { value.reason = 'radiation-eight-hundred-overlap'; return value; }
+    if (rads <= 10) { value.modifier = 0; value.effects = ['none','none','burns','blood']; }
+    else if (rads <= 20) { value.modifier = 0; value.effects = ['none','burns','blood','digestive']; }
+    else if (rads <= 799)
+    {
+        value.modifier = rads <= 40 ? 0 : rads <= 80 ? -1 : rads <= 160 ? -3 : -4;
+        value.effects = ['burns','blood','digestive','terminal'];
+    }
+    else if (rads <= 4000) { value.modifier = -5; value.effects = ['digestive','terminal','acute-brain','acute-brain']; }
+    else { value.modifier = -5; value.effects = ['terminal','acute-brain','acute-brain','acute-brain']; }
+    value.status = 'ready'; return value;
+}
+
+/** Select a syndrome descriptor from a supplied HT roll; no symptoms committed. */
+rpgExpandedRadiationOutcome(health, rads, modifier, roll)
+{
+    rpgInteger(health,1,1000); rpgInteger(modifier,-1000,1000); rpgInteger(roll,3,18);
+    local value = rpgExpandedRadiationBand(rads); if (value.status != 'ready') return value;
+    local score = health + modifier + value.modifier;
+    if (score < 3) { value.status = 'blocked'; value.reason = 'radiation-score-unavailable'; return value; }
+    value.check = rpgCheck(score,roll);
+    local column = value.check.critical == 'success' ? 1 : value.check.critical == 'failure' ? 4
+        : value.check.achieved ? 2 : 3;
+    value.effect = value.effects[column]; return value;
+}
+
+/** Source-table descriptors, not an executed medical condition. */
+class RpgExpandedRadiationResult: RpgExpandedResult
+    effects = []
+    effect = nil
+;
+
+/** B435 dose recovery. Whole elapsed days after day thirty reduce this dose
+ * by ten rads/day; tenths retain the permanent tenth without rounding it away. */
+rpgExpandedRadiationRemainingTenths(originalRads, elapsedDays)
+{
+    rpgInteger(originalRads,1,1000000); rpgInteger(elapsedDays,0,1000000);
+    if (elapsedDays <= 30) return originalRads * 10;
+    local remaining = originalRads * 10 - (elapsedDays - 30) * 100;
+    return remaining < originalRads ? originalRads : remaining;
+}
+
+modify RpgExpandedProfile
+    radiationDoses = []
+;
+
+/** One received whole-rad dose, with its own recovery epoch and source identity.
+ * Shielding, tolerance and syndrome resolution are separate pending operations. */
+class RpgExpandedRadiationDose: object
+    id = nil
+    profile = nil
+    source = nil
+    rads = 0
+    approved = nil
+    evidence = nil
+    receivedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition() { return [self.id,self.profile,self.source,self.rads,self.approved,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.source == nil) rpgExpandedReject('radiation-dose-definition');
+        rpgInteger(self.rads,1,1000000); local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('radiation-dose-binding');
+            if (!holds(self.profile.radiationDoses,self)) rpgExpandedReject('radiation-dose-history');
+            value.status = 'reused'; return value;
+        }
+        rpgExpandedValidate(self.profile);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'radiation-dose-evidence'; return value; }
+        foreach (local prior in self.profile.radiationDoses)
+            if (prior.id == self.id) rpgExpandedReject('radiation-dose-duplicate');
+        rpgInteger(rpgLedger.seconds,0,2147483647);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.receivedAt = rpgLedger.seconds;
+        self.profile.radiationDoses = self.profile.radiationDoses + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+    remainingTenths()
+    {
+        if (self.result == nil) rpgExpandedReject('radiation-dose-unreceived');
+        self.assess(); rpgInteger(self.receivedAt,0,rpgLedger.seconds);
+        return rpgExpandedRadiationRemainingTenths(self.rads,(rpgLedger.seconds - self.receivedAt) / 86400);
+    }
+;
+
+/** Sum independently recovering doses; assessment never consumes exposure state. */
+rpgExpandedRadiationTotalTenths(profile)
+{
+    rpgExpandedValidate(profile); local total = 0; local ids = [];
+    foreach (local dose in profile.radiationDoses)
+    {
+        if (dose == nil || !dose.ofKind(RpgExpandedRadiationDose) || dose.profile != profile || holds(ids,dose.id))
+            rpgExpandedReject('radiation-dose-history');
+        ids = ids + [dose.id]; local amount = dose.remainingTenths();
+        rpgInteger(total,0,2147483647 - amount); total += amount;
+    }
+    return total;
+}

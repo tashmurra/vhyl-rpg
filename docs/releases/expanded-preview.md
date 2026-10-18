@@ -210,3 +210,8 @@ combined healing, rollback and save fixtures are authored and unrun.
 Bleeding care now protects its own completion deadline independently of the
 next blood-loss check. Offset care, cancellation and saved continuation retain
 both event times; new fixtures are authored and unrun.
+
+Radiation now has owned whole-rad dose histories, independent daily decay and
+permanent tenth-rad residue, plus pure syndrome-table selection. The supplied
+800-rad overlap is explicitly blocked. Syndrome execution, exposure integration
+and treatment remain pending; new fixtures are authored and unrun.

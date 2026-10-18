@@ -11,9 +11,13 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Record each received radiation dose and its date separately; ongoing exposures must not merge all doses into one recovery start date.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_doses",
+        "tests/expanded.py::test_radiation_tables"
+      ],
+      "validation_note": "Owned whole-rad history and independent daily decay with tenth-rad residue authored. Fractional received doses and exposure/condition integration pending. Fixtures unrun."
     },
     {
       "id": "radiation-dose-recovery",
@@ -21,9 +25,13 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Each dose begins diminishing after thirty days at ten rads per day, stopping at ten percent of that original dose; the permanent residue remains unless specifically removed.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_doses",
+        "tests/expanded.py::test_radiation_tables"
+      ],
+      "validation_note": "Owned whole-rad history and independent daily decay with tenth-rad residue authored. Fractional received doses and exposure/condition integration pending. Fixtures unrun."
     },
     {
       "id": "radiation-living-check",
@@ -41,9 +49,12 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use the table columns in critical-success, success, failure, critical-failure order; a no-obvious-effect outcome still leaves accumulated dose.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_tables"
+      ],
+      "validation_note": "Pure whole-rad table and supplied-roll syndrome selection authored; 800-rad overlap blocked. Syndrome execution pending; fixtures unrun."
     },
     {
       "id": "radiation-eight-hundred-boundary",

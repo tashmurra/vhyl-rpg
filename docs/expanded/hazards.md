@@ -683,3 +683,45 @@ shared clock and random-draw count; resuming a completed rescue cannot repeat it
 IQ loss. These fixtures remain unrun. Drowning, breath-reserve handoff, exceptional
 physiology and broad cross-module verification remain outstanding; the partial
 mappings do not claim full suffocation coverage.
+
+
+## Radiation dose history and table assessments
+
+`RpgExpandedRadiationDose` records one received whole-rad dose from `full-2008`
+B435. Supply `id`, expanded `profile`, concrete `source` identity, `rads`,
+`approved` and evidence for the received amount. `apply()` records `receivedAt`
+on the common clock and installs the dose in `profile.radiationDoses`. It does
+not charge exposure time, perform a resistance check or apply symptoms. The
+source dose must already account for shielding and tolerance; those calculations
+are not implemented by this recording interface. Replay preserves the original
+dose and date, and changed definitions are rejected.
+
+`remainingTenths()` and `rpgExpandedRadiationTotalTenths(profile)` assess the
+remaining dose without consuming history. Every dose has its own recovery epoch.
+After thirty elapsed days, each further whole day removes ten rads until ten
+percent of that dose remains. Values are returned in tenths of a rad, preserving
+residue from a one-rad dose. This daily boundary policy does not interpolate
+partial days. `rpgExpandedRadiationRemainingTenths(originalRads, elapsedDays)`
+exposes the arithmetic; the printed 200-rad example reaches twenty rads after
+48 days. Dose reduction does not heal injury or reverse symptoms.
+
+`rpgExpandedRadiationBand(rads)` returns the B436 HT modifier and four outcomes
+in critical-success, success, failure, critical-failure order. The neutral outcome
+identifiers are `none`, `burns`, `blood`, `digestive`, `terminal` and `acute-brain`.
+`rpgExpandedRadiationOutcome(health, rads, modifier, roll)` selects one using a
+supplied roll. It consumes no randomness and executes no syndrome. `none` means
+no obvious effect, not erasure of the dose history.
+
+The supplied printing assigns 800 rads to two overlapping bands. Exactly 800
+returns `radiation-eight-hundred-overlap`; no later-printing correction is
+silently applied. Other printed whole-rad boundaries are implemented. Fractional
+accumulated totals cannot be passed into this whole-rad lookup by silently
+rounding: their band-selection policy remains unresolved.
+
+The [dose fixture](../../tests/fixtures/expanded-radiation.t),
+`test_radiation_doses` and `test_radiation_tables` specify row boundaries, all four
+outcome columns, the printed recovery example, permanent residue, independently
+aged doses, preview, rollback, undo, replay and cross-process continuation.
+They are authored and unrun. Exposure scheduling, fractional received doses,
+living/machine resistance cadence, all syndrome execution, treatment, reproductive
+consequences and protection still prevent complete radiation support.
