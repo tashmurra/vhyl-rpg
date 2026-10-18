@@ -75,3 +75,10 @@ with a separate area enhancement beginning at one yard. Overlapping enhancers us
 the highest increase; suppression interactions still need the energy chapter.
 Item sensing retains separate first-sight and first-touch history. None of these
 requirements is implemented by a generic trait-cost calculation.
+
+
+[Granted-spell aptitude](inventory/traits-catalogue-j.json) uses an authored spell
+list, separate learned versions and built-in conduct obligations. It does not share
+ordinary spell prerequisites or aptitude bonuses, and its included pact cannot
+receive a second discount. Eligibility, suspension and restoration need explicit
+records; this source coverage does not yet supply executable casting behavior.

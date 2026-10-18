@@ -1,0 +1,779 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B77-B83, before shapeshifting",
+  "review": "Granted spells, foresight, pressure/sense protection, historical/ancestral recall, radiation, recovery, resistance, sensors and shadow form enumerated. B79 radiation table and inconsistent healing wording visually confirmed; wording resolution, timing/rounding policies and integration remain pending; shapeshifting continues in the next segment.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-j-granted-spell-aptitude",
+      "source": "full-2008",
+      "pages": "B77",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Granted-spell aptitude costs ten per level and adds to intelligence only for spells granted by the specified supernatural source. Author defines permitted spell list and maximum level. These spells have no ordinary spell prerequisites; social religious office and rank are independent purchases.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-granted-spell-obligations",
+      "source": "full-2008",
+      "pages": "B77",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author defines conduct and eligibility requirements for gaining, keeping or increasing granted aptitude, including suspension, penance or permanent loss. The pact restriction is already included and cannot be discounted again. Loss can reduce character value but does not create spendable points.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-granted-spell-separation",
+      "source": "full-2008",
+      "pages": "B77",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary magical and granted versions of a spell are distinct learned abilities. Ordinary aptitude does not improve granted spells, granted aptitude does not improve ordinary spells, and granted versions never satisfy ordinary spell prerequisites. Both aptitudes may coexist unless the granting source forbids it.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-future-glimpses",
+      "source": "full-2008",
+      "pages": "B77",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Future glimpses cost 25 and include danger perception without a second purchase. Author-selected encounters can trigger a secret intelligence check and impressions of significant events the actor future self could learn. Vivid frightening impressions may trigger fear resolution. The actor cannot choose spontaneous vision content.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-future-deliberate",
+      "source": "full-2008",
+      "pages": "B77",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Deliberate future reading requires ten minutes concentration, two fatigue and intelligence-8. Reading another person requires touch. Author defines relevant possible events, normally within roughly a week, with exceptional distant visions for critical success or major events. Future mutability and any immutable-setting policy must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-future-limits",
+      "source": "full-2008",
+      "pages": "B77",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Excluding likely causes of the actor death costs -60% and removes included danger perception. One-event-class restriction is -40% and incompatible with that exclusion. Extrasensory psionic origin is -10%. Author defines the event classification without exposing secret cause-of-death facts in previews.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-pressure-1",
+      "source": "full-2008",
+      "pages": "B77-B78",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Pressure adaptation tier 1 costs 5, tolerating ten times native pressure. Nonstandard native pressure is a zero-point feature. Lower-than-native pressure and vacuum remain separately handled.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-pressure-2",
+      "source": "full-2008",
+      "pages": "B77-B78",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Pressure adaptation tier 2 costs 10, tolerating one hundred times native pressure. Nonstandard native pressure is a zero-point feature. Lower-than-native pressure and vacuum remain separately handled.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-pressure-3",
+      "source": "full-2008",
+      "pages": "B77-B78",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Pressure adaptation tier 3 costs 15, tolerating arbitrarily high pressure. Nonstandard native pressure is a zero-point feature. Lower-than-native pressure and vacuum remain separately handled.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-pressure-scope",
+      "source": "full-2008",
+      "pages": "B78",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Pressure adaptation protects against sustained uniform ambient pressure and whole-body ambient compression. It does not reduce localized crushing or transient explosions. Sealing is a separate capability, not a prerequisite or included benefit.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-sense-protection",
+      "source": "full-2008",
+      "pages": "B78",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Sensory overload protection costs five per selected ranged sense. Overload causes at most two seconds impairment, never permanent sensory damage, and gives +5 against temporary damage and sense-based attacks. Protected vision permits immediate bright-to-dark adjustment; protected taste/smell does not neutralize toxins. Author approves unusual senses.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-psi-null",
+      "source": "full-2008",
+      "pages": "B78",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Psionic exclusion costs thirty and blocks direct psionic effects on owner and carried/worn items. Indirect physical hazards such as a previously thrown object still affect them. Do not implement as blanket immunity to every action involving a psionic actor.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-psi-null-modifiers",
+      "source": "full-2008",
+      "pages": "B78",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Area psionic exclusion costs +50% per level, starting at one yard radius and doubling thereafter. Switchable exclusion costs +100%. Resistible exclusion is -50%: attacker must win will contest, but if the power already uses a contest roll it only once and give the target +5 resistance. Avoid double-charging an attack or rolling twice.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-object-history",
+      "source": "full-2008",
+      "pages": "B78",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Historical impressions cost twenty. Touch an inanimate object or place, concentrate one second and check intelligence. Same-day events have no penalty; through ten days -1, one hundred days -2, three years -3, thirty years -4, three hundred years -5, continuing tenfold. Use dated event records and explicit calendar boundaries.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-history-output",
+      "source": "full-2008",
+      "pages": "B78",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Successful history reading gives general emotions/events only where an emotionally significant history exists; critical success gives a vision. It cannot directly detect magic or spirits. Failure bars that object/place for 24 hours. Author may offer spontaneous strong impressions at intelligence-4 and may require fear checks for terrifying impressions.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-history-psi",
+      "source": "full-2008",
+      "pages": "B78",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Extrasensory origin limitation for historical impressions is -10% and makes its source subject to the corresponding psionic family rules.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-compliant-host",
+      "source": "full-2008",
+      "pages": "B78",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compliant-host access costs five per host or ten for an entire related companion group. Require consciousness transfer and a separately purchased companion/dependent relation. The host has intelligence zero, reprogrammable nature or an involuntary duty with frequency matching its appearance. Transfer succeeds automatically but the purchase grants no extra host inventory or free companion.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-ancestral-passive",
+      "source": "full-2008",
+      "pages": "B78",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Passive ancestral recall costs fifteen and covers direct ancestors or prior software generations. Author-triggered secret intelligence success gives familiarity, critical success a vivid ancestral memory, failure nothing and critical failure a mistaken impression. Do not infer access to every member of the species knowledge.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-ancestral-active",
+      "source": "full-2008",
+      "pages": "B78-B79",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Active ancestral recall costs forty and takes one turn of complete concentration, with authored extra preparation for ancient memories. Author first determines whether ancestors knew the requested fact, then checks intelligence. Success can reveal that they did not know; critical failure falsely reports ignorance even when they knew. Define ordinary failure output without exposing private knowledge in preview.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-radiation-2",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Radiation tolerance divisor 2 costs 5. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-radiation-5",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Radiation tolerance divisor 5 costs 10. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-radiation-10",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Radiation tolerance divisor 10 costs 15. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-radiation-20",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Radiation tolerance divisor 20 costs 20. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-radiation-50",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Radiation tolerance divisor 50 costs 25. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-radiation-100",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Radiation tolerance divisor 100 costs 30. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-radiation-200",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Radiation tolerance divisor 200 costs 35. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-radiation-500",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Radiation tolerance divisor 500 costs 40. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-radiation-1000",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Radiation tolerance divisor 1000 costs 45. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-rapid-healing",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Rapid recovery costs five, requires health ten or more and adds five to health checks for healing lost health points or recovering from crippling. It does not speed stun or unconsciousness recovery.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-faster-healing",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The fifteen-point rapid-recovery tier requires health twelve or more, retains the +5 and heals two health points on a successful recovery check instead of one. The printing says recovery of lost HT before describing HP restoration; record and resolve that apparent attribute/health-point wording inconsistency explicitly against the recovery chapter. This wording was confirmed on the rendered printed page, not only in extracted text.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-verbal-stun",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cinematic verbal stunning costs five and is a free speech action using public speaking versus target will. Apply -2 for specified social-obliviousness/humorless targets, authored verbal-content modifier, and -1 per additional target when the speaker knows a shared group characteristic. Unflappable targets are immune.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-verbal-stun-result",
+      "source": "full-2008",
+      "pages": "B79",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Winning verbal attack causes mental stun; critical success also causes one health point accidental injury. Failure has no effect; critical failure enrages the subject and may trigger existing behavioral disadvantages. Author specifies content and anger consequences. Enable only through an explicit campaign choice, not general dialogue availability.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-past-life-learning",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Past-life access costs ten and authorizes normal purchased skills/spells/techniques without a teacher when reincarnation exists in the setting. It grants no free abilities or automatic recall of all past knowledge.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-waking-recovery",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Accelerated waking costs ten and divides unconsciousness durations by sixty. Preserve consciousness eligibility, injuries and other recovery restrictions; this is not healing or a sixtyfold reduction of every ongoing condition.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-consumption-1",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduced consumption tier 1 costs 2 and requires two thirds ordinary food/water or fuel. Requirements remain nonzero. Preserve the source distinction between dated meal intervals and approximate quantities in the nutrition ledger.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-consumption-2",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduced consumption tier 2 costs 4 and requires one third ordinary food/water or fuel. Requirements remain nonzero. Preserve the source distinction between dated meal intervals and approximate quantities in the nutrition ledger.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-consumption-3",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduced consumption tier 3 costs 6 and requires one weekly meal, approximately five percent ordinary need. Requirements remain nonzero. Preserve the source distinction between dated meal intervals and approximate quantities in the nutrition ledger.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-consumption-4",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduced consumption tier 4 costs 8 and requires one monthly meal, approximately one percent ordinary need. Requirements remain nonzero. Preserve the source distinction between dated meal intervals and approximate quantities in the nutrition ledger.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-consumption-quality",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Low-quality nutrition tolerance is -50% on reduced consumption and retains normal intake quantity while reducing food/life-support cost by the tier fraction: two thirds, one third, five percent or one percent. Add tier to resistance against food-borne toxins/disease not specifically tailored to the actor; observers of eating react at -3.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-consumption-one-resource",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Food-only or water-only reduced consumption each costs -50% and leaves the other requirement unchanged. Keep the restricted resource explicit rather than reducing the combined nutrition ledger indiscriminately.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-regeneration-compatibility",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Regeneration includes basic rapid recovery, cannot coexist with slow healing or inability to heal, and does not restore daily health loss from the draining disadvantage. Lost-part restoration requires a separate regrowth purchase. Track healing eligibility by wound/cause instead of erasing all missing health.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-regeneration-slow",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Regeneration tier costs 10 and restores 1 health per twelve hours, in addition to normal healing. Own recovery boundaries and eligible loss so splitting time advancement or reconstructing an effect does not add extra ticks.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-regeneration-regular",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Regeneration tier costs 25 and restores 1 health per hour. Own recovery boundaries and eligible loss so splitting time advancement or reconstructing an effect does not add extra ticks.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-regeneration-fast",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Regeneration tier costs 50 and restores 1 health per minute. Own recovery boundaries and eligible loss so splitting time advancement or reconstructing an effect does not add extra ticks.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-regeneration-very-fast",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Regeneration tier costs 100 and restores 1 health per second. Own recovery boundaries and eligible loss so splitting time advancement or reconstructing an effect does not add extra ticks.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-regeneration-extreme",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Regeneration tier costs 150 and restores 10 health per second. Own recovery boundaries and eligible loss so splitting time advancement or reconstructing an effect does not add extra ticks.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-regeneration-radiation",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Radiation healing enhancement costs +40%, removing accumulated radiation at ten times the health regeneration rate and permitting removal of permanent dose. Radiation-only limitation is -60%, keeping dose removal but excluding health healing. Define inclusion of the otherwise bundled rapid-recovery benefit explicitly for the restricted variant.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-regrowth",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Regrowth costs forty. Small parts take 1d weeks, hands/feet 1d+1 months, and eyes/arms/legs 2d+2 months. With regeneration, all missing parts return in the time required to reach full health. Persist part-specific deadlines and define full-health/interrupted-healing interaction rather than regenerating a limb every time an action begins.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-regrowth-minor",
+      "source": "full-2008",
+      "pages": "B80",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Small-parts-only regrowth is -50% and excludes hands, feet, eyes and other major parts. Validate anatomical category before scheduling recovery.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-resistance-delivery",
+      "source": "full-2008",
+      "pages": "B80-B81",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Noxious-effect resistance applies to health checks against its category, including condition attacks with blood/contact/follow-up/respiratory delivery and toxic/fatigue damaging attacks with those deliveries. It does not cover direct effects already stopped by armor or resisted through sensory protection. Preserve damage type and delivery separately.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-resistance-very-common",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resistance base cost 30 covers an authored very-common category such as broad metabolic hazards. Immunity costs full base and removes resistance rolls; +8 costs half and +3 one third, dropping final fractions.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-resistance-common",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resistance base cost 15 covers an authored common category such as toxins excluding asphyxiants/corrosives, or illness plus environmental syndromes. Immunity costs full base and removes resistance rolls; +8 costs half and +3 one third, dropping final fractions.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-resistance-occasional",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resistance base cost 10 covers an authored occasional category such as disease or ingested toxins. Immunity costs full base and removes resistance rolls; +8 costs half and +3 one third, dropping final fractions.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-resistance-rare",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resistance base cost 5 covers an authored rare category such as one specific syndrome or narrow agent class. Immunity costs full base and removes resistance rolls; +8 costs half and +3 one third, dropping final fractions.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-resistance-construction",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary humans may have any resistance tier to a mundane rare category, disease +3/+8, or toxin +3; stronger broad protection requires exceptional construction/author approval. Nonliving constructions require metabolic immunity, already included in the machine package. Do not charge included immunity twice.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-resistance-mental",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental resistance uses intelligence/will instead of health with the same category pricing. Psionics is a very-common allowed category. Its declared scope remains distinct from physical toxin or disease resistance.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-active-sensor-base",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Active scanning normally provides size/shape but no color or writing, needs no light and ignores darkness penalties in a 120-degree front arc. Emissions can be detected at twice sensing range by eligible observers. It can be switched off; individual sensor exceptions override these general rules.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-sensor-radio",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Radio detection costs twenty, base range two thousand yards, and detects only dense human-sized-or-larger objects. A sense check gives relative size and movement, not an image or attack-aiming capability. Targets not silhouetted against sky take -4. Underwater operation is unavailable.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-sensor-imaging",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Imaging radio detection costs twenty, base range two hundred yards. It detects small objects and shape, with a sense check for fine relief. Thin fabric/vegetation can be penetrated; +3 locates concealed items and light-brush visibility penalties are ignored. Ordinary radio detectors take -4 to detect its emission; underwater operation is unavailable.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-sensor-laser",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Laser scanning costs twenty with two-hundred-yard range. Relative to imaging, object location takes -4 and identification gains +4. Only specialized detectors can detect it, at -4. Dense smoke/solids block it; rain/snow reduce range to an authored ten-to-fifty percent, water to one percent. Preserve line-of-sight and environment-specific exceptions.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-sensor-exotic",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Exotic-energy scanning costs forty and otherwise follows imaging detection but works in every environment. Ordinary radio detectors cannot detect it; author may define compatible advanced detectors. It does not automatically grant unlimited material penetration.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-sensor-sonic",
+      "source": "full-2008",
+      "pages": "B81",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Ultrasonic scanning costs twenty, range two thousand yards underwater, with shape/small-object detection and a check for fine relief. Deafness disables it; loud noise may jam or mislead it. Ultrasonic hearing detects it. Air range is twenty yards times atmospheric pressure; vacuum disables it.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-sensor-arc",
+      "source": "full-2008",
+      "pages": "B82",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Extended scanning arc costs +75% for 240 degrees or +125% for all directions. Reuse the corresponding verified vision arc geometry without granting unrelated ordinary-vision benefits.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-sensor-low-intercept",
+      "source": "full-2008",
+      "pages": "B82",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Low-intercept scanning is +10%, available only for radio or sonar, and switchable independently. While active, halve own range and set emission detection range to 1.5 times that halved range. Do not mistakenly apply 1.5 to the original range.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-sensor-modes",
+      "source": "full-2008",
+      "pages": "B82",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Dual-mode radio is +50% and switches between radio and imaging definitions. Exotic-scanner penetration is +50% and works like two levels of penetrating sight. Enforce eligible sensor types and retain the active mode.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-sensor-targeting",
+      "source": "full-2008",
+      "pages": "B82",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Targeting enhancement is +20%. An aim maneuver locks onto a detected in-range target, gives exact range/speed and +3 to aimed ranged attacks. Targeting-only is -40% and needs another sense to spot targets. Preserve target lock identity and prevent the same aiming bonus being applied twice.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-sealed-body",
+      "source": "full-2008",
+      "pages": "B82",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Sealed body costs fifteen, is water/gas impermeable and immune to corrosive/toxic agents requiring contact with skin or exposed machinery. Respiration remains necessary although external breathing apparatus is protected. It grants neither automatic pressure nor vacuum support.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-clearance",
+      "source": "full-2008",
+      "pages": "B82-B83",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Sensitive-information clearance costs five for narrow need-to-know, ten for narrow unrestricted or broad need-to-know, and fifteen for broad unrestricted access. Minor granting organizations halve price rounded up. It supplements access beyond ordinary rank/status; background eligibility is authored and must be approved.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-invisible-sight",
+      "source": "full-2008",
+      "pages": "B83",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Invisible-target sight costs fifteen per selected kind of invisibility. Store the covered domain rather than treating it as detection of every hidden, phased or concealed target.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-fine-touch",
+      "source": "full-2008",
+      "pages": "B83",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fine touch costs ten and adds four to touch-dependent tasks, cumulative with acute touch. It can perceive residual heat or faint vibration where the authored scene provides such evidence; it is not unlimited remote perception.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-coincidence",
+      "source": "full-2008",
+      "pages": "B83",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fortuitous coincidence costs fifteen per level, granting one plausible authored coincidence per session per level. A particularly unlikely event may consume multiple allowances. Player suggestions are subject to author approval; if all are rejected and no event supplied, carry the unused breaks into the next session. Track session awards, carryover and consumption.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-shadow-body",
+      "source": "full-2008",
+      "pages": "B83",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Surface-shadow form costs fifty, moving along surfaces at ordinary ground speed and up walls/across ceilings at half speed. It can pass thin gaps wide enough for shoulders but cannot cross open three-dimensional space. Physical damage is halved, energy ordinary, light damage multiplied by 1.5, and purely mental/magic/psi effects remain eligible.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-shadow-actions",
+      "source": "full-2008",
+      "pages": "B83",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shadow form cannot perform purely physical attacks/actions, carry or manipulate ordinary objects, but may use eligible supernatural abilities. Permanent shadow state is instead a -20-point disadvantage; positive enhancements reduce its disadvantage magnitude rather than increasing an advantage price.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-shadow-carry-none",
+      "source": "full-2008",
+      "pages": "B83",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shadow-form carrying up to none encumbrance costs +10%. Picked-up objects become shadow and return to normal when put down; nonshadow objects remain otherwise unaffected. Preserve object state and capacity during transitions.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-shadow-carry-light",
+      "source": "full-2008",
+      "pages": "B83",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shadow-form carrying up to light encumbrance costs +20%. Picked-up objects become shadow and return to normal when put down; nonshadow objects remain otherwise unaffected. Preserve object state and capacity during transitions.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-shadow-carry-medium",
+      "source": "full-2008",
+      "pages": "B83",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shadow-form carrying up to medium encumbrance costs +50%. Picked-up objects become shadow and return to normal when put down; nonshadow objects remain otherwise unaffected. Preserve object state and capacity during transitions.",
+      "tests": []
+    },
+    {
+      "id": "traits-j-shadow-carry-heavy",
+      "source": "full-2008",
+      "pages": "B83",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shadow-form carrying up to heavy encumbrance costs +100%. Picked-up objects become shadow and return to normal when put down; nonshadow objects remain otherwise unaffected. Preserve object state and capacity during transitions.",
+      "tests": []
+    }
+  ]
+}

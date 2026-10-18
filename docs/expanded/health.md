@@ -92,3 +92,13 @@ history, one-attempt-per-healer/limb restrictions and dated successful treatment
 Ordinary injury restoration, disease cure and limb repair have different costs
 and eligibility. Source ambiguity about repetition across healers and types is
 recorded explicitly; no full healing implementation is claimed.
+
+
+[Recovery and resistance traits](inventory/traits-catalogue-j.json) require
+cause-aware healing, scheduled regeneration and missing-part restoration. Daily
+draining losses are excluded from regeneration; radiation healing can remove
+permanent accumulated dose. The source's faster-healing paragraph names lost HT
+before describing restored HP. This was visually confirmed on the printed page;
+its interpretation remains explicitly unresolved.
+Resistance also depends on effect delivery and cannot become a blanket bonus
+against every attack. None of these inventory entries is counted as implemented.

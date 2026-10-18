@@ -167,3 +167,10 @@ original body. Host attributes and relative physical skills change while mental
 traits persist. Failed transfers can create permanent subject immunity. Memory
 attempts, purchased return access and remote-control termination need persistent
 records. The module remains incomplete; these are implementation obligations.
+
+
+The [tenth catalogue segment](inventory/traits-catalogue-j.json) adds foresight,
+ancestral and object histories, recovery, active sensors and shadow form. Sensors
+retain their own range, emission visibility, environmental limits and detail
+outputs. A targeting lock is distinct from discovery, and switching sensor modes
+must not accumulate bonuses from incompatible modes. These effects remain pending.
