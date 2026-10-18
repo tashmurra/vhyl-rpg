@@ -957,3 +957,7 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+modify RpgLiteContext
+    beggingFacts() { rpgExpandedReject('begging-context-required'); }
+;

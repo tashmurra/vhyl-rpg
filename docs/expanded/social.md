@@ -1681,3 +1681,27 @@ to the actor's owned knowledge record without forcing belief changes.
 execution. See [Packing knowledge and native actions](exploration.md#packing-knowledge-and-native-actions)
 for the contract. Social depends on a foundation receipt interface, so it does not
 require the exploration implementation merely to be included.
+
+### An hour of begging
+
+`RpgExpandedBeggingHour` (full-2008 B212) owns a single hour's attempt. Set its
+unique `id`, expanded `profile`, `RpgExpandedBeggingContext`, and authored
+`location`. The skills and health libraries supply its context and action gate.
+Provide concrete `criticalBonus` and `criticalTrouble` findings in advance, such
+as an offer of food and an encounter with a patrol. Missing findings reject the
+request before time or randomness is spent.
+
+`assess()` is pure. `resolve()` checks the health gate and, when allowed, spends
+3600 seconds on the shared ledger, rolls once, and credits twice a positive
+success margin to `profile.money`. This interface assumes one campaign money unit
+per reference monetary unit. Other currency scales need an adapter and are not
+currently supported. Failure earns nothing. Critical success additionally exposes
+`result.incident` from `criticalBonus`; critical failure exposes `criticalTrouble`.
+The author must resolve that concrete incident through the appropriate food,
+inventory, social or combat operation. The text is not an executed consequence.
+
+Travel-day reservations block the work interval. An existing receipt reuses its
+outcome without another hour, payment or roll. `profile.beggingHours` retains the
+owned history. `test_begging_hour` specifies earnings, failure, critical findings,
+rollback, undo and cross-process save continuation. Fixtures remain unrun. Incident
+settlement, general work scheduling and full trait adapters remain incomplete.

@@ -1087,6 +1087,6 @@ facts need author adjudication until all corresponding trait adapters exist.
 Keep `interaction` false: this is a skill task, not a general reaction roll.
 
 The context only assesses a score. It does not spend an hour, award money, or
-resolve critical bonuses and legal or violent consequences. Those owned social
-procedures remain pending. `test_begging_skill` specifies default arithmetic,
+resolve critical bonuses and legal or violent consequences. The social library supplies `RpgExpandedBeggingHour` for owned hourly execution;
+critical incident settlement still requires author integration. `test_begging_skill` specifies default arithmetic,
 modifier composition and forbidden appearance inversion; fixtures are unrun.

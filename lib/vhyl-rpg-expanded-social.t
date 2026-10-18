@@ -3606,3 +3606,110 @@ class RpgExpandedPackingAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+class RpgExpandedBeggingResult: RpgExpandedResult
+    score = nil
+    gate = nil
+    allowed = nil
+    earned = 0
+    incident = nil
+;
+/** B212 one owned hour, with concrete author-selected critical findings. */
+class RpgExpandedBeggingHour: object
+    id = nil
+    profile = nil
+    context = nil
+    location = nil
+    criticalBonus = nil
+    criticalTrouble = nil
+    result = nil
+    startedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.context == nil || !self.context.ofKind(RpgLiteContext) || self.location == nil)
+            rpgExpandedReject('begging-hour-definition');
+        if (self.criticalBonus == nil || self.criticalBonus == '' || self.criticalTrouble == nil || self.criticalTrouble == '')
+            rpgExpandedReject('begging-critical-facts-required');
+        return [self.id,self.profile,self.context,self.location,self.criticalBonus,self.criticalTrouble] + self.context.beggingFacts();
+    }
+    outcomeDefinition()
+    {
+        return [self.startedAt,self.completedAt,self.result.allowed,self.result.earned,self.result.incident,self.result.seconds];
+    }
+    validateBinding(facts)
+    {
+        local current = self.definition();
+        if (facts.length() != current.length()) rpgExpandedReject('begging-hour-binding');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (facts[index] != current[index]) rpgExpandedReject('begging-hour-binding');
+        return nil;
+    }
+    assess()
+    {
+        self.definition(); local value = new RpgExpandedBeggingResult();
+        if (self.result != nil)
+        {
+            self.validateBinding(self.boundDefinition);
+            if (!holds(self.profile.beggingHours,self)) rpgExpandedReject('begging-hour-history');
+            local outcome = self.outcomeDefinition();
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('begging-hour-outcome');
+            value.status = 'reused'; return value;
+        }
+        foreach (local prior in self.profile.beggingHours)
+            if (prior.id == self.id) rpgExpandedReject('begging-hour-duplicate');
+        value.reason = self.profile.nonTravelScheduleReason(rpgLedger.seconds,3600);
+        if (value.reason != nil) return value;
+        value.score = rpgLiteScore(self.profile,self.context);
+        if (value.score == nil || value.score < 3) { value.reason = 'begging-score-unavailable'; return value; }
+        rpgInteger(value.score,3,1000); rpgInteger(self.profile.money,0,2147483647-2000);
+        value.gate = self.profile.prepareSocialGate(self.id,self.context.evidence,nil);
+        if (value.gate == nil) { value.reason = 'begging-health-adapter-required'; return value; }
+        local permission = value.gate.assess();
+        if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647-3600); rpgLedger.validateAdvance(3600);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds;
+        local permission = value.gate.resolve();
+        if (!holds(['resolved','reused'],permission.status)) rpgExpandedReject('begging-permission-changed');
+        self.validateBinding(facts); value.allowed = permission.allowed;
+        if (value.allowed)
+        {
+            rpgSpendTime(3600); value.seconds = 3600; self.validateBinding(facts);
+            if (rpgLedger.seconds != start+3600 || rpgLiteScore(self.profile,self.context) != value.score
+                || self.profile.nonTravelScheduleReason(start,3600) != nil) rpgExpandedReject('begging-hour-changed');
+            rpgInteger(self.profile.money,0,2147483647-2000);
+            value.check = rpgCheck(value.score,rpgRandom.roll());
+            if (value.check.achieved && value.check.margin > 0) value.earned = 2 * value.check.margin;
+            value.incident = value.check.critical == 'success' ? self.criticalBonus
+                : value.check.critical == 'failure' ? self.criticalTrouble : nil;
+            self.profile.money += value.earned;
+        }
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = facts;
+        value.status = 'resolved'; self.result = value; self.boundOutcome = self.outcomeDefinition();
+        self.profile.beggingHours = self.profile.beggingHours + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    beggingHours = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local hour in self.beggingHours)
+        {
+            if (hour == nil || !hour.ofKind(RpgExpandedBeggingHour) || hour.profile != self || holds(ids,hour.id)
+                || hour.assess().status != 'reused') rpgExpandedReject('begging-hour-history');
+            ids = ids + [hour.id];
+        }
+        return nil;
+    }
+;

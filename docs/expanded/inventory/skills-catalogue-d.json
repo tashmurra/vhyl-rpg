@@ -675,8 +675,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Resolve one hour at a time, awarding twice the success margin in campaign money; author critical bonuses and consequences and apply permitted appearance inversion and crowd modifiers.",
-      "tests": ["tests/expanded.py::test_begging_skill"],
-      "validation_note": "Typed skill defaults and explicit local modifier context implemented. Hourly earnings, critical outcomes, owned execution and complete trait adapters remain pending. Fixtures unrun.",
+      "tests": ["tests/expanded.py::test_begging_skill", "tests/expanded.py::test_begging_hour"],
+      "validation_note": "Typed skill defaults and explicit local modifier context implemented. Owned hourly execution now uses the shared time/money ledgers and records explicit critical findings. Critical incident settlement, work scheduling and complete trait adapters remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "easy",

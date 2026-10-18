@@ -9458,6 +9458,8 @@ def test(build):
     test_travel_full_day_pace(Session,travel_day)
     begging_skill = build.build('expanded-begging-skill',ROOT / 'tests/fixtures/expanded-begging-skill.t')
     test_begging_skill(Session,begging_skill)
+    begging_hour = build.build('expanded-begging-hour',ROOT / 'tests/fixtures/expanded-begging-hour.t')
+    test_begging_hour(Session,begging_hour,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
     test_travel_digging(Session,travel_digging,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
@@ -25256,3 +25258,36 @@ def test_begging_skill(Session, bundle):
         assert last(s,'test.begging-error') == ['begging-appearance-inversion']
     finally:
         s.close()
+
+
+def test_begging_hour(Session, bundle, out):
+    """Hourly earnings share time/money and never repeat on receipt reuse; unrun."""
+    path = out / 'begging-hour.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,24302)
+        assert last(s,'test.begging-hour-preview') == ['ready',None]
+        s.action(1680,24301); s.action(1680,24303)
+        assert last(s,'test.begging-hour-state') == [0,0,0,0,None]
+        s.action(1680,24300); s.command('undo'); s.action(1680,24303)
+        assert last(s,'test.begging-hour-state') == [0,0,0,0,None]
+        for code in (24300,24300,24303):
+            s.action(1680,code)
+        assert last(s,'test.begging-hour-state') == [10,3600,3,1,'A resident offers a meal']
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,24300); s.action(1680,24303)
+        assert last(s,'test.begging-hour-state') == [10,3600,3,1,'A resident offers a meal']
+    finally:
+        s.close()
+    for setup, incident in ((24304,None),(24305,'A patrol challenges the beggar')):
+        s = Session(bundle)
+        try:
+            for code in (setup,24300,24303):
+                s.action(1680,code)
+            assert last(s,'test.begging-hour-state') == [0,3600,3,1,incident]
+        finally:
+            s.close()

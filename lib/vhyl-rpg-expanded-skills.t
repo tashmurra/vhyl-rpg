@@ -2127,3 +2127,13 @@ class RpgExpandedBeggingContext: RpgExpandedSkillContext
             + (self.invertAppearance ? -self.appearanceModifier : 0) + self.crowdModifier;
     }
 ;
+
+modify RpgExpandedBeggingContext
+    beggingFacts()
+    {
+        self.validateBegging();
+        return [self.skill,self.approved,self.evidence,self.pitiable,self.shynessPenalty,self.invertAppearance,
+            self.appearanceModifier,self.extremeAppearance,self.crowdModifier,self.modifier,self.familiarity,
+            self.equipmentTL,self.rollAttribute,self.fixedBase,self.interaction];
+    }
+;
