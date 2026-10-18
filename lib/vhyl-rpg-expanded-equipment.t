@@ -124,3 +124,59 @@ modify RpgLiteContext
         return inherited(profile);
     }
 ;
+
+/** Acquisition receipt; money is the nonnegative amount charged, not points. */
+class RpgExpandedAcquisitionResult: RpgExpandedResult
+    money = 0
+    item = nil
+;
+
+/** One authored sale or issue of an existing physical item, B264-B267.
+ * Availability and local permission are separate facts supplied by the world. */
+class RpgExpandedAcquisition: object
+    profile = nil
+    item = nil
+    mode = 'purchase'
+    quote = nil
+    available = nil
+    permitted = nil
+    claimed = nil
+    claimedProfile = nil
+    claimedItem = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.item == nil || !self.item.ofKind(RpgLiteItem))
+            rpgExpandedReject('acquisition-target');
+        if (!holds(['purchase','issue'], self.mode)) rpgExpandedReject('acquisition-mode');
+        if (self.claimed && (self.profile != self.claimedProfile || self.item != self.claimedItem))
+            rpgExpandedReject('acquisition-retargeted');
+        local value = new RpgExpandedAcquisitionResult(); value.item = self.item;
+        if (self.claimed) { value.status = 'reused'; return value; }
+        rpgExpandedValidate(self.profile);
+        rpgInteger(self.profile.money, 0, 2147483647);
+        rpgInteger(self.item.quantity, 1, 1000000);
+        rpgInteger(self.item.weight, 0, 2147483647 / self.item.quantity);
+        rpgInteger(self.item.cost, 0, 2147483647);
+        if (self.quote != nil) rpgInteger(self.quote, 0, 2147483647);
+        if (self.mode == 'issue' && self.quote != nil && self.quote != 0)
+            rpgExpandedReject('issued-equipment-price');
+        if (!self.available) { value.reason = 'equipment-unavailable'; return value; }
+        if (!self.permitted) { value.reason = 'equipment-permission'; return value; }
+        for (local owner = firstObj(RpgProfile); owner != nil; owner = nextObj(owner,RpgProfile))
+            if (owner.ofKind(RpgLiteProfile) && holds(owner.equipment,self.item))
+            { value.reason = 'equipment-already-owned'; return value; }
+        local price = self.mode == 'issue' ? 0 : self.quote == nil ? self.item.cost : self.quote;
+        if (self.profile.money < price) { value.reason = 'equipment-unaffordable'; return value; }
+        value.money = price; value.status = 'ready'; return value;
+    }
+    acquire()
+    {
+        local value = self.assess();
+        if (value.status != 'ready') return value;
+        self.profile.money -= value.money;
+        self.profile.equipment = self.profile.equipment + [self.item];
+        self.claimed = true; self.claimedProfile = self.profile; self.claimedItem = self.item;
+        value.status = 'resolved'; return value;
+    }
+;

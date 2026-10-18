@@ -29,6 +29,9 @@ recognitionFive: RpgExpandedFamiliarity owner = recognitionHero skill = recognit
 recognitionSix: RpgExpandedFamiliarity owner = recognitionHero skill = recognitionSkill equipmentType = 'six' initial = true;
 recognitionTarget: RpgExpandedFamiliarity owner = recognitionHero skill = recognitionSkill equipmentType = 'new' available = true;
 recognitionDecision: RpgExpandedFamiliarityRecognition familiarity = recognitionTarget approved = true;
+purchaseHero: RpgExpandedProfile rules = expandedRules money = 100;
+purchaseItem: RpgLiteItem id = 'field-tools' cost = 40 weight = 200;
+purchaseOffer: RpgExpandedAcquisition profile = purchaseHero item = purchaseItem available = true permitted = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -55,6 +58,12 @@ class ExpandedTestAction: Action
             local value = recognitionDecision.resolve();
             event('test.recognition'); eventValue(value.status); eventValue(value.reason);
             if (code == 9) throw new RpgError();
+        }
+        if (code == 11 || code == 12)
+        {
+            local value = purchaseOffer.acquire(); event('test.acquisition');
+            eventValue(value.status); eventValue(value.reason); eventValue(value.money);
+            if (code == 12) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -656,6 +665,33 @@ act(verb, args)
         equipment.quality = 'improvised'; equipment.damagePenalty = 1;
         try { rpgLiteScore(p,context); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1144)
+    {
+        event('test.acquisition-state'); eventValue(purchaseHero.money);
+        eventValue(purchaseHero.equipment.length()); eventValue(purchaseOffer.claimed);
+        eventValue(purchaseHero.loadHundredths()); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws);
+        return nil;
+    }
+    if (verb == 1145)
+    {
+        local value = purchaseOffer.assess(); event('test.acquisition');
+        eventValue(value.status); eventValue(value.reason); eventValue(value.money); return nil;
+    }
+    if (verb == 1146)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.money = 10;
+        local item = new RpgLiteItem(); item.cost = 20;
+        local offer = new RpgExpandedAcquisition(); offer.profile = p; offer.item = item;
+        event('test.acquisition-gates'); eventValue(offer.assess().reason);
+        offer.available = true; eventValue(offer.assess().reason);
+        offer.permitted = true; eventValue(offer.assess().reason);
+        offer.mode = 'issue'; eventValue(offer.assess().status); eventValue(offer.assess().money);
+        offer.quote = 5;
+        try { offer.assess(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        offer.quote = nil; offer.item = purchaseItem; eventValue(offer.assess().reason);
         return nil;
     }
     return vhylAct(verb,args);

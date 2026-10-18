@@ -458,6 +458,18 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "validation_note": "Explicit adequacy/quality/condition assessment and contextual use authored. New tests unrun; inventory, quality purchasing and catalogue exceptions pending."
+    },
+    {
+      "id": "equipment-acquisition",
+      "module": "equipment",
+      "pages": "B264-B267",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedAcquisition",
+      "tests": [
+        "tests/expanded.py::test_acquisition"
+      ],
+      "validation_note": "Single-ledger purchase/issue with explicit availability, permission and ownership checks authored; checks unrun. Merchant transfers, legality and starting allocations pending."
     }
   ],
   "detailed_inventories": [

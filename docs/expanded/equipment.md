@@ -215,3 +215,33 @@ Authored cases in `tests/expanded.py::test_equipment_quality` cover each quality
 technological versus other skills, rounding and minimum best-quality bonuses,
 missing/damaged items, combined contextual modifiers, blocked checks and purity.
 They have not run while validation is paused.
+
+## Acquiring an item
+
+Use an owned `RpgExpandedAcquisition` with `profile`, an existing physical `item`,
+`available` and `permitted`. `assess()` is pure and returns an
+`RpgExpandedAcquisitionResult`; `acquire()` rechecks the conditions and commits
+inside the normal action transaction. The result's `money` is the amount charged,
+separate from character points. The default `mode = 'purchase'` uses `item.cost`,
+or an explicit `quote` for the offered price. As in the existing item contract,
+this is the total price for that item instance/bundle, not a second multiplication
+by its quantity. `mode = 'issue'` costs zero and rejects a nonzero quote.
+
+A successful acquisition appends the same item instance to `profile.equipment` and
+deducts money once. The receipt then returns `reused` with no charge. It cannot be
+retargeted to another item or profile after commitment. Items already in any Lite
+or expanded profile's inventory are rejected, preventing duplicate ownership
+through another acquisition offer. The operation also validates nonnegative funds,
+price, quantity and bounded total item weight before changing state.
+
+Availability and permission are explicit authored world facts. The reference's
+item technology indicates earliest availability, not a universal prohibition on
+buying above one's personal level. This interface does not infer market supply,
+licenses or legality from that level. Detailed legality/control interactions,
+merchant-to-buyer transfers, starting-wealth allocation, stored versus carried
+possessions and sale/resale procedures remain pending. Existing `rpgLiteBuy`
+retains its original contract; use this acquisition object for the expanded path.
+
+`tests/expanded.py::test_acquisition` covers pure previews, affordability and
+permission gates, issue pricing, inventory ownership, one-time charging, undo and
+exception rollback. These authored cases remain unrun while checks are paused.
