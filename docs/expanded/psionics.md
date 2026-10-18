@@ -271,3 +271,50 @@ rollback, latent and new-family permission, insufficient points, downtime,
 separate-process save continuation, zero-cost replay, actual post-purchase
 warning and undo. It remains unrun. Other ability purchases, potential abilities
 and modifier buyoffs still require their own implemented procedures.
+
+## Object-history reading
+
+`RpgExpandedPsionicObjectHistory` implements the source-modified B78 ability at
+an expanded creation cost of eighteen points. Its approved power must include
+`object-history` and use a source modifier of -10. Other modifiers and optional
+spontaneous impressions are not yet supported.
+
+`RpgExpandedHistoryReading` owns one attempt. Supply an expanded `profile`, its
+owned `ability`, the actual inanimate `subject` (object or place), a unique `id`,
+`touched`, `uninterrupted`, `approved`, `interferenceKnown` and `evidence`.
+The author identifies the event's `ageBand` using the supplied printing:
+
+| Band | Event age | Check modifier |
+| --- | --- | --- |
+| 0 | Same day | 0 |
+| 1 | Up to ten days | -1 |
+| 2 | Up to one hundred days | -2 |
+| 3 | Up to three years | -3 |
+| 4 | Up to thirty years | -4 |
+| 5 | Up to three hundred years | -5 |
+
+Choose the smallest applicable band using the campaign calendar. Older bands
+and automatic date conversion remain unsupported. Set `emotionalImpression`
+according to the subject's history. Supply `impressionText` for a successful
+emotional impression, `visionText` for a critical-success vision and
+`misleadingText` for the psionic severe-failure rule. These texts cannot claim
+to detect magic or spirits themselves. They describe historical impressions.
+A successful reading of an emotionally uneventful subject returns no information.
+
+`apply()` advances the shared clock by one second, revalidates touch,
+concentration and conditions, then secretly rolls IQ plus matching talent minus
+the age penalty. Failure by exactly five gives no information; failure by more
+than five returns the authored misleading text under B256. Every failed attempt
+locks this observer out of reading the same subject for twenty-four hours from
+completion. At the exact boundary another attempt is allowed. Success does not
+create that lock. Replaying a receipt repeats its information without time or
+dice. The public result has no roll, score or truthfulness flag; `secretCheck`
+is author-only and `lastCheck` is unchanged.
+
+Terrifying impressions are explicitly blocked until the expanded fright result
+can be committed with the reading. Suppression from established countermeasures
+is currently an authored gate; static-contact integration, optional spontaneous
+impressions, older age bands and purchases of this ability remain incomplete.
+`test_psionic_history` specifies all supported age modifiers, one-second cost,
+ordinary and critical information, severe-failure boundaries, the exact retry
+deadline, replay and rollback. These fixtures remain unrun.

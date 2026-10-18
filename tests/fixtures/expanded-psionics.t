@@ -35,6 +35,19 @@ latentPurchase: RpgExpandedDangerSensePurchase id = 'first-warning' profile = la
 latentWarning: RpgExpandedDangerWarning id = 'first-hazard' profile = latentProfile ability = latentAbility
     hazardPresent = true approved = true interferenceKnown = true evidence = 'Known impending fall'
     warningText = 'Step back.' detailText = 'The roof is falling.';
+historyPower: RpgExpandedPsionicPower id = 'history-power' abilityIds = ['object-history'] powerModifier = -10
+    approved = true evidence = 'Permitted historical impressions';
+historyAbility: RpgExpandedPsionicObjectHistory power = historyPower approved = true evidence = 'Paid ability';
+historyTalent: RpgExpandedPsionicTalent id = 'history-talent' power = historyPower level = 2 approved = true evidence = 'Paid talent';
+historyProfile: RpgExpandedProfile iq = 8 traits = [historyAbility,historyTalent];
+historySubject: object;
+class HistoryTestRequest: RpgExpandedHistoryReading
+    profile = historyProfile ability = historyAbility subject = historySubject emotionalImpression = true
+    touched = true uninterrupted = true approved = true interferenceKnown = true evidence = 'A marked cup from an argument'
+    impressionText = 'Someone argued here.' visionText = 'You see two people arguing over the cup.'
+    misleadingText = 'The cup was a peaceful wedding gift.'
+;
+historyRequest: HistoryTestRequest id = 'cup-reading';
 modify rpgRandom
     roll()
     {
@@ -46,6 +59,24 @@ class WarningTestAction: Action
     exec(context)
     {
         local code = warningInput.code;
+        if (code >= 60)
+        {
+            if (code == 64) historyRequest.terrifying = true;
+            if (code == 65) historyRequest.touched = nil;
+            if (code == 66) warningInput.forcedRoll = 15;
+            if (code == 67) warningInput.forcedRoll = 16;
+            if (code == 68) warningInput.forcedRoll = 3;
+            if (code == 69) historyRequest.emotionalImpression = nil;
+            local request = historyRequest;
+            if (code == 70 || code == 71)
+            {
+                rpgSpendTime(code == 70 ? 86399 : 1);
+                request = new HistoryTestRequest(); request.id = 'retry-cup'; warningInput.forcedRoll = 10;
+            }
+            local value = code == 63 ? request.assess() : request.apply();
+            event('test.history-reading'); eventValue(value.status); eventValue(value.reason); eventValue(value.information);
+            if (code == 62) throw new RpgError(); return nil;
+        }
         if (code >= 40)
         {
             if (code == 44) latentProfile.unspentPoints = 0;
@@ -110,6 +141,19 @@ warningVerb: Verb code = 2231 action = warningAction label = 'sense danger';
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2244)
+    {
+        local request = new HistoryTestRequest(); request.id = 'age-preview'; request.ageBand = args[1];
+        event('test.history-age'); eventValue(rpgLiteScore(historyProfile,request.context()));
+        eventValue(request.assess().status); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2242) { warningInput.code = 60 + args[1]; return vhylAct(2231,args); }
+    if (verb == 2243)
+    {
+        event('test.history-state'); eventValue(historyProfile.psionicHistoryReadings.length());
+        eventValue(historyProfile.lastCheck == nil ? 0 : 1); eventValue(historyAbility.creationCost());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2240) { warningInput.code = 40 + args[1]; return vhylAct(2231,args); }
     if (verb == 2241)
     {

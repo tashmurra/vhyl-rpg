@@ -277,9 +277,10 @@
         "tests/expanded.py::test_static_ready",
         "tests/expanded.py::test_static_health_defaults",
         "tests/expanded.py::test_psionic_advancement",
-        "tests/expanded.py::test_psionic_purchase"
+        "tests/expanded.py::test_psionic_purchase",
+        "tests/expanded.py::test_psionic_history"
       ],
-      "validation_note": "Owned executable warning purchase and shared point/revision accounting authored, with latent/new-family gates and save-continuation fixture; unrun. Other ability purchases and broad membership integration remain pending."
+      "validation_note": "Owned one-second secret object-history reading, supported age bands, authored true/vision/misleading outputs and failed-reading retry deadline authored; fixtures unrun. Fright, spontaneous impressions, older ages and broader integration remain pending."
     },
     {
       "id": "skills",

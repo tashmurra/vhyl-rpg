@@ -537,3 +537,115 @@ class RpgExpandedDangerSensePurchase: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B78/B256: source-modified history reading, without additional modifiers. */
+class RpgExpandedPsionicObjectHistory: RpgLiteTrait
+    id = 'psionic-object-history'
+    power = nil
+    approved = nil
+    evidence = nil
+    validateAbility()
+    {
+        if (self.power == nil || !self.power.ofKind(RpgExpandedPsionicPower)) rpgExpandedReject('psionic-history-power');
+        self.power.validate();
+        if (self.power.powerModifier != -10 || !holds(self.power.abilityIds,'object-history'))
+            rpgExpandedReject('psionic-history-power-definition');
+        if (self.level != 1 || !self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('psionic-history-author-facts');
+        return true;
+    }
+    creationCost() { self.validateAbility(); return 18; }
+;
+
+modify RpgExpandedProfile
+    psionicHistoryReadings = []
+;
+
+class RpgExpandedHistoryReadingResult: RpgExpandedResult
+    information = nil
+;
+
+/** Explicit historical facts and distinct truthful/vision/misleading outputs. */
+class RpgExpandedHistoryReading: object
+    id = nil
+    profile = nil
+    ability = nil
+    subject = nil
+    ageBand = 0
+    emotionalImpression = nil
+    terrifying = nil
+    touched = nil
+    uninterrupted = nil
+    approved = nil
+    interferenceKnown = nil
+    suppressed = nil
+    impressionText = nil
+    visionText = nil
+    misleadingText = nil
+    evidence = nil
+    result = nil
+    secretCheck = nil
+    completedAt = nil
+    snapshot = nil
+    definition()
+    { return [self.id,self.profile,self.ability,self.ability.power,self.subject,self.ageBand,self.emotionalImpression,
+        self.terrifying,self.impressionText,self.visionText,self.misleadingText,self.evidence]; }
+    context()
+    {
+        local context = new RpgLiteContext(); context.attribute = rpgIQ; context.kind = 'object-history';
+        context.modifier = rpgExpandedPsionicTalentBonus(self.profile,self.ability.power) - self.ageBand; return context;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.ability == nil || !self.ability.ofKind(RpgExpandedPsionicObjectHistory) || self.subject == nil)
+            rpgExpandedReject('psionic-history-request');
+        local value = new RpgExpandedHistoryReadingResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.snapshot == nil || self.snapshot.length() != current.length()) rpgExpandedReject('psionic-history-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.snapshot[index]) rpgExpandedReject('psionic-history-binding');
+            if (!holds(self.profile.psionicHistoryReadings,self)) rpgExpandedReject('psionic-history-record');
+            value.status = 'reused'; value.information = self.result.information; return value;
+        }
+        self.ability.validateAbility(); rpgInteger(self.ageBand,0,5);
+        if (!holds(self.profile.traits,self.ability) || !self.ability.active)
+        { value.reason = 'psionic-history-ability-required'; return value; }
+        if (!self.approved || !self.touched || !self.uninterrupted || !self.interferenceKnown
+            || self.evidence == nil || self.evidence == '' || self.impressionText == nil || self.impressionText == ''
+            || self.visionText == nil || self.visionText == '' || self.misleadingText == nil || self.misleadingText == '')
+        { value.reason = 'psionic-history-author-facts'; return value; }
+        if (self.suppressed) { value.reason = 'psionic-power-suppressed'; return value; }
+        if (self.terrifying) { value.reason = 'psionic-history-fright-integration-required'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.stunned || self.profile.mentalStun
+            || self.profile.hp() <= 0 || self.profile.fp() <= 0)
+        { value.reason = 'psionic-history-observer-unavailable'; return value; }
+        foreach (local prior in self.profile.psionicHistoryReadings)
+        {
+            if (prior.id == self.id) { value.reason = 'psionic-history-duplicate'; return value; }
+            if (prior.subject == self.subject && !prior.secretCheck.achieved && rpgLedger.seconds-prior.completedAt < 86400)
+            { value.reason = 'psionic-history-retry-delay'; return value; }
+        }
+        local score = rpgLiteScore(self.profile,self.context());
+        if (score == nil || score < 3) { value.reason = 'psionic-history-score-unavailable'; return value; }
+        value.seconds = 1; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local before = self.definition(); local start = rpgLedger.seconds; rpgSpendTime(1);
+        local after = self.definition();
+        for (local index = 1; index <= before.length(); index += 1)
+            if (before[index] != after[index]) rpgExpandedReject('psionic-history-changed');
+        if (rpgLedger.seconds != start + 1 || self.assess().status != 'ready') rpgExpandedReject('psionic-history-interrupted');
+        self.secretCheck = rpgCheck(rpgLiteScore(self.profile,self.context()),rpgRandom.roll());
+        if (!self.secretCheck.achieved && self.secretCheck.margin < -5) value.information = self.misleadingText;
+        else if (self.secretCheck.achieved && self.emotionalImpression)
+            value.information = self.secretCheck.critical == 'success' ? self.visionText : self.impressionText;
+        self.snapshot = before; self.completedAt = rpgLedger.seconds;
+        self.profile.psionicHistoryReadings = self.profile.psionicHistoryReadings + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

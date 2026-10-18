@@ -1664,6 +1664,50 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_psionic_history(Session,bundle):
+    def state(s):
+        s.action(2243)
+        return last(s,'test.history-state')
+    s=Session(bundle)
+    try:
+        for band,score in [(0,10),(1,9),(2,8),(3,7),(4,6),(5,5)]:
+            s.action(2244,band)
+            assert last(s,'test.history-age') == [score,'ready',0,0]
+        for code in [3,2]:
+            s.action(2242,code)
+            assert state(s) == [0,0,18,0,0]
+        s.action(2242,0)
+        assert last(s,'test.history-reading') == ['resolved',None,'Someone argued here.']
+        assert state(s) == [1,0,18,3,1]
+        s.action(2242,0)
+        assert last(s,'test.history-reading') == ['reused',None,'Someone argued here.']
+        assert state(s) == [1,0,18,3,1]
+    finally: s.close()
+    for code,text in [(6,None),(7,'The cup was a peaceful wedding gift.'),
+            (8,'You see two people arguing over the cup.'),(9,None)]:
+        s=Session(bundle)
+        try:
+            s.action(2242,code)
+            assert last(s,'test.history-reading') == ['resolved',None,text]
+            assert state(s) == [1,0,18,3,1]
+            if code in [6,7]:
+                s.action(2242,10)
+                assert last(s,'test.history-reading')[:2] == ['blocked','psionic-history-retry-delay']
+                assert state(s) == [1,0,18,3,86400]
+                s.action(2242,11)
+                assert last(s,'test.history-reading') == ['resolved',None,'Someone argued here.']
+                assert state(s) == [2,0,18,6,86402]
+            s.command('undo')
+        finally: s.close()
+    for code,reason in [(4,'psionic-history-fright-integration-required'),(5,'psionic-history-author-facts')]:
+        s=Session(bundle)
+        try:
+            s.action(2242,code)
+            assert last(s,'test.history-reading')[:2] == ['blocked',reason]
+            assert state(s) == [0,0,18,0,0]
+        finally: s.close()
+
+
 def test_psionic_purchase(Session,bundle,out):
     def state(s):
         s.action(2241)
@@ -7977,6 +8021,7 @@ def test(build):
     test_psionic_warning(Session,psionics)
     test_psionic_advancement(Session,psionics)
     test_psionic_purchase(Session,psionics,build.out)
+    test_psionic_history(Session,psionics)
     test_psionic_resistance(Session,psionics)
     fresh(Session,psionics,test_psionic_static)
     static_ready = build.build('expanded-static-ready',ROOT / 'tests/fixtures/expanded-static-ready.t')

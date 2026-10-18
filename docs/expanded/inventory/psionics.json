@@ -101,9 +101,12 @@
       "pages": "B256",
       "module": "psionics",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An authored information resolver receives outcome quality and relevant world facts, returns constrained useful information on success, no information on ordinary failure, and misleading information on specified severe failures; keep hidden rolls out of player-visible diagnostics.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_psionic_history"
+      ],
+      "validation_note": "Owned one-second secret object-history reading, supported age bands, authored true/vision/misleading outputs and failed-reading retry deadline authored; fixtures unrun. Fright, spontaneous impressions, older ages and broader integration remain pending."
     },
     {
       "id": "psionic-possession",
@@ -585,10 +588,13 @@
       "pages": "B256",
       "module": "psionics",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Permit object-history as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B78, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
-      "tests": [],
-      "trait_pages": "B78"
+      "tests": [
+        "tests/expanded.py::test_psionic_history"
+      ],
+      "trait_pages": "B78",
+      "validation_note": "Owned one-second secret object-history reading, supported age bands, authored true/vision/misleading outputs and failed-reading retry deadline authored; fixtures unrun. Fright, spontaneous impressions, older ages and broader integration remain pending."
     },
     {
       "id": "psionic-membership-extrasensory-ancestral-memory",
