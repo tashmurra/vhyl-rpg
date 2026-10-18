@@ -1352,6 +1352,24 @@ modify RpgExpandedProfile
             'panhandling','politics','public-speaking','savoir-faire','sex-appeal','streetwise'];
         return inherited(id);
     }
+    catalogueTalentCheckModifier(skill)
+    {
+        if (!skill.ofKind(RpgLiteSkill)) return 0;
+        local id = skill.studyIdentity(); local bonus = 0;
+        foreach (local talentId in ['artificer','outdoorsman','smooth-operator'])
+            if (holds(self.catalogueTalentSkills(talentId),id))
+            {
+                local count = 0;
+                foreach (local trait in self.traits)
+                    if (trait.id == talentId)
+                    {
+                        count += 1; rpgInteger(trait.level,1,4);
+                        if (trait.active && !trait.mitigated) bonus += trait.level;
+                    }
+                if (count > 1) rpgExpandedReject('duplicate-check-talent');
+            }
+        return bonus;
+    }
     studyTimePercent(skill)
     {
         local percent = inherited(skill);

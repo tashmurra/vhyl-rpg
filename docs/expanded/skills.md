@@ -601,3 +601,14 @@ trained/default resolution. Paid skill calculations stay unmodified for default
 chains and advancement prices. See [ancestry bonuses](templates.md#single-skill-ancestry-bonuses)
 for ownership, specialty handling and current limitations. New assertions remain
 unrun while checks are paused.
+
+Catalogue talent checks now dispatch through
+`catalogueTalentCheckModifier(skill)`. With expanded traits installed, the three
+existing catalogue talents use their complete printed membership lists, including
+optional specialties identified by their parent. Trained and default contextual
+checks receive the bonus once. Inactive or mitigated purchases give no bonus.
+The Lite profile retains its original membership and contextual arithmetic.
+
+This hook does not change raw `skillScore`, paid default investment, or technique
+basis calculations. Full talent integration with those interfaces and custom
+skill groups remains pending. The contextual fixtures are authored but unrun.

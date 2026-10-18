@@ -39,6 +39,17 @@ class RpgLiteSkill: RpgSkill
 
 /** Lite character sheet. Injury and fatigue are deficits, not the legacy energy/body pools. */
 class RpgLiteProfile: RpgProfile
+    /* Contextual catalogue bonuses; keep the abridged membership unchanged. */
+    catalogueTalentCheckModifier(skill)
+    {
+        local id = skill.ofKind(RpgLiteSkill) ? skill.id : nil;
+        local bonus = 0;
+        if (holds(['armoury','electronics-repair','engineer','mechanic'],id)) bonus += self.level('artificer');
+        if (holds(['camouflage','naturalist','navigation','survival','tracking'],id)) bonus += self.level('outdoorsman');
+        if (skill.ofKind(RpgLiteSkill) && (skill.influence
+            || holds(['acting','carousing','leadership','public-speaking'],id))) bonus += self.level('smooth-operator');
+        return bonus;
+    }
     /* Default hooks do not consume time or randomness. Optional modules restore passive abilities. */
     onUnconscious() { return nil; }
     onKnockdown() { return nil; }
@@ -298,10 +309,7 @@ rpgLiteScore(profile, context)
         foreach (local trait in profile.traits)
             if (trait.ofKind(RpgLiteTrait) && trait.active && !trait.mitigated && holds(trait.skills, context.skill))
                 adjustment += trait.level;
-        if (holds(['armoury','electronics-repair','engineer','mechanic'], skillId)) adjustment += profile.level('artificer');
-        if (holds(['camouflage','naturalist','navigation','survival','tracking'], skillId)) adjustment += profile.level('outdoorsman');
-        if (context.skill.ofKind(RpgLiteSkill) && (context.skill.influence
-            || holds(['acting','carousing','leadership','public-speaking'], skillId))) adjustment += profile.level('smooth-operator');
+        adjustment += profile.catalogueTalentCheckModifier(context.skill);
         if (skillId == 'climbing' || skillId == 'escape')
             adjustment += profile.level('double-jointed') > 0 ? 5 : profile.level('flexibility') > 0 ? 3 : 0;
         if (skillId == 'climbing' || skillId == 'acrobatics') adjustment += profile.level('perfect-balance');

@@ -1361,3 +1361,8 @@ demonstrated skill and approved observer-specific appreciation. Social aptitude
 provides no bonus while manipulating that observer. Existing encounter history
 prevents repeated rolls. Custom talents and overlap remain unfinished; new
 reaction, rollback and persistence fixtures are unrun.
+
+Expanded contextual talent bonuses now share the full catalogue membership used
+by study and demonstrated reactions. A dispatch hook preserves Lite membership;
+new trained/default and disabled-purchase assertions remain unrun. Raw skill and
+technique talent integration remains incomplete.

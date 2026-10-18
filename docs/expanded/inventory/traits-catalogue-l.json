@@ -101,9 +101,10 @@
       "tests": [
         "tests/expanded.py::test_talent_study",
         "tests/expanded.py::test_talent_communication_study",
-        "tests/expanded.py::test_talent_reaction"
+        "tests/expanded.py::test_talent_reaction",
+        "tests/expanded.py::test_talent_check"
       ],
-      "validation_note": "Three existing catalogue talents now use full printed skill lists for exact study-time reductions across ordinary and communication credit. Skill point cost and actual clock limits remain unchanged; partial-progress rate conversion rejects. Custom groups, full reaction integration and overlap handling remain pending. Assertions authored, unrun. Observer-specific reaction context now validates owned catalogue talent, demonstrated skill, eligible and appreciative audience, and the social manipulation exception. It integrates with persistent reaction attempts. Custom talents and overlapping reaction benefits remain unfinished; assertions authored, unrun."
+      "validation_note": "Three existing catalogue talents now use full printed skill lists for exact study-time reductions across ordinary and communication credit. Skill point cost and actual clock limits remain unchanged; partial-progress rate conversion rejects. Custom groups, full reaction integration and overlap handling remain pending. Assertions authored, unrun. Observer-specific reaction context now validates owned catalogue talent, demonstrated skill, eligible and appreciative audience, and the social manipulation exception. It integrates with persistent reaction attempts. Custom talents and overlapping reaction benefits remain unfinished; assertions authored, unrun. Contextual skill checks now share the complete three catalogue membership lists, preserving Lite membership through a dispatch hook. Raw skill scores, technique bases and custom groups remain pending. Assertions authored, unrun."
     },
     {
       "id": "traits-l-talent-price",
