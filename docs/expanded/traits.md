@@ -190,3 +190,11 @@ control. Remote hands perform one maneuver under concentration and retain grip,
 position and aim state. Throwing releases the object and uses different distances
 for physical range and accuracy. Communication likewise retains contacts, channel
 compatibility and interference rather than treating transmission as public speech.
+
+
+The [thirteenth catalogue segment](inventory/traits-catalogue-m.json) completes
+the main advantage catalogue through B100, before perks. This is a first inventory
+pass, not complete implementation. Teleportation keeps preparation and distance
+rules separate, owns failure cooldowns and limits defensive use to once per turn.
+Spontaneous skill retention also owns its point reservation, learning restrictions
+and month-long provisional state.

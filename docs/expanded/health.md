@@ -102,3 +102,11 @@ before describing restored HP. This was visually confirmed on the printed page;
 its interpretation remains explicitly unresolved.
 Resistance also depends on effect delivery and cannot become a blanket bonus
 against every attack. None of these inventory entries is counted as implemented.
+
+
+[Deathless variants](inventory/traits-catalogue-m.json) differ from unusual
+durability: ordinary pain and crippling remain, while survival, bodily destruction
+and reformation use tier-specific rules. Continuous damaging exposure can prevent
+remains from healing even when further injury is capped. Embedded obstructions and
+post-destruction healing triggers require separate state. These are pending rules,
+not extensions already supplied by the Lite injury functions.

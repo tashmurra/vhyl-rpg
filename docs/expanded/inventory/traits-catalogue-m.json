@@ -1,0 +1,799 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B94-B100, before perks",
+  "review": "Remaining advantages through unrecorded identity enumerated, including teleport tables, survival variants and spontaneous skills. Numeric visual verification, boundary interpretations and integrated behavior remain pending; perks and general modifiers follow.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-m-faith-ward",
+      "source": "full-2008",
+      "pages": "B94",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Faith ward costs fifteen and requires continuous authored religious assertion, using concentration every combat turn and no other action. Defined malign supernatural entities cannot approach within one yard; forced entrants must leave directly. If escape requires coming closer, will success permits passing with minimum necessary force; failure leaves the entity unable to act or defend.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-faith-obligations",
+      "source": "full-2008",
+      "pages": "B94",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author defines eligible entities, assertion method and required conduct. The behavioral pact is included and cannot be discounted again. Maintain active assertion, geometry, forced-entry resolution and suspension for broken obligations; social religious rank is not automatically required.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-tunneling",
+      "source": "full-2008",
+      "pages": "B94",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Boring movement costs thirty plus five per movement point. It creates a body-width passage through earth/stone, moving at half rate through stone. Each minute check the best of mining engineering, prospecting-3 or intelligence-4 for tunnel stability, with authored material modifiers. Each halving of boring speed grants +1. Persist passage geometry and minute boundaries.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-ultrasonic-hearing",
+      "source": "full-2008",
+      "pages": "B94",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Hearing above twenty kilohertz costs five when added to normal hearing, or zero when exclusive. It detects active sonar at twice its effective range. Ultrasonic speech includes it and cannot be charged twice.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-ultrasonic-speech",
+      "source": "full-2008",
+      "pages": "B94",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Ultrasonic-only speech costs zero; switching between it and ordinary speech costs ten. It includes ultrasonic hearing. Author may describe creature discomfort, but this purchase does not automatically inflict sonic injury or stun.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-ultraviolet-vision",
+      "source": "full-2008",
+      "pages": "B94-B95",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Ultraviolet-only sight costs zero and is blind where no ultraviolet exists; combined visible/ultraviolet sight costs ten. In ultraviolet illumination add two to vision and clue/object forensics, observation and search. Outdoor daylight/clouds and fluorescent illumination can supply it, while window glass/solid barriers block it under the printed model.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-ultraviolet-dark-water",
+      "source": "full-2008",
+      "pages": "B94",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Starlight ultraviolet cancels two darkness-penalty points, cumulative with low-light adaptation, but does not solve total darkness. Halve underwater vision penalties; total darkness still prevents vision. Preserve actual spectral illumination instead of applying a permanent +2 to every check.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-ageless",
+      "source": "full-2008",
+      "pages": "B95",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Agelessness costs fifteen, fixes selected age and prevents natural/unnatural aging and aging checks. Voluntary age adjustment costs +20% and permits either direction at up to ten times normal rate. It does not independently restore wounds or provide general immortality.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-unflappable",
+      "source": "full-2008",
+      "pages": "B95",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Unflappable temperament normally costs fifteen, prevents fear checks and intimidation, and is incompatible with phobias. Author may increase price or forbid it in pervasive-fear campaigns. Reaction modifiers usually do not apply except ordinary penalties for rude behavior; the actor remains civil. Define specific reaction exceptions and conduct-based loss rather than universal reaction immunity.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-universal-digestion",
+      "source": "full-2008",
+      "pages": "B95",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Broad digestion costs five and derives nutrition from any nontoxic animal/plant protein, including otherwise nonnutritious alien material. It grants no poison resistance or ability to eat inorganic material for nutrition.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-deathless-first",
+      "source": "full-2008",
+      "pages": "B95",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Deathless tier one costs fifty, removes survival health rolls and permits survival down to negative ten times health capacity, where physical destruction kills. Pain, shock/stun, unconsciousness, crippling and other injury effects remain. Healing proceeds normally while alive; severed limbs still require regrowth.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-deathless-second",
+      "source": "full-2008",
+      "pages": "B95",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Deathless tier two costs one hundred. At negative ten times health capacity the actor becomes indestructible remains and unconscious, taking no further injury. Healing begins when damaging exposure ceases and includes severed parts; consciousness returns at positive health. Remains can be confined and continuous damage prevents healing. Persist exposure and confinement independently of capped injury.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-deathless-third",
+      "source": "full-2008",
+      "pages": "B95",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Deathless tier three costs 150. At destruction threshold become an unconscious incorporeal remnant normally neither containable nor damageable, heal, and reform intact at full health in an authored location. Unlike tier two, positive-but-not-full health is insufficient for bodily return.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-deathless-conversion",
+      "source": "full-2008",
+      "pages": "B95",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author may permit tier-two/three destruction to trade the deathless purchase for a spirit/undead ancestry package after full healing. Default aging and eventual old-age death remain unless agelessness is separately bought. Conversion must reconcile character points once and preserve recovery timing.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-deathless-lethal-source",
+      "source": "full-2008",
+      "pages": "B95",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Lethal-source exception costs -10% rare, -30% occasional, or -50% common/very-common. Eligible damage uses ordinary survival checks from negative health capacity and automatic death at the printed below-negative-five-capacity boundary. Resolve this strict wording against the ordinary death threshold explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-deathless-hindrance",
+      "source": "full-2008",
+      "pages": "B95",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Embedded healing obstruction costs -5% rare, -15% occasional or -25% common. While the defined substance remains inside, natural and regenerative healing stop; an unconscious actor remains dormant. Track actual embedded substance/removal, not a global permanent flag.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-deathless-rebirth",
+      "source": "full-2008",
+      "pages": "B95",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "New-body rebirth is -20%, tier two/three only, and produces an authored new body/abilities after ordinary recovery, retaining deathlessness. Reconcile the new template and persistent mind/history without minting advancement points.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-deathless-trigger",
+      "source": "full-2008",
+      "pages": "B95",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Post-destruction healing trigger is tier two/three only: -25% rare, -15% occasional, -5% common/very-common. Healing remains dormant until the authored substance/condition occurs. Keep this start trigger separate from an embedded obstruction that continuously prevents healing.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-special-background",
+      "source": "full-2008",
+      "pages": "B96",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Exceptional background has authored cost and permissions for otherwise unavailable capabilities. Charge only for a tangible campaign benefit, not unusual biography alone. Record approved scope and price; it does not automatically grant the underlying separately priced ability.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-vacuum-support",
+      "source": "full-2008",
+      "pages": "B96",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Vacuum adaptation costs five and protects against vacuum/decompression effects but supplies no air. Sealing, radiation protection and thermal tolerance remain independent, not required or included.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-life-draining-bite",
+      "source": "full-2008",
+      "pages": "B96",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Life-draining bite costs thirty plus five per additional health drained per second above one. Subject must be willing, helpless or grappled and the initial bite must penetrate armor. Thereafter each three health stolen restores one health or fatigue chosen by the actor, capped at normal capacity. Track stolen amounts, feeding continuity and recovery choices without duplicate credits.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-drain-bite-profile",
+      "source": "full-2008",
+      "pages": "B96",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Life-draining bite includes either the cutting sharp-tooth or large-piercing beak attack profile for ordinary nonfeeding combat, chosen at purchase. No separate charge for that included bite; it does not make every attack automatically feed.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-creative-versatility",
+      "source": "full-2008",
+      "pages": "B96",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Creative versatility costs five and adds one to creative/inventive tasks including eligible art, new-invention engineering and exceptional-inventor skill checks. It does not improve routine maintenance or every use of those skills.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-vibration-sense",
+      "source": "full-2008",
+      "pages": "B96",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Vibration sensing costs ten for air or water, +50% for both. A sense check separately uses target size/speed bonuses, range penalty and ambient wind/current speed penalty. Success supplies rough size, location, speed and direction, not shape/color or equipment details. Wrong medium or a sealed suit prevents use.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-vibration-targeting",
+      "source": "full-2008",
+      "pages": "B96",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A vibration-detected target may be attacked with the same sensing modifiers, but the combined modifier cannot be positive. This is not full vision; static surroundings provide only limited barrier/opening information. Preserve detected evidence and applicable target identity.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-visualized-task",
+      "source": "full-2008",
+      "pages": "B96-B97",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Visualization costs ten. One minute concentration, an authored detailed specific intended scene/action and intelligence success grant victory margin to the matching later task. Almost exact conditions use full margin; near conditions halve with minimum +1; clearly different conditions divide by three with no minimum. Author may add up to +2 or any penalty for description quality. It is unusable in changing combat; define consumption and rounding explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-resonant-voice",
+      "source": "full-2008",
+      "pages": "B97",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resonant voice costs ten and adds two to diplomacy, fast talking, mimicry, performance, politics, public speaking, attraction and singing, plus reactions from those hearing the voice. Link skill names to the neutral catalogue and avoid double-counting one reaction through several speech actions.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-air-walking",
+      "source": "full-2008",
+      "pages": "B97",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Air walking costs twenty and uses ground movement on gases, including vertical invisible steps, but cannot function in vacuum. Knockdown/slipping causes a fall. Once per falling second, dexterity success arrests it unharmed; otherwise ordinary landing damage applies. Persist falling time and attempts.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-liquid-walking",
+      "source": "full-2008",
+      "pages": "B97",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Liquid walking costs fifteen and uses ground movement on liquid surfaces without sinking. It does not prevent contact, heat or chemical damage from the liquid.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-base",
+      "source": "full-2008",
+      "pages": "B97-B98",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Teleportation costs one hundred. Target must be directly seen, remotely viewed, or clearly visualized after a prior personal visit. Default carrying is basic lift plus payload. Use intelligence with distance, preparation, remoteness and voluntarily spent fatigue modifiers.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-distance-10y",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport distance through ten yards gives modifier 0. Between thresholds use the next higher distance. Beyond one thousand miles each tenfold distance adds another -1.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-distance-20y",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport distance through twenty yards gives modifier -1. Between thresholds use the next higher distance. Beyond one thousand miles each tenfold distance adds another -1.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-distance-100y",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport distance through one hundred yards gives modifier -2. Between thresholds use the next higher distance. Beyond one thousand miles each tenfold distance adds another -1.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-distance-500y",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport distance through five hundred yards gives modifier -3. Between thresholds use the next higher distance. Beyond one thousand miles each tenfold distance adds another -1.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-distance-2mi",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport distance through two miles gives modifier -4. Between thresholds use the next higher distance. Beyond one thousand miles each tenfold distance adds another -1.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-distance-10mi",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport distance through ten miles gives modifier -5. Between thresholds use the next higher distance. Beyond one thousand miles each tenfold distance adds another -1.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-distance-100mi",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport distance through one hundred miles gives modifier -6. Between thresholds use the next higher distance. Beyond one thousand miles each tenfold distance adds another -1.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-distance-1000mi",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport distance through one thousand miles gives modifier -7. Between thresholds use the next higher distance. Beyond one thousand miles each tenfold distance adds another -1.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-0",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 0 seconds has intelligence modifier -10. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-1",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 1 seconds has intelligence modifier -5. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-2",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 2 seconds has intelligence modifier -4. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-4",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 4 seconds has intelligence modifier -3. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-8",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 8 seconds has intelligence modifier -2. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-15",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 15 seconds has intelligence modifier -1. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-30",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 30 seconds has intelligence modifier 0. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-60",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 60 seconds has intelligence modifier 1. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-120",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 120 seconds has intelligence modifier 2. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-240",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 240 seconds has intelligence modifier 3. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-480",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 480 seconds has intelligence modifier 4. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-900",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 900 seconds has intelligence modifier 5. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-1800",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 1800 seconds has intelligence modifier 6. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-3600",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 3600 seconds has intelligence modifier 7. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-7200",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 7200 seconds has intelligence modifier 8. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-14400",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 14400 seconds has intelligence modifier 9. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-preparation-28800",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Teleport preparation of 28800 seconds has intelligence modifier 10. Maximum preparation bonus is ten; define between-row treatment explicitly rather than importing distance rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-view-cost",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each indirect viewing layer gives -2, and an unseen previously visited destination has an additional -2. Each voluntarily spent fatigue grants +1, declared before the roll and consumed on success/failure. Spending is optional. Preserve the actual chain of remote views and authorized budget.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-failure",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary failure stays in place and gives -5 to reuse for the next ten minutes. Critical failure sends the actor to an authored inconvenient destination and disables the power for 1d hours. Track deadlines and incorrect arrival as committed outcomes; do not turn critical failure into ordinary rejection.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-defense",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Once per turn teleport can replace a dodge to a visible destination within ten yards, with the -10 immediate-use modifier and optional prepaid fatigue. It consumes the defensive allowance even though movement is instantaneous. Validate destination before spending and preserve attack/defense event ordering.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-improvement",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Teleport permits advancement changes to modifiers but forbids reduced-fatigue-cost and reduced-time modifiers. Reliability instead gives +1 per +5% up to +10. Apply to the ability check, not unrelated skills.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-blind",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Coordinate-only teleport is +50%, permitting an unseen/unvisited specific distance/direction destination with an extra -5. Fatigue bonus costs two per +1 on this use. Geometry and unknown-destination consequences require authored facts without preview disclosure.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-carry-light",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Teleport carrying up to light encumbrance costs +10%. Enough capacity permits one passenger. Retain payload exclusion and actual carried load at commitment.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-carry-medium",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Teleport carrying up to medium encumbrance costs +20%. Enough capacity permits one passenger. Retain payload exclusion and actual carried load at commitment.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-carry-heavy",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Teleport carrying up to heavy encumbrance costs +30%. Enough capacity permits one passenger. Retain payload exclusion and actual carried load at commitment.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-carry-extra-heavy",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Teleport carrying up to extra-heavy encumbrance costs +50%. Enough capacity permits one passenger. Retain payload exclusion and actual carried load at commitment.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-crossworld",
+      "source": "full-2008",
+      "pages": "B98",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Linked world/time travel costs +10% for each linked travel ability and must be applied to teleport and each linked ability. Both rolls resolve independently, permitting partial success. Linking both world and time travel requires buying the enhancement twice.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-transit",
+      "source": "full-2008",
+      "pages": "B98-B99",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Space-transit variant cannot activate in atmosphere or travel less than one light-second (printed 186000 miles, penalty -10). It has actual travel duration and life-support needs; specialized navigation may replace intelligence. Light-speed travel costs -50%, one-light-year-per-day travel -25% with printed light-year penalty -17. Persist the journey rather than instant relocation.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-teleport-limits",
+      "source": "full-2008",
+      "pages": "B99",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "No-carried-items teleport is -30%, and psionic teleport origin -10%. Per-hop range limit discount is five percent times ten plus the distance penalty; above one hundred thousand miles it is not a meaningful limitation. Validate selected threshold and reject negative discount values.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-weapon-mastery-all",
+      "source": "full-2008",
+      "pages": "B99",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Weapon mastery costs 45 for all muscle-powered weapons. Firearms are excluded; throwing a covered throwable weapon is included. Author approves cinematic availability and exact membership.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-weapon-mastery-large",
+      "source": "full-2008",
+      "pages": "B99",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Weapon mastery costs 40 for an authored large related class. Firearms are excluded; throwing a covered throwable weapon is included. Author approves cinematic availability and exact membership.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-weapon-mastery-medium",
+      "source": "full-2008",
+      "pages": "B99",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Weapon mastery costs 35 for an authored medium class. Firearms are excluded; throwing a covered throwable weapon is included. Author approves cinematic availability and exact membership.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-weapon-mastery-small",
+      "source": "full-2008",
+      "pages": "B99",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Weapon mastery costs 30 for an authored small class. Firearms are excluded; throwing a covered throwable weapon is included. Author approves cinematic availability and exact membership.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-weapon-mastery-pair",
+      "source": "full-2008",
+      "pages": "B99",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Weapon mastery costs 25 for two weapons normally used together. Firearms are excluded; throwing a covered throwable weapon is included. Author approves cinematic availability and exact membership.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-weapon-mastery-single",
+      "source": "full-2008",
+      "pages": "B99",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Weapon mastery costs 20 for one specific weapon. Firearms are excluded; throwing a covered throwable weapon is included. Author approves cinematic availability and exact membership.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-mastery-effects",
+      "source": "full-2008",
+      "pages": "B99",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Covered purchased weapon skill at dexterity+1 gives +1 per damage die, dexterity+2 or better +2. Halve rapid-strike and repeated-parry penalties. These benefits exclude default use. Improved defaults are dexterity-1 easy, -2 average, -3 hard, but cannot be bought up to save skill points. Eligible cinematic prerequisite skills still require purchase and author-approved applicability.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-spontaneous-skill",
+      "source": "full-2008",
+      "pages": "B99",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Spontaneous skill costs twenty per level and grants one use per session per level on an unknown skill at governing attribute, including no-default skills if required advantages exist. Apply ordinary situational/equipment/trait modifiers, ignore technology-level difference for the attempt, and grant no benefit to already learned skills.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-spontaneous-retention",
+      "source": "full-2008",
+      "pages": "B99",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Retention is +25% and requires one available point at attempt time. Success permits buying the used skill at one point; ordinary success imposes -2 and no improvement for one month, critical success waives both. Failure cannot teach it; critical failure also loses the reserved point. Missing prerequisites impose -4 and block improvement until acquired. Higher-than-native-technology skills cannot be retained.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-spontaneous-emergency",
+      "source": "full-2008",
+      "pages": "B100",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Emergency-only is -30%. In a life-threatening predicament the player requests a specific outcome, author selects an eligible skill rather than accepting a named skill request. If already-known skills suffice, author advises their use but still consumes the allowance. Retain the declared request and selected outcome.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-spontaneous-focused",
+      "source": "full-2008",
+      "pages": "B100",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Focused spontaneous skill is -20% for one class: mundane mental, mundane physical, magical spells or cinematic martial skills. Both use and retention share this scope.",
+      "tests": []
+    },
+    {
+      "id": "traits-m-unrecorded-identity",
+      "source": "full-2008",
+      "pages": "B100",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Unrecorded identity costs ten with an authored reason. Official records and applicable divination cannot establish the past/identity, but future activity must preserve this status through compatible payment/identity practices. Author defines investigation escalation and consequences; it does not grant invisibility, invulnerability or automatic deletion of newly created records.",
+      "tests": []
+    }
+  ]
+}
