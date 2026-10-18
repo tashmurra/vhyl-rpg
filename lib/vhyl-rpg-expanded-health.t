@@ -3562,3 +3562,20 @@ class RpgExpandedBleedingAid: object
 modify RpgExpandedBleedingResult
     healed = 0
 ;
+
+/** Care and blood-loss checks have independent deadlines. Never skip a due
+ * treatment decision just because the next bleeding check is later. */
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local care = firstObj(RpgExpandedBleedingAid); care != nil; care = nextObj(care,RpgExpandedBleedingAid))
+            if (care.startedAt != nil && care.result == nil && care.episode.stoppedAt == nil
+                && !care.episode.classification.wound.profile.dead)
+            {
+                care.assess();
+                if (self.seconds + seconds > care.completesAt) rpgExpandedReject('bleeding-care-boundary');
+            }
+        return nil;
+    }
+;

@@ -1865,3 +1865,25 @@ reconciliation rather than bypassing the existing serial protection.
 preview purity, failure without healing, invalid-eligibility rejection, rollback,
 undo, replay and cross-process preservation of treatment markers. All fixtures
 remain unrun while checks are paused.
+
+
+### Offset care deadlines
+
+Bleeding-minute checks and care completion use separate deadlines. If an injury
+occurs at time zero and care begins at ten seconds, the next events are the
+bleeding check at sixty and care completion at seventy. Resolving the first event
+does not authorize an advance straight to the following bleeding check at 120.
+The ledger rejects crossing the outstanding care deadline with
+`bleeding-care-boundary`. It consumes no time or randomness on rejection.
+
+At the care deadline, complete or cancel the owned attempt before advancing.
+Interrupted or newly ineligible care still requires an explicit cancellation;
+otherwise the scheduler would silently discard a pending player decision.
+Cancellation releases only that care boundary, preserving the next bleeding
+check. Natural cessation or death removes the episode's clock restrictions;
+retained historical care may be cancelled without inventing a treatment effect.
+The scheduler does not automatically resolve private rolls or heal on clock ticks.
+
+`test_bleeding_care_boundaries` specifies offset event ordering, rejection at both
+boundaries, cancellation and cross-process continuation with pending care.
+It is authored and unrun, alongside the other paused validation fixtures.

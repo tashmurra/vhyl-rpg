@@ -280,7 +280,8 @@
       "acceptance": "At each minute after injury, roll health with -1 per five health lost; record the source-backed wound-loss basis and avoid reprocessing elapsed boundaries.",
       "tests": [
         "tests/expanded.py::test_bleeding_onset",
-        "tests/expanded.py::test_bleeding_minutes"
+        "tests/expanded.py::test_bleeding_minutes",
+        "tests/expanded.py::test_bleeding_care_boundaries"
       ],
       "validation_note": "Owned minute execution, shared injury records, replay, deadline progression and natural cessation authored. First-aid termination, multi-wound aggregation, loss-basis reconciliation and special injury policies pending. Fixtures unrun."
     },
@@ -737,7 +738,8 @@
       "acceptance": "A successful first-aid check within a minute of injury prevents bleeding loss; a later success stops future loss but does not undo previously committed bleeding injury.",
       "tests": [
         "tests/expanded.py::test_bleeding_aid",
-        "tests/expanded.py::test_bleeding_bandage"
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_care_boundaries"
       ],
       "validation_note": "Owned one-minute care, termination and atomic same-interval bandage credit authored. Earlier-wound healing allocation, multi-wound care and broader treatment composition pending. Fixtures unrun."
     },

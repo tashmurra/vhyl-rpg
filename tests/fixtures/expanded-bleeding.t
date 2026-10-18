@@ -67,6 +67,8 @@ class BleedTestAction: Action
             eventValue(value.injury); eventValue(value.clearMinutes); eventValue(value.stopped ? 1 : 0);
             if (code == 22) throw new RpgError(); return nil;
         }
+        if (code == 11) { rpgSpendTime(10); return nil; }
+        if (code == 12) { rpgSpendTime(50); return nil; }
         if (code == 0) { bleedWound.apply(); return nil; }
         if (code == 4) { rpgSpendTime(60); return nil; }
         if (code == 5) { rpgSpendTime(61); return nil; }

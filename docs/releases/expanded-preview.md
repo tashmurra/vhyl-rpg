@@ -206,3 +206,7 @@ Successful bleeding-control care can now commit a linked bandage credit in the
 same minute and transaction. Existing wound/serial markers prevent duplicate
 healing. Earlier-wound allocation after further blood loss remains restricted;
 combined healing, rollback and save fixtures are authored and unrun.
+
+Bleeding care now protects its own completion deadline independently of the
+next blood-loss check. Offset care, cancellation and saved continuation retain
+both event times; new fixtures are authored and unrun.

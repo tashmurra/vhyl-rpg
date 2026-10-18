@@ -8989,6 +8989,7 @@ def test(build):
     test_bleeding_minutes(Session, bleeding, build.out)
     test_bleeding_aid(Session, bleeding, build.out)
     test_bleeding_bandage(Session, bleeding, build.out)
+    test_bleeding_care_boundaries(Session, bleeding, build.out)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
     fresh(Session,health,test_critical_major_wound)
@@ -9733,3 +9734,57 @@ def test_bleeding_bandage(Session, bundle, out):
                 assert state(s)[-2:] == [60, 3]
         finally:
             s.close()
+
+
+def test_bleeding_care_boundaries(Session, bundle, out):
+    def state(s):
+        s.action(2287)
+        return last(s, 'test.bleeding-minute-state')
+    path = out / 'expanded-bleeding-offset-care.zsave'
+    s = Session(bundle)
+    try:
+        for code in (0, 1, 11, 40):  # Wound at zero; care begins at ten.
+            s.action(2285, code)
+        before = state(s)
+        assert before[6] == 10
+        s.action(2285, 4)  # Cannot skip blood loss due at sixty.
+        assert state(s) == before
+        s.action(2285, 12)
+        s.action(2285, 26)
+        s.action(2285, 20)  # Blood loss at sixty, next check at 120.
+        due = state(s)
+        assert due == [5, 2, 1, 0, None, 120, 60, 3]
+        s.action(2285, 4)  # Care completion at seventy must not be skipped.
+        assert state(s) == due
+        s.command(f':save {path}\n@2287')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2287')
+        assert state(s) == due
+        s.action(2285, 4)
+        assert state(s) == due
+        s.action(2285, 11)
+        at_completion = state(s)
+        assert at_completion[6] == 70
+        s.action(2285, 6)
+        assert state(s) == at_completion
+        s.action(2285, 30)
+        s.action(2285, 42)
+        assert state(s) == [5, 2, 1, 0, 70, 120, 70, 6]
+        s.action(2285, 5)
+        assert state(s)[6] == 131
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (0, 1, 11, 40, 12, 30, 20):
+            s.action(2285, code)
+        before = state(s)
+        s.action(2285, 46)
+        s.action(2285, 4)  # Cancelled care releases seventy; next bleed remains 120.
+        assert state(s)[6] == 120
+        assert state(s)[-1] == before[-1]
+    finally:
+        s.close()
