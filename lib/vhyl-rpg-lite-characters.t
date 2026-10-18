@@ -465,6 +465,8 @@ rpgLiteReaction(total)
 
 /** Authored visibility, recognition, culture and attraction facts for reaction modifiers. */
 class RpgLiteSocialContext: object
+    traitReactionModifier(profile) { return 0; }
+    validateParticipants(profile, target) { return nil; }
     attracted = nil
     sees = true
     hears = true
@@ -481,7 +483,7 @@ class RpgLiteSocialContext: object
 /** Calculate visible and applicable personal reaction modifiers. */
 rpgLiteReactionModifier(profile, context)
 {
-    local amount = context.modifier;
+    local amount = context.modifier + context.traitReactionModifier(profile);
     if (context.interaction) amount += profile.level('charisma');
     if (context.hears) amount += 2 * profile.level('voice');
     if (context.recognizes)
@@ -520,6 +522,7 @@ rpgLiteInfluence(profile, target, context, social)
 {
     if (context.skill == nil || !context.skill.influence) throw new RpgError();
     context.validateInfluenceTarget(target);
+    if (social != nil) social.validateParticipants(profile,target);
     local value = new RpgLiteInfluenceResult();
     local score = rpgLiteScore(profile, context);
     if (score == nil || score < 3) return value;

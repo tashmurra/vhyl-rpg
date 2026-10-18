@@ -1502,3 +1502,32 @@ class RpgExpandedStatementDelivery: object
         value.status = 'resolved'; return value;
     }
 ;
+
+/** B129: informed observers in an authored occupational/cultural setting. */
+class RpgExpandedDangerReactionContext: RpgLiteSocialContext
+    subject = nil
+    observer = nil
+    approved = nil
+    evidence = nil
+    avoidanceKnown = nil
+    occupationalExpectation = nil
+    traitReactionModifier(profile)
+    {
+        if (self.subject == nil || !self.subject.ofKind(RpgExpandedProfile)
+            || self.observer == nil || !self.observer.ofKind(RpgLiteProfile)
+            || self.subject == self.observer || profile != self.subject)
+            rpgExpandedReject('danger-reaction-participants');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('danger-reaction-author-facts');
+        local penalty = self.subject.physicalDangerFearPenalty();
+        if (!self.avoidanceKnown || !self.occupationalExpectation) return 0;
+        if (penalty == nil) rpgExpandedReject('danger-reaction-purchased-trait-required');
+        return -penalty;
+    }
+    validateParticipants(profile,target)
+    {
+        self.traitReactionModifier(profile);
+        if (target != self.observer) rpgExpandedReject('danger-reaction-observer');
+        return nil;
+    }
+;

@@ -797,3 +797,31 @@ and `test_statement_delivery` specify hearing evidence, withheld information,
 truth/lie delivery, ownership, preview purity, replay, duplicate prevention,
 rollback, undo, altered-receipt rejection and cross-process continuation.
 These assertions remain unrun while checks are paused.
+
+## Occupational reactions to danger avoidance
+
+`RpgExpandedDangerReactionContext` extends the shared social context for the
+full-2008 B129 setting-dependent reaction. Supply an expanded `subject`, an
+`observer`, `approved = true` and nonempty `evidence`. Set `avoidanceKnown` when
+this observer knows about the trait, and `occupationalExpectation` when the
+authored setting and role apply the penalty. Neither fact is inferred from a job
+title or a failed fear check. Both must be true for a penalty.
+
+The context obtains the concrete purchased trait's 4/3/2/1 penalty for ratings
+6/9/12/15. `rpgLiteReactionModifier(subject,context)` applies it once alongside
+other reaction modifiers. The context's ordinary `modifier` remains available
+for unrelated circumstances; do not repeat this trait penalty there. An observer unaware
+of the trait or an inapplicable occupational expectation contributes zero. If applicable
+facts are asserted without a concrete purchased trait, the request rejects.
+
+Pass the same context to `rpgLiteInfluence`. Its observer must match the actual
+target. Participant and authored-fact validation occur before any influence dice;
+Diplomacy's ordinary-reaction result uses the penalty through the shared modifier
+path. This does not turn the reaction penalty into a skill penalty or override
+another influence skill's specific outcome procedure.
+
+The shared context's new hooks return zero/no-op by default. Existing Lite calls
+retain their arithmetic and dice consumption. The fixture covers all four ratings,
+unknown/inapplicable cases, unrelated modifiers, Diplomacy and invalid requests
+before RNG. These assertions remain unrun. General multi-trait reaction composition
+and parser/dialogue routing remain broader integration obligations.

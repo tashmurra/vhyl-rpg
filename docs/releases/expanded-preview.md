@@ -685,3 +685,8 @@ repairs and other tool uses remain incomplete.
   greater-threat permissions. Fear contexts derive the rating penalty once and
   reject inconsistent overrides. Template purchases and persistence fixtures are
   included; checks remain paused and occupational reaction integration is pending.
+
+- Added informed occupational reactions to purchased danger avoidance. Explicit
+  observer and setting facts control applicability; Diplomacy uses the shared
+  reaction path, and invalid participants reject before dice. Rating and integration
+  assertions are authored but remain unrun while checks are paused.

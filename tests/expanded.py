@@ -8969,6 +8969,8 @@ def test(build):
     test_curiosity(Session, curiosity, build.out)
     danger_avoidance = build.build('expanded-danger-avoidance', ROOT / 'tests/fixtures/expanded-danger-avoidance.t')
     test_danger_avoidance(Session, danger_avoidance, build.out)
+    danger_reaction = build.build('expanded-danger-reaction', ROOT / 'tests/fixtures/expanded-danger-reaction.t')
+    test_danger_reaction(Session, danger_reaction)
     test_self_control_points(Session, self_control, build.out)
     truthfulness = build.build('expanded-truthfulness', ROOT / 'tests/fixtures/expanded-truthfulness.t')
     test_truthfulness(Session, truthfulness, build.out)
@@ -12988,3 +12990,37 @@ def test_danger_avoidance(Session, bundle, out):
         assert last(s, 'test.avoidance-fear') == [0,10,0]
     finally:
         s.close()
+
+
+def test_danger_reaction(Session, bundle):
+    s = Session(bundle)
+    try:
+        s.action(2285, 720)
+        assert last(s, 'test.avoidance-reaction') == [-4,-3,-2,-1,0]
+        for code in (727,721):
+            s.action(2285, code)
+        assert last(s, 'test.avoidance-reaction-single') == [1]
+    finally:
+        s.close()
+    for setup in (722,723):
+        s = Session(bundle)
+        try:
+            for code in (setup,721):
+                s.action(2285, code)
+            assert last(s, 'test.avoidance-reaction-single') == [0]
+        finally:
+            s.close()
+    for setup, operation, expected in [
+        (None,725,[8,9]),
+        (None,726,['danger-reaction-observer',0]),
+        (724,725,['danger-reaction-author-facts',0]),
+    ]:
+        s = Session(bundle)
+        try:
+            s.action(2285, 30)
+            if setup is not None:
+                s.action(2285, setup)
+            s.action(2285, operation)
+            assert last(s, 'test.avoidance-influence') == expected
+        finally:
+            s.close()

@@ -839,7 +839,8 @@ health module or enable fear encounters.
 The fixture specifies all four prices and fear penalties, ordinary versus mortal
 risk, refusal versus retreat, the evidenced greater-threat exception, malformed
 facts, replay, rollback, undo and saved continuation. Assertions remain unrun.
-Social reactions from informed occupational observers, dynamic threat transitions,
-and parser/dialogue action gates remain incomplete; this catalogue entry remains
+Social reactions from informed occupational observers are available through
+`RpgExpandedDangerReactionContext`. Dynamic threat transitions and parser/dialogue
+action gates remain incomplete; this catalogue entry remains
 partial. The author determines actual physical danger and greater threats, and
 must route all relevant action entry points through the permission contract.
