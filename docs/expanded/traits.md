@@ -70,3 +70,27 @@ the existing trait-cost helper supplies none of this runtime behavior.
 - `rpgExpandedModifiedCost` — B101; tested in `tests/expanded.py::test_numbers`.
 
 The module provides only these interfaces. Its full catalogue and remaining chapter procedures are not implemented. See the integration guide for restrictions.
+
+
+The [fourth catalogue segment](inventory/traits-catalogue-d.json) records detection,
+respiration and nutrition exceptions, controlled infection, duplication, memory,
+empathic impressions and cinematic defense purchases. These remain pending effects.
+Detection and empathic impressions need separate private evidence and public output:
+a pure assessment must not reveal that a hidden target exists or whether an
+impression is truthful. Retry deadlines belong to the character's observation
+history, so constructing a fresh action cannot reset a failed memorization attempt.
+
+Duplication requires separately owned bodies connected to one character origin.
+Ordinary merging averages current health and fatigue; shared reserves instead
+conserve allocations and add them on reunion. Copied signature equipment needs
+origin records even after transfer or dropping, because merging removes those
+copies. Copy deaths, replacement purchases and optional extra lives must use one
+advancement ledger. Rounding, absent participants and secondary death propagation
+remain explicit source decisions, not implemented behavior.
+
+Respiration exceptions are specific: independence from oxygen does not protect
+against contact toxins, pressure or vacuum. Reduced respiration variants can
+still require environmental oxygen or a finite reserve. Nutrition and sleep
+independence do not grant arbitrary recovery. Infectious control likewise separates
+infection, delayed transformation, purchased companion control and later release;
+insufficient advancement points cannot prevent an otherwise valid infection.
