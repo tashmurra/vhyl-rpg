@@ -1,15 +1,23 @@
 /* Include after the expanded foundation. Source: full-2008, B14-B17. */
 
+modify RpgExpandedProfile
+    creationScoreAmounts()
+    {
+        return [(self.st - 10) * 10, (self.dx - 10) * 20,
+            (self.iq - 10) * 20, (self.ht - 10) * 10,
+            (self.techLevel - self.campaignTL) * 5,
+            self.hpAdjustment * 2, self.fpAdjustment * 3,
+            self.willAdjustment * 5, self.perceptionAdjustment * 5,
+            self.speedQuarterAdjustment * 5, self.moveAdjustment * 5];
+    }
+    creationDisadvantageExemption() { return 0; }
+;
+
 /** Individual point components; negative entries count separately toward limits. */
 rpgExpandedCharacterAmounts(profile)
 {
     rpgExpandedValidate(profile);
-    local amounts = [(profile.st - 10) * 10, (profile.dx - 10) * 20,
-        (profile.iq - 10) * 20, (profile.ht - 10) * 10,
-        (profile.techLevel - profile.campaignTL) * 5,
-        profile.hpAdjustment * 2, profile.fpAdjustment * 3,
-        profile.willAdjustment * 5, profile.perceptionAdjustment * 5,
-        profile.speedQuarterAdjustment * 5, profile.moveAdjustment * 5];
+    local amounts = profile.creationScoreAmounts();
     foreach (local trait in profile.traits) amounts = amounts + [trait.creationCost()];
     foreach (local language in profile.languages) amounts = amounts + [language.cost()];
     foreach (local training in profile.skills) amounts = amounts + [training.points];
@@ -76,7 +84,7 @@ rpgExpandedValidateCharacter(profile)
         }
     }
     if (rpgExpandedCharacterCost(profile, nil) > profile.pointBudget
-        || -rpgExpandedCharacterCost(profile, true) - profile.postCreationDisadvantageAllowance() > profile.disadvantageLimit)
+        || -rpgExpandedCharacterCost(profile, true) - profile.postCreationDisadvantageAllowance() - profile.creationDisadvantageExemption() > profile.disadvantageLimit)
         rpgExpandedReject('point-budget');
     return true;
 }

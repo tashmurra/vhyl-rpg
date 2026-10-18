@@ -112,7 +112,7 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
         local source = template.create(rules);
         local definition = template.ofKind(RpgExpandedTemplateSelection) ? template.template : template;
         result.templateSelections = result.templateSelections + [[definition,source.templateChoices]];
-        if (source.contributions.length() != 0 || source.languages.length() != 0
+        if (source.ancestryScores != nil || source.contributions.length() != 0 || source.languages.length() != 0
             || source.equipment.length() != 0)
             rpgExpandedReject('template-composition-components');
         if (first)
@@ -485,3 +485,101 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+
+/** Ancestry score modifiers only; traits and skills require their own origin rules. */
+class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
+    approved = nil
+    evidence = nil
+    validate()
+    {
+        if (self.id == nil || self.id == '' || !self.approved || self.evidence == nil || self.evidence == ''
+            || !self.eligible || self.skillRows.length() != 0 || self.traitRows.length() != 0)
+            rpgExpandedReject('ancestry-score-definition');
+        self.changes(); return nil;
+    }
+;
+
+/** Owned immutable ancestry score origins; later personal advancement changes totals. */
+class RpgExpandedAncestryScores: object
+    owner = nil
+    origins = []
+    changes = []
+    boundOrigins = []
+    boundChanges = []
+    validate(profile)
+    {
+        if (self.owner != profile || profile.ancestryScores != self || self.changes.length() != 10
+            || self.boundChanges.length() != 10 || self.origins.length() != self.boundOrigins.length())
+            rpgExpandedReject('ancestry-score-ownership');
+        for (local i = 1; i <= 10; i += 1)
+            if (self.changes[i] != self.boundChanges[i]) rpgExpandedReject('ancestry-score-binding');
+        for (local i = 1; i <= self.origins.length(); i += 1)
+            if (self.origins[i] != self.boundOrigins[i]) rpgExpandedReject('ancestry-score-binding');
+        return nil;
+    }
+    amounts(profile)
+    {
+        self.validate(profile); local result = []; local prices = [10,20,20,10,2,3,5,5,5,5];
+        for (local i = 1; i <= 10; i += 1) result = result + [self.changes[i] * prices[i]];
+        return result;
+    }
+;
+modify RpgExpandedProfile
+    ancestryScores = nil
+    validateFeatures()
+    {
+        inherited(); if (self.ancestryScores != nil) self.ancestryScores.validate(self); return nil;
+    }
+    creationScoreAmounts()
+    {
+        local ordinary = inherited(); if (self.ancestryScores == nil) return ordinary;
+        local ancestry = self.ancestryScores.amounts(self); local result = [];
+        local index = 1;
+        for (local i = 1; i <= ordinary.length(); i += 1)
+        {
+            if (i == 5) result = result + [ordinary[i]];
+            else { result = result + [ordinary[i] - ancestry[index]]; index += 1; }
+        }
+        return result + ancestry;
+    }
+    creationDisadvantageExemption()
+    {
+        local amount = inherited(); if (self.ancestryScores == nil) return amount;
+        foreach (local cost in self.ancestryScores.amounts(self)) if (cost < 0) amount -= cost;
+        return amount;
+    }
+;
+
+/** B261, B451-B452: add ancestry deltas after resolving personal purchases. */
+rpgExpandedCreateAncestryCharacter(personal, ancestries, rules)
+{
+    if (personal == nil || !personal.ofKind(RpgExpandedTemplate)
+        && !personal.ofKind(RpgExpandedTemplateSelection) && !personal.ofKind(RpgExpandedTemplateCustomization))
+        rpgExpandedReject('ancestry-personal-template');
+    if (rules == nil || !rules.ofKind(RpgExpandedRules) || !rules.exceptionalCharacteristics)
+        rpgExpandedReject('ancestry-score-limits-unresolved');
+    local changes = [0,0,0,0,0,0,0,0,0,0]; local origins = [];
+    foreach (local ancestry in ancestries)
+    {
+        if (ancestry == nil || !ancestry.ofKind(RpgExpandedAncestryScoreTemplate))
+            rpgExpandedReject('ancestry-score-definition');
+        ancestry.validate(); if (holds(origins,ancestry.id)) rpgExpandedReject('duplicate-ancestry-score');
+        origins = origins + [ancestry.id]; local values = ancestry.changes(); local combined = [];
+        for (local i = 1; i <= 10; i += 1)
+        {
+            local value = changes[i] + values[i]; rpgInteger(value,-1000,1000); combined = combined + [value];
+        }
+        changes = combined;
+    }
+    local p = personal.create(rules);
+    if (p.ancestryScores != nil || p.creationComplete) rpgExpandedReject('ancestry-existing-character');
+    local receipt = new RpgExpandedAncestryScores(); receipt.owner = p;
+    receipt.origins = origins; receipt.boundOrigins = origins;
+    receipt.changes = changes; receipt.boundChanges = changes; p.ancestryScores = receipt;
+    p.st += changes[1]; p.dx += changes[2]; p.iq += changes[3]; p.ht += changes[4];
+    p.hpAdjustment += changes[5]; p.fpAdjustment += changes[6];
+    p.willAdjustment += changes[7]; p.perceptionAdjustment += changes[8];
+    p.speedQuarterAdjustment += changes[9]; p.moveAdjustment += changes[10];
+    rpgExpandedValidateCharacter(p); return p;
+}

@@ -160,9 +160,12 @@
       "pages": "B261; B450; B454",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Treat the baseline human ancestry as zero points and unspecified modifiers as zero; species, constructs and supernatural body types use the same package accounting.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-derived-order",
@@ -170,9 +173,12 @@
       "pages": "B261; B451-B452",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply ancestry attribute deltas to personal attributes, derive secondary characteristics from those totals, and then apply personal and ancestry secondary adjustments exactly once.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-derived-health-example",
@@ -180,9 +186,12 @@
       "pages": "B261",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A personal strength of 11 with +2 purchased health capacity, followed by ancestry strength +6 and health capacity +4, produces strength 17 and health capacity 23 without another charge for ancestry modifiers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-derived-speed-example",
@@ -190,9 +199,12 @@
       "pages": "B452",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Personal dexterity 12 and health 12, ancestry dexterity +2 and health +1, personal speed +1, and ancestry speed -0.75 produce final speed 7.00; the personal speed purchase costs 20.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-occupational-composition",
@@ -210,9 +222,12 @@
       "pages": "B261",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Combine compatible ancestry packages and add leveled ancestry modifiers; strength -1 and +6 combine to +5, with cost recomputed from the resolved components.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-composition-conflicts",
@@ -260,9 +275,12 @@
       "pages": "B452; B454",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Exclude ancestry negative components and a negative ancestry package total from the personal negative cap without exempting unrelated personal negatives.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-quirk-exemption",

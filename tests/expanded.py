@@ -9112,6 +9112,8 @@ def test(build):
     test_template_customization(Session, template_personal, build.out)
     template_taboo = build.build('expanded-template-taboo',ROOT / 'tests/fixtures/expanded-template-taboo.t')
     test_template_taboo(Session, template_taboo, build.out)
+    ancestry_scores = build.build('expanded-ancestry-scores',ROOT / 'tests/fixtures/expanded-ancestry-scores.t')
+    test_ancestry_scores(Session, ancestry_scores, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17845,5 +17847,50 @@ def test_template_taboo(Session, bundle, out):
         s.command(f':restore {path}\n@2286')
         s.action(2285, 5801)
         assert last(s, 'test.taboo') == [6, 'taboo-skill', 0, 'taboo-attribute', 100, 0, 0]
+    finally:
+        s.close()
+
+
+def test_ancestry_scores(Session, bundle, out):
+    path = out / 'expanded-ancestry-scores.zsave'
+    expected = {
+        5900: [82, 0, 0, 17, 10, 10, 10, 23, 20, 1, 0, 0],
+        5901: [115, -15, 15, 10, 14, 10, 13, 10, 28, 1, 0, 0],
+        5902: [150, -30, 20, 19, 10, 13, 10, 19, 20, 1, 0, 0],
+        5903: [58, 0, 0, 15, 10, 10, 10, 19, 20, 2, 0, 0],
+        5904: [0, 0, 0, 10, 10, 10, 10, 10, 20, 0, 0, 0],
+        5911: [-10, -10, 10, 9, 10, 10, 10, 9, 20, 1, 0, 0],
+    }
+    s = Session(bundle)
+    try:
+        for setup, values in expected.items():
+            s.action(2285, setup)
+            s.action(2285, 5905)
+            assert last(s, 'test.ancestry-scores') == values
+        for code in (5902, 5908, 5907):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-score-error') == ['point-budget']
+        for code in (5902, 5906, 5907):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-score-error') == ['ancestry-score-binding']
+        s.action(2285, 5910)
+        assert last(s, 'test.ancestry-score-error') == ['ancestry-score-limits-unresolved']
+        s.action(2285, 5902)
+        s.action(2285, 5909)
+        s.command('undo')
+        s.action(2285, 5905)
+        assert last(s, 'test.ancestry-scores') == expected[5902]
+        s.action(2285, 5909)
+        assert last(s, 'test.ancestry-growth') == ['resolved', 10, 90]
+        s.action(2285, 5905)
+        assert last(s, 'test.ancestry-scores') == [160, -20, 20, 20, 10, 13, 10, 20, 20, 1, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 5905)
+        assert last(s, 'test.ancestry-scores') == [160, -20, 20, 20, 10, 13, 10, 20, 20, 1, 0, 0]
     finally:
         s.close()

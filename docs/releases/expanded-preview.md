@@ -1285,3 +1285,10 @@ Ancestry prohibitions now support Will and Perception. IQ purchase assessment
 checks their derived increases as well as the IQ target, preserving purchased
 offsets and rejecting prohibited results before spending points. Boundary and
 direct-purchase assertions are authored but unrun.
+
+Ancestry score composition now creates fresh characters with additive score
+modifiers and owned origin accounting. Personal and ancestry negative components
+remain separate, with only ancestry components exempt from the personal cap.
+Ordinary characteristic limits and ancestry trait/skill composition remain
+unsupported. Printed-example arithmetic, personal advancement, undo and save
+fixtures are authored but unrun.

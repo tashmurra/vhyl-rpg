@@ -14,7 +14,7 @@ The fresh-profile factory and occupational composition interface below are avail
 trait instances. Skill definitions may be shared as immutable definitions. This
 factory currently handles basic/secondary scores, skill investments and traits
 from the existing Lite catalogue. It validates the resulting character costs.
-Ancestry exceptions and the full trait catalogue are not implemented. Explicit skill/trait choice groups are described below. It does not mutate or upgrade an existing character.
+The ancestry score factory below supplies separate score accounting; ancestry trait exceptions and the full trait catalogue are not implemented. Explicit skill/trait choice groups are described below. It does not mutate or upgrade an existing character.
 
 ## Remaining source obligations
 
@@ -379,3 +379,46 @@ remain eligible under the other purchase rules. The prohibition is on possession
 of a level, not on crossing intermediate levels during a single purchase.
 The taboo fixture specifies both endpoints, direct and derived purchases, and
 invalid existing secondary scores; these additions remain unrun.
+
+## Ancestry score composition
+
+`rpgExpandedCreateAncestryCharacter(personal, ancestries, rules)` creates a new
+profile from an occupational template, explicit template selection or personal
+customization. Each ancestry is an approved `RpgExpandedAncestryScoreTemplate`
+with a unique `id`, explanatory `evidence`, and the ten score-change fields used
+by template options. Empty ancestry input represents the zero-cost baseline.
+Repeated ancestry IDs reject. Trait and skill rows on ancestry score templates
+reject; those components require ancestry-specific ownership and accounting.
+
+Ancestry deltas add together. The factory adds the basic-attribute deltas first;
+secondary scores derive from those totals, with personal and ancestry secondary
+adjustments each applied once. For example, personal ST 11 and HP adjustment +2,
+combined with ancestry ST +6 and HP +4, produce ST 17 and HP 23. Personal DX 12,
+HT 12 and speed +1, combined with ancestry DX +2, HT +1 and speed −0.75, produce
+Basic Speed 7.00. The package label has no additional price.
+
+The owned `profile.ancestryScores` records source IDs and the combined deltas.
+Character accounting separates personal and ancestry score components rather
+than netting them before computing negative totals. Ancestry negative score
+components are exempt from the personal disadvantage cap. Personal negative
+purchases remain counted even when an ancestry bonus hides them in the final
+score. Later personal advancement changes the final score and its personal cost
+while retaining the original ancestry deltas. Changing the owned origins or
+deltas causes a binding rejection; changing ancestry requires a future explicit
+transformation interface.
+
+This first score implementation requires `rules.exceptionalCharacteristics`.
+It rejects ordinary characteristic-limit campaigns as
+`ancestry-score-limits-unresolved` until personal-versus-ancestry limits have a
+complete implementation. The personal template must also validate on its own
+before ancestry is applied; use an appropriate author-approved budget. The final
+profile is validated again at the resulting budget. Traits, ancestry skills,
+size-based pricing modifiers, mandatory components, omissions and transformations
+remain unfinished. Occupational composition rejects ancestry-bearing profiles
+rather than losing their origin accounting.
+
+Sources: `full-2008`, B261 and B451-B452. `test_ancestry_scores` specifies the two
+printed secondary-score examples, separate personal/ancestry negative costs,
+additive packages, zero baseline, a negative package with zero personal negative
+allowance, personal advancement, binding rejection, undo and save continuation.
+These assertions remain unrun while checks are paused.

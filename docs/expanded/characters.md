@@ -86,3 +86,10 @@ finalization. Existing integrations can keep their manual completion flow, but
 must supply their historical bases explicitly. No old-save migration is implied.
 The fixture covers pure assessment, one-time capture, separate buyoff approval,
 historical-price protection, rollback, undo and save continuation; it is unrun.
+
+Ancestry score composition uses `creationScoreAmounts()` to keep personal and
+ancestry investments separate. `creationDisadvantageExemption()` excludes only
+ancestry negative components from the personal cap; the ordinary negative-cost
+query still reports both sources. Profiles without ancestry retain their
+existing accounting. See [ancestry score composition](templates.md#ancestry-score-composition)
+for current limits and the unrun validation cases.
