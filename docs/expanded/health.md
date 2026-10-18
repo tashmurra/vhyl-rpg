@@ -2111,16 +2111,53 @@ than half maximum HP and excludes the optional last-wounds rule until their
 blood-loss-specific interaction is resolved.
 
 Internal loss is retained as a protected component of the existing injury total.
-The shared `validateHealing(amount)` hook rejects ordinary healing while a
-registered wound remains untreated or protected internal loss remains; natural
-recovery skips its healing roll in that state. Its Lite default is inert.
-This conservatively blocks ordinary healing of unrelated injury too, pending
-wound-specific healing allocation. Bandage preview also checks the restriction.
+The shared `validateHealing(amount)` hook limits ordinary healing to injury
+outside registered protected components; natural recovery skips its healing roll
+when no eligible injury remains. Its Lite default is inert.
+Unrelated unprotected injury remains eligible. Bandage preview also checks the
+restriction; the specialized first-aid adapter below assesses its stage transition.
 
-First-aid transition, daily internal losses, definitive care and restoration are
-still pending. These records currently implement the untreated stage only; they
-must not be described as a complete playable clotting disorder. Automatic wound
+The adapter below supplies first-aid transition and daily internal losses.
+Definitive care and restoration remain pending, so this is not yet the complete
+clotting disorder. Automatic wound
 enrollment is also pending. `tests/fixtures/expanded-clotting-loss.t` and
 `test_clotting_loss` specify independent wounds, fixed loss bases, deadline and
 healing protection, preview, rollback, undo, replay and saved continuation.
 They are authored and unrun.
+
+
+### First aid for impaired clotting
+
+`RpgExpandedClottingBandage` extends the existing bandage operation for a registered
+`episode`. Supply its original `wound`, a capable `healer`, concrete bandaging
+`evidence`, and `eligibleInjury` equal to the episode's original injury. This
+adapter can treat the original wound after blood-loss records have advanced the
+shared wound serial. Each wound retains its own bandage receipt, preventing
+repeated credit. Preview checks the upcoming clock boundary and supported injury
+combinations before spending time.
+
+Applying takes sixty seconds of shared time. At completion it changes care to
+`first-aid`, then commits the existing scaled bandaging healing credit once.
+Finishing at a due minute staunches that minute's loss, matching the one-minute
+pressure procedure. Late completion cannot skip an earlier unresolved loss.
+Interrupted care rolls back inside an engine transaction. The ordinary optional
+bleeding-care adapter cannot be substituted for this operation.
+
+External bleeding then has no further loss deadline. A torso impalement instead
+sets its next loss to one day after first-aid completion, and subsequent daily
+`RpgExpandedClottingLoss` operations retain the original injury amount. This
+anchors the new daily stage to completed first aid. Internal loss accumulated
+before or afterward remains protected from ordinary healing.
+
+`profile.clottingProtectedInjury()` sums components of the existing injury total:
+original wounds and their loss while untreated, or internal bleeding loss after
+first aid. It is not a second HP pool. Ordinary healing and natural recovery can
+restore only injury outside those components; bandaging frees the treated wound's
+eligible component before applying its healing credit. Surgery or supernatural
+restoration still needs its own definitive-care implementation.
+
+`tests/fixtures/expanded-clotting-care.t` and `test_clotting_care` specify stopping
+external loss, minute-to-day transition, preserved internal loss, shared healing
+credit, preview, rollback, undo, replay and saved continuation. They are authored
+and unrun. Automatic enrollment, definitive treatment and exceptional large-loss
+handling remain incomplete.

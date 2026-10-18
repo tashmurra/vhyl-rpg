@@ -318,3 +318,9 @@ fixed original amounts, protected deadlines and shared injury accounting.
 Ordinary healing is gated for registered untreated/protected losses. Treatment
 transitions and automatic enrollment remain pending; new fixtures are authored
 and unrun.
+
+
+Impaired-clotting first aid now shares the one-minute bandaging operation and its
+single healing credit. External bleeding stops; torso impalements retain daily
+loss, while prior internal loss stays protected from ordinary healing. Unrelated
+injury can recover. Definitive treatment remains pending; fixtures are unrun.

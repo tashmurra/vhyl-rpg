@@ -8920,6 +8920,8 @@ def test(build):
     fresh(Session, clotting, test_impaired_clotting)
     clotting_loss = build.build('expanded-clotting-loss', ROOT / 'tests/fixtures/expanded-clotting-loss.t')
     test_clotting_loss(Session, clotting_loss, build.out)
+    clotting_care = build.build('expanded-clotting-care', ROOT / 'tests/fixtures/expanded-clotting-care.t')
+    test_clotting_care(Session, clotting_care, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10641,5 +10643,55 @@ def test_clotting_loss(Session, bundle, out):
         assert state(s) == [5, 2, 1, 0, 120, 60, 0, 0]
         s.action(2285, 69)
         assert state(s) == [6, 2, 1, 0, 120, 60, 0, 0]
+    finally:
+        s.close()
+
+
+def test_clotting_care(Session, bundle, out):
+    def state(s):
+        s.action(2285, 75)
+        return last(s, 'test.clotting-care')
+    s = Session(bundle)
+    try:
+        s.action(2285, 0)
+        s.action(2285, 60)
+        s.action(2285, 71)
+        s.action(2285, 72)
+        assert state(s) == [2, 'untreated', 0, 60, None, 2, 0, 0]
+        s.action(2285, 70)
+        s.command('undo')
+        assert state(s) == [2, 'untreated', 0, 60, None, 2, 0, 0]
+        s.action(2285, 70)
+        s.action(2285, 70)
+        assert state(s) == [1, 'first-aid', 0, None, 1, 0, 60, 0]
+        s.action(2285, 73)
+        s.action(2285, 65)
+        assert state(s) == [0, 'first-aid', 0, None, 1, 0, 86460, 0]
+    finally:
+        s.close()
+    path = out / 'expanded-clotting-care.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 0)
+        s.action(2285, 67)
+        s.action(2285, 60)
+        s.action(2285, 4)
+        s.action(2285, 61)
+        s.action(2285, 70)
+        assert state(s) == [3, 'first-aid', 2, 86520, 1, 2, 120, 0]
+        s.action(2285, 65)
+        s.action(2285, 65)
+        assert state(s) == [2, 'first-aid', 2, 86520, 1, 2, 120, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 70)
+        s.action(2285, 73)
+        s.action(2285, 74)
+        s.action(2285, 74)
+        assert state(s) == [4, 'first-aid', 4, 172920, 1, 4, 86520, 0]
     finally:
         s.close()
