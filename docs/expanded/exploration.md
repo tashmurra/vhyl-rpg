@@ -282,8 +282,37 @@ silently rounding. A three-halves-cubic-foot volume and nonintegral Basic Lift
 therefore retain their fractional work requirement.
 
 These functions are pure assessments. They do not establish possession of tools,
-advance time, charge fatigue, reserve a work site or credit excavation. Owned work
-intervals, stage-material inventories, team labor, exhaustion and fractional-hour
-fatigue remain unfinished. `expanded-digging.t` specifies every source rate with
+advance time, charge fatigue, reserve a work site or credit excavation. The owned-hour adapter below adds execution for three stages. Stage-material
+inventories, team labor, exhaustion and fractional-hour fatigue remain unfinished. `expanded-digging.t` specifies every source rate with
 metal, wooden and improvised tools, harder rock, fractional lifting capacity and
 volume, and absence of time/randomness changes. Assertions are authored and unrun.
+
+
+## Owned digging hours
+
+`RpgExpandedDiggingSite` owns excavation credit for `loose`, `ordinary` or
+`hard-solo` work. Set its unique `id`, `stage` and whole-cubic-foot
+`capacityCubicFeet`. Completed work is exact: `removedNumerator / rateDenominator`
+is the removed volume, backed by the site's `hours` receipts.
+
+`RpgExpandedDiggingHour` supplies `id`, expanded `profile`, `site`, actual owned
+`shovel`, and a distinct owned `pick` for hard-solo work. Supply `toolMaterial`,
+`improvisedDivisor`, `approved` and evidence establishing material, tool roles,
+site access and uninterrupted working conditions. Tool ownership, positive quantity
+and `usableBy(profile)` are checked. Assessment also verifies remaining capacity,
+worker eligibility, fatigue margin, clock bounds and pending shared-clock events.
+
+`apply()` advances exactly one hour, rechecks conditions and rate, charges the
+source hourly fatigue and credits the site once. Replay returns the original
+receipt. Any change that invalidates the hour after time advances rejects the
+transaction; normal undo and save continuation include tools, fatigue, time and
+work receipts. Breaking and removal are not double-credited.
+
+Separate pick/shovel stockpiles, team labor, partial hours, changing denominator
+scales within a site, heat-adjusted work, critical-health workers and fatigue
+reaching zero remain unsupported and reject explicitly. Each supported hour must
+fit the remaining site volume and leave positive fatigue. Those limits describe
+unfinished adapters, not changes to the source rules. `expanded-digging-work.t`
+specifies three work stages, wood tools, fractional lifting capacity, missing
+equipment, exhaustion rejection, site capacity, preview, replay, rollback, undo
+and saved continuation. Assertions remain unrun.

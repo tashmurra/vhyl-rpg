@@ -604,3 +604,114 @@ rpgExpandedDiggingDuration(rate, volumeNumerator, volumeDenominator)
     value.durationDenominator = volumeDenominator * rate.rateNumerator;
     value.status = 'ready'; return value;
 }
+
+/** Owned single-stage excavation. Separate breaking/removal stockpiles remain explicit gaps. */
+class RpgExpandedDiggingSite: object
+    id = nil
+    stage = 'loose'
+    capacityCubicFeet = 1
+    hours = []
+    rateDenominator = nil
+    removedNumerator = 0
+    definition() { return [self.id,self.stage,self.capacityCubicFeet]; }
+    validate()
+    {
+        if (self.id == nil || self.id == '' || !holds(['loose','ordinary','hard-solo'],self.stage))
+            rpgExpandedReject('digging-site-stage');
+        rpgInteger(self.capacityCubicFeet,1,1000000); local total = 0;
+        foreach (local work in self.hours)
+        {
+            work.validateReceipt();
+            if (work.site != self || work.result.rateDenominator != self.rateDenominator)
+                rpgExpandedReject('digging-site-history');
+            rpgInteger(work.result.rateNumerator,1,2147483647 - total); total += work.result.rateNumerator;
+        }
+        if (total != self.removedNumerator) rpgExpandedReject('digging-site-credit');
+        return nil;
+    }
+;
+modify RpgExpandedProfile
+    diggingHours = []
+;
+class RpgExpandedDiggingHour: object
+    id = nil
+    profile = nil
+    site = nil
+    pick = nil
+    shovel = nil
+    toolMaterial = 'metal'
+    improvisedDivisor = 4
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition()
+    { return [self.id,self.profile,self.site,self.pick,self.shovel,self.toolMaterial,self.improvisedDivisor,self.approved,self.evidence] + self.site.definition(); }
+    validateReceipt()
+    {
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('digging-hour-binding');
+        if (self.result == nil || self.completedAt != self.startedAt + 3600
+            || !holds(self.site.hours,self) || !holds(self.profile.diggingHours,self)) rpgExpandedReject('digging-hour-history');
+        return nil;
+    }
+    toolAvailable(item)
+    { return item != nil && item.ofKind(RpgLiteItem) && holds(self.profile.equipment,item) && item.quantity > 0 && item.usableBy(self.profile); }
+    prepare()
+    {
+        local value = new RpgExpandedDiggingAssessment();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'digging-facts-required'; return value; }
+        if (!self.toolAvailable(self.shovel) || self.site.stage == 'hard-solo'
+            && (!self.toolAvailable(self.pick) || self.pick == self.shovel))
+        { value.reason = 'digging-tools-unavailable'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.mortal || self.profile.stunned
+            || self.profile.mentalStun || self.profile.hp() <= 0 || self.profile.voluntaryMovementUnavailable()
+            || self.profile.healthEffortReason('action',nil,nil,true) != nil)
+        { value.reason = 'digging-worker-unavailable'; return value; }
+        if (self.profile.heatExtra != 0) { value.reason = 'digging-heat-adapter-required'; return value; }
+        value = rpgExpandedDiggingRate(self.profile.basicLiftHundredths(),self.site.stage,self.toolMaterial,self.improvisedDivisor,1);
+        if (self.profile.fp() <= value.fatiguePerHour)
+        { value.status = 'blocked'; value.reason = 'digging-exhaustion-adapter-required'; return value; }
+        if (self.site.rateDenominator != nil && self.site.rateDenominator != value.rateDenominator)
+        { value.status = 'blocked'; value.reason = 'digging-mixed-rate-denominators-unimplemented'; return value; }
+        rpgInteger(self.site.capacityCubicFeet,1,2147483647 / value.rateDenominator);
+        local available = self.site.capacityCubicFeet * value.rateDenominator - self.site.removedNumerator;
+        if (available < value.rateNumerator)
+        { value.status = 'blocked'; value.reason = 'digging-partial-hour-required'; return value; }
+        value.seconds = 3600; return value;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.site == nil || !self.site.ofKind(RpgExpandedDiggingSite)) rpgExpandedReject('digging-hour-definition');
+        self.site.validate();
+        if (self.result != nil) { self.validateReceipt(); local reused = new RpgExpandedDiggingAssessment(); reused.status = 'reused'; return reused; }
+        foreach (local prior in self.profile.diggingHours)
+            if (prior.id == self.id) rpgExpandedReject('digging-hour-duplicate');
+        local value = self.prepare();
+        if (value.status == 'ready') { rpgInteger(rpgLedger.seconds,0,2147480047); rpgLedger.validateAdvance(3600); }
+        return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local start = rpgLedger.seconds; rpgSpendTime(3600);
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('digging-hour-interrupted');
+        self.site.validate(); local after = self.prepare();
+        if (rpgLedger.seconds != start + 3600 || after.status != 'ready' || after.rateNumerator != value.rateNumerator
+            || after.rateDenominator != value.rateDenominator) rpgExpandedReject('digging-hour-conditions-changed');
+        for (local point = 0; point < value.fatiguePerHour; point += 1) rpgLiteFatigueIncrement(self.profile,'digging');
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = definition;
+        value.status = 'resolved'; self.result = value;
+        self.site.rateDenominator = value.rateDenominator; self.site.removedNumerator += value.rateNumerator;
+        self.site.hours = self.site.hours + [self]; self.profile.diggingHours = self.profile.diggingHours + [self];
+        return value;
+    }
+;

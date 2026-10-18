@@ -632,3 +632,10 @@ stages, wooden/improvised tools and unusually hard rock. Breaking and removal
 remain distinct work outputs. Authored, unrun matrix fixtures preserve fractional
 lifting capacity and volume. Owned work intervals, tool possession and fatigue
 execution remain incomplete; the assessments alone grant no excavation credit.
+
+
+Added owned full-hour digging for loose/ordinary soil and alternating hard-soil
+work. Actual tool ownership, site capacity and worker conditions are checked;
+clock time, fatigue and exact excavation credit commit once. Authored, unrun
+fixtures cover rates, limits, rollback, undo and saved continuation. Partial hours,
+separate-stage material stocks and exhausted/heat-adjusted work remain incomplete.
