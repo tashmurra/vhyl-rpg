@@ -943,3 +943,7 @@ rpgExpandedAssessDragging(lift,load,deviceWeight,device,smoothLevel)
     if (value.encumbranceLevel < 5) { value.status = 'ready'; return value; }
     value.reason = 'dragging-overload-execution-required'; return value;
 }
+
+modify rpgExpandedLiftingRules
+    assess(lift,weight,mode) { return rpgExpandedAssessLift(lift,weight,mode,nil,nil,nil); }
+;

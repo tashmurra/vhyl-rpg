@@ -403,3 +403,93 @@ rpgExpandedDiggingTool(id,kind)
     if (kind == 'pickaxe') { item.cost = 15; item.weight = 800; item.techLevel = 2; }
     item.validateAcquisition(); return item;
 }
+
+modify RpgExpandedProfile
+    liftingReceipts = []
+;
+/** Pick up one already owned, stored item outside combat. Storage is not a second inventory. */
+class RpgExpandedEquipmentLift: object
+    id = nil
+    profile = nil
+    item = nil
+    sourceLocation = nil
+    mode = 'two-hands'
+    accessible = nil
+    freeHands = 0
+    hands = []
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    startedAt = nil
+    completedAt = nil
+    definition()
+    { return [self.id,self.profile,self.item,self.sourceLocation,self.mode,self.accessible,
+        self.freeHands,self.approved,self.evidence,self.hands.length()] + self.hands; }
+    prepare()
+    {
+        local value = new RpgExpandedResult();
+        if (!self.approved || !self.accessible || self.evidence == nil || self.evidence == '')
+        { value.reason = 'lifting-author-facts'; return value; }
+        if (!holds(self.profile.equipment,self.item))
+        { value.reason = 'lifting-item-ownership'; return value; }
+        if (self.item.storageLocation != self.sourceLocation)
+        { value.reason = 'lifting-item-location'; return value; }
+        if (!holds(['one-hand','two-hands'],self.mode)) rpgExpandedReject('lifting-pickup-mode');
+        local required = self.mode == 'one-hand' ? 1 : 2;
+        rpgInteger(self.freeHands,0,100);
+        if (self.freeHands < required) { value.reason = 'lifting-free-hands'; return value; }
+        value.reason = self.profile.liftingHandsReason(self.hands,required);
+        if (value.reason != nil) return value;
+        if (self.profile.dead || self.profile.unconscious || self.profile.mortal || self.profile.stunned
+            || self.profile.mentalStun || self.profile.hp() <= 0 || self.profile.fp() <= 0
+            || self.profile.voluntaryMovementUnavailable()
+            || self.profile.healthEffortReason('action',nil,nil,true) != nil)
+        { value.reason = 'lifting-actor-unavailable'; return value; }
+        rpgInteger(self.item.weight,1,1000000); rpgInteger(self.item.quantity,1,100);
+        if (self.profile.loadHundredths() + self.item.weightHundredths() > self.profile.basicLiftHundredths() * 10)
+        { value.reason = 'lifting-overload-execution-required'; return value; }
+        return rpgExpandedLiftingRules.assess(self.profile.basicLiftHundredths(),self.item.weightHundredths(),self.mode);
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.item == nil || !self.item.ofKind(RpgLiteItem) || !holds(self.profile.equipment,self.item)
+            || self.sourceLocation == nil) rpgExpandedReject('lifting-definition');
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.boundDefinition.length()) rpgExpandedReject('lifting-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('lifting-binding');
+            if (!holds(self.profile.liftingReceipts,self)) rpgExpandedReject('lifting-history');
+            local reused = new RpgExpandedResult(); reused.status = 'reused'; return reused;
+        }
+        foreach (local prior in self.profile.liftingReceipts)
+            if (prior.id == self.id) rpgExpandedReject('lifting-duplicate');
+        local value = self.prepare();
+        if (value.status == 'ready')
+        { rpgInteger(rpgLedger.seconds,0,2147483647-value.seconds); rpgLedger.validateAdvance(value.seconds); }
+        return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local start = rpgLedger.seconds;
+        local weight = self.item.weightHundredths(); local lift = self.profile.basicLiftHundredths();
+        rpgSpendTime(value.seconds);
+        local current = self.definition();
+        if (current.length() != definition.length()) rpgExpandedReject('lifting-interrupted');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('lifting-interrupted');
+        local after = self.prepare();
+        if (after.status != 'ready' || after.seconds != value.seconds || rpgLedger.seconds != start + value.seconds
+            || self.item.weightHundredths() != weight || self.profile.basicLiftHundredths() != lift)
+            rpgExpandedReject('lifting-conditions-changed');
+        self.item.storageLocation = nil; self.item.ready = nil; self.item.worn = nil;
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = definition;
+        self.profile.liftingReceipts = self.profile.liftingReceipts + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

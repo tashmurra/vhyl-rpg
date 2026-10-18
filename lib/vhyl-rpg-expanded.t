@@ -180,3 +180,13 @@ class RpgExpandedStatementReceipt: object
         return self.source.validateStatementReceipt(self);
     }
 ;
+
+/** Optional exploration supplies physical lifting assessment without an include cycle. */
+rpgExpandedLiftingRules: object
+    assess(lift,weight,mode)
+    { local value = new RpgExpandedResult(); value.reason = 'lifting-exploration-required'; return value; }
+;
+modify RpgExpandedProfile
+    liftingHandsReason(hands,required)
+    { return hands.length() == 0 ? nil : 'lifting-anatomy-required'; }
+;

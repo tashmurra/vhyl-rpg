@@ -8980,6 +8980,8 @@ def test(build):
     test_digging_assessment(Session, digging)
     loads = build.build('expanded-loads', ROOT / 'tests/fixtures/expanded-loads.t')
     test_load_assessments(Session, loads)
+    equipment_lift = build.build('expanded-equipment-lift', ROOT / 'tests/fixtures/expanded-equipment-lift.t')
+    test_equipment_lift(Session, equipment_lift, build.out)
     digging_work = build.build('expanded-digging-work', ROOT / 'tests/fixtures/expanded-digging-work.t')
     test_digging_work(Session, digging_work, build.out)
     test_digging_material(Session, digging_work, build.out)
@@ -13068,5 +13070,55 @@ def test_load_assessments(Session, bundle):
             s.action(2293,2420,gross,0,1,0)
             assert last(s, 'test.drag')[:2] == ['blocked',reason]
             assert last(s, 'test.drag')[-2:] == [0,0]
+    finally:
+        s.close()
+
+
+def test_equipment_lift(Session, bundle, out):
+    def state(s):
+        s.action(2285, 743)
+        return last(s, 'test.lift-owned')
+    clear = [0,0,0,0,0,6000]
+    carried = [1,6000,1,4,0,6000]
+    path = out / 'expanded-equipment-lift.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 740)
+        assert last(s, 'test.lift-preview') == ['ready',None,4]
+        s.action(2285, 742)
+        assert state(s) == clear
+        s.action(2285, 741)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (741,741):
+            s.action(2285, code)
+        assert state(s) == carried
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 741)
+        assert state(s) == carried
+    finally:
+        s.close()
+    for invalid in (744,745,746):
+        s = Session(bundle)
+        try:
+            for code in (invalid,741):
+                s.action(2285, code)
+            assert state(s) == clear
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (747,740,741):
+            s.action(2285, code)
+        assert last(s, 'test.lift-preview')[:2] == ['blocked','lifting-hand-disabled']
+        assert state(s) == [0,0,0,0,0,3000]
+        for code in (748,741):
+            s.action(2285, code)
+        assert state(s) == [1,3000,1,2,0,3000]
     finally:
         s.close()

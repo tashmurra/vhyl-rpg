@@ -413,3 +413,8 @@ Ready maneuvers, unwilling targets and overload execution remain separate pendin
 work. `expanded-loads.t` specifies exact limits, immediate boundary values,
 fractional loads, device weight, surface stacking, bracing and zero time/RNG.
 Its assertions remain unrun while checks are paused.
+
+The equipment module now commits noncombat stored-item pickups through
+[`RpgExpandedEquipmentLift`](equipment.md#owned-equipment-pickup), sharing these
+assessments and the existing inventory/time ledgers. Other load execution remains
+pending; new owned-pickup assertions are authored and unrun.

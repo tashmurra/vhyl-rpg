@@ -372,3 +372,43 @@ carried weight, purchase/work replay, rollback, undo, saved continuation, missin
 material evidence, wrong roles, storage and changed catalogue statistics. Assertions
 remain unrun. Wear, breakage, repairs, weapon use and altered item variants remain
 separate unfinished integrations; these tools do not supply a universal skill bonus.
+
+## Owned equipment pickup
+
+`RpgExpandedEquipmentLift` picks up one already owned, stored item outside combat,
+using the exploration module's B353 lifting assessment. Both modules depend on the
+foundation, whose `rpgExpandedLiftingRules` hook blocks with
+`lifting-exploration-required` if exploration is absent. No circular include or
+second inventory is introduced.
+
+Supply a stable `id`, expanded `profile`, owned `item`, non-nil `sourceLocation`,
+`mode` (`one-hand` or `two-hands`), `accessible`, `freeHands`, `approved`, and
+nonempty `evidence`. Establish that the object can be gripped and lifted normally;
+unwilling creatures, anchored objects and combat pickup require other procedures.
+The requested bundle's actual weight must fit the mode, and the combined carried
+load must remain within ten times basic lift. Overload execution is still pending.
+
+If anatomy is installed and defined, set `hands` to the actual one or two hand
+objects. The health hook validates ownership, functional arms/hands, distinct
+bindings and occupation by carried ready/worn gear. With no defined anatomy,
+`freeHands` and the authored evidence establish hand availability. Physical
+incapacity and exhausted actors block before time is spent.
+
+`assess()` is pure. `apply()` spends two or four seconds, then rechecks the request,
+ownership, location, health, hands, weight and lifting capacity. A changed condition
+throws so the surrounding transaction rolls back the elapsed time. Success clears
+`storageLocation`, leaves the item unready and unworn, and records the lift in
+`profile.liftingReceipts`. Ownership and quantity remain unchanged. The normal
+inventory weight calculation now includes the item. This is pickup into carried
+inventory, not sustained gripping, weapon readiness or a movement operation.
+
+Replaying the same operation reuses its receipt without spending more time or
+picking up an item again after a later storage action. A new physical pickup
+requires a new operation ID. Do not also call the low-level storage operation or
+charge another pickup duration for this action.
+
+The fixture specifies preview, one-/two-hand limits, disabled-hand rejection,
+post-time interruption rollback, undo, replay and separate-process save
+continuation. Assertions remain unrun. Combat Ready sequences, lifting skill,
+cooperative lifts, overload, sustained gripping and parser/dialogue routing remain
+incomplete. Source: full-2008, B353.

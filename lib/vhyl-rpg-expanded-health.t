@@ -5875,3 +5875,25 @@ modify RpgExpandedProfile
     }
     healthSelfControlModifier(trait) { return inherited(trait) + self.painPenalty(); }
 ;
+
+modify RpgExpandedProfile
+    liftingHandsReason(hands,required)
+    {
+        if (self.bodyParts.length() == 0) return inherited(hands,required);
+        self.validateBodyParts();
+        if (hands.length() != required) return 'lifting-hand-bindings';
+        local seen = [];
+        foreach (local hand in hands)
+        {
+            if (hand == nil || !holds(self.bodyParts,hand) || hand.kind != 'hand'
+                || holds(seen,hand)) return 'lifting-hand-bindings';
+            if (!hand.functional()) return 'lifting-hand-disabled';
+            seen = seen + [hand];
+            foreach (local item in self.equipment)
+                if (item.usableBy(self) && (item.ready || item.worn))
+                    foreach (local support in item.bodySupports)
+                        if (support == hand || support == hand.parent) return 'lifting-hand-occupied';
+        }
+        return nil;
+    }
+;

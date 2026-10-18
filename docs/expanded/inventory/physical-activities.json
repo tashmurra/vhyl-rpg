@@ -1063,9 +1063,10 @@
       "status": "partial",
       "acceptance": "One hand can lift twice basic capacity in two seconds.",
       "tests": [
-        "tests/expanded.py::test_load_assessments"
+        "tests/expanded.py::test_load_assessments",
+        "tests/expanded.py::test_equipment_lift"
       ],
-      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending. Owned noncombat pickups now charge the lift duration once and transfer stored gear into the existing carried inventory after health, hand and capacity revalidation. Transaction/undo/save assertions authored, unrun; combat and cooperative execution remain pending."
     },
     {
       "id": "lifting-capacity-two-hands",
@@ -1076,9 +1077,10 @@
       "status": "partial",
       "acceptance": "Two hands can lift eight times basic capacity in four seconds.",
       "tests": [
-        "tests/expanded.py::test_load_assessments"
+        "tests/expanded.py::test_load_assessments",
+        "tests/expanded.py::test_equipment_lift"
       ],
-      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending. Owned noncombat pickups now charge the lift duration once and transfer stored gear into the existing carried inventory after health, hand and capacity revalidation. Transaction/undo/save assertions authored, unrun; combat and cooperative execution remain pending."
     },
     {
       "id": "lifting-capacity-shove",

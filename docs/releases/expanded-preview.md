@@ -695,3 +695,7 @@ repairs and other tool uses remain incomplete.
   device weight, surface divisors, combat pickup duration and capacity boundaries.
   Dragging and existing carried loads share encumbrance arithmetic. Owned execution
   and overload handling remain pending; boundary fixtures are authored and unrun.
+
+- Added owned noncombat equipment lifts using exact capacity and the shared time
+  ledger. Stored items become carried after revalidation; anatomy checks available
+  hands when installed. Added rollback, undo and save-continuation fixtures, unrun.
