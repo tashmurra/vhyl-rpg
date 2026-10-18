@@ -1668,3 +1668,50 @@ class RpgExpandedInventionFacilities: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedInventionProject
+    blueprintEntry = nil
+;
+
+/** Acquired actual blueprints authorize prototype work without a concept attempt, B473. */
+class RpgExpandedInventionBlueprint: object
+    project = nil
+    reference = nil
+    acquired = nil
+    actualDesign = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundProject = nil
+    boundReference = nil
+    boundEvidence = nil
+    assess()
+    {
+        if (self.project == nil || !self.project.ofKind(RpgExpandedInventionProject))
+            rpgExpandedReject('invention-blueprint-project');
+        self.project.validate(); local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.project != self.boundProject || self.reference != self.boundReference
+                || self.evidence != self.boundEvidence || self.project.blueprintEntry != self)
+                rpgExpandedReject('invention-blueprint-binding');
+            value.status = 'reused'; return value;
+        }
+        if (!self.acquired || !self.actualDesign || !self.approved || self.reference == nil
+            || self.reference == '' || self.evidence == nil || self.evidence == '')
+        { value.reason = 'invention-blueprint-author-facts'; return value; }
+        if (self.project.theory != nil || self.project.blueprintEntry != nil)
+        { value.reason = 'invention-theory-already-held'; return value; }
+        local proposal = self.project.proposal.assess();
+        if (proposal.status != 'ready') { value.reason = proposal.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.project.definitionSnapshot == nil) self.project.definitionSnapshot = self.project.proposal.definition();
+        self.project.theory = 'testable'; self.project.blueprintEntry = self;
+        self.boundProject = self.project; self.boundReference = self.reference; self.boundEvidence = self.evidence;
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

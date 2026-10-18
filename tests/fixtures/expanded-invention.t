@@ -23,11 +23,22 @@ conceptRetry: RpgExpandedInventionConcept id = 'retry' project = conceptProject 
 conceptOther: RpgExpandedInventionConcept id = 'other-project' project = conceptOtherProject evidence = 'Another proposal';
 conceptFacilities: RpgExpandedInventionFacilities project = conceptProject payer = conceptUser approved = true evidence = 'Fund inventor laboratory';
 conceptReplacement: RpgExpandedInventionFacilities project = conceptProject payer = conceptUser approved = true evidence = 'Rebuild laboratory';
+conceptBlueprint: RpgExpandedInventionBlueprint project = conceptProject reference = 'survey-design-drawings'
+    acquired = true actualDesign = true approved = true evidence = 'Complete acquired construction drawings';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 10 && code <= 15)
+        {
+            if (code == 13) conceptBlueprint.actualDesign = nil;
+            if (code == 14) conceptBlueprint.reference = 'different-drawings';
+            if (code == 15) conceptBlueprint.acquired = nil;
+            local value = code == 11 ? conceptBlueprint.assess() : conceptBlueprint.apply();
+            event('test.blueprint'); eventValue(value.status); eventValue(value.reason);
+            if (code == 12) throw new RpgError(); return nil;
+        }
         if (code >= 20)
         {
             if (code == 29) { conceptProposal.relatedFacilities = true; conceptAttempt.knowledge = 'model'; conceptAttempt.apply(); return nil; }

@@ -843,3 +843,31 @@ funding and external investors remain pending.
 previews, funds and approval gates, rollback, undo, replay, intact-installation
 rejection, destruction/rebuilding and save continuation. They remain unrun while
 checks are paused. Neutral source: `full-2008`, B474.
+
+
+## Starting from actual blueprints
+
+`RpgExpandedInventionBlueprint` binds a project to an in-game design `reference`.
+The author must establish that it was `acquired`, is an `actualDesign`, and is
+approved, with explicit supporting evidence. A rumor that a device exists or
+access to a working model is insufficient; those use the concept modifiers.
+
+`assess()` retains the approved proposal's skill and technology gates. `apply()`
+records `project.blueprintEntry` and establishes a testable theory, binding the
+proposal and design reference. It does not roll, spend time or money, or append a
+daily concept receipt. The inventor can therefore still make their ordinary
+concept attempt on another project that day. Facilities and attempt costs remain
+separate obligations.
+
+Replay does not grant a new theory or consume another resource. The entry rejects
+an already established theory, including a flawed one: replacing an ongoing
+project's theory and reconciling its existing prototype work remain unsupported.
+The reference names fictional design data; this interface performs no file I/O
+and does not determine whether a discovered document is genuine. That fact must
+come from the authored world.
+
+`test_invention_blueprints` and `test_invention_blueprint_persistence` author
+approval/acquisition gates, preview purity, rollback, undo, replay, reference
+binding, preserved daily opportunity, subsequent facilities funding and
+cross-process continuation. They remain unrun while checks are paused. Source:
+`full-2008`, B473.

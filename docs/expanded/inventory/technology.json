@@ -333,7 +333,7 @@
         "tests/expanded.py::test_invention_theories",
         "tests/expanded.py::test_invention_concept_persistence"
       ],
-      "validation_note": "Owned secret concept attempts, modifier assessment, inventor-wide daily limit and theory state authored; fixtures unrun. Complete modifier fixtures, blueprint entry, prototype interaction and flawed-theory discovery remain pending."
+      "validation_note": "Owned secret concept attempts, modifier assessment, inventor-wide daily limit and theory state authored; fixtures unrun. Complete modifier fixtures, prototype interaction and flawed-theory discovery remain pending."
     },
     {
       "id": "technology-concept-day",
@@ -348,7 +348,7 @@
         "tests/expanded.py::test_invention_theories",
         "tests/expanded.py::test_invention_concept_persistence"
       ],
-      "validation_note": "Owned secret concept attempts, modifier assessment, inventor-wide daily limit and theory state authored; fixtures unrun. Complete modifier fixtures, blueprint entry, prototype interaction and flawed-theory discovery remain pending."
+      "validation_note": "Owned secret concept attempts, modifier assessment, inventor-wide daily limit and theory state authored; fixtures unrun. Complete modifier fixtures, prototype interaction and flawed-theory discovery remain pending."
     },
     {
       "id": "technology-blueprints",
@@ -356,9 +356,13 @@
       "pages": "B473",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Actual acquired blueprints bypass the concept stage; merely hearing of an existing device does not.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_invention_blueprints",
+        "tests/expanded.py::test_invention_blueprint_persistence"
+      ],
+      "validation_note": "Owned actual-design entry bypasses the concept roll and daily opportunity; fixtures unrun. Replacing existing theories and reconciling prototype work remain pending."
     },
     {
       "id": "technology-older-invention",
@@ -373,7 +377,7 @@
         "tests/expanded.py::test_invention_theories",
         "tests/expanded.py::test_invention_concept_persistence"
       ],
-      "validation_note": "Owned secret concept attempts, modifier assessment, inventor-wide daily limit and theory state authored; fixtures unrun. Complete modifier fixtures, blueprint entry, prototype interaction and flawed-theory discovery remain pending."
+      "validation_note": "Owned secret concept attempts, modifier assessment, inventor-wide daily limit and theory state authored; fixtures unrun. Complete modifier fixtures, prototype interaction and flawed-theory discovery remain pending."
     },
     {
       "id": "technology-prototype-check",
@@ -434,7 +438,8 @@
       "acceptance": "Facilities must be funded before an inventor's first prototype attempt. One-level-advanced ordinary invention triples cost; suitable related facilities of equal or higher complexity divide it by ten.",
       "tests": [
         "tests/expanded.py::test_invention_facilities",
-        "tests/expanded.py::test_invention_facilities_persistence"
+        "tests/expanded.py::test_invention_facilities_persistence",
+        "tests/expanded.py::test_invention_facilities_reuse"
       ],
       "validation_note": "Owned up-front facilities payments and original-full-cost rebuilding authored; fixtures unrun. Accident integration, construction scheduling and alternate funding remain incomplete."
     },

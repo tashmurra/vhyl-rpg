@@ -973,6 +973,54 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_invention_blueprints(s):
+    initial = [0,0,None,0,0]
+    for code in [11,12]:
+        s.action(2097,code)
+        assert concept_state(s) == initial
+    for code in [13,15]:
+        s.action(2097,code)
+        assert last(s,'test.blueprint') == ['blocked','invention-blueprint-author-facts']
+        assert concept_state(s) == initial
+        s.command('undo')
+    s.action(2097,10)
+    entered = [0,0,'testable',0,0]
+    assert last(s,'test.blueprint') == ['resolved',None]
+    assert concept_state(s) == entered
+    s.command('undo')
+    assert concept_state(s) == initial
+    s.action(2097,10)
+    for code in [10,14]:
+        s.action(2097,code)
+        assert concept_state(s) == entered
+    s.action(2097,7)
+    assert last(s,'test.concept') == ['resolved',None,None,5,10]
+    assert concept_state(s) == [0,1,'testable',3,0]
+    s.action(2102,1)
+    assert facilities_state(s) == [900000,1,'available',3,0]
+
+
+def test_invention_blueprint_persistence(Session,bundle,out):
+    path = out / 'expanded-invention-blueprint.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2097,10)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2098')
+        assert concept_state(second) == [0,0,'testable',0,0]
+        second.action(2097,10)
+        assert last(second,'test.blueprint') == ['reused',None]
+        assert concept_state(second) == [0,0,'testable',0,0]
+        second.action(2102,1)
+        assert facilities_state(second) == [900000,1,'available',0,0]
+    finally:
+        second.close()
+
+
 def facilities_state(s):
     s.action(2103)
     return last(s,'test.facilities-state')
@@ -6157,6 +6205,8 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_invention_blueprints)
+    test_invention_blueprint_persistence(Session,invention,build.out)
     fresh(Session,invention,test_invention_facilities)
     fresh(Session,invention,test_invention_facilities_reuse)
     test_invention_facilities_persistence(Session,invention,build.out)
