@@ -77,20 +77,35 @@ class RpgExpandedStudy: object
         if (self.mode == 'self') return self.employment == 'full' ? 14400 : self.employment == 'part' ? 28800 : 43200;
         return self.mode == 'education' ? 28800 : 57600;
     }
+    sessionDefinition()
+    {
+        return [self.profile,self.training,self.training.skill,self.training.points,self.mode,self.permitted,
+            self.employment,self.teacher,self.teachingScore,self.lavishMaterials,self.credit,self.awarded,
+            self.creditOwner,self.creditTraining,self.creditSkill,self.profile.studyDay]
+            + self.profile.studyUsed;
+    }
     advance(seconds)
     {
         local value = self.assess(seconds);
         if (value.status != 'ready') return value;
-        self.creditOwner = self.profile; self.creditTraining = self.training;
-        self.creditSkill = self.training.skill;
-        local day = rpgLedger.seconds / 86400;
-        if (self.profile.studyDay != day)
-        { self.profile.studyDay = day; self.profile.studyUsed = [0,0,0,0]; }
+        local definition = self.sessionDefinition(); local start = rpgLedger.seconds;
+        local day = start / 86400;
+        local previousUsed = self.profile.studyDay == day ? self.profile.studyUsed : [0,0,0,0];
         local used = [];
         for (local i = 1; i <= 4; i += 1)
-            used = used + [self.profile.studyUsed[i] + (i == self.modeIndex() ? seconds : 0)];
+            used = used + [previousUsed[i] + (i == self.modeIndex() ? seconds : 0)];
         rpgSpendTime(seconds);
-        self.profile.studyUsed = used;
+        local current = self.sessionDefinition();
+        if (rpgLedger.seconds != start + seconds || current.length() != definition.length())
+            rpgExpandedReject('study-interrupted');
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != definition[i]) rpgExpandedReject('study-interrupted');
+        /* One second probes continued eligibility without charging a second session
+         * or reapplying the original duration to a new calendar day. */
+        if (self.assess(1).status != 'ready') rpgExpandedReject('study-conditions-changed');
+        self.creditOwner = self.profile; self.creditTraining = self.training;
+        self.creditSkill = self.training.skill;
+        self.profile.studyDay = day; self.profile.studyUsed = used;
         self.credit = (self.credit + seconds * self.factor()) % 2880000;
         self.training.points += value.points; self.awarded += value.points;
         value.status = 'resolved'; return value;

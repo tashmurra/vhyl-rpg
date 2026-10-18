@@ -1172,3 +1172,7 @@ expanded influence procedure remains partial.
   and default use, with authored training/mastery scope and the specific ordinary
   pistol exception. Added unrun eligibility fixtures; full weapon-mastery
   integration remains pending (full-2008 B230).
+
+- Study and familiarity practice now revalidate their targets and eligibility
+  after time hooks, preventing credit after interruption or retargeting. Added
+  unrun rollback, midnight-boundary and save-continuation fixtures.

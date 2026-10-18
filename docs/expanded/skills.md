@@ -589,3 +589,9 @@ specialties or implement simultaneous attack resolution.
 Fixtures cover missing policy, missing permission, possession, unrestricted
 use, default-chain restrictions and the specific pistol exception. They remain
 unrun; catalogue and weapon-scope integration remain partial.
+
+Familiarity practice now binds its target and progress across elapsed-time hooks.
+A hook that changes the equipment type, recorded progress, eligibility or exact
+elapsed interval causes rejection before credit. Let that exception reach the
+engine transaction boundary so time and hook effects roll back together. This
+also prevents a hook from silently completing the same familiarity twice.

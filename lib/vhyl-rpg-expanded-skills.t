@@ -374,6 +374,12 @@ class RpgExpandedFamiliarity: object
         if (initialCount > points * 2) rpgExpandedReject('initial-familiarity-limit');
         return nil;
     }
+    practiceDefinition()
+    {
+        return [self.owner,self.skill,self.equipmentType,self.initial,self.requiredSeconds,self.penalty,
+            self.practicedSeconds,self.recognized,self.recognitionAttempted,self.recognitionCheck,
+            self.practiceOwner,self.practiceSkill,self.practiceType,self.available];
+    }
     known() { return self.initial || self.recognized || self.practicedSeconds == self.requiredSeconds; }
     modifier()
     {
@@ -399,7 +405,14 @@ class RpgExpandedFamiliarity: object
     {
         local value = self.assess(seconds);
         if (value.status != 'ready') return value;
+        local definition = self.practiceDefinition(); local start = rpgLedger.seconds;
         rpgSpendTime(value.seconds);
+        local current = self.practiceDefinition();
+        if (rpgLedger.seconds != start + value.seconds || current.length() != definition.length())
+            rpgExpandedReject('familiarity-practice-interrupted');
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != definition[i]) rpgExpandedReject('familiarity-practice-interrupted');
+        if (self.assess(seconds).status != 'ready') rpgExpandedReject('familiarity-practice-conditions-changed');
         self.practiceOwner = self.owner; self.practiceSkill = self.skill;
         self.practiceType = self.equipmentType; self.practicedSeconds += value.seconds;
         value.status = 'resolved'; return value;

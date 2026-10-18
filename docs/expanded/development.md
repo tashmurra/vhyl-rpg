@@ -65,3 +65,12 @@ outside-rescue exception under this module. These need unique award events and t
 shared advancement account. Work-based study must share the employment time record;
 a job's eight-hour workday contributes two hours of study credit without reserving
 another study interval. These integrations are not yet implemented.
+
+Study sessions now retain their original learner, subject, mode, progress and
+daily usage across elapsed-time hooks. Before awarding credit they recheck those
+values and continued eligibility, including learning restrictions and teacher
+requirements. Changed conditions reject the session; propagate the exception to
+the engine transaction boundary to roll back time and hook effects together.
+Sessions ending at midnight retain credit against the day on which they began.
+The interruption fixture covers retargeting, eligibility changes, clock changes,
+rollback, undo and save continuation. It remains unrun while checks are paused.

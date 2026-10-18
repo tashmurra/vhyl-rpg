@@ -9066,6 +9066,8 @@ def test(build):
     test_technique_context(Session, technique_context, build.out)
     technique_eligibility = build.build('expanded-technique-eligibility',ROOT / 'tests/fixtures/expanded-technique-eligibility.t')
     test_technique_eligibility(Session, technique_eligibility)
+    training_interruption = build.build('expanded-training-interruption',ROOT / 'tests/fixtures/expanded-training-interruption.t')
+    test_training_interruption(Session, training_interruption, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16992,3 +16994,43 @@ def test_technique_eligibility(Session, bundle):
             assert last(s,'test.technique-purchase') == ['resolved',None,2]
         finally:
             s.close()
+
+
+def test_training_interruption(Session, bundle, out):
+    initial = [0,'self',1,1,0,1,0,1,1,0,0,0]
+    for code in tuple(range(3700,3705))+tuple(range(3710,3715)):
+        s = Session(bundle)
+        try:
+            s.action(2285,code)
+            s.action(2285,3722)
+            assert last(s,'test.training-interruption-state') == initial
+        finally:
+            s.close()
+    path = out / 'expanded-training-interruption.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,3720)
+        s.command('undo')
+        s.action(2285,3722)
+        assert last(s,'test.training-interruption-state') == initial
+        s.action(2285,3720)
+        s.action(2285,3722)
+        assert last(s,'test.training-interruption-state') == [7200,'self',1,1,0,1,0,1,1,0,3600,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,3721)
+        s.action(2285,3722)
+        assert last(s,'test.training-interruption-state') == [7200,'self',1,1,3600,1,0,1,1,0,7200,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (3723,3724,3722):
+            s.action(2285,code)
+        assert last(s,'test.training-interruption-state') == [2,'self',1,1,0,1,0,1,1,0,86400,0]
+    finally:
+        s.close()
