@@ -356,3 +356,35 @@ retained/severed shields, overlapping knockdown drops, preview purity, rollback,
 undo and repeat protection. `test_limb_wound_persistence` covers the committed
 part/wound relationship and repeat protection after cross-process restoration.
 Both are authored but unrun while checks remain paused.
+
+
+## Unarmed parries after upper-limb injury
+
+Full-2008 B147 distinguishes a missing or disabled hand from an unusable arm:
+a functioning handless arm can still make an unarmed parry. The combat engine
+queries `fighter.unarmedParryCapacity()` and
+`fighter.unarmedParryRequirement(otherHand)` before assessing that defense.
+With owned anatomy, capacity counts functioning arms, excludes arms occupied by
+held items, and remains capped by the author's `freeHands` value for additional
+restraints. A disabled hand alone does not reduce this count. A disabled or
+severed arm does. Body supports must describe held equipment; an unbound ready
+item rejects with `unarmed-grip-map-required` rather than guessing its grip.
+
+A second unarmed parry needs two eligible arms, including when the primary weapon
+is the built-in punch or kick representation. Merely retaining such an object
+must not make a single arm count twice. Profiles without owned anatomy retain
+the existing authored `freeHands` behavior and requirement calculation.
+
+With owned anatomy, punch and hand-mounted striking equipment require explicit
+hand supports for attacks. Missing bindings reject with
+`unarmed-hand-support-required`; disabling the bound hand or its arm makes the
+attack unavailable. This attack restriction does not remove a handless arm's
+unarmed parry. Natural attack representations should remain fighter attack
+objects rather than carried inventory items.
+
+`test_unarmed_limb_capacity` enumerates healthy, disabled-hand, disabled-arm,
+occupied-arm and authored-capacity cases against actual defense assessment. It
+also covers the built-in punch representation, invalid grip information, attack
+eligibility, no random draws and profiles without anatomy. These fixtures are
+unrun. Full grappling, limb-specific maneuver choices and the B147 modifiers to
+other tasks remain outstanding; this closes only the unarmed-parry capacity gap.

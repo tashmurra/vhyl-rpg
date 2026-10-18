@@ -338,6 +338,9 @@ modify RpgLiteItem
     {
         self.validateBodySupports(profile);
         if (!inherited(profile)) return nil;
+        if (profile.ofKind(RpgExpandedProfile) && profile.bodyParts.length() > 0
+            && holds(['punch','brass-knuckles'],self.id) && self.bodySupports.length() == 0)
+            rpgExpandedReject('unarmed-hand-support-required');
         foreach (local part in self.bodySupports)
         {
             if (!part.functional()) return nil;
@@ -420,5 +423,43 @@ modify RpgExpandedProfile
             }
         }
         return self.prepareForcedDrop(items,destination);
+    }
+;
+
+
+/** B147 permits an unarmed parry with a handless but functioning arm. The
+ * authored freeHands limit still represents other restraints or occupations. */
+modify RpgLiteFighter
+    unarmedParryRequirement(otherHand)
+    {
+        if (self.profile != nil && self.profile.ofKind(RpgExpandedProfile)
+            && self.profile.bodyParts.length() > 0 && otherHand
+            && (self.weapon == nil || holds(['punch','kick'],self.weapon.id))) return 2;
+        return inherited(otherHand);
+    }
+    unarmedParryCapacity()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.profile.bodyParts.length() == 0) return inherited();
+        self.profile.validateBodyParts(); rpgInteger(self.freeHands,0,1000);
+        local occupied = [];
+        foreach (local item in self.profile.equipment)
+        {
+            item.validateBodySupports(self.profile);
+            if (item.usableBy(self.profile) && !item.worn && !holds(['punch','kick'],item.id))
+            {
+                if (item.ready && item.bodySupports.length() == 0)
+                    rpgExpandedReject('unarmed-grip-map-required');
+                foreach (local support in item.bodySupports)
+                {
+                    local arm = support.kind == 'hand' ? support.parent : support;
+                    if (!holds(occupied,arm)) occupied = occupied + [arm];
+                }
+            }
+        }
+        local count = 0;
+        foreach (local part in self.profile.bodyParts)
+            if (part.kind == 'arm' && part.functional() && !holds(occupied,part)) count += 1;
+        return count < self.freeHands ? count : self.freeHands;
     }
 ;

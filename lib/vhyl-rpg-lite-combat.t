@@ -21,6 +21,8 @@ class RpgLiteFighter: object
     concentration = 0
     initiativeTie = 0
     freeHands = 2
+    unarmedParryCapacity() { return self.freeHands; }
+    unarmedParryRequirement(otherHand) { return otherHand && self.weapon == nil ? 2 : 1; }
     mode() { return self.weapon.modes[self.modeIndex]; }
 ;
 
@@ -160,7 +162,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
         local unarmed = parryWeapon == nil || parryWeapon.id == 'punch' || parryWeapon.id == 'kick';
         if (unarmed)
         {
-            if (fighter.freeHands < (otherHand && fighter.weapon == nil ? 2 : 1)) return nil;
+            if (fighter.unarmedParryCapacity() < fighter.unarmedParryRequirement(otherHand)) return nil;
             score = 3 + rpgLiteUnarmedScore(fighter) / 2;
             local karate = profile.skillScore(rpgLiteTraining(profile, 'karate', nil, nil));
             if (attacker.weapon.id != 'punch' && attacker.weapon.id != 'kick'

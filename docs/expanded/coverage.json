@@ -98,9 +98,10 @@
         "tests/expanded.py::test_crippling_thresholds",
         "tests/expanded.py::test_body_supports",
         "tests/expanded.py::test_limb_wound_transactions",
-        "tests/expanded.py::test_limb_wound_persistence"
+        "tests/expanded.py::test_limb_wound_persistence",
+        "tests/expanded.py::test_unarmed_limb_capacity"
       ],
-      "validation_note": "Supported-location wounds now include partial arm/hand disability, capped health loss and forced equipment drops. Fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, broader anatomy, treatment and recovery remain incomplete."
+      "validation_note": "Partial upper-limb wound execution now constrains unarmed parry capacity while retaining the handless-arm exception. Fixtures authored but unrun. Multiple-grip retention, repeated location injury, broader task effects, treatment and recovery remain incomplete."
     },
     {
       "id": "magic",

@@ -152,5 +152,47 @@ act(verb,args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1612 || verb == 1614)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        local left = new RpgExpandedBodyPart(); left.id = 'left'; left.profile = p;
+        local right = new RpgExpandedBodyPart(); right.id = 'right'; right.profile = p;
+        local lh = new RpgExpandedBodyPart(); lh.id = 'left-hand'; lh.profile = p; lh.kind = 'hand'; lh.parent = left;
+        local rh = new RpgExpandedBodyPart(); rh.id = 'right-hand'; rh.profile = p; rh.kind = 'hand'; rh.parent = right;
+        p.bodyParts = [left,right,lh,rh]; left.disabled = args[1] > 0; right.disabled = args[1] > 1;
+        lh.disabled = args[2] == 1;
+        if (args[3] == 1)
+        {
+            local held = new RpgLiteItem(); held.id = 'held'; held.ready = true; held.bodySupports = [rh];
+            p.equipment = [held];
+        }
+        local defender = new RpgLiteFighter(); defender.profile = p; defender.freeHands = args[4];
+        local attacker = new RpgLiteFighter(); attacker.profile = new RpgLiteProfile();
+        attacker.weapon = rpgLiteMakeWeapon('punch',10);
+        if (verb == 1614) defender.weapon = rpgLiteMakeWeapon('punch',10);
+        local request = new RpgLiteManeuver(); local before = rpgRandom.draws;
+        local punch = rpgLiteMakeWeapon('punch',10); punch.bodySupports = [lh];
+        event('test.unarmed-capacity'); eventValue(defender.unarmedParryCapacity());
+        eventValue(rpgLiteDefenseScore(defender,attacker,request,'parry'));
+        eventValue(rpgLiteDefenseScore(defender,attacker,request,'parry-other'));
+        eventValue(punch.attackUsableBy(p) ? 1 : 0); eventValue(rpgRandom.draws - before); return nil;
+    }
+    if (verb == 1613)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        local arm = new RpgExpandedBodyPart(); arm.id = 'arm'; arm.profile = p; p.bodyParts = [arm];
+        local fighter = new RpgLiteFighter(); fighter.profile = p;
+        local item = new RpgLiteItem(); item.ready = true; p.equipment = [item];
+        event('test.unarmed-gates');
+        try { fighter.unarmedParryCapacity(); eventValue('unexpected'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        local punch = rpgLiteMakeWeapon('punch',10);
+        try { punch.attackUsableBy(p); eventValue('unexpected'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        fighter.profile = new RpgLiteProfile(); fighter.freeHands = 1;
+        eventValue(fighter.unarmedParryCapacity());
+        fighter.profile = new RpgExpandedProfile(); fighter.freeHands = 2;
+        eventValue(fighter.unarmedParryCapacity()); return nil;
+    }
     return vhylAct(verb,args);
 }

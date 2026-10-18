@@ -408,6 +408,25 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def test_unarmed_limb_capacity(s):
+    # B147: an unusable hand does not remove its functioning arm's unarmed parry.
+    for arms, hand, occupied, cap, expected in [
+            (0, 0, 0, 2, [2, 8, 8, 1, 0]),
+            (0, 1, 0, 2, [2, 8, 8, 0, 0]),
+            (1, 0, 0, 2, [1, 8, None, 0, 0]),
+            (2, 0, 0, 2, [0, None, None, 0, 0]),
+            (1, 0, 1, 2, [0, None, None, 0, 0]),
+            (0, 1, 1, 2, [1, 8, None, 0, 0]),
+            (0, 0, 0, 0, [0, None, None, 1, 0]),
+            (0, 0, 0, 1, [1, 8, None, 1, 0])]:
+        for verb in [1612, 1614]:
+            s.action(verb, arms, hand, occupied, cap)
+            assert last(s, 'test.unarmed-capacity') == expected
+    s.action(1613)
+    assert last(s, 'test.unarmed-gates') == [
+        'unarmed-grip-map-required', 'unarmed-hand-support-required', 1, 2]
+
+
 def limb_state(s):
     s.action(1621)
     return last(s, 'test.limb-state')
@@ -2234,6 +2253,7 @@ def test(build):
     fresh(Session,health,test_knockdown_anatomy_exceptions)
     fresh(Session,health,test_crippling_thresholds)
     fresh(Session,health,test_body_supports)
+    fresh(Session,health,test_unarmed_limb_capacity)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_limb_wound_transactions)
