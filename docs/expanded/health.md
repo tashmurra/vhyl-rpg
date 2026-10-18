@@ -4049,3 +4049,14 @@ pending; the existing whole-hour pathways are retained.
 `test_march_steps` specifies preview purity, partial progress, boundary rejection,
 premature cost rejection, elapsed-state tampering, rollback, undo, cross-process
 continuation and exactly one hourly fatigue charge. Fixtures remain unrun.
+
+
+A profile may have only one unsettled positive partial marching hour. Starting a
+fresh interval through an incremental step, a whole-hour march or a separate cost
+request returns `march-unsettled-partial-hour` until that hour is completed.
+Switching interval objects must not discard accrued walking time. Historical
+completed receipts still replay while a later partial hour is active. A denied
+step with zero accrued time does not reserve an hour of exertion. Explicit
+settlement for interrupted/rested partial hours remains pending.
+`test_march_partial_exclusion` specifies those competing paths, persisted
+exclusion, release at hour completion and historical replay; it remains unrun.

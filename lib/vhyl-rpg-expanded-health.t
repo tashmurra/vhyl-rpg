@@ -9247,12 +9247,18 @@ modify RpgExpandedProfile
     marchProgress = []
     validateFeatures()
     {
-        inherited(); local intervals = [];
+        inherited(); local intervals = []; local partial = nil;
         foreach (local progress in self.marchProgress)
         {
             if (progress == nil || !progress.ofKind(RpgExpandedMarchProgress) || progress.cost.profile != self
                 || holds(intervals,progress.cost.interval)) rpgExpandedReject('march-progress-profile');
-            progress.validate(); intervals = intervals + [progress.cost.interval];
+            progress.validate();
+            if (progress.elapsed > 0 && progress.elapsed < 3600)
+            {
+                if (partial != nil) rpgExpandedReject('march-multiple-partial-hours');
+                partial = progress;
+            }
+            intervals = intervals + [progress.cost.interval];
         }
         return nil;
     }
@@ -9263,8 +9269,15 @@ modify RpgExpandedMarchHourCost
     {
         if (self.profile != nil && self.profile.ofKind(RpgExpandedProfile))
             foreach (local progress in self.profile.marchProgress)
+            {
                 if (progress.cost != self && progress.cost.interval == self.interval)
                     rpgExpandedReject('march-hour-owned-by-progress');
+                if (self.result == nil && progress.cost != self && progress.elapsed > 0 && progress.elapsed < 3600)
+                {
+                    progress.validate(); local value = new RpgExpandedMarchHourResult();
+                    value.reason = 'march-unsettled-partial-hour'; return value;
+                }
+            }
         return inherited();
     }
     apply()

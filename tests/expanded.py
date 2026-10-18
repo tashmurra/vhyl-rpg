@@ -9548,6 +9548,7 @@ def test(build):
     test_tracking_window(Session,tracking_window)
     march_steps = build.build('expanded-march-steps',ROOT / 'tests/fixtures/expanded-march-steps.t')
     test_march_steps(Session,march_steps,build.out)
+    test_march_partial_exclusion(Session,march_steps,build.out)
     tracking_encounter = build.build('expanded-tracking-encounter',ROOT / 'tests/fixtures/expanded-tracking-encounter.t')
     test_tracking_encounter(Session,tracking_encounter,build.out)
     test_tracking_marching_boundaries(Session,tracking_encounter,build.out)
@@ -27252,5 +27253,34 @@ def test_tracking_marching_boundaries(Session, bundle, out):
         for code in (28500,28800,27009,28801,28801):
             s.action(1680,code)
         assert state(s)[:6] == [1,0,0,0,6,0]
+    finally:
+        s.close()
+
+
+def test_march_partial_exclusion(Session, bundle, out):
+    """An unfinished marching hour cannot be discarded by switching interval objects; unrun."""
+    def state(s):
+        s.action(1680,28703)
+        return last(s,'test.march-steps')
+    path = out / 'march-partial-exclusion.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,28700)
+        for code in (28709,28710,28711):
+            s.action(1680,code)
+            assert last(s,'test.march-competing') == ['blocked','march-unsettled-partial-hour']
+            assert state(s) == [60,1,60,0,0,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,28709)
+        assert last(s,'test.march-competing') == ['blocked','march-unsettled-partial-hour']
+        s.action(1680,28702); s.action(1680,28709)
+        assert last(s,'test.march-competing') == ['resolved',None]
+        assert state(s) == [3600,2,3660,1,1,0]
+        s.action(1680,28702)  # Historical replay is still valid with a new active partial hour.
+        assert state(s) == [3600,2,3660,1,1,0]
     finally:
         s.close()

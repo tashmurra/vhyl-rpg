@@ -5,6 +5,13 @@ stepProgress: RpgExpandedMarchProgress cost = stepHourCost;
 firstMarchStep: RpgExpandedMarchStep id = 'first-minute' progress = stepProgress seconds = 60;
 lastMarchStep: RpgExpandedMarchStep id = 'remaining-hour' progress = stepProgress seconds = 3540;
 extraMarchStep: RpgExpandedMarchStep id = 'too-far' progress = stepProgress seconds = 3600;
+otherMarchInterval: object;
+otherStepCost: RpgExpandedMarchHourCost id = 'other-hour' profile = crossPhysician interval = otherMarchInterval
+    approved = true evidence = 'Another marching interval' dropDestination = healthRoom;
+otherStepProgress: RpgExpandedMarchProgress cost = otherStepCost;
+otherMarchStep: RpgExpandedMarchStep id = 'other-minute' progress = otherStepProgress seconds = 60;
+otherWholeHour: RpgExpandedMarchHour id = 'other-whole-hour' profile = crossPhysician interval = otherMarchInterval
+    approved = true evidence = 'A whole marching hour' dropDestination = healthRoom;
 modify PhysicianFixtureAction
     exec(context)
     {
@@ -21,6 +28,11 @@ modify PhysicianFixtureAction
         if (code == 28707) { rpgSpendTime(1); return nil; }
         if (code == 28708)
         { local value = firstMarchStep.assess(); event('test.march-step-preview'); eventValue(value.status); eventValue(value.reason); return nil; }
+        if (code == 28709 || code == 28710 || code == 28711)
+        {
+            local value = code == 28709 ? otherMarchStep.apply() : code == 28710 ? otherWholeHour.apply() : otherStepCost.apply();
+            event('test.march-competing'); eventValue(value.status); eventValue(value.reason); return nil;
+        }
         return inherited(context);
     }
 ;
