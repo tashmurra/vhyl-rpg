@@ -798,3 +798,8 @@ Controlled-landing assessment now distinguishes acrobatic distance reduction fro
 successful fluid dives that negate damage. Dive speed penalties reuse the full
 range helper, moved unchanged into the expanded foundation. Owned landing attempts
 and injury linkage remain pending; new assessment fixtures are authored and unrun.
+
+Owned landing attempts now bind one acrobatic landing or fluid-dive choice and roll
+to a profile and distinct fall occurrence. Repeat calls reuse the result; alternate
+attempts for that occurrence are rejected. Transaction, undo and save fixtures are
+provided but unrun. Automatic impact and injury linkage remain incomplete.

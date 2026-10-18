@@ -1247,3 +1247,82 @@ rpgExpandedAssessLanding(distance,method,fluid,freeToMove,score,roll)
     }
     value.status = 'ready'; return value;
 }
+
+modify RpgExpandedProfile
+    landingAttempts = []
+;
+modify RpgExpandedLandingAssessment
+    score = nil
+;
+/** One landing choice for a distinct authored fall occurrence. */
+class RpgExpandedLandingAttempt: object
+    id = nil
+    profile = nil
+    fall = nil
+    distance = 1
+    method = 'acrobatics'
+    fluid = nil
+    freeToMove = nil
+    skill = nil
+    modifier = 0
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    committedAt = nil
+    definition()
+    { return [self.id,self.profile,self.fall,self.distance,self.method,self.fluid,self.freeToMove,
+        self.skill,self.modifier,self.approved,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.fall == nil || dataType(self.fall) != TypeObject)
+            rpgExpandedReject('landing-attempt-definition');
+        local value = new RpgExpandedLandingAssessment();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('landing-attempt-binding');
+            if (!holds(self.profile.landingAttempts,self)) rpgExpandedReject('landing-attempt-history');
+            value.status = 'reused'; return value;
+        }
+        foreach (local prior in self.profile.landingAttempts)
+            if (prior.id == self.id || prior.fall == self.fall) rpgExpandedReject('landing-attempt-duplicate');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'landing-attempt-author-facts'; return value; }
+        rpgInteger(self.distance,1,112); rpgInteger(self.modifier,-1000,1000);
+        if (!holds(['acrobatics','dive'],self.method)) rpgExpandedReject('landing-method');
+        if (!self.freeToMove) { value.reason = 'landing-movement-required'; return value; }
+        if (self.method == 'dive' && !self.fluid) { value.reason = 'landing-fluid-required'; return value; }
+        local dive = self.method == 'dive';
+        if (self.skill == nil || !self.skill.ofKind(RpgLiteSkill)
+            || self.skill.id != (dive ? 'swimming' : 'acrobatics')
+            || self.skill.attribute != (dive ? rpgHT : rpgDX)
+            || self.skill.difficulty != (dive ? 0 : 2)
+            || self.skill.defaultPenalty != (dive ? -4 : -6)) rpgExpandedReject('landing-skill-definition');
+        if (self.profile.dead || self.profile.unconscious || self.profile.stunned || self.profile.mentalStun
+            || self.profile.voluntaryMovementUnavailable()
+            || self.profile.healthEffortReason('action',nil,nil,true) != nil)
+        { value.reason = 'landing-actor-unavailable'; return value; }
+        local context = new RpgLiteContext(); context.skill = self.skill; context.kind = 'landing';
+        context.requiresMovement = true; context.modifier = self.modifier;
+        value.score = rpgLiteScore(self.profile,context);
+        value.effectiveDistance = self.distance; value.velocity = rpgExpandedFallVelocity(self.distance);
+        value.modifier = dive ? rpgExpandedRangeModifier(value.velocity) : 0;
+        if (value.score == nil || value.score + value.modifier < 3)
+        { value.reason = 'landing-score'; return value; }
+        rpgInteger(value.score,-1000,1000);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local prepared = self.assess(); if (prepared.status == 'reused') return self.result;
+        if (prepared.status != 'ready') return prepared;
+        local value = rpgExpandedAssessLanding(self.distance,self.method,self.fluid,self.freeToMove,
+            prepared.score,rpgRandom.roll());
+        value.score = prepared.score; value.status = 'resolved';
+        self.boundDefinition = self.definition(); self.committedAt = rpgLedger.seconds;
+        self.profile.landingAttempts = self.profile.landingAttempts + [self]; self.result = value; return value;
+    }
+;

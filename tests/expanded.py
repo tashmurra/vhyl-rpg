@@ -8993,6 +8993,8 @@ def test(build):
     test_climb_assessment(Session, climb_assessment)
     test_climb_fall_assessment(Session, climb_assessment)
     test_landing_assessment(Session, climb_assessment)
+    landing_attempt = build.build('expanded-landing-attempt',ROOT / 'tests/fixtures/expanded-landing-attempt.t')
+    test_landing_attempt(Session, landing_attempt, build.out)
     equipment_lift = build.build('expanded-equipment-lift', ROOT / 'tests/fixtures/expanded-equipment-lift.t')
     test_equipment_lift(Session, equipment_lift, build.out)
     shared_carry = build.build('expanded-shared-carry', ROOT / 'tests/fixtures/expanded-shared-carry.t')
@@ -13808,3 +13810,46 @@ def test_landing_assessment(Session, bundle):
             assert last(s,'test.landing') == expected
     finally:
         s.close()
+
+
+def test_landing_attempt(Session, bundle, out):
+    def state(s):
+        s.action(2285,863)
+        return last(s,'test.landing-owned')
+    path = out / 'expanded-landing-attempt.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,860):
+            s.action(2285,code)
+        assert last(s,'test.landing-preview') == ['ready',None,12,0]
+        assert state(s) == [0,0,0]
+        s.action(2285,862)
+        assert state(s) == [0,0,0]
+        s.action(2285,861)
+        s.command('undo')
+        assert state(s) == [0,0,0]
+        for code in (861,861,864):
+            s.action(2285,code)
+        assert state(s) == [1,0,3,12,16,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (861,864):
+            s.action(2285,code)
+        assert state(s) == [1,0,3,12,16,0]
+        for code in (865,861):
+            s.action(2285,code)
+        assert state(s) == [1,0,3,12,16,0]
+    finally:
+        s.close()
+    for setup, expected in [((865,866),[1,0,3,17,19,1]),((865,30),[1,0,3,17,19,0]),((867,),[0,0,0])]:
+        s = Session(bundle)
+        try:
+            for code in setup+(861,861):
+                s.action(2285,code)
+            assert state(s) == expected
+        finally:
+            s.close()

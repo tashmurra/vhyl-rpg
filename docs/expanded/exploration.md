@@ -636,3 +636,31 @@ Assertions remain unrun. Source: `full-2008`, B431 and B550.
 The existing `rpgExpandedRangeModifier` is now defined in the expanded foundation
 so equipment and exploration share the full table without a circular dependency.
 Its signature and equipment behavior are unchanged.
+
+### Owned landing attempt
+
+`RpgExpandedLandingAttempt` owns the single maneuver choice and roll for a fall.
+Set `id`, `profile`, a distinct authored `fall` occurrence object, `distance`,
+`method`, `fluid`, `freeToMove`, `skill`, `approved` and `evidence`. A fall occurrence
+is an event identity, not a reusable room or terrain object. The evidence establishes
+this occurrence and the applicable landing conditions. Use the ordinary acrobatics
+skill definition (DX/Hard, DX-6 default) or swimming (HT/Easy, HT-4 default).
+`modifier` supplies ordinary authored circumstances; omit the dive speed penalty,
+which is applied once by the landing procedure.
+
+`assess()` checks eligibility and the effective skill without rolling or committing.
+`resolve()` rolls once and stores the result in the profile's `landingAttempts`.
+The request binds on resolution. Replaying it returns the stored outcome; changing
+the request or creating a different attempt for the same profile and occurrence
+is rejected before RNG. Use the existing action transaction for rollback and undo.
+No extra time or injury is charged here. Stored results retain the original score
+and velocity even if the character later changes.
+
+This implements the B431 landing check, not general sporting high dives or vehicle
+control. Alternative skill-default chains, automatic fall-event creation, impact
+resolution and position changes remain pending. Authors must carry the result
+forward to the same fall, using reduced velocity or damage negation as appropriate;
+there is not yet an automatic injury adapter. The new fixture covers preview,
+rollback, undo, replay, duplicate-occurrence rejection, changed-choice rejection,
+successful and failed dives, and cross-process continuation. Assertions remain
+unrun while checks are paused. Source: `full-2008`, B174, B224, B431 and B550.
