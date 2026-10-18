@@ -1135,3 +1135,28 @@ This is a pure score assessment. A prepared disguise still needs an owned
 changes, acting combinations and animal disguise procedures remain pending.
 `test_disguise_skill` specifies printed defaults, similarity restrictions and the
 actual score path through distinctive features. Fixtures remain unrun.
+
+### Animal-disguise assessment
+
+`RpgExpandedAnimalHabitsStudy` owns the required Naturalist recall for one
+`animalType` and `encounter`. Give it an ID, profile, typed Naturalist skill,
+approval and concrete evidence for `successMagnitude` and `failureMagnitude`,
+each from 1–3. Resolution rolls once, storing the positive success adjustment or
+negative failure adjustment; repeat calls reuse that result. The printed passage
+does not set a recall duration, so this operation advances no time. An unavailable
+actor is blocked. More detailed mental-effort gating remains pending.
+
+`RpgExpandedAnimalDisguiseContext` requires an animal-specialty disguise skill and
+that profile's resolved study for the same encounter and animal type. It uses
++2 for `downwind`, −1 per additional animal for ordinary groups, or −1 per complete
+ten animals for a `herd`, plus `skinConditionPenalty` from −3 through zero.
+These replace the ordinary disguise context's modifiers. Author evidence confirms
+the group consists of the same animal type and describes the approach and skins.
+This assessment does not prepare a costume or settle whether the animals are
+fooled. Preparation and observer resolution remain pending.
+
+`test_animal_disguise` specifies signed recall outcomes, wind and skin arithmetic,
+group-size boundaries, rollback, undo, reuse and save continuation. Fixtures are
+unrun. The curated reference service supplied no in-scope clarification of the
+ordinary preparation/observer-roll boundary; later-supplement material was not
+used to fill that gap.

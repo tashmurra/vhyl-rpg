@@ -2229,3 +2229,112 @@ class RpgExpandedDisguiseContext: RpgExpandedSkillContext
             - (self.sharedByCrowd ? 0 : profile.distinctiveFeatureLevels());
     }
 ;
+
+/** B187 one owned Naturalist recall for a concrete animal-disguise encounter. */
+class RpgExpandedAnimalHabitsResult: RpgExpandedResult
+    score = nil
+;
+class RpgExpandedAnimalHabitsStudy: object
+    id = nil
+    profile = nil
+    skill = nil
+    animalType = nil
+    encounter = nil
+    successMagnitude = 1
+    failureMagnitude = 1
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.skill == nil || !self.skill.ofKind(RpgExpandedNaturalistSkill) || self.animalType == nil || self.encounter == nil)
+            rpgExpandedReject('animal-habits-definition');
+        self.skill.validateDefinition(); rpgInteger(self.successMagnitude,1,3); rpgInteger(self.failureMagnitude,1,3);
+        return [self.id,self.profile,self.skill,self.animalType,self.encounter,self.successMagnitude,self.failureMagnitude,
+            self.approved,self.evidence] + self.skill.foragingDefinition();
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedAnimalHabitsResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.animalHabitsStudies,self)) rpgExpandedReject('animal-habits-history');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('animal-habits-binding');
+            if (self.result.modifier != self.boundOutcome[1] || self.result.check != self.boundOutcome[2]
+                || self.result.check.achieved != self.boundOutcome[3]) rpgExpandedReject('animal-habits-outcome');
+            value.status = 'reused'; return value;
+        }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'animal-habits-evidence'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.stunned || self.profile.mentalStun)
+        { value.reason = 'animal-habits-actor-unavailable'; return value; }
+        foreach (local prior in self.profile.animalHabitsStudies)
+            if (prior.id == self.id || prior.animalType == self.animalType && prior.encounter == self.encounter)
+                rpgExpandedReject('animal-habits-duplicate');
+        local context = new RpgExpandedSkillContext(); context.skill = self.skill;
+        local score = rpgLiteScore(self.profile,context);
+        if (score == nil || score < 3) { value.reason = 'animal-habits-score'; return value; }
+        value.score = score; value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        value.check = rpgCheck(value.score,rpgRandom.roll());
+        value.modifier = value.check.achieved ? self.successMagnitude : -self.failureMagnitude;
+        self.boundDefinition = self.definition(); self.boundOutcome = [value.modifier,value.check,value.check.achieved];
+        value.status = 'resolved'; self.result = value; self.profile.animalHabitsStudies = self.profile.animalHabitsStudies + [self];
+        return value;
+    }
+;
+modify RpgExpandedProfile
+    animalHabitsStudies = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local study in self.animalHabitsStudies)
+        {
+            if (study == nil || !study.ofKind(RpgExpandedAnimalHabitsStudy) || study.profile != self || holds(ids,study.id)
+                || study.assess().status != 'reused') rpgExpandedReject('animal-habits-history');
+            ids = ids + [study.id];
+        }
+        return nil;
+    }
+;
+class RpgExpandedAnimalDisguiseContext: RpgExpandedSkillContext
+    study = nil
+    animalType = nil
+    encounter = nil
+    animalCount = 1
+    herd = nil
+    downwind = nil
+    skinConditionPenalty = 0
+    approved = nil
+    evidence = nil
+    animalDisguiseReason(profile)
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedDisguiseSkill) || self.skill.specialty != 'animals'
+            || self.fixedBase != nil || self.rollAttribute != nil) rpgExpandedReject('animal-disguise-definition');
+        self.skill.validateDefinition(); rpgInteger(self.animalCount,1,1000); rpgInteger(self.skinConditionPenalty,-3,0);
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'animal-disguise-evidence';
+        if (self.study == nil || !self.study.ofKind(RpgExpandedAnimalHabitsStudy) || self.study.profile != profile
+            || self.study.animalType != self.animalType || self.study.encounter != self.encounter)
+            rpgExpandedReject('animal-disguise-study-owner');
+        if (self.study.assess().status != 'reused') return 'animal-disguise-study-unresolved';
+        return nil;
+    }
+    unavailableReason(profile)
+    {
+        local reason = self.animalDisguiseReason(profile); return reason == nil ? inherited(profile) : reason;
+    }
+    skillUseModifier(profile)
+    {
+        if (self.animalDisguiseReason(profile) != nil) return nil;
+        local amount = inherited(profile); if (amount == nil) return nil;
+        return amount + self.study.result.modifier + (self.downwind ? 2 : 0) + self.skinConditionPenalty
+            - (self.herd ? self.animalCount / 10 : self.animalCount-1);
+    }
+;

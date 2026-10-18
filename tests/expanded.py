@@ -9481,6 +9481,8 @@ def test(build):
     test_distinctive_features(Session,distinctive)
     disguise_skill = build.build('expanded-disguise-skill',ROOT / 'tests/fixtures/expanded-disguise-skill.t')
     test_disguise_skill(Session,disguise_skill)
+    animal_disguise = build.build('expanded-animal-disguise',ROOT / 'tests/fixtures/expanded-animal-disguise.t')
+    test_animal_disguise(Session,animal_disguise,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25651,3 +25653,36 @@ def test_disguise_skill(Session, bundle):
         assert last(s,'test.disguise-error') == ['disguise-species-default']
     finally:
         s.close()
+
+
+def test_animal_disguise(Session, bundle, out):
+    """B187 animal modifiers use one owned habits roll; unrun."""
+    path = out / 'animal-disguise.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,25502)
+        assert last(s,'test.animal-disguise') == [None,'animal-disguise-study-unresolved',0,0]
+        s.action(1680,25501); s.action(1680,25502)
+        assert last(s,'test.animal-disguise') == [None,'animal-disguise-study-unresolved',0,0]
+        s.action(1680,25500); s.command('undo'); s.action(1680,25502)
+        assert last(s,'test.animal-disguise') == [None,'animal-disguise-study-unresolved',0,0]
+        for code in (25500,25500,25502):
+            s.action(1680,code)
+        assert last(s,'test.animal-disguise') == [10,None,3,1]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,25500); s.action(1680,25502)
+        assert last(s,'test.animal-disguise') == [10,None,3,1]
+    finally:
+        s.close()
+    for setup, score in (((25503,),5),((25504,),11),((25505,),8),((25506,),10),((25507,),9)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,25500,25502):
+                s.action(1680,code)
+            assert last(s,'test.animal-disguise') == [score,None,3,1]
+        finally:
+            s.close()
