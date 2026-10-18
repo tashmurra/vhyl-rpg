@@ -9064,6 +9064,8 @@ def test(build):
     test_technique_purchase(Session, technique_purchase, build.out)
     technique_context = build.build('expanded-technique-context',ROOT / 'tests/fixtures/expanded-technique-context.t')
     test_technique_context(Session, technique_context, build.out)
+    technique_eligibility = build.build('expanded-technique-eligibility',ROOT / 'tests/fixtures/expanded-technique-eligibility.t')
+    test_technique_eligibility(Session, technique_eligibility)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16957,3 +16959,36 @@ def test_technique_context(Session, bundle, out):
         assert last(s,'test.technique-check') == [6,'success',3]
     finally:
         s.close()
+
+
+def test_technique_eligibility(Session, bundle):
+    for setup,expected in (((),'technique-cinematic-policy-required'),
+                           ((3601,),'technique-cinematic-requirement-required'),
+                           ((3601,3603),'technique-cinematic-prerequisite'),
+                           ((3601,3603,3604),6),((3602,),6),((3605,),6),
+                           ((3605,3606),'technique-pistol-exception-definition'),
+                           ((3511,),'technique-cinematic-policy-required')):
+        s = Session(bundle)
+        try:
+            for code in setup+(3600,3600):
+                s.action(2285,code)
+            assert last(s,'test.technique-eligibility') == [expected,0,100]
+        finally:
+            s.close()
+    for setup,reason in (((),'technique-cinematic-policy-required'),
+                         ((3601,3603),'technique-cinematic-prerequisite')):
+        s = Session(bundle)
+        try:
+            for code in setup+(3401,):
+                s.action(2285,code)
+            assert last(s,'test.technique-purchase')[:2] == ['blocked',reason]
+        finally:
+            s.close()
+    for setup in ((3602,),(3601,3603,3604),(3605,)):
+        s = Session(bundle)
+        try:
+            for code in setup+(3401,):
+                s.action(2285,code)
+            assert last(s,'test.technique-purchase') == ['resolved',None,2]
+        finally:
+            s.close()

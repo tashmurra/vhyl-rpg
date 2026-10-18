@@ -563,3 +563,29 @@ Special critical tables, cinematic eligibility and individual technique effects
 still need their owning procedure; the standard success check does not implement
 those effects. Fixtures exercise stacked modifiers, nested defaults, invalid
 contexts and persistence, but remain unrun while checks are paused.
+
+### Cinematic technique permission (full-2008, B230)
+
+Mark cinematic definitions with `cinematic = true`. Choose the campaign's
+`cinematicTechniquePolicy` explicitly: `unrestricted` permits their use;
+`restricted` requires a specific training or mastery permission. With no policy,
+marked techniques reject both purchases and default use. Parent techniques in a
+default chain must also qualify.
+
+For restricted use, provide `cinematicRequirement` as a trait prerequisite leaf
+for `advanced-martial-training` or `weapon-mastery`, with `cinematicApproved` and
+`cinematicEvidence`. The author must establish that the selected permission
+covers this technique, including a mastery trait's weapon scope. The engine
+checks actual possession; this contract does not implement the still-incomplete
+weapon-mastery catalogue or infer its scope from a name. Separate requirements
+for purchasing a technique remain in `purchasePrerequisite`.
+
+`ordinaryPistolException` is accepted only for the `paired-weapon-attack`
+definition: Hard, parent Guns/pistol with a technology level, default -4 and cap
+at the parent skill. It bypasses the cinematic permission requirement, preserving
+the printed ordinary-campaign exception. It does not enable other firearm
+specialties or implement simultaneous attack resolution.
+
+Fixtures cover missing policy, missing permission, possession, unrestricted
+use, default-chain restrictions and the specific pistol exception. They remain
+unrun; catalogue and weapon-scope integration remain partial.

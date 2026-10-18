@@ -194,6 +194,8 @@ class RpgExpandedTechnique: RpgExpandedContribution
         rpgExpandedValidate(self.owner);
         self.validate(self.owner);
         if (!self.owner.rules.techniques) rpgExpandedReject('techniques-disabled');
+        local reason = self.eligibilityReason(self.owner);
+        if (reason != nil) rpgExpandedReject(reason);
         return self.resolvedScore();
     }
     /* Internal recursion after the complete default graph has been validated. */
@@ -738,7 +740,8 @@ class RpgExpandedTechniquePurchase: object
             self.practicedAction,self.distinctFromCoreAction,self.requiresDowntime,
             self.technique.skill,self.technique.attribute,self.technique.parentTechnique,
             self.technique.penalty,self.technique.maximumAboveSkill,self.technique.hard,
-            self.technique.purchasePrerequisite];
+            self.technique.purchasePrerequisite,self.technique.cinematic,self.technique.cinematicRequirement,
+            self.technique.cinematicEvidence,self.technique.cinematicApproved,self.technique.ordinaryPistolException];
     }
     assess()
     {
@@ -759,6 +762,7 @@ class RpgExpandedTechniquePurchase: object
         foreach (local prior in self.profile.techniquePurchases)
             if (prior.id == self.id) rpgExpandedReject('technique-purchase-duplicate');
         if (!self.profile.rules.techniques) { value.reason = 'techniques-disabled'; return value; }
+        value.reason = self.technique.eligibilityReason(self.profile); if (value.reason != nil) return value;
         if (!self.approved || self.evidence == nil || self.evidence == ''
             || self.practicedAction == nil || self.practicedAction == '' || !self.distinctFromCoreAction)
         { value.reason = 'technique-definition-approval-required'; return value; }
@@ -812,5 +816,46 @@ class RpgExpandedTechniqueContext: RpgExpandedSkillContext
         if (self.skill != root.skill || root.skill == nil && self.attribute != root.attribute)
             rpgExpandedReject('technique-context-basis');
         return score;
+    }
+;
+
+modify RpgExpandedRules
+    /** Explicit choice for marked techniques: restricted or unrestricted. */
+    cinematicTechniquePolicy = nil
+;
+modify RpgExpandedTechnique
+    cinematic = nil
+    cinematicRequirement = nil
+    cinematicEvidence = nil
+    cinematicApproved = nil
+    ordinaryPistolException = nil
+    eligibilityReason(profile)
+    {
+        if (self.parentTechnique != nil)
+        {
+            local parentReason = self.parentTechnique.eligibilityReason(profile);
+            if (parentReason != nil) return parentReason;
+        }
+        if (!self.cinematic) return nil;
+        if (self.ordinaryPistolException)
+        {
+            if (self.id != 'paired-weapon-attack' || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)
+                || self.skill.id != 'guns' || self.skill.specialty != 'pistol'
+                || self.skill.techLevel == nil || self.attribute != nil || self.parentTechnique != nil
+                || !self.hard || self.penalty != -4 || self.maximumAboveSkill != 0)
+                rpgExpandedReject('technique-pistol-exception-definition');
+            return nil;
+        }
+        if (!holds(['restricted','unrestricted'],profile.rules.cinematicTechniquePolicy))
+            return 'technique-cinematic-policy-required';
+        if (profile.rules.cinematicTechniquePolicy == 'unrestricted') return nil;
+        if (!self.cinematicApproved || self.cinematicEvidence == nil || self.cinematicEvidence == ''
+            || self.cinematicRequirement == nil || !self.cinematicRequirement.ofKind(RpgExpandedPrerequisite))
+            return 'technique-cinematic-requirement-required';
+        /* The author binds the applicable training/mastery permission, including weapon scope. */
+        if (self.cinematicRequirement.kind != 'trait'
+            || !holds(['advanced-martial-training','weapon-mastery'],self.cinematicRequirement.traitId))
+            rpgExpandedReject('technique-cinematic-requirement-kind');
+        return self.cinematicRequirement.satisfied(profile,[]) ? nil : 'technique-cinematic-prerequisite';
     }
 ;

@@ -1313,9 +1313,9 @@
       "pages": "B230",
       "module": "skills",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply the selected cinematic prerequisite policy even to default use; preserve the explicit ordinary firearm exception.",
-      "tests": []
+      "tests": ["tests/fixtures/expanded-technique-eligibility.t", "tests/expanded.py::test_technique_eligibility"]
     },
     {
       "id": "technique-default-chain",

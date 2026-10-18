@@ -1167,3 +1167,8 @@ expanded influence procedure remains partial.
   stream, preserving root-skill modifiers and nested technique investments.
   Unsupported relative contexts reject explicitly. Special outcomes and the full
   technique catalogue remain incomplete; the new fixtures are unrun (B230).
+
+- Cinematic techniques now require an explicit campaign policy for purchases
+  and default use, with authored training/mastery scope and the specific ordinary
+  pistol exception. Added unrun eligibility fixtures; full weapon-mastery
+  integration remains pending (full-2008 B230).
