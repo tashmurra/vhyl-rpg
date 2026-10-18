@@ -19,7 +19,9 @@ entries remain unresolved.
 ```
 
 Alternatively, include `vhyl-rpg-expanded.t` and individual available modules
-once, in dependency order. Development additionally requires expanded skills.
+once, in dependency order. Development additionally requires expanded skills;
+hazards requires expanded health. Character-cost queries additionally require
+expanded characters.
 The all umbrella includes only available modules; it is not a promise of complete
 coverage. Existing Lite APIs retain their abridged behavior.
 
@@ -124,7 +126,8 @@ still require the exact compiled game. No old-save migration is provided.
 
 Complete the detailed inventory of sections, tables and catalogue entries first.
 Then finish the character/skill/trait modules, templates, social and exploration
-procedures, detailed health beyond high-capacity shock, hazards, combat/tactical integration, supernatural systems,
+procedures, the remaining detailed health and hazard procedures, combat/tactical
+integration, supernatural systems,
 creatures, technology, vehicles and campaign procedures. Each pending module has
 its own guide and status in the catalogue. The planned multi-scenario examples and
 complete cross-module validation are also outstanding.
@@ -136,3 +139,17 @@ The [health module](health.md) now exposes the B419 shock divisor through an
 explicit `scaledInjuryShock` rule choice. It reuses the existing injury and shock
 fields; full detailed injury and treatment remain pending. The all-module umbrella
 includes this capability without enabling the choice. Authored cases are unrun.
+
+
+### Treatment and hazards
+
+The health module also supplies owned supported wounds, upper-limb restrictions,
+disability recovery, physician rosters and checks, bandaging and post-bandaging
+care. Surgery currently has assessment helpers. These interfaces share injury,
+recovery restrictions and time rather than creating another character balance.
+
+The [hazards module](hazards.md) uses those wound records for private infection
+acquisition and daily progression. It adds disease-specific first-attempt immunity
+and calendar-authored aging events. Broader diseases, environmental hazards,
+automatic scheduling and rejuvenation remain incomplete. Their guides and source
+entries identify unsupported cases and authored test coverage; checks are paused.

@@ -42,6 +42,11 @@ conversion**: most planned systems and the full catalogues remain unimplemented.
 The [coverage ledger](docs/expanded/coverage.json) records these gaps explicitly.
 The partial [campaign module](docs/expanded/campaign.md) adds authored equipment
 legal-access policies; its new validation cases remain unrun.
+Partial [health](docs/expanded/health.md) and [hazards](docs/expanded/hazards.md)
+modules add owned injury/recovery, treatment, infection and aging procedures.
+These share character balances and retain explicit unsupported cases; their
+recent transaction and save-continuation fixtures are authored but unrun while
+checks are paused.
 Try the [signal workshop](examples/expanded/main.t) with the corresponding
 [host](examples/expanded/host.py); it accepts `study`, `decode`, `rest day`,
 `status`, `undo` and `:plan` choices. Build it like the other examples, selecting

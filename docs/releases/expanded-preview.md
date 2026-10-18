@@ -23,13 +23,21 @@ drops, disability duration, temporary full-health recovery and lasting recovery
 through authored calendar milestones. Later completed physician care can shorten
 recovery without stacking discounts. An explicit last-wounds option records
 ignored injuries without spending health or randomness. Optional expanded natural
-recovery adds healing traits and capacity scaling through the shared rest clock. Other anatomy,
-accumulated wounds, full medical procedures, surgery and permanent-disability
-accounting remain incomplete.
+recovery adds healing traits and capacity scaling through the shared rest clock.
+Qualified medical rosters and scheduled physician checks share the same patient
+state. Owned bandaging and post-bandaging treatment record time, recovery and
+critical-failure injury. Surgical modifiers and general failure outcomes have pure
+assessment interfaces; committed operations remain incomplete. Other anatomy,
+accumulated wounds, interrupted care and permanent-disability accounting also
+remain incomplete.
 
-The hazards module begins with pure infection acquisition and progression
-assessments. Owned exposures, disease progression and environmental effects
-remain incomplete. The minimal hazard fixture is authored but unrun.
+The hazards module includes private owned wound-infection acquisition, specific
+first-attempt immunity, daily progression and qualified physician-care modifiers.
+Recovery releases only the episode's contribution to the shared disease-injury
+restriction. Exact aging schedules and ordered aging events preserve independent
+secondary purchases and advancement balances. Calendar timing is authored;
+automatic scheduling, rejuvenation, broader diseases and environmental hazards
+remain incomplete. Minimal and transaction/save fixtures are authored but unrun.
 
 New public expansion APIs use `RpgExpanded` / `rpgExpanded` prefixes. Shared Lite
 hooks default to the existing behavior; the latest compatibility and persistence
