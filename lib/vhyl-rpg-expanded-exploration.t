@@ -3762,6 +3762,13 @@ class RpgExpandedOverloadCarry: object
     {
         local value = new RpgExpandedResult();
         if (self.startedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('overload-definition');
+        return self.assessProjected(self.profile.loadHundredths());
+    }
+    assessProjected(load)
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { value.reason = 'overload-already-started'; return value; }
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
             rpgExpandedReject('overload-definition');
         if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'overload-support-required'; return value; }
@@ -3769,7 +3776,7 @@ class RpgExpandedOverloadCarry: object
         foreach (local prior in self.profile.overloadCarries)
             if (prior.id == self.id) rpgExpandedReject('overload-duplicate');
         if (self.profile.dead || self.profile.unconscious) { value.reason = 'overload-carrier-unavailable'; return value; }
-        local load = self.profile.loadHundredths(); local lift = self.profile.basicLiftHundredths();
+        local lift = self.profile.basicLiftHundredths();
         rpgInteger(load,0,100000000); rpgInteger(lift,1,100000000);
         if (load <= lift * 10) { value.reason = 'overload-not-required'; return value; }
         if (load > lift * 15) { value.reason = 'overload-capacity'; return value; }
@@ -3837,5 +3844,25 @@ modify RpgLiteJourney
         if (self.kind == 'overload' && self.profile.ofKind(RpgExpandedProfile) && self.profile.overloadCarry != nil)
             rpgExpandedReject('overload-duplicate-clock');
         return inherited(seconds);
+    }
+;
+
+modify rpgExpandedPackingOverload
+    definition(carry)
+    {
+        if (carry == nil || !carry.ofKind(RpgExpandedOverloadCarry)) rpgExpandedReject('packing-overload-state');
+        return carry.definition();
+    }
+    assess(carry,profile,load)
+    {
+        self.definition(carry);
+        if (carry.profile != profile) rpgExpandedReject('packing-overload-owner');
+        return carry.assessProjected(load);
+    }
+    start(carry)
+    {
+        self.definition(carry);
+        if (carry.start().status != 'resolved') rpgExpandedReject('packing-overload-interrupted');
+        return nil;
     }
 ;

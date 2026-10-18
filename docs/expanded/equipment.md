@@ -1051,12 +1051,12 @@ worn and ready state through the existing transfer machinery, and records the sa
 trade receipt used by other transfers. Repeated calls reuse that receipt. One
 packing attempt authorizes one transfer; multiple stacks can instead use the bundle operation below. No extra roll or time is charged.
 
-Loads above ten times Basic Lift explicitly reject as unsupported: they need the
-overload-fatigue procedure rather than ordinary travel treatment (full-2008 B353).
+Loads above ten times Basic Lift require the explicit overload state described
+below (full-2008 B353).
 The author remains responsible for animal body form, suitable equipment and load
 placement. `test_packing_transfer` specifies preview, failed/unresolved checks,
 access, capacity, duplicate prevention, rollback, undo and save continuation. These
-fixtures remain unrun. Overload-fatigue integration remains pending.
+fixtures remain unrun. Caravan journey integration remains pending.
 
 
 ### Loading a bundle atomically
@@ -1078,4 +1078,25 @@ transaction, which rolls back all inventory and receipt changes together.
 `test_packing_bundle` specifies combined capacity (including a case where either
 stack alone fits), an inaccessible second stack, preview purity, rollback, undo,
 repeat calls and cross-process save continuation. Fixtures remain unrun. Above-limit
-loads still reject until overload fatigue is integrated.
+loads require an approved overload state.
+
+
+### Authorizing an overloaded back load
+
+For a single transfer or bundle, set `overload` to a fresh
+`RpgExpandedOverloadCarry` belonging to the receiving profile. Its approval and
+evidence must establish appropriate body form, harness and load support. Preflight
+uses the projected combined load: above ten and at most fifteen times Basic Lift.
+Missing approval, excessive load or an already-started state rejects before any
+inventory mutation. Ordinary loads do not require this field.
+
+The transfer starts the state after moving the inventory, in the same action
+transaction. Failure rolls back both. Transfer replay preserves the existing state
+and never starts or charges it again. Subsequent time uses the exploration
+[overload clock](exploration.md#clock-driven-overload-carry), including its mandatory
+one-second steps. Increasing a load under an already-active state is not yet
+supported; unload and end that state before defining a new supported load.
+
+`test_packing_overload` specifies projected-capacity checks, approvals, pure preview,
+atomic commit/rollback/undo, single-stack and bundle loading, repeat transfer and
+cross-process fatigue continuation. Fixtures remain unrun.

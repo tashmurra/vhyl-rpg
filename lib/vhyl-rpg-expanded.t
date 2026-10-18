@@ -844,3 +844,10 @@ class RpgExpandedPackingReceipt: object
     validateReceipt() { rpgExpandedReject('packing-exploration-required'); }
     resolve() { rpgExpandedReject('packing-exploration-required'); }
 ;
+
+
+rpgExpandedPackingOverload: object
+    definition(carry) { rpgExpandedReject('packing-overload-exploration-required'); }
+    assess(carry,profile,load) { rpgExpandedReject('packing-overload-exploration-required'); }
+    start(carry) { rpgExpandedReject('packing-overload-exploration-required'); }
+;

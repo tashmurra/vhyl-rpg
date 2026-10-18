@@ -9446,6 +9446,8 @@ def test(build):
     test_packing_bundle(Session,packing_bundle,build.out)
     overload_carry = build.build("expanded-overload-carry",ROOT / "tests/fixtures/expanded-overload-carry.t")
     test_overload_carry(Session,overload_carry,build.out)
+    packing_overload = build.build("expanded-packing-overload",ROOT / "tests/fixtures/expanded-packing-overload.t")
+    test_packing_overload(Session,packing_overload,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24810,5 +24812,50 @@ def test_overload_carry(Session, bundle, out):
         for code in (23104,23101,23103):
             s.action(1680,code)
         assert last(s,'test.overload-state') == [2,2,3,0,0]
+    finally:
+        s.close()
+
+
+def test_packing_overload(Session, bundle, out):
+    """Overloaded inventory and its fatigue state commit together; unrun."""
+    path = out / 'packed-overload.zsave'
+    s = Session(bundle)
+    try:
+        for code in (22500,23005,23200,23002,23202):
+            s.action(1680,code)
+        assert last(s,'test.packing-bundle') == ['ready',None]
+        assert last(s,'test.packed-overload') == [0,0,0,0]
+        s.action(1680,23001); s.action(1680,23003); s.action(1680,23202)
+        assert last(s,'test.bundle-inventory') == [2,0,0,3,0]
+        assert last(s,'test.packed-overload') == [0,0,0,0]
+        s.action(1680,23000); s.command('undo'); s.action(1680,23202)
+        assert last(s,'test.packed-overload') == [0,0,0,0]
+        for code in (23000,23000,23201,23202):
+            s.action(1680,code)
+        assert last(s,'test.packed-overload') == [1,1,1,1]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,23000); s.action(1680,23201); s.action(1680,23202)
+        assert last(s,'test.packed-overload') == [2,1,1,2]
+    finally:
+        s.close()
+    for setup, reason in (((23203,),'overload-capacity'),((23204,),'overload-support-required')):
+        s = Session(bundle)
+        try:
+            for code in (22500,23005,23200,*setup,23000,23003,23202):
+                s.action(1680,code)
+            assert last(s,'test.packing-bundle') == ['blocked',reason]
+            assert last(s,'test.bundle-inventory') == [2,0,0,3,0]
+            assert last(s,'test.packed-overload') == [0,0,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (22500,23205,22900,22900,23201,23202):
+            s.action(1680,code)
+        assert last(s,'test.packed-overload') == [1,1,1,1]
     finally:
         s.close()

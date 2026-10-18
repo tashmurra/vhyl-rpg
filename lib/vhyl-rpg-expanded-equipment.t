@@ -1812,11 +1812,15 @@ modify rpgExpandedPaleontologyEquipment
 
 /** Transfer one packed stack using the existing inventory and trade receipt ledger. */
 class RpgExpandedPackingTransfer: RpgExpandedTradeTransfer
+    overload = nil
     attempt = nil
     evidence = nil
     boundPackingDefinition = nil
     packingDefinition()
-    { return [self.id,self.attempt,self.buyer,self.seller,self.item,self.price,self.buyerAgrees,self.sellerAgrees,self.available,self.permitted,self.evidence]; }
+    {
+        local facts = [self.id,self.attempt,self.buyer,self.seller,self.item,self.price,self.buyerAgrees,self.sellerAgrees,self.available,self.permitted,self.evidence,self.overload];
+        return self.overload == nil ? facts : facts + rpgExpandedPackingOverload.definition(self.overload);
+    }
     assess()
     {
         if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedPackingReceipt) || self.price != 0)
@@ -1840,6 +1844,7 @@ class RpgExpandedPackingTransfer: RpgExpandedTradeTransfer
         {
             if (self.attempt.inventoryTransfer != self || self.boundPackingDefinition == nil) rpgExpandedReject('packing-transfer-history');
             local facts = self.packingDefinition();
+            if (facts.length() != self.boundPackingDefinition.length()) rpgExpandedReject('packing-transfer-binding');
             for (local i = 1; i <= facts.length(); i += 1)
                 if (facts[i] != self.boundPackingDefinition[i]) rpgExpandedReject('packing-transfer-binding');
             return inherited();
@@ -1852,6 +1857,12 @@ class RpgExpandedPackingTransfer: RpgExpandedTradeTransfer
         local weight = self.item.weightHundredths(); local existing = self.buyer.loadHundredths();
         rpgInteger(weight,0,100000000); rpgInteger(existing,0,100000000);
         local lift = self.buyer.basicLiftHundredths(); rpgInteger(lift,1,100000000);
+        if (self.overload != nil)
+        {
+            local supported = rpgExpandedPackingOverload.assess(self.overload,self.buyer,existing + weight);
+            if (supported.status != 'ready') { value.status = 'blocked'; value.reason = supported.reason; }
+            return value;
+        }
         if (existing + weight > lift * 10)
         { value.status = 'blocked'; value.reason = 'packing-transfer-overload-unsupported'; return value; }
         return value;
@@ -1861,6 +1872,7 @@ class RpgExpandedPackingTransfer: RpgExpandedTradeTransfer
         local value = inherited();
         if (value.status == 'resolved')
         {
+            if (self.overload != nil) rpgExpandedPackingOverload.start(self.overload);
             self.boundPackingDefinition = self.packingDefinition(); self.attempt.inventoryTransfer = self;
         }
         return value;
@@ -1870,6 +1882,7 @@ class RpgExpandedPackingTransfer: RpgExpandedTradeTransfer
 /** B212 bundle loading: preflight all existing transfer entries before committing any. */
 class RpgExpandedPackingBundle: object
     id = nil
+    overload = nil
     attempt = nil
     transfers = []
     approved = nil
@@ -1879,11 +1892,11 @@ class RpgExpandedPackingBundle: object
     boundDefinition = nil
     definition()
     {
-        local facts = [self.id,self.attempt,self.approved,self.evidence,self.transfers.length()];
+        local facts = [self.id,self.attempt,self.approved,self.evidence,self.overload,self.transfers.length()];
         foreach (local entry in self.transfers)
             facts = facts + [entry,entry.id,entry.buyer,entry.seller,entry.item,entry.price,
                 entry.buyerAgrees,entry.sellerAgrees,entry.available,entry.permitted];
-        return facts;
+        return self.overload == nil ? facts : facts + rpgExpandedPackingOverload.definition(self.overload);
     }
     assess()
     {
@@ -1932,6 +1945,7 @@ class RpgExpandedPackingBundle: object
             weight += amount;
         }
         local lift = buyer.basicLiftHundredths(); rpgInteger(lift,1,100000000);
+        if (self.overload != nil) return rpgExpandedPackingOverload.assess(self.overload,buyer,weight);
         if (weight > lift * 10) { value.reason = 'packing-transfer-overload-unsupported'; return value; }
         value.status = 'ready'; return value;
     }
@@ -1948,6 +1962,7 @@ class RpgExpandedPackingBundle: object
         if (current.length() != facts.length()) rpgExpandedReject('packing-bundle-interrupted');
         for (local i = 1; i <= facts.length(); i += 1)
             if (current[i] != facts[i]) rpgExpandedReject('packing-bundle-interrupted');
+        if (self.overload != nil) rpgExpandedPackingOverload.start(self.overload);
         self.boundDefinition = facts; self.completed = true; self.attempt.inventoryTransfer = self;
         value.status = 'resolved'; return value;
     }
