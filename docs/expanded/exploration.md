@@ -282,8 +282,8 @@ silently rounding. A three-halves-cubic-foot volume and nonintegral Basic Lift
 therefore retain their fractional work requirement.
 
 These functions are pure assessments. They do not establish possession of tools,
-advance time, charge fatigue, reserve a work site or credit excavation. The owned-hour adapter below adds execution for three stages. Stage-material
-inventories, team labor, exhaustion and fractional-hour fatigue remain unfinished. `expanded-digging.t` specifies every source rate with
+advance time, charge fatigue, reserve a work site or credit excavation. The owned-hour, material-stock and team adapters below supply execution.
+Exhaustion and fractional-hour fatigue remain unfinished. `expanded-digging.t` specifies every source rate with
 metal, wooden and improvised tools, harder rock, fractional lifting capacity and
 volume, and absence of time/randomness changes. Assertions are authored and unrun.
 
@@ -308,7 +308,7 @@ receipt. Any change that invalidates the hour after time advances rejects the
 transaction; normal undo and save continuation include tools, fatigue, time and
 work receipts. Breaking and removal are not double-credited.
 
-Simultaneous team labor, partial hours, heat-adjusted work, critical-health
+Partial hours, heat-adjusted work, critical-health
 workers and fatigue reaching zero remain unsupported and reject explicitly. Each supported hour must
 fit the remaining site volume and leave positive fatigue. Those limits describe
 unfinished adapters, not changes to the source rules. `expanded-digging-work.t`
@@ -340,5 +340,29 @@ a rock-pick hour supplies the authored reduction for unusually hard material.
 
 `test_digging_material` specifies preparation/removal pairs for all three materials,
 insufficient-stock rejection, exact rescaling, replay, rollback, undo and saved
-continuation. Assertions remain unrun. These are sequential work hours; scheduling
-several workers concurrently, partial hours and advanced fatigue remain unfinished.
+continuation. Assertions remain unrun. Individual hours can run sequentially or in the shared team operation below.
+Partial hours and advanced fatigue remain unfinished.
+
+
+## Concurrent digging teams
+
+`RpgExpandedDiggingTeamHour` takes a unique `id`, one `site` and a `members` list of
+fresh digging-hour objects. Each member must represent a different worker with
+separate usable tools. The team's pure assessment combines exact preparation,
+consumption and direct-removal rates, rejecting insufficient raw or prepared
+material before time or fatigue is spent. Member order does not determine whether
+preparation can supply removal during the hour.
+
+`apply()` spends one shared hour, then commits the individual receipts atomically.
+The site records preparation before consumption for validation, but every member
+has the same start and completion times. A worker cannot appear twice, and one
+physical tool cannot be assigned to two workers. Each worker pays their own stage's
+fatigue cost. Replaying the team or an individual member never pays again.
+
+The source's ordinary-soil arrangement—one pick worker and two shovel workers of
+equal lifting capacity—therefore completes one hour of combined work, rather than
+three elapsed hours. `expanded-digging-team.t` specifies that case with reordered
+members, insufficient preparation, shared tools, duplicate workers, unavailable
+workers, preview, replay, rollback, undo and saved continuation. Assertions remain
+unrun. Partial intervals, fatigue reaching zero and environmental work modifiers
+remain incomplete.

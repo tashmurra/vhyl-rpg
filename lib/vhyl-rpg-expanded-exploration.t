@@ -687,7 +687,7 @@ class RpgExpandedDiggingHour: object
     }
     toolAvailable(item)
     { return item != nil && item.ofKind(RpgLiteItem) && holds(self.profile.equipment,item) && item.quantity > 0 && item.usableBy(self.profile); }
-    prepare()
+    prepareWorker()
     {
         local value = new RpgExpandedDiggingAssessment();
         if (!self.approved || self.evidence == nil || self.evidence == '')
@@ -709,6 +709,11 @@ class RpgExpandedDiggingHour: object
         value = rpgExpandedDiggingRate(self.profile.basicLiftHundredths(),stage,self.toolMaterial,self.improvisedDivisor,self.rockDivisor);
         if (self.profile.fp() <= value.fatiguePerHour)
         { value.status = 'blocked'; value.reason = 'digging-exhaustion-adapter-required'; return value; }
+        value.seconds = 3600; return value;
+    }
+    prepare()
+    {
+        local value = self.prepareWorker(); if (value.status != 'ready') return value;
         value.commonDenominator = rpgExpandedDiggingCommonDenominator(self.site.rateDenominator,value.rateDenominator);
         rpgInteger(self.site.capacityCubicFeet,1,2147483647 / value.commonDenominator);
         local scale = self.site.rateDenominator == nil ? 1 : value.commonDenominator / self.site.rateDenominator;
@@ -738,6 +743,11 @@ class RpgExpandedDiggingHour: object
         local value = self.assess(); if (value.status == 'reused') return self.result;
         if (value.status != 'ready') return value;
         local definition = self.definition(); local start = rpgLedger.seconds; rpgSpendTime(3600);
+        return self.commitPrepared(value,start,definition);
+    }
+    commitPrepared(value,start,definition)
+    {
+        if (self.result != nil) rpgExpandedReject('digging-hour-already-committed');
         local current = self.definition();
         for (local index = 1; index <= current.length(); index += 1)
             if (current[index] != definition[index]) rpgExpandedReject('digging-hour-interrupted');
@@ -758,5 +768,109 @@ class RpgExpandedDiggingHour: object
         }
         self.site.hours = self.site.hours + [self]; self.profile.diggingHours = self.profile.diggingHours + [self];
         return value;
+    }
+;
+
+modify RpgExpandedDiggingSite
+    teams = []
+;
+class RpgExpandedDiggingTeamAssessment: RpgExpandedResult
+    ordered = []
+;
+/** B350 parallel pick/shovel work shares one hour, not one hour per worker. */
+class RpgExpandedDiggingTeamHour: object
+    id = nil
+    site = nil
+    members = []
+    boundDefinition = nil
+    result = nil
+    definition()
+    {
+        local value = [self.id,self.site,self.members.length()];
+        foreach (local work in self.members) value = value + [work] + work.definition();
+        return value;
+    }
+    prepare()
+    {
+        if (self.id == nil || self.id == '' || self.site == nil || !self.site.ofKind(RpgExpandedDiggingSite))
+            rpgExpandedReject('digging-team-definition');
+        rpgInteger(self.members.length(),1,100); self.site.validate();
+        local value = new RpgExpandedDiggingTeamAssessment();
+        local workers = []; local tools = []; local entries = []; local denominator = self.site.rateDenominator;
+        foreach (local work in self.members)
+        {
+            if (work == nil || !work.ofKind(RpgExpandedDiggingHour) || work.site != self.site
+                || work.profile == nil || !work.profile.ofKind(RpgExpandedProfile) || work.id == nil || work.id == '')
+                rpgExpandedReject('digging-team-member');
+            if (work.result != nil || holds(workers,work.profile)) rpgExpandedReject('digging-team-worker-reused');
+            workers = workers + [work.profile];
+            foreach (local prior in work.profile.diggingHours)
+                if (prior.id == work.id) rpgExpandedReject('digging-hour-duplicate');
+            local assessed = work.prepareWorker();
+            if (assessed.status != 'ready') { value.reason = assessed.reason; return value; }
+            local used = assessed.workKind != 'removed' ? [work.pick]
+                : work.effectiveStage() == 'hard-solo' ? [work.pick,work.shovel] : [work.shovel];
+            foreach (local tool in used)
+            {
+                if (holds(tools,tool)) rpgExpandedReject('digging-team-shared-tool');
+                tools = tools + [tool];
+            }
+            denominator = rpgExpandedDiggingCommonDenominator(denominator,assessed.rateDenominator);
+            entries = entries + [[work,assessed,work.definition()]];
+        }
+        rpgInteger(self.site.capacityCubicFeet,1,2147483647 / denominator);
+        local produced = 0; local consumed = 0; local direct = 0;
+        foreach (local entry in entries)
+        {
+            local scale = denominator / entry[2].rateDenominator;
+            rpgInteger(entry[2].rateNumerator,1,2147483647 / scale);
+            local amount = entry[2].rateNumerator * scale;
+            if (entry[2].workKind != 'removed')
+            { rpgInteger(amount,1,2147483647 - produced); produced += amount; }
+            else if (entry[1].usesPrepared())
+            { rpgInteger(amount,1,2147483647 - consumed); consumed += amount; }
+            else { rpgInteger(amount,1,2147483647 - direct); direct += amount; }
+        }
+        local scale = self.site.rateDenominator == nil ? 1 : denominator / self.site.rateDenominator;
+        local raw = self.site.capacityCubicFeet * denominator - (self.site.removedNumerator + self.site.preparedNumerator) * scale;
+        if (produced > raw || direct > raw - produced)
+        { value.reason = 'digging-team-raw-material'; return value; }
+        if (consumed > self.site.preparedNumerator * scale + produced)
+        { value.reason = 'digging-team-prepared-material'; return value; }
+        /* Commit source production before consumption; all receipts share the same interval. */
+        foreach (local entry in entries) if (entry[2].workKind != 'removed') value.ordered = value.ordered + [entry];
+        foreach (local entry in entries) if (entry[2].workKind == 'removed') value.ordered = value.ordered + [entry];
+        value.seconds = 3600; value.status = 'ready'; return value;
+    }
+    assess()
+    {
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.boundDefinition.length()) rpgExpandedReject('digging-team-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('digging-team-binding');
+            if (!holds(self.site.teams,self)) rpgExpandedReject('digging-team-history');
+            foreach (local work in self.members) work.validateReceipt();
+            local reused = new RpgExpandedDiggingTeamAssessment(); reused.status = 'reused'; return reused;
+        }
+        local value = self.prepare();
+        foreach (local prior in self.site.teams) if (prior.id == self.id) rpgExpandedReject('digging-team-duplicate');
+        if (value.status == 'ready') { rpgInteger(rpgLedger.seconds,0,2147480047); rpgLedger.validateAdvance(3600); }
+        return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local start = rpgLedger.seconds; rpgSpendTime(3600);
+        local current = self.definition();
+        if (current.length() != definition.length()) rpgExpandedReject('digging-team-interrupted');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('digging-team-interrupted');
+        if (self.prepare().status != 'ready') rpgExpandedReject('digging-team-conditions-changed');
+        foreach (local entry in value.ordered) entry[1].commitPrepared(entry[2],start,entry[3]);
+        self.boundDefinition = definition; value.status = 'resolved'; self.result = value;
+        self.site.teams = self.site.teams + [self]; return value;
     }
 ;

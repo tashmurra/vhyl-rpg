@@ -8962,6 +8962,8 @@ def test(build):
     digging_work = build.build('expanded-digging-work', ROOT / 'tests/fixtures/expanded-digging-work.t')
     test_digging_work(Session, digging_work, build.out)
     test_digging_material(Session, digging_work, build.out)
+    digging_team = build.build('expanded-digging-team', ROOT / 'tests/fixtures/expanded-digging-team.t')
+    test_digging_team(Session, digging_team, build.out)
     temporary_blindness = build.build('expanded-temporary-blindness', ROOT / 'tests/fixtures/expanded-temporary-blindness.t')
     test_temporary_blindness(Session, temporary_blindness, build.out)
     paralysis = build.build('expanded-paralysis', ROOT / 'tests/fixtures/expanded-paralysis.t')
@@ -12710,3 +12712,45 @@ def test_digging_material(Session, bundle, out):
         assert state(s) == [0,0,None,0,0,0]
     finally:
         s.close()
+
+
+def test_digging_team(Session, bundle, out):
+    def state(s):
+        s.action(2285, 643)
+        return last(s, 'test.digging-team')
+    clear = [0,0,None,0,0,0,0,0,0,0]
+    complete = [0,8000,100,3,1,2,1,1,3600,0]
+    path = out / 'expanded-digging-team.zsave'
+    s = Session(bundle)
+    try:
+        for code in (640,642):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 641)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (641,641,611):
+            s.action(2285, code)
+        assert state(s) == complete
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (641,611):
+            s.action(2285, code)
+        assert state(s) == complete
+    finally:
+        s.close()
+    for invalid in (644,645,646,647):
+        s = Session(bundle)
+        try:
+            for code in (invalid,641):
+                s.action(2285, code)
+            expected = clear.copy()
+            if invalid == 647:
+                expected[6] = 9
+            assert state(s) == expected
+        finally:
+            s.close()

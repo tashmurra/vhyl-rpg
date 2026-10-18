@@ -646,3 +646,10 @@ rock. Owned stock prevents removal before breaking or double-crediting material.
 Changing tool rates rescales persistent volumes exactly from original receipts.
 Added authored, unrun stock, rescaling and transactional/save continuation fixtures.
 Concurrent teams, partial hours and advanced fatigue remain incomplete.
+
+
+Added concurrent digging teams with one shared hour, independent worker fatigue,
+exact material-flow preflight and atomic member receipts. Duplicate workers,
+shared tools and insufficient prepared material reject before execution. Added
+authored, unrun fixtures for the source's one-pick/two-shovel arrangement and
+transactional/save continuation. Partial intervals and advanced fatigue remain open.
