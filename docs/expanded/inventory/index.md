@@ -39,8 +39,8 @@ copies of the reference books.
 | `full-2008` | B186–B197 | [Skill catalogue, second segment](skills-catalogue-b.json) | Definition metadata, timed procedures and specialty requirements transcribed |
 | `full-2008` | B198–B209 | [Skill catalogue, third segment](skills-catalogue-c.json) | Includes weapon groups and their separate integration obligations |
 | `full-2008` | B210–B228 | [Skill catalogue, final segment](skills-catalogue-d.json) | First text pass complete through the catalogue end; enumeration audit still open |
-| `full-2008` | B234–B238 | [Casting and maintenance procedures](magic-procedures-a.json) | Learning, energy, rituals, critical outcomes and ceremonies enumerated; classes and catalogue still pending |
-| `full-2008` | B239–B242 | [Spell classes and variants](magic-procedures-b.json) | Targeting, charges, defenses, information, resistance and variants enumerated; catalogue pending |
+| `full-2008` | B234–B238 | [Casting and maintenance procedures](magic-procedures-a.json) | Learning, energy, rituals, critical outcomes and ceremonies enumerated; integration and validation pending |
+| `full-2008` | B239–B242 | [Spell classes and variants](magic-procedures-b.json) | Targeting, charges, defenses, information, resistance and variants enumerated; integration pending |
 | `full-2008` | B243–B245 | [Spell catalogue, first segment](magic-catalogue-a.json) | Twenty-seven air, body, communication and earth definitions enumerated; execution pending |
 | `full-2008` | B246–B249, before knowledge spells | [Spell catalogue, second segment](magic-catalogue-b.json) | Twenty-five earth, fire, planar and healing definitions enumerated; execution pending |
 | `full-2008` | B249, knowledge spells, through B253 | [Spell catalogue, final segment](magic-catalogue-c.json) | Forty-one remaining entries enumerated; ninety-three total first-pass definitions; audit and execution pending |
