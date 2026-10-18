@@ -435,3 +435,34 @@ ten-percent boundaries, fractional thresholds, large prices and skill boundaries
 `test_trade_persistence` adds a cross-process saved-trade continuation case. Both
 are authored and unrun while checks are paused. Altered counteroffer pricing remains
 blocked as documented above, even when its reaction modifier is calculable.
+
+
+## Private loyalty records
+
+Register `RpgExpandedLoyalty` in the subject's `loyalties`, with a unique `id`,
+`subject` and `employer`. Only one relationship per employer is accepted. Loyalty
+is separate from skill, competence and the accuracy of claims made at hiring.
+Use `preset` for a predetermined rating, or `initialModifier` for a random initial
+rating. `initialize()` records preset loyalty without dice, or rolls 3d once and
+adds the modifier (full-2008 B518/B562). Repeated initialization reuses the rating.
+
+`RpgExpandedLoyaltyCheck` references that record and a stable `incident`. The author
+sets `necessary` when the actual situation calls for a check: ordinary combat is
+not automatically mortal peril for an experienced fighter. Supply any circumstantial
+`modifier` explicitly. `assess()` returns readiness without the private rating,
+dice or result. `resolve()` compares 3d directly with effective loyalty; this is
+not an ordinary skill roll with automatic failure on 17/18. An effective rating
+of at least 20 resolves automatically without dice. Success and failure are saved
+per incident, including the rating used, so a second request cannot reroll it.
+
+Failure means the hireling acts in their own interests in that incident; it does
+not automatically enact total betrayal. What action is taken remains specific to
+the situation and must be authored. Do not emit private ratings or checks through
+player-visible events. Preset/random initialization and incident records use the
+normal transaction/save state; no extra elapsed time is charged.
+
+`test_loyalty`, `test_loyalty_automatic` and `test_loyalty_failure` in
+`tests/expanded.py` cover private previews, deterministic outcomes, automatic checks,
+repeat incidents, rollback and undo. All cases remain unrun. Pay changes, rescue,
+forgiveness, employer performance, service anniversaries and timed loyalty effects
+remain pending. This is not yet complete employment or loyalty behavior.

@@ -852,3 +852,91 @@ class RpgExpandedTradeModifiers: object
         value.status = 'ready'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    loyalties = []
+;
+
+class RpgExpandedLoyaltyResult: RpgExpandedResult
+    rating = nil
+    loyal = nil
+;
+
+/** Private relationship, separate from competence, full-2008 B518-B519/B562. */
+class RpgExpandedLoyalty: object
+    id = nil
+    subject = nil
+    employer = nil
+    initialModifier = 0
+    preset = nil
+    initialized = nil
+    base = nil
+    initialRoll = nil
+    incidents = []
+    validate()
+    {
+        if (self.id == nil || self.subject == nil || !self.subject.ofKind(RpgExpandedProfile)
+            || self.employer == nil || !holds(self.subject.loyalties,self)) rpgExpandedReject('loyalty-owner');
+        foreach (local entry in self.subject.loyalties)
+            if (entry != self && (entry.id == self.id || entry.employer == self.employer))
+                rpgExpandedReject('duplicate-loyalty');
+        rpgInteger(self.initialModifier,-1000,1000);
+        if (self.preset != nil) rpgInteger(self.preset,-1000,1000);
+        if (self.initialized) rpgInteger(self.base,-1000,1018);
+        return nil;
+    }
+    assess()
+    {
+        self.validate(); local value = new RpgExpandedLoyaltyResult();
+        value.status = self.initialized ? 'reused' : 'ready'; return value;
+    }
+    initialize()
+    {
+        local value = self.assess();
+        if (!self.initialized)
+        {
+            if (self.preset != nil) self.base = self.preset;
+            else { self.initialRoll = rpgRandom.roll(); self.base = self.initialRoll + self.initialModifier; }
+            self.initialized = true; value.status = 'resolved';
+        }
+        value.rating = self.base; value.check = self.initialRoll; return value;
+    }
+;
+
+/** Once-per-incident loyalty check. These are raw 3d comparisons, not success
+ * checks with automatic failures at 17/18. A rating of 20+ is automatic. */
+class RpgExpandedLoyaltyCheck: object
+    loyalty = nil
+    incident = nil
+    necessary = nil
+    modifier = 0
+    assess()
+    {
+        if (self.loyalty == nil || !self.loyalty.ofKind(RpgExpandedLoyalty) || self.incident == nil)
+            rpgExpandedReject('loyalty-check-target');
+        self.loyalty.validate(); rpgInteger(self.modifier,-1000,1000);
+        local value = new RpgExpandedLoyaltyResult();
+        foreach (local receipt in self.loyalty.incidents)
+            if (receipt[1] == self.incident) { value.status = 'reused'; return value; }
+        if (!self.loyalty.initialized) { value.reason = 'loyalty-uninitialized'; return value; }
+        if (!self.necessary) { value.reason = 'loyalty-check-unnecessary'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess();
+        if (value.status == 'reused')
+        {
+            foreach (local receipt in self.loyalty.incidents)
+                if (receipt[1] == self.incident)
+                { value.rating = receipt[2]; value.check = receipt[3]; value.loyal = receipt[4]; }
+            return value;
+        }
+        if (value.status != 'ready') return value;
+        value.rating = self.loyalty.base + self.modifier;
+        if (value.rating >= 20) value.loyal = true;
+        else { value.check = rpgRandom.roll(); value.loyal = value.check <= value.rating; }
+        self.loyalty.incidents = self.loyalty.incidents + [[self.incident,value.rating,value.check,value.loyal]];
+        value.status = 'resolved'; return value;
+    }
+;

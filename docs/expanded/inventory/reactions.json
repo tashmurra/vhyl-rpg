@@ -52,9 +52,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Persist hidden loyalty separately from competence. Hiring and taking employment can both establish it. Integrate later loyalty changes and authorized insight without leaking hidden state in preview.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_loyalty"
+      ],
+      "implementation_note": "Private initial rating and persistent incident checks authored. Later changes and behavioral consequences remain pending; checks unrun."
     },
     {
       "id": "reaction-detail-fair-price",

@@ -726,6 +726,20 @@
         "tests/expanded.py::test_trade_modifiers"
       ],
       "validation_note": "Exact ten-percent offer steps and authored commerce rating bonus implemented. Checks unrun; automatic skill qualification and conflicted counteroffer pricing remain pending."
+    },
+    {
+      "id": "private-loyalty-records",
+      "module": "social",
+      "pages": "B518-B519; B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLoyalty",
+      "tests": [
+        "tests/expanded.py::test_loyalty",
+        "tests/expanded.py::test_loyalty_automatic",
+        "tests/expanded.py::test_loyalty_failure"
+      ],
+      "validation_note": "Owned private initialization and incident checks authored. Checks unrun; timed changes, anniversaries and behavioral consequences pending."
     }
   ],
   "detailed_inventories": [

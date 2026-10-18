@@ -71,6 +71,9 @@ tradeSeller: RpgExpandedProfile rules = expandedRules money = 20 equipment = [tr
 tradeItem: RpgLiteItem id = 'compass' weight = 100 worn = true ready = true storageLocation = 'shop';
 tradeTransfer: RpgExpandedTradeTransfer id = 'compass-sale' buyer = tradeBuyer seller = tradeSeller
     item = tradeItem price = 40 buyerAgrees = true sellerAgrees = true available = true permitted = true;
+loyaltyHero: RpgExpandedProfile rules = expandedRules loyalties = [crewLoyalty];
+crewLoyalty: RpgExpandedLoyalty id = 'crew-service' subject = loyaltyHero employer = 'survey-company' preset = 12;
+crewCheck: RpgExpandedLoyaltyCheck loyalty = crewLoyalty incident = 'dangerous-crossing' necessary = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -194,6 +197,14 @@ class ExpandedTestAction: Action
         {
             local value = tradeTransfer.transfer(); event('test.trade-transfer'); eventValue(value.status); eventValue(value.money);
             if (code == 43) throw new RpgError();
+        }
+        if (code == 44 || code == 45 || code == 46 || code == 47)
+        {
+            if (code == 46) crewLoyalty.preset = 20;
+            if (code == 47) crewLoyalty.preset = 9;
+            crewLoyalty.initialize(); local value = crewCheck.resolve(); event('test.loyalty');
+            eventValue(value.status); eventValue(value.rating); eventValue(value.check); eventValue(value.loyal ? 1 : 0);
+            if (code == 45) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -1195,6 +1206,16 @@ act(verb, args)
         transfer.item = tradeItem;
         local policy = new RpgExpandedLegalAccess(); policy.subject = tradeBuyer; policy.equipment = tradeItem;
         policy.exception = 'deny'; transfer.legalAccess = policy; eventValue(transfer.assess().reason); return nil;
+    }
+    if (verb == 1199)
+    {
+        event('test.loyalty-state'); eventValue(crewLoyalty.initialized ? 1 : 0);
+        eventValue(crewLoyalty.incidents.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1203)
+    {
+        local value = crewCheck.assess(); event('test.loyalty-preview'); eventValue(value.status);
+        eventValue(value.reason); eventValue(value.rating); eventValue(value.check); eventValue(value.loyal); return nil;
     }
     return vhylAct(verb,args);
 }
