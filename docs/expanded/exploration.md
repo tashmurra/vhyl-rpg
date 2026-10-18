@@ -660,7 +660,14 @@ This implements the B431 landing check, not general sporting high dives or vehic
 control. Alternative skill-default chains, automatic fall-event creation, impact
 resolution and position changes remain pending. Authors must carry the result
 forward to the same fall, using reduced velocity or damage negation as appropriate;
-there is not yet an automatic injury adapter. The new fixture covers preview,
+the hazards module accepts an explicit landing receipt as described below. The new fixture covers preview,
 rollback, undo, replay, duplicate-occurrence rejection, changed-choice rejection,
 successful and failed dives, and cross-process continuation. Assertions remain
 unrun while checks are paused. Source: `full-2008`, B174, B224, B431 and B550.
+
+
+The hazards module's `RpgExpandedFallInjury` can link to this receipt through its
+`landing` and matching `fall` fields. `impactFor(profile, fall)` validates committed
+ownership and binding before exposing the result. This interface lives in the
+foundation as `RpgExpandedLandingReceipt`, keeping exploration independent of the
+hazards include. The concrete attempt implements it; the base rejects use.

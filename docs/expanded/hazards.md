@@ -1734,3 +1734,26 @@ This does not determine whether a net breaks, infer a cushion from room scenery,
 or implement landing in water. The fixture covers partial and complete cushioning,
 obstacle-cap ordering, armor blunt trauma, preview, replay, rollback and missing
 facts. Assertions remain unrun. Source: `full-2008`, B379 and B431.
+
+
+### Linking the landing receipt
+
+Set `RpgExpandedFallInjury.landing` to the resolved owned landing attempt and
+`fall` to that same occurrence. The operation validates the receipt on assessment
+and replay. An unresolved attempt, another profile's result, changed request or
+wrong occurrence is rejected. A successful dive suppresses impact damage before
+protection; an acrobatic reduction to zero velocity likewise suppresses it.
+
+For a result that does not negate damage, set `damageVelocity` to the velocity
+used for the supplied damage roll. It must match the receipt, so a successful
+acrobatic landing cannot accidentally reuse the original fall velocity. The damage
+roll itself is still supplied by the author: this link does not roll collision dice
+or verify their provenance. Automatic damage-roll ownership remains pending.
+The operation makes no additional landing roll or time charge.
+
+When `fall` is set, only one injury receipt per profile may use that occurrence,
+even with a different identifier or without a landing link. Create a distinct
+occurrence for a genuinely subsequent impact. All linkage fields bind on commit.
+Fixtures cover successful/failed dives, reduced velocity, unresolved/mismatched
+receipts, duplicate injury, rollback, undo and cross-process continuation. These
+assertions remain unrun while checks are paused.

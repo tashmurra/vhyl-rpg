@@ -8995,6 +8995,8 @@ def test(build):
     test_landing_assessment(Session, climb_assessment)
     landing_attempt = build.build('expanded-landing-attempt',ROOT / 'tests/fixtures/expanded-landing-attempt.t')
     test_landing_attempt(Session, landing_attempt, build.out)
+    landing_injury = build.build('expanded-landing-injury',ROOT / 'tests/fixtures/expanded-landing-injury.t')
+    test_landing_injury(Session, landing_injury, build.out)
     equipment_lift = build.build('expanded-equipment-lift', ROOT / 'tests/fixtures/expanded-equipment-lift.t')
     test_equipment_lift(Session, equipment_lift, build.out)
     shared_carry = build.build('expanded-shared-carry', ROOT / 'tests/fixtures/expanded-shared-carry.t')
@@ -13849,6 +13851,52 @@ def test_landing_attempt(Session, bundle, out):
         s = Session(bundle)
         try:
             for code in setup+(861,861):
+                s.action(2285,code)
+            assert state(s) == expected
+        finally:
+            s.close()
+
+
+def test_landing_injury(Session, bundle, out):
+    def state(s):
+        s.action(2285,883)
+        return last(s,'test.linked-fall')
+    path = out / 'expanded-landing-injury.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,881)
+        assert state(s) == [0,0,0,0,0]
+        for code in (30,861,880):
+            s.action(2285,code)
+        assert last(s,'test.linked-preview') == ['ready',None]
+        assert state(s) == [0,0,0,3,0]
+        s.action(2285,882)
+        assert state(s) == [0,0,0,3,0]
+        s.action(2285,881)
+        s.command('undo')
+        assert state(s) == [0,0,0,3,0]
+        for code in (881,881,885):
+            s.action(2285,code)
+        assert state(s) == [2,1,1,3,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (881,885):
+            s.action(2285,code)
+        assert state(s) == [2,1,1,3,0]
+    finally:
+        s.close()
+    cases = [((865,866,861),[0,1,1,3,0]),
+             ((865,30,861,884),[2,1,1,3,0]),
+             ((30,861,884),[0,0,0,3,0]),
+             ((30,861,886),[0,0,0,3,0])]
+    for setup, expected in cases:
+        s = Session(bundle)
+        try:
+            for code in setup+(881,881):
                 s.action(2285,code)
             assert state(s) == expected
         finally:

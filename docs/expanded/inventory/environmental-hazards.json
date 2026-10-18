@@ -1030,9 +1030,10 @@
       "acceptance": "A clean dive into fluid negates damage on a swimming check, or vehicle-control check for ditching, with the speed-table penalty applied.",
       "tests": [
         "tests/expanded.py::test_landing_assessment",
-        "tests/expanded.py::test_landing_attempt"
+        "tests/expanded.py::test_landing_attempt",
+        "tests/expanded.py::test_landing_injury"
       ],
-      "validation_note": "Pure exclusive landing-choice assessment applies the full speed penalty for fluid dives or reduces distance before velocity on acrobatic success. Eligibility, expected-value and purity assertions authored, unrun. Owned skill attempts, damage integration and broader landing execution remain incomplete. Owned occurrence-bound landing attempts now apply skill/context scoring and one roll, rejecting alternative attempts for the same fall. Replay, rollback, undo and save assertions authored, unrun. Automatic fall creation and injury linkage remain pending."
+      "validation_note": "Pure exclusive landing-choice assessment applies the full speed penalty for fluid dives or reduces distance before velocity on acrobatic success. Eligibility, expected-value and purity assertions authored, unrun. Owned skill attempts, damage integration and broader landing execution remain incomplete. Owned occurrence-bound landing attempts now apply skill/context scoring and one roll, rejecting alternative attempts for the same fall. Replay, rollback, undo and save assertions authored, unrun. Automatic fall creation and injury linkage remain pending. Explicit owned receipt linkage now validates occurrence/owner and velocity, suppresses negated impact damage and prevents duplicate injury. Integration/persistence assertions authored, unrun. Automatic collision dice and broader fall execution remain pending."
     },
     {
       "id": "collision-fall-velocity",
@@ -1071,9 +1072,10 @@
       "acceptance": "A freely moving actor may use acrobatics to reduce effective fall distance by five yards; for water entry choose this or a proper dive before rolling, not both afterward.",
       "tests": [
         "tests/expanded.py::test_landing_assessment",
-        "tests/expanded.py::test_landing_attempt"
+        "tests/expanded.py::test_landing_attempt",
+        "tests/expanded.py::test_landing_injury"
       ],
-      "validation_note": "Pure exclusive landing-choice assessment applies the full speed penalty for fluid dives or reduces distance before velocity on acrobatic success. Eligibility, expected-value and purity assertions authored, unrun. Owned skill attempts, damage integration and broader landing execution remain incomplete. Owned occurrence-bound landing attempts now apply skill/context scoring and one roll, rejecting alternative attempts for the same fall. Replay, rollback, undo and save assertions authored, unrun. Automatic fall creation and injury linkage remain pending."
+      "validation_note": "Pure exclusive landing-choice assessment applies the full speed penalty for fluid dives or reduces distance before velocity on acrobatic success. Eligibility, expected-value and purity assertions authored, unrun. Owned skill attempts, damage integration and broader landing execution remain incomplete. Owned occurrence-bound landing attempts now apply skill/context scoring and one roll, rejecting alternative attempts for the same fall. Replay, rollback, undo and save assertions authored, unrun. Automatic fall creation and injury linkage remain pending. Explicit owned receipt linkage now validates occurrence/owner and velocity, suppresses negated impact damage and prevents duplicate injury. Integration/persistence assertions authored, unrun. Automatic collision dice and broader fall execution remain pending."
     },
     {
       "id": "collision-terminal-body",

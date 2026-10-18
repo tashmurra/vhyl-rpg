@@ -3900,6 +3900,9 @@ class RpgExpandedFallInjury: object
     id = nil
     profile = nil
     damage = 0
+    fall = nil
+    landing = nil
+    damageVelocity = nil
     obstacleHP = nil
     obstacleDR = nil
     cushionDR = 0
@@ -3916,11 +3919,18 @@ class RpgExpandedFallInjury: object
     definition()
     { return [self.id,self.profile,self.damage,self.resistance,self.protectionKind,self.location,
         self.approved,self.evidence,self.dropDestination,self.obstacleHP,self.obstacleDR,
-        self.cushionDR,self.cushionEvidence]; }
+        self.cushionDR,self.cushionEvidence,self.fall,self.landing,self.damageVelocity]; }
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
             rpgExpandedReject('fall-injury-definition');
+        local landingResult = nil;
+        if (self.landing != nil)
+        {
+            if (!self.landing.ofKind(RpgExpandedLandingReceipt) || self.fall == nil)
+                rpgExpandedReject('fall-injury-landing');
+            landingResult = self.landing.impactFor(self.profile,self.fall);
+        }
         local value = new RpgExpandedFallInjuryResult();
         if (self.result != nil)
         {
@@ -3935,8 +3945,12 @@ class RpgExpandedFallInjury: object
         { value.reason = 'fall-injury-author-facts'; return value; }
         if (self.location != 'torso') { value.reason = 'fall-injury-location-unavailable'; return value; }
         foreach (local prior in self.profile.fallInjuries)
-            if (prior.id == self.id) rpgExpandedReject('fall-injury-duplicate');
+            if (prior.id == self.id || self.fall != nil && prior.fall == self.fall)
+                rpgExpandedReject('fall-injury-duplicate');
+        if (landingResult != nil && !landingResult.negatesDamage && self.damageVelocity != landingResult.velocity)
+        { value.reason = 'fall-injury-velocity'; return value; }
         value.impactDamage = rpgExpandedCollisionCap(self.damage,self.obstacleHP,self.obstacleDR);
+        if (landingResult != nil && (landingResult.negatesDamage || landingResult.velocity == 0)) value.impactDamage = 0;
         rpgInteger(self.cushionDR,0,10);
         if (self.cushionDR != 0 && (self.cushionDR < 2 || self.cushionEvidence == nil || self.cushionEvidence == ''))
         { value.reason = 'fall-cushion-facts'; return value; }

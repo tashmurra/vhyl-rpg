@@ -1255,7 +1255,7 @@ modify RpgExpandedLandingAssessment
     score = nil
 ;
 /** One landing choice for a distinct authored fall occurrence. */
-class RpgExpandedLandingAttempt: object
+class RpgExpandedLandingAttempt: RpgExpandedLandingReceipt
     id = nil
     profile = nil
     fall = nil
@@ -1270,6 +1270,12 @@ class RpgExpandedLandingAttempt: object
     result = nil
     boundDefinition = nil
     committedAt = nil
+    impactFor(profile,fall)
+    {
+        if (self.result == nil) rpgExpandedReject('landing-receipt-unresolved');
+        if (self.profile != profile || self.fall != fall) rpgExpandedReject('landing-receipt-owner');
+        self.assess(); return self.result;
+    }
     definition()
     { return [self.id,self.profile,self.fall,self.distance,self.method,self.fluid,self.freeToMove,
         self.skill,self.modifier,self.approved,self.evidence]; }

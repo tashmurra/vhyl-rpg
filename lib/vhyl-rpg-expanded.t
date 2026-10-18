@@ -226,3 +226,8 @@ rpgExpandedRangeModifier(yards)
     throw new RpgError();
 }
 
+
+/** Cross-module receipt contract; concrete landing attempts live in exploration. */
+class RpgExpandedLandingReceipt: object
+    impactFor(profile,fall) { rpgExpandedReject('landing-receipt-unavailable'); }
+;

@@ -803,3 +803,8 @@ Owned landing attempts now bind one acrobatic landing or fluid-dive choice and r
 to a profile and distinct fall occurrence. Repeat calls reuse the result; alternate
 attempts for that occurrence are rejected. Transaction, undo and save fixtures are
 provided but unrun. Automatic impact and injury linkage remain incomplete.
+
+Torso fall injuries can now consume owned landing receipts, enforcing occurrence
+and owner binding, matching non-negated impact velocity, dive damage negation and
+one injury receipt per fall. Integration/persistence fixtures remain unrun. The
+impact damage roll is still author-supplied; automatic roll ownership is pending.
