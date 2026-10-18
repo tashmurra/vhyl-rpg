@@ -207,9 +207,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "War training requires one year after ordinary intelligence-three-level training and doubles value; the listed light and heavy war-mount prices already include this and must not be doubled again.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
     },
     {
       "id": "creature-war-era",
@@ -754,9 +757,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Training does not increase the value of an intelligence-two animal.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
     },
     {
       "id": "creature-training-value-three-untrained",
@@ -764,9 +770,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An untrained intelligence-three domestic animal costs two-thirds the ordinary trained base value; young specimens begin untrained.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
     },
     {
       "id": "creature-training-value-four-baseline",
@@ -774,9 +783,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An intelligence-four animal's ordinary price assumes intelligence-three-level training; without that training reduce price by one-third.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
     },
     {
       "id": "creature-training-value-four-trained",
@@ -784,9 +796,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Full intelligence-four training raises base value by fifty percent.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
     },
     {
       "id": "creature-training-value-five-trained",
@@ -794,9 +809,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Full intelligence-five training doubles base value, with lower training using the corresponding intelligence-four rule.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
     },
     {
       "id": "creature-training-value-enhanced-one",
@@ -804,9 +822,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A fully trained domestic animal one intelligence above its species norm uses a four-times-base price multiplier.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
     },
     {
       "id": "creature-training-value-enhanced-two",
@@ -814,9 +835,12 @@
       "pages": "B459",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A fully trained domestic animal two intelligence above normal uses a ten-times-base multiplier; this exceptional multiplier must not be accidentally multiplied by another full-training multiplier.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
     },
     {
       "id": "creature-natural-damage-bite",
@@ -2305,6 +2329,19 @@
         "tests/expanded.py::test_animal_daily_failure"
       ],
       "validation_note": "Owned checks credit one successful day and retain failed days for explicit classification. Ordinary failure resolution authored; fixtures unrun. Attack execution and learned milestones remain pending."
+    },
+    {
+      "id": "creature-mount-move-price",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "One additional Basic Move doubles a riding animal price and two additional Basic Move quadruples it. Distinguish this from Enhanced Move speed multiplication.",
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure zero/one/two-increment price assessment authored; fixtures unrun. Combined baselines and purchasing remain pending."
     }
   ],
   "exclusions": [

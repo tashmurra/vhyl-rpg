@@ -281,3 +281,38 @@ still does not force obedience or execute a behavior.
 that attendance alone cannot enable the task, records the milestone, then checks
 eligibility, preview, execution, undo, task-contract binding and replay. Fixtures
 remain unrun. Sources: `full-2008`, B175 and B458–B459.
+
+## Animal and mount valuation
+
+These pure assessments return `RpgExpandedAnimalValue` with an exact reduced
+`numerator` and `denominator`. `money` is set only for a whole currency value.
+They spend no money, transfer no animal and never round a fractional price.
+Integer representation overflow rejects explicitly.
+
+- `rpgExpandedDomesticAnimalValue(baseValue, intelligence, trainingLevel)` applies
+  the ordinary domestic training categories. Zero denotes untrained. Intelligence
+  two gains no premium; higher untrained animals use two-thirds base value;
+  level-three training retains base value; full level four uses one-and-a-half
+  times base; full level five uses twice base.
+- `rpgExpandedEnhancedAnimalValue(baseValue, intelligence, speciesIntelligence,
+  trainingLevel)` requires full training and an intelligence increase of one or
+  two. It uses four or ten times the species base price directly, consistent with
+  the printed example. Do not feed it a price already increased for ordinary full
+  training. Other intelligence differences reject as unsupported.
+- `rpgExpandedMountMoveValue(baseValue, basicMoveIncrease)` handles the stated
+  zero, one or two-point Basic Move increase, with multipliers one, two and four.
+  Enhanced Move's speed multiplier is not a Basic Move increase.
+- `rpgExpandedWarTrainingValue(baseValue, priceIncludesWarTraining)` applies the
+  initial doubling only when absent from the supplied price. A printed war-mount
+  price already includes this training and must not be doubled again.
+
+These are separate source adjustments, not a universal market-price calculator.
+Wild-animal value, strength-based price adjustments, additional war-training
+premiums, combinations requiring an authored baseline, and committed animal
+purchases remain pending. The author must identify the correct baseline before
+applying any helper.
+
+`test_animal_values` authors training categories, the exceptional-intelligence
+multipliers, Move premiums, already-included war training, fractional prices,
+zero prices and unsupported qualification cases. Fixtures remain unrun.
+Source: `full-2008`, B459.

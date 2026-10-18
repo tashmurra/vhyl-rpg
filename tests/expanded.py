@@ -1664,6 +1664,37 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_animal_values(s):
+    for args,numerator,denominator,money in [
+            (('domestic',100,2,0),100,1,100),
+            (('domestic',100,2,2),100,1,100),
+            (('domestic',100,3,0),200,3,None),
+            (('domestic',150,3,2),100,1,100),
+            (('domestic',100,3,3),100,1,100),
+            (('domestic',100,4,0),200,3,None),
+            (('domestic',100,4,3),100,1,100),
+            (('domestic',101,4,4),303,2,None),
+            (('domestic',100,5,3),100,1,100),
+            (('domestic',100,5,4),150,1,150),
+            (('domestic',100,5,5),200,1,200),
+            (('enhanced',1000,4,3,4),4000,1,4000),
+            (('enhanced',1000,5,3,5),10000,1,10000),
+            (('move',1000,0),1000,1,1000),
+            (('move',1000,1),2000,1,2000),
+            (('move',1000,2),4000,1,4000),
+            (('war',4000,1),4000,1,4000),
+            (('war',2000,0),4000,1,4000),
+            (('domestic',0,3,0),0,1,0)]:
+        s.action(2213,*args)
+        assert last(s,'test.animal-value') == ['ready',None,numerator,denominator,money,0,0]
+    for args,reason in [
+            (('enhanced',1000,4,3,3),'animal-value-full-training-required'),
+            (('enhanced',1000,4,4,4),'animal-value-intelligence-increase-unavailable'),
+            (('enhanced',1000,5,2,5),'animal-value-intelligence-increase-unavailable')]:
+        s.action(2213,*args)
+        assert last(s,'test.animal-value') == ['blocked',reason,0,1,None,0,0]
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -7524,6 +7555,7 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
+    fresh(Session,creatures,test_animal_values)
     test_learned_animal_tasks(Session,creatures)
     test_animal_milestones(Session,creatures)
     fresh(Session,creatures,test_animal_daily)

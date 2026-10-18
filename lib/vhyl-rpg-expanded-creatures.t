@@ -636,3 +636,63 @@ class RpgExpandedAnimalTask: object
         value.status = 'ready'; return value;
     }
 ;
+
+class RpgExpandedAnimalValue: RpgExpandedResult
+    numerator = 0
+    denominator = 1
+    money = nil
+;
+
+/** Exact valuation fraction; no invented currency rounding or ledger mutation. */
+rpgExpandedAnimalScaledValue(baseValue, numerator, denominator)
+{
+    rpgInteger(baseValue,0,2147483647); rpgInteger(numerator,1,10); rpgInteger(denominator,1,3);
+    local left = numerator; local right = denominator;
+    while (right != 0) { local remainder = left % right; left = right; right = remainder; }
+    numerator /= left; denominator /= left;
+    left = baseValue; right = denominator;
+    while (right != 0) { local remainder = left % right; left = right; right = remainder; }
+    baseValue /= left; denominator /= left;
+    if (baseValue > 2147483647 / numerator) rpgExpandedReject('animal-value-limit');
+    local value = new RpgExpandedAnimalValue(); value.numerator = baseValue * numerator; value.denominator = denominator;
+    if (denominator == 1) value.money = value.numerator;
+    value.status = 'ready'; return value;
+}
+
+/** B459 ordinary domestic training value, before exceptional-intelligence pricing. */
+rpgExpandedDomesticAnimalValue(baseValue, intelligence, trainingLevel)
+{
+    rpgInteger(intelligence,2,5); rpgInteger(trainingLevel,0,intelligence);
+    if (trainingLevel == 1) rpgExpandedReject('animal-training-level');
+    if (intelligence == 2) return rpgExpandedAnimalScaledValue(baseValue,1,1);
+    if (trainingLevel < 3) return rpgExpandedAnimalScaledValue(baseValue,2,3);
+    if (trainingLevel == 4) return rpgExpandedAnimalScaledValue(baseValue,3,2);
+    if (trainingLevel == 5) return rpgExpandedAnimalScaledValue(baseValue,2,1);
+    return rpgExpandedAnimalScaledValue(baseValue,1,1);
+}
+
+/** B459 exceptional domestic intelligence: use the species base price directly. */
+rpgExpandedEnhancedAnimalValue(baseValue, intelligence, speciesIntelligence, trainingLevel)
+{
+    rpgInteger(baseValue,0,2147483647); rpgInteger(intelligence,2,5); rpgInteger(speciesIntelligence,2,5);
+    rpgInteger(trainingLevel,0,intelligence);
+    if (trainingLevel == 1) rpgExpandedReject('animal-training-level');
+    local value = new RpgExpandedAnimalValue();
+    if (intelligence-speciesIntelligence < 1 || intelligence-speciesIntelligence > 2)
+    { value.reason = 'animal-value-intelligence-increase-unavailable'; return value; }
+    if (trainingLevel != intelligence) { value.reason = 'animal-value-full-training-required'; return value; }
+    return rpgExpandedAnimalScaledValue(baseValue,intelligence-speciesIntelligence == 1 ? 4 : 10,1);
+}
+
+/** B459 use Basic Move increase, not the Enhanced Move speed multiplier. */
+rpgExpandedMountMoveValue(baseValue, basicMoveIncrease)
+{
+    rpgInteger(basicMoveIncrease,0,2);
+    return rpgExpandedAnimalScaledValue(baseValue,basicMoveIncrease == 2 ? 4 : basicMoveIncrease == 1 ? 2 : 1,1);
+}
+
+/** Initial war training doubles value unless already included in the supplied price. */
+rpgExpandedWarTrainingValue(baseValue, priceIncludesWarTraining)
+{
+    return rpgExpandedAnimalScaledValue(baseValue,priceIncludesWarTraining ? 1 : 2,1);
+}

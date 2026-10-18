@@ -167,6 +167,16 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2213)
+    {
+        local value = nil;
+        if (args[1] == 'domestic') value = rpgExpandedDomesticAnimalValue(args[2],args[3],args[4]);
+        if (args[1] == 'enhanced') value = rpgExpandedEnhancedAnimalValue(args[2],args[3],args[4],args[5]);
+        if (args[1] == 'move') value = rpgExpandedMountMoveValue(args[2],args[3]);
+        if (args[1] == 'war') value = rpgExpandedWarTrainingValue(args[2],args[3] != 0);
+        event('test.animal-value'); eventValue(value.status); eventValue(value.reason); eventValue(value.numerator);
+        eventValue(value.denominator); eventValue(value.money); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2211) { handlingInput.code = 80 + args[1]; return vhylAct(2203,args); }
     if (verb == 2212)
     {
