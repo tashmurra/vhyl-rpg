@@ -20,7 +20,7 @@ add [injury, treatment and bounded conflicts](docs/resilience.md), plus
 The opt-in [Lite rules layer](docs/lite.md) implements character creation,
 the advantage/disadvantage and skill catalogues, equipment, second-by-second
 combat, social checks, travel, injury, fatigue, recovery and hazards from
-**GURPS Lite Fourth Edition (August 2004, Rev. 07/12/04)**. Jumper is included;
+the **abridged-2004 reference (August 2004, Rev. 07/12/04)**. Jumper is included;
 magic systems from other books are not. The guide distinguishes executable
 mechanics from GM-authored setting and narrative decisions.
 
@@ -154,3 +154,13 @@ Tags reuse successful PR validation and packages when the complete Git tree
 matches. Source and HTML archives remain byte-for-byte identical; publication
 adds a small provenance file tying the validated build to the release commit.
 A changed tree or unavailable build evidence requires fresh validation.
+
+
+## Character and social interim milestone
+
+The optional `vhyl-rpg-expanded-character-social.t` umbrella adds authored expanded
+characters, skills, trait pricing, occupational templates, reputation and social
+procedures. See the [integration guide](docs/expanded/index.md),
+[library catalogue](docs/libraries.md) and
+[Town Registry example](examples/bellwether/README.md). This branch does not contain
+the full expansion suite or full trait/skill catalogues. Validation is pending.

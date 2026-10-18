@@ -1,7 +1,6 @@
 # Lite rules layer
 
-This optional layer implements the mechanics supplied by **GURPS Lite Fourth
-Edition, August 2004, Rev. 07/12/04** (`gurps-lite-4e`, printed pp. 2–32).
+This optional layer implements the mechanics supplied by **abridged fourth-generation rules, August 2004, Rev. 07/12/04** (`abridged-2004`, printed pp. 2–32).
 It is a rules library, not a GM: it resolves declared circumstances but does not
 invent an NPC's motives, map geometry, legal system, disease or alternate world.
 The original rulebook is not included in the release.
@@ -225,7 +224,7 @@ First Aid check before restoring clean air.
 ## Source boundaries and GM rulings
 
 - The supplied damage table covers ST 1–20; its lookup rejects values beyond
-  that range rather than inventing Basic Set extensions. Restrict development
+  that range rather than inventing full rules reference extensions. Restrict development
   offers accordingly, or author a separate higher-ST table.
 - The printed speed/range table omits some intermediate rows and ends at 100
   yards. Lookup uses the next supplied row; notably it does **not** silently add

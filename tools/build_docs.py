@@ -22,6 +22,9 @@ SOURCES = ('lib/vhyl-rpg.t', 'lib/vhyl-rpg-report.t', 'lib/vhyl-rpg-resilience.t
            'lib/vhyl-rpg-lite-equipment.t', 'lib/vhyl-rpg-lite-health.t',
            'lib/vhyl-rpg-lite-combat.t', 'lib/vhyl-rpg-lite-exploration.t',
            'lib/vhyl-rpg-lite-traits.t')
+SOURCES += tuple('lib/vhyl-rpg-' + name + '.t' for name in (
+    'expanded', 'expanded-characters', 'expanded-skills', 'expanded-traits',
+    'expanded-templates', 'expanded-social'))
 REPOSITORY = 'https://github.com/tashmurra/vhyl-rpg'
 PUBLIC = {
     'Thing', 'RpgError', 'RpgSkill', 'RpgTraining', 'RpgTrait', 'RpgProfile',
@@ -88,7 +91,7 @@ def model(root: Path = ROOT) -> list[Symbol]:
     if len(anchors) != len(set(anchors)):
         raise ValueError('duplicate symbol URL')
     for sym in symbols:
-        public = sym.name in PUBLIC or sym.name.startswith(('RpgLite', 'rpgLite'))
+        public = sym.name in PUBLIC or sym.name.startswith(('RpgLite', 'rpgLite', 'RpgExpanded', 'rpgExpanded'))
         sym.audience = 'author / trusted game code' if public else 'internal helper'
         if public and not sym.description:
             raise ValueError(f'public declaration lacks a description: {sym.name}')
