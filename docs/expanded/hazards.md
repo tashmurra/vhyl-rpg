@@ -2589,3 +2589,24 @@ already recorded loss to a different target range.
 `test_dated_aging` specify two ordinary six-month checks within one year, selective
 restoration of the later loss, changed-date rejection, replay, rollback, undo and
 save continuation. Fixtures remain unrun.
+
+
+## Seasickness assessment
+
+`rpgExpandedSeasickness(health,susceptible,movingVehicle,seagoing,stabilized,day,roll)`
+implements the supplied-roll outcome distinction in full-2008 B144/B436. The
+author supplies actual vehicle facts and one-based journey day. Ordinary
+passengers check on the first day aboard a qualifying seagoing vessel at health
++5. Stabilized modern vessels are excluded for ordinary passengers. Trait
+susceptibility instead applies daily on any moving vehicle.
+
+The result reports `checkRequired`, `score`, `check`, `penalty` and `vomits`.
+Ordinary passengers avoid all effects with a critical success or success by at
+least five; lesser success gives −2, and failure gives −5 with vomiting.
+Susceptible passengers remain at −2 even on a critical success. An inapplicable
+check requires no roll and consumes no randomness.
+
+This is a pure assessment, not an executed journey condition. Trait ownership,
+vehicle-skill learning restrictions, daily scheduling, persistent penalties and
+actual vomiting remain outstanding. `expanded-seasickness.t` / `test_seasickness`
+specify expected values and applicability boundaries; fixtures remain unrun.

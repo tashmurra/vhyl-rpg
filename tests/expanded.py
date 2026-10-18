@@ -9302,6 +9302,8 @@ def test(build):
     test_purchased_rations(Session, purchased_rations, build.out)
     food_access = build.build("expanded-food-access",ROOT / "tests/fixtures/expanded-food-access.t")
     test_food_access(Session, food_access, build.out)
+    seasickness = build.build("expanded-seasickness",ROOT / "tests/fixtures/expanded-seasickness.t")
+    test_seasickness(Session, seasickness)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22307,5 +22309,27 @@ def test_food_access(Session, bundle, out):
         s.command(f':restore {path}\n@1101')
         s.action(1100, 15905)
         assert last(s, 'test.food-access') == ['reused', None, 20, 1, 0]
+    finally:
+        s.close()
+
+
+def test_seasickness(Session, bundle):
+    """B144/B436 supplied-roll expected outcomes, with no RNG or state commitment; unrun."""
+    s = Session(bundle)
+    try:
+        for code, expected in [
+            (16000, ['ready', 1, 15, 0, 0, 0]),
+            (16001, ['ready', 1, 15, -2, 0, 0]),
+            (16002, ['ready', 1, 15, -5, 1, 0]),
+            (16003, ['ready', 1, 10, -2, 0, 0]),
+            (16004, ['ready', 1, 10, -5, 1, 0]),
+            (16005, ['ready', 0, None, 0, 0, 0]),
+            (16006, ['ready', 0, None, 0, 0, 0]),
+            (16007, ['ready', 0, None, 0, 0, 0]),
+            (16008, ['ready', 0, None, 0, 0, 0]),
+            (16009, ['ready', 1, 10, -2, 0, 0]),
+        ]:
+            s.action(1100, code)
+            assert last(s, 'test.seasickness') == expected
     finally:
         s.close()

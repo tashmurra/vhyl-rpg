@@ -6430,3 +6430,30 @@ class RpgExpandedDatedRejuvenation: RpgExpandedRejuvenation
         return day > self.newAgeCalendarDay ? 'restore' : 'keep';
     }
 ;
+
+/** Published outcome only, full-2008 B144/B436. Journey persistence, vomiting
+ * and action penalties must be committed by the owning journey procedure. */
+class RpgExpandedSeasicknessResult: RpgExpandedResult
+    checkRequired = nil
+    vomits = nil
+    penalty = 0
+    score = nil
+;
+/** Ordinary passengers check on their first day on qualifying vessels. Trait
+ * susceptibility instead checks daily aboard any moving vehicle, including
+ * stabilized vessels. day is one-based elapsed journey day, supplied by author. */
+rpgExpandedSeasickness(health,susceptible,movingVehicle,seagoing,stabilized,day,roll)
+{
+    rpgInteger(health,1,1000); rpgInteger(day,1,1000000);
+    local value = new RpgExpandedSeasicknessResult();
+    value.checkRequired = movingVehicle && (susceptible || (seagoing && !stabilized && day == 1));
+    if (!value.checkRequired) { value.status = 'ready'; return value; }
+    rpgInteger(roll,3,18);
+    value.score = health + (susceptible ? 0 : 5);
+    if (value.score < 3) { value.reason = 'seasickness-score-unavailable'; return value; }
+    value.check = rpgCheck(value.score,roll);
+    if (!value.check.achieved) { value.vomits = true; value.penalty = -5; }
+    else if (susceptible || (value.check.critical != 'success' && value.check.margin < 5))
+        value.penalty = -2;
+    value.status = 'ready'; return value;
+}

@@ -2430,9 +2430,12 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "On the first day aboard a qualifying vessel, apply the motion-sickness trait procedure; without that trait use health+5, with success by five or critical success avoiding all effects. Stabilized large modern vessels are exempt.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_seasickness"
+      ],
+      "validation_note": "Pure supplied-roll assessment distinguishes ordinary first-day seagoing checks from daily trait susceptibility, stabilized-vessel exclusion for ordinary passengers, health+5, strong-success exemption, -2 queasiness and -5/vomiting failure. Persistent journey checks, actual trait purchase, vehicle-skill learning prohibition, vomiting and action penalties remain pending. Fixtures authored but unrun."
     },
     {
       "id": "hazard-suffocation-airless",
