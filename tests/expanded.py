@@ -9334,6 +9334,8 @@ def test(build):
     test_drowning_care(Session, drowning_care, build.out)
     drowning_interruption = build.build("expanded-drowning-interruption",ROOT / "tests/fixtures/expanded-drowning-interruption.t")
     test_drowning_interruption(Session, drowning_interruption, build.out)
+    drowning_ownership = build.build("expanded-drowning-ownership",ROOT / "tests/fixtures/expanded-drowning-ownership.t")
+    test_drowning_ownership(Session, drowning_ownership, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22783,3 +22785,43 @@ def test_drowning_interruption(Session, bundle, out):
         assert last(s, 'test.care-interruption') == [1,0,1,60,63,9]
     finally:
         s.close()
+
+
+def test_drowning_ownership(Session, bundle, out):
+    """A rescuer cannot provide two concurrent minutes of care; fixtures unrun."""
+    path = out / 'drowning-ownership.zsave'
+    s = Session(bundle)
+    try:
+        for code in (17000,17001,17003,17300,17400,17600,17601,17602):
+            s.action(1910,code)
+        assert last(s, 'test.care-owner-result') == ['blocked','drowning-care-healer-busy']
+        assert last(s, 'test.care-owner') == [0,0,2,9]
+        for code in (17500,17601,17602):
+            s.action(1910,code)
+        assert last(s, 'test.care-owner-result')[0] == 'resolved'
+        assert last(s, 'test.care-owner') == [1,1,2,9]
+        s.command(f':save {path}\n@1911')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1911')
+        for code in (17601,17602):
+            s.action(1910,code)
+        assert last(s, 'test.care-owner-result')[0] == 'reused'
+        assert last(s, 'test.care-owner') == [1,1,2,9]
+    finally:
+        s.close()
+    for mutation, reason in ((17603,'drowning-care-cancellation-binding'),
+                             (17604,'drowning-care-result-binding'),
+                             (17605,'drowning-care-history')):
+        s = Session(bundle)
+        try:
+            for code in (17000,17001,17003,17300,17400):
+                s.action(1910,code)
+            if mutation == 17603:
+                s.action(1910,17500)
+            s.action(1910,mutation)
+            assert last(s, 'test.care-owner-history') == [reason]
+        finally:
+            s.close()

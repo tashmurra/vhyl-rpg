@@ -6750,6 +6750,10 @@ class RpgExpandedDrowningResuscitation: object
         if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('drowning-care-binding');
         for (local i = 1; i <= facts.length(); i += 1)
             if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('drowning-care-binding');
+        if (self.cancelledAt == nil && (self.boundCancelledAt != nil || self.cancellationEvidence != nil || self.boundCancellation != nil))
+            rpgExpandedReject('drowning-care-cancellation-binding');
+        if (self.result == nil && (self.completedAt != nil || self.boundSucceeded != nil))
+            rpgExpandedReject('drowning-care-result-binding');
         if (self.cancelledAt != nil)
         {
             if (self.cancelledAt != self.boundCancelledAt || self.cancelledAt < self.startedAt || self.cancelledAt > rpgLedger.seconds
@@ -6792,6 +6796,13 @@ class RpgExpandedDrowningResuscitation: object
         if (self.healer == patient || self.healer.dead || self.healer.unconscious || self.healer.stunned
             || self.healer.mentalStun || self.healer.mortal || self.healer.fp() <= 0 || self.healer.voluntaryMovementUnavailable())
         { value.reason = 'drowning-care-healer-unavailable'; return value; }
+        for (local other = firstObj(RpgExpandedDrowningResuscitation); other != nil; other = nextObj(other,RpgExpandedDrowningResuscitation))
+            if (other != self && other.startedAt != nil && other.healer == self.healer)
+            {
+                other.validateReceipt();
+                if (other.cancelledAt == nil && other.result == nil)
+                { value.reason = 'drowning-care-healer-busy'; return value; }
+            }
         local trained = nil;
         foreach (local training in self.healer.skills) if (training.skill == self.skill && training.points > 0) trained = true;
         local procedure = rpgExpandedResuscitationProcedure(self.skill.id,self.skill.techLevel,trained,self.modernTechnique,'drowning');
@@ -6847,6 +6858,33 @@ modify rpgLedger
                 care.validateReceipt();
                 if (self.seconds + seconds > care.startedAt + 60) rpgExpandedReject('drowning-care-completion-boundary');
             }
+        return nil;
+    }
+;
+
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited();
+        foreach (local exposure in self.airlessHistory)
+            if (exposure.ofKind(RpgExpandedDrowningExposure))
+            {
+                local ids = []; local receipts = []; local active = nil;
+                foreach (local care in exposure.resuscitations)
+                {
+                    if (care == nil || !care.ofKind(RpgExpandedDrowningResuscitation) || care.exposure != exposure
+                        || holds(ids,care.id) || holds(receipts,care)) rpgExpandedReject('drowning-care-history');
+                    care.validateReceipt(); ids = ids + [care.id]; receipts = receipts + [care];
+                    if (care.cancelledAt == nil && care.result == nil)
+                    {
+                        if (active != nil) rpgExpandedReject('drowning-care-overlap');
+                        active = care;
+                    }
+                }
+            }
+        for (local care = firstObj(RpgExpandedDrowningResuscitation); care != nil; care = nextObj(care,RpgExpandedDrowningResuscitation))
+            if (care.startedAt != nil && (care.healer == self || care.exposure.profile == self)) care.validateReceipt();
         return nil;
     }
 ;

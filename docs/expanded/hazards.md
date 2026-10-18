@@ -2706,3 +2706,19 @@ holds this clock boundary.
 `expanded-drowning-interruption.t` / `test_drowning_interruption` specify
 cancellation, retry, completion boundaries, rollback, undo and saved replay.
 Fixtures remain unrun. Native rescuer actions remain outstanding.
+
+
+### Rescuer ownership and treatment history
+
+One rescuer can own only one unfinished drowning treatment at a time, even
+when patients have different exposures. `assess()` and `start()` return
+`drowning-care-healer-busy` before spending time or randomness. Cancel the
+previous attempt to release the rescuer; cancellation remains explicit if a
+patient dies. Completed and cancelled records do not reserve the rescuer.
+This is an execution constraint for the staged treatment interface.
+
+Profile validation checks treatment membership, duplicate identifiers, active
+patient ownership, bound completion and cancellation state. Removing a receipt
+from the patient's exposure does not make its committed object reusable.
+`expanded-drowning-ownership.t` / `test_drowning_ownership` cover cross-patient
+contention, release, saved replay and altered histories. These fixtures are unrun.
