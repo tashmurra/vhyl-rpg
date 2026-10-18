@@ -240,5 +240,25 @@ act(verb,args)
         event('test.cold-overflow-shelter'); eventValue(patient.fatigue); eventValue(patient.injury);
         eventValue(patient.temperatureFatigue); eventValue(patient.temperatureInjury); eventValue(rpgRandom.draws); return nil;
     }
+    if (verb == 1850)
+    {
+        local value = rpgExpandedHeatExertion(args[1],args[2]); event('test.heat-exertion');
+        eventValue(value.status); eventValue(value.reason); eventValue(value.extraFatigue); return nil;
+    }
+    if (verb == 1851)
+    {
+        local time = rpgLedger.seconds; local draws = rpgRandom.draws;
+        local value = rpgExpandedHeatOutcome(args[1],args[2],args[3] == 0 ? nil : args[3]);
+        event('test.heat-outcome'); eventValue(value.fatigue); eventValue(value.heatStroke ? 1 : 0);
+        eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws); return nil;
+    }
+    if (verb == 1852)
+    {
+        local time = rpgLedger.seconds; local draws = rpgRandom.draws;
+        local value = rpgExpandedThermalShock(args[1] == 1,args[2],args[3]);
+        event('test.thermal-shock'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.ordinaryCold ? 1 : 0); eventValue(value.intervalSeconds); eventValue(value.fatigue);
+        eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws); return nil;
+    }
     return vhylAct(verb,args);
 }

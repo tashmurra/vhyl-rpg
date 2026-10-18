@@ -760,6 +760,35 @@ def test_cold_persistence(Session, bundle, out):
             second.close()
 
 
+def test_thermal_shock_assessments(s):
+    # B430: success still costs one; failure uses its actual margin, even critical.
+    for score, roll, fatigue in [(10,10,1),(10,3,1),(10,11,1),(10,16,6),
+                                 (10,18,8),(3,4,1),(3,13,10),(16,17,1)]:
+        s.action(1852, 0, score, roll)
+        assert last(s, 'test.thermal-shock') == ['ready',None,0,60,fatigue,0,0]
+    for score, roll in [(17,17),(18,18),(20,17)]:
+        s.action(1852, 0, score, roll)
+        assert last(s, 'test.thermal-shock') == [
+            'blocked','thermal-shock-forced-failure-margin',0,60,0,0,0]
+    # A dry suit selects ordinary cold before requiring an immersion resistance roll.
+    s.action(1852, 1, 0, 0)
+    assert last(s, 'test.thermal-shock') == ['ready',None,1,0,0,0,0]
+
+
+def test_heat_assessments(s):
+    for temperature, comfort, extra in [(80,90,0),(90,90,0),(91,90,1),(120,90,1),
+                                        (121,90,2),(150,90,2),(111,110,1),(170,110,2)]:
+        s.action(1850, temperature, comfort)
+        assert last(s, 'test.heat-exertion') == ['ready',None,extra]
+    s.action(1850, 151, 90)
+    assert last(s, 'test.heat-exertion') == ['blocked','heat-exertion-band-unavailable',0]
+    for score, roll, die, fatigue, stroke in [(10,10,0,0,0),(10,11,0,1,0),
+                                            (10,17,1,1,1),(10,18,6,6,1),
+                                            (18,17,0,1,0),(18,18,3,3,1),(6,16,4,4,1)]:
+        s.action(1851, score, roll, die)
+        assert last(s, 'test.heat-outcome') == [fatigue,stroke,0,0]
+
+
 def test_cold_overflow(s):
     for fatigue, seed, expected, shelter in [
             (10,5,[1,1,11,3,3,3,0,3,0],[11,3,2,2,3]),
@@ -3449,6 +3478,8 @@ def test(build):
     fresh(Session,hazards,test_cold_assessments)
     fresh(Session,hazards,test_cold_intervals)
     fresh(Session,hazards,test_cold_overflow)
+    fresh(Session,hazards,test_heat_assessments)
+    fresh(Session,hazards,test_thermal_shock_assessments)
     cold_transactions = build.build('expanded-cold-transactions',ROOT / 'tests/fixtures/expanded-cold-transactions.t')
     fresh(Session,cold_transactions,test_cold_transactions)
     test_cold_persistence(Session,cold_transactions,build.out)

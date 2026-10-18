@@ -510,3 +510,51 @@ route reaches the same fatigue, injury, restrictions, receipt history, random dr
 count and shared time. Historical interval receipts remain reusable after shelter.
 These fixtures are authored but unrun while checks are paused; the exact compiled
 game is required for continuation.
+
+
+## Heat outcome and exertion assessments
+
+`rpgExpandedHeatExertion(effectiveF, upperComfortF)` returns the B434 extra fatigue
+for exertion or dehydration: zero at or below the upper comfort limit, one up to
+thirty degrees above it, and two up to sixty degrees above it. Whole-degree
+Fahrenheit inputs preserve the printed human boundary examples while allowing
+an authored comfort range. Beyond the highest supplied band, the assessment
+blocks with `heat-exertion-band-unavailable`; it does not extrapolate a surcharge.
+This helper does not write `profile.heatExtra` or charge an exertion action.
+
+`rpgExpandedHeatOutcome(score, roll, strokeDie)` returns the fatigue cost of a
+supplied heat-resistance check. Success loses none, ordinary failure one, and
+critical failure the supplied one-die result. `heatStroke` identifies the latter.
+The die is required only on critical failure. A raw seventeen at a high enough
+score remains an ordinary failure, following the shared check classification.
+The helper does not spend fatigue, apply overflow injury or draw randomness.
+
+Owned heat intervals, HT-based desert survival, encumbrance, shade/activity,
+cooling-dependent recovery, intense heat and extra exertion spending remain
+incomplete. B434 states a penalty for each additional ten degrees of heat without
+an explicit reference temperature in that sentence. The implementation has not
+selected an anchor for this modifier; source clarification or an explicit authored
+rule selection is required before that assessment can claim coverage.
+`test_heat_assessments` covers the supplied surcharge bands, shifted comfort
+limits, unsupported high temperatures, ordinary and critical failures and pure
+outcomes. All fixtures remain unrun while checks are paused.
+
+
+## Icy immersion assessment
+
+After the author establishes sudden icy immersion, call
+`rpgExpandedThermalShock(drySuit, score, roll)`. A fully waterproof dry suit
+returns `ordinaryCold = true`: assess ordinary cold with the actual conditions
+instead. This branch needs no supplied resistance roll. Without that protection,
+the interval is sixty seconds and the supplied HT check receives no clothing
+modifier. Success costs one fatigue; failure costs its positive failure margin,
+including critical failure. Drowning requires its own assessment.
+
+Automatic failure on seventeen or eighteen can occur without a positive failure
+margin at high scores. The supplied passage does not specify the fatigue cost in
+that case; the helper returns `thermal-shock-forced-failure-margin` rather than
+inventing a minimum or granting fatigue. This remains an unresolved inventory
+case. The assessment neither charges fatigue nor starts an exposure. Owned
+immersion intervals, overflow injuries, recovery locks and drowning integration
+remain incomplete. `test_thermal_shock_assessments` records the expected outcomes,
+dry-suit routing and purity; it remains unrun while checks are paused.

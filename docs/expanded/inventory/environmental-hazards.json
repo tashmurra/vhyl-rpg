@@ -643,9 +643,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Without a waterproof dry suit, icy immersion requires a health check each minute without clothing modifiers; success loses one fatigue and failure loses fatigue equal to its margin. Resolve drowning independently.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_thermal_shock_assessments"
+      ],
+      "validation_note": "Pure outcomes and dry-suit routing authored; fixtures unrun. Forced failures without a positive margin need source resolution. Owned immersion, overflow, recovery and drowning integration remain incomplete."
     },
     {
       "id": "environment-thermal-dry-suit",
@@ -653,9 +656,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A fully waterproof dry suit converts icy immersion to ordinary cold exposure instead of the thermal-shock check sequence.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_thermal_shock_assessments"
+      ],
+      "validation_note": "Pure outcomes and dry-suit routing authored; fixtures unrun. Forced failures without a positive margin need source resolution. Owned immersion, overflow, recovery and drowning integration remain incomplete."
     },
     {
       "id": "environment-heat-check",
@@ -675,7 +681,8 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "Heat checks take a penalty equal to encumbrance level and -1 per additional ten degrees; preserve the actor's comfort range rather than hard-coding the human baseline.",
-      "tests": []
+      "tests": [],
+      "validation_note": "The sentence specifying each extra ten degrees does not explicitly name the reference temperature. The anchor is unresolved; do not infer or silently use the abridged helper, which lacks this penalty."
     },
     {
       "id": "environment-heat-cost",
@@ -683,9 +690,12 @@
       "pages": "B434",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Heat-check failure loses one fatigue and critical failure one die; heat-caused fatigue and injury cannot recover until the actor reaches cooler surroundings.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_heat_assessments"
+      ],
+      "validation_note": "Pure supplied-check fatigue and printed exertion-band assessments authored. Fixtures unrun. Owned intervals, overflow/cooling integration and exertion spending remain incomplete."
     },
     {
       "id": "environment-heat-extra-cost",
@@ -693,9 +703,12 @@
       "pages": "B434",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Temperatures up to thirty degrees above the comfort zone add one fatigue to exertion/dehydration costs; up to sixty degrees above add two. Avoid recursively adding the surcharge to itself.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_heat_assessments"
+      ],
+      "validation_note": "Pure supplied-check fatigue and printed exertion-band assessments authored. Fixtures unrun. Owned intervals, overflow/cooling integration and exertion spending remain incomplete."
     },
     {
       "id": "environment-intense-heat",

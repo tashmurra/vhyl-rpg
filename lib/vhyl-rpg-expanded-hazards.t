@@ -898,3 +898,61 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+class RpgExpandedHeatExertion: RpgExpandedResult
+    extraFatigue = 0
+;
+
+/** Printed exertion/dehydration heat bands, full-2008 B434. */
+rpgExpandedHeatExertion(effectiveF, upperComfortF)
+{
+    rpgInteger(effectiveF,-1000,1000); rpgInteger(upperComfortF,-1000,1000);
+    local value = new RpgExpandedHeatExertion(); local excess = effectiveF - upperComfortF;
+    if (excess > 60) { value.reason = 'heat-exertion-band-unavailable'; return value; }
+    value.extraFatigue = excess <= 0 ? 0 : excess <= 30 ? 1 : 2;
+    value.status = 'ready'; return value;
+}
+
+class RpgExpandedHeatOutcome: RpgExpandedResult
+    fatigue = 0
+    heatStroke = nil
+;
+
+/** Supplied check and optional heat-stroke die. No random draw or spending. */
+rpgExpandedHeatOutcome(score, roll, strokeDie)
+{
+    rpgInteger(score,3,1000); local value = new RpgExpandedHeatOutcome(); value.check = rpgCheck(score,roll);
+    if (!value.check.achieved)
+    {
+        value.heatStroke = value.check.critical == 'failure';
+        if (value.heatStroke) { rpgInteger(strokeDie,1,6); value.fatigue = strokeDie; }
+        else value.fatigue = 1;
+    }
+    value.status = 'ready'; return value;
+}
+
+class RpgExpandedThermalShockAssessment: RpgExpandedResult
+    ordinaryCold = nil
+    intervalSeconds = 0
+    fatigue = 0
+;
+
+/** Icy immersion must be established by the author; full-2008 B430. */
+rpgExpandedThermalShock(drySuit, score, roll)
+{
+    local value = new RpgExpandedThermalShockAssessment();
+    if (drySuit)
+    {
+        value.ordinaryCold = true; value.status = 'ready'; return value;
+    }
+    rpgInteger(score,3,1000); value.intervalSeconds = 60;
+    value.check = rpgCheck(score,roll);
+    if (value.check.achieved) value.fatigue = 1;
+    else
+    {
+        if (value.check.margin >= 0)
+        { value.reason = 'thermal-shock-forced-failure-margin'; return value; }
+        value.fatigue = -value.check.margin;
+    }
+    value.status = 'ready'; return value;
+}
