@@ -460,8 +460,7 @@ class RpgLiteBattle: object
             if (request.kind == 'nothing' && fighter.profile.fearSeconds == 0 && (fighter.profile.stunned || fighter.profile.mentalStun))
                 rpgLiteRecoverStun(fighter.profile);
         }
-        fighter.profile.shock = fighter.profile.level('high-pain-threshold') > 0 ? 0
-            : result.counterInjury > 4 ? 4 : result.counterInjury;
+        fighter.profile.shock = fighter.profile.shockAfterTurn(result.counterInjury);
         request.apply(fighter, result); self.advance(); return result;
     }
     advance()

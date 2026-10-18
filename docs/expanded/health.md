@@ -13,12 +13,16 @@ capacity below 20 uses each injury point, while larger capacities use complete
 increments of capacity/10 as the divisor. Drop fractional penalties and cap at 4.
 
 The existing wound path adds the resulting penalty to the same `profile.shock`,
-retains high-pain resistance and charges injury once. Unsupported low-pain
+retains high-pain resistance and charges injury once. Combat turn cleanup uses
+the same scaling hook for counter-injury, and a turn without new injury clears
+the prior shock. Unsupported low-pain
 modification rejects before injury is committed. The hook defaults to the existing
 Lite calculation when the option is disabled. No new injury or fatigue pool is
 introduced. `test_scaled_injury_shock` provides independent threshold expectations
-and integrated repeated-wound/resistance cases, but has not run while checks are
-paused.
+and integrated repeated-wound/resistance cases.
+`test_scaled_shock_turn_boundary` covers ordinary turn expiration, counter-injury
+scaling and rejection before injury or randomness is spent. These cases have not
+run while checks are paused.
 
 Detailed injury, knockdown/location effects, medical care, recovery and fear
 remain pending. This option does not enable a complete expanded injury profile;
@@ -128,3 +132,10 @@ and reformation use tier-specific rules. Continuous damaging exposure can preven
 remains from healing even when further injury is capped. Embedded obstructions and
 post-destruction healing triggers require separate state. These are pending rules,
 not extensions already supplied by the Lite injury functions.
+
+
+Pain sensitivity remains explicitly blocked with scaled shock: B142 doubles shock,
+while B419 gives the ordinary cap. The supplied curated records do not resolve
+that interaction. Its knockdown/torture modifier, involuntary vocalization check
+and observer-dependent reaction consequences also remain pending. No partial
+price-only trait is presented as the complete disadvantage.

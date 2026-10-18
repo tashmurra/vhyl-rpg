@@ -198,6 +198,15 @@ def test_scaled_injury_shock(s):
         assert last(s, 'test.shock-integration') == expected
 
 
+def test_scaled_shock_turn_boundary(s):
+    s.action(1602)
+    assert last(s, 'test.shock-rejection') == [
+        'expanded-low-pain-shock-unavailable', 0, 0, 0, 0]
+    for enabled, resistant, retained in [(0, 0, 4), (1, 0, 2), (1, 1, 0)]:
+        s.action(1603, enabled, resistant)
+        assert last(s, 'test.shock-turn') == [retained, 'resolved', 0, 8, 0]
+
+
 def test_numbers(s):
     before = state(s)
     # Full-2008 B170. Enumerated offsets rather than the implementation formula.
@@ -1944,6 +1953,7 @@ def test(build):
     fresh(Session,social,test_trade_modifiers)
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
     fresh(Session,health,test_scaled_injury_shock)
+    fresh(Session,health,test_scaled_shock_turn_boundary)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
     fresh(Session,minimal,test_job_earnings)

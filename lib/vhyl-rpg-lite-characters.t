@@ -50,6 +50,13 @@ class RpgLiteProfile: RpgProfile
     shock = 0
     /* Pure injury extension; the default preserves the abridged penalty. */
     shockFromInjury(amount) { return amount; }
+    /* Retain only shock from injury suffered during this character's turn. */
+    shockAfterTurn(counterInjury)
+    {
+        if (self.level('high-pain-threshold') > 0) return 0;
+        local penalty = self.shockFromInjury(counterInjury);
+        return penalty > 4 ? 4 : penalty;
+    }
     stunned = nil
     mentalStun = nil
     unconscious = nil

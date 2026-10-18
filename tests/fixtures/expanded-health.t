@@ -23,5 +23,30 @@ act(verb,args)
         eventValue(p.injury); eventValue(p.shock); rpgLiteWound(p,8);
         eventValue(p.injury); eventValue(p.shock); eventValue(rpgRandom.draws - before); return nil;
     }
+    if (verb == 1602)
+    {
+        local rules = new RpgExpandedRules(); rules.scaledInjuryShock = true;
+        local p = new RpgExpandedProfile(); p.rules = rules; p.st = 30;
+        local trait = new RpgLiteTrait(); trait.id = 'low-pain-threshold'; p.traits = [trait];
+        local before = rpgRandom.draws; event('test.shock-rejection');
+        try { rpgLiteWound(p,8); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        eventValue(p.injury); eventValue(p.shock); eventValue(p.woundSerial);
+        eventValue(rpgRandom.draws - before); return nil;
+    }
+    if (verb == 1603)
+    {
+        local rules = new RpgExpandedRules(); rules.scaledInjuryShock = args[1] == 1;
+        local p = new RpgExpandedProfile(); p.rules = rules; p.st = 30;
+        if (args[2] == 1) p.traits = [rpgLiteMakeTrait('high-pain-threshold',1,nil)];
+        local before = rpgRandom.draws; event('test.shock-turn');
+        eventValue(p.shockAfterTurn(8)); rpgLiteWound(p,8);
+        local fighter = new RpgLiteFighter(); fighter.profile = p;
+        local other = new RpgLiteFighter(); other.profile = new RpgLiteProfile();
+        local battle = new RpgLiteBattle(); battle.fighters = [fighter,other];
+        battle.order = [fighter,other]; battle.active = true;
+        local value = battle.step(fighter,new RpgLiteManeuver()); eventValue(value.status);
+        eventValue(p.shock); eventValue(p.injury); eventValue(rpgRandom.draws - before); return nil;
+    }
     return vhylAct(verb,args);
 }
