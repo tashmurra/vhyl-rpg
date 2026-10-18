@@ -235,3 +235,9 @@ Life-sustaining requirements now have scoped authored definitions, all ordinary
 rarity/frequency prices, template copying and explicit calendar/contact metadata.
 Access, consumption, injury and aging remain pending. Fixtures are authored,
 unrun; this catalogue entry remains partial.
+
+
+Sustenance deprivation now owns exact periodic injury receipts and uses the
+shared wound ledger. Time cannot cross an unsettled injury boundary. Restored
+access, consumption, calendar ownership and aging remain pending. Replay,
+rollback, undo and save fixtures are authored but unrun.

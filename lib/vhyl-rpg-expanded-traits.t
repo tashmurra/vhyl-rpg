@@ -2728,3 +2728,14 @@ modify rpgExpandedTemplateTraits
         copy.approved = trait.approved; copy.evidence = trait.evidence; copy.creationCost(); return copy;
     }
 ;
+
+modify RpgExpandedProfile
+    sustenanceInjuryInterval(trait)
+    {
+        if (trait == nil || !trait.ofKind(RpgExpandedSustenanceRequirement) || !holds(self.traits,trait))
+            rpgExpandedReject('sustenance-owned-requirement');
+        trait.creationCost();
+        if (!trait.active || trait.mitigated) rpgExpandedReject('sustenance-inactive-requirement');
+        return rpgExpandedSustenanceSchedule(trait.frequency)[3];
+    }
+;

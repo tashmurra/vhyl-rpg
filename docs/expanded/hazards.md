@@ -2155,3 +2155,33 @@ now supplies the spatial-awareness skill bonus. The fixture
 health/default choice, hourly integration, adaptation, return to gravity,
 independent nausea, rollback, undo, replay and save continuation. It is unrun
 while checks remain paused.
+
+
+## Sustenance deprivation
+
+`RpgExpandedSustenanceDeprivation` starts an owned uninterrupted deprivation
+schedule (`full-2008`, B130). Supply `id`, `profile`, an owned active `requirement`,
+approval, evidence that required access has just been missed, and a drop destination
+when equipment could be dropped by an injury consequence. Include the traits
+module to validate the purchase. `begin()` records the current shared time once;
+the first injury falls one injury interval later. Monthly and longer dose deadlines
+must already have been established by the author; this operation does not invent
+a calendar or infer satisfaction from elapsed time.
+
+Create `RpgExpandedSustenanceInjury` receipts with unique IDs and the episode.
+Pure `assess()` preflights the shared wound path. `apply()` at the exact due time
+adds one point of injury through that path, preserving its survival and equipment
+consequences. Replay does not add another wound, spend time or roll again. The
+clock cannot cross an unsettled injury boundary. Episode history binds its original
+requirement, interval and tick sequence. Death ends the need to settle later ticks.
+
+This increment supports uninterrupted deprivation only. Restored access,
+mitigation/removal during an episode, recurring deprivation, resource consumption,
+calendar ownership and accelerated aging remain pending. Do not begin an episode
+that needs those unsupported transitions; no automatic cure or silent clock
+cancellation is supplied. Contact-duration metadata alone is not an access receipt.
+
+[`expanded-sustenance-injury.t`](../../tests/fixtures/expanded-sustenance-injury.t)
+and `test_sustenance_injury` specify exact boundaries, one-point ticks, replay,
+preview purity, exception rollback, undo and cross-process save continuation.
+These fixtures remain unrun while checks are paused.

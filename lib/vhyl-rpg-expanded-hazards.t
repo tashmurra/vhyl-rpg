@@ -5233,3 +5233,129 @@ modify RpgExpandedProfile
         return base;
     }
 ;
+
+modify RpgExpandedProfile
+    sustenanceDeprivations = []
+;
+/** B130 confirmed missed access; calendar/dose satisfaction remains authored. */
+class RpgExpandedSustenanceDeprivation: object
+    id = nil
+    profile = nil
+    requirement = nil
+    approved = nil
+    evidence = nil
+    dropDestination = nil
+    startedAt = nil
+    intervalSeconds = nil
+    boundDefinition = nil
+    ticks = []
+    definition()
+    {
+        return [self.id,self.profile,self.requirement,self.approved,self.evidence,self.dropDestination,self.startedAt,self.intervalSeconds]
+            + self.requirement.templatePurchaseOptions();
+    }
+    nextTickAt() { return self.startedAt + (self.ticks.length() + 1) * self.intervalSeconds; }
+    validateReceipt()
+    {
+        if (self.startedAt == nil || !holds(self.profile.sustenanceDeprivations,self) || self.boundDefinition == nil)
+            rpgExpandedReject('sustenance-deprivation-history');
+        local facts = self.definition();
+        if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('sustenance-deprivation-binding');
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sustenance-deprivation-binding');
+        local index = 0; local ids = [];
+        foreach (local tick in self.ticks)
+        {
+            index += 1;
+            if (tick == nil || !tick.ofKind(RpgExpandedSustenanceInjury) || tick.episode != self || holds(ids,tick.id)
+                || tick.recordedAt != self.startedAt + index * self.intervalSeconds || tick.recordedAt > rpgLedger.seconds)
+                rpgExpandedReject('sustenance-tick-history');
+            ids = ids + [tick.id]; tick.validateReceipt();
+        }
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.requirement == nil)
+            rpgExpandedReject('sustenance-deprivation-definition');
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundDefinition != nil || self.intervalSeconds != nil || self.ticks.length() != 0)
+            rpgExpandedReject('sustenance-deprivation-uncommitted-state');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'sustenance-missed-access-evidence'; return value; }
+        if (self.profile.dead) { value.reason = 'sustenance-dead'; return value; }
+        local interval = self.profile.sustenanceInjuryInterval(self.requirement);
+        rpgInteger(rpgLedger.seconds,0,2147483647 - interval);
+        foreach (local prior in self.profile.sustenanceDeprivations)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.requirement == self.requirement) rpgExpandedReject('sustenance-deprivation-duplicate');
+        }
+        value.status = 'ready'; return value;
+    }
+    begin()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.intervalSeconds = self.profile.sustenanceInjuryInterval(self.requirement); self.startedAt = rpgLedger.seconds;
+        self.boundDefinition = self.definition(); self.profile.sustenanceDeprivations = self.profile.sustenanceDeprivations + [self];
+        value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedSustenanceInjury: object
+    id = nil
+    episode = nil
+    recordedAt = nil
+    wound = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.episode,self.recordedAt,self.wound]; }
+    validateReceipt()
+    {
+        if (self.recordedAt == nil || self.wound == nil || self.boundDefinition == nil || !holds(self.episode.ticks,self))
+            rpgExpandedReject('sustenance-injury-history');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sustenance-injury-binding');
+        self.wound.assess(); return nil;
+    }
+    makeWound()
+    {
+        local wound = new RpgExpandedWound(); wound.id = 'sustenance:' + self.episode.id + ':' + self.id;
+        wound.profile = self.episode.profile; wound.amount = 1; wound.dropDestination = self.episode.dropDestination; return wound;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedSustenanceDeprivation))
+            rpgExpandedReject('sustenance-injury-definition');
+        local value = new RpgExpandedResult(); self.episode.validateReceipt();
+        if (self.recordedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.wound != nil || self.boundDefinition != nil) rpgExpandedReject('sustenance-injury-uncommitted-state');
+        if (self.episode.profile.dead) { value.reason = 'sustenance-dead'; return value; }
+        self.episode.profile.sustenanceInjuryInterval(self.episode.requirement);
+        if (rpgLedger.seconds != self.episode.nextTickAt()) { value.reason = 'sustenance-injury-not-due'; return value; }
+        foreach (local tick in self.episode.ticks) if (tick.id == self.id) rpgExpandedReject('sustenance-injury-duplicate');
+        rpgInteger(rpgLedger.seconds,0,2147483647 - self.episode.intervalSeconds);
+        local injury = self.makeWound().assess(); if (injury.status != 'ready') return injury;
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.wound = self.makeWound(); self.wound.apply(); self.recordedAt = rpgLedger.seconds;
+        self.boundDefinition = self.definition(); self.episode.ticks = self.episode.ticks + [self];
+        value.status = 'resolved'; return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local episode = firstObj(RpgExpandedSustenanceDeprivation); episode != nil; episode = nextObj(episode,RpgExpandedSustenanceDeprivation))
+            if (episode.startedAt != nil && !episode.profile.dead)
+            {
+                episode.validateReceipt();
+                if (self.seconds + seconds > episode.nextTickAt()) rpgExpandedReject('sustenance-injury-boundary');
+            }
+        return nil;
+    }
+;

@@ -90,9 +90,10 @@
       "status": "partial",
       "acceptance": "Life-sustaining requirement frequency continuous multiplies adjusted base price by 5, discarding fractional points. Missing required access causes one health point injury per one minute. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
       "tests": [
-        "tests/expanded.py::test_sustenance"
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
       ],
-      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun."
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-sustenance-hourly",
@@ -103,9 +104,10 @@
       "status": "partial",
       "acceptance": "Life-sustaining requirement frequency one hour multiplies adjusted base price by 4, discarding fractional points. Missing required access causes one health point injury per ten minutes. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
       "tests": [
-        "tests/expanded.py::test_sustenance"
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
       ],
-      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun."
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-sustenance-daily",
@@ -116,9 +118,10 @@
       "status": "partial",
       "acceptance": "Life-sustaining requirement frequency one day multiplies adjusted base price by 3, discarding fractional points. Missing required access causes one health point injury per one hour. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
       "tests": [
-        "tests/expanded.py::test_sustenance"
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
       ],
-      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun."
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-sustenance-weekly",
@@ -129,9 +132,10 @@
       "status": "partial",
       "acceptance": "Life-sustaining requirement frequency one week multiplies adjusted base price by 2, discarding fractional points. Missing required access causes one health point injury per six hours. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
       "tests": [
-        "tests/expanded.py::test_sustenance"
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
       ],
-      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun."
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-sustenance-monthly",
@@ -142,9 +146,10 @@
       "status": "partial",
       "acceptance": "Life-sustaining requirement frequency one month multiplies adjusted base price by 1, discarding fractional points. Missing required access causes one health point injury per one day. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
       "tests": [
-        "tests/expanded.py::test_sustenance"
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
       ],
-      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun."
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-sustenance-seasonal",
@@ -155,9 +160,10 @@
       "status": "partial",
       "acceptance": "Life-sustaining requirement frequency three months multiplies adjusted base price by 1/3, discarding fractional points. Missing required access causes one health point injury per three days. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
       "tests": [
-        "tests/expanded.py::test_sustenance"
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
       ],
-      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun."
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-sustenance-yearly",
@@ -168,9 +174,10 @@
       "status": "partial",
       "acceptance": "Life-sustaining requirement frequency one year multiplies adjusted base price by 1/10, discarding fractional points. Missing required access causes one health point injury per two weeks. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
       "tests": [
-        "tests/expanded.py::test_sustenance"
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
       ],
-      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun."
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-sustenance-contact",
@@ -191,9 +198,12 @@
       "pages": "B130",
       "module": "hazards",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Specify dose deadline, first injury tick, restored-access handling and missed-tick catch-up using the source timing language. Reject ambiguous calendar/access policies before commitment. Save and undo must retain exact elapsed access and prevent replay from duplicating injury.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_sustenance_injury"
+      ],
+      "validation_note": " Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-sustenance-aging",

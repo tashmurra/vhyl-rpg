@@ -654,3 +654,7 @@ modify RpgExpandedProfile
     validateFixedBeliefPortrayal(portrayal) { rpgExpandedReject('fixed-belief-module-required'); }
     fixedBeliefReactionLevel(belief) { rpgExpandedReject('fixed-belief-module-required'); }
 ;
+
+modify RpgExpandedProfile
+    sustenanceInjuryInterval(trait) { rpgExpandedReject('sustenance-traits-module-required'); }
+;

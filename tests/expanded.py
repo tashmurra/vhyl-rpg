@@ -9214,6 +9214,8 @@ def test(build):
     test_belief_credit(Session, belief_credit, build.out)
     sustenance = build.build('expanded-sustenance',ROOT / 'tests/fixtures/expanded-sustenance.t')
     test_sustenance(Session, sustenance)
+    sustenance_injury = build.build('expanded-sustenance-injury',ROOT / 'tests/fixtures/expanded-sustenance-injury.t')
+    test_sustenance_injury(Session, sustenance_injury, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20598,5 +20600,38 @@ def test_sustenance(Session, bundle):
         s.action(2285, 11603)
         s.action(2285, 11602)
         assert last(s, 'test.sustenance-definition') == [-1, 1209600, -1, 1209600, 0]
+    finally:
+        s.close()
+
+
+def test_sustenance_injury(Session, bundle, out):
+    """B130 one-point periodic injury, shared ledger and persistence; unrun."""
+    path = out / 'expanded-sustenance-injury.zsave'
+    s = Session(bundle)
+    try:
+        for code in (11700, 11700, 11702):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-injury-preview') == ['blocked', 'sustenance-injury-not-due', 0]
+        for code in (11701, 11702, 11706, 11704, 11705):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-injury-preview') == ['ready', None, 0]
+        assert last(s, 'test.sustenance-boundary') == ['sustenance-injury-boundary']
+        assert last(s, 'test.sustenance-injury-state') == [0, 0, 0, 3600, 0]
+        s.action(2285, 11703)
+        s.command('undo')
+        s.action(2285, 11705)
+        assert last(s, 'test.sustenance-injury-state') == [0, 0, 0, 3600, 0]
+        for code in (11703, 11703, 11705):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-injury-state') == [1, 1, 1, 3600, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (11703, 11701, 11707, 11707, 11705):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-injury-state') == [2, 2, 2, 7200, 0]
     finally:
         s.close()
