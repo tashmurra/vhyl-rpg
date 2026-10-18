@@ -95,6 +95,7 @@ rpgLiteCanAct(profile, doNothing)
 {
     if (profile.dead || profile.unconscious || profile.mortal) return nil;
     if (doNothing) return true;
+    if (profile.exhaustionBlocksAction()) return nil;
     if (profile.fp() <= 0)
     {
         local check = rpgLiteAttributeCheck(profile, rpgWill, 'effort', 0);
@@ -258,6 +259,7 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
 rpgLiteHealthTime(profile, seconds)
 {
     if (profile.dead) return nil;
+    profile.afterFatigueRecovery();
     if (profile.fatigueCollapse && profile.fp() > 0 && !profile.mortal)
     { profile.unconscious = nil; profile.fatigueCollapse = nil; }
     if (profile.fearSeconds > 0)
@@ -339,6 +341,8 @@ modify RpgLiteProfile
     validateClimateAdvance() { return nil; }
     validateSuffocation() { return nil; }
     validateBreathStart() { return nil; }
+    afterFatigueRecovery() { return nil; }
+    exhaustionBlocksAction() { return nil; }
 ;
 
 /** Authored poison or disease parameters: resistance, delay, cycle, damage and recovery modifier. */

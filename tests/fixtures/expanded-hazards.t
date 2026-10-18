@@ -446,5 +446,36 @@ act(verb,args)
     {
         event('test.low-fatigue-value'); eventValue(rpgExpandedLowFatigueValue(args[1],args[2],args[3])); return nil;
     }
+    if (verb == 1950)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.fatigue = 10;
+        if (args[2] != 'none') { local trait = new RpgLiteTrait(); trait.id = args[2]; patient.traits = [trait]; }
+        local effort = new RpgExpandedEffort(); effort.id = 'open-door'; effort.profile = patient; effort.evidence = 'Attempt to open a door';
+        rpgRandom.seed(args[1]); local time = rpgLedger.seconds; effort.assess();
+        event('test.effort-preview'); eventValue(patient.fatigue); eventValue(patient.exhaustionCollapsed ? 1 : 0);
+        eventValue(patient.cardiacHistory.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds - time);
+        local value = effort.apply(); local repeat = effort.apply(); patient.validateFeatures();
+        event('test.effort-owned'); eventValue(value.allowed ? 1 : 0); eventValue(value.incapacitated ? 1 : 0);
+        eventValue(value.unconscious ? 1 : 0); eventValue(value.cardiacTrigger ? 1 : 0); eventValue(patient.fatigue);
+        eventValue(patient.unconscious ? 1 : 0); eventValue(patient.exhaustionCollapsed ? 1 : 0);
+        eventValue(patient.cardiacArrest == nil ? 0 : 1); eventValue(patient.cardiacHistory.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds - time); eventValue(repeat.status); return nil;
+    }
+    if (verb == 1951)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.fatigue = 10;
+        local effort = new RpgExpandedEffort(); effort.id = 'first'; effort.profile = patient; effort.evidence = 'First effort';
+        rpgRandom.seed(9); effort.apply(); local before = rpgRandom.draws; local legacy = rpgLiteCanAct(patient,nil);
+        local second = new RpgExpandedEffort(); second.id = 'second'; second.profile = patient; second.evidence = 'Second effort';
+        local blocked = second.apply();
+        event('test.effort-collapse'); eventValue(legacy ? 1 : 0); eventValue(blocked.allowed ? 1 : 0);
+        eventValue(blocked.reason); eventValue(patient.unconscious ? 1 : 0); eventValue(rpgRandom.draws - before);
+        rpgLiteRest(patient,600,true,true,nil,true); effort.apply();
+        local recovered = new RpgExpandedEffort(); recovered.id = 'third'; recovered.profile = patient; recovered.evidence = 'Recovered effort';
+        local value = recovered.apply(); patient.validateFeatures();
+        event('test.effort-recovery'); eventValue(patient.fatigue); eventValue(patient.exhaustionCollapsed ? 1 : 0);
+        eventValue(patient.unconscious ? 1 : 0); eventValue(value.allowed ? 1 : 0);
+        eventValue(patient.effortHistory.length()); eventValue(rpgRandom.draws); return nil;
+    }
     return vhylAct(verb,args);
 }

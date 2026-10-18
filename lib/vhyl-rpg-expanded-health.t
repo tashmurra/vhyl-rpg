@@ -1568,7 +1568,7 @@ class RpgExpandedCardiacArrest: object
             || !holds(self.profile.cardiacHistory,self)) rpgExpandedReject('cardiac-binding');
         return nil;
     }
-    start()
+    assessOnset()
     {
         local value = new RpgExpandedCardiacResult();
         if (self.startedAt != nil)
@@ -1591,6 +1591,14 @@ class RpgExpandedCardiacArrest: object
         {
             value.fatigueAdded = 2 * self.profile.maxEnergy - self.profile.fatigue;
             value.deadline = rpgLedger.seconds + self.profile.ht * 20;
+        }
+        value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assessOnset(); if (value.status != 'ready') return value;
+        if (!value.prevented)
+        {
             self.profile.fatigue = 2 * self.profile.maxEnergy;
             self.profile.unconscious = true; self.profile.fatigueCollapse = true;
             self.profile.cardiacArrest = self;
@@ -1815,3 +1823,123 @@ rpgExpandedLowFatigueValue(value, remaining, capacity)
     rpgInteger(value,0,100000); rpgInteger(capacity,1,1000); rpgInteger(remaining,-capacity,capacity);
     return remaining * 3 < capacity ? (value + 1) / 2 : value;
 }
+
+modify RpgExpandedProfile
+    exhaustionCollapsed = nil
+    effortHistory = []
+    afterFatigueRecovery()
+    {
+        inherited(); if (self.fp() > 0) self.exhaustionCollapsed = nil; return nil;
+    }
+    exhaustionBlocksAction() { return inherited() || self.exhaustionCollapsed && self.fp() <= 0; }
+;
+
+class RpgExpandedEffortResult: RpgExpandedExhaustionOutcome
+    willContext = nil
+    healthContext = nil
+    cardiac = nil
+    requiresCheck = nil
+;
+
+/** One permission request for an authored action; the action owns time and costs. */
+class RpgExpandedEffort: object
+    id = nil
+    profile = nil
+    purpose = 'action'
+    evidence = nil
+    result = nil
+    completedAt = nil
+    boundId = nil
+    boundProfile = nil
+    boundPurpose = nil
+    boundEvidence = nil
+    assess()
+    {
+        local value = new RpgExpandedEffortResult();
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('effort-profile');
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.profile != self.boundProfile || self.purpose != self.boundPurpose
+                || self.evidence != self.boundEvidence || !holds(self.profile.effortHistory,self)) rpgExpandedReject('effort-binding');
+            value.status = 'reused'; value.allowed = self.result.allowed; value.incapacitated = self.result.incapacitated;
+            value.unconscious = self.result.unconscious; value.cardiacTrigger = self.result.cardiacTrigger;
+            value.check = self.result.check; value.healthCheck = self.result.healthCheck; value.cardiac = self.result.cardiac;
+            value.reason = self.result.reason; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('effort-id');
+        if (!holds(['action','talk','rest','do-nothing'],self.purpose)) rpgExpandedReject('exhaustion-purpose');
+        if (self.evidence == nil || self.evidence == '') { value.reason = 'effort-action-evidence'; return value; }
+        foreach (local prior in self.profile.effortHistory)
+            if (prior.id == self.id) rpgExpandedReject('effort-duplicate');
+        if (self.profile.dead || self.profile.cardiacArrest != nil)
+        { value.reason = 'effort-condition-unavailable'; return value; }
+        if (holds(['action','talk'],self.purpose) && (self.profile.unconscious || self.profile.mortal
+            || self.profile.stunned || self.profile.mentalStun))
+        { value.reason = 'effort-other-incapacity'; return value; }
+        rpgInteger(self.profile.maxEnergy,1,1000); rpgInteger(self.profile.fp(),-self.profile.maxEnergy,self.profile.maxEnergy);
+        value.requiresCheck = self.purpose == 'action' && self.profile.fp() <= 0
+            && self.profile.fp() > -self.profile.maxEnergy && !self.profile.exhaustionCollapsed;
+        if (value.requiresCheck)
+        {
+            value.willContext = new RpgLiteContext(); value.willContext.attribute = rpgWill; value.willContext.kind = 'effort';
+            value.healthContext = new RpgLiteContext(); value.healthContext.attribute = rpgHT; value.healthContext.kind = 'cardiac-resistance';
+            local will = rpgLiteScore(self.profile,value.willContext); local health = rpgLiteScore(self.profile,value.healthContext);
+            if (will == nil || will < 3 || health == nil || health < 3)
+            { value.reason = 'effort-score-unavailable'; return value; }
+            value.cardiac = new RpgExpandedCardiacArrest(); value.cardiac.id = 'effort-' + self.id;
+            value.cardiac.profile = self.profile; value.cardiac.evidence = 'Critical exhausted effort followed by failed health resistance';
+            local cardiac = value.cardiac.assessOnset();
+            if (cardiac.status != 'ready') { value.reason = cardiac.reason; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local willScore = 0; local willRoll = 0; local healthScore = 0; local healthRoll = 0;
+        if (value.requiresCheck)
+        {
+            value.check = rpgLiteCheck(self.profile,value.willContext); willScore = value.check.score; willRoll = value.check.roll;
+            if (value.check.critical == 'failure')
+            {
+                value.healthCheck = rpgLiteCheck(self.profile,value.healthContext);
+                healthScore = value.healthCheck.score; healthRoll = value.healthCheck.roll;
+            }
+        }
+        local outcome = rpgExpandedExhaustionOutcome(self.profile.fp(),self.profile.maxEnergy,
+            self.profile.exhaustionCollapsed,self.purpose,willScore,willRoll,healthScore,healthRoll);
+        value.allowed = outcome.allowed; value.incapacitated = outcome.incapacitated; value.unconscious = outcome.unconscious;
+        value.cardiacTrigger = outcome.cardiacTrigger; value.reason = outcome.reason;
+        if (self.profile.fp() > 0) self.profile.exhaustionCollapsed = nil;
+        else if (value.incapacitated) self.profile.exhaustionCollapsed = true;
+        if (value.unconscious) { self.profile.unconscious = true; self.profile.fatigueCollapse = true; }
+        if (value.cardiacTrigger)
+        {
+            local cardiac = value.cardiac.start();
+            if (cardiac.status != 'resolved') rpgExpandedReject('effort-cardiac-commit-changed');
+            value.unconscious = self.profile.unconscious;
+        }
+        else value.cardiac = nil;
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundPurpose = self.purpose; self.boundEvidence = self.evidence;
+        self.completedAt = rpgLedger.seconds; self.profile.effortHistory = self.profile.effortHistory + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local effort in self.effortHistory)
+        {
+            if (effort == nil || !effort.ofKind(RpgExpandedEffort) || effort.profile != self || effort.result == nil
+                || holds(ids,effort.id) || effort.completedAt == nil || effort.completedAt > rpgLedger.seconds
+                || effort.assess().status != 'reused') rpgExpandedReject('effort-history');
+            if (effort.result.cardiac != nil && (!effort.result.cardiacTrigger
+                || effort.result.cardiac.profile != self || !holds(self.cardiacHistory,effort.result.cardiac)))
+                rpgExpandedReject('effort-cardiac-history');
+            ids = ids + [effort.id];
+        }
+        return nil;
+    }
+;

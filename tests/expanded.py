@@ -896,6 +896,24 @@ def test_swimming_assessments(s):
         assert last(s, 'test.lifesaving') == expected
 
 
+def test_owned_effort(s):
+    for seed, trait, expected in [
+            (1,'none',[1,0,0,0,10,0,0,0,0,3,0,'reused']),
+            (9,'none',[0,1,0,0,10,0,1,0,0,3,0,'reused']),
+            (5,'none',[0,1,0,0,10,0,1,0,0,6,0,'reused']),
+            (11,'none',[0,1,1,1,20,1,1,1,1,6,0,'reused']),
+            (11,'no-vitals',[0,1,0,1,10,0,1,0,1,6,0,'reused'])]:
+        s.action(1950, seed, trait)
+        assert last(s, 'test.effort-preview') == [10,0,0,0,0]
+        assert last(s, 'test.effort-owned') == expected
+
+
+def test_effort_recovery(s):
+    s.action(1951)
+    assert last(s, 'test.effort-collapse') == [0,0,'exhaustion-collapse',0,0]
+    assert last(s, 'test.effort-recovery') == [9,0,0,1,3,3]
+
+
 def test_exhaustion_assessments(s):
     for remaining, capacity, collapsed, purpose, will, roll, health, health_roll, expected in [
             (1,10,0,'action',0,0,0,0,[1,0,0,0,None,0,0,0,0]),
@@ -4145,6 +4163,8 @@ def test(build):
     fresh(Session,hazards,test_cardiac_condition)
     fresh(Session,hazards,test_cardiac_resuscitation)
     fresh(Session,hazards,test_exhaustion_assessments)
+    fresh(Session,hazards,test_owned_effort)
+    fresh(Session,hazards,test_effort_recovery)
     cardiac_transactions = build.build('expanded-cardiac-transactions',ROOT / 'tests/fixtures/expanded-cardiac-transactions.t')
     fresh(Session,cardiac_transactions,test_cardiac_transactions)
     fresh(Session,cardiac_transactions,test_cardiac_deadline_transactions)

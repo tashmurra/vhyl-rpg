@@ -1030,13 +1030,47 @@ ST-based derived quantities. This numeric helper grants no permission to act;
 a deeply exhausted actor can have a computed movement value while unable to use it.
 
 Both helpers are pure. They do not mutate collapse, resolve a cardiac trigger,
-spend time or draw randomness. Existing Lite action dispatch remains unchanged.
-A complete expanded action path still needs owned effort attempts, recovery of
-collapse state, cardiac commitment and parser/structured/dialogue integration.
-Consequently these assessments are partial source coverage, not an implemented
-replacement for `rpgLiteCanAct`.
+spend time or draw randomness. The owned request below commits those outcomes.
+Parser/structured/dialogue dispatch integration remains incomplete; these helpers
+alone are not a replacement for `rpgLiteCanAct`.
 
 `test_exhaustion_assessments` records positive-fatigue exemptions, ordinary and
 critical effort failures, HT resistance, high-score automatic failure, prevention
 of repeated efforts during collapse, negative-limit unconsciousness and exact
 one-third rounding boundaries. Fixtures remain unrun while checks are paused.
+
+
+## Owned effort permissions
+
+Create `RpgExpandedEffort` with a unique action `id`, `profile`, `purpose` and
+`evidence` identifying the actual attempted action. The four purposes are those
+of the pure assessment. Assess the action's own legality and costs before calling
+`apply()` within the enclosing action transaction. An allowed result permits that
+one action; it does not execute it, advance time or spend its costs. Reusing the
+same request returns the historical result without another roll. A different
+action requires a new request; a historical permission is not a reusable permit.
+
+`assess()` prepares the Will check and possible HT/cardiac branch without consuming
+randomness. Cardiac onset now exposes `assessOnset()` so all possible outcomes can
+be checked before the effort roll. Ordinary failure sets `exhaustionCollapsed`
+while leaving consciousness unchanged. Critical failure makes the HT check; failure
+commits the owned cardiac condition, including its anatomy-immunity decision.
+Immunity prevents the cardiac consequences but does not negate the failed effort's
+incapacity. Subsequent efforts during that collapse resolve without another roll.
+
+The existing `rpgLiteCanAct` gate now calls the default-inert
+`exhaustionBlocksAction()` hook after its existing incapacity and Do Nothing checks.
+The expanded implementation prevents the old gate from rerolling a committed
+collapse. Otherwise the old gate retains its previous behavior. Authors using an
+owned expanded effort must not also invoke the Lite effort check for that action;
+automatic replacement across all action adapters remains incomplete.
+
+`afterFatigueRecovery()` is called by the shared health-time procedure and clears
+expanded collapse once fatigue becomes positive. External fatigue-restoration
+procedures must use that hook after updating the shared balance. Historical failed
+requests do not reapply collapse after recovery. Other incapacities remain separate.
+`test_owned_effort` covers success, conscious collapse, HT resistance, cardiac
+onset, immunity, preview purity and repeat protection. `test_effort_recovery`
+covers the legacy guard, no reroll during collapse, ordinary rest recovery and
+replaying an old failure. Fixtures remain unrun while checks are paused; transaction,
+save-continuation and broad action-dispatch validation remain outstanding.
