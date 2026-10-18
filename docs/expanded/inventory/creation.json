@@ -1700,8 +1700,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Implement price and effects with explicit audience/scene applicability; narrative complications need a specific authored contract.",
-      "tests": ["tests/expanded.py::test_styling"],
-      "validation_note": "Fixed cost, active trait lookup, typed template factories and owned concrete advance preparation are implemented. Reaction applicability composes with appearance contexts. Live clothing inventory and wear-state adapters remain pending; fixtures unrun."
+      "tests": ["tests/expanded.py::test_styling", "tests/expanded.py::test_styling_equipment"],
+      "validation_note": "Fixed cost, active trait lookup, typed template factories and owned concrete advance preparation are implemented. Reaction applicability composes with appearance contexts. An optional inventory outfit checks live ownership, accessibility and worn state, with bound-list and persistence fixtures. Clothing suitability and advance preparation remain explicit authored facts; fixtures unrun."
     },
     {
       "id": "physical-lookalike",

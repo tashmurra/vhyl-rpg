@@ -3826,8 +3826,9 @@ class RpgExpandedStylingPreparation: object
     boundPreparedAt = nil
     definition()
     {
-        return [self.id,self.designer,self.wearer,self.occasion,self.outfit,self.description,
+        local facts = [self.id,self.designer,self.wearer,self.occasion,self.outfit,self.description,
             self.plannedInAdvance,self.approved,self.evidence];
+        return self.outfit != nil && self.outfit.ofKind(RpgExpandedStylingOutfit) ? facts + self.outfit.definition() : facts;
     }
     assess()
     {
@@ -3840,6 +3841,7 @@ class RpgExpandedStylingPreparation: object
             if (!holds(self.wearer.stylingPreparations,self) || self.preparedAt != self.boundPreparedAt
                 || self.preparedAt > rpgLedger.seconds) rpgExpandedReject('styling-preparation-history');
             local facts = self.definition();
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('styling-preparation-binding');
             for (local index = 1; index <= facts.length(); index += 1)
                 if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('styling-preparation-binding');
             value.status = 'reused'; return value;
@@ -3847,6 +3849,8 @@ class RpgExpandedStylingPreparation: object
         if (!self.approved || !self.plannedInAdvance || self.description == nil || self.description == ''
             || self.evidence == nil || self.evidence == '') { value.reason = 'styling-preparation-facts'; return value; }
         if (!self.designer.stylingActive()) { value.reason = 'styling-trait-required'; return value; }
+        if (self.outfit.ofKind(RpgExpandedStylingOutfit))
+        { value.reason = self.outfit.preparationReason(self.wearer); if (value.reason != nil) return value; }
         foreach (local prior in self.wearer.stylingPreparations)
             if (prior.id == self.id || prior.occasion == self.occasion && prior.outfit == self.outfit)
                 rpgExpandedReject('styling-preparation-duplicate');
@@ -3888,7 +3892,9 @@ modify RpgLiteSocialContext
             rpgExpandedReject('styling-reaction-owner');
         if (preparation.assess().status != 'reused') rpgExpandedReject('styling-reaction-unprepared');
         if (self.stylingEvidence == nil || self.stylingEvidence == '') rpgExpandedReject('styling-reaction-evidence');
-        return amount + (self.sees && self.stylingWorn && self.stylingSocialSituation
+        local worn = preparation.outfit.ofKind(RpgExpandedStylingOutfit)
+            ? preparation.outfit.wornBy(profile) : self.stylingWorn;
+        return amount + (self.sees && worn && self.stylingSocialSituation
             && self.stylingOccasion == preparation.occasion && self.stylingOutfit == preparation.outfit ? 1 : 0);
     }
 ;

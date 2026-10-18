@@ -9473,6 +9473,8 @@ def test(build):
     test_appearance_template(Session,appearance_template,build.out)
     styling = build.build('expanded-styling',ROOT / 'tests/fixtures/expanded-styling.t')
     test_styling(Session,styling,build.out)
+    styling_equipment = build.build('expanded-styling-equipment',ROOT / 'tests/fixtures/expanded-styling-equipment.t')
+    test_styling_equipment(Session,styling_equipment,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25545,3 +25547,38 @@ def test_styling(Session, bundle, out):
         assert last(s,'test.styling-preview') == ['blocked','styling-trait-required',0]
     finally:
         s.close()
+
+
+def test_styling_equipment(Session, bundle, out):
+    """Prepared clothing uses live shared inventory, storage and worn state; unrun."""
+    path = out / 'styling-equipment.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,25102); s.action(1680,25007)
+        assert last(s,'test.styling-preview') == ['blocked','styling-outfit-inaccessible',0]
+        for code in (25103,25000,25002):
+            s.action(1680,code)
+        assert last(s,'test.styling') == [4,1,0,0]
+        s.action(1680,25100); s.action(1680,25002)
+        assert last(s,'test.styling') == [5,1,0,0]
+        s.action(1680,25101); s.command('undo'); s.action(1680,25002)
+        assert last(s,'test.styling') == [5,1,0,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,25002)
+        assert last(s,'test.styling') == [5,1,0,0]
+        s.action(1680,25105)
+        assert last(s,'test.styling-equipment-error') == ['styling-preparation-binding']
+    finally:
+        s.close()
+    for change in (25101,25102,25104):
+        s = Session(bundle)
+        try:
+            for code in (25000,25100,change,25002):
+                s.action(1680,code)
+            assert last(s,'test.styling') == [4,1,0,0]
+        finally:
+            s.close()

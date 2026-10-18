@@ -1127,3 +1127,24 @@ consume it, equip it or establish permission to carry an excessive load.
 `test_begging_gift` specifies unresolved/ordinary-result rejection, duplicate
 prevention, rollback, undo, save continuation and rejection of altered critical
 flags. Fixtures remain unrun.
+
+### Styling with inventory clothing
+
+`RpgExpandedInventoryOutfit` links styling to the existing equipment ledger.
+Supply an `id`, an expanded `owner` and a nonempty `items` list of distinct
+`RpgLiteItem` instances. Use it as both the preparation's `outfit` and the social
+context's `stylingOutfit`. Preparation requires the wearer to own every item
+uniquely and have access to it. It need not already be worn while being prepared.
+
+At reaction time, every item must still be owned, accessible, present in positive
+quantity and marked `worn`. Missing, stored, transferred or removed pieces disable
+the bonus. For this adapter the context's authored `stylingWorn` flag is ignored;
+it cannot override the equipment state. Visibility, social context and matching
+occasion remain required. The preparation binds the outfit's identity, owner and
+item list. Changing worn state is allowed; rewriting the prepared list rejects
+receipt validation. No second inventory is maintained and no item is consumed.
+
+The author still identifies which pieces constitute the outfit and attests that
+styling occurred in advance. This is not an automatic clothing suitability or
+fashion judgment. `test_styling_equipment` specifies storage preflight, wear state,
+transfer, undo, save continuation and bound-list rejection. Fixtures remain unrun.

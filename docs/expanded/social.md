@@ -1737,8 +1737,9 @@ appearance contexts and does not stack multiple styling records.
 
 Preparation and reaction applicability are separate. A trait purchase alone does
 not add the bonus. The preparation's description and identities are bound against
-later rewriting. These fields are explicit author attestations; live clothing
-inventory, wear-state checks and any authored preparation time remain pending.
+later rewriting. For a plain outfit identity, these fields are explicit author attestations.
+Use the equipment library's `RpgExpandedInventoryOutfit` for live ownership,
+accessibility and worn-state checks. Preparation time remains authored.
 `test_styling` specifies preparation purity, replay, rollback, undo, save
 continuation, changed facts, visibility and occasion applicability. Fixtures are
 unrun.

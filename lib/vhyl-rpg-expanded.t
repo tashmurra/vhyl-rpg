@@ -987,3 +987,10 @@ modify RpgLiteSocialContext
 modify RpgExpandedProfile
     stylingActive() { return nil; }
 ;
+
+/** Optional equipment-backed outfit contract, independent of social includes. */
+class RpgExpandedStylingOutfit: object
+    definition() { rpgExpandedReject('styling-outfit-equipment-required'); }
+    preparationReason(wearer) { return 'styling-outfit-equipment-required'; }
+    wornBy(wearer) { return nil; }
+;

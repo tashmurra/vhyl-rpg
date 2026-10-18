@@ -2025,3 +2025,48 @@ class RpgExpandedBeggingGift: RpgExpandedTradeTransfer
         return value;
     }
 ;
+
+/** Named clothing pieces retain the ordinary inventory and worn-state ledgers. */
+class RpgExpandedInventoryOutfit: RpgExpandedStylingOutfit
+    id = nil
+    owner = nil
+    items = []
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.owner == nil || !self.owner.ofKind(RpgExpandedProfile)
+            || self.items.length() == 0) rpgExpandedReject('styling-outfit-definition');
+        local seen = [];
+        foreach (local item in self.items)
+        {
+            if (item == nil || !item.ofKind(RpgLiteItem) || holds(seen,item)) rpgExpandedReject('styling-outfit-items');
+            seen = seen + [item];
+        }
+        return [self.id,self.owner,self.items.length()] + self.items;
+    }
+    preparationReason(wearer)
+    {
+        self.definition();
+        if (wearer != self.owner) rpgExpandedReject('styling-outfit-owner');
+        foreach (local item in self.items)
+        {
+            local owners = 0;
+            for (local profile = firstObj(RpgProfile); profile != nil; profile = nextObj(profile,RpgProfile))
+                if (profile.ofKind(RpgLiteProfile))
+                    foreach (local entry in profile.equipment)
+                        if (entry == item)
+                        {
+                            if (profile != wearer) return 'styling-outfit-ownership';
+                            owners += 1;
+                        }
+            if (owners != 1) return 'styling-outfit-ownership';
+            if (!item.usableBy(wearer) || item.quantity < 1) return 'styling-outfit-inaccessible';
+        }
+        return nil;
+    }
+    wornBy(wearer)
+    {
+        if (self.preparationReason(wearer) != nil) return nil;
+        foreach (local item in self.items) if (!item.worn) return nil;
+        return true;
+    }
+;
