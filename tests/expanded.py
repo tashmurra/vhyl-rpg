@@ -183,6 +183,21 @@ def test_technology_modifiers(s):
     assert state(s) == before, 'technology assessment or impossible check consumed resources'
 
 
+def test_optional_specialties(s):
+    before = state(s)
+    # B170: hard general skill, average optional specialty; propagated -5 becomes -7.
+    for narrow_points, general_points, expected in [
+            (4, 0, [13, 11, 6, None, 1]), (8, 0, [14, 12, 7, None, 1]),
+            (4, 1, [13, 11, 6, None, 1]), (4, 2, [13, 12, 7, None, 1])]:
+        s.action(1125, narrow_points, general_points)
+        assert last(s, 'test.optional-specialty') == expected
+    s.action(1126)
+    assert last(s, 'test.optional-invalid') == [
+        'optional-specialty-approval', 'optional-specialty-definition',
+        'optional-specialty-definition', 'skill-prerequisite', 'duplicate-optional-specialty']
+    assert state(s) == before, 'optional specialty assessment mutated state'
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -260,7 +275,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     test_familiarity_persistence(Session,bundle,build.out)

@@ -10,7 +10,10 @@
 - `rpgExpandedSkillScore` — B173; tested in `tests/expanded.py::test_numbers`.
 - `RpgExpandedTechnique` — B230; tested in `tests/expanded.py::test_numbers`.
 
-The module provides only these interfaces. Its full catalogue and remaining chapter procedures are not implemented. See the integration guide for restrictions.
+Additional interfaces are described below: learning requirements, equipment
+familiarity, technology modifiers and optional specialties. Their new native checks
+are authored but unrun. The full catalogue and remaining chapter procedures are
+not implemented. See the integration guide for restrictions.
 
 The [skill procedure inventory](inventory/skills-procedures.json) records individual
 cost-table cells, default rules, familiarity requirements and technique definitions.
@@ -268,3 +271,35 @@ higher-level physical skills, cognitive learning restrictions, programmed
 capabilities and the exceptions for improved or obsolete familiar equipment still
 need implementation. Native expected-value table checks and combined-context cases
 are authored in `tests/expanded.py::test_technology_modifiers` but remain unrun.
+
+## Optional specialties
+
+Create a definition with
+`rpgExpandedOptionalSpecialty(generalSkill, id, specialty, approved)` and give it
+its own training slot. The parent must be an IQ-based expanded skill of Average,
+Hard or Very Hard difficulty. The author approves that the narrower field fits the
+skill and technology level. The definition uses one lower difficulty, the same
+technology level, and the same prerequisite object. It does not spend points.
+The parent may represent a required specialty already; the resulting optional
+specialty remains tied to that exact parent definition. Nested optional specialties
+and wildcard parents are rejected.
+
+The general skill defaults to a purchased optional specialty at −2. If another
+skill explicitly defaults to the general skill, it can instead default to the
+purchased optional specialty at that penalty minus another two. These are explicit
+B170 edges, not permission for arbitrary double defaults. For example, a skill
+with a −5 default from a general field can use its optional specialty at −7.
+`defaultFrom` can also select the optional specialty when buying up the general
+skill. A profile cannot contain two investments for the same parent and optional
+specialty identity, even if the definitions have different IDs.
+
+The factory does not infer unprinted defaults into the optional specialty, or
+reciprocal defaults between sibling specialties. Author explicit catalogue edges
+only when supported by the selected procedure. Prerequisite exceptions require
+separate implementation; the current factory preserves them unchanged. Definition
+metadata remains immutable by author convention after character creation.
+
+`tests/expanded.py::test_optional_specialties` contains independent rating,
+propagated-default and paid-default cases, invalid-parent and approval cases,
+prerequisite preservation, duplicate identity and preview purity checks. They
+remain unrun while validation is paused.

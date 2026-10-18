@@ -6,6 +6,8 @@ class RpgExpandedSkill: RpgLiteSkill
     defaults = []
     wildcard = nil
     prerequisite = nil
+    optionalParent = nil
+    optionalApproved = nil
     maximumDifficulty() { return 3; }
 ;
 
@@ -53,6 +55,7 @@ rpgExpandedSkillLevel(attribute, difficulty, points, wildcard)
 rpgExpandedPaidSkill(profile, skill, visited)
 {
     if (holds(visited, skill)) rpgExpandedReject('cyclic-paid-default');
+    rpgExpandedValidateSkill(skill);
     local training = rpgExpandedTrainingFor(profile, skill);
     if (training == nil || training.points == 0) return nil;
     local wildcard = skill.ofKind(RpgExpandedSkill) && skill.wildcard;
@@ -62,8 +65,8 @@ rpgExpandedPaidSkill(profile, skill, visited)
     {
         if (!skill.ofKind(RpgExpandedSkill) || wildcard) rpgExpandedReject('invalid-paid-default');
         local penalty = nil;
-        foreach (local pair in skill.defaults)
-            if (pair[1] == training.defaultFrom) penalty = pair[2];
+        foreach (local pair in rpgExpandedDefaultEdges(profile, skill))
+            if (pair[1] == training.defaultFrom && (penalty == nil || pair[2] > penalty)) penalty = pair[2];
         if (penalty == nil) rpgExpandedReject('missing-paid-default');
         local source = rpgExpandedPaidSkill(profile, training.defaultFrom, visited + [skill]);
         if (source == nil) rpgExpandedReject('untrained-paid-default');
@@ -76,6 +79,7 @@ rpgExpandedPaidSkill(profile, skill, visited)
 rpgExpandedSkillScore(profile, skill)
 {
     rpgExpandedValidate(profile);
+    rpgExpandedValidateSkill(skill);
     if (skill.ofKind(RpgExpandedSkill) && skill.wildcard)
     {
         if (!profile.rules.wildcardSkills) rpgExpandedReject('wildcard-disabled');
@@ -93,7 +97,7 @@ rpgExpandedSkillScore(profile, skill)
         if (score == nil || candidate > score) score = candidate;
     }
     if (skill.ofKind(RpgExpandedSkill))
-        foreach (local pair in skill.defaults)
+        foreach (local pair in rpgExpandedDefaultEdges(profile, skill))
         {
             if (pair.length() != 2 || pair[1] == skill) rpgExpandedReject('invalid-skill-default');
             rpgInteger(pair[2], -100, 0);
@@ -230,6 +234,18 @@ modify RpgExpandedProfile
     validateFeatures()
     {
         inherited();
+        local specialties = [];
+        foreach (local training in self.skills)
+        {
+            local skill = training.skill; rpgExpandedValidateSkill(skill);
+            if (skill.ofKind(RpgExpandedSkill) && skill.optionalParent != nil)
+            {
+                foreach (local other in specialties)
+                    if (other.optionalParent == skill.optionalParent && other.specialty == skill.specialty)
+                        rpgExpandedReject('duplicate-optional-specialty');
+                specialties = specialties + [skill];
+            }
+        }
         foreach (local entry in self.familiarities)
         {
             if (!entry.ofKind(RpgExpandedFamiliarity) || entry.owner != self)
@@ -354,4 +370,62 @@ rpgExpandedTechnologyModifier(skillTL, equipmentTL, cognitive)
     if (difference > 0) return -5 * difference;
     if (difference == 0) return 0;
     return 2 * difference + 1;
+}
+
+/** Create an author-approved optional specialty, B169-B170. generalSkill may
+ * already represent a required specialty, but cannot itself be optional. */
+rpgExpandedOptionalSpecialty(generalSkill, id, specialty, approved)
+{
+    local skill = new RpgExpandedSkill();
+    skill.optionalParent = generalSkill; skill.optionalApproved = approved;
+    skill.id = id; skill.specialty = specialty;
+    if (generalSkill == nil || !generalSkill.ofKind(RpgExpandedSkill))
+        rpgExpandedReject('optional-specialty-parent');
+    skill.attribute = generalSkill.attribute; skill.difficulty = generalSkill.difficulty - 1;
+    skill.techLevel = generalSkill.techLevel; skill.prerequisite = generalSkill.prerequisite;
+    rpgExpandedValidateSkill(skill); return skill;
+}
+
+/** Validate the mechanical identity without evaluating skill scores. */
+rpgExpandedValidateSkill(skill)
+{
+    if (skill == nil || !skill.ofKind(RpgSkill)) rpgExpandedReject('invalid-skill');
+    if (!skill.ofKind(RpgExpandedSkill) || skill.optionalParent == nil) return nil;
+    local parent = skill.optionalParent;
+    if (!parent.ofKind(RpgExpandedSkill) || parent.optionalParent != nil || parent.wildcard)
+        rpgExpandedReject('optional-specialty-parent');
+    if (!skill.optionalApproved) rpgExpandedReject('optional-specialty-approval');
+    if (parent.attribute != rpgIQ || parent.difficulty < 1 || parent.difficulty > 3
+        || skill.attribute != rpgIQ || skill.difficulty != parent.difficulty - 1
+        || skill.techLevel != parent.techLevel || skill.wildcard)
+        rpgExpandedReject('optional-specialty-definition');
+    if (skill.id == nil || skill.specialty == nil || skill.specialty == '')
+        rpgExpandedReject('optional-specialty-identity');
+    if (skill.prerequisite != parent.prerequisite)
+        rpgExpandedReject('optional-specialty-prerequisite');
+    return nil;
+}
+
+/** Expand the explicit B170 optional-specialty edges. This does not traverse
+ * untrained defaults: each generated edge still requires purchased training. */
+rpgExpandedDefaultEdges(profile, skill)
+{
+    local edges = skill.defaults;
+    foreach (local pair in edges)
+    {
+        if (pair.length() != 2 || pair[1] == skill) rpgExpandedReject('invalid-skill-default');
+        rpgInteger(pair[2], -100, 0);
+    }
+    foreach (local training in profile.skills)
+    {
+        local candidate = training.skill;
+        rpgExpandedValidateSkill(candidate);
+        if (candidate.ofKind(RpgExpandedSkill) && candidate.optionalParent != nil && candidate != skill)
+        {
+            if (candidate.optionalParent == skill) edges = edges + [[candidate,-2]];
+            foreach (local pair in skill.defaults)
+                if (pair[1] == candidate.optionalParent) edges = edges + [[candidate,pair[2]-2]];
+        }
+    }
+    return edges;
 }

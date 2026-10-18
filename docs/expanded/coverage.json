@@ -344,6 +344,18 @@
         "tests/expanded.py::test_technology_modifiers"
       ],
       "validation_note": "Use table and contextual combination implemented; native table checks authored but unrun. Learning restrictions and catalogue wiring remain pending."
+    },
+    {
+      "id": "optional-specialty-defaults",
+      "module": "skills",
+      "pages": "B169-B170",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedOptionalSpecialty",
+      "tests": [
+        "tests/expanded.py::test_optional_specialties"
+      ],
+      "validation_note": "Approved narrowed definitions, reduced difficulty and generated defaults implemented; new tests unrun. Catalogue-specific exceptions and wiring remain pending."
     }
   ],
   "detailed_inventories": [

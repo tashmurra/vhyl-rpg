@@ -332,6 +332,47 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1125)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.iq = 12;
+        local general = new RpgExpandedSkill(); general.difficulty = 2;
+        local narrow = rpgExpandedOptionalSpecialty(general,'analysis-narrow','quantitative',true);
+        local related = new RpgExpandedSkill(); related.difficulty = 2; related.defaults = [[general,-5]];
+        local distant = new RpgExpandedSkill(); distant.defaults = [[related,-2]];
+        local nt = new RpgExpandedTraining(); nt.skill = narrow; nt.points = args[1];
+        local gt = new RpgExpandedTraining(); gt.skill = general; gt.points = args[2]; gt.defaultFrom = narrow;
+        p.skills = [nt,gt];
+        event('test.optional-specialty'); eventValue(p.skillScore(narrow));
+        eventValue(p.skillScore(general)); eventValue(p.skillScore(related));
+        eventValue(p.skillScore(distant)); eventValue(narrow.difficulty);
+        return nil;
+    }
+    if (verb == 1126)
+    {
+        local general = new RpgExpandedSkill(); general.difficulty = 2;
+        event('test.optional-invalid');
+        try { rpgExpandedOptionalSpecialty(general,'narrow','field',nil); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        general.attribute = rpgDX;
+        try { rpgExpandedOptionalSpecialty(general,'narrow','field',true); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        general.attribute = rpgIQ; general.difficulty = 0;
+        try { rpgExpandedOptionalSpecialty(general,'narrow','field',true); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        general.difficulty = 2;
+        local req = new RpgExpandedPrerequisite(); req.skill = new RpgExpandedSkill();
+        general.prerequisite = req;
+        local narrow = rpgExpandedOptionalSpecialty(general,'narrow','field',true);
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        eventValue(p.skillLearningReason(narrow));
+        local other = rpgExpandedOptionalSpecialty(general,'other','field',true);
+        local first = new RpgExpandedTraining(); first.skill = narrow;
+        local second = new RpgExpandedTraining(); second.skill = other;
+        p.skills = [first,second];
+        try { rpgExpandedValidate(p); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

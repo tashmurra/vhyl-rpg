@@ -305,9 +305,13 @@
       "pages": "B169-B170",
       "module": "skills",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate author approval, cognitive base and eligible difficulty; preserve prerequisites and lower difficulty by one category.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_optional_specialties"
+      ],
+      "existing_feature": "optional-specialty-defaults",
+      "validation_note": "Core construction and default mechanics authored; checks unrun and catalogue exceptions pending."
     },
     {
       "id": "skill-specialty-defaults",
