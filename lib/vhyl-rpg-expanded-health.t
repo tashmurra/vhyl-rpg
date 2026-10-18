@@ -5370,14 +5370,17 @@ class RpgExpandedCoughing: object
     expiresAt = nil
     boundDefinition = nil
     result = nil
+    history() { return self.profile.coughingHistory; }
+    remember() { self.profile.coughingHistory = self.profile.coughingHistory + [self]; }
+    receiptKind() { return 'coughing'; }
     definition() { return [self.id,self.profile,self.durationSeconds,self.approved,self.evidence]; }
     validateReceipt()
     {
         if (self.result == nil || self.startedAt == nil || self.expiresAt != self.startedAt + self.durationSeconds
-            || !holds(self.profile.coughingHistory,self)) rpgExpandedReject('coughing-history');
+            || !holds(self.history(),self)) rpgExpandedReject(self.receiptKind() + '-history');
         local current = self.definition();
         for (local index = 1; index <= current.length(); index += 1)
-            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('coughing-binding');
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject(self.receiptKind() + '-binding');
         return nil;
     }
     active()
@@ -5385,19 +5388,19 @@ class RpgExpandedCoughing: object
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
-            rpgExpandedReject('coughing-definition');
+            rpgExpandedReject(self.receiptKind() + '-definition');
         local value = new RpgExpandedResult();
         if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '')
-        { value.reason = 'coughing-cause-required'; return value; }
-        if (self.profile.dead) { value.reason = 'coughing-patient-dead'; return value; }
+        { value.reason = self.receiptKind() + '-cause-required'; return value; }
+        if (self.profile.dead) { value.reason = self.receiptKind() + '-patient-dead'; return value; }
         rpgInteger(self.durationSeconds,1,2147483647);
         rpgInteger(rpgLedger.seconds,0,2147483647 - self.durationSeconds);
-        foreach (local prior in self.profile.coughingHistory)
+        foreach (local prior in self.history())
         {
             prior.validateReceipt();
-            if (prior.id == self.id) rpgExpandedReject('coughing-duplicate');
-            if (prior.active()) { value.reason = 'coughing-overlap-unimplemented'; return value; }
+            if (prior.id == self.id) rpgExpandedReject(self.receiptKind() + '-duplicate');
+            if (prior.active()) { value.reason = self.receiptKind() + '-overlap-unimplemented'; return value; }
         }
         value.status = 'ready'; return value;
     }
@@ -5405,7 +5408,7 @@ class RpgExpandedCoughing: object
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         self.startedAt = rpgLedger.seconds; self.expiresAt = self.startedAt + self.durationSeconds;
-        self.boundDefinition = self.definition(); self.profile.coughingHistory = self.profile.coughingHistory + [self];
+        self.boundDefinition = self.definition(); self.remember();
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
@@ -5430,5 +5433,37 @@ modify RpgExpandedProfile
         if (attribute == rpgDX) value -= 3;
         else if (holds([rpgIQ,rpgPerception,rpgWill],attribute)) value -= 1;
         return value;
+    }
+;
+
+
+/** B124 sudden loss of sight. Finite duration is supplied by its resolved cause. */
+class RpgExpandedTemporaryBlindness: RpgExpandedCoughing
+    history() { return self.profile.temporaryBlindnessHistory; }
+    remember() { self.profile.temporaryBlindnessHistory = self.profile.temporaryBlindnessHistory + [self]; }
+    receiptKind() { return 'temporary-blindness'; }
+;
+modify RpgLiteContext
+    /* An author declares tasks that require actual vision, not merely perception. */
+    requiresVision = nil
+;
+modify RpgExpandedProfile
+    temporaryBlindnessHistory = []
+    temporarilyBlind()
+    {
+        local active = nil;
+        foreach (local episode in self.temporaryBlindnessHistory) if (episode.active()) active = true;
+        return active;
+    }
+    healthCheckReason(context)
+    {
+        if (self.temporarilyBlind() && (context.kind == 'vision' || context.requiresVision)) return 'temporary-blindness-no-vision';
+        return inherited(context);
+    }
+    validateCombatVision()
+    {
+        inherited();
+        if (self.temporarilyBlind()) rpgExpandedReject('temporary-blindness-combat-adapter-required');
+        return nil;
     }
 ;

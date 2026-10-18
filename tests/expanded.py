@@ -8948,6 +8948,8 @@ def test(build):
     test_poison_exposure(Session, poison_exposure, build.out)
     coughing = build.build('expanded-coughing', ROOT / 'tests/fixtures/expanded-coughing.t')
     test_coughing(Session, coughing, build.out)
+    temporary_blindness = build.build('expanded-temporary-blindness', ROOT / 'tests/fixtures/expanded-temporary-blindness.t')
+    test_temporary_blindness(Session, temporary_blindness, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -11920,5 +11922,39 @@ def test_coughing(Session, bundle, out):
         assert state(s) == clear[:-2] + [60, 0]
         s.action(2285, 416)
         assert state(s) == active[:-2] + [60, 0]
+    finally:
+        s.close()
+
+
+def test_temporary_blindness(Session, bundle, out):
+    def state(s):
+        s.action(2285, 433)
+        return last(s, 'test.temporary-blindness')
+    clear = [0, 10, 10, 10, 10, 0, 0, 0]
+    blind = [1, None, 10, None, 10, 0, 0, 0]
+    path = out / 'expanded-temporary-blindness.zsave'
+    s = Session(bundle)
+    try:
+        for code in (430, 432):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 431)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (431, 431, 435, 436):
+            s.action(2285, code)
+        assert state(s) == blind
+        s.action(2285, 414)
+        assert state(s) == blind[:-2] + [59, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        assert state(s) == blind[:-2] + [59, 0]
+        s.action(2285, 415)
+        s.action(2285, 431)
+        assert state(s) == clear[:-2] + [60, 0]
     finally:
         s.close()

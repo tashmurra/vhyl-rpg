@@ -241,6 +241,7 @@ rpgLiteResolveStrike(attacker, defender, request)
     local result = new RpgLiteCombatResult();
     local profile = attacker.profile; local weapon = attacker.weapon;
     if (weapon == nil || !weapon.ready || !weapon.attackUsableBy(profile)) { result.reason = 'weapon-not-ready'; return result; }
+    profile.validateCombatVision(); defender.profile.validateCombatVision();
     local mode = attacker.mode(); result.attackMode = mode; weapon.validateStrike(attacker,mode);
     local hands = weapon.attackHandCount(profile,request.hands);
     if (profile.stunned || profile.mentalStun || profile.unconscious || profile.dead)

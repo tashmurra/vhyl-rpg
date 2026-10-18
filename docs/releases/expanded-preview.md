@@ -513,3 +513,10 @@ resistance failure margin in minutes. No price or technology is invented for
 smoke. Authored fixtures cover retry, continuous symptoms, exact expiry, undo and
 saved continuation; they remain unrun. Dense smoke and ambiguous nonpositive
 failure-margin durations remain incomplete.
+
+
+Temporary blindness now owns its finite duration and blocks explicitly visual
+checks while preserving nonvisual senses. Strikes involving the condition reject
+before rolling until the unseen-target combat adapter is implemented. Added a
+minimal fixture for expiry, replay, rollback, undo and saved continuation; it is
+authored and unrun. Environmental blindness integration remains incomplete.

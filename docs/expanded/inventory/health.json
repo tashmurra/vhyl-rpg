@@ -2389,6 +2389,19 @@
         "tests/expanded.py::test_pain_sensitivity"
       ],
       "validation_note": "Shared injury and trait purchase implementations authored; observer and optional reaction consequences pending. Fixtures unrun."
+    },
+    {
+      "id": "temporary-blindness-visual-access",
+      "source": "full-2008",
+      "pages": "B124, B394",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Sudden sight loss blocks visual tasks without denying nonvisual senses, retains owned duration and expiry, and routes combat through explicit unseen-target procedures.",
+      "tests": [
+        "tests/expanded.py::test_temporary_blindness"
+      ],
+      "validation_note": "Owned finite sight loss and visual-check gating implemented; default combat rejects before rolls until the unseen-target adapter exists. Fixtures authored, unrun. Combat, navigation and environmental cause integration remain incomplete."
     }
   ],
   "exclusions": [

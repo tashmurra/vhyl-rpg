@@ -2526,3 +2526,31 @@ defensive exceptions, unchanged speed, exact expiry, overlap rejection, preview,
 replay, rollback, undo and cross-process continuation. They remain unrun. Linking
 this condition to continuing poison exposure and other environmental causes is
 still required for those catalogue entries.
+
+
+### Temporary loss of sight
+
+`RpgExpandedTemporaryBlindness` owns finite sudden sight loss (full-2008 B124).
+Supply `id`, expanded `profile`, an authored `durationSeconds`, `approved` and
+cause `evidence`. Assessment is pure; application records a receipt in
+`temporaryBlindnessHistory` without adding time or randomness. This uses the same
+finite-condition lifecycle as coughing, but keeps separate history and effects.
+It does not purchase the permanent disadvantage or change character points.
+
+While `temporarilyBlind()` is true, `vision` checks and contexts declaring
+`requiresVision = true` are unavailable. Hearing and other nonvisual checks remain
+available. Authors must mark tasks whose evidence requires sight; a generic IQ
+or Perception check does not imply visual access. The condition expires exactly
+at its stored deadline. Replaying an expired receipt does not restart it.
+
+Combat additionally requires the unseen-target procedures of B394, including
+location discovery, random targeting and defense restrictions. That adapter is
+not implemented yet. The default-zero-cost `validateCombatVision()` profile hook
+therefore rejects a strike involving a temporarily blind attacker or defender
+before rolls or ammunition spending. It does not silently use sighted combat or
+apply only a damage penalty. Permanent blindness, alternate-sense combat,
+navigation assistance and environmental blindness causes remain incomplete.
+
+`expanded-temporary-blindness.t` specifies visual gating, preserved nonvisual
+checks, isolated condition histories, early combat rejection, exact expiry,
+preview, replay, rollback, undo and saved continuation. Fixtures remain unrun.
