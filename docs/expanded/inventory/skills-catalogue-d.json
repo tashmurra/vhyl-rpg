@@ -4174,7 +4174,8 @@
       "acceptance": "Require first-aid or physician investment, check once per operation and apply failure injury by procedure type. Include diagnosis, sanitation, body-area, physiology and physician-absence penalties.",
       "tests": [
         "tests/expanded.py::test_surgical_training_assessment",
-        "tests/expanded.py::test_surgery_assessments"
+        "tests/expanded.py::test_surgery_assessments",
+        "tests/expanded.py::test_surgical_operation"
       ],
       "reference_data": {
         "attribute": "iq",
@@ -4202,7 +4203,7 @@
           "any:first-aid,physician"
         ]
       },
-      "validation_note": "Source default edges and learning prerequisites authored, with shared paid/default scoring and pure surgical context assessment. Fixtures unrun. Committed operations, infection and operation-specific consequences remain incomplete. Surgical assessment uses shared B168 cognitive equipment mismatch penalties; boundary and no-double-charge fixtures authored and unrun."
+      "validation_note": "Source default edges and learning prerequisites authored, with shared paid/default scoring and pure surgical context assessment. Fixtures unrun. Committed operations, infection and operation-specific consequences remain incomplete. Surgical assessment uses shared B168 cognitive equipment mismatch penalties; boundary and no-double-charge fixtures authored and unrun. Common owned operation now records authored duration, exact completion, interruption, shared skill roll and 3d failure wound. Fixtures authored and unrun. Procedure-specific therapeutic effects, infection, amputation and bleeding/clotting combinations remain incomplete."
     },
     {
       "id": "catalogue-skill-survival-arctic",

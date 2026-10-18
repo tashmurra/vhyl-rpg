@@ -8924,6 +8924,8 @@ def test(build):
     test_clotting_care(Session, clotting_care, build.out)
     surgical_assessment = build.build('expanded-surgical-assessment', ROOT / 'tests/fixtures/expanded-surgical-assessment.t')
     test_surgical_training_assessment(Session, surgical_assessment)
+    surgical_operation = build.build('expanded-surgical-operation', ROOT / 'tests/fixtures/expanded-surgical-operation.t')
+    test_surgical_operation(Session, surgical_operation, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -10827,3 +10829,79 @@ def test_surgical_training_assessment(Session, bundle):
             assert last(s, 'test.surgical-technology') == expected
         finally:
             s.close()
+
+
+def test_surgical_operation(Session, bundle, out):
+    def state(s):
+        s.action(2285, 125)
+        return last(s, 'test.surgical-operation')
+    initial = [None, None, 0, 0, 0, 0, None, None]
+    active = [0, None, 1, 0, 60, 0, None, None]
+    path = out / 'expanded-surgical-operation.zsave'
+    for codes in ([91, 112, 131], [132]):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(2285, code)
+            s.action(2285, 120)
+            assert state(s) == initial
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 120)
+        s.action(2285, 130)
+        s.action(2285, 122)
+        assert state(s) == [0, None, 1, 0, 0, 0, None, None]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 129)
+        s.action(2285, 122)  # completion without start
+        assert state(s) == initial
+        s.action(2285, 120)
+        s.action(2285, 122)  # completion before the authored duration
+        s.action(2285, 127)  # overlapping operation
+        s.action(2285, 5)    # cannot cross completion boundary
+        assert state(s) == [0, None, 1, 0, 0, 0, None, None]
+        s.action(2285, 4)
+        s.action(2285, 121)
+        s.action(2285, 123)  # rollback completion and RNG
+        assert state(s) == active
+        s.action(2285, 122)
+        s.command('undo')
+        assert state(s) == active
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 122)
+        s.action(2285, 122)
+        assert state(s) == [0, 60, 1, 0, 60, 3, None, True]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 126)
+        s.action(2285, 120)
+        s.action(2285, 4)
+        s.action(2285, 123)
+        assert state(s) == active
+        s.action(2285, 122)
+        s.action(2285, 122)
+        # Failed general operation: three independently rolled 4s, applied once.
+        assert state(s) == [0, 60, 1, 12, 60, 6, None, None]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 120)
+        s.action(2285, 124)
+        s.action(2285, 5)
+        s.action(2285, 122)
+        assert state(s) == [0, 0, 1, 0, 61, 0, 'surgical-operation-interrupted', None]
+    finally:
+        s.close()

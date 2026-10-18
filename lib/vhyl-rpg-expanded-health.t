@@ -4441,3 +4441,149 @@ class RpgExpandedClottingRestoration: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** Common B223 operation lifecycle. Procedure-specific healing is separate. */
+class RpgExpandedSurgicalOperationResult: RpgExpandedResult
+    wound = nil
+    injury = 0
+    succeeded = nil
+;
+modify RpgExpandedProfile
+    surgicalOperations = []
+;
+class RpgExpandedSurgicalOperation: object
+    id = nil
+    patient = nil
+    assessment = nil
+    durationSeconds = nil
+    approved = nil
+    procedureEvidence = nil
+    dropDestination = nil
+    startedAt = nil
+    completesAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition()
+    {
+        local c = self.assessment.conditions; local skill = self.assessment.skill;
+        return [self.id,self.patient,self.assessment,self.assessment.surgeon,skill,
+            skill.attribute,skill.difficulty,skill.techLevel,c,self.durationSeconds,self.approved,
+            self.procedureEvidence,self.dropDestination,c.techLevel,c.anesthetic,c.sterile,c.site,
+            c.diagnosed,c.fieldExpedient,c.equipmentQualityModifier,c.physiologyModifier,
+            c.otherMissingEquipmentModifier,c.earlyAntisepsis];
+    }
+    validateReceipt()
+    {
+        if (self.startedAt == nil) return nil;
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('surgical-operation-binding');
+        if (!holds(self.patient.surgicalOperations,self)) rpgExpandedReject('surgical-operation-history');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.patient == nil || !self.patient.ofKind(RpgExpandedProfile)
+            || self.assessment == nil || !self.assessment.ofKind(RpgExpandedSurgicalAssessment))
+            rpgExpandedReject('surgical-operation-definition');
+        local value = new RpgExpandedSurgicalOperationResult();
+        self.validateReceipt();
+        if (self.result != nil)
+        {
+            value.status = 'reused'; value.reason = self.result.reason; value.check = self.result.check;
+            value.wound = self.result.wound; value.injury = self.result.injury; value.succeeded = self.result.succeeded;
+            return value;
+        }
+        rpgInteger(self.durationSeconds,1,2147483647);
+        if (!self.approved || self.procedureEvidence == nil || self.procedureEvidence == '')
+        { value.reason = 'surgical-operation-authored-procedure-required'; return value; }
+        if (self.patient.dead) { value.reason = 'surgical-operation-patient-dead'; return value; }
+        if (self.patient.level('impaired-clotting') > 0)
+        { value.reason = 'surgical-operation-clotting-failure-unimplemented'; return value; }
+        if (self.patient.rules == nil || self.patient.rules.bleeding)
+        { value.reason = 'surgical-operation-bleeding-classification-unimplemented'; return value; }
+        local prepared = self.assessment.assess();
+        if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        if (prepared.infectionCheckRequired)
+        { value.reason = 'surgical-operation-infection-unimplemented'; return value; }
+        if (self.startedAt == nil)
+        {
+            rpgInteger(rpgLedger.seconds,0,2147483647 - self.durationSeconds);
+            foreach (local prior in self.patient.surgicalOperations)
+                if (prior.id == self.id) rpgExpandedReject('surgical-operation-duplicate');
+            for (local prior = firstObj(RpgExpandedSurgicalOperation); prior != nil;
+                prior = nextObj(prior,RpgExpandedSurgicalOperation))
+                if (prior != self && prior.startedAt != nil && prior.result == nil
+                    && (prior.patient == self.patient || prior.assessment.surgeon == self.assessment.surgeon))
+                { value.reason = 'surgical-operation-overlap'; return value; }
+        }
+        /* Every possible general 3d failure is assessed before time or dice.
+         * Amputation is a distinct procedure and is not represented here. */
+        for (local amount = 3; amount <= 18; amount += 1)
+        {
+            local wound = self.failureWound(amount); local harm = wound.assess();
+            if (harm.status != 'ready') { value.reason = harm.reason; return value; }
+        }
+        value.seconds = self.durationSeconds; value.status = 'ready'; return value;
+    }
+    failureWound(amount)
+    {
+        local wound = new RpgExpandedWound(); wound.id = 'surgery-' + self.id;
+        wound.profile = self.patient; wound.amount = amount; wound.dropDestination = self.dropDestination;
+        return wound;
+    }
+    start()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.startedAt != nil) { value.status = 'reused'; return value; }
+        self.startedAt = rpgLedger.seconds; self.completesAt = self.startedAt + self.durationSeconds;
+        self.boundDefinition = self.definition(); self.patient.surgicalOperations = self.patient.surgicalOperations + [self];
+        value.status = 'resolved'; return value;
+    }
+    assessCompletion()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.startedAt == nil) { value.status = 'blocked'; value.reason = 'surgical-operation-not-started'; return value; }
+        if (rpgLedger.seconds != self.completesAt)
+        { value.status = 'blocked'; value.reason = 'surgical-operation-not-due'; }
+        return value;
+    }
+    complete()
+    {
+        local value = self.assessCompletion(); if (value.status != 'ready') return value;
+        local prepared = self.assessment.assess();
+        value.check = rpgLiteCheck(self.assessment.surgeon,prepared.context); value.succeeded = value.check.achieved;
+        if (!value.succeeded)
+        {
+            local amount = rpgRandom.die() + rpgRandom.die() + rpgRandom.die();
+            value.wound = self.failureWound(amount); local harm = value.wound.apply();
+            if (harm.status != 'resolved') rpgExpandedReject('surgical-operation-failure-changed');
+            value.injury = harm.healthLoss;
+        }
+        self.completedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value; return value;
+    }
+    interrupt()
+    {
+        local value = new RpgExpandedSurgicalOperationResult();
+        if (self.startedAt == nil) { value.reason = 'surgical-operation-not-started'; return value; }
+        self.validateReceipt();
+        if (self.result != nil) return self.assess();
+        self.completedAt = rpgLedger.seconds; value.status = 'resolved'; value.reason = 'surgical-operation-interrupted';
+        self.result = value; return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local operation = firstObj(RpgExpandedSurgicalOperation); operation != nil;
+            operation = nextObj(operation,RpgExpandedSurgicalOperation))
+            if (operation.startedAt != nil && operation.result == nil && !operation.patient.dead)
+            {
+                operation.validateReceipt();
+                if (self.seconds + seconds > operation.completesAt) rpgExpandedReject('surgical-operation-boundary');
+            }
+        return nil;
+    }
+;

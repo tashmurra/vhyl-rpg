@@ -2230,3 +2230,44 @@ No fixed duration or healing grant is inferred. The fixture
 `expanded-surgical-assessment.t` and `test_surgical_training_assessment` specify
 independent source-derived scores, prerequisites, blocked combinations and repeat
 assessment purity. They are authored and unrun while checks are paused.
+
+### Owned surgical operations
+
+`RpgExpandedSurgicalOperation` implements the common B223 operation roll and
+failure-injury lifecycle. Supply a unique `id`, expanded `patient`, a
+`RpgExpandedSurgicalAssessment`, positive `durationSeconds`, `approved` and
+`procedureEvidence`. Evidence identifies the actual non-amputation procedure and
+justifies its duration. This common operation grants no HP and does not itself
+stabilize mortal wounds, shorten crippling recovery or treat internal bleeding;
+those procedure adapters remain unfinished. It must not substitute for them.
+
+`assess()` preflights the current surgeon and every possible 3d failure injury.
+`start()` binds the procedure and stores it in the patient's `surgicalOperations`.
+It does not advance time. Advance the shared clock while care occurs, allowing
+other health deadlines to resolve; the clock cannot pass the completion time
+without resolving or interrupting the operation. Overlapping operations on the
+same patient or by the same surgeon are rejected. Authors call `interrupt()` if
+care is interrupted; this records cancellation without refunding elapsed time,
+rolling dice or granting benefits.
+
+At the exact completion time, `assessCompletion()` re-evaluates current eligibility
+and modifiers. `complete()` rolls once using the shared skill pipeline. A failure
+rolls three damage dice and applies one owned wound through the shared injury
+pipeline, including applicable shock and survival consequences. The result exposes
+`check`, `succeeded`, `wound` and actual `injury`. Repeating completion reuses the
+receipt and cannot roll or injure again. Use the normal action transaction to
+compose procedure-specific consequences; no callback is counted as their
+implementation.
+
+Infection-requiring care, impaired clotting and campaigns using optional bleeding
+are currently rejected before time or randomness because their surgical failure
+and exposure adapters are incomplete. Amputation's two-die failure procedure is
+also outside this general-operation class. These remain explicit coverage gaps.
+A dead patient releases the clock deadline; interruption still closes the owned
+record. Changing bound procedure facts after starting is rejected.
+
+`expanded-surgical-operation.t` supplies an original authored one-minute procedure
+solely as an integration fixture, not a source duration. `test_surgical_operation`
+specifies preview purity, timing, overlap, failure injury, replay, interruption,
+rollback, undo and cross-process continuation. These fixtures are authored and
+unrun while checks remain paused.

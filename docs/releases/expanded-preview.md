@@ -338,3 +338,9 @@ prerequisites from default use. Surgical equipment from a different technology
 level now uses the shared B168 penalties, including impossible advanced tools,
 without doubling the B424 equipment or anesthetic modifiers. Timed surgery
 and its consequences remain incomplete; the new fixture is authored and unrun.
+
+The common surgical operation now owns its elapsed-time boundary and completion
+receipt, with one skill roll and a shared 3d failure wound. It supports interruption
+and replay, with rollback/undo/save fixtures authored but unrun. Specific treatment
+effects and infection/bleeding combinations remain incomplete and are not claimed
+as covered by this common lifecycle.
