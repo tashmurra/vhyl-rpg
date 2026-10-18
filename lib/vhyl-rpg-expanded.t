@@ -718,3 +718,7 @@ modify RpgExpandedProfile
     initialWardrobeStanding(culture,structure)
     { rpgExpandedReject('initial-wardrobe-social-adapter-required'); return nil; }
 ;
+
+modify RpgExpandedProfile
+    motionSusceptible(activeOnly) { return nil; }
+;

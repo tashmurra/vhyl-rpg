@@ -619,9 +619,10 @@
       "acceptance": "Motion sickness costs -10 and prohibits learning vehicle-operation skills. On boarding a moving vehicle check health: failure causes vomiting and -5 dexterity/intelligence/skills for the journey; success still causes -2. Repeat daily on long trips, replacing the current state rather than stacking daily penalties.",
       "tests": [
         "tests/expanded.py::test_motion_trait",
-        "tests/expanded.py::test_seasickness"
+        "tests/expanded.py::test_seasickness",
+        "tests/expanded.py::test_motion_journey"
       ],
-      "validation_note": "Validated -10 purchase and template copying; explicit vehicle-operation skill classification gates learning and existing paid training. Unclassified skills reject for susceptible characters. Pure journey outcome assessment exists. Catalogue-wide classification, persistent journey conditions, vomiting and applied action penalties remain pending. Fixtures authored, unrun."
+      "validation_note": "Validated -10 purchase and template copying; explicit vehicle-operation skill classification gates learning and existing paid training. Unclassified skills reject for susceptible characters. Pure journey outcome assessment exists. Catalogue-wide classification, persistent journey conditions, vomiting and applied action penalties remain pending. Fixtures authored, unrun. Owned continuous journeys now retain daily outcomes, prevent skipped day boundaries, replace current penalty and execute ordinary retching on failure after oral-benefit preflight. Action-score integration, live vehicle event wiring and full catalogue classification remain pending. New fixtures unrun."
     },
     {
       "id": "disadvantages-e-ordinary-background",

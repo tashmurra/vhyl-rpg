@@ -2610,3 +2610,27 @@ This is a pure assessment, not an executed journey condition. Trait ownership,
 vehicle-skill learning restrictions, daily scheduling, persistent penalties and
 actual vomiting remain outstanding. `expanded-seasickness.t` / `test_seasickness`
 specify expected values and applicability boundaries; fixtures remain unrun.
+
+
+## Owned motion journeys
+
+`RpgExpandedMotionJourney` owns a continuous authored trip: set `id`, `profile`,
+`movingVehicle`, `seagoing`, `stabilized`, `approved` and `evidence`.
+`RpgExpandedMotionDay` supplies that `journey`, a one-based `day` and an unused
+ordinary `RpgExpandedRetching` episode for a possible failure. Its episode must
+review affected oral benefits before any randomness. Susceptibility comes from
+the character's active purchase.
+
+`apply()` records each day once, rolls through the shared check interface and
+executes retching on failure. Daily penalties replace the previous value in
+`journey.currentPenalty`; days with no new required check preserve the prior
+journey penalty. Checks use elapsed 24-hour boundaries, and the clock cannot
+skip the next boundary. Set `endEvidence` and call `end()` when the trip ends.
+Ending clears the journey penalty; an already-started retching episode retains
+its own recovery procedure. Replaying a recorded day spends no randomness.
+
+The journey penalty is recorded but is not yet applied to action scores. Live
+boarding/disembarking hooks, partial-day travel interruption and score integration
+remain outstanding. `expanded-motion-journey.t` / `test_motion_journey` specify
+pure assessment, daily replacement, actual vomiting, rollback, undo and saved
+continuation. Fixtures remain unrun.

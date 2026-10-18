@@ -9306,6 +9306,8 @@ def test(build):
     test_seasickness(Session, seasickness)
     motion_trait = build.build("expanded-motion-trait",ROOT / "tests/fixtures/expanded-motion-trait.t")
     test_motion_trait(Session, motion_trait)
+    motion_journey = build.build("expanded-motion-journey",ROOT / "tests/fixtures/expanded-motion-journey.t")
+    test_motion_journey(Session, motion_journey, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22349,5 +22351,41 @@ def test_motion_trait(Session, bundle):
         for code in (16102, 16100):
             s.action(1100, code)
         assert last(s, 'test.motion-trait') == [-10, 0, 'motion-susceptibility-learning', None, 'motion-skill-classification-required']
+    finally:
+        s.close()
+
+
+def test_motion_journey(Session, bundle, out):
+    """Owned daily checks replace penalty, preserve RNG, and share vomiting state; unrun."""
+    path = out / 'motion-journey.zsave'
+    s = Session(bundle)
+    try:
+        for code in (16206, 16201, 16202):
+            s.action(1100, code)
+        assert last(s, 'test.motion-preview') == ['ready', 0]
+        assert last(s, 'test.motion-journey') == [0, 0, 0, 0, 0]
+        s.action(1100, 16200)
+        s.command('undo')
+        s.action(1100, 16202)
+        assert last(s, 'test.motion-journey') == [0, 0, 0, 0, 0]
+        for code in (16200, 16200, 16203, 16202):
+            s.action(1100, code)
+        assert last(s, 'test.motion-journey') == [2, -2, 6, 0, 86400]
+        s.command(f':save {path}\n@1101')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1101')
+        for code in (16200, 16205, 16202):
+            s.action(1100, code)
+        assert last(s, 'test.motion-journey') == [2, 0, 6, 0, 86400]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (16204, 16200, 16200, 16202):
+            s.action(1100, code)
+        assert last(s, 'test.motion-journey') == [1, -5, 3, 1, 0]
     finally:
         s.close()
