@@ -388,6 +388,7 @@ modify RpgExpandedProfile
 
 /** Equipment supplies the concrete fishing-tool assessment without a circular include. */
 class RpgExpandedForageTools: object
+    assessForProfile(profile,skill) { return self.assessFor(skill); }
     definition() { return []; }
     assessFor(skill)
     { local value = new RpgExpandedResult(); value.reason = 'forage-tools-adapter-required'; return value; }

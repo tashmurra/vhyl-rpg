@@ -910,3 +910,21 @@ physical upgrades and detailed kit catalogues remain pending.
 `expanded-toolkit-purchase.t` / `test_toolkit_purchase` specify baseline prices,
 purchase-to-modifier integration, unavailable/unowned use, quality mismatch,
 missing exceptional price, rollback, undo and saved replay. Fixtures remain unrun.
+
+
+## Owned tools in wilderness operations
+
+Fishing and wilderness survival preflight call `assessForProfile(profile,skill)`
+on the tool adapter. Owned assessments must match the acting character, and
+shared tools retain their permission, availability and site checks before any
+roll. Legacy authored tool adapters retain their existing behavior.
+
+Equipment definitions bind owned item identities, task, approval and evidence;
+shared assessments additionally bind grant definitions, and purchased kits bind
+quality, technology and supported skills. Completed forage receipts reject
+retargeting these definitions. Later inventory movement alone does not rerun a
+completed attempt or spend resources again.
+
+`expanded-owned-fishing.t` / `test_owned_fishing` cover owner mismatch, inaccessible
+tools, preview purity, item retargeting, replay, rollback, undo and save continuation.
+These fixtures are authored but unrun while checks are paused.

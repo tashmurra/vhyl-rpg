@@ -2750,7 +2750,7 @@ class RpgExpandedFishingForageAttempt: RpgExpandedTravelForageAttempt
         if (self.skill.id != 'fishing' || self.skill.attribute != rpgPerception
             || self.skill.difficulty != 0 || self.skill.defaultPenalty != -4 || self.skill.techLevel != nil)
             rpgExpandedReject('fishing-forage-skill-definition');
-        local tools = self.tools.assessFor(self.skill);
+        local tools = self.tools.assessForProfile(self.profile,self.skill);
         return tools.status == 'ready' ? nil : tools.reason;
     }
     context()

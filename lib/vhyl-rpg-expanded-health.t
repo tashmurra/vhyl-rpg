@@ -7008,7 +7008,7 @@ class RpgExpandedWildernessDay: object
         if (self.skill.id != 'survival' || self.skill.attribute != rpgPerception || self.skill.difficulty != 1
             || self.skill.defaultPenalty != -5 || !self.skill.expandedForageDefaultsReady())
             rpgExpandedReject('wilderness-survival-definition');
-        local tools = self.tools.assessFor(self.skill); if (tools.status != 'ready') { value.reason = tools.reason; return value; }
+        local tools = self.tools.assessForProfile(self.profile,self.skill); if (tools.status != 'ready') { value.reason = tools.reason; return value; }
         value.day = rpgLedger.seconds / 86400;
         foreach (local recipient in recipients)
         {

@@ -3646,3 +3646,9 @@ incapacitation and full fear selection keep the row partial.
 `test_catatonia` specify daily injury versus continuous care, care-before-recovery
 ordering, repeated delays, equal-duration aftermath expiry, boundaries, replay,
 rollback, undo and cross-process save continuation. All assertions remain unrun.
+
+
+Wilderness-day tool preflight now supplies the actual acting profile through
+`assessForProfile`. An owned assessment for a dependent cannot stand in for the
+leader's tool access. `expanded-owned-wilderness.t` / `test_owned_wilderness`
+specify rejection before randomness or elapsed time; the fixture remains unrun.

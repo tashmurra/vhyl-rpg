@@ -1493,3 +1493,21 @@ rollback, undo and persistence; it is authored but unrun.
 Partial-route retracing, multi-journey traces, route recording from parser movement
 and automatic calendar/position feeds remain pending. The current interface is an
 explicit author contract with owned records, not an automatic world-map solver.
+
+
+## Owned tools in wilderness operations
+
+Fishing and wilderness survival preflight call `assessForProfile(profile,skill)`
+on the tool adapter. Owned assessments must match the acting character, and
+shared tools retain their permission, availability and site checks before any
+roll. Legacy authored tool adapters retain their existing behavior.
+
+Equipment definitions bind owned item identities, task, approval and evidence;
+shared assessments additionally bind grant definitions, and purchased kits bind
+quality, technology and supported skills. Completed forage receipts reject
+retargeting these definitions. Later inventory movement alone does not rerun a
+completed attempt or spend resources again.
+
+`expanded-owned-fishing.t` / `test_owned_fishing` cover owner mismatch, inaccessible
+tools, preview purity, item retargeting, replay, rollback, undo and save continuation.
+These fixtures are authored but unrun while checks are paused.

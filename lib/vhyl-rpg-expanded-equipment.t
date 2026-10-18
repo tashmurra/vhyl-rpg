@@ -25,6 +25,8 @@ rpgExpandedSpeedRangeModifier(yards, yardsPerSecond, includeSpeed)
 /** Authored task-specific equipment adequacy, B345. It describes the tools
  * actually available for this operation, not a permanent skill or item bonus. */
 class RpgExpandedEquipmentAssessment: object
+    definition()
+    { return [self.quality,self.allowWithoutEquipment,self.techLevel,self.missingItems,self.damagePenalty]; }
     assessFor(profile,skill) { return self.assess(skill); }
     quality = 'basic'
     allowWithoutEquipment = nil
@@ -1078,8 +1080,13 @@ class RpgExpandedFishingTools: RpgExpandedForageTools
         if (self.equipmentAssessment == nil || !self.equipmentAssessment.ofKind(RpgExpandedEquipmentAssessment))
             rpgExpandedReject('fishing-equipment-definition');
         local tools = self.equipmentAssessment;
-        return [tools,self.approved,self.evidence,tools.quality,tools.allowWithoutEquipment,
-            tools.techLevel,tools.missingItems,tools.damagePenalty];
+        return [tools,self.approved,self.evidence] + tools.definition();
+    }
+    assessForProfile(profile,skill)
+    {
+        local value = self.assessFor(skill); if (value.status != 'ready') return value;
+        local owned = self.equipmentAssessment.assessFor(profile,skill);
+        return owned.status == 'ready' ? value : owned;
     }
     assessFor(skill)
     {
@@ -1537,6 +1544,8 @@ class RpgExpandedCoinTender: object
 
 /** B345 adequacy bound to one owner's actual available task equipment. */
 class RpgExpandedOwnedEquipmentAssessment: RpgExpandedEquipmentAssessment
+    definition()
+    { return inherited() + [self.profile,self.skill,self.approved,self.evidence,self.items.length()] + self.items; }
     profile = nil
     skill = nil
     items = []
@@ -1659,6 +1668,16 @@ class RpgExpandedEquipmentAccess: object
     }
 ;
 class RpgExpandedAccessibleEquipmentAssessment: RpgExpandedOwnedEquipmentAssessment
+    definition()
+    {
+        local facts = inherited() + [self.accessGrants.length()];
+        foreach (local grant in self.accessGrants)
+        {
+            if (grant == nil || !grant.ofKind(RpgExpandedEquipmentAccess)) rpgExpandedReject('equipment-access-grant-type');
+            facts = facts + [grant] + grant.definition();
+        }
+        return facts;
+    }
     accessGrants = []
     itemAccessReason(item)
     {
@@ -1717,6 +1736,12 @@ class RpgExpandedToolkit: RpgLiteItem
 ;
 /** One purchased kit's quality, combined with live ownership/access and task condition. */
 class RpgExpandedToolkitAssessment: RpgExpandedAccessibleEquipmentAssessment
+    definition()
+    {
+        if (self.toolkit == nil || !self.toolkit.ofKind(RpgExpandedToolkit)) rpgExpandedReject('toolkit-assessment-definition');
+        return inherited() + [self.toolkit,self.toolkit.quality,self.toolkit.techLevel,self.toolkit.supportedSkills.length()]
+            + self.toolkit.supportedSkills;
+    }
     toolkit = nil
     assess(skill)
     {

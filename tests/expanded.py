@@ -9288,6 +9288,10 @@ def test(build):
     test_equipment_access(Session, equipment_access, build.out)
     toolkit_purchase = build.build('expanded-toolkit-purchase',ROOT / 'tests/fixtures/expanded-toolkit-purchase.t')
     test_toolkit_purchase(Session, toolkit_purchase, build.out)
+    owned_fishing = build.build("expanded-owned-fishing",ROOT / "tests/fixtures/expanded-owned-fishing.t")
+    test_owned_fishing(Session, owned_fishing, build.out)
+    owned_wilderness = build.build("expanded-owned-wilderness",ROOT / "tests/fixtures/expanded-owned-wilderness.t")
+    test_owned_wilderness(Session, owned_wilderness)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22061,3 +22065,53 @@ def test_toolkit_purchase(Session, bundle, out):
             assert last(s, 'test.toolkit-reject') == [reason]
         finally:
             s.close()
+
+
+def test_owned_fishing(Session, bundle, out):
+    """Owned tools gate forage before RNG and bind completed attempts; unrun."""
+    path = out / 'owned-fishing.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30, 15400, 15404, 1701, 1703):
+            s.action(2285, code)
+        assert last(s, 'test.owned-fishing-preview') == ['ready', None, 0]
+        assert last(s, 'test.fishing-owned') == [0, 0, 0, 0, None]
+        s.action(2285, 1700)
+        s.command('undo')
+        s.action(2285, 1703)
+        assert last(s, 'test.fishing-owned') == [0, 0, 0, 0, None]
+        for code in (1700, 1700, 1703):
+            s.action(2285, code)
+        assert last(s, 'test.fishing-owned') == [1, 0, 3, 0, 2]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1700, 15403, 1712, 1703):
+            s.action(2285, code)
+        assert last(s, 'test.fishing-binding') == ['fishing-forage-binding']
+        assert last(s, 'test.fishing-owned') == [1, 0, 3, 0, 2]
+    finally:
+        s.close()
+    for mutation, status, reason in [(15401, 'rejected', 'owned-equipment-context-owner'),
+                                      (15402, 'blocked', 'owned-equipment-inaccessible')]:
+        s = Session(bundle)
+        try:
+            for code in (30, 15400, mutation, 15404, 1703):
+                s.action(2285, code)
+            assert last(s, 'test.owned-fishing-preview') == [status, reason, 0]
+            assert last(s, 'test.fishing-owned') == [0, 0, 0, 0, None]
+        finally:
+            s.close()
+
+
+def test_owned_wilderness(Session, bundle):
+    """Wilderness preflight cannot use another character's owned assessment; unrun."""
+    s = Session(bundle)
+    try:
+        s.action(2285, 15410)
+        assert last(s, 'test.wilderness-owner') == ['owned-equipment-context-owner', 0, 0]
+    finally:
+        s.close()
