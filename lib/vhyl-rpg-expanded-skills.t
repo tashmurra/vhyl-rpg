@@ -1925,3 +1925,64 @@ class RpgExpandedAnthropologySkill: RpgExpandedSkill
         return edges;
     }
 ;
+
+/** Full-2008 B212 fossil-study specialties and their printed defaults. */
+class RpgExpandedPaleontologySkill: RpgExpandedSkill
+    id = 'paleontology'
+    attribute = rpgIQ
+    difficulty = 2
+    defaultPenalty = nil
+    validateDefinition()
+    {
+        if (self.id != 'paleontology' || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != nil
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil || self.techLevel == nil
+            || !holds(['microscopic','human-origins','plants','animals'],self.specialty))
+            rpgExpandedReject('paleontology-skill-definition');
+        rpgInteger(self.techLevel,0,12); return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill)) continue;
+            local general = source.ofKind(RpgExpandedSkill) && source.optionalParent != nil ? source.optionalParent : source;
+            if (general.id == 'biology' && general.techLevel == self.techLevel) edges = edges + [[general,-4]];
+            if (self.specialty == 'human-origins' && general.id == 'anthropology' && general.techLevel == nil) edges = edges + [[general,-2]];
+            if (general.ofKind(RpgExpandedPaleontologySkill) && general.techLevel == self.techLevel && general.specialty != self.specialty)
+            { general.validateDefinition(); edges = edges + [[general,-2]]; }
+        }
+        return edges;
+    }
+;
+class RpgExpandedPaleontologyContext: RpgExpandedSkillContext
+    task = 'recognition'
+    laboratory = nil
+    equipmentModifier = 0
+    approved = nil
+    evidence = nil
+    validatePaleontology()
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedPaleontologySkill)
+            || !holds(['recognition','habitat','structure','age'],self.task) || self.fixedBase != nil || self.rollAttribute != nil)
+            rpgExpandedReject('paleontology-context-definition');
+        self.skill.validateDefinition();
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('paleontology-evidence-required');
+        rpgInteger(self.equipmentModifier,-100,100);
+        if (self.task != 'age' && self.equipmentModifier != 0) rpgExpandedReject('paleontology-equipment-age-only');
+        return nil;
+    }
+    unavailableReason(profile)
+    {
+        self.validatePaleontology();
+        if (self.skill.specialty == 'microscopic' && !self.laboratory) return 'paleontology-laboratory-required';
+        return inherited(profile);
+    }
+    skillUseModifier(profile)
+    {
+        self.validatePaleontology(); local base = inherited(profile);
+        return base == nil ? nil : base + self.equipmentModifier;
+    }
+;

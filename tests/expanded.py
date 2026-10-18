@@ -9418,6 +9418,8 @@ def test(build):
     test_sociology_skill(Session, sociology_skill)
     anthropology_skill = build.build("expanded-anthropology-skill",ROOT / "tests/fixtures/expanded-anthropology-skill.t")
     test_anthropology_skill(Session, anthropology_skill)
+    paleontology_skill = build.build("expanded-paleontology-skill",ROOT / "tests/fixtures/expanded-paleontology-skill.t")
+    test_paleontology_skill(Session, paleontology_skill)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24197,5 +24199,30 @@ def test_anthropology_skill(Session, bundle):
             for code in (*setup,21700):
                 s.action(1680,code)
             assert last(s,'test.anthropology-score') == [expected,0]
+        finally:
+            s.close()
+
+
+def test_paleontology_skill(Session, bundle):
+    """B212 fossil specialties, paid defaults and mandatory microscopic laboratory; unrun."""
+    for setup, reason, score in (((),None,None),((21801,),None,12),((21802,),None,15),((21803,),None,15),
+                                ((21801,21807),None,None),((21803,21808),None,None),
+                                ((21802,21809),None,None),
+                                ((21804,),'paleontology-laboratory-required',None),
+                                ((21804,21805),None,17),((21804,21805,21806),None,19)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,21800):
+                s.action(1680,code)
+            assert last(s,'test.fossil-score') == [reason,score,0]
+        finally:
+            s.close()
+    for code, reason in ((21810,'paleontology-evidence-required'),
+                         (21811,'paleontology-equipment-age-only'),
+                         (21812,'paleontology-skill-definition')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code)
+            assert last(s,'test.fossil-error') == [reason]
         finally:
             s.close()

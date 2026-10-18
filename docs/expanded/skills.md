@@ -1022,3 +1022,27 @@ Cultural findings and predictions about rituals still need owned authored-result
 operations. The definition alone supplies skill scoring. `test_anthropology_skill`
 specifies every printed source default, correct fossil specialty selection,
 related/unrelated species and untrained-source rejection. Fixtures remain unrun.
+
+
+## Paleontology specialties and study conditions
+
+`RpgExpandedPaleontologySkill` implements IQ/Hard fossil study at an explicit
+technology level (full-2008 B212). Choose `microscopic`, `human-origins`, `plants`
+or `animals`. There is no IQ default. Purchased same-technology biology defaults
+at -4; other paleontology specialties at the same technology default at -2.
+The human-origins specialty also defaults from purchased anthropology at -2.
+Optional source subfields receive the normal additional -2 adjustment.
+
+`RpgExpandedPaleontologyContext` accepts `task` as `recognition`, `habitat`,
+`structure` or `age`, plus author approval and evidence that the specimen supports
+that task. Microscopic study requires `laboratory = true` before a score is
+available. For age estimation, supply the applicable `equipmentModifier` for the
+laboratory facilities; this field rejects on other task types. Authors establish
+access and facility quality. The expanded context can also apply an explicit
+equipment technology level through its existing compatibility rules.
+
+This interface supplies scoring and eligibility, not a generated fossil age or
+scientific conclusion. Owned specimen findings and live equipment-access receipts
+remain incomplete. `test_paleontology_skill` specifies printed defaults,
+inter-specialty transfer, missing-laboratory rejection and age equipment scoring.
+Fixtures remain unrun while checks are paused.
