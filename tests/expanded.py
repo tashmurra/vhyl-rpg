@@ -52,7 +52,7 @@ def test_numbers(s):
     s.action(1110)
     assert last(s,'test.template') == [4,2,28], 'template instances share investment or traits'
     s.action(1111)
-    assert last(s,'test.invalid') == ['wildcard-disabled','cyclic-paid-default','unsupported-strength-row']
+    assert last(s,'test.invalid') == ['wildcard-disabled','wildcard-default','cyclic-paid-default','unsupported-strength-row']
     assert state(s) == before, 'numeric assessments mutated persistent state'
 
 

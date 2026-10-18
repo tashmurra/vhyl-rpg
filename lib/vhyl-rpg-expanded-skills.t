@@ -75,6 +75,12 @@ rpgExpandedPaidSkill(profile, skill, visited)
 rpgExpandedSkillScore(profile, skill)
 {
     rpgExpandedValidate(profile);
+    if (skill.ofKind(RpgExpandedSkill) && skill.wildcard)
+    {
+        if (!profile.rules.wildcardSkills) rpgExpandedReject('wildcard-disabled');
+        if (skill.defaultPenalty != nil || skill.defaults.length() != 0)
+            rpgExpandedReject('wildcard-default');
+    }
     local score = rpgExpandedPaidSkill(profile, skill, []);
     if (skill.techLevel != nil && skill.techLevel > profile.techLevel && score == nil) return nil;
     if (profile.familiarSkills != nil && !holds(profile.familiarSkills, skill) && score == nil) return nil;

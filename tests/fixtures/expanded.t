@@ -120,7 +120,10 @@ act(verb, args)
         event('test.invalid');
         try { p.skillScore(a); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
-        a.wildcard = nil; local b = new RpgExpandedSkill();
+        p.rules.wildcardSkills = true; a.defaultPenalty = -6;
+        try { p.skillScore(a); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        a.defaultPenalty = nil; a.wildcard = nil; local b = new RpgExpandedSkill();
         local bt = new RpgExpandedTraining(); bt.skill = b; bt.points = 1;
         a.defaults = [[b,-2]]; b.defaults = [[a,-2]];
         at.defaultFrom = b; bt.defaultFrom = a; p.skills = [at,bt];
