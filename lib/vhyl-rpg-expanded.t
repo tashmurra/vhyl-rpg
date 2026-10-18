@@ -37,6 +37,13 @@ class RpgExpandedProfile: RpgLiteProfile
             }
         return nil;
     }
+    /* Optional equipment supplies committed storage for anatomy-forced drops. */
+    prepareForcedDrop(items, destination)
+    {
+        if (items.length() == 0) return nil;
+        local value = new RpgExpandedResult(); value.reason = 'expanded-wound-drop-unavailable';
+        return value;
+    }
     hpAdjustment = 0
     fpAdjustment = 0
     willAdjustment = 0

@@ -50,6 +50,27 @@ class HealthFixtureAction: Action
 ;
 healthAction: HealthFixtureAction;
 healthVerb: Verb code = 1610 action = healthAction label = 'wound-fixture';
+limbPatient: RpgExpandedProfile rules = healthRules bodyParts = [limbArm,limbHand] equipment = [limbHeld,limbShield];
+limbArm: RpgExpandedBodyPart id = 'arm' profile = limbPatient;
+limbHand: RpgExpandedBodyPart id = 'hand' kind = 'hand' profile = limbPatient parent = limbArm;
+limbHeld: RpgLiteWeapon id = 'held' ready = true bodySupports = [limbHand];
+limbShield: RpgLiteItem id = 'shield' ready = true worn = true db = 3 bodySupports = [limbArm];
+limbWound: RpgExpandedWound id = 'limb-impact' profile = limbPatient amount = 8 location = 'arm'
+    bodyPart = limbArm dropDestination = 'floor';
+class LimbFixtureAction: Action
+    exec(context)
+    {
+        if (healthInput.code == 2) { limbWound.amount = 12; limbWound.severing = true; }
+        if (healthInput.code == 3) { limbWound.bodyPart = limbHand; limbWound.location = 'hand'; limbWound.amount = 4; }
+        if (healthInput.code == 4) limbPatient.ht = 9;
+        if (healthInput.code == 6) limbWound.dropDestination = nil;
+        local result = limbWound.apply(); event('test.limb-wound'); eventValue(result.status); eventValue(result.reason);
+        if (healthInput.code == 5) throw new RpgError();
+        return nil;
+    }
+;
+limbAction: LimbFixtureAction;
+limbVerb: Verb code = 1620 action = limbAction label = 'limb-fixture';
 modify gameMain initialRoom = healthRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
@@ -78,6 +99,24 @@ act(verb,args)
         eventValue(healthPacked.storageLocation); eventValue(healthPatient.loadHundredths());
         eventValue(healthWound.droppedEquipment == nil ? 0 : healthWound.droppedEquipment.items.length());
         eventValue(healthFighter.aimSeconds); return nil;
+    }
+    if (verb == 1620) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1621)
+    {
+        event('test.limb-state'); eventValue(limbPatient.injury); eventValue(limbArm.disabled ? 1 : 0);
+        eventValue(limbArm.severed ? 1 : 0); eventValue(limbHand.functional() ? 1 : 0);
+        eventValue(limbHeld.storageLocation); eventValue(limbShield.storageLocation);
+        eventValue(limbShield.worn ? 1 : 0); eventValue(limbShield.passiveDefenseBonus(limbPatient));
+        eventValue(limbPatient.expandedWounds.length()); eventValue(rpgRandom.draws);
+        eventValue(limbWound.health == nil ? 0 : limbWound.health.injury);
+        eventValue(limbWound.bodyPart.disablingWound == limbWound ? 1 : 0); eventValue(rpgLedger.seconds);
+        eventValue(limbWound.health != nil && limbWound.health.knockedDown ? 1 : 0); return nil;
+    }
+    if (verb == 1622)
+    {
+        local value = limbWound.assess(); event('test.limb-preview'); eventValue(value.status);
+        eventValue(value.healthLoss); eventValue(value.crippling.crippled ? 1 : 0);
+        eventValue(value.assessment.required ? 1 : 0); return nil;
     }
     return vhylAct(verb,args);
 }

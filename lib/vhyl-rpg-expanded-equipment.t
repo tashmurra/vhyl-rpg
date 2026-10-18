@@ -332,6 +332,7 @@ class RpgExpandedKnockdownDrop: RpgExpandedResult
     destination = nil
     items = []
     committed = nil
+    allowWorn = nil
     commit()
     {
         if (self.committed) return 'reused';
@@ -340,11 +341,12 @@ class RpgExpandedKnockdownDrop: RpgExpandedResult
             rpgExpandedReject('knockdown-drop-unprepared');
         foreach (local item in self.items)
             if (item == nil || !item.ofKind(RpgLiteItem) || !holds(self.profile.equipment,item)
-                || item.storageLocation != nil || item.worn)
+                || item.storageLocation != nil || item.worn && !self.allowWorn)
                 rpgExpandedReject('knockdown-drop-item-changed');
         foreach (local item in self.items)
         {
             item.storageLocation = self.destination; item.ready = nil;
+            if (self.allowWorn) item.worn = nil;
             for (local fighter = firstObj(RpgLiteFighter); fighter != nil; fighter = nextObj(fighter,RpgLiteFighter))
                 if (fighter.profile == self.profile && fighter.aimWeapon == item)
                 { fighter.aimSeconds = 0; fighter.aimTarget = nil; fighter.aimWeapon = nil; }
@@ -368,6 +370,21 @@ modify RpgExpandedProfile
         local value = new RpgExpandedKnockdownDrop(); value.profile = self;
         value.destination = destination; value.items = items;
         if (destination == nil) { value.reason = 'knockdown-drop-destination-required'; return value; }
+        value.status = 'ready'; return value;
+    }
+;
+
+
+modify RpgExpandedProfile
+    prepareForcedDrop(items, destination)
+    {
+        if (items.length() == 0) return nil;
+        local value = new RpgExpandedKnockdownDrop(); value.profile = self;
+        value.destination = destination; value.items = items; value.allowWorn = true;
+        foreach (local item in items)
+            if (item == nil || !item.ofKind(RpgLiteItem) || !holds(self.equipment,item)
+                || item.storageLocation != nil) rpgExpandedReject('forced-drop-item');
+        if (destination == nil) { value.reason = 'forced-drop-destination-required'; return value; }
         value.status = 'ready'; return value;
     }
 ;

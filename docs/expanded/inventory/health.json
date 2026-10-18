@@ -334,9 +334,11 @@
       "status": "partial",
       "acceptance": "Use a strict greater-than threshold for ordinary crippling, while supporting a critical outcome that cripples with less or no injury.",
       "tests": [
-        "tests/expanded.py::test_crippling_thresholds"
+        "tests/expanded.py::test_crippling_thresholds",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
       ],
-      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
     },
     {
       "id": "health-limb-injury-cap",
@@ -347,9 +349,11 @@
       "status": "partial",
       "acceptance": "Limit health loss from a limb or extremity hit to the smallest integer injury that cripples it; no corresponding cap applies to eyes.",
       "tests": [
-        "tests/expanded.py::test_crippling_thresholds"
+        "tests/expanded.py::test_crippling_thresholds",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
       ],
-      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
     },
     {
       "id": "health-dismemberment",
@@ -360,9 +364,11 @@
       "status": "partial",
       "acceptance": "Before capping global injury, compare raw injury with twice the minimum crippling amount; qualifying damage destroys the part, with cutting/explosion severing and other types using their appropriate destruction.",
       "tests": [
-        "tests/expanded.py::test_crippling_thresholds"
+        "tests/expanded.py::test_crippling_thresholds",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
       ],
-      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
     },
     {
       "id": "health-extra-limb-threshold",
@@ -373,9 +379,11 @@
       "status": "partial",
       "acceptance": "With more than two limbs of a kind, crippling requires injury greater than capacity divided by that kind's count; four arms use capacity/4.",
       "tests": [
-        "tests/expanded.py::test_crippling_thresholds"
+        "tests/expanded.py::test_crippling_thresholds",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
       ],
-      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
     },
     {
       "id": "health-extra-extremity-threshold",
@@ -386,9 +394,11 @@
       "status": "partial",
       "acceptance": "With more than two extremities of a kind, use capacity divided by 1.5 times their count; four feet use capacity/6.",
       "tests": [
-        "tests/expanded.py::test_crippling_thresholds"
+        "tests/expanded.py::test_crippling_thresholds",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
       ],
-      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
     },
     {
       "id": "health-crippling-major-check",
@@ -396,9 +406,13 @@
       "pages": "B421",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Every crippling injury invokes major-wound knockdown/stun handling without duplicating a check already required for the same wound.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
+      ],
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
     },
     {
       "id": "health-crippling-duration-check",
@@ -938,9 +952,11 @@
       "status": "partial",
       "acceptance": "Drop single-handed held items; a multiply held item allows dexterity to retain it. The hand cannot hold or attack, but a shield on the arm can still block.",
       "tests": [
-        "tests/expanded.py::test_body_supports"
+        "tests/expanded.py::test_body_supports",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
       ],
-      "validation_note": "Owned arm/hand functional state and explicit equipment supports dispatch attack, weapon parry, shield block and passive protection. Fixtures authored but unrun. Automatic wound transitions, drops, multi-hand retention rolls, unarmed use, duration and recovery remain unavailable."
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
     },
     {
       "id": "health-crippling-effect-arm",
@@ -951,9 +967,11 @@
       "status": "partial",
       "acceptance": "The arm cannot carry anything. An attached shield stays unless severed but cannot block and its passive defense bonus is reduced by one.",
       "tests": [
-        "tests/expanded.py::test_body_supports"
+        "tests/expanded.py::test_body_supports",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
       ],
-      "validation_note": "Owned arm/hand functional state and explicit equipment supports dispatch attack, weapon parry, shield block and passive protection. Fixtures authored but unrun. Automatic wound transitions, drops, multi-hand retention rolls, unarmed use, duration and recovery remain unavailable."
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
     },
     {
       "id": "health-crippling-effect-foot",

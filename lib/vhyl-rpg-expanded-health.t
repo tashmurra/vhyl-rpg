@@ -79,6 +79,9 @@ modify RpgExpandedProfile
 /** Preflight and receipt envelope for an explicitly selected expanded wound. */
 class RpgExpandedWoundResult: RpgExpandedResult
     dropPlan = nil
+    limbDrop = nil
+    crippling = nil
+    healthLoss = 0
     assessment = nil
     health = nil
 ;
@@ -91,6 +94,12 @@ class RpgExpandedWound: object
     profile = nil
     amount = 0
     location = 'torso'
+    bodyPart = nil
+    severing = nil
+    boundBodyPart = nil
+    boundSevering = nil
+    cripplingAssessment = nil
+    droppedLimbEquipment = nil
     maleGroin = nil
     anatomy = 'standard-humanoid'
     dropDestination = nil
@@ -113,9 +122,11 @@ class RpgExpandedWound: object
             if (!holds(self.profile.expandedWounds,self)) rpgExpandedReject('expanded-wound-history');
             if (self.profile != self.boundProfile || self.id != self.boundId || self.amount != self.boundAmount
                 || self.location != self.boundLocation || self.maleGroin != self.boundMaleGroin
+                || self.bodyPart != self.boundBodyPart || self.severing != self.boundSevering
                 || self.dropDestination != self.boundDropDestination
                 || self.anatomy != 'standard-humanoid') rpgExpandedReject('expanded-wound-retargeted');
-            value.status = 'reused'; value.health = self.health; value.assessment = self.knockdownAssessment; return value;
+            value.status = 'reused'; value.health = self.health; value.assessment = self.knockdownAssessment;
+            value.crippling = self.cripplingAssessment; value.healthLoss = self.health.injury; return value;
         }
         rpgExpandedValidate(self.profile);
         foreach (local wound in self.profile.expandedWounds)
@@ -128,8 +139,32 @@ class RpgExpandedWound: object
             if (self.profile.level(traitId) > 0)
             { value.reason = 'expanded-wound-trait-unavailable'; return value; }
         if (self.profile.dead) { value.reason = 'expanded-wound-dead'; return value; }
-        value.assessment = rpgExpandedAssessAnatomyKnockdown(self.profile.maxHP,self.amount,self.location,self.maleGroin,
-            self.profile.level('no-brain') > 0,self.profile.level('no-vitals') > 0);
+        value.healthLoss = self.amount;
+        if (self.bodyPart == nil)
+            value.assessment = rpgExpandedAssessAnatomyKnockdown(self.profile.maxHP,self.amount,self.location,self.maleGroin,
+                self.profile.level('no-brain') > 0,self.profile.level('no-vitals') > 0);
+        else
+        {
+            if (!self.bodyPart.ofKind(RpgExpandedBodyPart) || self.bodyPart.profile != self.profile
+                || !holds(self.profile.bodyParts,self.bodyPart) || self.location != self.bodyPart.kind
+                || self.maleGroin) rpgExpandedReject('expanded-wound-body-part');
+            if (!self.bodyPart.functional())
+            { value.reason = 'expanded-wound-disabled-part-unavailable'; return value; }
+            local count = 0;
+            foreach (local part in self.profile.bodyParts)
+                if (part.kind == self.bodyPart.kind) count += 1;
+            value.crippling = rpgExpandedAssessCrippling(self.profile.maxHP,self.amount,
+                self.bodyPart.kind == 'arm' ? 'limb' : 'extremity',count,self.severing);
+            value.healthLoss = value.crippling.healthLoss;
+            value.assessment = rpgExpandedAssessKnockdown(self.profile.maxHP,value.healthLoss,'torso',nil);
+            if (value.crippling.crippled)
+            {
+                value.assessment.major = true; value.assessment.required = true;
+                value.limbDrop = self.profile.prepareLimbInjuryDrop(self.bodyPart,value.crippling.severed,self.dropDestination);
+                if (value.limbDrop != nil && value.limbDrop.status != 'ready')
+                { value.reason = value.limbDrop.reason; return value; }
+            }
+        }
         if (value.assessment.required && !self.profile.unconscious)
         {
             value.dropPlan = self.profile.prepareKnockdownDrop(self.dropDestination);
@@ -141,18 +176,35 @@ class RpgExpandedWound: object
             if (score == nil || score < 3)
             { value.reason = 'expanded-knockdown-score-unavailable'; return value; }
         }
-        if (self.profile.ht < 3 && self.profile.hp() - self.amount <= -self.profile.maxHP)
+        if (self.profile.ht < 3 && self.profile.hp() - value.healthLoss <= -self.profile.maxHP)
         { value.reason = 'expanded-survival-score-unavailable'; return value; }
-        self.profile.shockFromInjury(self.amount);
+        self.profile.shockFromInjury(value.healthLoss);
         value.status = 'ready'; return value;
     }
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        self.health = rpgLiteWoundWithKnockdown(self.profile,self.amount,
+        self.health = rpgLiteWoundWithKnockdown(self.profile,value.healthLoss,
             value.assessment.required,value.assessment.modifier);
         if (self.health.knockedDown && value.dropPlan != nil)
         { value.dropPlan.commit(); self.droppedEquipment = value.dropPlan; }
+        if (value.crippling != nil && value.crippling.crippled)
+        {
+            self.bodyPart.disabled = true; self.bodyPart.severed = value.crippling.severed;
+            self.bodyPart.disablingWound = self;
+            if (value.limbDrop != nil)
+            {
+                /* Knockdown may already have dropped some of the same held items. */
+                local remaining = [];
+                foreach (local item in value.limbDrop.items)
+                    if (self.droppedEquipment == nil || !holds(self.droppedEquipment.items,item))
+                        remaining = remaining + [item];
+                value.limbDrop.items = remaining;
+                value.limbDrop.commit(); self.droppedLimbEquipment = value.limbDrop;
+            }
+        }
+        self.cripplingAssessment = value.crippling;
+        self.boundBodyPart = self.bodyPart; self.boundSevering = self.severing;
         self.knockdownAssessment = value.assessment;
         self.boundProfile = self.profile; self.boundId = self.id; self.boundAmount = self.amount;
         self.boundLocation = self.location; self.boundMaleGroin = self.maleGroin;
@@ -214,6 +266,7 @@ class RpgExpandedBodyPart: object
     parent = nil
     disabled = nil
     severed = nil
+    disablingWound = nil
     validate()
     {
         if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
@@ -221,6 +274,10 @@ class RpgExpandedBodyPart: object
             rpgExpandedReject('body-part-owner');
         if (!holds(['arm','hand'],self.kind)) rpgExpandedReject('body-part-kind-unavailable');
         if (self.severed && !self.disabled) rpgExpandedReject('body-part-severed-state');
+        if (self.disablingWound != nil && (!self.disablingWound.ofKind(RpgExpandedWound)
+            || self.disablingWound.profile != self.profile || self.disablingWound.boundBodyPart != self
+            || !holds(self.profile.expandedWounds,self.disablingWound)))
+            rpgExpandedReject('body-part-wound-history');
         if (self.kind == 'arm' && self.parent != nil) rpgExpandedReject('body-part-parent');
         if (self.kind == 'hand' && (self.parent == nil || !self.parent.ofKind(RpgExpandedBodyPart)
             || self.parent.kind != 'arm' || self.parent.profile != self.profile
@@ -318,5 +375,50 @@ modify RpgLiteItem
             if (part.disabled) impaired = true;
         }
         return impaired && bonus > 0 ? bonus - 1 : bonus;
+    }
+;
+
+
+modify RpgExpandedProfile
+    prepareLimbInjuryDrop(part, severed, destination)
+    {
+        local items = [];
+        foreach (local item in self.equipment)
+        {
+            item.validateBodySupports(self);
+            if (item.usableBy(self))
+            {
+                if (item.bodySupports.length() == 0)
+                {
+                    if (item.ready || item.worn && item.db > 0)
+                    { local blocked = new RpgExpandedResult(); blocked.reason = 'limb-drop-supports-required'; return blocked; }
+                }
+                else
+                {
+                    local affected = nil; local retained = nil;
+                    foreach (local support in item.bodySupports)
+                    {
+                        if (support == part || support.parent == part) affected = true;
+                        else retained = true;
+                    }
+                    if (affected)
+                    {
+                        if (item.worn)
+                        {
+                            if (item.db <= 0 || item.bodySupports.length() != 1 || item.bodySupports[1].kind != 'arm')
+                            { local blocked = new RpgExpandedResult(); blocked.reason = 'limb-drop-worn-support-unavailable'; return blocked; }
+                            if (part.kind == 'arm' && severed) items = items + [item];
+                        }
+                        else
+                        {
+                            if (retained)
+                            { local blocked = new RpgExpandedResult(); blocked.reason = 'limb-drop-multiple-grip-unavailable'; return blocked; }
+                            items = items + [item];
+                        }
+                    }
+                }
+            }
+        }
+        return self.prepareForcedDrop(items,destination);
     }
 ;

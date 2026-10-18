@@ -408,6 +408,61 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def limb_state(s):
+    s.action(1621)
+    return last(s, 'test.limb-state')
+
+
+def test_limb_wound_transactions(s):
+    initial = limb_state(s)
+    assert initial == [0, 0, 0, 1, None, None, 1, 3, 0, 0, 0, 0, 0, 0]
+    s.action(1622)
+    assert last(s, 'test.limb-preview') == ['ready', 6, 1, 1]
+    assert limb_state(s) == initial
+    s.action(1620, 5)
+    assert limb_state(s) == initial
+    for code, expected in [
+            (1, [6, 1, 0, 0, 'floor', None, 1, 2, 1, 3, 6, 1, 0, 0]),
+            (2, [6, 1, 1, 0, 'floor', 'floor', 0, 0, 1, 3, 6, 1, 0, 0]),
+            (3, [4, 0, 0, 0, 'floor', None, 1, 3, 1, 3, 4, 1, 0, 0]),
+            (4, [6, 1, 0, 0, 'floor', None, 1, 2, 1, 3, 6, 1, 0, 1])]:
+        s.action(1620, code)
+        assert last(s, 'test.limb-wound') == ['resolved', None]
+        assert limb_state(s) == expected
+        s.command('undo')
+        assert limb_state(s) == initial
+    s.action(1620, 6)
+    assert last(s, 'test.limb-wound') == ['blocked', 'forced-drop-destination-required']
+    assert limb_state(s) == initial
+    s.command('undo')
+    s.action(1620, 1)
+    saved = limb_state(s)
+    s.action(1620, 1)
+    assert last(s, 'test.limb-wound') == ['reused', None]
+    assert limb_state(s) == saved
+
+
+def test_limb_wound_persistence(Session, bundle, out):
+    for code in [1, 2, 3, 4]:
+        path = out / f'expanded-limb-wound-{code}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1620, code)
+            saved = limb_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1621')
+            assert limb_state(second) == saved
+            second.action(1620, 1)
+            assert last(second, 'test.limb-wound') == ['reused', None]
+            assert limb_state(second) == saved
+        finally:
+            second.close()
+
+
 def test_body_supports(s):
     # Full-2008 B421: hand disability permits a shield block, arm disability
     # prevents blocking but retains reduced passive protection unless severed.
@@ -2181,6 +2236,8 @@ def test(build):
     fresh(Session,health,test_body_supports)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
+    fresh(Session,wounds,test_limb_wound_transactions)
+    test_limb_wound_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_knockdown_equipment_drop)
     fresh(Session,wounds,test_knockdown_equipment_retained)
     test_knockdown_drop_persistence(Session,wounds,build.out)

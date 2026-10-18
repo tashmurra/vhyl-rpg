@@ -152,8 +152,7 @@ only for the groin location.
 
 The assessment gives precedence to B420's strictly-greater-than-half major-wound
 threshold over the appendix equality. Thus a half-capacity torso wound is not
-major, while a shock-producing face wound still requires a check. Eye and limb
-injuries reject because their crippling procedures are not implemented here.
+major, while a shock-producing face wound still requires a check. This pure helper rejects eye and limb locations. Owned arm/hand wounds use the separate crippling assessment described below.
 This helper is restricted to standard anatomy; it cannot represent absent brains
 or vitals, diffuse bodies or other injury-tolerance exceptions.
 
@@ -184,7 +183,7 @@ no second injury ledger. Raw attack damage, armour and damage multipliers must b
 resolved before creating this request.
 
 The supported subset requires humanoid locations, permits the absent-brain and
-absent-vitals knockdown exceptions below, excludes eye/limb crippling and other
+absent-vitals knockdown exceptions below, excludes eye and lower-limb crippling and other
 unsupported body/pain traits, and blocks a
 required check with an unavailable score. If a knockdown check could require held equipment to be dropped, include the
 expanded equipment module and supply `dropDestination`. Without that integration
@@ -243,7 +242,7 @@ IDs and retain the assessment in `wound.knockdownAssessment`. This integrates th
 knockdown effects only; it neither supplies trait prices nor changes final injury,
 protects other locations or implements every injury-tolerance effect. Authors
 still supply validated trait definitions and final injury. Homogeneous/diffuse
-bodies and eye/limb crippling remain explicitly unsupported by this request.
+bodies, eyes and lower limbs remain explicitly unsupported by this request.
 
 `test_knockdown_anatomy_exceptions` covers minor/major cases, unchanged unrelated
 locations, retained assessment flags and random draw counts. It is authored but
@@ -269,8 +268,8 @@ minimum 2, health loss 4, and destruction.
 
 This helper assesses one ordinary injury. It does not accumulate location injury,
 apply critical-result overrides, determine disability duration, or disable a
-body part. `RpgExpandedWound` continues to reject these locations until the
-corresponding functional consequences are implemented. Applying only its capped
+body part. The owned wound path below integrates the arm/hand subset; other
+locations remain unavailable. Applying only its capped
 health loss through a torso wound would omit those consequences and is not a
 supported integration.
 
@@ -290,9 +289,9 @@ state and do not store or spend health points.
 
 `validateBodyParts()` checks ownership, identities, supported kinds and parent
 relationships. `functional()` returns false for a disabled part or a hand on a
-disabled arm. Authors can supply existing disabilities with these fields. This
-is not yet an injury application or healing interface: ordinary wounds do not
-set or clear them, and no duration or advancement accounting is inferred.
+disabled arm. Authors can supply existing disabilities with these fields. The owned upper-limb wound path below sets disability and its wound reference.
+Healing does not yet clear these fields; no duration or advancement accounting
+is inferred.
 
 Bind a weapon's `bodySupports` to the hands holding it; bind an attached shield
 to its arm. The shared combat engine now dispatches weapon attacks, weapon
@@ -316,7 +315,44 @@ in strike preflight before an attack can spend resources or randomness.
 The bindings are explicit author facts. They do not infer which hand holds an
 unbound item, drop items, change unarmed defenses, prevent reloads or readying,
 or supply nonhuman limb effects. Do not use this partial interface to claim full
-crippling support. `RpgExpandedWound` still rejects limb and extremity injuries.
+crippling support. Only the explicit arm/hand wound path below is available.
 `test_body_supports` covers functional distinctions, early attack rejection,
 ownership errors and unsupported anatomy. It is authored but unrun; transaction,
 undo and save continuation of these new fields remain to be covered.
+
+
+## Committing an upper-limb wound
+
+Set `RpgExpandedWound.bodyPart` to the owned arm or hand and set `location` to
+its kind. `amount` remains final injury before the location cap. Set `severing`
+for cutting or explosive trauma. The assessment returns `healthLoss` and a
+`crippling` assessment separately from the original amount. The shared injury
+commit receives the capped loss; every crippling injury still requests one
+major-wound check, including hand wounds below half health capacity.
+
+On commitment, the part becomes disabled and retains `disablingWound`. A severed
+part is also marked severed; raw destruction facts remain in the wound's
+`cripplingAssessment`. Repeat application returns the historical result without
+spending health or randomness again. Changing the bound part or damage category
+on a committed request rejects.
+
+All carried held items and shields need explicit body supports before a
+crippling wound can be assessed. Single-grip affected items drop to
+`dropDestination`. A worn shield remains on a disabled arm unless the arm is
+severed; severing drops it and clears its worn state. The equipment module's
+`prepareForcedDrop` supplies storage and aim cleanup. Knockdown and local drops
+share item identities so an item is not dropped twice. Missing integration or
+destination blocks before injury or dice are spent.
+
+Multiple-grip retention, unsupported worn bindings, further injury to an already
+disabled part, critical-result crippling overrides, duration, recovery, unarmed
+combat and full limb-based action restrictions remain incomplete. Multiple-grip
+and already-disabled-part wounds explicitly block. This is a partial upper-limb
+integration, not complete crippling coverage. Authors must not assume the new
+state covers every action or supplies an automatic recovery schedule.
+
+`test_limb_wound_transactions` covers capped loss, below-half major wounds,
+retained/severed shields, overlapping knockdown drops, preview purity, rollback,
+undo and repeat protection. `test_limb_wound_persistence` covers the committed
+part/wound relationship and repeat protection after cross-process restoration.
+Both are authored but unrun while checks remain paused.
