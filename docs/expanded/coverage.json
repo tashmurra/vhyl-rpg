@@ -315,7 +315,10 @@
         "tests/expanded.py::test_software_requirements",
         "tests/expanded.py::test_software_purchase",
         "tests/expanded.py::test_software_purchase_persistence",
-        "tests/expanded.py::test_invention_proposals"
+        "tests/expanded.py::test_invention_proposals",
+        "tests/expanded.py::test_invention_concept",
+        "tests/expanded.py::test_invention_theories",
+        "tests/expanded.py::test_invention_concept_persistence"
       ],
       "validation_note": "Object assessments, fault repairs, computer processing/storage/link/transfer/recording and task equipment contributions and required-software technology fallback authored; fixtures unrun. Combined tools, interrupted recording, structural injury/repair and maintenance scheduling remain incomplete."
     },

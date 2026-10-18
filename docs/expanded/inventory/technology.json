@@ -326,9 +326,14 @@
       "pages": "B473",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Concept modifiers include +5 for a working model or +2 for a known existing design without one, +1 through +5 for an authored variant, -5 for campaign-new technology and -5 for an ordinary one-level advance; define applicability rather than granting mutually exclusive copying bonuses together.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_invention_concept",
+        "tests/expanded.py::test_invention_theories",
+        "tests/expanded.py::test_invention_concept_persistence"
+      ],
+      "validation_note": "Owned secret concept attempts, modifier assessment, inventor-wide daily limit and theory state authored; fixtures unrun. Complete modifier fixtures, blueprint entry, prototype interaction and flawed-theory discovery remain pending."
     },
     {
       "id": "technology-concept-day",
@@ -336,9 +341,14 @@
       "pages": "B473",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A secret concept check is available once per inventor per day. Ordinary failure permits another day's attempt; success creates a testable theory, while critical failure creates a hidden flawed theory that cannot produce a working prototype.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_invention_concept",
+        "tests/expanded.py::test_invention_theories",
+        "tests/expanded.py::test_invention_concept_persistence"
+      ],
+      "validation_note": "Owned secret concept attempts, modifier assessment, inventor-wide daily limit and theory state authored; fixtures unrun. Complete modifier fixtures, blueprint entry, prototype interaction and flawed-theory discovery remain pending."
     },
     {
       "id": "technology-blueprints",
@@ -356,9 +366,14 @@
       "pages": "B473",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For each technology level below the inventor, reduce difficulty by one category to a minimum of simple. Suitable historical sources allow the higher of research and invention skill for the concept check.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_invention_concept",
+        "tests/expanded.py::test_invention_theories",
+        "tests/expanded.py::test_invention_concept_persistence"
+      ],
+      "validation_note": "Owned secret concept attempts, modifier assessment, inventor-wide daily limit and theory state authored; fixtures unrun. Complete modifier fixtures, blueprint entry, prototype interaction and flawed-theory discovery remain pending."
     },
     {
       "id": "technology-prototype-check",

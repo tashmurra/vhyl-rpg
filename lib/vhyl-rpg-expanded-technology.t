@@ -1391,3 +1391,128 @@ class RpgExpandedInventionProposal: object
         value.status = 'ready'; return value;
     }
 ;
+
+modify RpgExpandedInventionProposal
+    definition()
+    {
+        return [self.inventor,self.skill,self.description,self.mechanism,self.evidence,self.approved,
+            self.techLevel,self.category,self.softwareComplexity,self.retailPrice,self.descriptionBonus,
+            self.relatedFacilities] + self.relatedSkills;
+    }
+;
+
+class RpgExpandedInventionProject: object
+    proposal = nil
+    attempts = []
+    theory = nil
+    definitionSnapshot = nil
+    validate()
+    {
+        if (self.proposal == nil || !self.proposal.ofKind(RpgExpandedInventionProposal))
+            rpgExpandedReject('invention-project-proposal');
+        if (self.definitionSnapshot == nil) return nil;
+        local current = self.proposal.definition();
+        if (current.length() != self.definitionSnapshot.length()) rpgExpandedReject('invention-project-retargeted');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('invention-project-retargeted');
+        return nil;
+    }
+;
+
+modify RpgLiteProfile
+    inventionConceptAttempts = []
+;
+
+class RpgExpandedInventionConceptResult: RpgExpandedResult
+    day = nil
+    theory = nil
+    score = nil
+;
+
+/** Secret concept receipt. Authors decide what the inventor learns; no public event is emitted. */
+class RpgExpandedInventionConcept: object
+    id = nil
+    project = nil
+    knowledge = 'new'
+    variantBonus = 0
+    campaignNew = nil
+    historicalSources = nil
+    researchSkill = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.project,self.knowledge,self.variantBonus,self.campaignNew,self.historicalSources,self.researchSkill,self.evidence]; }
+    validateBinding()
+    {
+        local current = self.definition();
+        if (self.boundDefinition == nil || current.length() != self.boundDefinition.length())
+            rpgExpandedReject('invention-concept-binding');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('invention-concept-binding');
+        self.project.validate();
+        if (!holds(self.project.attempts,self) || !holds(self.project.proposal.inventor.inventionConceptAttempts,self))
+            rpgExpandedReject('invention-concept-history');
+    }
+    assess()
+    {
+        if (self.project == nil || !self.project.ofKind(RpgExpandedInventionProject))
+            rpgExpandedReject('invention-concept-project');
+        self.project.validate();
+        local value = new RpgExpandedInventionConceptResult();
+        if (self.result != nil)
+        {
+            self.validateBinding(); value.status = 'reused'; value.check = self.result.check;
+            value.theory = self.result.theory; value.day = self.result.day; value.score = self.result.score; return value;
+        }
+        if (self.id == nil || self.id == '' || !holds(['new','exists','model'],self.knowledge))
+            rpgExpandedReject('invention-concept-definition');
+        rpgInteger(self.variantBonus,0,5);
+        if (self.evidence == nil || self.evidence == '')
+        { value.reason = 'invention-concept-evidence'; return value; }
+        local proposal = self.project.proposal; local inventor = proposal.inventor;
+        local assessment = proposal.assess();
+        if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
+        if (self.project.theory != nil) { value.reason = 'invention-theory-already-held'; return value; }
+        if (inventor.dead || inventor.unconscious || inventor.stunned || inventor.hp() <= 0 || inventor.fp() <= 0)
+        { value.reason = 'invention-inventor-unavailable'; return value; }
+        value.day = rpgLedger.seconds / 86400;
+        foreach (local prior in inventor.inventionConceptAttempts)
+        {
+            if (prior == nil || !prior.ofKind(RpgExpandedInventionConcept) || prior.result == nil)
+                rpgExpandedReject('invention-concept-history');
+            prior.validateBinding();
+            if (prior.id == self.id) rpgExpandedReject('invention-concept-duplicate');
+            if (prior.result.day == value.day) { value.reason = 'invention-concept-day-used'; return value; }
+        }
+        local base = assessment.skillScore;
+        if (self.historicalSources)
+        {
+            if (proposal.techLevel >= inventor.techLevel) rpgExpandedReject('invention-historical-context');
+            if (self.researchSkill == nil || !self.researchSkill.ofKind(RpgLiteSkill) || self.researchSkill.id != 'research')
+                rpgExpandedReject('invention-research-skill');
+            local research = inventor.skillScore(self.researchSkill);
+            if (research == nil) { value.reason = 'invention-research-unavailable'; return value; }
+            if (research > base) base = research;
+            foreach (local related in proposal.relatedSkills)
+            { local score = proposal.paidScore(related); if (score < base) base = score; }
+        }
+        value.modifier = assessment.conceptModifier + (self.knowledge == 'model' ? 5 : self.knowledge == 'exists' ? 2 : 0)
+            + self.variantBonus - (self.campaignNew ? 5 : 0);
+        value.score = base + value.modifier; rpgInteger(value.score,-1000,1000);
+        if (value.score < 3) { value.reason = 'too-difficult'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgCheck(value.score,rpgRandom.roll());
+        value.theory = value.check.achieved ? 'testable' : value.check.critical == 'failure' ? 'flawed' : nil;
+        self.boundDefinition = self.definition();
+        if (self.project.definitionSnapshot == nil) self.project.definitionSnapshot = self.project.proposal.definition();
+        self.project.attempts = self.project.attempts + [self];
+        local inventor = self.project.proposal.inventor;
+        inventor.inventionConceptAttempts = inventor.inventionConceptAttempts + [self];
+        self.project.theory = value.theory; value.status = 'resolved'; self.result = value; return value;
+    }
+;

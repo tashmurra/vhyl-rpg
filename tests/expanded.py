@@ -973,6 +973,72 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def concept_state(s):
+    s.action(2098)
+    return last(s,'test.concept-state')
+
+
+def test_invention_concept(s):
+    initial = [0,0,None,0,0]
+    for code in [2,1]:
+        s.action(2097,code)
+        assert concept_state(s) == initial
+    s.action(2097,0)
+    assert last(s,'test.concept') == ['resolved',None,None,5,10]
+    failed = [1,1,None,3,0]
+    assert concept_state(s) == failed
+    for code in [0,8,9]:
+        s.action(2097,code)
+        assert concept_state(s) == failed
+    for code in [6,7]:
+        s.action(2097,code)
+        assert last(s,'test.concept')[:2] == ['blocked','invention-concept-day-used']
+        assert concept_state(s) == failed
+    s.action(2097,5)
+    s.action(2097,6)
+    assert last(s,'test.concept') == ['resolved',None,None,10,11]
+    assert concept_state(s) == [2,2,None,6,86400]
+    s.command('undo')
+    assert concept_state(s) == [1,1,None,3,86400]
+
+
+def test_invention_theories(Session,bundle):
+    for code,theory,score,roll in [(3,'testable',10,10),(4,'flawed',5,17)]:
+        s = Session(bundle)
+        try:
+            s.action(2097,code)
+            assert last(s,'test.concept') == ['resolved',None,theory,score,roll]
+            saved = [1,1,theory,3,0]
+            assert concept_state(s) == saved
+            s.action(2097,5)
+            s.action(2097,6)
+            assert last(s,'test.concept')[:2] == ['blocked','invention-theory-already-held']
+            assert concept_state(s) == saved[:-1] + [86400]
+        finally:
+            s.close()
+
+
+def test_invention_concept_persistence(Session,bundle,out):
+    path = out / 'expanded-invention-concept.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2097,0)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2098')
+        assert concept_state(second) == [1,1,None,3,0]
+        second.action(2097,0)
+        assert concept_state(second) == [1,1,None,3,0]
+        second.action(2097,5)
+        second.action(2097,6)
+        assert concept_state(second) == [2,2,None,6,86400]
+    finally:
+        second.close()
+
+
 def test_invention_proposals(Session,bundle):
     for code,expected in [
             (0,['ready',None,15,'average',-10,100000,1000]),
@@ -5992,6 +6058,10 @@ def test(build):
     test_breakdown_repair_persistence(Session,breakdown,build.out)
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
+    invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_invention_concept)
+    test_invention_theories(Session,invention)
+    test_invention_concept_persistence(Session,invention,build.out)
     technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')
     test_invention_proposals(Session,technology)
     fresh(Session,technology,test_broken_weapons)

@@ -16,7 +16,9 @@ Task-scoped software can contribute an equipment modifier through a running copy
 and live terminal. Required software can select an explicitly approved lower
 technology for the task without changing learned skill. Host-bound software sales
 share the acquisition ledger, with no repeated charge for program instances. Object damage, inventory transformation, maintenance scheduling,
-structural repair and inventions remain unfinished. New fixtures are authored and
+structural repair and invention prototypes remain unfinished. Invention proposals
+and secret daily concept attempts now retain testable or flawed theory state;
+prototype construction, testing and production remain pending. New fixtures are authored and
 unrun while checks are paused.
 
 The implemented subsets include secondary purchases and character accounting,

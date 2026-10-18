@@ -731,3 +731,46 @@ pending. Do not charge the returned costs merely for submitting a proposal.
 technology limits, historical reduction, facilities reuse, software complexity,
 approval, training and description-bonus cases in the technology fixture. The
 fixtures are unrun while checks remain paused. Neutral source: `full-2008`, B473–B474.
+
+
+## Owned secret concept attempts
+
+Create a `RpgExpandedInventionProject` with its approved `proposal`, then a
+`RpgExpandedInventionConcept` with a unique inventor-wide `id`, that `project`,
+and evidence for the current attempt. `knowledge` selects exactly one of `new`,
+`exists` or `model`, so the existing-design and working-model bonuses cannot both
+apply. `variantBonus` is an authored zero through five, and `campaignNew` applies
+the source penalty for technology new to the campaign.
+
+For a lower-technology invention, `historicalSources` asserts that suitable
+references are accessible. Supply a `researchSkill` whose neutral identifier is
+`research`; the assessment uses the higher research/invention score, still capped
+by required related subjects. Neither the presence of a library nor a high
+research score automatically establishes suitable historical sources.
+
+`assess()` returns a score and day without rolling. `apply()` makes one secret
+check, records the receipt in the project and in the inventor's
+`inventionConceptAttempts`, and stores a `testable` or `flawed` theory where
+appropriate. Ordinary failure leaves theory empty and permits another day.
+Both kinds of theory prevent further concept attempts on that project until a
+later supported project stage resolves them. Flaw discovery is not implemented.
+
+The shared clock defines days as consecutive 86,400-second intervals from game
+time zero. One inventor can spend only one concept opportunity in each interval,
+even on different projects. This is an eligibility limit, not an automatic charge
+of a full day's time: the source specifies attempt frequency without a mandatory
+work duration. Authored scheduling advances the shared clock. No money is spent.
+
+Keep the result private: the operation emits no player-facing event and never
+announces whether a theory is flawed. Narrative feedback belongs to the author.
+The original proposal is bound on first execution; editing its substantive fields
+later rejects. New evidence for another attempt uses a new request. Replay returns
+the original outcome without consuming randomness or another daily opportunity.
+Use the existing action transaction for rollback, undo and saves.
+
+`test_invention_concept`, `test_invention_theories` and
+`test_invention_concept_persistence` author ordinary failure, testable and flawed
+theories, previews, rollback, replay, proposal retargeting, global daily limits,
+clock boundaries, undo and cross-process continuation. These fixtures are unrun.
+Blueprint entry, prototype construction, discovering flawed theories, calendar
+variants and cinematic invention remain incomplete.
