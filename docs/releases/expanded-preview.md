@@ -846,3 +846,8 @@ Lower-limb penalties now apply once to declared leg-dependent skills and melee
 attacks/parries, with ranged attacks exempt. Context overrides and skill metadata
 support authored tasks; complete classification remains pending. Score fixtures
 are authored and unrun.
+
+A fitted peg support can now permit standing and capped walking for a biped with
+one impaired leg. Existing inventory, encumbrance, injury and fatigue calculations
+apply; aid/terrain availability is rechecked. Transaction/save fixtures remain
+unrun. Crutches, crawling and support-loss falls remain incomplete.

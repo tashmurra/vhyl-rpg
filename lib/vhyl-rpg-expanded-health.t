@@ -6059,6 +6059,8 @@ modify RpgExpandedProfile
     postureChangeReason(posture)
     {
         if (!self.lowerLimbImpaired()) return inherited(posture);
+        if (posture == 'standing' && self.mobilitySupport != nil && self.mobilitySupport.assess().status == 'ready')
+            return inherited(posture);
         if (holds(['standing','crouching','crawling'],posture)) return 'lower-limb-support-required';
         if (posture == 'kneeling')
             foreach (local part in self.bodyParts)
@@ -6067,7 +6069,8 @@ modify RpgExpandedProfile
     }
     move()
     {
-        if (!self.dead && !self.unconscious && self.lowerLimbImpaired())
+        if (!self.dead && !self.unconscious && self.lowerLimbImpaired()
+            && (self.mobilitySupport == nil || self.mobilitySupport.assess().status != 'ready'))
             rpgExpandedReject('lower-limb-movement-adapter-required');
         return inherited();
     }
@@ -6098,5 +6101,71 @@ modify RpgLiteContext
         local applies = self.legUse == 'required' || self.legUse == 'auto'
             && self.skill != nil && self.skill.ofKind(RpgLiteSkill) && self.skill.usesLegs;
         return inherited(profile) + (applies ? profile.legUsePenalty() : 0);
+    }
+;
+
+modify RpgExpandedProfile
+    mobilitySupport = nil
+    groundMoveBase()
+    {
+        local base = inherited();
+        if (!self.lowerLimbImpaired()) return base;
+        if (self.mobilitySupport == nil || self.mobilitySupport.assess().status != 'ready')
+            rpgExpandedReject('lower-limb-movement-adapter-required');
+        return base < 2 ? base : 2;
+    }
+;
+/** B141 fitted peg, one impaired leg on a biped. Fitting/terrain are author facts. */
+class RpgExpandedPegSupport: object
+    profile = nil
+    leg = nil
+    item = nil
+    fitted = nil
+    terrainSuitable = nil
+    approved = nil
+    evidence = nil
+    boundDefinition = nil
+    definition() { return [self.profile,self.leg,self.item,self.fitted,self.approved,self.evidence]; }
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.leg == nil || !self.leg.ofKind(RpgExpandedBodyPart) || self.leg.kind != 'leg'
+            || self.leg.profile != self.profile || self.item == nil || !self.item.ofKind(RpgLiteItem))
+            rpgExpandedReject('peg-support-definition');
+        if (self.boundDefinition != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('peg-support-binding');
+        }
+        local value = new RpgExpandedResult();
+        if (!self.approved || !self.fitted || self.evidence == nil || self.evidence == '' || !self.terrainSuitable)
+        { value.reason = 'peg-support-author-facts'; return value; }
+        self.profile.validateBodyParts();
+        local legs = 0; local impaired = 0;
+        foreach (local part in self.profile.bodyParts)
+        {
+            if (part.kind == 'leg') { legs += 1; if (!part.functional()) impaired += 1; }
+            if (part.kind == 'foot' && part.parent != self.leg && !part.functional())
+            { value.reason = 'peg-support-other-foot'; return value; }
+        }
+        if (legs != 2 || impaired != 1 || self.leg.functional())
+        { value.reason = 'peg-support-anatomy'; return value; }
+        if (!holds(self.profile.equipment,self.item) || !self.item.worn || !self.item.usableBy(self.profile))
+        { value.reason = 'peg-support-item-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    activate()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.profile.mobilitySupport != nil && self.profile.mobilitySupport != self)
+            rpgExpandedReject('peg-support-already-active');
+        value.status = self.profile.mobilitySupport == self ? 'reused' : 'resolved';
+        self.boundDefinition = self.definition(); self.profile.mobilitySupport = self; return value;
+    }
+    deactivate()
+    {
+        if (self.profile != nil && self.profile.mobilitySupport == self) self.profile.mobilitySupport = nil;
+        return nil;
     }
 ;

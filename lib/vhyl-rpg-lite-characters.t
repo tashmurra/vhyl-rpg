@@ -69,6 +69,7 @@ class RpgLiteProfile: RpgProfile
     voluntaryMovementUnavailable() { return nil; }
     postureChangeReason(posture) { return nil; }
     legUsePenalty() { return 0; }
+    groundMoveBase() { return self.basicMove(); }
     healthEffortReason(purpose, mentalAbility, speech, movement) { return nil; }
     healthDefensePenalty() { return 0; }
     afterNeedsCycle(needs) { return nil; }
@@ -166,7 +167,7 @@ class RpgLiteProfile: RpgProfile
     {
         local load = self.encumbrance();
         if (load == 5 || self.unconscious || self.dead) return 0;
-        local amount = self.basicMove() * (5 - load) / 5;
+        local amount = self.groundMoveBase() * (5 - load) / 5;
         if (amount < 1) amount = 1;
         if (self.hp() * 3 < self.maxHP) amount = (amount + 1) / 2;
         if (self.fp() * 3 < self.maxEnergy) amount = (amount + 1) / 2;

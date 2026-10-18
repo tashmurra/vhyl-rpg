@@ -8909,6 +8909,8 @@ def test(build):
     test_fall_lower(Session, fall_lower, build.out)
     lower_skills = build.build('expanded-lower-skills',ROOT / 'tests/fixtures/expanded-lower-skills.t')
     test_lower_skills(Session, lower_skills)
+    peg_support = build.build('expanded-peg-support',ROOT / 'tests/fixtures/expanded-peg-support.t')
+    test_peg_support(Session, peg_support, build.out)
     fall_arm_equipment = build.build('expanded-fall-arm-equipment',ROOT / 'tests/fixtures/expanded-fall-arm-equipment.t')
     test_fall_arm_equipment(Session, fall_arm_equipment, build.out)
     test_collision_cap(Session, collision, fall_injury)
@@ -14160,5 +14162,46 @@ def test_lower_skills(Session, bundle):
             for code in setup+(960,):
                 s.action(2285,code)
             assert last(s,'test.lower-skills') == expected
+        finally:
+            s.close()
+
+
+def test_peg_support(Session, bundle, out):
+    def state(s):
+        s.action(2285,972)
+        return last(s,'test.peg-support')
+    unsupported = [6,0,'lower-limb-movement-adapter-required','lying',4]
+    supported = [6,1,2,'standing',4]
+    path = out / 'expanded-peg-support.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,931,831,971):
+            s.action(2285,code)
+        assert state(s) == unsupported
+        s.action(2285,970)
+        s.command('undo')
+        assert state(s) == unsupported
+        for code in (970,970,975):
+            s.action(2285,code)
+        assert state(s) == supported
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,970)
+        assert state(s) == supported
+        s.action(2285,976)
+        assert state(s) == [6,0,'lower-limb-movement-adapter-required','standing',4]
+    finally:
+        s.close()
+    for change, expected in ((973,'lower-limb-movement-adapter-required'),
+                              (974,'lower-limb-movement-adapter-required'),(977,1),(978,1)):
+        s = Session(bundle)
+        try:
+            for code in (30,931,831,970,975,change):
+                s.action(2285,code)
+            assert state(s) == [6,1,expected,'standing',4]
         finally:
             s.close()

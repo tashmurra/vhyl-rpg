@@ -2861,3 +2861,30 @@ The score fixture compares intact anatomy, a foot wound and leg wounds, includin
 explicit exemption, skill metadata and actual unarmed parry scores. It uses defense
 contexts to separate the persistent skill penalty from temporary shock. Assertions
 remain unrun while checks are paused. Source: `full-2008`, B141 and B421.
+
+### Fitted peg support
+
+`RpgExpandedPegSupport` permits the B141 supported-walking case for a biped with
+exactly one impaired leg and an unimpaired foot on the other leg. Set `profile`,
+`leg`, the owned `item`, `fitted`, `terrainSuitable`, `approved` and `evidence`.
+The item must already be worn and usable. The author establishes fitting and route
+suitability; this operation does not perform fitting or infer medical suitability.
+
+`activate()` binds the fitting facts and selects the profile's `mobilitySupport`.
+Repeated activation reuses it; `deactivate()` removes the selection. Neither adds
+time or changes purchased attributes. The terrain flag is a live authored fact;
+item possession, worn state, usability and anatomy are rechecked on movement and
+standing assessments. Update terrain suitability when the route changes.
+
+The `groundMoveBase()` hook limits movement to at most 2 before normal encumbrance,
+injury, fatigue and posture calculations. Default profiles retain `basicMove()` as
+their ground base. Active valid support permits standing through the posture hook;
+ordinary posture-action timing still applies. Removing the aid, making it unusable,
+or marking terrain unsuitable blocks supported movement. It does not automatically
+resolve a new fall or change posture when support is lost; that event path remains
+unfinished. Existing leg-use skill penalties still apply.
+
+Fixtures specify activation replay, rollback, undo, save continuation, removal,
+terrain changes, encumbrance and fatigue reductions. Assertions remain unrun.
+Crutches, leaning supports, hand reservations, crawling, loss-of-support falls and
+broader locomotion integration remain pending.
