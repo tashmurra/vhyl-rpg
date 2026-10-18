@@ -467,9 +467,29 @@ ends the exposure; it does not restore fatigue or remove another source's lock.
 Normal recovery can then restore eligible fatigue. Historical receipts remain
 available after the episode ends.
 
-Overflow at zero fatigue is explicitly blocked pending integration with owned
-injury consequences. Thermal shock, changing conditions, automatic scheduling,
+Overflow injury now uses the owned wound path described below. Thermal shock,
+changing conditions, automatic scheduling,
 and cold-specific transaction/save fixtures remain incomplete.
 `test_cold_intervals` records expected timing, failure cost, repeated use, history
 validation, missing-heat rejection and preservation of another temperature lock.
 The fixture remains unrun while checks are paused.
+
+
+At zero fatigue or below, cold-interval assessment prepares a one-point owned
+wound. Set the interval's `dropDestination` if its possible consequences require
+an equipment drop. Any unsupported wound consequence blocks before the cold roll.
+Failure applies the wound and the shared single-point fatigue increment; fatigue
+stops at the existing negative-capacity limit while further failed cold checks
+can still cause injury. Collapse uses the existing fatigue-collapse flags.
+
+`temperatureInjury` and `temperatureFatigue` receive the committed amounts.
+The exposure records its own contribution to each restriction; shelter and heat
+release both contributions without healing injury, restoring fatigue or clearing
+another episode's locks. A successful cold check discards the prepared wound.
+The Lite fatigue function retains its original injury-before-increment order and
+end-of-call collapse logic; only the single-point increment arithmetic is shared.
+This intended compatibility still requires the paused regression suite to run.
+
+`test_cold_overflow` records expected behavior at zero fatigue, just above the
+negative-capacity limit and at that limit, plus successful resistance, repeat
+protection and recovery restriction ownership. These fixtures remain unrun.

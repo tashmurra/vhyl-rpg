@@ -71,17 +71,23 @@ rpgLiteFatigue(profile, amount, cause)
     while (remaining > 0)
     {
         if (profile.fp() <= 0) result.injury += rpgLiteWound(profile, 1).injury;
-        if (profile.fp() > -profile.maxEnergy)
-        {
-            profile.fatigue += 1; result.fatigue += 1;
-            if (cause == 'hunger') profile.hunger += 1;
-            if (cause == 'thirst') profile.thirst += 1;
-            if (cause == 'sleep') profile.sleepDebt += 1;
-        }
+        result.fatigue += rpgLiteFatigueIncrement(profile,cause);
         remaining -= 1;
     }
     if (profile.fp() <= -profile.maxEnergy) { profile.unconscious = true; profile.fatigueCollapse = true; }
     return result;
+}
+
+/** Shared single-point fatigue increment. Caller owns injury and final collapse.
+ * Internal arithmetic helper: it does not check, heal, spend time or draw dice. */
+rpgLiteFatigueIncrement(profile, cause)
+{
+    if (profile.fp() <= -profile.maxEnergy) return 0;
+    profile.fatigue += 1;
+    if (cause == 'hunger') profile.hunger += 1;
+    if (cause == 'thirst') profile.thirst += 1;
+    if (cause == 'sleep') profile.sleepDebt += 1;
+    return 1;
 }
 
 /** Check consciousness and effort when necessary; a failed check may incapacitate the character. */

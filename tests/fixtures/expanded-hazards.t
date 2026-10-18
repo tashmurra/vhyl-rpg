@@ -225,5 +225,20 @@ act(verb,args)
         eventValue(patient.fatigue); eventValue(patient.temperatureFatigue); eventValue(exposure.lockedFatigue);
         eventValue(patient.coldExposure == nil ? 1 : 0); eventValue(rpgLedger.seconds - time); return nil;
     }
+    if (verb == 1833)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.rules.scaledInjuryShock = true;
+        patient.fatigue = args[1]; patient.temperatureFatigue = 2; patient.injury = 2; patient.temperatureInjury = 2;
+        local exposure = new RpgExpandedColdExposure(); exposure.id = 'overflow-watch'; exposure.profile = patient;
+        exposure.temperatureEvidence = 'Observed freezing conditions'; exposure.start(); rpgSpendTime(1800);
+        local interval = new RpgExpandedColdInterval(); interval.id = 'first'; interval.exposure = exposure;
+        rpgRandom.seed(args[2]); local time = rpgLedger.seconds; local value = interval.apply(); patient.validateFeatures();
+        event('test.cold-overflow'); eventValue(value.fatigue); eventValue(value.injury); eventValue(patient.fatigue);
+        eventValue(patient.injury); eventValue(patient.temperatureFatigue); eventValue(patient.temperatureInjury);
+        eventValue(patient.fatigueCollapse ? 1 : 0); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds - time);
+        interval.apply(); exposure.finish(true,true,'Adequate shelter and heat'); patient.validateFeatures();
+        event('test.cold-overflow-shelter'); eventValue(patient.fatigue); eventValue(patient.injury);
+        eventValue(patient.temperatureFatigue); eventValue(patient.temperatureInjury); eventValue(rpgRandom.draws); return nil;
+    }
     return vhylAct(verb,args);
 }
