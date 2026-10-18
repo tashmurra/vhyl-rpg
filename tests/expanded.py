@@ -547,6 +547,39 @@ def wealth_state(s):
     return last(s, 'test.wealth-state')
 
 
+def monthly_state(s):
+    s.action(1161)
+    return last(s, 'test.monthly-state')
+
+
+def test_monthly_finance(s):
+    initial = monthly_state(s)
+    assert initial == [0, 0, 0, 0, 0]
+    s.action(1162)
+    assert last(s, 'test.monthly-preview') == ['ready', 600]
+    assert monthly_state(s) == initial
+    s.action(1163)
+    assert last(s, 'test.monthly-gates') == [
+        -2, 400, 'monthly-finance-not-due', 'monthly-debt-unaffordable',
+        'monthly-default-consequence-required', 'defaulted', 0, 1, 'reused',
+        'monthly-finance-period-gap', -400, 100, 'monthly-debt-without-wealth',
+        'monthly-finance-fractional-money']
+    s.action(1100, 24)
+    assert monthly_state(s) == initial
+    s.action(1100, 23)
+    assert monthly_state(s) == [600, 1, 1, 0, 0]
+    s.action(1100, 23)
+    assert last(s, 'test.monthly-payment') == ['reused', 0]
+    assert monthly_state(s) == [600, 1, 1, 0, 0]
+
+
+def test_monthly_undo(s):
+    initial = monthly_state(s)
+    s.action(1100, 23)
+    s.command('undo')
+    assert monthly_state(s) == initial
+
+
 def test_starting_wealth(s):
     for tl, amount in enumerate([250, 500, 750, 1000, 2000, 5000, 10000,
                                  15000, 20000, 30000, 50000, 75000, 100000]):
@@ -656,7 +689,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')

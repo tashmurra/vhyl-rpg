@@ -289,3 +289,102 @@ class RpgExpandedWealthAllocation: object
         value.status = 'resolved'; return value;
     }
 ;
+
+/** Recurring income or debt, full-2008 B26. One owned contribution per kind.
+ * Periods are authored calendar months, not assumed thirty-day durations. */
+class RpgExpandedMonthlyFinance: RpgExpandedContribution
+    kind = 'income'
+    levels = 1
+    wealth = nil
+    lastPeriod = 0
+    history = []
+    amounts(profile)
+    {
+        rpgInteger(self.levels, 1, 20);
+        if (!holds(['income','debt'],self.kind)) rpgExpandedReject('monthly-finance-kind');
+        return [self.kind == 'income' ? self.levels : -self.levels];
+    }
+    validate(profile)
+    {
+        self.amounts(profile);
+        if (self.wealth == nil || !self.wealth.ofKind(RpgExpandedWealth)
+            || self.wealth.owner != profile || !holds(profile.contributions,self.wealth))
+            rpgExpandedReject('monthly-finance-wealth');
+        if (self.kind == 'debt' && self.wealth.rank() == 1)
+            rpgExpandedReject('monthly-debt-without-wealth');
+        foreach (local entry in profile.contributions)
+            if (entry != self && entry.ofKind(RpgExpandedMonthlyFinance) && entry.kind == self.kind)
+                rpgExpandedReject('duplicate-monthly-finance');
+        rpgInteger(self.lastPeriod, 0, 1000000);
+        return nil;
+    }
+    monthlyAmount()
+    {
+        self.validate(self.owner);
+        local base = self.wealth.startingValue(self.owner.campaignTL);
+        /* Divide first to avoid overflow; reject fractional money explicitly. */
+        local remainder = (base % 100) * self.levels;
+        if (remainder % 100 != 0) rpgExpandedReject('monthly-finance-fractional-money');
+        return (base / 100) * self.levels + remainder / 100;
+    }
+;
+
+class RpgExpandedMonthlyFinanceResult: RpgExpandedResult
+    money = 0
+    outcome = nil
+;
+
+/** Settle one explicitly due month. Defaulting requires an authored consequence
+ * record; paying debt never automatically removes its character-point cost. */
+class RpgExpandedMonthlySettlement: object
+    finance = nil
+    period = 1
+    due = nil
+    decision = 'pay'
+    consequence = nil
+    assess()
+    {
+        if (self.finance == nil || !self.finance.ofKind(RpgExpandedMonthlyFinance)
+            || self.finance.owner == nil || !self.finance.owner.ofKind(RpgExpandedProfile)
+            || !holds(self.finance.owner.contributions,self.finance))
+            rpgExpandedReject('monthly-finance-owner');
+        rpgInteger(self.period, 1, 1000000);
+        if (!holds(['pay','default'],self.decision)) rpgExpandedReject('monthly-finance-decision');
+        local value = new RpgExpandedMonthlyFinanceResult();
+        if (self.period <= self.finance.lastPeriod)
+        { value.status = 'reused'; return value; }
+        if (self.period != self.finance.lastPeriod + 1)
+        { value.reason = 'monthly-finance-period-gap'; return value; }
+        local profile = self.finance.owner; rpgExpandedValidate(profile);
+        rpgInteger(profile.money, 0, 2147483647);
+        if (!self.due) { value.reason = 'monthly-finance-not-due'; return value; }
+        local amount = self.finance.monthlyAmount();
+        if (self.decision == 'default')
+        {
+            if (self.finance.kind != 'debt') rpgExpandedReject('monthly-income-default');
+            if (self.consequence == nil)
+            { value.reason = 'monthly-default-consequence-required'; return value; }
+            value.outcome = 'defaulted';
+        }
+        else if (self.finance.kind == 'income')
+        {
+            if (profile.money > 2147483647 - amount)
+                rpgExpandedReject('monthly-finance-money-limit');
+            value.money = amount; value.outcome = 'received';
+        }
+        else
+        {
+            if (profile.money < amount) { value.reason = 'monthly-debt-unaffordable'; return value; }
+            value.money = -amount; value.outcome = 'paid';
+        }
+        value.status = 'ready'; return value;
+    }
+    settle()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.finance.owner.money += value.money;
+        self.finance.lastPeriod = self.period;
+        self.finance.history = self.finance.history + [[self.period,value.money,value.outcome,self.consequence]];
+        value.status = 'resolved'; return value;
+    }
+;

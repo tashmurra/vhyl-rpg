@@ -282,3 +282,41 @@ unsupported rather than crediting starting funds twice.
 factors and costs, integer limits, campaign-versus-personal technology, allocation
 approval, preview purity, one-time funding, rollback and undo. These cases are
 authored but unrun while validation is paused.
+
+
+## Recurring income and debt
+
+`RpgExpandedMonthlyFinance` is an owned contribution with a unique `id`, `owner`,
+`wealth` contribution, `kind` (`income` or `debt`) and `levels` from 1 to 20.
+Include it and its wealth contribution in the owner's `contributions`. Each income
+level costs one point; each debt level contributes minus one point. Both calculate
+a monthly amount of one percent of wealth-adjusted starting wealth per level
+(full-2008 B26). Only one contribution of each kind is accepted. Debt cannot use
+the zero-wealth tier. Payments do not buy off the disadvantage.
+
+Create `RpgExpandedMonthlySettlement` with `finance`, a sequential `period`
+starting at 1, and an explicit `due` fact. The world calendar decides when that
+month is due: this module does not equate a month with thirty days or advance the
+shared clock. Call pure `assess()` before committing `settle()` in an action.
+Income credits the existing money balance; debt debits it. Income can accompany
+job earnings, but job earnings must be credited once by their own procedure.
+The contribution stores `lastPeriod` and `history`, so a second settlement object
+for a settled month is a no-op. Skipped months are rejected; settle them in order.
+
+Insufficient funds blocks payment without mutation. A deliberate debt default uses
+`decision = 'default'` and a non-nil `consequence` identifying the authored creditor
+encounter or other consequence record. Commit the actual world consequence within
+the same action transaction. The settlement records default without inventing an
+arrest, repossession or encounter. Automatic consequence execution and creditor
+resolution remain unimplemented; a stored reference is not evidence that those
+procedures have been completed.
+
+The existing money ledger holds whole units. A monthly amount that requires a
+fractional unit is explicitly unsupported, rather than silently rounded. Changes
+to wealth during an ongoing obligation also require author review: amounts are
+assessed from the currently owned wealth contribution. Calendar scheduling,
+fractional currency, and obligation buyoff remain pending.
+
+Authored `test_monthly_finance` and `test_monthly_undo` cases in `tests/expanded.py`
+cover costs, amounts, due dates, duplicate receipts, defaults, funds, period gaps,
+preview purity, exception rollback and undo. Checks remain paused and unrun.

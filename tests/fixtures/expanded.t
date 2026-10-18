@@ -37,6 +37,11 @@ controlQuestion: RpgExpandedControlQuestion subject = expandedHero contextId = '
 wealthHero: RpgExpandedProfile rules = expandedRules campaignTL = 8 techLevel = 10 contributions = [wealthPurchase];
 wealthPurchase: RpgExpandedWealth owner = wealthHero;
 wealthAllocation: RpgExpandedWealthAllocation profile = wealthHero wealth = wealthPurchase;
+monthlyHero: RpgExpandedProfile rules = expandedRules campaignTL = 8
+    contributions = [monthlyWealth,monthlyIncome];
+monthlyWealth: RpgExpandedWealth owner = monthlyHero;
+monthlyIncome: RpgExpandedMonthlyFinance id = 'pension' owner = monthlyHero wealth = monthlyWealth levels = 3;
+monthlyPayment: RpgExpandedMonthlySettlement finance = monthlyIncome due = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -95,6 +100,12 @@ class ExpandedTestAction: Action
             local value = wealthAllocation.allocate(); event('test.wealth-allocation');
             eventValue(value.status); eventValue(value.reason); eventValue(value.cash);
             if (code == 22) throw new RpgError();
+        }
+        if (code == 23 || code == 24)
+        {
+            local value = monthlyPayment.settle(); event('test.monthly-payment');
+            eventValue(value.status); eventValue(value.money);
+            if (code == 24) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -856,6 +867,42 @@ act(verb, args)
         item.techLevel = 8; eventValue(offer.acquire().money); eventValue(p.money);
         eventValue(offer.acquire().status); eventValue(p.equipment.length());
         try { rpgExpandedStartingEquipmentPrice(1073741824,4,3); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1161)
+    {
+        event('test.monthly-state'); eventValue(monthlyHero.money); eventValue(monthlyIncome.lastPeriod);
+        eventValue(monthlyIncome.history.length()); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws);
+        return nil;
+    }
+    if (verb == 1162)
+    {
+        local value = monthlyPayment.assess(); event('test.monthly-preview');
+        eventValue(value.status); eventValue(value.money); return nil;
+    }
+    if (verb == 1163)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.campaignTL = 8;
+        local wealth = new RpgExpandedWealth(); wealth.owner = p;
+        local debt = new RpgExpandedMonthlyFinance(); debt.id = 'loan'; debt.owner = p;
+        debt.kind = 'debt'; debt.wealth = wealth; debt.levels = 2; p.contributions = [wealth,debt];
+        local payment = new RpgExpandedMonthlySettlement(); payment.finance = debt;
+        event('test.monthly-gates'); eventValue(debt.amounts(p)[1]); eventValue(debt.monthlyAmount());
+        eventValue(payment.assess().reason); payment.due = true; eventValue(payment.assess().reason);
+        payment.decision = 'default'; eventValue(payment.assess().reason);
+        payment.consequence = 'creditor-encounter'; eventValue(payment.settle().outcome);
+        eventValue(p.money); eventValue(debt.lastPeriod);
+        local duplicate = new RpgExpandedMonthlySettlement(); duplicate.finance = debt; duplicate.due = true;
+        eventValue(duplicate.settle().status);
+        payment.period = 3; eventValue(payment.assess().reason);
+        payment.period = 2; payment.decision = 'pay'; p.money = 500;
+        eventValue(payment.settle().money); eventValue(p.money);
+        wealth.wealthLevel = 'none';
+        try { debt.monthlyAmount(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        wealth.wealthLevel = 'poor'; p.campaignTL = 0; debt.levels = 1;
+        try { debt.monthlyAmount(); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
