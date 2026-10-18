@@ -1126,3 +1126,26 @@ The traits module must be installed to validate the occurrence; the social modul
 alone rejects the request through its foundation hook. The source does not
 explicitly repeat the reaction effect for commanding severity, so that combination
 is rejected pending clarification. Automatic dialogue observation remains pending.
+
+
+## Observed fixed beliefs
+
+`RpgExpandedFixedBeliefObservation` connects an observer to a recorded
+`portrayal` from the traits module. Supply the inherited subject, observer, ID,
+approval and evidence fields, plus `noticed = true` when that observer actually
+noticed the behavior. The active, unmitigated purchase contributes -1/-2/-3 for
+severity one/two/three (`full-2008`, B130). An unnoticed portrayal contributes
+zero; mitigation or removal suppresses the current modifier without deleting
+history. Owning a belief alone does not establish an observation.
+
+Record the portrayal before recording its observation. Both bind the original
+authored facts, and repeated application spends no time or randomness. The social
+module alone rejects requests requiring the absent traits implementation.
+`RpgExpandedObservedReactionContext` accepts one fixed-belief observation;
+multiple belief penalties reject until stacking is resolved. Other distinct
+observation kinds can compose normally. Automatic dialogue routing remains pending.
+
+[`expanded-belief-observation.t`](../../tests/fixtures/expanded-belief-observation.t)
+and `test_belief_observation` specify all three modifiers, noticed versus unnoticed
+behavior, mitigation, duplicate-effect rejection, pure preview, replay, exception
+rollback, undo and cross-process save continuation. These fixtures remain unrun.

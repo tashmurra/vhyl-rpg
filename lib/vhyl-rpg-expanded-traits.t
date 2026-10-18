@@ -2458,3 +2458,70 @@ modify rpgExpandedTemplateTraits
         copy.creationCost(); return copy;
     }
 ;
+
+modify RpgExpandedProfile
+    fixedBeliefPortrayals = []
+    validateFixedBeliefPortrayal(portrayal)
+    {
+        if (portrayal == nil || !portrayal.ofKind(RpgExpandedFixedBeliefPortrayal) || portrayal.profile != self)
+            rpgExpandedReject('fixed-belief-portrayal-owner');
+        return portrayal.validateReceipt();
+    }
+    fixedBeliefReactionLevel(belief)
+    {
+        if (belief == nil || !belief.ofKind(RpgExpandedFixedBelief)) rpgExpandedReject('fixed-belief-reaction-definition');
+        belief.creationCost();
+        return holds(self.traits,belief) && belief.active && !belief.mitigated ? belief.level : 0;
+    }
+;
+/** B130 explicit author adjudication of the belief's behavior in one situation. */
+class RpgExpandedFixedBeliefPortrayal: object
+    id = nil
+    profile = nil
+    belief = nil
+    situation = nil
+    decision = nil
+    observedBehavior = nil
+    approved = nil
+    recordedAt = nil
+    boundDefinition = nil
+    definition()
+    {
+        return [self.id,self.profile,self.belief,self.situation,self.decision,self.observedBehavior,self.approved,self.recordedAt,
+            self.belief.scope,self.belief.level,self.belief.beliefText,self.belief.behaviorText];
+    }
+    validateReceipt()
+    {
+        if (self.recordedAt == nil || !holds(self.profile.fixedBeliefPortrayals,self)) rpgExpandedReject('fixed-belief-portrayal-history');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('fixed-belief-portrayal-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.belief == nil || !self.belief.ofKind(RpgExpandedFixedBelief)) rpgExpandedReject('fixed-belief-portrayal-definition');
+        local value = new RpgExpandedResult(); self.belief.creationCost();
+        if (self.recordedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundDefinition != nil) rpgExpandedReject('fixed-belief-portrayal-uncommitted-state');
+        if (!holds(self.profile.traits,self.belief) || !self.belief.active || self.belief.mitigated)
+        { value.reason = 'fixed-belief-portrayal-inactive'; return value; }
+        if (!self.approved || self.situation == nil || self.observedBehavior == nil || self.observedBehavior == '')
+        { value.reason = 'fixed-belief-portrayal-evidence'; return value; }
+        if (!holds(['followed','departed'],self.decision)) rpgExpandedReject('fixed-belief-portrayal-decision');
+        foreach (local prior in self.profile.fixedBeliefPortrayals)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.belief == self.belief && prior.situation == self.situation)
+                rpgExpandedReject('fixed-belief-portrayal-duplicate');
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.profile.fixedBeliefPortrayals = self.profile.fixedBeliefPortrayals + [self]; value.status = 'resolved'; return value;
+    }
+;

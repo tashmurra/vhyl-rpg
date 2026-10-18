@@ -213,6 +213,7 @@ care and persistence fixtures are authored but unrun.
 
 Fixed-belief purchases now have explicit severity pricing, distinct scoped
 identity and a supported forty-point limit. Fear rows twenty-two and thirty-four
-have owned acquisition accounting without spendable-point income. Reaction and
-behavioral integration, above-cap composition and compound outcomes remain
-pending; accounting and persistence fixtures are authored but unrun.
+have owned acquisition accounting without spendable-point income. Concrete portrayal receipts and observer-specific reactions now connect these
+purchases to social play. Multi-belief reaction stacking, automatic action/dialogue
+routing, above-cap composition and compound outcomes remain pending; accounting,
+observation and persistence fixtures are authored but unrun.

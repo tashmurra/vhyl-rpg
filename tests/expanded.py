@@ -9206,6 +9206,8 @@ def test(build):
     test_catatonia(Session, catatonia, build.out)
     fixed_beliefs = build.build('expanded-fixed-beliefs',ROOT / 'tests/fixtures/expanded-fixed-beliefs.t')
     test_fixed_beliefs(Session, fixed_beliefs, build.out)
+    belief_observation = build.build('expanded-belief-observation',ROOT / 'tests/fixtures/expanded-belief-observation.t')
+    test_belief_observation(Session, belief_observation, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20441,3 +20443,48 @@ def test_fixed_beliefs(Session, bundle, out):
         assert last(s, 'test.belief-limit') == ['fixed-belief-duplicate-scope']
     finally:
         s.close()
+
+
+def test_belief_observation(Session, bundle, out):
+    """B130 witnessed fixed-belief reactions and concrete portrayal receipts; unrun."""
+    path = out / 'expanded-belief-observation.zsave'
+    s = Session(bundle)
+    try:
+        for code in (11200, 11202, 11300, 11302, 11304):
+            s.action(2285, code)
+        assert last(s, 'test.belief-portrayal-preview') == ['ready', 0]
+        assert last(s, 'test.belief-portrayal-state') == [0, 0, 0]
+        s.action(2285, 11301)
+        s.command('undo')
+        s.action(2285, 11304)
+        assert last(s, 'test.belief-portrayal-state') == [0, 0, 0]
+        for code in (11301, 11301, 11303):
+            s.action(2285, code)
+        assert last(s, 'test.belief-observation') == [-2, 1, 1, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (11301, 11303):
+            s.action(2285, code)
+        assert last(s, 'test.belief-observation') == [-2, 1, 1, 0]
+        for code in (11306, 11303):
+            s.action(2285, code)
+        assert last(s, 'test.belief-observation') == [0, 1, 1, 0]
+    finally:
+        s.close()
+    for setup, modifier in (((11200, 11310), -1), ((11200, 11210, 11202, 11309), -3)):
+        s = Session(bundle)
+        try:
+            for code in setup + (11301, 11303, 11305):
+                s.action(2285, code)
+            assert last(s, 'test.belief-observation') == [modifier, 1, 1, 0]
+            s.action(2285, 11303)
+            assert last(s, 'test.belief-observation') == [0, 1, 2, 0]
+            for code in (11307, 11308):
+                s.action(2285, code)
+            assert last(s, 'test.belief-observation-error') == ['observed-reaction-duplicate-effect']
+        finally:
+            s.close()

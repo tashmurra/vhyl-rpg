@@ -2190,3 +2190,21 @@ class RpgExpandedPhantomVoiceObservation: RpgExpandedSocialObservation
         return self.witnessedResponse && self.typicalObserver ? -2 : 0;
     }
 ;
+
+/** B130: a witnessed portrayal, not an automatic penalty for owning the belief. */
+class RpgExpandedFixedBeliefObservation: RpgExpandedSocialObservation
+    portrayal = nil
+    noticed = nil
+    kind() { return 'fixed-belief'; }
+    definition()
+    {
+        if (self.portrayal == nil) rpgExpandedReject('fixed-belief-observation-portrayal');
+        return inherited() + [self.portrayal,self.noticed] + self.portrayal.definition();
+    }
+    modifier()
+    {
+        self.subject.validateFixedBeliefPortrayal(self.portrayal);
+        local level = self.subject.fixedBeliefReactionLevel(self.portrayal.belief);
+        return self.noticed ? -level : 0;
+    }
+;

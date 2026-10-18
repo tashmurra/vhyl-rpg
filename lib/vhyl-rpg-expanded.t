@@ -649,3 +649,8 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     validatePhantomVoiceOccurrence(occurrence) { rpgExpandedReject('phantom-voices-module-required'); }
 ;
+
+modify RpgExpandedProfile
+    validateFixedBeliefPortrayal(portrayal) { rpgExpandedReject('fixed-belief-module-required'); }
+    fixedBeliefReactionLevel(belief) { rpgExpandedReject('fixed-belief-module-required'); }
+;

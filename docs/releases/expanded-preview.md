@@ -1651,3 +1651,10 @@ identity and a supported forty-point limit. Fear rows twenty-two and thirty-four
 have owned acquisition accounting without spendable-point income. Reaction and
 behavioral integration, above-cap composition and compound outcomes remain
 pending; accounting and persistence fixtures are authored but unrun.
+
+
+Fixed-belief portrayals now record authored behavior per situation, with bound
+receipts and observer-specific severity reactions. Unnoticed behavior and
+mitigated purchases contribute no modifier. Multiple belief penalties reject
+pending a stacking rule. Fixtures cover preview, replay, rollback, undo and save
+continuation but remain unrun while checks are paused. Coverage remains partial.

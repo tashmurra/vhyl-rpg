@@ -34,9 +34,10 @@
       "status": "partial",
       "acceptance": "Persistent false beliefs cost -5/-10/-15 for minor/major/severe behavioral disruption, with reactions -1/-2/-3 from observers aware of the behavior. A harmless expression can instead be a -1 quirk. Select severity from actual behavior rather than belief text; severe forms require campaign approval.",
       "tests": [
-        "tests/expanded.py::test_fixed_beliefs"
+        "tests/expanded.py::test_fixed_beliefs",
+        "tests/expanded.py::test_belief_observation"
       ],
-      "validation_note": "Concrete authored fixed-belief purchases validate three severity prices, unique scopes and combined value at most forty points. Distinct beliefs may repeat the neutral trait ID via an expanded-only duplicate-policy hook; ordinary duplicate rejection remains. Template copies preserve author text. Above-cap accounting, legacy mixing, reactions, portrayal and revelation/buyoff remain pending. Fixtures authored, unrun."
+      "validation_note": "Concrete authored fixed-belief purchases validate three severity prices, unique scopes and combined value at most forty points. Distinct beliefs may repeat the neutral trait ID via an expanded-only duplicate-policy hook; ordinary duplicate rejection remains. Template copies preserve author text. Concrete portrayal receipts bind behavior and decisions per situation; observed active beliefs contribute severity reactions. Unnoticed or mitigated beliefs contribute zero. Above-cap accounting, legacy mixing, multi-belief reaction stacking, automatic action/dialogue routing and revelation/buyoff remain pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-c-belief-cap",
@@ -47,9 +48,10 @@
       "status": "partial",
       "acceptance": "Aggregate negative credit for false beliefs cannot exceed forty points. Keep each belief and its observed behavior independently authored while enforcing the total cap at character accounting.",
       "tests": [
-        "tests/expanded.py::test_fixed_beliefs"
+        "tests/expanded.py::test_fixed_beliefs",
+        "tests/expanded.py::test_belief_observation"
       ],
-      "validation_note": "Concrete authored fixed-belief purchases validate three severity prices, unique scopes and combined value at most forty points. Distinct beliefs may repeat the neutral trait ID via an expanded-only duplicate-policy hook; ordinary duplicate rejection remains. Template copies preserve author text. Above-cap accounting, legacy mixing, reactions, portrayal and revelation/buyoff remain pending. Fixtures authored, unrun."
+      "validation_note": "Concrete authored fixed-belief purchases validate three severity prices, unique scopes and combined value at most forty points. Distinct beliefs may repeat the neutral trait ID via an expanded-only duplicate-policy hook; ordinary duplicate rejection remains. Template copies preserve author text. Concrete portrayal receipts bind behavior and decisions per situation; observed active beliefs contribute severity reactions. Unnoticed or mitigated beliefs contribute zero. Above-cap accounting, legacy mixing, multi-belief reaction stacking, automatic action/dialogue routing and revelation/buyoff remain pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-c-belief-revelation",

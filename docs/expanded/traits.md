@@ -1554,11 +1554,19 @@ The post-creation disadvantage allowance keeps this involuntary acquisition from
 retroactively violating the creation disadvantage limit. Repeated application
 returns its receipt without another purchase or revision.
 
-Observer reactions, concrete behavioral adjudication, revelations that a belief
-is true, buyoff and compound fear outcomes remain pending. Stored author text
-alone does not count as executable behavioral coverage; these entries remain
-partial. The beliefs are character fiction, not automatically established world
-facts or additional abilities.
+`RpgExpandedFixedBeliefPortrayal` records concrete author adjudication. Supply
+`id`, `profile`, the owned `belief`, a `situation` identity, `decision` (`followed`
+or `departed`), actual `observedBehavior`, and `approved = true`. Pure `assess()`
+checks these facts; `apply()` records them once without time, points or randomness.
+Each belief has at most one portrayal per situation. Replay binds the original
+behavior, severity and decision. A departure is recorded, not automatically
+permitted or penalized. Authors still route actions and dialogue explicitly.
+
+Use the social module's `RpgExpandedFixedBeliefObservation` for witnessed
+reactions. Multi-belief reaction stacking, automatic action/dialogue routing,
+revelations that a belief is true, buyoff and compound fear outcomes remain
+pending. These entries remain partial. Beliefs are character fiction, not
+automatically established world facts or additional abilities.
 
 [`expanded-fixed-beliefs.t`](../../tests/fixtures/expanded-fixed-beliefs.t) and
 `test_fixed_beliefs` specify both fear prices, unchanged earned/unspent points,
