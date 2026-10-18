@@ -2462,8 +2462,9 @@ same loss records. Ordinary aging retains its normal exemption. Completed checks
 are not rerolled; time cannot advance with unsettled checks while the character
 is alive. Death ends further checks. No extra adventure time is charged.
 
-Day-based shortened-lifespan calendars and sequences that could enter an
-unsupported derived-stat or low-score state reject before injury. Negative
+Day-based shortened-lifespan intervals require the explicit calendar mapping
+below. Sequences that could enter an unsupported derived-stat or low-score state
+reject before injury. Negative
 secondary adjustments are permitted when the full sequence remains supported. Day-level age inputs remain unsupported.
 These limits keep the modifier partial; they are not substitute rules. The
 existing optional equivalent-trait-loss adjudication is also outside this path.
@@ -2486,3 +2487,33 @@ It does not infer that the character will actually suffer those worst losses.
 and `test_sustenance_aging_adjustments` specify a supported reduced-health purchase
 through two failing aging boundaries, unchanged preview scores/randomness, and
 rejection of a sequence whose later derived state is unsupported. Fixtures are unrun.
+
+
+### Exact calendar days for accelerated aging
+
+For day-based lifespan bands, provide `RpgExpandedSustenanceAgingCalendar` in the
+advance's `calendar`. Supply the matching `calendarId`, approval, evidence,
+`months` and `dayBandOrigins`. `months` contains exactly 25 ordered
+`[ageInMonths, absoluteCalendarDay]` rows, from the exact starting month through
+the end of the two-year increment. Day values must strictly increase. Each
+applicable day-based band needs `[startingAgeInYears, absoluteCalendarDay]` in
+`dayBandOrigins`. An origin within the mapped span must agree with its month-start
+date. The supplied span is limited to 10,000 calendar days.
+
+`rpgExpandedSustenanceCalendarAgingPlan` combines month-based checks at actual
+month boundaries with day-based checks at exact intervals from the authored band
+origin. It returns both `boundaryAgeMonths` and `boundaryCalendarDays`; multiple
+checks within one month retain distinct days. The owned advance binds that map,
+executes every planned boundary in order, and stores each loss in the existing
+aging history. Owned boundary identities avoid collisions between same-month
+checks. No day/month ratio is inferred. The shared aging history still records
+whole-year age labels; exact offsets remain in the causal advance.
+
+Starting ages between month boundaries and day-precise rejuvenation remain
+pending. Missing or inconsistent calendar facts reject before injury rather than
+using a partial plan. Ordinary month-based advances can still omit the calendar.
+[`expanded-sustenance-aging-calendar.t`](../../tests/fixtures/expanded-sustenance-aging-calendar.t)
+and `test_sustenance_aging_calendar` specify a calendar-specific transition to
+45-day checks, all crossed boundaries, inconsistent-origin rejection and save
+continuation. Fixtures remain unrun; the example's month lengths are authored
+world facts, not source rules.

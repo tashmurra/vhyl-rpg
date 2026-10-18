@@ -314,3 +314,9 @@ Sustenance aging now preflights each planned boundary through the shared arithme
 allowing supported negative secondary purchases instead of rejecting them all.
 Only sequences that could reach unsupported derived or low-score states reject.
 Safe/unsafe sequence fixtures are authored but unrun.
+
+
+Explicit campaign month-start dates and day-band origins now support day-based
+sustenance aging checks without fixed month-length assumptions. Exact offsets stay
+in the owned advance and losses use shared aging history. Between-month starting
+ages and day-precise rejuvenation remain pending; calendar fixtures are unrun.

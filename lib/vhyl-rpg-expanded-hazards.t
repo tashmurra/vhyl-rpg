@@ -6092,6 +6092,7 @@ class RpgExpandedSustenanceAgingAdvance: object
     tick = nil
     oldAgeMonths = nil
     calendarId = nil
+    calendar = nil
     approved = nil
     evidence = nil
     medicalTL = 3
@@ -6102,7 +6103,23 @@ class RpgExpandedSustenanceAgingAdvance: object
     boundaries = []
     boundDefinition = nil
     profile() { return self.tick.episode.profile; }
-    definition() { return [self.id,self.tick,self.oldAgeMonths,self.calendarId,self.approved,self.evidence,self.medicalTL,self.recordedAt,self.era]; }
+    definition()
+    {
+        local facts = [self.id,self.tick,self.oldAgeMonths,self.calendarId,self.calendar,self.approved,self.evidence,self.medicalTL,self.recordedAt,self.era];
+        return self.calendar == nil ? facts : facts + self.calendar.definition();
+    }
+    assessPlan()
+    {
+        if (self.calendar == nil) return rpgExpandedSustenanceAgingPlan(self.profile(),self.oldAgeMonths);
+        if (!self.calendar.ofKind(RpgExpandedSustenanceAgingCalendar) || self.calendar.calendarId != self.calendarId)
+            rpgExpandedReject('sustenance-aging-calendar-identity');
+        return rpgExpandedSustenanceCalendarAgingPlan(self.profile(),self.oldAgeMonths,self.calendar);
+    }
+    planFacts()
+    {
+        return [self.plan.oldAgeMonths,self.plan.newAgeMonths,self.plan.addedYears,self.plan.boundaryAgeMonths.length()]
+            + self.plan.boundaryAgeMonths + [self.plan.boundaryCalendarDays.length()] + self.plan.boundaryCalendarDays;
+    }
     validateBinding()
     {
         if (self.recordedAt == nil || self.boundDefinition == nil || self.tick.agingAdvance != self
@@ -6111,7 +6128,7 @@ class RpgExpandedSustenanceAgingAdvance: object
         local facts = self.definition();
         for (local index = 1; index <= facts.length(); index += 1)
             if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sustenance-aging-binding');
-        local planFacts = [self.plan.oldAgeMonths,self.plan.newAgeMonths,self.plan.addedYears] + self.plan.boundaryAgeMonths;
+        local planFacts = self.planFacts();
         if (self.boundPlan == nil || planFacts.length() != self.boundPlan.length()) rpgExpandedReject('sustenance-aging-plan-binding');
         for (local index = 1; index <= planFacts.length(); index += 1)
             if (planFacts[index] != self.boundPlan[index]) rpgExpandedReject('sustenance-aging-plan-binding');
@@ -6140,7 +6157,7 @@ class RpgExpandedSustenanceAgingAdvance: object
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'sustenance-aging-author-age'; return value; }
         local profile = self.profile(); rpgInteger(self.medicalTL,0,1000);
-        local plan = rpgExpandedSustenanceAgingPlan(profile,self.oldAgeMonths); if (plan.status != 'ready') return plan;
+        local plan = self.assessPlan(); if (plan.status != 'ready') return plan;
         foreach (local prior in profile.sustenanceAgingAdvances)
         {
             prior.validateReceipt();
@@ -6164,9 +6181,9 @@ class RpgExpandedSustenanceAgingAdvance: object
         if (self.tick.recordedAt == nil || self.tick.wound == nil || !holds(self.tick.episode.ticks,self.tick))
             rpgExpandedReject('sustenance-aging-injury-required');
         local prepared = self.assess(); if (prepared.status != 'ready') rpgExpandedReject('sustenance-aging-assessment-changed');
-        self.plan = rpgExpandedSustenanceAgingPlan(self.profile(),self.oldAgeMonths);
+        self.plan = self.assessPlan();
         if (self.plan.status != 'ready') rpgExpandedReject('sustenance-aging-plan-changed');
-        self.boundPlan = [self.plan.oldAgeMonths,self.plan.newAgeMonths,self.plan.addedYears] + self.plan.boundaryAgeMonths;
+        self.boundPlan = self.planFacts();
         self.recordedAt = self.tick.recordedAt; self.era = self.profile().rejuvenations.length(); self.boundDefinition = self.definition();
         local profile = self.profile(); profile.sustenanceAgingAdvances = profile.sustenanceAgingAdvances + [self]; return nil;
     }
@@ -6176,8 +6193,8 @@ class RpgExpandedSustenanceAgingAdvance: object
         if (profile.dead || self.boundaries.length() == self.plan.boundaryAgeMonths.length()) { value.status = 'complete'; return value; }
         local index = self.boundaries.length() + 1; local event = new RpgExpandedSustenanceAgingBoundary();
         event.advance = self; event.boundaryIndex = index; event.profile = profile; event.calendarId = self.calendarId;
-        local names = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24'];
-        event.boundaryId = 'sustenance-aging:' + self.id + ':' + names[index];
+        local identity = new RpgExpandedSustenanceAgingBoundaryIdentity(); identity.advance = self; identity.index = index;
+        event.boundaryId = identity;
         event.ageYears = self.plan.boundaryAgeMonths[index] / 12; event.ordinal = profile.agingHistory.length() + 1;
         event.reached = true; event.evidence = self.evidence; event.medicalTL = self.medicalTL;
         value = event.apply(); if (value.status == 'resolved') self.boundaries = self.boundaries + [event]; return value;
@@ -6190,7 +6207,11 @@ class RpgExpandedSustenanceAgingBoundary: RpgExpandedAgingEvent
     assess()
     {
         if (self.advance == nil || !self.advance.ofKind(RpgExpandedSustenanceAgingAdvance)) rpgExpandedReject('sustenance-aging-boundary-cause');
-        self.advance.validateBinding(); rpgInteger(self.boundaryIndex,1,self.advance.plan.boundaryAgeMonths.length());
+        self.advance.validateBinding();
+        if (self.boundaryId == nil || !self.boundaryId.ofKind(RpgExpandedSustenanceAgingBoundaryIdentity)
+            || self.boundaryId.advance != self.advance || self.boundaryId.index != self.boundaryIndex)
+            rpgExpandedReject('sustenance-aging-boundary-identity');
+        rpgInteger(self.boundaryIndex,1,self.advance.plan.boundaryAgeMonths.length());
         if (self.profile != self.advance.profile() || self.calendarId != self.advance.calendarId
             || self.ageYears != self.advance.plan.boundaryAgeMonths[self.boundaryIndex] / 12 || self.medicalTL != self.advance.medicalTL)
             rpgExpandedReject('sustenance-aging-boundary-definition');
@@ -6219,7 +6240,7 @@ modify rpgLedger
 /** Preflight every boundary using lowest still-living scores, without touching the owner. */
 rpgExpandedSustenanceAgingPreflight(profile,count,medicalTL)
 {
-    rpgInteger(count,0,24); rpgInteger(medicalTL,0,1000);
+    rpgInteger(count,0,10000); rpgInteger(medicalTL,0,1000);
     local value = new RpgExpandedResult(); local probe = new RpgExpandedAgingEvent(); probe.profile = profile;
     local fitness = probe.fitnessModifier(); local longevity = profile.level('longevity') > 0; local maximumLoss = longevity ? 1 : 2;
     local scratch = new RpgExpandedProfile();
@@ -6243,3 +6264,89 @@ rpgExpandedSustenanceAgingPreflight(profile,count,medicalTL)
     }
     value.status = 'ready'; return value;
 }
+
+/** Explicit campaign calendar map for one two-year span; no fixed month length. */
+class RpgExpandedSustenanceAgingCalendar: object
+    calendarId = nil
+    approved = nil
+    evidence = nil
+    months = []
+    dayBandOrigins = []
+    definition()
+    {
+        local facts = [self.calendarId,self.approved,self.evidence,self.months.length(),self.dayBandOrigins.length()];
+        foreach (local row in self.months) facts = facts + row;
+        foreach (local row in self.dayBandOrigins) facts = facts + row;
+        return facts;
+    }
+    validate(oldAgeMonths)
+    {
+        if (self.calendarId == nil || self.calendarId == '' || !self.approved || self.evidence == nil || self.evidence == ''
+            || self.months.length() != 25) rpgExpandedReject('sustenance-aging-calendar-definition');
+        local index = 0; local prior = nil;
+        foreach (local row in self.months)
+        {
+            if (row.length() != 2 || row[1] != oldAgeMonths + index) rpgExpandedReject('sustenance-aging-calendar-month-order');
+            rpgInteger(row[2],0,2147483646);
+            if (prior != nil && row[2] <= prior) rpgExpandedReject('sustenance-aging-calendar-day-order');
+            prior = row[2]; index += 1;
+        }
+        rpgInteger(self.months[25][2] - self.months[1][2],1,10000);
+        local ages = [];
+        foreach (local row in self.dayBandOrigins)
+        {
+            if (row.length() != 2 || holds(ages,row[1])) rpgExpandedReject('sustenance-aging-calendar-origin');
+            rpgInteger(row[1],0,1000000); rpgInteger(row[2],0,2147483646); ages = ages + [row[1]];
+            foreach (local month in self.months)
+                if (month[1] == row[1] * 12 && month[2] != row[2]) rpgExpandedReject('sustenance-aging-calendar-origin-date');
+        }
+        return nil;
+    }
+    originDay(ageYears)
+    {
+        foreach (local row in self.dayBandOrigins) if (row[1] == ageYears) return row[2];
+        rpgExpandedReject('sustenance-aging-calendar-origin-required');
+    }
+;
+modify RpgExpandedSustenanceAgingPlan
+    boundaryCalendarDays = []
+;
+rpgExpandedSustenanceCalendarAgingPlan(profile,oldAgeMonths,calendar)
+{
+    if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('sustenance-aging-profile');
+    if (calendar == nil || !calendar.ofKind(RpgExpandedSustenanceAgingCalendar)) rpgExpandedReject('sustenance-aging-calendar-required');
+    rpgInteger(oldAgeMonths,0,11999976); calendar.validate(oldAgeMonths);
+    local value = new RpgExpandedSustenanceAgingPlan(); value.oldAgeMonths = oldAgeMonths; value.newAgeMonths = oldAgeMonths + 24;
+    local schedule = rpgExpandedAgingSchedule(profile.level('short-lifespan'),profile.level('extended-lifespan'));
+    if (schedule.status != 'ready') { value.reason = schedule.reason; return value; }
+    local monthIndex = 1;
+    for (local day = calendar.months[1][2] + 1; day <= calendar.months[25][2]; day += 1)
+    {
+        while (monthIndex < 25 && calendar.months[monthIndex + 1][2] <= day) monthIndex += 1;
+        local month = calendar.months[monthIndex]; local band = nil;
+        foreach (local candidate in schedule.bands) if (month[1] >= candidate[1] * 12) band = candidate;
+        if (band == nil) continue;
+        local due = nil;
+        if (band[2] == 'day')
+        {
+            local origin = calendar.originDay(band[1]);
+            if (origin > day) rpgExpandedReject('sustenance-aging-calendar-origin-future');
+            due = (day - origin) % band[3] == 0;
+        }
+        else
+        {
+            local interval = band[2] == 'year' ? band[3] * 12 : band[3];
+            due = day == month[2] && (month[1] - band[1] * 12) % interval == 0;
+        }
+        if (due)
+        {
+            value.boundaryAgeMonths = value.boundaryAgeMonths + [month[1]];
+            value.boundaryCalendarDays = value.boundaryCalendarDays + [day];
+        }
+    }
+    value.status = 'ready'; return value;
+}
+class RpgExpandedSustenanceAgingBoundaryIdentity: object
+    advance = nil
+    index = nil
+;

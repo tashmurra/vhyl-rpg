@@ -228,9 +228,10 @@
       "tests": [
         "tests/expanded.py::test_sustenance_aging_plan",
         "tests/expanded.py::test_sustenance_aging",
-        "tests/expanded.py::test_sustenance_aging_adjustments"
+        "tests/expanded.py::test_sustenance_aging_adjustments",
+        "tests/expanded.py::test_sustenance_aging_calendar"
       ],
-      "validation_note": "The +30% purchase modifier now requires a causal two-year receipt for each injury, with bound age/calendar evidence and shared forced aging-boundary execution. Ordinary aging immunity does not suppress these checks; completed losses remain in shared aging history. Time cannot advance while live checks remain unsettled. Day-based calendar conversions, possible unsupported derived-stat or low-score sequences reject before injury. Day-level ages and optional equivalent trait losses remain pending. Fixtures authored, unrun. Full-sequence pure preflight now allows safe negative secondary adjustments using temporary scores and shared aging arithmetic. Fixtures unrun."
+      "validation_note": "The +30% purchase modifier now requires a causal two-year receipt for each injury, with bound age/calendar evidence and shared forced aging-boundary execution. Ordinary aging immunity does not suppress these checks; completed losses remain in shared aging history. Time cannot advance while live checks remain unsettled. Day-based calendar conversions, possible unsupported derived-stat or low-score sequences reject before injury. Day-level ages and optional equivalent trait losses remain pending. Fixtures authored, unrun. Full-sequence pure preflight now allows safe negative secondary adjustments using temporary scores and shared aging arithmetic. Fixtures unrun. Explicit authored month-start dates and day-band origins now support day-based aging plans and owned execution, preserving exact offsets alongside shared aging history. Missing/inconsistent dates reject. Between-month starting ages and day-precise rejuvenation remain pending. Calendar transition and save fixtures unrun."
     },
     {
       "id": "disadvantages-c-dependent-competence",

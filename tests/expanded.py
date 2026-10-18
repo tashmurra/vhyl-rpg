@@ -9240,6 +9240,8 @@ def test(build):
     test_sustenance_aging(Session, sustenance_aging, build.out)
     sustenance_aging_adjustments = build.build('expanded-sustenance-aging-adjustments',ROOT / 'tests/fixtures/expanded-sustenance-aging-adjustments.t')
     test_sustenance_aging_adjustments(Session, sustenance_aging_adjustments)
+    sustenance_aging_calendar = build.build('expanded-sustenance-aging-calendar',ROOT / 'tests/fixtures/expanded-sustenance-aging-calendar.t')
+    test_sustenance_aging_calendar(Session, sustenance_aging_calendar, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21057,5 +21059,36 @@ def test_sustenance_aging_adjustments(Session, bundle):
             s.action(2285, code)
         assert last(s, 'test.sustenance-aging-adjustment-preview') == ['blocked', 'aging-derived-state-unavailable', 0, 10, 10]
         assert last(s, 'test.sustenance-aging-state') == [None, 0, 0, 0, 0]
+    finally:
+        s.close()
+
+
+def test_sustenance_aging_calendar(Session, bundle, out):
+    """Explicit calendar across a three-month to 45-day aging band; unrun."""
+    path = out / 'expanded-sustenance-aging-calendar.zsave'
+    s = Session(bundle)
+    try:
+        for code in (13000, 30, 13001, 11701, 11703, 13002, 12803):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-calendar-plan') == [
+            'ready', 12, 15930, 16020, 16110, 16200, 16245, 16290,
+            16335, 16380, 16425, 16470, 16515, 16560, 0]
+        assert last(s, 'test.sustenance-aging-state') == [552, 12, 12, 1, 144]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (11703, 13002, 12803):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-aging-state') == [552, 12, 12, 1, 144]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (13000, 13003, 13004):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-calendar-error') == ['sustenance-aging-calendar-origin-date']
     finally:
         s.close()
