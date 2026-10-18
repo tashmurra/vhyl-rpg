@@ -2766,3 +2766,24 @@ class RpgExpandedTrackingContext: RpgExpandedSkillContext
         return value;
     }
 ;
+
+class RpgExpandedTrackingWindowResult: RpgExpandedResult
+    interval = nil
+    elapsed = nil
+    remaining = nil
+    unusedSeconds = nil
+    checkDue = nil
+;
+/** Pure B226 homogeneous-terrain boundary. It never consumes time or rolls a check. */
+rpgExpandedTrackingWindow(terrain,elapsed,requestedSeconds)
+{
+    local table = rpgExpandedTrackingTerrain(terrain);
+    rpgInteger(elapsed,0,table.interval); rpgInteger(requestedSeconds,0,2147483647);
+    local value = new RpgExpandedTrackingWindowResult(); value.interval = table.interval; value.modifier = table.modifier;
+    value.elapsed = elapsed; value.remaining = table.interval-elapsed; value.unusedSeconds = requestedSeconds;
+    if (value.remaining == 0)
+    { value.checkDue = true; value.reason = 'tracking-continuation-check-due'; return value; }
+    value.seconds = requestedSeconds < value.remaining ? requestedSeconds : value.remaining;
+    value.elapsed += value.seconds; value.remaining -= value.seconds; value.unusedSeconds -= value.seconds;
+    value.checkDue = value.remaining == 0; value.status = 'ready'; return value;
+}

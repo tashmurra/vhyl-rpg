@@ -5976,9 +5976,10 @@
       "status": "partial",
       "acceptance": "Use 1800 seconds between required continuation checks with modifier 0, preserving partial progress and preventing extra boundary rolls.",
       "tests": [
-        "tests/expanded.py::test_tracking_context"
+        "tests/expanded.py::test_tracking_context",
+        "tests/expanded.py::test_tracking_window"
       ],
-      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun."
+      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun. Pure window calculation now preserves partial progress, caps time at the next check, returns unused seconds and blocks an already-due interval without spending resources. Persistent encounters and incremental travel integration remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-tracking-terrain-arctic-desert-coast-mountain",
@@ -5989,9 +5990,10 @@
       "status": "partial",
       "acceptance": "Use 900 seconds between required continuation checks with modifier -2, preserving partial progress and preventing extra boundary rolls.",
       "tests": [
-        "tests/expanded.py::test_tracking_context"
+        "tests/expanded.py::test_tracking_context",
+        "tests/expanded.py::test_tracking_window"
       ],
-      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun."
+      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun. Pure window calculation now preserves partial progress, caps time at the next check, returns unused seconds and blocks an already-due interval without spending resources. Persistent encounters and incremental travel integration remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-tracking-terrain-swamp",
@@ -6002,9 +6004,10 @@
       "status": "partial",
       "acceptance": "Use 300 seconds between required continuation checks with modifier -4, preserving partial progress and preventing extra boundary rolls.",
       "tests": [
-        "tests/expanded.py::test_tracking_context"
+        "tests/expanded.py::test_tracking_context",
+        "tests/expanded.py::test_tracking_window"
       ],
-      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun."
+      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun. Pure window calculation now preserves partial progress, caps time at the next check, returns unused seconds and blocks an already-due interval without spending resources. Persistent encounters and incremental travel integration remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-tracking-terrain-urban",
@@ -6015,9 +6018,10 @@
       "status": "partial",
       "acceptance": "Use 60 seconds between required continuation checks with modifier -6, preserving partial progress and preventing extra boundary rolls.",
       "tests": [
-        "tests/expanded.py::test_tracking_context"
+        "tests/expanded.py::test_tracking_context",
+        "tests/expanded.py::test_tracking_window"
       ],
-      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun."
+      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun. Pure window calculation now preserves partial progress, caps time at the next check, returns unused seconds and blocks an already-due interval without spending resources. Persistent encounters and incremental travel integration remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-tracking-concealed-trails",

@@ -1346,3 +1346,29 @@ are not implemented by returning an interval. Do not count the terrain table as
 a complete tracking encounter. `test_tracking_context` specifies every terrain,
 age boundaries, group modifiers, sensory stacking/suppression, purchased
 default and unavailable trails. Fixtures remain unrun.
+
+
+## Tracking interval boundaries
+
+`rpgExpandedTrackingWindow(terrain, elapsed, requestedSeconds)` is a pure
+calculation for one fixed-terrain continuation interval. `elapsed` is already
+credited active tracking time since the last successful check; it must be
+between zero and that terrain's interval. The returned `seconds` is capped at
+the next check boundary. `elapsed`, `remaining`, `unusedSeconds` and `checkDue`
+expose the resulting progress without losing the unused portion of a request.
+
+A request made with an already full interval returns blocked with
+`tracking-continuation-check-due` and consumes zero seconds. An oversized request
+never skips checks or silently resets the interval. For example, urban tracking
+with 59 seconds already credited accepts only one second from a 59-second
+request, leaving 58 unused and requiring a check.
+
+This helper does not advance the world clock, move a character, charge fatigue,
+roll dice, or create a persistent encounter. Only an encounter adapter that has
+successfully resolved the due check may reset progress. Do not apply elapsed
+idle time as active tracking time. Terrain transitions require a separate
+adjudication contract; this calculation applies only within a fixed terrain.
+`test_tracking_window` specifies all nine terrains, zero/exact/oversized requests,
+partial remainders, already-due blocking and invalid progress. Fixtures are
+unrun. Persistent encounters and integration with incremental travel remain
+pending; existing whole-hour marching must not bypass these boundaries.

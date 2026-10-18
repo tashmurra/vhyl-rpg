@@ -9544,6 +9544,8 @@ def test(build):
     test_tracking_context(Session,tracking_context)
     tracking_acquisition = build.build('expanded-tracking-acquisition',ROOT / 'tests/fixtures/expanded-tracking-acquisition.t')
     test_tracking_acquisition(Session,tracking_acquisition,build.out)
+    tracking_window = build.build('expanded-tracking-window',ROOT / 'tests/fixtures/expanded-tracking-window.t')
+    test_tracking_window(Session,tracking_window)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27099,3 +27101,32 @@ def test_tracking_acquisition(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_tracking_window(Session, bundle):
+    """B226 exact boundaries preserve remainders and cannot skip required checks; unrun."""
+    intervals = [1800,1800,1800,900,900,900,900,300,60]
+    for index,interval in enumerate(intervals):
+        s = Session(bundle)
+        try:
+            s.action(1680,28420+index); s.action(1680,28600)
+            assert last(s,'test.tracking-window') == ['ready',None,0,0,interval,0,0,0,0]
+            s.action(1680,28602); s.action(1680,28600)
+            assert last(s,'test.tracking-window') == ['ready',None,interval,interval,0,2147483647-interval,1,0,0]
+            s.action(1680,28603); s.action(1680,28601); s.action(1680,28600)
+            assert last(s,'test.tracking-window') == ['ready',None,1,interval,0,0,1,0,0]
+            s.action(1680,28604); s.action(1680,28600)
+            assert last(s,'test.tracking-window') == ['blocked','tracking-continuation-check-due',0,interval,0,1,1,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,28403); s.action(1680,28605); s.action(1680,28600)
+        assert last(s,'test.tracking-window') == ['ready',None,59,59,1,0,0,0,0]
+        s.action(1680,28606); s.action(1680,28600)
+        assert last(s,'test.tracking-window') == ['ready',None,1,60,0,58,1,0,0]
+        for code in (28607,28608):
+            s.action(1680,code); s.action(1680,28600)
+            assert last(s,'test.tracking-window') == ['ready',None,1,60,0,58,1,0,0]
+    finally:
+        s.close()
