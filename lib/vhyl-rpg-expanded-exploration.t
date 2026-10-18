@@ -248,6 +248,7 @@ modify RpgExpandedProfile
 
 /** Fixed entry circumstances; equipment load is read afresh for each check. */
 class RpgExpandedSwimmingEncounter: object
+    submersion = nil
     id = nil
     profile = nil
     skill = nil
@@ -452,6 +453,7 @@ modify RpgExpandedProfile
                 if (active != nil) rpgExpandedReject('swimming-multiple-encounters');
                 active = encounter;
             }
+            else if (encounter.submersion != nil) encounter.submersion.validateSwimmingExit(encounter);
             else if (encounter.endedAt < encounter.startedAt || encounter.endedAt >= due || encounter.endedAt >= enduranceDue
                 || encounter.endedAt > rpgLedger.seconds || encounter.exitEvidence == nil || stage == 'struggling')
                 rpgExpandedReject('swimming-exit-history');

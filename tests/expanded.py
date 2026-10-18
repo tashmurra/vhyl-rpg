@@ -9328,6 +9328,8 @@ def test(build):
     test_swim_negative_fatigue(Session, swim_negative, build.out)
     swim_zero_entry = build.build("expanded-swim-zero-entry",ROOT / "tests/fixtures/expanded-swim-zero-entry.t")
     test_swim_zero_entry(Session, swim_zero_entry, build.out)
+    swim_submersion = build.build("expanded-swim-submersion",ROOT / "tests/fixtures/expanded-swim-submersion.t")
+    test_swim_submersion(Session, swim_submersion, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22669,5 +22671,37 @@ def test_swim_zero_entry(Session, bundle, out):
             s.action(1910,code)
         assert last(s, 'test.swim-negative') == [-1,1,1,1,6,0]
         assert last(s, 'test.swim-will-history') == ['swimming-will-history']
+    finally:
+        s.close()
+
+
+def test_swim_submersion(Session, bundle, out):
+    """Explicit unconscious submersion transfers ledger ownership without duplicate costs; unrun."""
+    path = out / 'swim-submersion.zsave'
+    s = Session(bundle)
+    try:
+        for code in (17000,17300):
+            s.action(1910,code)
+        assert last(s, 'test.submersion-result') == ['blocked','drowning-submersion-not-active']
+        for code in (17001,17003,17301,17302):
+            s.action(1910,code)
+        assert last(s, 'test.submersion') == [0,0,0,0,0,2]
+        s.action(1910,17300)
+        s.command('undo')
+        s.action(1910,17302)
+        assert last(s, 'test.submersion') == [0,0,0,0,0,2]
+        for code in (17300,17300,17302):
+            s.action(1910,code)
+        assert last(s, 'test.submersion') == [1,1,0,0,0,2]
+        s.command(f':save {path}\n@1911')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1911')
+        for code in (17300,17303,17304,17302):
+            s.action(1910,code)
+        assert last(s, 'test.submersion') == [1,1,1,-1,1,3]
+        assert last(s, 'test.submersion-rescue') == ['drowning-resuscitation-required']
     finally:
         s.close()

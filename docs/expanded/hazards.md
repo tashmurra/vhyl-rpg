@@ -2651,3 +2651,25 @@ current penalty against the latest owned daily result, rejecting edited penalty
 state. `expanded-motion-scores.t` / `test_motion_scores` specify affected and
 unaffected scores, same-cause overlap, journey-end behavior, saved continuation
 and changed-penalty rejection. Fixtures remain unrun while checks are paused.
+
+
+## Unconscious swimmer submersion
+
+`RpgExpandedDrowningExposure` extends the existing complete-air-loss procedure
+(full-2008, B436–B437). Supply its `id`, `profile`, the active `swimming` encounter,
+`approved` and `evidence` that the unconscious swimmer is fully submerged without
+air. `assessSubmersion()` is pure. Unconsciousness alone does not establish that
+world fact, and a conscious swimmer cannot use this handoff.
+
+`start()` closes the swimming encounter with a bound submersion receipt and starts
+the shared airless exposure at the same instant. It charges no time, fatigue or
+injury. Subsequent `RpgExpandedAirlessSecond` operations own air deprivation and
+its existing fatigue/injury/death boundaries. The swimming ledger retains its
+history without continuing swimming checks. Replay cannot duplicate the handoff.
+
+This subtype rejects ordinary `resumeAir()` with
+`drowning-resuscitation-required`: clean air alone cannot bypass the required
+water-clearing treatment. That treatment transition remains outstanding.
+`expanded-swim-submersion.t` / `test_swim_submersion` specify conscious rejection,
+atomic handoff, one-second air costs, rollback, undo and save continuation.
+Fixtures remain unrun.

@@ -6646,3 +6646,62 @@ modify RpgExpandedProfile
         return value + penalty;
     }
 ;
+
+
+/** B436-B437 explicit complete-air-loss handoff from an unconscious swimmer.
+ * World evidence establishes submersion: unconsciousness alone does not prove it. */
+class RpgExpandedDrowningExposure: RpgExpandedAirlessExposure
+    swimming = nil
+    approved = nil
+    boundSwimming = nil
+    boundApproval = nil
+    assessSubmersion()
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { self.validateBinding(); value.status = 'reused'; return value; }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.swimming == nil || !self.swimming.ofKind(RpgExpandedSwimmingEncounter)
+            || self.swimming.profile != self.profile) rpgExpandedReject('drowning-submersion-definition');
+        self.swimming.validateBinding(); self.swimming.validateWillHistory();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'drowning-submersion-evidence'; return value; }
+        if (self.profile.dead || !self.profile.unconscious || self.profile.swimmingEncounter != self.swimming
+            || self.swimming.endedAt != nil || self.swimming.submersion != nil)
+        { value.reason = 'drowning-submersion-not-active'; return value; }
+        if (self.profile.airlessExposure != nil || self.profile.airClock != 0 || self.profile.breathReserve != nil)
+        { value.reason = 'drowning-air-ledger-owned'; return value; }
+        foreach (local prior in self.profile.airlessHistory)
+            if (prior.id == self.id) rpgExpandedReject('airless-duplicate');
+        value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assessSubmersion(); if (value.status != 'ready') return value;
+        self.boundSwimming = self.swimming; self.boundApproval = self.approved;
+        self.swimming.submersion = self; self.swimming.endedAt = rpgLedger.seconds;
+        self.swimming.exitEvidence = self.evidence; self.profile.swimmingEncounter = nil;
+        value = inherited();
+        if (value.status != 'resolved') rpgExpandedReject('drowning-air-handoff-changed');
+        return value;
+    }
+    validateSwimmingExit(encounter)
+    {
+        if (encounter != self.swimming || encounter != self.boundSwimming || encounter.submersion != self
+            || self.startedAt == nil || encounter.endedAt != self.startedAt || encounter.exitEvidence != self.boundEvidence
+            || self.profile != encounter.profile || !holds(self.profile.airlessHistory,self))
+            rpgExpandedReject('drowning-swimming-handoff-binding');
+        return nil;
+    }
+    validateBinding()
+    {
+        inherited();
+        if (self.swimming != self.boundSwimming || self.approved != self.boundApproval)
+            rpgExpandedReject('drowning-submersion-binding');
+        self.validateSwimmingExit(self.swimming); return nil;
+    }
+    assessAir(evidence)
+    {
+        local value = new RpgExpandedAirlessResult();
+        self.validateBinding(); value.reason = 'drowning-resuscitation-required'; return value;
+    }
+;

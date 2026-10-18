@@ -2467,9 +2467,10 @@
       "tests": [
         "tests/expanded.py::test_swim_exhaustion",
         "tests/expanded.py::test_swim_negative_fatigue",
-        "tests/expanded.py::test_swim_zero_entry"
+        "tests/expanded.py::test_swim_zero_entry",
+        "tests/expanded.py::test_swim_submersion"
       ],
-      "validation_note": "Swimming can consume the final positive FP. Owned per-second Will checks begin at that boundary without adding complete-airlessness fatigue costs; failure causes fatigue-collapse unconsciousness. Negative-FP swim injury, unconscious submersion and rescue/resuscitation transition remain pending. Fixtures authored, unrun. Negative-FP balance/endurance checks now preflight a shared health wound, apply one injury only on further FP loss, require the current second Will check first and collapse at negative capacity. Health-free integrations reject explicitly. Unconscious submersion and rescue remain pending. Fixtures unrun. Already-exhausted entry now schedules immediate Will before initial balance; complete owned consciousness history validates sequence/timestamps/outcomes. Recovery/re-exhaustion and unconscious drowning transitions remain pending. Fixtures unrun."
+      "validation_note": "Swimming can consume the final positive FP. Owned per-second Will checks begin at that boundary without adding complete-airlessness fatigue costs; failure causes fatigue-collapse unconsciousness. Negative-FP swim injury, unconscious submersion and rescue/resuscitation transition remain pending. Fixtures authored, unrun. Negative-FP balance/endurance checks now preflight a shared health wound, apply one injury only on further FP loss, require the current second Will check first and collapse at negative capacity. Health-free integrations reject explicitly. Unconscious submersion and rescue remain pending. Fixtures unrun. Already-exhausted entry now schedules immediate Will before initial balance; complete owned consciousness history validates sequence/timestamps/outcomes. Recovery/re-exhaustion and unconscious drowning transitions remain pending. Fixtures unrun. Authored unconscious complete-submersion handoff now closes swimming and starts the shared airless exposure at the same instant without extra costs. Ordinary clean-air recovery rejects pending required drowning resuscitation. Fixtures unrun."
     },
     {
       "id": "hazard-suffocation-death",
