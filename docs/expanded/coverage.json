@@ -740,6 +740,18 @@
         "tests/expanded.py::test_loyalty_failure"
       ],
       "validation_note": "Owned private initialization and incident checks authored. Checks unrun; timed changes, anniversaries and behavioral consequences pending."
+    },
+    {
+      "id": "noncombatant-loyalty-exposure",
+      "module": "social",
+      "pages": "B519",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLoyaltyDanger",
+      "tests": [
+        "tests/expanded.py::test_loyalty_danger"
+      ],
+      "validation_note": "Once-per-incident failed exposure penalty and shared-clock expiry authored. Checks unrun; overlapping exposure policy and permanent effects unresolved."
     }
   ],
   "detailed_inventories": [

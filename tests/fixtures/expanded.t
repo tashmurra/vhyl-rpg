@@ -74,6 +74,8 @@ tradeTransfer: RpgExpandedTradeTransfer id = 'compass-sale' buyer = tradeBuyer s
 loyaltyHero: RpgExpandedProfile rules = expandedRules loyalties = [crewLoyalty];
 crewLoyalty: RpgExpandedLoyalty id = 'crew-service' subject = loyaltyHero employer = 'survey-company' preset = 12;
 crewCheck: RpgExpandedLoyaltyCheck loyalty = crewLoyalty incident = 'dangerous-crossing' necessary = true;
+crewDanger: RpgExpandedLoyaltyDanger loyalty = crewLoyalty incident = 'noncombatant-exposure'
+    necessary = true noncombatant = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -206,6 +208,19 @@ class ExpandedTestAction: Action
             eventValue(value.status); eventValue(value.rating); eventValue(value.check); eventValue(value.loyal ? 1 : 0);
             if (code == 45) throw new RpgError();
         }
+        if (code == 48 || code == 49)
+        {
+            crewLoyalty.preset = 9; crewLoyalty.initialize();
+            local value = crewDanger.resolve(); event('test.loyalty-danger'); eventValue(value.status);
+            eventValue(value.loyal ? 1 : 0); eventValue(crewLoyalty.rating());
+            if (code == 49) throw new RpgError();
+        }
+        if (code == 50)
+        {
+            for (local day = 0; day < 6; day += 1) rpgSpendTime(86400);
+            rpgSpendTime(86399);
+        }
+        if (code == 51) rpgSpendTime(1);
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
@@ -1216,6 +1231,18 @@ act(verb, args)
     {
         local value = crewCheck.assess(); event('test.loyalty-preview'); eventValue(value.status);
         eventValue(value.reason); eventValue(value.rating); eventValue(value.check); eventValue(value.loyal); return nil;
+    }
+    if (verb == 1204)
+    {
+        event('test.loyalty-danger-state'); eventValue(crewLoyalty.initialized ? crewLoyalty.rating() : nil);
+        eventValue(crewLoyalty.dangerEffects.length()); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 1205)
+    {
+        local exposure = new RpgExpandedLoyaltyDanger(); exposure.loyalty = crewLoyalty;
+        exposure.incident = 'another-exposure'; exposure.necessary = true; exposure.noncombatant = true;
+        local value = exposure.assess(); event('test.loyalty-danger-preview');
+        eventValue(value.status); eventValue(value.reason); return nil;
     }
     return vhylAct(verb,args);
 }

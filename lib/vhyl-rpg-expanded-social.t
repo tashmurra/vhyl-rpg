@@ -873,6 +873,16 @@ class RpgExpandedLoyalty: object
     base = nil
     initialRoll = nil
     incidents = []
+    dangerEffects = []
+    rating()
+    {
+        self.validate();
+        if (!self.initialized) rpgExpandedReject('loyalty-uninitialized');
+        local value = self.base;
+        foreach (local effect in self.dangerEffects)
+            if (rpgLedger.seconds < effect[2]) value -= 1;
+        return value;
+    }
     validate()
     {
         if (self.id == nil || self.subject == nil || !self.subject.ofKind(RpgExpandedProfile)
@@ -910,6 +920,7 @@ class RpgExpandedLoyaltyCheck: object
     incident = nil
     necessary = nil
     modifier = 0
+    checkKind = 'ordinary'
     assess()
     {
         if (self.loyalty == nil || !self.loyalty.ofKind(RpgExpandedLoyalty) || self.incident == nil)
@@ -917,7 +928,11 @@ class RpgExpandedLoyaltyCheck: object
         self.loyalty.validate(); rpgInteger(self.modifier,-1000,1000);
         local value = new RpgExpandedLoyaltyResult();
         foreach (local receipt in self.loyalty.incidents)
-            if (receipt[1] == self.incident) { value.status = 'reused'; return value; }
+            if (receipt[1] == self.incident)
+            {
+                if (receipt[5] != self.checkKind) rpgExpandedReject('loyalty-incident-kind');
+                value.status = 'reused'; return value;
+            }
         if (!self.loyalty.initialized) { value.reason = 'loyalty-uninitialized'; return value; }
         if (!self.necessary) { value.reason = 'loyalty-check-unnecessary'; return value; }
         value.status = 'ready'; return value;
@@ -933,10 +948,36 @@ class RpgExpandedLoyaltyCheck: object
             return value;
         }
         if (value.status != 'ready') return value;
-        value.rating = self.loyalty.base + self.modifier;
+        value.rating = self.loyalty.rating() + self.modifier;
         if (value.rating >= 20) value.loyal = true;
         else { value.check = rpgRandom.roll(); value.loyal = value.check <= value.rating; }
-        self.loyalty.incidents = self.loyalty.incidents + [[self.incident,value.rating,value.check,value.loyal]];
+        self.loyalty.incidents = self.loyalty.incidents + [[self.incident,value.rating,value.check,value.loyal,self.checkKind]];
         value.status = 'resolved'; return value;
+    }
+;
+
+
+/** Noncombatant combat exposure, full-2008 B519. One failed incident causes
+ * a one-week penalty; overlapping exposures require unresolved author policy. */
+class RpgExpandedLoyaltyDanger: RpgExpandedLoyaltyCheck
+    checkKind = 'noncombatant-danger'
+    noncombatant = nil
+    assess()
+    {
+        local value = inherited();
+        if (value.status != 'ready') return value;
+        if (!self.noncombatant) { value.reason = 'loyalty-danger-noncombatant-required'; value.status = 'blocked'; return value; }
+        foreach (local effect in self.loyalty.dangerEffects)
+            if (rpgLedger.seconds < effect[2])
+            { value.reason = 'loyalty-overlapping-danger-unresolved'; value.status = 'blocked'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2146878847);
+        return value;
+    }
+    resolve()
+    {
+        local value = inherited();
+        if (value.status == 'resolved' && !value.loyal)
+            self.loyalty.dangerEffects = self.loyalty.dangerEffects + [[self.incident,rpgLedger.seconds + 604800]];
+        return value;
     }
 ;

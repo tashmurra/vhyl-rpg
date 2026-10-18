@@ -771,6 +771,36 @@ def loyalty_state(s):
     return last(s, 'test.loyalty-state')
 
 
+def danger_state(s):
+    s.action(1204)
+    return last(s, 'test.loyalty-danger-state')
+
+
+def test_loyalty_danger(s):
+    initial = danger_state(s)
+    assert initial == [None, 0, 0, 0]
+    s.action(1100, 49)
+    assert danger_state(s) == initial
+    s.action(1100, 48)
+    assert last(s, 'test.loyalty-danger') == ['resolved', 0, 8]
+    assert danger_state(s) == [8, 1, 0, 3]
+    s.command('undo')
+    assert danger_state(s) == initial
+    s.action(1100, 48); s.action(1100, 48)
+    assert last(s, 'test.loyalty-danger') == ['reused', 0, 8]
+    assert danger_state(s) == [8, 1, 0, 3]
+    s.action(1205)
+    assert last(s, 'test.loyalty-danger-preview') == ['blocked', 'loyalty-overlapping-danger-unresolved']
+    s.action(1100, 50)
+    assert danger_state(s) == [8, 1, 604799, 3]
+    s.action(1100, 51)
+    assert danger_state(s) == [9, 1, 604800, 3]
+    s.action(1205)
+    assert last(s, 'test.loyalty-danger-preview') == ['ready', None]
+    s.command('undo')
+    assert danger_state(s) == [8, 1, 604799, 3]
+
+
 def test_loyalty(s):
     initial = loyalty_state(s)
     s.action(1203)
@@ -1109,7 +1139,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')

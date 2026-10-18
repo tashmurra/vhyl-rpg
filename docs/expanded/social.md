@@ -466,3 +466,31 @@ normal transaction/save state; no extra elapsed time is charged.
 repeat incidents, rollback and undo. All cases remain unrun. Pay changes, rescue,
 forgiveness, employer performance, service anniversaries and timed loyalty effects
 remain pending. This is not yet complete employment or loyalty behavior.
+
+
+## Noncombatant exposure and temporary loyalty
+
+Use `RpgExpandedLoyaltyDanger`, a specialized loyalty check, when an actual
+noncombatant is exposed to combat (full-2008 B519). Set `noncombatant` and
+`necessary` explicitly and identify the incident. A failed check records a -1
+penalty lasting 604800 seconds on the existing shared clock. A successful check
+adds no penalty. Replaying the incident cannot extend its expiry or add another
+penalty. The receipt also records its check kind; an ordinary loyalty incident
+cannot be reused as a danger incident or vice versa.
+
+`loyalty.rating()` calculates current effective loyalty without deleting expired
+history. The penalty applies before, but not at, the expiry time. The check and
+penalty add no elapsed time themselves. Clock advancement belongs to the actual
+encounter and subsequent activities, so undo across an expiry restores the earlier
+effective rating automatically.
+
+The source notes that repeated exposures may have permanent effects, but does not
+specify temporary stacking. A second danger check while the first penalty remains
+active returns `loyalty-overlapping-danger-unresolved`; no roll is consumed. A
+permanent change also requires a separately specified author decision. Do not
+silently replace, refresh or stack the penalty. These combinations remain unresolved
+coverage requirements.
+
+`tests/expanded.py::test_loyalty_danger` contains failed exposure, repeat protection,
+rollback, undo, overlap rejection and exact expiry-boundary cases. The cases remain
+unrun while checks are paused.
