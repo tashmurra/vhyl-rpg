@@ -1257,7 +1257,26 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Validate alternate grappling prerequisites, default and cap; use the joint-restraint procedure.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "joint-restraint",
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "throw-grappling",
+            "offset": 0
+          },
+          {
+            "skill": "wrestling",
+            "offset": 0
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 4
+        },
+        "specialize_by_parent": true
+      }
     },
     {
       "id": "technique-rear-kick",
@@ -1267,7 +1286,27 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Require awareness of the rear target, preserve facing and apply the temporary defense penalty.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "rear-kick",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "advanced-striking",
+            "offset": -4
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "effects": {
+          "preserve_facing": true,
+          "requires_target_awareness": true,
+          "all_defenses_until_next_turn": -2
+        }
+      }
     },
     {
       "id": "technique-throat-restraint",
@@ -1277,7 +1316,26 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Select the prerequisite-specific default and resolve the throat-restraint procedure.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "throat-restraint",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "throw-grappling",
+            "offset": -2
+          },
+          {
+            "skill": "wrestling",
+            "offset": -3
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true
+      }
     },
     {
       "id": "technique-disarm",
@@ -1287,7 +1345,22 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Use purchased technique for the disarm operation with its parent-relative cap.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "disarm",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "unarmed-combat-or-melee-weapon",
+            "offset": 0
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 5
+        },
+        "specialize_by_parent": true
+      }
     },
     {
       "id": "technique-paired-weapons",
@@ -1297,7 +1370,31 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Reduce only the paired-attack penalty; keep off-hand penalties and cinematic eligibility separate.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "paired-weapons",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "one-handed-melee-weapon",
+            "offset": -4
+          },
+          {
+            "skill": "guns-pistol",
+            "offset": -4
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "cinematic": true,
+        "realistic_exception": "guns-pistol",
+        "effects": {
+          "does_not_remove_offhand_penalty": true
+        }
+      }
     },
     {
       "id": "technique-elbow",
@@ -1307,7 +1404,26 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Apply the technique to the elbow strike without changing unrelated attacks.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "elbow",
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "brawling",
+            "offset": -2
+          },
+          {
+            "skill": "advanced-striking",
+            "offset": -2
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true
+      }
     },
     {
       "id": "technique-feint",
@@ -1317,7 +1433,22 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Use the technique score for feints and preserve the parent-relative cap.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "feint",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "unarmed-combat-or-melee-weapon",
+            "offset": 0
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 4
+        },
+        "specialize_by_parent": true
+      }
     },
     {
       "id": "technique-finger-restraint",
@@ -1327,7 +1458,25 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Default through the arm-restraint technique and route injury to the hand.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "finger-restraint",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "technique": "joint-restraint",
+            "offset": -3
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "effects": {
+          "injury_location": "hand"
+        }
+      }
     },
     {
       "id": "technique-ground-fighting",
@@ -1337,7 +1486,27 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Use the technique for grounded attacks and its separate check to reduce defense penalties.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "ground-fighting",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "unarmed-combat-or-melee-weapon",
+            "offset": -4
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "effects": {
+          "defense_check_success_penalty": -1,
+          "ordinary_defense_penalty": -3,
+          "posture": "lying-on-back"
+        }
+      }
     },
     {
       "id": "technique-mounted-bow",
@@ -1347,7 +1516,31 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Require both bow and riding training; floor only the mounted-archery component of the attack target.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "mounted-bow",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "bow",
+            "offset": -4
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "additional_prerequisites": [
+          {
+            "skill_category": "riding",
+            "minimum_investment": 1
+          }
+        ],
+        "effects": {
+          "floor_applies_only_to": "mounted-archery-penalties"
+        }
+      }
     },
     {
       "id": "technique-leaping-kick",
@@ -1357,7 +1550,38 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Apply reach, damage, enemy parry, fall checks and temporary defense effects, including a defended attack.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "leaping-kick",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "advanced-striking",
+            "offset": -4
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "effects": {
+          "reach_bonus_yards": 1,
+          "damage_bonus": 2,
+          "target_parry_modifier": -2,
+          "all_defenses_until_next_turn": -2,
+          "fall_check_after_miss_or_defense": [
+            {
+              "attribute": "dexterity",
+              "offset": -4
+            },
+            {
+              "skill": "acrobatics",
+              "offset": -2
+            }
+          ]
+        }
+      }
     },
     {
       "id": "technique-kick",
@@ -1367,17 +1591,63 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Use parent training for the single highest damage bonus and resolve the specified failed-kick balance check.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "kick",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "brawling",
+            "offset": -2
+          },
+          {
+            "skill": "advanced-striking",
+            "offset": -2
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "effects": {
+          "damage": "strength-thrust crushing",
+          "damage_bonus_basis": "highest eligible underlying skill bonus",
+          "miss_fall_check": [
+            "technique",
+            "dexterity"
+          ]
+        }
+      }
     },
     {
       "id": "technique-knee",
       "source": "full-2008",
-      "pages": "B231",
+      "pages": "B232",
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Apply the technique to the knee attack and its grappling context.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "knee",
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "brawling",
+            "offset": -1
+          },
+          {
+            "skill": "advanced-striking",
+            "offset": -1
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true
+      }
     },
     {
       "id": "technique-neck-twist",
@@ -1387,7 +1657,25 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Support an attribute-based default and cap with the wrestling strength bonus.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "neck-twist",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "attribute": "strength",
+            "offset": -4
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 3
+        },
+        "specialize_by_parent": true,
+        "effects": {
+          "strength_bonus_from": "wrestling"
+        }
+      }
     },
     {
       "id": "technique-off-hand-training",
@@ -1397,7 +1685,29 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Use the trained version for both attacks and parries; author approval is needed for extension to other one-handed skills.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "off-hand-training",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "melee-weapon",
+            "offset": -4
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "author_extension": "one-handed dexterity-based skill",
+        "effects": {
+          "operations": [
+            "attack",
+            "parry"
+          ]
+        }
+      }
     },
     {
       "id": "technique-weapon-retention",
@@ -1407,7 +1717,35 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Support melee skill-based and ranged attribute-based versions with separate caps.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "weapon-retention",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "melee-weapon",
+            "offset": 0
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 5
+        },
+        "specialize_by_parent": true,
+        "variants": [
+          {
+            "scope": "ranged-weapon",
+            "default": {
+              "attribute": "dexterity",
+              "offset": 0
+            },
+            "cap": {
+              "basis": "dexterity",
+              "offset": 5
+            }
+          }
+        ]
+      }
     },
     {
       "id": "technique-sweep",
@@ -1417,7 +1755,38 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Resolve hit, defense, contest and the victim recovery attempt in order; choose the greater eligible contest score.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "sweep",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "polearm",
+            "offset": -3
+          },
+          {
+            "skill": "spear",
+            "offset": -3
+          },
+          {
+            "skill": "staff",
+            "offset": -3
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "effects": {
+          "contest_actor": "max(technique,strength)",
+          "contest_target": "max(strength,dexterity)",
+          "target_recovery": {
+            "skill": "acrobatics",
+            "offset": -5
+          }
+        }
+      }
     },
     {
       "id": "technique-leg-sweep",
@@ -1427,7 +1796,34 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Use the alternate unarmed prerequisites with the sweep procedure.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "leg-sweep",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "throw-grappling",
+            "offset": -3
+          },
+          {
+            "skill": "advanced-striking",
+            "offset": -3
+          },
+          {
+            "skill": "shove-grappling",
+            "offset": -3
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "effects": {
+          "procedure": "sweep",
+          "weapon": "leg"
+        }
+      }
     },
     {
       "id": "technique-circular-attack",
@@ -1437,7 +1833,40 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Visit adjacent targets in the chosen order, resolve each attack fully and propagate critical failure to remaining attacks; enforce action exclusivity and final facing.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "circular-attack",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "broadsword",
+            "offset": -5
+          },
+          {
+            "skill": "staff",
+            "offset": -5
+          },
+          {
+            "skill": "two-hand-sword",
+            "offset": -5
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "cinematic": true,
+        "effects": {
+          "radius_yards": 1,
+          "order": "clockwise-or-counterclockwise",
+          "attack_mode": "swing",
+          "action": "exclusive-all-out-attack",
+          "random_location_each_target": true,
+          "critical_failure_propagates": true,
+          "final_facing": "selected"
+        }
+      }
     },
     {
       "id": "technique-voice-impersonation",
@@ -1447,7 +1876,23 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Bind each purchased technique to one subject and use the prerequisite speech imitation skill.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "voice-impersonation",
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "mimicry-speech",
+            "offset": -3
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "additional_specialty": "individual-imitated"
+      }
     },
     {
       "id": "technique-water-rescue",
@@ -1457,17 +1902,44 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Use the rescue-specific default and cap with the detailed lifesaving procedure.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "water-rescue",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "swimming",
+            "offset": -5
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true
+      }
     },
     {
       "id": "technique-moving-image-camera",
       "source": "full-2008",
-      "pages": "B233",
+      "pages": "B229; B233",
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Support the uncapped camera technique and its photography prerequisite.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "moving-image-camera",
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "photography",
+            "offset": -3
+          }
+        ],
+        "cap": null,
+        "specialize_by_parent": true
+      }
     },
     {
       "id": "technique-airborne-pickup",
@@ -1477,7 +1949,29 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Require the cargo apparatus and preparation check/time; distinguish missed pickup, damaged cargo and catastrophic loss.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "airborne-pickup",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "piloting",
+            "offset": -4
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "effects": {
+          "requires": "ground-prepared-extraction-apparatus",
+          "preparation_skill": "freight-handling",
+          "preparation_hours": "2d",
+          "ordinary_failure": "missed-pickup-or-damaged-cargo",
+          "critical_failure": "lost-cargo-or-critical-passenger-injury"
+        }
+      }
     },
     {
       "id": "technique-rope-ascent",
@@ -1487,7 +1981,22 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Use the ascent default and cap for a hanging rope.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "rope-ascent",
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "climbing",
+            "offset": -2
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true
+      }
     },
     {
       "id": "technique-rope-descent",
@@ -1496,8 +2005,24 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Use the distinct descent default and above-parent cap.",
-      "tests": []
+      "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Use the distinct descent default and above-parent cap. The inline variant specifies its default and cap but does not restate difficulty; resolve and document that interpretation before enabling purchase.",
+      "tests": [],
+      "technique_data": {
+        "key": "rope-descent",
+        "difficulty": null,
+        "defaults": [
+          {
+            "skill": "climbing",
+            "offset": -1
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 3
+        },
+        "specialize_by_parent": true,
+        "difficulty_resolution": "Inline variant follows the average rope-ascent entry; difficulty is not restated. Explicit interpretation and fixture required."
+      }
     },
     {
       "id": "technique-smooth-surface-ascent",
@@ -1507,7 +2032,22 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Apply the technique to smooth vertical surfaces with its climbing cap.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "smooth-surface-ascent",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "climbing",
+            "offset": -3
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true
+      }
     },
     {
       "id": "technique-trigger-rigging",
@@ -1517,7 +2057,22 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Apply only to the designated demolition trigger task with the correct prerequisite.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "trigger-rigging",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "explosives-demolition",
+            "offset": -2
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true
+      }
     },
     {
       "id": "technique-cuff-escape",
@@ -1527,7 +2082,23 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Apply the restraint-specific escape technique; require author approval for additional restraint versions.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "cuff-escape",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "escape",
+            "offset": -5
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "author_extension": "specific other restraint"
+      }
     },
     {
       "id": "technique-touch-lockwork",
@@ -1537,7 +2108,23 @@
       "kind": "catalogue-entry",
       "status": "pending",
       "acceptance": "Validate the printed difficulty, prerequisites, default and cap. Remove only the touch-work penalty for lockwork, with explicit approval for versions tied to other skills.",
-      "tests": []
+      "tests": [],
+      "technique_data": {
+        "key": "touch-lockwork",
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "lockpicking",
+            "offset": -5
+          }
+        ],
+        "cap": {
+          "basis": "selected-parent",
+          "offset": 0
+        },
+        "specialize_by_parent": true,
+        "author_extension": "other approved skill performed by touch"
+      }
     }
   ],
   "exclusions": [

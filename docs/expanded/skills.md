@@ -37,3 +37,12 @@ time. Specialties count once for pricing, but a specific specialty restriction s
 limits the actual bonus. Overlapping groups may exceed four for skill bonuses only;
 reaction and study overlap must not silently inherit that exception. These effects
 and their catalogue identifier mappings remain pending.
+
+The [technique-summary ledger](inventory/technique-summary.json) compares all 27
+summary rows with the detailed definitions. The catalogue has 29 technique
+definitions because the detailed text also describes rope descent and unarmed
+sweeping. Structured metadata records attribute-based defaults, parent technique
+chains, separate specialties, caps and cinematic exceptions. The camera technique
+is explicitly uncapped; ranged weapon retention has a Dexterity-based variant.
+Rope descent does not restate its difficulty, so that interpretation remains
+explicitly unresolved. These records do not expand the current runtime interface.

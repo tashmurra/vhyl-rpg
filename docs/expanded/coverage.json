@@ -366,6 +366,7 @@
     "inventory/reference-overview.json",
     "inventory/condensed-combat.json",
     "inventory/example-compositions.json",
-    "inventory/spell-summary.json"
+    "inventory/spell-summary.json",
+    "inventory/technique-summary.json"
   ]
 }
