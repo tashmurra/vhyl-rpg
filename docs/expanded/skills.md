@@ -938,7 +938,7 @@ unrun; combined animal-procedure and combat validation remains incomplete.
 ## Psychology disciplines and species defaults
 
 `RpgExpandedPsychologySkill` implements IQ/Hard psychology with IQ-6 and
-same-species sociology-4 defaults (full-2008 B216). Set the species `specialty`.
+sociology-4 defaults (full-2008 B216). Set the species `specialty`.
 The default `discipline` is `general`. Campaigns using the optional split select
 `applied` or `experimental` and provide `splitApproved` and `splitEvidence`.
 Purchased experimental psychology supplies applied psychology at -5; there is no
@@ -980,3 +980,23 @@ The context computes and rolls competence through existing skill interfaces.
 It does not choose a character's behavior, grant knowledge or resolve treatment. The social library supplies the owned assessment operation for authored findings. `test_psychology_context` covers each printed
 modifier, combinations, active callousness, its exception and inapplicable empathy
 or discipline rejection. Fixtures remain unrun while checks are paused.
+
+
+## Sociology catalogue skill
+
+`RpgExpandedSociologySkill` supplies IQ/Hard, IQ-6, Anthropology-3 and applied
+Psychology-4 defaults (full-2008 B221). It has no technology level or required
+species specialty. Only purchased source training provides a default; purchased
+optional source specialties incur the additional -2 from B170. Experimental
+psychology is not treated as direct applied training.
+
+General sociology can supply psychology's -4 default for an explicitly selected
+species. Older authored sociology definitions with a matching species specialty
+remain accepted, but a species specialty is no longer required. The resolver
+still cannot chain an untrained sociology default into psychology.
+
+This definition supplies skill arithmetic. Large-group cooperation, social
+pressures and contact between societies still require owned authored-finding
+operations and appropriate access/evidence. `test_sociology_skill` specifies the
+printed defaults, the incoming psychology default, optional-source propagation
+and prevention of untrained chains. Fixtures remain unrun while checks are paused.

@@ -3767,9 +3767,10 @@
       "pages": "B221",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Resolve authored large-group relationships and pressures, distinct from individual behavior analysis.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_sociology_skill"],
+      "validation_note": "Typed IQ/Hard general sociology supplies printed attribute, anthropology and applied psychology defaults, including optional source propagation. Psychology accepts general sociology without an invented species specialty. Owned large-group findings and situational evidence contracts remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",

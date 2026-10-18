@@ -9414,6 +9414,8 @@ def test(build):
     test_native_planet_template(Session, native_planet_template)
     psychology_templates = build.build("expanded-psychology-templates",ROOT / "tests/fixtures/expanded-psychology-templates.t")
     test_psychology_templates(Session, psychology_templates)
+    sociology_skill = build.build("expanded-sociology-skill",ROOT / "tests/fixtures/expanded-sociology-skill.t")
+    test_sociology_skill(Session, sociology_skill)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24166,5 +24168,18 @@ def test_psychology_templates(Session, bundle):
         try:
             s.action(1680,code)
             assert last(s,'test.psychology-template-error') == [reason]
+        finally:
+            s.close()
+
+
+def test_sociology_skill(Session, bundle):
+    """B221 general sociology and B216's incoming default do not require species; unrun."""
+    for setup, expected in (((),[6,6,0]),((21601,),[17,13,0]),((21602,),[13,6,0]),
+                            ((20801,20802),[13,17,0]),((20801,),[6,12,0]),((21603,),[8,6,0])):
+        s = Session(bundle)
+        try:
+            for code in (*setup,21600):
+                s.action(1680,code)
+            assert last(s,'test.sociology-scores') == expected
         finally:
             s.close()

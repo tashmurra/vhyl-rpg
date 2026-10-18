@@ -1728,7 +1728,7 @@ class RpgExpandedPsychologySkill: RpgExpandedSkill
         {
             local source = training.skill;
             if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill)) continue;
-            if (source.id == 'sociology' && source.specialty == self.specialty && source.techLevel == nil) edges = edges + [[source,-4]];
+            if (source.id == 'sociology' && (source.specialty == nil || source.specialty == self.specialty) && source.techLevel == nil) edges = edges + [[source,-4]];
             if (self.discipline == 'applied' && source.ofKind(RpgExpandedPsychologySkill)
                 && source.discipline == 'experimental' && source.specialty == self.specialty)
             { source.validateDefinition(); edges = edges + [[source,-5]]; }
@@ -1840,5 +1840,35 @@ modify RpgExpandedProfile
             psychology = psychology + [skill];
         }
         return nil;
+    }
+;
+
+/** Full-2008 B221: sociology concerns societies, without a required species specialty. */
+class RpgExpandedSociologySkill: RpgExpandedSkill
+    id = 'sociology'
+    attribute = rpgIQ
+    difficulty = 2
+    defaultPenalty = -6
+    validateDefinition()
+    {
+        if (self.id != 'sociology' || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != -6
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil
+            || self.specialty != nil || self.techLevel != nil) rpgExpandedReject('sociology-skill-definition');
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill) || source.techLevel != nil) continue;
+            local general = source.ofKind(RpgExpandedSkill) && source.optionalParent != nil ? source.optionalParent : source;
+            local penalty = general.id == 'anthropology' ? -3
+                : general.id == 'psychology' && general.socialInferenceDefaultEligible() ? -4 : nil;
+            if (penalty != nil) edges = edges + [[general,penalty]];
+        }
+        return edges;
     }
 ;
