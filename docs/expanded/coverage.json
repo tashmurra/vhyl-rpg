@@ -303,7 +303,8 @@
         "tests/expanded.py::test_bleeding_care_boundaries",
         "tests/expanded.py::test_pain_sensitivity",
         "tests/expanded.py::test_terminal_condition",
-        "tests/expanded.py::test_radiation_recovery"
+        "tests/expanded.py::test_radiation_recovery",
+        "tests/expanded.py::test_nausea_episodes"
       ],
       "validation_note": "Partial recovery includes scheduled physician checks and owned bandaging/post-bandaging treatment using shared time and health. Source outcome, rollback, undo and save-continuation fixtures authored but unrun. Interrupted care, bleeding, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },

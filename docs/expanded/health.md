@@ -1956,3 +1956,34 @@ interface; see the hazards guide.
 specify character-value accounting, unchanged spendable points, deadline edges,
 preview, replay, rollback, undo and cross-process continuation. They are authored
 and unrun.
+
+
+## Owned nausea
+
+`RpgExpandedNausea` records the condition from `full-2008`, B428. Supply `id`,
+`profile`, `approved`, concrete `causeEvidence` and, for a timed cause, positive
+`durationSeconds`. The source of the affliction determines duration; the condition
+itself supplies no default. With nil duration, the episode lasts until its cause
+is explicitly ended. It does not invent a resistance roll for an unspecified cause.
+
+`assess()` is pure and `apply()` records onset in `profile.nauseaEpisodes`. Replaying
+an episode never refreshes its timer. At the expiry instant its penalty ends.
+For a cause removed earlier, set `endEvidence` and call `end()` inside a transaction;
+`assessEnd()` previews that operation. This ends only that episode. Multiple causes
+retain separate lifetimes, while `profile.nauseated()` applies the nausea penalty
+once whenever any cause remains active.
+
+The shared health modifier applies -2 to attribute and skill checks once; purchased
+scores and skill training remain unchanged. The active-defense hook applies -1
+separately, rather than applying the attribute penalty to a defense as well.
+Self-control checks are excluded because B428 does not list them for nausea.
+Other condition effects retain their own modifiers. The existing oral-remedy and
+rich-meal helper remains specific to vomiting-trigger checks and does not remove
+these general nausea penalties.
+
+Eating, foul odors, failed fear checks, stun and hourly motion exposure still need
+their owned vomiting-trigger integration. This condition record does not imply
+those triggers or retching consequences have run. The fixture
+`tests/fixtures/expanded-nausea.t` and `test_nausea_episodes` cover attribute/defense
+penalties, independent overlapping causes, expiry, ending one cause, preview,
+rollback, undo, replay and saved continuation. They are authored and unrun.

@@ -287,3 +287,9 @@ sterility or a one-year terminal condition only on the corresponding critical
 failure. Outcomes share character accounting and existing condition deadlines.
 Whole-profile healing is required pending wound-specific recovery allocation;
 new outcome and persistence fixtures are authored and unrun.
+
+
+Nausea now has owned cause records, attribute/skill and defense penalties, and
+independent expiry or cause-ending receipts. Multiple causes do not multiply the
+nausea penalty. Vomiting-trigger integration remains pending; new duration and
+persistence fixtures are authored and unrun.

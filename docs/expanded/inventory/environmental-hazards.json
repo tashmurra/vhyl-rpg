@@ -101,9 +101,12 @@
       "pages": "B428",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply -2 to all attribute and skill checks and -1 to active defenses; schedule the separate vomiting-trigger checks.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_nausea_episodes"
+      ],
+      "implementation": "Owned cause episodes provide -2 to attribute/skill checks and -1 to active defenses, with independent cause expiry and no duplicate nausea penalty. Shared clock and explicit cause-ending receipts preserve replay and save state. Vomiting trigger scheduling remains pending. Fixtures authored and unrun."
     },
     {
       "id": "condition-nausea-triggers",

@@ -8910,6 +8910,8 @@ def test(build):
     test_terminal_condition(Session, terminal, build.out)
     radiation_recovery = build.build('expanded-radiation-recovery', ROOT / 'tests/fixtures/expanded-radiation-recovery.t')
     test_radiation_recovery(Session, radiation_recovery, build.out)
+    nausea = build.build('expanded-nausea', ROOT / 'tests/fixtures/expanded-nausea.t')
+    test_nausea_episodes(Session, nausea, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10420,5 +10422,51 @@ def test_radiation_recovery(Session, bundle, out):
         s.command(f':restore {path}\n@2295')
         s.action(2291, 82, 0)
         assert state(s) == [1, -75, 2, 10, 0, 31572000, 0, 0]
+    finally:
+        s.close()
+
+
+def test_nausea_episodes(Session, bundle, out):
+    def state(s):
+        s.action(2291, 31, 0)
+        return last(s, 'test.nausea')
+    path = out / 'expanded-nausea.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2291, 21, 0)
+        s.action(2291, 22, 0)
+        assert state(s) == [10] * 6 + [0, 0, 0, 0]
+        s.action(2291, 20, 0)
+        s.command('undo')
+        assert state(s) == [10] * 6 + [0, 0, 0, 0]
+        s.action(2291, 20, 0)
+        s.action(2291, 20, 0)
+        assert state(s) == [8] * 6 + [1, 1, 0, 0]
+        s.action(2291, 32, 0)
+        assert last(s, 'test.nausea-contexts') == [8, 10, 10]
+        s.action(2291, 24, 0)
+        s.action(2291, 30, 60)
+        assert state(s) == [8] * 6 + [1, 2, 60, 0]
+        s.command(f':save {path}\n@2295')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2295')
+        s.action(2291, 20, 0)
+        s.action(2291, 30, 59)
+        assert state(s) == [8] * 6 + [1, 2, 119, 0]
+        s.action(2291, 30, 1)
+        assert state(s) == [10] * 6 + [0, 2, 120, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2291, 20, 0)
+        s.action(2291, 24, 0)
+        s.action(2291, 25, 0)
+        assert state(s) == [8] * 6 + [1, 2, 0, 0]
+        s.action(2291, 30, 60)
+        assert state(s) == [10] * 6 + [0, 2, 60, 0]
     finally:
         s.close()

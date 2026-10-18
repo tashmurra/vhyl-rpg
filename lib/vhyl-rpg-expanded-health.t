@@ -3739,3 +3739,94 @@ class RpgExpandedSterility: RpgLiteTrait
 modify RpgExpandedProfile
     fertilityBlocked() { return self.level('sterility') > 0; }
 ;
+
+/** B428 nausea duration belongs to the causing disease, hazard or authored effect. */
+class RpgExpandedNausea: object
+    id = nil
+    profile = nil
+    approved = nil
+    causeEvidence = nil
+    durationSeconds = nil
+    startedAt = nil
+    expiresAt = nil
+    endedAt = nil
+    endEvidence = nil
+    boundDefinition = nil
+    boundEndEvidence = nil
+    definition() { return [self.id,self.profile,self.approved,self.causeEvidence,self.durationSeconds]; }
+    validateReceipt()
+    {
+        if (self.startedAt == nil || self.boundDefinition == nil) rpgExpandedReject('nausea-unstarted');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('nausea-binding');
+        if (!holds(self.profile.nauseaEpisodes,self)) rpgExpandedReject('nausea-history');
+        if (self.endedAt != nil && self.endEvidence != self.boundEndEvidence) rpgExpandedReject('nausea-end-binding');
+        rpgInteger(self.startedAt,0,rpgLedger.seconds); return nil;
+    }
+    activeNow()
+    {
+        self.validateReceipt();
+        return self.endedAt == nil && (self.expiresAt == nil || rpgLedger.seconds < self.expiresAt);
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('nausea-definition');
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        rpgExpandedValidate(self.profile);
+        if (!self.approved || self.causeEvidence == nil || self.causeEvidence == '')
+        { value.reason = 'nausea-cause-required'; return value; }
+        if (self.profile.dead) { value.reason = 'nausea-patient-dead'; return value; }
+        if (self.durationSeconds != nil) rpgInteger(self.durationSeconds,1,2147483647 - rpgLedger.seconds);
+        foreach (local prior in self.profile.nauseaEpisodes)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id) rpgExpandedReject('nausea-duplicate');
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.startedAt = rpgLedger.seconds;
+        self.expiresAt = self.durationSeconds == nil ? nil : self.startedAt + self.durationSeconds;
+        self.boundDefinition = self.definition(); self.profile.nauseaEpisodes = self.profile.nauseaEpisodes + [self];
+        value.status = 'resolved'; return value;
+    }
+    assessEnd()
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.endedAt != nil) { value.status = 'reused'; return value; }
+        if (self.endEvidence == nil || self.endEvidence == '') { value.reason = 'nausea-end-evidence-required'; return value; }
+        value.status = 'ready'; return value;
+    }
+    end()
+    {
+        local value = self.assessEnd(); if (value.status != 'ready') return value;
+        self.endedAt = rpgLedger.seconds; self.boundEndEvidence = self.endEvidence;
+        value.status = 'resolved'; return value;
+    }
+;
+modify RpgExpandedProfile
+    nauseaEpisodes = []
+    nauseated()
+    {
+        local active = nil;
+        foreach (local episode in self.nauseaEpisodes)
+        {
+            if (episode == nil || !episode.ofKind(RpgExpandedNausea) || episode.profile != self)
+                rpgExpandedReject('nausea-history');
+            if (episode.activeNow()) active = true;
+        }
+        return active;
+    }
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        if (self.nauseated() && !holds(['defense','self-control'],context.kind)) value -= 2;
+        return value;
+    }
+    healthDefensePenalty() { return inherited() + (self.nauseated() ? 1 : 0); }
+;
