@@ -708,3 +708,27 @@ specialty pairs against an independently specified expected-score matrix. They
 also cover Bicycling and Battlesuit sources, technology mismatch, an unpaid
 source and altered attribute defaults. These are authored expectations, not
 passing validation results: checks remain paused.
+
+
+## Owned driving familiarity
+
+`RpgExpandedDrivingFamiliarity` specializes the existing owned familiarity
+record for `controls` (−2) or `vehicle-type` (−4 or a more severe authored penalty).
+Supply the owner, typed Driving skill, authored `equipmentType`, availability and
+evidence. These records use the B169 eight-hour practice duration. Control and
+type records may share one vehicle identity; duplicate records for the same
+aspect reject. Existing generic familiarity duplicate rules remain unchanged.
+
+Set `controlsFamiliarity` and/or `typeFamiliarity` on a Driving context. Matching
+manual unfamiliarity penalties reject, preventing a double charge. For practice
+on both aspects of the same vehicle, call
+`rpgExpandedPracticeDriving(profile,skill,records,seconds)`. It preflights every
+record, advances the shared clock once and updates all remaining practice only
+after confirming unchanged conditions. Fully known records do not charge time
+again. Ordinary rollback, undo and save mechanisms own the state.
+
+`expanded-driving-familiarity.t` / `test_driving_familiarity` specify both initial
+penalties, one eight-hour time charge, penalty removal, rollback, undo, saved
+continuation and conflicting manual input. Fixtures remain unrun. The author
+still establishes vehicle availability; this is not automatic native vehicle
+interaction or control-loss resolution.

@@ -1,5 +1,6 @@
 #include "expanded-motion-trait.t"
 motionGeneral: RpgExpandedSkill id = 'driving' attribute = rpgDX difficulty = 1 defaultPenalty = -5;
+motionOptionalGeneral: RpgExpandedSkill id = 'authored-vehicle-operation' attribute = rpgIQ difficulty = 1 vehicleOperationClass = 1;
 modify ExpandedTestAction
     exec(context)
     {
@@ -18,7 +19,7 @@ modify ExpandedTestAction
         }
         if (code == 16401 || code == 16402)
         {
-            local skill = rpgExpandedOptionalSpecialty(motionGeneral,'driving-local','local-roads',true);
+            local skill = rpgExpandedOptionalSpecialty(motionOptionalGeneral,'operation-local','local-routes',true);
             if (code == 16402) skill.vehicleOperationClass = 0;
             event('test.motion-specialty');
             try { eventValue(motionHero.motionSkillLearningReason(skill)); }

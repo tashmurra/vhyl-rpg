@@ -572,7 +572,8 @@
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
       "tests": [
         "tests/expanded.py::test_driving",
-        "tests/expanded.py::test_driving_matrix"
+        "tests/expanded.py::test_driving_matrix",
+        "tests/expanded.py::test_driving_familiarity"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -622,7 +623,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults."
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults. Owned control/type familiarity now supplies context penalties. Combined same-vehicle practice spends time once and advances both aspects atomically. Availability remains authored; native vehicle integration pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-driving-construction",
@@ -634,7 +635,8 @@
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
       "tests": [
         "tests/expanded.py::test_driving",
-        "tests/expanded.py::test_driving_matrix"
+        "tests/expanded.py::test_driving_matrix",
+        "tests/expanded.py::test_driving_familiarity"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -684,7 +686,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults."
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults. Owned control/type familiarity now supplies context penalties. Combined same-vehicle practice spends time once and advances both aspects atomically. Availability remains authored; native vehicle integration pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-driving-halftrack",
@@ -696,7 +698,8 @@
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
       "tests": [
         "tests/expanded.py::test_driving",
-        "tests/expanded.py::test_driving_matrix"
+        "tests/expanded.py::test_driving_matrix",
+        "tests/expanded.py::test_driving_familiarity"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -746,7 +749,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults."
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults. Owned control/type familiarity now supplies context penalties. Combined same-vehicle practice spends time once and advances both aspects atomically. Availability remains authored; native vehicle integration pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-driving-heavy-wheeled",
@@ -758,7 +761,8 @@
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
       "tests": [
         "tests/expanded.py::test_driving",
-        "tests/expanded.py::test_driving_matrix"
+        "tests/expanded.py::test_driving_matrix",
+        "tests/expanded.py::test_driving_familiarity"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -808,7 +812,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults."
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults. Owned control/type familiarity now supplies context penalties. Combined same-vehicle practice spends time once and advances both aspects atomically. Availability remains authored; native vehicle integration pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-driving-hovercraft",
@@ -820,7 +824,8 @@
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
       "tests": [
         "tests/expanded.py::test_driving",
-        "tests/expanded.py::test_driving_matrix"
+        "tests/expanded.py::test_driving_matrix",
+        "tests/expanded.py::test_driving_familiarity"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -870,7 +875,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults."
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults. Owned control/type familiarity now supplies context penalties. Combined same-vehicle practice spends time once and advances both aspects atomically. Availability remains authored; native vehicle integration pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-driving-rail",
@@ -882,7 +887,8 @@
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
       "tests": [
         "tests/expanded.py::test_driving",
-        "tests/expanded.py::test_driving_matrix"
+        "tests/expanded.py::test_driving_matrix",
+        "tests/expanded.py::test_driving_familiarity"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -932,7 +938,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults."
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults. Owned control/type familiarity now supplies context penalties. Combined same-vehicle practice spends time once and advances both aspects atomically. Availability remains authored; native vehicle integration pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-driving-articulated",
@@ -944,7 +950,8 @@
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
       "tests": [
         "tests/expanded.py::test_driving",
-        "tests/expanded.py::test_driving_matrix"
+        "tests/expanded.py::test_driving_matrix",
+        "tests/expanded.py::test_driving_familiarity"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -998,7 +1005,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults."
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults. Owned control/type familiarity now supplies context penalties. Combined same-vehicle practice spends time once and advances both aspects atomically. Availability remains authored; native vehicle integration pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-driving-motorcycle",
@@ -1010,7 +1017,8 @@
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
       "tests": [
         "tests/expanded.py::test_driving",
-        "tests/expanded.py::test_driving_matrix"
+        "tests/expanded.py::test_driving_matrix",
+        "tests/expanded.py::test_driving_familiarity"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -1032,7 +1040,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults."
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults. Owned control/type familiarity now supplies context penalties. Combined same-vehicle practice spends time once and advances both aspects atomically. Availability remains authored; native vehicle integration pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-driving-tracked",
@@ -1044,7 +1052,8 @@
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
       "tests": [
         "tests/expanded.py::test_driving",
-        "tests/expanded.py::test_driving_matrix"
+        "tests/expanded.py::test_driving_matrix",
+        "tests/expanded.py::test_driving_familiarity"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -1094,7 +1103,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults."
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending. Full 81-pair directed matrix and external-source/TL/unpaid-source cases are now authored, still unrun. Typed definitions reject changed attribute defaults and extra edges. Base fixture technology corrected to exercise valid defaults. Owned control/type familiarity now supplies context penalties. Combined same-vehicle practice spends time once and advances both aspects atomically. Availability remains authored; native vehicle integration pending. Fixtures unrun."
     },
     {
       "id": "catalogue-driving-category-boundaries",

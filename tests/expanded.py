@@ -9316,6 +9316,8 @@ def test(build):
     test_driving(Session, driving)
     driving_matrix = build.build("expanded-driving-matrix",ROOT / "tests/fixtures/expanded-driving-matrix.t")
     test_driving_matrix(Session, driving_matrix)
+    driving_familiarity = build.build("expanded-driving-familiarity",ROOT / "tests/fixtures/expanded-driving-familiarity.t")
+    test_driving_familiarity(Session, driving_familiarity, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22492,5 +22494,34 @@ def test_driving_matrix(Session, bundle):
         assert last(s, 'test.driving-external') == [17,17,9,9]
         s.action(1100, 16602)
         assert last(s, 'test.driving-invalid-default') == ['driving-skill-definition']
+    finally:
+        s.close()
+
+
+def test_driving_familiarity(Session, bundle, out):
+    """B169/B188 shared eight-hour practice removes both penalties with one time charge; unrun."""
+    path = out / 'driving-familiarity.zsave'
+    s = Session(bundle)
+    try:
+        for code in (16701, 16702):
+            s.action(1100, code)
+        assert last(s, 'test.driving-familiarity') == [8,0,0,0,0]
+        s.action(1100, 16700)
+        s.command('undo')
+        s.action(1100, 16702)
+        assert last(s, 'test.driving-familiarity') == [8,0,0,0,0]
+        for code in (16700, 16700, 16702):
+            s.action(1100, code)
+        assert last(s, 'test.driving-familiarity') == [14,28800,28800,28800,0]
+        s.command(f':save {path}\n@1101')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1101')
+        for code in (16700, 16702, 16703):
+            s.action(1100, code)
+        assert last(s, 'test.driving-familiarity') == [14,28800,28800,28800,0]
+        assert last(s, 'test.driving-familiarity-reject') == ['driving-familiarity-double-charge']
     finally:
         s.close()

@@ -350,6 +350,7 @@ modify RpgExpandedProfile
 /** One owned skill/equipment-type familiarity, B169. A type is an authored
  * identity shared by equivalent models, not necessarily one inventory object. */
 class RpgExpandedFamiliarity: object
+    sameEquipmentFamiliarity(other) { return self.equipmentType == other.equipmentType; }
     owner = nil
     skill = nil
     equipmentType = nil
@@ -383,7 +384,7 @@ class RpgExpandedFamiliarity: object
                 rpgExpandedReject('familiarity-ownership');
             if (entry.skill == self.skill)
             {
-                if (entry.equipmentType == self.equipmentType) copies += 1;
+                if (self.sameEquipmentFamiliarity(entry)) copies += 1;
                 if (entry.initial) initialCount += 1;
             }
         }
@@ -993,3 +994,87 @@ class RpgExpandedDrivingContext: RpgExpandedSkillContext
         local base = inherited(profile); return base == nil ? nil : base + penalty;
     }
 ;
+
+
+/** Owned B188 unfamiliarity with controls or vehicle type; B169 practice. */
+class RpgExpandedDrivingFamiliarity: RpgExpandedFamiliarity
+    sameEquipmentFamiliarity(other)
+    {
+        return self.equipmentType == other.equipmentType
+            && (!other.ofKind(RpgExpandedDrivingFamiliarity) || self.kind == other.kind);
+    }
+    kind = 'controls'
+    evidence = nil
+    validate()
+    {
+        inherited();
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedDrivingSkill)
+            || !holds(['controls','vehicle-type'],self.kind) || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('driving-familiarity-definition');
+        if (self.requiredSeconds != 28800 || (self.kind == 'controls' ? self.penalty != -2 : self.penalty > -4))
+            rpgExpandedReject('driving-familiarity-penalty');
+        return nil;
+    }
+    practiceDefinition() { return inherited() + [self.kind,self.evidence]; }
+;
+modify RpgExpandedDrivingContext
+    controlsFamiliarity = nil
+    typeFamiliarity = nil
+    drivingFamiliarityPenalty(profile,record,kind)
+    {
+        if (!record.ofKind(RpgExpandedDrivingFamiliarity) || record.owner != profile
+            || record.skill != self.skill || record.kind != kind)
+            rpgExpandedReject('driving-familiarity-context');
+        return record.modifier();
+    }
+    skillUseModifier(profile)
+    {
+        if (self.controlsFamiliarity != nil && self.unfamiliarControls
+            || self.typeFamiliarity != nil && self.unfamiliarTypePenalty != 0)
+            rpgExpandedReject('driving-familiarity-double-charge');
+        local base = inherited(profile); if (base == nil) return nil;
+        if (self.controlsFamiliarity != nil)
+            base += self.drivingFamiliarityPenalty(profile,self.controlsFamiliarity,'controls');
+        if (self.typeFamiliarity != nil)
+            base += self.drivingFamiliarityPenalty(profile,self.typeFamiliarity,'vehicle-type');
+        return base;
+    }
+;
+/** One practice session can teach both aspects of the same authored vehicle.
+ * Every record must name the same equipmentType. Spend the shared clock once. */
+rpgExpandedPracticeDriving(profile,skill,records,seconds)
+{
+    if (records.length() == 0 || records.length() > 2) rpgExpandedReject('driving-practice-records');
+    local seen = []; local pending = []; local definitions = []; local equipment = nil;
+    foreach (local record in records)
+    {
+        if (record == nil || !record.ofKind(RpgExpandedDrivingFamiliarity)
+            || record.owner != profile || record.skill != skill || holds(seen,record.kind))
+            rpgExpandedReject('driving-practice-record');
+        seen = seen + [record.kind];
+        if (equipment != nil && record.equipmentType != equipment) rpgExpandedReject('driving-practice-vehicle');
+        equipment = record.equipmentType;
+        local assessment = record.assess(seconds);
+        if (!holds(['ready','reused'],assessment.status)) return assessment;
+        if (assessment.status == 'ready')
+        { pending = pending + [record]; definitions = definitions + [record.practiceDefinition()]; }
+    }
+    local value = new RpgExpandedResult();
+    if (pending.length() == 0) { value.status = 'reused'; return value; }
+    local start = rpgLedger.seconds; rpgSpendTime(seconds);
+    if (rpgLedger.seconds != start + seconds) rpgExpandedReject('driving-practice-interrupted');
+    for (local i = 1; i <= pending.length(); i += 1)
+    {
+        local record = pending[i]; local facts = record.practiceDefinition(); local original = definitions[i];
+        if (facts.length() != original.length()) rpgExpandedReject('driving-practice-interrupted');
+        for (local j = 1; j <= facts.length(); j += 1)
+            if (facts[j] != original[j]) rpgExpandedReject('driving-practice-interrupted');
+        if (record.assess(seconds).status != 'ready') rpgExpandedReject('driving-practice-interrupted');
+    }
+    foreach (local record in pending)
+    {
+        record.practiceOwner = profile; record.practiceSkill = skill; record.practiceType = record.equipmentType;
+        record.practicedSeconds += seconds;
+    }
+    value.seconds = seconds; value.status = 'resolved'; return value;
+}
