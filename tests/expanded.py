@@ -9157,6 +9157,8 @@ def test(build):
     test_decompression_paralysis(Session, decompression_paralysis, build.out)
     recompression = build.build('expanded-recompression',ROOT / 'tests/fixtures/expanded-recompression.t')
     test_recompression(Session, recompression, build.out)
+    acceleration = build.build('expanded-acceleration',ROOT / 'tests/fixtures/expanded-acceleration.t')
+    test_acceleration(Session, acceleration, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19340,5 +19342,53 @@ def test_recompression(Session, bundle, out):
         for code in (8608, 8600, 8602, 8810, 8800, 8811):
             s.action(2285, code)
         assert last(s, 'test.recompression-preview') == ['blocked', 'recompression-pressure-required', 3]
+    finally:
+        s.close()
+
+
+def test_acceleration(Session, bundle, out):
+    """Independent B434 examples and fixed-duration blackout lifecycle; unrun."""
+    s = Session(bundle)
+    try:
+        s.action(2285, 8908)
+        assert last(s, 'test.acceleration-table') == [0, 0, 1, 0, 1, -2, 1, -4, 1, 0, 1, -4, 0, 0, 1, 0, 0]
+        for code in (30, 8901, 8901, 8903, 8902):
+            s.action(2285, code)
+        assert last(s, 'test.acceleration') == [0, 0, 0, 0, 0]
+        s.action(2285, 8900)
+        s.command('undo')
+        s.action(2285, 8902)
+        assert last(s, 'test.acceleration') == [0, 0, 0, 0, 0]
+        for code in (8900, 8900, 8902):
+            s.action(2285, code)
+        assert last(s, 'test.acceleration') == [2, 0, 0, 0, 3]
+    finally:
+        s.close()
+    path = out / 'expanded-acceleration.zsave'
+    s = Session(bundle)
+    try:
+        for code in (8907, 8900, 8902, 8910):
+            s.action(2285, code)
+        assert last(s, 'test.acceleration') == [10, 1, 100, 0, 3]
+        assert last(s, 'test.acceleration-boundary') == ['acceleration-blackout-boundary', 0, 3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (8904, 8906):
+            s.action(2285, code)
+        assert last(s, 'test.acceleration-recovery') == ['blocked', 'acceleration-blackout-not-due']
+        for code in (8905, 8906, 8906, 8902):
+            s.action(2285, code)
+        assert last(s, 'test.acceleration') == [10, 0, 100, 100, 3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (8909, 8900, 8900, 8902):
+            s.action(2285, code)
+        assert last(s, 'test.acceleration') == [0, 0, 0, 0, 0]
     finally:
         s.close()

@@ -4845,3 +4845,147 @@ modify rpgLedger
         return nil;
     }
 ;
+
+/** B434 acceleration in thousandths of standard gravity. */
+class RpgExpandedAccelerationResult: RpgExpandedResult
+    checkRequired = nil
+    fatigueLoss = nil
+    blackoutSeconds = 0
+;
+rpgExpandedAssessAcceleration(acceleration,homeGravity,orientation)
+{
+    rpgInteger(acceleration,0,1000000); rpgInteger(homeGravity,0,1000000);
+    if (!holds(['upright','seated','prone','inverted'],orientation)) rpgExpandedReject('acceleration-orientation');
+    local home = homeGravity < 100 ? 100 : homeGravity;
+    local value = new RpgExpandedAccelerationResult(); value.status = 'ready';
+    value.checkRequired = acceleration * 2 >= home * 5;
+    local threshold = home * 5; value.modifier = 0;
+    while (acceleration >= threshold) { value.modifier -= 2; threshold *= 2; }
+    if (holds(['seated','prone'],orientation)) value.modifier += 2;
+    if (orientation == 'inverted') value.modifier -= 2;
+    return value;
+}
+modify RpgExpandedProfile
+    accelerations = []
+    accelerationFatigueLosses = []
+    unconsciousRecoveryOwned()
+    {
+        foreach (local episode in self.accelerations)
+        {
+            episode.validateReceipt();
+            if (episode.result.blackoutSeconds > 0 && episode.recoveredAt == nil) return true;
+        }
+        return inherited();
+    }
+;
+class RpgExpandedAccelerationFatigueLoss: RpgExpandedFearFatigueLoss
+    maximumAmount() { return 15; }
+    fatigueCause() { return 'acceleration'; }
+    history() { return self.profile.accelerationFatigueLosses; }
+    remember() { self.profile.accelerationFatigueLosses = self.profile.accelerationFatigueLosses + [self]; }
+    woundId(index) { return 'acceleration-fatigue:' + self.id + ':' + index; }
+;
+class RpgExpandedAcceleration: object
+    id = nil
+    profile = nil
+    acceleration = nil
+    homeGravity = nil
+    orientation = 'upright'
+    approved = nil
+    evidence = nil
+    dropDestination = nil
+    startedAt = nil
+    recoveredAt = nil
+    boundRecoveredAt = nil
+    boundDefinition = nil
+    result = nil
+    definition() { return [self.id,self.profile,self.acceleration,self.homeGravity,self.orientation,self.approved,self.evidence,self.dropDestination,self.startedAt]; }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.profile.accelerations,self)) rpgExpandedReject('acceleration-owner');
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('acceleration-binding');
+        if (self.recoveredAt != self.boundRecoveredAt) rpgExpandedReject('acceleration-recovery-binding');
+        return nil;
+    }
+    loss(amount)
+    {
+        local loss = new RpgExpandedAccelerationFatigueLoss(); loss.id = self.id;
+        loss.profile = self.profile; loss.amount = amount; loss.dropDestination = self.dropDestination; return loss;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('acceleration-definition');
+        if (self.result != nil)
+        { self.validateReceipt(); local reused = new RpgExpandedAccelerationResult(); reused.status = 'reused'; return reused; }
+        local value = rpgExpandedAssessAcceleration(self.acceleration,self.homeGravity,self.orientation);
+        value.status = 'blocked';
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'acceleration-evidence'; return value; }
+        rpgExpandedValidate(self.profile);
+        if (self.profile.dead || self.profile.unconscious || self.profile.unconsciousRecoveryOwned())
+        { value.reason = 'acceleration-existing-unconsciousness'; return value; }
+        foreach (local prior in self.profile.accelerations)
+        { prior.validateReceipt(); if (prior.id == self.id) rpgExpandedReject('acceleration-duplicate'); }
+        if (value.checkRequired)
+        {
+            local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'resistance';
+            context.modifier = value.modifier;
+            local score = rpgLiteScore(self.profile,context);
+            if (score == nil || score < 3 || score > 16)
+            { value.reason = 'acceleration-score-range-unimplemented'; return value; }
+            // Preflight every possible fatigue amount before consuming the onset roll.
+            for (local amount = 1; amount <= 18-score; amount += 1)
+                if (self.loss(amount).assess().status != 'ready') { value.reason = 'acceleration-fatigue-unavailable'; return value; }
+            rpgInteger(rpgLedger.seconds,0,2147483497);
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        if (value.checkRequired)
+        {
+            value.check = rpgLiteAttributeCheck(self.profile,rpgHT,'resistance',value.modifier);
+            if (!value.check.achieved)
+            {
+                value.fatigueLoss = self.loss(-value.check.margin);
+                if (value.check.critical == 'failure') value.blackoutSeconds = -value.check.margin * 10;
+            }
+        }
+        self.startedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        value.status = 'resolved'; self.result = value; self.profile.accelerations = self.profile.accelerations + [self];
+        if (value.fatigueLoss != nil && value.fatigueLoss.apply().status != 'resolved') rpgExpandedReject('acceleration-fatigue-changed');
+        if (value.blackoutSeconds > 0) self.profile.becomeUnconscious();
+        self.validateReceipt(); return value;
+    }
+    recover()
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.recoveredAt != nil) { value.status = 'reused'; return value; }
+        if (self.result.blackoutSeconds == 0 || self.profile.dead) { value.reason = 'acceleration-no-blackout'; return value; }
+        if (rpgLedger.seconds < self.startedAt + self.result.blackoutSeconds) { value.reason = 'acceleration-blackout-not-due'; return value; }
+        self.recoveredAt = rpgLedger.seconds; self.boundRecoveredAt = self.recoveredAt;
+        if (!self.profile.unconsciousRecoveryOwned() && !self.profile.mortal && self.profile.hp() > 0 && self.profile.fp() > 0
+            && self.profile.cardiacArrest == nil && self.profile.fearSeconds == 0 && !self.profile.apparentDeath && !self.profile.needsMedicalHelp)
+        { self.profile.unconscious = nil; self.profile.unconsciousClock = 0; }
+        value.status = 'resolved'; return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local episode = firstObj(RpgExpandedAcceleration); episode != nil; episode = nextObj(episode,RpgExpandedAcceleration))
+            if (episode.result != nil && !episode.profile.dead)
+            {
+                episode.validateReceipt();
+                if (episode.recoveredAt == nil && episode.result.blackoutSeconds > 0
+                    && self.seconds + seconds > episode.startedAt + episode.result.blackoutSeconds)
+                    rpgExpandedReject('acceleration-blackout-boundary');
+            }
+        return nil;
+    }
+;

@@ -2040,3 +2040,41 @@ also remain pending. See
 [`expanded-recompression.t`](../../tests/fixtures/expanded-recompression.t) for
 minimal integration and authored rollback, undo, replay and persistence fixtures.
 All new fixtures remain unrun while checks are paused.
+
+
+## Sudden acceleration
+
+`rpgExpandedAssessAcceleration(acceleration, homeGravity, orientation)` is a pure
+assessment using thousandths of standard gravity. Supported orientations are
+`upright`, `seated`, `prone` and `inverted`. The trigger treats home gravity below
+100 as 100, requires a check from 2.5 times that home value, and applies -2 for
+each complete doubling above the trigger. Seated or prone adds +2; inverted adds
+-2. The printed five-times-home and ten-times-home cases therefore give -2 and -4
+before position modifiers (`full-2008`, B434).
+
+For execution, create `RpgExpandedAcceleration` with a unique `id`, `profile`,
+the same three physical facts, `approved = true` and original `evidence` that
+this was a sudden acceleration. Supply `dropDestination` where needed for the
+shared injury procedure. `assess()` checks all possible fatigue consequences
+before rolling. `apply()` records the onset and consumes no randomness below the
+trigger. Failed resistance spends fatigue equal to the failure margin through
+`RpgExpandedAccelerationFatigueLoss`; exhaustion injury uses the existing wound
+ledger. A critical failure also records ten seconds of blackout per failure point.
+
+`recover()` is available once that blackout duration has elapsed, without another
+roll or time charge. The clock stops at its expiry until recovery is committed.
+The episode owns unconscious recovery during the blackout; exhaustion, mortal
+injury and other independent causes can still prevent waking afterward. Repeated
+onset and recovery requests are idempotent. Run commits inside normal engine
+actions so exceptions restore the complete transaction.
+
+Current execution supports effective resistance scores 3 through 16. Higher
+scores can critically fail without a positive mathematical failure margin; the
+supplied procedure does not resolve the resulting fatigue/blackout boundary.
+Those cases reject before randomness rather than inventing a minimum duration.
+Already unconscious patients are also explicitly unsupported. Collision injury
+from being thrown against a surface remains separate and pending; the health
+check must not be used in its place. The minimal fixture is
+[`expanded-acceleration.t`](../../tests/fixtures/expanded-acceleration.t).
+Expected-value, preview, replay, rollback, undo and persistence fixtures are
+written but unrun while checks remain paused.

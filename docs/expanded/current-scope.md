@@ -53,3 +53,9 @@ Recompression now has owned five-minute symptom-recovery checks at health +4,
 with shared pressure and fatigue deadlines and persistent treatment receipts.
 Accrued-injury restoration remains an explicit unresolved source interpretation;
 treatment is partial and its lifecycle fixtures remain unrun.
+
+
+Sudden acceleration now has source-based threshold/position assessment, owned
+fatigue loss and timed blackout recovery with shared-clock boundaries. High-score
+critical-failure margin semantics, already unconscious patients and associated
+collisions remain outstanding. Its fixtures are authored but unrun.

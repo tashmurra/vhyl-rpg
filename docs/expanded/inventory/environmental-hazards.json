@@ -2232,9 +2232,12 @@
       "pages": "B434",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Sudden acceleration at least 2.5 times home gravity requires health checking, treating home gravity below 0.1G as 0.1G for this trigger.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_acceleration"
+      ],
+      "validation_note": "Pure thousandth-G threshold and position assessment plus owned resistance, shared fatigue/injury and timed blackout recovery. Effective scores outside 3..16 and already unconscious patients explicitly unsupported; critical-failure nonpositive-margin semantics unresolved. Collision consequence remains separate. Fixtures authored, unrun."
     },
     {
       "id": "hazard-acceleration-modifier",
@@ -2242,9 +2245,12 @@
       "pages": "B434",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply -2 per doubling of acceleration, with the printed five-times-home and ten-times-home examples at -2 and -4; seated/prone gives +2 and upside down -2.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_acceleration"
+      ],
+      "validation_note": "Pure thousandth-G threshold and position assessment plus owned resistance, shared fatigue/injury and timed blackout recovery. Effective scores outside 3..16 and already unconscious patients explicitly unsupported; critical-failure nonpositive-margin semantics unresolved. Collision consequence remains separate. Fixtures authored, unrun."
     },
     {
       "id": "hazard-acceleration-loss",
@@ -2252,9 +2258,12 @@
       "pages": "B434",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Failed acceleration resistance loses fatigue equal to failure margin; critical failure also blacks out for ten seconds times that margin.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_acceleration"
+      ],
+      "validation_note": "Pure thousandth-G threshold and position assessment plus owned resistance, shared fatigue/injury and timed blackout recovery. Effective scores outside 3..16 and already unconscious patients explicitly unsupported; critical-failure nonpositive-margin semantics unresolved. Collision consequence remains separate. Fixtures authored, unrun."
     },
     {
       "id": "hazard-acceleration-impact",
