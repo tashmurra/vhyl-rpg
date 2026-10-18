@@ -1687,6 +1687,14 @@ class RpgExpandedRationStock: RpgExpandedFoodStock
     weight = 67
     foodKind = 'rations'
     unpackedFrom = nil
+    validateMealStock()
+    {
+        rpgInteger(self.quantity,0,21);
+        if (self.unpackedFrom == nil || !self.unpackedFrom.ofKind(RpgExpandedRationUnpacking)
+            || !self.unpackedFrom.recorded || self.unpackedFrom.stock != self)
+            rpgExpandedReject('ration-stock-receipt-required');
+        self.unpackedFrom.assess(); return nil;
+    }
     weightHundredths()
     { rpgInteger(self.quantity,0,21); return (1400 * self.quantity + 20) / 21; }
     validateAcquisition() { rpgExpandedReject('ration-stock-unpack-required'); return nil; }

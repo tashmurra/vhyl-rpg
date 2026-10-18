@@ -3676,3 +3676,16 @@ credit daily needs. Replay cannot recreate consumed portions or duplicate meals.
 preview, unpacking, consumption, weight, diet rejection, rollback, undo and saved
 replay. Fixtures remain unrun. Special dietary conversion, package waste and
 preparation requiring cooking remain outstanding.
+
+
+Food consumption calls `RpgExpandedFoodStock.validateMealStock()` before any new
+meal credit. Ordinary stocks validate their quantity; unpacked ration stocks
+also require their recorded unpacking receipt and a quantity no greater than
+twenty-one. Food must be accessible, not in flight or under shared carry, and
+appear exactly once across all inventories, including within one owner's list.
+These checks preserve completed meal replay: moving leftover stock does not
+invalidate or repeat a previously consumed meal.
+
+`expanded-food-access.t` / `test_food_access` cover stored, in-flight and shared
+food, duplicate inventory entries, missing ration receipts, atomic consumption
+rollback, undo and replay after storage/save. Fixtures are authored but unrun.

@@ -9300,6 +9300,8 @@ def test(build):
     test_cultural_wardrobe(Session, cultural_wardrobe, build.out)
     purchased_rations = build.build("expanded-purchased-rations",ROOT / "tests/fixtures/expanded-purchased-rations.t")
     test_purchased_rations(Session, purchased_rations, build.out)
+    food_access = build.build("expanded-food-access",ROOT / "tests/fixtures/expanded-food-access.t")
+    test_food_access(Session, food_access, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22266,5 +22268,44 @@ def test_purchased_rations(Session, bundle, out):
         for code in (15800, 15806, 15805):
             s.action(1100, code)
         assert last(s, 'test.ration-preview') == ['blocked', 'ration-unpack-diet-required', 0]
+    finally:
+        s.close()
+
+
+def test_food_access(Session, bundle, out):
+    """Inventory availability and stock receipts gate meal credit before consumption; unrun."""
+    for mutation, status, reason in [(15900, 'blocked', 'food-meal-unavailable'),
+                                      (15901, 'blocked', 'food-meal-unavailable'),
+                                      (15902, 'blocked', 'food-meal-unavailable'),
+                                      (15903, 'rejected', 'food-meal-ownership'),
+                                      (15904, 'rejected', 'ration-stock-receipt-required')]:
+        s = Session(bundle)
+        try:
+            for code in (15800, 15801, mutation, 15905):
+                s.action(1100, code)
+            assert last(s, 'test.food-access') == [status, reason, 21, 0, 0]
+        finally:
+            s.close()
+    path = out / 'food-access.zsave'
+    s = Session(bundle)
+    try:
+        for code in (15800, 15801, 15906, 15804):
+            s.action(1100, code)
+        assert last(s, 'test.purchased-rations') == [970, 1, 0, 21, 1400, 0, 0]
+        s.action(1100, 15803)
+        s.command('undo')
+        s.action(1100, 15804)
+        assert last(s, 'test.purchased-rations') == [970, 1, 0, 21, 1400, 0, 0]
+        for code in (15803, 15900, 15905):
+            s.action(1100, code)
+        assert last(s, 'test.food-access') == ['reused', None, 20, 1, 0]
+        s.command(f':save {path}\n@1101')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1101')
+        s.action(1100, 15905)
+        assert last(s, 'test.food-access') == ['reused', None, 20, 1, 0]
     finally:
         s.close()

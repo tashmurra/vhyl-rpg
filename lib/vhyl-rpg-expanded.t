@@ -397,6 +397,7 @@ class RpgExpandedForageTools: object
 
 /** Shared inventory unit: one ordinary meal per quantity, using the existing item ledger. */
 class RpgExpandedFoodStock: RpgLiteItem
+    validateMealStock() { rpgInteger(self.quantity,0,1000000); return nil; }
     foodKind = nil
     preserved = nil
     smokingBatch = nil

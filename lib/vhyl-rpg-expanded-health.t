@@ -6903,14 +6903,15 @@ class RpgExpandedFoodMeal: RpgExpandedMealCredit
     {
         local value = inherited(); if (value.status != 'ready') return value;
         if (self.stock == nil || !self.stock.ofKind(RpgExpandedFoodStock)) rpgExpandedReject('food-meal-stock');
-        rpgInteger(self.stock.quantity,0,1000000);
+        self.stock.validateMealStock();
         if (!self.stock.readyToEat || self.stock.preparationEvidence == nil || self.stock.preparationEvidence == '')
         { value.status = 'blocked'; value.reason = 'food-meal-preparation-required'; return value; }
-        if (!holds(self.profile.equipment,self.stock) || !self.stock.usableBy(self.profile) || self.stock.quantity < self.meals)
+        if (!holds(self.profile.equipment,self.stock) || !self.stock.usableBy(self.profile) || self.stock.quantity < self.meals
+            || self.stock.thrownFlight != nil || self.stock.sharedCarry != nil)
         { value.status = 'blocked'; value.reason = 'food-meal-unavailable'; return value; }
         local owners = 0;
         for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
-            if (holds(owner.equipment,self.stock)) owners += 1;
+            foreach (local item in owner.equipment) if (item == self.stock) owners += 1;
         if (owners != 1) rpgExpandedReject('food-meal-ownership');
         return value;
     }
