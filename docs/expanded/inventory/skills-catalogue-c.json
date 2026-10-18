@@ -1820,8 +1820,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Spend five minutes per question, secretly oppose will and distinguish truthful answers, silence/falsehood and convincing falsehood by margin. Apply declared duration, loyalty and social-trait modifiers.",
-      "tests": ["tests/expanded.py::test_interrogation"],
-      "validation_note": "Owned continuous sessions and five-minute questions now resolve private opposed outcomes with explicit authored responses, loyalty/means/trait modifiers and the two-hour boundary. Fixtures authored, unrun. Repeated/interrupted questioning, teaching access, exhausted participants and knowledge delivery remain incomplete.",
+      "tests": ["tests/expanded.py::test_interrogation", "tests/expanded.py::test_interrogation_delivery"],
+      "validation_note": "Owned continuous sessions and five-minute questions now resolve private opposed outcomes with explicit authored responses, loyalty/means/trait modifiers and the two-hour boundary. Fixtures authored, unrun. Explicit once-only answer delivery now records received claims without automatically adopting beliefs; replay, rollback, undo and saved-continuation assertions are unrun. Repeated/interrupted questioning, teaching access, exhausted participants, witnesses and belief adoption remain incomplete.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "average",

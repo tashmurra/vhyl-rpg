@@ -1368,3 +1368,72 @@ class RpgExpandedInterrogationQuestion: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedInterrogationQuestion
+    delivery = nil
+;
+/** Record a heard answer without treating it as an established belief or fact. */
+class RpgExpandedInterrogationDelivery: object
+    id = nil
+    question = nil
+    recipient = nil
+    completedAt = nil
+    boundId = nil
+    boundQuestion = nil
+    boundRecipient = nil
+    boundKnowledge = nil
+    boundStatement = nil
+    boundKind = nil
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.question == nil
+            || !self.question.ofKind(RpgExpandedInterrogationQuestion) || self.recipient == nil
+            || !self.recipient.ofKind(RpgExpandedProfile) || self.recipient.knowledge == nil
+            || !self.recipient.knowledge.ofKind(RpgExpandedKnowledge))
+            rpgExpandedReject('interrogation-delivery-definition');
+        self.recipient.knowledge.validate(); local value = new RpgExpandedInformationDeliveryResult();
+        if (self.question.result == nil)
+        { value.reason = 'interrogation-answer-unresolved'; return value; }
+        self.question.validateReceipt();
+        if (self.completedAt != nil)
+        {
+            if (self.id != self.boundId || self.question != self.boundQuestion || self.recipient != self.boundRecipient
+                || self.recipient.knowledge != self.boundKnowledge || self.question.delivery != self
+                || self.question.result.statement != self.boundStatement || self.question.result.responseKind != self.boundKind)
+                rpgExpandedReject('interrogation-delivery-binding');
+            local found = 0;
+            foreach (local receipt in self.boundKnowledge.received)
+                if (receipt[1] == self.id)
+                {
+                    if (receipt[2] != self.question.session.prisoner || receipt[3].length() != 1
+                        || receipt[3][1] != self.boundStatement || receipt[4] != 0)
+                        rpgExpandedReject('interrogation-delivery-receipt');
+                    found += 1;
+                }
+            if (found != 1) rpgExpandedReject('interrogation-delivery-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.recipient != self.question.session.interrogator)
+        { value.reason = 'interrogation-delivery-witness-adapter-required'; return value; }
+        if (self.question.delivery != nil)
+        { value.reason = 'interrogation-answer-already-delivered'; return value; }
+        if (self.question.result.responseKind == 'silence' || self.question.result.statement == nil)
+        { value.reason = 'interrogation-no-answer'; return value; }
+        foreach (local receipt in self.recipient.knowledge.received)
+            if (receipt[1] == self.id) rpgExpandedReject('interrogation-delivery-duplicate');
+        value.status = 'ready'; return value;
+    }
+    deliver()
+    {
+        local value = self.assess();
+        if (value.status == 'reused') { value.statements = [self.boundStatement]; return value; }
+        if (value.status != 'ready') return value;
+        self.boundId = self.id; self.boundQuestion = self.question; self.boundRecipient = self.recipient;
+        self.boundKnowledge = self.recipient.knowledge; self.boundStatement = self.question.result.statement;
+        self.boundKind = self.question.result.responseKind; self.completedAt = rpgLedger.seconds;
+        value.statements = [self.boundStatement];
+        self.boundKnowledge.received = self.boundKnowledge.received
+            + [[self.id,self.question.session.prisoner,value.statements,0]];
+        self.question.delivery = self; value.status = 'resolved'; return value;
+    }
+;

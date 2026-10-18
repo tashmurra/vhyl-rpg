@@ -8962,6 +8962,7 @@ def test(build):
     test_agony_social(Session, agony_social)
     interrogation = build.build('expanded-interrogation', ROOT / 'tests/fixtures/expanded-interrogation.t')
     test_interrogation(Session, interrogation, build.out)
+    test_interrogation_delivery(Session, interrogation, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -12348,3 +12349,46 @@ def test_interrogation(Session, bundle, out):
         assert state(s) == clear
     finally:
         s.close()
+
+
+def test_interrogation_delivery(Session, bundle, out):
+    def state(s):
+        s.action(2285, 543)
+        return last(s, 'test.interrogation-delivery')
+    path = out / 'expanded-interrogation-delivery.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 541)
+        assert state(s) == [0, 0, 0, None, 0, 0, 0]
+        s.action(2285, 521)
+        s.action(2285, 540)
+        assert last(s, 'test.interrogation-delivery-preview') == ['ready', 0]
+        s.action(2285, 542)
+        assert state(s) == [0, 0, 0, None, 0, 300, 6]
+        s.action(2285, 541)
+        s.command('undo')
+        assert state(s) == [0, 0, 0, None, 0, 300, 6]
+        for code in (541,541,545):
+            s.action(2285, code)
+        assert state(s) == [1, 0, 0, 'original-true-answer', 1, 300, 6]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 541)
+        assert state(s) == [1, 0, 0, 'original-true-answer', 1, 300, 6]
+        for code in (544,541):
+            s.action(2285, code)
+        assert state(s) == [1, 0, 0, 'original-true-answer', 1, 300, 6]
+    finally:
+        s.close()
+    for setup, count, statement in [(524, 1, 'original-false-answer'), (525, 0, None)]:
+        s = Session(bundle)
+        try:
+            for code in (setup,521,541,541):
+                s.action(2285, code)
+            assert state(s) == [count, 0, 0, statement, count, 300, 6]
+        finally:
+            s.close()

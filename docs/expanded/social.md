@@ -728,10 +728,35 @@ Questions own their five-minute intervals and receipts. Both participants must
 remain available, and their effective scores must be unchanged at completion.
 Shared-clock deadlines may reject an interval before time is spent. A subsequent
 question must start at the previous question's completion; interrupted sessions,
-repeat questions, exhausted/critical-health participants, institutional teaching
-access and automatic knowledge delivery remain explicit unfinished integrations.
+repeat questions, exhausted/critical-health participants and institutional teaching
+access remain explicit unfinished integrations. Answer delivery is an explicit
+operation described below.
 The separate recovered-agony threat context is not yet wired into this owned
 question operation; an author can assess its contribution and supply it once as
 an additional modifier. `expanded-interrogation.t` specifies outcomes, modifiers,
 preview purity, replay, rollback, undo, saved continuation and the two-hour
 boundary. Assertions remain unrun.
+
+
+### Delivering an interrogation answer
+
+After a question resolves, `RpgExpandedInterrogationDelivery` records its spoken
+answer in the interrogator's existing `RpgExpandedKnowledge.received` ledger.
+Supply a unique delivery `id`, the completed `question`, and its interrogator as
+`recipient`. The recipient must own a valid knowledge object. `assess()` reveals
+no statements; `deliver()` returns the committed statement and stores its source
+as the prisoner. The five-minute question already paid for the conversation, so
+delivery spends no additional time, money or randomness.
+
+A question can be delivered once, even through differently named delivery
+objects. Replaying the same delivery validates its target, question and knowledge
+receipt, then returns the same statement. Silence creates no delivery. Truthful
+and false answers both enter the received-claims ledger: neither automatically
+changes the recipient's beliefs or fabrications. The private question result
+retains its truth/lie classification; do not expose that classification as player
+knowledge. Witnesses, sharing claims, belief adoption and using a received answer
+to authorize another subsystem still require separate authored operations.
+
+The interrogation fixture specifies unanswered-question rejection, preview
+privacy, truthful and false claims, silence, duplicate prevention, rollback, undo
+and saved continuation. These assertions are authored and unrun.

@@ -15,6 +15,10 @@ modify rpgRandom
         questionInput.index = questionInput.index == 1 ? 2 : 1; return value;
     }
 ;
+questionKnowledge: RpgExpandedKnowledge owner = questionActor;
+modify questionActor knowledge = questionKnowledge;
+questionDelivery: RpgExpandedInterrogationDelivery id = 'heard-answer' question = questionRequest recipient = questionActor;
+questionOtherDelivery: RpgExpandedInterrogationDelivery id = 'same-answer-again' question = questionRequest recipient = questionActor;
 modify BleedTestAction
     exec(context)
     {
@@ -50,6 +54,20 @@ modify BleedTestAction
             next.approved = true; next.evidence = 'A separate authored question'; questionInput.request = next; return nil;
         }
         if (code == 533) { request.evidence = nil; return nil; }
+        if (code == 540)
+        { local value = questionDelivery.assess(); event('test.interrogation-delivery-preview'); eventValue(value.status); eventValue(value.statements.length()); return nil; }
+        if (code == 541 || code == 542)
+        { questionDelivery.deliver(); if (code == 542) throw new RpgError(); return nil; }
+        if (code == 543)
+        {
+            event('test.interrogation-delivery'); eventValue(questionKnowledge.received.length());
+            eventValue(questionKnowledge.beliefs.length()); eventValue(questionKnowledge.fabrications.length());
+            eventValue(questionKnowledge.received.length() == 0 ? nil : questionKnowledge.received[1][3][1]);
+            eventValue(questionRequest.delivery == questionDelivery ? 1 : 0);
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 544) { questionDelivery.id = 'changed'; return nil; }
+        if (code == 545) { questionOtherDelivery.deliver(); return nil; }
         return inherited(context);
     }
 ;

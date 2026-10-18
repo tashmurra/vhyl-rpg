@@ -586,3 +586,11 @@ applies source-defined circumstances and trait modifiers, and owns the two-hour
 boundary. Responses are authored and previews disclose no answer. Added authored,
 unrun fixtures for outcomes, modifier values, timing, rollback, undo and saved
 continuation. Interrupted/repeated questioning and other integrations remain open.
+
+
+Interrogation answers can now be delivered once to the existing received-claims
+ledger without extra time or randomness. Truthful and false answers retain
+private outcome classifications; hearing either does not automatically establish
+a belief. Silence and duplicate delivery produce no new claim. Added authored,
+unrun fixtures for preview privacy and transactional/save continuation behavior.
+Witnesses, sharing and belief adoption remain separate unfinished integrations.
