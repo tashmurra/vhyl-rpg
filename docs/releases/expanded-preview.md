@@ -602,3 +602,11 @@ Pain penalties do not double-count through skill attributes or change secondary
 statistics. Added authored, unrun fixtures for the penalty matrix, self-control
 admission, defensive exceptions and transactional/save continuation behavior.
 Cause adapters and overlapping pain composition remain incomplete.
+
+
+Expanded self-control rolls now use their purchased 6/9/12/15 rating rather than
+always using the Lite default twelve. Added owned occurrences that prevent replay
+or renamed requests from rerolling the same trigger, while preserving voluntary
+acceptance and the existing authored obligation interface. Added authored, unrun
+fixtures for rating/modifier combinations, invalid inputs, rollback and undo.
+Trait-specific behavior and optional point-funded resistance remain incomplete.

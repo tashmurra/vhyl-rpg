@@ -6,6 +6,8 @@ class RpgLiteTrait: RpgTrait
     skills = []
     scope = nil
     controlled = nil
+    selfControlNumber() { return 12; }
+    selfControlPreflight() { return nil; }
     active = true
     mitigated = nil
     nextCheck = 0
@@ -343,18 +345,19 @@ rpgLiteRead(profile, languageId)
     result.status = 'resolved'; result.achieved = true; result.outcome = 'automatic'; return result;
 }
 
-/** Resolve a controlled disadvantage against 12, or voluntarily yield without rolling. */
+/** Resolve against the trait rating (Lite defaults to 12), or yield without rolling. */
 rpgLiteSelfControl(profile, trait, modifier, giveIn)
 {
     if (!holds(profile.traits, trait) || !trait.controlled || !trait.active) throw new RpgError();
+    local base = trait.selfControlNumber();
     if (giveIn)
     {
         local yielded = new RpgResult(); yielded.status = 'resolved'; yielded.achieved = nil;
         yielded.outcome = 'yielded'; return yielded;
     }
     local health = profile.healthSelfControlModifier(trait);
-    local score = 12 + modifier - (profile.sleepPenalty ? 2 : 0) + health;
-    if (health != 0 && score < 3) return rpgCheck(score,3);
+    local score = base + modifier - (profile.sleepPenalty ? 2 : 0) + health;
+    if ((health != 0 || trait.selfControlPreflight()) && score < 3) return rpgCheck(score,3);
     local result = rpgCheck(score, rpgRandom.roll());
     profile.lastCheck = result; profile.lastCheckDraw = rpgRandom.draws;
     return result;

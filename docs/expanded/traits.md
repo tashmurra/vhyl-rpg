@@ -659,3 +659,33 @@ Damage-type/location composition and blood-agent entry remain unfinished. Daily
 dressing now has an owned health operation, and infection resistance uses its
 current-day result in the hazard module. Do not apply the assessed multiplier twice or treat it as a
 new HP loss merely for having the trait.
+
+
+### Executable self-control ratings and owned triggers
+
+`RpgExpandedDisadvantage.selfControlNumber()` now supplies the approved rating
+6, 9, 12 or 15 to the shared `rpgLiteSelfControl` operation (full-2008 B121).
+Omitting the rating selects twelve. This is independent of Will. Authored stimulus
+modifiers, sleep penalties and the health self-control hook apply afterward.
+Invalid ratings or unapproved expanded traits reject before rolling. Expanded
+scores below three block without randomness; voluntary acceptance remains
+available without a roll. Ordinary Lite traits retain their fixed rating twelve
+and prior random-number behavior.
+
+For a persistent occurrence, use `RpgExpandedSelfControlTrigger` with unique `id`,
+`profile`, owned controlled `trait`, stable `trigger` identifier, `modifier`,
+`giveIn` and `evidence` describing the actual triggering circumstance. `assess()`
+is pure; `resolve()` commits one check and its obligation. Replays return the same
+check. A new request ID cannot reroll the same trait/trigger pair. Use a new trigger
+identifier only for a genuinely new occurrence established by the author.
+
+The operation inherits the obligation interface: `active` is true after failed
+resistance or voluntary acceptance, and `permits(action)` uses the authored
+action's `satisfies(obligation)` decision. Before resolution, it grants no action
+permission. This contract requires concrete authored behavior for each trait; it
+does not implement an entire behavioral catalogue through a generic callback.
+`begin(modifier,giveIn)` is a compatibility entry into the same owned resolution.
+Point-funded automatic resistance and trait-specific trigger/counter rules remain
+incomplete. `expanded-self-control.t` specifies all four ratings, Will independence,
+pain modifiers, invalid inputs, voluntary acceptance and once-only triggers with
+preview, rollback and undo. These assertions are authored and unrun.

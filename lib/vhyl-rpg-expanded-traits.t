@@ -52,6 +52,14 @@ class RpgExpandedDisadvantage: RpgLiteTrait
     percentages = []
     approved = nil
     selfControlRating = nil
+    selfControlNumber()
+    {
+        if (!self.approved) rpgExpandedReject('unapproved-trait');
+        if (self.selfControlRating == nil) return 12;
+        if (!holds([6,9,12,15],self.selfControlRating)) rpgExpandedReject('self-control-rating');
+        return self.selfControlRating;
+    }
+    selfControlPreflight() { return true; }
     creationCost()
     {
         if (!self.approved) rpgExpandedReject('unapproved-trait');
@@ -345,4 +353,60 @@ class RpgExpandedPersistentWound: RpgExpandedDisadvantage
             rpgExpandedReject('persistent-wound-definition');
         return -5;
     }
+;
+
+modify RpgExpandedProfile
+    selfControlTriggers = []
+;
+/** B121 one authored occurrence and its resulting obligation, not a reroll loop. */
+class RpgExpandedSelfControlTrigger: RpgLiteObligation
+    id = nil
+    modifier = 0
+    giveIn = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.trait,self.trigger,self.modifier,self.giveIn,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.trait == nil || !self.trait.ofKind(RpgExpandedDisadvantage))
+            rpgExpandedReject('self-control-trigger-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('self-control-trigger-binding');
+            if (!holds(self.profile.selfControlTriggers,self)) rpgExpandedReject('self-control-trigger-history');
+            value.status = 'reused'; value.check = self.check; return value;
+        }
+        if (!holds(self.profile.traits,self.trait) || !self.trait.controlled || !self.trait.active)
+            rpgExpandedReject('self-control-trigger-trait');
+        if (self.trigger == nil || self.evidence == nil || self.evidence == '')
+        { value.reason = 'self-control-trigger-evidence'; return value; }
+        foreach (local prior in self.profile.selfControlTriggers)
+            if (prior.id == self.id || prior.trait == self.trait && prior.trigger == self.trigger)
+                rpgExpandedReject('self-control-trigger-duplicate');
+        rpgInteger(self.modifier,-100,100);
+        local base = self.trait.selfControlNumber();
+        if (!self.giveIn && base + self.modifier - (self.profile.sleepPenalty ? 2 : 0)
+            + self.profile.healthSelfControlModifier(self.trait) < 3)
+        { value.reason = 'self-control-trigger-score'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgLiteSelfControl(self.profile,self.trait,self.modifier,self.giveIn);
+        if (value.check.status != 'resolved') rpgExpandedReject('self-control-trigger-changed');
+        self.check = value.check; self.active = !self.check.achieved;
+        self.boundDefinition = self.definition(); self.profile.selfControlTriggers = self.profile.selfControlTriggers + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+    begin(modifier,giveIn)
+    {
+        self.modifier = modifier; self.giveIn = giveIn; self.resolve(); return self.active;
+    }
+    permits(action) { return self.result != nil && inherited(action); }
 ;

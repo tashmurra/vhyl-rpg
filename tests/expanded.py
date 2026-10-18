@@ -8952,6 +8952,8 @@ def test(build):
     test_coughing(Session, coughing, build.out)
     pain = build.build('expanded-pain', ROOT / 'tests/fixtures/expanded-pain.t')
     test_pain(Session, pain, build.out)
+    self_control = build.build('expanded-self-control', ROOT / 'tests/fixtures/expanded-self-control.t')
+    test_expanded_self_control(Session, self_control)
     temporary_blindness = build.build('expanded-temporary-blindness', ROOT / 'tests/fixtures/expanded-temporary-blindness.t')
     test_temporary_blindness(Session, temporary_blindness, build.out)
     paralysis = build.build('expanded-paralysis', ROOT / 'tests/fixtures/expanded-paralysis.t')
@@ -12443,3 +12445,55 @@ def test_pain(Session, bundle, out):
                 assert last(s, 'test.pain-control') == ['resolved',None,'yielded',0 if score < 3 else 3]
             finally:
                 s.close()
+
+
+def test_expanded_self_control(Session, bundle):
+    for setup, rating in [(None,6),(572,9),(573,12),(574,15)]:
+        for pain in (False,True):
+            s = Session(bundle)
+            try:
+                for code in (setup,30,576,551 if pain else None,570):
+                    if code is not None:
+                        s.action(2285, code)
+                score = rating - (2 if pain else 0)
+                assert last(s, 'test.rated-control') == ['resolved',score,int(score >= 10),3]
+                s.action(2285, 571)
+                assert last(s, 'test.rated-control') == ['resolved',None,0,3]
+            finally:
+                s.close()
+    for invalid in (575,578):
+        s = Session(bundle)
+        try:
+            for code in (invalid,570,579):
+                s.action(2285, code)
+            assert last(s, 'test.rated-control-draws') == [0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (577,570):
+            s.action(2285, code)
+        assert last(s, 'test.rated-control') == ['blocked',-4,0,0]
+        s.action(2285, 571)
+        assert last(s, 'test.rated-control') == ['resolved',None,0,0]
+    finally:
+        s.close()
+
+    for give_in in (False,True):
+        s = Session(bundle)
+        try:
+            s.action(2285, 30)
+            if give_in:
+                s.action(2285, 583)
+            for code in (580,582,585):
+                s.action(2285, code)
+            assert last(s, 'test.control-trigger') == [0,0,None,0]
+            s.action(2285, 581)
+            s.command('undo')
+            s.action(2285, 585)
+            assert last(s, 'test.control-trigger') == [0,0,None,0]
+            for code in (581,581,584,585):
+                s.action(2285, code)
+            assert last(s, 'test.control-trigger') == [1,1,None if give_in else 6,0 if give_in else 3]
+        finally:
+            s.close()
