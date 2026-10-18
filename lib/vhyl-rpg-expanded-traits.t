@@ -3162,3 +3162,76 @@ modify rpgExpandedTemplateTraits
         return self.plain(trait.id,trait.level,trait.scope);
     }
 ;
+
+/** B22 unusual-for-species cosmetic features, with a specified origin. */
+class RpgExpandedDistinctiveFeatures: RpgExpandedDisadvantage
+    id = 'distinctive-features'
+    labelId = 'distinctive-features'
+    points = -1
+    species = nil
+    description = nil
+    origin = nil
+    templatePurchaseKind = 'expanded-distinctive-features'
+    templatePurchaseOptions() { return [self.species,self.description,self.origin]; }
+    creationCost()
+    {
+        if (!self.approved || self.id != 'distinctive-features' || self.points != -1 || self.scope != nil
+            || self.percentages.length() != 0 || self.selfControlRating != nil || self.controlled
+            || self.species == nil || self.description == nil || self.description == '' || self.origin == nil || self.origin == '')
+            rpgExpandedReject('distinctive-features-definition');
+        rpgInteger(self.level,1,5); return -self.level;
+    }
+;
+modify RpgExpandedProfile
+    distinctiveFeatureLevels()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedDistinctiveFeatures))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-distinctive-features'); found = trait;
+            }
+        return found == nil || !found.active || found.mitigated ? 0 : found.level;
+    }
+    validateFeatures() { inherited(); self.distinctiveFeatureLevels(); return nil; }
+;
+/** Explicit actor/subject task and authored crowd exception. */
+class RpgExpandedDistinctiveContext: RpgLiteContext
+    subject = nil
+    purpose = 'disguise'
+    sharedByCrowd = nil
+    approved = nil
+    evidence = nil
+    socialTraitModifier(profile)
+    {
+        local amount = inherited(profile);
+        if (self.subject == nil || !self.subject.ofKind(RpgLiteProfile)
+            || !holds(['disguise','shadowing','identify','follow'],self.purpose)) rpgExpandedReject('distinctive-context-definition');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('distinctive-context-evidence');
+        local own = holds(['disguise','shadowing'],self.purpose);
+        if (own && (profile != self.subject || self.skill == nil || self.skill.id != self.purpose)
+            || !own && profile == self.subject) rpgExpandedReject('distinctive-context-participants');
+        local levels = self.sharedByCrowd ? 0 : self.subject.distinctiveFeatureLevels();
+        return amount + (own ? -levels : levels);
+    }
+;
+modify rpgExpandedTemplateTraits
+    configured(id,level,scope,options)
+    {
+        if (id != 'distinctive-features') return inherited(id,level,scope,options);
+        if (scope != nil || options.length() != 3) rpgExpandedReject('distinctive-features-template-options');
+        local trait = new RpgExpandedDistinctiveFeatures(); trait.approved = true; trait.level = level;
+        trait.species = options[1]; trait.description = options[2]; trait.origin = options[3]; trait.creationCost(); return trait;
+    }
+    plain(id,level,scope)
+    {
+        if (id == 'distinctive-features') rpgExpandedReject('distinctive-features-template-options');
+        return inherited(id,level,scope);
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedDistinctiveFeatures)) return inherited(trait);
+        trait.creationCost(); if (trait.labelId != trait.id) rpgExpandedReject('distinctive-features-template-definition');
+        return self.configured(trait.id,trait.level,trait.scope,trait.templatePurchaseOptions());
+    }
+;

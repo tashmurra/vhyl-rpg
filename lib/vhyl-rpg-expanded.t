@@ -998,3 +998,7 @@ class RpgExpandedStylingOutfit: object
 modify RpgLiteItem
     stylingUseReason(profile) { return nil; }
 ;
+
+modify RpgLiteProfile
+    distinctiveFeatureLevels() { return 0; }
+;

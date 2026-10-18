@@ -1795,3 +1795,32 @@ description, approval and evidence, with `plannedInAdvance = true`. Designer and
 wearer may be the same person. `prepare()` records the authored preparation once;
 it does not invent a duration or consume materials. The wearer owns the receipt.
 Later loss of the designer's trait does not undo the already prepared outfit.
+
+### Distinctive features
+
+`RpgExpandedDistinctiveFeatures` implements full-2008 B22's unusual cosmetic
+features at −1 point per level, with levels 1–5. Supply a species identity, concrete
+`description`, `origin`, and approval that these features are unnatural for that
+species. This is independent of attractiveness and may coexist with appearance.
+Activation and mitigation control the effect; duplicate instances are rejected.
+
+Use `RpgExpandedDistinctiveContext` for the affected task. Set `subject` to the
+person with the features and give approved evidence describing the task and crowd.
+For `purpose = 'disguise'` or `'shadowing'`, the acting profile must be that subject
+and the context's skill must match the purpose; each level subtracts one. For
+`'identify'` or `'follow'`, the acting profile must be someone else, and each level
+adds one to that attempt. This permits observation or other authored appropriate
+checks rather than imposing a new universal identification skill.
+
+Set `sharedByCrowd = true` only when almost everyone in the crowd shares those
+features; both modifiers then become zero. Author evidence determines whether
+the features are usable in the task. The context does not reveal an identity,
+create a pursuit or resolve detection automatically; it modifies the actual check.
+
+A configured template row is
+`['distinctive-features', levels, nil, nil, [species, description, origin]]`.
+Copies preserve those facts and the executable trait class. The plain row is
+rejected because it lacks the required origin and description.
+`test_distinctive_features` specifies price, both modifier directions, the crowd
+exception, mitigation, typed copying and missing-origin rejection. Fixtures remain
+unrun; concrete pursuit and disguise scenario integration remains pending.

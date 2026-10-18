@@ -1740,9 +1740,10 @@
       "pages": "B22",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Implement price and effects with explicit audience/scene applicability; narrative complications need a specific authored contract.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_distinctive_features"],
+      "validation_note": "Fixed per-level cost, required species/description/origin, owned active lookup, explicit task/crowd modifiers and typed template copying implemented. Concrete pursuit and disguise scenario integration remains pending; fixtures unrun."
     },
     {
       "id": "personal-technology",

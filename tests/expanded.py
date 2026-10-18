@@ -9477,6 +9477,8 @@ def test(build):
     test_styling_equipment(Session,styling_equipment,build.out)
     styling_budget = build.build('expanded-styling-budget',ROOT / 'tests/fixtures/expanded-styling-budget.t')
     test_styling_budget(Session,styling_budget)
+    distinctive = build.build('expanded-distinctive-features',ROOT / 'tests/fixtures/expanded-distinctive-features.t')
+    test_distinctive_features(Session,distinctive)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25604,5 +25606,26 @@ def test_styling_budget(Session, bundle):
         for code in (25201,25000,25202,25002):
             s.action(1680,code)
         assert last(s,'test.styling') == [5,1,0,0]
+    finally:
+        s.close()
+
+
+def test_distinctive_features(Session, bundle):
+    """B22 price and opposing modifier signs, with the shared-crowd exception; unrun."""
+    for setup, expected in (((),[-2,-2,2,0]),((25301,),[-5,-5,5,0]),
+                            ((25302,),[-2,0,0,0]),((25303,),[-2,0,0,0]),((25304,),[-2,-2,2,0])):
+        s = Session(bundle)
+        try:
+            for code in (*setup,25300):
+                s.action(1680,code)
+            assert last(s,'test.distinctive') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,25305)
+        assert last(s,'test.distinctive-copy') == [1,-2,1]
+        s.action(1680,25306)
+        assert last(s,'test.distinctive-error') == ['distinctive-features-definition']
     finally:
         s.close()
