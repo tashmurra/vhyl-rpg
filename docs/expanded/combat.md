@@ -57,6 +57,39 @@ mutually exclusive. Ordinary will-based physical effort must not be substituted
 for these combat procedures.
 
 
+## Combat check classification
+
+`rpgExpandedCombatCheck(kind, score, roll)` accepts `melee`, `ranged` or
+`defense` and supplied three-die totals. It returns the shared check structure.
+Under B381–B382, failure by ten is critical for melee attacks and defenses, but
+not ranged attacks. Natural eighteen critically fails; seventeen critically fails
+below effective skill sixteen and ordinarily fails at sixteen or higher. Critical
+success thresholds use effective skill, including bonuses and penalties.
+
+Attacks below score three remain blocked. Defenses can succeed on three or four
+even at lower scores; otherwise their critical-failure margin uses the actual
+score. The rapid-fire Dodge helper uses this classifier, so a low defense failing
+by ten carries the appropriate critical-failure indication. No prone posture,
+shield readiness or critical-table effects are applied by the classifier.
+
+`rpgExpandedRangedOutcome(score, roll, malfunctionThreshold)` selects the next
+ordinary ranged-attack branch. A nil threshold disables the optional malfunction
+procedure. An authored threshold from 3 through 19 is compared with the unmodified
+attack dice; nineteen cannot trigger on three dice. If a malfunction qualifies,
+the result has `outcome = 'malfunction'`, and no critical table is selected even
+when the underlying check critically failed. Otherwise `criticalTable` is `hit`,
+`miss` or nil. Ordinary successful attacks permit defense; critical hits do not.
+
+This is branch assessment, not execution of the selected consequences. It does
+not establish that a malfunction fires zero projectiles: stoppages, for example,
+have their own one-shot rule. Malfunction-number derivation, weapon eligibility,
+malfunction effects, critical tables and attack/defense state transitions remain
+unimplemented. The supplied dice are never rerolled and no resources are spent.
+
+`test_combat_check_classification` records the ranged/melee distinction, low
+Dodge margins, skill-sixteen and natural-roll boundaries, below-three attack
+rejection, defense denial and malfunction precedence. These cases remain unrun.
+
 ## Modifier-table requirements
 
 The [combat summary inventory](inventory/combat-modifiers.json) records B547–B549

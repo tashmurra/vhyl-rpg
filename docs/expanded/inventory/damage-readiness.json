@@ -211,9 +211,12 @@
       "pages": "B382",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Eighteen critically fails; seventeen does unless effective skill is at least sixteen. Failure by ten critically fails melee attacks and defenses, but not ranged attacks. This is an explicit override of generic success-roll failure classification.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_combat_check_classification"
+      ],
+      "validation_note": "Supplied-dice classification and ranged malfunction precedence authored; fixtures unrun. Concrete critical/malfunction effects and committed combat dispatch remain incomplete."
     },
     {
       "id": "damage-readiness-critical-dodge",
@@ -241,9 +244,12 @@
       "pages": "B382",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "If firearm malfunction and critical miss both qualify, apply only malfunction. Check precedence before rolling a critical-outcome table, preserving random consumption.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_combat_check_classification"
+      ],
+      "validation_note": "Supplied-dice classification and ranged malfunction precedence authored; fixtures unrun. Concrete critical/malfunction effects and committed combat dispatch remain incomplete."
     },
     {
       "id": "damage-readiness-ready-access",

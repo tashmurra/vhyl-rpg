@@ -908,6 +908,38 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_combat_check_classification(s):
+    for kind, score, roll, expected in [
+            ('ranged',3,13,['resolved',None,0,None,'setback']),
+            ('melee',3,13,['resolved',None,0,'failure','complication']),
+            ('defense',0,10,['resolved',None,0,'failure','complication']),
+            ('defense',-20,3,['resolved',None,1,'success','success']),
+            ('ranged',15,17,['resolved',None,0,'failure','complication']),
+            ('ranged',16,17,['resolved',None,0,None,'setback']),
+            ('ranged',20,18,['resolved',None,0,'failure','complication']),
+            ('ranged',15,5,['resolved',None,1,'success','success']),
+            ('ranged',16,6,['resolved',None,1,'success','success']),
+            ('ranged',14,5,['resolved',None,1,None,'success']),
+            ('ranged',3,4,['resolved',None,1,'success','success']),
+            ('ranged',2,3,['blocked','too-difficult',0,None,None])]:
+        s.action(2014, kind, score, roll)
+        assert last(s, 'test.combat-check') == expected
+        assert last(s, 'test.burst-purity') == [0,0]
+    for score, roll, threshold, expected in [
+            (10,10,0,['ready',None,'potential-hit',0,1,None]),
+            (10,3,0,['ready',None,'potential-hit',0,0,'hit']),
+            (10,17,0,['ready',None,'miss',0,0,'miss']),
+            (10,17,17,['ready',None,'malfunction',1,0,None]),
+            (20,18,18,['ready',None,'malfunction',1,0,None]),
+            (20,18,19,['ready',None,'miss',0,0,'miss']),
+            (15,12,12,['ready',None,'malfunction',1,0,None]),
+            (15,11,12,['ready',None,'potential-hit',0,1,None]),
+            (2,18,17,['blocked','too-difficult',None,0,0,None])]:
+        s.action(2015, score, roll, threshold)
+        assert last(s, 'test.ranged-outcome') == expected
+        assert last(s, 'test.burst-purity') == [0,0]
+
+
 def test_rapid_fire_assessments(s):
     for shots, bonus in [(1,0),(2,0),(4,0),(5,1),(8,1),(9,2),(12,2),(13,3),
                          (16,3),(17,4),(24,4),(25,5),(49,5),(50,6),(99,6),
@@ -935,7 +967,8 @@ def test_rapid_fire_assessments(s):
             (20,10,3,[20,0,1,'success']),(20,15,5,[20,0,1,'success']),
             (20,16,6,[20,0,1,'success']),(20,14,5,[10,10,1,None]),
             (20,20,17,[0,20,0,None]),(20,20,18,[0,20,0,'failure']),
-            (4,0,4,[4,0,1,'success']),(4,0,5,[0,4,0,None])]:
+            (4,0,4,[4,0,1,'success']),(4,0,5,[0,4,0,None]),
+            (4,0,10,[0,4,0,'failure'])]:
         s.action(2013, hits, score, roll)
         assert last(s, 'test.burst-dodge') == expected
         assert last(s, 'test.burst-purity') == [0,0]
@@ -4549,6 +4582,7 @@ def test(build):
     test_breath_persistence(Session,breath_transactions,build.out)
     combat = build.build('expanded-combat',ROOT / 'tests/fixtures/expanded-combat.t')
     fresh(Session,combat,test_rapid_fire_assessments)
+    fresh(Session,combat,test_combat_check_classification)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_airless_seconds)
