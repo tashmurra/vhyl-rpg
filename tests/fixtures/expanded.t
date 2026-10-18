@@ -373,6 +373,36 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1127)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.dx = 10; p.iq = 14;
+        local skill = new RpgExpandedSkill(); skill.attribute = rpgDX; skill.difficulty = 1;
+        local training = new RpgExpandedTraining(); training.skill = skill; training.points = 28;
+        p.skills = [training];
+        local context = new RpgExpandedSkillContext(); context.skill = skill; context.rollAttribute = rpgIQ;
+        event('test.relative-skill'); eventValue(rpgExpandedRelativeSkill(p,skill));
+        eventValue(rpgLiteScore(p,context));
+        context.rollAttribute = nil; context.fixedBase = 10; eventValue(rpgLiteScore(p,context));
+        context.fixedBase = nil; context.rollAttribute = rpgIQ; context.modifier = -2;
+        eventValue(rpgLiteScore(p,context));
+        context.fixedBase = 10;
+        try { rpgLiteScore(p,context); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        p.shock = 2; context.fixedBase = nil; eventValue(rpgLiteScore(p,context));
+        context.rollAttribute = rpgHT; eventValue(rpgLiteScore(p,context));
+        context.rollAttribute = nil; context.fixedBase = 10; eventValue(rpgLiteScore(p,context));
+        return nil;
+    }
+    if (verb == 1128)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.iq = args[1]; p.st = 12;
+        local skill = new RpgExpandedSkill(); skill.difficulty = 2;
+        local training = new RpgExpandedTraining(); training.skill = skill; training.points = args[2];
+        p.skills = [training];
+        local context = new RpgExpandedSkillContext(); context.skill = skill; context.fixedBase = 10;
+        event('test.fixed-skill'); eventValue(rpgLiteScore(p,context));
+        eventValue(rpgExpandedSkillStrength(p,skill)); return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

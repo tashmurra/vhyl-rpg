@@ -198,6 +198,18 @@ def test_optional_specialties(s):
     assert state(s) == before, 'optional specialty assessment mutated state'
 
 
+def test_relative_skill(s):
+    before = state(s)
+    # B172's DX10/IQ14, skill17 example and the two fixed-base comparisons.
+    s.action(1127)
+    assert last(s, 'test.relative-skill') == [7, 21, 17, 19, 'relative-skill-context', 17, 15, 15]
+    for iq, points, expected in [(14, 20, [14, 16]), (8, 32, [17, 19]),
+                                 (12, 1, [8, 12]), (12, 0, [None, None])]:
+        s.action(1128, iq, points)
+        assert last(s, 'test.fixed-skill') == expected
+    assert state(s) == before, 'relative skill queries changed state'
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -275,7 +287,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     test_familiarity_persistence(Session,bundle,build.out)

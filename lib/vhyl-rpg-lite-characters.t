@@ -179,6 +179,12 @@ class RpgLiteContext: object
     language = nil
     written = nil
     resistedTrait = nil
+    scoreFor(profile)
+    {
+        return self.skill == nil ? profile.attributeScore(self.attribute)
+            : profile.skillScore(self.skill);
+    }
+    controllingAttribute() { return self.skill == nil ? self.attribute : self.skill.attribute; }
     skillUseModifier(profile) { return 0; }
     unavailableReason(profile) { return 'training-required'; }
     reroll(profile, result) { return nil; }
@@ -187,10 +193,9 @@ class RpgLiteContext: object
 /** Calculate effective skill or attribute without consuming randomness; nil means no legal default. */
 rpgLiteScore(profile, context)
 {
-    local score = context.skill == nil ? profile.attributeScore(context.attribute)
-        : profile.skillScore(context.skill);
+    local score = context.scoreFor(profile);
     if (score == nil) return nil;
-    local attribute = context.skill == nil ? context.attribute : context.skill.attribute;
+    local attribute = context.controllingAttribute();
     local skillId = context.skill != nil && context.skill.ofKind(RpgLiteSkill) ? context.skill.id : nil;
     local useModifier = context.skillUseModifier(profile);
     if (useModifier == nil) return nil;

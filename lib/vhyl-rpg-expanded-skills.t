@@ -334,6 +334,27 @@ class RpgExpandedFamiliarity: object
 class RpgExpandedSkillContext: RpgLiteContext
     familiarity = nil
     equipmentTL = nil
+    rollAttribute = nil
+    fixedBase = nil
+    scoreFor(profile)
+    {
+        if (self.rollAttribute == nil && self.fixedBase == nil) return inherited(profile);
+        if (self.skill == nil || self.rollAttribute != nil && self.fixedBase != nil)
+            rpgExpandedReject('relative-skill-context');
+        local relative = rpgExpandedRelativeSkill(profile, self.skill);
+        if (relative == nil) return nil;
+        if (self.fixedBase != nil)
+        {
+            rpgInteger(self.fixedBase, 1, 1000); return self.fixedBase + relative;
+        }
+        return profile.attributeScore(self.rollAttribute) + relative;
+    }
+    controllingAttribute()
+    {
+        if (self.fixedBase != nil) return nil;
+        if (self.rollAttribute != nil) return self.rollAttribute;
+        return inherited();
+    }
     technologyModifier()
     {
         if (self.equipmentTL == nil) return 0;
@@ -428,4 +449,21 @@ rpgExpandedDefaultEdges(profile, skill)
         }
     }
     return edges;
+}
+
+/** Relative level from the selected skill rating, B171-B172. Unavailable
+ * skills stay unavailable; this query does not purchase or improve training. */
+rpgExpandedRelativeSkill(profile, skill)
+{
+    local score = profile.skillScore(skill);
+    return score == nil ? nil : score - profile.attributeScore(skill.attribute);
+}
+
+/** Use only for procedures that add positive relative training to strength.
+ * Ordinary strength-based skill checks instead use rollAttribute = rpgST. */
+rpgExpandedSkillStrength(profile, skill)
+{
+    local relative = rpgExpandedRelativeSkill(profile, skill);
+    if (relative == nil) return nil;
+    return profile.st + (relative > 0 ? relative : 0);
 }

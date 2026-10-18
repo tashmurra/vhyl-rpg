@@ -303,3 +303,30 @@ metadata remains immutable by author convention after character creation.
 propagated-default and paid-default cases, invalid-parent and approval cases,
 prerequisite preservation, duplicate identity and preview purity checks. They
 remain unrun while validation is paused.
+
+## Relative skill checks
+
+`rpgExpandedRelativeSkill(profile, skill)` subtracts the skill's usual controlling
+attribute from its base rating (B171–B172). It returns `nil` if the skill is
+unavailable. Set `rollAttribute` on `RpgExpandedSkillContext` to add this relative
+level to another attribute. Alternatively, set `fixedBase` to a specific number,
+usually 10, for a comparison that removes attribute differences. These choices
+are mutually exclusive and require a skill. Neither changes the training ledger.
+
+Use the context with `rpgLiteScore` or `rpgLiteCheck`. Situational modifiers still
+apply, and attribute-specific modifiers use the roll's selected attribute. A
+fixed-base check has no controlling attribute for such modifiers. Technology
+classification continues to use the skill definition's original controlling
+attribute; replacing an IQ-based repair roll with a DX-based manipulation roll
+does not turn the technical knowledge into another kind of skill.
+
+For a procedure that explicitly adds training to physical Strength, call
+`rpgExpandedSkillStrength(profile, skill)`: only a positive relative level is
+added. This is separate from an ordinary Strength-based skill roll, which uses
+`rollAttribute = rpgST` and retains negative relative levels. Neither interface
+chooses when a narrative task should use a different attribute; that choice is
+authored in the operation's context.
+
+`tests/expanded.py::test_relative_skill` includes the source's alternate-attribute
+and fixed-base examples, negative and unavailable training, conflicting choices,
+attribute-dependent shock, and preview purity. These new cases remain unrun.

@@ -839,9 +839,13 @@
       "pages": "B171-B172",
       "module": "skills",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Retain trained relative level separately from temporary task modifiers; base changes must not erase training.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_relative_skill"
+      ],
+      "existing_feature": "relative-skill-contexts",
+      "validation_note": "Source examples and context interface authored; native checks paused and catalogue-specific integration pending."
     },
     {
       "id": "skill-alternate-base",
@@ -849,9 +853,13 @@
       "pages": "B172",
       "module": "skills",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require an explicit replacement controlling score and derive the new target from relative training.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_relative_skill"
+      ],
+      "existing_feature": "relative-skill-contexts",
+      "validation_note": "Source examples and context interface authored; native checks paused and catalogue-specific integration pending."
     },
     {
       "id": "skill-strength-task-bonus",
@@ -859,9 +867,13 @@
       "pages": "B172",
       "module": "skills",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply relative training to strength-only tasks as a positive bonus, without a penalty for negative relative training.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_relative_skill"
+      ],
+      "existing_feature": "relative-skill-contexts",
+      "validation_note": "Source examples and context interface authored; native checks paused and catalogue-specific integration pending."
     },
     {
       "id": "skill-fixed-base",
@@ -869,9 +881,13 @@
       "pages": "B172",
       "module": "skills",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Accept an explicitly selected fixed base when comparing training independently of innate scores.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_relative_skill"
+      ],
+      "existing_feature": "relative-skill-contexts",
+      "validation_note": "Source examples and context interface authored; native checks paused and catalogue-specific integration pending."
     },
     {
       "id": "skill-campaign-cap",

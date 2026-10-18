@@ -356,6 +356,18 @@
         "tests/expanded.py::test_optional_specialties"
       ],
       "validation_note": "Approved narrowed definitions, reduced difficulty and generated defaults implemented; new tests unrun. Catalogue-specific exceptions and wiring remain pending."
+    },
+    {
+      "id": "relative-skill-contexts",
+      "module": "skills",
+      "pages": "B171-B172",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedRelativeSkill",
+      "tests": [
+        "tests/expanded.py::test_relative_skill"
+      ],
+      "validation_note": "Alternate-attribute, fixed-base and positive-only strength interfaces authored; expected-value checks unrun, catalogue operation wiring pending."
     }
   ],
   "detailed_inventories": [
