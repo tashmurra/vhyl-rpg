@@ -683,6 +683,20 @@ def test_rejuvenation(s):
     assert last(s, 'test.youth-result') == ['blocked','blocked',0,10,0,20,0,0,0,0]
 
 
+def test_cold_assessments(s):
+    for args, expected in [
+            ((35,0,'winter',0,35),[0,0,0,0]), ((34,9,'winter',0,35),[1,1800,0,1]),
+            ((34,10,'winter',0,35),[1,900,0,1]), ((34,29,'winter',0,35),[1,900,0,1]),
+            ((34,30,'winter',0,35),[1,600,0,1]), ((0,0,'light',0,35),[1,1800,-5,1]),
+            ((-9,0,'arctic',0,35),[1,1800,5,1]), ((-10,0,'arctic',1,35),[1,1800,-1,1]),
+            ((-20,30,'heated',1,35),[1,600,3,1]), ((20,0,'winter',0,20),[0,0,0,0])]:
+        s.action(1830, *args)
+        assert last(s, 'test.cold-weather') == expected
+    for points, score, skill in [(1,10,0),(2,10,0),(4,11,1),(8,12,1)]:
+        s.action(1831, points)
+        assert last(s, 'test.cold-skill') == ['ready',score,skill,0,0]
+
+
 def test_aging_events(s):
     for code, preview, expected in [
             (0,['ready',None,0],['resolved','reused',10,9,10,10,0,1,7,7,12,0,20]),
@@ -3338,6 +3352,7 @@ def test(build):
     fresh(Session,hazards,test_aging_assessments)
     fresh(Session,hazards,test_aging_sequence)
     fresh(Session,hazards,test_aging_events)
+    fresh(Session,hazards,test_cold_assessments)
     fresh(Session,hazards,test_rejuvenation)
     aging_transactions = build.build('expanded-aging-transactions',ROOT / 'tests/fixtures/expanded-aging-transactions.t')
     fresh(Session,aging_transactions,test_rejuvenation_transactions)

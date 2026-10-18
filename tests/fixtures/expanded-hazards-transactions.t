@@ -6,6 +6,7 @@
 #include <vhyl-rpg-progression.t>
 #include <vhyl-rpg-lite.t>
 #include <vhyl-rpg-expanded.t>
+#include <vhyl-rpg-expanded-skills.t>
 #include <vhyl-rpg-expanded-health.t>
 #include <vhyl-rpg-expanded-hazards.t>
 hazardRoom: Room 'Shelter';

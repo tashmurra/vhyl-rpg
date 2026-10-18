@@ -4,7 +4,7 @@
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
-Include `vhyl-rpg-expanded-hazards.t` after the expanded foundation and expanded health. The current
+Include `vhyl-rpg-expanded-hazards.t` after the expanded foundation, expanded skills and expanded health. The current
 implementation supplies infection assessments and owned acquisition receipts;
 it supports a limited daily progression path. The all-module umbrella includes these capabilities
 without activating any hazard.
@@ -411,3 +411,35 @@ after restoration and after the next aging event. All routes reach the same base
 score, character value, advancement balances and restoration links without extra
 randomness or time. The fixture uses the existing exact-game save policy. These
 expectations remain unrun while checks are paused.
+
+
+## Ambient cold assessment
+
+`rpgExpandedColdWeather(effectiveF, windMph, clothing, wet, lowerComfortF)` returns
+whether a check is needed, the interval, modifier and one-fatigue failure cost
+from B430. Clothing is `light`, `winter`, `arctic` or `heated`; a heated suit must
+actually function. Wind thresholds are inclusive at ten and thirty miles per
+hour. Temperature penalties use complete ten-degree increments below zero.
+Inputs are whole degrees Fahrenheit and whole miles per hour. Ordinary armor
+protection is not a substitute for insulating or heated clothing.
+
+`RpgExpandedColdContext` adds `profile`, `temperatureEvidence` and optional
+`survival`. The author supplies effective wind-chill temperature and the actor's
+lower comfort threshold; 35 degrees is the default. The source provides no
+wind-chill conversion formula. Temperature tolerance, unusual physiology and
+protective equipment must be established separately by the author.
+
+For cold that requires a roll, `assess()` chooses the better effective score from
+HT and HT-based arctic survival. The skill must be an expanded average,
+perception-based `survival` definition with `specialty = 'arctic'`. The expanded
+skill context rebases its relative level onto HT and retains contextual modifiers.
+This is why hazards now requires expanded skills. An equal score selects HT;
+a missing legal skill score leaves the HT option available. Unsupported low
+scores reject before rolling.
+
+These are pure assessments. Owned exposure intervals, changing weather, fatigue
+and injury commits, shelter-dependent recovery and thermal shock remain pending.
+They do not clear another climate episode's recovery restriction. The source and
+integration expectations in `test_cold_assessments` include wind boundaries,
+clothing combinations, subzero increments, comfort thresholds and a character
+whose perception exceeds HT. Fixtures remain unrun while checks are paused.

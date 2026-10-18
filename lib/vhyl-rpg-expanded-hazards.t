@@ -1,4 +1,4 @@
-/* Include after expanded foundation and expanded health. Partial hazard assessments, full-2008 B444. */
+/* Include after expanded foundation, skills and health. Partial hazard assessments, full-2008 B444. */
 
 class RpgExpandedInfectionAssessment: RpgExpandedResult
     checkRequired = nil
@@ -653,5 +653,65 @@ modify RpgExpandedProfile
                 || !holds(entry.restoredBy.result.restoredEvents,entry)))
                 rpgExpandedReject('rejuvenation-loss-owner');
         return nil;
+    }
+;
+
+class RpgExpandedColdAssessment: RpgExpandedResult
+    checkRequired = nil
+    intervalSeconds = 0
+    failureFatigue = 0
+    context = nil
+    score = nil
+;
+
+/** Ambient cold table, full-2008 B430. Temperature is authored effective F. */
+rpgExpandedColdWeather(effectiveF, windMph, clothing, wet, lowerComfortF)
+{
+    rpgInteger(effectiveF,-1000,1000); rpgInteger(windMph,0,1000); rpgInteger(lowerComfortF,-1000,1000);
+    if (!holds(['light','winter','arctic','heated'],clothing)) rpgExpandedReject('cold-clothing');
+    local value = new RpgExpandedColdAssessment(); value.status = 'ready';
+    if (effectiveF >= lowerComfortF) return value;
+    value.checkRequired = true; value.intervalSeconds = windMph >= 30 ? 600 : windMph >= 10 ? 900 : 1800;
+    value.modifier = clothing == 'light' ? -5 : clothing == 'arctic' ? 5 : clothing == 'heated' ? 10 : 0;
+    if (wet) value.modifier -= 5;
+    if (effectiveF < 0) value.modifier -= -effectiveF / 10;
+    value.failureFatigue = 1; return value;
+}
+
+/** Compare HT and HT-based trained arctic survival without drawing dice. */
+class RpgExpandedColdContext: object
+    profile = nil
+    effectiveF = 34
+    windMph = 0
+    clothing = 'winter'
+    wet = nil
+    lowerComfortF = 35
+    temperatureEvidence = nil
+    survival = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('cold-profile');
+        local value = rpgExpandedColdWeather(self.effectiveF,self.windMph,self.clothing,self.wet,self.lowerComfortF);
+        if (self.temperatureEvidence == nil || self.temperatureEvidence == '')
+        { value.status = 'blocked'; value.reason = 'cold-temperature-evidence'; return value; }
+        if (self.profile.dead) { value.status = 'blocked'; value.reason = 'cold-patient-dead'; return value; }
+        if (!value.checkRequired) return value;
+        value.context = new RpgLiteContext(); value.context.attribute = rpgHT;
+        value.context.kind = 'temperature'; value.context.modifier = value.modifier;
+        value.score = rpgLiteScore(self.profile,value.context);
+        if (self.survival != nil)
+        {
+            if (!self.survival.ofKind(RpgExpandedSkill) || self.survival.id != 'survival'
+                || self.survival.specialty != 'arctic' || self.survival.attribute != rpgPerception
+                || self.survival.difficulty != 1) rpgExpandedReject('cold-survival-definition');
+            local alternate = new RpgExpandedSkillContext(); alternate.skill = self.survival;
+            alternate.rollAttribute = rpgHT; alternate.kind = 'temperature'; alternate.modifier = value.modifier;
+            local score = rpgLiteScore(self.profile,alternate);
+            if (score != nil && (value.score == nil || score > value.score))
+            { value.score = score; value.context = alternate; }
+        }
+        if (value.score == nil || value.score < 3)
+        { value.status = 'blocked'; value.reason = 'cold-resistance-score-unavailable'; }
+        return value;
     }
 ;

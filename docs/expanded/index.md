@@ -20,7 +20,7 @@ entries remain unresolved.
 
 Alternatively, include `vhyl-rpg-expanded.t` and individual available modules
 once, in dependency order. Development additionally requires expanded skills;
-hazards requires expanded health. Character-cost queries additionally require
+hazards requires expanded health and skills. Character-cost queries additionally require
 expanded characters.
 The all umbrella includes only available modules; it is not a promise of complete
 coverage. Existing Lite APIs retain their abridged behavior.

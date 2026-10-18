@@ -601,9 +601,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Below the actor's cold comfort threshold, roll the better of health and health-based arctic survival every thirty minutes, shortened by wind.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cold_assessments"
+      ],
+      "validation_note": "Pure B430 cold assessment uses explicit effective temperature and compares HT with HT-based arctic survival through expanded skills. Fixtures unrun. Owned intervals, fatigue/injury commits, shelter recovery and exceptional physiology remain incomplete."
     },
     {
       "id": "environment-cold-cost",
@@ -731,9 +734,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Normal freezing checks every thirty minutes.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cold_assessments"
+      ],
+      "validation_note": "Pure B430 cold assessment uses explicit effective temperature and compares HT with HT-based arctic survival through expanded skills. Fixtures unrun. Owned intervals, fatigue/injury commits, shelter recovery and exceptional physiology remain incomplete."
     },
     {
       "id": "cold-weather-light-wind",
@@ -741,9 +747,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At wind of at least ten miles per hour, check every fifteen minutes.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cold_assessments"
+      ],
+      "validation_note": "Pure B430 cold assessment uses explicit effective temperature and compares HT with HT-based arctic survival through expanded skills. Fixtures unrun. Owned intervals, fatigue/injury commits, shelter recovery and exceptional physiology remain incomplete."
     },
     {
       "id": "cold-weather-strong-wind",
@@ -751,9 +760,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At wind of at least thirty miles per hour, check every ten minutes and use an explicitly determined effective wind-chill temperature.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cold_assessments"
+      ],
+      "validation_note": "Pure B430 cold assessment uses explicit effective temperature and compares HT with HT-based arctic survival through expanded skills. Fixtures unrun. Owned intervals, fatigue/injury commits, shelter recovery and exceptional physiology remain incomplete."
     },
     {
       "id": "cold-weather-unclothed",
@@ -761,9 +773,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Light or absent clothing imposes -5.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cold_assessments"
+      ],
+      "validation_note": "Pure B430 cold assessment uses explicit effective temperature and compares HT with HT-based arctic survival through expanded skills. Fixtures unrun. Owned intervals, fatigue/injury commits, shelter recovery and exceptional physiology remain incomplete."
     },
     {
       "id": "cold-weather-winter",
@@ -771,9 +786,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ordinary winter clothing gives zero clothing modifier.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cold_assessments"
+      ],
+      "validation_note": "Pure B430 cold assessment uses explicit effective temperature and compares HT with HT-based arctic survival through expanded skills. Fixtures unrun. Owned intervals, fatigue/injury commits, shelter recovery and exceptional physiology remain incomplete."
     },
     {
       "id": "cold-weather-arctic",
@@ -781,9 +799,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Arctic clothing gives +5.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cold_assessments"
+      ],
+      "validation_note": "Pure B430 cold assessment uses explicit effective temperature and compares HT with HT-based arctic survival through expanded skills. Fixtures unrun. Owned intervals, fatigue/injury commits, shelter recovery and exceptional physiology remain incomplete."
     },
     {
       "id": "cold-weather-heated",
@@ -791,9 +812,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A heated suit gives +10 while functioning.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cold_assessments"
+      ],
+      "validation_note": "Pure B430 cold assessment uses explicit effective temperature and compares HT with HT-based arctic survival through expanded skills. Fixtures unrun. Owned intervals, fatigue/injury commits, shelter recovery and exceptional physiology remain incomplete."
     },
     {
       "id": "cold-weather-wet",
@@ -801,9 +825,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Wet clothing imposes an additional -5.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cold_assessments"
+      ],
+      "validation_note": "Pure B430 cold assessment uses explicit effective temperature and compares HT with HT-based arctic survival through expanded skills. Fixtures unrun. Owned intervals, fatigue/injury commits, shelter recovery and exceptional physiology remain incomplete."
     },
     {
       "id": "cold-weather-extreme",
@@ -811,9 +838,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Each ten degrees below zero Fahrenheit effective temperature imposes -1.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cold_assessments"
+      ],
+      "validation_note": "Pure B430 cold assessment uses explicit effective temperature and compares HT with HT-based arctic survival through expanded skills. Fixtures unrun. Owned intervals, fatigue/injury commits, shelter recovery and exceptional physiology remain incomplete."
     },
     {
       "id": "collision-damage",

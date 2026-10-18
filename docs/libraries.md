@@ -34,7 +34,7 @@ Include the engine once. For Lite, include progression followed by the Lite umbr
 | Expanded development | `vhyl-rpg-expanded-development.t` | Expanded foundation + skills | Expanded profiles | Partial | [Guide](expanded/development.md) / [example](../examples/expanded/main.t) |
 | Expanded equipment | `vhyl-rpg-expanded-equipment.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/equipment.md) / [example](../examples/expanded/main.t) |
 | Expanded exploration | `vhyl-rpg-expanded-exploration.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/exploration.md) / [example](../examples/expanded/main.t) |
-| Expanded hazards | `vhyl-rpg-expanded-hazards.t` | Expanded foundation, health | Expanded profiles; explicit requests | Partial: infection, specific immunity and aging | [Guide](expanded/hazards.md) / [fixture](../tests/fixtures/expanded-hazards.t) |
+| Expanded hazards | `vhyl-rpg-expanded-hazards.t` | Expanded foundation, health, skills | Expanded profiles; explicit requests | Partial: infection, specific immunity and aging | [Guide](expanded/hazards.md) / [fixture](../tests/fixtures/expanded-hazards.t) |
 | Expanded health | `vhyl-rpg-expanded-health.t` | Expanded foundation | Expanded profiles | Partial: wounds, upper-limb effects, recovery and treatment | [Guide](expanded/health.md) / [minimal fixture](../tests/fixtures/expanded-health.t) |
 | Expanded magic | `vhyl-rpg-expanded-magic.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/magic.md) / no example yet |
 | Expanded psionics | `vhyl-rpg-expanded-psionics.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/psionics.md) / no example yet |

@@ -4,6 +4,7 @@
 #include <vhyl-rpg-progression.t>
 #include <vhyl-rpg-lite.t>
 #include <vhyl-rpg-expanded.t>
+#include <vhyl-rpg-expanded-skills.t>
 #include <vhyl-rpg-expanded-health.t>
 #include <vhyl-rpg-expanded-hazards.t>
 hazardRoom: Room 'Shelter';
@@ -187,6 +188,25 @@ act(verb,args)
             eventValue(patient.dx); eventValue(patient.agingHistory.length()); eventValue(patient.rejuvenations.length());
         }
         return nil;
+    }
+    if (verb == 1830)
+    {
+        local value = rpgExpandedColdWeather(args[1],args[2],args[3],args[4] == 1,args[5]);
+        event('test.cold-weather'); eventValue(value.checkRequired ? 1 : 0); eventValue(value.intervalSeconds);
+        eventValue(value.modifier); eventValue(value.failureFatigue); return nil;
+    }
+    if (verb == 1831)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.iq = 15; patient.ht = 10;
+        local context = new RpgExpandedColdContext(); context.profile = patient; context.temperatureEvidence = 'Observed effective temperature';
+        local skill = new RpgExpandedSkill(); skill.id = 'survival'; skill.specialty = 'arctic';
+        skill.attribute = rpgPerception; skill.difficulty = 1;
+        local training = new RpgExpandedTraining(); training.skill = skill; training.points = args[1];
+        patient.skills = [training]; context.survival = skill;
+        local time = rpgLedger.seconds; local draws = rpgRandom.draws; local value = context.assess();
+        event('test.cold-skill'); eventValue(value.status); eventValue(value.score);
+        eventValue(value.context.skill == skill ? 1 : 0); eventValue(rpgRandom.draws - draws);
+        eventValue(rpgLedger.seconds - time); return nil;
     }
     return vhylAct(verb,args);
 }

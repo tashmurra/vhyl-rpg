@@ -7,6 +7,7 @@
 #include <vhyl-rpg-lite.t>
 #include <vhyl-rpg-expanded.t>
 #include <vhyl-rpg-expanded-characters.t>
+#include <vhyl-rpg-expanded-skills.t>
 #include <vhyl-rpg-expanded-health.t>
 #include <vhyl-rpg-expanded-hazards.t>
 agingRoom: Room 'Observatory';
