@@ -59,3 +59,15 @@ Independent validation must cover all six rotations, the depicted reach rings,
 partial barriers, fractional movement costs, interrupted paths, occupied exits,
 simultaneous reactions and each opportunity-fire band. No checks have been run
 while the requested pause remains in effect.
+
+The [special-mobility inventory](inventory/special-mobility.json) adds high-speed
+and aerial requirements. Velocity persists separately from movement capacity.
+Turning depends on distance traveled since the preceding turn of direction, and
+terrain costs can also force deceleration. An invalid high-speed maneuver can
+cause loss of control even without a failed roll.
+
+Ground, water and air use different control-loss consequences. Flying paths need
+altitude, clearance and nonhovering stall limits; a dive can temporarily change
+acceleration and maximum speed. The optional realistic turning formula and
+encumbrance-based posture duration require explicit campaign selection. Neither
+may silently replace the default procedure.

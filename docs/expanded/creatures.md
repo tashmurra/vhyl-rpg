@@ -1,5 +1,17 @@
 # Expanded creatures
 
+The [mounted-combat inventory](inventory/special-mobility.json) adds B396–B398
+requirements to the creature chapter. Rider and mount retain separate maneuvers,
+injury, hands or controls, training, load and position. Bucking tracks consecutive
+successes and failures; alternation cannot accumulate toward either threshold.
+Control-loss outcomes can release items, alter movement, loosen equipment, cause
+falls or require timed recovery and recall attempts.
+
+Mount control must share actual saddle, reins and passenger state with equipment
+and tactical modules. A hit to the mount can require a rider check; rider stun or
+knockback can cause a fall without injuring the mount. These procedures remain
+pending implementation and validation.
+
 **Status: pending.** Animals, body forms, mounts and swarms. Neutral source: `full-2008`, B455-B461.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)

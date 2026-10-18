@@ -24,6 +24,7 @@ copies of the reference books.
 | `full-2008` | B369–B377 | [Attacks, restraints and defenses](attacks-defenses.json) | Grapples, collisions, projectile attacks, rapid-fire bands and defense reactions enumerated; detailed exceptions and integration pending |
 | `full-2008` | B378–B383 | [Damage and readiness](damage-readiness.json) | Damage ordering, critical exceptions and timed actions enumerated; low-health formula conflict and integration pending |
 | `full-2008` | B384–B392 | [Tactical positioning](tactical.json) | Movement costs, facing, close combat and opportunity-fire bands enumerated; selected diagrams inspected; coordinate fixtures and cross-rule precedence pending |
+| `full-2008` | B393–B398, before hit locations | [Surprise and special mobility](special-mobility.json) | Surprise, visibility, speed, mount control and aerial procedures enumerated; integration and table verification pending |
 | `full-2008` | B418–B427 | [Injury, recovery and fatigue](health.json) | Anatomy, wound options, treatment, drug design, resource recovery and foraging enumerated |
 | `full-2008` | B428–B437, excluding poison and radiation | [Conditions and environmental hazards](environmental-hazards.json) | Conditions, exposure, collisions, fire, electricity and pressure enumerated; falling formula conflict open |
 | `full-2008` | B435–B436 | [Radiation](radiation.json) | Dose histories, effects, shielding and treatment enumerated; overlapping printed boundary confirmed visually and unresolved |

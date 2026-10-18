@@ -313,6 +313,7 @@
     "inventory/appendix.json",
     "inventory/attacks-defenses.json",
     "inventory/damage-readiness.json",
-    "inventory/tactical.json"
+    "inventory/tactical.json",
+    "inventory/special-mobility.json"
   ]
 }

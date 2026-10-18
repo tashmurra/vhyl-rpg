@@ -1,0 +1,645 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B393-B398",
+  "review": "Surprise, visibility, high-speed movement, mounted and aerial combat inventoried through the start of hit-location rules. Control table recorded by row; detailed trait, geometry, equipment and timing integration pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "special-mobility-surprise-choice",
+      "source": "full-2008",
+      "pages": "B393",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Author determines surprise category from actual awareness. Keep group surprise initiative separate from fixed individual turn order. Reflex capability prevents freezing and adds six to recovery intelligence checks.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-total-surprise",
+      "source": "full-2008",
+      "pages": "B393",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Total surprise freezes defenders for one shared 1d-second interval, imposing mental stun/inactivity. Afterward each defender checks base intelligence at start of own turn; success still spends that turn inactive. Reflex-capable defenders instead use partial-surprise treatment; resolve mixed groups explicitly.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-partial-initiative",
+      "source": "full-2008",
+      "pages": "B393",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each leader rolls one die: reflex-capable leader +2, otherwise another reflex-capable member +1, nonstacking; higher-intelligence leader +1; invested tactics +1 or tactics at least twenty +2. Author may supply additional recorded alertness modifiers.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-leaderless",
+      "source": "full-2008",
+      "pages": "B393",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Leaderless group initiative receives -2 except animals or groups with intelligence at most five. Define leadership and group-score inputs before rolling.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-partial-recovery",
+      "source": "full-2008",
+      "pages": "B393",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Higher initiative acts normally; losing side is mentally stunned. Recovery intelligence bonus increases by one on each turn after the first. A tied initiative surprises neither side.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-blind-location",
+      "source": "full-2008",
+      "pages": "B394",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An actor unable to see anything can locate a foe with hearing-2 or an actual alternate sense. Failed location requires random direction or declared map hex; do not reveal true target position. Attack penalty -10, or -6 when accustomed to blindness; random location.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-invisible-target",
+      "source": "full-2008",
+      "pages": "B394",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If surroundings remain visible but foe does not, use -6; if location is known for certain, no hearing check and -4. Reconcile visibility-specific exceptions with wild/blind attack caps and other modifiers.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-unseen-defense",
+      "source": "full-2008",
+      "pages": "B394",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Aware defender facing unseen attacker/weapon may dodge at -4; hearing-2 enables parry/block at -4. Complete unawareness forbids defense. If only attacker is obscured but weapon emerges visibly, normal defense applies.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-lighting",
+      "source": "full-2008",
+      "pages": "B394",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An eligible visible torch/flashlight can reduce total-darkness attack penalty to -3 within its actual illumination range. Integrate occlusion, radius and other senses rather than globally illuminating the scene.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-torch-contact",
+      "source": "full-2008",
+      "pages": "B394",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Torch uses baton mechanics plus one linked burning damage. Continuous flame contact ignites typical oil after three seconds, ordinary clothes after four, kindling after ten. Other materials need explicit authored ignition facts.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-light-parry",
+      "source": "full-2008",
+      "pages": "B394",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary torch/flashlight breaks on first parry against a weapon at least triple its weight. Reinforced technology-seven-or-higher lights use baton behavior at triple ordinary heavy-light price and weight; retain equipment distinction.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-high-speed-entry",
+      "source": "full-2008",
+      "pages": "B394",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "High speed begins when velocity exceeds basic movement. Entry requires standing move/move-and-attack covering full encumbrance-adjusted basic movement with at most one sixty-degree turn. Next-turn ordinary sprint starts up to twenty percent faster, minimum +1; enhanced/vehicle entry up to double basic movement within top speed.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-velocity",
+      "source": "full-2008",
+      "pages": "B394",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Store velocity independently of movement capacity. Actor must cover current velocity each turn unless actual terrain or collision reduces it; do not let a high-speed path arbitrarily stop early.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-high-speed-action",
+      "source": "full-2008",
+      "pages": "B394-B396",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Self-propelled actor/mount at speed must move or move-and-attack; other maneuvers or unconsciousness cause control loss. Rider/crew choices remain separate from the moving platform\u2019s required action.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-turn-radius",
+      "source": "full-2008",
+      "pages": "B394-B395",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Default turning interval is floor(velocity/basic movement) yards before a turn up to sixty degrees; front-diagonal tactical entries before the interval preserve heading. Optional realistic radius is velocity squared divided by ten yards. Select policy explicitly; zero basic movement permits drift only, requiring external force to turn.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-acceleration",
+      "source": "full-2008",
+      "pages": "B395",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At turn end change velocity by at most basic movement toward selected speed, bounded by rated maximum. Ordinary sprint maximum is twenty percent above movement, with the entry minimum-increment wording reconciled explicitly.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-deceleration",
+      "source": "full-2008",
+      "pages": "B395",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Safe slowing is at most basic movement at turn end. At or below basic movement, next turn returns to ordinary movement rules.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-risky-braking",
+      "source": "full-2008",
+      "pages": "B395",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Slowing up to twice basic movement requires dexterity+3, or operator skill plus vehicle handling; penalty -1 per full two yards/second beyond basic movement. Failure loses control.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-risky-turn",
+      "source": "full-2008",
+      "pages": "B395",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Early/tight turns use the same control check with -1 per full basic-movement increment by which velocity exceeds basic movement. Failure loses control; validate radius request before roll.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-speed-terrain",
+      "source": "full-2008",
+      "pages": "B395",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Tactical budget equals starting velocity. No back/side steps; terrain surcharges also reduce ending velocity. Add voluntary slowing; totals over basic movement require control check, over twice basic movement automatically lose control. Count the surcharge once in each distinct role.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-speed-defense",
+      "source": "full-2008",
+      "pages": "B395",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "High-speed combat permits maneuver-legal attacks and dodge, but no retreat or dive for cover. Apply speed modifiers when attacking and defending against attacks under the relevant ranged procedure.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-ground-control-loss",
+      "source": "full-2008",
+      "pages": "B395",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A ground runner falls and skids forward for one quarter remaining movement, then stops. Without collision apply falling damage at current velocity; with collision apply collision damage instead. Rounding and blocked path handling need explicit policy.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-wheel-control",
+      "source": "full-2008",
+      "pages": "B396",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For three-or-more-wheel motion, author may permit safe deceleration each turn rather than a fall, except critical failure or injury-triggered loss. Preserve cause and chosen stability policy.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-medium-control",
+      "source": "full-2008",
+      "pages": "B396",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Air/water use their own basic movement. Control loss forces current velocity straight ahead then maximum safe deceleration and ends other action; do not apply ground trip effects.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-armor-posture",
+      "source": "full-2008",
+      "pages": "B395",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional encumbrance-based posture duration is one second for levels zero/one, then duration equal to level. Actor retains old posture until completion. Keep campaign enablement and interruption state.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-reins",
+      "source": "full-2008",
+      "pages": "B396",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "War-trained mounts allow voice/leg control, but riding checks take -3 with no reins hand or -1 with one. Bucking-weapon stow needs ready and dexterity-3; critical failure drops weapon. Track hands and ordinary stow timing precedence.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-training",
+      "source": "full-2008",
+      "pages": "B396",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Combat riding takes -3 for a well-broken non-war-trained mount, -6 or worse for incompletely trained mounts. Non-war mounts require riding+2 for dangerous terrain/actions unless immediately necessary for survival; failure begins disobedience.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mounting",
+      "source": "full-2008",
+      "pages": "B396",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary mounting needs movement then posture action. One-turn leap uses riding, acrobatics or jumping at -3, waived with stirrups; any failure falls. Position rider centrally on a three-hex mount or front on two-hex mount; larger platforms need authored stations.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mount-load",
+      "source": "full-2008",
+      "pages": "B396",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply mount encumbrance including rider/cargo; willingness above medium load is an authored behavior constraint, not automatic carrying capacity. Gallop uses high-speed rules while mount and rider maintain distinct maneuvers.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-dismount",
+      "source": "full-2008",
+      "pages": "B396",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Safe dismount uses posture action only if mount remained still or moved at most a step. Otherwise jumping off needs move/move-and-attack plus acrobatics/jumping; failure falls.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mount-risk",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After mount succeeds a risky dexterity maneuver, rider checks riding to remain seated. Mount failure invokes falling-mount outcome twelve directly without rolling the control table.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-spook",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Failed fear or refused feat can start bucking. Each recovery second uses ready plus riding; critical success or three consecutive ordinary successes calms. Critical failure or three consecutive failures invokes control-loss table. Alternation resets respective streak; rider and mount may only dodge during bucking.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mount-attack",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "War-trained mount attacks through its own eligible maneuver. Metal shoes add one to kicks/trampling. Rider attack receives -2 if mount attacked on its preceding turn.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-charge-panic",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Author can require will for a nonplayer unfamiliar with mounted charges to hold ground; failure flees, reflex capability +6. Targets at least mount size are exempt.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mounted-melee",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use lower of melee skill and riding. Relative speed at least seven adds -1 attack and +1 damage. Comparable open vehicles substitute driving.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-lance",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Couched lance needs saddle/stirrups; damage dice floor(mount strength*last-turn travel/100), plus three impaling. This printed strength formula differs from ordinary collision health capacity; preserve explicit source input and resolve sub-one-die behavior.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-joust",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Breakaway practice lance uses corresponding crushing damage capped at fifteen; exceeding fifteen breaks lance. Apply inventory consequence once.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mounted-ranged",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Attack uses lower of riding and ranged skill. Noisy attack triggers riding afterward: ordinary failure spooks, critical failure directly loses control. Actual weapon noise must be authored/defined.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mounted-aim",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If mount moves beyond a step, disallow extra-turn aim bonuses and telescopic/targeting-system benefits. Retain otherwise eligible base accuracy; reconcile moving-platform exceptions.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mounted-rear",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Turning to shoot behind gives -4 weapon skill and -1 riding checks that turn.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mounted-hanging",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hanging off far side while shooting gives -6 weapon skill and -3 riding; only foot, face, eyes, skull and one hand exposed. Missing by at most four hits mount. Reconcile this with ordinary one-point rider/mount miss transfer.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mounted-defense",
+      "source": "full-2008",
+      "pages": "B397-B398",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mount normally dodges only. Rider defenses are normal at riding twelve or higher, otherwise penalized by twelve minus riding. Actual barding and mount anatomy still apply.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mounted-height",
+      "source": "full-2008",
+      "pages": "B398",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary mounted rider is effectively three feet above standing opponent; integrate relative-elevation rules and actual unusual mount dimensions.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-rider-stun",
+      "source": "full-2008",
+      "pages": "B398",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Stunned rider checks riding-4 or falls. Any knockback unseats without saddle/stirrups; with them check riding at -4 per knockback yard.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-miss-transfer",
+      "source": "full-2008",
+      "pages": "B398",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A one-point miss against rider hits mount subject to its defense, and conversely for mount target. Preserve actual geometry and resolve special exposure exceptions before transferring a hit.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-mount-injury",
+      "source": "full-2008",
+      "pages": "B398",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A hit mount requires rider check penalized by mount shock magnitude to avoid spooking. Crippling fall invokes outcome twelve. Do not duplicate injury or fear handling.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-passenger",
+      "source": "full-2008",
+      "pages": "B398",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One additional human-sized-or-smaller rider on suitable mount gives controller -1 riding. Passenger fall checks use min(controller riding, passenger strength)-3; track actual seats and encumbrance.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-flight-path",
+      "source": "full-2008",
+      "pages": "B398",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Normal horizontal human flight occupies two hexes. Vertical yards cost same as horizontal; combined one-yard vertical/horizontal diagonal costs 1.5. Clearance must cover footprint and altitude.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-flight-step",
+      "source": "full-2008",
+      "pages": "B398",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use basic air movement for step/retreat distance; vertical retreat is permitted. Hover-capable actor with a full vertical step of space gains another +1 retreat defense; aerial dodge uses aerial acrobatics skill.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-dive",
+      "source": "full-2008",
+      "pages": "B398",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A turn devoted solely to diving movement adds ten to basic air movement for acceleration and doubles top airspeed. Do not permanently rewrite purchased movement or allow other maneuvers to claim the bonus.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-stall",
+      "source": "full-2008",
+      "pages": "B398",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Self-powered nonhover/gliding flight requires move/move-and-attack and at least quarter top airspeed each turn. Falling below that speed can stall; each recovery turn checks dexterity-4 to enter a speed-regaining dive.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-flight-atmosphere",
+      "source": "full-2008",
+      "pages": "B398",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Flight altitude integrates breathing/pressure exposure; wing flight cannot operate in trace atmosphere/vacuum. Ground targets use elevation/reach rules; ordinary aerial combat has no blanket stability attack/defense penalty.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-control-2",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Thrown rider takes a three-yard fall adjusted for mount height. If conscious, immediate animal-handling-3 can recall mount; failure permits retries every five minutes.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-control-3",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Rider falls two yards; jumping or acrobatics can negate damage. Otherwise use outcome two recall behavior.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-control-4",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Drop held items, then roll the table again; preserve repeated consequences and deterministic random stream.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-control-5",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Mount charges directly toward the actual threat/hazard; author supplies target and legal path.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-control-6",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Mount will not fight or exceed movement two until several hours rest. Required rest duration needs a concrete author contract.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-control-7",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Use outcome six exhaustion restriction and recovery contract.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-control-8",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Mount settles but riding penalties worsen by one for the engagement; repeated results accumulate.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-control-9",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Use outcome eight cumulative engagement penalty.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-control-10",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Mount charges directly away from the threat/hazard through an actual path.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-control-11",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Loose saddle imposes -3 riding and mounted attacks until rider dismounts and spends 4d seconds repairing straps. Without saddle use outcome three.",
+      "tests": []
+    },
+    {
+      "id": "special-mobility-control-12",
+      "source": "full-2008",
+      "pages": "B397",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Mount falls and checks dexterity+1 to avoid broken leg. Rider checks riding-2; failure causes three-yard fall. Success requires another riding check penalized by encumbrance to leap clear; success uses outcome three, failure takes mount-strength thrust crushing plus two-yard fall.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B393-B398",
+      "reason": "Fictional illustrations and named scenarios excluded; their general mechanics retained. Hit-location section beginning B398 belongs to a separate detailed pass."
+    }
+  ]
+}

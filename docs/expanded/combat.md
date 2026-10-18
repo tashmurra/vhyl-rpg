@@ -142,3 +142,21 @@ requirements. A combat handoff needs both participants' actions; shield release
 can require an action even when ordinary item release is free. Long actions need
 owned progress, interruption policy and resource reservations. Completing a
 reload must not also grant a free attack or duplicate ammunition.
+
+The [special-mobility inventory](inventory/special-mobility.json) records
+surprise, visibility and mounted/aerial combat. Surprise initiative is a group
+procedure distinct from individual turn ordering. Total surprise has a shared
+freeze interval followed by individual recovery; partial surprise adds increasing
+recovery bonuses. Reflex capabilities create exceptions that must also work in
+groups containing both protected and unprotected actors.
+
+Visibility distinguishes inability to see anything, an invisible opponent and a
+known but unseen location. Attack and defense permissions differ among them.
+Hearing or another actual sense can locate an attacker without revealing hidden
+information through preview. A visible weapon emerging from concealment is also
+different from a wholly invisible attack.
+
+Mounted attacks use rider skill limits, mount motion and control history. Near
+misses can transfer between rider and mount; special hanging postures change both
+exposed locations and transfer thresholds. Resolve one attack identity through
+these branches so it cannot strike both participants accidentally.
