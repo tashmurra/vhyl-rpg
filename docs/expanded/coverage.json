@@ -274,9 +274,10 @@
         "tests/expanded.py::test_psionic_warning",
         "tests/expanded.py::test_psionic_resistance",
         "tests/expanded.py::test_psionic_static",
-        "tests/expanded.py::test_static_ready"
+        "tests/expanded.py::test_static_ready",
+        "tests/expanded.py::test_static_health_defaults"
       ],
-      "validation_note": "Absolute personal/area static assessment, pricing and danger-warning suppression authored; fixtures unrun. Resistible static, switching actions and other ability integrations remain pending."
+      "validation_note": "Ready switching and shared unconscious/sleep default-on hooks authored; fixtures unrun. Direct external state writes and separate resilience bodies require explicit integration."
     },
     {
       "id": "skills",

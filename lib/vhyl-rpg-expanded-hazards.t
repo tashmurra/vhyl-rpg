@@ -851,7 +851,7 @@ class RpgExpandedColdInterval: object
                 value.injury = harm.health.injury;
             }
             value.fatigue = rpgLiteFatigueIncrement(patient,'temperature');
-            if (patient.fp() <= -patient.maxEnergy) { patient.unconscious = true; patient.fatigueCollapse = true; }
+            if (patient.fp() <= -patient.maxEnergy) { patient.becomeUnconscious(); patient.fatigueCollapse = true; }
             patient.temperatureFatigue += value.fatigue; self.exposure.lockedFatigue += value.fatigue;
             patient.temperatureInjury += value.injury; self.exposure.lockedInjury += value.injury;
         }
@@ -1122,7 +1122,7 @@ class RpgExpandedImmersionInterval: object
             }
             value.fatigue += rpgLiteFatigueIncrement(patient,'temperature'); remaining -= 1;
         }
-        if (patient.fp() <= -patient.maxEnergy) { patient.unconscious = true; patient.fatigueCollapse = true; }
+        if (patient.fp() <= -patient.maxEnergy) { patient.becomeUnconscious(); patient.fatigueCollapse = true; }
         patient.temperatureFatigue += value.fatigue; self.exposure.lockedFatigue += value.fatigue;
         patient.temperatureInjury += value.injury; self.exposure.lockedInjury += value.injury;
         self.boundDestination = self.dropDestination;
@@ -1342,14 +1342,14 @@ class RpgExpandedAirlessSecond: object
             value.injury = harm.health.injury;
         }
         value.fatigue = rpgLiteFatigueIncrement(patient,'air');
-        if (patient.fp() <= -patient.maxEnergy) { patient.unconscious = true; patient.fatigueCollapse = true; }
+        if (patient.fp() <= -patient.maxEnergy) { patient.becomeUnconscious(); patient.fatigueCollapse = true; }
         if (patient.fp() <= 0 && !patient.unconscious && !patient.dead)
         {
             value.consciousness = rpgLiteAttributeCheck(patient,rpgWill,'air',0);
-            if (!value.consciousness.achieved) { patient.unconscious = true; patient.fatigueCollapse = true; }
+            if (!value.consciousness.achieved) { patient.becomeUnconscious(); patient.fatigueCollapse = true; }
         }
         patient.airClock += 1;
-        if (patient.airClock >= 240) { patient.dead = true; patient.unconscious = true; }
+        if (patient.airClock >= 240) { patient.dead = true; patient.becomeUnconscious(); }
         self.boundId = self.id; self.boundExposure = self.exposure; self.boundDestination = self.dropDestination;
         self.completedAt = rpgLedger.seconds; self.exposure.lastSecondAt = self.completedAt;
         self.exposure.seconds = self.exposure.seconds + [self]; value.status = 'resolved'; self.result = value; return value;

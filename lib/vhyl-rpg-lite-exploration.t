@@ -159,7 +159,7 @@ class RpgLiteJourney: object
                 else self.check(0, result);
             }
             if (self.struggling && self.profile.fp() <= 0
-                && !rpgLiteAttributeCheck(self.profile, rpgWill, 'drowning', 0).achieved) self.profile.unconscious = true;
+                && !rpgLiteAttributeCheck(self.profile, rpgWill, 'drowning', 0).achieved) self.profile.becomeUnconscious();
         }
         rpgSpendTime(result.seconds); return result;
     }

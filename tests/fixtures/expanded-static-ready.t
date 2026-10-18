@@ -21,6 +21,13 @@ class StaticReadyTestAction: Action
     exec(context)
     {
         local code = staticInput.code;
+        if (code >= 7)
+        {
+            if (code == 7 || code == 9) { staticOwner.fatigue = 20; rpgLiteFatigue(staticOwner,0,'exertion'); }
+            if (code == 8) { staticBattle.finish(); rpgLiteRest(staticOwner,1,true,true,true,nil); }
+            if (code == 10) staticOwner.unconscious = nil;
+            if (code == 9) throw new RpgError(); return nil;
+        }
         if (code == 4) staticReady.enable = true;
         if (code == 5) staticField.switchable = nil;
         if (code == 6) staticOwner.stunned = true;
@@ -37,6 +44,11 @@ turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
     if (verb == 2235) { staticInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2237)
+    {
+        event('test.static-health'); eventValue(staticField.active ? 1 : 0); eventValue(staticOwner.unconscious ? 1 : 0);
+        eventValue(staticOwner.fatigue); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2236)
     {
         event('test.static-ready-state'); eventValue(staticField.active ? 1 : 0);

@@ -1621,7 +1621,7 @@ class RpgExpandedCardiacArrest: object
         if (!value.prevented)
         {
             self.profile.fatigue = 2 * self.profile.maxEnergy;
-            self.profile.unconscious = true; self.profile.fatigueCollapse = true;
+            self.profile.becomeUnconscious(); self.profile.fatigueCollapse = true;
             self.profile.cardiacArrest = self;
         }
         self.boundId = self.id; self.boundProfile = self.profile; self.boundEvidence = self.evidence;
@@ -1653,7 +1653,7 @@ class RpgExpandedCardiacArrest: object
     {
         local value = self.assessExpiry(); if (value.status != 'ready') return value;
         self.profile.injury += value.injuryAdded;
-        self.profile.dead = true; self.profile.unconscious = true; self.profile.cardiacArrest = nil;
+        self.profile.dead = true; self.profile.becomeUnconscious(); self.profile.cardiacArrest = nil;
         self.endedAt = self.deadline; value.status = 'resolved'; self.fatalResult = value; return value;
     }
 ;
@@ -1943,7 +1943,7 @@ class RpgExpandedEffort: object
         value.cardiacTrigger = outcome.cardiacTrigger; value.reason = outcome.reason;
         if (self.profile.fp() > 0) self.profile.exhaustionCollapsed = nil;
         else if (value.incapacitated) self.profile.exhaustionCollapsed = true;
-        if (value.unconscious) { self.profile.unconscious = true; self.profile.fatigueCollapse = true; }
+        if (value.unconscious) { self.profile.becomeUnconscious(); self.profile.fatigueCollapse = true; }
         if (value.cardiacTrigger)
         {
             local cardiac = value.cardiac.start();
@@ -2004,7 +2004,7 @@ class RpgExpandedActionGate: RpgExpandedEffort
         value.consciousnessCheck = rpgLiteCheck(self.profile,value.consciousnessContext);
         if (!value.consciousnessCheck.achieved)
         {
-            self.profile.unconscious = true; value.unconscious = true; value.incapacitated = true;
+            self.profile.becomeUnconscious(); value.unconscious = true; value.incapacitated = true;
             value.allowed = nil; value.reason = 'action-gate-unconscious';
         }
         return value;

@@ -1090,9 +1090,10 @@
       "status": "partial",
       "acceptance": "Purchased switchable static changes immediately with a one-second Ready maneuver. Reuse the combat clock; default to on during unconsciousness.",
       "tests": [
-        "tests/expanded.py::test_static_ready"
+        "tests/expanded.py::test_static_ready",
+        "tests/expanded.py::test_static_health_defaults"
       ],
-      "validation_note": "Ready maneuver adapter authored; fixtures unrun. Automatic unconsciousness/sleep reset remains pending and is explicitly guarded."
+      "validation_note": "Ready switching and shared unconscious/sleep default-on hooks authored; fixtures unrun. Direct external state writes and separate resilience bodies require explicit integration."
     }
   ],
   "exclusions": [

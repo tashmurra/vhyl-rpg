@@ -383,3 +383,17 @@ class RpgExpandedStaticReadyManeuver: RpgLiteManeuver
         self.field.active = self.enable; return nil;
     }
 ;
+
+/** B34 defaults persist after waking; switching off again requires another Ready. */
+modify RpgExpandedProfile
+    restoreDefaultStatic()
+    {
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedPsionicStatic)) trait.validateStatic();
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedPsionicStatic)) trait.active = true;
+        return nil;
+    }
+    onUnconscious() { inherited(); self.restoreDefaultStatic(); return nil; }
+    onSleep() { inherited(); self.restoreDefaultStatic(); return nil; }
+;

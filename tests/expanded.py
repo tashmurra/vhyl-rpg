@@ -1664,6 +1664,28 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_static_health_defaults(Session,bundle):
+    def state(s):
+        s.action(2237)
+        return last(s,'test.static-health')
+    for code,expected in [(7,[1,1,20,6,0]),(8,[1,0,0,6,1])]:
+        s=Session(bundle)
+        try:
+            s.action(2235,0)
+            assert state(s) == [0,0,0,6,0]
+            s.action(2235,9)
+            assert state(s) == [0,0,0,6,0]
+            s.action(2235,code)
+            assert state(s) == expected
+            s.command('undo')
+            assert state(s) == [0,0,0,6,0]
+            s.action(2235,code)
+            if code == 7:
+                s.action(2235,10)
+                assert state(s) == [1,0,20,6,0]
+        finally: s.close()
+
+
 def test_static_ready(s):
     def state():
         s.action(2236)
@@ -7882,6 +7904,7 @@ def test(build):
     fresh(Session,psionics,test_psionic_static)
     static_ready = build.build('expanded-static-ready',ROOT / 'tests/fixtures/expanded-static-ready.t')
     fresh(Session,static_ready,test_static_ready)
+    test_static_health_defaults(Session,static_ready)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
     swarms = build.build('expanded-swarms',ROOT / 'tests/fixtures/expanded-swarms.t')
     test_swarm_attacks(Session,swarms)

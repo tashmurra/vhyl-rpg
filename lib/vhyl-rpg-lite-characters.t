@@ -37,6 +37,11 @@ class RpgLiteSkill: RpgSkill
 
 /** Lite character sheet. Injury and fatigue are deficits, not the legacy energy/body pools. */
 class RpgLiteProfile: RpgProfile
+    /* Default hooks do not consume time or randomness. Optional modules restore passive abilities. */
+    onUnconscious() { return nil; }
+    onSleep() { return nil; }
+    becomeUnconscious() { self.unconscious = true; self.onUnconscious(); return nil; }
+
     campaignTL = 3
     techLevel = 3
     languages = []

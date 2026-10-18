@@ -191,14 +191,27 @@ nonpositive HP or FP blocks switching. This is not a concentration activity and
 has no separate interruption test. The underlying transaction still rolls back
 if an exception occurs.
 
-B34 defaults advantages to on while unconscious. Automatic unconscious/sleep
-state transitions are not wired yet: an inactive field with an unconscious
-owner returns `psionic-static-unconscious-reset-required` rather than silently
-allowing penetration. Authors must restore the default state as part of that
-transition until the health integration is implemented. This gap remains part
-of the module's incomplete coverage.
+B34 defaults advantages to on during unconsciousness and sleep. The shared
+`RpgLiteProfile.becomeUnconscious()` transition calls an inert-by-default
+`onUnconscious` hook; quiet sleeping rest calls `onSleep` before advancing time.
+The psionics module restores owned static fields to active in both hooks, with
+no random draw or separate time charge. A restored field remains on after waking
+until deliberately switched off again.
+
+Lite injury, fatigue, action-consciousness, fear, airless exposure and drowning,
+and expanded health/hazard transitions use this shared method. The separate
+resilience-body library has its own state model and is not adapted here. Authors
+who directly set `unconscious = true` bypass hooks; use `becomeUnconscious()` for
+expanded profiles. An inactive field on an unconscious owner still triggers an
+explicit guard if an external integration bypasses that transition.
 
 The minimal `expanded-static-ready.t` fixture exercises the actual battle path.
 `test_static_ready` specifies immediate changes, shared round timing, ownership
 and enhancement guards, actor turn restrictions, exception rollback and undo.
 It remains unrun while checks are paused.
+
+`test_static_health_defaults` adds source-derived collapse and sleeping-rest
+expectations, default-on persistence after waking, undo and exception rollback.
+These new dispatch hooks preserve the old assignments and consume no extra
+randomness when psionics is absent. Regression and native fixtures remain unrun;
+compatibility is not yet verified at this head.

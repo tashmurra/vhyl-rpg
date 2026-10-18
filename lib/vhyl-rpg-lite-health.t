@@ -39,7 +39,7 @@ rpgLiteWoundWithKnockdown(profile, amount, knockdown, modifier)
             result.knockedDown = true;
             profile.stunned = true; profile.posture = 'lying';
             foreach (local item in profile.equipment) if (!item.worn) item.ready = nil;
-            if (result.check.margin <= -5 || result.check.critical == 'failure') profile.unconscious = true;
+            if (result.check.margin <= -5 || result.check.critical == 'failure') profile.becomeUnconscious();
         }
     }
     for (local multiple = 1; multiple <= 4 && !profile.dead; multiple += 1)
@@ -50,13 +50,13 @@ rpgLiteWoundWithKnockdown(profile, amount, knockdown, modifier)
             if (!result.check.achieved)
             {
                 if (profile.mortal || result.check.margin < -2) profile.dead = true;
-                else { profile.mortal = true; profile.unconscious = true; }
+                else { profile.mortal = true; profile.becomeUnconscious(); }
             }
             else if (result.check.roll > profile.ht)
-            { profile.apparentDeath = true; profile.unconscious = true; }
+            { profile.apparentDeath = true; profile.becomeUnconscious(); }
         }
     if (profile.hp() <= -5 * profile.maxHP) profile.dead = true;
-    if (profile.dead) profile.unconscious = true;
+    if (profile.dead) profile.becomeUnconscious();
     return result;
 }
 
@@ -74,7 +74,7 @@ rpgLiteFatigue(profile, amount, cause)
         result.fatigue += rpgLiteFatigueIncrement(profile,cause);
         remaining -= 1;
     }
-    if (profile.fp() <= -profile.maxEnergy) { profile.unconscious = true; profile.fatigueCollapse = true; }
+    if (profile.fp() <= -profile.maxEnergy) { profile.becomeUnconscious(); profile.fatigueCollapse = true; }
     return result;
 }
 
@@ -99,12 +99,12 @@ rpgLiteCanAct(profile, doNothing)
     if (profile.fp() <= 0)
     {
         local check = rpgLiteAttributeCheck(profile, rpgWill, 'effort', 0);
-        if (!check.achieved) { profile.unconscious = true; profile.fatigueCollapse = true; return nil; }
+        if (!check.achieved) { profile.becomeUnconscious(); profile.fatigueCollapse = true; return nil; }
     }
     if (profile.hp() <= 0)
     {
         local check = rpgLiteAttributeCheck(profile, rpgHT, 'consciousness', -(-profile.hp() / profile.maxHP));
-        if (!check.achieved) { profile.unconscious = true; return nil; }
+        if (!check.achieved) { profile.becomeUnconscious(); return nil; }
     }
     return true;
 }
@@ -203,6 +203,7 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     local healingModifier = food && healingAllowed && profile.naturalRecoveryNeeded()
         ? profile.naturalRecoveryModifier() : 0;
     local healingAmount = profile.naturalRecoveryAmount();
+    if (sleeping) profile.onSleep();
     rpgSpendTime(seconds);
     for (local elapsed = 0; elapsed < seconds && (profile.stunned || profile.mentalStun)
         && !profile.unconscious && profile.fearSeconds == 0; elapsed += 1) rpgLiteRecoverStun(profile);
@@ -315,7 +316,7 @@ rpgLiteFright(profile, modifier)
     if (!result.achieved)
     {
         if (result.critical == 'failure')
-        { profile.fearSeconds = (-result.margin + rpgRandom.die()) * 60; profile.unconscious = true; }
+        { profile.fearSeconds = (-result.margin + rpgRandom.die()) * 60; profile.becomeUnconscious(); }
         else { profile.fearSeconds = -result.margin + rpgRandom.die() + rpgRandom.die(); profile.stunned = true; }
     }
     return result;
@@ -434,8 +435,8 @@ rpgLiteSuffocate(profile, seconds, cleanAir)
         profile.airClock += 1; rpgLiteFatigue(profile, 1, 'air');
         if (profile.fp() <= 0 && !profile.unconscious
             && !rpgLiteAttributeCheck(profile, rpgWill, 'air', 0).achieved)
-        { profile.unconscious = true; profile.fatigueCollapse = true; }
-        if (profile.airClock >= 240) { profile.dead = true; profile.unconscious = true; }
+        { profile.becomeUnconscious(); profile.fatigueCollapse = true; }
+        if (profile.airClock >= 240) { profile.dead = true; profile.becomeUnconscious(); }
     }
     return nil;
 }
@@ -515,7 +516,7 @@ class RpgLiteNeeds: object
                 {
                     self.profile.sleepCheckClock = 0;
                     if (!rpgLiteAttributeCheck(self.profile, rpgWill, 'sleep', 0).achieved)
-                    { self.profile.unconscious = true; return nil; }
+                    { self.profile.becomeUnconscious(); return nil; }
                     self.profile.sleepPenalty = true;
                 }
             }
