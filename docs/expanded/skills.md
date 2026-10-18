@@ -1090,3 +1090,8 @@ The context only assesses a score. It does not spend an hour, award money, or
 resolve critical bonuses and legal or violent consequences. The social library supplies `RpgExpandedBeggingHour` for owned hourly execution;
 critical incident settlement still requires author integration. `test_begging_skill` specifies default arithmetic,
 modifier composition and forbidden appearance inversion; fixtures are unrun.
+
+With the traits library installed, begging automatically receives active sympathy
+and social-inhibition effects. Leave authored `pitiable` and `shynessPenalty`
+unset when those purchased traits supply the effect. The context rejects duplicate
+sources instead of stacking them. Appearance and crowd facts remain authored.

@@ -675,8 +675,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Resolve one hour at a time, awarding twice the success margin in campaign money; author critical bonuses and consequences and apply permitted appearance inversion and crowd modifiers.",
-      "tests": ["tests/expanded.py::test_begging_skill", "tests/expanded.py::test_begging_hour", "tests/expanded.py::test_begging_actions", "tests/expanded.py::test_begging_gift"],
-      "validation_note": "Typed skill defaults and explicit local modifier context implemented. Owned hourly execution now uses the shared time/money ledgers and records explicit critical findings. Shared actor-owned actions expose preview and resolution with parity fixtures. A critical gift can transfer one existing inventory stack once, with rollback and persistence fixtures. Other critical incident settlement, work scheduling and complete trait adapters remain pending. Fixtures unrun.",
+      "tests": ["tests/expanded.py::test_begging_skill", "tests/expanded.py::test_begging_hour", "tests/expanded.py::test_begging_actions", "tests/expanded.py::test_begging_gift", "tests/expanded.py::test_begging_traits"],
+      "validation_note": "Typed skill defaults and explicit local modifier context implemented. Owned hourly execution now uses the shared time/money ledgers and records explicit critical findings. Shared actor-owned actions expose preview and resolution with parity fixtures. A critical gift can transfer one existing inventory stack once, with rollback and persistence fixtures. Other critical incident settlement, work scheduling and appearance adapters remain pending. Purchased sympathy and social-inhibition effects are integrated with duplicate modifier rejection. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "easy",

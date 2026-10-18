@@ -3742,3 +3742,28 @@ class RpgExpandedBeggingAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+/** B22 sympathy applies only to an observer who sees the subject as in need. */
+class RpgExpandedSympathyReactionContext: RpgLiteSocialContext
+    subject = nil
+    observer = nil
+    perceivedNeed = nil
+    approved = nil
+    evidence = nil
+    traitReactionModifier(profile)
+    {
+        if (profile != self.subject || self.subject == nil || !self.subject.ofKind(RpgExpandedProfile)
+            || self.observer == nil || !self.observer.ofKind(RpgLiteProfile) || self.observer == self.subject)
+            rpgExpandedReject('sympathy-reaction-participants');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('sympathy-reaction-facts');
+        return inherited(profile) + (self.subject.sympathyActive() && self.perceivedNeed
+            && !(self.observer.ofKind(RpgExpandedProfile) && self.observer.callousnessActive())
+            && self.observer.level('callous') == 0 ? 3 : 0);
+    }
+    validateParticipants(profile, target)
+    {
+        self.traitReactionModifier(profile);
+        if (target != self.observer) rpgExpandedReject('sympathy-reaction-observer');
+        return inherited(profile,target);
+    }
+;

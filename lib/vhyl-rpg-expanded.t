@@ -969,3 +969,8 @@ class RpgExpandedBeggingReceipt: object
     gift = nil
     beggingBonusReason() { rpgExpandedReject('begging-social-required'); }
 ;
+
+modify RpgLiteProfile
+    sympathyActive() { return nil; }
+    beggingAuthoredTraitReason(sympathy, shyness) { return nil; }
+;

@@ -1710,3 +1710,25 @@ successful breathing-skill bonus. Later mitigation affects future reserves;
 changing physiology during an existing reserve requires a separate transition.
 The `test_breath_reserve_trait` fixture covers cost, combined duration, mitigation,
 eligibility, duplication and independent template copies. Fixtures remain unrun.
+
+### Sympathy
+
+`RpgExpandedSympathy` implements the ordinary five-point trait from full-2008
+B22. Set `approved = true` and install it in the profile's `traits`. The fixed
+identity, price and single level are validated; percentage variants are rejected.
+`profile.sympathyActive()` honors activation and mitigation and rejects duplicate
+instances. Character accounting uses its normal `creationCost()`.
+
+The begging skill context adds the purchased trait's +3 automatically. Existing
+`RpgExpandedSocialInhibition` applies its −1/−2/−4 tiers because begging is marked
+as requiring social interaction; the strongest tier also prohibits learning it.
+Do not repeat those purchased effects through the context's authored `pitiable`
+or `shynessPenalty` fields: simultaneous active sources are rejected.
+
+`RpgExpandedSympathyReactionContext` in the social library requires the actual
+`subject`, `observer`, approval and evidence for `perceivedNeed`. It grants +3
+only when the subject's trait is active and the observer perceives that need.
+Callous observers receive no bonus. The context verifies the reaction's observer
+identity. `test_begging_traits` specifies costs, tiers, learning restrictions,
+mitigation, observer exclusions and duplicate modifier rejection. Fixtures remain
+unrun; modified trait variants and appearance interpretation remain unsupported.

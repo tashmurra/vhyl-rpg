@@ -2993,3 +2993,34 @@ modify rpgExpandedTemplateTraits
         return inherited(id,level,scope);
     }
 ;
+
+/** B22 ordinary sympathy, with audience need adjudicated by the social context. */
+class RpgExpandedSympathy: RpgExpandedTrait
+    id = 'sympathy'
+    points = 5
+    creationCost()
+    {
+        if (!self.approved || self.id != 'sympathy' || self.points != 5 || self.level != 1
+            || self.percentages.length() != 0) rpgExpandedReject('sympathy-definition');
+        return 5;
+    }
+;
+modify RpgExpandedProfile
+    sympathyActive()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedSympathy))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-sympathy'); found = trait;
+            }
+        return found != nil && found.active && !found.mitigated;
+    }
+    beggingAuthoredTraitReason(sympathy, shyness)
+    {
+        if (sympathy && self.sympathyActive()) return 'begging-duplicate-sympathy';
+        if (shyness != 0 && self.socialInhibitionPenalty() != 0) return 'begging-duplicate-inhibition';
+        return inherited(sympathy,shyness);
+    }
+    validateFeatures() { inherited(); self.sympathyActive(); return nil; }
+;

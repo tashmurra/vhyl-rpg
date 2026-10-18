@@ -2069,6 +2069,7 @@ class RpgExpandedPackingSkill: RpgExpandedSkill
 /** B212 begging: fixed ordinary defaults; hourly settlement belongs to social. */
 class RpgExpandedBeggingSkill: RpgExpandedSkill
     id = 'begging'
+    requiresSocialInteraction = true
     attribute = rpgIQ
     difficulty = 0
     defaultPenalty = -4
@@ -2077,7 +2078,7 @@ class RpgExpandedBeggingSkill: RpgExpandedSkill
         if (self.id != 'begging' || self.attribute != rpgIQ || self.difficulty != 0 || self.defaultPenalty != -4
             || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
             || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil
-            || self.techLevel != nil || self.specialty != nil || self.influence)
+            || self.techLevel != nil || self.specialty != nil || self.influence || !self.requiresSocialInteraction)
             rpgExpandedReject('begging-skill-definition');
         return nil;
     }
@@ -2119,11 +2120,17 @@ class RpgExpandedBeggingContext: RpgExpandedSkillContext
         if (self.invertAppearance && self.extremeAppearance) rpgExpandedReject('begging-appearance-inversion');
         return nil;
     }
-    unavailableReason(profile) { self.validateBegging(); return inherited(profile); }
+    unavailableReason(profile)
+    {
+        self.validateBegging(); local reason = profile.beggingAuthoredTraitReason(self.pitiable,self.shynessPenalty);
+        return reason == nil ? inherited(profile) : reason;
+    }
     skillUseModifier(profile)
     {
         self.validateBegging(); local base = inherited(profile); if (base == nil) return nil;
-        return base + profile.level('charisma') + (self.pitiable ? 3 : 0) + self.shynessPenalty
+        local reason = profile.beggingAuthoredTraitReason(self.pitiable,self.shynessPenalty);
+        if (reason != nil) rpgExpandedReject(reason);
+        return base + profile.level('charisma') + (self.pitiable || profile.sympathyActive() ? 3 : 0) + self.shynessPenalty
             + (self.invertAppearance ? -self.appearanceModifier : 0) + self.crowdModifier;
     }
 ;

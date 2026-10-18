@@ -9464,6 +9464,8 @@ def test(build):
     test_begging_actions(Session,begging_actions)
     begging_gift = build.build('expanded-begging-gift',ROOT / 'tests/fixtures/expanded-begging-gift.t')
     test_begging_gift(Session,begging_gift,build.out)
+    begging_traits = build.build('expanded-begging-traits',ROOT / 'tests/fixtures/expanded-begging-traits.t')
+    test_begging_traits(Session,begging_traits)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
     test_travel_digging(Session,travel_digging,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
@@ -25370,3 +25372,24 @@ def test_begging_gift(Session, bundle, out):
         assert last(s,'test.begging-gift-error') == ['begging-hour-outcome']
     finally:
         s.close()
+
+
+def test_begging_traits(Session, bundle):
+    """B22/B154 purchased traits supply modifiers once, with observer-specific reactions; unrun."""
+    for setup, score, reaction, learning in (((),10,3,None),((24601,),9,3,None),
+        ((24602,),7,3,'social-inhibition-learning-prohibited'),((24603,),7,0,None),
+        ((24604,),10,0,None),((24605,),10,0,None)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,24600):
+                s.action(1680,code)
+            assert last(s,'test.begging-traits') == [5,score,reaction,learning,0]
+        finally:
+            s.close()
+    for code, reason in ((24606,'begging-duplicate-sympathy'),(24607,'begging-duplicate-inhibition')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code)
+            assert last(s,'test.begging-trait-conflict') == [reason]
+        finally:
+            s.close()
