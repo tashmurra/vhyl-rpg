@@ -110,3 +110,24 @@ at range. Electrical beams combine damage and resistance within one attack.
 Backpack supplies, detachable mounts and host-mounted launchers need explicit
 ownership and mass accounting. Missing fuel-replenishment detail and backblast
 geometry remain documented author-contract requirements, not invented rules.
+
+The [early armour catalogue](inventory/armor-catalogue-a.json) records 53 profiles
+and the shared wearing procedures. Protection depends on location, facing and
+damage type. Included clothing and padding are already reflected in each item;
+adding them again would double-count both protection and encumbrance. Layering
+requires a flexible, concealable inner piece. Worn helmets can restrict vision,
+and noncombat reactions depend on whether the observer accepts the need for armour.
+Equip and quick-release actions require their own persisted progress and timing.
+
+The [advanced armour catalogue](inventory/armor-catalogue-b.json) records 28
+profiles, including separately purchased inserts, visors and helmets. Active suit
+power and breathing supply use separate clocks. Helmet-dependent sealing and
+sensory benefits must end when the configuration changes, while passive protection
+remains. Equipment-granted strength and senses are temporary contributions, not
+permanent character purchases. Technology scaling applies only to marked pieces.
+
+The [mount armour catalogue](inventory/armor-catalogue-c.json) adds 15 horse
+profiles. Coverage, facing, restricted vision and movement penalties belong to
+the mount. Leg armour is purchased and weighed per protected pair, with a movement
+penalty for each pair. Fitting these pieces to other anatomy requires an explicit
+author contract; the listed profiles do not imply universal creature sizing.

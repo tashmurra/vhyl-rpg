@@ -54,6 +54,9 @@ copies of the reference books.
 | `full-2008` | B278 | [Pistols and compact automatic weapons](firearms-catalogue-a.json) | All 22 profiles visually reviewed; chamber, reload, sight and variant distinctions recorded; execution pending |
 | `full-2008` | B279 | [Muskets, rifles and shotguns](firearms-catalogue-b.json) | All 20 profiles visually reviewed; support, pellet and loading distinctions recorded; execution pending |
 | `full-2008` | B280–B281 | [Beam and heavy weapons](firearms-catalogue-c.json) | All 21 profiles visually reviewed; guidance, support, linked effects and shared hosts recorded; execution pending |
+| `full-2008` | B282–B284; B286 wearing rules | [Early armour and wearing procedures](armor-catalogue-a.json) | All 53 profiles visually reviewed; coverage, layering, reactions and equip timing recorded; execution pending |
+| `full-2008` | B284–B285 | [Advanced armour and attachments](armor-catalogue-b.json) | All 28 profiles visually reviewed; power, breathing supply and equipment-granted traits recorded; execution pending |
+| `full-2008` | B286 | [Mount armour](armor-catalogue-c.json) | All 15 profiles visually reviewed; mount-specific coverage, senses and leg-pair movement costs recorded; execution pending |
 | `full-2008` | B290–B296 | [Development and transformations](development.json) | Advancement, study, maintenance and transformation procedures enumerated; existing study mappings remain partial |
 | `full-2008` | B343–B349 | [Task resolution](task-resolution.json) | Roll procedures, equipment modifiers, timing, projects and contests enumerated |
 | `full-2008` | B349–B357 | [Physical activities](physical-activities.json) | Activity procedures, gravity, numeric tables and effort options enumerated |

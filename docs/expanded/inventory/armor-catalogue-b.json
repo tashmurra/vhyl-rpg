@@ -1,0 +1,961 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B284-B285 advanced armor",
+  "review": "All 28 advanced armor and attachment rows visually reviewed. Damage/location selectors, equipment-granted traits, power and breathing supplies inventoried. Runtime, rounding decisions and independent fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "armor-fragment-jacket",
+      "source": "full-2008",
+      "pages": "B284; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fragment-jacket",
+        "technology": 6,
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 7
+        },
+        "flexible": false,
+        "cost": 500,
+        "weight_pounds": 20.0,
+        "legality_class": 3,
+        "notes": [],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-fragment-vest",
+      "source": "full-2008",
+      "pages": "B284; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fragment-vest",
+        "technology": 7,
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 2,
+          "piercing": 5,
+          "cutting": 5
+        },
+        "flexible": true,
+        "cost": 350,
+        "weight_pounds": 9.0,
+        "legality_class": 3,
+        "notes": [
+          1
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-fragment-vest-inserts",
+      "source": "full-2008",
+      "pages": "B284; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fragment-vest-inserts",
+        "technology": 7,
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 20
+        },
+        "flexible": false,
+        "cost": 300,
+        "weight_pounds": 15.0,
+        "legality_class": 3,
+        "notes": [],
+        "compatible_host": "fragment-vest",
+        "separate_purchase": true,
+        "resistance_addition": true,
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-ballistic-vest",
+      "source": "full-2008",
+      "pages": "B284; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "ballistic-vest",
+        "technology": 8,
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 2,
+          "piercing": 8,
+          "cutting": 8
+        },
+        "flexible": true,
+        "cost": 400,
+        "weight_pounds": 2.0,
+        "legality_class": 3,
+        "notes": [
+          1,
+          2,
+          3
+        ],
+        "concealable": true
+      }
+    },
+    {
+      "id": "armor-tactical-vest",
+      "source": "full-2008",
+      "pages": "B284; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "tactical-vest",
+        "technology": 8,
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 5,
+          "piercing": 12,
+          "cutting": 12
+        },
+        "flexible": true,
+        "cost": 900,
+        "weight_pounds": 9.0,
+        "legality_class": 2,
+        "notes": [
+          1,
+          3
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-tactical-vest-inserts",
+      "source": "full-2008",
+      "pages": "B284; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "tactical-vest-inserts",
+        "technology": 8,
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 23
+        },
+        "flexible": false,
+        "cost": 600,
+        "weight_pounds": 9.0,
+        "legality_class": 2,
+        "notes": [],
+        "compatible_host": "tactical-vest",
+        "separate_purchase": true,
+        "resistance_addition": true,
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-ballistic-suit",
+      "source": "full-2008",
+      "pages": "B284; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "ballistic-suit",
+        "technology": 9,
+        "locations": [
+          "body",
+          "limbs"
+        ],
+        "resistance": {
+          "ordinary": 4,
+          "piercing": 12,
+          "cutting": 12
+        },
+        "flexible": true,
+        "cost": 1000,
+        "weight_pounds": 6.0,
+        "legality_class": 3,
+        "notes": [
+          1,
+          2,
+          3
+        ],
+        "concealable": true
+      }
+    },
+    {
+      "id": "armor-tactical-suit",
+      "source": "full-2008",
+      "pages": "B284; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "tactical-suit",
+        "technology": 9,
+        "locations": [
+          "full-suit"
+        ],
+        "resistance": {
+          "ordinary": 10,
+          "piercing": 20,
+          "cutting": 20
+        },
+        "flexible": true,
+        "cost": 3000,
+        "weight_pounds": 15.0,
+        "legality_class": 2,
+        "notes": [
+          1,
+          3,
+          4,
+          5
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-reinforced-boots",
+      "source": "full-2008",
+      "pages": "B284; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "reinforced-boots",
+        "technology": 7,
+        "locations": [
+          "feet"
+        ],
+        "resistance": {
+          "ordinary": 2,
+          "foot-underside": 5
+        },
+        "flexible": false,
+        "cost": 75,
+        "weight_pounds": 3.0,
+        "legality_class": null,
+        "notes": [
+          2,
+          6
+        ],
+        "concealable": true
+      }
+    },
+    {
+      "id": "armor-assault-boots",
+      "source": "full-2008",
+      "pages": "B284; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "assault-boots",
+        "technology": 9,
+        "locations": [
+          "feet"
+        ],
+        "resistance": {
+          "ordinary": 6,
+          "foot-underside": 12
+        },
+        "flexible": false,
+        "cost": 150,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "notes": [
+          3,
+          6
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-ballistic-gloves",
+      "source": "full-2008",
+      "pages": "B284; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "ballistic-gloves",
+        "technology": 9,
+        "locations": [
+          "hands"
+        ],
+        "resistance": {
+          "ordinary": 2,
+          "piercing": 8,
+          "cutting": 8
+        },
+        "flexible": true,
+        "cost": 30,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "notes": [
+          1,
+          2,
+          3
+        ],
+        "concealable": true
+      }
+    },
+    {
+      "id": "armor-filter-mask",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "filter-mask",
+        "technology": 6,
+        "locations": [
+          "eyes",
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": false,
+        "cost": 100,
+        "weight_pounds": 4.0,
+        "legality_class": 4,
+        "notes": [
+          7
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-steel-helmet",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "steel-helmet",
+        "technology": 6,
+        "locations": [
+          "skull"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "cost": 60,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "notes": [],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-fragment-helmet",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fragment-helmet",
+        "technology": 7,
+        "locations": [
+          "skull"
+        ],
+        "resistance": {
+          "ordinary": 5
+        },
+        "flexible": false,
+        "cost": 125,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "notes": [],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-fragment-helmet-visor",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fragment-helmet-visor",
+        "technology": 7,
+        "locations": [
+          "eyes",
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": false,
+        "cost": 25,
+        "weight_pounds": 1.5,
+        "legality_class": 4,
+        "notes": [
+          8
+        ],
+        "compatible_host": "fragment-helmet",
+        "separate_purchase": true,
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-ballistic-helmet",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "ballistic-helmet",
+        "technology": 8,
+        "locations": [
+          "skull"
+        ],
+        "resistance": {
+          "ordinary": 12
+        },
+        "flexible": false,
+        "cost": 250,
+        "weight_pounds": 3.0,
+        "legality_class": 3,
+        "notes": [
+          3
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-ballistic-helmet-visor",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "ballistic-helmet-visor",
+        "technology": 8,
+        "locations": [
+          "eyes",
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 10
+        },
+        "flexible": false,
+        "cost": 100,
+        "weight_pounds": 3.0,
+        "legality_class": 3,
+        "notes": [
+          3,
+          8
+        ],
+        "compatible_host": "ballistic-helmet",
+        "separate_purchase": true,
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-contamination-suit",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "contamination-suit",
+        "technology": 7,
+        "locations": [
+          "full-suit"
+        ],
+        "resistance": {
+          "burning": 1,
+          "corrosion": 1,
+          "ordinary": 0
+        },
+        "flexible": false,
+        "cost": 150,
+        "weight_pounds": 3.5,
+        "legality_class": 4,
+        "notes": [
+          5,
+          9
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-early-space-suit",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "early-space-suit",
+        "technology": 7,
+        "locations": [
+          "full-suit"
+        ],
+        "resistance": {
+          "burning": 2,
+          "corrosion": 2,
+          "ordinary": 0
+        },
+        "flexible": false,
+        "cost": 2000000,
+        "weight_pounds": 225.0,
+        "legality_class": 4,
+        "notes": [
+          4,
+          9,
+          10
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-early-space-helmet",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "early-space-helmet",
+        "technology": 7,
+        "locations": [
+          "head"
+        ],
+        "resistance": {
+          "ordinary": 3
+        },
+        "flexible": false,
+        "cost": 25000,
+        "weight_pounds": 10.0,
+        "legality_class": 4,
+        "notes": [
+          7,
+          11
+        ],
+        "compatible_host": "early-space-suit",
+        "separate_purchase": true,
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-powered-combat-suit",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "powered-combat-suit",
+        "technology": 9,
+        "locations": [
+          "full-suit"
+        ],
+        "resistance": {
+          "ordinary": 50,
+          "torso": 70
+        },
+        "flexible": false,
+        "cost": 80000,
+        "weight_pounds": 150.0,
+        "legality_class": 1,
+        "notes": [
+          3,
+          4,
+          6,
+          12
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-powered-combat-helmet",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "powered-combat-helmet",
+        "technology": 9,
+        "locations": [
+          "head"
+        ],
+        "resistance": {
+          "ordinary": 50,
+          "skull": 70
+        },
+        "flexible": false,
+        "cost": 10000,
+        "weight_pounds": 15.0,
+        "legality_class": 1,
+        "notes": [
+          3,
+          6,
+          7,
+          11
+        ],
+        "compatible_host": "powered-combat-suit",
+        "separate_purchase": true,
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-rigid-combat-suit",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "rigid-combat-suit",
+        "technology": 9,
+        "locations": [
+          "full-suit"
+        ],
+        "resistance": {
+          "ordinary": 30,
+          "torso": 50
+        },
+        "flexible": false,
+        "cost": 10000,
+        "weight_pounds": 30.0,
+        "legality_class": 2,
+        "notes": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-rigid-combat-helmet",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "rigid-combat-helmet",
+        "technology": 9,
+        "locations": [
+          "head"
+        ],
+        "resistance": {
+          "ordinary": 12,
+          "skull": 18
+        },
+        "flexible": false,
+        "cost": 2000,
+        "weight_pounds": 5.0,
+        "legality_class": 2,
+        "notes": [
+          3,
+          6,
+          7,
+          11
+        ],
+        "compatible_host": "rigid-combat-suit",
+        "separate_purchase": true,
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-armored-space-suit",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "armored-space-suit",
+        "technology": 9,
+        "locations": [
+          "full-suit"
+        ],
+        "resistance": {
+          "ordinary": 30,
+          "torso": 50
+        },
+        "flexible": false,
+        "cost": 20000,
+        "weight_pounds": 45.0,
+        "legality_class": 2,
+        "notes": [
+          3,
+          4,
+          6,
+          10
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-armored-space-helmet",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "armored-space-helmet",
+        "technology": 9,
+        "locations": [
+          "head"
+        ],
+        "resistance": {
+          "ordinary": 30,
+          "skull": 40
+        },
+        "flexible": false,
+        "cost": 3000,
+        "weight_pounds": 7.0,
+        "legality_class": 2,
+        "notes": [
+          3,
+          6,
+          7,
+          11
+        ],
+        "compatible_host": "armored-space-suit",
+        "separate_purchase": true,
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-flexible-vacuum-suit",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "flexible-vacuum-suit",
+        "technology": 9,
+        "locations": [
+          "full-suit"
+        ],
+        "resistance": {
+          "ordinary": 6
+        },
+        "flexible": true,
+        "cost": 10000,
+        "weight_pounds": 25.0,
+        "legality_class": 4,
+        "notes": [
+          3,
+          4,
+          10
+        ],
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-flexible-vacuum-helmet",
+      "source": "full-2008",
+      "pages": "B285; B285 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the advanced-armor note bindings. Attachments add their own cost and mass once; split resistance depends on the recorded damage or location selector. Power, helmet combinations, skills and granted traits require executable integration and independent fixtures.",
+      "tests": [],
+      "equipment_data": {
+        "key": "flexible-vacuum-helmet",
+        "technology": 9,
+        "locations": [
+          "head"
+        ],
+        "resistance": {
+          "ordinary": 6
+        },
+        "flexible": false,
+        "cost": 2000,
+        "weight_pounds": 5.0,
+        "legality_class": 4,
+        "notes": [
+          3,
+          11
+        ],
+        "compatible_host": "flexible-vacuum-suit",
+        "separate_purchase": true,
+        "concealable": false
+      }
+    },
+    {
+      "id": "armor-advanced-note-splits",
+      "source": "full-2008",
+      "pages": "B284-B285",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Note 1 selects higher resistance for all piercing sizes and cutting, lower otherwise. Note 6 selects higher resistance only on torso for body armor, skull for headgear, or underside of foot for footwear. Note 9 limits suit resistance to burning and corrosion. Preserve these selectors when scaling or layering; ordinary resistance must not cover excluded attacks.",
+      "tests": []
+    },
+    {
+      "id": "armor-advanced-scaling",
+      "source": "full-2008",
+      "pages": "B284-B285",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Only note-3 pieces scale resistance beyond their introduction technology: multipliers one, one-and-a-half, two, three, four at offsets zero, one, two, three, four-or-more respectively. Scale both sides of split resistance. Do not grant unmarked inserts or every high-technology object the multiplier. Resolve fractional resistance rounding from the supplied general arithmetic before finalizing runtime fixtures.",
+      "tests": []
+    },
+    {
+      "id": "armor-advanced-power-clock",
+      "source": "full-2008",
+      "pages": "B284-B285",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "All technology-seven-plus armor electronics and powered systems, including powered suits, operate for six times (technology minus six) hours before recharge or refueling. Track an owned remaining supply and shared elapsed time; do not reset it by removing or reequipping. Keep this clock distinct from twelve-hour breathing supply and passive armor resistance; source or explicit authored contracts must define replenishment operations.",
+      "tests": []
+    },
+    {
+      "id": "armor-advanced-medical-climate",
+      "source": "full-2008",
+      "pages": "B284-B285",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 4 gives remote vital-sign monitoring and plus one diagnosis skill when examining the wearer, and climate control. Implement examination eligibility and environmental benefit through active equipment state; do not stack the diagnosis benefit once per sensor or invent immunity to every temperature exposure.",
+      "tests": []
+    },
+    {
+      "id": "armor-advanced-contamination-skill",
+      "source": "full-2008",
+      "pages": "B284-B285",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 5 requires contamination-suit skill. At technology nine-plus it does not limit dexterity. Combining the suit with a mask or helmet carrying note 7 grants sealing. Check active worn compatible pieces and loss of any required component; a generic helmet or unattached mask must not satisfy this requirement.",
+      "tests": []
+    },
+    {
+      "id": "armor-advanced-mask",
+      "source": "full-2008",
+      "pages": "B284-B285",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 7 grants filtered breathing, protected smell and protected vision. Before technology nine it also restricts peripheral vision. Note 8 grants protected vision only. Use equipment-granted contributions so removal restores baseline senses without deleting purchased traits or leaving duplicate protection bonuses.",
+      "tests": []
+    },
+    {
+      "id": "armor-advanced-vacuum",
+      "source": "full-2008",
+      "pages": "B284-B285",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 10 requires vacuum-suit skill. The complete suit with its helmet grants twelve-hour breathing independence, protected smell, sealing and vacuum support. Track breathing supply separately from suit power and interruption of the sealed configuration. Removing the helmet does not remove passive suit resistance, and replacing it must not refill breathing supply.",
+      "tests": []
+    },
+    {
+      "id": "armor-advanced-helmet-senses",
+      "source": "full-2008",
+      "pages": "B284-B285",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 11 grants protected hearing, protected vision and radio. At technology nine-plus also grant direction sense requiring a signal, infrared vision, darkness reduction nine, and telescopic-vision levels equal to technology minus eight, plus a compatible weapon head-up display. Powered combat helmets additionally grant broad-spectrum vision and laser communication. Model signal presence, sensory mode and equipment power explicitly; overlapping grants must not erase innate traits on removal.",
+      "tests": []
+    },
+    {
+      "id": "armor-advanced-powered-strength",
+      "source": "full-2008",
+      "pages": "B284-B285",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 12 requires powered-combat-suit skill. At technology nine grant lifting and striking strength plus ten and enhanced jumping level one; each later technology adds five to both strength bonuses and one jumping level. A complete helmet combination adds twelve-hour breathing independence, protected smell, sealing and vacuum support. Exclude the suit weight from wearer encumbrance as specified; this does not delete its physical mass when carried or transported. Keep functional powered-state effects distinct from permanent purchases and passive resistance.",
+      "tests": []
+    }
+  ]
+}
