@@ -291,6 +291,7 @@
     "inventory/environmental-hazards.json",
     "inventory/radiation.json",
     "inventory/poison-illness-aging.json",
-    "inventory/creatures.json"
+    "inventory/creatures.json",
+    "inventory/vehicles.json"
   ]
 }
