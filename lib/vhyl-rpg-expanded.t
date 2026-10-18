@@ -829,3 +829,8 @@ rpgExpandedPaleontologyEquipment: object
 modify RpgLiteSkill
     validatePacking() { rpgExpandedReject('packing-expanded-skill-required'); }
 ;
+
+rpgExpandedPackingHandling: object
+    definition(attempt) { rpgExpandedReject('packing-creatures-required'); }
+    assess(attempt,profile,animal,occurrence) { rpgExpandedReject('packing-creatures-required'); }
+;

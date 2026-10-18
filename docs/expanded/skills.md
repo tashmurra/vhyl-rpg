@@ -1065,7 +1065,7 @@ dead, unconscious or stunned members cannot supply expertise. The pure assessmen
 spends no time or randomness. Apply its percentage once to the caravan's otherwise
 normal travel speed; it does not assign loads or choose a route.
 
-Difficult-animal handling prerequisites, committed packing tasks and integration
-with journey execution remain incomplete. `test_packing_skill` specifies the
+Owned packing rolls and difficult-animal handling prerequisites are documented in
+the exploration guide. Integration with journey execution remains incomplete. `test_packing_skill` specifies the
 attribute and equine defaults, non-equine and untrained rejection, the 14/15 speed
 boundary, unavailable packers and duplicate members. Fixtures remain unrun.

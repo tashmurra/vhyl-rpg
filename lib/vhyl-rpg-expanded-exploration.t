@@ -3626,3 +3626,99 @@ class RpgExpandedPackTrain: object
         value.status = 'ready'; return value;
     }
 ;
+
+/** B212: an owned packing roll after any required handling, with authored load/route facts. */
+class RpgExpandedPackingResult: RpgExpandedResult
+    score = nil
+;
+class RpgExpandedPackingAttempt: object
+    id = nil
+    profile = nil
+    animal = nil
+    skill = nil
+    occurrence = nil
+    task = 'load'
+    difficult = nil
+    handling = nil
+    approved = nil
+    evidence = nil
+    modifier = 0
+    result = nil
+    boundDefinition = nil
+    boundSucceeded = nil
+    definition()
+    {
+        local facts = [self.id,self.profile,self.animal,self.skill,self.occurrence,self.task,self.difficult,self.handling,
+            self.approved,self.evidence,self.modifier];
+        return self.handling == nil ? facts : facts + rpgExpandedPackingHandling.definition(self.handling);
+    }
+    context() { local value = new RpgLiteContext(); value.skill = self.skill; value.modifier = self.modifier; return value; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || !holds(self.profile.packingAttempts,self))
+            rpgExpandedReject('packing-history');
+        self.skill.validatePacking();
+        if (self.handling != nil && rpgExpandedPackingHandling.assess(self.handling,self.profile,self.animal,self.occurrence).status != 'ready')
+            rpgExpandedReject('packing-handling-binding');
+        local facts = self.definition();
+        if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('packing-binding');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('packing-binding');
+        if (self.result.check == nil || self.result.check.achieved != self.boundSucceeded) rpgExpandedReject('packing-result-binding');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedPackingResult();
+        if (self.result != nil)
+        { self.validateReceipt(); value.status = 'reused'; value.check = self.result.check; return value; }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.animal == nil || !self.animal.ofKind(RpgExpandedProfile) || self.animal == self.profile
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || self.occurrence == nil
+            || !holds(['load','unload','evaluate','route'],self.task)) rpgExpandedReject('packing-definition');
+        self.skill.validatePacking(); rpgInteger(self.modifier,-100,100);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'packing-facts-required'; return value; }
+        foreach (local participant in [self.profile,self.animal])
+            if (participant.dead || participant.unconscious || participant.stunned)
+            { value.reason = 'packing-participant-unavailable'; return value; }
+        foreach (local prior in self.profile.packingAttempts)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.animal == self.animal && prior.occurrence == self.occurrence && prior.task == self.task)
+                rpgExpandedReject('packing-repeat');
+        }
+        if (self.difficult && self.handling == nil) { value.reason = 'packing-handling-required'; return value; }
+        if (self.handling != nil)
+        {
+            local handled = rpgExpandedPackingHandling.assess(self.handling,self.profile,self.animal,self.occurrence);
+            if (handled.status != 'ready') { value.reason = handled.reason; return value; }
+        }
+        value.score = rpgLiteScore(self.profile,self.context());
+        if (value.score == nil || value.score < 3) { value.reason = 'packing-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.profile,self.context()); self.boundSucceeded = value.check.achieved;
+        self.boundDefinition = self.definition(); self.result = value; value.status = 'resolved';
+        self.profile.packingAttempts = self.profile.packingAttempts + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    packingAttempts = []
+    validateFeatures()
+    {
+        inherited(); local seen = [];
+        foreach (local attempt in self.packingAttempts)
+        {
+            if (attempt == nil || !attempt.ofKind(RpgExpandedPackingAttempt) || attempt.profile != self) rpgExpandedReject('packing-history');
+            foreach (local prior in seen)
+                if (prior.id == attempt.id || prior.animal == attempt.animal && prior.occurrence == attempt.occurrence && prior.task == attempt.task)
+                    rpgExpandedReject('packing-history');
+            attempt.validateReceipt(); seen = seen + [attempt];
+        }
+        return nil;
+    }
+;

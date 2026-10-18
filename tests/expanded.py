@@ -9432,6 +9432,8 @@ def test(build):
     test_paleontology_familiarity(Session,paleontology_familiarity,build.out)
     packing_skill = build.build("expanded-packing-skill",ROOT / "tests/fixtures/expanded-packing-skill.t")
     test_packing_skill(Session,packing_skill)
+    packing_attempt = build.build("expanded-packing-attempt",ROOT / "tests/fixtures/expanded-packing-attempt.t")
+    test_packing_attempt(Session,packing_attempt,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24484,5 +24486,47 @@ def test_packing_skill(Session, bundle):
     try:
         s.action(1680,22408)
         assert last(s,'test.packing-error') == ['pack-train-duplicate-member']
+    finally:
+        s.close()
+
+
+def test_packing_attempt(Session, bundle, out):
+    """B212 handling is committed before packing and cannot be charged again; unrun."""
+    path = out / 'packing-attempt.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,22502)
+        assert last(s,'test.packing-preview') == ['blocked','packing-handling-required',None]
+        s.action(1680,22503); s.action(1680,22502)
+        assert last(s,'test.packing-preview') == ['blocked','packing-handling-unresolved',None]
+        s.action(1680,22506)
+        assert last(s,'test.packing-state') == [0,0,0,0]
+        s.action(1680,22504); s.action(1680,22502)
+        assert last(s,'test.packing-preview') == ['ready',None,15]
+        s.action(1680,22501); s.action(1680,22506)
+        assert last(s,'test.packing-state') == [0,1,3,0]
+        s.action(1680,22500); s.command('undo'); s.action(1680,22506)
+        assert last(s,'test.packing-state') == [0,1,3,0]
+        for code in (22500,22500,22506):
+            s.action(1680,code)
+        assert last(s,'test.packing-state') == [1,1,6,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681')
+        s.action(1680,22500); s.action(1680,22506)
+        assert last(s,'test.packing-state') == [1,1,6,0]
+        s.action(1680,22507)
+        assert last(s,'test.packing-binding') == ['packing-handling-context']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (22503,22505,22504,22500,22506):
+            s.action(1680,code)
+        assert last(s,'test.packing-result') == ['blocked','packing-handling-failed']
+        assert last(s,'test.packing-state') == [0,1,3,0]
     finally:
         s.close()

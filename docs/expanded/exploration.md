@@ -1820,3 +1820,30 @@ save continuation and receipt tampering. It remains unrun while checks are pause
 participating packers' skill. See [Packing and caravan expertise](skills.md#packing-and-caravan-expertise)
 for its member contract and remaining journey/task integration. It reports a
 percentage without charging movement time or rounding the caravan's normal speed.
+
+
+### Committed packing tasks
+
+`RpgExpandedPackingAttempt` records a packing check for one `profile`, `animal`,
+`skill`, stable `occurrence` and `task` (`load`, `unload`, `evaluate` or `route`).
+Supply a unique `id`, `approved` and `evidence` describing applicable load or route
+facts, plus any authored `modifier`. Authors enforce actual capacity and choose
+routes; this roll does not move inventory or invent route information.
+
+Set `difficult = true` for an ornery or badly trained animal. Include creatures
+and attach a completed `RpgExpandedAnimalHandlingAttempt` as `handling`, with its
+`packingOccurrence` set to the same occurrence before resolving handling. Packing
+requires the same handler and animal and a successful result. Missing, unresolved,
+failed or mismatched handling cannot authorize the packing roll. The operation
+never performs or charges that prerequisite again.
+
+`assess()` is pure. `resolve()` makes one packing check and stores the attempt in
+`profile.packingAttempts`. Both success and failure are reused; duplicate attempts
+for the same animal, occurrence and task reject. Definitions and prerequisite
+outcomes are bound. This source specifies no fixed packing duration, so the packing
+roll adds none; authored handling durations still use the common ledger.
+
+`test_packing_attempt` specifies blocked prerequisites, successful ordering,
+preview purity, rollback, undo, save continuation, replay and mismatched occurrence
+rejection. Fixtures remain unrun. Inventory movement, authored evaluation/route
+findings, shared native actions and journey execution integration remain pending.

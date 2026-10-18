@@ -1036,3 +1036,26 @@ class RpgExpandedSwarmCounterattack: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedAnimalHandlingAttempt
+    packingOccurrence = nil
+    definition() { return inherited() + [self.packingOccurrence]; }
+;
+modify rpgExpandedPackingHandling
+    definition(attempt)
+    {
+        if (attempt == nil || !attempt.ofKind(RpgExpandedAnimalHandlingAttempt)) rpgExpandedReject('packing-handling-type');
+        return attempt.definition() + [attempt.result,attempt.result == nil ? nil : attempt.result.succeeded];
+    }
+    assess(attempt,profile,animal,occurrence)
+    {
+        self.definition(attempt); local value = new RpgExpandedResult();
+        if (attempt.handler != profile || attempt.animal != animal || attempt.packingOccurrence != occurrence)
+            rpgExpandedReject('packing-handling-context');
+        if (attempt.result == nil) { value.reason = 'packing-handling-unresolved'; return value; }
+        local handled = attempt.assess();
+        if (handled.check == nil || handled.succeeded != handled.check.achieved) rpgExpandedReject('packing-handling-result');
+        if (!handled.succeeded) { value.reason = 'packing-handling-failed'; return value; }
+        value.status = 'ready'; return value;
+    }
+;
