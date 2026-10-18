@@ -8,7 +8,7 @@ B486–B546 (mechanical content only).
 [Coverage ledger](coverage.json)
 
 Include `vhyl-rpg-expanded-campaign.t` after the expanded foundation and equipment
-module. The available interface currently covers equipment legal access only;
+module. The available interface currently covers equipment legal access and uncertain control-rating decisions;
 economics, employment, wider legal procedures and world travel remain pending.
 The detailed source inventory contains:
 
@@ -201,7 +201,8 @@ money or ownership changes. Merely including the campaign module enables no
 restrictions until an author supplies a policy.
 
 Registration fees, license applications and their variable fees, credential expiry,
-uncertain enforcement rolls, trials and penalties remain pending. The current
+trials and penalties remain pending. Uncertain enforcement decisions use the
+separate interface below. The current
 interface assesses supplied credentials; it does not create them or enact a legal
 system merely through a callback.
 
@@ -211,3 +212,35 @@ cases in `tests/expanded.py::test_legal_access` cover the comparison boundaries,
 registration, exclusions, institutional roles, local exceptions and acquisition
 blocking with unchanged funds. `test_campaign_minimal` covers the minimal include
 set. These checks are unrun while validation is paused.
+
+## Uncertain enforcement or legality
+
+Use an owned `RpgExpandedControlQuestion` for a particular subject and encounter
+`contextId`. Set `kind` to `enforcement` or `legality`, select the applicable
+`controlRating`, and set `approved` only when the author elects to resolve an
+uncertain question with B506's die procedure. A known answer belongs in
+`certainOutcome` and consumes no randomness; do not roll when the situation has
+only one logical outcome (B507).
+
+`assess()` is pure. Within an action, `resolve()` rolls one die and stores its
+result. Below the control rating yields `intervention` or `prohibited`; above it
+yields `overlooked` or `permitted`. Equality yields `encounter-required`. A repeated
+call reuses the stored result. Retargeting the subject, encounter, kind or rating
+after resolution is rejected. `rpgExpandedControlOutcome` exposes the pure table
+comparison for authored calculations.
+
+A tie has an explicit author contract: play the encounter or resolve its reaction,
+then call `completeEncounter(outcome, evidence)` with one of the two terminal
+outcomes for this question kind and a non-nil identifier for that completed
+encounter. The method records the decision; it does not itself roll a reaction,
+choose dialogue or invent a consequence. Repeating the same completion is a no-op;
+a contradictory completion is rejected. The author remains responsible for the
+specific delay, harassment, arrest or other consequence and any resulting time or
+resource costs. An `intervention` outcome alone never imposes an automatic arrest.
+
+Authored cases cover all 42 control/die combinations, legality meanings, certain
+answers without randomness, stored ties, explicit completion, no repeat rolls,
+retarget rejection, exception rollback and undo. See `test_control_table`,
+`test_control_question` and `test_control_certain` in `tests/expanded.py`. These
+checks remain unrun; reaction encounters and their concrete consequences are still
+separate pending integrations.

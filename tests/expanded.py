@@ -480,6 +480,54 @@ def test_campaign_minimal(s):
     assert last(s, 'test.campaign-minimal') == ['license-required', True]
 
 
+def control_state(s):
+    s.action(1153)
+    return last(s, 'test.control-state')
+
+
+def test_control_table(s):
+    before = state(s)
+    meanings = {'O': 'overlooked', 'I': 'intervention', 'E': 'encounter-required'}
+    for rating, row in enumerate(['OOOOOO', 'EOOOOO', 'IEOOOO', 'IIEOOO', 'IIIEOO', 'IIIIEO', 'IIIIIE']):
+        for die, symbol in enumerate(row, 1):
+            s.action(1152, rating, die, 'enforcement')
+            assert last(s, 'test.control-table') == [meanings[symbol]]
+    for die, result in [(1, 'prohibited'), (3, 'encounter-required'), (6, 'permitted')]:
+        s.action(1152, 3, die, 'legality')
+        assert last(s, 'test.control-table') == [result]
+    assert state(s) == before
+
+
+def test_control_question(s):
+    initial = control_state(s)
+    s.action(1154)
+    assert last(s, 'test.control') == ['ready', None, None]
+    assert control_state(s) == initial
+    s.action(1100, 18)
+    assert control_state(s) == initial, 'exception leaked control roll'
+    s.action(1100, 16)
+    tied = control_state(s)
+    assert tied == ['encounter-required', 2, True, None, 1, 0]
+    s.action(1100, 16)
+    assert last(s, 'test.control') == ['reused', None, 'encounter-required']
+    assert control_state(s) == tied
+    s.action(1100, 20)
+    assert control_state(s) == tied, 'retargeting changed a resolved question'
+    s.action(1100, 17)
+    completed = control_state(s)
+    assert completed == ['overlooked', 2, True, 'checkpoint-dialogue', 1, 0]
+    s.command('undo')
+    assert control_state(s) == tied
+    s.action(1100, 17); s.action(1100, 17)
+    assert last(s, 'test.control') == ['reused', None, 'overlooked']
+    assert control_state(s) == completed
+
+
+def test_control_certain(s):
+    s.action(1100, 19)
+    assert control_state(s) == ['overlooked', None, True, None, 0, 0]
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -557,7 +605,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_acquisition,test_equipment_storage,test_legal_access,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')

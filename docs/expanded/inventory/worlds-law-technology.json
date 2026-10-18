@@ -41,9 +41,14 @@
       "pages": "B506-B507",
       "module": "campaign",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Local control rating ranges zero through six and is independent of government type. When legality or enforcement is genuinely undecided, one die below rating means prohibited/intervention, above means permitted/overlooked, and equality requires an encounter or reaction.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_control_table",
+        "tests/expanded.py::test_control_question"
+      ],
+      "existing_feature": "control-rating-questions",
+      "validation_note": "Numeric comparison and persistent encounter decision authored; new cases unrun, concrete reaction/consequence systems pending."
     },
     {
       "id": "world-fixed-law",

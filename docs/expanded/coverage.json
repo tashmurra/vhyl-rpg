@@ -500,6 +500,20 @@
         "tests/expanded.py::test_campaign_minimal"
       ],
       "validation_note": "Bound equipment-access policy and acquisition gate authored; new checks unrun, credentials issuance, fees and wider law systems pending."
+    },
+    {
+      "id": "control-rating-questions",
+      "module": "campaign",
+      "pages": "B506-B507",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedControlQuestion",
+      "tests": [
+        "tests/expanded.py::test_control_table",
+        "tests/expanded.py::test_control_question",
+        "tests/expanded.py::test_control_certain"
+      ],
+      "validation_note": "Owned uncertain-question roll, deterministic outcomes and explicit tie-completion contract authored. New checks unrun; reaction/encounter consequence integration pending."
     }
   ],
   "detailed_inventories": [

@@ -33,6 +33,7 @@ purchaseHero: RpgExpandedProfile rules = expandedRules money = 100;
 purchaseItem: RpgLiteItem id = 'field-tools' cost = 40 weight = 200 dr = 3;
 purchaseOffer: RpgExpandedAcquisition profile = purchaseHero item = purchaseItem available = true permitted = true;
 purchaseStorage: RpgExpandedEquipmentStorage profile = purchaseHero item = purchaseItem destination = 'workshop' accessible = true;
+controlQuestion: RpgExpandedControlQuestion subject = expandedHero contextId = 'checkpoint' controlRating = 2 approved = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -73,6 +74,19 @@ class ExpandedTestAction: Action
             eventValue(value.status); eventValue(value.reason);
         }
         if (code == 15) { purchaseItem.ready = true; purchaseItem.worn = true; }
+        if (code == 16 || code == 18 || code == 19 || code == 20)
+        {
+            if (code == 19) controlQuestion.certainOutcome = 'overlooked';
+            if (code == 20) controlQuestion.contextId = 'other-checkpoint';
+            local value = controlQuestion.resolve(); event('test.control');
+            eventValue(value.status); eventValue(value.reason); eventValue(value.outcome);
+            if (code == 18) throw new RpgError();
+        }
+        if (code == 17)
+        {
+            local value = controlQuestion.completeEncounter('overlooked','checkpoint-dialogue');
+            event('test.control'); eventValue(value.status); eventValue(value.reason); eventValue(value.outcome);
+        }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
@@ -757,6 +771,22 @@ act(verb, args)
         offer.available = true; offer.permitted = true; offer.legalAccess = policy; policy.subject = p; policy.equipment = item;
         eventValue(offer.acquire().reason); eventValue(p.money); eventValue(p.equipment.length());
         policy.licensed = true; eventValue(offer.assess().status); return nil;
+    }
+    if (verb == 1152)
+    {
+        event('test.control-table'); eventValue(rpgExpandedControlOutcome(args[1],args[2],args[3]));
+        return nil;
+    }
+    if (verb == 1153)
+    {
+        event('test.control-state'); eventValue(controlQuestion.outcome); eventValue(controlQuestion.roll);
+        eventValue(controlQuestion.resolved); eventValue(controlQuestion.evidence);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1154)
+    {
+        local value = controlQuestion.assess(); event('test.control');
+        eventValue(value.status); eventValue(value.reason); eventValue(value.outcome); return nil;
     }
     return vhylAct(verb,args);
 }
