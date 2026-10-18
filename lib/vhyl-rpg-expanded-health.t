@@ -203,3 +203,120 @@ rpgExpandedAssessCrippling(capacity, injury, kind, count, severing)
     value.healthLoss = kind == 'eye' || injury < value.minimumInjury ? injury : value.minimumInjury;
     value.status = 'ready'; return value;
 }
+
+
+/** Owned upper-limb anatomy. Disability is functional state, not another HP ledger.
+ * Hands name their containing arm; severing implies disability. Source: B421. */
+class RpgExpandedBodyPart: object
+    id = nil
+    profile = nil
+    kind = 'arm'
+    parent = nil
+    disabled = nil
+    severed = nil
+    validate()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || !holds(self.profile.bodyParts,self) || self.id == nil || self.id == '')
+            rpgExpandedReject('body-part-owner');
+        if (!holds(['arm','hand'],self.kind)) rpgExpandedReject('body-part-kind-unavailable');
+        if (self.severed && !self.disabled) rpgExpandedReject('body-part-severed-state');
+        if (self.kind == 'arm' && self.parent != nil) rpgExpandedReject('body-part-parent');
+        if (self.kind == 'hand' && (self.parent == nil || !self.parent.ofKind(RpgExpandedBodyPart)
+            || self.parent.kind != 'arm' || self.parent.profile != self.profile
+            || !holds(self.profile.bodyParts,self.parent))) rpgExpandedReject('body-part-parent');
+        return nil;
+    }
+    functional()
+    {
+        self.validate();
+        return !self.disabled && (self.parent == nil || !self.parent.disabled);
+    }
+;
+
+modify RpgExpandedProfile
+    bodyParts = []
+    validateBodyParts()
+    {
+        local ids = []; local armsWithHands = [];
+        foreach (local part in self.bodyParts)
+        {
+            if (part == nil || !part.ofKind(RpgExpandedBodyPart) || part.profile != self)
+                rpgExpandedReject('body-part-owner');
+            part.validate();
+            if (holds(ids,part.id)) rpgExpandedReject('body-part-duplicate');
+            ids = ids + [part.id];
+            if (part.kind == 'hand')
+            {
+                if (holds(armsWithHands,part.parent)) rpgExpandedReject('body-part-hand-duplicate');
+                armsWithHands = armsWithHands + [part.parent];
+            }
+        }
+        return nil;
+    }
+    validateFeatures() { inherited(); self.validateBodyParts(); return nil; }
+;
+
+/** Bind held gear to hands, or an attached shield to its supporting arm.
+ * Empty bindings preserve the existing equipment behavior. Bindings do not
+ * automatically drop gear or supply missing anatomy. */
+modify RpgLiteItem
+    bodySupports = []
+    validateBodySupports(profile)
+    {
+        if (self.bodySupports.length() == 0) return nil;
+        if (profile == nil || !profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('body-support-profile');
+        profile.validateBodyParts(); local seen = [];
+        foreach (local part in self.bodySupports)
+        {
+            if (part == nil || !part.ofKind(RpgExpandedBodyPart) || part.profile != profile
+                || !holds(profile.bodyParts,part) || holds(seen,part))
+                rpgExpandedReject('body-support-owner');
+            seen = seen + [part];
+        }
+        return nil;
+    }
+    attackUsableBy(profile)
+    {
+        self.validateBodySupports(profile);
+        if (!inherited(profile)) return nil;
+        foreach (local part in self.bodySupports)
+        {
+            if (!part.functional()) return nil;
+            if (part.kind == 'arm')
+            {
+                local hand = nil;
+                foreach (local candidate in profile.bodyParts)
+                    if (candidate.parent == part) hand = candidate;
+                if (hand == nil) rpgExpandedReject('body-support-hand-required');
+                if (!hand.functional()) return nil;
+            }
+        }
+        return true;
+    }
+    parryUsableBy(profile) { return self.attackUsableBy(profile); }
+    blockUsableBy(profile)
+    {
+        self.validateBodySupports(profile);
+        if (!inherited(profile)) return nil;
+        foreach (local part in self.bodySupports)
+        {
+            if (part.kind != 'arm') rpgExpandedReject('shield-arm-support-required');
+            if (!part.functional()) return nil;
+        }
+        return true;
+    }
+    passiveDefenseBonus(profile)
+    {
+        self.validateBodySupports(profile);
+        local bonus = inherited(profile); local impaired = nil;
+        foreach (local part in self.bodySupports)
+        {
+            if (part.kind != 'arm') rpgExpandedReject('shield-arm-support-required');
+            if (part.severed) return 0;
+            if (part.disabled) impaired = true;
+        }
+        return impaired && bonus > 0 ? bonus - 1 : bonus;
+    }
+;

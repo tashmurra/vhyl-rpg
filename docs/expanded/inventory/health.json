@@ -935,9 +935,12 @@
       "pages": "B421-B422",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Drop single-handed held items; a multiply held item allows dexterity to retain it. The hand cannot hold or attack, but a shield on the arm can still block.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_body_supports"
+      ],
+      "validation_note": "Owned arm/hand functional state and explicit equipment supports dispatch attack, weapon parry, shield block and passive protection. Fixtures authored but unrun. Automatic wound transitions, drops, multi-hand retention rolls, unarmed use, duration and recovery remain unavailable."
     },
     {
       "id": "health-crippling-effect-arm",
@@ -945,9 +948,12 @@
       "pages": "B421-B422",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The arm cannot carry anything. An attached shield stays unless severed but cannot block and its passive defense bonus is reduced by one.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_body_supports"
+      ],
+      "validation_note": "Owned arm/hand functional state and explicit equipment supports dispatch attack, weapon parry, shield block and passive protection. Fixtures authored but unrun. Automatic wound transitions, drops, multi-hand retention rolls, unarmed use, duration and recovery remain unavailable."
     },
     {
       "id": "health-crippling-effect-foot",

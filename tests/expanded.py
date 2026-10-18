@@ -408,6 +408,25 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def test_body_supports(s):
+    # Full-2008 B421: hand disability permits a shield block, arm disability
+    # prevents blocking but retains reduced passive protection unless severed.
+    for arm, hand, severed, expected in [
+            (0, 0, 0, [1, 1, 1, 1, 3, 0]),
+            (0, 1, 0, [0, 0, 0, 1, 3, 0]),
+            (1, 0, 0, [0, 0, 0, 0, 2, 0]),
+            (1, 1, 0, [0, 0, 0, 0, 2, 0]),
+            (1, 0, 1, [0, 0, 0, 0, 0, 0])]:
+        s.action(1610, arm, hand, severed)
+        assert last(s, 'test.body-supports') == expected
+        if arm or hand:
+            assert last(s, 'test.disabled-strike') == ['weapon-not-ready', 0]
+    s.action(1611)
+    assert last(s, 'test.body-support-rejections') == [
+        'body-support-hand-required', 'body-part-severed-state',
+        'body-support-owner', 'body-support-owner', 'body-part-kind-unavailable']
+
+
 def test_numbers(s):
     before = state(s)
     # Full-2008 B170. Enumerated offsets rather than the implementation formula.
@@ -2159,6 +2178,7 @@ def test(build):
     fresh(Session,health,test_expanded_wound_commit)
     fresh(Session,health,test_knockdown_anatomy_exceptions)
     fresh(Session,health,test_crippling_thresholds)
+    fresh(Session,health,test_body_supports)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_knockdown_equipment_drop)

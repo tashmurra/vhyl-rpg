@@ -10,6 +10,11 @@ class RpgLiteItem: object
     ready = nil
     weightHundredths() { return self.weight * self.quantity; }
     usableBy(profile) { return true; }
+    /* Separate operation hooks allow optional anatomy without changing carried state. */
+    attackUsableBy(profile) { return self.usableBy(profile); }
+    parryUsableBy(profile) { return self.usableBy(profile); }
+    blockUsableBy(profile) { return self.usableBy(profile); }
+    passiveDefenseBonus(profile) { return self.usableBy(profile) ? self.db : 0; }
 ;
 
 /** Mutable weapon instance with attack modes, ammunition, reserves and reload progress. */

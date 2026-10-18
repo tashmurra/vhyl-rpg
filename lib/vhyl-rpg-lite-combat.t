@@ -142,7 +142,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
     }
     else if (kind == 'block')
     {
-        if (fighter.blocks > 0 || fighter.shield == nil || !fighter.shield.ready || !fighter.shield.usableBy(profile)
+        if (fighter.blocks > 0 || fighter.shield == nil || !fighter.shield.ready || !fighter.shield.blockUsableBy(profile)
             || incoming.ranged && incoming.base == 'fixed') return nil;
         local skill = fighter.shieldSkill == nil ? rpgLiteTraining(profile, 'shield', nil, nil) : fighter.shieldSkill;
         local rating = profile.skillScore(skill);
@@ -169,7 +169,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
         }
         else
         {
-            if (!parryWeapon.ready || !parryWeapon.usableBy(profile) || parryMode.ranged
+            if (!parryWeapon.ready || !parryWeapon.parryUsableBy(profile) || parryMode.ranged
                 || parryMode.skillId == 'axe-mace' && fighter.attacked) return nil;
             local rating = profile.skillScore(rpgLiteTraining(profile, parryMode.skillId, nil, parryMode.specialty));
             if (rating == nil) return nil;
@@ -186,7 +186,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
     }
     else throw new RpgError();
     score += profile.level('combat-reflexes') + request.defenseModifier;
-    if (fighter.shield != nil && fighter.shield.ready && fighter.shield.usableBy(profile) && request.shieldSide) score += fighter.shield.db;
+    if (fighter.shield != nil && fighter.shield.ready && request.shieldSide) score += fighter.shield.passiveDefenseBonus(profile);
     score += rpgLitePostureModifier(profile.posture, true);
     if (profile.stunned || profile.mentalStun) score -= 4;
     if (fighter.maneuver == 'all-out-defense' && (fighter.defenseOption == kind
@@ -209,7 +209,7 @@ rpgLiteStrike(attacker, defender, request)
 {
     local result = new RpgLiteCombatResult();
     local profile = attacker.profile; local weapon = attacker.weapon;
-    if (weapon == nil || !weapon.ready || !weapon.usableBy(profile)) { result.reason = 'weapon-not-ready'; return result; }
+    if (weapon == nil || !weapon.ready || !weapon.attackUsableBy(profile)) { result.reason = 'weapon-not-ready'; return result; }
     local mode = attacker.mode();
     if (profile.stunned || profile.mentalStun || profile.unconscious || profile.dead)
     { result.reason = 'unable-to-attack'; return result; }

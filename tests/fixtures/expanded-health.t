@@ -108,5 +108,49 @@ act(verb,args)
         eventValue(value.crippled ? 1 : 0); eventValue(value.destroyed ? 1 : 0);
         eventValue(value.severed ? 1 : 0); eventValue(rpgRandom.draws - before); return nil;
     }
+    if (verb == 1610)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        local arm = new RpgExpandedBodyPart(); arm.id = 'left-arm'; arm.profile = p;
+        local hand = new RpgExpandedBodyPart(); hand.id = 'left-hand'; hand.profile = p;
+        hand.kind = 'hand'; hand.parent = arm; p.bodyParts = [arm,hand];
+        arm.disabled = args[1] == 1; hand.disabled = args[2] == 1; arm.severed = args[3] == 1;
+        local weapon = new RpgLiteWeapon(); weapon.ready = true; weapon.bodySupports = [hand];
+        local shield = new RpgLiteItem(); shield.db = 3; shield.bodySupports = [arm];
+        local before = rpgRandom.draws; rpgExpandedValidate(p); event('test.body-supports');
+        eventValue(weapon.attackUsableBy(p) ? 1 : 0); eventValue(weapon.parryUsableBy(p) ? 1 : 0);
+        eventValue(shield.attackUsableBy(p) ? 1 : 0); eventValue(shield.blockUsableBy(p) ? 1 : 0);
+        eventValue(shield.passiveDefenseBonus(p)); eventValue(rpgRandom.draws - before);
+        if (arm.disabled || hand.disabled)
+        {
+            local fighter = new RpgLiteFighter(); fighter.profile = p; fighter.weapon = weapon;
+            event('test.disabled-strike');
+            eventValue(rpgLiteStrike(fighter,nil,new RpgLiteManeuver()).reason);
+            eventValue(rpgRandom.draws - before);
+        }
+        return nil;
+    }
+    if (verb == 1611)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        local arm = new RpgExpandedBodyPart(); arm.id = 'arm'; arm.profile = p; p.bodyParts = [arm];
+        local item = new RpgLiteItem(); item.bodySupports = [arm];
+        event('test.body-support-rejections');
+        try { item.attackUsableBy(p); eventValue('unexpected'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        arm.severed = true;
+        try { rpgExpandedValidate(p); eventValue('unexpected'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        arm.severed = nil; item.bodySupports = [arm,arm];
+        try { item.blockUsableBy(p); eventValue('unexpected'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        item.bodySupports = [arm]; local other = new RpgExpandedProfile(); other.rules = p.rules;
+        try { item.blockUsableBy(other); eventValue('unexpected'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        arm.kind = 'wing';
+        try { rpgExpandedValidate(p); eventValue('unexpected'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }

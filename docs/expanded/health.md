@@ -277,3 +277,46 @@ supported integration.
 `test_crippling_thresholds` enumerates exact boundaries, odd capacity, additional
 limbs and extremities, uncapped eyes, and severing distinctions. It is authored
 but unrun while build checks are paused. The inventory entries remain partial.
+
+
+## Owned arm and hand state
+
+`RpgExpandedBodyPart` describes an owned arm or hand in `profile.bodyParts`.
+Set a unique `id`, `profile`, and `kind` (`arm` or `hand`). A hand's `parent`
+references its arm in the same profile. An arm has no parent. Only one hand per
+arm is currently supported. Other anatomy rejects explicitly. `disabled` records
+loss of function; `severed` requires `disabled`. These fields describe functional
+state and do not store or spend health points.
+
+`validateBodyParts()` checks ownership, identities, supported kinds and parent
+relationships. `functional()` returns false for a disabled part or a hand on a
+disabled arm. Authors can supply existing disabilities with these fields. This
+is not yet an injury application or healing interface: ordinary wounds do not
+set or clear them, and no duration or advancement accounting is inferred.
+
+Bind a weapon's `bodySupports` to the hands holding it; bind an attached shield
+to its arm. The shared combat engine now dispatches weapon attacks, weapon
+parries, shield blocks and passive shield protection separately:
+
+- `attackUsableBy(profile)` requires all bound parts and, for an arm-mounted
+  item, its hand to function. Missing hand anatomy rejects rather than assuming
+  an unaffected hand.
+- `parryUsableBy(profile)` uses those same functional requirements.
+- `blockUsableBy(profile)` requires functioning arm supports. An attached hand's
+  disability alone does not prevent a shield block.
+- `passiveDefenseBonus(profile)` removes a severed arm's protection and reduces
+  an attached disabled arm's bonus by one, to a minimum of zero.
+
+All four methods retain ordinary equipment availability, including storage when
+the equipment module is installed. Empty bindings retain existing behavior.
+The Lite implementations delegate to `usableBy(profile)` and preserve the
+original bonus. These hooks do not roll dice. A disabled bound weapon rejects
+in strike preflight before an attack can spend resources or randomness.
+
+The bindings are explicit author facts. They do not infer which hand holds an
+unbound item, drop items, change unarmed defenses, prevent reloads or readying,
+or supply nonhuman limb effects. Do not use this partial interface to claim full
+crippling support. `RpgExpandedWound` still rejects limb and extremity injuries.
+`test_body_supports` covers functional distinctions, early attack rejection,
+ownership errors and unsupported anatomy. It is authored but unrun; transaction,
+undo and save continuation of these new fields remain to be covered.
