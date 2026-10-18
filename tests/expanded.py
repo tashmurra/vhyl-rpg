@@ -9498,6 +9498,8 @@ def test(build):
     test_cultures(Session,cultures,build.out)
     culture_templates = build.build('expanded-culture-templates',ROOT / 'tests/fixtures/expanded-culture-templates.t')
     test_culture_templates(Session,culture_templates,build.out)
+    cultural_adaptation = build.build('expanded-cultural-adaptation',ROOT / 'tests/fixtures/expanded-cultural-adaptation.t')
+    test_cultural_adaptation(Session,cultural_adaptation,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26132,5 +26134,40 @@ def test_culture_templates(Session, bundle, out):
     try:
         s.command(f':restore {path}\n@1681'); s.action(1680,26301)
         assert last(s,'test.culture-template') == [1,1,0,0,2,3,0]
+    finally:
+        s.close()
+
+
+def test_cultural_adaptation(Session, bundle, out):
+    """B46 cinematic scope, pricing, suppression and copied ownership; unrun."""
+    for codes,score,cost in (((26401,),8,10),((26402,),5,10),((26401,26403),5,10),
+                             ((26401,26404),5,10),((26402,26405),8,20),
+                             ((26402,26405,26406),5,20)):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,26400)
+            assert last(s,'test.cultural-adaptation') == [score,cost,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    path = out / 'cultural-adaptation.zsave'
+    try:
+        s.action(1680,26401)
+        for code in (26407,26408,26409):
+            s.action(1680,code); s.action(1680,26400)
+            assert last(s,'test.cultural-adaptation') == [8,10,0,0]
+        s.action(1680,26410)
+        assert last(s,'test.adaptation-template') == [-3,0,10]
+        s.action(1680,26405); s.command('undo'); s.action(1680,26400)
+        assert last(s,'test.cultural-adaptation') == [8,10,0,0]
+        s.action(1680,26402); s.action(1680,26405); s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,26400)
+        assert last(s,'test.cultural-adaptation') == [8,20,0,0]
     finally:
         s.close()

@@ -33,6 +33,7 @@ class RpgExpandedTemplate: object
     choiceGroups = []
     nativePlanetType = nil
     nativeCulture = nil
+    culturalSpecies = nil
     nativePressureHundredths = 100
     campaignTL = 3
     techLevel = nil
@@ -51,7 +52,7 @@ class RpgExpandedTemplate: object
         if (self.choiceGroups.length() != 0) rpgExpandedReject('template-unresolved-choices');
         local p = new RpgExpandedProfile(); p.rules = rules;
         p.nativePressureHundredths = self.nativePressureHundredths;
-        p.nativePlanetType = self.nativePlanetType; p.nativeCulture = self.nativeCulture;
+        p.nativePlanetType = self.nativePlanetType; p.nativeCulture = self.nativeCulture; p.culturalSpecies = self.culturalSpecies;
         p.campaignTL = self.campaignTL;
         p.techLevel = self.techLevel == nil ? self.campaignTL : self.techLevel;
         p.st = self.st; p.dx = self.dx; p.iq = self.iq; p.ht = self.ht;
@@ -163,6 +164,12 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
             if (result.nativePlanetType != nil && result.nativePlanetType != source.nativePlanetType)
                 rpgExpandedReject('template-native-planet-conflict');
             result.nativePlanetType = source.nativePlanetType;
+        }
+        if (source.culturalSpecies != nil)
+        {
+            if (result.culturalSpecies != nil && result.culturalSpecies != source.culturalSpecies)
+                rpgExpandedReject('template-cultural-species-conflict');
+            result.culturalSpecies = source.culturalSpecies;
         }
         if (source.nativeCulture != nil)
         {
@@ -389,7 +396,7 @@ modify RpgExpandedTemplate
         resolved.moveAdjustment = self.moveAdjustment + changes[10];
         resolved.campaignTL = self.campaignTL; resolved.techLevel = self.techLevel;
         resolved.nativePressureHundredths = self.nativePressureHundredths;
-        resolved.nativeCulture = self.nativeCulture;
+        resolved.nativeCulture = self.nativeCulture; resolved.culturalSpecies = self.culturalSpecies;
         resolved.pointBudget = self.pointBudget; resolved.disadvantageLimit = self.disadvantageLimit;
         resolved.skillRows = skillRows; resolved.traitRows = traitRows;
         resolved.contributionDefinitions = contributions;

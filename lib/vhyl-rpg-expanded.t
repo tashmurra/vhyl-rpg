@@ -1026,3 +1026,11 @@ class RpgExpandedMakeupMaterials: object
 modify RpgExpandedProfile
     culturalPenalty(culture) { rpgExpandedReject('culture-characters-module-required'); }
 ;
+
+modify RpgExpandedRules
+    cinematicCulturalAdaptation = nil
+;
+modify RpgExpandedProfile
+    culturalSpecies = nil
+    culturalAdaptationCovers(culture) { return nil; }
+;

@@ -221,9 +221,12 @@
       "pages": "B46",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Cinematic cultural adaptation costs ten for own-species cultures, twenty for all world cultures; removes unfamiliarity-3 within scope. Does not teach languages or create social permissions.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cultural_adaptation"
+      ],
+      "validation_note": "Typed 10/20-point coverage, explicit cinematic campaign choice, species/world facts and active/mitigated cultural penalty integration implemented. Template copy and selection preserve ownership. Ancestry transformations and automatic designation of every cultural task remain pending. Fixtures authored, unrun."
     },
     {
       "id": "traits-c-implants",

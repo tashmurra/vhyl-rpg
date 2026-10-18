@@ -1824,3 +1824,30 @@ rejected because it lacks the required origin and description.
 `test_distinctive_features` specifies price, both modifier directions, the crowd
 exception, mitigation, typed copying and missing-origin rejection. Fixtures remain
 unrun; concrete pursuit and disguise scenario integration remains pending.
+
+## Broad cultural adaptation
+
+`RpgExpandedCulturalAdaptation` implements the two full-2008 B46 coverage prices:
+`coverage = 'own-species'` costs ten points; `coverage = 'world'` costs twenty.
+Supply `approved` and concrete `evidence`. The campaign must explicitly enable
+`rules.cinematicCulturalAdaptation`; it defaults off. Duplicate purchases are
+rejected, including inactive duplicates. Percentage modifications are unsupported.
+
+For own-species coverage, set `profile.culturalSpecies` to an authored species
+identity and populate each relevant `RpgExpandedCulture.species` list. For world
+coverage, set the purchase's `world` and each culture's `world` identity. Missing
+scope facts reject assessment rather than assuming broad coverage. Cultural
+membership is authored independently of appearance, nationality and language.
+An active, unmitigated purchase removes the unfamiliarity penalty only within
+its scope; native and separately purchased familiarity continue to work normally.
+No language, reaction bonus, status or permission is granted.
+
+Templates accept a configured row:
+`['cultural-adaptation',1,nil,nil,[coverage,world,evidence]]`.
+Set the template's `culturalSpecies` for own-species coverage; use nil for that
+purchase's world option. Ordinary and selected creation preserve the species
+identity, and occupational composition rejects conflicting species identities.
+Trait copies remain independent. `test_cultural_adaptation` specifies costs,
+scope, campaign rejection, suppression, template isolation, undo and save replay.
+Fixtures remain unrun. Ancestry transformations and automatic cultural-context
+selection across all skills remain pending.

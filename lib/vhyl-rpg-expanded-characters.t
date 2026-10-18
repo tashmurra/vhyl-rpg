@@ -211,6 +211,8 @@ class RpgExpandedCharacterFinalization: object
 /** B23 broad authored cultural identity, not a language or nationality inference. */
 class RpgExpandedCulture: object
     id = nil
+    species = []
+    world = nil
     approved = nil
     evidence = nil
     validateDefinition()
@@ -265,7 +267,7 @@ modify RpgExpandedProfile
         foreach (local trait in self.traits)
             if (trait.ofKind(RpgExpandedCulturalFamiliarity) && trait.culture.id == culture.id && trait.active && !trait.mitigated)
                 return 0;
-        return -3;
+        return self.culturalAdaptationCovers(culture) ? 0 : -3;
     }
     validateFeatures() { inherited(); self.validateCultures(); return nil; }
 ;

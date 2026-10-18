@@ -924,8 +924,8 @@ Occupational composition accepts unspecified backgrounds alongside one supplied
 native culture, or matching native culture IDs. Conflicting native culture IDs
 are rejected rather than choosing one silently. Matching familiarity purchases
 are charged once; incompatible options use the ordinary composition conflict
-checks. Cultural acquisition through ancestry transformations and broad cultural
-adaptation remain pending.
+checks. Cultural acquisition and adaptation through ancestry transformations remain
+pending. Broad adaptation purchases are described in the traits guide.
 
 `test_culture_templates` specifies fresh ownership, selected construction,
 composition costs, duplicate/native conflicts, undo and save continuation. The

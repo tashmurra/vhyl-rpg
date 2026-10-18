@@ -3235,3 +3235,76 @@ modify rpgExpandedTemplateTraits
         return self.configured(trait.id,trait.level,trait.scope,trait.templatePurchaseOptions());
     }
 ;
+
+/** B46 cinematic cultural coverage; never grants a language or social permission. */
+class RpgExpandedCulturalAdaptation: RpgExpandedTrait
+    id = 'cultural-adaptation'
+    labelId = 'cultural-adaptation'
+    coverage = 'own-species'
+    world = nil
+    evidence = nil
+    templatePurchaseKind = 'expanded-cultural-adaptation'
+    templatePurchaseOptions() { return [self.coverage,self.world,self.evidence]; }
+    creationCost()
+    {
+        if (self.id != 'cultural-adaptation' || !self.approved || self.level != 1 || self.scope != nil || self.controlled
+            || self.percentages.length() != 0 || !holds(['own-species','world'],self.coverage)
+            || self.evidence == nil || self.evidence == '' || (self.coverage == 'world' && self.world == nil)
+            || (self.coverage == 'own-species' && self.world != nil)) rpgExpandedReject('cultural-adaptation-definition');
+        return self.coverage == 'world' ? 20 : 10;
+    }
+    covers(profile,culture)
+    {
+        self.creationCost();
+        if (!profile.rules.cinematicCulturalAdaptation) rpgExpandedReject('cultural-adaptation-disabled');
+        if (!self.active || self.mitigated) return nil;
+        if (self.coverage == 'world')
+        {
+            if (culture.world == nil) rpgExpandedReject('culture-world-required');
+            return culture.world == self.world;
+        }
+        if (profile.culturalSpecies == nil || culture.species.length() == 0) rpgExpandedReject('culture-species-required');
+        return holds(culture.species,profile.culturalSpecies);
+    }
+;
+modify RpgExpandedProfile
+    culturalAdaptationTrait()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedCulturalAdaptation))
+            {
+                trait.creationCost();
+                if (found != nil) rpgExpandedReject('duplicate-cultural-adaptation');
+                if (!self.rules.cinematicCulturalAdaptation) rpgExpandedReject('cultural-adaptation-disabled');
+                if (trait.coverage == 'own-species' && self.culturalSpecies == nil) rpgExpandedReject('culture-species-required');
+                found = trait;
+            }
+        return found;
+    }
+    culturalAdaptationCovers(culture)
+    {
+        local trait = self.culturalAdaptationTrait(); return trait != nil && trait.covers(self,culture);
+    }
+    validateFeatures() { inherited(); self.culturalAdaptationTrait(); return nil; }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id == 'cultural-adaptation') rpgExpandedReject('cultural-adaptation-template-options');
+        return inherited(id,level,scope);
+    }
+    configured(id,level,scope,options)
+    {
+        if (id != 'cultural-adaptation') return inherited(id,level,scope,options);
+        if (level != 1 || scope != nil || options.length() != 3) rpgExpandedReject('cultural-adaptation-template-options');
+        local trait = new RpgExpandedCulturalAdaptation(); trait.approved = true;
+        trait.coverage = options[1]; trait.world = options[2]; trait.evidence = options[3]; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedCulturalAdaptation)) return inherited(trait);
+        trait.creationCost();
+        return self.configured(trait.id,trait.level,trait.scope,trait.templatePurchaseOptions());
+    }
+;
