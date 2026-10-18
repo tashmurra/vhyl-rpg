@@ -277,3 +277,16 @@ accounting. Their author interfaces must record appearances, assignments, losses
 and settlement decisions; a general narrative callback cannot establish coverage.
 Reduced personal time changes action scheduling, while outside events retain their
 world-time schedule. These entries remain pending executable implementation.
+
+
+The [fourth disadvantage segment](inventory/disadvantages-d.json) covers personal
+opponents, stress episodes and catastrophic anatomy. Opponent appearances need
+persistent adventure/session identities, while permanent removal creates a
+character-accounting settlement. Appearance checks alone do not implement the
+authored encounter obligations.
+
+Brittle, combustible, explosive and externally animated bodies change injury
+outcomes rather than simply increasing damage. Persistent bleeding also needs
+per-wound original injury and separate external/internal recovery stages. Added
+sleep, food and life-support requirements use the existing time, inventory and
+health ledgers. All these integrations remain pending.

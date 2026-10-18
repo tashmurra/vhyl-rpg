@@ -28,6 +28,7 @@ copies of the reference books.
 | `full-2008` | B117 new advantages–B123 | [Custom traits and disadvantages, first segment](disadvantages-a.json) | Self-control, signed accounting, hidden traits and initial disadvantage episodes enumerated; implementation pending |
 | `full-2008` | B124–B129, before reduced time rate | [Disadvantages, second segment](disadvantages-b.json) | Combat episodes, senses, pain, codes and compulsions enumerated; boundaries and integration pending |
 | `full-2008` | B129, reduced time rate, through B134 | [Disadvantages, third segment](disadvantages-c.json) | Sustenance clocks, dependents, duties and restrictions enumerated; executable integration pending |
+| `full-2008` | B135–B139 | [Disadvantages, fourth segment](disadvantages-d.json) | Opponents, stress episodes, anatomy and life-support restrictions enumerated; executable integration pending |
 | `full-2008` | B167–B173; B229–B233 | [Skill and technique procedures](skills-procedures.json) | Text reviewed; table verification and cross-reference resolution still open |
 | `full-2008` | B174–B185 | [Skill catalogue, first segment](skills-catalogue-a.json) | Text and definition metadata transcribed; procedures and cross-references pending |
 | `full-2008` | B186–B197 | [Skill catalogue, second segment](skills-catalogue-b.json) | Definition metadata, timed procedures and specialty requirements transcribed |

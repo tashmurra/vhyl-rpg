@@ -337,6 +337,7 @@
     "inventory/traits-modifiers-c.json",
     "inventory/disadvantages-a.json",
     "inventory/disadvantages-b.json",
-    "inventory/disadvantages-c.json"
+    "inventory/disadvantages-c.json",
+    "inventory/disadvantages-d.json"
   ]
 }
