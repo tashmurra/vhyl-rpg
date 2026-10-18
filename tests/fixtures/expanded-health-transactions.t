@@ -249,6 +249,49 @@ class MedicalFixtureAction: Action
 ;
 medicalAction: MedicalFixtureAction;
 medicalVerb: Verb code = 1670 action = medicalAction label = 'medical-fixture';
+physicianRules: RpgExpandedRules scaledInjuryShock = true;
+physicianPatient: RpgExpandedProfile rules = physicianRules st = 30 injury = 9;
+physicianCheck: RpgExpandedPhysicianCheck id = 'primary-care-check' patient = physicianPatient practice = medicalClinic
+    continuousCare = true evidence = 'completed eligible care interval';
+class PhysicianFixtureAction: Action
+    exec(context)
+    {
+        if (healthInput.code == 0)
+        {
+            medicalClinic.skill = rpgLiteMakeSkill('physician',8,nil);
+            local training = new RpgTraining(); training.skill = medicalClinic.skill; training.points = 4;
+            medicalDoctor.skills = [training]; medicalClinic.admit(physicianPatient); return nil;
+        }
+        if (healthInput.code == 1) { rpgSpendTime(86399); return nil; }
+        if (healthInput.code == 2) { rpgSpendTime(1); return nil; }
+        local request = physicianCheck;
+        if (healthInput.code == 5 || healthInput.code == 6)
+        {
+            request = new RpgExpandedPhysicianCheck(); request.id = healthInput.code == 5 ? physicianCheck.id : 'second-check';
+            request.patient = physicianPatient; request.practice = medicalClinic; request.continuousCare = true;
+            request.evidence = 'another attempted check';
+        }
+        if (healthInput.code == 10)
+        {
+            medicalClinic.release(physicianPatient);
+            local doctor = new RpgLiteProfile(); doctor.iq = 12; doctor.techLevel = 8;
+            local training = new RpgTraining(); training.skill = medicalClinic.skill; training.points = 4; doctor.skills = [training];
+            local replacement = new RpgExpandedMedicalPractice(); replacement.id = 'replacement'; replacement.physician = doctor;
+            replacement.skill = medicalClinic.skill; replacement.advancedEquipment = true; replacement.admit(physicianPatient);
+            request = new RpgExpandedPhysicianCheck(); request.id = 'replacement-check'; request.patient = physicianPatient;
+            request.practice = replacement; request.continuousCare = true; request.evidence = 'replacement care assertion';
+        }
+        if (healthInput.code == 7) request.evidence = nil;
+        if (healthInput.code == 8) rpgRandom.seed(5);
+        local value = healthInput.code == 9 ? request.assess() : request.apply();
+        event('test.physician-check'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.healed); eventValue(value.injury);
+        if (healthInput.code == 4) throw new RpgError();
+        return nil;
+    }
+;
+physicianAction: PhysicianFixtureAction;
+physicianVerb: Verb code = 1680 action = physicianAction label = 'physician-fixture';
 modify gameMain initialRoom = healthRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
@@ -354,6 +397,13 @@ act(verb,args)
         eventValue(naturalPatient.medicalSupervision == medicalClinic ? 1 : 0);
         eventValue(naturalPatient.naturalRecoveryModifier()); eventValue(naturalPatient.injury);
         eventValue(naturalPatient.healingClock); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1680) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1681)
+    {
+        event('test.physician-state'); eventValue(physicianPatient.injury); eventValue(physicianPatient.medicalChecks.length());
+        eventValue(physicianPatient.medicalCareSince); eventValue(physicianPatient.medicalLastCheckAt);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); eventValue(physicianPatient.expandedWounds.length()); return nil;
     }
     return vhylAct(verb,args);
 }

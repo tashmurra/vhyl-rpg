@@ -841,9 +841,14 @@
       "pages": "B424-B425",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Only one physician may make the scheduled additional healing check for a patient; success restores one health, critical success two, and critical failure causes one injury.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_physician_outcomes",
+        "tests/expanded.py::test_physician_check_transactions",
+        "tests/expanded.py::test_physician_check_persistence"
+      ],
+      "validation_note": "Owned additional physician checks observe the shared time ledger, slow-healing interval and patient-level history; source success/failure outcomes use shared healing/wounds. Fixtures unrun. Continuous care is an explicit authored interval fact; protected injury, unhealing and mortal-wound regimens remain unsupported."
     },
     {
       "id": "health-physician-capacity",
@@ -856,9 +861,12 @@
       "tests": [
         "tests/expanded.py::test_medical_schedule",
         "tests/expanded.py::test_medical_supervision_transactions",
-        "tests/expanded.py::test_medical_supervision_persistence"
+        "tests/expanded.py::test_medical_supervision_persistence",
+        "tests/expanded.py::test_physician_outcomes",
+        "tests/expanded.py::test_physician_check_transactions",
+        "tests/expanded.py::test_physician_check_persistence"
       ],
-      "validation_note": "Medical-help table, clean-environment level-six fallback, skill-twelve supervision, shared provider roster/capacity and non-stacking natural-recovery bonus authored. Fixtures unrun. Additional physician healing checks, patient-specific schedules and continuous-care time integration remain incomplete."
+      "validation_note": "Owned additional physician checks observe the shared time ledger, slow-healing interval and patient-level history; source success/failure outcomes use shared healing/wounds. Fixtures unrun. Continuous care is an explicit authored interval fact; protected injury, unhealing and mortal-wound regimens remain unsupported."
     },
     {
       "id": "health-physician-low-equipment",

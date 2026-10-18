@@ -279,5 +279,10 @@ act(verb,args)
         eventValue(practice.patients.length()); eventValue(patient == nil ? 0 : patient.naturalRecoveryModifier());
         eventValue(rpgRandom.draws - before); eventValue(rpgLedger.seconds - time); return nil;
     }
+    if (verb == 1622)
+    {
+        local value = rpgExpandedPhysicianOutcome(args[1],args[2],args[3]); event('test.physician-outcome');
+        eventValue(value.healed); eventValue(value.injury); eventValue(value.check.critical); return nil;
+    }
     return vhylAct(verb,args);
 }

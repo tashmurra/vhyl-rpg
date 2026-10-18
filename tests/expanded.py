@@ -408,6 +408,73 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def physician_state(s):
+    s.action(1681)
+    return last(s, 'test.physician-state')
+
+
+def test_physician_outcomes(s):
+    for capacity, score, roll, expected in [
+            (10,12,3,[2,0,'success']), (10,12,4,[2,0,'success']),
+            (10,15,5,[2,0,'success']), (10,16,6,[2,0,'success']),
+            (10,12,12,[1,0,None]), (10,12,13,[0,0,None]),
+            (10,12,17,[0,1,'failure']), (10,18,17,[0,0,None]),
+            (10,18,18,[0,1,'failure']), (20,12,3,[4,0,'success']),
+            (30,12,10,[3,0,None]), (30,12,17,[0,1,'failure'])]:
+        s.action(1622, capacity, score, roll)
+        assert last(s, 'test.physician-outcome') == expected
+
+
+def test_physician_check_transactions(s):
+    s.action(1680, 0); s.action(1680, 1)
+    before = physician_state(s)
+    assert before == [9, 0, 0, None, 0, 86399, 0]
+    s.action(1680, 3)
+    assert last(s, 'test.physician-check') == ['blocked','physician-check-not-due',0,0]
+    assert physician_state(s) == before
+    s.action(1680, 2)
+    ready = physician_state(s)
+    s.action(1680, 9)
+    assert last(s, 'test.physician-check') == ['ready',None,0,0]
+    assert physician_state(s) == ready
+    s.action(1680, 4)
+    assert physician_state(s) == ready
+    s.action(1680, 8)
+    assert last(s, 'test.physician-check') == ['resolved',None,0,1]
+    assert physician_state(s) == [10, 1, 86400, 86400, 3, 86400, 1]
+    s.command('undo')
+    assert physician_state(s) == ready
+    s.action(1680, 3)
+    healed = physician_state(s)
+    assert healed == [6, 1, 86400, 86400, 3, 86400, 0]
+    for code in [3, 5, 6, 10]:
+        s.action(1680, code)
+        assert physician_state(s) == healed
+    assert last(s, 'test.physician-check') == ['blocked','physician-check-not-due',0,0]
+
+
+def test_physician_check_persistence(Session, bundle, out):
+    for failure in [False, True]:
+        path = out / f'expanded-physician-check-{failure}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1680, 0); first.action(1680, 1); first.action(1680, 2)
+            first.action(1680, 8 if failure else 3)
+            saved = physician_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1681')
+            assert physician_state(second) == saved
+            second.action(1680, 3)
+            assert last(second, 'test.physician-check')[0] == 'reused'
+            assert physician_state(second) == saved
+        finally:
+            second.close()
+
+
 def medical_roster(s):
     s.action(1671)
     return last(s, 'test.medical-roster')
@@ -2729,6 +2796,7 @@ def test(build):
     fresh(Session,health,test_last_wounds_option)
     fresh(Session,health,test_expanded_natural_recovery)
     fresh(Session,health,test_medical_schedule)
+    fresh(Session,health,test_physician_outcomes)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_limb_wound_transactions)
@@ -2740,6 +2808,8 @@ def test(build):
     fresh(Session,wounds,test_later_care_calendar)
     fresh(Session,wounds,test_natural_recovery_transactions)
     fresh(Session,wounds,test_medical_supervision_transactions)
+    fresh(Session,wounds,test_physician_check_transactions)
+    test_physician_check_persistence(Session,wounds,build.out)
     test_medical_supervision_persistence(Session,wounds,build.out)
     test_natural_recovery_persistence(Session,wounds,build.out)
     test_later_care_persistence(Session,wounds,build.out)

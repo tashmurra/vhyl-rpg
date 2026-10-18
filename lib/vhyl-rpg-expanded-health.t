@@ -968,9 +968,24 @@ modify RpgLiteProfile
 ;
 modify RpgExpandedProfile
     medicalSupervision = nil
+    medicalCareSince = nil
+    medicalCareInterval = 0
+    medicalLastCheckAt = nil
+    medicalChecks = []
     validateFeatures()
     {
         inherited();
+        local ids = []; local latest = nil;
+        foreach (local treatment in self.medicalChecks)
+        {
+            if (treatment == nil || !treatment.ofKind(RpgExpandedPhysicianCheck) || treatment.patient != self
+                || treatment.boundPatient != self || treatment.result == nil || treatment.id != treatment.boundId
+                || holds(ids,treatment.id) || treatment.completedAt == nil
+                || latest != nil && treatment.completedAt < latest) rpgExpandedReject('physician-check-history');
+            rpgInteger(treatment.completedAt,0,rpgLedger.seconds);
+            ids = ids + [treatment.id]; latest = treatment.completedAt;
+        }
+        if (self.medicalLastCheckAt != latest) rpgExpandedReject('physician-check-history');
         if (self.medicalSupervision != nil)
         {
             local practice = self.medicalSupervision;
@@ -1039,6 +1054,10 @@ class RpgExpandedMedicalPractice: object
         if (patient.medicalSupervision != nil) rpgExpandedReject('medical-patient-already-assigned');
         if (self.patients.length() >= value.patientLimit)
         { value.status = 'blocked'; value.reason = 'medical-practice-full'; return value; }
+        local slow = patient.level('slow-healing'); rpgInteger(slow,0,3);
+        local interval = value.intervalSeconds;
+        for (local index = 0; index < slow; index += 1) interval *= 2;
+        patient.medicalCareSince = rpgLedger.seconds; patient.medicalCareInterval = interval;
         self.boundPhysician = self.physician; self.boundId = self.id;
         self.physician.medicalPractice = self; self.patients = self.patients + [patient];
         patient.medicalSupervision = self; value.status = 'resolved'; return value;
@@ -1051,7 +1070,119 @@ class RpgExpandedMedicalPractice: object
         local remaining = [];
         foreach (local member in self.patients) if (member != patient) remaining = remaining + [member];
         self.patients = remaining; patient.medicalSupervision = nil;
+        patient.medicalCareSince = nil; patient.medicalCareInterval = 0;
         if (remaining.length() == 0) self.physician.medicalPractice = nil;
         local value = new RpgExpandedResult(); value.status = 'resolved'; return value;
+    }
+;
+
+
+/** Assessed or committed additional physician healing; the original check persists. */
+class RpgExpandedPhysicianResult: RpgExpandedResult
+    healed = 0
+    injury = 0
+    context = nil
+    failureWound = nil
+;
+
+/** B424 outcomes: critical success doubles healing; critical failure adds one
+ * injury, which is not multiplied by the B424 healing-capacity rule. */
+rpgExpandedPhysicianOutcome(capacity, score, roll)
+{
+    rpgInteger(capacity,1,1000); rpgInteger(score,3,1000);
+    local value = new RpgExpandedPhysicianResult(); value.check = rpgCheck(score,roll);
+    if (value.check.achieved)
+        value.healed = rpgExpandedHealingAmount(capacity,value.check.critical == 'success' ? 2 : 1);
+    else if (value.check.critical == 'failure') value.injury = 1;
+    value.status = 'ready'; return value;
+}
+
+/** One optional check after a completed care interval. Time was spent by the
+ * parent activity; this operation observes the shared ledger and never charges it. */
+class RpgExpandedPhysicianCheck: object
+    id = nil
+    patient = nil
+    practice = nil
+    continuousCare = nil
+    evidence = nil
+    modifier = 0
+    dropDestination = nil
+    boundDropDestination = nil
+    boundId = nil
+    boundPatient = nil
+    boundPractice = nil
+    boundEvidence = nil
+    boundModifier = 0
+    completedAt = nil
+    result = nil
+    assess()
+    {
+        if (self.patient == nil || !self.patient.ofKind(RpgExpandedProfile) || self.id == nil || self.id == '')
+            rpgExpandedReject('physician-check-patient');
+        rpgExpandedValidate(self.patient); local value = new RpgExpandedPhysicianResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.patient.medicalChecks,self) || self.patient != self.boundPatient || self.id != self.boundId
+                || self.practice != self.boundPractice || self.evidence != self.boundEvidence
+                || self.modifier != self.boundModifier || self.dropDestination != self.boundDropDestination || !self.continuousCare)
+                rpgExpandedReject('physician-check-retargeted');
+            value.status = 'reused'; value.check = self.result.check;
+            value.healed = self.result.healed; value.injury = self.result.injury;
+            value.failureWound = self.result.failureWound; return value;
+        }
+        foreach (local prior in self.patient.medicalChecks)
+            if (prior.id == self.id) rpgExpandedReject('physician-check-duplicate');
+        if (self.practice == nil || !self.practice.ofKind(RpgExpandedMedicalPractice)
+            || self.patient.medicalSupervision != self.practice || !holds(self.practice.patients,self.patient))
+            rpgExpandedReject('physician-check-practice');
+        local schedule = self.practice.assess();
+        if (schedule.status != 'ready') { value.reason = schedule.reason; return value; }
+        if (!self.continuousCare || self.evidence == nil || self.evidence == '')
+        { value.reason = 'physician-check-care-evidence'; return value; }
+        local slow = self.patient.level('slow-healing'); rpgInteger(slow,0,3);
+        local interval = schedule.intervalSeconds;
+        for (local index = 0; index < slow; index += 1) interval *= 2;
+        if (interval != self.patient.medicalCareInterval)
+        { value.reason = 'physician-check-schedule-changed'; return value; }
+        if (self.patient.medicalCareSince == nil || rpgLedger.seconds < self.patient.medicalCareSince
+            || self.patient.medicalLastCheckAt != nil && rpgLedger.seconds < self.patient.medicalLastCheckAt)
+            rpgExpandedReject('physician-check-clock');
+        if (rpgLedger.seconds - self.patient.medicalCareSince < interval
+            || self.patient.medicalLastCheckAt != nil && rpgLedger.seconds - self.patient.medicalLastCheckAt < interval)
+        { value.reason = 'physician-check-not-due'; return value; }
+        if (self.patient.dead || self.patient.mortal)
+        { value.reason = 'physician-check-patient-condition'; return value; }
+        if (self.patient.diseaseInjury > 0 || self.patient.temperatureInjury > 0 || self.patient.level('unhealing') > 0)
+        { value.reason = 'physician-check-injury-eligibility-unavailable'; return value; }
+        if (self.patient.injury <= 0) { value.reason = 'physician-check-no-injury'; return value; }
+        rpgInteger(self.modifier,-100,100);
+        value.context = new RpgLiteContext(); value.context.skill = self.practice.skill;
+        value.context.kind = 'physician-care'; value.context.modifier = self.modifier;
+        local score = rpgLiteScore(self.practice.physician,value.context);
+        if (score == nil || score < 3) { value.reason = 'physician-check-score-unavailable'; return value; }
+        value.failureWound = new RpgExpandedWound(); value.failureWound.id = 'physician-injury-' + self.id;
+        value.failureWound.profile = self.patient; value.failureWound.amount = 1; value.failureWound.dropDestination = self.dropDestination;
+        local failure = value.failureWound.assess();
+        if (failure.status != 'ready') { value.reason = failure.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local prepared = self.assess(); if (prepared.status != 'ready') return prepared;
+        local check = rpgLiteCheck(self.practice.physician,prepared.context);
+        local value = rpgExpandedPhysicianOutcome(self.patient.maxHP,check.score,check.roll); value.check = check;
+        if (value.healed > 0) value.healed = rpgLiteHeal(self.patient,value.healed);
+        else if (value.injury > 0)
+        {
+            local harm = prepared.failureWound.apply();
+            if (harm.status != 'resolved') rpgExpandedReject('physician-injury-commit-changed');
+            value.failureWound = prepared.failureWound; value.injury = harm.health.injury;
+        }
+        self.boundPatient = self.patient; self.boundPractice = self.practice; self.boundId = self.id;
+        self.boundEvidence = self.evidence; self.boundModifier = self.modifier; self.boundDropDestination = self.dropDestination;
+        self.completedAt = rpgLedger.seconds; self.patient.medicalLastCheckAt = self.completedAt;
+        self.patient.medicalCareSince = self.completedAt;
+        value.status = 'resolved'; self.result = value; self.patient.medicalChecks = self.patient.medicalChecks + [self];
+        return value;
     }
 ;

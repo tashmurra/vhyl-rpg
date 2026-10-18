@@ -643,8 +643,8 @@ cross-process continuation. These fixtures are authored but unrun.
 interval for additional physician healing checks. Level zero has no physician
 service. Levels one through three share the weekly row; later rows progress to
 five checks per day and 200 patients at level twelve or above. The result is a
-table assessment, not an automatic treatment scheduler. Patient-specific slow
-healing and the extra healing checks themselves remain to be integrated.
+table assessment, not an automatic treatment scheduler. The owned check interface below applies patient-specific slow healing and
+executes an eligible additional check.
 
 `RpgExpandedMedicalPractice` owns one physician's active patient roster. Supply
 an `id`, `physician` and its technology-specific `physician` skill definition.
@@ -676,5 +676,56 @@ the physician's work schedule or certify continuous care from world events.
 qualification and capacity rejection. `test_medical_supervision_transactions`
 and `test_medical_supervision_persistence` cover assignment, release, duplicate
 providers, bonus application, unavailability, rollback, undo and cross-process
-ownership. These fixtures are authored but unrun. The separately scheduled
-physician healing roll and its failure consequences remain pending.
+ownership. These fixtures are authored but unrun. The separately scheduled physician check is described below; full medical
+procedures remain incomplete.
+
+
+## Additional physician healing checks
+
+`RpgExpandedPhysicianCheck` resolves the B424-B425 check in addition to natural
+recovery. Supply a unique `id`, the admitted `patient`, its `practice`, the
+`continuousCare` fact and nonempty `evidence` describing the completed eligible
+care interval. `modifier` represents authored circumstances for this roll. A
+physician's base skill must still qualify the supervising practice. The request
+requires the expanded wound path to be available for a possible critical failure;
+set the patient's `scaledInjuryShock` rule and, where relevant, a
+`dropDestination` for that possible injury's knockdown consequences.
+
+Admission records `medicalCareSince` and the applicable `medicalCareInterval` on
+the patient. The interval comes from the medical-help table, doubled for each
+slow-healing level under B155. The parent activity advances `rpgLedger.seconds`
+once; assessment observes this ledger and does not spend time again. Hosts must
+use this only for accounted intervals of qualifying care, not infer eligibility
+from unrelated activity merely because the ledger advanced. The completed-care
+assertion and evidence are required in addition to the timestamp check.
+
+The interval must have elapsed since both the current admission/care baseline
+and the last physician check. Only one provider can be assigned; changing doctors
+requires a fresh admission and cannot grant an immediate extra check. Changes
+to the effective interval during an admission explicitly block until the host
+releases and re-admits the patient for a new care interval. A late check resolves
+one current opportunity, not a backlog of historical rolls. Missed opportunities
+are not automatically performed retroactively.
+
+`rpgExpandedPhysicianOutcome(capacity, score, roll)` exposes the source outcome
+assessment: ordinary success restores one base health point, critical success
+two, ordinary failure none, and critical failure causes one injury. High-capacity
+scaling applies to healing only. Execution uses `rpgLiteHeal` or a prepared owned
+torso wound, sharing the existing health balance, recovery hooks and consequences.
+Preflight checks the harmful outcome before rolling. Protected disease or
+exposure injury, unhealing and mortal-wound regimens remain explicitly unavailable
+pending their complete treatment rules.
+
+The patient's `medicalChecks` retain the request, original check, actual healing
+or injury, provider and completion time. `medicalLastCheckAt` persists across
+provider changes. Repeating a committed request returns its saved result; a new
+request at the same time is not due. IDs cannot be reused and committed request
+facts cannot be retargeted. The same completed care interval is never charged or
+rolled twice.
+
+`test_physician_outcomes`, `test_physician_check_transactions` and
+`test_physician_check_persistence` cover source outcomes, capacity scaling,
+critical-failure injury, the last second of eligibility, pure preview, rollback,
+undo, duplicate requests, provider changes and saved continuation. They are
+authored but unrun. Continuous-care activity scheduling and the wider medical
+procedures remain incomplete.

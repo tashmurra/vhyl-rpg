@@ -118,9 +118,12 @@
         "tests/expanded.py::test_natural_recovery_persistence",
         "tests/expanded.py::test_medical_schedule",
         "tests/expanded.py::test_medical_supervision_transactions",
-        "tests/expanded.py::test_medical_supervision_persistence"
+        "tests/expanded.py::test_medical_supervision_persistence",
+        "tests/expanded.py::test_physician_outcomes",
+        "tests/expanded.py::test_physician_check_transactions",
+        "tests/expanded.py::test_physician_check_persistence"
       ],
-      "validation_note": "Partial recovery includes physician roster/capacity and qualified supervision bonus. Fixtures unrun. Periodic physician healing, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
+      "validation_note": "Partial recovery includes owned scheduled physician checks with shared-time eligibility and source outcomes. Fixtures unrun. Continuous-care scheduling, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },
     {
       "id": "magic",
