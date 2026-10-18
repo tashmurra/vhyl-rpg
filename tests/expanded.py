@@ -9114,6 +9114,8 @@ def test(build):
     test_template_taboo(Session, template_taboo, build.out)
     ancestry_scores = build.build('expanded-ancestry-scores',ROOT / 'tests/fixtures/expanded-ancestry-scores.t')
     test_ancestry_scores(Session, ancestry_scores, build.out)
+    ancestry_traits = build.build('expanded-ancestry-traits',ROOT / 'tests/fixtures/expanded-ancestry-traits.t')
+    test_ancestry_traits(Session, ancestry_traits, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17930,5 +17932,42 @@ def test_ancestry_scores(Session, bundle, out):
         s.command(f':restore {path}\n@2286')
         s.action(2285, 5905)
         assert last(s, 'test.ancestry-scores') == [160, -20, 20, 20, 10, 13, 10, 20, 20, 1, 0, 0]
+    finally:
+        s.close()
+
+
+def test_ancestry_traits(Session, bundle, out):
+    path = out / 'expanded-ancestry-traits.zsave'
+    for mutation, reason in ((6002, 'ancestry-trait-mandatory'), (6005, 'incompatible-traits'), (6006, 'ancestry-trait-binding')):
+        s = Session(bundle)
+        try:
+            for code in (6000, mutation, 5907):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-score-error') == [reason]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (6000, 6001, 6007):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-traits') == [-26, -36, 31, 8, 2, 1, 6, 0, 0]
+        assert last(s, 'test.ancestry-trait-ownership') == [0, 0]
+        s.action(2285, 6002)
+        s.command('undo')
+        s.action(2285, 6001)
+        assert last(s, 'test.ancestry-traits') == [-26, -36, 31, 8, 2, 1, 6, 0, 0]
+        for code in (6004, 6003):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-buyoff') == [0, 'ancestry-trait-mandatory', 100]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (6001, 6003):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-traits') == [-26, -36, 31, 8, 2, 1, 6, 0, 0]
+        assert last(s, 'test.ancestry-buyoff') == [0, 'ancestry-trait-mandatory', 100]
     finally:
         s.close()

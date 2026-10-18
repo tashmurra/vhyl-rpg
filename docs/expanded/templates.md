@@ -387,8 +387,9 @@ profile from an occupational template, explicit template selection or personal
 customization. Each ancestry is an approved `RpgExpandedAncestryScoreTemplate`
 with a unique `id`, explanatory `evidence`, and the ten score-change fields used
 by template options. Empty ancestry input represents the zero-cost baseline.
-Repeated ancestry IDs reject. Trait and skill rows on ancestry score templates
-reject; those components require ancestry-specific ownership and accounting.
+Repeated ancestry IDs reject. The score-only class rejects trait and skill rows. Use `RpgExpandedAncestryTemplate`
+for supported mandatory trait rows, as described below. Ancestry skills remain
+unsupported.
 
 Ancestry deltas add together. The factory adds the basic-attribute deltas first;
 secondary scores derive from those totals, with personal and ancestry secondary
@@ -421,9 +422,8 @@ need the approved nonhuman exemption are therefore allowed. A negative ancestry
 cost can also bring the completed character within its point budget. The final
 personal disadvantage cap, prerequisites, compatibility and characteristic
 limits still apply. Public `create` and `createSelected` calls without ancestry
-continue to validate the characters they return. Traits, ancestry skills,
-size-based pricing modifiers, mandatory components, omissions and transformations
-remain unfinished. Occupational composition rejects ancestry-bearing profiles
+continue to validate the characters they return. The full trait catalogue, ancestry skills, size-based pricing modifiers,
+omissions and transformations remain unfinished. Occupational composition rejects ancestry-bearing profiles
 rather than losing their origin accounting.
 
 Sources: `full-2008`, B261 and B451-B452. `test_ancestry_scores` specifies the two
@@ -447,3 +447,38 @@ The ancestry fixture covers ordinary, selected and customized personal purchases
 that require nonhuman classification, a final-budget boundary, and rejection of
 an invalid completed character without changing a previously returned profile.
 These assertions remain unrun.
+
+## Mandatory ancestry traits
+
+`RpgExpandedAncestryTemplate` extends the ancestry score definition with
+`traitRows` using the existing three-field catalogue rows or supported four-field
+rated purchases. The factory creates fresh concrete traits, installs them on the
+character, and records each purchase and its ancestry ID in the owned receipt.
+Their ordinary executable effects remain available; there is no separate ancestry
+trait balance or package fee.
+
+Ancestry disadvantages contribute to the character's total value but are exempt
+from the personal disadvantage cap. Ancestry quirks are likewise exempt from the
+five-personal-quirk limit. Personal negatives and quirks still count normally.
+These exemptions depend on receipt ownership and the exact mandatory purchases,
+not on a freely assigned flag on an arbitrary trait.
+
+Validation rejects missing mandatory purchases or edits to their cost, level,
+rating, scope, identity or skill list. Activation and mitigation may still change
+through normal play. Ordinary disadvantage buyoff and removal offers cannot
+remove mandatory ancestry purchases, even with a separate buyoff approval.
+Permitted ancestry omissions require the explicit replacement accounting in B262;
+that interface is still pending.
+
+Overlapping personal and ancestry traits, or duplicate non-quirk traits across
+ancestries, currently reject under ordinary trait validation. Additive ancestry
+trait levels and personal improvements need further origin-aware composition;
+they are not silently merged or repriced. Only the trait row factories already
+supported by the installed modules are available. Ancestry skills, modifiers,
+full catalogue packages and transformations remain incomplete.
+
+Sources: `full-2008`, B261-B262 and B452. `test_ancestry_traits` specifies rated
+concrete behavior, costs and exemptions, five personal quirks plus an ancestry
+quirk, excessive personal quirks, mandatory-component binding, blocked ordinary
+buyoff, fresh ownership, undo and cross-process save continuation. These fixtures
+are authored but unrun while checks are paused.

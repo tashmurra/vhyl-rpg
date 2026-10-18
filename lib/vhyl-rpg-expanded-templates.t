@@ -1,5 +1,5 @@
 /* Include after expanded characters and skills. Source: full-2008, B258-B259.
- * Only character packages are implemented; ancestry cost exceptions are pending. */
+ * Occupational packages and partial ancestry score/trait composition. */
 
 /** Shared catalogue rows keep their original three fields. A fourth field is
  * an explicit self-control purchase resolved by the installed trait module. */
@@ -514,16 +514,22 @@ modify RpgExpandedProfile
 
 /** Ancestry score modifiers only; traits and skills require their own origin rules. */
 class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
+    supportsTraits = nil
     nonhuman = nil
     approved = nil
     evidence = nil
     validate()
     {
         if (self.id == nil || self.id == '' || !self.approved || self.evidence == nil || self.evidence == ''
-            || !self.eligible || self.skillRows.length() != 0 || self.traitRows.length() != 0)
+            || !self.eligible || self.skillRows.length() != 0 || !self.supportsTraits && self.traitRows.length() != 0)
             rpgExpandedReject('ancestry-score-definition');
         self.changes(); return nil;
     }
+;
+
+/** Supported mandatory trait purchases plus ancestry score modifiers. */
+class RpgExpandedAncestryTemplate: RpgExpandedAncestryScoreTemplate
+    supportsTraits = true
 ;
 
 /** Owned immutable ancestry score origins; later personal advancement changes totals. */
@@ -535,12 +541,32 @@ class RpgExpandedAncestryScores: object
     changes = []
     boundOrigins = []
     boundChanges = []
+    traits = []
+    traitOrigins = []
+    boundTraits = []
+    traitDefinition(trait,origin)
+    {
+        return [trait,origin,trait.id,trait.level,trait.scope,trait.points,trait.templatePurchaseKind,
+            trait.controlled,trait.selfControlNumber(),trait.creationCost(),trait.skills];
+    }
     validate(profile)
     {
         if (self.owner != profile || profile.ancestryScores != self || self.changes.length() != 10
             || self.boundChanges.length() != 10 || self.origins.length() != self.boundOrigins.length())
             rpgExpandedReject('ancestry-score-ownership');
         if (self.nonhuman != self.boundNonhuman) rpgExpandedReject('ancestry-score-binding');
+        if (self.traits.length() != self.boundTraits.length() || self.traitOrigins.length() != self.traits.length())
+            rpgExpandedReject('ancestry-trait-binding');
+        for (local i = 1; i <= self.traits.length(); i += 1)
+        {
+            local trait = self.traits[i]; local count = 0;
+            foreach (local current in profile.traits) if (current == trait) count += 1;
+            if (count != 1) rpgExpandedReject('ancestry-trait-mandatory');
+            local definition = self.traitDefinition(trait,self.traitOrigins[i]);
+            if (definition.length() != self.boundTraits[i].length()) rpgExpandedReject('ancestry-trait-binding');
+            for (local j = 1; j <= definition.length(); j += 1)
+                if (definition[j] != self.boundTraits[i][j]) rpgExpandedReject('ancestry-trait-binding');
+        }
         for (local i = 1; i <= 10; i += 1)
             if (self.changes[i] != self.boundChanges[i]) rpgExpandedReject('ancestry-score-binding');
         for (local i = 1; i <= self.origins.length(); i += 1)
@@ -556,6 +582,34 @@ class RpgExpandedAncestryScores: object
 ;
 modify RpgExpandedProfile
     ancestryScores = nil
+    quirkCountsTowardCreationLimit(trait)
+    {
+        if (self.ancestryScores != nil)
+        {
+            self.ancestryScores.validate(self);
+            if (holds(self.ancestryScores.traits,trait)) return nil;
+        }
+        return inherited(trait);
+    }
+    disadvantageBuyoffCost(trait)
+    {
+        if (self.ancestryScores != nil)
+        {
+            self.ancestryScores.validate(self);
+            if (holds(self.ancestryScores.traits,trait)) return nil;
+        }
+        return inherited(trait);
+    }
+    developmentOfferReason(offer)
+    {
+        if (self.ancestryScores != nil)
+        {
+            self.ancestryScores.validate(self);
+            if (offer.kind == 'remove-trait' && holds(self.ancestryScores.traits,offer.trait))
+                return 'ancestry-trait-mandatory';
+        }
+        return inherited(offer);
+    }
     physicalCharacteristicLimitsExempt()
     {
         if (self.ancestryScores == nil) return inherited();
@@ -582,6 +636,8 @@ modify RpgExpandedProfile
     {
         local amount = inherited(); if (self.ancestryScores == nil) return amount;
         foreach (local cost in self.ancestryScores.amounts(self)) if (cost < 0) amount -= cost;
+        foreach (local trait in self.ancestryScores.traits)
+            if (trait.creationCost() < 0) amount -= trait.creationCost();
         return amount;
     }
 ;
@@ -613,6 +669,14 @@ rpgExpandedCreateAncestryCharacter(personal, ancestries, rules)
     receipt.nonhuman = nonhuman; receipt.boundNonhuman = nonhuman;
     receipt.origins = origins; receipt.boundOrigins = origins;
     receipt.changes = changes; receipt.boundChanges = changes; p.ancestryScores = receipt;
+    foreach (local ancestry in ancestries)
+        foreach (local row in ancestry.traitRows)
+        {
+            local trait = rpgExpandedTemplateTrait(row);
+            receipt.traits = receipt.traits + [trait]; receipt.traitOrigins = receipt.traitOrigins + [ancestry.id];
+            receipt.boundTraits = receipt.boundTraits + [receipt.traitDefinition(trait,ancestry.id)];
+            p.traits = p.traits + [trait];
+        }
     p.st += changes[1]; p.dx += changes[2]; p.iq += changes[3]; p.ht += changes[4];
     p.hpAdjustment += changes[5]; p.fpAdjustment += changes[6];
     p.willAdjustment += changes[7]; p.perceptionAdjustment += changes[8];

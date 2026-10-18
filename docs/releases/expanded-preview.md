@@ -1304,3 +1304,9 @@ choices and changes. Personal physical purchases may use approved nonhuman
 exemptions, and negative ancestry costs may bring the final total within budget.
 Ordinary public template factories still validate their returned characters.
 Additional boundary and rejection fixtures remain unrun.
+
+Supported ancestry trait rows now create owned mandatory purchases with their
+concrete behavior. Their negative costs and quirks are exempt from personal caps;
+ordinary removal and buyoff reject. Overlapping trait levels and approved ancestry
+omissions remain unfinished. Ownership, accounting, undo and save fixtures are
+included but unrun.
