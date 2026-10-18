@@ -260,9 +260,10 @@
       "acceptance": "Dependent importance multiplies price by one half for an acquaintance/employer, one for a friend and two for a loved one. Author defines permitted risk: rational balancing, protection except overriding stakes, or safety taking precedence. Combine with the appearance multiplier from B36 and apply the general final-price rounding rule once.",
       "tests": [
         "tests/expanded.py::test_dependents",
-        "tests/expanded.py::test_dependent_templates"
+        "tests/expanded.py::test_dependent_templates",
+        "tests/expanded.py::test_dependent_choices"
       ],
-      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun. Fixed and selected templates create fresh owned dependent contributions from unowned definitions; combined-package composition remains unsupported. Template fixtures unrun."
+      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun. Fixed and selected templates create fresh owned dependent contributions from unowned definitions; combined-package composition remains unsupported. Template fixtures unrun. Selectable template options now include dependent purchase prices in signed choice bounds and validate combined credit slots. Choice fixtures unrun."
     },
     {
       "id": "disadvantages-c-dependent-aid",
@@ -297,9 +298,10 @@
       "acceptance": "At most two dependents earn negative points. A dependent group occupies both slots and is priced at twice a representative member value. Preserve membership and incident ownership without multiplying credit by group population.",
       "tests": [
         "tests/expanded.py::test_dependents",
-        "tests/expanded.py::test_dependent_templates"
+        "tests/expanded.py::test_dependent_templates",
+        "tests/expanded.py::test_dependent_choices"
       ],
-      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun. Fixed and selected templates create fresh owned dependent contributions from unowned definitions; combined-package composition remains unsupported. Template fixtures unrun."
+      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun. Fixed and selected templates create fresh owned dependent contributions from unowned definitions; combined-package composition remains unsupported. Template fixtures unrun. Selectable template options now include dependent purchase prices in signed choice bounds and validate combined credit slots. Choice fixtures unrun."
     },
     {
       "id": "disadvantages-c-dependent-progression",

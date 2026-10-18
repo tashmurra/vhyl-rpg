@@ -9254,6 +9254,8 @@ def test(build):
     test_dependent_sessions(Session, dependent_sessions, build.out)
     dependent_templates = build.build('expanded-dependent-templates',ROOT / 'tests/fixtures/expanded-dependent-templates.t')
     test_dependent_templates(Session, dependent_templates, build.out)
+    dependent_choices = build.build('expanded-dependent-choices',ROOT / 'tests/fixtures/expanded-dependent-choices.t')
+    test_dependent_choices(Session, dependent_choices, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21295,3 +21297,41 @@ def test_dependent_templates(Session, bundle, out):
         assert last(s, 'test.dependent-template-rejection') == ['template-contribution-definition']
     finally:
         s.close()
+
+
+def test_dependent_choices(Session, bundle, out):
+    """B131/B258 relationship prices participate in template choice bounds; unrun."""
+    path = out / 'dependent-choices.zsave'
+    s = Session(bundle)
+    try:
+        for code in (13700, 13702, 13706):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-choice-price') == [-20, 1]
+        assert last(s, 'test.dependent-choice-state') == [0, 0]
+        s.action(2285, 13701)
+        s.command('undo')
+        s.action(2285, 13706)
+        assert last(s, 'test.dependent-choice-state') == [0, 0]
+        for code in (13701, 13706):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-choice-result') == ['resolved']
+        assert last(s, 'test.dependent-choice-state') == [1, 1, -20, 1, 1, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 13706)
+        assert last(s, 'test.dependent-choice-state') == [1, 1, -20, 1, 1, 0, 0]
+    finally:
+        s.close()
+    for setup, reason in [(13703, 'template-choice-points'), (13704, 'dependent-credit-slots'), (13705, 'point-budget')]:
+        s = Session(bundle)
+        try:
+            for code in (setup, 13701, 13706):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-choice-result') == [reason]
+            assert last(s, 'test.dependent-choice-state') == [0, 0]
+        finally:
+            s.close()

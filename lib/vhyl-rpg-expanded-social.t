@@ -2438,3 +2438,12 @@ modify RpgExpandedDependent
         return copy;
     }
 ;
+
+modify RpgExpandedDependent
+    templateCost()
+    {
+        local profile = new RpgExpandedProfile(); local purchase = self.templateCopy(profile);
+        profile.contributions = [purchase]; purchase.validate(profile);
+        return purchase.credited ? purchase.cost() : 0;
+    }
+;

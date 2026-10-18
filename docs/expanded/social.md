@@ -1240,7 +1240,21 @@ same person), but share no mutable purchase object, appearance history or sessio
 closure history. Changing one character's purchase does not edit the prototype or
 another character. Templates reject already-owned purchase definitions.
 This adds reusable purchase construction for B131 and B258; contribution-bearing
-package combination and per-option contribution choices remain unsupported.
+package combination remains unsupported.
 `expanded-dependent-templates.t` / `test_dependent_templates` cover fixed and
 selected construction, ownership, accounting, isolation, rollback, undo and saved
 continuation. Fixtures are authored but unrun while checks remain paused.
+
+
+`RpgExpandedTemplateOption.contributionDefinitions` also accepts dependent
+prototypes. The contribution's pure `templateCost()` participates in the choice
+group's signed point bounds. Selecting the option adds its definitions to the
+fixed package definitions, then constructs and validates the complete character.
+This catches the combined two-dependent credit limit, duplicate relationships and
+character disadvantage budget even when each option is individually valid.
+Unselected options contribute no purchases. Unsupported contribution cost methods
+reject instead of being treated as zero. Cost queries allocate only temporary
+purchase objects and leave prototypes and gameplay ledgers unchanged.
+`expanded-dependent-choices.t` and `test_dependent_choices` specify signed bounds,
+combined credit slots, disadvantage limits, rollback, undo and saved continuation;
+the fixtures remain unrun.

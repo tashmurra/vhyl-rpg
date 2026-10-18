@@ -233,6 +233,7 @@ class RpgExpandedTemplateOption: object
     eligible = true
     skillRows = []
     traitRows = []
+    contributionDefinitions = []
     stChange = 0
     dxChange = 0
     iqChange = 0
@@ -265,6 +266,12 @@ class RpgExpandedTemplateOption: object
         foreach (local row in self.traitRows)
         {
             total += rpgExpandedTemplateTrait(row).creationCost();
+        }
+        foreach (local definition in self.contributionDefinitions)
+        {
+            if (definition == nil || !definition.ofKind(RpgExpandedContribution) || definition.owner != nil)
+                rpgExpandedReject('template-contribution-definition');
+            local amount = definition.templateCost(); rpgInteger(amount,-1000000,1000000); total += amount;
         }
         rpgInteger(total, -1000000, 1000000); return total;
     }
@@ -307,6 +314,7 @@ modify RpgExpandedTemplate
             selectedGroups = selectedGroups + [row[1]];
         }
         local skillRows = self.skillRows; local traitRows = self.traitRows;
+        local contributions = self.contributionDefinitions;
         local ids = []; local receipt = []; local changes = [0,0,0,0,0,0,0,0,0,0];
         foreach (local group in self.choiceGroups)
         {
@@ -343,6 +351,7 @@ modify RpgExpandedTemplate
                         if (!option.eligible) rpgExpandedReject('template-choice-ineligible');
                         total += option.cost(); skillRows = skillRows + option.skillRows;
                         traitRows = traitRows + option.traitRows;
+                        contributions = contributions + option.contributionDefinitions;
                         local values = option.changes(); local combined = [];
                         for (local index = 1; index <= 10; index += 1)
                             combined = combined + [changes[index] + values[index]];
@@ -367,7 +376,7 @@ modify RpgExpandedTemplate
         resolved.nativePressureHundredths = self.nativePressureHundredths;
         resolved.pointBudget = self.pointBudget; resolved.disadvantageLimit = self.disadvantageLimit;
         resolved.skillRows = skillRows; resolved.traitRows = traitRows;
-        resolved.contributionDefinitions = self.contributionDefinitions;
+        resolved.contributionDefinitions = contributions;
         local profile = resolved.assembleProfile(rules); profile.templateChoices = receipt; return profile;
     }
 ;

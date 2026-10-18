@@ -75,6 +75,7 @@ class RpgExpandedProfile: RpgLiteProfile
 /** Owned point contribution from an optional subsystem; cost queries are pure. */
 class RpgExpandedContribution: object
     templateCopy(profile) { rpgExpandedReject('template-contribution-unsupported'); }
+    templateCost() { rpgExpandedReject('template-contribution-cost-unsupported'); }
     id = nil
     owner = nil
     amounts(profile) { return []; }

@@ -358,3 +358,8 @@ Fixed and selected templates can now construct fresh owned dependent purchases
 from unowned contribution definitions. Unsupported contribution copying rejects;
 contribution-bearing package composition remains pending. Isolation and save
 fixtures are authored but unrun while checks remain paused.
+
+
+Dependent purchases now participate in selectable template options, including
+signed choice prices and final combined credit-slot and disadvantage-budget
+validation. Fixtures are authored but unrun; package composition remains pending.
