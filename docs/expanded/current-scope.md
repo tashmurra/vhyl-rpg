@@ -188,3 +188,10 @@ Clock advancement, action gates and replay reject inconsistent history before
 spending, including missing ownership and altered recovery results. Mutation
 fixtures are authored but unrun; remaining panic behavior and interruption gaps
 are unchanged.
+
+
+Fear row thirty-one now links a timed seizure, immediate HT resistance, conditional
+shared-ledger injury and permanent HT loss on critical failure. The generic
+seizure finisher owns its single fatigue payment. Collapse/drop handling is
+deduplicated. Full fear selection and the minimum-HT edge remain pending; new
+conditional-outcome and lifecycle fixtures are authored but unrun.

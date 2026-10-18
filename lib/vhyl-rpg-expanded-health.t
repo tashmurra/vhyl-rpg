@@ -7881,3 +7881,109 @@ class RpgExpandedFearPanicCrying: object
         self.episode.activities = self.episode.activities + [self]; value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    fearSeizureOutcomes = []
+;
+class RpgExpandedFearSeizureResult: RpgExpandedResult
+    seizure = nil
+    wound = nil
+    healthBefore = nil
+    healthAfter = nil
+    healthLost = nil
+    dropPlan = nil
+;
+/** B361 row 31 uses the ordinary B429 seizure and its single end-FP payment. */
+class RpgExpandedFearSeizure: object
+    id = nil
+    context = nil
+    approved = nil
+    evidence = nil
+    dropDestination = nil
+    result = nil
+    recordedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition() { return [self.id,self.context,self.context.profile,self.approved,self.evidence,self.dropDestination,self.recordedAt]; }
+    seizure(seconds)
+    {
+        local episode = new RpgExpandedSeizure(); episode.id = 'fear-seizure:' + self.id; episode.profile = self.context.profile;
+        episode.durationSeconds = seconds; episode.approved = true; episode.evidence = self.evidence;
+        episode.dropDestination = self.dropDestination; return episode;
+    }
+    wound(amount)
+    {
+        local wound = new RpgExpandedWound(); wound.id = 'fear-seizure:' + self.id; wound.profile = self.context.profile;
+        wound.amount = amount; wound.dropDestination = self.dropDestination; return wound;
+    }
+    healthContext()
+    { local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'fear-seizure-health'; return context; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
+            rpgExpandedReject('fear-seizure-definition');
+        local value = new RpgExpandedFearSeizureResult(); local profile = self.context.profile;
+        if (self.result != nil)
+        {
+            if (!holds(profile.fearSeizureOutcomes,self)) rpgExpandedReject('fear-seizure-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('fear-seizure-binding');
+            local saved = self.result;
+            if (saved.seizure != self.boundOutcome[1] || saved.wound != self.boundOutcome[2]
+                || saved.check != self.boundOutcome[3] || saved.check.roll != self.boundOutcome[4]
+                || saved.check.score != self.boundOutcome[5] || saved.check.achieved != self.boundOutcome[6]
+                || saved.check.critical != self.boundOutcome[7] || saved.healthBefore != self.boundOutcome[8]
+                || saved.healthAfter != self.boundOutcome[9] || saved.healthLost != self.boundOutcome[10])
+                rpgExpandedReject('fear-seizure-outcome-binding');
+            saved.seizure.validateReceipt(); if (saved.wound != nil) saved.wound.assess();
+            value.status = 'reused'; value.seizure = saved.seizure; value.wound = saved.wound; value.check = saved.check;
+            value.healthBefore = saved.healthBefore; value.healthAfter = saved.healthAfter; value.healthLost = saved.healthLost; return value;
+        }
+        if (self.recordedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('fear-seizure-uncommitted-state');
+        local scene = self.context.assess();
+        if (scene.status != 'ready') { value.reason = scene.reason; return value; }
+        if (scene.immune) { value.reason = 'fear-seizure-immune'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'fear-seizure-evidence'; return value; }
+        if (profile.dead || profile.unconscious) { value.reason = 'fear-seizure-observer-unavailable'; return value; }
+        if (profile.ht <= 1) { value.reason = 'fear-seizure-minimum-health-unimplemented'; return value; }
+        rpgInteger(profile.developmentRevision,0,2147483646);
+        foreach (local prior in profile.fearSeizureOutcomes)
+            if (prior.id == self.id) rpgExpandedReject('fear-seizure-duplicate');
+        local episode = self.seizure(360).assess();
+        if (episode.status != 'ready') { value.reason = episode.reason; return value; }
+        value.dropPlan = profile.prepareKnockdownDrop(self.dropDestination);
+        if (value.dropPlan != nil && value.dropPlan.status != 'ready') { value.reason = value.dropPlan.reason; return value; }
+        for (local amount = 1; amount <= 6; amount += 1)
+        {
+            local injury = self.wound(amount).assess();
+            if (injury.status != 'ready') { value.reason = injury.reason; return value; }
+        }
+        local score = rpgLiteScore(profile,self.healthContext());
+        if (score == nil || score < 3) { value.reason = 'fear-seizure-health-score'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local profile = self.context.profile;
+        value.seizure = self.seizure(rpgRandom.die() * 60);
+        value.check = rpgLiteCheck(profile,self.healthContext()); value.healthBefore = profile.ht;
+        local episode = value.seizure.apply();
+        if (episode.status != 'resolved') rpgExpandedReject('fear-seizure-onset-changed');
+        if (!value.check.achieved)
+        {
+            value.wound = self.wound(rpgRandom.die()); local injury = value.wound.apply();
+            if (injury.status != 'resolved') rpgExpandedReject('fear-seizure-injury-changed');
+        }
+        if (value.dropPlan != nil && (value.wound == nil || value.wound.droppedEquipment == nil)) value.dropPlan.commit();
+        profile.posture = 'lying';
+        if (value.wound == nil || !value.wound.health.knockedDown) profile.onKnockdown();
+        value.healthLost = value.check.critical == 'failure';
+        if (value.healthLost) { profile.ht -= 1; profile.developmentRevision += 1; }
+        value.healthAfter = profile.ht; self.recordedAt = profile.timeElapsed; self.boundDefinition = self.definition();
+        self.boundOutcome = [value.seizure,value.wound,value.check,value.check.roll,value.check.score,value.check.achieved,
+            value.check.critical,value.healthBefore,value.healthAfter,value.healthLost];
+        profile.fearSeizureOutcomes = profile.fearSeizureOutcomes + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;

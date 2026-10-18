@@ -1254,9 +1254,10 @@
       "status": "partial",
       "acceptance": "A seizure lasts one die of minutes and costs one die of fatigue; a health failure causes one die of injury and critical failure also permanently reduces health by one.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_seizure"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned row executor links a 1d-minute generic seizure, immediate HT check, conditional 1d shared-wound injury and critical-failure permanent HT loss. Generic B429 seizure finish owns the single 1d FP payment. Collapse/drop effects are deduplicated and all immediate injury amounts preflighted. Initial fear selection and minimum-HT boundary remain pending; lifecycle fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-32",

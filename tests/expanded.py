@@ -9198,6 +9198,8 @@ def test(build):
     test_panic_crying(Session, panic_crying, build.out)
     panic_history = build.build('expanded-panic-history',ROOT / 'tests/fixtures/expanded-panic-history.t')
     test_panic_history(Session, panic_history)
+    fear_seizure = build.build('expanded-fear-seizure',ROOT / 'tests/fixtures/expanded-fear-seizure.t')
+    test_fear_seizure(Session, fear_seizure, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20255,5 +20257,50 @@ def test_panic_history(Session, bundle):
         for code in (10600, 10602, 10605, 10606, 10802, 10808):
             s.action(2285, code)
         assert last(s, 'test.panic-history') == ['fear-panic-recovery-check-binding', 60, 4]
+    finally:
+        s.close()
+
+
+def test_fear_seizure(Session, bundle, out):
+    """B361 row 31: timed seizure, conditional injury/HT loss and single end FP payment; unrun."""
+    path = out / 'expanded-fear-seizure.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10900, 10901, 10903, 10904):
+            s.action(2285, code)
+        assert last(s, 'test.fear-fit-preview') == ['ready', None, 0]
+        assert last(s, 'test.fear-fit-state') == [0, 0, 10, 0, 0, 0, 'standing', 0, 0]
+        s.action(2285, 10902)
+        s.command('undo')
+        s.action(2285, 10904)
+        assert last(s, 'test.fear-fit-state') == [0, 0, 10, 0, 0, 0, 'standing', 0, 0]
+        for code in (10902, 10902, 10904):
+            s.action(2285, code)
+        assert last(s, 'test.fear-fit') == ['reused', 10, 10, 0]
+        assert last(s, 'test.fear-fit-state') == [0, 0, 10, 0, 1, 1, 'lying', 0, 4]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10902, 10907, 10908, 10908, 10904):
+            s.action(2285, code)
+        assert last(s, 'test.fear-fit-state') == [0, 1, 10, 0, 1, 0, 'lying', 60, 5]
+    finally:
+        s.close()
+    for roll, health, revision in ((10905, 10, 0), (10906, 9, 1)):
+        s = Session(bundle)
+        try:
+            for code in (roll, 10902, 10902, 10904):
+                s.action(2285, code)
+            assert last(s, 'test.fear-fit-state') == [1, 0, health, revision, 1, 1, 'lying', 0, 5]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (10909, 10901):
+            s.action(2285, code)
+        assert last(s, 'test.fear-fit-preview') == ['blocked', 'knockdown-drop-destination-required', 0]
     finally:
         s.close()

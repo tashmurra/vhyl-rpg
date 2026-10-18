@@ -3516,3 +3516,41 @@ rewrites all stored evidence. The exact-compiled-game save policy is unchanged.
 removed receipts, changed timestamps and lost ownership through episode queries,
 clock advancement, replay and action gates. They remain unrun alongside the
 existing rollback, undo and cross-process save fixtures.
+
+
+## Seizure from fear
+
+`RpgExpandedFearSeizure` executes row thirty-one (`full-2008`, B361), using
+the shared seizure condition from B429. Supply a unique `id`, a ready approved
+`RpgExpandedFearContext`, `approved = true`, original `evidence` of the selected
+table outcome, and `dropDestination` when holding equipment. This remains an
+explicit selected-outcome interface; it does not roll the initial fear check.
+
+`assess()` previews the longest possible seizure duration, every possible immediate
+injury amount and the equipment drop before consuming randomness. `apply()` rolls
+one die for minutes, makes the immediate HT check, starts the owned
+`RpgExpandedSeizure` and, on a failed HT check, rolls one die of direct injury
+through `RpgExpandedWound`. A critical failure additionally reduces HT by one and
+increments the existing development revision without awarding spendable points.
+That permanent change is recorded after the immediate injury. HT at one is
+explicitly unsupported rather than silently reduced outside the current model.
+
+The character collapses to a lying posture. Wound knockdown and the mandatory
+collapse share one held-item drop and knockdown notification. Generic seizure
+restrictions then apply. The result exposes `seizure`, `check`, optional `wound`,
+`healthBefore`, `healthAfter` and `healthLost`; the profile retains it in
+`fearSeizureOutcomes`. Replaying the outcome validates the linked receipts and
+adds no roll, injury or permanent attribute loss.
+
+Advance the shared clock to `result.seizure.expiresAt`, then call that seizure's
+`finish()`. B429 supplies the end timing for the single one-die fatigue payment;
+the fear outcome does not charge it again at onset. The generic finisher owns
+fatigue overflow, injury and recovery restrictions. It does not heal the immediate
+wound or reverse permanent HT loss. Death suppresses further active-seizure
+processing under the existing condition contract.
+
+[`expanded-fear-seizure.t`](../../tests/fixtures/expanded-fear-seizure.t) and
+`test_fear_seizure` specify successful/failed/critical HT checks, permanent loss
+without repeated charges, episode timing, the single fatigue payment, missing
+drop-destination preflight, preview, replay, rollback, undo and cross-process save
+continuation. Assertions remain unrun; full fear orchestration is still pending.
