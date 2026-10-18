@@ -6876,3 +6876,11 @@ class RpgExpandedForagePoisoning: object
         self.boundDefinition = definition; self.result = value; value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    prepareForageGate(id,evidence)
+    {
+        local gate = new RpgExpandedActionGate(); gate.id = 'forage-' + id; gate.profile = self;
+        gate.requiresMovement = true; gate.evidence = evidence; return gate;
+    }
+;

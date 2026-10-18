@@ -2595,3 +2595,102 @@ class RpgExpandedForageSite: object
         return rpgExpandedAssessForage(method,adjusted,roll);
     }
 ;
+
+class RpgExpandedPlantForageResult: RpgExpandedResult
+    day = 0
+    score = nil
+    gate = nil
+    allowed = nil
+    forage = nil
+    siteFacts = []
+;
+modify RpgExpandedProfile
+    plantForageAttempts = []
+;
+/** B427 travel-day plant roll, shared across both alternative skills and all sites. */
+class RpgExpandedPlantForageAttempt: object
+    id = nil
+    profile = nil
+    site = nil
+    skill = nil
+    modifier = 0
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.profile,self.site,self.skill,self.skill.id,self.skill.attribute,
+        self.skill.difficulty,self.skill.defaultPenalty,self.skill.specialty,self.modifier,self.approved,self.evidence]; }
+    siteFacts()
+    { return [self.site.id,self.site.plantsAvailable,self.site.scarcityPenalty,self.site.repeatedUsePenalty,self.site.evidence]; }
+    context()
+    {
+        local context = new RpgLiteContext(); context.skill = self.skill; context.kind = 'foraging';
+        context.requiresMovement = true; context.modifier = self.modifier; return context;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.site == nil || !self.site.ofKind(RpgExpandedForageSite)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)) rpgExpandedReject('plant-forage-definition');
+        local value = new RpgExpandedPlantForageResult(); local definition = self.definition();
+        if (self.result != nil)
+        {
+            for (local index = 1; index <= definition.length(); index += 1)
+                if (definition[index] != self.boundDefinition[index]) rpgExpandedReject('plant-forage-binding');
+            if (!holds(self.profile.plantForageAttempts,self) || self.result.gate.assess().status != 'reused')
+                rpgExpandedReject('plant-forage-history');
+            value.status = 'reused'; return value;
+        }
+        value.day = rpgLedger.seconds / 86400;
+        foreach (local prior in self.profile.plantForageAttempts)
+        {
+            if (prior.id == self.id) rpgExpandedReject('plant-forage-duplicate');
+            if (prior.result.day == value.day && prior.result.forage != nil)
+            { value.reason = 'plant-forage-daily-limit'; return value; }
+        }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'plant-forage-travel-facts'; return value; }
+        local naturalist = self.skill.id == 'naturalist';
+        if ((!naturalist && self.skill.id != 'survival') || self.skill.attribute != (naturalist ? rpgIQ : rpgPerception)
+            || self.skill.difficulty != (naturalist ? 2 : 1) || self.skill.defaultPenalty != (naturalist ? -6 : -5)
+            || self.skill.specialty == nil || self.skill.specialty == '') rpgExpandedReject('plant-forage-skill-definition');
+        local trained = nil;
+        foreach (local training in self.profile.skills)
+            if (training.skill == self.skill && training.points > 0) trained = true;
+        if (!trained) { value.reason = 'plant-forage-default-adapter-required'; return value; }
+        rpgInteger(self.modifier,-1000,1000); value.score = rpgLiteScore(self.profile,self.context());
+        if (value.score == nil) { value.reason = 'plant-forage-score-unavailable'; return value; }
+        local preview = self.site.assess('plants',value.score,3);
+        if (preview.status != 'ready') { value.reason = preview.reason; return value; }
+        value.siteFacts = self.siteFacts(); value.gate = self.profile.prepareForageGate(self.id,self.evidence);
+        if (value.gate == nil) { value.reason = 'plant-forage-health-adapter-required'; return value; }
+        local permission = value.gate.assess();
+        if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local permission = value.gate.apply();
+        if (permission.status != 'resolved') rpgExpandedReject('plant-forage-permission-changed');
+        value.allowed = permission.allowed;
+        if (value.allowed)
+        {
+            local facts = self.siteFacts();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != value.siteFacts[index]) rpgExpandedReject('plant-forage-site-changed');
+            if (rpgLedger.seconds / 86400 != value.day || rpgLiteScore(self.profile,self.context()) != value.score)
+                rpgExpandedReject('plant-forage-context-changed');
+            value.forage = self.site.assess('plants',value.score,rpgRandom.roll());
+            if (value.forage.status != 'ready') rpgExpandedReject('plant-forage-outcome-changed');
+        }
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('plant-forage-changed');
+        self.boundDefinition = definition; self.result = value;
+        self.profile.plantForageAttempts = self.profile.plantForageAttempts + [self];
+        value.status = 'resolved'; return value;
+    }
+;

@@ -1044,3 +1044,9 @@ independent health checks and direct-injury wounds. All possible injuries are
 preflighted, duplicate exposure is rejected and replay reuses child wounds.
 Special susceptibility remains explicit. Rollback, undo and save fixtures are
 authored, unrun while checks are paused.
+
+Travel-day plant rolls now have per-character ownership shared across both
+eligible skills and all sites. Physical health permission precedes the roll;
+replay preserves the outcome and the daily limit survives save continuation.
+Full-profile paid skill definitions are required. Alternate defaults, dedicated
+foraging days and food inventory remain pending. Fixtures are authored, unrun.

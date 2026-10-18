@@ -1285,13 +1285,38 @@ authored penalty, not an invented universal depletion rate.
 
 These pure assessments do not create food, consume ammunition, spend time,
 reserve daily attempts or injure anyone. Health supplies the matching pure
-[plant-poison assessment](health.md#foraged-plant-poisoning). Owned daily scheduling,
-skill/weapon eligibility, party exposure, food inventory and preservation remain
-pending. `test_foraging_assessment` covers yields, natural-roll complications,
+[plant-poison assessment](health.md#foraged-plant-poisoning). Daily scheduling, weapon eligibility, food inventory and preservation remain
+pending; the owned plant-roll adapter below supplies a limited travel-day path. `test_foraging_assessment` covers yields, natural-roll complications,
 scarcity, unavailable resources, hunting penalties and supplied poison dice;
 assertions are authored, unrun while checks remain paused.
 
 Health now provides [owned plant-poisoning resolution](health.md#committing-foraged-plant-poisoning)
 for an already recorded natural-17/18 plant check. It commits separate checks and
-wounds per exposed character without repeating the forage roll. Daily forage
-attempt ownership and food inventory remain separate pending integrations.
+wounds per exposed character without repeating the forage roll. Plant attempt ownership is described below; consumed-food inventory remains pending.
+
+## Owned travel-day plant attempts
+
+`RpgExpandedPlantForageAttempt` requires an ID, expanded profile, forage site,
+paid skill, approval and evidence describing the travel-day search and applicable
+specialty. Include health for its physical action gate. Use a Perception/Average
+Survival definition with default -5, or IQ/Hard Naturalist with default -6; each
+requires a specialty. Existing abridged skill definitions remain unchanged.
+Alternate defaults are explicitly blocked in this adapter.
+
+Call `assess()` for a pure preview and `resolve()` to commit. The profile owns
+`plantForageAttempts`; a completed plant roll reserves that character's one
+attempt for `rpgLedger.seconds / 86400`. Switching skills, sites or request IDs
+does not reset the allowance. Permission denial records its health outcome but
+does not consume the plant roll. Replay returns the original result without
+another health check or forage roll, including after save continuation.
+
+The result exposes `day`, `allowed` and `forage`, whose fields include the recorded
+check, meal count and poison scope. An authored poisoning operation can consume
+the recorded check through the health module. The author must establish who ate
+the plants; this adapter does not infer consumers or create inventory items.
+
+No extra time is charged because this roll accompanies an authored travel day.
+The ledger-day boundary is explicit; a broader travel schedule, dedicated
+foraging days, hunting/fishing ownership and food preservation remain pending.
+See `tests/fixtures/expanded-plant-forage.t` for integration and
+`test_plant_forage` for authored, unrun assertions.

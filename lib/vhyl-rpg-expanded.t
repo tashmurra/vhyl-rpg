@@ -362,3 +362,7 @@ class RpgExpandedPathMoveReceipt: object
     assess() { local value = new RpgExpandedResult(); value.reason = 'path-move-unavailable'; return value; }
     commit(value) { rpgExpandedReject('path-move-unavailable'); }
 ;
+
+modify RpgExpandedProfile
+    prepareForageGate(id,evidence) { return nil; }
+;

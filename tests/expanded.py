@@ -9022,6 +9022,8 @@ def test(build):
     test_foraging_assessment(Session, foraging)
     forage_poison = build.build('expanded-forage-poisoning',ROOT / 'tests/fixtures/expanded-forage-poisoning.t')
     test_forage_poisoning(Session, forage_poison, build.out)
+    plant_forage = build.build('expanded-plant-forage',ROOT / 'tests/fixtures/expanded-plant-forage.t')
+    test_plant_forage(Session, plant_forage, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -15955,5 +15957,58 @@ def test_forage_poisoning(Session, bundle, out):
             s.action(2285,code)
         assert last(s,'test.forage-poison-preview') == ['blocked','forage-poison-susceptibility-adapter-required']
         assert state(s) == [0,0,0,0,0,0]
+    finally:
+        s.close()
+
+
+def test_plant_forage(Session, bundle, out):
+    def state(s):
+        s.action(2285,1603)
+        return last(s,'test.plant-owned')
+    path = out / 'expanded-plant-forage.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,1602,1601):
+            s.action(2285,code)
+        assert last(s,'test.plant-preview') == ['ready',None]
+        assert state(s) == [0,0,0,None,0]
+        s.action(2285,1600)
+        s.command('undo')
+        assert state(s) == [0,0,0,None,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1600,1600,1609,1604):
+            s.action(2285,code)
+        assert state(s) == [1,3,0,1,0]
+        assert last(s,'test.plant-alternate') == ['blocked','plant-forage-daily-limit']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1600,1605,1604):
+            s.action(2285,code)
+        assert state(s) == [2,6,86400,1,0]
+        assert last(s,'test.plant-alternate') == ['resolved',None]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (1606,1600,1607,1607,1600):
+            s.action(2285,code)
+        assert state(s) == [1,7,0,0,4]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (1608,1610):
+            s.action(2285,code)
+        assert last(s,'test.plant-invalid') == ['plant-forage-skill-definition']
+        assert state(s) == [0,0,0,None,0]
     finally:
         s.close()
