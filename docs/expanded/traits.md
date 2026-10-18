@@ -224,3 +224,17 @@ that damage. Side effects instead use resistance, duration and sometimes sequent
 phases. Ranged conversion bars reuse while any prior effect remains, except where
 a specific trait overrides that rule. These lifecycle requirements remain pending
 and are not implemented by the existing modifier arithmetic.
+
+
+The [third modifier segment](inventory/traits-modifiers-c.json) covers limitations
+and gadget rules. Signed disadvantage pricing rounds toward positive infinity.
+Temporary disadvantages also cap absolute point savings, so a percentage-only
+price helper is insufficient. Optional limited enhancements require an explicit
+campaign choice and apply restrictions to their selected enhancement alone.
+
+Preparation is character-owned: only one prepared ability can be retained at a
+time. Limited uses, ammunition reloads, recharge deadlines and unreliable-activation
+rest locks are separate constraints. Every use must validate them before spending
+resources, while failed attempts still commit their specified costs. Gadget damage,
+theft, repair and unique loss also need identity-based lifecycle records. These
+behaviors remain unimplemented.
