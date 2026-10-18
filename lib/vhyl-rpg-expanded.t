@@ -734,3 +734,8 @@ modify RpgLiteContext
     assessBoatEntry(profile)
     { local value = new RpgExpandedBoatEntryAssessment(); value.reason = 'boat-entry-skill-adapter-required'; return value; }
 ;
+
+
+modify RpgExpandedProfile
+    prepareSwimmingWound(id,destination) { return nil; }
+;

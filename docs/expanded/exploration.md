@@ -1547,9 +1547,28 @@ cannot skip a required consciousness boundary. These checks do not spend
 additional fatigue: partial-air drowning does not use complete-airlessness
 fatigue costs (full-2008, B354 and B436–B437).
 
-Swimming checks already at zero or negative fatigue still reject pending the
-negative-fatigue injury integration. Unconscious submersion, air-loss timing and
-rescue/resuscitation transitions also remain incomplete; this is not a complete
+Swimming checks at zero or negative fatigue require the health adapter described
+below. Unconscious submersion, air-loss timing and rescue/resuscitation
+transitions remain incomplete; this is not a complete
 drowning implementation. `expanded-swim-exhaustion.t` / `test_swim_exhaustion`
 specify the zero boundary, successful/failed Will checks, no duplicate fatigue,
 rollback, undo and saved replay. Fixtures remain unrun.
+
+
+### Further fatigue loss while swimming
+
+With the health library installed, balance and endurance checks at zero or
+negative fatigue preflight a one-point `RpgExpandedWound` through
+`prepareSwimmingWound`. Set the check's `dropDestination` when incapacitation
+may drop held equipment. The wound applies only if the check actually loses
+fatigue, and uses the existing injury, shock and survival procedures. Without
+the adapter, exhausted checks reject explicitly.
+
+The current second's `RpgExpandedSwimConsciousness` must resolve first. This
+ordering preserves independent one-second consciousness and five-second
+struggling schedules. No fatigue or injury is charged merely for the Will check.
+At negative full fatigue capacity, the swimmer becomes unconscious.
+`expanded-swim-negative-fatigue.t` / `test_swim_negative_fatigue` specify five
+Will checks followed by one fatigue point and one injury, including rollback,
+undo and saved replay. Fixtures remain unrun; unconscious drowning transitions
+are still outstanding.

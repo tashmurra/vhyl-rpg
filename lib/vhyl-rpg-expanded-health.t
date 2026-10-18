@@ -8389,3 +8389,13 @@ modify rpgLedger
         return nil;
     }
 ;
+
+
+/** B426 injury accompanying fatigue loss during exhausted swimming. */
+modify RpgExpandedProfile
+    prepareSwimmingWound(id,destination)
+    {
+        local wound = new RpgExpandedWound(); wound.id = id; wound.profile = self;
+        wound.amount = 1; wound.dropDestination = destination; return wound;
+    }
+;

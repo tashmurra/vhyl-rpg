@@ -9324,6 +9324,8 @@ def test(build):
     test_boat_entry(Session, boat_entry, build.out)
     swim_exhaustion = build.build("expanded-swim-exhaustion",ROOT / "tests/fixtures/expanded-swim-exhaustion.t")
     test_swim_exhaustion(Session, swim_exhaustion, build.out)
+    swim_negative = build.build("expanded-swim-negative-fatigue",ROOT / "tests/fixtures/expanded-swim-negative-fatigue.t")
+    test_swim_negative_fatigue(Session, swim_negative, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22607,5 +22609,33 @@ def test_swim_exhaustion(Session, bundle, out):
         for code in (17005,17003,17004):
             s.action(1910,code)
         assert last(s, 'test.swim-exhaustion') == [0,1,2,9,2]
+    finally:
+        s.close()
+
+
+def test_swim_negative_fatigue(Session, bundle, out):
+    """B426: one further swimming FP loss causes one shared wound, not per-second injury; unrun."""
+    path = out / 'swim-negative.zsave'
+    s = Session(bundle)
+    try:
+        for code in (17000,17101,17102):
+            s.action(1910,code)
+        assert last(s, 'test.swim-negative') == [0,0,0,1,3,0]
+        s.action(1910,17100)
+        s.command('undo')
+        s.action(1910,17102)
+        assert last(s, 'test.swim-negative') == [0,0,0,1,3,0]
+        for code in (17100,17103,17102):
+            s.action(1910,code)
+        assert last(s, 'test.swim-negative') == [-1,1,5,2,21,5]
+        s.command(f':save {path}\n@1911')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1911')
+        for code in (17103,17102):
+            s.action(1910,code)
+        assert last(s, 'test.swim-negative') == [-1,1,5,2,21,5]
     finally:
         s.close()

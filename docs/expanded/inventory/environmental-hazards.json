@@ -2465,9 +2465,10 @@
       "status": "partial",
       "acceptance": "Drowning with partial air access uses swimming checks every five seconds and fatigue on failure instead of also imposing complete-airlessness costs.",
       "tests": [
-        "tests/expanded.py::test_swim_exhaustion"
+        "tests/expanded.py::test_swim_exhaustion",
+        "tests/expanded.py::test_swim_negative_fatigue"
       ],
-      "validation_note": "Swimming can consume the final positive FP. Owned per-second Will checks begin at that boundary without adding complete-airlessness fatigue costs; failure causes fatigue-collapse unconsciousness. Negative-FP swim injury, unconscious submersion and rescue/resuscitation transition remain pending. Fixtures authored, unrun."
+      "validation_note": "Swimming can consume the final positive FP. Owned per-second Will checks begin at that boundary without adding complete-airlessness fatigue costs; failure causes fatigue-collapse unconsciousness. Negative-FP swim injury, unconscious submersion and rescue/resuscitation transition remain pending. Fixtures authored, unrun. Negative-FP balance/endurance checks now preflight a shared health wound, apply one injury only on further FP loss, require the current second Will check first and collapse at negative capacity. Health-free integrations reject explicitly. Unconscious submersion and rescue remain pending. Fixtures unrun."
     },
     {
       "id": "hazard-suffocation-death",
