@@ -859,13 +859,21 @@ class RpgExpandedTravelDay: object
     approved = nil
     evidence = nil
     day = nil
+    boundReservedAt = nil
+    interruptedAt = nil
+    interruptionEvidence = nil
+    boundInterruption = nil
     reservedAt = nil
     boundDefinition = nil
     definition() { return [self.id,self.profile,self.approved,self.evidence]; }
     validateBinding()
     {
         if (self.reservedAt == nil || self.boundDefinition == nil || !holds(self.profile.travelDays,self)
-            || self.day != self.reservedAt / 86400 || self.reservedAt > rpgLedger.seconds) rpgExpandedReject('travel-day-history');
+            || self.reservedAt != self.boundReservedAt || self.reservedAt % 86400 != 0 || self.day != self.reservedAt / 86400 || self.reservedAt > rpgLedger.seconds) rpgExpandedReject('travel-day-history');
+        if (self.interruptedAt != nil && (self.boundInterruption == nil || self.interruptedAt != self.boundInterruption[1]
+            || self.interruptionEvidence != self.boundInterruption[2] || self.interruptedAt < self.reservedAt
+            || self.interruptedAt >= self.dayEnd() || self.interruptedAt > rpgLedger.seconds)) rpgExpandedReject('travel-day-interruption-binding');
+        if (self.interruptedAt == nil && self.boundInterruption != nil) rpgExpandedReject('travel-day-interruption-binding');
         local facts = self.definition();
         for (local i = 1; i <= facts.length(); i += 1)
             if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('travel-day-binding');
@@ -890,8 +898,29 @@ class RpgExpandedTravelDay: object
     reserve()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        self.boundDefinition = self.definition(); self.reservedAt = rpgLedger.seconds; self.day = self.reservedAt / 86400;
+        self.boundDefinition = self.definition(); self.reservedAt = rpgLedger.seconds; self.day = self.reservedAt / 86400; self.boundReservedAt = self.reservedAt;
         self.profile.travelDays = self.profile.travelDays + [self]; value.status = 'resolved'; return value;
+    }
+    dayEnd() { return self.reservedAt > 2147397247 ? 2147483647 : self.reservedAt + 86400; }
+    fullMileageReason()
+    {
+        if (self.reservedAt == nil) return 'travel-day-not-reserved';
+        self.validateBinding(); return self.interruptedAt == nil ? nil : 'travel-day-interrupted';
+    }
+    interrupt(evidence)
+    {
+        local value = new RpgExpandedResult();
+        if (self.reservedAt == nil) { value.reason = 'travel-day-not-reserved'; return value; }
+        self.validateBinding();
+        if (evidence == nil || evidence == '') rpgExpandedReject('travel-day-interruption-evidence');
+        if (self.interruptedAt != nil)
+        {
+            if (self.interruptionEvidence != evidence) rpgExpandedReject('travel-day-interruption-binding');
+            value.status = 'reused'; return value;
+        }
+        if (rpgLedger.seconds >= self.dayEnd()) { value.reason = 'travel-day-already-ended'; return value; }
+        self.interruptedAt = rpgLedger.seconds; self.interruptionEvidence = evidence;
+        self.boundInterruption = [self.interruptedAt,evidence]; value.status = 'resolved'; return value;
     }
 ;
 modify RpgExpandedProfile
@@ -904,7 +933,8 @@ modify RpgExpandedProfile
         foreach (local reservation in self.travelDays)
         {
             reservation.validateBinding();
-            if (reservation.day >= start / 86400 && reservation.day <= last / 86400) return 'activity-dedicated-travel-day';
+            local end = reservation.interruptedAt == nil ? reservation.dayEnd() : reservation.interruptedAt;
+            if (start < end && last >= reservation.reservedAt) return 'activity-dedicated-travel-day';
         }
         return nil;
     }

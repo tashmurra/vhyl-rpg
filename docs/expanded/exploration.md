@@ -1993,3 +1993,23 @@ hour. Replaying an already completed digging receipt remains valid.
 `test_travel_digging` specifies individual/team rejection, unchanged work state,
 save continuation and eligibility on the next day. Fixtures remain unrun. Other
 work and employment scheduling adapters are still incomplete.
+
+
+### Interrupting the full-day commitment
+
+Call `travelDay.interrupt(evidence)` when adventuring or another activity ends the
+full-day travel commitment (full-2008 B351). This records the current timestamp and
+an authored reason without advancing time. Later study, practice or work may use
+the released time; ranges overlapping the earlier reserved period still conflict.
+Repeated calls with the same reason reuse the interruption. Changing its timestamp
+or reason rejects receipt validation.
+
+`fullMileageReason()` returns `travel-day-interrupted` thereafter. Authors must
+check it before awarding the full daily mileage allowance. Interruption does not
+invent a fractional travel distance or refund fatigue; the travelled distance needs
+an authored ruling. It also does not turn a partly travelled day into a dedicated
+foraging day. Completed days cannot be retroactively interrupted.
+
+`test_travel_day_interruption` specifies release of later activities, forfeited full
+mileage, rollback, undo, repeated interruption, save continuation and timestamp
+binding. Fixtures remain unrun.

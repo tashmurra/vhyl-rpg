@@ -23,6 +23,31 @@ modify PhysicianFixtureAction
         { local value = travelForagingDay.assess(); event('test.travel-forage'); eventValue(value.status); eventValue(value.reason); return nil; }
         if (code == 23907)
         { event('test.travel-state'); eventValue(crossPhysician.travelDays.length()); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil; }
+        if (code == 23908 || code == 23909)
+        { travelDay.interrupt('The caravan stops for other activities'); if (code == 23909) throw new RpgError(); return nil; }
+        if (code == 23910) { rpgSpendTime(1); return nil; }
+        if (code == 23911)
+        { event('test.travel-mileage'); eventValue(travelDay.fullMileageReason()); eventValue(travelDay.interruptedAt); return nil; }
+        if (code == 23912)
+        {
+            travelDay.interruptedAt += 1;
+            try { travelDay.validateBinding(); }
+            catch (RpgExpandedError error) { event('test.travel-interruption-error'); eventValue(error.reason); }
+            return nil;
+        }
+        if (code == 23913)
+        {
+            event('test.travel-overlap');
+            eventValue(crossPhysician.nonTravelScheduleReason(0,1));
+            eventValue(crossPhysician.nonTravelScheduleReason(1,1));
+            eventValue(crossPhysician.foragingDayConflict(0));
+            return nil;
+        }
+        if (code == 23914)
+        {
+            local value = travelDay.interrupt('The caravan stops for other activities');
+            event('test.travel-interrupt'); eventValue(value.status); eventValue(value.reason); return nil;
+        }
         return inherited(context);
     }
 ;

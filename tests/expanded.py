@@ -9454,6 +9454,7 @@ def test(build):
     test_packing_pace(Session,packing_pace)
     travel_day = build.build("expanded-travel-day",ROOT / "tests/fixtures/expanded-travel-day.t")
     test_travel_day(Session,travel_day,build.out)
+    test_travel_day_interruption(Session,travel_day,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
     test_travel_digging(Session,travel_digging,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
@@ -25126,5 +25127,45 @@ def test_travel_digging(Session, bundle, out):
             s.action(2285,code)
         assert last(s,'test.travel-dig-team') == ['ready',None]
         assert last(s,'test.travel-dig-solo') == ['ready',None]
+    finally:
+        s.close()
+
+
+def test_travel_day_interruption(Session, bundle, out):
+    """Interrupted travel releases later time while forfeiting full daily mileage; unrun."""
+    path = out / 'travel-day-interrupted.zsave'
+    s = Session(bundle)
+    try:
+        for code in (23900,23910,23909,23902,23911):
+            s.action(1680,code)
+        assert last(s,'test.travel-study') == ['blocked','activity-dedicated-travel-day']
+        assert last(s,'test.travel-mileage') == [None,None]
+        s.action(1680,23908); s.command('undo'); s.action(1680,23902)
+        assert last(s,'test.travel-study') == ['blocked','activity-dedicated-travel-day']
+        for code in (23908,23908,23902,23903,23911):
+            s.action(1680,code)
+        assert last(s,'test.travel-study') == ['ready',None]
+        assert last(s,'test.travel-familiarity') == ['ready',None]
+        assert last(s,'test.travel-mileage') == ['travel-day-interrupted',1]
+        s.action(1680,23913)
+        assert last(s,'test.travel-overlap') == ['activity-dedicated-travel-day',None,'foraging-dedicated-travel-day']
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,23902); s.action(1680,23911)
+        assert last(s,'test.travel-study') == ['ready',None]
+        assert last(s,'test.travel-mileage') == ['travel-day-interrupted',1]
+        s.action(1680,23912)
+        assert last(s,'test.travel-interruption-error') == ['travel-day-interruption-binding']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (23900,23904,23914,23911):
+            s.action(1680,code)
+        assert last(s,'test.travel-interrupt') == ['blocked','travel-day-already-ended']
+        assert last(s,'test.travel-mileage') == [None,None]
     finally:
         s.close()
