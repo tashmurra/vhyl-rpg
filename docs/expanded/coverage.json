@@ -117,8 +117,10 @@
       "title": "Reactions, influence and social permissions",
       "pages": "B359; B494-B495; B559-B562",
       "source": "full-2008",
-      "status": "pending",
-      "tests": []
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_social_status"
+      ]
     },
     {
       "id": "tactical",
@@ -563,6 +565,18 @@
         "tests/expanded.py::test_money_exchange"
       ],
       "validation_note": "Creation budget and advancement-point exchange paths with per-profile opportunity receipts authored. Checks unrun."
+    },
+    {
+      "id": "purchased-social-standing",
+      "module": "social",
+      "pages": "B28-B29",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedStatus",
+      "tests": [
+        "tests/expanded.py::test_social_status"
+      ],
+      "validation_note": "Culture-specific purchased standing and pure reaction modifier authored. Tests unrun; wealth/rank integration and complete reactions remain pending."
     }
   ],
   "detailed_inventories": [

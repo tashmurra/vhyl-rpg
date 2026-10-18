@@ -11,3 +11,4 @@
 #include <vhyl-rpg-expanded-templates.t>
 
 #include <vhyl-rpg-expanded-campaign.t>
+#include <vhyl-rpg-expanded-social.t>
