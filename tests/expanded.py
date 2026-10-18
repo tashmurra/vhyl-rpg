@@ -9294,6 +9294,8 @@ def test(build):
     test_owned_wilderness(Session, owned_wilderness)
     lifestyle_items = build.build("expanded-lifestyle-items",ROOT / "tests/fixtures/expanded-lifestyle-items.t")
     test_lifestyle_items(Session, lifestyle_items, build.out)
+    initial_wardrobe = build.build("expanded-initial-wardrobe",ROOT / "tests/fixtures/expanded-initial-wardrobe.t")
+    test_initial_wardrobe(Session, initial_wardrobe, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22152,3 +22154,42 @@ def test_lifestyle_items(Session, bundle, out):
             assert last(s, 'test.lifestyle-item-rejected') == [1, 1000, 0, 0]
         finally:
             s.close()
+
+
+def test_initial_wardrobe(Session, bundle, out):
+    """B266 starting entitlement issues physical clothes once, without charging; unrun."""
+    path = out / 'initial-wardrobe.zsave'
+    s = Session(bundle)
+    try:
+        for code in (15601, 15602):
+            s.action(1100, code)
+        assert last(s, 'test.initial-clothes-state') == [1000, 0, 0, 0]
+        s.action(1100, 15600)
+        s.command('undo')
+        s.action(1100, 15602)
+        assert last(s, 'test.initial-clothes-state') == [1000, 0, 0, 0]
+        for code in (15600, 15600, 15603, 15602):
+            s.action(1100, code)
+        assert last(s, 'test.initial-clothes-state') == [1000, 1, 1, 0]
+        assert last(s, 'test.initial-clothes-second') == ['blocked', 'initial-wardrobe-already-issued']
+        s.command(f':save {path}\n@1101')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1101')
+        for code in (15604, 15600, 15605, 15602, 15606):
+            s.action(1100, code)
+        assert last(s, 'test.initial-clothes-result') == ['reused', None]
+        assert last(s, 'test.initial-clothes-state') == [1000, 0, 1, 0]
+        assert last(s, 'test.initial-clothes-binding') == ['initial-wardrobe-binding']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (15604, 15600, 15602):
+            s.action(1100, code)
+        assert last(s, 'test.initial-clothes-result') == ['blocked', 'initial-wardrobe-creation-only']
+        assert last(s, 'test.initial-clothes-state') == [1000, 0, 0, 0]
+    finally:
+        s.close()

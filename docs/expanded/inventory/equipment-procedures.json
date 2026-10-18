@@ -228,9 +228,12 @@
       "pages": "B266",
       "module": "equipment",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Initial status-appropriate wardrobe is included and normal replacements are covered by living costs. Sudden replacement uses catalogue pricing. Full wardrobe uses actual status; individual outfits normally cap at status three. Do not add initial wardrobe expense or treat all clothes as weightless.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_initial_wardrobe"
+      ],
+      "validation_note": "Starting wardrobe now issues a physical lifestyle item once during creation without charging money. Receipt binds authored full cultural standing and original item, rejects duplicate entitlement and replays without restoring transferred/lost clothes. Availability and permission still apply. Automatic cultural-standing selection and normal replacement coverage remain pending. Fixture covers rollback, undo, cross-process saved replay and invalid claims; unrun while checks are paused."
     },
     {
       "id": "equipment-procedures-wardrobe-context",

@@ -1614,3 +1614,62 @@ class RpgExpandedLifestyleItem: RpgLiteItem
         rpgInteger(self.quantity,1,1); self.packagePrice(); self.packageWeight(); return nil;
     }
 ;
+
+modify RpgExpandedProfile
+    initialWardrobe = nil
+;
+/** B266 included starting clothes. The author supplies the applicable full
+ * cultural standing; payment support from rank does not reduce wardrobe value. */
+class RpgExpandedInitialWardrobe: RpgExpandedAcquisition
+    mode = 'issue'
+    applicableStatus = nil
+    culture = nil
+    approved = nil
+    evidence = nil
+    boundDefinition = nil
+    definition()
+    {
+        if (self.item == nil || !self.item.ofKind(RpgExpandedLifestyleItem))
+            rpgExpandedReject('initial-wardrobe-item');
+        local price = self.item.packagePrice();
+        return [self.profile,self.item,self.mode,self.quote,self.startingPurchase,self.marketOffer,self.coinTender,
+            self.applicableStatus,self.culture,self.approved,self.evidence,self.item.lifestyle,
+            self.item.lifestyle.status,self.item.lifestyle.kind,self.item.exactWeight,
+            self.item.approved,self.item.evidence,price.money];
+    }
+    assess()
+    {
+        local facts = self.definition();
+        if (self.claimed)
+        {
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('initial-wardrobe-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('initial-wardrobe-binding');
+            if (self.profile.initialWardrobe != self) rpgExpandedReject('initial-wardrobe-history');
+            return inherited();
+        }
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('initial-wardrobe-profile');
+        if (self.mode != 'issue' || self.quote != nil || self.startingPurchase
+            || self.marketOffer != nil || self.coinTender != nil)
+            rpgExpandedReject('initial-wardrobe-price-source');
+        rpgInteger(self.applicableStatus,-2,8);
+        if (self.item.lifestyle.kind != 'wardrobe' || self.item.lifestyle.status != self.applicableStatus)
+            rpgExpandedReject('initial-wardrobe-status');
+        local value = new RpgExpandedAcquisitionResult();
+        if (self.profile.initialWardrobe != nil) { value.reason = 'initial-wardrobe-already-issued'; return value; }
+        if (self.profile.creationComplete) { value.reason = 'initial-wardrobe-creation-only'; return value; }
+        if (!self.approved || self.culture == nil || self.evidence == nil || self.evidence == '')
+        { value.reason = 'initial-wardrobe-standing-required'; return value; }
+        return inherited();
+    }
+    acquire()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local facts = self.definition(); value = inherited();
+        if (value.status == 'resolved')
+        { self.boundDefinition = facts; self.profile.initialWardrobe = self; }
+        return value;
+    }
+;

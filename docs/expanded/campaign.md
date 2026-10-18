@@ -877,8 +877,31 @@ adjust the baseline through the existing market interface.
 
 This adapter represents physical goods, so lodging, restaurant meals and monthly
 household coverage are rejected. It does not consume rations, grant clothing
-bonuses, infer initial wardrobe entitlement or replace prepaid living expenses.
+bonuses, infer cultural standing or replace prepaid living expenses.
 Those integrations remain outstanding. `expanded-lifestyle-items.t` /
 `test_lifestyle_items` specify physical purchases, exact/minimum weights, invalid
 services, rollback, undo and save continuation. Fixtures remain unrun while
 checks are paused.
+
+
+## Included starting wardrobe
+
+`RpgExpandedInitialWardrobe` issues a `RpgExpandedLifestyleItem` whose lifestyle
+kind is `wardrobe` during character creation (full-2008, B266). Supply `profile`,
+`item`, `applicableStatus`, `culture`, `approved`, `evidence`, `available` and
+`permitted`. The author must identify full standing in the starting culture;
+the wardrobe lifestyle must match it. Organizational support for monthly living
+expenses does not reduce this wardrobe valuation.
+
+This acquisition remains an issue: quotes, market offers, coin tender and
+starting-purchase pricing reject. It adds the actual item and its weight without
+charging money. `profile.initialWardrobe` retains the owned receipt, preventing
+a second entitlement. Completed receipts remain reusable after creation closes
+and after the clothes leave inventory, without charging or recreating them.
+Changing the bound item or standing rejects. Ordinary replacement purchases use
+`RpgExpandedAcquisition`; normal wear covered by living expenses still requires
+separate integration.
+
+`expanded-initial-wardrobe.t` / `test_initial_wardrobe` specify free issuance,
+duplicate rejection, creation boundaries, bound choices, lost-item replay,
+rollback, undo and save continuation. These fixtures remain unrun.
