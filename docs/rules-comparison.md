@@ -23,5 +23,5 @@ systems belong to the separate full-suite project.
 
 The [library catalogue](libraries.md) lists every shipped include and its
 dependencies. The [integration guide](expanded/index.md) identifies the interim
-boundaries. Validation of the new implementation is pending; this comparison is
+boundaries. The implementation remains an experimental subset; this comparison is
 not a complete source-to-test coverage claim.

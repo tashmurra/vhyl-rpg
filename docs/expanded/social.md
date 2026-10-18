@@ -61,4 +61,4 @@ work schedules are not part of the social module.
 The source-derived API reference documents fields and methods. Full influence
 contests, contacts, complete social permissions and some reaction follow-up
 procedures remain outside this milestone. Source mapping: `full-2008` B27-B30,
-B44-B45, B494-B495, B518-B519 and B560-B562. All new validation is pending.
+B44-B45, B494-B495, B518-B519 and B560-B562. See the [prerelease validation record](../releases/v1.1.0-alpha.1.md).

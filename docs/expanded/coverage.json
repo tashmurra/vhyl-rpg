@@ -2,7 +2,7 @@
   "schema": 1,
   "scope": "Character/social interim milestone; neither full-reference nor complete per-module coverage is claimed.",
   "inventory_complete": false,
-  "validation": "Checks paused at user request; current fixes and newly authored cases await execution.",
+  "validation": "See docs/releases/v1.1.0-alpha.1.md for the release validation record; partial coverage remains explicit.",
   "modules": [
     {
       "id": "foundation",

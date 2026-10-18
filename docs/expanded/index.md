@@ -1,8 +1,8 @@
 # Character and social integration
 
 This interim milestone contains the character and social subset of the expanded
-rules project. Implementation and documentation are under review; validation is
-pending. It is not a complete conversion of the full reference.
+rules project, packaged as v1.1.0-alpha.1 for Bellwether integration.
+It is not a complete conversion of the full reference.
 
 ## Includes
 
@@ -38,7 +38,7 @@ boundaries with parser, structured-action and dialogue entry points.
 Undo, exception rollback and saves use vhyl's existing transaction mechanism.
 Saves remain tied to the exact compiled game. This milestone supplies no old-save
 migration. Lite behavior should remain unchanged when expansions are absent;
-regression validation is still pending.
+the release checks cover the existing core and Lite regressions.
 
 ## Boundaries
 

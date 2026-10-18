@@ -30,4 +30,4 @@ success. An authored equipment type is an identity, not a second inventory item.
 
 The module supplies mechanisms for authored definitions, not a full skill catalogue.
 The Town Registry's two skills are original integration examples. Source mapping:
-`full-2008` B168-B175, B230-B233. Native validation is pending.
+`full-2008` B168-B175, B230-B233. See the [prerelease validation record](../releases/v1.1.0-alpha.1.md).

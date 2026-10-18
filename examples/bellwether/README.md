@@ -2,8 +2,7 @@
 
 This original vignette demonstrates a Bellwether-oriented integration. Its clerk,
 ledger and local facts are examples, not additions to an existing campaign's canon.
-An earlier local run passed the example’s native integration checks. The current
-interim library changes still await validation; the draft is not a verified release.
+Use the tagged v1.1.0-alpha.1 prerelease for a reproducible integration snapshot.
 
 Include core, progression and the Lite umbrella, followed by
 `vhyl-rpg-expanded-character-social.t`. Do not also include the six expansion
@@ -46,6 +45,5 @@ facilities. Saves require the exact compiled game; there is no save migration.
 
 The authored native test covers the three entry points, the independent expected
 character cost, repeat protection, undo/replay and continuation in new processes.
-The current interim milestone still needs complete source, native, documentation
-and packaging validation. See the preview release notes for the earlier partial
-run and the remaining startup-fix verification.
+See the [prerelease notes](../../docs/releases/v1.1.0-alpha.1.md) for validation
+and the supported integration boundaries.

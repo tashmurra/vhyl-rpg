@@ -19,4 +19,4 @@ generic power effects or an automatic self-control trigger procedure. Do not giv
 a character an advertised capability based only on the calculated point cost.
 
 Source mapping: `full-2008` B101-B121. Full trait catalogues and their effects remain
-part of the broader expansion project. Validation is pending.
+part of the broader expansion project. See the [prerelease validation record](../releases/v1.1.0-alpha.1.md).

@@ -19,4 +19,4 @@ alternate body forms and the full reference's catalogue of templates are not
 provided by this interim milestone.
 
 Source mapping: `full-2008` B258-B259. Template composition, ownership and invalid
-choice cases are part of the pending validation work.
+choice cases are included in the native validation suite.

@@ -37,7 +37,8 @@ nav:
   - Alphabetical symbols: reference/symbols.md
   - Alphabetical members: reference/members.md
   - Development and releases: docs/development.md
-  - Current release: docs/releases/v1.0.0.md
+  - Current prerelease: docs/releases/v1.1.0-alpha.1.md
+  - Lite release: docs/releases/v1.0.0.md
   - Resilience prototype: docs/releases/v0.2.0-alpha.1.md
   - First prototype: docs/releases/v0.1.0-alpha.1.md
   - Provenance: docs/provenance.md
