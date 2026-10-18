@@ -207,6 +207,28 @@ def test_scaled_shock_turn_boundary(s):
         assert last(s, 'test.shock-turn') == [retained, 'resolved', 0, 8, 0]
 
 
+def test_knockdown_assessment(s):
+    # Exact half is not major under the main injury procedure (B420).
+    for capacity, injury, location, male, expected in [
+            (10, 5, 'torso', 0, [0, 0, 0, 4]),
+            (10, 6, 'torso', 0, [1, 1, 0, 4]),
+            (10, 1, 'face', 0, [0, 1, 0, 1]),
+            (10, 6, 'face', 0, [1, 1, -5, 4]),
+            (10, 6, 'skull', 0, [1, 1, -10, 4]),
+            (10, 6, 'vitals', 0, [1, 1, -5, 4]),
+            (10, 5, 'groin', 1, [0, 0, 0, 4]),
+            (10, 6, 'groin', 1, [1, 1, -5, 4]),
+            (10, 6, 'groin', 0, [1, 1, 0, 4]),
+            (30, 2, 'face', 0, [0, 0, 0, 0]),
+            (30, 3, 'face', 0, [0, 1, 0, 1]),
+            (10, 0, 'skull', 0, [0, 0, 0, 0])]:
+        s.action(1604, capacity, injury, location, male)
+        assert last(s, 'test.knockdown-assessment') == expected
+    s.action(1605)
+    assert last(s, 'test.knockdown-rejection') == [
+        'expanded-knockdown-location-unavailable', 'expanded-knockdown-groin-context']
+
+
 def test_numbers(s):
     before = state(s)
     # Full-2008 B170. Enumerated offsets rather than the implementation formula.
@@ -1954,6 +1976,7 @@ def test(build):
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)
+    fresh(Session,health,test_knockdown_assessment)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
     fresh(Session,minimal,test_job_earnings)

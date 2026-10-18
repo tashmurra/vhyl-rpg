@@ -48,5 +48,20 @@ act(verb,args)
         local value = battle.step(fighter,new RpgLiteManeuver()); eventValue(value.status);
         eventValue(p.shock); eventValue(p.injury); eventValue(rpgRandom.draws - before); return nil;
     }
+    if (verb == 1604)
+    {
+        local value = rpgExpandedAssessKnockdown(args[1],args[2],args[3],args[4] == 1);
+        event('test.knockdown-assessment'); eventValue(value.major ? 1 : 0);
+        eventValue(value.required ? 1 : 0); eventValue(value.modifier); eventValue(value.shock); return nil;
+    }
+    if (verb == 1605)
+    {
+        event('test.knockdown-rejection');
+        try { rpgExpandedAssessKnockdown(10,3,'eye',nil); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { rpgExpandedAssessKnockdown(10,3,'torso',true); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }

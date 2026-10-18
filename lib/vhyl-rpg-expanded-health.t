@@ -25,3 +25,33 @@ modify RpgExpandedProfile
         return rpgExpandedInjuryShock(self.maxHP,amount);
     }
 ;
+
+/** Pure location knockdown assessment; injury is already adjusted after protection.
+ * This is not a damage multiplier or a wound commit. Source: full-2008 B419-B420. */
+class RpgExpandedKnockdownAssessment: RpgExpandedResult
+    major = nil
+    required = nil
+    modifier = 0
+    shock = 0
+;
+
+/** Standard humanoid locations without crippling. B420 governs the strict
+ * greater-than-half threshold; the conflicting appendix equality is not used. */
+rpgExpandedAssessKnockdown(capacity, injury, location, maleGroin)
+{
+    rpgInteger(capacity,1,1000); rpgInteger(injury,0,100000);
+    if (!holds(['torso','face','skull','vitals','groin'],location))
+        rpgExpandedReject('expanded-knockdown-location-unavailable');
+    if (maleGroin && location != 'groin') rpgExpandedReject('expanded-knockdown-groin-context');
+    local value = new RpgExpandedKnockdownAssessment();
+    value.shock = rpgExpandedInjuryShock(capacity,injury);
+    value.major = injury * 2 > capacity;
+    value.required = value.major || value.shock > 0 && holds(['face','skull','vitals'],location);
+    if (value.major)
+    {
+        if (location == 'skull') value.modifier = -10;
+        else if (holds(['face','vitals'],location) || location == 'groin' && maleGroin)
+            value.modifier = -5;
+    }
+    value.status = 'ready'; return value;
+}

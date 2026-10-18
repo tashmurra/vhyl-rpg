@@ -86,7 +86,8 @@
       "status": "partial",
       "tests": [
         "tests/expanded.py::test_scaled_injury_shock",
-        "tests/expanded.py::test_scaled_shock_turn_boundary"
+        "tests/expanded.py::test_scaled_shock_turn_boundary",
+        "tests/expanded.py::test_knockdown_assessment"
       ],
       "validation_note": "High-capacity shock and wound/turn-cleanup hooks authored behind explicit selection. Boundary, resistance and rejection cases unrun; pain sensitivity and detailed injuries remain pending."
     },

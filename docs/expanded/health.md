@@ -139,3 +139,28 @@ while B419 gives the ordinary cap. The supplied curated records do not resolve
 that interaction. Its knockdown/torture modifier, involuntary vocalization check
 and observer-dependent reaction consequences also remain pending. No partial
 price-only trait is presented as the complete disadvantage.
+
+## Location knockdown assessment
+
+`rpgExpandedAssessKnockdown(capacity, injury, location, maleGroin)` assesses the
+standard torso, face, skull, vitals and groin cases from `full-2008` B419-B420.
+Pass injury already adjusted for protection and damage type. The result reports
+`major`, `required`, the location `modifier` and ordinary `shock`; it consumes no
+resources, rolls no dice and applies no injury. Pain traits are not included in
+this location modifier. `maleGroin` is an authored anatomical fact and is accepted
+only for the groin location.
+
+The assessment gives precedence to B420's strictly-greater-than-half major-wound
+threshold over the appendix equality. Thus a half-capacity torso wound is not
+major, while a shock-producing face wound still requires a check. Eye and limb
+injuries reject because their crippling procedures are not implemented here.
+This helper is restricted to standard anatomy; it cannot represent absent brains
+or vitals, diffuse bodies or other injury-tolerance exceptions.
+
+`test_knockdown_assessment` enumerates threshold, location and high-capacity
+expectations. It remains unrun. A committed location-aware wound operation is
+still pending: do not call the ordinary wound function and then add another
+knockdown check, which would double-check major wounds. Modified targets below
+three also need explicit resolution before commit integration, since B345 bars
+ordinary success attempts below three and the knockdown consequences depend on a
+failure margin. This assessment does not invent that margin.

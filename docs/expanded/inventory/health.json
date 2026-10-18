@@ -135,9 +135,12 @@
       "pages": "B420",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A single injury strictly greater than half health capacity is a major wound; a crippling injury is also major even when its recorded health loss is smaller.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_knockdown_assessment"
+      ],
+      "validation_note": "Pure standard-location trigger and modifier assessment authored; B420 strict threshold takes precedence. Cases unrun; committed injury, anatomy/crippling exceptions and below-three checks pending."
     },
     {
       "id": "health-knockdown-trigger",
@@ -145,9 +148,12 @@
       "pages": "B420",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A major wound or a shock-producing injury to skull, face, eye or vitals triggers an immediate knockdown/stun health check unless an applicable anatomy trait changes the trigger.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_knockdown_assessment"
+      ],
+      "validation_note": "Pure standard-location trigger and modifier assessment authored; B420 strict threshold takes precedence. Cases unrun; committed injury, anatomy/crippling exceptions and below-three checks pending."
     },
     {
       "id": "health-knockdown-failure",
