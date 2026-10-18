@@ -8981,6 +8981,7 @@ def test(build):
     loads = build.build('expanded-loads', ROOT / 'tests/fixtures/expanded-loads.t')
     test_load_assessments(Session, loads)
     test_cooperative_loads(Session, loads)
+    test_load_distribution(Session, loads)
     equipment_lift = build.build('expanded-equipment-lift', ROOT / 'tests/fixtures/expanded-equipment-lift.t')
     test_equipment_lift(Session, equipment_lift, build.out)
     lifting_skill = build.build('expanded-lifting-skill', ROOT / 'tests/fixtures/expanded-lifting-skill.t')
@@ -13313,5 +13314,26 @@ def test_cooperative_loads(Session, bundle):
             s.action(2298,code,29600)
             assert last(s, 'test.cooperative-load')[:2] == ['blocked',reason]
             assert last(s, 'test.cooperative-load')[-2:] == [0,0]
+    finally:
+        s.close()
+
+
+def test_load_distribution(Session, bundle):
+    s = Session(bundle)
+    try:
+        s.action(2299,2000,4000,0)
+        assert last(s, 'test.load-distribution') == ['ready',None,2000,3000,1,4000,4000,1,1000,0,0,0]
+        # Unequal authored shares are preserved, rather than replaced by half each.
+        s.action(2299,1000,5000,0)
+        assert last(s, 'test.load-distribution') == ['ready',None,1000,2000,0,5000,5000,2,1000,0,0,0]
+        for first, second in [(2000,3999),(2000,4001)]:
+            s.action(2299,first,second,0)
+            assert last(s, 'test.load-distribution') == ['blocked','load-distribution-total',1000,0,0,0]
+        s.action(2299,2000,4000,1)
+        assert last(s, 'test.load-distribution') == ['load-distribution-participant',1000,0,0,0]
+        s.action(2299,2000,4000,2)
+        assert last(s, 'test.load-distribution') == ['blocked','load-distribution-author-facts',1000,0,0,0]
+        s.action(2299,2000,4000,3)
+        assert last(s, 'test.load-distribution') == ['blocked','load-distribution-overload-required',19000,0,0,0]
     finally:
         s.close()

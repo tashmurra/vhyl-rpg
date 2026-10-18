@@ -344,9 +344,10 @@
       "status": "partial",
       "acceptance": "For an authored cooperative lift or pull, add participants' lifting capacities rather than their strength scores.",
       "tests": [
-        "tests/expanded.py::test_cooperative_loads"
+        "tests/expanded.py::test_cooperative_loads",
+        "tests/expanded.py::test_load_distribution"
       ],
-      "validation_note": "Authored cooperative capacity assessment sums individually rounded BL, rejects duplicate/incapacitated helpers and uses shared lift/dragging arithmetic. Boundary and scenario assertions authored, unrun. Joint physical execution, per-participant load distribution, movement and fatigue remain pending."
+      "validation_note": "Authored cooperative capacity assessment sums individually rounded BL, rejects duplicate/incapacitated helpers and uses shared lift/dragging arithmetic. Boundary and scenario assertions authored, unrun. Joint physical execution, per-participant load distribution, movement and fatigue remain pending. Pure authored share allocation now conserves object weight and assesses each helper alongside existing inventory, blocking unsupported individual overload. Unequal-share and boundary assertions authored, unrun; committed shared carrying still pending."
     },
     {
       "id": "activity-lift-back-fatigue",

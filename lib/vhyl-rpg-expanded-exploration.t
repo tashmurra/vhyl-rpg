@@ -1106,3 +1106,34 @@ modify RpgExpandedLoadAssessment
     combinedLift = nil
     participantCount = 0
 ;
+
+class RpgExpandedLoadDistributionResult: RpgExpandedResult
+    allocations = []
+;
+/** Authored physical shares, not a source-prescribed equal division.
+ * rows are [profile, shareHundredths]; results add existing-load total and band. */
+rpgExpandedAssessLoadDistribution(rows,weight,approved,evidence)
+{
+    local value = new RpgExpandedLoadDistributionResult();
+    if (!approved || evidence == nil || evidence == '')
+    { value.reason = 'load-distribution-author-facts'; return value; }
+    rpgInteger(weight,1,100000000);
+    if (rows.length() < 2 || rows.length() > 100) rpgExpandedReject('load-distribution-participants');
+    local seen = []; local allocated = 0; local assessments = [];
+    foreach (local row in rows)
+    {
+        if (row.length() != 2 || row[1] == nil || !row[1].ofKind(RpgExpandedProfile) || holds(seen,row[1]))
+            rpgExpandedReject('load-distribution-participant');
+        local profile = row[1]; seen = seen + [profile];
+        rpgInteger(row[2],1,weight);
+        if (row[2] > weight-allocated) { value.reason = 'load-distribution-total'; return value; }
+        allocated += row[2];
+        local existing = profile.loadHundredths(); rpgInteger(existing,0,100000000);
+        local lift = profile.basicLiftHundredths(); rpgInteger(lift,1,1000000);
+        local total = existing + row[2]; local level = rpgLiteLoadLevel(total,lift);
+        if (level == 5) { value.reason = 'load-distribution-overload-required'; return value; }
+        assessments = assessments + [[profile,row[2],total,level]];
+    }
+    if (allocated != weight) { value.reason = 'load-distribution-total'; return value; }
+    value.allocations = assessments; value.status = 'ready'; return value;
+}

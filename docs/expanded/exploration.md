@@ -525,3 +525,30 @@ inventory as a substitute.
 capacity and immediate-over-limit cases, wagon/surface modifiers, duplicate
 helpers, missing authorization and an incapacitated helper. Assertions are authored
 and unrun while checks remain paused.
+
+### Assessing individual shares
+
+`rpgExpandedAssessLoadDistribution(rows, weight, approved, evidence)` assesses an
+authored distribution for a shared object, using B353 cooperation and the existing
+encumbrance bands. Rows are `[expandedProfile, shareHundredths]`; at least two
+unique participants must each have a positive share. Their shares must sum exactly
+to the object's `weight`. Approval and evidence explain the actual load-bearing
+arrangement. Equal division is not inferred or presented as a published rule.
+
+A ready `RpgExpandedLoadDistributionResult` contains `allocations` rows of
+`[profile, shareHundredths, totalCarriedHundredths, encumbranceLevel]`. The total
+adds that participant's current inventory load. Existing possessions remain in
+one inventory; the assessed object's weight must not already be included in any
+participant's carried load. This helper accepts numeric weight and cannot establish
+that physical fact itself; the future shared-object execution must validate it.
+
+The assessment blocks if shares omit or duplicate weight, a participant is
+repeated, or a helper would exceed the supported ten-times-Basic-Lift carried load.
+It changes no profile, inventory, time or randomness. It does not establish lifting
+capacity, health, access or hand availability by itself; use it with the cooperative
+capacity assessment and the physical arrangement contract.
+
+The fixture includes unequal shares, existing carried equipment, exact total
+conservation, missing/excess weight, duplicate helpers, missing approval and
+individual overload. Assertions are authored and unrun. Committed shared-object
+ownership, ongoing movement, fatigue and release remain pending.

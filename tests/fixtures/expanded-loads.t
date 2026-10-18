@@ -54,5 +54,24 @@ act(verb,args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
+    if (verb == 2299)
+    {
+        local first = new RpgExpandedProfile(); local second = new RpgExpandedProfile();
+        local gear = new RpgLiteItem(); gear.weight = 1000; first.equipment = [gear];
+        if (args[3] == 3) gear.weight = 19000;
+        local rows = [[first,args[1]],[second,args[2]]];
+        if (args[3] == 1) rows = [[first,args[1]],[first,args[2]]];
+        event('test.load-distribution');
+        try
+        {
+            local value = rpgExpandedAssessLoadDistribution(rows,6000,args[3] != 2,'Authored grips assign the specified shares');
+            eventValue(value.status); eventValue(value.reason);
+            foreach (local allocation in value.allocations)
+            { eventValue(allocation[2]); eventValue(allocation[3]); eventValue(allocation[4]); }
+        }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        eventValue(first.loadHundredths()); eventValue(second.loadHundredths());
+        eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
     return vhylAct(verb,args);
 }

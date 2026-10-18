@@ -722,3 +722,7 @@ repairs and other tool uses remain incomplete.
 - Added authored cooperative-load assessment by summing individual Basic Lift,
   with duplicate-helper and incapacity rejection. It reuses exact lift/dragging
   arithmetic. Joint execution and load distribution remain pending; fixtures unrun.
+
+- Added pure shared-load allocation assessment with exact weight conservation,
+  existing inventory load and per-helper encumbrance. Shares require an evidenced
+  author decision. Committed shared carrying remains pending; fixtures unrun.
