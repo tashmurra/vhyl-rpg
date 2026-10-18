@@ -2037,3 +2037,28 @@ one interruption blocks the party's full-day assessment without consuming anothe
 roll or altering the other participants' reservations. `test_hiking_day_party`
 covers member ownership, interruption, undo, save continuation and altered result
 rejection. These fixtures remain unrun while checks are paused.
+
+## Reading terrain for a direction
+
+`RpgExpandedTerrainSearch` implements the full-2008 B223 direction-finding use of
+Survival and the B198 Geology water-search permission. Supply `profile`, a typed
+`RpgExpandedTerrainSearchContext`, unique `id`, `site`, `occurrence`, explicit
+`seconds`, `approved` and concrete `evidence`. `featureExists` and `direction`
+are authored world facts: a nonexistent feature requires nil direction, and an
+existing one requires a direction. Time is authored; the reference gives no
+fixed duration for this observation.
+
+`assess()` checks world scope, health permission, scheduling and score before
+spending. `resolve()` charges shared time once and rolls once when allowed.
+A success returns the direction only if the feature exists; failure or absence
+returns nil. Health denial spends no task time and makes no skill roll. The
+owned receipt binds its world facts, check and result, and replay cannot repeat
+the charge or roll. A second request for the same site, occurrence and feature is
+rejected; author a new occurrence only when a new task is justified.
+
+No supplies are created, no hydration changes and no movement occurs. Walking
+to the feature and obtaining safe water require their own operations. Conditions
+such as visibility and access must be supported by the authored evidence; live
+sensory integration, shared player actions and broader geological interpretation
+remain pending. `test_terrain_search` specifies scope, absence, failure, health
+denial, pure preview, rollback, undo and save continuation. Fixtures remain unrun.

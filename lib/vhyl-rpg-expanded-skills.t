@@ -2613,3 +2613,70 @@ class RpgExpandedGeographyContext: RpgExpandedSkillContext
         return self.geographyReason() == nil ? inherited(profile) : nil;
     }
 ;
+
+/** B198/B180 Geology/TL, qualified by planet type. */
+class RpgExpandedGeologySkill: RpgExpandedSkill
+    id = 'geology'
+    attribute = rpgIQ
+    difficulty = 2
+    defaultPenalty = -6
+    validateDefinition()
+    {
+        if (self.id != 'geology' || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != -6
+            || self.techLevel == nil || self.defaultAttribute != nil || self.alternateAttribute != nil
+            || self.defaults.length() != 0 || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil
+            || !holds(['habitable','gas-giant','hostile-terrestrial','icy-small-body','ice-covered','rocky'],self.specialty))
+            rpgExpandedReject('geology-skill-definition');
+        rpgInteger(self.techLevel,0,12); return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (source == self || training.points <= 0 || !source.ofKind(RpgExpandedSkill)) continue;
+            local general = source.optionalParent == nil ? source : source.optionalParent;
+            if (general.ofKind(RpgExpandedGeologySkill) && general.techLevel == self.techLevel && general.specialty != self.specialty)
+            { general.validateDefinition(); edges = edges + [[general,-4]]; }
+            else if (general.ofKind(RpgExpandedGeographySkill) && general.specialty == 'physical'
+                && general.planetType == self.specialty && general.techLevel == self.techLevel)
+            { general.validateDefinition(); edges = edges + [[general,-4]]; }
+            else if (general.id == 'prospecting' && general.techLevel == self.techLevel) edges = edges + [[general,-5]];
+        }
+        return edges;
+    }
+;
+class RpgExpandedTerrainSearchContext: RpgExpandedSkillContext
+    planet = nil
+    planetType = nil
+    feature = nil
+    terrainSearchFacts()
+    {
+        if (self.skill == nil || self.fixedBase != nil || self.rollAttribute != nil)
+            rpgExpandedReject('terrain-search-context');
+        if (!self.skill.ofKind(RpgExpandedGeologySkill) && !self.skill.ofKind(RpgExpandedSurvivalSkill))
+            rpgExpandedReject('terrain-search-skill');
+        self.skill.validateDefinition();
+        return [self.skill,self.skill.specialty,self.skill.techLevel,self.planet,self.planetType,self.feature,
+            self.modifier,self.equipmentTL,self.familiarity] + self.culturalTaskFacts();
+    }
+    taskUnavailableReason(profile)
+    {
+        self.terrainSearchFacts();
+        if (self.feature == nil || self.feature == '' || self.planet == nil || self.planetType == nil)
+            return 'terrain-search-world-facts-required';
+        if (self.skill.ofKind(RpgExpandedGeologySkill))
+        {
+            if (self.feature != 'flowing-water') return 'geology-search-water-only';
+            if (self.skill.specialty != self.planetType) return 'terrain-search-planet-mismatch';
+        }
+        else if (self.skill.planet != self.planet || self.skill.planetType != self.planetType)
+            return 'terrain-search-planet-mismatch';
+        return inherited(profile);
+    }
+    skillUseModifier(profile)
+    {
+        return self.taskUnavailableReason(profile) == nil ? inherited(profile) : nil;
+    }
+;

@@ -1063,3 +1063,7 @@ modify RpgLiteContext
         return profile.culturalPenalty(self.taskCulture);
     }
 ;
+
+modify RpgLiteContext
+    terrainSearchFacts() { rpgExpandedReject('terrain-search-skills-module-required'); }
+;

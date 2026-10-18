@@ -3945,3 +3945,120 @@ modify rpgExpandedPackingOverload
         return nil;
     }
 ;
+
+class RpgExpandedTerrainSearchResult: RpgExpandedResult
+    direction = nil
+    score = nil
+    gate = nil
+    allowed = nil
+;
+/** B223/B198 reading terrain identifies a direction; it supplies no water or travel. */
+class RpgExpandedTerrainSearch: object
+    id = nil
+    profile = nil
+    context = nil
+    site = nil
+    occurrence = nil
+    featureExists = nil
+    direction = nil
+    seconds = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.context == nil || !self.context.ofKind(RpgLiteContext) || self.site == nil || self.occurrence == nil)
+            rpgExpandedReject('terrain-search-definition');
+        rpgInteger(self.seconds,0,86400);
+        if ((self.featureExists && self.direction == nil) || (!self.featureExists && self.direction != nil))
+            rpgExpandedReject('terrain-search-direction');
+        return [self.id,self.profile,self.context,self.site,self.occurrence,self.featureExists,self.direction,
+            self.seconds,self.approved,self.evidence] + self.context.terrainSearchFacts();
+    }
+    outcomeDefinition()
+    {
+        local facts = [self.completedAt,self.result,self.result.direction,self.result.seconds,self.result.allowed,self.result.gate,self.result.check];
+        if (self.result.check != nil) facts = facts + [self.result.check.score,self.result.check.roll,
+            self.result.check.margin,self.result.check.achieved,self.result.check.critical];
+        return facts;
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedTerrainSearchResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.terrainSearches,self) || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('terrain-search-history');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('terrain-search-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('terrain-search-outcome');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('terrain-search-outcome');
+            if (self.completedAt > rpgLedger.seconds || self.result.gate.assess().status != 'reused') rpgExpandedReject('terrain-search-gate');
+            value.status = 'reused'; return value;
+        }
+        if (self.completedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('terrain-search-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'terrain-search-evidence-required'; return value; }
+        foreach (local prior in self.profile.terrainSearches)
+            if (prior.id == self.id || prior.site == self.site && prior.occurrence == self.occurrence && prior.context.feature == self.context.feature)
+                rpgExpandedReject('terrain-search-repeat');
+        value.reason = self.context.taskUnavailableReason(self.profile); if (value.reason != nil) return value;
+        value.reason = self.profile.nonTravelScheduleReason(rpgLedger.seconds,self.seconds); if (value.reason != nil) return value;
+        value.score = rpgLiteScore(self.profile,self.context);
+        if (value.score == nil || value.score < 3) { value.reason = 'terrain-search-score'; return value; }
+        value.gate = self.profile.prepareSocialGate(self.id,self.evidence,nil);
+        if (value.gate == nil) { value.reason = 'terrain-search-health-adapter-required'; return value; }
+        local permission = value.gate.assess();
+        if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds); rpgLedger.validateAdvance(self.seconds);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds;
+        local permission = value.gate.resolve();
+        if (!holds(['resolved','reused'],permission.status)) rpgExpandedReject('terrain-search-gate-changed');
+        value.allowed = permission.allowed;
+        if (value.allowed)
+        {
+            rpgSpendTime(self.seconds); value.seconds = self.seconds;
+            if (rpgLedger.seconds != start+self.seconds || self.context.taskUnavailableReason(self.profile) != nil
+                || rpgLiteScore(self.profile,self.context) != value.score || self.profile.nonTravelScheduleReason(start,self.seconds) != nil)
+                rpgExpandedReject('terrain-search-interrupted');
+        }
+        local current = self.definition();
+        if (current.length() != facts.length()) rpgExpandedReject('terrain-search-changed');
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (current[index] != facts[index]) rpgExpandedReject('terrain-search-changed');
+        if (value.allowed)
+        {
+            value.check = rpgCheck(value.score,rpgRandom.roll());
+            if (value.check.achieved && self.featureExists) value.direction = self.direction;
+        }
+        else value.reason = permission.reason;
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = facts; value.status = 'resolved';
+        self.result = value; self.boundOutcome = self.outcomeDefinition();
+        self.profile.terrainSearches = self.profile.terrainSearches + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    terrainSearches = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local search in self.terrainSearches)
+        {
+            if (search == nil || !search.ofKind(RpgExpandedTerrainSearch) || search.profile != self || holds(ids,search.id)
+                || search.assess().status != 'reused') rpgExpandedReject('terrain-search-history');
+            ids = ids + [search.id];
+        }
+        return nil;
+    }
+;

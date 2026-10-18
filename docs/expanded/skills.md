@@ -1291,3 +1291,18 @@ Owned research resolution, information delivery, detailed regional scales and
 societal default eligibility remain pending. `test_geography` specifies branch,
 world-type and scientific defaults plus bounded context scoring; fixtures are
 unrun while checks are paused.
+
+## Geology and field direction
+
+`RpgExpandedGeologySkill` uses the full-2008 B198 IQ/Hard, IQ−6 definition and
+requires `techLevel` and a B180 planet-type `specialty`. Purchased Geology in
+another type defaults at −4, Physical Geography of the same type and technology
+at −4, and Prospecting at the same technology at −5. The shared resolver excludes
+chaining through unpurchased defaults.
+
+`RpgExpandedTerrainSearchContext` accepts typed Geology or Survival, with an
+explicit `planet`, `planetType` and requested `feature`. Geology searches support
+`flowing-water`; Survival supports other named terrain features. The context
+rejects mismatched world qualifications. It is used by the exploration library's
+owned `RpgExpandedTerrainSearch`. Geological specimen interpretation, catalogue
+coverage for Prospecting and societal default eligibility remain pending.

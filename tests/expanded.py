@@ -9510,6 +9510,8 @@ def test(build):
     test_cultural_scoring(Session,cultural_scoring)
     geography = build.build('expanded-geography',ROOT / 'tests/fixtures/expanded-geography.t')
     test_geography(Session,geography)
+    terrain_search = build.build('expanded-terrain-search',ROOT / 'tests/fixtures/expanded-terrain-search.t')
+    test_terrain_search(Session,terrain_search,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26332,3 +26334,55 @@ def test_geography(Session, bundle):
             assert last(s,'test.geography') == expected + [0,0]
         finally:
             s.close()
+
+
+def test_terrain_search(Session, bundle, out):
+    """B198/B223 directional knowledge without supplies or travel; unrun."""
+    def state(s):
+        s.action(1680,27003)
+        return last(s,'test.terrain-search')
+    s = Session(bundle)
+    initial = [0,None,0,0]
+    completed = [1,'down the eastern gully',30,3]
+    path = out / 'terrain-search.zsave'
+    try:
+        s.action(1680,27002)
+        assert last(s,'test.terrain-preview') == ['ready',None]
+        assert state(s) == initial
+        s.action(1680,27001); assert state(s) == initial
+        s.action(1680,27000); s.command('undo'); assert state(s) == initial
+        s.action(1680,27000); s.action(1680,27000); assert state(s) == completed
+        s.action(1680,27010); assert state(s) == completed
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,27000)
+        assert state(s) == completed
+    finally:
+        s.close()
+    for codes,expected in (((27004,),[1,None,30,3]),((27005,),[1,None,30,3]),
+                            ((27009,),[1,None,0,3]),((27006,27007),completed)):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,27000); s.action(1680,27000)
+            assert state(s) == expected
+        finally:
+            s.close()
+    for code,reason in ((27006,'geology-search-water-only'),(27008,'terrain-search-planet-mismatch')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code); s.action(1680,27002); s.action(1680,27000)
+            assert last(s,'test.terrain-preview') == ['blocked',reason]
+            assert state(s) == initial
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,27011)
+        assert last(s,'test.geology-default') == [13]
+    finally:
+        s.close()

@@ -139,9 +139,11 @@
       "pages": "B198; B180",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require world-type specialization, interpret geological evidence and integrate the field-water search procedure.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_terrain_search"
+      ],
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",
@@ -174,7 +176,8 @@
           "different_type_modifier": -4,
           "source_pages": "B180"
         }
-      }
+      },
+      "validation_note": "Typed planet-qualified skill and printed default edges implemented. Owned health-gated field direction uses shared time and returns an authored water direction only on successful search for an existing feature. Broader geological interpretation, live senses, shared actions and societal default eligibility remain pending. Fixtures authored, unrun."
     },
     {
       "id": "catalogue-skill-gesture",
