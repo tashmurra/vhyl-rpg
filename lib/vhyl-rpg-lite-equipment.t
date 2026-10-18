@@ -20,6 +20,8 @@ class RpgLiteItem: object
 
 /** Mutable weapon instance with attack modes, ammunition, reserves and reload progress. */
 class RpgLiteWeapon: RpgLiteItem
+    validateStrike(attacker, mode) { return nil; }
+    afterStrike(attacker, mode, result) { return nil; }
     techLevel = 0
     modes = []
     ammunition = 0

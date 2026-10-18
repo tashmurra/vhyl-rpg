@@ -432,3 +432,10 @@ Wound and digestive care use their specified durations/modifiers; general
 physician care enforces the medical technology cap. Unsuitable care, skipped
 poison deadlines and undefined combinations are rejected. Added authored,
 unrun fixtures; identification actions and harmful exceptions remain unfinished.
+
+
+Ordinary melee poison coatings now consume abstract inventory doses and deplete
+from actual strike outcomes: one hit or three blocks/parries, with misses and
+dodges preserved. Default no-op weapon hooks retain uncoated attack behavior.
+Fixtures are authored and unrun. Automatic penetration-to-exposure delivery,
+injectors, unusual coatings and ranged payloads remain incomplete.

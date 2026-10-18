@@ -17,6 +17,14 @@ poisonTreatment: RpgExpandedPoisonTreatment id = 'fictional-treatment' exposure 
     healer = surgicalHealer skill = surgicalAid approved = true suitable = true
     identificationEvidence = 'The original fictional agent is identified'
     suitabilityEvidence = 'The fictional agent permits this treatment without a harmful exception';
+coatingMode: RpgLiteAttackMode skillId = 'first-aid' base = 'fixed' dice = 1 adds = 0 damageType = 'imp';
+coatingWeapon: RpgLiteWeapon id = 'fictional-point' modes = [coatingMode] ready = true;
+coatingStock: RpgExpandedPoisonStock id = 'fictional-stock' hazard = poisonDefinition quantity = 6;
+weaponCoating: RpgExpandedWeaponCoating id = 'point-coating' profile = surgicalHealer weapon = coatingWeapon
+    stock = coatingStock mode = coatingMode approved = true evidence = 'Ordinary coating on this fictional weapon';
+coatingFighter: RpgLiteFighter profile = surgicalHealer weapon = coatingWeapon;
+coatingTarget: RpgLiteFighter profile = bleedProfile;
+coatingAttack: RpgLiteManeuver kind = 'attack' target = coatingTarget defense = 'dodge' defenseModifier = 20;
 modify BleedTestAction
     exec(context)
     {
@@ -95,6 +103,23 @@ modify BleedTestAction
         if (code == 297) { poisonTreatment.medicalBonus = 5; return nil; }
         if (code == 298) { rpgSpendTime(50); return nil; }
         if (code == 300) { rpgSpendTime(40); return nil; }
+        if (code == 310) { surgicalHealer.equipment = [coatingWeapon,coatingStock]; return nil; }
+        if (code == 311) { weaponCoating.assess(); return nil; }
+        if (code == 312 || code == 313)
+        { weaponCoating.apply(); if (code == 313) throw new RpgError(); return nil; }
+        if (code == 314) { rpgLiteStrike(coatingFighter,coatingTarget,coatingAttack); return nil; }
+        if (code == 315) { coatingAttack.defenseModifier = -20; surgicalOperationInput.fixedDie = 4; return nil; }
+        if (code == 316) { coatingMode.damageType = 'cut'; weaponCoating.reachYards = 2; return nil; }
+        if (code == 317)
+        {
+            event('test.poison-coating'); eventValue(coatingStock.quantity); eventValue(weaponCoating.contacts.length());
+            eventValue(weaponCoating.defendedContacts); eventValue(weaponCoating.depleted ? 1 : 0); return nil;
+        }
+        if (code == 318)
+        {
+            local strike = new RpgLiteCombatResult(); strike.status = 'resolved'; strike.outcome = 'defended';
+            strike.successfulDefense = 'parry'; weaponCoating.recordStrike(strike); weaponCoating.recordStrike(strike); return nil;
+        }
         return inherited(context);
     }
 ;

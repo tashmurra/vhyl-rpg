@@ -87,6 +87,8 @@ class RpgLiteCombatResult: object
     reason = nil
     attack = nil
     defenses = []
+    successfulDefense = nil
+    attackMode = nil
     damage = 0
     injury = 0
     strikes = []
@@ -229,10 +231,17 @@ rpgLiteDistract(fighter)
 /** Resolve one legal strike; normally invoked by the battle turn scheduler. */
 rpgLiteStrike(attacker, defender, request)
 {
+    local weapon = attacker.weapon;
+    local result = rpgLiteResolveStrike(attacker,defender,request);
+    if (weapon != nil && result.status == 'resolved') weapon.afterStrike(attacker,result.attackMode,result);
+    return result;
+}
+rpgLiteResolveStrike(attacker, defender, request)
+{
     local result = new RpgLiteCombatResult();
     local profile = attacker.profile; local weapon = attacker.weapon;
     if (weapon == nil || !weapon.ready || !weapon.attackUsableBy(profile)) { result.reason = 'weapon-not-ready'; return result; }
-    local mode = attacker.mode();
+    local mode = attacker.mode(); result.attackMode = mode; weapon.validateStrike(attacker,mode);
     local hands = weapon.attackHandCount(profile,request.hands);
     if (profile.stunned || profile.mentalStun || profile.unconscious || profile.dead)
     { result.reason = 'unable-to-attack'; return result; }
@@ -333,7 +342,7 @@ rpgLiteStrike(attacker, defender, request)
             result.defenses = result.defenses + [check];
             if (check.achieved)
             {
-                result.outcome = 'defended';
+                result.outcome = 'defended'; result.successfulDefense = kind;
                 if (kind == 'parry' && unarmed && defender.weapon != nil
                     && !holds(['punch','kick','brass-knuckles'], defender.weapon.id))
                 {

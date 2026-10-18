@@ -11493,3 +11493,38 @@ def test_poison_exposure(Session, bundle, out):
         assert last(s, 'test.poison-treatment') == [1, 0, 0, 60, 3]
     finally:
         s.close()
+
+    # B439 coating: inventory cost and depletion; real miss/dodge/hit dispatch.
+    s = Session(bundle)
+    try:
+        for code in (310, 311, 313, 317):
+            s.action(2285, code)
+        assert last(s, 'test.poison-coating') == [6, 0, 0, 0]
+        s.action(2285, 312)
+        s.command('undo')
+        s.action(2285, 317)
+        assert last(s, 'test.poison-coating') == [6, 0, 0, 0]
+        for code in (312, 312, 265, 314, 287, 314, 317):
+            s.action(2285, code)
+        assert last(s, 'test.poison-coating') == [5, 2, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (315, 314, 317):
+            s.action(2285, code)
+        assert last(s, 'test.poison-coating') == [5, 3, 0, 1]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (310, 316, 312):
+            s.action(2285, code)
+        for count in range(1, 4):
+            s.action(2285, 318)
+            s.action(2285, 317)
+            assert last(s, 'test.poison-coating') == [0, count, count, int(count == 3)]
+    finally:
+        s.close()

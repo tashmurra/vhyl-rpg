@@ -1273,3 +1273,34 @@ care, a deadline too soon to finish, failed care, preview purity, replay, rollba
 undo and cross-process continuation. Checks remain paused; these scenarios have
 not run. Automatic identification actions, harmful exceptions and combinations
 remain unfinished.
+
+
+### Ordinary weapon coatings
+
+`RpgExpandedPoisonStock` holds abstract doses in the existing inventory ledger.
+Supply its `hazard`, quantity, authored price and weight. To coat a weapon,
+create `RpgExpandedWeaponCoating` with an `id`, owner `profile`, `weapon`,
+`stock`, one supported melee `mode`, `reachYards`, `approved` and `evidence`
+establishing that this agent follows ordinary coating behavior (full-2008 B439).
+A point uses one dose; a cutting edge uses three doses per whole yard of reach.
+`assess()` verifies unique inventory ownership and supply. `apply()` consumes
+the doses once, records the coating and removes exhausted stock from inventory.
+The authoring action supplies any application time; no unsupported duration is
+invented. Hypodermic filling, fractional reach and ranged payloads remain separate.
+
+The Lite strike path now calls default no-op weapon `validateStrike` and
+`afterStrike` hooks. Expanded coatings use these to validate the admitted mode
+before rolling and record each resolved strike. `RpgLiteCombatResult` retains
+`attackMode` and `successfulDefense` for this purpose. Misses and dodges do not
+rub off the coating. One hit, including a hit stopped by armor, depletes it;
+three blocked or parried attacks also deplete it. Individual strike objects are
+recorded once, including separate strikes in a double attack. A live coating
+rejects a different owner or mode rather than guessing which surface was used.
+An exhausted coating may be replaced by a new uniquely identified application.
+
+This integration accounts for coating supply and wear. It does not yet admit
+poison exposure automatically after penetration, attach a poison definition to
+an expanded wound, or cover unusual persistent coatings. Those delivery paths
+remain explicit unfinished work. Fixtures specify inventory, miss/dodge/hit
+hooks, repeated parries, receipt reuse, rollback, undo and saved continuation;
+they remain unrun while checks are paused.

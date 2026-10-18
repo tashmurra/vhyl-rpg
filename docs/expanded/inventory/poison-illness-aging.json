@@ -293,9 +293,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A follow-up dose coats a point or fills an injector; cutting-edge coating uses three abstract doses per yard of reach.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned ordinary melee point/edge coatings consume inventory doses and receive actual Lite strike outcomes through default no-op weapon hooks. Misses/dodges preserve coating; a hit or three blocks/parries deplete it. Fixtures unrun. Automatic penetration-to-exposure admission, injectors, unusual coatings and ranged payloads remain unfinished."
     },
     {
       "id": "poison-coating-consumption",
@@ -303,9 +306,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ordinary blade coating lasts one successful strike or three blocks/parries against it; misses and dodged attacks do not consume a coating strike.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned ordinary melee point/edge coatings consume inventory doses and receive actual Lite strike outcomes through default no-op weapon hooks. Misses/dodges preserve coating; a hit or three blocks/parries deplete it. Fixtures unrun. Automatic penetration-to-exposure admission, injectors, unusual coatings and ranged payloads remain unfinished."
     },
     {
       "id": "poison-dose-scaling",

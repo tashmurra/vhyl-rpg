@@ -3117,3 +3117,118 @@ modify RpgExpandedPoisonExposure
         return bonus;
     }
 ;
+
+
+/** B439 abstract dose stock and ordinary point/edge coating. */
+class RpgExpandedPoisonStock: RpgLiteItem
+    hazard = nil
+;
+class RpgExpandedCoatingResult: RpgExpandedResult
+    doses = 0
+;
+class RpgExpandedWeaponCoating: object
+    id = nil
+    profile = nil
+    weapon = nil
+    stock = nil
+    mode = nil
+    reachYards = 1
+    approved = nil
+    evidence = nil
+    appliedAt = nil
+    boundDefinition = nil
+    result = nil
+    contacts = []
+    defendedContacts = 0
+    depleted = nil
+    definition() { return [self.id,self.profile,self.weapon,self.stock,self.stock.hazard,self.mode,
+        self.mode.damageType,self.mode.ranged,self.reachYards,self.approved,self.evidence]; }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.profile.poisonCoatings,self)) rpgExpandedReject('coating-history');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('coating-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.weapon == nil || !self.weapon.ofKind(RpgLiteWeapon) || self.stock == nil
+            || !self.stock.ofKind(RpgExpandedPoisonStock) || self.mode == nil || !self.mode.ofKind(RpgLiteAttackMode)
+            || self.stock.hazard == nil || self.stock.hazard.kind != 'poison') rpgExpandedReject('coating-definition');
+        local value = new RpgExpandedCoatingResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'coating-ordinary-behavior-evidence'; return value; }
+        if (self.mode.ranged || !holds(['cut','imp','pi','pi-','pi+','pi++'],self.mode.damageType))
+        { value.reason = 'coating-mode-unimplemented'; return value; }
+        rpgInteger(self.reachYards,1,100); rpgInteger(self.stock.quantity,0,1000000);
+        local doses = self.mode.damageType == 'cut' ? 3 * self.reachYards : 1;
+        if (!holds(self.weapon.modes,self.mode) || !holds(self.profile.equipment,self.weapon)
+            || !holds(self.profile.equipment,self.stock) || self.stock.quantity < doses
+            || !self.stock.usableBy(self.profile)) { value.reason = 'coating-supply'; return value; }
+        local stockOwners = 0; local weaponOwners = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            foreach (local item in owner.equipment)
+            { if (item == self.stock) stockOwners += 1; if (item == self.weapon) weaponOwners += 1; }
+        if (stockOwners != 1 || weaponOwners != 1) rpgExpandedReject('coating-supply-ownership');
+        foreach (local prior in self.profile.poisonCoatings)
+            if (prior.id == self.id) rpgExpandedReject('coating-duplicate');
+        if (self.weapon.poisonCoating != nil && !self.weapon.poisonCoating.depleted)
+        { value.reason = 'coating-already-present'; return value; }
+        value.doses = doses; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.stock.quantity -= value.doses;
+        if (self.stock.quantity == 0)
+        {
+            local remaining = [];
+            foreach (local item in self.profile.equipment) if (item != self.stock) remaining = remaining + [item];
+            self.profile.equipment = remaining;
+        }
+        self.appliedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.profile.poisonCoatings = self.profile.poisonCoatings + [self]; self.weapon.poisonCoating = self;
+        value.status = 'resolved'; self.result = value; return value;
+    }
+    validateAttack(attacker, attackMode)
+    {
+        self.validateReceipt();
+        if (self.depleted) return nil;
+        if (attacker.profile != self.profile || attacker.weapon != self.weapon || attackMode != self.mode)
+            rpgExpandedReject('coating-attack-mode-unimplemented');
+        return nil;
+    }
+    recordStrike(strike)
+    {
+        self.validateReceipt();
+        if (holds(self.contacts,strike) || self.depleted) return nil;
+        if (strike.status != 'resolved' || !holds(['hit','miss','defended'],strike.outcome))
+            rpgExpandedReject('coating-strike-outcome');
+        self.contacts = self.contacts + [strike];
+        if (strike.outcome == 'hit') self.depleted = true;
+        if (strike.outcome == 'defended' && holds(['block','parry','parry-other'],strike.successfulDefense))
+        { self.defendedContacts += 1; if (self.defendedContacts >= 3) self.depleted = true; }
+        return nil;
+    }
+;
+modify RpgExpandedProfile
+    poisonCoatings = []
+;
+modify RpgLiteWeapon
+    poisonCoating = nil
+    validateStrike(attacker, mode)
+    {
+        inherited(attacker,mode);
+        if (self.poisonCoating != nil) self.poisonCoating.validateAttack(attacker,mode);
+        return nil;
+    }
+    afterStrike(attacker, mode, result)
+    {
+        inherited(attacker,mode,result);
+        if (self.poisonCoating != nil) self.poisonCoating.recordStrike(result);
+        return nil;
+    }
+;
