@@ -356,7 +356,7 @@ rpgLiteResolveStrike(attacker, defender, request)
                     if (rpgLiteCheck(defender.profile, counter).achieved)
                     {
                         local retaliation = defender.mode();
-                        local damage = rpgLiteDamageDice(defender.profile.st, retaliation.base == 'swing');
+                        local damage = rpgLiteDamageDice(defender.profile.muscleDamageStrength(), retaliation.base == 'swing');
                         local rolled = rpgLiteRollDamage(damage[1], damage[2] + retaliation.adds, retaliation.damageType, nil);
                         result.counterInjury = rpgLiteWound(profile, rpgLitePenetration(rolled, rpgLiteArmor(profile), 1, retaliation.damageType, nil)).injury;
                     }
@@ -368,6 +368,7 @@ rpgLiteResolveStrike(attacker, defender, request)
     local dice = mode.dice; local adds = mode.adds;
     if (mode.base != 'fixed')
     {
+        if (weapon.id != 'crossbow') strength = profile.muscleDamageStrength();
         if (mode.minimumST > 0 && !mode.ranged && strength > mode.minimumST * 3) strength = mode.minimumST * 3;
         local damage = rpgLiteDamageDice(strength, mode.base == 'swing'); dice = damage[1]; adds += damage[2];
         if (unarmed)

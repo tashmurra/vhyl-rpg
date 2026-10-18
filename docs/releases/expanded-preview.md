@@ -1415,3 +1415,8 @@ Owned timed DX/IQ/HT reductions now propagate through contextual checks while
 preserving secondary capacities and defensive exemptions. Strength reductions
 and overlapping causes reject pending integration. Propagation and lifecycle
 fixtures are authored but unrun.
+
+Temporary strength reduction now affects shared muscle-powered strike, retaliation
+and throwing damage while preserving crossbow weapon strength and secondary
+capacities. Below-table strength rejects before combat rolls. Other handling/range
+adapters remain pending; printed damage-value fixtures are authored but unrun.

@@ -3361,7 +3361,7 @@ unrun while checks are paused.
 ## Temporary attribute reductions
 
 `RpgExpandedAttributeReduction` records a finite reduction from an already-resolved
-cause (full-2008, B421). Supply `id`, `profile`, `attribute` (`rpgDX`, `rpgIQ` or
+cause (full-2008, B421). Supply `id`, `profile`, `attribute` (`rpgST`, `rpgDX`, `rpgIQ` or
 `rpgHT`), positive `penalty`, `durationSeconds`, `approved` and cause `evidence`.
 Its assessment and activation do not spend time or roll. The owned receipt uses
 the shared clock and expires exactly at `expiresAt`; replay does not restart it.
@@ -3374,7 +3374,11 @@ exempt, as are authored contexts with `defensiveReaction = true`. Purchased skil
 ratings, base attributes, health/fatigue capacities, speed and move remain intact.
 This is distinct from permanent score loss, which requires recalculation.
 
-Strength reductions are rejected until muscle-powered damage is integrated.
+Strength reductions use `muscleDamageStrength()` for shared strike, retaliation
+and throwing damage; crossbows retain weapon-rated strength. Basic Lift is not
+recalculated. Strength below one rejects before combat rolls because the damage
+table does not define that case. Other strength-dependent combat handling and
+range procedures still need adapters.
 Direct consumers bypassing contextual checks require their own adapters. This
 receipt does not invent the originating affliction's resistance, cost or duration.
 Propagation, defense exemption, capacity preservation, expiry, rollback, undo and

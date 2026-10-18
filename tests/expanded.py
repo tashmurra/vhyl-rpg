@@ -9139,6 +9139,8 @@ def test(build):
     test_body_assessment(Session, body_assessment, build.out)
     attribute_reduction = build.build('expanded-attribute-reduction',ROOT / 'tests/fixtures/expanded-attribute-reduction.t')
     test_attribute_reduction(Session, attribute_reduction, build.out)
+    strength_reduction = build.build('expanded-strength-reduction',ROOT / 'tests/fixtures/expanded-strength-reduction.t')
+    test_strength_reduction(Session, strength_reduction)
     talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
     test_talent_study(Session, talent_study, build.out)
     talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
@@ -18818,5 +18820,31 @@ def test_attribute_reduction(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.attribute-reduction') == ['reused', None]
         assert last(s, 'test.attribute-state') == [10, 10, 10, 10, 40, 60, 0]
+    finally:
+        s.close()
+
+
+def test_strength_reduction(Session, bundle):
+    for setup, strength, damage in (([], 10, 4), ([7801], 8, 3)):
+        s = Session(bundle)
+        try:
+            for code in setup + [7900, 31, 7901]:
+                s.action(2285, code)
+            assert last(s, 'test.strength-reduction') == [strength, damage, 2000, 10, 10, 0]
+            assert last(s, 'test.strength-strike') == [damage]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (7801, 7902, 31, 7901):
+            s.action(2285, code)
+        assert last(s, 'test.strength-strike') == [4]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (7903, 7801, 7904):
+            s.action(2285, code)
+        assert last(s, 'test.strength-error') == ['reduced-strength-damage-unavailable', 0]
     finally:
         s.close()

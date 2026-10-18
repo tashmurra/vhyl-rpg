@@ -47,7 +47,7 @@ rpgLiteThrowDamage(profile, weight, maximum)
 {
     local lift = profile.basicLiftHundredths();
     if (weight < 1 || weight > lift * 8) throw new RpgError();
-    local damage = rpgLiteDamageDice(profile.st, nil); local dice = damage[1]; local adds = damage[2];
+    local damage = rpgLiteDamageDice(profile.muscleDamageStrength(), nil); local dice = damage[1]; local adds = damage[2];
     if (weight * 8 <= lift) adds -= 2 * dice;
     else if (weight * 4 <= lift) adds -= dice;
     else if (weight * 2 <= lift) adds += 0;

@@ -7500,8 +7500,7 @@ class RpgExpandedBodyAssessment: object
     }
 ;
 
-/** B421 finite attribute loss from an already-resolved authored cause.
- * Strength needs a muscle-damage adapter and is rejected here. */
+/** B421 finite attribute loss from an already-resolved authored cause. */
 class RpgExpandedAttributeReduction: RpgExpandedCoughing
     attribute = nil
     penalty = 0
@@ -7511,7 +7510,7 @@ class RpgExpandedAttributeReduction: RpgExpandedCoughing
     definition() { return inherited() + [self.attribute,self.penalty]; }
     assess()
     {
-        if (!holds([rpgDX,rpgIQ,rpgHT],self.attribute)) rpgExpandedReject('attribute-reduction-attribute-unsupported');
+        if (!holds([rpgST,rpgDX,rpgIQ,rpgHT],self.attribute)) rpgExpandedReject('attribute-reduction-attribute-unsupported');
         rpgInteger(self.penalty,1,1000);
         return inherited();
     }
@@ -7532,5 +7531,23 @@ modify RpgExpandedProfile
                 value -= episode.penalty;
         }
         return value;
+    }
+;
+
+modify RpgExpandedProfile
+    muscleDamageStrength()
+    {
+        local strength = inherited();
+        foreach (local episode in self.attributeReductionHistory)
+        {
+            if (episode.profile != self) rpgExpandedReject('attribute-reduction-owner');
+            if (episode.active() && episode.attribute == rpgST) strength -= episode.penalty;
+        }
+        if (strength < 1) rpgExpandedReject('reduced-strength-damage-unavailable');
+        return strength;
+    }
+    validateCombatVision()
+    {
+        inherited(); self.muscleDamageStrength(); return nil;
     }
 ;

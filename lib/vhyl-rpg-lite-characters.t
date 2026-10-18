@@ -97,6 +97,7 @@ class RpgLiteProfile: RpgProfile
     shockFromInjury(amount) { return amount; }
     shockLimit() { return 4; }
     validateInjury(amount) { return nil; }
+    muscleDamageStrength() { return self.st; }
     afterInjuryShock(amount, result) { return nil; }
     /* Retain only shock from injury suffered during this character's turn. */
     shockAfterTurn(counterInjury)
