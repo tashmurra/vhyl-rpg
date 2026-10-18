@@ -549,6 +549,66 @@ def test_infection_progression(s):
     assert last(s, 'test.infection-recovered') == [1,5,2,0,2,0,3]
 
 
+def youth_state(s):
+    s.action(1822)
+    return last(s, 'test.youth-state')
+
+
+def test_rejuvenation_transactions(s):
+    s.action(1820, 1); s.action(1820, 7)
+    before = youth_state(s)
+    assert before == [10,0,0,20,0,0,0,12,0]
+    s.action(1820, 9)
+    assert youth_state(s) == before
+    s.action(1820, 8)
+    restored = youth_state(s)
+    assert restored == [11,20,0,20,1,1,0,12,0]
+    s.command('undo')
+    assert youth_state(s) == before
+    s.action(1820, 8)
+    for code in [8,10,13,6]:
+        s.action(1820, code)
+        assert youth_state(s) == restored
+    s.action(1820, 11)
+    assert youth_state(s) == [10,0,0,20,1,1,0,12,0]
+    s.action(1820, 12)
+    final = youth_state(s)
+    assert final == [11,20,0,20,2,1,1,12,0]
+    for code in [12,8,6]:
+        s.action(1820, code)
+        assert youth_state(s) == final
+
+
+def test_rejuvenation_persistence(Session, bundle, out):
+    for stage in [0,1,2]:
+        path = out / f'expanded-rejuvenation-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1820, 1); first.action(1820, 7)
+            if stage >= 1:
+                first.action(1820, 8)
+            if stage == 2:
+                first.action(1820, 11)
+            saved = youth_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1822')
+            assert youth_state(second) == saved
+            second.action(1820, 6)
+            assert youth_state(second) == saved
+            second.action(1820, 8)
+            if stage < 2:
+                second.action(1820, 11)
+            second.action(1820, 12)
+            assert youth_state(second) == [11,20,0,20,2,1,1,12,0]
+            second.action(1820, 6)
+        finally:
+            second.close()
+
+
 def aging_state(s):
     s.action(1821)
     return last(s, 'test.aging-state')
@@ -3280,6 +3340,8 @@ def test(build):
     fresh(Session,hazards,test_aging_events)
     fresh(Session,hazards,test_rejuvenation)
     aging_transactions = build.build('expanded-aging-transactions',ROOT / 'tests/fixtures/expanded-aging-transactions.t')
+    fresh(Session,aging_transactions,test_rejuvenation_transactions)
+    test_rejuvenation_persistence(Session,aging_transactions,build.out)
     fresh(Session,aging_transactions,test_aging_transactions)
     fresh(Session,aging_transactions,test_aging_death_transactions)
     test_aging_persistence(Session,aging_transactions,build.out)

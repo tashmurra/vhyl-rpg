@@ -393,8 +393,21 @@ restoration links preserve the distinction between historical loss and current
 character state.
 
 This whole-year implementation does not restore trait substitutions or support
-partial-year cutoffs, automatic age tracking or rejuvenation-specific transaction
-and save validation. `test_rejuvenation` covers a real attribute advancement
+partial-year cutoffs or automatic age tracking. Transaction and save
+fixtures are authored but still require execution. `test_rejuvenation` covers a real attribute advancement
 purchase between aging and rejuvenation, retained point spending, preview purity,
 repeated requests, a second aging/restoration cycle and the ambiguous-year gate.
 The fixture is authored but unrun while checks are paused.
+
+
+`test_rejuvenation_transactions` exercises exception rollback, undo and replay of
+restoration after an actual paid attribute improvement. It rejects changed bound
+evidence and duplicate request identities, then repeats aging and restoration in
+a new era to ensure old losses cannot be restored twice. Character-cost queries
+also validate the history and retained advancement spending.
+
+`test_rejuvenation_persistence` restores separate-process saves before restoration,
+after restoration and after the next aging event. All routes reach the same base
+score, character value, advancement balances and restoration links without extra
+randomness or time. The fixture uses the existing exact-game save policy. These
+expectations remain unrun while checks are paused.

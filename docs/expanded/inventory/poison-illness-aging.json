@@ -1444,9 +1444,11 @@
       "status": "partial",
       "acceptance": "Becoming younger restores attribute levels lost between the new and old ages without spending points; preserve dated loss records so unrelated injury or later investment is not accidentally reversed.",
       "tests": [
-        "tests/expanded.py::test_rejuvenation"
+        "tests/expanded.py::test_rejuvenation",
+        "tests/expanded.py::test_rejuvenation_transactions",
+        "tests/expanded.py::test_rejuvenation_persistence"
       ],
-      "validation_note": "Owned whole-year restoration adds only recorded unrestored aging losses to current bases, preserving real advancement purchases and point spending. Fixtures unrun. Partial-year cutoffs, trait substitutions, automatic age tracking and rejuvenation transaction/save coverage remain incomplete."
+      "validation_note": "Owned whole-year restoration preserves real advancement purchases and restores each recorded loss once across aging eras. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Partial-year cutoffs, trait substitutions and automatic age tracking remain incomplete."
     },
     {
       "id": "aging-paid-improvement",
@@ -1457,9 +1459,11 @@
       "status": "partial",
       "acceptance": "Earned points may improve attributes despite age; this is a normal purchase and must coexist with subsequent aging and possible rejuvenation records.",
       "tests": [
-        "tests/expanded.py::test_rejuvenation"
+        "tests/expanded.py::test_rejuvenation",
+        "tests/expanded.py::test_rejuvenation_transactions",
+        "tests/expanded.py::test_rejuvenation_persistence"
       ],
-      "validation_note": "Owned whole-year restoration adds only recorded unrestored aging losses to current bases, preserving real advancement purchases and point spending. Fixtures unrun. Partial-year cutoffs, trait substitutions, automatic age tracking and rejuvenation transaction/save coverage remain incomplete."
+      "validation_note": "Owned whole-year restoration preserves real advancement purchases and restores each recorded loss once across aging eras. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Partial-year cutoffs, trait substitutions and automatic age tracking remain incomplete."
     },
     {
       "id": "aging-short-lifespan-row-0",
