@@ -2446,3 +2446,29 @@ dice. Authors control recipient-specific feedback using the returned result.
 `test_tracking_actions` specifies parser, structured and dialogue parity for both
 stages, ownership denial, preview purity, rollback, undo and repeated execution.
 Fixtures remain unrun while checks are paused.
+
+
+## Shadowing contest outcomes
+
+`rpgExpandedAssessShadowing(followerScore, followerRoll, targetScore, targetRoll,
+targetAware)` interprets supplied rolls using the shared quick-contest arithmetic
+(full-2008 B219/B348). It consumes no randomness or time. `check` retains the
+contest; `victoryMargin` is positive when the follower's numerical margin is
+larger. `interval` describes the contest's input awareness state: 600 seconds
+for an unaware target or 300 seconds for an aware target. A later contest uses
+the returned awareness state to select its interval.
+
+Losing the contest sets `lost`. Against an unaware target, losing by more than
+five also sets `seen` and `targetAware`. Against an aware target, winning by more
+than five sets `targetBelievesEscape`; this is the target's mistaken belief, not
+an actual escape. Ties leave the situation unchanged. A follower's critical
+failure sets `wrongTarget` and `lost`, even when the raw contest ties, and clears
+the false-escape result. That outcome does not identify the mistaken subject;
+authors must supply it in the encounter.
+
+The caller must supply the appropriate target score: Vision before discovery,
+Shadowing or Stealth afterward. This pure helper does not establish that context,
+select the target's skill, move participants, persist awareness or schedule
+checks. Those encounter integrations remain pending. `test_shadowing_outcome`
+specifies five-versus-six-point boundaries, success/failure comparisons, ties,
+both-failure outcomes, awareness and critical failure. Fixtures remain unrun.

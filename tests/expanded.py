@@ -9558,6 +9558,8 @@ def test(build):
     test_tracking_actions(Session,tracking_actions)
     shadowing_context = build.build('expanded-shadowing-context',ROOT / 'tests/fixtures/expanded-shadowing-context.t')
     test_shadowing_context(Session,shadowing_context)
+    shadowing_outcome = build.build('expanded-shadowing-outcome',ROOT / 'tests/fixtures/expanded-shadowing-outcome.t')
+    test_shadowing_outcome(Session,shadowing_outcome)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27385,5 +27387,24 @@ def test_shadowing_context(Session, bundle):
                 s.action(1680,code)
             s.action(1680,29100)
             assert last(s,'test.shadowing-score') == [score,0,0]
+        finally:
+            s.close()
+
+
+def test_shadowing_outcome(Session, bundle):
+    """B219 strict five-point boundaries and B348 ties/both-failure margins; unrun."""
+    cases = (((),[600,0,0,0,0,0,0]),((29202,),[600,-5,1,0,0,0,0]),
+             ((29203,),[600,-6,1,1,0,0,1]),((29201,29202),[300,-5,1,0,0,0,1]),
+             ((29201,29204),[300,5,0,0,0,0,1]),((29201,29204,29205),[300,6,0,0,0,1,1]),
+             ((29204,29205),[600,6,0,0,0,0,0]),((29202,29204),[600,0,0,0,0,0,0]),
+             ((29207,),[600,1,0,0,0,0,0]),((29208,),[600,-1,1,0,0,0,0]),
+             ((29206,),[600,0,1,0,1,0,0]),((29201,29206),[300,0,1,0,1,0,1]))
+    for codes,expected in cases:
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,29200); assert last(s,'test.shadowing-outcome') == expected+[0,0]
+            s.action(1680,29200); assert last(s,'test.shadowing-outcome') == expected+[0,0]
         finally:
             s.close()

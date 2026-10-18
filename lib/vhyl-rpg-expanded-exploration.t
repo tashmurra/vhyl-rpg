@@ -5156,3 +5156,33 @@ class RpgExpandedTrackingAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+class RpgExpandedShadowingOutcome: RpgExpandedResult
+    interval = nil
+    victoryMargin = 0
+    lost = nil
+    seen = nil
+    wrongTarget = nil
+    targetBelievesEscape = nil
+    targetAware = nil
+;
+/** B219/B348 pure contest interpretation; supplied rolls do not consume randomness. */
+rpgExpandedAssessShadowing(followerScore,followerRoll,targetScore,targetRoll,targetAware)
+{
+    rpgInteger(followerScore,3,1000); rpgInteger(targetScore,3,1000);
+    rpgInteger(followerRoll,3,18); rpgInteger(targetRoll,3,18);
+    local value = new RpgExpandedShadowingOutcome(); value.targetAware = targetAware;
+    value.interval = targetAware ? 300 : 600;
+    value.check = rpgEvaluate(followerScore,followerRoll,targetScore,targetRoll,0);
+    value.victoryMargin = value.check.margin-value.check.oppositionMargin;
+    local tied = value.check.outcome == 'tie';
+    if (!value.check.achieved && !tied)
+    {
+        value.lost = true;
+        if (!targetAware && value.victoryMargin < -5) { value.seen = true; value.targetAware = true; }
+    }
+    if (targetAware && value.check.achieved && value.victoryMargin > 5) value.targetBelievesEscape = true;
+    if (value.check.critical == 'failure')
+    { value.wrongTarget = true; value.lost = true; value.targetBelievesEscape = nil; }
+    value.status = 'ready'; return value;
+}
