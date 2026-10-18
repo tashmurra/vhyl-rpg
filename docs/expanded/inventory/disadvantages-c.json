@@ -37,7 +37,7 @@
         "tests/expanded.py::test_fixed_beliefs",
         "tests/expanded.py::test_belief_observation"
       ],
-      "validation_note": "Concrete authored fixed-belief purchases validate three severity prices, unique scopes and combined value at most forty points. Distinct beliefs may repeat the neutral trait ID via an expanded-only duplicate-policy hook; ordinary duplicate rejection remains. Template copies preserve author text. Concrete portrayal receipts bind behavior and decisions per situation; observed active beliefs contribute severity reactions. Unnoticed or mitigated beliefs contribute zero. Above-cap accounting, legacy mixing, multi-belief reaction stacking, automatic action/dialogue routing and revelation/buyoff remain pending. Fixtures authored, unrun."
+      "validation_note": "Concrete authored fixed-belief purchases validate three severity prices, unique scopes and combined value at most forty points. Distinct beliefs may repeat the neutral trait ID via an expanded-only duplicate-policy hook; ordinary duplicate rejection remains. Template copies preserve author text. Concrete portrayal receipts bind behavior and decisions per situation; observed active beliefs contribute severity reactions. Unnoticed or mitigated beliefs contribute zero. Above-cap accounting, legacy mixing, multi-belief reaction stacking, automatic action/dialogue routing and unfunded or outside-downtime revelation buyoff remain pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-c-belief-cap",
@@ -51,7 +51,7 @@
         "tests/expanded.py::test_fixed_beliefs",
         "tests/expanded.py::test_belief_observation"
       ],
-      "validation_note": "Concrete authored fixed-belief purchases validate three severity prices, unique scopes and combined value at most forty points. Distinct beliefs may repeat the neutral trait ID via an expanded-only duplicate-policy hook; ordinary duplicate rejection remains. Template copies preserve author text. Concrete portrayal receipts bind behavior and decisions per situation; observed active beliefs contribute severity reactions. Unnoticed or mitigated beliefs contribute zero. Above-cap accounting, legacy mixing, multi-belief reaction stacking, automatic action/dialogue routing and revelation/buyoff remain pending. Fixtures authored, unrun."
+      "validation_note": "Concrete authored fixed-belief purchases validate three severity prices, unique scopes and combined value at most forty points. Distinct beliefs may repeat the neutral trait ID via an expanded-only duplicate-policy hook; ordinary duplicate rejection remains. Template copies preserve author text. Concrete portrayal receipts bind behavior and decisions per situation; observed active beliefs contribute severity reactions. Unnoticed or mitigated beliefs contribute zero. Above-cap accounting, legacy mixing, multi-belief reaction stacking, automatic action/dialogue routing and unfunded or outside-downtime revelation buyoff remain pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-c-belief-revelation",
@@ -59,9 +59,12 @@
       "pages": "B130",
       "module": "traits",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An authored belief may prove true without immediate buyoff: the buyoff condition is other players recognizing its truth. Track truth, character knowledge and player revelation separately; do not expose hidden world facts through validation results.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_belief_revelation"
+      ],
+      "validation_note": "Owned private knowledge receipts separate world truth, character awareness and player recognition. Funded revelation buyoff requires current confirmed truth and player recognition and uses historical cost and the shared ledger once. Unavailable disclosure states share one public reason. Unfunded or outside-downtime buyoff remains pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-c-sustenance-rarity",

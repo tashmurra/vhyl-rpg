@@ -217,3 +217,9 @@ have owned acquisition accounting without spendable-point income. Concrete portr
 purchases to social play. Multi-belief reaction stacking, automatic action/dialogue
 routing, above-cap composition and compound outcomes remain pending; accounting,
 observation and persistence fixtures are authored but unrun.
+
+
+Fixed-belief knowledge now separates private truth, character awareness and
+player recognition through owned receipts. Funded revelation buyoff uses the
+shared point ledger once; unfunded and outside-downtime cases remain pending.
+Preview, rollback, undo and save-continuation fixtures are authored but unrun.

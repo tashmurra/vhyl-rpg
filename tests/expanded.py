@@ -9208,6 +9208,8 @@ def test(build):
     test_fixed_beliefs(Session, fixed_beliefs, build.out)
     belief_observation = build.build('expanded-belief-observation',ROOT / 'tests/fixtures/expanded-belief-observation.t')
     test_belief_observation(Session, belief_observation, build.out)
+    belief_revelation = build.build('expanded-belief-revelation',ROOT / 'tests/fixtures/expanded-belief-revelation.t')
+    test_belief_revelation(Session, belief_revelation, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20488,3 +20490,49 @@ def test_belief_observation(Session, bundle, out):
             assert last(s, 'test.belief-observation-error') == ['observed-reaction-duplicate-effect']
         finally:
             s.close()
+
+
+def test_belief_revelation(Session, bundle, out):
+    """B130 private truth versus recognition; funded shared buyoff. Unrun."""
+    path = out / 'expanded-belief-revelation.zsave'
+    for setup in ((), (11406,)):
+        s = Session(bundle)
+        try:
+            for code in setup + (11400, 11401, 11403, 11405):
+                s.action(2285, code)
+            assert last(s, 'test.belief-revelation-preview') == ['blocked', 'fixed-belief-revelation-unavailable', 0, 0]
+            assert last(s, 'test.belief-revelation-state') == [1, 15, 15, 1, 0, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (11400, 11402, 11401, 11404, 11405):
+            s.action(2285, code)
+        assert last(s, 'test.belief-revelation-preview') == ['ready', None, 10, 0]
+        assert last(s, 'test.belief-revelation-state') == [1, 15, 15, 2, 0, 0]
+        s.action(2285, 11403)
+        s.command('undo')
+        s.action(2285, 11405)
+        assert last(s, 'test.belief-revelation-state') == [1, 15, 15, 2, 0, 0]
+        for code in (11403, 11403, 11405):
+            s.action(2285, code)
+        assert last(s, 'test.belief-revelation-state') == [0, 15, 5, 2, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (11403, 11405):
+            s.action(2285, code)
+        assert last(s, 'test.belief-revelation-state') == [0, 15, 5, 2, 0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (11400, 11402, 11407, 11401, 11403, 11405):
+            s.action(2285, code)
+        assert last(s, 'test.belief-revelation-preview') == ['blocked', 'rpg.insufficient-points', 10, 0]
+        assert last(s, 'test.belief-revelation-state') == [1, 15, 9, 2, 0, 0]
+    finally:
+        s.close()

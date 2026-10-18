@@ -1564,7 +1564,7 @@ permitted or penalized. Authors still route actions and dialogue explicitly.
 
 Use the social module's `RpgExpandedFixedBeliefObservation` for witnessed
 reactions. Multi-belief reaction stacking, automatic action/dialogue routing,
-revelations that a belief is true, buyoff and compound fear outcomes remain
+unfunded or outside-downtime revelation buyoff and compound fear outcomes remain
 pending. These entries remain partial. Beliefs are character fiction, not
 automatically established world facts or additional abilities.
 
@@ -1572,3 +1572,27 @@ automatically established world facts or additional abilities.
 `test_fixed_beliefs` specify both fear prices, unchanged earned/unspent points,
 creation-limit allowance, multiple scopes, the forty-point boundary, duplicate
 scopes, preview, replay, rollback, undo and save continuation. They remain unrun.
+
+## Belief truth, knowledge and revelation
+
+`RpgExpandedFixedBeliefKnowledge` records private authored facts separately:
+`truthConfirmed`, `characterAware` and `playersRecognize`. Supply a unique `id`,
+`profile`, owned `belief`, approval and evidence. Subsequent records name the
+latest receipt for that belief as `previous`; they do not rewrite history.
+`record()` binds the facts without publishing them, changing points, or rolling.
+False or unknown truth and mistaken recognition can be represented independently.
+Authors must not expose these objects or private evidence in player views.
+
+`RpgExpandedFixedBeliefRevelationBuyoff` uses the latest `knowledge` receipt,
+approval and evidence. Both confirmed truth and player recognition are necessary
+for this route (`full-2008`, B130); character awareness alone is insufficient.
+Unavailable disclosure states share one reason and return no private facts.
+The operation requires an approved historical buyoff basis, open advancement and
+sufficient unspent points, then delegates to the shared buyoff ledger once.
+Replaying a completed operation does not charge again. It does not force a reveal,
+grant an ability, or automatically remove the purchase when truth is recorded.
+Unfunded mandatory buyoff and outside-downtime resolution remain pending.
+
+[`expanded-belief-revelation.t`](../../tests/fixtures/expanded-belief-revelation.t)
+and `test_belief_revelation` specify private-state result parity, recognition,
+affordability, replay, rollback, undo and save continuation. They remain unrun.

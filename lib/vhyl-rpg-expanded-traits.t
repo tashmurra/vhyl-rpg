@@ -2525,3 +2525,112 @@ class RpgExpandedFixedBeliefPortrayal: object
         self.profile.fixedBeliefPortrayals = self.profile.fixedBeliefPortrayals + [self]; value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    fixedBeliefKnowledge = []
+;
+/** B130 private author facts; recording does not publish a revelation. */
+class RpgExpandedFixedBeliefKnowledge: object
+    id = nil
+    profile = nil
+    belief = nil
+    previous = nil
+    truthConfirmed = nil
+    characterAware = nil
+    playersRecognize = nil
+    approved = nil
+    evidence = nil
+    recordedAt = nil
+    boundDefinition = nil
+    buyoff = nil
+    definition()
+    {
+        return [self.id,self.profile,self.belief,self.previous,self.truthConfirmed,self.characterAware,
+            self.playersRecognize,self.approved,self.evidence,self.recordedAt,
+            self.belief.scope,self.belief.level,self.belief.beliefText,self.belief.behaviorText];
+    }
+    validateReceipt()
+    {
+        if (self.recordedAt == nil || !holds(self.profile.fixedBeliefKnowledge,self) || self.boundDefinition == nil)
+            rpgExpandedReject('fixed-belief-knowledge-history');
+        local facts = self.definition();
+        if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('fixed-belief-knowledge-binding');
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('fixed-belief-knowledge-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.belief == nil || !self.belief.ofKind(RpgExpandedFixedBelief)) rpgExpandedReject('fixed-belief-knowledge-definition');
+        local value = new RpgExpandedResult(); self.belief.creationCost();
+        if (self.recordedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundDefinition != nil || self.buyoff != nil) rpgExpandedReject('fixed-belief-knowledge-uncommitted-state');
+        if (!holds(self.profile.traits,self.belief)) rpgExpandedReject('fixed-belief-knowledge-purchase');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'fixed-belief-knowledge-author-facts'; return value; }
+        local latest = nil;
+        foreach (local prior in self.profile.fixedBeliefKnowledge)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id) rpgExpandedReject('fixed-belief-knowledge-duplicate');
+            if (prior.belief == self.belief) latest = prior;
+        }
+        if (self.previous != latest) rpgExpandedReject('fixed-belief-knowledge-predecessor');
+        value.status = 'ready'; return value;
+    }
+    record()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.profile.fixedBeliefKnowledge = self.profile.fixedBeliefKnowledge + [self]; value.status = 'resolved'; return value;
+    }
+;
+/** B130 disclosure condition and B291 funded buyoff, without revealing private facts. */
+class RpgExpandedFixedBeliefRevelationBuyoff: object
+    knowledge = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    chargedPoints = nil
+    boundDefinition = nil
+    definition() { return [self.knowledge,self.approved,self.evidence]; }
+    assess()
+    {
+        if (self.knowledge == nil || !self.knowledge.ofKind(RpgExpandedFixedBeliefKnowledge))
+            rpgExpandedReject('fixed-belief-revelation-knowledge');
+        self.knowledge.validateReceipt(); local value = new RpgExpandedResult(); local profile = self.knowledge.profile;
+        if (self.result != nil)
+        {
+            if (self.knowledge.buyoff != self || holds(profile.traits,self.knowledge.belief))
+                rpgExpandedReject('fixed-belief-revelation-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('fixed-belief-revelation-binding');
+            value.status = 'reused'; value.points = self.chargedPoints; return value;
+        }
+        if (self.chargedPoints != nil || self.boundDefinition != nil) rpgExpandedReject('fixed-belief-revelation-uncommitted-state');
+        local latest = nil;
+        foreach (local prior in profile.fixedBeliefKnowledge)
+        { prior.validateReceipt(); if (prior.belief == self.knowledge.belief) latest = prior; }
+        // Deliberately one public reason for every unavailable disclosure state.
+        if (latest != self.knowledge || !self.knowledge.truthConfirmed || !self.knowledge.playersRecognize
+            || !self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'fixed-belief-revelation-unavailable'; return value; }
+        if (self.knowledge.buyoff != nil || !holds(profile.traits,self.knowledge.belief))
+            rpgExpandedReject('fixed-belief-revelation-purchase');
+        if (!profile.developmentOpen) { value.reason = 'rpg.downtime-required'; return value; }
+        local cost = profile.disadvantageBuyoffCost(self.knowledge.belief);
+        if (cost == nil) { value.reason = 'buyoff-original-cost-required'; return value; }
+        value.points = cost; value.reason = profile.developmentSpendingReason(); if (value.reason != nil) return value;
+        if (profile.unspentPoints < cost) { value.reason = 'rpg.insufficient-points'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (!rpgLiteBuyOff(self.knowledge.profile,self.knowledge.belief)) rpgExpandedReject('fixed-belief-revelation-buyoff-changed');
+        self.boundDefinition = self.definition(); self.chargedPoints = value.points; self.knowledge.buyoff = self;
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

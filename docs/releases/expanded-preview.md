@@ -1658,3 +1658,9 @@ receipts and observer-specific severity reactions. Unnoticed behavior and
 mitigated purchases contribute no modifier. Multiple belief penalties reject
 pending a stacking rule. Fixtures cover preview, replay, rollback, undo and save
 continuation but remain unrun while checks are paused. Coverage remains partial.
+
+
+Fixed-belief knowledge now separates private truth, character awareness and
+player recognition through owned receipts. Funded revelation buyoff uses the
+shared point ledger once; unfunded and outside-downtime cases remain pending.
+Preview, rollback, undo and save-continuation fixtures are authored but unrun.
