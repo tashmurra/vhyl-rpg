@@ -179,6 +179,7 @@ class RpgLiteContext: object
     language = nil
     written = nil
     resistedTrait = nil
+    skillUseModifier(profile) { return 0; }
     reroll(profile, result) { return nil; }
 ;
 
@@ -190,7 +191,7 @@ rpgLiteScore(profile, context)
     if (score == nil) return nil;
     local attribute = context.skill == nil ? context.attribute : context.skill.attribute;
     local skillId = context.skill != nil && context.skill.ofKind(RpgLiteSkill) ? context.skill.id : nil;
-    local adjustment = context.modifier;
+    local adjustment = context.modifier + context.skillUseModifier(profile);
     if (context.offHand && profile.level('ambidexterity') == 0 && skillId != 'karate') adjustment -= 4;
     local darkness = context.darkness;
     if (context.someLight) darkness -= profile.level('night-vision');

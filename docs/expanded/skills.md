@@ -206,3 +206,42 @@ The native cases in `tests/expanded.py::test_learning_requirements` exercise pai
 minimums, trait possession, alternative/conjunctive requirements, cycle rejection,
 and blocked purchases/study with unchanged ledgers. They are authored but unrun
 while validation is paused.
+
+## Equipment familiarity
+
+Declare one `RpgExpandedFamiliarity` per profile, skill and equipment type, and
+register it in `profile.familiarities`. Set `owner`, `skill`, and `equipmentType`;
+the last identifies an authored family of equivalent models. Duplicate entries
+for the same skill/type and cross-owner entries are rejected. The standard
+`requiredSeconds` is 28,800 and `penalty` is −2 (B169). Specify exceptions only
+where the selected skill's procedure provides them.
+
+Set `initial = true` for authored starting familiarities. Validation limits these
+to twice the purchased points in that skill. These are initial character choices,
+not a method for gaining familiarity after play begins. Practice uses
+`assess(seconds)` and `advance(seconds)`, with `available` representing access to
+usable equipment. Assessment is pure. Commit charges the shared time ledger once,
+adds practice seconds, and binds progress to its original owner, skill and type.
+Call it within the normal action transaction. The final second removes the
+penalty; repeating practice on a known type returns `reused` with zero time.
+Requests exceeding the remaining practice are rejected before spending time.
+Practice grants neither skill points nor study credit.
+
+Use `RpgExpandedSkillContext` with matching `skill` and `familiarity` in
+`rpgLiteScore` or `rpgLiteCheck`. The contextual penalty is added once alongside
+other modifiers; it does not change the purchased skill or technique rating.
+Ordinary contexts retain a zero-valued hook and consume no additional randomness.
+A context without a familiarity record applies no familiarity modifier, so authors
+must supply a record whenever the equipment-use procedure calls for one.
+
+The discretionary recognition roll after six familiarities, automatic recognition
+of similar equipment, and technology-level exceptions are still pending. Do not
+model technology penalties by changing this penalty or practice duration. Combined
+study/practice sessions also remain unsupported; calling both commits would charge
+time twice. The familiarity state currently supports a dedicated practice action.
+
+Authored native coverage includes preview purity, initial allowances, duplicate
+rejection, context ownership, the final practice second, refusal of excess time,
+repeat prevention, exception rollback, undo and cross-process save continuation
+(`test_familiarity` and `test_familiarity_persistence` in `tests/expanded.py`).
+These checks have not run while validation is paused.

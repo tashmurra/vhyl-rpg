@@ -109,6 +109,62 @@ def test_learning_requirements(s):
     assert state(s) == before, 'rejected learning spent time or randomness'
 
 
+def familiarity_state(s):
+    s.action(1120)
+    return last(s, 'test.familiarity-state')
+
+
+def test_familiarity(s):
+    initial = familiarity_state(s)
+    assert initial == [0, -2, 0, 1, 0, 6]
+    s.action(1121, 28800)
+    assert last(s, 'test.familiarity') == ['ready', None, 28800]
+    assert familiarity_state(s) == initial
+    s.action(1122)
+    assert last(s, 'test.familiarity-invalid') == [
+        0, 'initial-familiarity-limit', 'duplicate-familiarity', 'familiarity-context']
+    s.action(1100, 6, 28799)
+    boundary = familiarity_state(s)
+    assert boundary == [28799, -2, 28799, 1, 0, 6]
+    s.action(1100, 6, 2)
+    assert last(s, 'test.familiarity') == ['blocked', 'familiarity-excess-time', 0]
+    assert familiarity_state(s) == boundary
+    s.action(1100, 7, 1)
+    assert familiarity_state(s) == boundary, 'exception leaked familiarity/time'
+    s.action(1100, 6, 1)
+    complete = familiarity_state(s)
+    assert complete == [28800, 0, 28800, 1, 0, 8]
+    s.command('undo')
+    assert familiarity_state(s) == boundary
+    s.action(1100, 6, 1)
+    assert familiarity_state(s) == complete
+    s.action(1100, 6, 1)
+    assert last(s, 'test.familiarity') == ['reused', None, 0]
+    assert familiarity_state(s) == complete
+
+
+def test_familiarity_persistence(Session, bundle, out):
+    path = out / 'expanded-familiarity.zsave'
+    first = Session(bundle)
+    try:
+        first.action(1100, 6, 123)
+        saved = familiarity_state(first)
+        first.command(f':save {path}\n@1120')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+        first.action(1100, 6, 28677)
+        continued = familiarity_state(first)
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@1120')
+        assert familiarity_state(second) == saved
+        second.action(1100, 6, 28677)
+        assert familiarity_state(second) == continued
+    finally:
+        second.close()
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -186,9 +242,10 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
+    test_familiarity_persistence(Session,bundle,build.out)
     test_persistence(Session,bundle,build.out)
     print('  expanded cross-process persistence: passed',flush=True)
     example = build.build('expanded-example',ROOT / 'examples/expanded/main.t')

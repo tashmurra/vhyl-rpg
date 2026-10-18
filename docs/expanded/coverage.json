@@ -319,6 +319,19 @@
         "tests/expanded.py::test_learning_requirements"
       ],
       "validation_note": "Declarative skill, level and trait requirements gate character validation, purchases and study. New native checks unrun; catalogue wiring and conditional prerequisites remain pending."
+    },
+    {
+      "id": "equipment-familiarity",
+      "module": "skills",
+      "pages": "B169",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedFamiliarity",
+      "tests": [
+        "tests/expanded.py::test_familiarity",
+        "tests/expanded.py::test_familiarity_persistence"
+      ],
+      "validation_note": "Owned practice, initial allowance and contextual penalty implemented; new checks unrun. Similarity recognition, technology exceptions and shared study/practice remain pending."
     }
   ],
   "detailed_inventories": [

@@ -224,3 +224,105 @@ modify RpgExpandedProfile
         return skill.prerequisite.satisfied(self, []) ? nil : 'skill-prerequisite';
     }
 ;
+
+modify RpgExpandedProfile
+    familiarities = []
+    validateFeatures()
+    {
+        inherited();
+        foreach (local entry in self.familiarities)
+        {
+            if (!entry.ofKind(RpgExpandedFamiliarity) || entry.owner != self)
+                rpgExpandedReject('familiarity-ownership');
+            entry.validate();
+        }
+        return nil;
+    }
+;
+
+/** One owned skill/equipment-type familiarity, B169. A type is an authored
+ * identity shared by equivalent models, not necessarily one inventory object. */
+class RpgExpandedFamiliarity: object
+    owner = nil
+    skill = nil
+    equipmentType = nil
+    initial = nil
+    requiredSeconds = 28800
+    penalty = -2
+    practicedSeconds = 0
+    practiceOwner = nil
+    practiceSkill = nil
+    practiceType = nil
+    available = nil
+    validate()
+    {
+        if (self.owner == nil || !self.owner.ofKind(RpgExpandedProfile)
+            || !holds(self.owner.familiarities, self) || self.skill == nil
+            || !self.skill.ofKind(RpgSkill) || self.equipmentType == nil)
+            rpgExpandedReject('familiarity-ownership');
+        rpgInteger(self.requiredSeconds, 1, 1000000);
+        rpgInteger(self.practicedSeconds, 0, self.requiredSeconds);
+        rpgInteger(self.penalty, -100, 0);
+        if (self.practiceOwner != nil && (self.owner != self.practiceOwner
+            || self.skill != self.practiceSkill || self.equipmentType != self.practiceType))
+            rpgExpandedReject('familiarity-retargeted');
+        local initialCount = 0; local copies = 0;
+        foreach (local entry in self.owner.familiarities)
+        {
+            if (!entry.ofKind(RpgExpandedFamiliarity) || entry.owner != self.owner)
+                rpgExpandedReject('familiarity-ownership');
+            if (entry.skill == self.skill)
+            {
+                if (entry.equipmentType == self.equipmentType) copies += 1;
+                if (entry.initial) initialCount += 1;
+            }
+        }
+        if (copies != 1) rpgExpandedReject('duplicate-familiarity');
+        local training = rpgExpandedTrainingFor(self.owner, self.skill);
+        local points = training == nil ? 0 : training.points;
+        if (initialCount > points * 2) rpgExpandedReject('initial-familiarity-limit');
+        return nil;
+    }
+    known() { return self.initial || self.practicedSeconds == self.requiredSeconds; }
+    modifier()
+    {
+        self.validate(); return self.known() ? 0 : self.penalty;
+    }
+    assess(seconds)
+    {
+        self.validate(); rpgInteger(seconds, 1, 86400);
+        local value = new RpgExpandedResult();
+        if (self.known()) { value.status = 'reused'; return value; }
+        if (!self.available) { value.reason = 'familiarity-equipment-unavailable'; return value; }
+        if (self.owner.dead || self.owner.unconscious)
+        { value.reason = 'cannot-practice'; return value; }
+        if (self.owner.skillScore(self.skill) == nil)
+        { value.reason = 'familiarity-skill-unavailable'; return value; }
+        if (seconds > self.requiredSeconds - self.practicedSeconds)
+        { value.reason = 'familiarity-excess-time'; return value; }
+        value.status = 'ready'; value.seconds = seconds; return value;
+    }
+    advance(seconds)
+    {
+        local value = self.assess(seconds);
+        if (value.status != 'ready') return value;
+        rpgSpendTime(value.seconds);
+        self.practiceOwner = self.owner; self.practiceSkill = self.skill;
+        self.practiceType = self.equipmentType; self.practicedSeconds += value.seconds;
+        value.status = 'resolved'; return value;
+    }
+;
+
+/** Use through rpgLiteScore/rpgLiteCheck so the familiarity penalty is applied
+ * once, alongside (rather than replacing) other contextual modifiers. */
+class RpgExpandedSkillContext: RpgLiteContext
+    familiarity = nil
+    skillUseModifier(profile)
+    {
+        if (self.familiarity == nil) return 0;
+        if (!self.familiarity.ofKind(RpgExpandedFamiliarity)
+            || self.familiarity.owner != profile || self.familiarity.skill != self.skill)
+            rpgExpandedReject('familiarity-context');
+        return self.familiarity.modifier();
+    }
+;

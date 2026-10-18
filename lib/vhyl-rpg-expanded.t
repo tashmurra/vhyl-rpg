@@ -23,6 +23,7 @@ class RpgExpandedRules: object
 class RpgExpandedProfile: RpgLiteProfile
     rules = nil
     contributions = []
+    validateFeatures() { return nil; }
     hpAdjustment = 0
     fpAdjustment = 0
     willAdjustment = 0
@@ -61,6 +62,7 @@ rpgExpandedValidate(profile)
     if (profile == nil || !profile.ofKind(RpgExpandedProfile)
         || profile.rules == nil || !profile.rules.ofKind(RpgExpandedRules))
         rpgExpandedReject('profile-or-rules');
+    profile.validateFeatures();
     local ids = [];
     foreach (local contribution in profile.contributions)
     {

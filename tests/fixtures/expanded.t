@@ -9,10 +9,13 @@
 expandedRoom: Room 'Workshop';
 expandedRules: RpgExpandedRules;
 expandedHero: RpgExpandedProfile actor = player rules = expandedRules
+    familiarities = [expandedFamiliarity]
     skills = [expandedInvestment] pointBudget = 1000 developmentOpen = true;
 expandedSubject: RpgExpandedSkill id = 'analysis' attribute = rpgIQ difficulty = 3;
 expandedInvestment: RpgExpandedTraining skill = expandedSubject points = 1;
 expandedStudy: RpgExpandedStudy profile = expandedHero training = expandedInvestment permitted = true;
+expandedFamiliarity: RpgExpandedFamiliarity owner = expandedHero skill = expandedSubject
+    equipmentType = 'survey-console' available = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -34,6 +37,13 @@ class ExpandedTestAction: Action
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
+        if (code == 6 || code == 7)
+        {
+            local value = expandedFamiliarity.advance(args[2]);
+            event('test.familiarity'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.seconds);
+            if (code == 7) throw new RpgError();
+        }
         return nil;
     }
 ;
@@ -253,6 +263,45 @@ act(verb, args)
         eventValue(training.points); eventValue(study.credit); eventValue(p.developmentRevision);
         training.points = 1;
         try { rpgExpandedValidateCharacter(p); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1120)
+    {
+        event('test.familiarity-state'); eventValue(expandedFamiliarity.practicedSeconds);
+        eventValue(expandedFamiliarity.modifier()); eventValue(rpgLedger.seconds);
+        eventValue(expandedInvestment.points); eventValue(rpgRandom.draws);
+        local context = new RpgExpandedSkillContext(); context.skill = expandedSubject;
+        context.familiarity = expandedFamiliarity; context.modifier = 1;
+        eventValue(rpgLiteScore(expandedHero,context)); return nil;
+    }
+    if (verb == 1121)
+    {
+        local value = expandedFamiliarity.assess(args[1]);
+        event('test.familiarity'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.seconds); return nil;
+    }
+    if (verb == 1122)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        local skill = new RpgExpandedSkill();
+        local training = new RpgExpandedTraining(); training.skill = skill; p.skills = [training];
+        local a = new RpgExpandedFamiliarity(); a.owner = p; a.skill = skill;
+        a.equipmentType = 'a'; a.initial = true;
+        local b = new RpgExpandedFamiliarity(); b.owner = p; b.skill = skill;
+        b.equipmentType = 'b'; b.initial = true;
+        local c = new RpgExpandedFamiliarity(); c.owner = p; c.skill = skill;
+        c.equipmentType = 'c'; c.initial = true;
+        p.familiarities = [a,b]; event('test.familiarity-invalid'); eventValue(a.modifier());
+        p.familiarities = [a,b,c];
+        try { a.modifier(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        c.initial = nil; c.equipmentType = 'a';
+        try { a.modifier(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        p.familiarities = [a,b];
+        local context = new RpgExpandedSkillContext(); context.skill = skill; context.familiarity = a;
+        try { context.skillUseModifier(expandedHero); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
