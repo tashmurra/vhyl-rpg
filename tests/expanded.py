@@ -8904,6 +8904,8 @@ def test(build):
     test_radiation_checks(Session, radiation_check, build.out)
     pain = build.build('expanded-pain-sensitivity', ROOT / 'tests/fixtures/expanded-pain-sensitivity.t')
     test_pain_sensitivity(Session, pain, build.out)
+    radiation_burn = build.build('expanded-radiation-burn', ROOT / 'tests/fixtures/expanded-radiation-burn.t')
+    test_radiation_burns(Session, radiation_burn, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10282,3 +10284,55 @@ def test_pain_sensitivity(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_radiation_burns(Session, bundle, out):
+    def state(s):
+        s.action(2291, 68, 0)
+        return last(s, 'test.radiation-burn')
+    path = out / 'expanded-radiation-burn.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2291, 0, 0)
+        s.action(2291, 50, 0)
+        s.action(2291, 61, 0)
+        assert state(s) == [0, 0, 0, 0, 0, None, None, 3, 0]
+        s.action(2291, 60, 0)
+        s.action(2291, 30, 36001)  # Cannot skip the onset deadline.
+        assert state(s) == [0, 0, 0, 0, 1, None, 36000, 3, 0]
+        s.action(2291, 30, 36000)
+        s.action(2291, 63, 0)
+        s.action(2291, 64, 0)
+        assert state(s) == [0, 0, 0, 0, 1, None, 36000, 3, 36000]
+        s.action(2291, 62, 0)
+        s.command('undo')
+        assert state(s) == [0, 0, 0, 0, 1, None, 36000, 3, 36000]
+        s.action(2291, 62, 0)
+        assert state(s) == [2, 2, 1, 0, 1, 36000, 36000, 4, 36000]
+        s.command(f':save {path}\n@2295')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2295')
+        s.action(2291, 62, 0)
+        assert state(s) == [2, 2, 1, 0, 1, 36000, 36000, 4, 36000]
+        s.action(2291, 67, 0)
+        assert state(s)[:4] == [4, 6, 1, 0]
+        s.action(2291, 3, 7)
+        assert state(s)[2:4] == [0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2291, 65, 0)
+        s.action(2291, 0, 0)
+        s.action(2291, 50, 0)
+        s.action(2291, 60, 0)
+        s.action(2291, 30, 36000)
+        s.action(2291, 62, 0)
+        assert state(s) == [2, 0, 0, 0, 1, 36000, 36000, 4, 36000]
+        s.action(2291, 3, 7)
+        assert state(s)[2:4] == [0, 1]
+    finally:
+        s.close()

@@ -267,3 +267,10 @@ doubled shock, physical resistance penalties and recorded Will checks to avoid
 crying out. Default injury hooks preserve the absent-trait path. New and updated
 fixtures are authored and unrun; observer consequences and radiation symptom
 timing remain pending.
+
+
+Initial radiation burns now have an owned onset deadline, one shared wound and
+a one-week effective pain-trait change that preserves purchased traits. The clock
+protects pending onset, and receipts prevent repeated injury. Recovery checks,
+higher syndromes and overlapping episodes remain pending. New fixtures are
+authored and unrun.

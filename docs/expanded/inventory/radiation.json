@@ -77,9 +77,12 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Outcome A begins after health hours, inflicts one die injury and gives low pain threshold for a week, or removes existing high pain threshold for that period.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_burns"
+      ],
+      "implementation": "RpgExpandedRadiationBurn schedules category-A onset at exposure HT hours, guards the deadline, commits a preflighted one-die wound and applies one week of pain sensitivity or suppresses existing pain resistance. Purchased traits remain unchanged. Initial acute exposure only; continued-exposure epochs, overlapping syndromes and later recovery checks remain pending. Fixtures authored and unrun."
     },
     {
       "id": "radiation-burn-late-checks",

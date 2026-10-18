@@ -968,3 +968,41 @@ Automatic exposure scheduling and the syndrome executor remain pending.
 preview purity, exception rollback, undo, source/day throttling, treatment
 integration, pending syndrome status, replay, saved continuation and blocked
 fractional/overlapping bands. The cases are authored and unrun.
+
+
+### Delayed radiation burns
+
+`RpgExpandedRadiationBurn` implements the initial category-A onset in `full-2008`,
+B436. Supply a unique `id`, the committed `radiationCheck` whose `effect` is
+`burns`, and any `dropDestination` required by the shared wound pipeline. Call
+`schedule()` at the same clock instant as that initial acute exposure and its
+check. The episode snapshots HT and schedules onset that many hours later;
+`assessSchedule()` is pure. The profile owns it in `radiationBurns`.
+
+The shared clock rejects advancement past a pending onset for a living patient.
+At exactly `onsetDue`, `assess()` preflights every possible injury from one through
+six against the current wound rules, including knockdown and equipment drops.
+`apply()` rolls one die and commits the resulting `RpgExpandedWound`. Use an
+engine action transaction so injury, random draws, equipment changes and the
+symptom receipt roll back together on an exception. Replay retains the wound.
+
+The onset operation follows the printed order: apply the injury with the existing
+pain traits, then gain the temporary pain effect. If pain resistance was active
+at onset, suppress its effective level for one week. Otherwise supply an effective
+pain-sensitivity level of one for that week. Purchased trait objects and costs do
+not change. The effect begins at `onsetAt` and expires at 604,800 elapsed seconds;
+normal trait lookup resumes at the expiry instant. Subsequent injuries use the
+health module's pain-sensitive pipeline where applicable.
+
+The result is `awaiting-recovery`, with `recoveryChecksPending = true`. The parent
+radiation check still has pending consequences: later recovery must resolve the
+two specified HT checks and their lasting conditions. This onset implementation
+does not mark the whole syndrome complete. Continued-exposure onset epochs,
+higher syndromes that inherit these symptoms, and overlapping burn episodes
+remain explicitly unsupported. A dead patient does not hold the shared clock at
+the onset boundary and cannot receive this living-patient onset operation.
+
+`tests/fixtures/expanded-radiation-burn.t` and `test_radiation_burns` specify
+scheduling preview, deadline protection, preflight, exception rollback, undo,
+shared injury, temporary trait behavior, replay and cross-process continuation.
+The fixtures are authored and unrun.

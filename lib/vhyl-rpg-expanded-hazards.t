@@ -2117,3 +2117,132 @@ class RpgExpandedRadiationCheck: object
         self.result = value; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    radiationBurns = []
+    level(id)
+    {
+        local value = inherited(id);
+        if (!holds(['high-pain-threshold','low-pain-threshold'],id)) return value;
+        foreach (local episode in self.radiationBurns)
+            if (episode.onsetAt != nil && rpgLedger.seconds - episode.onsetAt < 604800)
+            {
+                if (episode.suppressedResistance && id == 'high-pain-threshold') return 0;
+                if (!episode.suppressedResistance && id == 'low-pain-threshold') return value > 0 ? value : 1;
+            }
+        return value;
+    }
+;
+class RpgExpandedRadiationBurnResult: RpgExpandedResult
+    wound = nil
+    injury = 0
+    recoveryChecksPending = true
+;
+
+/** B436 category-A onset; later recovery consequences have a separate lifecycle. */
+class RpgExpandedRadiationBurn: object
+    id = nil
+    radiationCheck = nil
+    dropDestination = nil
+    scheduledAt = nil
+    onsetDue = nil
+    onsetAt = nil
+    healthAtExposure = nil
+    suppressedResistance = nil
+    boundDefinition = nil
+    result = nil
+    profile() { return self.radiationCheck.triggerDose.profile; }
+    definition() { return [self.id,self.radiationCheck,self.dropDestination]; }
+    validateReceipt()
+    {
+        if (self.scheduledAt == nil || self.boundDefinition == nil) rpgExpandedReject('radiation-burn-unscheduled');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('radiation-burn-binding');
+        self.radiationCheck.validateReceipt();
+        if (!holds(self.profile().radiationBurns,self)) rpgExpandedReject('radiation-burn-history');
+        rpgInteger(self.scheduledAt,0,rpgLedger.seconds); return nil;
+    }
+    assessSchedule()
+    {
+        if (self.id == nil || self.id == '' || self.radiationCheck == nil
+            || !self.radiationCheck.ofKind(RpgExpandedRadiationCheck)) rpgExpandedReject('radiation-burn-definition');
+        self.radiationCheck.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.scheduledAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.radiationCheck.result.effect != 'burns')
+        { value.reason = 'radiation-burn-syndrome-unimplemented'; return value; }
+        if (self.radiationCheck.continued || self.radiationCheck.checkedAt != rpgLedger.seconds
+            || self.radiationCheck.triggerDose.receivedAt != rpgLedger.seconds)
+        { value.reason = 'radiation-burn-exposure-epoch-unimplemented'; return value; }
+        if (self.profile().dead) { value.reason = 'radiation-burn-patient-dead'; return value; }
+        foreach (local prior in self.profile().radiationBurns)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.radiationCheck == self.radiationCheck)
+                rpgExpandedReject('radiation-burn-duplicate');
+            /* Recovery outcomes and overlapping pain effects need composition support. */
+            if (prior.result == nil || prior.result.recoveryChecksPending)
+            { value.reason = 'radiation-burn-overlap-unimplemented'; return value; }
+        }
+        rpgInteger(self.profile().ht,1,1000);
+        if (rpgLedger.seconds > 2147483647 - self.profile().ht * 3600 - 604800)
+            rpgExpandedReject('radiation-burn-time-capacity');
+        value.seconds = self.profile().ht * 3600; value.status = 'ready'; return value;
+    }
+    schedule()
+    {
+        local value = self.assessSchedule(); if (value.status != 'ready') return value;
+        self.scheduledAt = rpgLedger.seconds; self.healthAtExposure = self.profile().ht;
+        self.onsetDue = self.scheduledAt + value.seconds; self.boundDefinition = self.definition();
+        local profile = self.profile(); profile.radiationBurns = profile.radiationBurns + [self];
+        value.status = 'resolved'; return value;
+    }
+    wound(amount)
+    {
+        local wound = new RpgExpandedWound(); wound.id = 'radiation-burn-' + self.id;
+        wound.profile = self.profile(); wound.amount = amount; wound.dropDestination = self.dropDestination;
+        return wound;
+    }
+    assess()
+    {
+        self.validateReceipt(); local value = new RpgExpandedRadiationBurnResult();
+        if (self.result != nil)
+        {
+            if (self.result.wound.assess().status != 'reused') rpgExpandedReject('radiation-burn-wound-history');
+            value.status = 'reused'; value.wound = self.result.wound; value.injury = self.result.injury; return value;
+        }
+        if (self.profile().dead) { value.reason = 'radiation-burn-patient-dead'; return value; }
+        if (rpgLedger.seconds != self.onsetDue) { value.reason = 'radiation-burn-not-due'; return value; }
+        for (local amount = 1; amount <= 6; amount += 1)
+        {
+            local prepared = self.wound(amount).assess();
+            if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local resistant = self.profile().level('high-pain-threshold') > 0;
+        value.injury = rpgRandom.die(); value.wound = self.wound(value.injury);
+        if (value.wound.apply().status != 'resolved') rpgExpandedReject('radiation-burn-wound-changed');
+        /* Apply the printed injury before gaining the simultaneous temporary trait. */
+        self.suppressedResistance = resistant; self.onsetAt = rpgLedger.seconds;
+        value.status = 'awaiting-recovery'; self.result = value; return value;
+    }
+;
+
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local episode = firstObj(RpgExpandedRadiationBurn); episode != nil;
+            episode = nextObj(episode,RpgExpandedRadiationBurn))
+            if (episode.scheduledAt != nil && episode.result == nil && !episode.profile().dead)
+            {
+                episode.validateReceipt();
+                if (self.seconds + seconds > episode.onsetDue) rpgExpandedReject('radiation-burn-onset-boundary');
+            }
+        return nil;
+    }
+;
