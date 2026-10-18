@@ -9020,6 +9020,8 @@ def test(build):
     test_throw_attempt(Session, throw_attempt, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
+    jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
+    test_jump_profile(Session, jump_profile)
     throw_release = build.build('expanded-throw-release',ROOT / 'tests/fixtures/expanded-throw-release.t')
     test_throw_release(Session, throw_release, build.out)
     test_throw_ranged_failure(Session, throw_release)
@@ -15311,5 +15313,33 @@ def test_jump_assessment(Session, bundle):
                 assert last(s,'test.jump-assessment') == ['ready',None,*expected,0,0]
         s.action(2292,1,0,-1,1,-1)
         assert last(s,'test.jump-assessment') == ['blocked','jump-low-movement-adapter-required',1,0,0,0,0]
+    finally:
+        s.close()
+
+
+def test_jump_profile(Session, bundle):
+    cases = [((),[5,200,840]),((1301,),[5,800,3360]),
+             ((1301,1302),[5,200,840]),((1301,1303),[5,1600,6720]),
+             ((1301,1304),[5,400,1680]),((1305,),[10,500,2040]),
+             ((1305,1306),[5,200,840]),((1305,1307),[10,500,2040]),
+             ((1305,1308),[5,200,840]),((1309,),[6,260,1080]),
+             ((1305,1309),[6,260,1080])]
+    for choices, expected in cases:
+        s = Session(bundle)
+        try:
+            for code in (*choices,1300,1300,1311):
+                s.action(2285,code)
+            assert last(s,'test.jump-profile') == ['ready',None,*expected,0,0]
+            assert last(s,'test.jump-cost') == [20]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285,1312)
+        assert last(s,'test.jump-untrained') == ['jump-skill-untrained']
+        for code in (1301,1310,1300):
+            s.action(2285,code)
+        assert last(s,'test.jump-profile')[:2] == ['blocked','jump-distance-numeric-limit']
+        assert last(s,'test.jump-profile')[-2:] == [0,0]
     finally:
         s.close()

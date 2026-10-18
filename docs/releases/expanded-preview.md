@@ -972,3 +972,9 @@ and running formulas, independent running caps, half-skill substitution,
 preparation and optional encumbrance. Distances retain tenths of an inch.
 Owned preparation, movement and landing consequences remain pending. Printed
 example and boundary assertions are authored, unrun while checks are paused.
+
+Profile-backed jump assessment now validates paid skill selection, reads optional
+encumbrance, supports the explicit strength/body-weight option and consumes
+active enhanced-jump levels. Enhanced jumping has ten-point-per-level accounting.
+Movement, jump attacks and fall protection remain pending. New expected-value
+and boundary fixtures are authored, unrun while checks are paused.

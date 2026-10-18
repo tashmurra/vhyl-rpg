@@ -708,3 +708,29 @@ modify RpgExpandedProfile
         return found != nil && found.active && !found.mitigated ? 2 : 1;
     }
 ;
+
+/** B89 fixed-price enhanced jumping; distance consumer is in exploration. */
+class RpgExpandedEnhancedJump: RpgExpandedTrait
+    id = 'enhanced-jump'
+    points = 10
+    creationCost()
+    {
+        if (!self.approved || self.id != 'enhanced-jump' || self.percentages.length() != 0)
+            rpgExpandedReject('enhanced-jump-definition');
+        rpgInteger(self.level,1,100); return self.level * 10;
+    }
+;
+modify RpgExpandedProfile
+    enhancedJumpLevels()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedEnhancedJump))
+            {
+                trait.creationCost();
+                if (found != nil) rpgExpandedReject('duplicate-enhanced-jump');
+                found = trait;
+            }
+        return found == nil || !found.active || found.mitigated ? 0 : found.level;
+    }
+;

@@ -317,3 +317,7 @@ class RpgExpandedCatchReceipt: object
 modify RpgExpandedProfile
     martialParryDivisor() { return 1; }
 ;
+
+modify RpgExpandedProfile
+    enhancedJumpLevels() { return 0; }
+;

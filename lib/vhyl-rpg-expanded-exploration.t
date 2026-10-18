@@ -2175,3 +2175,60 @@ rpgExpandedAssessJump(basicMove, runYards, jumpingSkill, prepared, encumbrance)
     value.broadInchTenths = broad * 12 * (prepared ? 2 : 1) * factor;
     value.status = 'ready'; return value;
 }
+
+/** B352 optional strength basis; weight and lift share hundredths of a pound. */
+rpgExpandedJumpStrengthBasis(basicMove, strength, lift, bodyWeight, enabled)
+{
+    rpgInteger(basicMove,0,1000); rpgInteger(strength,1,1000);
+    rpgInteger(lift,1,100000000); rpgInteger(bodyWeight,1,100000000);
+    if (enabled && lift > bodyWeight && strength / 4 > basicMove) return strength / 4;
+    return basicMove;
+}
+
+/** Pure profile-backed distance request. Preparation/route commitment is separate. */
+class RpgExpandedJumpDistance: object
+    profile = nil
+    skill = nil
+    runYards = 0
+    prepared = nil
+    encumbranceOption = nil
+    strengthOption = nil
+    bodyWeightHundredths = nil
+    bodyWeightEvidence = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('jump-profile-required');
+        local basis = self.profile.basicMove(); local skillScore = nil;
+        if (self.strengthOption)
+        {
+            if (self.bodyWeightEvidence == nil || self.bodyWeightEvidence == '')
+                rpgExpandedReject('jump-body-weight-evidence');
+            basis = rpgExpandedJumpStrengthBasis(basis,self.profile.st,self.profile.basicLiftHundredths(),
+                self.bodyWeightHundredths,true);
+        }
+        if (self.skill != nil)
+        {
+            if (!self.skill.ofKind(RpgLiteSkill) || self.skill.id != 'jumping'
+                || self.skill.attribute != rpgDX || self.skill.difficulty != 0 || self.skill.defaultPenalty != nil)
+                rpgExpandedReject('jump-skill-definition');
+            local trained = nil;
+            foreach (local training in self.profile.skills)
+                if (training.skill == self.skill && training.points > 0) trained = true;
+            if (!trained) rpgExpandedReject('jump-skill-untrained');
+            skillScore = self.profile.skillScore(self.skill);
+            if (skillScore == nil) rpgExpandedReject('jump-skill-unavailable');
+        }
+        local value = rpgExpandedAssessJump(basis,self.runYards,skillScore,self.prepared,
+            self.encumbranceOption ? self.profile.encumbrance() : -1);
+        if (value.status != 'ready') return value;
+        local levels = self.profile.enhancedJumpLevels(); rpgInteger(levels,0,100);
+        for (local index = 0; index < levels; index += 1)
+        {
+            if (value.highInchTenths > 1073741823 || value.broadInchTenths > 1073741823)
+            { value.status = 'blocked'; value.reason = 'jump-distance-numeric-limit'; return value; }
+            value.highInchTenths *= 2; value.broadInchTenths *= 2;
+        }
+        return value;
+    }
+;

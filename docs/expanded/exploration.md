@@ -1075,3 +1075,26 @@ The held-throw low-fatigue guard remains in place. B426 halves current strength
 but preserves strength-derived quantities, explicitly including damage. The
 throwing adapter does not yet resolve the interaction with every range and
 lifting formula; it rejects that case instead of halving all derived quantities.
+
+### Profile-backed jump distances
+
+`RpgExpandedJumpDistance` supplies the pure formulas with current profile data.
+Set `profile`, `runYards` and `prepared`; select `skill` only when deliberately
+using a paid DX/Easy Jumping skill with no default. The request rejects an
+untrained skill rather than silently using DX. With `encumbranceOption` enabled,
+it reads the profile's current load category; otherwise no load reduction applies.
+
+`strengthOption` enables the B352 optional strength basis. Supply measured
+`bodyWeightHundredths` and `bodyWeightEvidence`. Both body weight and Basic Lift
+use hundredths of a pound. Only Basic Lift strictly greater than body weight
+permits the higher of floor(ST/4) and Basic Move. Equality grants no benefit.
+An explicitly selected Jumping skill replaces that basis with half its score.
+The independent pure helper is `rpgExpandedJumpStrengthBasis`.
+
+An installed, approved, active `RpgExpandedEnhancedJump` multiplies the final
+height and distance by two per level. This also multiplies prepared/unprepared
+and running results. Calculations that exceed the integer representation return
+`jump-distance-numeric-limit` before overflow. The request is an assessment:
+it neither grants permission to act nor records preparation, moves a character,
+spends time, rolls dice or resolves a landing. Trait-specific travel speed,
+jump attacks and fall protection remain pending.

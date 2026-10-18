@@ -294,9 +294,12 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Each enhanced-jump level doubles final jump distance, cumulatively with enhanced movement where applicable.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_jump_profile"
+      ],
+      "validation_note": "Profile-backed pure distance assessment validates paid DX/Easy Jumping with no default, applies the explicit strength basis only when lift strictly exceeds measured body weight, and consumes active approved enhanced-jump levels with ten-point-per-level trait accounting. Final distances double per level with overflow rejection. Pricing, strict boundary, disabled benefit, running/preparation and skill-selection assertions authored, unrun. Owned preparation, difficult-jump rolls, enhanced movement, actual movement, jump attacks and fall protection remain pending."
     },
     {
       "id": "activity-jump-combat-preparation",
@@ -360,9 +363,10 @@
       "status": "partial",
       "acceptance": "Permit half jumping skill, rounded down, in place of basic movement for distance and jumping skill in place of dexterity for difficult jump checks.",
       "tests": [
-        "tests/expanded.py::test_jump_assessment"
+        "tests/expanded.py::test_jump_assessment",
+        "tests/expanded.py::test_jump_profile"
       ],
-      "validation_note": "Pure ordinary distance assessment implements standing/running formulas and independent caps, explicit half-skill substitution, preparation halving and optional fifth-based encumbrance factors without losing fractional inches. Printed examples, boundaries and preview purity assertions authored, unrun. Owned preparation, skill eligibility, difficult-jump rolls, enhanced traits, optional strength basis, movement and landing consequences remain pending; effective basis below two is explicitly unsupported."
+      "validation_note": "Profile-backed pure distance assessment validates paid DX/Easy Jumping with no default, applies the explicit strength basis only when lift strictly exceeds measured body weight, and consumes active approved enhanced-jump levels with ten-point-per-level trait accounting. Final distances double per level with overflow rejection. Pricing, strict boundary, disabled benefit, running/preparation and skill-selection assertions authored, unrun. Owned preparation, difficult-jump rolls, enhanced movement, actual movement, jump attacks and fall protection remain pending."
     },
     {
       "id": "activity-jump-strength-option",
@@ -370,9 +374,12 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "When explicitly enabled and lifting capacity exceeds body weight, permit the higher of floor(strength/4) and basic movement in the jump formulas.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_jump_profile"
+      ],
+      "validation_note": "Profile-backed pure distance assessment validates paid DX/Easy Jumping with no default, applies the explicit strength basis only when lift strictly exceeds measured body weight, and consumes active approved enhanced-jump levels with ten-point-per-level trait accounting. Final distances double per level with overflow rejection. Pricing, strict boundary, disabled benefit, running/preparation and skill-selection assertions authored, unrun. Owned preparation, difficult-jump rolls, enhanced movement, actual movement, jump attacks and fall protection remain pending."
     },
     {
       "id": "activity-jump-encumbrance-option",

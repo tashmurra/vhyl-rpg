@@ -51,9 +51,12 @@
       "pages": "B89",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Enhanced jumping costs ten per level, doubling ordinary height and distance per level. Jump movement is the greater of ground movement and one fifth maximum long-jump distance. A jump-slam uses maximum jump movement and no separate accuracy check. Falls up to maximum high-jump distance cause no injury, increased by five yards after successful acrobatics.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_jump_profile"
+      ],
+      "validation_note": "Profile-backed pure distance assessment validates paid DX/Easy Jumping with no default, applies the explicit strength basis only when lift strictly exceeds measured body weight, and consumes active approved enhanced-jump levels with ten-point-per-level trait accounting. Final distances double per level with overflow rejection. Pricing, strict boundary, disabled benefit, running/preparation and skill-selection assertions authored, unrun. Owned preparation, difficult-jump rolls, enhanced movement, actual movement, jump attacks and fall protection remain pending."
     },
     {
       "id": "traits-l-selected-roll",

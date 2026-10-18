@@ -860,3 +860,16 @@ skill prerequisite integration and other melee-parry adapters remain pending;
 this catalogue entry is partial. `test_catch_repeat_parry` contains expected
 scores for ordinary and trained repeated parries, inactive benefits and independent
 hand counters. These assertions are authored, unrun while checks are paused.
+
+## Enhanced jumping
+
+`RpgExpandedEnhancedJump` costs ten points per level (`full-2008`, B89).
+Set `approved`; the current definition supports the unmodified trait and rejects
+percentage modifiers. `RpgExpandedJumpDistance` consumes active, unmitigated
+levels and doubles final distance per level. Duplicate trait instances are
+rejected when querying that benefit. The trait does not grant Jumping skill.
+
+Jump movement speed, jump attacks and the trait's fall-protection procedure
+remain pending, so the catalogue entry remains partial. Pure profile fixtures
+cover pricing, disabled benefits, running/preparation multipliers, optional
+strength boundaries and paid skill selection. Assertions are authored, unrun.
