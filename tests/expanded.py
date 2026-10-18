@@ -9145,6 +9145,7 @@ def test(build):
     fresh(Session,health,test_critical_major_wound)
     fresh(Session,health,test_knockdown_anatomy_exceptions)
     fresh(Session,health,test_crippling_thresholds)
+    fresh(Session,health,test_fall_crippling)
     fresh(Session,health,test_body_supports)
     fresh(Session,health,test_unarmed_limb_capacity)
     fresh(Session,health,test_crippling_months)
@@ -13946,3 +13947,18 @@ def test_fall_impact(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_fall_crippling(s):
+    cases = [((10,5,1,2,0),[6,5,0,0,0,0]),
+             ((10,6,1,2,0),[6,6,1,0,1,0]),
+             ((10,20,1,2,0),[6,20,1,1,1,0]),
+             ((10,3,2,2,0),[4,3,0,0,0,0]),
+             ((10,12,2,2,0),[4,12,1,1,0,0]),
+             ((10,8,1,4,0),[3,8,1,1,1,0])]
+    for args, expected in cases:
+        s.action(2299,*args)
+        assert last(s,'test.fall-crippling') == expected+[0,0]
+    for roll in range(1,7):
+        s.action(2299,10,20,1,2,roll)
+        assert last(s,'test.fall-crippling') == [6,20,1,1,1,int(roll>=5),0,0]

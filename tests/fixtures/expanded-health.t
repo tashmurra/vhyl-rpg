@@ -10,6 +10,14 @@ modify gameMain initialRoom = healthRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2299)
+    {
+        local value = rpgExpandedAssessFallCrippling(args[1],args[2],args[3] == 1 ? 'limb' : 'extremity',args[4],args[5] == 0 ? nil : args[5]);
+        event('test.fall-crippling'); eventValue(value.minimumInjury); eventValue(value.healthLoss);
+        eventValue(value.crippled ? 1 : 0); eventValue(value.destroyed ? 1 : 0);
+        eventValue(value.additionalLimbRollRequired ? 1 : 0); eventValue(value.allLimbsCrippled ? 1 : 0);
+        eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
     if (verb == 2284)
     {
         local value = rpgExpandedBleedingOutcome(args[1],args[2],args[3],args[4],args[5]);

@@ -813,3 +813,8 @@ Owned torso impacts now roll and record collision dice and commit the linked
 injury in one transaction, after checking penetration and blunt-trauma extrema.
 Negated dives consume no damage dice. Deterministic, rollback, undo and save
 fixtures remain unrun; broader fall execution is still incomplete.
+
+Health now assesses fall-specific limb/extremity injury without the ordinary
+crippling cap and classifies the additional-limb die without adding HP loss.
+Owned anatomy changes and fall-location integration remain pending. Threshold and
+all-die-result fixtures are authored and unrun.

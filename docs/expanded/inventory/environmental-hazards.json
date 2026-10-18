@@ -1138,9 +1138,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "When locations are enabled, randomly select the fall location and apply full injury even to limbs/extremities rather than their ordinary injury cap.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fall_crippling"
+      ],
+      "validation_note": "Pure fall-specific crippling assessment preserves uncapped health loss and classifies all six additional-limb die outcomes without adding injury. Assertions authored, unrun. Owned random location, disability/drop handling and injury commitment remain pending."
     },
     {
       "id": "collision-fall-multiple-limbs",
@@ -1148,9 +1151,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "When a fall cripples a limb, roll one die; five or six cripples all limbs of that type without additional health loss.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fall_crippling"
+      ],
+      "validation_note": "Pure fall-specific crippling assessment preserves uncapped health loss and classifies all six additional-limb die outcomes without adding injury. Assertions authored, unrun. Owned random location, disability/drop handling and injury commitment remain pending."
     },
     {
       "id": "collision-head-on",

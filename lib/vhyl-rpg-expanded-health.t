@@ -5905,3 +5905,24 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+modify RpgExpandedCripplingAssessment
+    additionalLimbRollRequired = nil
+    allLimbsCrippled = nil
+;
+/** B431 exception: fall injury to limbs/extremities is never capped at crippling.
+ * The extra die applies to a crippled limb; it does not add another wound. */
+rpgExpandedAssessFallCrippling(capacity,injury,kind,count,limbRoll)
+{
+    if (!holds(['limb','extremity'],kind)) rpgExpandedReject('fall-crippling-kind');
+    local value = rpgExpandedAssessCrippling(capacity,injury,kind,count,nil);
+    value.healthLoss = injury;
+    value.additionalLimbRollRequired = kind == 'limb' && value.crippled;
+    if (limbRoll != nil)
+    {
+        rpgInteger(limbRoll,1,6);
+        if (!value.additionalLimbRollRequired) rpgExpandedReject('fall-limb-roll-inapplicable');
+        value.allLimbsCrippled = limbRoll >= 5;
+    }
+    return value;
+}

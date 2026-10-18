@@ -2731,3 +2731,26 @@ Unarmed parry capacity excludes arms reserved for shared carrying while retainin
 functional-limb and authored free-hand limits. Mapped free arms remain available;
 unmapped shared support does not imply a spare defense limb. Defense-query
 assertions are included in `test_shared_hands` and remain unrun.
+
+### Fall-specific crippling assessment
+
+`rpgExpandedAssessFallCrippling(capacity, injury, kind, count, limbRoll)` reuses the
+ordinary anatomical thresholds but preserves the full `healthLoss` for a fall.
+`kind` is `limb` or `extremity`; `count` is the anatomical count of that kind.
+`injury` is already adjusted for protection and applicable location modifiers.
+Ordinary wound capping remains unchanged for other injuries.
+
+For a crippled limb, `additionalLimbRollRequired` is true. Pass `nil` to assess
+without supplying that die, or a resolved 1–6 value to obtain `allLimbsCrippled`:
+results 5–6 cripple all limbs of that type without increasing HP loss. Passing a
+die when no extra limb roll applies is rejected. The printed extra-roll instruction
+is for limbs; extremities retain uncapped injury but do not request this die.
+The helper itself never rolls, disables anatomy or commits a wound.
+
+Owned fall-location selection, full injury commitment to limbs/extremities and
+additional-limb disability/drop handling remain pending. The existing torso impact
+operation therefore still rejects other locations. Do not route this assessment
+through an ordinary capped limb wound and label that a completed fall procedure.
+Fixtures specify threshold boundaries, multi-limb anatomy, uncapped severe injury
+and all six extra-die outcomes. Assertions remain unrun while checks are paused.
+Source: `full-2008`, B421 and B431.
