@@ -1000,3 +1000,27 @@ path. Supplying a structure without the social adapter rejects explicitly.
 `expanded-cultural-wardrobe.t` / `test_cultural_wardrobe` specify rank integration,
 culture and price mismatches, competing inputs and saved historical replay;
 fixtures remain unrun while checks are paused.
+
+
+## Purchased rations and meals
+
+`RpgExpandedRationUnpacking` connects a purchased `rations-week` lifestyle item
+to the existing `RpgExpandedFoodMeal` operation (full-2008, B265 and B426). Set
+`id`, `profile`, `package`, an empty unowned `RpgExpandedRationStock`,
+`ordinaryHumanDiet`, `approved` and `evidence`. Explicit approval establishes
+that the package is ready to eat and suitable for an ordinary human diet.
+Nonstandard diets require a separate supported adapter; they are not silently
+treated as ordinary humans.
+
+Unpacking replaces the uniquely owned accessible package with 21 meal portions
+and sets the package quantity to zero. It charges no further money, time or
+randomness. Full stock weighs exactly 1400 hundredths of a pound; remaining
+stack weight rounds upward once to the engine's hundredth-pound precision.
+The nominal individual portion weight is 67, while `weightHundredths()` computes
+the remaining stack directly. Use ordinary food meals to consume portions and
+credit daily needs. Replay cannot recreate consumed portions or duplicate meals.
+
+`expanded-purchased-rations.t` / `test_purchased_rations` specify purchase, pure
+preview, unpacking, consumption, weight, diet rejection, rollback, undo and saved
+replay. Fixtures remain unrun. Special dietary conversion, package waste and
+preparation requiring cooking remain outstanding.

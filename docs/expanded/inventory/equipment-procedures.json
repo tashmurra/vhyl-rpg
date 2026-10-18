@@ -218,9 +218,10 @@
       "acceptance": "For food pricing cap status above three at three except author exceptions. Breakfast/lunch costs one percent of venue monthly living cost, dinner two percent; a week of travel rations costs five percent and weighs fourteen pounds; liquor bottle costs one percent. Define meal coverage versus prepaid living costs.",
       "tests": [
         "tests/expanded.py::test_lifestyle_prices",
-        "tests/expanded.py::test_lifestyle_items"
+        "tests/expanded.py::test_lifestyle_items",
+        "tests/expanded.py::test_purchased_rations"
       ],
-      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun. Purchased ordinary-human ration packages now unpack into 21 meal portions, preserving full-package mass and consuming through the existing daily meal ledger. Fractional remaining mass rounds upward once per stack. Special diets and prepaid meal coverage remain pending; fixtures unrun."
     },
     {
       "id": "equipment-procedures-wardrobe-entitlement",

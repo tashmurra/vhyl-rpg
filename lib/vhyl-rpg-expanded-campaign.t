@@ -1680,3 +1680,82 @@ class RpgExpandedInitialWardrobe: RpgExpandedAcquisition
         return value;
     }
 ;
+
+/** B265/B426 ordinary human ration portions. Fractional meal mass rounds only
+ * once for the remaining stack, retaining exactly fourteen pounds when full. */
+class RpgExpandedRationStock: RpgExpandedFoodStock
+    weight = 67
+    foodKind = 'rations'
+    unpackedFrom = nil
+    weightHundredths()
+    { rpgInteger(self.quantity,0,21); return (1400 * self.quantity + 20) / 21; }
+    validateAcquisition() { rpgExpandedReject('ration-stock-unpack-required'); return nil; }
+;
+modify RpgExpandedProfile
+    rationUnpackings = []
+;
+class RpgExpandedRationUnpacking: object
+    id = nil
+    profile = nil
+    package = nil
+    stock = nil
+    ordinaryHumanDiet = nil
+    approved = nil
+    evidence = nil
+    recorded = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.profile,self.package,self.stock,self.ordinaryHumanDiet,self.approved,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.package == nil || !self.package.ofKind(RpgExpandedLifestyleItem)
+            || self.stock == nil || !self.stock.ofKind(RpgExpandedRationStock))
+            rpgExpandedReject('ration-unpack-definition');
+        local facts = self.definition(); local value = new RpgExpandedResult();
+        if (self.recorded)
+        {
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('ration-unpack-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('ration-unpack-binding');
+            if (!holds(self.profile.rationUnpackings,self) || self.stock.unpackedFrom != self)
+                rpgExpandedReject('ration-unpack-history');
+            value.status = 'reused'; return value;
+        }
+        if (!self.ordinaryHumanDiet) { value.reason = 'ration-unpack-diet-required'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'ration-unpack-evidence'; return value; }
+        self.package.validateAcquisition();
+        if (self.package.lifestyle.kind != 'rations-week') rpgExpandedReject('ration-unpack-package');
+        if (!holds(self.profile.equipment,self.package) || !self.package.usableBy(self.profile)
+            || self.package.thrownFlight != nil || self.package.sharedCarry != nil)
+        { value.reason = 'ration-unpack-unavailable'; return value; }
+        local owners = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            foreach (local item in owner.equipment)
+            {
+                if (item == self.package) owners += 1;
+                if (item == self.stock) rpgExpandedReject('ration-unpack-stock-owned');
+            }
+        if (owners != 1) rpgExpandedReject('ration-unpack-package-ownership');
+        if (self.stock.id == nil || self.stock.id == '' || self.stock.quantity != 0 || self.stock.unpackedFrom != nil
+            || self.stock.smokingBatch != nil || self.stock.gatheredFrom != nil)
+            rpgExpandedReject('ration-unpack-stock');
+        foreach (local prior in self.profile.rationUnpackings)
+            if (prior.id == self.id) rpgExpandedReject('ration-unpack-duplicate');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition();
+        local kept = [];
+        foreach (local item in self.profile.equipment) if (item != self.package) kept = kept + [item];
+        self.profile.equipment = kept + [self.stock];
+        self.package.quantity = 0; self.stock.quantity = 21;
+        self.stock.readyToEat = true; self.stock.preparationEvidence = self.evidence;
+        self.stock.unpackedFrom = self; self.profile.rationUnpackings = self.profile.rationUnpackings + [self];
+        self.recorded = true; value.status = 'resolved'; return value;
+    }
+;
