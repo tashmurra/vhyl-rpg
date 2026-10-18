@@ -2568,3 +2568,24 @@ Replay binds the exact target dates and cannot restore the same losses twice.
 and `test_sustenance_rejuvenation` specify selective same-year losses, unchanged
 point balances and randomness, rollback, undo and cross-process save continuation.
 Fixtures remain unrun. Sub-day age precision remains unsupported.
+
+
+### Exact dates on ordinary aging records
+
+`RpgExpandedAgingEvent` optionally accepts `calendarDay`, an absolute age-calendar
+day in its `calendarId`. Existing `evidence` must establish that date and the
+reached aging boundary. The event binds the day when applied. Known exact dates
+must strictly increase within the same rejuvenation era; events after a youth
+restoration may begin a younger era. Omitting the date preserves the existing
+whole-year authoring contract and roll behavior.
+
+Dated rejuvenation can use these ordinary event dates alongside exact causal
+aging dates. The original year-based rejuvenation operation keeps its conservative
+partial-year handling. Both rejuvenation paths now validate the source aging
+receipts before restoring their losses, so a changed date cannot redirect an
+already recorded loss to a different target range.
+
+[`expanded-dated-aging.t`](../../tests/fixtures/expanded-dated-aging.t) and
+`test_dated_aging` specify two ordinary six-month checks within one year, selective
+restoration of the later loss, changed-date rejection, replay, rollback, undo and
+save continuation. Fixtures remain unrun.

@@ -462,7 +462,9 @@ modify RpgExpandedProfile
 
 /** An authored calendar boundary, with four owned rolls and retained losses. */
 class RpgExpandedAgingEvent: object
-    ageCalendarDay() { return nil; }
+    calendarDay = nil
+    boundCalendarDay = nil
+    ageCalendarDay() { return self.calendarDay; }
     exemptFromAging() { return self.profile.level('unaging') > 0; }
     era = 0
     boundEra = 0
@@ -500,13 +502,14 @@ class RpgExpandedAgingEvent: object
         {
             if (self.era != self.boundEra || self.profile != self.boundProfile || self.calendarId != self.boundCalendar
                 || self.boundaryId != self.boundBoundary || self.ageYears != self.boundAge
-                || self.ordinal != self.boundOrdinal || self.evidence != self.boundEvidence
+                || self.ordinal != self.boundOrdinal || self.evidence != self.boundEvidence || self.calendarDay != self.boundCalendarDay
                 || self.medicalTL != self.boundMedicalTL || !self.reached || !holds(self.profile.agingHistory,self))
                 rpgExpandedReject('aging-event-binding');
             value.status = 'reused'; return value;
         }
         if (self.calendarId == nil || self.calendarId == '' || self.boundaryId == nil || self.boundaryId == '')
             rpgExpandedReject('aging-calendar-definition');
+        if (self.calendarDay != nil) rpgInteger(self.calendarDay,0,2147483646);
         rpgInteger(self.ageYears,0,1000000); rpgInteger(self.ordinal,1,1000000);
         if (!self.reached || self.evidence == nil || self.evidence == '')
         { value.reason = 'aging-calendar-evidence'; return value; }
@@ -515,6 +518,9 @@ class RpgExpandedAgingEvent: object
         {
             if (prior.calendarId != self.calendarId || prior.boundaryId == self.boundaryId
                 || prior.era == self.profile.rejuvenations.length() && prior.ageYears > self.ageYears) rpgExpandedReject('aging-calendar-history');
+            local priorDay = prior.ageCalendarDay(); local currentDay = self.ageCalendarDay();
+            if (prior.era == self.profile.rejuvenations.length() && priorDay != nil && currentDay != nil && priorDay >= currentDay)
+                rpgExpandedReject('aging-calendar-day-order');
         }
         if (self.exemptFromAging()) { value.reason = 'aging-exempt'; return value; }
         local schedule = rpgExpandedAgingSchedule(self.profile.level('short-lifespan'),self.profile.level('extended-lifespan'));
@@ -544,7 +550,7 @@ class RpgExpandedAgingEvent: object
         if (value.naturalDeath) self.profile.dead = true;
         self.era = self.profile.rejuvenations.length(); self.boundEra = self.era;
         self.boundProfile = self.profile; self.boundCalendar = self.calendarId; self.boundBoundary = self.boundaryId;
-        self.boundAge = self.ageYears; self.boundOrdinal = self.ordinal; self.boundEvidence = self.evidence;
+        self.boundCalendarDay = self.calendarDay; self.boundAge = self.ageYears; self.boundOrdinal = self.ordinal; self.boundEvidence = self.evidence;
         self.boundMedicalTL = self.medicalTL; self.completedAt = rpgLedger.seconds;
         self.profile.agingHistory = self.profile.agingHistory + [self]; value.status = 'resolved'; self.result = value;
         return value;
@@ -643,6 +649,7 @@ class RpgExpandedRejuvenation: object
         foreach (local entry in self.profile.agingHistory)
         {
             if (entry.calendarId != self.calendarId || entry.result == nil) rpgExpandedReject('rejuvenation-calendar');
+            if (entry.assess().status != 'reused') rpgExpandedReject('rejuvenation-aging-receipt');
             if (entry.restoredBy == nil)
             {
                 local position = self.entryPosition(entry);

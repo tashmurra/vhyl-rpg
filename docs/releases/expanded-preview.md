@@ -1773,3 +1773,9 @@ Exact-date rejuvenation now restores the appropriate causal aging losses through
 the shared ledger, including distinctions within a year. Ambiguous ordinary
 records reject; pending aging checks prevent an era change. Point balances stay
 unchanged. Selective restoration and persistence fixtures are authored but unrun.
+
+
+Ordinary aging events can now bind exact campaign-calendar days for selective
+within-year rejuvenation. Undated events retain their existing behavior; source
+receipts are validated before restoring losses. Selective restoration, changed-date
+rejection and persistence fixtures are authored but unrun.

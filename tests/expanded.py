@@ -9246,6 +9246,8 @@ def test(build):
     test_sustenance_aging_dates(Session, sustenance_aging_dates, build.out)
     sustenance_rejuvenation = build.build('expanded-sustenance-rejuvenation',ROOT / 'tests/fixtures/expanded-sustenance-rejuvenation.t')
     test_sustenance_rejuvenation(Session, sustenance_rejuvenation, build.out)
+    dated_aging = build.build('expanded-dated-aging',ROOT / 'tests/fixtures/expanded-dated-aging.t')
+    test_dated_aging(Session, dated_aging, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21146,5 +21148,41 @@ def test_sustenance_rejuvenation(Session, bundle, out):
         for code in (13202, 13204):
             s.action(2285, code)
         assert last(s, 'test.sustenance-rejuvenation-state') == [14, 14, 1, 0, 0, 144]
+    finally:
+        s.close()
+
+
+def test_dated_aging(Session, bundle, out):
+    """B444 dated ordinary events support exact within-year restoration; unrun."""
+    path = out / 'expanded-dated-aging.zsave'
+    s = Session(bundle)
+    try:
+        for code in (13300, 13301, 13303, 13304):
+            s.action(2285, code)
+        assert last(s, 'test.dated-aging-preview') == ['ready', 60, 1]
+        assert last(s, 'test.dated-aging-state') == [8, 8, 0, 0, 0, 24]
+        s.action(2285, 13302)
+        s.command('undo')
+        s.action(2285, 13304)
+        assert last(s, 'test.dated-aging-state') == [8, 8, 0, 0, 0, 24]
+        for code in (13302, 13302, 13304):
+            s.action(2285, code)
+        assert last(s, 'test.dated-aging-state') == [9, 9, 1, 0, 1, 24]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (13302, 13304):
+            s.action(2285, code)
+        assert last(s, 'test.dated-aging-state') == [9, 9, 1, 0, 1, 24]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (13300, 13305, 13306):
+            s.action(2285, code)
+        assert last(s, 'test.dated-aging-binding') == ['aging-event-binding']
     finally:
         s.close()
