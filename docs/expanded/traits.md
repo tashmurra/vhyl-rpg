@@ -631,3 +631,13 @@ The health module also supplies `RpgExpandedTerminalCondition` for an acquired
 one-year deadline with -75 character value. See its [authoring contract](health.md#acquired-one-year-terminal-condition).
 It participates in shared character accounting without awarding spendable points.
 Other duration tiers, creation purchases and cure/buy-off are still pending.
+
+
+## Impaired clotting
+
+`RpgExpandedImpairedClotting` supplies the fixed -30-point purchase and HT-ten cap
+from `full-2008`, B138. Set `approved = true`. Its special bleeding procedure is
+still partial: the health module has a pure care-stage assessment and prevents
+ordinary bleeding from silently approximating it. See the
+[health contract](health.md#impaired-clotting-assessment) for the unresolved owned
+loss and treatment work. The fixture is authored and unrun.

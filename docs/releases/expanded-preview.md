@@ -305,3 +305,9 @@ Hourly nausea checks now have owned free-fall/motion exposure records. The clock
 protects each hour, healthy hours consume no dice, and replay cannot advance a
 deadline twice. Vomiting endpoints share the same clock without duplicate time.
 Automatic event adapters remain pending; new fixtures are authored and unrun.
+
+
+Impaired clotting now has its fixed purchase, HT cap and distinct care-stage
+assessment. Ordinary bleeding rejects the trait rather than applying its different
+random loss procedure. Owned mandatory bleeding and definitive treatment remain
+pending; new fixtures are authored and unrun.

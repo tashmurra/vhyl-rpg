@@ -3317,6 +3317,8 @@ class RpgExpandedBleedingEpisode: object
         }
         if (eligible.status != 'ready') return eligible;
         rpgExpandedValidate(profile);
+        if (profile.level('impaired-clotting') > 0)
+        { value.reason = 'bleeding-impaired-clotting-procedure-required'; return value; }
         if (!profile.rules.bleeding) { value.reason = 'bleeding-rule-disabled'; return value; }
         if (!self.classification.bleeds) { value.reason = 'bleeding-wound-ineligible'; return value; }
         if (profile.dead) { value.reason = 'bleeding-dead'; return value; }
@@ -3393,6 +3395,8 @@ class RpgExpandedBleedingMinute: object
         if (self.episode.result == nil) { value.reason = 'bleeding-episode-not-started'; return value; }
         self.episode.assess();
         local profile = self.episode.classification.wound.profile;
+        if (profile.level('impaired-clotting') > 0)
+        { value.reason = 'bleeding-impaired-clotting-procedure-required'; return value; }
         if (self.episode.stoppedAt != nil || profile.dead || profile.bleedingEpisode != self.episode)
         { value.reason = 'bleeding-episode-inactive'; return value; }
         if (rpgLedger.seconds != self.episode.nextCheckAt)
@@ -4059,3 +4063,24 @@ modify rpgLedger
         return nil;
     }
 ;
+
+class RpgExpandedClottingAssessment: RpgExpandedResult
+    internal = nil
+    intervalSeconds = nil
+    injury = 0
+    ordinaryHealingAllowed = nil
+    requiresDefinitiveCare = nil
+;
+
+/** B138 deterministic assessment only. Care labels are supplied facts, not care execution. */
+rpgExpandedAssessImpairedClotting(originalInjury, torsoImpaling, care)
+{
+    rpgInteger(originalInjury,1,100000);
+    if (!holds(['untreated','first-aid','definitive'],care)) rpgExpandedReject('clotting-care-state');
+    local value = new RpgExpandedClottingAssessment(); value.internal = torsoImpaling ? true : nil;
+    value.requiresDefinitiveCare = value.internal && care != 'definitive';
+    value.ordinaryHealingAllowed = care != 'untreated' && !value.internal;
+    if (care == 'untreated') { value.intervalSeconds = 60; value.injury = originalInjury; }
+    else if (value.requiresDefinitiveCare) { value.intervalSeconds = 86400; value.injury = originalInjury; }
+    value.status = 'ready'; return value;
+}

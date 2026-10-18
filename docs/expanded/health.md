@@ -2054,3 +2054,33 @@ does not hold the clock at an hourly boundary.
 hour boundaries, success and vomiting, healthy hours without randomness, stopping,
 preview, rollback, undo, replay and saved continuation. They are authored and
 unrun. Automatic world-event adapters remain separate unfinished work.
+
+
+## Impaired-clotting assessment
+
+`rpgExpandedAssessImpairedClotting(originalInjury, torsoImpaling, care)` assesses
+the distinct procedure in `full-2008`, B138. `care` is `untreated`, `first-aid` or
+`definitive`. These are supplied clinical facts, not executed treatment actions.
+The result exposes `intervalSeconds`, `injury`, `internal`,
+`ordinaryHealingAllowed` and `requiresDefinitiveCare`.
+
+Untreated wounds lose the original injury amount every minute. First aid stops
+that external stage; torso impalements retain the original amount as daily
+internal loss until definitive treatment. Accumulated bleeding must never become
+the next tick's basis. HP lost to internal bleeding requires surgery or supernatural
+healing to restore; stopping the bleeding does not grant ordinary healing of that
+loss. The helper neither changes injury nor rolls, advances time or records care.
+
+`RpgExpandedImpairedClotting` in the traits module supplies the fixed -30 purchase
+and enforces HT no greater than ten. Percentage and self-control modifiers are
+unsupported. Ordinary optional bleeding episodes and minutes explicitly reject
+this trait, preventing their HT checks and one/three-point losses from substituting
+for the mandatory procedure.
+
+Owned per-wound mandatory loss, bandaging restrictions and surgical/supernatural
+restoration remain pending. Do not treat the price or pure assessment as the
+completed disadvantage. Radiation's temporary acquisition in a patient with HT
+above ten also needs an explicit source-consistent resolution; no HT reduction is
+invented here. `tests/fixtures/expanded-impaired-clotting.t` and
+`test_impaired_clotting` specify the rates, care stages, cost, cap and ordinary-path
+rejection. They are authored and unrun.

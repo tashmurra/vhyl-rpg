@@ -311,3 +311,25 @@ class RpgExpandedPainSensitivity: RpgExpandedDisadvantage
         return -10;
     }
 ;
+
+/** B138 fixed purchase. The special bleeding/treatment lifecycle remains partial. */
+class RpgExpandedImpairedClotting: RpgExpandedDisadvantage
+    id = 'impaired-clotting'
+    points = -30
+    creationCost()
+    {
+        if (!self.approved || self.id != 'impaired-clotting' || self.points != -30 || self.level != 1
+            || self.percentages.length() != 0 || self.selfControlRating != nil)
+            rpgExpandedReject('impaired-clotting-definition');
+        return -30;
+    }
+;
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited();
+        if (self.level('impaired-clotting') > 0 && self.ht > 10)
+            rpgExpandedReject('impaired-clotting-health-limit');
+        return nil;
+    }
+;

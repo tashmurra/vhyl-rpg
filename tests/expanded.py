@@ -8916,6 +8916,8 @@ def test(build):
     test_nausea_triggers(Session, nausea_trigger, build.out)
     nausea_motion = build.build('expanded-nausea-motion', ROOT / 'tests/fixtures/expanded-nausea-motion.t')
     test_nausea_motion(Session, nausea_motion, build.out)
+    clotting = build.build('expanded-impaired-clotting', ROOT / 'tests/fixtures/expanded-impaired-clotting.t')
+    fresh(Session, clotting, test_impaired_clotting)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10576,3 +10578,17 @@ def test_nausea_motion(Session, bundle, out):
         assert state(s) == [1, 7200, 3, 3615, 0, 1, 0]
     finally:
         s.close()
+
+
+def test_impaired_clotting(s):
+    for internal, care, expected in [
+            (0, 1, [60, 3, 0, 0]), (0, 2, [None, 0, 1, 0]), (0, 3, [None, 0, 1, 0]),
+            (1, 1, [60, 3, 0, 1]), (1, 2, [86400, 3, 0, 1]), (1, 3, [None, 0, 0, 0])]:
+        s.action(2379, 3, internal, care)
+        assert last(s, 'test.clotting') == expected + [0, 0]
+    s.action(2380, 10)
+    assert last(s, 'test.clotting-profile') == [-30, 'ready']
+    s.action(2380, 11)
+    assert last(s, 'test.clotting-profile') == [-30, 'impaired-clotting-health-limit']
+    s.action(2381)
+    assert last(s, 'test.clotting-dispatch') == ['blocked', 'bleeding-impaired-clotting-procedure-required', 0, 0]
