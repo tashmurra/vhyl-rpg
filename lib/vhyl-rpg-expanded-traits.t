@@ -265,3 +265,35 @@ class RpgExpandedQuirkPortrayal: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B79 dose-resistance tiers. Levels select whole purchases, not stacking factors. */
+class RpgExpandedRadiationResistance: RpgExpandedTrait
+    id = 'radiation-resistance'
+    creationCost()
+    {
+        if (!self.approved || self.id != 'radiation-resistance' || self.percentages.length() != 0)
+            rpgExpandedReject('radiation-resistance-definition');
+        rpgInteger(self.level,1,9); return self.level * 5;
+    }
+    divisor()
+    {
+        self.creationCost(); local values = [2,5,10,20,50,100,200,500,1000];
+        return values[self.level];
+    }
+;
+
+modify RpgExpandedProfile
+    radiationDivisor()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'radiation-resistance' || trait.ofKind(RpgExpandedRadiationResistance))
+            {
+                if (!trait.ofKind(RpgExpandedRadiationResistance)) rpgExpandedReject('radiation-resistance-type');
+                trait.creationCost();
+                if (found != nil) rpgExpandedReject('radiation-resistance-duplicate');
+                found = trait;
+            }
+        return found == nil || !found.active || found.mitigated ? inherited() : found.divisor();
+    }
+;

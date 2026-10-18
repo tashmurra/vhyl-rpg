@@ -140,3 +140,7 @@ class RpgExpandedFearQuirkContract: object
     }
     apply() { return self.assess(); }
 ;
+
+modify RpgExpandedProfile
+    radiationDivisor() { return 1; }
+;

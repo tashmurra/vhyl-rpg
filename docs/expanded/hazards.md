@@ -754,8 +754,8 @@ dose namespace, so a separate manually recorded dose cannot duplicate that ID.
 Replay changes neither dose nor recovery epoch.
 
 The recorder retains whole and fractional results as reduced exact ratios.
-Radiation tolerance, overlapping shielding materials, treatment effects, syndrome
-checks and source-specific exposure cadence remain pending; this interface does
+Overlapping shielding materials, treatment effects, syndrome checks and
+source-specific exposure cadence remain pending; this interface does
 not imply they were applied. `test_radiation_shielding` and
 `test_radiation_exposures` specify reference factors, spectra, exact ratios,
 blocked cases, preview, rollback, undo and replay. They are authored and unrun.
@@ -788,3 +788,20 @@ and cross-process continuation. Pure cases also cover fractional residues,
 large elapsed periods and refused lossy conversion. They remain unrun. The
 fractional-dose storage gap is now addressed; fractional effects-table selection,
 exposure checks and symptom execution remain pending.
+
+
+### Trait resistance after shielding
+
+The foundation's `profile.radiationDivisor()` returns one. Including the traits
+module enables `RpgExpandedRadiationResistance`: exposure assessment applies its
+active divisor after artificial shielding and spectrum adjustments (`full-2008`,
+B79; B436). `rpgExpandedDivideRadiation(quantity, divisor)` cancels common factors
+before multiplication and rejects quantities outside the dose ledger's capacity.
+
+The result's `numerator` and `denominator` describe shielding alone;
+`resistanceDivisor` records the trait factor, and `dose.rads` with
+`dose.radDenominator` records the final received quantity. Direct dose declarations
+already represent received radiation and are not divided again. Replaying a
+committed exposure retains the original dose even if the trait later changes.
+`test_radiation_traits` covers the nine factors and costs, inactive and mitigated
+traits, exact fractions, replay and modifier rejection. It remains unrun.

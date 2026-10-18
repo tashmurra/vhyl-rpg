@@ -225,3 +225,9 @@ Radiation doses now retain exact fractions through shielding, independent
 recovery, permanent residue and summation. Lossy tenth-rad conversions are
 rejected, with bounded integer arithmetic. Effects-table selection for fractional
 totals remains unresolved; fractional persistence fixtures are authored and unrun.
+
+
+Radiation resistance now prices all nine reference tiers and applies their dose
+divisors after shielding. Received doses retain exact fractions and their original
+receipt when traits change later. Modifier combinations and advancement remain
+unsupported; the new integration fixture is authored and unrun.

@@ -184,7 +184,8 @@
         "tests/expanded.py::test_radiation_doses",
         "tests/expanded.py::test_radiation_shielding",
         "tests/expanded.py::test_radiation_exposures",
-        "tests/expanded.py::test_fractional_radiation"
+        "tests/expanded.py::test_fractional_radiation",
+        "tests/expanded.py::test_radiation_traits"
       ],
       "validation_note": "Owned infection progression integrates the qualified roster bonus with antibiotic modifiers and shared recovery restrictions. Fixtures authored but unrun. Automatic care scheduling, interruption, catch-up, broader disease treatment and verified cross-module behavior remain incomplete."
     },
@@ -492,7 +493,8 @@
         "tests/expanded.py::test_maintenance_prices",
         "tests/expanded.py::test_fear_quirks",
         "tests/expanded.py::test_fear_quirk_stun",
-        "tests/character_social.py::test_trait_prices"
+        "tests/character_social.py::test_trait_prices",
+        "tests/expanded.py::test_radiation_traits"
       ]
     },
     {

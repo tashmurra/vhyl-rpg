@@ -8892,6 +8892,8 @@ def test(build):
     test_radiation_doses(Session, radiation, build.out)
     test_radiation_exposures(Session, radiation)
     test_fractional_radiation(Session, radiation, build.out)
+    radiation_traits = build.build('expanded-radiation-traits', ROOT / 'tests/fixtures/expanded-radiation-traits.t')
+    test_radiation_traits(Session, radiation_traits)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -9961,5 +9963,43 @@ def test_fractional_radiation(Session, bundle, out):
         assert ratio(s) == saved
         s.action(2291, 3, 50)
         assert ratio(s) == [1, 12, 2, 6998400, 0]
+    finally:
+        s.close()
+
+
+def test_radiation_traits(Session, bundle):
+    for level, divisor, numerator, denominator in [
+            (1, 2, 50, 1), (2, 5, 20, 1), (3, 10, 10, 1),
+            (4, 20, 5, 1), (5, 50, 2, 1), (6, 100, 1, 1),
+            (7, 200, 1, 2), (8, 500, 1, 5), (9, 1000, 1, 10)]:
+        s = Session(bundle)
+        try:
+            s.action(2291, 20, level)
+            s.action(2291, 24, 0)
+            assert last(s, 'test.radiation-trait') == [level * 5, divisor, level * 5]
+            s.action(2291, 10, 0)
+            s.action(2295)
+            assert last(s, 'test.radiation-ratio') == [numerator, denominator, 1, 0, 0]
+            s.action(2291, 21, 0)  # Changing a current trait cannot rewrite the received dose.
+            s.action(2291, 10, 0)
+            s.action(2295)
+            assert last(s, 'test.radiation-ratio') == [numerator, denominator, 1, 0, 0]
+        finally:
+            s.close()
+    for change in (21, 22):
+        s = Session(bundle)
+        try:
+            s.action(2291, change, 0)
+            s.action(2291, 10, 0)
+            s.action(2295)
+            assert last(s, 'test.radiation-ratio') == [100, 1, 1, 0, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2291, 23, 0)
+        s.action(2291, 10, 0)
+        s.action(2295)
+        assert last(s, 'test.radiation-ratio') == [0, 1, 0, 0, 0]
     finally:
         s.close()

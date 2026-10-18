@@ -582,3 +582,34 @@ part of the broader expansion project. See the [prerelease validation record](..
 
 The prerelease record applies to the original subset. Checks for this merged
 expanded suite remain paused.
+
+
+## Radiation resistance
+
+`RpgExpandedRadiationResistance` implements the nine purchased dose divisors in
+`full-2008`, B79. Set `approved = true`, retain its `radiation-resistance` identity,
+and choose a level:
+
+| Level | Divisor | Character points |
+| --- | --- | --- |
+| 1 | 2 | 5 |
+| 2 | 5 | 10 |
+| 3 | 10 | 15 |
+| 4 | 20 | 20 |
+| 5 | 50 | 25 |
+| 6 | 100 | 30 |
+| 7 | 200 | 35 |
+| 8 | 500 | 40 |
+| 9 | 1000 | 45 |
+
+Install one instance in `profile.traits`; character accounting includes its cost.
+The hazards exposure recorder divides after shielding, keeping exact fractional
+doses. Inactive or mitigated traits retain their purchased cost but supply no
+protection. Duplicate instances and generic traits using this identity are
+rejected during exposure assessment. Percentage modifiers are unsupported and
+rejected; purchasing or changing this trait during advancement still requires a
+supported advancement procedure. Do not directly change its level to spend points.
+
+The minimal integration fixture is `tests/fixtures/expanded-radiation-traits.t`.
+Its expected-value cases in `test_radiation_traits` are authored and unrun. This
+addition does not complete the traits catalogue or radiation syndrome procedures.

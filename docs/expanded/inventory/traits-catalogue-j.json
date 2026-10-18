@@ -201,9 +201,12 @@
       "pages": "B79",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Radiation tolerance divisor 2 costs 5. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_traits"
+      ],
+      "implementation": "RpgExpandedRadiationResistance prices all nine levels and divides received doses after shielding through the shared exact dose ledger. Inactive or mitigated traits supply no divisor. Percentage modifiers and advancement remain unsupported; fixtures are authored and unrun."
     },
     {
       "id": "traits-j-radiation-5",
@@ -211,9 +214,12 @@
       "pages": "B79",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Radiation tolerance divisor 5 costs 10. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_traits"
+      ],
+      "implementation": "RpgExpandedRadiationResistance prices all nine levels and divides received doses after shielding through the shared exact dose ledger. Inactive or mitigated traits supply no divisor. Percentage modifiers and advancement remain unsupported; fixtures are authored and unrun."
     },
     {
       "id": "traits-j-radiation-10",
@@ -221,9 +227,12 @@
       "pages": "B79",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Radiation tolerance divisor 10 costs 15. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_traits"
+      ],
+      "implementation": "RpgExpandedRadiationResistance prices all nine levels and divides received doses after shielding through the shared exact dose ledger. Inactive or mitigated traits supply no divisor. Percentage modifiers and advancement remain unsupported; fixtures are authored and unrun."
     },
     {
       "id": "traits-j-radiation-20",
@@ -231,9 +240,12 @@
       "pages": "B79",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Radiation tolerance divisor 20 costs 20. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_traits"
+      ],
+      "implementation": "RpgExpandedRadiationResistance prices all nine levels and divides received doses after shielding through the shared exact dose ledger. Inactive or mitigated traits supply no divisor. Percentage modifiers and advancement remain unsupported; fixtures are authored and unrun."
     },
     {
       "id": "traits-j-radiation-50",
@@ -241,9 +253,12 @@
       "pages": "B79",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Radiation tolerance divisor 50 costs 25. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_traits"
+      ],
+      "implementation": "RpgExpandedRadiationResistance prices all nine levels and divides received doses after shielding through the shared exact dose ledger. Inactive or mitigated traits supply no divisor. Percentage modifiers and advancement remain unsupported; fixtures are authored and unrun."
     },
     {
       "id": "traits-j-radiation-100",
@@ -251,9 +266,12 @@
       "pages": "B79",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Radiation tolerance divisor 100 costs 30. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_traits"
+      ],
+      "implementation": "RpgExpandedRadiationResistance prices all nine levels and divides received doses after shielding through the shared exact dose ledger. Inactive or mitigated traits supply no divisor. Percentage modifiers and advancement remain unsupported; fixtures are authored and unrun."
     },
     {
       "id": "traits-j-radiation-200",
@@ -261,9 +279,12 @@
       "pages": "B79",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Radiation tolerance divisor 200 costs 35. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_traits"
+      ],
+      "implementation": "RpgExpandedRadiationResistance prices all nine levels and divides received doses after shielding through the shared exact dose ledger. Inactive or mitigated traits supply no divisor. Percentage modifiers and advancement remain unsupported; fixtures are authored and unrun."
     },
     {
       "id": "traits-j-radiation-500",
@@ -271,9 +292,12 @@
       "pages": "B79",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Radiation tolerance divisor 500 costs 40. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_traits"
+      ],
+      "implementation": "RpgExpandedRadiationResistance prices all nine levels and divides received doses after shielding through the shared exact dose ledger. Inactive or mitigated traits supply no divisor. Percentage modifiers and advancement remain unsupported; fixtures are authored and unrun."
     },
     {
       "id": "traits-j-radiation-1000",
@@ -281,9 +305,12 @@
       "pages": "B79",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Radiation tolerance divisor 1000 costs 45. Divide received dose after applying artificial shielding protection factor. Preserve precise dose accumulation and thresholds rather than rounding each small exposure to zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_traits"
+      ],
+      "implementation": "RpgExpandedRadiationResistance prices all nine levels and divides received doses after shielding through the shared exact dose ledger. Inactive or mitigated traits supply no divisor. Percentage modifiers and advancement remain unsupported; fixtures are authored and unrun."
     },
     {
       "id": "traits-j-rapid-healing",

@@ -1558,6 +1558,7 @@ class RpgExpandedShieldedRadiationResult: RpgExpandedResult
     denominator = 1
     wholeRads = 0
     fractional = nil
+    resistanceDivisor = 1
     dose = nil
 ;
 
@@ -1600,7 +1601,9 @@ class RpgExpandedRadiationExposure: object
         foreach (local prior in self.profile.radiationExposures)
             if (prior.id == self.id) rpgExpandedReject('radiation-exposure-duplicate');
         value.dose = new RpgExpandedRadiationDose(); value.dose.id = self.id;
-        local quantity = rpgExpandedRadQuantity(value.numerator,value.denominator);
+        value.resistanceDivisor = self.profile.radiationDivisor();
+        local quantity = rpgExpandedDivideRadiation(rpgExpandedRadQuantity(value.numerator,value.denominator),
+            value.resistanceDivisor);
         value.dose.profile = self.profile; value.dose.source = self.source;
         value.dose.rads = quantity.numerator; value.dose.radDenominator = quantity.denominator;
         value.dose.approved = self.approved; value.dose.evidence = self.evidence;
@@ -1681,4 +1684,17 @@ rpgExpandedRadiationTotal(profile)
         ids = ids + [dose.id]; total = rpgExpandedAddRadiation(total,dose.remainingQuantity());
     }
     return total;
+}
+
+
+/** Divide after shielding, cancelling factors before bounded multiplication. */
+rpgExpandedDivideRadiation(quantity, divisor)
+{
+    rpgInteger(divisor,1,1000);
+    local normalized = rpgExpandedRadQuantity(quantity.numerator,quantity.denominator);
+    local left = normalized.numerator; local right = divisor;
+    while (right != 0) { local remainder = left % right; left = right; right = remainder; }
+    local multiplier = divisor / left;
+    if (normalized.denominator > 20000000 / multiplier) rpgExpandedReject('radiation-quantity-capacity');
+    return rpgExpandedRadQuantity(normalized.numerator / left,normalized.denominator * multiplier);
 }
