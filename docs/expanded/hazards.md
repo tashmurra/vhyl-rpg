@@ -149,7 +149,7 @@ The module now depends on expanded health for authoritative wound ownership.
 Existing disease-resistance bonuses are reused. Complete immunity, unusually low
 resistance scores, critical-treatment exceptions, progression, recovery locks,
 reinfection and discovery contracts remain incomplete. Acquisition rollback,
-undo and save fixtures also remain to be added. `test_infection_acquisition`
+undo and save expectations are recorded in the transaction fixture below. `test_infection_acquisition`
 covers resistance, infection, prevention, preview purity and repeat protection;
 these authored cases remain unrun while checks are paused.
 
@@ -177,7 +177,24 @@ and profile validation checks order, timestamps and injury contributions.
 
 Active physician supervision blocks pending integration of B443 medical-care
 bonuses. Exceptional infection types, complete immunity, discovery, interruption,
-transaction/undo/save coverage and other disease procedures remain incomplete.
+other disease procedures and verified transaction/save behavior remain incomplete.
 `test_infection_progression` covers an early request, failed daily check, reuse,
 recovery and preservation of a separate disease-injury restriction. The fixture
 is authored but unrun while checks are paused.
+
+
+## Transaction and continuation fixtures
+
+[`expanded-hazards-transactions.t`](../../tests/fixtures/expanded-hazards-transactions.t)
+uses engine actions around acquisition and progression. Its inspection events
+are test-only access to private state, not a player-facing discovery interface.
+`test_infection_transactions` checks exceptions after each mutation, undo and
+replay, changed acquisition evidence, pure assessment, and reuse after recovery.
+It also calls profile history validation on the acquired, progressing and ended
+episodes. The patient's separate disease restriction must survive throughout.
+
+`test_infection_persistence` restores saves in a separate process after acquisition,
+a failed day, and recovery. Each route continues to the same final balance and
+reuses old receipts without spending more time or randomness. Save files retain
+the exact-compiled-game policy. These fixtures are authored but unrun; they do not
+establish verified persistence until checks resume and pass.

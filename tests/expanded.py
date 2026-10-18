@@ -408,6 +408,86 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def hazard_state(s):
+    s.action(1811)
+    return last(s, 'test.hazard-state')
+
+
+def test_infection_transactions(s):
+    s.action(1810, 0)
+    before = hazard_state(s)
+    assert before == [4,2,0,0,0,0,1,0,0,0]
+    s.action(1810, 2)
+    assert hazard_state(s) == before
+    s.action(1810, 1)
+    acquired = hazard_state(s)
+    assert acquired == [4,2,2,0,0,0,1,0,3,0]
+    s.command('undo')
+    assert hazard_state(s) == before
+    s.action(1810, 1)
+    for code in [1,8,9]:
+        s.action(1810, code)
+        assert hazard_state(s) == acquired
+    s.action(1810, 3)
+    due = hazard_state(s)
+    s.action(1810, 10)
+    assert last(s, 'test.hazard-operation') == ['ready',None]
+    assert hazard_state(s) == due
+    s.action(1810, 5)
+    assert hazard_state(s) == due
+    s.action(1810, 4)
+    ill = hazard_state(s)
+    assert ill == [5,3,2,1,1,0,2,86400,3,0]
+    s.command('undo')
+    assert hazard_state(s) == due
+    s.action(1810, 4)
+    assert hazard_state(s) == ill
+    s.action(1810, 9)
+    assert hazard_state(s) == ill
+    s.action(1810, 3)
+    due = hazard_state(s)
+    s.action(1810, 7)
+    assert hazard_state(s) == due
+    s.action(1810, 6)
+    recovered = hazard_state(s)
+    assert recovered == [5,2,2,2,0,1,2,172800,3,0]
+    s.command('undo')
+    assert hazard_state(s) == due
+    for code in [6,6,4,1,9]:
+        s.action(1810, code)
+        assert hazard_state(s) == recovered
+
+
+def test_infection_persistence(Session, bundle, out):
+    for stage in [0,1,2]:
+        path = out / f'expanded-infection-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1810, 0); first.action(1810, 1)
+            if stage >= 1:
+                first.action(1810, 3); first.action(1810, 4)
+            if stage == 2:
+                first.action(1810, 3); first.action(1810, 6)
+            saved = hazard_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1811')
+            assert hazard_state(second) == saved
+            second.action(1810, 9); second.action(1810, 1)
+            assert hazard_state(second) == saved
+            if stage == 0:
+                second.action(1810, 3); second.action(1810, 4)
+            if stage < 2:
+                second.action(1810, 3); second.action(1810, 6)
+            second.action(1810, 6)
+            assert hazard_state(second) == [5,2,2,2,0,1,2,172800,3,0]
+        finally:
+            second.close()
+
+
 def test_infection_progression(s):
     s.action(1802)
     assert last(s, 'test.infection-day') == ['infection-day-not-due',1,'reused',5,3,1,0,3]
@@ -3001,6 +3081,9 @@ def test(build):
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_infection_acquisition)
     fresh(Session,hazards,test_infection_progression)
+    hazard_transactions = build.build('expanded-hazards-transactions',ROOT / 'tests/fixtures/expanded-hazards-transactions.t')
+    fresh(Session,hazard_transactions,test_infection_transactions)
+    test_infection_persistence(Session,hazard_transactions,build.out)
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)

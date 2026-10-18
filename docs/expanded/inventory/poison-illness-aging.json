@@ -1125,9 +1125,11 @@
       "acceptance": "An open wound treated with the specified technology-six-or-higher antibacterial care avoids infection except on critical failure of first aid or physician treatment.",
       "tests": [
         "tests/expanded.py::test_infection_assessments",
-        "tests/expanded.py::test_infection_acquisition"
+        "tests/expanded.py::test_infection_acquisition",
+        "tests/expanded.py::test_infection_transactions",
+        "tests/expanded.py::test_infection_persistence"
       ],
-      "validation_note": "Pure infection assessments and private owned wound-acquisition receipts authored. Fixtures unrun. Acquisition transaction/save coverage, progression, immunity exceptions, discovery and other hazard procedures remain incomplete."
+      "validation_note": "Owned acquisition and exact-boundary progression use shared disease-injury restrictions. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Scheduling/catch-up, physician care, complete immunity, discovery and other disease procedures remain incomplete."
     },
     {
       "id": "infection-initial-check",
@@ -1139,9 +1141,11 @@
       "acceptance": "An untreated wound exposed to authored unclean circumstances checks health+3 with cumulative contamination modifiers; these replace ordinary contagion contact categories.",
       "tests": [
         "tests/expanded.py::test_infection_assessments",
-        "tests/expanded.py::test_infection_acquisition"
+        "tests/expanded.py::test_infection_acquisition",
+        "tests/expanded.py::test_infection_transactions",
+        "tests/expanded.py::test_infection_persistence"
       ],
-      "validation_note": "Pure infection assessments and private owned wound-acquisition receipts authored. Fixtures unrun. Acquisition transaction/save coverage, progression, immunity exceptions, discovery and other hazard procedures remain incomplete."
+      "validation_note": "Owned acquisition and exact-boundary progression use shared disease-injury restrictions. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Scheduling/catch-up, physician care, complete immunity, discovery and other disease procedures remain incomplete."
     },
     {
       "id": "infection-progression",
@@ -1153,9 +1157,11 @@
       "acceptance": "A typical infection checks health daily with the stated contamination modifiers; failure loses one health and success ends it, ordinarily continuing until recovery or death.",
       "tests": [
         "tests/expanded.py::test_infection_assessments",
-        "tests/expanded.py::test_infection_progression"
+        "tests/expanded.py::test_infection_progression",
+        "tests/expanded.py::test_infection_transactions",
+        "tests/expanded.py::test_infection_persistence"
       ],
-      "validation_note": "Owned exact-boundary daily infection checks and shared disease-injury restrictions authored. Fixtures unrun. Scheduler/catch-up, physician care, immunity, discovery and transaction/save coverage remain incomplete."
+      "validation_note": "Owned acquisition and exact-boundary progression use shared disease-injury restrictions. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Scheduling/catch-up, physician care, complete immunity, discovery and other disease procedures remain incomplete."
     },
     {
       "id": "infection-treatment",
@@ -1167,9 +1173,11 @@
       "acceptance": "The specified antibacterial treatment grants +3 to infection recovery checks while applicable; do not also award unrelated immediate healing.",
       "tests": [
         "tests/expanded.py::test_infection_assessments",
-        "tests/expanded.py::test_infection_progression"
+        "tests/expanded.py::test_infection_progression",
+        "tests/expanded.py::test_infection_transactions",
+        "tests/expanded.py::test_infection_persistence"
       ],
-      "validation_note": "Owned exact-boundary daily infection checks and shared disease-injury restrictions authored. Fixtures unrun. Scheduler/catch-up, physician care, immunity, discovery and transaction/save coverage remain incomplete."
+      "validation_note": "Owned acquisition and exact-boundary progression use shared disease-injury restrictions. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Scheduling/catch-up, physician care, complete immunity, discovery and other disease procedures remain incomplete."
     },
     {
       "id": "infection-surgical-eligibility",
