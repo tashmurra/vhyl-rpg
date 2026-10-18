@@ -1,0 +1,559 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B124-B129, before reduced time rate",
+  "review": "Combat/behavior episodes, sensory restrictions, pain tables, honor codes, temperature-dependent physiology and compulsions enumerated. Table boundaries, authored event contracts and runtime integration remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "disadvantages-b-odor",
+      "source": "full-2008",
+      "pages": "B124",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Persistent offensive odor is -10 and gives -2 reactions from most people/animals; masking perfume retains the same penalty. Author can define scavenger/pest attraction separately, not universal hostility from every creature.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-temper",
+      "source": "full-2008",
+      "pages": "B124",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Volatile temper is base -10 with self-control. A failed check in a stressful situation requires an authored hostile response toward the stressor. Preserve the specific trigger and player choices among qualifying responses.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-rage-trigger",
+      "source": "full-2008",
+      "pages": "B124",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Uncontrolled rage is base -10 with self-control. More than one quarter health capacity injured within one second, or witnessing equivalent injury to a loved one, prompts a check. Failed volatile-temper control automatically triggers rage. Voluntary entry takes concentration and successful will. Aggregate injuries in the one-second window rather than checking only each hit.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-rage-melee",
+      "source": "full-2008",
+      "pages": "B124",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "During rage, an in-range foe requires all-out attack with a hand weapon. Otherwise move as close as possible, using move-and-attack or a slam when possible. Enforce maneuver and defense consequences through the normal turn ledger.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-rage-ranged",
+      "source": "full-2008",
+      "pages": "B124",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A foe more than twenty yards away permits a ranged attack without aim. Firearms use maximum firing rate until empty; reloading is allowed only when the weapon and quick-draw capability permit completion in at most one second. Otherwise draw another weapon or charge. Preserve ammunition and actual reach/distance.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-rage-injury",
+      "source": "full-2008",
+      "pages": "B124",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rage prevents shock/stun and injury movement penalties, and grants +4 health to stay conscious/alive. Injury still accumulates and death occurs at negative five times health capacity. On leaving rage, wounds immediately apply and ordinary health consciousness/survival checks are required. Resolve overlaps with other survival traits explicitly.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-rage-exit",
+      "source": "full-2008",
+      "pages": "B124",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each downed foe permits optional self-control to exit; failure or declining continues to another foe. Restraining friends count as foes. Once no foes remain, one extra check is available; continued failure turns aggression toward friends. Store episode and downed-target event identity so repeated narration cannot grant extra recovery checks.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-battle-rage",
+      "source": "full-2008",
+      "pages": "B124",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Combat-triggered rage increases the disadvantage magnitude by +50% and requires self-control on first entering any combat, even without injury. Apply self-control pricing and modifier rounding consistently.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-animalistic",
+      "source": "full-2008",
+      "pages": "B124",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Animalistic behavior is normally -10, or -15 for especially repugnant behavior by author decision. Author defines barred civilized-art/social skills and defaults. Territorial/dominance relationships may exist; low intelligence is not inherent. Do not charge a second offensive-habit drawback for the same included behavior.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-blindness",
+      "source": "full-2008",
+      "pages": "B124-B125",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Blindness is -50. Adapted combat skills take -6, cannot select hit locations and restrict ranged attacks to random fire or nearby audible targets. Sudden sight loss takes -10 instead. Darkness adds no further penalty. Author defines navigational assistance and infeasible visual actions without denying valid nonvisual sensing.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-blindness-compatibility",
+      "source": "full-2008",
+      "pages": "B124-B125",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reject visual powers with blindness; exclusive infrared/ultraviolet sight is its zero-point alternate-sense feature instead. Active scanning and vibration are nonvisual and can coexist, using their own targeting rules. Do not apply blindness penalties again when a specific valid alternate-sense procedure replaces them.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-lethal-hostility",
+      "source": "full-2008",
+      "pages": "B125",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Lethal hostility is base -10 with self-control. Legitimate enemies prompt killing blows and confirmation of downed foes; surrender, stealth bypass or capture needs successful self-control to avoid attempting to kill. Author defines enemy classification; ordinary nonlethal quarrels are not automatically murderous.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-bullying",
+      "source": "full-2008",
+      "pages": "B125",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Bullying is base -10 with self-control and -2 reactions. A failed restraint check requires authored coercive/harassing behavior where the actor believes it feasible. Preserve applicable social consequences and do not automatically inflict physical damage.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-callousness",
+      "source": "full-2008",
+      "pages": "B125",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Callousness is -5: teaching and helpful psychology take -3, as do interactions with past victims identified by author. Victims/empaths react at -1. Threat/torture-based interrogation and intimidation gain +1. These bonuses are scoped fictional mechanics, not blanket social skill increases.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-learning-bar",
+      "source": "full-2008",
+      "pages": "B125",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Inability to learn is -30 and bars earned-point improvement of dexterity, intelligence, skills and mental advantages, plus new techniques/familiarities. Strength/health and approved physical traits remain eligible. Temporary modular skills are allowed. Apply at advancement assessment, not only character creation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-speech-limited",
+      "source": "full-2008",
+      "pages": "B125",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "No articulated speech is -15 but permits nonlinguistic vocal sounds and compatible voice/imitation traits, excluding stuttering. Total muteness is -25 and forbids all other voice traits; nonverbal channels remain. Communication study time counts fully without duplicating time spent.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-speech-authored",
+      "source": "full-2008",
+      "pages": "B125",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "For nonshared signing between player characters, the source requires authored communication rather than a success roll. Provide explicit conveyed meaning/gesture choices with no random roll; a generic callback alone does not establish the contract.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-compelled-aid",
+      "source": "full-2008",
+      "pages": "B125",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compelled assistance is base -15 with self-control. When aid is possible/requested but should be resisted, failure requires an offer of help even to enemies or despite orders. Author identifies available assistance and consequences without inventing resources the actor lacks.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-low-motivation",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Persistent low motivation is base -15 with self-control. Outside minimum survival necessities, decisions or initiative require a check; failure selects the least-effort course, often inactivity or following a demanding companion. Implement this printed fictional behavior as an authored choice constraint, not a clinical model.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-motivation-transition",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author may replace low motivation with an equal-value drawback after supported development, possibly retaining both behaviors during transition. It may replace a broken self-imposed commitment or lost-dependent drawback. Reconcile point value and transition state once without granting new creation credit.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-pain-mild",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Recurrent pain severity mild has base -5, applying -2 to dexterity, intelligence and self-control during an awake episode. Sleep episodes instead cause sleep deprivation under the rest rules.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-pain-severe",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Recurrent pain severity severe has base -10, applying -4 to dexterity, intelligence and self-control during an awake episode. Sleep episodes instead cause sleep deprivation under the rest rules.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-pain-agonizing",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Recurrent pain severity agonizing has base -15, applying -6 to dexterity, intelligence and self-control during an awake episode. Sleep episodes instead cause sleep deprivation under the rest rules.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-pain-interval-1",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Pain interval 1 hours multiplies severity cost by 1/2. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-pain-interval-2",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Pain interval 2 hours multiplies severity cost by 1/1. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-pain-interval-4",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Pain interval 4 hours multiplies severity cost by 3/2. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-pain-interval-8",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Pain interval 8 hours multiplies severity cost by 2/1. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-pain-frequency-6",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Daily pain frequency 6 multiplies cost by 1/2; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-pain-frequency-9",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Daily pain frequency 9 multiplies cost by 1/1; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-pain-frequency-12",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Daily pain frequency 12 multiplies cost by 2/1; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-pain-frequency-15",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Daily pain frequency 15 multiplies cost by 3/1; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-company",
+      "source": "full-2008",
+      "pages": "B126",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Companionship preference is -5, usually improving owner reactions to others by +2 and imposing intelligence-based skill -1 while alone. Strong dependence is -10, owner reactions +4, skill -2 alone or -1 in groups of four or fewer. Clarify whether the group count includes the owner; these are owner reactions, not others reactions toward them.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-social-obliviousness",
+      "source": "full-2008",
+      "pages": "B126-B127",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Social obliviousness is -10, gives +4 against seduction, -4 etiquette and usually -2 others reactions. Recognizing oneself as a verbal-joke target needs intelligence-4. It does not generally worsen resistance to fast talking outside the specified romantic misunderstanding. Author defines the social evidence and exceptions.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-honor-pricing",
+      "source": "full-2008",
+      "pages": "B127",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Honor code costs -5 informal among peers, -10 formal among peers or informal always, -15 formal always or extreme breach consequences. Author defines concrete obligations and scope, distinct from employment duty or personal duty to others. Mere claimed adherence is insufficient.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-honor-peer-solidarity",
+      "source": "full-2008",
+      "pages": "B127",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Printed code pattern peer-solidarity is -5 and requires an authored rule set covering peer loyalty, redress of insults and fair open conflict within the group. Record breach events and permitted responses, not just a label. Source-specific social assumptions remain authored setting facts.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-honor-professional",
+      "source": "full-2008",
+      "pages": "B127",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Printed code pattern professional is -5 and requires an authored rule set covering professional ethics, competent work and support of the professional association. Record breach events and permitted responses, not just a label. Source-specific social assumptions remain authored setting facts.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-honor-formal-peer",
+      "source": "full-2008",
+      "pages": "B127",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Printed code pattern formal-peer is -10 and requires an authored rule set covering keeping promises, answering specified insults and fair contests among the defined social peers. Record breach events and permitted responses, not just a label. Source-specific social assumptions remain authored setting facts.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-honor-service",
+      "source": "full-2008",
+      "pages": "B127",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Printed code pattern service is -10 and requires an authored rule set covering unit loyalty, role-specific care, lawful orders and authored combat conduct. Record breach events and permitted responses, not just a label. Source-specific social assumptions remain authored setting facts.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-honor-protective",
+      "source": "full-2008",
+      "pages": "B127",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Printed code pattern protective is -15 and requires an authored rule set covering formal honor extended to protection of vulnerable people, allegiance and rank-dependent challenges. Record breach events and permitted responses, not just a label. Source-specific social assumptions remain authored setting facts.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-cold-blooded",
+      "source": "full-2008",
+      "pages": "B127",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Ambient-dependent metabolism is -5 with threshold fifty Fahrenheit or -10 with sixty-five. It gives health+2 against temperature effects and one third ordinary food need. After thirty minutes cold exposure, or one hour with any thermal tolerance, lose one basic speed/dexterity per ten degrees below threshold. Preserve exposure and recovery history.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-cold-blooded-recovery",
+      "source": "full-2008",
+      "pages": "B127",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Below freezing, health failure causes one injury; warm clothing grants +2. The text does not specify a repeating damage-check interval: record as unresolved against the hazard chapter. Restore one lost basic speed/dexterity per warm hour, doubled in authored exceptional warmth; do not heal unrelated attribute losses.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-colorblindness",
+      "source": "full-2008",
+      "pages": "B127",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Total color blindness is -10. Color-dependent tasks need authored restrictions; most art, chemistry, driving, merchant, piloting and tracking checks take -1. It does not reduce all vision indiscriminately, and inaccessible color evidence must not leak through descriptions.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-combat-freeze",
+      "source": "full-2008",
+      "pages": "B127",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Combat freezing is -15, adds -2 to fear checks and is incompatible with reflexes. At the decisive imminent-danger action, health check succeeds only on thirteen or less. Failure causes mental stun; each subsequent second permits health with cumulative +1, with a friend slap adding +1. After recovery, do not retrigger until that immediate danger ends.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-compulsion-base",
+      "source": "full-2008",
+      "pages": "B128",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Compulsive behavior is base -5 to -15 with self-control and requires daily indulgence when possible, plus opportunity-trigger checks. Entering a situation preventing indulgence for over a day requires self-control; if entered or forced, temporary volatile temper uses the same rating throughout. Own deprivation state and avoid duplicate permanent trait purchases.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-compulsion-social",
+      "source": "full-2008",
+      "pages": "B128",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compulsive social revelry is base -5, or -10 in a strict setting. Seek at least one hour social gathering daily, with authored spending/opportunity behavior. Similar enthusiasts react +1, sober observers -1 or worse and strict observers -4. Consume actual time/resources, not a narrative-only flag.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-compulsion-gambling",
+      "source": "full-2008",
+      "pages": "B128",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compulsive gambling is base -5 and seeks games/wagers without granting skill. If prevented, repeated persuasion causes reaction penalty of one per five negative points after self-control pricing. Define fractional penalty handling and interaction history explicitly.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-compulsion-generosity",
+      "source": "full-2008",
+      "pages": "B128",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compulsive generosity is base -5, incompatible with stinginess, and triggers self-control on plausible aid stories. In a setting with many requests, living cost increases twenty/fifteen/ten/five percent at self-control six/nine/twelve/fifteen. Author may grant favorable reactions from charitable observers; no gift can spend unavailable funds.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-compulsion-lying",
+      "source": "full-2008",
+      "pages": "B128-B129",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compulsive lying is base -15. Telling unembellished truth requires self-control; failure produces authored falsehood. Checks involving fellow characters remain private so outcome does not itself reveal truthfulness. Keep known facts separate from expressed claims.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-compulsion-spending",
+      "source": "full-2008",
+      "pages": "B129",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compulsive spending is base -5, incompatible with stinginess but compatible with greed. A relevant purchase offer triggers self-control only when available pocket cash is strictly more than twice price. Failure buys it. Living-cost increases are eighty/forty/twenty/ten percent and bargaining penalties -4/-3/-2/-1 at ratings six/nine/twelve/fifteen.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-compulsion-vows",
+      "source": "full-2008",
+      "pages": "B129",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compulsive vow-making is base -5 and adds solemn authored commitments, including incidental promises. Track actual vows, fulfillment and consequences; do not automatically grant additional negative points for every generated commitment.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-confusion",
+      "source": "full-2008",
+      "pages": "B129",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus confusion is base -10 with self-control. Author supplies unfamiliarity/commotion modifier, ranging from ordinary situations to severe battle stimuli. Failure prevents decisive initiative. In combat use do-nothing but no stun penalty; direct attacks allow ordinary defense and counterattack against that foe. Track episode and reactive permission.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-cowardice",
+      "source": "full-2008",
+      "pages": "B129",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical-danger avoidance is base -10 with self-control, at -5 for risking death. Failure refuses danger unless a greater threat compels it. Physical-danger fear checks take -4/-3/-2/-1 at ratings six/nine/twelve/fifteen; informed relevant occupational observers may react similarly.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-curiosity",
+      "source": "full-2008",
+      "pages": "B129",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compulsive curiosity is base -5 with self-control and prompts investigation of interesting unfamiliar situations despite known risk. Judgment-warning traits do not remove the urge. Author offers concrete investigative actions with ordinary costs and consequences instead of revealing hidden contents automatically.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-curse",
+      "source": "full-2008",
+      "pages": "B129",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Severe misfortune curse is -75 and requires authored adverse events that preferentially affect the actor. Buyoff needs identifying/resolving the curse and paying points. Define event selection, consequences and source resolution; a generic random penalty callback is not completed implementation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-b-deafness",
+      "source": "full-2008",
+      "pages": "B129",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Deafness is -20, excludes auditory information and allows writing/signing or other viable channels. Communication time counts fully toward applicable skill study, through the single time ledger. Reconcile sound-dependent powers individually and do not remove nonauditory perception.",
+      "tests": []
+    }
+  ]
+}

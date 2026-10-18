@@ -252,3 +252,15 @@ public disclosure. Repeated withdrawal, focus, injury-trigger and recovery check
 need dated episode histories. Reconstructing an action must not reset those
 histories, while narrative uncertainty must not overwrite already committed facts.
 All new entries remain pending implementation and validation.
+
+
+The [second disadvantage segment](inventory/disadvantages-b.json) distinguishes
+rage, combat freezing and stimulus confusion. Each constrains different actions
+and has different defenses or recovery checks; none can be implemented as a
+generic stun flag. Pain episodes and temperature-dependent attribute losses need
+independent clocks and source-tagged recovery. The pain-frequency table and prose
+also differ at the activation boundary, which remains an explicit source decision.
+
+Compulsions carry real time, expenditure, living-cost and reaction consequences.
+Hidden truthfulness rolls and sensory restrictions need controlled information
+outputs. Existing character accounting does not execute these new effects.
