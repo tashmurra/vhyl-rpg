@@ -970,9 +970,11 @@
       "status": "partial",
       "symbol": "RpgExpandedWealthAdvancement",
       "tests": [
-        "tests/expanded.py::test_wealth_advancement"
+        "tests/expanded.py::test_wealth_advancement",
+        "tests/expanded.py::test_wealth_advancement_sequence",
+        "tests/expanded.py::test_wealth_advancement_persistence"
       ],
-      "validation_note": "Purchased cash-qualified increase and one-time shared-point spending authored. Checks paused and unrun; cross-process continuation and employment-driven obligations pending."
+      "validation_note": "Cash-qualified purchased increase, settled-obligation evidence receipt, shared point spending, repeat and identity guards authored. Tests include transaction and cross-process continuation cases but remain unrun. Employment-driven obligations pending."
     }
   ],
   "detailed_inventories": [

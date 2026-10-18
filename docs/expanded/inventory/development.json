@@ -284,9 +284,11 @@
       "status": "partial",
       "acceptance": "Require accumulated money equal to the new wealth level's starting wealth after relevant payments; changing the wealth trait must not grant that starting money again.",
       "tests": [
-        "tests/expanded.py::test_wealth_advancement"
+        "tests/expanded.py::test_wealth_advancement",
+        "tests/expanded.py::test_wealth_advancement_sequence",
+        "tests/expanded.py::test_wealth_advancement_persistence"
       ],
-      "implementation_note": "Campaign module supplies RpgExpandedWealthAdvancement: target cash threshold, authored settled-obligations evidence, point difference, owned receipt and unchanged money. Tests unrun; continuation and employment obligations pending."
+      "implementation_note": "Cash-qualified purchased increase, settled-obligation evidence receipt, shared point spending, repeat and identity guards authored. Tests include transaction and cross-process continuation cases but remain unrun. Employment-driven obligations pending."
     },
     {
       "id": "development-inborn-trait-acquisition",

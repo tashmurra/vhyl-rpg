@@ -1709,6 +1709,31 @@ act(verb, args)
         local value = offer.advance(); event('test.wealth-advance-boundary'); eventValue(value.reason);
         eventValue(p.money); eventValue(p.unspentPoints); eventValue(p.developmentRevision); return nil;
     }
+    if (verb == 1245)
+    {
+        local p = new RpgExpandedProfile(); p.rules = expandedRules; p.campaignTL = 3;
+        p.creationComplete = true; p.money = 20000; p.unspentPoints = 45;
+        local w = new RpgExpandedWealth(); w.owner = p; w.wealthLevel = 'poor'; p.contributions = [w];
+        local first = new RpgExpandedWealthAdvancement(); first.id = 'first'; first.profile = p;
+        first.wealth = w; first.targetLevel = 'average'; first.permitted = true;
+        first.obligationsSettled = true; first.evidence = 'first-clearance';
+        event('test.wealth-advance-sequence'); local a = first.advance();
+        eventValue(a.points); eventValue(a.requiredMoney); eventValue(p.unspentPoints);
+        local second = new RpgExpandedWealthAdvancement(); second.id = 'second'; second.profile = p;
+        second.wealth = w; second.targetLevel = 'very-wealthy'; second.permitted = true;
+        second.obligationsSettled = true; second.evidence = 'second-clearance';
+        local b = second.advance(); eventValue(b.points); eventValue(b.requiredMoney);
+        eventValue(p.unspentPoints); eventValue(p.money); eventValue(p.developmentRevision);
+        eventValue(first.advance().status); eventValue(w.wealthLevel); eventValue(first.boundEvidence);
+        local duplicate = new RpgExpandedWealthAdvancement(); duplicate.id = 'first';
+        duplicate.profile = p; duplicate.wealth = w;
+        try { duplicate.advance(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        first.targetLevel = 'comfortable';
+        try { first.advance(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        eventValue(p.unspentPoints); eventValue(p.wealthAdvancements.length()); return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

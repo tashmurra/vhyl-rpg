@@ -1347,6 +1347,7 @@ class RpgExpandedWealthAdvancement: object
     boundId = nil
     boundLevel = nil
     boundExtraLevels = 0
+    boundEvidence = nil
     paidPoints = 0
     requiredMoney = 0
     assess()
@@ -1390,6 +1391,7 @@ class RpgExpandedWealthAdvancement: object
         local value = self.assess(); if (value.status != 'ready') return value;
         self.boundProfile = self.profile; self.boundWealth = self.wealth; self.boundId = self.id;
         self.boundLevel = self.targetLevel; self.boundExtraLevels = self.targetExtraLevels;
+        self.boundEvidence = self.evidence;
         self.paidPoints = value.points; self.requiredMoney = value.requiredMoney;
         self.profile.unspentPoints -= value.points;
         self.wealth.wealthLevel = self.targetLevel; self.wealth.extraLevels = self.targetExtraLevels;
