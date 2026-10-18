@@ -1022,3 +1022,8 @@ including automatic small-obstacle jumps. Shared pre-posture movement arithmetic
 avoids double crouching costs while retaining Lite's final movement calculation.
 Replay, rollback, undo, save continuation and Lite expected-value fixtures are
 authored, unrun. Reactions, interrupts and movement attacks remain pending.
+
+Jump preparation, launch and path movement now require explicitly physical
+health gates. Missing movement requirements and mental-only gates are rejected
+before rolls. Exhausted permission denial has authored rollback, undo and saved
+continuation coverage; assertions remain unrun while checks are paused.

@@ -449,7 +449,8 @@ path validation still rejects unknown terrain, unsupported footprints, unresolve
 evasion and illegal destinations.
 
 Use `RpgExpandedPathMoveManeuver` from health, with `operation` set to this object
-and a fresh movement-aware `healthGate`. Pass it to the existing battle's `step`.
+and a fresh movement-aware `healthGate` (`requiresMovement = true`,
+`mentalAbility = nil`). Pass it to the existing battle's `step`.
 Leave the maneuver's separate `movement` value at zero: the path accounts for
 movement points. After health permission, it captures the path and revalidates
 its definition, origin, allowance, cost, destination and facing at commit. It then

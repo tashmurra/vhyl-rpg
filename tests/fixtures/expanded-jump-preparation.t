@@ -16,7 +16,7 @@ modify BleedTestAction
         {
             local gate = new RpgExpandedActionGate(); gate.profile = bleedProfile;
             gate.id = ['prep-one','prep-two','prep-three','prep-four'][prepBattle.seconds + 1];
-            gate.evidence = 'One concentration turn for a jump';
+            gate.evidence = 'One concentration turn for a jump'; gate.requiresMovement = true;
             local request = new RpgExpandedJumpPrepareManeuver(); request.healthGate = gate; request.preparation = prepReceipt;
             prepBattle.step(prepFighter,request);
             if (code == 1342) throw new RpgError(); return nil;

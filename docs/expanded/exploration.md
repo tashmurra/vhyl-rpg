@@ -1158,7 +1158,8 @@ and profile-boundary fixtures in `test_jump_travel` are authored, unrun.
 
 `RpgExpandedJumpPreparation` binds a `fighter` and its active `battle`. Use
 health's `RpgExpandedJumpPrepareManeuver` for each preparation turn, with this
-object as `preparation` and a fresh `RpgExpandedActionGate` as `healthGate`.
+object as `preparation` and a fresh `RpgExpandedActionGate` as `healthGate`,
+with `requiresMovement = true` and `mentalAbility = nil`.
 Call the existing battle's `step` method. The battle spends its normal time;
 the preparation object charges no additional time or randomness.
 
@@ -1188,7 +1189,8 @@ must identify long or deliberately hazardous jumps here. Vertical jumps always
 require a check. `penalty` permits the B352 difficulty range -5 through zero,
 and a nonzero penalty requires `difficult`.
 
-Health's `RpgExpandedJumpLaunchManeuver` takes the launch and a fresh `healthGate`.
+Health's `RpgExpandedJumpLaunchManeuver` takes the launch and a fresh `healthGate`
+with `requiresMovement = true` and `mentalAbility = nil`.
 Use the existing battle's `step`. It consumes a whole Move turn; leave its
 ordinary `movement` field at zero to avoid charging separate walking movement.
 After health permission, it captures combat distance while concentration is still

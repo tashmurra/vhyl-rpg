@@ -315,9 +315,10 @@
       "tests": [
         "tests/expanded.py::test_jump_assessment",
         "tests/expanded.py::test_jump_preparation",
-        "tests/expanded.py::test_jump_launch"
+        "tests/expanded.py::test_jump_launch",
+        "tests/expanded.py::test_physical_maneuver_gates"
       ],
-      "validation_note": "Pure distance preparation halving now has a battle-owned concentration adapter. Two consecutive successful health-gated concentration turns establish readiness; fighter/battle binding, concentration count, round stamps and ledger progression detect interruption or unrelated work. The battle alone charges time. Combat assessment derives preparation from the receipt. Consecutive/interrupted turns, unrelated concentration, rollback, undo and save continuation assertions authored, unrun. Actual launch consumption, travel and position changes remain pending. Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending."
+      "validation_note": "Pure distance preparation halving now has a battle-owned concentration adapter. Two consecutive successful health-gated concentration turns establish readiness; fighter/battle binding, concentration count, round stamps and ledger progression detect interruption or unrelated work. The battle alone charges time. Combat assessment derives preparation from the receipt. Consecutive/interrupted turns, unrelated concentration, rollback, undo and save continuation assertions authored, unrun. Actual launch consumption, travel and position changes remain pending. Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending. Physical maneuver gates now require movement and exclude mental-only permission. Malformed-gate and exhausted-denial rollback/undo/save assertions are authored, unrun."
     },
     {
       "id": "activity-jump-combat-small",
@@ -329,9 +330,10 @@
       "acceptance": "A small-obstacle combat jump uses a movement maneuver and costs one additional movement point.",
       "tests": [
         "tests/expanded.py::test_tactical_small_jumps",
-        "tests/expanded.py::test_path_move"
+        "tests/expanded.py::test_path_move",
+        "tests/expanded.py::test_physical_maneuver_gates"
       ],
-      "validation_note": "Pure actor-relative size threshold and tactical small-jump path assessment implemented. An approved ordinary obstacle at least three size steps smaller uses Move and adds one movement point, preserving other path costs. Significant hazards, non-Move maneuvers, unsupported posture/deep water and missing facts are rejected. Threshold, additive crouching costs, invalid cases and preview purity assertions authored, unrun. Committed full-path movement remains pending. Uninterrupted Move paths now commit to the existing tactical figure through a health-aware battle maneuver. Shared pre-posture allowance avoids duplicate posture costs; battle alone owns time. Replay, invalid input, rollback, undo, save continuation and Lite movement assertions authored, unrun. Interrupted routes and other maneuvers remain pending."
+      "validation_note": "Pure actor-relative size threshold and tactical small-jump path assessment implemented. An approved ordinary obstacle at least three size steps smaller uses Move and adds one movement point, preserving other path costs. Significant hazards, non-Move maneuvers, unsupported posture/deep water and missing facts are rejected. Threshold, additive crouching costs, invalid cases and preview purity assertions authored, unrun. Committed full-path movement remains pending. Uninterrupted Move paths now commit to the existing tactical figure through a health-aware battle maneuver. Shared pre-posture allowance avoids duplicate posture costs; battle alone owns time. Replay, invalid input, rollback, undo, save continuation and Lite movement assertions authored, unrun. Interrupted routes and other maneuvers remain pending. Physical maneuver gates now require movement and exclude mental-only permission. Malformed-gate and exhausted-denial rollback/undo/save assertions are authored, unrun."
     },
     {
       "id": "activity-jump-combat-large",
@@ -343,9 +345,10 @@
       "acceptance": "Jumping a larger obstacle or onto a surface uses the whole movement turn; vertical and long horizontal jumps require a dexterity check when specified by the hazard.",
       "tests": [
         "tests/expanded.py::test_jump_launch",
-        "tests/expanded.py::test_jump_placement"
+        "tests/expanded.py::test_jump_placement",
+        "tests/expanded.py::test_physical_maneuver_gates"
       ],
-      "validation_note": " Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending. Horizontal tactical placement now preflights authored successful and prone-failure endpoints and commits the same figure once. Terrain, occupancy, missing plans, rollback, undo and saved replay assertions authored, unrun. Vertical placement and multi-second enhanced travel remain unsupported."
+      "validation_note": " Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending. Horizontal tactical placement now preflights authored successful and prone-failure endpoints and commits the same figure once. Terrain, occupancy, missing plans, rollback, undo and saved replay assertions authored, unrun. Vertical placement and multi-second enhanced travel remain unsupported. Physical maneuver gates now require movement and exclude mental-only permission. Malformed-gate and exhausted-denial rollback/undo/save assertions are authored, unrun."
     },
     {
       "id": "activity-jump-failure",

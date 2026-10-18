@@ -3120,3 +3120,20 @@ an uninterrupted tactical path. Supply a fresh movement-aware health gate and
 an owned `RpgExpandedPathMove` operation. The battle remains responsible for
 elapsed time; neither path costs nor automatic small jumps spend time separately.
 See [committing a Move path](tactical.md#committing-an-uninterrupted-move-path).
+
+## Physical maneuver permission contract
+
+`RpgExpandedPhysicalManeuver` specializes the health-aware maneuver base for
+jump preparation, jump launch and tactical Move paths. Each requires a fresh
+`RpgExpandedActionGate` with `requiresMovement = true` and `mentalAbility = nil`.
+Profile, purpose, evidence and the existing gate-history checks still apply.
+A missing movement requirement or a mental-only permission is rejected before
+permission rolls or maneuver effects. General health-aware mental maneuvers keep
+their existing interface.
+
+Failed exhausted-effort permission advances the battle turn according to the
+existing scheduler but commits no path, launch or preparation. The gate owns any
+Will check and collapse outcome. The movement operation does not repeat that
+check. `test_physical_maneuver_gates` exercises malformed permission flags,
+preview purity, exhausted denial, exception rollback, undo and saved continuation.
+Assertions remain unrun while checks are paused.

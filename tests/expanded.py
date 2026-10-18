@@ -9281,6 +9281,7 @@ def test(build):
     test_tactical_small_jumps(Session, paths)
     path_move = build.build('expanded-path-move',ROOT / 'tests/fixtures/expanded-path-move.t')
     test_path_move(Session, path_move, build.out)
+    test_physical_maneuver_gates(Session, path_move, build.out)
     positions = build.build('expanded-tactical-positions', ROOT / 'tests/fixtures/expanded-tactical-positions.t')
     fresh(Session, positions, test_tactical_positions)
     fresh(Session, positions, test_tactical_footprints)
@@ -15745,5 +15746,65 @@ def test_path_move(Session, bundle, out):
         s.action(2278,108)
         rows = [event['values'] for event in s.log if event['id'] == 'test.legacy-move']
         assert rows == [[5],[3],[1],[1],[0],[1],[2],[1],[0],[0],[0],[1],[0]]
+    finally:
+        s.close()
+
+
+def test_physical_maneuver_gates(Session, bundle, out):
+    def setup(s):
+        for code in (70,84,100):
+            s.action(2278,code)
+    def gate_state(s):
+        s.action(2278,110)
+        return last(s,'test.physical-gate-state')
+    for code in (111,112):
+        s = Session(bundle)
+        try:
+            setup(s)
+            s.action(2278,code)
+            assert last(s,'test.physical-gate-invalid') == ['physical-maneuver-health-gate']
+            assert gate_state(s) == [0,0,0,0]
+            s.action(2278,104)
+            assert last(s,'test.path-move') == [0,0,0,0,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        setup(s)
+        s.action(2278,113)
+        rows = [event['values'] for event in s.log if event['id'] == 'test.physical-gate-contract']
+        assert rows == [['physical-maneuver-health-gate',None]] * 3
+        assert gate_state(s) == [0,0,0,0]
+    finally:
+        s.close()
+    path = out / 'expanded-physical-gate.zsave'
+    s = Session(bundle)
+    try:
+        setup(s)
+        for code in (109,102):
+            s.action(2278,code)
+        assert gate_state(s) == [0,0,0,0]
+        s.action(2278,101)
+        s.command('undo')
+        assert gate_state(s) == [0,0,0,0]
+        s.command(f':save {path}\n@2279')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2279')
+        for code in (101,101):
+            s.action(2278,code)
+        assert gate_state(s) == [1,1,3,0]
+        s.action(2278,104)
+        assert last(s,'test.path-move') == [0,0,0,0,0,3]
+        s.command(f':save {path}\n@2279')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2279')
+        s.action(2278,101)
+        assert gate_state(s) == [1,1,3,0]
     finally:
         s.close()

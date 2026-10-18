@@ -6671,8 +6671,19 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Physical maneuver adapters cannot borrow a mental-only permission gate. */
+class RpgExpandedPhysicalManeuver: RpgExpandedHealthManeuver
+    healthAvailable(fighter)
+    {
+        if (self.healthGate == nil || !self.healthGate.ofKind(RpgExpandedActionGate)
+            || !self.healthGate.requiresMovement || self.healthGate.mentalAbility)
+            rpgExpandedReject('physical-maneuver-health-gate');
+        return inherited(fighter);
+    }
+;
+
 /** Preparation uses the normal battle scheduler and one fresh health gate per turn. */
-class RpgExpandedJumpPrepareManeuver: RpgExpandedHealthManeuver
+class RpgExpandedJumpPrepareManeuver: RpgExpandedPhysicalManeuver
     kind = 'concentrate'
     preparation = nil
     available(fighter)
@@ -6691,7 +6702,7 @@ class RpgExpandedJumpPrepareManeuver: RpgExpandedHealthManeuver
     }
 ;
 
-class RpgExpandedJumpLaunchManeuver: RpgExpandedHealthManeuver
+class RpgExpandedJumpLaunchManeuver: RpgExpandedPhysicalManeuver
     kind = 'move'
     launch = nil
     preparedLaunch = nil
@@ -6718,7 +6729,7 @@ class RpgExpandedJumpLaunchManeuver: RpgExpandedHealthManeuver
     }
 ;
 
-class RpgExpandedPathMoveManeuver: RpgExpandedHealthManeuver
+class RpgExpandedPathMoveManeuver: RpgExpandedPhysicalManeuver
     kind = 'move'
     operation = nil
     preparedPath = nil

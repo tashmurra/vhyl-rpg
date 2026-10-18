@@ -6,7 +6,7 @@ jumpLaunch: RpgExpandedJumpLaunch id = 'jump-launch' occurrence = launchOccurren
     battle = prepBattle jumping = prepDistance direction = 'vertical' requiredInchTenths = 180
     fallYards = 3 fallPlan = launchFallPlan
     approved = true evidence = 'A reachable vertical ledge with a clear approach and a required accuracy check';
-launchGate: RpgExpandedActionGate id = 'launch-permission' profile = bleedProfile evidence = 'Move maneuver to jump';
+launchGate: RpgExpandedActionGate id = 'launch-permission' profile = bleedProfile requiresMovement = true evidence = 'Move maneuver to jump';
 launchManeuver: RpgExpandedJumpLaunchManeuver launch = jumpLaunch healthGate = launchGate;
 modify BleedTestAction
     exec(context)

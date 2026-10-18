@@ -51,3 +51,48 @@ modify PositionTestAction
         return inherited(context);
     }
 ;
+
+pathForcedRoll: object value = nil;
+modify rpgRandom
+    roll()
+    {
+        if (pathForcedRoll.value == nil) return inherited();
+        self.draws += 3; return pathForcedRoll.value;
+    }
+;
+modify PositionTestAction
+    exec(context)
+    {
+        local code = positionInput.code;
+        if (code == 109) { positionHero.fatigue = 10; pathRequest.move = 3; pathForcedRoll.value = 11; return nil; }
+        if (code == 110)
+        {
+            event('test.physical-gate-state'); eventValue(positionHero.effortHistory.length());
+            eventValue(positionHero.exhaustionCollapsed ? 1 : 0); eventValue(rpgRandom.draws);
+            eventValue(rpgLedger.seconds); return nil;
+        }
+        if (code == 111 || code == 112)
+        {
+            pathGate.requiresMovement = code == 112;
+            pathGate.mentalAbility = code == 112;
+            event('test.physical-gate-invalid');
+            try { pathBattle.step(pathFighter,pathManeuver); eventValue('accepted'); }
+            catch (RpgExpandedError error) { eventValue(error.reason); }
+            return nil;
+        }
+        if (code == 113)
+        {
+            foreach (local request in [new RpgExpandedJumpPrepareManeuver(),new RpgExpandedJumpLaunchManeuver(),new RpgExpandedPathMoveManeuver()])
+            {
+                local gate = new RpgExpandedActionGate(); gate.id = 'permission-preview'; gate.profile = positionHero;
+                gate.evidence = 'Preview a physical permission'; request.healthGate = gate;
+                event('test.physical-gate-contract');
+                try { request.healthAvailable(pathFighter); eventValue('accepted'); }
+                catch (RpgExpandedError error) { eventValue(error.reason); }
+                gate.requiresMovement = true; eventValue(request.healthAvailable(pathFighter));
+            }
+            return nil;
+        }
+        return inherited(context);
+    }
+;
