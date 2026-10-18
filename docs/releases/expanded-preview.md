@@ -731,3 +731,8 @@ repairs and other tool uses remain incomplete.
   owner and per-helper load shares. Storage, trade and individual pickup reject an
   actively shared item. Added rollback, undo and saved-carrying fixtures, unrun.
   Coordinated movement, emergency drops and reallocation remain pending.
+
+- Added explicit emergency release for shared loads after verified support loss.
+  Whole-load dropping and impact consequences require authored evidence; the
+  release adds no voluntary lowering time. Added rollback/undo/save fixtures,
+  unrun. Automatic health-event dispatch and load redistribution remain pending.

@@ -8986,6 +8986,8 @@ def test(build):
     test_equipment_lift(Session, equipment_lift, build.out)
     shared_carry = build.build('expanded-shared-carry', ROOT / 'tests/fixtures/expanded-shared-carry.t')
     test_shared_carry(Session, shared_carry, build.out)
+    shared_release = build.build('expanded-shared-release', ROOT / 'tests/fixtures/expanded-shared-release.t')
+    test_shared_release(Session, shared_release, build.out)
     lifting_skill = build.build('expanded-lifting-skill', ROOT / 'tests/fixtures/expanded-lifting-skill.t')
     test_lifting_skill(Session, lifting_skill, build.out)
     test_skilled_pickup(Session, lifting_skill, build.out)
@@ -13384,5 +13386,61 @@ def test_shared_carry(Session, bundle, out):
             for code in (invalid,781):
                 s.action(2285, code)
             assert state(s) == clear
+        finally:
+            s.close()
+
+
+def test_shared_release(Session, bundle, out):
+    def state(s):
+        s.action(2285, 783)
+        return last(s, 'test.shared-carry')
+    carrying = [2000,4000,1,0,1,1,1,4,0]
+    dropped = [0,0,1,0,1,1,0,4,0]
+    path = out / 'expanded-shared-release.zsave'
+    s = Session(bundle)
+    try:
+        for code in (781,790,791):
+            s.action(2285, code)
+        assert last(s, 'test.shared-release-preview') == ['blocked','shared-release-cause-absent']
+        assert state(s) == carrying
+        for code in (788,784,790,792):
+            s.action(2285, code)
+        assert last(s, 'test.shared-release-preview') == ['ready',None]
+        assert state(s) == carrying
+        s.action(2285, 791)
+        s.command('undo')
+        assert state(s) == carrying
+        for code in (791,791):
+            s.action(2285, code)
+        assert state(s) == dropped
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (795,791,781):
+            s.action(2285, code)
+        assert state(s) == dropped
+        for code in (796,791):
+            s.action(2285, code)
+        assert state(s) == dropped
+    finally:
+        s.close()
+    for invalid, reason in [(793,'shared-release-impact-unresolved'),(794,'shared-release-arrangement')]:
+        s = Session(bundle)
+        try:
+            for code in (781,788,invalid,790,791):
+                s.action(2285, code)
+            assert last(s, 'test.shared-release-preview') == ['blocked',reason]
+            assert state(s) == carrying
+        finally:
+            s.close()
+    for cause in (797,798):
+        s = Session(bundle)
+        try:
+            for code in (781,cause,791):
+                s.action(2285, code)
+            assert state(s) == dropped
         finally:
             s.close()

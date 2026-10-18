@@ -710,3 +710,65 @@ class RpgExpandedSharedCarry: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedSharedCarry
+    emergencyRelease = nil
+;
+/** Explicit loss-of-support response. The author resolves whole-load and impact consequences. */
+class RpgExpandedSharedCarryRelease: object
+    carry = nil
+    member = nil
+    cause = nil
+    destination = nil
+    wholeLoadDrops = nil
+    evidence = nil
+    impactResolved = nil
+    impactEvidence = nil
+    completedAt = nil
+    boundDefinition = nil
+    definition()
+    { return [self.carry,self.member,self.cause,self.destination,self.wholeLoadDrops,self.evidence,
+        self.impactResolved,self.impactEvidence]; }
+    assess()
+    {
+        if (self.carry == nil || !self.carry.ofKind(RpgExpandedSharedCarry)
+            || self.member == nil || !self.member.ofKind(RpgExpandedProfile)
+            || self.destination == nil || self.destination == self.carry)
+            rpgExpandedReject('shared-release-definition');
+        self.carry.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.completedAt != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('shared-release-binding');
+            if (self.carry.emergencyRelease != self || self.carry.endedAt != self.completedAt
+                || self.carry.endDestination != self.destination) rpgExpandedReject('shared-release-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.carry.endedAt != nil) { value.reason = 'shared-release-already-ended'; return value; }
+        local found = nil;
+        foreach (local row in self.carry.members) if (row[1] == self.member) found = row;
+        if (found == nil) rpgExpandedReject('shared-release-member');
+        if (!self.wholeLoadDrops || self.evidence == nil || self.evidence == '')
+        { value.reason = 'shared-release-arrangement'; return value; }
+        if (!self.impactResolved || self.impactEvidence == nil || self.impactEvidence == '')
+        { value.reason = 'shared-release-impact-unresolved'; return value; }
+        if (!holds(['unconscious','dead','disabled-support','knockdown'],self.cause))
+            rpgExpandedReject('shared-release-cause');
+        local applies = self.cause == 'unconscious' ? self.member.unconscious
+            : self.cause == 'dead' ? self.member.dead
+            : self.cause == 'knockdown' ? self.member.posture == 'lying' && self.member.stunned
+            : self.member.liftingHandsReason(found[4],self.carry.mode == 'one-hand' ? 1 : 2) == 'lifting-hand-disabled';
+        if (!applies) { value.reason = 'shared-release-cause-absent'; return value; }
+        value.status = 'ready'; return value;
+    }
+    release()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.completedAt = rpgLedger.seconds;
+        self.carry.endedAt = self.completedAt; self.carry.endDestination = self.destination;
+        self.carry.endEvidence = self.evidence; self.carry.endSeconds = 0; self.carry.emergencyRelease = self;
+        self.carry.item.storageLocation = self.destination; self.carry.item.sharedCarry = nil;
+        value.status = 'resolved'; return value;
+    }
+;

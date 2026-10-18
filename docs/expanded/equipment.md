@@ -484,3 +484,34 @@ receipt rather than silently changing carried weight. The fixture specifies uneq
 shares, a single owner, one time charge, transfer guards, rollback, undo, saved
 active carrying and replayed lowering. Assertions remain unrun. Source: full-2008,
 B353; shares and lowering duration are explicit author adjudications.
+
+### Emergency loss of a shared load
+
+`RpgExpandedSharedCarryRelease` records an immediate drop after an actual loss of
+support. Set `carry`, affected `member`, `cause`, and a non-nil `destination`.
+Supported causes are `unconscious`, `dead`, `knockdown` (lying and stunned), or
+`disabled-support` (a bound hand/arm has become nonfunctional). The affected profile
+must be a participant and satisfy the stated condition at first execution.
+
+The B420 knockdown rule drops held objects, but does not determine whether the
+other helpers retain a shared object or what its impact does. Consequently the
+author must set `wholeLoadDrops = true` and nonempty `evidence` describing this
+arrangement, plus `impactResolved = true` and `impactEvidence` describing the
+settled consequences. Resolve any falling-object damage, broken contents, or
+injuries through their normal procedures in the same surrounding transaction.
+A harmless drop may instead have explicit authored evidence. These fields are an
+adjudication contract, not an automatic damage or balance simulation. Do not mark
+impact resolved merely to bypass missing consequences.
+
+`assess()` is pure. `release()` closes the shared carry at the current event time,
+clears each active weight share, and places the single owned item at the destination.
+It adds no voluntary lowering time, fatigue or roll. Replays reuse the outcome,
+even if the member later recovers; changing the release request rejects. The
+history remains after the item is subsequently moved. This closes the otherwise
+blocked lowering case when a helper is incapacitated.
+
+The fixture covers a healthy member's rejected release, an unconscious member,
+death, knockdown, missing arrangement/impact evidence, rollback, undo, saved
+release continuation and recovery after release. Assertions remain unrun. Bound
+support injury integration, automatic dispatch from every health event, remaining
+helpers retaining/reallocating the load, and general impact damage remain pending.
