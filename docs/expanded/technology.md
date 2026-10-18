@@ -810,3 +810,36 @@ prototype creation, actual accident injuries and defect lifecycle remain pending
 `test_prototype_assessments` authors duration boundaries, team qualification,
 margin boundaries, odd half-dice, flawed theories and accidents; it is unrun while
 checks remain paused. Neutral source: `full-2008`, B9 and B474.
+
+
+## Owned facilities funding
+
+`RpgExpandedInventionFacilities` binds a `project`, paying expanded `payer`,
+explicit approval and evidence that the payment establishes the inventor's
+facilities. The project must hold a theory. The payer may be a sponsor, but this
+interface does not roll for a patron, negotiate shares or create a loan.
+
+`assess()` checks the proposal, available funds and existing facilities without
+spending anything. `fund()` debits the existing money balance and records the
+receipt in `project.facilityFunding`, with the active installation in
+`project.facilities`. Invoke it inside the usual action transaction. This is a
+facilities payment, not the separate retail-price cost of a prototype attempt.
+
+The receipt preserves `fullCost` before any related-facilities discount. A new
+funding request after destruction pays that original full cost; it cannot reuse
+the destroyed facilities for a discount. Replay of the old payment does not
+restore a destroyed installation or charge again. A second request against an
+intact installation blocks. Project, payer and funding-evidence retargeting also
+rejects after payment.
+
+`destroyed` is currently an explicit author-state input. The prototype accident
+assessment specifies when it applies, but committed accident injuries and automatic
+facility destruction are not yet integrated. The receipt does not claim that a
+laboratory has been built in elapsed game time or supplied with every special
+material. Work scheduling, prototype attempt funding, gradual professional
+funding and external investors remain pending.
+
+`test_invention_facilities` and `test_invention_facilities_persistence` author
+previews, funds and approval gates, rollback, undo, replay, intact-installation
+rejection, destruction/rebuilding and save continuation. They remain unrun while
+checks are paused. Neutral source: `full-2008`, B474.

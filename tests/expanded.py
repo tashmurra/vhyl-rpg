@@ -973,6 +973,78 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def facilities_state(s):
+    s.action(2103)
+    return last(s,'test.facilities-state')
+
+
+def test_invention_facilities(s):
+    s.action(2102,1)
+    assert last(s,'test.facilities') == ['blocked','invention-facilities-theory-required',0,0]
+    s.action(2102,0)
+    initial = [1000000,0,None,3,0]
+    for code in [3,2]:
+        s.action(2102,code)
+        assert facilities_state(s) == initial
+    for code,reason in [(4,'invention-facilities-funds'),(5,'invention-facilities-approval')]:
+        s.action(2102,code)
+        assert last(s,'test.facilities') == ['blocked',reason,0,0]
+        s.command('undo')
+        assert facilities_state(s) == initial
+    s.action(2102,1)
+    assert last(s,'test.facilities') == ['resolved',None,100000,0]
+    funded = [900000,1,'available',3,0]
+    assert facilities_state(s) == funded
+    s.command('undo')
+    assert facilities_state(s) == initial
+    s.action(2102,1)
+    for code in [1,8]:
+        s.action(2102,code)
+        assert facilities_state(s) == funded
+    s.action(2102,7)
+    assert last(s,'test.facilities') == ['blocked','invention-facilities-already-funded',0,0]
+    s.action(2102,6)
+    s.action(2102,1)
+    assert facilities_state(s) == [900000,1,'destroyed',3,0]
+    s.action(2102,7)
+    assert last(s,'test.facilities') == ['resolved',None,100000,1]
+    assert facilities_state(s) == [800000,2,'available',3,0]
+
+
+def test_invention_facilities_reuse(s):
+    s.action(2102,9)
+    s.action(2102,1)
+    assert last(s,'test.facilities') == ['resolved',None,10000,0]
+    assert facilities_state(s) == [990000,1,'available',3,0]
+    s.action(2102,6)
+    s.action(2102,10)
+    s.action(2102,7)
+    assert last(s,'test.facilities') == ['resolved',None,100000,1]
+    assert facilities_state(s) == [890000,2,'available',3,0]
+
+
+def test_invention_facilities_persistence(Session,bundle,out):
+    for stage in range(3):
+        path = out / f'expanded-invention-facilities-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2102,0)
+            if stage >= 1: first.action(2102,1)
+            if stage >= 2: first.action(2102,6)
+            saved = facilities_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2103')
+            assert facilities_state(second) == saved
+            second.action(2102,1)
+            assert facilities_state(second) == [900000,1,'destroyed' if stage == 2 else 'available',3,0]
+        finally:
+            second.close()
+
+
 def test_prototype_assessments(s):
     for penalty in [0,1,10]:
         s.action(2101,penalty)
@@ -6085,6 +6157,9 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_invention_facilities)
+    fresh(Session,invention,test_invention_facilities_reuse)
+    test_invention_facilities_persistence(Session,invention,build.out)
     fresh(Session,invention,test_invention_concept)
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)

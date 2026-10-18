@@ -1596,3 +1596,75 @@ rpgExpandedPrototypeTeamModifier(proposal, assistants, toolsPenalty)
     }
     return bonus - toolsPenalty;
 }
+
+modify RpgExpandedInventionProject
+    facilities = nil
+    facilityFunding = []
+;
+
+class RpgExpandedInventionFundingResult: RpgExpandedResult
+    fullCost = 0
+    money = 0
+    rebuilt = nil
+;
+
+/** One inventor's facilities payment, separate from every prototype's retail cost. */
+class RpgExpandedInventionFacilities: object
+    project = nil
+    payer = nil
+    approved = nil
+    evidence = nil
+    destroyed = nil
+    result = nil
+    boundProject = nil
+    boundPayer = nil
+    boundEvidence = nil
+    predecessor = nil
+    assess()
+    {
+        if (self.project == nil || !self.project.ofKind(RpgExpandedInventionProject)
+            || self.payer == nil || !self.payer.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('invention-facilities-definition');
+        self.project.validate(); local value = new RpgExpandedInventionFundingResult();
+        if (self.result != nil)
+        {
+            if (self.project != self.boundProject || self.payer != self.boundPayer
+                || self.evidence != self.boundEvidence || !holds(self.project.facilityFunding,self))
+                rpgExpandedReject('invention-facilities-binding');
+            value.status = 'reused'; value.rebuilt = self.result.rebuilt; value.fullCost = self.result.fullCost; return value;
+        }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'invention-facilities-approval'; return value; }
+        rpgExpandedValidate(self.payer); rpgInteger(self.payer.money,0,2147483647);
+        if (!holds(['testable','flawed'],self.project.theory))
+        { value.reason = 'invention-facilities-theory-required'; return value; }
+        local prior = self.project.facilities;
+        if (prior != nil)
+        {
+            if (!prior.ofKind(RpgExpandedInventionFacilities) || prior.result == nil || prior.project != self.project)
+                rpgExpandedReject('invention-facilities-history');
+            prior.assess();
+            if (!prior.destroyed) { value.reason = 'invention-facilities-already-funded'; return value; }
+            value.rebuilt = true;
+        }
+        local proposal = self.project.proposal; local assessment = proposal.assess();
+        if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
+        value.fullCost = value.rebuilt ? prior.result.fullCost
+            : assessment.facilitiesCost * (proposal.relatedFacilities ? 10 : 1);
+        // A destroyed installation must be rebuilt at its original full cost.
+        value.money = value.rebuilt ? value.fullCost : assessment.facilitiesCost;
+        if (self.payer.money < value.money)
+        { value.reason = 'invention-facilities-funds'; value.money = 0; return value; }
+        value.status = 'ready'; return value;
+    }
+    fund()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.payer.money -= value.money;
+        if (self.project.definitionSnapshot == nil) self.project.definitionSnapshot = self.project.proposal.definition();
+        self.boundProject = self.project; self.boundPayer = self.payer; self.boundEvidence = self.evidence;
+        self.predecessor = self.project.facilities;
+        self.project.facilities = self; self.project.facilityFunding = self.project.facilityFunding + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

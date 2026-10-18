@@ -430,9 +430,13 @@
       "pages": "B474",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Facilities must be funded before an inventor's first prototype attempt. One-level-advanced ordinary invention triples cost; suitable related facilities of equal or higher complexity divide it by ten.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_invention_facilities",
+        "tests/expanded.py::test_invention_facilities_persistence"
+      ],
+      "validation_note": "Owned up-front facilities payments and original-full-cost rebuilding authored; fixtures unrun. Accident integration, construction scheduling and alternate funding remain incomplete."
     },
     {
       "id": "technology-ordinary-attempt-cost",
