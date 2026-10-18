@@ -14,6 +14,23 @@ wealthAdvance: RpgExpandedWealthAdvancement id = 'earned-fortune' profile = adva
     wealth = advancingWealth targetLevel = 'wealthy' permitted = true
     obligationsSettled = true evidence = 'settled-assessment';
 
+obligationHero: RpgExpandedProfile rules = expandedRules campaignTL = 3 creationComplete = true
+    money = 2000 unspentPoints = 5 developmentOpen = true contributions = [obligationWealth]
+    employments = [obligationJobA,obligationJobB] skills = [obligationTraining];
+obligationWealth: RpgExpandedWealth owner = obligationHero;
+obligationJob: RpgExpandedJob id = 'comfortable-job' wealthLevel = 'comfortable';
+obligationJobA: RpgExpandedEmployment id = 'a' owner = obligationHero job = obligationJob;
+obligationJobB: RpgExpandedEmployment id = 'b' owner = obligationHero job = obligationJob;
+obligationReviewA: RpgExpandedEmploymentWealthReview employment = obligationJobA wealth = obligationWealth
+    obligationsSettled = true evidence = 'settled-a';
+obligationReviewB: RpgExpandedEmploymentWealthReview employment = obligationJobB wealth = obligationWealth
+    obligationsSettled = true evidence = 'settled-b';
+obligationSkill: RpgExpandedSkill id = 'study';
+obligationTraining: RpgExpandedTraining skill = obligationSkill points = 0;
+obligationLearning: RpgDevelopment id = 'learn' profile = obligationHero training = obligationTraining unlocked = true;
+obligationMilestone: RpgMilestone id = 'earned-award' points = 10;
+obligationAward: RpgAward profile = obligationHero milestone = obligationMilestone;
+
 expandedRules: RpgExpandedRules;
 expandedHero: RpgExpandedProfile actor = player rules = expandedRules
     familiarities = [expandedFamiliarity]
@@ -411,6 +428,23 @@ class ExpandedTestAction: Action
             local value = wealthAdvance.advance(); event('test.wealth-advance');
             eventValue(value.status); eventValue(value.points); eventValue(value.requiredMoney);
             if (code == 100) throw new RpgError();
+        }
+        if (code == 101 || code == 104)
+        {
+            obligationReviewA.record(); obligationReviewB.record();
+            if (code == 104) throw new RpgError();
+        }
+        if (code == 102 || code == 105)
+        {
+            rpgAwardMilestone(obligationHero,obligationMilestone);
+            local value = obligationJobA.wealthObligations[1].advance();
+            event('test.obligation-payment'); eventValue(value.status); eventValue(value.points);
+            if (code == 105) throw new RpgError();
+        }
+        if (code == 103)
+        {
+            local value = rpgDevelop(obligationLearning); event('test.obligation-learning');
+            eventValue(value.status); eventValue(value.reason);
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -1784,6 +1818,19 @@ act(verb, args)
         eventValue(obligation.advance().status); eventValue(p.unspentPoints);
         eventValue(review.record().status); eventValue(rpgDevelop(offer).status);
         eventValue(training.points); eventValue(p.unspentPoints); eventValue(p.developmentRevision);
+        return nil;
+    }
+    if (verb == 1248)
+    {
+        event('test.obligation-state'); eventValue(obligationHero.money); eventValue(obligationHero.unspentPoints);
+        eventValue(obligationWealth.wealthLevel); eventValue(obligationJobA.wealthObligations.length());
+        eventValue(obligationJobB.wealthObligations.length());
+        eventValue(obligationJobA.wealthObligations.length() > 0
+            && obligationJobB.wealthObligations.length() > 0
+            && obligationJobA.wealthObligations[1] == obligationJobB.wealthObligations[1] ? 1 : 0);
+        eventValue(obligationHero.pendingWealthObligation(nil) != nil ? 1 : 0);
+        eventValue(obligationTraining.points); eventValue(obligationHero.developmentRevision);
+        eventValue(obligationHero.earnedPoints); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws);
         return nil;
     }
     return vhylAct(verb,args);

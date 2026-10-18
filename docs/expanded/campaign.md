@@ -829,5 +829,9 @@ before offering discretionary purchases.
 preview, successive thresholds, unfunded retention and unchanged wages/money.
 `test_employment_wealth_priority` covers shared obligations, blocked spending,
 unchanged resources and reopening purchases after payment. Both remain unrun.
-Automatic wage-review dispatch and obligation-specific save continuation remain
-integration work.
+`test_employment_wealth_transactions` covers recording and paying shared
+obligations through action transactions, including milestone funding, exception
+rollback, undo and replay. `test_employment_wealth_persistence` restores pending
+and paid shared receipts in separate processes and checks that awards and costs
+are not duplicated. These cases are authored but unrun. Automatic wage-review
+dispatch remains integration work.

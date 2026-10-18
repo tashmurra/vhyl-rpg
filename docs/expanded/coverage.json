@@ -985,9 +985,11 @@
       "symbol": "RpgExpandedEmploymentWealthReview",
       "tests": [
         "tests/expanded.py::test_employment_wealth_requirements",
-        "tests/expanded.py::test_employment_wealth_priority"
+        "tests/expanded.py::test_employment_wealth_priority",
+        "tests/expanded.py::test_employment_wealth_transactions",
+        "tests/expanded.py::test_employment_wealth_persistence"
       ],
-      "validation_note": "Explicit next-level reviews, shared obligations and priority over discretionary point spending authored. Tests unrun; automatic wage dispatch and obligation-specific save checks pending."
+      "validation_note": "Explicit next-level reviews, shared obligations and spending priority authored. Transaction and cross-process continuation cases authored but unrun. Automatic wage-review dispatch pending."
     }
   ],
   "detailed_inventories": [
