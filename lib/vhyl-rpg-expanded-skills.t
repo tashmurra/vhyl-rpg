@@ -2936,3 +2936,12 @@ class RpgExpandedStealthContext: RpgExpandedSkillContext
         return modifier;
     }
 ;
+
+modify RpgExpandedShadowingContext
+    shadowingContestRole() { return 'shadowing'; }
+    shadowingContestFacts() { return self.shadowingFacts(); }
+;
+modify RpgExpandedStealthContext
+    shadowingContestRole() { return 'stealth'; }
+    shadowingContestFacts() { return self.stealthFacts(); }
+;

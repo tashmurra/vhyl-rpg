@@ -3206,7 +3206,8 @@
       "acceptance": "Track target-awareness state: ten-minute vision contests before discovery and five-minute evasive contests afterward. Distinguish loss, detection and mistaken target.",
       "tests": [
         "tests/expanded.py::test_shadowing_context",
-        "tests/expanded.py::test_shadowing_outcome"
+        "tests/expanded.py::test_shadowing_outcome",
+        "tests/expanded.py::test_shadowing_assessment"
       ],
       "reference_data": {
         "attribute": "iq",
@@ -3228,7 +3229,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": " Typed Shadowing context now selects foot-only purchased Stealth default, applies vehicle/known-target/appearance/crowd modifiers, and uses one fine-hearing bonus for an authored noisy target. Timed contests, awareness/loss transitions, vehicle encounters and conditional paid-default improvements remain pending. Fixtures unrun. Pure B219/B348 contest outcome interpretation now exposes the 600/300-second cadence, strict greater-than-five detection/false-escape thresholds, loss and critical-failure mistaken targets. Persistent timed encounters and target-context selection remain pending. Fixtures unrun."
+      "validation_note": " Typed Shadowing context now selects foot-only purchased Stealth default, applies vehicle/known-target/appearance/crowd modifiers, and uses one fine-hearing bonus for an authored noisy target. Timed contests, awareness/loss transitions, vehicle encounters and conditional paid-default improvements remain pending. Fixtures unrun. Pure B219/B348 contest outcome interpretation now exposes the 600/300-second cadence, strict greater-than-five detection/false-escape thresholds, loss and critical-failure mistaken targets. Persistent timed encounters and target-context selection remain pending. Fixtures unrun. Pure two-profile shadowing preparation now selects Vision before awareness and authored Shadowing/Stealth afterward, validates typed contexts and the scent observer, and rejects unavailable scores. Timed owned execution remains pending. Fixtures unrun."
     },
     {
       "id": "catalogue-shadowing-context",
@@ -3239,9 +3240,10 @@
       "status": "partial",
       "acceptance": "Apply vehicle penalty and remove the foot-only default, plus target recognition and crowd/body distinctiveness penalties.",
       "tests": [
-        "tests/expanded.py::test_shadowing_context"
+        "tests/expanded.py::test_shadowing_context",
+        "tests/expanded.py::test_shadowing_assessment"
       ],
-      "validation_note": " Typed Shadowing context now selects foot-only purchased Stealth default, applies vehicle/known-target/appearance/crowd modifiers, and uses one fine-hearing bonus for an authored noisy target. Timed contests, awareness/loss transitions, vehicle encounters and conditional paid-default improvements remain pending. Fixtures unrun."
+      "validation_note": " Typed Shadowing context now selects foot-only purchased Stealth default, applies vehicle/known-target/appearance/crowd modifiers, and uses one fine-hearing bonus for an authored noisy target. Timed contests, awareness/loss transitions, vehicle encounters and conditional paid-default improvements remain pending. Fixtures unrun. Pure two-profile shadowing preparation now selects Vision before awareness and authored Shadowing/Stealth afterward, validates typed contexts and the scent observer, and rejects unavailable scores. Timed owned execution remains pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-shield-strapped",
@@ -3931,7 +3933,8 @@
       "status": "partial",
       "acceptance": "Distinguish unopposed concealment from alert-observer contests; apply encumbrance, hiding opportunities, movement speed and scent detection correctly.",
       "tests": [
-        "tests/expanded.py::test_stealth_context"
+        "tests/expanded.py::test_stealth_context",
+        "tests/expanded.py::test_shadowing_assessment"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -3949,7 +3952,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed DX/Average skill with DX/IQ defaults and contextual encumbrance, hiding cover, bare-room blocking, silent-speed and fine-scent-observer penalties implemented. Concealment outcomes, alert-observer contests, stalking and shadowing evasion integration remain pending. Fixtures authored, unrun."
+      "validation_note": "Typed DX/Average skill with DX/IQ defaults and contextual encumbrance, hiding cover, bare-room blocking, silent-speed and fine-scent-observer penalties implemented. Concealment outcomes, alert-observer contests, stalking and shadowing evasion integration remain pending. Fixtures authored, unrun. Pure two-profile shadowing preparation now selects Vision before awareness and authored Shadowing/Stealth afterward, validates typed contexts and the scent observer, and rejects unavailable scores. Timed owned execution remains pending. Fixtures unrun."
     },
     {
       "id": "catalogue-stealth-game-stalking",

@@ -2472,3 +2472,27 @@ select the target's skill, move participants, persist awareness or schedule
 checks. Those encounter integrations remain pending. `test_shadowing_outcome`
 specifies five-versus-six-point boundaries, success/failure comparisons, ties,
 both-failure outcomes, awareness and critical failure. Fixtures remain unrun.
+
+
+## Preparing both sides of a shadowing contest
+
+`rpgExpandedPrepareShadowing(follower, followerContext, target, targetContext,
+targetAware)` validates two distinct expanded profiles and calculates their
+scores without rolling or spending time (full-2008 B219). The follower must use
+`RpgExpandedShadowingContext`. Before awareness, the target must use a spotting
+`RpgExpandedVisionContext`. After awareness, the target's chosen context must be
+`RpgExpandedShadowingContext` or `RpgExpandedStealthContext`.
+
+The author supplies the target's choice and world facts. The function does not
+silently choose a stronger skill, substitute Vision after awareness, or use
+Stealth before awareness. A Stealth scent observer, if supplied, must be the
+follower. Each context applies its own availability rules and modifiers; an
+unavailable participant or score below three blocks the assessment. The result
+contains both scores, the input awareness interval, the target role and context
+facts for a future owned encounter to bind.
+
+This preparation does not grant movement permission or execute a timed contest.
+Shared participant travel, persistent awareness and target choice validation
+through player actions remain pending. `test_shadowing_assessment` specifies the
+three legal pairings, awareness mismatch rejection, unavailable sight/actors,
+observer-specific scent penalties and preview purity. Fixtures remain unrun.

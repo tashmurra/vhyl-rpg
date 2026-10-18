@@ -9562,6 +9562,8 @@ def test(build):
     test_shadowing_outcome(Session,shadowing_outcome)
     stealth_context = build.build('expanded-stealth-context',ROOT / 'tests/fixtures/expanded-stealth-context.t')
     test_stealth_context(Session,stealth_context)
+    shadowing_assessment = build.build('expanded-shadowing-assessment',ROOT / 'tests/fixtures/expanded-shadowing-assessment.t')
+    test_shadowing_assessment(Session,shadowing_assessment)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27422,5 +27424,27 @@ def test_stealth_context(Session, bundle):
                 s.action(1680,code)
             s.action(1680,29300)
             assert last(s,'test.stealth-score') == [score,encumbrance,0,0]
+        finally:
+            s.close()
+
+
+def test_shadowing_assessment(Session, bundle):
+    """B219 awareness changes the legal opponent; assessment is pure; unrun."""
+    cases = (((),['ready',None,600,'vision',7,10]),
+             ((29401,),['ready',None,300,'shadowing',7,5]),
+             ((29402,),['ready',None,300,'stealth',7,5]),
+             ((29403,),['blocked','shadowing-awareness-opposition',300,'vision',None,None]),
+             ((29404,),['blocked','shadowing-awareness-opposition',600,'stealth',None,None]),
+             ((29405,),['blocked','vision-ordinary-sight-unavailable',600,'vision',None,None]),
+             ((29406,),['blocked','shadowing-participant-unavailable',600,'vision',None,None]),
+             ((29402,29407),['blocked','shadowing-score-unavailable',300,'stealth',7,0]),
+             ((29402,29407,29408),['ready',None,300,'stealth',7,5]))
+    for codes,expected in cases:
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,29400); assert last(s,'test.shadowing-assessment') == expected+[0,0]
+            s.action(1680,29400); assert last(s,'test.shadowing-assessment') == expected+[0,0]
         finally:
             s.close()

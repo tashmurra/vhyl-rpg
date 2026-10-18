@@ -5186,3 +5186,44 @@ rpgExpandedAssessShadowing(followerScore,followerRoll,targetScore,targetRoll,tar
     { value.wrongTarget = true; value.lost = true; value.targetBelievesEscape = nil; }
     value.status = 'ready'; return value;
 }
+
+modify RpgExpandedVisionContext
+    shadowingContestRole() { return 'vision'; }
+    shadowingContestFacts()
+    {
+        if (self.task != 'spot') rpgExpandedReject('shadowing-vision-spotting-required');
+        return self.visionFacts();
+    }
+;
+class RpgExpandedShadowingAssessment: RpgExpandedResult
+    followerScore = nil
+    targetScore = nil
+    interval = nil
+    targetRole = nil
+    followerFacts = nil
+    targetFacts = nil
+;
+/** B219 select and assess the legal opposing procedure before any timed execution. */
+rpgExpandedPrepareShadowing(follower,followerContext,target,targetContext,targetAware)
+{
+    if (follower == nil || !follower.ofKind(RpgExpandedProfile) || target == nil || !target.ofKind(RpgExpandedProfile)
+        || follower == target || followerContext == nil || !followerContext.ofKind(RpgLiteContext)
+        || targetContext == nil || !targetContext.ofKind(RpgLiteContext)) rpgExpandedReject('shadowing-participants');
+    local value = new RpgExpandedShadowingAssessment(); value.interval = targetAware ? 300 : 600;
+    if (followerContext.shadowingContestRole() != 'shadowing')
+    { value.reason = 'shadowing-follower-context-required'; return value; }
+    value.targetRole = targetContext.shadowingContestRole();
+    if ((!targetAware && value.targetRole != 'vision') || (targetAware && !holds(['shadowing','stealth'],value.targetRole)))
+    { value.reason = 'shadowing-awareness-opposition'; return value; }
+    value.followerFacts = followerContext.shadowingContestFacts(); value.targetFacts = targetContext.shadowingContestFacts();
+    if (value.targetRole == 'stealth' && targetContext.scentObserver != nil && targetContext.scentObserver != follower)
+        rpgExpandedReject('shadowing-stealth-observer');
+    if (follower.dead || follower.unconscious || target.dead || target.unconscious)
+    { value.reason = 'shadowing-participant-unavailable'; return value; }
+    value.reason = followerContext.taskUnavailableReason(follower); if (value.reason != nil) return value;
+    value.reason = targetContext.taskUnavailableReason(target); if (value.reason != nil) return value;
+    value.followerScore = rpgLiteScore(follower,followerContext); value.targetScore = rpgLiteScore(target,targetContext);
+    if (value.followerScore == nil || value.followerScore < 3 || value.targetScore == nil || value.targetScore < 3)
+    { value.reason = 'shadowing-score-unavailable'; return value; }
+    value.status = 'ready'; return value;
+}

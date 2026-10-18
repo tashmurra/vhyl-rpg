@@ -1089,3 +1089,8 @@ class RpgExpandedMarchStepReceipt: object
 modify RpgLiteContext
     trackingWindow(elapsed,seconds) { rpgExpandedReject('tracking-skills-module-required'); }
 ;
+
+modify RpgLiteContext
+    shadowingContestRole() { return nil; }
+    shadowingContestFacts() { rpgExpandedReject('shadowing-context-adapter-required'); }
+;
