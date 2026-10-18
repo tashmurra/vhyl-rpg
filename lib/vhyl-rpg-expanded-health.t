@@ -1,5 +1,5 @@
-/* Include after expanded foundation. Source: full-2008, B419.
- * This incremental module does not yet supply detailed injury or medical care. */
+/* Include after expanded foundation. Sources: full-2008, B360-B361, B419-B429.
+ * Partial owned injury, medical care and condition support; see the module guide. */
 
 modify RpgExpandedRules
     scaledInjuryShock = nil
@@ -2581,21 +2581,30 @@ class RpgExpandedFearRetching: object
     }
 ;
 
-/** A one-second health recovery attempt; supports final costs with positive FP. */
+class RpgExpandedRetchingRecoveryResult: RpgExpandedResult
+    wound = nil
+    fatigueAdded = 0
+    injuryAdded = 0
+;
+
+/** A one-second health recovery attempt with preflighted fatigue and injury. */
 class RpgExpandedRetchingRecovery: object
     id = nil
     episode = nil
     result = nil
     boundId = nil
     boundEpisode = nil
+    dropDestination = nil
+    boundDropDestination = nil
     assess()
     {
         if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedFearRetching))
             rpgExpandedReject('retching-recovery-definition');
-        local value = new RpgExpandedResult();
+        local value = new RpgExpandedRetchingRecoveryResult();
         if (self.result != nil)
         {
-            if (self.id != self.boundId || self.episode != self.boundEpisode || !holds(self.episode.recoveries,self))
+            if (self.id != self.boundId || self.episode != self.boundEpisode || self.dropDestination != self.boundDropDestination
+                || !holds(self.episode.recoveries,self))
                 rpgExpandedReject('retching-recovery-binding');
             value.status = 'reused'; value.check = self.result.check; return value;
         }
@@ -2607,7 +2616,15 @@ class RpgExpandedRetchingRecovery: object
         if (rpgLedger.seconds < self.episode.initialEnd) { value.reason = 'retching-initial-duration'; return value; }
         if (!self.episode.oralEffectsReviewed || self.episode.affectedOralBenefits.length() > 0)
         { value.reason = 'retching-oral-revocation-unavailable'; return value; }
-        if (profile.fp() <= 0) { value.reason = 'retching-fatigue-injury-unavailable'; return value; }
+        rpgInteger(profile.maxEnergy,1,1000); rpgInteger(profile.fatigue,0,2 * profile.maxEnergy);
+        if (profile.fp() <= 0)
+        {
+            value.wound = new RpgExpandedWound(); value.wound.profile = profile;
+            value.wound.id = 'retching-' + self.episode.id + '-' + self.id;
+            value.wound.amount = 1; value.wound.dropDestination = self.dropDestination;
+            local injury = value.wound.assess();
+            if (injury.status != 'ready') { value.reason = injury.reason; return value; }
+        }
         if (profile.ht < 3) { value.reason = 'retching-recovery-score-unavailable'; return value; }
         rpgInteger(profile.ht,3,1000);
         foreach (local prior in self.episode.recoveries)
@@ -2618,18 +2635,30 @@ class RpgExpandedRetchingRecovery: object
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        local originalId = self.id; local originalEpisode = self.episode; local start = rpgLedger.seconds;
+        local originalId = self.id; local originalEpisode = self.episode; local originalDrop = self.dropDestination;
+        local start = rpgLedger.seconds;
         rpgSpendTime(1);
-        if (self.id != originalId || self.episode != originalEpisode || rpgLedger.seconds != start + 1
-            || self.assess().status != 'ready') rpgExpandedReject('retching-recovery-interrupted');
+        if (self.id != originalId || self.episode != originalEpisode || self.dropDestination != originalDrop
+            || rpgLedger.seconds != start + 1) rpgExpandedReject('retching-recovery-interrupted');
+        value = self.assess();
+        if (value.status != 'ready') rpgExpandedReject('retching-recovery-interrupted');
         local profile = self.episode.boundProfile;
         value.check = rpgCheck(profile.ht,rpgRandom.roll());
         if (value.check.achieved)
         {
-            rpgLiteFatigueIncrement(profile,'retching');
+            if (value.wound != nil)
+            {
+                local injury = value.wound.apply();
+                if (injury.status != 'resolved') rpgExpandedReject('retching-injury-changed');
+                value.injuryAdded = injury.healthLoss;
+            }
+            value.fatigueAdded = rpgLiteFatigueIncrement(profile,'retching');
+            if (profile.fp() <= -profile.maxEnergy) { profile.becomeUnconscious(); profile.fatigueCollapse = true; }
             profile.retchingEpisode = nil; self.episode.completedAt = rpgLedger.seconds;
         }
+        else value.wound = nil;
         self.boundId = self.id; self.boundEpisode = self.episode;
+        self.boundDropDestination = self.dropDestination;
         self.episode.recoveries = self.episode.recoveries + [self]; value.status = 'resolved'; self.result = value; return value;
     }
 ;

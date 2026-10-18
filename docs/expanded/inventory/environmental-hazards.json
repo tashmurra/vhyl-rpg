@@ -256,9 +256,10 @@
       "tests": [
         "tests/expanded.py::test_fear_retching",
         "tests/expanded.py::test_owned_retching",
-        "tests/expanded.py::test_retching_persistence"
+        "tests/expanded.py::test_retching_persistence",
+        "tests/expanded.py::test_retching_fatigue"
       ],
-      "validation_note": "Owned fear-induced retching, contextual attribute penalties, concentration rejection, effective-stun defense and standalone health recovery with positive FP are authored. Oral review must establish no affected benefits. Low-FP injury, oral revocation, exceptional duration and combat recovery remain unavailable. Rollback, undo and cross-process fixtures are unrun."
+      "validation_note": "Owned fear-induced retching, attribute penalties, concentration rejection, effective-stun defense and standalone health recovery are authored. Final fatigue at nonpositive FP uses the owned wound path and shared collapse hook. Oral review must establish no affected benefits. Oral revocation, exceptional duration and combat recovery remain unavailable. All new fixtures are unrun."
     },
     {
       "id": "condition-seizure",

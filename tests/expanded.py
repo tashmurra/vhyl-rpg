@@ -1823,7 +1823,7 @@ def test_owned_retching(Session,bundle):
         assert last(s,'test.retch-recovery') == ['reused',None]
         assert state(s) == [0,1,1,1,3,16]
     finally: s.close()
-    for code,reason in [(7,'retching-fatigue-injury-unavailable'),(8,'retching-oral-revocation-unavailable'),(9,'retching-oral-revocation-unavailable')]:
+    for code,reason in [(8,'retching-oral-revocation-unavailable'),(9,'retching-oral-revocation-unavailable')]:
         s = Session(bundle)
         try:
             s.action(2255,0)
@@ -1834,6 +1834,44 @@ def test_owned_retching(Session,bundle):
             assert last(s,'test.retch-recovery') == ['blocked',reason]
             assert state(s) == before
         finally: s.close()
+
+
+def test_retching_fatigue(Session,bundle):
+    for code,fatigue,injury,collapse in [(14,9,0,0),(7,10,1,0),(13,19,1,1)]:
+        for failed in [False,True]:
+            s = Session(bundle)
+            try:
+                s.action(2255,0)
+                s.action(2255,3)
+                s.action(2255,code)
+                if failed: s.action(2255,15)
+                for operation in [6,5]:
+                    s.action(2255,operation)
+                    s.action(2256)
+                    assert last(s,'test.retch-state') == [1,fatigue,1,0,0,15]
+                    s.action(2258)
+                    assert last(s,'test.retch-costs') == [0,0,0,0,0]
+                s.action(2255,4)
+                s.action(2256)
+                assert last(s,'test.retch-state') == [int(failed),fatigue+(0 if failed else 1),1,1,3,16]
+                s.action(2258)
+                expected = [0,0,0,0,0] if failed else [injury,injury,collapse,1,injury]
+                assert last(s,'test.retch-costs') == expected
+                s.command('undo')
+                s.action(2258)
+                assert last(s,'test.retch-costs') == [0,0,0,0,0]
+                s.action(2255,4)
+                s.action(2255,4)
+                s.action(2258)
+                assert last(s,'test.retch-costs') == expected
+            finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in [0,3,7,16,4]: s.action(2255,code)
+        assert last(s,'test.retch-recovery') == ['blocked','expanded-wound-shock-rule-required']
+        s.action(2256)
+        assert last(s,'test.retch-state') == [1,10,1,0,0,15]
+    finally: s.close()
 
 
 def test_retching_persistence(Session,bundle,out):
@@ -8452,6 +8490,7 @@ def test(build):
     fresh(Session,health,test_fear_retching)
     retching = build.build('expanded-retching',ROOT / 'tests/fixtures/expanded-retching.t')
     test_owned_retching(Session,retching)
+    test_retching_fatigue(Session,retching)
     test_retching_persistence(Session,retching,build.out)
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)

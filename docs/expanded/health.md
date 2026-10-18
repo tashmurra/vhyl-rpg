@@ -1447,7 +1447,7 @@ These fields describe required consequences; this helper does not charge or
 revoke them, change defense scores, or create a recovery episode.
 
 `test_fear_retching` contains independent duration, attribute, concentration and
-resource expectations. The fixture remains unrun. Owned execution is described below. Low-fatigue injury, oral-benefit revocation
+resource expectations. The fixture remains unrun. Owned execution is described below. Oral-benefit revocation
 and combat-turn recovery remain pending; row twelve remains partial.
 
 
@@ -1474,8 +1474,12 @@ that requirement from descriptive text.
 After the deadline, a fresh `RpgExpandedRetchingRecovery` with an `id` and
 `episode` spends one shared second and checks health. Successful recovery ends
 the condition and charges one fatigue point through the shared increment
-function. This route currently requires positive remaining fatigue before the
-attempt: recovery that would cause additional injury is explicitly unavailable.
+function. If remaining fatigue is zero or negative, successful recovery also
+commits one point of injury through `RpgExpandedWound`. This requires the scaled
+injury rule and supported wound anatomy and traits; missing wound support blocks
+before the recovery attempt spends time or dice. Supply `dropDestination` when
+the wound procedure could require dropping equipment. Reaching negative maximum
+fatigue invokes the shared unconsciousness hook and records fatigue collapse.
 A changed oral review or affected benefit also blocks before time or dice.
 Replaying a committed request does not charge fatigue, time or dice again.
 Use this standalone recovery outside an already charged combat turn; a combat
@@ -1485,3 +1489,15 @@ recovery adapter is still pending.
 concentration rejection, duration boundaries, final fatigue, pure preview,
 rollback, undo, replay, unsupported combinations and continuation in a new
 process. They are authored and unrun while checks remain paused.
+
+
+Recovery receipts use `RpgExpandedRetchingRecoveryResult`: `fatigueAdded` and
+`injuryAdded` report committed costs, and `wound` retains the owned injury record.
+A failed health roll commits neither fatigue nor injury. Recovery reassesses the
+cost after spending its second so intervening time effects cannot leave a stale
+injury plan. Exception rollback restores the condition, wound history, resource
+ledgers, elapsed time and random stream together.
+
+`test_retching_fatigue` specifies positive, zero and near-collapse fatigue;
+success and failure; preflight rejection without the required wound rule;
+preview, rollback, undo and replay. It remains unrun with the other new fixtures.

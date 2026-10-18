@@ -8,7 +8,7 @@
 #include <vhyl-rpg-expanded.t>
 #include <vhyl-rpg-expanded-health.t>
 retchRoom: Room 'Courtyard';
-retchRules: RpgExpandedRules;
+retchRules: RpgExpandedRules scaledInjuryShock = true;
 retchProfile: RpgExpandedProfile rules = retchRules;
 retchContext: RpgExpandedFearContext profile = retchProfile approved = true evidence = 'Extraordinary scene';
 retchEpisode: RpgExpandedFearRetching id = 'fear-retching' context = retchContext approved = true evidence = 'Row twelve' oralEffectsReviewed = true;
@@ -28,6 +28,10 @@ class RetchTestAction: Action
         if (code == 7) { retchProfile.fatigue = 10; return nil; }
         if (code == 8) { retchEpisode.affectedOralBenefits = ['oral-treatment']; return nil; }
         if (code == 9) { retchEpisode.oralEffectsReviewed = nil; return nil; }
+        if (code == 13) { retchProfile.fatigue = 19; return nil; }
+        if (code == 14) { retchProfile.fatigue = 9; return nil; }
+        if (code == 15) { rpgRandom.seed(5); return nil; }
+        if (code == 16) { retchRules.scaledInjuryShock = nil; return nil; }
         if (code == 10) { rpgSpendTime(14); return nil; }
         if (code == 11) { rpgSpendTime(1); return nil; }
         if (code == 12)
@@ -62,6 +66,13 @@ act(verb,args)
         { local context = new RpgLiteContext(); context.attribute = attribute; eventValue(rpgLiteScore(retchProfile,context)); }
         eventValue(retchProfile.mentalStun ? 1 : 0); eventValue(retchProfile.healthDefensePenalty());
         eventValue(retchProfile.healthManeuverReason('concentrate')); return nil;
+    }
+    if (verb == 2258)
+    {
+        event('test.retch-costs'); eventValue(retchProfile.injury); eventValue(retchProfile.expandedWounds.length());
+        eventValue(retchProfile.unconscious ? 1 : 0);
+        eventValue(retchRecovery.result == nil ? 0 : retchRecovery.result.fatigueAdded);
+        eventValue(retchRecovery.result == nil ? 0 : retchRecovery.result.injuryAdded); return nil;
     }
     return nil;
 }
