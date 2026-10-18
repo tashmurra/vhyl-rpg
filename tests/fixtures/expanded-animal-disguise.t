@@ -23,6 +23,15 @@ modify PhysicianFixtureAction
         if (code == 25505) { animalDisguiseContext.animalCount = 3; return nil; }
         if (code == 25506) { animalDisguiseContext.herd = true; animalDisguiseContext.animalCount = 9; return nil; }
         if (code == 25507) { animalDisguiseContext.herd = true; animalDisguiseContext.animalCount = 10; return nil; }
+        if (code == 25508) { crossPhysician.fatigue = crossPhysician.maxEnergy; rpgRandom.medicalRoll = 13; return nil; }
+        if (code == 25509) { crossPhysician.fatigue = 0; return nil; }
+        if (code == 25510)
+        {
+            animalHabitsStudy.result.allowed = true;
+            try { animalHabitsStudy.assess(); }
+            catch (RpgExpandedError error) { event('test.animal-habits-error'); eventValue(error.reason); }
+            return nil;
+        }
         return inherited(context);
     }
 ;

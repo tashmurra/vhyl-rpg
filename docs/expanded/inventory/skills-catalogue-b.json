@@ -487,8 +487,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Require species specialization, thirty to sixty minutes of preparation and an observer contest using an eligible detection score. Apply body, equipment, similarity and size restrictions.",
-      "tests": ["tests/expanded.py::test_disguise_skill", "tests/expanded.py::test_animal_disguise"],
-      "validation_note": "Typed defaults, explicit similar-species edges and ordinary score assessment integrate distinctive features. Animal score assessment uses an owned Naturalist recall and the printed wind, skin and group modifiers. Prepared execution, observer contests, acting combinations and detailed mental-effort gating remain pending. Fixtures unrun.",
+      "tests": ["tests/expanded.py::test_disguise_skill", "tests/expanded.py::test_animal_disguise", "tests/expanded.py::test_animal_habits_health"],
+      "validation_note": "Typed defaults, explicit similar-species edges and ordinary score assessment integrate distinctive features. Animal score assessment uses an owned Naturalist recall and the printed wind, skin and group modifiers. Recall uses the owned health gate, retaining denials without a skill reroll. Prepared execution, observer contests and acting combinations remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "average",

@@ -1144,7 +1144,8 @@ approval and concrete evidence for `successMagnitude` and `failureMagnitude`,
 each from 1–3. Resolution rolls once, storing the positive success adjustment or
 negative failure adjustment; repeat calls reuse that result. The printed passage
 does not set a recall duration, so this operation advances no time. An unavailable
-actor is blocked. More detailed mental-effort gating remains pending.
+actor is blocked. The health library supplies the shared action gate before the
+recall roll, including exhausted effort and consciousness checks.
 
 `RpgExpandedAnimalDisguiseContext` requires an animal-specialty disguise skill and
 that profile's resolved study for the same encounter and animal type. It uses
@@ -1160,3 +1161,12 @@ group-size boundaries, rollback, undo, reuse and save continuation. Fixtures are
 unrun. The curated reference service supplied no in-scope clarification of the
 ordinary preparation/observer-roll boundary; later-supplement material was not
 used to fill that gap.
+
+
+Animal-habits recall requires the health adapter at execution. A denied gate is
+stored as the encounter's resolved permission outcome, with no Naturalist roll
+and no usable disguise adjustment. Recovering later does not turn the same receipt
+into a free reroll; a genuinely new authored encounter needs a new study. Replay
+validates the owned gate and bound outcome. `test_animal_habits_health` specifies
+exhausted denial, no extra skill draw, rollback, undo, save continuation and
+rejection of a changed permission flag. Fixtures remain unrun.

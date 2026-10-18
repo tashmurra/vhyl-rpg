@@ -9483,6 +9483,7 @@ def test(build):
     test_disguise_skill(Session,disguise_skill)
     animal_disguise = build.build('expanded-animal-disguise',ROOT / 'tests/fixtures/expanded-animal-disguise.t')
     test_animal_disguise(Session,animal_disguise,build.out)
+    test_animal_habits_health(Session,animal_disguise,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25686,3 +25687,30 @@ def test_animal_disguise(Session, bundle, out):
             assert last(s,'test.animal-disguise') == [score,None,3,1]
         finally:
             s.close()
+
+
+def test_animal_habits_health(Session, bundle, out):
+    """Denied exhausted recall records permission once and never rolls the skill; unrun."""
+    path = out / 'animal-habits-denied.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,25508); s.action(1680,25501); s.action(1680,25502)
+        assert last(s,'test.animal-disguise') == [None,'animal-disguise-study-unresolved',0,0]
+        s.action(1680,25500); s.command('undo'); s.action(1680,25502)
+        assert last(s,'test.animal-disguise') == [None,'animal-disguise-study-unresolved',0,0]
+        for code in (25500,25500,25502):
+            s.action(1680,code)
+        assert last(s,'test.animal-disguise') == [None,'animal-disguise-study-denied',3,1]
+        s.action(1680,25509); s.action(1680,25500); s.action(1680,25502)
+        assert last(s,'test.animal-disguise') == [None,'animal-disguise-study-denied',3,1]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,25500); s.action(1680,25502)
+        assert last(s,'test.animal-disguise') == [None,'animal-disguise-study-denied',3,1]
+        s.action(1680,25510)
+        assert last(s,'test.animal-habits-error') == ['animal-habits-outcome']
+    finally:
+        s.close()
