@@ -105,3 +105,34 @@ information abilities and automatic parser integration remain pending.
 explicit three/four detail boundaries, ordinary five, suppression, duplicate
 situations, replay, hidden-result handling, rollback and undo. Its fixtures are
 authored but unrun.
+
+## Mental-power resistance
+
+`RpgExpandedPsionicResistance` is an owned trait with `degree = 3`, `8` or
+`'immune'`, plus `approved` and `evidence`. B81 classifies this threat family as
+very common: the respective expanded creation costs are ten, fifteen and thirty
+points. No power discount applies. Duplicate resistance instances are rejected;
+levels of one instance are not used to stack bonuses.
+
+`rpgExpandedAssessPsionicResistance(profile, resistanceAllowed, attribute)`
+returns `applicable`, `immune` and `modifier` without rolling. Set
+`resistanceAllowed` from the actual ability procedure, whether the character is
+a direct target or caught in its area. An unresisted ability remains unresisted,
+even for a character with immunity. IQ and Will resistance are supported;
+other attributes return `psionic-resistance-attribute-unavailable` until their
+specific procedures are resolved. Inactive resistance contributes nothing.
+
+For a permitted resistance check, use `RpgExpandedPsionicResistanceContext`
+with the correct `attribute` and `resistanceAllowed = true`. Its ordinary Lite
+score/check path adds the bonus exactly once through the context modifier hook.
+Do not also add the trait's bonus to `modifier`. Immunity makes the check
+unavailable with reason `psionic-resistance-immune`, consuming no dice; the
+ability executor should use the pure assessment to resolve immunity before
+attempting its contest. With no resistance allowed the context rejects with
+`psionic-no-resistance-roll`, also without randomness.
+
+This context supplies the resistance side, not a universal attack contest or
+ability effect. The originating ability retains its own activation, resistance,
+resource and duration procedure. `test_psionic_resistance` specifies pricing,
+IQ/Will bonuses, immunity, unresisted effects, inactive traits and unsupported
+attributes through the real score/check path. Fixtures remain unrun.

@@ -179,3 +179,73 @@ class RpgExpandedDangerWarning: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B81 very-common mental resistance; no power discount applies. */
+class RpgExpandedPsionicResistance: RpgLiteTrait
+    id = 'psionic-resistance'
+    degree = 3
+    approved = nil
+    evidence = nil
+    validateResistance()
+    {
+        if (!holds([3,8,'immune'],self.degree) || self.level != 1)
+            rpgExpandedReject('psionic-resistance-degree');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('psionic-resistance-author-facts');
+        return true;
+    }
+    creationCost()
+    {
+        self.validateResistance();
+        return self.degree == 'immune' ? 30 : self.degree == 8 ? 15 : 10;
+    }
+;
+
+class RpgExpandedPsionicResistanceResult: RpgExpandedResult
+    applicable = nil
+    immune = nil
+;
+
+/** Does not create resistance against an effect that offers no resistance roll. */
+rpgExpandedAssessPsionicResistance(profile, resistanceAllowed, attribute)
+{
+    if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('psionic-resistance-profile');
+    local value = new RpgExpandedPsionicResistanceResult(); local resistance = nil;
+    foreach (local trait in profile.traits)
+        if (trait.ofKind(RpgExpandedPsionicResistance))
+        {
+            trait.validateResistance();
+            if (resistance != nil) rpgExpandedReject('psionic-duplicate-resistance');
+            resistance = trait;
+        }
+    if (!resistanceAllowed) { value.status = 'ready'; return value; }
+    if (!holds([rpgIQ,rpgWill],attribute))
+    { value.reason = 'psionic-resistance-attribute-unavailable'; return value; }
+    value.applicable = true;
+    if (resistance != nil && resistance.active)
+    {
+        value.immune = resistance.degree == 'immune';
+        value.modifier = value.immune ? 0 : resistance.degree;
+    }
+    value.status = 'ready'; return value;
+}
+
+/** Use only for the resistance roll of an authored, resistible mental-power effect. */
+class RpgExpandedPsionicResistanceContext: RpgLiteContext
+    resistanceAllowed = nil
+    kind = 'psionic-resistance'
+    skillUseModifier(profile)
+    {
+        local value = rpgExpandedAssessPsionicResistance(profile,self.resistanceAllowed,self.controllingAttribute());
+        if (value.status != 'ready' || !value.applicable || value.immune) return nil;
+        local ordinary = inherited(profile); return ordinary == nil ? nil : ordinary + value.modifier;
+    }
+    unavailableReason(profile)
+    {
+        local value = rpgExpandedAssessPsionicResistance(profile,self.resistanceAllowed,self.controllingAttribute());
+        if (value.status != 'ready') return value.reason;
+        if (!value.applicable) return 'psionic-no-resistance-roll';
+        if (value.immune) return 'psionic-resistance-immune';
+        return inherited(profile);
+    }
+;

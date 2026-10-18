@@ -55,6 +55,20 @@ warningVerb: Verb code = 2231 action = warningAction label = 'sense danger';
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2233)
+    {
+        local profile = new RpgExpandedProfile();
+        local resistance = new RpgExpandedPsionicResistance(); resistance.degree = args[1];
+        resistance.active = args[2] != 0; resistance.approved = true; resistance.evidence = 'Paid mental protection';
+        profile.traits = [resistance];
+        local context = new RpgExpandedPsionicResistanceContext(); context.resistanceAllowed = args[3] != 0;
+        context.attribute = args[4] == 'will' ? rpgWill : args[4] == 'ht' ? rpgHT : rpgIQ;
+        local assessment = rpgExpandedAssessPsionicResistance(profile,context.resistanceAllowed,context.attribute);
+        local score = rpgLiteScore(profile,context); local checked = rpgLiteCheck(profile,context);
+        event('test.psionic-resistance'); eventValue(resistance.creationCost()); eventValue(assessment.status);
+        eventValue(assessment.modifier); eventValue(assessment.immune ? 1 : 0); eventValue(score);
+        eventValue(checked.status); eventValue(checked.reason); eventValue(rpgRandom.draws); return nil;
+    }
     if (verb == 2231) { warningInput.code = args[1]; return vhylAct(verb,args); }
     if (verb == 2232)
     {

@@ -271,9 +271,10 @@
       "status": "partial",
       "tests": [
         "tests/expanded.py::test_psionic_talents",
-        "tests/expanded.py::test_psionic_warning"
+        "tests/expanded.py::test_psionic_warning",
+        "tests/expanded.py::test_psionic_resistance"
       ],
-      "validation_note": "Owned source-priced danger warning, secret perception/talent check, authored warning information and once-per-situation receipt authored; fixtures unrun. Countermeasure execution and broader ability integration remain pending."
+      "validation_note": "Owned resistance pricing and IQ/Will check contexts authored, including immunity/no-resistance suppression of rolls; fixtures unrun. Full ability contest and countermeasure integration remain pending."
     },
     {
       "id": "skills",

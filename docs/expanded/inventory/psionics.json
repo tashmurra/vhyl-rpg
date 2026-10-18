@@ -229,9 +229,12 @@
       "pages": "B255",
       "module": "psionics",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply mental-power resistance to permitted resistance rolls for direct and area targets; it does not create a resistance roll for an unresisted effect.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_psionic_resistance"
+      ],
+      "validation_note": "Owned resistance pricing and IQ/Will check contexts authored, including immunity/no-resistance suppression of rolls; fixtures unrun. Full ability contest and countermeasure integration remain pending."
     },
     {
       "id": "psionic-neutralization",
@@ -443,10 +446,13 @@
       "pages": "B255",
       "module": "psionics",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Permit mental-resistance as an ability of the counterpower family under its stated restrictions. Execute the underlying trait procedure from B80, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
-      "tests": [],
-      "trait_pages": "B80"
+      "tests": [
+        "tests/expanded.py::test_psionic_resistance"
+      ],
+      "trait_pages": "B80",
+      "validation_note": "Owned resistance pricing and IQ/Will check contexts authored, including immunity/no-resistance suppression of rolls; fixtures unrun. Full ability contest and countermeasure integration remain pending."
     },
     {
       "id": "psionic-family-extrasensory",

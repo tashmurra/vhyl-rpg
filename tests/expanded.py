@@ -1664,6 +1664,23 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_psionic_resistance(Session,bundle):
+    for degree,active,allowed,attribute,cost,status,modifier,immune,score,reason,draws in [
+            (3,1,1,'iq',10,'ready',3,0,13,None,3),
+            (8,1,1,'will',15,'ready',8,0,18,None,3),
+            ('immune',1,1,'iq',30,'ready',0,1,None,'psionic-resistance-immune',0),
+            ('immune',1,0,'will',30,'ready',0,0,None,'psionic-no-resistance-roll',0),
+            (3,1,0,'iq',10,'ready',0,0,None,'psionic-no-resistance-roll',0),
+            (8,0,1,'iq',15,'ready',0,0,10,None,3),
+            (3,1,1,'ht',10,'blocked',0,0,None,'psionic-resistance-attribute-unavailable',0)]:
+        s=Session(bundle)
+        try:
+            s.action(2233,degree,active,allowed,attribute)
+            assert last(s,'test.psionic-resistance') == [cost,status,modifier,immune,score,
+                    'resolved' if score is not None else 'blocked',reason,draws]
+        finally: s.close()
+
+
 def test_psionic_warning(Session,bundle):
     def state(s):
         s.action(2232)
@@ -7814,6 +7831,7 @@ def test(build):
     psionics = build.build('expanded-psionics',ROOT / 'tests/fixtures/expanded-psionics.t')
     fresh(Session,psionics,test_psionic_talents)
     test_psionic_warning(Session,psionics)
+    test_psionic_resistance(Session,psionics)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
     swarms = build.build('expanded-swarms',ROOT / 'tests/fixtures/expanded-swarms.t')
     test_swarm_attacks(Session,swarms)
