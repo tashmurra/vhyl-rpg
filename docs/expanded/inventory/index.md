@@ -14,6 +14,8 @@ copies of the reference books.
 | `full-2008` | B186–B197 | [Skill catalogue, second segment](skills-catalogue-b.json) | Definition metadata, timed procedures and specialty requirements transcribed |
 | `full-2008` | B198–B209 | [Skill catalogue, third segment](skills-catalogue-c.json) | Includes weapon groups and their separate integration obligations |
 | `full-2008` | B210–B228 | [Skill catalogue, final segment](skills-catalogue-d.json) | First text pass complete through the catalogue end; enumeration audit still open |
+| `full-2008` | B254–B257 | [Psionic powers](psionics.json) | Family memberships, advancement, interference and information contracts enumerated; underlying traits pending |
+| `full-2008` | B258–B263; B445–B454 | [Templates and combined packages](templates.json) | Composition, ancestry accounting, sample packages and design permissions enumerated; component definitions pending |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 
@@ -57,6 +59,12 @@ Shared procedure families and exact-equivalence skills must retain one investmen
 identity where the source requires it. Merely generating skill objects from this
 metadata would leave their procedures, effects and author contracts unfinished.
 
+Template catalogue entries may record a `printed_cost` as an independent target
+for component accounting. It is not permission to charge that number without
+resolving the package's components and choices. Power membership entries record
+`trait_pages` for their underlying abilities: enumerating membership does not
+implement activation, resistance, ongoing effects or the referenced trait.
+
 Entries of kind `author-decision` remain pending until a concrete contract exists.
 For example, permission to grant a character-creation reward needs the award
 amount, eligibility, unique award identity and an execution path that cannot pay
@@ -80,6 +88,18 @@ implementation: exemptions from negative-cost caps, body-dependent attribute
 pricing, low-strength fractional lifting capacity, movement in different media,
 language modes and learning, social standing, reputation and temporary identities.
 The presence of a basic point-cost helper does not fulfill those requirements.
+
+Template composition needs separate operations for occupational requirements and
+ancestry deltas. Occupational overlap takes the highest required level; ancestry
+levels add. Both require conflict handling and repricing. Negative ancestry
+components are exempt from personal disadvantage limits, but personally omitting
+a positive ancestry trait creates a negative replacement that counts toward them.
+
+Mental powers inherit their underlying trait procedures. The source adds power
+membership, talent bonuses and interference; it does not prescribe one universal
+activation roll or ongoing cost. The counterpower family has neither talent nor
+a source discount. Information powers also need a specific hidden-information
+contract, including the severe-failure exception for two abilities.
 
 The implementation remains incomplete and the PR remains draft. Build checks are
 currently suspended at the user's request. Newly authored inventory checks have

@@ -280,6 +280,8 @@
     "inventory/skills-catalogue-a.json",
     "inventory/skills-catalogue-b.json",
     "inventory/skills-catalogue-c.json",
-    "inventory/skills-catalogue-d.json"
+    "inventory/skills-catalogue-d.json",
+    "inventory/templates.json",
+    "inventory/psionics.json"
   ]
 }

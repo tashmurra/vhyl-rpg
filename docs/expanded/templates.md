@@ -16,3 +16,31 @@ factory currently handles basic/secondary scores, skill investments and traits
 from the existing Lite catalogue. It validates the resulting character costs.
 Ancestry exceptions, nested packages, choice groups and the full trait catalogue
 are not implemented. It does not mutate or upgrade an existing character.
+
+## Remaining source obligations
+
+The [detailed template inventory](inventory/templates.json) covers the first text
+pass over B258–B263 and B445–B454. Its entries are pending, including the supplied
+sample packages. Printed totals are acceptance targets, not executable package
+definitions. Their individual components, choices and cross-module effects still
+need implementation and independent validation.
+
+The expanded implementation must distinguish these composition rules:
+
+- Occupational packages merge overlapping requirements at the highest required
+  level and reject incompatible traits. Their suggestions remain customizable.
+- Ancestry packages add their level modifiers, derive secondary scores in the
+  prescribed order, and retain mandatory components. Conflicts require an
+  explicit authored resolution and a recalculated price.
+- Lenses declare compatible bases, mutually exclusive alternatives and component
+  replacements. Choice groups must resolve both eligibility and cost before any
+  investment is committed.
+
+Ancestry skill bonuses, innate training and personal training must remain
+separately identifiable while contributing to one final skill score. Ancestry
+negative traits and personal replacement traits have different accounting rules.
+Zero-cost features and prohibited traits still affect validation and play.
+
+These are implementation requirements; the existing factory does not yet provide
+these operations. Template design recommendations, such as leaving some starting
+points unspent, will remain guidance rather than mandatory character limits.
