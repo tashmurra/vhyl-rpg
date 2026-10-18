@@ -684,9 +684,13 @@
       "pages": "B15",
       "module": "equipment",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Add the specified dice per complete strength interval above 100 without inventing values in table gaps.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_extended_measurements"
+      ],
+      "existing_feature": "extended-damage-rows",
+      "validation_note": "Numeric progression authored through Strength 1000; native cases unrun and large-dice integration pending."
     },
     {
       "id": "basic-lift",

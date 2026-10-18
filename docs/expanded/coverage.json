@@ -234,13 +234,15 @@
     {
       "id": "extended-damage-rows",
       "module": "equipment",
-      "pages": "B16",
+      "pages": "B15-B16",
       "source": "full-2008",
-      "status": "implemented",
+      "status": "partial",
       "symbol": "rpgExpandedDamageDice",
       "tests": [
-        "tests/expanded.py::test_numbers"
-      ]
+        "tests/expanded.py::test_numbers",
+        "tests/expanded.py::test_extended_measurements"
+      ],
+      "validation_note": "Printed rows and above-100 progression authored. New native cases unrun; gaps and combat integration pending."
     },
     {
       "id": "task-time",
@@ -432,6 +434,18 @@
         "tests/expanded.py::test_template_score_options"
       ],
       "validation_note": "Concrete skill/Lite-trait options, score changes, counts, signed cost bounds and selection receipts authored. Checks unrun; exchanges and unresolved composition pending."
+    },
+    {
+      "id": "size-speed-measurements",
+      "module": "equipment",
+      "pages": "B550",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedSizeModifier",
+      "tests": [
+        "tests/expanded.py::test_extended_measurements"
+      ],
+      "validation_note": "Exact fractional size rows, shape adjustment and explicit speed/range combination authored; new checks unrun, combat and sense integration pending."
     }
   ],
   "detailed_inventories": [

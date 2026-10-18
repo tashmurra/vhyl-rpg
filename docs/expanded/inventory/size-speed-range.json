@@ -11,9 +11,13 @@
       "pages": "B550",
       "module": "equipment",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Size and speed/range use the same linear progression with opposite modifier signs. The selected size and movement inputs remain separate until their modifiers are combined.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_extended_measurements"
+      ],
+      "existing_feature": "size-speed-measurements",
+      "validation_note": "Pure numeric helper with explicit dimension/shape/speed choices authored; tests unrun and combat/sense integration pending."
     },
     {
       "id": "size-range-listed-size",
@@ -31,9 +35,13 @@
       "pages": "B550",
       "module": "equipment",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For an unspecified size modifier, use longest dimension and round up to the next printed threshold; for an object much smaller in two dimensions, use its smallest dimension instead.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_extended_measurements"
+      ],
+      "existing_feature": "size-speed-measurements",
+      "validation_note": "Pure numeric helper with explicit dimension/shape/speed choices authored; tests unrun and combat/sense integration pending."
     },
     {
       "id": "size-range-shape",
@@ -41,9 +49,13 @@
       "pages": "B550",
       "module": "equipment",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Box-like, spherical or amorphous bodies add two to the dimensional size modifier; elongated boxes add one. Shape is explicit authored geometry, not inferred from an object name.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_extended_measurements"
+      ],
+      "existing_feature": "size-speed-measurements",
+      "validation_note": "Pure numeric helper with explicit dimension/shape/speed choices authored; tests unrun and combat/sense integration pending."
     },
     {
       "id": "size-range-range-rounding",
@@ -61,9 +73,13 @@
       "pages": "B550",
       "module": "equipment",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ordinary on-foot combat and stationary objects normally ignore target speed. When the author determines fast motion matters, add speed in yards per second to range in yards before lookup.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_extended_measurements"
+      ],
+      "existing_feature": "size-speed-measurements",
+      "validation_note": "Pure numeric helper with explicit dimension/shape/speed choices authored; tests unrun and combat/sense integration pending."
     },
     {
       "id": "size-range-relative-speed",

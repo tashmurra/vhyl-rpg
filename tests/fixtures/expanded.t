@@ -620,6 +620,15 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1140)
+    {
+        event('test.size-modifier'); eventValue(rpgExpandedSizeModifier(args[1],args[2])); return nil;
+    }
+    if (verb == 1141)
+    {
+        event('test.speed-range');
+        eventValue(rpgExpandedSpeedRangeModifier(args[1],args[2],args[3] == 1)); return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

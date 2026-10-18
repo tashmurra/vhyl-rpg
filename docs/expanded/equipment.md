@@ -9,7 +9,7 @@
 - `rpgExpandedRangeModifier` — B550; tested in `tests/expanded.py::test_numbers`.
 - `rpgExpandedDamageDice` — B16; tested in `tests/expanded.py::test_numbers`.
 
-The module provides only these interfaces. Its full catalogue and remaining chapter procedures are not implemented. See the integration guide for restrictions.
+The numeric interfaces below also cover size and combined speed/range. The full catalogue and remaining chapter procedures are not implemented. New boundary checks are authored but unrun.
 
 The [task-resolution inventory](inventory/task-resolution.json) records equipment
 quality, missing-item and damage modifiers separately. These depend on actual
@@ -20,9 +20,9 @@ all. The existing numeric helpers do not implement this equipment assessment.
 The [detailed size/range inventory](inventory/size-speed-range.json) now records all
 printed B550 rows, including fractional dimensions and shape rules. The rows have
 been visually compared with the reference page; this is source verification, not
-a runtime test. `rpgExpandedRangeModifier` still handles only whole-yard lookup,
-not size calculation, fractional units, target-speed selection or sensing rules.
-Those integrations and independent boundary tests remain pending.
+a runtime test. `rpgExpandedRangeModifier` handles whole-yard lookup; the size and
+combined speed/range helpers below add explicit measurement interfaces. Combat and
+sensing integration remains pending, and the new boundary checks have not run.
 
 
 [Signature and transformed equipment](inventory/traits-catalogue-k.json) needs
@@ -151,3 +151,33 @@ control aids cancel penalties rather than granting unrestricted riding bonuses.
 Medical kits bind to treatment and wound records; optics, communications and weapon
 accessories require active use and compatible targets. Missing capacities, service
 conditions and operating details remain explicit author-contract requirements.
+
+## Extended measurements
+
+`rpgExpandedDamageDice(strength, swing)` now applies B15's progression above 100:
+each complete ten additional Strength adds one die to the Strength-100 result.
+Thus 101–109 retain 11d thrust/13d swing, and 110 gives 12d/14d. The helper accepts
+Strength through 1,000. Omitted intermediate rows between 40 and 100 still return
+`unsupported-strength-row`; the inspected reference pages do not supply their
+interpolation rule. This numeric helper does not bypass the existing damage
+roller's 100-die limit or integrate expanded damage into every combat action.
+
+`rpgExpandedSizeModifier(dimensionTicks, shape)` uses thirtieths of an inch, so the
+printed 1/5-, 1/3-, 1/2- and 2/3-inch rows have exact integer boundaries. One yard
+is 1,080 ticks. Inputs round upward to the next printed size row. Pass shape 0 for
+ordinary geometry, 1 for an elongated box, or 2 for a box, sphere or blob. For
+example, a four-yard dimension gives +2, +3 or +4 respectively. The author selects
+the relevant dimension: normally the longest, but the shortest for an object much
+thinner in two dimensions. A preassigned creature or vehicle size modifier should
+be used directly rather than recalculated from descriptive measurements.
+
+The size helper accepts 6 through 1,000,000,000 ticks. Dimensions below the first
+printed row remain unsupported rather than receiving an invented extrapolation.
+`rpgExpandedSpeedRangeModifier(yards, yardsPerSecond, includeSpeed)` adds speed only
+when the author selects its relevance; otherwise it uses range alone. Combined
+values above the existing 100-million-yard numeric bound are rejected. It consumes
+no randomness and does not move the target or spend time.
+
+`tests/expanded.py::test_extended_measurements` contains the printed size boundaries,
+shape examples, speed/range examples and full-ten-point damage progression cases.
+These are authored but unrun while validation is paused.

@@ -328,6 +328,33 @@ def test_template_score_options(s):
     assert state(s) == before, 'score option resolution mutated live state'
 
 
+def test_extended_measurements(s):
+    before = state(s)
+    # B15: only complete increments of ten above 100 add a die.
+    for strength, expected in [(101, [11, 0, 13, 0]), (109, [11, 0, 13, 0]),
+                               (110, [12, 0, 14, 0]), (119, [12, 0, 14, 0]),
+                               (120, [13, 0, 15, 0]), (1000, [101, 0, 103, 0])]:
+        s.action(1105, strength)
+        assert last(s, 'test.damage') == expected
+    # B550's fractional-inch through two-yard rows, plus rounding boundaries.
+    for ticks, expected in [(6, -15), (7, -14), (10, -14), (15, -13), (20, -12),
+                            (30, -11), (45, -10), (60, -9), (90, -8), (150, -7),
+                            (240, -6), (360, -5), (540, -4), (720, -3),
+                            (1080, -2), (1620, -1), (2160, 0), (2161, 1),
+                            (3240, 1), (3241, 2), (4320, 2), (6480, 3),
+                            (1080000, 16)]:
+        s.action(1140, ticks, 0)
+        assert last(s, 'test.size-modifier') == [expected]
+    for shape, expected in [(0, 2), (1, 3), (2, 4)]:
+        s.action(1140, 4320, shape)
+        assert last(s, 'test.size-modifier') == [expected]
+    for distance, speed, include, expected in [(40, 30, 1, -9), (5, 1000, 1, -17),
+                                              (40, 15, 1, -9), (40, 15, 0, -8)]:
+        s.action(1141, distance, speed, include)
+        assert last(s, 'test.speed-range') == [expected]
+    assert state(s) == before, 'measurement queries mutated state'
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -405,7 +432,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     test_recognition_persistence(Session,bundle,build.out)

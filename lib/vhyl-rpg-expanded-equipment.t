@@ -1,4 +1,4 @@
-/* Include after the expanded foundation. Source: full-2008, B16 and B550. */
+/* Include after the expanded foundation. Source: full-2008, B15-B16 and B550. */
 
 /** Extended whole-yard speed/range lookup, rounding up to the next row.
  * Numeric support is bounded to 100 million yards to prevent integer overflow. */
@@ -19,11 +19,12 @@ rpgExpandedRangeModifier(yards)
     throw new RpgError();
 }
 
-/** Full-reference damage rows at ST 1-40 and every five thereafter through 100.
- * Intermediate scores above 40 are rejected, pending an explicit verified policy. */
+/** Full-reference damage rows, with B15's full-ten-point progression above 100.
+ * Missing intermediate rows between 40 and 100 remain explicitly unsupported. */
 rpgExpandedDamageDice(strength, swing)
 {
-    rpgInteger(strength, 1, 100);
+    rpgInteger(strength, 1, 1000);
+    if (strength > 100) return [(swing ? 13 : 11) + (strength - 100) / 10, 0];
     if (strength <= 20) return rpgLiteDamageDice(strength, swing);
     local rows = [
         [21,2,0,4,-1],[22,2,0,4,0],[23,2,1,4,1],[24,2,1,4,2],
@@ -37,4 +38,26 @@ rpgExpandedDamageDice(strength, swing)
     foreach (local row in rows)
         if (row[1] == strength) return swing ? [row[4],row[5]] : [row[2],row[3]];
     rpgExpandedReject('unsupported-strength-row'); return nil;
+}
+
+/** B550 size modifier. Measure the relevant dimension in thirtieths of an inch
+ * to preserve every printed fractional-inch boundary without floating point.
+ * shape is 0 for ordinary, 1 elongated box, or 2 box/sphere/blob. */
+rpgExpandedSizeModifier(dimensionTicks, shape)
+{
+    rpgInteger(dimensionTicks, 6, 1000000000); rpgInteger(shape, 0, 2);
+    local thresholds = [6,10,15,20,30,45,60,90,150,240,360,540,720,1080,1620,2160];
+    for (local index = 1; index <= thresholds.length(); index += 1)
+        if (dimensionTicks <= thresholds[index]) return index - 16 + shape;
+    /* All larger printed thresholds are whole yards. Round up before lookup. */
+    return -rpgExpandedRangeModifier((dimensionTicks + 1079) / 1080) + shape;
+}
+
+/** B550 speed/range combination, with explicit author selection of speed use. */
+rpgExpandedSpeedRangeModifier(yards, yardsPerSecond, includeSpeed)
+{
+    rpgInteger(yards, 0, 100000000); rpgInteger(yardsPerSecond, 0, 100000000);
+    if (!includeSpeed) return rpgExpandedRangeModifier(yards);
+    if (yardsPerSecond > 100000000 - yards) rpgExpandedReject('speed-range-limit');
+    return rpgExpandedRangeModifier(yards + yardsPerSecond);
 }
