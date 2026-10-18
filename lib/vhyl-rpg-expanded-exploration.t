@@ -119,6 +119,13 @@ class RpgExpandedBreathReserve: object
         if (value.remainingSeconds <= 0) { value.remainingSeconds = 0; value.exhausted = true; }
         value.seconds = self.durationSeconds; value.status = 'ready'; return value;
     }
+    validateEnd()
+    {
+        if (self.endedAt < self.startedAt || self.endedAt > rpgLedger.seconds
+            || self.endedAt > self.startedAt + self.durationSeconds || self.airEvidence == nil)
+            rpgExpandedReject('breath-end-history');
+        return nil;
+    }
     resumeAir(evidence)
     {
         local value = self.assess(); if (value.status != 'ready') return value;
@@ -151,9 +158,7 @@ modify RpgExpandedProfile
                 if (active != nil) rpgExpandedReject('breath-multiple-reserves');
                 active = reserve;
             }
-            else if (reserve.endedAt < reserve.startedAt || reserve.endedAt > rpgLedger.seconds
-                || reserve.endedAt > reserve.startedAt + reserve.durationSeconds || reserve.airEvidence == nil)
-                rpgExpandedReject('breath-end-history');
+            else reserve.validateEnd();
         }
         if (self.breathReserve != active) rpgExpandedReject('breath-active-history');
         return nil;

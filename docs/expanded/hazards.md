@@ -2745,3 +2745,27 @@ fixture specifies early completion, successful finish, replay, cancellation,
 incorrect actor binding, exception rollback and undo. Fixtures remain unrun.
 World movement, patient retrieval and dynamic access changes still require
 an authored integration; this adapter does not infer those world facts.
+
+
+## Exhausted breath reserves
+
+`RpgExpandedBreathExhaustion` extends `RpgExpandedAirlessExposure`. Set `id`,
+`profile`, `reserve` and evidence that ordinary air deprivation continues.
+`assessStart()` is pure. At exactly `reserve.startedAt + reserve.durationSeconds`,
+`start()` closes the reserve and transfers ownership to the airless exposure
+without advancing time, rolling or charging fatigue. The first
+`RpgExpandedAirlessSecond` is due one second later (full-2008 B352, B436–B437).
+
+The reserve records `airlessHandoff` and an expiry time, not a claim that clean air
+was restored. Its `resumeAir()` then rejects with `breath-airless-recovery-owned`;
+call the exposure's recovery method instead. Both histories remain available
+for profile validation, undo and exact-game save continuation. Repeated starts
+reuse the original exposure without replenishing breath.
+
+The caller must schedule the boundary. Early or late requests reject; missed
+seconds are not retroactively charged. This handoff covers ordinary deprivation
+after fixed-activity breath holding. It does not establish underwater inhalation,
+vacuum exposure, changing exertion or loss of reserve before expiry.
+`expanded-breath-handoff.t` / `test_breath_handoff` specify timing, replay,
+rollback, undo, separate-process continuation and preservation of injury and
+fatigue. Fixtures remain unrun.

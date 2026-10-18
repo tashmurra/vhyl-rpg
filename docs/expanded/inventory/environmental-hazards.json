@@ -2452,9 +2452,10 @@
         "tests/expanded.py::test_airless_scheduler_conflict",
         "tests/expanded.py::test_airless_transactions",
         "tests/expanded.py::test_airless_breath_conflict",
-        "tests/expanded.py::test_airless_persistence"
+        "tests/expanded.py::test_airless_persistence",
+        "tests/expanded.py::test_breath_handoff"
       ],
-      "validation_note": "Owned no-reserve airless seconds and rescue authored. Expected-value, transaction, undo, save continuation and breath-ownership fixtures remain unrun. Breath-reserve handoff, exceptional physiology, drowning and broad cross-module verification remain incomplete."
+      "validation_note": "Owned no-reserve airless seconds and rescue authored. Expected-value, transaction, undo, save continuation and breath-ownership fixtures remain unrun. Fixed-activity breath expiry now transfers ownership at the exact boundary without duplicate time or fatigue; reserve recovery cannot bypass the exposure. Late catch-up, premature reserve loss, underwater inhalation, exceptional physiology and broad cross-module verification remain incomplete. Handoff fixtures authored, unrun."
     },
     {
       "id": "hazard-suffocation-drowning",

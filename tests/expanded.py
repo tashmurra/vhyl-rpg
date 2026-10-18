@@ -9338,6 +9338,8 @@ def test(build):
     test_drowning_ownership(Session, drowning_ownership, build.out)
     drowning_actions = build.build("expanded-drowning-actions",ROOT / "tests/fixtures/expanded-drowning-actions.t")
     test_drowning_actions(Session, drowning_actions)
+    breath_handoff = build.build("expanded-breath-handoff",ROOT / "tests/fixtures/expanded-breath-handoff.t")
+    test_breath_handoff(Session, breath_handoff, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22887,3 +22889,47 @@ def test_drowning_actions(Session, bundle):
         finally:
             s.close()
     assert outcomes == [[1,0,-10,60,62,12]] * 3
+
+
+def test_breath_handoff(Session, bundle, out):
+    """B352 expiry transfers one air ledger, preserving costs and persistence; unrun."""
+    path = out / 'breath-handoff.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10,17807):
+            s.action(1900,code)
+        assert last(s,'test.breath-handoff-result') == ['blocked','breath-exhaustion-not-due']
+        for code in (17800,17807,17802,17806):
+            s.action(1900,code)
+        assert last(s,'test.breath-handoff-state') == [1,0,0,0,2,40,0]
+        s.action(1900,17801)
+        s.command('undo')
+        s.action(1900,17806)
+        assert last(s,'test.breath-handoff-state') == [1,0,0,0,2,40,0]
+        for code in (17801,17801,7,17806):
+            s.action(1900,code)
+        assert last(s,'test.breath-handoff-state') == [0,1,0,0,2,40,0]
+        s.action(1900,17805)
+        assert last(s,'test.breath-handoff-result') == ['blocked','breath-airless-recovery-owned']
+        s.command(f':save {path}\n@1901')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1901')
+        for code in (17801,17803,7,17806):
+            s.action(1900,code)
+        assert last(s,'test.breath-handoff-state') == [0,1,1,1,2,41,0]
+        for code in (17804,17804,7,17806):
+            s.action(1900,code)
+        assert last(s,'test.breath-handoff-state') == [0,0,0,1,2,41,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (10,17800,2,17801,17806):
+            s.action(1900,code)
+        assert last(s,'test.breath-handoff-result') == ['blocked','breath-exhaustion-missed-boundary']
+        assert last(s,'test.breath-handoff-state') == [1,0,0,0,2,41,0]
+    finally:
+        s.close()

@@ -6910,3 +6910,70 @@ class RpgExpandedDrowningCareAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+
+/** B352/B436 ordinary air deprivation after a fixed breath reserve expires.
+ * Underwater inhalation and vacuum need their own hazard-specific transitions. */
+class RpgExpandedBreathExhaustion: RpgExpandedAirlessExposure
+    reserve = nil
+    boundReserve = nil
+    assessStart()
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { self.validateBinding(); value.status = 'reused'; return value; }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.reserve == nil || !self.reserve.ofKind(RpgExpandedBreathReserve) || self.reserve.profile != self.profile)
+            rpgExpandedReject('breath-exhaustion-definition');
+        if (self.evidence == nil || self.evidence == '') { value.reason = 'airless-exposure-evidence'; return value; }
+        if (self.reserve.startedAt == nil || self.reserve.endedAt != nil || self.profile.breathReserve != self.reserve)
+        { value.reason = 'breath-exhaustion-reserve-not-active'; return value; }
+        self.reserve.validateBinding();
+        if (self.profile.dead) { value.reason = 'airless-patient-dead'; return value; }
+        if (self.profile.airlessExposure != nil || self.profile.airClock != 0)
+        { value.reason = 'airless-existing-exposure'; return value; }
+        local due = self.reserve.startedAt + self.reserve.durationSeconds;
+        if (rpgLedger.seconds != due)
+        { value.reason = rpgLedger.seconds < due ? 'breath-exhaustion-not-due' : 'breath-exhaustion-missed-boundary'; return value; }
+        foreach (local prior in self.profile.airlessHistory)
+            if (prior.id == self.id) rpgExpandedReject('airless-duplicate');
+        value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assessStart(); if (value.status != 'ready') return value;
+        self.boundReserve = self.reserve; self.reserve.airlessHandoff = self;
+        self.reserve.endedAt = rpgLedger.seconds; self.profile.breathReserve = nil;
+        value = inherited();
+        if (value.status != 'resolved') rpgExpandedReject('breath-exhaustion-handoff-changed');
+        return value;
+    }
+    validateReserveEnd(reserve)
+    {
+        if (self.reserve != reserve || self.boundReserve != reserve || reserve.airlessHandoff != self
+            || self.profile != reserve.profile || self.startedAt == nil
+            || self.startedAt != reserve.startedAt + reserve.durationSeconds || reserve.endedAt != self.startedAt
+            || reserve.airEvidence != nil || !holds(self.profile.airlessHistory,self))
+            rpgExpandedReject('breath-exhaustion-history');
+        return nil;
+    }
+    validateBinding()
+    {
+        inherited(); self.validateReserveEnd(self.reserve); return nil;
+    }
+;
+
+modify RpgExpandedBreathReserve
+    airlessHandoff = nil
+    validateEnd()
+    {
+        if (self.airlessHandoff == nil) return inherited();
+        if (!self.airlessHandoff.ofKind(RpgExpandedBreathExhaustion)) rpgExpandedReject('breath-exhaustion-history');
+        return self.airlessHandoff.validateReserveEnd(self);
+    }
+    resumeAir(evidence)
+    {
+        if (self.airlessHandoff == nil) return inherited(evidence);
+        self.validateBinding(); self.validateEnd();
+        local value = new RpgExpandedResult(); value.reason = 'breath-airless-recovery-owned'; return value;
+    }
+;

@@ -85,8 +85,10 @@ at expiry. It never restores fatigue. After expiry it blocks with
 procedures must first account for the elapsed time. The active reserve prevents
 calling `rpgLiteSuffocate` through a default-inert `validateSuffocation()` hook,
 so the two procedures cannot consume or reset the same exposure independently.
-Owned suffocation handoff, drowning, resuscitation and vacuum adjustments remain
-incomplete. An expired assessment alone does not count as implementing them.
+The hazards library supplies an explicit `RpgExpandedBreathExhaustion` handoff
+at the expiry boundary; see [Exhausted breath reserves](hazards.md#exhausted-breath-reserves).
+An expired assessment alone does not transfer ownership. Underwater inhalation,
+vacuum adjustments and loss of reserve before expiry remain incomplete.
 
 The minimal [`expanded-exploration.t`](../../tests/fixtures/expanded-exploration.t)
 fixture covers independent duration expectations, combined-factor rounding,
