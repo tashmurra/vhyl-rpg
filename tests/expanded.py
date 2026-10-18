@@ -766,6 +766,40 @@ def test_trade_transfer(s):
     assert trade_state(s) == [60, 60, 1, 0, 1, None, 0, 0, 0, 0]
 
 
+def test_trade_modifiers(s):
+    for fair, offer, buy_modifier in [
+            (100, 100, 0), (100, 109, 0), (100, 110, 1), (100, 91, 0),
+            (100, 90, -1), (100, 120, 2), (100, 80, -2), (101, 111, 0),
+            (101, 112, 1), (101, 90, -1), (100, 0, -10), (100, 250, 15),
+            (2147483647, 0, -10), (2000000000, 2147483647, 0), (1, 101, 1000)]:
+        for direction, expected in [('buy', buy_modifier), ('sell', -buy_modifier)]:
+            s.action(1197, fair, offer, direction)
+            assert last(s, 'test.trade-offer-modifier') == [expected]
+    s.action(1198)
+    assert last(s, 'test.trade-skill-modifier') == [2, 3, 4, 0]
+
+
+def test_trade_persistence(Session, bundle, out):
+    path = out / 'expanded-trade.zsave'
+    first = Session(bundle)
+    try:
+        first.action(1100, 42)
+        saved = trade_state(first)
+        first.command(f':save {path}\n@1194')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@1194')
+        assert trade_state(second) == saved
+        second.action(1100, 42)
+        assert last(second, 'test.trade-transfer') == ['reused', 0]
+        assert trade_state(second) == saved
+    finally:
+        second.close()
+
+
 def test_trade_reactions(s):
     for band, buy, sell in [(1, 900, 100), (2, 600, 150), (3, 360, 225),
                              (4, 300, 300), (5, 300, 300), (6, 300, 300), (7, 300, 300)]:
@@ -1048,8 +1082,10 @@ def test(build):
     fresh(Session,social,test_aid_reactions)
     fresh(Session,social,test_information_reactions)
     fresh(Session,social,test_trade_reactions)
+    fresh(Session,social,test_trade_modifiers)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
+    test_trade_persistence(Session,bundle,build.out)
     test_reputation_persistence(Session,bundle,build.out)
     test_equipment_persistence(Session,bundle,build.out)
     test_recognition_persistence(Session,bundle,build.out)

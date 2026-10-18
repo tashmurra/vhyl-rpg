@@ -105,5 +105,18 @@ act(verb,args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         eventValue(rpgExpandedTradeFraction(2147483640,1,2)); return nil;
     }
+    if (verb == 1197)
+    {
+        event('test.trade-offer-modifier');
+        eventValue(rpgExpandedTradeOfferModifier(args[1],args[2],args[3])); return nil;
+    }
+    if (verb == 1198)
+    {
+        local context = new RpgExpandedTradeModifiers(); context.fairPrice = 100; context.offeredPrice = 120;
+        event('test.trade-skill-modifier'); eventValue(context.assess().modifier);
+        context.merchantLevel = 12; eventValue(context.assess().modifier);
+        context.merchantLevel = 20; eventValue(context.assess().modifier);
+        context.direction = 'sell'; eventValue(context.assess().modifier); return nil;
+    }
     return vhylAct(verb,args);
 }

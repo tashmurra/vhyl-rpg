@@ -410,3 +410,28 @@ all bands, both transaction directions, favorable offer limits, refusal, the sou
 conflict and arithmetic boundaries. These cases remain unrun. Bargaining modifiers,
 merchant transfers, employment and professional-information trade integration
 remain pending.
+
+
+## Bargaining modifiers
+
+`rpgExpandedTradeOfferModifier(fairPrice, offeredPrice, direction)` counts complete
+ten-percent steps relative to the local fair price (full-2008 B562). A higher buy
+offer favors the merchant and gives a bonus; a higher requested sale price favors
+the player party and gives a penalty. The reverse applies below fair price.
+Prices need not divide evenly into ten-percent units: the calculation compares
+exact integer thresholds and never rounds an incomplete step into a full bonus.
+It avoids multiplying large prices directly and explicitly rejects modifiers
+outside the supported -1000 through +1000 range.
+
+`RpgExpandedTradeModifiers` combines this result with an authored applicable
+`merchantLevel`: nil gives no skill bonus, a qualifying rating below 20 gives +1,
+and 20 or higher gives +2. Set the rating from the actual character and applicable
+skill; this low-level context does not discover or validate catalogue membership.
+Do not add the general high-skill reaction bonus again for the same commerce skill.
+The assessment itself neither rolls nor commits an offer or money transfer.
+
+`tests/expanded.py::test_trade_modifiers` covers both directions, exact and partial
+ten-percent boundaries, fractional thresholds, large prices and skill boundaries.
+`test_trade_persistence` adds a cross-process saved-trade continuation case. Both
+are authored and unrun while checks are paused. Altered counteroffer pricing remains
+blocked as documented above, even when its reaction modifier is calculable.

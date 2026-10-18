@@ -710,9 +710,22 @@
       "status": "partial",
       "symbol": "RpgExpandedTradeTransfer",
       "tests": [
-        "tests/expanded.py::test_trade_transfer"
+        "tests/expanded.py::test_trade_transfer",
+        "tests/expanded.py::test_trade_persistence"
       ],
       "validation_note": "Atomic agreed item/bundle transfer with sole ownership, payment, legality and receipts authored. Checks unrun; partial bundles, containers and transport execution pending."
+    },
+    {
+      "id": "bargaining-offer-modifiers",
+      "module": "social",
+      "pages": "B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedTradeModifiers",
+      "tests": [
+        "tests/expanded.py::test_trade_modifiers"
+      ],
+      "validation_note": "Exact ten-percent offer steps and authored commerce rating bonus implemented. Checks unrun; automatic skill qualification and conflicted counteroffer pricing remain pending."
     }
   ],
   "detailed_inventories": [

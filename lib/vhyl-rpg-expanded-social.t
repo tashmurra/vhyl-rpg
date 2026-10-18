@@ -812,3 +812,43 @@ class RpgExpandedTradeReaction: object
         value.offersAdvice = self.band >= 5; value.status = 'ready'; return value;
     }
 ;
+
+/** Complete ten-percent steps by which an offer favors either party, B562.
+ * Quotient/remainder arithmetic avoids overflowing when multiplying prices. */
+rpgExpandedTradeOfferModifier(fairPrice, offeredPrice, direction)
+{
+    rpgInteger(fairPrice,1,2147483647); rpgInteger(offeredPrice,0,2147483647);
+    if (!holds(['buy','sell'],direction)) rpgExpandedReject('trade-direction');
+    local difference = offeredPrice - fairPrice; local sign = difference < 0 ? -1 : 1;
+    if (difference < 0) difference = -difference;
+    local whole = difference / fairPrice; local remainder = difference % fairPrice;
+    if (whole > 100) rpgExpandedReject('trade-modifier-limit');
+    local steps = whole * 10;
+    for (local step = 1; step <= 9; step += 1)
+    {
+        local threshold = (fairPrice / 10) * step + ((fairPrice % 10) * step + 9) / 10;
+        if (remainder >= threshold) steps += 1;
+    }
+    if (steps > 1000) rpgExpandedReject('trade-modifier-limit');
+    return steps * sign * (direction == 'buy' ? 1 : -1);
+}
+
+/** Transaction-specific offer and commerce skill bonuses. merchantLevel is the
+ * authored applicable skill rating; nil means no qualifying skill bonus. */
+class RpgExpandedTradeModifiers: object
+    fairPrice = 0
+    offeredPrice = 0
+    direction = 'buy'
+    merchantLevel = nil
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        value.modifier = rpgExpandedTradeOfferModifier(self.fairPrice,self.offeredPrice,self.direction);
+        if (self.merchantLevel != nil)
+        {
+            rpgInteger(self.merchantLevel,0,1000);
+            value.modifier += self.merchantLevel >= 20 ? 2 : 1;
+        }
+        value.status = 'ready'; return value;
+    }
+;
