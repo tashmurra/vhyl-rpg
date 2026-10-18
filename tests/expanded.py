@@ -9392,6 +9392,8 @@ def test(build):
     test_nature_observation(Session, nature_observation)
     nature_disclosure = build.build("expanded-nature-disclosure",ROOT / "tests/fixtures/expanded-nature-disclosure.t")
     test_nature_disclosure(Session, nature_disclosure, build.out)
+    nature_actions = build.build("expanded-nature-actions",ROOT / "tests/fixtures/expanded-nature-actions.t")
+    test_nature_actions(Session, nature_actions)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23839,3 +23841,43 @@ def test_nature_disclosure(Session, bundle, out):
         assert last(s,'test.nature-knowledge') == [0,0,3]
     finally:
         s.close()
+
+
+def test_nature_actions(Session, bundle):
+    """All native routes share observer ownership, rollback and replay; unrun."""
+    outcomes = []
+    for route in ('parser','structured','dialogue'):
+        s = Session(bundle)
+        try:
+            def perform(operation):
+                if route == 'parser':
+                    s.command(operation + ' nature')
+                elif route == 'structured':
+                    s.action(20510 if operation == 'observe' else 20511)
+                else:
+                    s.action(80,'nature-plan'); s.select(operation)
+            s.action(2285,31)
+            perform('rollback')
+            s.action(2285,20303)
+            assert last(s,'test.nature-history') == [0,0,0,0]
+            perform('observe')
+            assert last(s,'rpg.expanded.nature-observation') == ['resolved',None]
+            s.command('undo')
+            s.action(2285,20303)
+            assert last(s,'test.nature-history') == [0,0,0,0]
+            perform('observe'); perform('observe')
+            assert last(s,'rpg.expanded.nature-observation') == ['reused',None]
+            s.action(2285,20303)
+            outcomes.append(last(s,'test.nature-history'))
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.action(2285,20500)
+            perform('observe')
+            assert last(s,'rpg.expanded.nature-observation') == ['blocked','nature-action-observer-required']
+            s.action(2285,20303)
+            assert last(s,'test.nature-history') == [0,0,0,0]
+        finally:
+            s.close()
+    assert outcomes == [[1,3,0,0]] * 3

@@ -3490,3 +3490,20 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Bind authored command/dialogue routes to the same owned observation. */
+class RpgExpandedNatureObservationAction: Action
+    observation = nil
+    perform(actor)
+    {
+        if (self.observation == nil || !self.observation.ofKind(RpgExpandedNatureObservation))
+            rpgExpandedReject('nature-action-definition');
+        local value = new RpgExpandedNatureFinding();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile != self.observation.profile)
+            value.reason = 'nature-action-observer-required';
+        else value = self.observation.resolve();
+        event('rpg.expanded.nature-observation'); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;

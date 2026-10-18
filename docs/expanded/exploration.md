@@ -1705,3 +1705,19 @@ ownership, unique IDs and occurrence/purpose pairs, bound facts, and the origina
 check outcome and finding. `test_nature_disclosure` specifies missing and failed
 findings, rollback, undo, replay, cross-process saves and outcome-tampering
 rejection. Fixtures remain unrun while checks are paused.
+
+
+## Nature observations through native actions
+
+`RpgExpandedNatureObservationAction` binds one `observation`. Authors attach it
+to a `Verb`, parser grammar, or a dialogue choice that calls
+`perform(context.asker)`. Normal action execution delegates through
+`perform(context.actor)`. The actor's `rpgProfile` must own the observation;
+a mismatched actor is blocked before rolling or changing history.
+
+All routes use the same owned result, so repeated commands cannot reroll it.
+The `rpg.expanded.nature-observation` event carries status and reason only.
+Use the separate disclosure operation to present a finding to its observer.
+No vocabulary or conversation choice is installed merely by including exploration.
+`test_nature_actions` specifies parser, structured-action and dialogue parity,
+wrong-actor rejection, rollback, undo and replay. Fixtures remain unrun.
