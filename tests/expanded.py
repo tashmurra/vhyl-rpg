@@ -996,6 +996,63 @@ def test_critical_readiness(s):
         assert critical_readiness_state(s) == [1,0,1,0,0]
 
 
+def critical_defense_state(s):
+    s.action(2033)
+    return last(s,'test.critical-defense-state')
+
+
+def test_critical_defense_failures(s):
+    initial = critical_defense_state(s)
+    assert initial == ['standing',1,0,0,0,9]
+    for code in [39,31,33]:
+        s.action(2030,code)
+        assert critical_defense_state(s) == initial
+    for code, reason in [(36,'critical-dodge-mobility-unavailable'),
+                         (37,'critical-defense-not-critical')]:
+        s.action(2030,code)
+        assert last(s,'test.critical-defense-operation') == ['blocked',reason]
+        assert critical_defense_state(s) == initial
+        s.command('undo')
+    for code, expected in [(30,['lying',1,1,0,0,6]), (32,['standing',0,1,0,0,8]),
+                           (38,['lying',1,1,0,0,6])]:
+        s.action(2030,code)
+        assert critical_defense_state(s) == expected
+        s.command('undo')
+        assert critical_defense_state(s) == initial
+    s.action(2030,32)
+    s.action(2030,34)
+    for code in [30,35]:
+        s.action(2030,code)
+        assert critical_defense_state(s) == ['standing',1,1,0,0,9]
+
+
+def test_critical_readiness_persistence(Session,bundle,out):
+    for code, state, restore_code in [(20,critical_readiness_state,24),
+                                      (26,critical_readiness_state,24),
+                                      (30,critical_defense_state,34),
+                                      (32,critical_defense_state,34)]:
+        path = out / f'expanded-critical-readiness-{code}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2030,code); saved = state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2032')
+            assert state(second) == saved
+            second.action(2030,8)
+            second.action(2030,code)
+            assert state(second) == saved
+            second.action(2030,restore_code)
+            restored = state(second)
+            second.action(2030,code)
+            assert state(second) == restored
+        finally:
+            second.close()
+
+
 def critical_drop_state(s):
     s.action(2031)
     return last(s,'test.critical-drop-state')
@@ -4868,6 +4925,8 @@ def test(build):
     combat_drop = build.build('expanded-combat-drop',ROOT / 'tests/fixtures/expanded-combat-drop.t')
     fresh(Session,combat_drop,test_critical_drop_transactions)
     fresh(Session,combat_drop,test_critical_readiness)
+    fresh(Session,combat_drop,test_critical_defense_failures)
+    test_critical_readiness_persistence(Session,combat_drop,build.out)
     test_critical_drop_persistence(Session,combat_drop,build.out)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)

@@ -14,18 +14,36 @@ dropPatient: RpgExpandedProfile rules = dropRules equipment = [dropFirst,dropSec
 dropFirst: RpgLiteWeapon id = 'first' ready = true weight = 100;
 dropSecond: RpgLiteWeapon id = 'second' ready = true weight = 100;
 dropLamp: RpgLiteItem id = 'lamp' ready = true weight = 100;
-dropWorn: RpgLiteItem id = 'worn' ready = true worn = true weight = 100;
+dropWorn: RpgLiteItem id = 'worn' ready = true worn = true weight = 100 db = 1;
 dropPacked: RpgLiteItem id = 'packed' weight = 100;
-dropFighter: RpgLiteFighter profile = dropPatient aimWeapon = dropFirst aimSeconds = 2;
+dropFighter: RpgLiteFighter profile = dropPatient shield = dropWorn aimWeapon = dropFirst aimSeconds = 2;
 dropRequest: RpgExpandedCriticalDrop id = 'critical-drop' profile = dropPatient
     evidence = 'Recorded qualifying critical-hit table result' destination = 'yard';
 readinessRequest: RpgExpandedCriticalReadiness id = 'weapon-readiness' profile = dropPatient
     weapon = dropFirst evidence = 'Recorded weapon critical miss';
+defenseRequest: RpgExpandedDefenseFailure id = 'critical-defense' fighter = dropFighter
+    evidence = 'Recorded eligible defense roll';
+defenseIncoming: RpgLiteAttackMode;
+defenseWeapon: RpgLiteWeapon modes = [defenseIncoming];
+defenseAttacker: RpgLiteFighter weapon = defenseWeapon;
+defenseContext: RpgLiteManeuver;
 dropInput: object code = 0;
 class CriticalDropAction: Action
     exec(context)
     {
         local code = dropInput.code;
+        if (code >= 30)
+        {
+            if (code == 32 || code == 33) defenseRequest.kind = 'block';
+            if (code == 34) { dropWorn.ready = true; dropPatient.posture = 'standing'; return nil; }
+            if (code == 35) defenseRequest.evidence = 'Changed evidence';
+            if (code == 36) defenseRequest.mobility = 'flying';
+            if (code == 37) { defenseRequest.score = 16; defenseRequest.roll = 17; }
+            if (code == 38) dropPatient.posture = 'lying';
+            local defense = code == 39 ? defenseRequest.assess() : defenseRequest.apply();
+            event('test.critical-defense-operation'); eventValue(defense.status); eventValue(defense.reason);
+            if (code == 31 || code == 33) throw new RpgError(); return nil;
+        }
         if (code >= 20)
         {
             if (code == 24) { dropFirst.ready = true; return nil; }
@@ -63,6 +81,12 @@ turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
     if (verb == 2030) { dropInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2033)
+    {
+        event('test.critical-defense-state'); eventValue(dropPatient.posture); eventValue(dropWorn.ready ? 1 : 0);
+        eventValue(dropPatient.criticalDefenseFailures.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
+        eventValue(rpgLiteDefenseScore(dropFighter,defenseAttacker,defenseContext,'dodge')); return nil;
+    }
     if (verb == 2032)
     {
         event('test.critical-readiness-state'); eventValue(dropFirst.ready ? 1 : 0);

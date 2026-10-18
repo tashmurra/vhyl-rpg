@@ -41,9 +41,11 @@
         "tests/expanded.py::test_critical_major_persistence",
         "tests/expanded.py::test_critical_readiness",
         "tests/expanded.py::test_critical_drop_transactions",
-        "tests/expanded.py::test_critical_drop_persistence"
+        "tests/expanded.py::test_critical_drop_persistence",
+        "tests/expanded.py::test_critical_defense_failures",
+        "tests/expanded.py::test_critical_readiness_persistence"
       ],
-      "validation_note": "Rapid-fire and critical-outcome assessments, explicit critical major-wound integration and owned critical-hit drops authored; fixtures unrun. Complete attack execution, ammunition, other critical/malfunction consequences and multi-hit injury remain incomplete."
+      "validation_note": "Rapid-fire and critical-outcome assessments, explicit critical major-wound integration, owned drops, weapon readiness and ground Dodge/Block consequences authored; fixtures unrun. Complete attack execution, ammunition, other critical/malfunction consequences and multi-hit injury remain incomplete."
     },
     {
       "id": "creatures",

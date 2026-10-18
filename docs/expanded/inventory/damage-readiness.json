@@ -224,9 +224,13 @@
       "pages": "B382",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Critical dodge failure causes prone posture, with no added effect when already prone. Do not use the weapon-miss table; reconcile non-ground movement cases before declaring support.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_critical_defense_failures",
+        "tests/expanded.py::test_critical_readiness_persistence"
+      ],
+      "validation_note": "Owned supplied-roll consequence authored; fixtures unrun. Automatic attack dispatch remains pending. Dodge supports ground movement only; Block reuses readiness and B374 defense-bonus gating."
     },
     {
       "id": "damage-readiness-critical-block",
@@ -234,9 +238,13 @@
       "pages": "B382",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Critical block failure loses shield grip and requires one ready turn before blocking again. Track actual shield readiness and its effect on other uses.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_critical_defense_failures",
+        "tests/expanded.py::test_critical_readiness_persistence"
+      ],
+      "validation_note": "Owned supplied-roll consequence authored; fixtures unrun. Automatic attack dispatch remains pending. Dodge supports ground movement only; Block reuses readiness and B374 defense-bonus gating."
     },
     {
       "id": "damage-readiness-malfunction-priority",

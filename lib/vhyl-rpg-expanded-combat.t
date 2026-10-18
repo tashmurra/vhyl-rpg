@@ -570,3 +570,97 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+class RpgExpandedDefenseFailureResult: RpgExpandedResult
+    shield = nil
+;
+
+modify RpgExpandedProfile
+    criticalDefenseFailures = []
+;
+
+/** Commit a supplied critical Dodge/Block failure without a second defense roll. */
+class RpgExpandedDefenseFailure: object
+    id = nil
+    fighter = nil
+    kind = 'dodge'
+    score = 10
+    roll = 18
+    mobility = 'ground'
+    evidence = nil
+    result = nil
+    boundId = nil
+    boundFighter = nil
+    boundProfile = nil
+    boundKind = nil
+    boundScore = nil
+    boundRoll = nil
+    boundMobility = nil
+    boundEvidence = nil
+    assess()
+    {
+        if (self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter)
+            || self.fighter.profile == nil || !self.fighter.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('critical-defense-fighter');
+        local profile = self.fighter.profile; local value = new RpgExpandedDefenseFailureResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.fighter != self.boundFighter || profile != self.boundProfile
+                || self.kind != self.boundKind || self.score != self.boundScore || self.roll != self.boundRoll
+                || self.mobility != self.boundMobility || self.evidence != self.boundEvidence
+                || !holds(profile.criticalDefenseFailures,self)) rpgExpandedReject('critical-defense-binding');
+            value.status = 'reused'; value.shield = self.result.shield; value.check = self.result.check; return value;
+        }
+        if (self.id == nil || self.id == '' || !holds(['dodge','block'],self.kind))
+            rpgExpandedReject('critical-defense-declaration');
+        if (self.evidence == nil || self.evidence == '')
+        { value.reason = 'critical-defense-evidence'; return value; }
+        foreach (local prior in profile.criticalDefenseFailures)
+            if (prior.id == self.id) rpgExpandedReject('critical-defense-duplicate');
+        rpgExpandedValidate(profile);
+        value.check = rpgExpandedCombatCheck('defense',self.score,self.roll);
+        if (value.check.rollSucceeded || !value.check.critical)
+        { value.reason = 'critical-defense-not-critical'; return value; }
+        if (self.kind == 'dodge')
+        {
+            if (self.mobility != 'ground')
+            { value.reason = 'critical-dodge-mobility-unavailable'; return value; }
+        }
+        else
+        {
+            value.shield = self.fighter.shield;
+            if (value.shield == nil || !value.shield.ofKind(RpgLiteItem)
+                || !holds(profile.equipment,value.shield) || !value.shield.ready
+                || !value.shield.blockUsableBy(profile))
+            { value.reason = 'critical-block-shield-unavailable'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local profile = self.fighter.profile;
+        if (self.kind == 'dodge') profile.posture = 'lying';
+        else value.shield.ready = nil;
+        self.boundId = self.id; self.boundFighter = self.fighter; self.boundProfile = profile;
+        self.boundKind = self.kind; self.boundScore = self.score; self.boundRoll = self.roll;
+        self.boundMobility = self.mobility; self.boundEvidence = self.evidence;
+        profile.criticalDefenseFailures = profile.criticalDefenseFailures + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local receipt in self.criticalDefenseFailures)
+        {
+            if (receipt == nil || !receipt.ofKind(RpgExpandedDefenseFailure) || receipt.boundProfile != self
+                || receipt.result == nil || holds(ids,receipt.id) || receipt.assess().status != 'reused')
+                rpgExpandedReject('critical-defense-history');
+            ids = ids + [receipt.id];
+        }
+        return nil;
+    }
+;

@@ -489,10 +489,39 @@ time or randomness. An ordinary Ready maneuver is required before further use.
 Receipts remain in `profile.criticalReadiness`. Replaying one after a later Ready
 returns `reused` without making the weapon unready again. Retargeting a recorded
 request is rejected. This is an explicit consequence API; automatic critical-miss
-attack dispatch remains unfinished. It does not implement the critical-block
-shield-grip consequence: the current shared readiness flag also removes passive
-shield defense, so that consequence needs a separately verified integration.
+attack dispatch remains unfinished. Critical Block failures use the separate defense-failure request below.
 
 `test_critical_readiness` uses the equipment integration fixture for both table
 rows, preview purity, rollback, undo, binding rejection and replay after readiness
 restoration. It is authored and unrun while checks are paused.
+
+
+## Owned critical defense failures
+
+`RpgExpandedDefenseFailure` commits a recorded critical failure of an eligible
+Dodge or Block (`full-2008`, B382). Supply a unique `id`, `fighter`, defense `kind`,
+effective `score`, actual `roll`, and `evidence` identifying the defense event.
+It reclassifies the supplied roll using the expanded defense procedure; ordinary
+failures and successful rolls are rejected before mutation. It does not establish
+that the original defense was legal: the caller must resolve that before rolling.
+
+For Dodge, `mobility = 'ground'` sets the shared posture to `lying`, with no added
+injury or effect if already prone. Other movement modes return
+`critical-dodge-mobility-unavailable`. For Block, the fighter's owned, usable,
+ready shield becomes unready. B374 requires readiness for the shield's defense
+bonus, so the existing defense calculation also removes that bonus until Ready.
+The shield remains carried and worn; there is no forced drop or load change.
+
+Call `apply()` within the defense action transaction. It consumes no additional
+dice or time and records the result in `profile.criticalDefenseFailures`.
+Historical replay cannot undo standing up or restoring shield readiness. Request
+binding survives saves; changing the recorded actor, evidence or roll is rejected.
+The caller still owns the later Ready or posture maneuver and its time cost.
+Automatic attack dispatch and general shield Ready maneuver selection remain
+unfinished; this API does not silently substitute a weapon Ready action.
+
+`test_critical_defense_failures` covers supplied-roll rejection, unsupported
+mobility, already-prone behavior, defense-bonus changes, previews, rollback, undo
+and historical replay. `test_critical_readiness_persistence` covers weapon
+readiness and both defense branches across separate processes, including replay
+after readiness/posture restoration. All these fixtures are authored and unrun.
