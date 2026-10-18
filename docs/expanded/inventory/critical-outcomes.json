@@ -728,13 +728,15 @@
       "status": "partial",
       "acceptance": "Drop the weapon; cheap weapons instead invoke breakage handling.",
       "tests": [
-        "tests/expanded.py::test_weapon_miss_assessments"
+        "tests/expanded.py::test_weapon_miss_assessments",
+        "tests/expanded.py::test_weapon_miss_drop",
+        "tests/expanded.py::test_weapon_miss_drop_persistence"
       ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 9
       },
-      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+      "validation_note": "Supplied-roll assessment and owned drop branches authored; fixtures unrun. Actual breakage, flinging, weapon-specific overrides and automatic combat dispatch remain incomplete."
     },
     {
       "id": "critical-weapon-miss-10",
@@ -745,13 +747,15 @@
       "status": "partial",
       "acceptance": "Drop the weapon; cheap weapons instead invoke breakage handling.",
       "tests": [
-        "tests/expanded.py::test_weapon_miss_assessments"
+        "tests/expanded.py::test_weapon_miss_assessments",
+        "tests/expanded.py::test_weapon_miss_drop",
+        "tests/expanded.py::test_weapon_miss_drop_persistence"
       ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 10
       },
-      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+      "validation_note": "Supplied-roll assessment and owned drop branches authored; fixtures unrun. Actual breakage, flinging, weapon-specific overrides and automatic combat dispatch remain incomplete."
     },
     {
       "id": "critical-weapon-miss-11",
@@ -762,13 +766,15 @@
       "status": "partial",
       "acceptance": "Drop the weapon; cheap weapons instead invoke breakage handling.",
       "tests": [
-        "tests/expanded.py::test_weapon_miss_assessments"
+        "tests/expanded.py::test_weapon_miss_assessments",
+        "tests/expanded.py::test_weapon_miss_drop",
+        "tests/expanded.py::test_weapon_miss_drop_persistence"
       ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 11
       },
-      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+      "validation_note": "Supplied-roll assessment and owned drop branches authored; fixtures unrun. Actual breakage, flinging, weapon-specific overrides and automatic combat dispatch remain incomplete."
     },
     {
       "id": "critical-weapon-miss-12",
@@ -813,13 +819,15 @@
       "status": "partial",
       "acceptance": "A swinging melee weapon travels 1d yards forward or backward with equal chance; a person at its destination checks dexterity or suffers half weapon damage. Thrusting, ranged and parrying actions simply drop it.",
       "tests": [
-        "tests/expanded.py::test_weapon_miss_assessments"
+        "tests/expanded.py::test_weapon_miss_assessments",
+        "tests/expanded.py::test_weapon_miss_drop",
+        "tests/expanded.py::test_weapon_miss_drop_persistence"
       ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 14
       },
-      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+      "validation_note": "Supplied-roll assessment and owned drop branches authored; fixtures unrun. Actual breakage, flinging, weapon-specific overrides and automatic combat dispatch remain incomplete."
     },
     {
       "id": "critical-weapon-miss-15",
@@ -1167,9 +1175,14 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Solid crushing weapons, enchanted weapons, fine/very-fine weapons and most firearms require another critical-miss table roll before breaking. Wheel-lock, guided-missile and beam categories are exceptions to firearm resistance. A second breakage result breaks the weapon; any other result drops it. Preserve quality, construction and attack-category inputs.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments",
+        "tests/expanded.py::test_weapon_miss_drop",
+        "tests/expanded.py::test_weapon_miss_drop_persistence"
+      ],
+      "validation_note": "Supplied-roll assessment and owned drop branches authored; fixtures unrun. Actual breakage, flinging, weapon-specific overrides and automatic combat dispatch remain incomplete."
     },
     {
       "id": "critical-self-hit-reroll",

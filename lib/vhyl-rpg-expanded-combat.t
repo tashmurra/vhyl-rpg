@@ -713,3 +713,101 @@ class RpgExpandedShieldReadyManeuver: RpgLiteManeuver
         self.failure.result.shield.ready = true; return nil;
     }
 ;
+
+class RpgExpandedWeaponMissDropResult: RpgExpandedResult
+    assessment = nil
+    plan = nil
+;
+
+modify RpgExpandedProfile
+    weaponMissDrops = []
+;
+
+/** Drop the actual attacking/parrying weapon after a supplied critical-miss resolution. */
+class RpgExpandedWeaponMissDrop: object
+    id = nil
+    profile = nil
+    weapon = nil
+    context = nil
+    rolls = []
+    evidence = nil
+    destination = nil
+    result = nil
+    boundId = nil
+    boundProfile = nil
+    boundWeapon = nil
+    boundContext = nil
+    boundKind = nil
+    boundDamageType = nil
+    boundBreakResistant = nil
+    boundCheap = nil
+    boundRolls = []
+    boundEvidence = nil
+    boundDestination = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.context == nil || !self.context.ofKind(RpgExpandedWeaponMissContext))
+            rpgExpandedReject('weapon-miss-drop-owner');
+        local value = new RpgExpandedWeaponMissDropResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.profile != self.boundProfile || self.weapon != self.boundWeapon
+                || self.context != self.boundContext || self.context.kind != self.boundKind
+                || self.context.damageType != self.boundDamageType
+                || self.context.breakResistant != self.boundBreakResistant || self.context.cheap != self.boundCheap
+                || self.evidence != self.boundEvidence || self.destination != self.boundDestination
+                || self.rolls.length() != self.boundRolls.length() || !holds(self.profile.weaponMissDrops,self))
+                rpgExpandedReject('weapon-miss-drop-binding');
+            for (local i = 1; i <= self.rolls.length(); i += 1)
+                if (self.rolls[i] != self.boundRolls[i]) rpgExpandedReject('weapon-miss-drop-binding');
+            value.status = 'reused'; value.assessment = self.result.assessment; value.plan = self.result.plan; return value;
+        }
+        if (self.id == nil || self.id == '' || self.weapon == nil || !self.weapon.ofKind(RpgLiteWeapon)
+            || !holds(self.profile.equipment,self.weapon)) rpgExpandedReject('weapon-miss-drop-declaration');
+        if (self.evidence == nil || self.evidence == '')
+        { value.reason = 'weapon-miss-drop-evidence'; return value; }
+        foreach (local prior in self.profile.weaponMissDrops)
+            if (prior.id == self.id) rpgExpandedReject('weapon-miss-drop-duplicate');
+        rpgExpandedValidate(self.profile);
+        value.assessment = rpgExpandedWeaponMiss(self.context,self.rolls);
+        if (value.assessment.status != 'ready')
+        { value.status = value.assessment.status; value.reason = value.assessment.reason; return value; }
+        if (value.assessment.outcome != 'drop-weapon')
+        { value.reason = 'weapon-miss-not-drop'; return value; }
+        if (!self.weapon.ready || self.weapon.worn || !self.weapon.usableBy(self.profile))
+        { value.reason = 'weapon-miss-drop-not-held'; return value; }
+        value.plan = self.profile.prepareForcedDrop([self.weapon],self.destination);
+        if (value.plan == nil || value.plan.status != 'ready')
+        { value.reason = value.plan == nil ? 'weapon-miss-drop-plan-unavailable' : value.plan.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.plan.commit();
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundWeapon = self.weapon;
+        self.boundContext = self.context; self.boundKind = self.context.kind; self.boundDamageType = self.context.damageType;
+        self.boundBreakResistant = self.context.breakResistant; self.boundCheap = self.context.cheap;
+        self.boundRolls = []; foreach (local roll in self.rolls) self.boundRolls = self.boundRolls + [roll];
+        self.boundEvidence = self.evidence; self.boundDestination = self.destination;
+        self.profile.weaponMissDrops = self.profile.weaponMissDrops + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local receipt in self.weaponMissDrops)
+        {
+            if (receipt == nil || !receipt.ofKind(RpgExpandedWeaponMissDrop) || receipt.profile != self
+                || receipt.result == nil || holds(ids,receipt.id) || receipt.assess().status != 'reused'
+                || receipt.result.plan == nil || !receipt.result.plan.committed)
+                rpgExpandedReject('weapon-miss-drop-history');
+            ids = ids + [receipt.id];
+        }
+        return nil;
+    }
+;

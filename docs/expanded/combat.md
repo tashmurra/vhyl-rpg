@@ -563,3 +563,36 @@ random draws and permission receipts. `test_shield_ready_persistence` saves befo
 recovery, immediately afterward, and after the other participant's turn; a new
 process continues the same encounter without repeating permission or time costs.
 These additional fixtures are authored and unrun while checks remain paused.
+
+
+## Owned weapon drops after critical misses
+
+`RpgExpandedWeaponMissDrop` connects the supplied-roll weapon-miss assessment to
+the equipment transfer ledger (`full-2008`, B556–B557). Supply an `id`, `profile`,
+the actual attacking or parrying `weapon`, a `RpgExpandedWeaponMissContext`, table
+`rolls`, `evidence` identifying the event, and a `destination`. Context facts must
+come from the weapon and attack; this request does not infer break resistance,
+quality or attack type from an item's name.
+
+`assess()` resolves conditional rerolls without drawing dice. Missing confirmation
+rolls return `needs-roll`; unused extra rolls reject. Only `drop-weapon` outcomes
+proceed. These include ordinary drop rows, protected-break rerolls resolving to a
+drop, and eligible self-hit rerolls that select a drop. Actual breakage, flinging,
+self-injury and other outcomes are explicitly outside this request. No history or
+resource changes occur for an incomplete or inapplicable result.
+
+`apply()` commits one forced drop inside the enclosing action transaction. Expanded
+equipment is required for the transfer: inventory identity is retained, storage
+removes carried load, and readiness and associated aim clear. No additional action
+time, table roll or damage roll is charged. The caller establishes that the weapon
+is the one involved in the miss; worn, stored, unowned or unready items reject.
+
+The request and transfer plan remain in `profile.weaponMissDrops`. The original
+context fields, supplied dice, destination and event evidence are bound to that
+receipt. Historical replay after pickup cannot drop the item again. This is an
+explicit consequence operation; automatic attack/parry dispatch is still pending.
+
+`test_weapon_miss_drop` and `test_weapon_miss_drop_persistence` cover ordinary and
+conditional drops, pending confirmation, breakage rejection, missing destinations,
+preview purity, rollback, undo, retargeting, pickup replay and separate-process save
+continuation. These fixtures are authored and unrun while checks remain paused.

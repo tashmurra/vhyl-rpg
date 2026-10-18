@@ -1168,6 +1168,62 @@ def test_critical_readiness_persistence(Session,bundle,out):
             second.close()
 
 
+def weapon_miss_drop_state(s):
+    s.action(2034)
+    return last(s,'test.weapon-miss-drop-state')
+
+
+def test_weapon_miss_drop(s):
+    initial = [None,1,500,2,0,0,0]
+    assert weapon_miss_drop_state(s) == initial
+    for code in [49,41]:
+        s.action(2030,code)
+        assert weapon_miss_drop_state(s) == initial
+    for code, status, reason in [(44,'blocked','weapon-miss-not-drop'),
+                                 (45,'needs-roll','breakage-confirmation'),
+                                 (46,'blocked','forced-drop-destination-required'),
+                                 (54,'blocked','weapon-miss-not-drop')]:
+        s.action(2030,code)
+        assert last(s,'test.weapon-miss-drop-operation') == [status,reason]
+        assert weapon_miss_drop_state(s) == initial
+        s.command('undo')
+    for code in [40,42,43,50,51,52,53]:
+        s.action(2030,code)
+        assert weapon_miss_drop_state(s) == ['yard',0,400,0,1,0,0]
+        s.command('undo')
+        assert weapon_miss_drop_state(s) == initial
+    s.action(2030,40)
+    s.action(2030,48)
+    for code in [40,47,8]:
+        s.action(2030,code)
+        assert weapon_miss_drop_state(s) == [None,1,500,0,1,0,0]
+
+
+def test_weapon_miss_drop_persistence(Session,bundle,out):
+    for code in [40,42,43,50,51,52,53]:
+        path = out / f'expanded-weapon-miss-drop-{code}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2030,code); saved = weapon_miss_drop_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2034')
+            assert weapon_miss_drop_state(second) == saved
+            second.action(2030,8)
+            second.action(2030,code)
+            assert weapon_miss_drop_state(second) == saved
+            second.action(2030,48)
+            picked = weapon_miss_drop_state(second)
+            second.action(2030,code)
+            assert last(second,'test.weapon-miss-drop-operation') == ['reused',None]
+            assert weapon_miss_drop_state(second) == picked
+        finally:
+            second.close()
+
+
 def critical_drop_state(s):
     s.action(2031)
     return last(s,'test.critical-drop-state')
@@ -5044,6 +5100,8 @@ def test(build):
     test_shield_ready_persistence(Session,shield_ready,build.out)
     combat_drop = build.build('expanded-combat-drop',ROOT / 'tests/fixtures/expanded-combat-drop.t')
     fresh(Session,combat_drop,test_critical_drop_transactions)
+    fresh(Session,combat_drop,test_weapon_miss_drop)
+    test_weapon_miss_drop_persistence(Session,combat_drop,build.out)
     fresh(Session,combat_drop,test_critical_readiness)
     fresh(Session,combat_drop,test_critical_defense_failures)
     test_critical_readiness_persistence(Session,combat_drop,build.out)
