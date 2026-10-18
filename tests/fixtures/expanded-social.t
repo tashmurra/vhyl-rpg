@@ -33,5 +33,10 @@ act(verb,args)
         status.level = -2; eventValue(status.amounts(p)[1]); encounter.culture = 'local';
         eventValue(encounter.assess().modifier); return nil;
     }
+    if (verb == 1170)
+    {
+        local rank = new RpgExpandedRank(); rank.level = args[1]; rank.replacesStatus = args[2] == 1;
+        event('test.rank-table'); eventValue(rank.amounts(nil)[1]); eventValue(rank.statusBonus()); return nil;
+    }
     return vhylAct(verb,args);
 }

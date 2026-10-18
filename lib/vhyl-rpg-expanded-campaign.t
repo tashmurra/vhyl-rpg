@@ -211,6 +211,13 @@ class RpgExpandedWealth: RpgExpandedContribution
                 rpgExpandedReject('duplicate-wealth');
         return nil;
     }
+    wealthStatusBonus()
+    {
+        local rank = self.rank();
+        if (rank < 6) return 0;
+        if (rank < 9) return 1;
+        return self.extraLevels == 1 ? 2 : 3;
+    }
     startingValue(campaignTL)
     {
         rpgInteger(campaignTL, 0, 12);

@@ -66,12 +66,45 @@ has a penalty against higher standing, capped at -4.
 
 `RpgExpandedStatusEncounter` gathers these explicit facts for `subject`, `observer`
 and `culture`. Its pure `assess()` returns a modifier only. Absent purchased
-standing in that culture means zero. This preliminary interface considers purchased
-standing only: wealth and rank bonuses, courtesy/temporary titles, culture-specific
-privileges and upkeep are pending. Do not use it as a complete reaction resolver
-for those combinations. It performs no rolls and grants no social permissions.
+standing in that culture means zero. Without a `structure`, this interface considers purchased standing only and
+rejects profiles with organizational rank in the encounter culture. Supply the
+structure described below to incorporate wealth and rank. Courtesy/temporary
+titles, culture-specific privileges and upkeep remain pending. It performs no rolls and grants no social permissions.
 
 The [minimal fixture](../../tests/fixtures/expanded-social.t) and
 `tests/expanded.py::test_social_status` cover prices, relative differences,
 recognition, friendly and resentful attitudes, negative-standing limits and foreign
 cultures. These cases are authored and remain unrun while checks are paused.
+
+
+## Rank and the social structure
+
+`RpgExpandedRank` contributes five points per level, or ten when `replacesStatus`
+is enabled (full-2008 B29–B30). Set `culture`, `institution`, `level`, the authored
+`maximum` (default 8), and `admitted`. Membership at level zero is distinct from
+having no membership. Duplicate ranks in the same institution are rejected.
+Admission is an explicit world fact: prerequisites, duties, enforcement powers
+and other privileges must be supplied separately. Courtesy and temporary rank are
+not yet represented by this class.
+
+A `RpgExpandedSocialStructure` identifies a `culture`. With ordinary standing,
+each rank contributes +1 at levels 2–4, +2 at 5–7 and +3 at 8 or higher. Multiple
+institutional ranks contribute separately. Set `wealthLinked` only when wealth
+confers standing in that culture. The campaign wealth contribution supplies +1
+from the wealthy tier, +2 at the first multimillionaire level, and +3 from the
+second level onward. The social module does not depend on the campaign module;
+without a wealth contribution there is no wealth-derived bonus.
+
+Set `purchasedMaximum = 2` for the optional two-level ceiling on directly purchased
+standing. Free bonuses remain additional. To replace standing entirely, set
+`replacingInstitution` and mark that institution's rank `replacesStatus = true`.
+The total is then that rank level; purchased standing is rejected and wealth and
+other ranks supply no standing bonus. Inconsistent replacement flags are rejected.
+Attach this structure to `RpgExpandedStatusEncounter.structure`, matching its
+culture. `standing(profile)` and encounter assessment are pure.
+
+The authored `test_social_structure` case checks combined standing, the wealth
+bonus ceiling, purchased limits and replacement rejection. The minimal social
+fixture checks rank price and standing-bonus boundaries without the campaign
+module. All cases remain unrun while checks are paused. Full reactions, social
+permissions and institutional prerequisite execution remain incomplete.

@@ -45,11 +45,21 @@ class RpgExpandedStatusEncounter: object
     recognized = nil
     friendly = nil
     resents = nil
+    structure = nil
     statusFor(profile)
     {
         if (profile == nil || !profile.ofKind(RpgExpandedProfile))
             rpgExpandedReject('status-profile');
+        if (self.structure != nil)
+        {
+            if (!self.structure.ofKind(RpgExpandedSocialStructure) || self.structure.culture != self.culture)
+                rpgExpandedReject('status-structure-culture');
+            return self.structure.standing(profile);
+        }
         rpgExpandedValidate(profile);
+        foreach (local entry in profile.contributions)
+            if (entry.ofKind(RpgExpandedRank) && entry.culture == self.culture)
+                rpgExpandedReject('status-structure-required');
         foreach (local entry in profile.contributions)
             if (entry.ofKind(RpgExpandedStatus) && entry.culture == self.culture) return entry.level;
         return 0;
@@ -61,5 +71,73 @@ class RpgExpandedStatusEncounter: object
         value.modifier = rpgExpandedStatusReaction(self.statusFor(self.subject),self.statusFor(self.observer),
             self.recognized,self.friendly,self.resents);
         value.status = 'ready'; return value;
+    }
+;
+
+
+/** Organizational membership and purchased authority, full-2008 B29-B30.
+ * Institutional admission, duties and privileges are separately authored facts. */
+class RpgExpandedRank: RpgExpandedContribution
+    culture = nil
+    institution = nil
+    level = 0
+    maximum = 8
+    replacesStatus = nil
+    admitted = nil
+    validate(profile)
+    {
+        if (self.culture == nil || self.institution == nil) rpgExpandedReject('rank-institution');
+        rpgInteger(self.maximum, 0, 100); rpgInteger(self.level, 0, self.maximum);
+        if (!self.admitted) rpgExpandedReject('rank-admission-required');
+        foreach (local entry in profile.contributions)
+            if (entry != self && entry.ofKind(RpgExpandedRank) && entry.institution == self.institution)
+                rpgExpandedReject('duplicate-institution-rank');
+        return nil;
+    }
+    amounts(profile)
+    {
+        rpgInteger(self.level, 0, 100);
+        return [self.level * (self.replacesStatus ? 10 : 5)];
+    }
+    statusBonus()
+    {
+        rpgInteger(self.level, 0, 100);
+        if (self.replacesStatus) return self.level;
+        return self.level < 2 ? 0 : self.level < 5 ? 1 : self.level < 8 ? 2 : 3;
+    }
+;
+
+/** Explicit social structure. Wealth-linked standing is opt-in; replacement
+ * rank excludes ordinary status and all free standing bonuses. */
+class RpgExpandedSocialStructure: object
+    culture = nil
+    wealthLinked = nil
+    replacingInstitution = nil
+    purchasedMaximum = 8
+    standing(profile)
+    {
+        if (self.culture == nil || profile == nil || !profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('social-structure');
+        rpgInteger(self.purchasedMaximum, 0, 100); rpgExpandedValidate(profile);
+        local total = 0;
+        foreach (local entry in profile.contributions)
+        {
+            if (entry.ofKind(RpgExpandedStatus) && entry.culture == self.culture)
+            {
+                if (self.replacingInstitution != nil) rpgExpandedReject('rank-replaces-purchased-status');
+                if (entry.level > self.purchasedMaximum) rpgExpandedReject('social-purchased-status-limit');
+                total += entry.level;
+            }
+            if (entry.ofKind(RpgExpandedRank) && entry.culture == self.culture)
+            {
+                if (entry.replacesStatus ? entry.institution != self.replacingInstitution
+                    : entry.institution == self.replacingInstitution)
+                    rpgExpandedReject('rank-status-policy-mismatch');
+                if (self.replacingInstitution == nil || entry.institution == self.replacingInstitution)
+                    total += entry.statusBonus();
+            }
+            if (self.wealthLinked && self.replacingInstitution == nil) total += entry.wealthStatusBonus();
+        }
+        rpgInteger(total, -100, 100); return total;
     }
 ;

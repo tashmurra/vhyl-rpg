@@ -942,6 +942,33 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1169)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        local wealth = new RpgExpandedWealth(); wealth.owner = p; wealth.wealthLevel = 'multimillionaire'; wealth.extraLevels = 1;
+        local status = new RpgExpandedStatus(); status.id = 'standing'; status.owner = p; status.culture = 'city'; status.level = 2;
+        local rank = new RpgExpandedRank(); rank.id = 'office'; rank.owner = p; rank.culture = 'city';
+        rank.institution = 'registry'; rank.level = 3; rank.admitted = true;
+        p.contributions = [wealth,status,rank];
+        local structure = new RpgExpandedSocialStructure(); structure.culture = 'city'; structure.wealthLinked = true;
+        structure.purchasedMaximum = 2;
+        event('test.social-structure'); eventValue(structure.standing(p)); eventValue(rank.amounts(p)[1]);
+        wealth.extraLevels = 2; eventValue(structure.standing(p));
+        wealth.extraLevels = 3; eventValue(structure.standing(p));
+        structure.wealthLinked = nil; eventValue(structure.standing(p));
+        status.level = 3;
+        try { structure.standing(p); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        status.level = 2; structure.replacingInstitution = 'registry'; rank.replacesStatus = true;
+        try { structure.standing(p); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        p.contributions = [wealth,rank]; structure.wealthLinked = true;
+        eventValue(structure.standing(p)); eventValue(rank.amounts(p)[1]);
+        rank.replacesStatus = nil;
+        try { structure.standing(p); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

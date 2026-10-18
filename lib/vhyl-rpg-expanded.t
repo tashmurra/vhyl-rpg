@@ -45,6 +45,7 @@ class RpgExpandedContribution: object
     id = nil
     owner = nil
     amounts(profile) { return []; }
+    wealthStatusBonus() { return 0; }
     validate(profile) { return nil; }
 ;
 

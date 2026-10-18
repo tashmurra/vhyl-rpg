@@ -577,6 +577,19 @@
         "tests/expanded.py::test_social_status"
       ],
       "validation_note": "Culture-specific purchased standing and pure reaction modifier authored. Tests unrun; wealth/rank integration and complete reactions remain pending."
+    },
+    {
+      "id": "rank-and-wealth-standing",
+      "module": "social",
+      "pages": "B26; B28-B30",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedSocialStructure",
+      "tests": [
+        "tests/expanded.py::test_social_status",
+        "tests/expanded.py::test_social_structure"
+      ],
+      "validation_note": "Rank prices, standing bonuses, wealth linkage and replacement policies authored. Tests unrun; institutional prerequisites, privileges and temporary/courtesy ranks pending."
     }
   ],
   "detailed_inventories": [
