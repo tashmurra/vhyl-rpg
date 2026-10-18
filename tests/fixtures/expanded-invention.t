@@ -64,11 +64,36 @@ prototypeTest: RpgExpandedPrototypeTest id = 'first-test-week' profile = concept
     evidence = 'Full week of suitable operation testing';
 prototypeLine: RpgExpandedProductionLine id = 'survey-line' project = conceptProject payer = conceptUser
     approved = true available = true permitted = true evidence = 'Available authorized production equipment';
+productionCopy: RpgLiteItem id = 'survey-copy' cost = 1000 weight = 100;
+productionOrder: RpgExpandedProductionOrder id = 'copy-one' project = conceptProject payer = conceptUser recipient = conceptUser
+    worker = conceptUser item = productionCopy approved = true available = true permitted = true uninterrupted = true
+    evidence = 'One matching physical copy with supplied parts and available work';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 200)
+        {
+            if (code == 200)
+            {
+                conceptBlueprint.apply(); conceptFacilities.fund(); prototypeStart.begin();
+                for (local day = 1; day <= 4; day += 1)
+                {
+                    local work = new RpgExpandedPrototypeWork(); work.id = day; work.attempt = prototypeStart;
+                    work.seconds = 86400; work.approved = true; work.uninterrupted = true; work.evidence = 'Complete day'; work.apply();
+                }
+                rpgRandom.seed(6); prototypeCompletion.knowledge = 'model'; prototypeCompletion.variantBonus = 5;
+                prototypeCompletion.apply(); return nil;
+            }
+            if (code == 204) { prototypeLine.establish(); productionOrder.line = prototypeLine; }
+            if (code == 205) conceptUser.money = 199;
+            if (code == 206) prototypeClockFault.enabled = true;
+            if (code == 208) productionOrder.evidence = 'Changed copy';
+            local value = code >= 206 ? productionOrder.finish() : code == 203 ? productionOrder.assess() : productionOrder.begin();
+            event('test.production-order'); eventValue(value.status); eventValue(value.reason); eventValue(value.money); eventValue(value.seconds);
+            if (code == 202 || code == 207) throw new RpgError(); return nil;
+        }
         if (code >= 180)
         {
             if (code == 180)
@@ -275,6 +300,13 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2120) { conceptInput.code = 200 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2121)
+    {
+        event('test.production-order-state'); eventValue(conceptUser.money); eventValue(conceptUser.equipment.length());
+        eventValue(productionOrder.result == nil ? 0 : 1); eventValue(productionOrder.delivered ? 1 : 0);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); eventValue(prototypeLine.activeOrder == nil ? 0 : 1); return nil;
+    }
     if (verb == 2118) { conceptInput.code = 180 + args[1]; return vhylAct(2097,args); }
     if (verb == 2119)
     {

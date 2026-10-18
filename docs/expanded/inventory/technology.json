@@ -534,9 +534,12 @@
       "status": "partial",
       "acceptance": "An individual copy costs twenty percent retail for parts alone or full retail with labor; production time is half the prototype duration. Record whether duration is derived from a prior prototype or newly assessed as required by the selected procedure.",
       "tests": [
-        "tests/expanded.py::test_production_assessments"
+        "tests/expanded.py::test_production_assessments",
+        "tests/expanded.py::test_production_order",
+        "tests/expanded.py::test_production_order_line",
+        "tests/expanded.py::test_production_order_persistence"
       ],
-      "validation_note": "Exact price/time fraction assessments and owned line capital funding authored; fixtures unrun. Per-copy execution, fractional ledger policy, scheduling and defect propagation remain incomplete."
+      "validation_note": "Owned whole-unit one-copy funding and uninterrupted delivery use recorded prototype duration, shared money/time/inventory and line reservation; fixtures unrun. Fractional ledger amounts, partial work, defect propagation and alternate duration bases remain incomplete."
     },
     {
       "id": "technology-production-line",
@@ -549,9 +552,12 @@
       "tests": [
         "tests/expanded.py::test_production_assessments",
         "tests/expanded.py::test_production_line",
-        "tests/expanded.py::test_production_line_persistence"
+        "tests/expanded.py::test_production_line_persistence",
+        "tests/expanded.py::test_production_order",
+        "tests/expanded.py::test_production_order_line",
+        "tests/expanded.py::test_production_order_persistence"
       ],
-      "validation_note": "Exact price/time fraction assessments and owned line capital funding authored; fixtures unrun. Per-copy execution, fractional ledger policy, scheduling and defect propagation remain incomplete."
+      "validation_note": "Owned whole-unit one-copy funding and uninterrupted delivery use recorded prototype duration, shared money/time/inventory and line reservation; fixtures unrun. Fractional ledger amounts, partial work, defect propagation and alternate duration bases remain incomplete."
     },
     {
       "id": "technology-patron-funding",

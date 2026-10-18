@@ -1166,3 +1166,39 @@ large values, working-prototype and funds gates, previews, rollback, undo, repla
 and save continuation. Fixtures remain unrun. Per-copy execution, fractional
 currency handling, production without a locally built prototype, defect propagation
 and production scheduling remain incomplete. Source: `full-2008`, B474.
+
+
+## Funded one-copy production orders
+
+`RpgExpandedProductionOrder` binds a unique project-local id, project, payer,
+recipient, responsible worker and authored copy item. Supply the parts/labor
+choice, optional funded `line`, approval, availability, permission, uninterrupted
+work and evidence that the item matches the design. The current path requires a
+delivered bug-free physical prototype and uses its recorded duration. Defective
+design propagation and newly rolled production-duration bases remain unsupported.
+
+`assess()` validates the exact cost/time fractions, funds, worker availability,
+line availability, item ownership and pending item reservations. Fractional money
+or seconds reject before spending; there is no silently rounded quote. `begin()`
+charges the per-copy cost once and preserves the assessed duration. A line accepts
+one pending order at a time. Another order cannot reserve the same undelivered
+item, and another completed item must use a distinct item object.
+
+`finish()` performs the whole uninterrupted production interval through the shared
+clock in at-most-one-day steps, rechecking the worker and line after each. It then
+issues the copy through the shared inventory ledger and releases the line. Any
+invalidating clock event or delivery error rolls back that finishing action; the
+previously funded order remains available for later work. Replay of either phase
+never charges money or time again. Funded and delivered states support saves.
+
+The worker represents the responsible available labor; evidence must establish
+any paid workforce and the required facilities. No universal manufacturing skill
+roll or extra setup duration is invented. Partial work credit, simultaneous line
+output, cancellation/refunds, changed crews, nonphysical products, fractional
+ledger support and copies carrying defects remain incomplete.
+
+`test_production_order`, `test_production_order_line` and
+`test_production_order_persistence` author preview, funds, rollback, clock-driven
+interruption, undo, retarget rejection, separate manual/line timing, replay and
+continuation before and after delivery. Fixtures remain unrun. Source:
+`full-2008`, B474.

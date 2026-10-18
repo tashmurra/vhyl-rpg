@@ -2564,3 +2564,131 @@ class RpgExpandedProductionLine: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedInventionProject
+    productionOrders = []
+;
+modify RpgExpandedProductionLine
+    activeOrder = nil
+;
+class RpgExpandedProductionOrderResult: RpgExpandedResult
+    money = 0
+;
+
+/** Paid one-copy order using the recorded prototype duration. */
+class RpgExpandedProductionOrder: object
+    id = nil
+    project = nil
+    line = nil
+    payer = nil
+    recipient = nil
+    worker = nil
+    item = nil
+    paidLabor = nil
+    approved = nil
+    available = nil
+    permitted = nil
+    uninterrupted = nil
+    evidence = nil
+    result = nil
+    delivered = nil
+    delivery = nil
+    definitionSnapshot = nil
+    startedAt = nil
+    endedAt = nil
+    definition()
+    { return [self.id,self.project,self.line,self.payer,self.recipient,self.worker,self.item,self.paidLabor,self.evidence]; }
+    validateBinding()
+    {
+        local current = self.definition();
+        if (current.length() != self.definitionSnapshot.length()) rpgExpandedReject('production-order-binding');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('production-order-binding');
+        if (!holds(self.project.productionOrders,self)) rpgExpandedReject('production-order-history');
+        if (self.delivery == nil || self.delivery.profile != self.recipient || self.delivery.item != self.item
+            || self.delivery.mode != 'issue' || self.delivery.quote != nil || self.delivery.startingPurchase)
+            rpgExpandedReject('production-order-delivery-binding');
+        self.project.validate();
+    }
+    liveReason()
+    {
+        if (!self.approved || !self.available || !self.permitted || !self.uninterrupted || self.evidence == nil || self.evidence == '')
+            return 'production-order-author-facts';
+        if (self.worker == nil || !self.worker.ofKind(RpgLiteProfile)) rpgExpandedReject('production-worker');
+        if (self.worker.dead || self.worker.unconscious || self.worker.stunned || self.worker.hp() <= 0 || self.worker.fp() <= 0)
+            return 'production-worker-unavailable';
+        if (self.line != nil)
+        {
+            if (!self.line.ofKind(RpgExpandedProductionLine) || self.line.project != self.project || self.line.result == nil)
+                rpgExpandedReject('production-order-line');
+            self.line.assess();
+            if (!self.line.available || !self.line.permitted) return 'production-line-unavailable';
+            if (self.line.activeOrder != nil && self.line.activeOrder != self) return 'production-line-busy';
+            if (self.result != nil && !self.delivered && self.line.activeOrder != self) return 'production-line-reservation-lost';
+        }
+        return nil;
+    }
+    assess()
+    {
+        if (self.project == nil || !self.project.ofKind(RpgExpandedInventionProject)
+            || self.payer == nil || !self.payer.ofKind(RpgExpandedProfile)) rpgExpandedReject('production-order-definition');
+        self.project.validate(); local value = new RpgExpandedProductionOrderResult();
+        if (self.result != nil)
+        { self.validateBinding(); value.status = 'reused'; value.seconds = self.result.seconds; return value; }
+        if (self.id == nil || self.id == '') rpgExpandedReject('production-order-id');
+        value.reason = self.liveReason(); if (value.reason != nil) return value;
+        local prototype = self.project.workingPrototype;
+        if (prototype == nil || !prototype.ofKind(RpgExpandedPrototypeCompletion) || prototype.result == nil
+            || !prototype.result.outcome.working || !prototype.result.delivered)
+        { value.reason = 'production-working-prototype-required'; return value; }
+        prototype.assess();
+        if (prototype.result.outcome.majorBugs != 0 || prototype.result.outcome.minorBugs != 0)
+        { value.reason = 'production-defect-propagation-unavailable'; return value; }
+        foreach (local prior in self.project.productionOrders)
+            if (prior.id == self.id) rpgExpandedReject('production-order-duplicate');
+        for (local prior = firstObj(RpgExpandedProductionOrder); prior != nil; prior = nextObj(prior,RpgExpandedProductionOrder))
+            if (prior != self && prior.result != nil && !prior.delivered && prior.item == self.item)
+            { value.reason = 'production-item-reserved'; return value; }
+        local quote = rpgExpandedAssessProduction(self.project.proposal.retailPrice,prototype.attempt.result.seconds,self.line != nil,self.paidLabor);
+        if (quote.moneyDenominator != 1 || quote.secondsDenominator != 1)
+        { value.reason = 'production-fractional-ledger-unavailable'; return value; }
+        rpgExpandedValidate(self.payer); rpgInteger(self.payer.money,0,2147483647);
+        if (self.payer.money < quote.moneyNumerator) { value.reason = 'production-order-funds'; return value; }
+        local grant = new RpgExpandedAcquisition(); grant.profile = self.recipient; grant.item = self.item;
+        grant.mode = 'issue'; grant.available = true; grant.permitted = true;
+        local access = grant.assess();
+        if (access.status != 'ready') { value.reason = access.reason; return value; }
+        value.money = quote.moneyNumerator; value.seconds = quote.secondsNumerator; value.status = 'ready'; return value;
+    }
+    begin()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.payer.money -= value.money;
+        self.delivery = new RpgExpandedAcquisition(); self.delivery.profile = self.recipient; self.delivery.item = self.item;
+        self.delivery.mode = 'issue'; self.delivery.available = true; self.delivery.permitted = true;
+        self.definitionSnapshot = self.definition(); self.project.productionOrders = self.project.productionOrders + [self];
+        if (self.line != nil) self.line.activeOrder = self;
+        value.status = 'resolved'; self.result = value; return value;
+    }
+    finish()
+    {
+        if (self.result == nil) rpgExpandedReject('production-order-not-started');
+        self.validateBinding(); local value = new RpgExpandedProductionOrderResult();
+        if (self.delivered) { value.status = 'reused'; return value; }
+        value.reason = self.liveReason(); if (value.reason != nil) return value;
+        local grant = self.delivery.assess();
+        if (grant.status != 'ready') { value.reason = grant.reason; return value; }
+        local remaining = self.result.seconds; local start = rpgLedger.seconds; local elapsed = 0;
+        while (remaining > 0)
+        {
+            local step = remaining > 86400 ? 86400 : remaining;
+            rpgSpendTime(step); elapsed += step; remaining -= step;
+            if (self.liveReason() != nil || rpgLedger.seconds != start + elapsed)
+                rpgExpandedReject('production-order-conditions-changed');
+        }
+        if (self.delivery.acquire().status != 'resolved') rpgExpandedReject('production-delivery-changed');
+        self.startedAt = start; self.endedAt = rpgLedger.seconds; self.delivered = true;
+        if (self.line != nil) self.line.activeOrder = nil;
+        value.seconds = self.result.seconds; value.status = 'resolved'; return value;
+    }
+;

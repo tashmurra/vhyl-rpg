@@ -973,6 +973,67 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def production_order_state(s):
+    s.action(2121)
+    return last(s,'test.production-order-state')
+
+
+def test_production_order(s):
+    s.action(2120,0)
+    initial = [899000,1,0,0,3,345600,0]
+    for code in [3,2]:
+        s.action(2120,code)
+        assert production_order_state(s) == initial
+    s.action(2120,5)
+    assert last(s,'test.production-order') == ['blocked','production-order-funds',0,0]
+    s.command('undo')
+    s.action(2120,1)
+    funded = [898800,1,1,0,3,345600,0]
+    assert last(s,'test.production-order') == ['resolved',None,200,172800]
+    assert production_order_state(s) == funded
+    for code in [1,6,7,8]:
+        s.action(2120,code)
+        assert production_order_state(s) == funded
+    s.action(2120,9)
+    delivered = [898800,2,1,1,3,518400,0]
+    assert production_order_state(s) == delivered
+    s.command('undo')
+    assert production_order_state(s) == funded
+    s.action(2120,9)
+    for code in [1,9]:
+        s.action(2120,code)
+        assert production_order_state(s) == delivered
+
+
+def test_production_order_line(s):
+    s.action(2120,0)
+    s.action(2120,4)
+    assert production_order_state(s) == [878800,1,1,0,3,345600,1]
+    s.action(2120,9)
+    assert production_order_state(s) == [878800,2,1,1,3,381600,0]
+
+
+def test_production_order_persistence(Session,bundle,out):
+    for complete in [False,True]:
+        path = out / f'expanded-production-order-{complete}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2120,0)
+            first.action(2120,1)
+            if complete: first.action(2120,9)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2121')
+            second.action(2120,1)
+            second.action(2120,9)
+            assert production_order_state(second) == [898800,2,1,1,3,518400,0]
+        finally:
+            second.close()
+
+
 def production_line_state(s):
     s.action(2119)
     return last(s,'test.production-line-state')
@@ -6662,6 +6723,9 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_production_order)
+    fresh(Session,invention,test_production_order_line)
+    test_production_order_persistence(Session,invention,build.out)
     fresh(Session,invention,test_production_line)
     test_production_line_persistence(Session,invention,build.out)
     fresh(Session,invention,test_prototype_testing)
