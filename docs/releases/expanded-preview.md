@@ -1146,3 +1146,8 @@ ordinary influence skills. The resistance hook defaults to zero and composes
 with existing intimidation resistance. Actor/target, mitigation, low-score,
 rollback, undo and saved-continuation fixtures are authored, unrun; the broader
 expanded influence procedure remains partial.
+
+- Added the fixed-cost callousness trait, shared Teaching penalty, authored
+  helpful-psychology/victim/coercion contexts, observer-specific reactions and
+  recognition by existing interrogation questions (full-2008 B125). Added
+  unrun fixtures; broader trait and social coverage remains incomplete.

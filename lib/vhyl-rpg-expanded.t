@@ -482,3 +482,7 @@ modify RpgLiteSkill
 modify RpgExpandedProfile
     pleasureLossActive() { return nil; }
 ;
+
+modify RpgExpandedProfile
+    callousnessActive() { return nil; }
+;

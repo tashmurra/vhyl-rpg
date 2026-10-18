@@ -1340,7 +1340,7 @@ class RpgExpandedInterrogationQuestion: object
         rpgInteger(self.modifier,-100,100);
         value.modifier = self.modifier - (self.loyaltyResists ? 5 : 0) - (actor.level('low-empathy') > 0 ? 3 : 0)
             + (self.session.elapsed() + 300 > 7200 ? 2 : 0);
-        if (self.means != 'ordinary') value.modifier += (self.means == 'torture' ? 6 : 3) + (actor.level('callous') > 0 ? 1 : 0);
+        if (self.means != 'ordinary') value.modifier += (self.means == 'torture' ? 6 : 3) + (actor.level('callous') > 0 || actor.callousnessActive() ? 1 : 0);
         local context = new RpgLiteContext(); context.skill = self.session.skill; context.kind = 'interrogation';
         context.modifier = value.modifier; value.actorScore = rpgLiteScore(actor,context);
         context = new RpgLiteContext(); context.attribute = rpgWill; context.kind = 'resistance';
@@ -1794,5 +1794,29 @@ class RpgExpandedPleasureReactionContext: RpgLiteSocialContext
         local value = new RpgExpandedResult(); value.status = 'ready';
         value.reason = self.noticeable && self.subject.pleasureLossActive() && band < 4
             ? self.adverseResponse : 'ordinary-social-response'; return value;
+    }
+;
+
+/** B125 observer facts are explicit; victim and empathy do not stack. */
+class RpgExpandedCallousnessReactionContext: RpgLiteSocialContext
+    subject = nil
+    observer = nil
+    pastVictim = nil
+    empathicObserver = nil
+    approved = nil
+    evidence = nil
+    traitReactionModifier(profile)
+    {
+        if (profile != self.subject || self.subject == nil || !self.subject.ofKind(RpgExpandedProfile)
+            || self.observer == nil || !self.observer.ofKind(RpgLiteProfile) || self.observer == self.subject)
+            rpgExpandedReject('callousness-reaction-participants');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('callousness-reaction-facts');
+        return inherited(profile) - (self.subject.callousnessActive() && (self.pastVictim || self.empathicObserver) ? 1 : 0);
+    }
+    validateParticipants(profile, target)
+    {
+        self.traitReactionModifier(profile);
+        if (target != self.observer) rpgExpandedReject('callousness-reaction-observer');
+        return nil;
     }
 ;

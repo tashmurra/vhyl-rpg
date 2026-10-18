@@ -981,3 +981,28 @@ other traits' resistance rules. The fixture covers actor and target penalties
 separately and together, mitigation, the absent-effect path, low-resistance
 rejection, rollback, undo and cross-process continuation. Assertions are authored,
 unrun.
+
+### Callousness (full-2008, B125)
+
+`RpgExpandedCallousness` costs -5 and applies -3 to Teaching through the
+shared score path. `RpgExpandedCallousnessContext` names the subject, target,
+skill, approval and evidence. Set `helpfulPsychology` for assistance rather than
+research, `pastVictim` for an interaction with someone previously harmed by the
+subject's conduct, and `coercive` for threats or torture using Interrogation or
+Intimidation. The first two conditions impose -3; coercion grants +1. Overlapping
+penalty descriptions apply once. Ordinary research receives no penalty.
+
+Supply these facts for the particular interaction; the engine cannot infer a
+history of mistreatment from dialogue. Pass this context to the shared skill or
+influence operation. The existing interrogation question procedure recognizes
+the new trait for its threat/torture bonus. Its victim-specific penalty still
+requires the author's explicit question modifier; do not also add its coercion
+bonus manually. Inactive or mitigated traits retain their cost but suspend their
+effects. The emotional-understanding deficit remains incompatible.
+
+`RpgExpandedCallousnessReactionContext` in the social library names an observer
+and accepts `pastVictim` and `empathicObserver` facts with approval and evidence.
+Either condition gives -1; both together still give -1. Attach it to a reaction
+attempt's `socialContext`. This does not infer observer abilities or histories.
+The minimal fixture covers these contextual calculations and invalid facts;
+checks remain paused, so this entry remains partial and unverified.

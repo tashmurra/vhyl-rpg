@@ -9056,6 +9056,8 @@ def test(build):
     test_pleasure_loss(Session, pleasure_loss)
     emotional_obliviousness = build.build('expanded-emotional-obliviousness',ROOT / 'tests/fixtures/expanded-emotional-obliviousness.t')
     test_emotional_obliviousness(Session, emotional_obliviousness, build.out)
+    callousness = build.build('expanded-callousness',ROOT / 'tests/fixtures/expanded-callousness.t')
+    test_callousness(Session, callousness)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16760,3 +16762,28 @@ def test_emotional_obliviousness(Session, bundle, out):
         assert last(s,'test.oblivious-low') == ['influence-low-resistance-adapter-required',0]
     finally:
         s.close()
+
+
+def test_callousness(Session, bundle):
+    # B125: research is unaffected; overlapping -3 conditions apply once.
+    for setup,skill,reaction in (((),-3,0),((3201,),0,0),((3201,3202),-3,0),
+                                 ((3203,),-3,-1),((3201,3202,3203),-3,-1),
+                                 ((3204,),1,0),((3203,3204),-2,-1),
+                                 ((3205,),-3,-1),((3203,3205),-3,-1),
+                                 ((3203,3204,3206),0,0)):
+        s = Session(bundle)
+        try:
+            for code in setup+(3200,3200):
+                s.action(2285,code)
+            assert last(s,'test.callousness') == [-5,skill,reaction,0]
+        finally:
+            s.close()
+    for setup,reason in (((3207,),'callousness-facts-required'),
+                         ((3208,),'duplicate-callousness')):
+        s = Session(bundle)
+        try:
+            for code in setup+(3209,):
+                s.action(2285,code)
+            assert last(s,'test.callousness-error') == [reason,0]
+        finally:
+            s.close()

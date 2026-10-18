@@ -141,9 +141,9 @@
       "pages": "B125",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Callousness is -5: teaching and helpful psychology take -3, as do interactions with past victims identified by author. Victims/empaths react at -1. Threat/torture-based interrogation and intimidation gain +1. These bonuses are scoped fictional mechanics, not blanket social skill increases.",
-      "tests": []
+      "tests": ["tests/fixtures/expanded-callousness.t", "tests/expanded.py::test_callousness"]
     },
     {
       "id": "disadvantages-b-learning-bar",

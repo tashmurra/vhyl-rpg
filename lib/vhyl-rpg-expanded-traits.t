@@ -915,3 +915,64 @@ modify RpgLiteContext
         return amount - 1;
     }
 ;
+
+/** B125 ordinary callousness; situational facts belong to the author. */
+class RpgExpandedCallousness: RpgExpandedDisadvantage
+    id = 'callousness'
+    points = -5
+    creationCost()
+    {
+        if (!self.approved || self.id != 'callousness' || self.points != -5 || self.level != 1
+            || self.percentages.length() != 0 || self.selfControlRating != nil || self.controlled)
+            rpgExpandedReject('callousness-definition');
+        return -5;
+    }
+;
+modify RpgExpandedProfile
+    callousnessActive()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedCallousness))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-callousness'); found = trait;
+            }
+        if (found != nil) self.emotionalUnderstandingPenalty();
+        return found != nil && found.active && !found.mitigated;
+    }
+    validateFeatures() { inherited(); self.callousnessActive(); return nil; }
+;
+modify RpgLiteContext
+    socialTraitModifier(profile)
+    {
+        local amount = inherited(profile);
+        if (profile.ofKind(RpgExpandedProfile) && self.skill != nil && self.skill.ofKind(RpgLiteSkill)
+            && self.skill.id == 'teaching' && profile.callousnessActive()) amount -= 3;
+        return amount;
+    }
+;
+/** Use for a specific interaction; a victim flag applies to this target only. */
+class RpgExpandedCallousnessContext: RpgLiteContext
+    subject = nil
+    target = nil
+    helpfulPsychology = nil
+    pastVictim = nil
+    coercive = nil
+    approved = nil
+    evidence = nil
+    socialTraitModifier(profile)
+    {
+        if (profile != self.subject || self.subject == nil || !self.subject.ofKind(RpgExpandedProfile)
+            || self.target == nil || !self.target.ofKind(RpgLiteProfile) || self.target == self.subject
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)) rpgExpandedReject('callousness-participants');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('callousness-facts-required');
+        if (self.helpfulPsychology && self.skill.id != 'psychology') rpgExpandedReject('callousness-helpful-skill');
+        if (self.coercive && !holds(['interrogation','intimidation'],self.skill.id)) rpgExpandedReject('callousness-coercive-skill');
+        local amount = inherited(profile);
+        if (!profile.callousnessActive()) return amount;
+        /* One -3 penalty when several descriptions of the same roll apply. */
+        if (self.skill.id != 'teaching' && (self.helpfulPsychology || self.pastVictim)) amount -= 3;
+        if (self.coercive) amount += 1;
+        return amount;
+    }
+;
