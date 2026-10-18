@@ -2823,3 +2823,131 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** B34 world facts stay authored; remembered travel has an owned journey receipt. */
+class RpgExpandedOrientationResult: RpgExpandedResult
+    north = nil
+    path = []
+;
+rpgExpandedOrientationAvailable(profile)
+{
+    if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('orientation-profile');
+    local level = profile.orientationSenseLevel();
+    if (level == 0) return 'orientation-trait-required';
+    if (!holds(['local','deep-space','cross-dimensional'],profile.orientationEnvironment)) return 'orientation-environment-required';
+    if (profile.orientationEnvironment == 'cross-dimensional' || level == 1 && profile.orientationEnvironment == 'deep-space')
+        return 'orientation-environment-unavailable';
+    return nil;
+}
+class RpgExpandedNorthAssessment: object
+    profile = nil
+    northDirection = nil
+    approved = nil
+    evidence = nil
+    assess()
+    {
+        local value = new RpgExpandedOrientationResult(); value.reason = rpgExpandedOrientationAvailable(self.profile);
+        if (value.reason != nil) return value;
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.northDirection == nil)
+        { value.reason = 'orientation-north-world-facts'; return value; }
+        value.north = self.northDirection; value.status = 'ready'; return value;
+    }
+;
+modify RpgExpandedProfile
+    orientationRoutes = []
+;
+class RpgExpandedOrientationRoute: object
+    id = nil
+    journey = nil
+    waypoints = []
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    startElapsed = nil
+    abandonedAt = nil
+    boundAbandonment = nil
+    abandonmentEvidence = nil
+    completedAt = nil
+    endElapsed = nil
+    arrivalEvidence = nil
+    boundArrivalEvidence = nil
+    boundDefinition = nil
+    boundCompletion = nil
+    profile() { return self.journey.profile; }
+    definition() { return [self.id,self.journey,self.profile(),self.approved,self.evidence,self.startedAt,self.startElapsed] + self.waypoints; }
+    validateReceipt()
+    {
+        if (self.startedAt == nil || !holds(self.profile().orientationRoutes,self)) rpgExpandedReject('orientation-route-owner');
+        local current = self.definition();
+        if (current.length() != self.boundDefinition.length()) rpgExpandedReject('orientation-route-binding');
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('orientation-route-binding');
+        if (self.completedAt != nil && (self.boundCompletion == nil || self.completedAt != self.boundCompletion[1]
+            || self.endElapsed != self.boundCompletion[2] || self.arrivalEvidence != self.boundArrivalEvidence))
+            rpgExpandedReject('orientation-route-completion-binding');
+        if (self.abandonedAt != nil && (self.boundAbandonment == nil || self.abandonedAt != self.boundAbandonment[1]
+            || self.abandonmentEvidence != self.boundAbandonment[2])) rpgExpandedReject('orientation-route-abandonment-binding');
+        if (self.abandonedAt == nil && self.boundAbandonment != nil) rpgExpandedReject('orientation-route-abandonment-binding');
+        if (self.completedAt == nil && self.boundCompletion != nil) rpgExpandedReject('orientation-route-completion-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.journey == nil || !self.journey.ofKind(RpgLiteJourney)
+            || self.profile() == nil || !self.profile().ofKind(RpgExpandedProfile)) rpgExpandedReject('orientation-route-definition');
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.waypoints.length() < 2)
+        { value.reason = 'orientation-route-world-facts'; return value; }
+        foreach (local point in self.waypoints) if (point == nil) rpgExpandedReject('orientation-route-waypoint');
+        foreach (local prior in self.profile().orientationRoutes)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.completedAt == nil && prior.abandonedAt == nil) rpgExpandedReject('orientation-route-overlap');
+        }
+        rpgInteger(self.journey.elapsed,0,2147483647); value.status = 'ready'; return value;
+    }
+    begin()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.startedAt = rpgLedger.seconds; self.startElapsed = self.journey.elapsed; self.boundDefinition = self.definition();
+        self.profile().orientationRoutes = self.profile().orientationRoutes + [self]; value.status = 'resolved'; return value;
+    }
+    complete(arrived,evidence)
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.completedAt != nil) { value.status = 'reused'; return value; }
+        if (self.abandonedAt != nil) { value.reason = 'orientation-route-abandoned'; return value; }
+        if (!arrived || evidence == nil || evidence == '') { value.reason = 'orientation-route-arrival-facts'; return value; }
+        local elapsed = self.journey.elapsed - self.startElapsed;
+        if (elapsed <= 0 || rpgLedger.seconds-self.startedAt < elapsed || self.journey.fallen)
+        { value.reason = 'orientation-route-travel-required'; return value; }
+        self.completedAt = rpgLedger.seconds; self.endElapsed = self.journey.elapsed;
+        self.arrivalEvidence = evidence; self.boundArrivalEvidence = evidence;
+        self.boundCompletion = [self.completedAt,self.endElapsed]; value.status = 'resolved'; return value;
+    }
+    abandon(evidence)
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.abandonedAt != nil) { value.status = 'reused'; return value; }
+        if (self.completedAt != nil) { value.reason = 'orientation-route-already-complete'; return value; }
+        if (evidence == nil || evidence == '') { value.reason = 'orientation-route-abandonment-evidence'; return value; }
+        self.abandonedAt = rpgLedger.seconds; self.abandonmentEvidence = evidence;
+        self.boundAbandonment = [self.abandonedAt,evidence]; value.status = 'resolved'; return value;
+    }
+    retrace(profile,monthCutoffAt,calendarEvidence,currentWaypoint,positionConfirmed)
+    {
+        self.validateReceipt(); local value = new RpgExpandedOrientationResult();
+        value.reason = rpgExpandedOrientationAvailable(profile); if (value.reason != nil) return value;
+        if (profile != self.profile()) rpgExpandedReject('orientation-route-wrong-traveler');
+        rpgInteger(monthCutoffAt,0,rpgLedger.seconds);
+        if (calendarEvidence == nil || calendarEvidence == '') { value.reason = 'orientation-calendar-required'; return value; }
+        if (self.abandonedAt != nil) { value.reason = 'orientation-route-abandoned'; return value; }
+        if (self.completedAt == nil) { value.reason = 'orientation-route-unfinished'; return value; }
+        if (self.startedAt < monthCutoffAt) { value.reason = 'orientation-route-too-old'; return value; }
+        if (!positionConfirmed || currentWaypoint != self.waypoints[self.waypoints.length()])
+        { value.reason = 'orientation-route-position'; return value; }
+        for (local i = self.waypoints.length(); i >= 1; i -= 1) value.path = value.path + [self.waypoints[i]];
+        value.status = 'ready'; return value;
+    }
+;

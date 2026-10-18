@@ -621,3 +621,6 @@ modify RpgExpandedProfile
     catalogueSkillModifier(skill) { return 0; }
     catalogueFeatureCheckModifier(skill) { return self.catalogueSkillModifier(skill); }
 ;
+modify RpgExpandedProfile
+    orientationSenseLevel() { return 0; }
+;

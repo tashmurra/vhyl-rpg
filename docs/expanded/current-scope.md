@@ -88,3 +88,9 @@ Orientation sense now has two fixed costs and its printed skill bonuses,
 including +2 free-fall at the higher level, through shared scoring. Environment
 eligibility is explicit. North answers, route retracing, signal dependence and
 ancestry composition remain pending; fixtures are unrun.
+
+
+Orientation now has pure north answers and journey-backed whole-route memories,
+with explicit world/arrival facts, calendar cutoff, endpoint validation and
+interruption cancellation. Movement/time are not charged twice. Partial routes
+and automatic world/calendar integration remain pending; fixtures are unrun.

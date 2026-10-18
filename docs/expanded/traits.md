@@ -1266,8 +1266,9 @@ prerequisite level comparisons, and therefore also affect free-fall task caps.
 They do not change purchased points or training costs. The check-only path also
 supports characters using the foundation without the expanded skill resolver.
 
-Automatic north answers, month-bounded route retracing, signal dependence,
-ancestry composition and world-transition automation remain pending. This trait
-currently implements cost and numeric skill effects, not those world procedures.
+North answers and whole-route retracing now have explicit world-fact interfaces
+in the [exploration guide](exploration.md). Automatic world/calendar feeds,
+partial routes, signal dependence, ancestry composition and world-transition
+automation remain pending. Those interfaces preserve the original journey ledger and require authored world facts.
 See [`expanded-orientation-sense.t`](../../tests/fixtures/expanded-orientation-sense.t)
 for the minimal fixture and independent bonus/default/cap expectations; unrun.

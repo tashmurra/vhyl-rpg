@@ -1456,3 +1456,40 @@ including terrain and world relationships, through the shared resolver. Plain
 abridged skill instances still require paid training in this adapter. This replaces
 the earlier blanket default restriction for the two expanded definition types;
 no additional forage allowance is granted.
+
+
+## Orientation answers and remembered routes
+
+`RpgExpandedNorthAssessment` supplies a pure world-fact interface for the
+orientation trait (`full-2008`, B34). Bind `profile`, the world's actual
+`northDirection`, `approved = true` and original `evidence`. Assessment first
+checks the trait's environment eligibility; it never invents a direction, changes
+position, rolls or spends time.
+
+`RpgExpandedOrientationRoute` records an ordered `waypoints` list against a
+character's `RpgLiteJourney`. Give it a unique `id`, `approved = true` and
+`evidence` identifying the actual route. `begin()` captures the shared clock and
+journey elapsed time. After traversal, `complete(true, evidence)` requires positive
+elapsed travel from that journey, consistent shared time, no recorded fall, and
+an explicit arrival declaration covering the listed waypoints. World connectivity
+and the route actually taken remain authored facts; a journey's elapsed time alone
+does not prove them. Neither operation advances time a second time.
+
+`retrace(profile, monthCutoffAt, calendarEvidence, currentWaypoint, positionConfirmed)`
+returns the reversed waypoint list. It requires the same traveler, a completed
+route, the confirmed final waypoint, an active eligible orientation trait and an
+explicit cutoff from the campaign calendar. The complete recorded route must
+fall within the supplied month window. No thirty-day approximation is built in.
+The result is remembered navigation information: normal movement still pays its
+own time, fatigue and hazard consequences. Age is reassessed on each query.
+
+`abandon(evidence)` closes an interrupted trace without allowing it to be
+retraced as complete. Retried completion and abandonment reuse their state, and
+an abandoned trace permits a later independent route. The fixture
+[`expanded-orientation-route.t`](../../tests/fixtures/expanded-orientation-route.t)
+covers travel evidence, exact cutoff, endpoint rejection, cancellation, replay,
+rollback, undo and persistence; it is authored but unrun.
+
+Partial-route retracing, multi-journey traces, route recording from parser movement
+and automatic calendar/position feeds remain pending. The current interface is an
+explicit author contract with owned records, not an automatic world-map solver.

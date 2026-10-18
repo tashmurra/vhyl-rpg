@@ -9169,6 +9169,8 @@ def test(build):
     test_free_fall_skill(Session, free_fall_skill, build.out)
     orientation = build.build('expanded-orientation-sense',ROOT / 'tests/fixtures/expanded-orientation-sense.t')
     test_orientation_sense(Session, orientation)
+    orientation_route = build.build('expanded-orientation-route',ROOT / 'tests/fixtures/expanded-orientation-route.t')
+    test_orientation_route(Session, orientation_route, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19593,5 +19595,52 @@ def test_orientation_sense(Session, bundle):
         for code in (9303, 31, 9100, 9304):
             s.action(2285, code)
         assert last(s, 'test.free-fall-cap') == [16, 16, 16, 3]
+    finally:
+        s.close()
+
+
+def test_orientation_route(Session, bundle, out):
+    """B34 owned path and explicit calendar/position facts; authored, unrun."""
+    path = out / 'expanded-orientation-route.zsave'
+    s = Session(bundle)
+    try:
+        for code in (9400, 9506, 9507, 9508, 9510):
+            s.action(2285, code)
+        assert last(s, 'test.orientation-north') == ['ready', 'toward-ridge']
+        assert last(s, 'test.orientation-route-state') == [0, None, 0, 0]
+        for code in (9500, 9502):
+            s.action(2285, code)
+        assert last(s, 'test.orientation-arrival') == ['blocked', 'orientation-route-travel-required']
+        for code in (9501, 9509, 9510):
+            s.action(2285, code)
+        assert last(s, 'test.orientation-route-state') == [1, None, 10, 0]
+        s.action(2285, 9502)
+        s.command('undo')
+        s.action(2285, 9510)
+        assert last(s, 'test.orientation-route-state') == [1, None, 10, 0]
+        for code in (9502, 9502, 9503, 9503, 9510):
+            s.action(2285, code)
+        assert last(s, 'test.orientation-route') == ['ready', None, 'tower', 'bridge', 'gate']
+        assert last(s, 'test.orientation-route-state') == [1, 10, 10, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 9503)
+        assert last(s, 'test.orientation-route') == ['ready', None, 'tower', 'bridge', 'gate']
+        s.action(2285, 9504)
+        assert last(s, 'test.orientation-route') == ['blocked', 'orientation-route-too-old']
+        s.action(2285, 9505)
+        assert last(s, 'test.orientation-route') == ['blocked', 'orientation-route-position']
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (9400, 9500, 9511, 9511, 9503):
+            s.action(2285, code)
+        assert last(s, 'test.orientation-route') == ['blocked', 'orientation-route-abandoned']
     finally:
         s.close()
