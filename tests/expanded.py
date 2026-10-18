@@ -9238,6 +9238,8 @@ def test(build):
     test_sustenance_aging_plan(Session, sustenance_aging_plan)
     sustenance_aging = build.build('expanded-sustenance-aging',ROOT / 'tests/fixtures/expanded-sustenance-aging.t')
     test_sustenance_aging(Session, sustenance_aging, build.out)
+    sustenance_aging_adjustments = build.build('expanded-sustenance-aging-adjustments',ROOT / 'tests/fixtures/expanded-sustenance-aging-adjustments.t')
+    test_sustenance_aging_adjustments(Session, sustenance_aging_adjustments)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21033,5 +21035,27 @@ def test_sustenance_aging(Session, bundle, out):
         for code in (11703, 12802, 12803):
             s.action(2285, code)
         assert last(s, 'test.sustenance-aging-state') == [612, 2, 2, 1, 24]
+    finally:
+        s.close()
+
+
+def test_sustenance_aging_adjustments(Session, bundle):
+    """Allow safe negative adjustments; reject unreachable shared states before injury. Unrun."""
+    s = Session(bundle)
+    try:
+        for code in (12800, 12900, 12902):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-aging-adjustment-preview') == ['ready', None, 0, 10, 10]
+        for code in (12903, 11701, 11703, 12802, 12802, 12904):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-aging-adjustments') == [8, 8, 8, 8, 7, 1, 24]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (12800, 12901, 12902, 11701, 11703, 12803):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-aging-adjustment-preview') == ['blocked', 'aging-derived-state-unavailable', 0, 10, 10]
+        assert last(s, 'test.sustenance-aging-state') == [None, 0, 0, 0, 0]
     finally:
         s.close()

@@ -2462,9 +2462,9 @@ same loss records. Ordinary aging retains its normal exemption. Completed checks
 are not rerolled; time cannot advance with unsettled checks while the character
 is alive. Death ends further checks. No extra adventure time is charged.
 
-Day-based shortened-lifespan calendars, negative derived-stat adjustments during
-sequential loss, and sequences that could enter the shared procedure's unsupported
-low-score range reject before injury. Day-level age inputs remain unsupported.
+Day-based shortened-lifespan calendars and sequences that could enter an
+unsupported derived-stat or low-score state reject before injury. Negative
+secondary adjustments are permitted when the full sequence remains supported. Day-level age inputs remain unsupported.
 These limits keep the modifier partial; they are not substitute rules. The
 existing optional equivalent-trait-loss adjudication is also outside this path.
 
@@ -2472,3 +2472,17 @@ existing optional equivalent-trait-loss adjudication is also outside this path.
 and `test_sustenance_aging` specify modifier pricing/copying, one injury's two-year
 increment, checks despite ordinary immunity, pending-check time guards, replay,
 rollback, undo and save continuation. Fixtures remain unrun.
+
+
+`rpgExpandedSustenanceAgingPreflight(profile, count, medicalTL)` evaluates each
+planned boundary with the lowest still-living attribute scores reachable under
+its maximum loss, applying the existing longevity and medical/fitness rules.
+Temporary scores are separate from the live character. This permits supported
+negative secondary purchases without changing ordinary aging results; unsafe
+combinations return the shared procedure's reason before injury or random draws.
+It does not infer that the character will actually suffer those worst losses.
+
+[`expanded-sustenance-aging-adjustments.t`](../../tests/fixtures/expanded-sustenance-aging-adjustments.t)
+and `test_sustenance_aging_adjustments` specify a supported reduced-health purchase
+through two failing aging boundaries, unchanged preview scores/randomness, and
+rejection of a sequence whose later derived state is unsupported. Fixtures are unrun.

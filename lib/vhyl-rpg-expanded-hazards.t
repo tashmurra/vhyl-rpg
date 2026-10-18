@@ -6154,17 +6154,8 @@ class RpgExpandedSustenanceAgingAdvance: object
         foreach (local prior in profile.agingHistory)
             if (prior.calendarId != self.calendarId || prior.era == profile.rejuvenations.length() && prior.ageYears * 12 > self.oldAgeMonths)
                 rpgExpandedReject('sustenance-aging-calendar-history');
-        if (plan.boundaryAgeMonths.length() > 0 && profile.level('longevity') == 0)
-        {
-            local probe = new RpgExpandedAgingEvent(); probe.profile = profile;
-            local lowestHealth = profile.ht - 2 * (plan.boundaryAgeMonths.length() - 1); if (lowestHealth < 1) lowestHealth = 1;
-            if (lowestHealth + rpgExpandedAgingModifier(self.medicalTL,probe.fitnessModifier()) < 3)
-            { value.reason = 'sustenance-aging-low-score-sequence-unavailable'; return value; }
-        }
-        // Any negative adjustment could become invalid during sequential attribute loss.
-        if (plan.boundaryAgeMonths.length() > 0 && (profile.hpAdjustment < 0 || profile.fpAdjustment < 0
-            || profile.willAdjustment < 0 || profile.perceptionAdjustment < 0 || profile.speedQuarterAdjustment < 0 || profile.moveAdjustment < 0))
-        { value.reason = 'sustenance-aging-derived-adjustments-unavailable'; return value; }
+        local preflight = rpgExpandedSustenanceAgingPreflight(profile,plan.boundaryAgeMonths.length(),self.medicalTL);
+        if (preflight.status != 'ready') return preflight;
         value.status = 'ready'; return value;
     }
     commit()
@@ -6223,3 +6214,32 @@ modify rpgLedger
         return nil;
     }
 ;
+
+
+/** Preflight every boundary using lowest still-living scores, without touching the owner. */
+rpgExpandedSustenanceAgingPreflight(profile,count,medicalTL)
+{
+    rpgInteger(count,0,24); rpgInteger(medicalTL,0,1000);
+    local value = new RpgExpandedResult(); local probe = new RpgExpandedAgingEvent(); probe.profile = profile;
+    local fitness = probe.fitnessModifier(); local longevity = profile.level('longevity') > 0; local maximumLoss = longevity ? 1 : 2;
+    local scratch = new RpgExpandedProfile();
+    scratch.hpAdjustment = profile.hpAdjustment; scratch.fpAdjustment = profile.fpAdjustment;
+    scratch.willAdjustment = profile.willAdjustment; scratch.perceptionAdjustment = profile.perceptionAdjustment;
+    scratch.speedQuarterAdjustment = profile.speedQuarterAdjustment; scratch.moveAdjustment = profile.moveAdjustment;
+    for (local index = 0; index < count; index += 1)
+    {
+        scratch.st = profile.st - maximumLoss * index; if (scratch.st < 1) scratch.st = 1;
+        scratch.dx = profile.dx - maximumLoss * index; if (scratch.dx < 1) scratch.dx = 1;
+        scratch.iq = profile.iq - maximumLoss * index; if (scratch.iq < 1) scratch.iq = 1;
+        scratch.ht = profile.ht - maximumLoss * index; if (scratch.ht < 1) scratch.ht = 1;
+        local worst = rpgExpandedAgingSequence(scratch,medicalTL,fitness,longevity,[18,18,18,18]);
+        if (worst.status != 'ready') { value.reason = worst.reason; return value; }
+        if (scratch.hpAdjustment < 0 && worst.healthCapacity <= 0
+            || scratch.fpAdjustment < 0 && worst.fatigueCapacity <= 0
+            || scratch.willAdjustment < 0 && worst.will <= 0
+            || scratch.perceptionAdjustment < 0 && worst.perception <= 0
+            || worst.speedQuarters < 0 || worst.move < 0)
+        { value.reason = 'aging-derived-state-unavailable'; return value; }
+    }
+    value.status = 'ready'; return value;
+}

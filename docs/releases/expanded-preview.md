@@ -1749,3 +1749,9 @@ executes supported boundaries in the shared aging history, including for ordinar
 ageless characters. Time guards prevent skipping pending checks. Day calendars,
 negative derived adjustments and unsupported low-score sequences remain explicit
 limitations. Pricing, rollback, undo and persistence fixtures are authored, unrun.
+
+
+Sustenance aging now preflights each planned boundary through the shared arithmetic,
+allowing supported negative secondary purchases instead of rejecting them all.
+Only sequences that could reach unsupported derived or low-score states reject.
+Safe/unsafe sequence fixtures are authored but unrun.

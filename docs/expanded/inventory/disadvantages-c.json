@@ -227,9 +227,10 @@
       "acceptance": "Accelerated aging adds +30% to the sustenance requirement and causes two years of aging per health point lost through that requirement, including normally ageless actors. Attribute aging to this cause, not unrelated injury, and route aging through its normal procedure.",
       "tests": [
         "tests/expanded.py::test_sustenance_aging_plan",
-        "tests/expanded.py::test_sustenance_aging"
+        "tests/expanded.py::test_sustenance_aging",
+        "tests/expanded.py::test_sustenance_aging_adjustments"
       ],
-      "validation_note": "The +30% purchase modifier now requires a causal two-year receipt for each injury, with bound age/calendar evidence and shared forced aging-boundary execution. Ordinary aging immunity does not suppress these checks; completed losses remain in shared aging history. Time cannot advance while live checks remain unsettled. Day-based calendar conversions, negative derived-stat adjustments and possible unsupported low-score sequences reject before injury. Day-level ages and optional equivalent trait losses remain pending. Fixtures authored, unrun."
+      "validation_note": "The +30% purchase modifier now requires a causal two-year receipt for each injury, with bound age/calendar evidence and shared forced aging-boundary execution. Ordinary aging immunity does not suppress these checks; completed losses remain in shared aging history. Time cannot advance while live checks remain unsettled. Day-based calendar conversions, possible unsupported derived-stat or low-score sequences reject before injury. Day-level ages and optional equivalent trait losses remain pending. Fixtures authored, unrun. Full-sequence pure preflight now allows safe negative secondary adjustments using temporary scores and shared aging arithmetic. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-dependent-competence",
