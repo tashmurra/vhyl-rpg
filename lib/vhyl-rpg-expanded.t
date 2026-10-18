@@ -374,3 +374,17 @@ class RpgExpandedForageTools: object
     { local value = new RpgExpandedResult(); value.reason = 'forage-tools-adapter-required'; return value; }
     configure(context) { rpgExpandedReject('forage-tools-adapter-required'); }
 ;
+
+/** Shared inventory unit: one ordinary meal per quantity, using the existing item ledger. */
+class RpgExpandedFoodStock: RpgLiteItem
+    quantity = 0
+    readyToEat = nil
+    preparationEvidence = nil
+    gatheredFrom = nil
+;
+/** Owned forage source contract; exploration validates the actual recorded roll. */
+class RpgExpandedForageYieldReceipt: object
+    creditedHarvest = nil
+    availableYield()
+    { local value = new RpgExpandedResult(); value.reason = 'forage-yield-unavailable'; return value; }
+;

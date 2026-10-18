@@ -1385,3 +1385,25 @@ shared fishing/hunting limits in both orders, explicit ammunition debit, failure
 rollback, undo and saved replay. Assertions in `test_hunting_forage` are authored,
 unrun. Dedicated-day scheduling, actual food stock and preservation remain
 pending alongside the unsupported weapon cases above.
+
+## Claiming gathered food
+
+The equipment module's `RpgExpandedForageHarvest` converts a positive recorded
+yield into one new `RpgExpandedFoodStock` in the recipient's existing equipment
+list. Supply the forage attempt as `source`, a fresh zero-quantity stock, the
+recipient, approval and evidence establishing collection or transfer. The stock
+uses one ordinary meal per quantity; its per-meal weight and value are authored
+facts because B427 does not specify them.
+
+The source records its single credited harvest. Replaying the claim returns the
+recorded result; another claim with a different ID or stock cannot credit that
+source again. A failed roll or plant-poisoning outcome has no positive yield to
+claim. Collection adds no time or randomness and does not reroll the forage check.
+
+Claiming food does not cook or preserve it. Set readiness only from actual
+authored preparation, then use the health module's
+[inventory-backed meal](health.md#consuming-food-inventory) to debit stock and
+credit the existing needs ledger. `tests/fixtures/expanded-forage-food.t` covers
+collection, duplicate rejection and consumption with rollback, undo and saved
+continuation; its assertions are authored, unrun. Cooking procedures, spoilage,
+preservation and poisoned-food consumption tracking remain pending.

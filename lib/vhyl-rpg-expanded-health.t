@@ -6884,3 +6884,35 @@ modify RpgExpandedProfile
         gate.requiresMovement = true; gate.evidence = evidence; return gate;
     }
 ;
+
+/** Consume ordinary edible inventory and credit the existing daily needs ledger once. */
+class RpgExpandedFoodMeal: RpgExpandedMealCredit
+    stock = nil
+    boundStock = nil
+    validateBinding()
+    {
+        inherited();
+        if (self.stock != self.boundStock) rpgExpandedReject('food-meal-binding');
+        return nil;
+    }
+    assess()
+    {
+        local value = inherited(); if (value.status != 'ready') return value;
+        if (self.stock == nil || !self.stock.ofKind(RpgExpandedFoodStock)) rpgExpandedReject('food-meal-stock');
+        rpgInteger(self.stock.quantity,0,1000000);
+        if (!self.stock.readyToEat || self.stock.preparationEvidence == nil || self.stock.preparationEvidence == '')
+        { value.status = 'blocked'; value.reason = 'food-meal-preparation-required'; return value; }
+        if (!holds(self.profile.equipment,self.stock) || !self.stock.usableBy(self.profile) || self.stock.quantity < self.meals)
+        { value.status = 'blocked'; value.reason = 'food-meal-unavailable'; return value; }
+        local owners = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            if (holds(owner.equipment,self.stock)) owners += 1;
+        if (owners != 1) rpgExpandedReject('food-meal-ownership');
+        return value;
+    }
+    apply()
+    {
+        local value = inherited(); if (value.status != 'resolved') return value;
+        self.stock.quantity -= self.meals; self.boundStock = self.stock; return value;
+    }
+;

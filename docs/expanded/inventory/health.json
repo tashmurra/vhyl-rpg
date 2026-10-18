@@ -2226,9 +2226,10 @@
       "acceptance": "A successful survival or naturalist roll gathers one meal of edible plants; choosing a second applicable skill does not grant another attempt.",
       "tests": [
         "tests/expanded.py::test_foraging_assessment",
-        "tests/expanded.py::test_plant_forage"
+        "tests/expanded.py::test_plant_forage",
+        "tests/expanded.py::test_forage_food"
       ],
-      "validation_note": "Owned travel-day plant attempts share one per-character ledger-day allowance across Naturalist, Survival, sites and request IDs. Paid full-profile skill definitions and physical health permission are required before the forage roll; replay returns its stored result. Fixtures cover preview, alternate skill/site rejection, next-day eligibility, invalid skill definitions, poison handoff, rollback, undo and cross-process continuation; authored, unrun. Alternate defaults, food inventory, dedicated-day scheduling and animal-food attempt ownership remain pending."
+      "validation_note": "Owned travel-day plant attempts share one per-character ledger-day allowance across Naturalist, Survival, sites and request IDs. Paid full-profile skill definitions and physical health permission are required before the forage roll; replay returns its stored result. Fixtures cover preview, alternate skill/site rejection, next-day eligibility, invalid skill definitions, poison handoff, rollback, undo and cross-process continuation; authored, unrun. Alternate defaults, food inventory, dedicated-day scheduling and animal-food attempt ownership remain pending. Positive yields now have a single owned harvest into actual meal-unit inventory; prepared-food consumption debits stock and credits the existing needs ledger. Duplicate claims, readiness, empty stock, rollback, undo and saved continuation assertions are authored, unrun. Prior food-inventory gap is partially addressed; preservation, spoilage, poisoned-food consumption and nonhuman nutrition remain pending."
     },
     {
       "id": "health-foraging-plant-seventeen",
@@ -2268,9 +2269,10 @@
       "acceptance": "In appropriate terrain, a missile-weapon skill success at -4 supplies two meals of small-game meat.",
       "tests": [
         "tests/expanded.py::test_foraging_assessment",
-        "tests/expanded.py::test_hunting_forage"
+        "tests/expanded.py::test_hunting_forage",
+        "tests/expanded.py::test_forage_food"
       ],
-      "validation_note": "Plant rolls and animal-food rolls have separate owned travel-day allowances; ordinary loaded-weapon hunting shares its allowance with fishing in both orders. Hunting applies -4, supports matching weapon skills and ordinary minimum-strength shortfall, and debits an explicitly authored ammunition expenditure once through the existing weapon state on success or failure. Expected values, preview, category limits, unsupported cases, rollback, undo and saved replay assertions are authored, unrun. Thrown weapons, special projectile effects, food inventory, preservation and dedicated-day scheduling remain pending. B427 does not specify an abstract hunt shot count; expenditure is explicitly authored rather than invented as a fixed rule."
+      "validation_note": "Plant rolls and animal-food rolls have separate owned travel-day allowances; ordinary loaded-weapon hunting shares its allowance with fishing in both orders. Hunting applies -4, supports matching weapon skills and ordinary minimum-strength shortfall, and debits an explicitly authored ammunition expenditure once through the existing weapon state on success or failure. Expected values, preview, category limits, unsupported cases, rollback, undo and saved replay assertions are authored, unrun. Thrown weapons, special projectile effects, food inventory, preservation and dedicated-day scheduling remain pending. B427 does not specify an abstract hunt shot count; expenditure is explicitly authored rather than invented as a fixed rule. Positive yields now have a single owned harvest into actual meal-unit inventory; prepared-food consumption debits stock and credits the existing needs ledger. Duplicate claims, readiness, empty stock, rollback, undo and saved continuation assertions are authored, unrun. Prior food-inventory gap is partially addressed; preservation, spoilage, poisoned-food consumption and nonhuman nutrition remain pending."
     },
     {
       "id": "health-foraging-fishing",
@@ -2282,9 +2284,10 @@
       "acceptance": "Near suitable water, a successful fishing roll supplies two meals instead of using the missile-hunting attempt.",
       "tests": [
         "tests/expanded.py::test_foraging_assessment",
-        "tests/expanded.py::test_fishing_forage"
+        "tests/expanded.py::test_fishing_forage",
+        "tests/expanded.py::test_forage_food"
       ],
-      "validation_note": "Owned plant and fishing rolls use separate per-character ledger-day allowances. Fishing supports Perception/Easy, its Perception-4 default, explicit suitable water and concrete equipment assessments through the shared context. Success records two meals. Fixtures cover category independence, exact day boundaries, default/equipment scores, unavailable resources, replay, rollback, undo and cross-process continuation; authored, unrun. Hunting ammunition/roll ownership, actual food inventory and dedicated-day scheduling remain pending."
+      "validation_note": "Owned plant and fishing rolls use separate per-character ledger-day allowances. Fishing supports Perception/Easy, its Perception-4 default, explicit suitable water and concrete equipment assessments through the shared context. Success records two meals. Fixtures cover category independence, exact day boundaries, default/equipment scores, unavailable resources, replay, rollback, undo and cross-process continuation; authored, unrun. Hunting ammunition/roll ownership, actual food inventory and dedicated-day scheduling remain pending. Positive yields now have a single owned harvest into actual meal-unit inventory; prepared-food consumption debits stock and credits the existing needs ledger. Duplicate claims, readiness, empty stock, rollback, undo and saved continuation assertions are authored, unrun. Prior food-inventory gap is partially addressed; preservation, spoilage, poisoned-food consumption and nonhuman nutrition remain pending."
     },
     {
       "id": "health-foraging-travel-limits",

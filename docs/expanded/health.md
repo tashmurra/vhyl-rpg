@@ -3181,3 +3181,25 @@ transaction, so exceptions and undo restore the entire operation. Fixtures cover
 self/party scope, independent checks, duplicate prevention, unsupported
 susceptibility, rollback, undo and cross-process save continuation. Assertions
 remain unrun. Owned forage rolls, food inventory and daily quotas are still pending.
+
+## Consuming food inventory
+
+`RpgExpandedFoodMeal` extends `RpgExpandedMealCredit` with a concrete
+`RpgExpandedFoodStock`. Supply the existing profile and needs ledger, a unique
+meal ID, meal count, approval, consumption evidence and stock. The stock must be
+owned exclusively by that profile, usable, sufficient in quantity and marked
+`readyToEat` with concrete `preparationEvidence`. Raw or otherwise unprepared
+food is rejected before any inventory or needs change.
+
+`apply()` credits the existing needs ledger and decrements the inventory quantity
+in the same transaction. Replay spends nothing. A later failed meal cannot reuse
+already consumed portions. The empty item can remain in inventory with zero
+weight contribution. Existing meal-credit revocation, including retching,
+removes nutritional credit without restoring food that was already eaten.
+
+This operation represents an authored completed meal; it does not invent a
+universal eating duration or cook raw food. It supports ordinary meal units;
+nonhuman nutrition, spoilage, poison ingestion and preparation scheduling remain
+separate integrations. The combined forage-food fixture covers stock collection,
+preparation rejection, consumption, rollback, undo and saved continuation;
+assertions are authored, unrun while checks are paused.

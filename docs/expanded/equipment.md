@@ -645,3 +645,17 @@ modifiers are applied through the skill context. The adapter records these facts
 in the attempt binding; it does not create tools or infer inventory ownership.
 See [owned fishing attempts](exploration.md#owned-travel-day-fishing-attempts)
 for the complete integration and authored, unrun fixture.
+
+## Food from recorded forage yields
+
+`RpgExpandedFoodStock` is an ordinary inventory item whose quantity counts meals.
+`RpgExpandedForageHarvest` claims one positive owned forage yield into a fresh
+stock, preserving single ownership and binding the source to that claim. Supply
+an ID, recipient profile, source attempt, empty stock, approval and concrete
+collection/transfer evidence. Per-meal weight and price remain authored facts.
+
+Use `assess()` before `apply()`. Neither call rolls dice or spends time; only a
+successful commit adds stock to inventory. Replay cannot duplicate the yield,
+including after some or all of the food has been consumed. Readiness for eating
+is separate from collection. See [claiming gathered food](exploration.md#claiming-gathered-food)
+and [consumption](health.md#consuming-food-inventory) for integration.

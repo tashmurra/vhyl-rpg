@@ -2610,7 +2610,7 @@ modify RpgExpandedProfile
     plantForageAttempts = []
 ;
 /** Shared owned travel-day roll; concrete adapters select the attempt category. */
-class RpgExpandedTravelForageAttempt: object
+class RpgExpandedTravelForageAttempt: RpgExpandedForageYieldReceipt
     id = nil
     profile = nil
     site = nil
@@ -2626,6 +2626,12 @@ class RpgExpandedTravelForageAttempt: object
     history() { return self.profile.plantForageAttempts; }
     remember() { self.profile.plantForageAttempts = self.history() + [self]; }
     extraDefinition() { return []; }
+    availableYield()
+    {
+        if (self.result == nil || self.result.forage == nil)
+        { local value = new RpgExpandedResult(); value.reason = 'forage-yield-unresolved'; return value; }
+        self.assess(); return self.result.forage;
+    }
     captureResources() { return nil; }
     commitResources(value) { return nil; }
     skillReason()

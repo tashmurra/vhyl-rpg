@@ -1052,3 +1052,59 @@ class RpgExpandedFishingTools: RpgExpandedForageTools
     configure(context)
     { context.equipmentAssessment = self.equipmentAssessment; return context; }
 ;
+
+modify RpgExpandedProfile
+    forageHarvests = []
+;
+/** Claim the positive meal yield of one owned forage roll into a fresh inventory stack. */
+class RpgExpandedForageHarvest: object
+    id = nil
+    profile = nil
+    source = nil
+    stock = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.profile,self.source,self.stock,self.stock.id,self.stock.weight,self.stock.cost,self.approved,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.source == nil || !self.source.ofKind(RpgExpandedForageYieldReceipt)
+            || self.stock == nil || !self.stock.ofKind(RpgExpandedFoodStock)) rpgExpandedReject('forage-harvest-definition');
+        local definition = self.definition(); local value = new RpgExpandedResult();
+        local harvestYield = self.source.availableYield();
+        if (harvestYield.status != 'ready') { value.reason = harvestYield.reason; return value; }
+        if (self.result != nil)
+        {
+            for (local index = 1; index <= definition.length(); index += 1)
+                if (definition[index] != self.boundDefinition[index]) rpgExpandedReject('forage-harvest-binding');
+            if (self.source.creditedHarvest != self || self.stock.gatheredFrom != self.source
+                || !holds(self.profile.forageHarvests,self)) rpgExpandedReject('forage-harvest-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.source.creditedHarvest != nil) rpgExpandedReject('forage-harvest-duplicate-source');
+        foreach (local prior in self.profile.forageHarvests)
+            if (prior.id == self.id) rpgExpandedReject('forage-harvest-duplicate');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'forage-harvest-transfer-facts'; return value; }
+        if (harvestYield.meals < 1) { value.reason = 'forage-harvest-no-food'; return value; }
+        rpgInteger(harvestYield.meals,1,2);
+        if (self.stock.id == nil || self.stock.id == '' || self.stock.quantity != 0 || self.stock.gatheredFrom != nil)
+            rpgExpandedReject('forage-harvest-fresh-stock-required');
+        rpgInteger(self.stock.weight,0,2147483647 / harvestYield.meals); rpgInteger(self.stock.cost,0,2147483647);
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            if (holds(owner.equipment,self.stock)) rpgExpandedReject('forage-harvest-stock-owned');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.stock.quantity = self.source.availableYield().meals;
+        self.stock.gatheredFrom = self.source; self.profile.equipment = self.profile.equipment + [self.stock];
+        self.source.creditedHarvest = self; self.profile.forageHarvests = self.profile.forageHarvests + [self];
+        self.result = value; value.status = 'resolved'; return value;
+    }
+;

@@ -1063,3 +1063,10 @@ ledger once on success or failure; preview and replay do not debit it. Hunting's
 printed penalty and ordinary strength shortfall affect the roll. Thrown weapons,
 special projectile effects and food inventory remain pending. Shared-limit,
 resource, rollback, undo and saved-replay fixtures are authored, unrun.
+
+Positive forage yields can now be claimed once into ordinary food inventory.
+Inventory-backed meals debit that stock while crediting the existing daily needs
+ledger. Collection does not imply cooking or preservation; edible preparation
+requires explicit facts. Duplicate claims, empty stock, rollback, undo and saved
+continuation have authored, unrun fixtures. Spoilage, preservation and poisoned
+food consumption remain pending.

@@ -9028,6 +9028,8 @@ def test(build):
     test_fishing_forage(Session, fishing_forage, build.out)
     hunting_forage = build.build('expanded-hunting-forage',ROOT / 'tests/fixtures/expanded-hunting-forage.t')
     test_hunting_forage(Session, hunting_forage, build.out)
+    forage_food = build.build('expanded-forage-food',ROOT / 'tests/fixtures/expanded-forage-food.t')
+    test_forage_food(Session, forage_food, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16139,3 +16141,61 @@ def test_hunting_forage(Session, bundle, out):
             assert state(s) == [ammunition,0,0,0,None,None]
         finally:
             s.close()
+
+
+def test_forage_food(Session, bundle, out):
+    def state(s):
+        s.action(2285,1903)
+        return last(s,'test.forage-food')
+    path = out / 'expanded-forage-food.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,1902)
+        assert last(s,'test.forage-harvest-preview') == ['blocked','forage-yield-unresolved']
+        for code in (30,1700,1902,1901):
+            s.action(2285,code)
+        assert last(s,'test.forage-harvest-preview') == ['ready',None]
+        assert state(s) == [0,0,0,0,0,3,0]
+        s.action(2285,1900)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,0,3,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1900,1900,1906,1904):
+            s.action(2285,code)
+        assert last(s,'test.forage-harvest-duplicate') == ['forage-harvest-duplicate-source']
+        assert last(s,'test.forage-meal') == ['blocked','food-meal-preparation-required']
+        assert state(s) == [2,1,1,0,0,3,0]
+        for code in (1907,1905):
+            s.action(2285,code)
+        assert state(s) == [2,1,1,0,0,3,0]
+        s.action(2285,1904)
+        s.command('undo')
+        assert state(s) == [2,1,1,0,0,3,0]
+        for code in (1904,1904,1900):
+            s.action(2285,code)
+        assert state(s) == [1,1,1,1,1,3,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1904,1900,1909,1910):
+            s.action(2285,code)
+        assert last(s,'test.forage-meal') == ['blocked','food-meal-unavailable']
+        assert state(s) == [0,1,1,2,2,3,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (1606,1700,1900):
+            s.action(2285,code)
+        assert last(s,'test.forage-harvest') == ['blocked','forage-harvest-no-food']
+        assert state(s) == [0,0,0,0,0,3,0]
+    finally:
+        s.close()
