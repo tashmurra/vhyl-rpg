@@ -2609,8 +2609,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "On success extend breath duration by half or recover one fatigue over two minutes; prohibit combining recovery with restorative magic.",
-      "tests": ["tests/expanded.py::test_breath_preparation", "tests/expanded.py::test_breathing_recovery"],
-      "validation_note": "Fixed trained skill, owned preparation bonus and two-minute shared-ledger recovery authored. Protected fatigue and explicit restorative-magic incompatibility are enforced. Automatic spell integration, interruption and full validation remain incomplete; fixtures unrun.",
+      "tests": ["tests/expanded.py::test_breath_preparation", "tests/expanded.py::test_breathing_recovery", "tests/expanded.py::test_breathing_restrictions"],
+      "validation_note": "Fixed trained skill, owned preparation bonus and two-minute shared-ledger recovery authored. Protected fatigue, actual air availability, clock-boundary preflight and explicit restorative-magic incompatibility are enforced. Profile validation binds recovery times and results and rejects duplicate histories. Automatic spell integration, interruption and full validation remain incomplete; fixtures unrun.",
       "reference_data": {
         "attribute": "ht",
         "difficulty": "hard",

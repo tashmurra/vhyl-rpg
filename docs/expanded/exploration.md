@@ -1643,3 +1643,11 @@ returns `reused`. The `test_breathing_recovery` fixture covers success, failure,
 ordinary-recovery overlap, incompatible magic, no recoverable fatigue, rollback,
 undo and saved replay. Fixtures are unrun. Interruptible sessions and automatic
 integration with future restorative spell effects remain incomplete.
+
+
+Breathing recovery rejects an active breath reserve, nonzero air-loss clock or
+an owned airless exposure even if the author has approved quiet rest. Assessment
+also preflights shared-clock boundaries before the check. Profile validation
+binds recovery completion times and outcomes and rejects duplicate or
+overlapping history records. `test_breathing_restrictions` covers these air and
+protected-fatigue gates plus altered history rejection; fixtures remain unrun.

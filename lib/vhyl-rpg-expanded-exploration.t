@@ -3254,6 +3254,7 @@ class RpgExpandedBreathPreparation: object
             local score = rpgLiteScore(self.profile,context);
             if (score == nil || score < 3) { value.reason = 'breath-control-score-unavailable'; return value; }
         }
+        rpgLedger.validateAdvance(1);
         value.seconds = 1; value.status = 'ready'; return value;
     }
     apply()
@@ -3302,18 +3303,35 @@ class RpgExpandedBreathingRecovery: object
     evidence = nil
     restorativeMagic = nil
     completedAt = nil
+    startedAt = nil
+    boundStartedAt = nil
+    boundCompletedAt = nil
+    boundRecovered = nil
+    boundSucceeded = nil
     boundDefinition = nil
     result = nil
     definition() { return [self.id,self.profile,self.skill,self.approved,self.evidence,self.restorativeMagic]; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || self.startedAt == nil
+            || self.startedAt != self.boundStartedAt || self.completedAt != self.boundCompletedAt
+            || self.completedAt != self.startedAt + 120 || self.completedAt > rpgLedger.seconds
+            || !holds(self.profile.breathingRecoveries,self)) rpgExpandedReject('breathing-recovery-history');
+        local facts = self.definition();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('breathing-recovery-binding');
+        if (self.result.check == nil || self.result.check.achieved != self.boundSucceeded
+            || self.result.recovered != self.boundRecovered || self.result.rest == nil
+            || self.result.rest.status != 'resolved' || self.result.rest.seconds != 120)
+            rpgExpandedReject('breathing-recovery-result-binding');
+        return nil;
+    }
     assess()
     {
         local value = new RpgExpandedBreathingRecoveryResult();
         if (self.result != nil)
         {
-            local facts = self.definition();
-            for (local i = 1; i <= facts.length(); i += 1)
-                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('breathing-recovery-binding');
-            if (!holds(self.profile.breathingRecoveries,self)) rpgExpandedReject('breathing-recovery-history');
+            self.validateReceipt();
             value.status = 'reused'; return value;
         }
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
@@ -3328,7 +3346,11 @@ class RpgExpandedBreathingRecovery: object
         foreach (local training in self.profile.skills)
             if (training.skill == self.skill && training.points > 0) trained = true;
         if (!trained) { value.reason = 'breath-control-training-required'; return value; }
+        if (self.profile.breathReserve != nil || self.profile.airClock != 0)
+        { value.reason = 'breathing-recovery-needs-air'; return value; }
+        self.profile.validateBreathStart();
         self.profile.validateNaturalRecovery(120,nil,nil);
+        rpgLedger.validateAdvance(120);
         local locked = self.profile.hunger + self.profile.thirst + self.profile.sleepDebt + self.profile.temperatureFatigue
             + self.profile.additionalRecoveryLockedFatigue();
         if (self.profile.fatigue <= locked) { value.reason = 'breathing-recovery-no-ordinary-fatigue'; return value; }
@@ -3343,9 +3365,11 @@ class RpgExpandedBreathingRecovery: object
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         local context = new RpgLiteContext(); context.skill = self.skill; context.kind = 'breathing-recovery';
+        self.startedAt = rpgLedger.seconds; self.boundStartedAt = self.startedAt;
         value.check = rpgLiteCheck(self.profile,context);
         local before = self.profile.fatigue;
         value.rest = rpgLiteRest(self.profile,120,nil,nil,nil,nil);
+        if (value.rest.status != 'resolved') rpgExpandedReject('breathing-recovery-rest-changed');
         if (value.check.achieved)
         {
             local locked = self.profile.hunger + self.profile.thirst + self.profile.sleepDebt + self.profile.temperatureFatigue
@@ -3355,11 +3379,23 @@ class RpgExpandedBreathingRecovery: object
             self.profile.restClock = 0; self.profile.afterFatigueRecovery();
         }
         value.recovered = before - self.profile.fatigue;
-        self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.completedAt = rpgLedger.seconds; self.boundCompletedAt = self.completedAt;
+        self.boundRecovered = value.recovered; self.boundSucceeded = value.check.achieved; self.boundDefinition = self.definition();
         value.status = 'resolved'; self.result = value;
         self.profile.breathingRecoveries = self.profile.breathingRecoveries + [self]; return value;
     }
 ;
 modify RpgExpandedProfile
     breathingRecoveries = []
+    validateFeatures()
+    {
+        inherited(); local ids = []; local until = 0;
+        foreach (local recovery in self.breathingRecoveries)
+        {
+            if (recovery == nil || !recovery.ofKind(RpgExpandedBreathingRecovery) || recovery.profile != self
+                || holds(ids,recovery.id) || recovery.startedAt < until) rpgExpandedReject('breathing-recovery-history');
+            recovery.validateReceipt(); ids = ids + [recovery.id]; until = recovery.completedAt;
+        }
+        return nil;
+    }
 ;

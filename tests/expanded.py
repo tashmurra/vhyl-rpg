@@ -9344,6 +9344,8 @@ def test(build):
     test_breath_preparation(Session, breath_preparation, build.out)
     breathing_recovery = build.build("expanded-breathing-recovery",ROOT / "tests/fixtures/expanded-breathing-recovery.t")
     test_breathing_recovery(Session, breathing_recovery, build.out)
+    breathing_restrictions = build.build("expanded-breathing-restrictions",ROOT / "tests/fixtures/expanded-breathing-restrictions.t")
+    test_breathing_restrictions(Session, breathing_restrictions)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23016,5 +23018,45 @@ def test_breathing_recovery(Session, bundle, out):
                 s.action(1900,code)
             assert last(s,'test.breathing-recovery-result') == ['blocked',reason]
             assert last(s,'test.breathing-recovery-state')[2:] == [0,0,0]
+        finally:
+            s.close()
+
+
+def test_breathing_restrictions(Session, bundle):
+    """Recovery requires air and ordinary fatigue; committed histories are bound. Unrun."""
+    for setup, reason in ((18100,'breathing-recovery-needs-air'),
+                          (18101,'breathing-recovery-no-ordinary-fatigue')):
+        s = Session(bundle)
+        try:
+            for code in (setup,18000,18005):
+                s.action(1900,code)
+            assert last(s,'test.breathing-recovery-result') == ['blocked',reason]
+            assert last(s,'test.breathing-recovery-state') == [5,0,0,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (0,18105,18005):
+            s.action(1900,code)
+        assert last(s,'test.breathing-restriction') == ['breath-airless-exposure-owned']
+        assert last(s,'test.breathing-recovery-state') == [5,0,0,0,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (18106,18105,18005):
+            s.action(1900,code)
+        assert last(s,'test.breathing-restriction') == ['fixture-recovery-clock-boundary']
+        assert last(s,'test.breathing-recovery-state') == [5,0,0,0,0]
+    finally:
+        s.close()
+    for mutation, reason in ((18102,'breathing-recovery-history'),
+                             (18103,'breathing-recovery-result-binding'),
+                             (18104,'breathing-recovery-history')):
+        s = Session(bundle)
+        try:
+            for code in (18000,mutation):
+                s.action(1900,code)
+            assert last(s,'test.breathing-history-error') == [reason]
         finally:
             s.close()
