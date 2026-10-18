@@ -1963,3 +1963,23 @@ A combat interruption can settle the party's marching fatigue with
 [`RpgExpandedMarchInterruption`](health.md#combat-interrupts-a-shared-march),
 reusing any already charged costs for the same interval. This does not add another
 hour to the ledger or resolve encounter positioning.
+
+
+## Reserving a full travel day
+
+Use foundation's `RpgExpandedTravelDay` when committing to the full daily mileage
+procedure (full-2008 B351). Supply `id`, `profile`, `approved` and `evidence` that
+the day includes preparation, marching and rest. `assess()` previews eligibility;
+`reserve()` records the choice at a shared-ledger day boundary. Repeating the
+reservation reuses it. No time, distance or fatigue is granted by reservation alone.
+
+The reservation blocks study, teaching and familiarity practice during that day,
+including activity ranges crossing into a reserved day. A dedicated foraging day
+conflicts in either reservation order. Day boundaries use the shared ledger's
+86400-second days. Records persist in `profile.travelDays` and validate their owner,
+identity and day. The next unreserved day permits those activities again.
+
+`test_travel_day` specifies conflicting reservations, study and practice rejection,
+rollback, undo, save continuation and next-day eligibility. Fixtures remain unrun.
+Work, other timed activities and complete daily-distance execution still need
+reservation integration; this interface must not be counted as full travel completion.

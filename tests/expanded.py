@@ -9452,6 +9452,8 @@ def test(build):
     test_packing_active_overload(Session,packing_active_overload,build.out)
     packing_pace = build.build("expanded-packing-pace",ROOT / "tests/fixtures/expanded-packing-pace.t")
     test_packing_pace(Session,packing_pace)
+    travel_day = build.build("expanded-travel-day",ROOT / "tests/fixtures/expanded-travel-day.t")
+    test_travel_day(Session,travel_day,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -25055,5 +25057,43 @@ def test_march_interruption(Session, bundle, out):
             s.action(2285,code)
         assert last(s,'test.march-interruption') == ['blocked','march-hour-author-facts']
         assert last(s,'test.march-group-state') == [0,0,0,0,0,0]
+    finally:
+        s.close()
+
+
+def test_travel_day(Session, bundle, out):
+    """B351 daily mileage precludes same-day study or familiarity practice; unrun."""
+    path = out / 'travel-day.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,23901); s.action(1680,23907)
+        assert last(s,'test.travel-state') == [0,0,0]
+        s.action(1680,23900); s.command('undo'); s.action(1680,23907)
+        assert last(s,'test.travel-state') == [0,0,0]
+        for code in (23900,23900,23902,23903,23906,23907):
+            s.action(1680,code)
+        assert last(s,'test.travel-study') == ['blocked','activity-dedicated-travel-day']
+        assert last(s,'test.travel-familiarity') == ['blocked','activity-dedicated-travel-day']
+        assert last(s,'test.travel-forage') == ['blocked','foraging-dedicated-travel-day']
+        assert last(s,'test.travel-state') == [1,0,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,23902)
+        assert last(s,'test.travel-study') == ['blocked','activity-dedicated-travel-day']
+        for code in (23904,23902,23903):
+            s.action(1680,code)
+        assert last(s,'test.travel-study') == ['ready',None]
+        assert last(s,'test.travel-familiarity') == ['ready',None]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (23905,23900,23907):
+            s.action(1680,code)
+        assert last(s,'test.travel-reserve') == ['blocked','travel-dedicated-foraging-day']
+        assert last(s,'test.travel-state') == [0,0,0]
     finally:
         s.close()

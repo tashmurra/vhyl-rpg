@@ -411,6 +411,8 @@ class RpgExpandedFamiliarity: object
         self.validate(); rpgInteger(seconds, 1, 86400);
         local value = new RpgExpandedResult();
         if (self.known()) { value.status = 'reused'; return value; }
+        value.reason = self.owner.nonTravelScheduleReason(rpgLedger.seconds,seconds);
+        if (value.reason != nil) return value;
         value.reason = self.owner.learningAcquisitionReason('familiarity');
         if (value.reason != nil) return value;
         if (!self.available) { value.reason = 'familiarity-equipment-unavailable'; return value; }

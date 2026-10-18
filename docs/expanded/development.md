@@ -164,3 +164,12 @@ disjoint catalogue groups.
 `test_talent_study` and `test_talent_communication_study` specify exact boundaries,
 preview purity, the full group memberships, ordinary rates, rate changes,
 communication credit, undo and save continuation. Assertions remain unrun.
+
+
+## Full-day travel conflicts
+
+Study checks the learner's reserved travel days before spending time or awarding
+credit. Education and intensive study also check an expanded teacher's travel
+schedule. This implements the no-study constraint of full-2008 B351 when the game
+uses [`RpgExpandedTravelDay`](exploration.md#reserving-a-full-travel-day). Ordinary
+pace previews do not automatically reserve a day.

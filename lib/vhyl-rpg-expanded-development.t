@@ -51,6 +51,8 @@ class RpgExpandedStudy: object
         rpgInteger(seconds, 1, 57600);
         local value = new RpgExpandedResult();
         self.validateOwnership();
+        value.reason = self.profile.nonTravelScheduleReason(rpgLedger.seconds,seconds);
+        if (value.reason != nil) return value;
         if (self.creditOwner != nil && (self.creditOwner != self.profile
             || self.creditTraining != self.training || self.creditSkill != self.training.skill))
             rpgExpandedReject('study-retargeted');
@@ -73,6 +75,8 @@ class RpgExpandedStudy: object
         {
             if (self.teacher == nil || self.teacher == self.profile || self.teachingScore < 12)
             { value.reason = 'teacher-required'; return value; }
+            value.reason = self.teacher.ofKind(RpgExpandedProfile) ? self.teacher.nonTravelScheduleReason(rpgLedger.seconds,seconds) : nil;
+            if (value.reason != nil) return value;
             local teacherTraining = rpgExpandedTrainingFor(self.teacher, self.training.skill);
             local learnerScore = profile.skillScore(self.training.skill);
             local teacherScore = self.teacher.skillScore(self.training.skill);
@@ -194,5 +198,15 @@ class RpgExpandedCommunicationStudy: object
         self.study.credit = (self.study.credit + value.seconds * 4) % threshold;
         self.study.training.points += value.points; self.study.awarded += value.points;
         self.source.creditedStudy = self; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    travelDayConflict(day)
+    {
+        local reason = inherited(day); if (reason != nil) return reason;
+        if (self.studyDay == day)
+            foreach (local used in self.studyUsed) if (used > 0) return 'travel-day-study-started';
+        return nil;
     }
 ;

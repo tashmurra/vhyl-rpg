@@ -851,3 +851,79 @@ rpgExpandedPackingOverload: object
     assess(carry,profile,load) { rpgExpandedReject('packing-overload-exploration-required'); }
     start(carry) { rpgExpandedReject('packing-overload-exploration-required'); }
 ;
+
+/** B351 full daily mileage reserves preparation, marching and rest for that day. */
+class RpgExpandedTravelDay: object
+    id = nil
+    profile = nil
+    approved = nil
+    evidence = nil
+    day = nil
+    reservedAt = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.approved,self.evidence]; }
+    validateBinding()
+    {
+        if (self.reservedAt == nil || self.boundDefinition == nil || !holds(self.profile.travelDays,self)
+            || self.day != self.reservedAt / 86400 || self.reservedAt > rpgLedger.seconds) rpgExpandedReject('travel-day-history');
+        local facts = self.definition();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('travel-day-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('travel-day-definition');
+        local value = new RpgExpandedResult();
+        if (self.reservedAt != nil) { self.validateBinding(); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'travel-day-choice-required'; return value; }
+        if (rpgLedger.seconds % 86400 != 0) { value.reason = 'travel-day-boundary-required'; return value; }
+        local day = rpgLedger.seconds / 86400;
+        foreach (local prior in self.profile.travelDays)
+            if (prior.id == self.id || prior.day == day) rpgExpandedReject('travel-day-duplicate');
+        value.reason = self.profile.travelScheduleReason(rpgLedger.seconds,86400);
+        if (value.reason == nil) value.reason = self.profile.travelDayConflict(day);
+        if (value.reason != nil) return value;
+        value.status = 'ready'; return value;
+    }
+    reserve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.reservedAt = rpgLedger.seconds; self.day = self.reservedAt / 86400;
+        self.profile.travelDays = self.profile.travelDays + [self]; value.status = 'resolved'; return value;
+    }
+;
+modify RpgExpandedProfile
+    travelDays = []
+    travelDayConflict(day) { return nil; }
+    nonTravelScheduleReason(start,seconds)
+    {
+        rpgInteger(start,0,2147483647); rpgInteger(seconds,0,2147483647-start);
+        local last = start + (seconds > 0 ? seconds-1 : 0);
+        foreach (local reservation in self.travelDays)
+        {
+            reservation.validateBinding();
+            if (reservation.day >= start / 86400 && reservation.day <= last / 86400) return 'activity-dedicated-travel-day';
+        }
+        return nil;
+    }
+    foragingDayConflict(day)
+    {
+        local reason = inherited(day); if (reason != nil) return reason;
+        foreach (local reservation in self.travelDays)
+        { reservation.validateBinding(); if (reservation.day == day) return 'foraging-dedicated-travel-day'; }
+        return nil;
+    }
+    validateFeatures()
+    {
+        inherited(); local ids = []; local days = [];
+        foreach (local reservation in self.travelDays)
+        {
+            if (reservation == nil || !reservation.ofKind(RpgExpandedTravelDay) || reservation.profile != self
+                || holds(ids,reservation.id) || holds(days,reservation.day)) rpgExpandedReject('travel-day-history');
+            reservation.validateBinding(); ids = ids + [reservation.id]; days = days + [reservation.day];
+        }
+        return nil;
+    }
+;
