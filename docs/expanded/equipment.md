@@ -727,3 +727,39 @@ Currency conversion, physical coin inventories and automated negotiation remain
 pending. `expanded-market-offers.t` and `test_market_offers` specify independent
 baseline/offer values, currency and evidence rejection, conflicting price sources,
 preview, rollback, undo, replay and saved continuation. Fixtures remain unrun.
+
+
+## Optional physical silver and gold
+
+`RpgExpandedCoinage` adopts the optional B264 convention with explicit approval,
+evidence and `currency`: silver coins are worth four units, with 250 coins per
+pound. The equal-weight gold coin uses an authored `goldRatio`, default twenty.
+The reference describes that ratio as approximate; setting it is a campaign
+choice. Copper weight is unspecified, so this implementation rejects copper
+rather than inventing its mass.
+
+`RpgExpandedCoinStock` is an ordinary physical inventory stack whose `quantity`
+counts coins. `faceValue()` returns the stack's currency value and
+`weightHundredths()` rounds its exact mass upward to the engine's hundredth-pound
+unit. This last rounding is a representation policy, not a new source rule; keep
+coins in one stack where possible to avoid repeated sub-unit rounding. Carried
+coin mass participates in the normal inventory calculation. Ordinary acquisition
+rejects coin stacks so that acquiring money requires an explicit exchange.
+
+`RpgExpandedCoinExchange` takes `id`, `profile`, `stock`, `quantity`, `direction`
+(`withdraw` or `deposit`), approval and concrete world evidence of an available,
+accepting issuer/recipient. A withdrawal requires an empty unowned stack and
+moves value from `profile.money` into that stack. A deposit requires uniquely
+owned accessible coins, credits the same purse and removes the stack when empty.
+Partial deposits preserve remaining quantity and mass. Currency mismatches,
+insufficient funds, shared ownership, unavailable stock and overflow reject or
+block before mutation. Approval does not invent a bank or exchange service.
+
+Accepted exchange facts are bound to persistent receipts. Replay after partial or
+complete deposit cannot mint coins again. No time, points or randomness is spent;
+any travel/service procedure is authored separately. Physical value is excluded
+from the abstract balance until deposited, preventing duplicate purchasing power.
+Direct coin tender, change-making, copper weight and currency conversion remain
+pending. `expanded-coins.t` / `test_coins` specify silver/gold value and mass,
+conservation, partial/full deposits, bound convention, rollback, undo and saved
+continuation. Fixtures remain unrun while checks are paused.

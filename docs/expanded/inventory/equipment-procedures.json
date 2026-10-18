@@ -34,9 +34,12 @@
       "pages": "B264",
       "module": "equipment",
       "kind": "table",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Optional medieval baseline uses one-unit copper and four-unit silver denominations; one thousand units of silver weighs one pound, equal-weight gold is about twenty times as valuable. Currency form changes encumbrance, unlike abstract bank balances. These are campaign choices, not universal currency laws.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_coins"
+      ],
+      "validation_note": "Explicit campaign coinage supports silver and equal-weight gold, inventory mass and owned abstract/physical fund exchanges. Engine mass rounds stack totals upward to hundredths. Copper mass is unspecified; copper integration, direct tender/change and conversion remain pending. Fixtures unrun."
     },
     {
       "id": "equipment-procedures-money-technology",

@@ -1295,3 +1295,135 @@ class RpgExpandedMarketOffer: object
         return nil;
     }
 ;
+
+/** B264 optional coin convention. Gold's approximate ratio requires campaign adoption. */
+class RpgExpandedCoinage: object
+    currency = 'campaign-unit'
+    goldRatio = 20
+    approved = nil
+    evidence = nil
+    definition() { return [self.currency,self.goldRatio,self.approved,self.evidence]; }
+    validate()
+    {
+        if (self.currency == nil || self.currency == '' || !self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('coinage-campaign-convention');
+        rpgInteger(self.goldRatio,1,1000); return nil;
+    }
+    denomination(metal)
+    {
+        self.validate();
+        if (metal == 'silver') return 4;
+        if (metal == 'gold') return 4 * self.goldRatio;
+        rpgExpandedReject('coinage-metal-weight-unsupported');
+    }
+;
+/** Quantity counts coins; cash value is not simultaneously held in profile.money. */
+class RpgExpandedCoinStock: RpgLiteItem
+    coinage = nil
+    metal = 'silver'
+    quantity = 0
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.coinage == nil || !self.coinage.ofKind(RpgExpandedCoinage))
+            rpgExpandedReject('coin-stock-convention');
+        return [self.id,self.coinage,self.metal] + self.coinage.definition();
+    }
+    faceValue()
+    {
+        self.definition(); local unit = self.coinage.denomination(self.metal);
+        rpgInteger(self.quantity,0,1000000); rpgInteger(self.quantity,0,2147483647 / unit);
+        return self.quantity * unit;
+    }
+    weightHundredths()
+    {
+        self.faceValue();
+        /* 250 equal-weight coins per pound; ceiling to the engine's 0.01 lb unit. */
+        return (self.quantity * 2 + 4) / 5;
+    }
+    validateAcquisition() { rpgExpandedReject('coin-stock-exchange-required'); }
+;
+modify RpgExpandedProfile
+    coinExchanges = []
+;
+/** Author-confirmed conversion between existing abstract funds and physical coin. */
+class RpgExpandedCoinExchange: object
+    id = nil
+    profile = nil
+    stock = nil
+    direction = 'withdraw'
+    quantity = nil
+    approved = nil
+    evidence = nil
+    recorded = nil
+    boundDefinition = nil
+    boundMoney = nil
+    definition()
+    {
+        return [self.id,self.profile,self.stock,self.direction,self.quantity,self.approved,self.evidence] + self.stock.definition();
+    }
+    assess()
+    {
+        local value = new RpgExpandedAcquisitionResult();
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.stock == nil || !self.stock.ofKind(RpgExpandedCoinStock)) rpgExpandedReject('coin-exchange-definition');
+        if (self.recorded)
+        {
+            if (!holds(self.profile.coinExchanges,self)) rpgExpandedReject('coin-exchange-history');
+            local facts = self.definition();
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('coin-exchange-binding');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('coin-exchange-binding');
+            value.status = 'reused'; return value;
+        }
+        if (self.boundDefinition != nil || self.boundMoney != nil) rpgExpandedReject('coin-exchange-uncommitted');
+        if (!holds(['withdraw','deposit'],self.direction)) rpgExpandedReject('coin-exchange-direction');
+        rpgExpandedValidate(self.profile); self.stock.faceValue();
+        local denomination = self.stock.coinage.denomination(self.stock.metal);
+        rpgInteger(self.quantity,1,1000000); rpgInteger(self.quantity,1,2147483647 / denomination);
+        value.money = self.quantity * denomination; value.item = self.stock;
+        rpgInteger(self.profile.money,0,2147483647);
+        if (self.stock.coinage.currency != self.profile.moneyUnit) { value.reason = 'coin-exchange-currency'; return value; }
+        local owner = nil;
+        for (local candidate = firstObj(RpgLiteProfile); candidate != nil; candidate = nextObj(candidate,RpgLiteProfile))
+            foreach (local item in candidate.equipment)
+                if (item == self.stock)
+                { if (owner != nil) rpgExpandedReject('coin-stock-shared'); owner = candidate; }
+        if (self.direction == 'withdraw')
+        {
+            if (owner != nil || self.stock.quantity != 0) rpgExpandedReject('coin-withdraw-fresh-stock');
+            if (self.profile.money < value.money) { value.reason = 'coin-exchange-insufficient-funds'; return value; }
+        }
+        else
+        {
+            if (owner != self.profile || self.stock.quantity < self.quantity) rpgExpandedReject('coin-deposit-ownership');
+            if (self.profile.money > 2147483647 - value.money) rpgExpandedReject('coin-deposit-money-limit');
+        }
+        if (!self.stock.usableBy(self.profile) || self.stock.thrownFlight != nil || self.stock.sharedCarry != nil)
+        { value.reason = 'coin-stock-inaccessible'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'coin-exchange-world-facts-required'; return value; }
+        foreach (local prior in self.profile.coinExchanges) if (prior.id == self.id) rpgExpandedReject('coin-exchange-duplicate-id');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.boundMoney = value.money;
+        if (self.direction == 'withdraw')
+        {
+            self.profile.money -= value.money; self.stock.quantity = self.quantity;
+            self.profile.equipment = self.profile.equipment + [self.stock];
+        }
+        else
+        {
+            self.profile.money += value.money; self.stock.quantity -= self.quantity;
+            if (self.stock.quantity == 0)
+            {
+                local kept = []; foreach (local item in self.profile.equipment) if (item != self.stock) kept = kept + [item];
+                self.profile.equipment = kept;
+            }
+        }
+        self.recorded = true; self.profile.coinExchanges = self.profile.coinExchanges + [self];
+        value.status = 'resolved'; return value;
+    }
+;

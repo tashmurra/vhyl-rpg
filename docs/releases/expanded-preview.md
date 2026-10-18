@@ -1856,3 +1856,9 @@ Equipment acquisitions now accept explicit market offers with separate baseline
 and local prices, authored currency/market context and bound accepted-sale facts.
 They use the existing purse and inventory. Currency conversion and physical money
 remain pending. Integration fixtures are authored but unrun.
+
+
+Optional silver/gold coin stacks now carry face value and inventory mass. Explicit
+owned exchanges move value to/from the existing money balance without duplicate
+credit. Copper weight, direct tender and currency conversion remain pending.
+Integration fixtures are authored but unrun.
