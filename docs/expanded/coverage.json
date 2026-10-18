@@ -318,7 +318,8 @@
       "source": "full-2008",
       "status": "partial",
       "tests": [
-        "tests/expanded.py::test_numbers"
+        "tests/expanded.py::test_numbers",
+        "tests/expanded.py::test_maintenance_prices"
       ]
     },
     {

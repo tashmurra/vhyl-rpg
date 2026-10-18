@@ -67,3 +67,29 @@ class RpgExpandedDisadvantage: RpgLiteTrait
         return rpgExpandedSignedModifiedCost(base, self.percentages);
     }
 ;
+
+/** B143 staffing base. Above 100, only a full doubling adds another ten points. */
+rpgExpandedMaintenanceBase(people)
+{
+    rpgInteger(people,1,1000000);
+    foreach (local row in [[1,-10],[2,-20],[5,-30],[10,-40],[20,-50],[50,-60],[100,-70]])
+        if (people <= row[1]) return row[2];
+    local base = -70; local threshold = 200;
+    while (people >= threshold) { base -= 10; threshold *= 2; }
+    return base;
+}
+
+/** Pure B143 staffing/frequency price. Negative fractional points round toward zero. */
+rpgExpandedMaintenanceCost(people, frequency)
+{
+    local base = rpgExpandedMaintenanceBase(people);
+    if (frequency == 'monthly') return -((-base) / 5);
+    if (frequency == 'fortnightly') return -((-base) / 3);
+    if (frequency == 'weekly') return -((-base) / 2);
+    if (frequency == 'alternate-days') return -((-base * 3) / 4);
+    if (frequency == 'daily') return base;
+    if (frequency == 'twice-daily') return base * 2;
+    if (frequency == 'three-to-five-daily') return base * 3;
+    if (frequency == 'constant') return base * 5;
+    rpgExpandedReject('maintenance-frequency');
+}

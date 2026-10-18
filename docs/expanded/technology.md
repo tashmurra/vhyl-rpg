@@ -322,3 +322,11 @@ repair time or dice. `test_major_parts_persistence` saves at five stages (before
 quote, quoted, purchased, installed after failure, repaired) and continues in a
 new process. Historical replay must retain money, inventory, repair state, dice
 and time. These additional fixtures are also authored and unrun.
+
+
+Maintenance schedules must incorporate the B143 cross-reference as well as B485:
+a missed installment loses one HT and requires a further HT roll, with concrete
+additional incapacity or potentially fatal outcomes supplied by the author. The
+[trait price helpers](traits.md#maintenance-staffing-and-frequency-prices) cover
+staffing/frequency accounting only. The existing `maintenanceHTLoss` input is not
+an implementation of that missed-service procedure or its recovery.

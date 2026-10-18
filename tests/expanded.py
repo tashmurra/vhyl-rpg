@@ -973,6 +973,24 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_maintenance_prices(s):
+    for people, base in [(1,-10),(2,-20),(3,-30),(5,-30),(6,-40),(10,-40),
+            (11,-50),(20,-50),(21,-60),(50,-60),(51,-70),(100,-70),
+            (101,-70),(199,-70),(200,-80),(399,-80),(400,-90),(6400,-130),
+            (10000,-130),(12799,-130),(12800,-140)]:
+        s.action(2070,people,'daily')
+        assert last(s,'test.maintenance-price') == [base,base]
+        assert last(s,'test.maintenance-purity') == [0,0]
+    for frequency, cost in [('monthly',-2),('fortnightly',-3),('weekly',-5),
+            ('alternate-days',-7),('daily',-10),('twice-daily',-20),
+            ('three-to-five-daily',-30),('constant',-50)]:
+        s.action(2070,1,frequency)
+        assert last(s,'test.maintenance-price') == [-10,cost]
+        assert last(s,'test.maintenance-purity') == [0,0]
+    s.action(2070,10000,'fortnightly')
+    assert last(s,'test.maintenance-price') == [-130,-43]
+
+
 def parts_state(s):
     s.action(2064)
     return last(s,'test.parts-state')
@@ -5386,6 +5404,8 @@ def test(build):
     fresh(Session,combat,test_critical_hit_assessments)
     fresh(Session,combat,test_weapon_miss_assessments)
     fresh(Session,combat,test_unarmed_miss_assessments)
+    maintenance_price = build.build('expanded-maintenance-price',ROOT / 'tests/fixtures/expanded-maintenance-price.t')
+    fresh(Session,maintenance_price,test_maintenance_prices)
     breakdown = build.build('expanded-breakdown',ROOT / 'tests/fixtures/expanded-breakdown.t')
     fresh(Session,breakdown,test_breakdown_transactions)
     fresh(Session,breakdown,test_repair_prices)

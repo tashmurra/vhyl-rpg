@@ -331,9 +331,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance requiring one people has base price -10. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-staff-20",
@@ -341,9 +344,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance requiring two people has base price -20. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-staff-30",
@@ -351,9 +357,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance requiring three to five people has base price -30. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-staff-40",
@@ -361,9 +370,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance requiring six to ten people has base price -40. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-staff-50",
@@ -371,9 +383,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance requiring eleven to twenty people has base price -50. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-staff-60",
@@ -381,9 +396,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance requiring twenty-one to fifty people has base price -60. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-staff-70",
@@ -391,9 +409,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance requiring fifty-one to one hundred people has base price -70. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-staff-growth",
@@ -401,9 +422,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Above one hundred maintenance staff, each full doubling adds -10. The source ten-thousand-person example has base -130. Implement the full-doubling convention and boundary fixtures, with author-approved extra person-hours recorded as an alternative scheduling policy.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-frequency-monthly",
@@ -411,9 +435,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance interval monthly multiplies staffing base price by 1/5. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-frequency-fortnightly",
@@ -421,9 +448,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance interval fortnightly multiplies staffing base price by 1/3. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-frequency-weekly",
@@ -431,9 +461,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance interval weekly multiplies staffing base price by 1/2. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-frequency-alternate-days",
@@ -441,9 +474,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance interval alternate-days multiplies staffing base price by 3/4. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-frequency-daily",
@@ -451,9 +487,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance interval daily multiplies staffing base price by 1. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-frequency-twice-daily",
@@ -461,9 +500,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance interval twice-daily multiplies staffing base price by 2. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-frequency-three-to-five-daily",
@@ -471,9 +513,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance interval three-to-five-daily multiplies staffing base price by 3. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-frequency-constant",
@@ -481,9 +526,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Maintenance interval constant multiplies staffing base price by 5. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
     },
     {
       "id": "disadvantages-e-maintenance-missed",

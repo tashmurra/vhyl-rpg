@@ -462,3 +462,37 @@ while first aid can still stop bleeding. Its partial and total variants differ i
 conditional recovery and health theft; neither automatically forbids every form of
 body-compatible surgery, repair or exotic restoration. These distinctions must
 reach the shared health ledger before the corresponding traits can be complete.
+
+## Maintenance staffing and frequency prices
+
+`rpgExpandedMaintenanceBase(people)` implements the B143 staffing table and its
+full-doubling extension above one hundred people. The base is minus seventy for
+51–199 people, minus eighty for 200–399, and continues by full doublings. The
+printed ten-thousand-person example therefore has a base of minus 130.
+
+`rpgExpandedMaintenanceCost(people, frequency)` applies `monthly`, `fortnightly`,
+`weekly`, `alternate-days`, `daily`, `twice-daily`, `three-to-five-daily` or
+`constant`. Final negative fractional point costs round toward zero; one person's
+fortnightly requirement costs minus three, and alternate-day service costs minus
+seven. These helpers accept one through one million people and reject other
+frequency identifiers. They neither grant points nor spend staff time.
+
+Pricing does not implement a maintenance obligation. An executable requirement
+still needs eligible staff or qualifying traits, appropriate facilities, one-hour
+installments, concrete due times and any explicitly approved substitution of
+additional person-hours for simultaneous workers. Monthly timing is a calendar
+choice; three-to-five-daily and constant service need explicit coverage policies.
+No consumed supplies are implied by maintenance itself.
+
+A missed installment reduces HT and requires the source's further HT check.
+Ordinary failure needs an authored additional incapacity, and critical failure
+requires a potentially fatal consequence appropriate to the maintained subject.
+The current price helpers do not resolve those outcomes or restore lost HT.
+Technology's environmental-fault repair is a separate procedure and must not be
+counted as maintenance-loss recovery. Each lost HT point requires its own major
+repair where that technology procedure applies.
+
+The [minimal price fixture](../../tests/fixtures/expanded-maintenance-price.t) and
+`test_maintenance_prices` record staffing boundaries, full doublings, every
+frequency, fractional negative costs and zero time/randomness. They are authored
+and unrun while checks are paused. Maintenance remains partial in the inventory.
