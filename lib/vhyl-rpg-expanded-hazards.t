@@ -440,3 +440,110 @@ rpgExpandedAgingSequence(profile, medicalTL, fitness, longevity, rolls)
     value.move = value.speedQuarters / 4 + profile.moveAdjustment;
     value.status = 'ready'; return value;
 }
+
+modify RpgExpandedProfile
+    agingHistory = []
+;
+
+/** An authored calendar boundary, with four owned rolls and retained losses. */
+class RpgExpandedAgingEvent: object
+    profile = nil
+    calendarId = nil
+    boundaryId = nil
+    ageYears = 0
+    ordinal = 0
+    reached = nil
+    evidence = nil
+    medicalTL = 3
+    boundProfile = nil
+    boundCalendar = nil
+    boundBoundary = nil
+    boundAge = 0
+    boundOrdinal = 0
+    boundEvidence = nil
+    boundMedicalTL = 0
+    result = nil
+    completedAt = nil
+    fitnessModifier()
+    {
+        local count = 0; local amount = 0;
+        foreach (local entry in [['very-fit',2],['fit',1],['unfit',-1],['very-unfit',-2]])
+            if (self.profile.level(entry[1]) > 0) { count += 1; amount = entry[2]; }
+        if (count > 1) rpgExpandedReject('aging-fitness-conflict');
+        return amount;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('aging-profile');
+        if (self.result != nil)
+        {
+            if (self.profile != self.boundProfile || self.calendarId != self.boundCalendar
+                || self.boundaryId != self.boundBoundary || self.ageYears != self.boundAge
+                || self.ordinal != self.boundOrdinal || self.evidence != self.boundEvidence
+                || self.medicalTL != self.boundMedicalTL || !self.reached || !holds(self.profile.agingHistory,self))
+                rpgExpandedReject('aging-event-binding');
+            value.status = 'reused'; return value;
+        }
+        if (self.calendarId == nil || self.calendarId == '' || self.boundaryId == nil || self.boundaryId == '')
+            rpgExpandedReject('aging-calendar-definition');
+        rpgInteger(self.ageYears,0,1000000); rpgInteger(self.ordinal,1,1000000);
+        if (!self.reached || self.evidence == nil || self.evidence == '')
+        { value.reason = 'aging-calendar-evidence'; return value; }
+        if (self.ordinal != self.profile.agingHistory.length() + 1) rpgExpandedReject('aging-calendar-order');
+        foreach (local prior in self.profile.agingHistory)
+        {
+            if (prior.calendarId != self.calendarId || prior.boundaryId == self.boundaryId
+                || prior.ageYears > self.ageYears) rpgExpandedReject('aging-calendar-history');
+        }
+        if (self.profile.level('unaging') > 0) { value.reason = 'aging-exempt'; return value; }
+        local schedule = rpgExpandedAgingSchedule(self.profile.level('short-lifespan'),self.profile.level('extended-lifespan'));
+        if (schedule.status != 'ready') { value.reason = schedule.reason; return value; }
+        if (self.ageYears < schedule.bands[1][1]) { value.reason = 'aging-before-onset'; return value; }
+        local worst = rpgExpandedAgingSequence(self.profile,self.medicalTL,self.fitnessModifier(),
+            self.profile.level('longevity') > 0,[18,18,18,18]);
+        if (worst.status != 'ready') { value.reason = worst.reason; return value; }
+        if (self.profile.hpAdjustment < 0 && worst.healthCapacity <= 0
+            || self.profile.fpAdjustment < 0 && worst.fatigueCapacity <= 0
+            || self.profile.willAdjustment < 0 && worst.will <= 0
+            || self.profile.perceptionAdjustment < 0 && worst.perception <= 0
+            || worst.speedQuarters < 0 || worst.move < 0)
+        { value.reason = 'aging-derived-state-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local prepared = self.assess(); if (prepared.status != 'ready') return prepared;
+        local rolls = [];
+        for (local index = 0; index < 4; index += 1) rolls = rolls + [rpgRandom.roll()];
+        local value = rpgExpandedAgingSequence(self.profile,self.medicalTL,self.fitnessModifier(),
+            self.profile.level('longevity') > 0,rolls);
+        if (value.status != 'ready') rpgExpandedReject('aging-assessment-changed');
+        self.profile.st = value.scoresAfter[1]; self.profile.dx = value.scoresAfter[2];
+        self.profile.iq = value.scoresAfter[3]; self.profile.ht = value.scoresAfter[4];
+        if (value.naturalDeath) self.profile.dead = true;
+        self.boundProfile = self.profile; self.boundCalendar = self.calendarId; self.boundBoundary = self.boundaryId;
+        self.boundAge = self.ageYears; self.boundOrdinal = self.ordinal; self.boundEvidence = self.evidence;
+        self.boundMedicalTL = self.medicalTL; self.completedAt = rpgLedger.seconds;
+        self.profile.agingHistory = self.profile.agingHistory + [self]; value.status = 'resolved'; self.result = value;
+        return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local ordinal = 0; local boundaries = []; local calendar = nil; local age = 0;
+        foreach (local entry in self.agingHistory)
+        {
+            ordinal += 1;
+            if (entry == nil || !entry.ofKind(RpgExpandedAgingEvent) || entry.profile != self
+                || entry.result == nil || entry.ordinal != ordinal || entry.completedAt == nil
+                || entry.completedAt > rpgLedger.seconds || entry.ageYears < age
+                || holds(boundaries,entry.boundaryId) || calendar != nil && calendar != entry.calendarId
+                || entry.assess().status != 'reused') rpgExpandedReject('aging-event-history');
+            boundaries = boundaries + [entry.boundaryId]; calendar = entry.calendarId; age = entry.ageYears;
+        }
+        return nil;
+    }
+;

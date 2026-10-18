@@ -136,5 +136,24 @@ act(verb,args)
         eventValue(patient.unspentPoints); eventValue(patient.earnedPoints); eventValue(patient.injury);
         eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws); return nil;
     }
+    if (verb == 1808)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        if (args[1] == 1) { patient.st = 1; patient.ht = 3; }
+        patient.unspentPoints = 7; patient.earnedPoints = 7;
+        local aging = new RpgExpandedAgingEvent(); aging.profile = patient; aging.calendarId = 'civil-calendar';
+        aging.boundaryId = 'first-anniversary'; aging.ageYears = 50; aging.ordinal = 1; aging.reached = true;
+        aging.evidence = 'First aging birthday reached'; aging.medicalTL = 3;
+        if (args[1] == 2) aging.reached = nil;
+        if (args[1] == 3) aging.ageYears = 49;
+        rpgRandom.seed(1); local time = rpgLedger.seconds; local preview = aging.assess();
+        event('test.aging-event-preview'); eventValue(preview.status); eventValue(preview.reason); eventValue(rpgRandom.draws);
+        local value = aging.apply(); local repeat = aging.apply(); patient.validateFeatures();
+        event('test.aging-event'); eventValue(value.status); eventValue(repeat.status);
+        eventValue(patient.st); eventValue(patient.dx); eventValue(patient.iq); eventValue(patient.ht);
+        eventValue(patient.dead ? 1 : 0); eventValue(patient.agingHistory.length());
+        eventValue(patient.unspentPoints); eventValue(patient.earnedPoints); eventValue(rpgRandom.draws);
+        eventValue(rpgLedger.seconds - time); eventValue(aging.result == nil ? 0 : aging.result.pointLoss); return nil;
+    }
     return vhylAct(verb,args);
 }

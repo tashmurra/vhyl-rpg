@@ -87,7 +87,8 @@
         "tests/expanded.py::test_immunity_persistence",
         "tests/expanded.py::test_infection_supervision",
         "tests/expanded.py::test_aging_assessments",
-        "tests/expanded.py::test_aging_sequence"
+        "tests/expanded.py::test_aging_sequence",
+        "tests/expanded.py::test_aging_events"
       ],
       "validation_note": "Owned infection progression integrates the qualified roster bonus with antibiotic modifiers and shared recovery restrictions. Fixtures authored but unrun. Automatic care scheduling, interruption, catch-up, broader disease treatment and verified cross-module behavior remain incomplete."
     },

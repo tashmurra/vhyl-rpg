@@ -309,3 +309,39 @@ with capacity-limited traits. No luck or random helper is called by this
 supplied-roll interface. `test_aging_sequence` records independent expected
 losses, point values, derived characteristics, the zero-attribute boundary and
 preview purity. These fixtures remain unrun while checks are paused.
+
+
+## Owned aging events
+
+`RpgExpandedAgingEvent` takes `profile`, `calendarId`, unique `boundaryId`,
+`ageYears` (completed years), consecutive `ordinal`, `reached`, `evidence` and
+world `medicalTL`. The author must establish that this is the next actual aging
+anniversary under the selected schedule, including subannual intervals. The
+engine verifies onset age, sequence, stable calendar, nondecreasing age and
+unique boundaries; it does not infer elapsed calendar months from seconds.
+A true `reached` flag without valid calendar evidence is not sufficient authoring.
+
+The event reads the profile's neutral `short-lifespan`, `extended-lifespan`,
+`unaging`, `longevity` and mutually exclusive fitness trait levels. Trait catalogue
+and purchase validation remain separate. An ageless profile is exempt. Assessment
+rejects unsupported low scores and potential invalid derived values before any
+random draw. It does not apply the prospective worst-case losses.
+
+`apply()` draws four three-die rolls directly in source order without a luck
+interface. It commits the resulting base scores, marks `dead` for natural death,
+and stores the full `RpgExpandedAgingSequence` in `result`. Dynamic secondary
+values and attribute-based skill scores follow those base changes; independent
+secondary purchases and skill points are retained. Character accounting sees the
+new bases, while earned and unspent advancement balances remain unchanged.
+
+`profile.agingHistory` owns each event and its `completedAt` timestamp. Reusing an
+event returns `reused` without another roll, mutation or time charge; its original
+sequence remains accessible through `event.result`. Changed bound inputs and
+reused boundary identities are rejected. The event observes an already reached
+calendar boundary and does not spend calendar time again.
+
+Automatic calendar scheduling, trait substitutions, rejuvenation, capacity-limited
+trait interactions and aging-specific transaction/save fixtures remain incomplete.
+`test_aging_events` covers a normal event, a terminal low attribute, unchanged
+advancement balances, pure preview, repeated execution and rejected calendar facts.
+All fixtures remain unrun while checks are paused.
