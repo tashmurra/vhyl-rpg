@@ -128,7 +128,7 @@
     {
       "id": "technology",
       "title": "Electronics, inventions, artifacts and object damage",
-      "pages": "B471-B479; B483-B485",
+      "pages": "B471-B479; B483-B485; B529-B533; B546",
       "source": "full-2008",
       "status": "pending",
       "tests": []
@@ -298,6 +298,7 @@
     "inventory/enchantment.json",
     "inventory/campaign-procedures.json",
     "inventory/economy-employment.json",
-    "inventory/worlds-law-technology.json"
+    "inventory/worlds-law-technology.json",
+    "inventory/world-transit.json"
   ]
 }

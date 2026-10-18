@@ -1,7 +1,7 @@
 # Expanded technology
 
 **Status: pending.** Electronics, inventions, artifact investigation, object damage,
-maintenance and repair. Neutral source: `full-2008`, B471–B479; B483–B485.
+maintenance and repair. Neutral source: `full-2008`, B471–B479; B483–B485; B529–B533; B546.
 
 [Library selection](../libraries.md) · [Integration](index.md) ·
 [Coverage ledger](coverage.json) · [Procedure inventory](inventory/technology.json) ·
@@ -89,6 +89,26 @@ when the shield's bonus changed failure to success, including defenses other tha
 blocking. Disabled shields still weigh something. Broken weapons can produce held
 and dropped pieces with new attack profiles, so breakage must update inventory and
 world position atomically.
+
+## Transit hardware
+
+The [world-transit inventory](inventory/world-transit.json) assigns generators,
+controls, pulse banks, projectors, detectors and technical search procedures to this
+module. Campaign owns routes, windows, arrivals and world consequences. Vehicle
+integration owns the mobile hull where present; a stationary capsule does not need
+invented driving statistics.
+
+A generator's rated mass includes its supporting systems and cargo. At two tons,
+the listed pulse requirement is 400 kilojoules; its listed storage system weighs
+2,000 pounds and costs 20,000 before adding the hull, generator or other equipment.
+This is a capacity calculation, not a complete vehicle design. Fixed controls also
+cannot become programmable merely because the operator knows another destination.
+
+Detectors distinguish bearing, triangulation, source type and source-world analysis.
+They need actual range, recording and analysis time. Knowledge of the arrival's band
+does not supply its precise world coordinates. Penetrating damage can disable transit
+hardware without destroying the hull; restoring the hull alone must not clear that
+separate fault.
 
 ## Required validation
 

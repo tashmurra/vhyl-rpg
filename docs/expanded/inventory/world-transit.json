@@ -1,0 +1,895 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B529-B534; B544-B546",
+  "review": "First text pass of reusable transit hardware, operations, accident tables, detectors, natural portals and world shifts. Neutral terms replace source setting vocabulary. Exact accident reroll semantics, living duplication, visual verification and trait integration remain unresolved.",
+  "enumeration_complete": false,
+  "excluded_material": [
+    {
+      "pages": "B529; B533-B534; B544-B546",
+      "reason": "Named worlds, organizations, characters, historical intervention examples and fictional explanations are excluded; only transferable mechanical procedures and author contracts are retained."
+    }
+  ],
+  "entries": [
+    {
+      "id": "transit-capsule",
+      "source": "full-2008",
+      "pages": "B529",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A technological world-transit capsule has an enclosed hull, field generator, pulsed power and controls; mobility and remote operation are separate fitted capabilities.",
+      "tests": []
+    },
+    {
+      "id": "transit-capacity",
+      "source": "full-2008",
+      "pages": "B529-B530",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Generator capacity includes hull, generator, power system, occupants and cargo. Safe transit requires total actual mass within capacity; any deliberately overloaded attempt needs an explicit supported risk policy.",
+      "tests": []
+    },
+    {
+      "id": "transit-power",
+      "source": "full-2008",
+      "pages": "B529",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each jump requires two hundred kilojoules per ton of rated capacity in a single pulse. The listed pulse system costs fifty and weighs five pounds per kilojoule; distinguish rated capacity from current payload.",
+      "tests": []
+    },
+    {
+      "id": "transit-fixed-controls",
+      "source": "full-2008",
+      "pages": "B529",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fixed controls link exactly two hardwired realities and are legality class two; an operator cannot enter another destination without an actual authorized refit.",
+      "tests": []
+    },
+    {
+      "id": "transit-programmable-controls",
+      "source": "full-2008",
+      "pages": "B529",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Programmable controls accept known coordinates within supported range and are legality class zero; programming does not bypass generator or external-projector limits.",
+      "tests": []
+    },
+    {
+      "id": "transit-unassisted-range",
+      "source": "full-2008",
+      "pages": "B530",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An unassisted capsule can move only within its current transit band, even when its generator supports longer externally assisted range.",
+      "tests": []
+    },
+    {
+      "id": "transit-recharge",
+      "source": "full-2008",
+      "pages": "B530",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A standard pulse bank stores one jump. Its typical onboard fuel-cell recharge takes approximately thirty minutes; an actual installed recharge rate and energy supply determine next availability. Do not permit an immediate free return.",
+      "tests": []
+    },
+    {
+      "id": "transit-coordinates",
+      "source": "full-2008",
+      "pages": "B530",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Transit requires precise coordinates of both current and destination worlds. Knowing the intended destination is insufficient when the current world is unknown. A new world's coordinates require authored research, normally years.",
+      "tests": []
+    },
+    {
+      "id": "transit-course",
+      "source": "full-2008",
+      "pages": "B530",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A course combines both world coordinates with actual departure location. A program for one geographical launch point cannot be reused at another without a new course.",
+      "tests": []
+    },
+    {
+      "id": "transit-program-market",
+      "source": "full-2008",
+      "pages": "B530",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The printed example market charges five hundred for a prepared public-terminal course; custom courses take five to ten days of high-end computation and cost one to twenty million. Use explicit local terms within these guidance ranges.",
+      "tests": []
+    },
+    {
+      "id": "transit-calibration",
+      "source": "full-2008",
+      "pages": "B530",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Final calibration normally takes ten minutes and accounts for current mass and local fields. More or less time uses task-time modifiers; changing relevant conditions invalidates the calibration or requires an explicit correction.",
+      "tests": []
+    },
+    {
+      "id": "transit-transit-position",
+      "source": "full-2008",
+      "pages": "B530-B531",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A successful technological transit changes world while preserving corresponding spatial position; route assessment checks destination occupancy and applicable displacement rules.",
+      "tests": []
+    },
+    {
+      "id": "transit-projector-stage",
+      "source": "full-2008",
+      "pages": "B530",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An external projector dispatches only a programmed, powered and ready capsule on its physical stage. The typical installation is two tons capacity at a base cost of one hundred million; larger capacity, up to the listed three hundred tons, requires authored installation statistics.",
+      "tests": []
+    },
+    {
+      "id": "transit-projector-retrieve",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Retrieval requires focusing on a known world within two bands and a ready capsule at the corresponding stage location. Pickup schedules matter because this system provides no live inter-world communication.",
+      "tests": []
+    },
+    {
+      "id": "transit-one-band",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A one-band assisted trip needs a calibrated functioning generator with at least one-band capability and a suitable projector.",
+      "tests": []
+    },
+    {
+      "id": "transit-two-band-window",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A two-band trip also needs a two-band generator and an open transit window. Each hour, three dice at most seven predicts an hour-long window beginning four hours later; only projector instruments reveal that prediction.",
+      "tests": []
+    },
+    {
+      "id": "transit-operator-checks",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Every jump checks the capsule operator's world-transit electronics skill; assisted trips also check the projector operator. Retain both results rather than substituting the best or average.",
+      "tests": []
+    },
+    {
+      "id": "transit-operator-modifiers",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Damaged equipment gives -3 or worse. Environmental electrical disturbance ranges from -2 for severe storms to -6 for an extreme electromagnetic pulse; electronics hardening does not remove that environmental penalty.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-score",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If either operator fails, add the failed margin or both failed margins to one die, or two dice for a two-band trip. Overload adds an authored positive penalty of at least one. Resolve the resulting accident table once per trip.",
+      "tests": []
+    },
+    {
+      "id": "transit-arrival-time",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Transit may advance outside clocks without advancing passenger time, or advance both. Store world elapsed time and traveler experience explicitly so delayed arrival cannot also consume an unrelated travel interval twice.",
+      "tests": []
+    },
+    {
+      "id": "transit-delay-notice",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An unexpected arrival delay can trigger the authored receiving site's alert even while the capsule remains in transit; do not reveal the eventual destination or accident to observers prematurely.",
+      "tests": []
+    },
+    {
+      "id": "transit-supplemental-delay",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For marked accident results six and above, roll one die: one/six adds no delay; two through five add the matching timing result. Store the primary result and added delay separately.",
+      "tests": []
+    },
+    {
+      "id": "transit-displacement",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Marked positional/focus outcomes displace and remove solid material at arrival. Determine the actual occupied volume and affected entities atomically; a portal or ordinary successful transit must not silently inherit this exceptional effect.",
+      "tests": []
+    },
+    {
+      "id": "transit-recursive-accident",
+      "source": "full-2008",
+      "pages": "B531-B532",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Result fourteen or higher produces two further accident results; a further fourteen-or-higher switches to the severe-disaster table. Define exactly which base dice and failed-margin modifiers persist on the additional rolls before claiming an executable procedure.",
+      "tests": []
+    },
+    {
+      "id": "transit-living-disaster",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Severe-disaster results that require living passengers are rerolled for entirely nonliving cargo. Specify the eligible-result predicate before consuming those rolls.",
+      "tests": []
+    },
+    {
+      "id": "transit-damage-hardware",
+      "source": "full-2008",
+      "pages": "B532-B533",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Any penetration of capsule armor has a one-in-six chance of significant transit-hardware damage. Typical damage imposes -3 or worse to transit operation; severe damage can disable all self-jumps and assisted retrieval until repaired.",
+      "tests": []
+    },
+    {
+      "id": "transit-lost-mission",
+      "source": "full-2008",
+      "pages": "B533",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A missing capsule becomes known at an expected retrieval or delivery boundary, otherwise when the authored expedition reporting schedule reveals it. Search begins from actual known mass, calibration and route facts, not omniscient destination access.",
+      "tests": []
+    },
+    {
+      "id": "transit-transport-storm",
+      "source": "full-2008",
+      "pages": "B533-B534",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored transport storm has an area, onset and departure time and moves every included subject when it ends. Destination geography need not match origin; area membership and carried objects must be resolved consistently.",
+      "tests": []
+    },
+    {
+      "id": "transit-exchange-storm",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Paired transport storms exchange affected matter between two worlds, possibly including terrain; apply the exchange as one persistent world event.",
+      "tests": []
+    },
+    {
+      "id": "transit-overlap-storm",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A permanent transport disturbance can co-locate portions of two worlds and change surrounding magical conditions; the author specifies affected areas and resulting world parameters.",
+      "tests": []
+    },
+    {
+      "id": "transit-storm-warning",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A transit detector gives a warning one die minutes before a transport storm appears; preserve the generated onset and warning time rather than rerolling at each observation.",
+      "tests": []
+    },
+    {
+      "id": "transit-history-rewrite",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored reality rewrite changes declared world-history facts while preserving explicitly chosen surviving memories, artifacts or individuals. This is a world event, not migration of an old compiled-game save.",
+      "tests": []
+    },
+    {
+      "id": "transit-portal-geometry",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A portal links corresponding positions in different worlds and ordinarily allows light through so its destination can be seen. Its aperture, visibility and traversable directions are explicit properties.",
+      "tests": []
+    },
+    {
+      "id": "transit-portal-direction",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A one-way portal prevents withdrawing a partly inserted object or limb until the whole subject passes. Track partial traversal and supported subject boundaries without duplicating inventory or allowing movement against the edge direction.",
+      "tests": []
+    },
+    {
+      "id": "transit-portal-road",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A route can traverse multiple portals along a road, with each edge having its own timing and access constraints; the road may also continue locally.",
+      "tests": []
+    },
+    {
+      "id": "transit-shifting-region",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored region can cycle or randomly shift among worlds, vanish, overlay or exchange space. Define its schedule, enclosed entities and occupancy consequences rather than treating it as a character teleport.",
+      "tests": []
+    },
+    {
+      "id": "transit-travel-creature",
+      "source": "full-2008",
+      "pages": "B544",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A world-traveling creature requires the actual world-shifting trait; a tunnel enhancement can leave a followable route with explicit closure, and spatial teleportation is a separate ability.",
+      "tests": []
+    },
+    {
+      "id": "transit-innate-band-penalty",
+      "source": "full-2008",
+      "pages": "B544",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "In this optional transit model, innate world shifting works normally within a band and suffers -5 per band crossed; the traveler can sense their current band. This does not reveal precise world coordinates.",
+      "tests": []
+    },
+    {
+      "id": "transit-world-shift-trigger",
+      "source": "full-2008",
+      "pages": "B544-B546",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A historical intervention causes a world-band shift only when the author determines its change is significant. It takes a declared nonzero delay, usually minutes through days, rather than happening automatically after every minor action.",
+      "tests": []
+    },
+    {
+      "id": "transit-world-shift-direction",
+      "source": "full-2008",
+      "pages": "B546",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A shift is usually one band but may be larger. Its direction is random unless a correct deliberate plan determines it; record an authored magnitude and random-direction policy.",
+      "tests": []
+    },
+    {
+      "id": "transit-world-shift-reversal",
+      "source": "full-2008",
+      "pages": "B545-B546",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An intervention can be counteracted before its effects become irreversible under the authored scenario; reversal changes reachability without restoring unrelated spent resources or elapsed time.",
+      "tests": []
+    },
+    {
+      "id": "transit-world-search",
+      "source": "full-2008",
+      "pages": "B546",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With the specified high-end instruments and computation, finding a shifted world takes one full week and a successful transit-physics check. Current band distance determines the modifier and reachability.",
+      "tests": []
+    },
+    {
+      "id": "transit-world-search-lesser",
+      "source": "full-2008",
+      "pages": "B546",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Inferior equipment can require an authored duration of weeks through years and a substantial skill penalty; do not silently substitute the high-end search procedure.",
+      "tests": []
+    },
+    {
+      "id": "transit-out-of-range",
+      "source": "full-2008",
+      "pages": "B546",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A world shifted outside projector range cannot be retrieved through that projector. Undoing the shift or obtaining a genuinely different travel capability can restore an exit.",
+      "tests": []
+    },
+    {
+      "id": "transit-one-way-world",
+      "source": "full-2008",
+      "pages": "B546",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A trapping world may admit innate or capsule transit while preventing both departure and projector pickup; the specified escape alternatives are an actual portal or qualifying magic.",
+      "tests": []
+    },
+    {
+      "id": "transit-no-magic-exit",
+      "source": "full-2008",
+      "pages": "B546",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A magic-free destination may be entered using origin-side magical travel but prevents magical departure; assess the actual destination context and preserve nonmagical alternatives.",
+      "tests": []
+    },
+    {
+      "id": "transit-generator-same-band",
+      "source": "full-2008",
+      "pages": "B529",
+      "module": "technology",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Generator base price 10000000, plus 10000000 per ton rated capacity; listed mass increment 10 pounds per ton; legality 2; assisted maximum separation 0 bands. All models remain same-band when unassisted.",
+      "tests": []
+    },
+    {
+      "id": "transit-generator-one-band",
+      "source": "full-2008",
+      "pages": "B529",
+      "module": "technology",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Generator base price 20000000, plus 150000000 per ton rated capacity; listed mass increment 10 pounds per ton; legality 1; assisted maximum separation 1 bands. All models remain same-band when unassisted.",
+      "tests": []
+    },
+    {
+      "id": "transit-generator-two-band",
+      "source": "full-2008",
+      "pages": "B529",
+      "module": "technology",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Generator base price 30000000, plus 300000000 per ton rated capacity; listed mass increment 30 pounds per ton; legality 0; assisted maximum separation 2 bands. All models remain same-band when unassisted.",
+      "tests": []
+    },
+    {
+      "id": "transit-detector-portable",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "technology",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Portable transit detector: price 560000, mass 56 pounds, range 1000 yards.",
+      "tests": []
+    },
+    {
+      "id": "transit-detector-large",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "technology",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Large transit detectors cost one million and weigh two hundred pounds per mile of range.",
+      "tests": []
+    },
+    {
+      "id": "transit-detector-bearing",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A detector can sense an incoming jump only in its own reality and within range, using sensor-operation skill; success gives a bearing.",
+      "tests": []
+    },
+    {
+      "id": "transit-detector-triangulation",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At least two in-range stations can locate the arrival to within a few percent of range; the precision model is explicitly authored.",
+      "tests": []
+    },
+    {
+      "id": "transit-detector-source-type",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One hour analyzing the recorded disturbance with a successful transit-physics check identifies capsule, projector or anomalous origin and the origin band.",
+      "tests": []
+    },
+    {
+      "id": "transit-detector-source-world",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One day of analysis and transit-physics at -5 identifies the origin world only if the investigator is familiar with it.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-2",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Outside elapsed time is one die minutes; passengers experience no corresponding delay.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-3",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Both passengers and outside clocks advance one die minutes.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-4",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Outside elapsed time is four dice minutes; passengers experience no corresponding delay.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-5",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Both passengers and outside clocks advance four dice minutes.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-6",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Arrival is one die feet too low or sideways, causing authored minor capsule/projector damage; occupants and ordinary cargo are unharmed, with explicitly fragile cargo an exception. Apply supplemental delay and displacement.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-7",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Arrival immediately reverses to origin. A repeated attempt is allowed at -1 operation; it is a new operation with validated resources. Apply supplemental delay.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-8",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For result eight or nine, all personnel take one die minus two burning damage; unshielded electronics temporarily fail and the generator needs major repair. Define electronic recovery and damage minimum using the corresponding general rules; apply supplemental delay.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-10",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A high arrival causes one die crushing to every passenger and fragile cargo; generator operation suffers -3 until minor repair. Apply supplemental delay and displacement.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-11",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A high arrival causes two dice crushing to every passenger and fragile cargo; generator is disabled until major repair. Apply supplemental delay and displacement.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-12",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Wrong-world arrival: one die 1-3 selects another world in the intended band, 4-5 an adjacent band, six two bands away. A projector also has two-in-six chance of importing an authored foreign object/being and normally closes for one die days of research. Recovery awaits actual destination discovery. Apply supplemental delay and displacement.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-13",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Capsule is destroyed and nonbulk cargo killed or destroyed; grain, ore and equivalent bulk goods survive. Any campaign protection replacing this with result twelve or fourteen must be explicitly selected, not silently applied. Add supplemental delay.",
+      "tests": []
+    },
+    {
+      "id": "transit-accident-14",
+      "source": "full-2008",
+      "pages": "B531",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For fourteen or higher, invoke the compound/severe accident procedure and supplemental delay; preserve both outcomes and their interactions rather than selecting the less severe.",
+      "tests": []
+    },
+    {
+      "id": "transit-disaster-2",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Passenger elapsed time is centuries or millennia while outside time is much shorter; author exact aging and survival or a declared alternate temporal effect. Do not arbitrarily choose a lethal duration during preview.",
+      "tests": []
+    },
+    {
+      "id": "transit-disaster-3",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each living passenger gains three dice points of authored mental quirks/disadvantages reflecting subjective time, with no corresponding bodily aging; apply trait accounting without awarding spendable points.",
+      "tests": []
+    },
+    {
+      "id": "transit-disaster-4",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Living travelers exchange minds among actual bodies; the author selects permanent duration or one die days. Use mind-transfer accounting and restore the right identity on expiry.",
+      "tests": []
+    },
+    {
+      "id": "transit-disaster-5",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Mirrored biology makes ordinary food unusable; living passengers gain the specified diet and biochemistry disadvantages. Away from suitable support, survival is -5 until the cause is understood, then -2. Ore is unaffected.",
+      "tests": []
+    },
+    {
+      "id": "transit-disaster-6",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "An authored unusual arrival phenomenon occurs; it needs a concrete scene result but grants no invented numeric damage by default.",
+      "tests": []
+    },
+    {
+      "id": "transit-disaster-7",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "All nonliving cargo, including the capsule, is removed or destroyed; living travelers remain at the destination and may be stranded. Resolve worn and implanted equipment explicitly.",
+      "tests": []
+    },
+    {
+      "id": "transit-disaster-8",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each passenger gains twenty points of randomly selected telepathic abilities for an independently rolled one die days; use a validated ability pool and temporary contributions, not unrestricted permanent advancement.",
+      "tests": []
+    },
+    {
+      "id": "transit-disaster-9",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A second copy of the shipment arrives one die minutes later. The printed source leaves living duplication unresolved; require an explicit identity policy before allowing living cargo, and apply physical displacement without treating a replay as a second copy.",
+      "tests": []
+    },
+    {
+      "id": "transit-disaster-10",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Exchange with an authored similar shipment operated by a rival organization; preserve its real occupants, equipment and ownership instead of merely changing a label.",
+      "tests": []
+    },
+    {
+      "id": "transit-disaster-11",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Exchange with a similar shipment from a previously unknown traveling group, with an authored complete replacement manifest.",
+      "tests": []
+    },
+    {
+      "id": "transit-disaster-12",
+      "source": "full-2008",
+      "pages": "B532",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Exchange with an authored radically different shipment of equal total mass; validate the replacement manifest and consequences before committing it.",
+      "tests": []
+    },
+    {
+      "id": "transit-portal-open",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Always available, subject to its other declared properties.",
+      "tests": []
+    },
+    {
+      "id": "transit-portal-periodic",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Appears on a specified cycle, normally shared by both directions when bidirectional; preserve next opening and closure.",
+      "tests": []
+    },
+    {
+      "id": "transit-portal-keyed",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Appears only with the specified key. Detectors or an appropriate innate traveler can discover its presence; discovery is distinct from opening.",
+      "tests": []
+    },
+    {
+      "id": "transit-portal-summoned",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Requires a specific authored activating action and normally remains open for a limited duration.",
+      "tests": []
+    },
+    {
+      "id": "transit-portal-variable",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Links more than two worlds through an authored random or selected destination. Travelers maintaining the required physical contact can share the destination decision.",
+      "tests": []
+    },
+    {
+      "id": "transit-portal-hidden",
+      "source": "full-2008",
+      "pages": "B534",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Invisible portals can be crossed unknowingly. Detectors sense them only during a crossing at one-hundredth normal range; an innate traveler can sense one in line of sight with intelligence.",
+      "tests": []
+    },
+    {
+      "id": "transit-search-band-0",
+      "source": "full-2008",
+      "pages": "B546",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "High-end shifted-world search at separation 0 bands uses transit-physics modifier +3 after a week.",
+      "tests": []
+    },
+    {
+      "id": "transit-search-band-1",
+      "source": "full-2008",
+      "pages": "B546",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "High-end shifted-world search at separation 1 bands uses transit-physics modifier +1 after a week.",
+      "tests": []
+    },
+    {
+      "id": "transit-search-band-2",
+      "source": "full-2008",
+      "pages": "B546",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "High-end shifted-world search at separation 2 bands uses transit-physics modifier +0 after a week.",
+      "tests": []
+    },
+    {
+      "id": "transit-search-band-3",
+      "source": "full-2008",
+      "pages": "B546",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "High-end shifted-world search at separation 3 or more is impossible under this procedure.",
+      "tests": []
+    }
+  ]
+}

@@ -18,8 +18,10 @@ a game yet. The detailed source inventory now contains:
 - [Worlds, law and technology](inventory/worlds-law-technology.json): jurisdiction,
   trials, technology contexts, availability guidance and travel contracts.
 
-These are first-pass requirements. Reaction outcome tables, detailed later transit
-rules, cross-references, numeric audits and executable validation remain open.
+These are first-pass requirements. Reaction outcome tables, cross-references, numeric audits and executable
+validation remain open. The [world-transit ledger](inventory/world-transit.json)
+now records the detailed hardware-assisted transit, accident, portal and world-shift
+procedures. Other setting-chapter pages still need a mechanical-content audit.
 Storytelling advice, quoted fiction and example settings are excluded; their presence
 in the reference does not imply a missing runtime feature.
 
@@ -103,6 +105,41 @@ return access and the actual travel ability or device. Physical transit moves th
 body and permitted inventory atomically. Projection retains an exposed body at its
 origin and a defined projected form; it cannot create duplicate spendable resources.
 World-context changes must reject unsupported combinations before committing arrival.
+
+## Detailed transit requirements
+
+The optional hardware-assisted travel model distinguishes a capsule's own generator
+from an external projector. Every unassisted capsule stays within its current transit
+band. Longer trips require the matching generator and projector; two-band trips also
+need an actual open window. Hourly predictions can schedule a one-hour window four
+hours later, and only the projector has the instruments to predict it. A passenger
+preview must not expose that private prediction without communication.
+
+Rated capacity includes the complete capsule and payload. Pulse energy depends on
+rated capacity, while calibration depends on actual mass and local conditions. A
+charged pulse bank, known origin and destination coordinates, a course for the actual
+launch point and a valid calibration are separate eligibility requirements. Being
+ready for retrieval does not make a projector appear or guarantee that its scheduled
+pickup will occur.
+
+Transit accidents use both operators' failed margins where applicable. Their outcomes
+can damage equipment, alter location, prevent retrieval or cause a time delay. Outside
+elapsed time and passenger-experienced time must be recorded separately. Further
+results can combine, so resource loss, damage, displacement and arrival cannot each
+be committed as unrelated operations that leave half a transit behind on failure.
+
+The supplied accident text leaves details requiring an explicit implementation policy:
+the dice/modifiers for compound rerolls, recovery from temporary electronic disruption,
+and what a duplicated living shipment means. These remain pending. A generic author
+callback does not settle them; each needs a documented input/output contract and
+independent tests. Named source worlds and organizations are excluded.
+
+Natural portals are distinct from capsule travel. They can be one-way, periodic,
+keyed, summoned, variable or hidden, with specific visibility and discovery rules.
+A shifting region can move terrain and its occupants. A changed world band can strand
+a working capsule, while a magic-free world can prevent a magical return. These cases
+must resolve through the actual route and world context rather than a universal
+return-to-origin action.
 
 ## Required validation
 
