@@ -27,3 +27,9 @@ Validation for this preview must include the existing regressions, independent
 expanded arithmetic checks, study history/persistence, example input parity,
 strict documentation generation and package construction. Passing those checks
 validates the implemented subset; it does not certify pending mechanics.
+
+Signed trait-price arithmetic and an approved negative-price specification now
+feed into the existing character cost ledger. Self-control pricing supports the
+four printed ratings and rejects unresolved combinations with percentage
+modifiers. Native examples and invalid-request cases are authored but have not
+been run during the requested check pause; catalogue effects remain pending.

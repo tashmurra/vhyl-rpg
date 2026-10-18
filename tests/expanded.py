@@ -56,6 +56,31 @@ def test_numbers(s):
     assert state(s) == before, 'numeric assessments mutated persistent state'
 
 
+def test_negative_pricing(s):
+    before = state(s)
+    # B110's signed example and independent floor/ceiling boundary cases.
+    for base, first, second, expected in [
+            (-25, -10, 0, -22), (-25, -60, 0, -10),
+            (-100, -65, 10, -45), (-15, 0, -90, -3),
+            (-1, -80, 0, 0), (1, -80, 0, 1),
+            (-10, 50, -75, -7), (0, 100, -50, 0)]:
+        s.action(1112, base, first, second)
+        assert last(s, 'test.signed-price') == [expected]
+    # B121: discard fractional magnitude, rather than floor negative numbers.
+    for base, expected in [(-5, [-10, -7, -5, -2]),
+                           (-10, [-20, -15, -10, -5]),
+                           (-15, [-30, -22, -15, -7])]:
+        for rating, cost in zip([6, 9, 12, 15], expected):
+            s.action(1113, base, rating)
+            assert last(s, 'test.control-price') == [cost]
+    s.action(1114)
+    assert last(s, 'test.negative-accounting') == [-22, -22, -22, 'point-budget', True, 0]
+    s.action(1115)
+    assert last(s, 'test.negative-invalid') == [
+        'self-control-rating', 'unapproved-trait', 'self-control-modifier-combination']
+    assert state(s) == before, 'negative pricing spent time, points or randomness'
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -133,7 +158,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     test_persistence(Session,bundle,build.out)

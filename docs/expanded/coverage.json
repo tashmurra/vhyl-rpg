@@ -272,6 +272,39 @@
       "tests": [
         "tests/expanded.py::test_study"
       ]
+    },
+    {
+      "id": "signed-trait-pricing",
+      "module": "traits",
+      "pages": "B101; B110",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedSignedModifiedCost",
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ]
+    },
+    {
+      "id": "self-control-pricing",
+      "module": "traits",
+      "pages": "B120-B121",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedSelfControlCost",
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ]
+    },
+    {
+      "id": "negative-trait-accounting",
+      "module": "traits",
+      "pages": "B110; B120-B121",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedDisadvantage",
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ]
     }
   ],
   "detailed_inventories": [

@@ -11,9 +11,13 @@
       "pages": "B110",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Limiting a disadvantage reduces its negative value, rounding toward positive infinity: base -25 with -10% becomes -22. Preserve the -80% net discount floor. The existing positive-only trait-price interface does not implement signed disadvantage pricing.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ],
+      "existing_feature": "signed-trait-pricing",
+      "validation_note": "Runtime arithmetic and native fixtures authored; checks remain paused. Full catalogue eligibility and effect integration are not complete."
     },
     {
       "id": "traits-mod-c-accessibility",

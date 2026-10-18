@@ -91,9 +91,13 @@
       "pages": "B121",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Self-control rating 6 multiplies listed disadvantage value by 2/1, dropping fractional magnitude: -22.5 becomes -22. Default rating is twelve. This is not an attribute check and Will does not improve it.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ],
+      "existing_feature": "self-control-pricing",
+      "validation_note": "Runtime arithmetic and native fixtures authored; checks remain paused. Full catalogue eligibility and effect integration are not complete."
     },
     {
       "id": "disadvantages-a-self-control-9",
@@ -101,9 +105,13 @@
       "pages": "B121",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Self-control rating 9 multiplies listed disadvantage value by 3/2, dropping fractional magnitude: -22.5 becomes -22. Default rating is twelve. This is not an attribute check and Will does not improve it.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ],
+      "existing_feature": "self-control-pricing",
+      "validation_note": "Runtime arithmetic and native fixtures authored; checks remain paused. Full catalogue eligibility and effect integration are not complete."
     },
     {
       "id": "disadvantages-a-self-control-12",
@@ -111,9 +119,13 @@
       "pages": "B121",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Self-control rating 12 multiplies listed disadvantage value by 1/1, dropping fractional magnitude: -22.5 becomes -22. Default rating is twelve. This is not an attribute check and Will does not improve it.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ],
+      "existing_feature": "self-control-pricing",
+      "validation_note": "Runtime arithmetic and native fixtures authored; checks remain paused. Full catalogue eligibility and effect integration are not complete."
     },
     {
       "id": "disadvantages-a-self-control-15",
@@ -121,9 +133,13 @@
       "pages": "B121",
       "module": "traits",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Self-control rating 15 multiplies listed disadvantage value by 1/2, dropping fractional magnitude: -22.5 becomes -22. Default rating is twelve. This is not an attribute check and Will does not improve it.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ],
+      "existing_feature": "self-control-pricing",
+      "validation_note": "Runtime arithmetic and native fixtures authored; checks remain paused. Full catalogue eligibility and effect integration are not complete."
     },
     {
       "id": "disadvantages-a-self-control-resolution",

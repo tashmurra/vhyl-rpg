@@ -1,5 +1,30 @@
 # Expanded traits
 
+## Pricing interfaces
+
+**Status: partial; new native cases have not been run while checks are paused.**
+
+| Interface | Purpose | Source |
+| --- | --- | --- |
+| `rpgExpandedModifiedCost(base, percentages)` | Existing positive-cost pricing, preserving its positive-only contract | B101 |
+| `rpgExpandedSignedModifiedCost(base, percentages)` | Positive, negative or zero arithmetic with the net −80% modifier floor and rounding toward positive infinity | B101; B110 |
+| `rpgExpandedSelfControlCost(base, rating)` | Negative base priced at rating 6, 9, 12 or 15, discarding fractional magnitude | B121 |
+| `RpgExpandedDisadvantage` | Approved negative price specification integrated through `creationCost()` into character accounting | B110; B120–B121 |
+
+For a negative specification, set `points` to a negative integer, `level` to its
+purchased count, and `approved = true` after author review. Use either
+`percentages` or `selfControlRating`. Combining a self-control rating with a
+nonempty modifier list is currently rejected as
+`self-control-modifier-combination`; the composed rounding order has not been
+resolved. Invalid ratings are rejected as `self-control-rating`.
+
+A −25 base with a −10% limitation costs −22. A −5 base at self-control 9 costs
+−7. Both calculations are pure: they consume no time, points or random rolls.
+Negative contributions count toward the existing disadvantage limit and never
+credit the unspent-point ledger merely by being assessed. Approval of a price
+does not implement that trait's behavior, trigger, compatibility or modifier
+effects. These interfaces do not yet constitute a playable full trait catalogue.
+
 The [trait inventory](inventory/traits-foundation.json) begins the detailed
 catalogue pass at B32–B37. It records categories, origins, activation, potential
 purchases and the initial ability definitions. The existing pricing helper does

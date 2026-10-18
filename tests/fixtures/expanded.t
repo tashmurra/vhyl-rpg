@@ -133,6 +133,42 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1112)
+    {
+        event('test.signed-price');
+        eventValue(rpgExpandedSignedModifiedCost(args[1],[args[2],args[3]])); return nil;
+    }
+    if (verb == 1113)
+    {
+        event('test.control-price');
+        eventValue(rpgExpandedSelfControlCost(args[1],args[2])); return nil;
+    }
+    if (verb == 1114)
+    {
+        local trait = new RpgExpandedDisadvantage(); trait.approved = true;
+        trait.points = -15; trait.selfControlRating = 9;
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        p.traits = [trait]; p.pointBudget = 1000; p.disadvantageLimit = 20;
+        event('test.negative-accounting'); eventValue(trait.creationCost());
+        eventValue(rpgExpandedCharacterCost(p,nil)); eventValue(rpgExpandedCharacterCost(p,true));
+        try { rpgExpandedValidateCharacter(p); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        p.disadvantageLimit = 22; eventValue(rpgExpandedValidateCharacter(p));
+        eventValue(p.unspentPoints); return nil;
+    }
+    if (verb == 1115)
+    {
+        event('test.negative-invalid');
+        try { rpgExpandedSelfControlCost(-10,7); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        local trait = new RpgExpandedDisadvantage(); trait.points = -10;
+        try { trait.creationCost(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        trait.approved = true; trait.selfControlRating = 12; trait.percentages = [-10];
+        try { trait.creationCost(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;
