@@ -4131,7 +4131,7 @@ class RpgExpandedClottingEpisode: object
         if (self.care != 'untreated') return self.internalLoss;
         local amount = self.originalInjury;
         foreach (local tick in self.ticks) amount += tick.result.injury;
-        return amount;
+        return amount - self.restoredInternal;
     }
     internalLoss = 0
     ticks = []
@@ -4306,4 +4306,72 @@ class RpgExpandedClottingBandage: RpgExpandedBandage
         return inherited(value);
     }
     applyAfterBleedingCare(care) { rpgExpandedReject('clotting-ordinary-care-incompatible'); }
+;
+
+modify RpgExpandedClottingEpisode
+    restoredInternal = 0
+;
+modify RpgExpandedProfile
+    clottingRestorations = []
+;
+class RpgExpandedClottingRestorationResult: RpgExpandedResult
+    healed = 0
+    stopped = nil
+;
+
+/** B138 concrete external supernatural-effect contract. The author supplies the
+ * completed effect, its exact protected-HP grant and whether it stops bleeding. */
+class RpgExpandedClottingRestoration: object
+    eventId = nil
+    episode = nil
+    restoredHP = 0
+    stopsBleeding = nil
+    approved = nil
+    effectEvidence = nil
+    occurredAt = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.eventId,self.episode,self.restoredHP,self.stopsBleeding,self.approved,self.effectEvidence,self.occurredAt]; }
+    assess()
+    {
+        if (self.eventId == nil || self.eventId == '' || self.episode == nil
+            || !self.episode.ofKind(RpgExpandedClottingEpisode)) rpgExpandedReject('clotting-restoration-definition');
+        self.episode.validateReceipt(); local profile = self.episode.wound.profile;
+        local value = new RpgExpandedClottingRestorationResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('clotting-restoration-binding');
+            if (!holds(profile.clottingRestorations,self)) rpgExpandedReject('clotting-restoration-history');
+            value.status = 'reused'; value.healed = self.result.healed; value.stopped = self.result.stopped; return value;
+        }
+        if (!self.episode.torsoImpaling) { value.reason = 'clotting-restoration-internal-required'; return value; }
+        if (profile.dead) { value.reason = 'clotting-restoration-patient-dead'; return value; }
+        if (!self.approved || self.effectEvidence == nil || self.effectEvidence == '' || self.occurredAt != rpgLedger.seconds)
+        { value.reason = 'clotting-restoration-current-effect-required'; return value; }
+        rpgInteger(self.restoredHP,0,self.episode.internalLoss);
+        if (self.restoredHP == 0 && !self.stopsBleeding)
+        { value.reason = 'clotting-restoration-no-effect'; return value; }
+        foreach (local prior in profile.clottingRestorations)
+            if (prior.eventId == self.eventId) rpgExpandedReject('clotting-restoration-duplicate-event');
+        profile.clottingProtectedInjury();
+        rpgInteger(self.episode.restoredInternal,0,2147483647 - self.restoredHP);
+        if (self.restoredHP > profile.injury) rpgExpandedReject('clotting-restoration-injury-history');
+        /* Existing healing can wake the patient or resolve a mortal condition. */
+        if (self.restoredHP > 0 && (profile.unconscious || profile.mortal) && profile.ht < 3)
+        { value.reason = 'clotting-restoration-healing-score-unavailable'; return value; }
+        value.healed = self.restoredHP; value.stopped = self.stopsBleeding; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local profile = self.episode.wound.profile;
+        self.episode.internalLoss -= self.restoredHP; self.episode.restoredInternal += self.restoredHP;
+        if (self.stopsBleeding) { self.episode.care = 'definitive'; self.episode.nextLossAt = nil; }
+        local healed = self.restoredHP > 0 ? rpgLiteHeal(profile,self.restoredHP) : 0;
+        if (healed != self.restoredHP) rpgExpandedReject('clotting-restoration-healing-changed');
+        self.boundDefinition = self.definition(); profile.clottingRestorations = profile.clottingRestorations + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
 ;

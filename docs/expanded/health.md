@@ -2161,3 +2161,40 @@ external loss, minute-to-day transition, preserved internal loss, shared healing
 credit, preview, rollback, undo, replay and saved continuation. They are authored
 and unrun. Automatic enrollment, definitive treatment and exceptional large-loss
 handling remain incomplete.
+
+
+### Supernatural restoration of internal loss
+
+`RpgExpandedClottingRestoration` is the concrete author interface for the
+supernatural-healing alternative in `full-2008`, B138. Supply a unique `eventId`,
+the internal-bleeding `episode`, `approved`, detailed `effectEvidence`, and
+`occurredAt` equal to the current ledger time. The evidence identifies the authored
+effect and establishes its granted outcome. This interface does not invent a spell,
+ability, casting roll, cost or duration; the originating system must resolve those
+and compose this operation in the same transaction.
+
+Set `restoredHP` to the exact internal-loss HP granted by the effect, from zero
+through the episode's remaining `internalLoss`. Independently set `stopsBleeding`
+when the effect definitively treats this bleeding source. At least one effect is
+required. Restoring HP alone leaves the existing minute/daily cadence intact;
+stopping alone leaves previous loss protected. The operation cannot restore
+unrelated HP or resurrect a dead patient.
+
+`assess()` validates the current event, ownership, protected injury and healing
+preconditions before mutation. `apply()` reduces the protected component, restores
+that amount through the shared healing pipeline, and, if authorized, changes care
+to `definitive` and clears the future deadline. `restoredInternal` preserves the
+amount removed from historical untreated loss so it cannot become protected a
+second time. Existing healing side effects, such as supported waking checks, remain
+in the shared pipeline. No additional treatment time or power cost is charged.
+
+A profile owns receipts in `clottingRestorations`; an event ID may be committed only
+once for that profile. Replay neither heals again nor changes a later deadline.
+Use distinct explicitly resolved effects for additional grants. This adapter can
+be used before or after first aid. Surgery remains unfinished: no unsupported
+operation duration or surgical HP grant is inferred from this supernatural path.
+
+`tests/fixtures/expanded-clotting-restoration.t` and `test_clotting_restoration`
+specify combined restoration, partial restoration, stopping alone, continued
+bleeding, stale-event rejection, preview, rollback, undo, replay and saved
+continuation. They are authored and unrun.

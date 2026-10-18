@@ -8922,6 +8922,8 @@ def test(build):
     test_clotting_loss(Session, clotting_loss, build.out)
     clotting_care = build.build('expanded-clotting-care', ROOT / 'tests/fixtures/expanded-clotting-care.t')
     test_clotting_care(Session, clotting_care, build.out)
+    clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
+    test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10693,5 +10695,66 @@ def test_clotting_care(Session, bundle, out):
         s.action(2285, 74)
         s.action(2285, 74)
         assert state(s) == [4, 'first-aid', 4, 172920, 1, 4, 86520, 0]
+    finally:
+        s.close()
+
+
+def test_clotting_restoration(Session, bundle, out):
+    def setup(s, bandage=True):
+        for code in (0, 67, 60, 4, 61):
+            s.action(2285, code)
+        if bandage:
+            s.action(2285, 70)
+    def state(s):
+        s.action(2285, 86)
+        return last(s, 'test.clotting-restoration')
+    path = out / 'expanded-clotting-restoration.zsave'
+    s = Session(bundle)
+    try:
+        setup(s)
+        s.action(2285, 81)
+        s.action(2285, 82)
+        initial = [3, 2, 0, 'first-aid', 86520, 2, 0, 120, 0]
+        assert state(s) == initial
+        s.action(2285, 80)
+        s.command('undo')
+        assert state(s) == initial
+        s.action(2285, 80)
+        s.action(2285, 80)
+        assert state(s) == [1, 0, 2, 'definitive', None, 0, 1, 120, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 80)
+        s.action(2285, 73)
+        s.action(2285, 65)
+        assert state(s) == [0, 0, 2, 'definitive', None, 0, 1, 86520, 0]
+    finally:
+        s.close()
+    for mode, expected in [
+            (83, [2, 1, 1, 'first-aid', 86520, 1, 1, 120, 0]),
+            (84, [3, 2, 0, 'definitive', None, 2, 1, 120, 0]),
+            (85, [3, 2, 0, 'first-aid', 86520, 2, 0, 120, 0])]:
+        s = Session(bundle)
+        try:
+            setup(s)
+            s.action(2285, mode)
+            s.action(2285, 80)
+            assert state(s) == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        setup(s, False)
+        s.action(2285, 83)
+        s.action(2285, 88)
+        s.action(2285, 80)
+        assert state(s) == [3, 1, 1, 'untreated', 120, 3, 1, 60, 0]
+        s.action(2285, 4)
+        s.action(2285, 62)
+        assert state(s) == [5, 3, 1, 'untreated', 180, 5, 1, 120, 0]
     finally:
         s.close()

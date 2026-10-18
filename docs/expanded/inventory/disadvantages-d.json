@@ -331,9 +331,10 @@
       "tests": [
         "tests/expanded.py::test_impaired_clotting",
         "tests/expanded.py::test_clotting_loss",
-        "tests/expanded.py::test_clotting_care"
+        "tests/expanded.py::test_clotting_care",
+        "tests/expanded.py::test_clotting_restoration"
       ],
-      "implementation": "Owned per-wound minute loss, one-minute bandaging and transition to daily internal loss are authored. Bandaging uses the shared healing credit once; ordinary healing is limited to injury outside protected components. Internal losses remain protected after first aid. Definitive treatment/restoration, larger-injury policy and automatic enrollment remain pending. Fixtures authored and unrun."
+      "implementation": "Owned minute/daily internal losses, first-aid transition and protected healing are authored. RpgExpandedClottingRestoration is a concrete authored supernatural-effect contract that independently stops the source and restores an explicit amount of protected internal HP once per event. Surgical execution, larger-injury policy and automatic enrollment remain pending. Fixtures authored and unrun."
     },
     {
       "id": "disadvantages-d-uncreative",

@@ -324,3 +324,9 @@ Impaired-clotting first aid now shares the one-minute bandaging operation and it
 single healing credit. External bleeding stops; torso impalements retain daily
 loss, while prior internal loss stays protected from ordinary healing. Unrelated
 injury can recover. Definitive treatment remains pending; fixtures are unrun.
+
+
+Internal bleeding now accepts a concrete authored supernatural-restoration event:
+protected HP restoration and stopping the source are independent effects, with
+shared healing and replay-safe receipts. Surgical execution remains pending;
+new partial-restoration and persistence fixtures are authored and unrun.
