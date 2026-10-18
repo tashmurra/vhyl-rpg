@@ -759,7 +759,8 @@ class RpgExpandedSharedCarryRelease: object
             : self.cause == 'dead' ? self.member.dead
             : self.cause == 'knockdown' ? self.member.posture == 'lying' && self.member.stunned
             : self.member.liftingHandsReason(found[4],self.carry.mode == 'one-hand' ? 1 : 2) == 'lifting-hand-disabled';
-        if (!applies) { value.reason = 'shared-release-cause-absent'; return value; }
+        if (!applies && !self.carry.hasSupportLoss(self.member,self.cause))
+        { value.reason = 'shared-release-cause-absent'; return value; }
         value.status = 'ready'; return value;
     }
     release()
@@ -770,5 +771,70 @@ class RpgExpandedSharedCarryRelease: object
         self.carry.endEvidence = self.evidence; self.carry.endSeconds = 0; self.carry.emergencyRelease = self;
         self.carry.item.storageLocation = self.destination; self.carry.item.sharedCarry = nil;
         value.status = 'resolved'; return value;
+    }
+;
+
+
+modify RpgExpandedSharedCarry
+    supportLosses = []
+    hasSupportLoss(profile,cause)
+    {
+        foreach (local row in self.supportLosses) if (row[1] == profile && row[2] == cause) return true;
+        return nil;
+    }
+    noteSupportLoss(profile,cause)
+    {
+        if (self.result == nil || self.endedAt != nil || self.hasSupportLoss(profile,cause)) return nil;
+        local member = nil;
+        foreach (local row in self.members) if (row[1] == profile) member = true;
+        if (!member) rpgExpandedReject('shared-support-loss-member');
+        self.supportLosses = self.supportLosses + [[profile,cause,rpgLedger.seconds]]; return nil;
+    }
+    pendingSupportLoss()
+    {
+        if (self.result == nil || self.endedAt != nil) return nil;
+        if (self.supportLosses.length() > 0) return true;
+        foreach (local row in self.members)
+        {
+            local profile = row[1];
+            if (profile.dead || profile.unconscious || profile.posture == 'lying' && profile.stunned
+                || profile.liftingHandsReason(row[4],self.mode == 'one-hand' ? 1 : 2) == 'lifting-hand-disabled') return true;
+        }
+        return nil;
+    }
+;
+modify RpgExpandedProfile
+    onUnconscious()
+    {
+        inherited();
+        foreach (local carry in self.sharedCarries) carry.noteSupportLoss(self,self.dead ? 'dead' : 'unconscious');
+        return nil;
+    }
+    onKnockdown()
+    {
+        inherited();
+        foreach (local carry in self.sharedCarries) carry.noteSupportLoss(self,'knockdown');
+        return nil;
+    }
+    onBodySupportLost(part)
+    {
+        inherited(part);
+        foreach (local carry in self.sharedCarries)
+            if (carry.endedAt == nil)
+                foreach (local row in carry.members)
+                    if (row[1] == self)
+                        foreach (local hand in row[4])
+                            if (hand == part || hand.parent == part) carry.noteSupportLoss(self,'disabled-support');
+        return nil;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        if (seconds > 0)
+            for (local carry = firstObj(RpgExpandedSharedCarry); carry != nil; carry = nextObj(carry,RpgExpandedSharedCarry))
+                if (carry.pendingSupportLoss()) rpgExpandedReject('shared-support-loss-unresolved');
+        return nil;
     }
 ;

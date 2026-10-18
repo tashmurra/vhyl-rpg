@@ -41,6 +41,7 @@ class RpgLiteSkill: RpgSkill
 class RpgLiteProfile: RpgProfile
     /* Default hooks do not consume time or randomness. Optional modules restore passive abilities. */
     onUnconscious() { return nil; }
+    onKnockdown() { return nil; }
     onSleep() { return nil; }
     stunRecoveryOwned() { return nil; }
     unconsciousRecoveryOwned() { return nil; }

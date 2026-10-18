@@ -239,6 +239,7 @@ class RpgExpandedWound: object
         self.boundDropDestination = self.dropDestination;
         self.committedSerial = self.profile.woundSerial; self.committedAt = rpgLedger.seconds;
         self.profile.expandedWounds = self.profile.expandedWounds + [self];
+        if (value.crippling != nil && value.crippling.crippled) self.profile.onBodySupportLost(self.bodyPart);
         value.health = self.health; value.status = 'resolved'; return value;
     }
 ;

@@ -27,6 +27,7 @@ class RpgExpandedProfile: RpgLiteProfile
     creationMoneyReason(points) { return 'creation-money-accounting-unavailable'; }
     validateFeatures() { return nil; }
     physicalDangerFearPenalty() { return nil; }
+    onBodySupportLost(part) { return nil; }
     postCreationDisadvantageAllowance() { return 0; }
     /* Equipment module supplies concrete forced-drop handling when installed. */
     prepareKnockdownDrop(destination)

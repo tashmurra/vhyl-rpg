@@ -39,7 +39,7 @@ rpgLiteWoundWithKnockdown(profile, amount, knockdown, modifier)
         if (!result.check.achieved)
         {
             result.knockedDown = true;
-            profile.stunned = true; profile.posture = 'lying';
+            profile.stunned = true; profile.posture = 'lying'; profile.onKnockdown();
             foreach (local item in profile.equipment) if (!item.worn) item.ready = nil;
             if (result.check.margin <= -5 || result.check.critical == 'failure') profile.becomeUnconscious();
         }

@@ -736,3 +736,8 @@ repairs and other tool uses remain incomplete.
   Whole-load dropping and impact consequences require authored evidence; the
   release adds no voluntary lowering time. Added rollback/undo/save fixtures,
   unrun. Automatic health-event dispatch and load redistribution remain pending.
+
+- Connected shared carrying to unconsciousness, knockdown and committed limb
+  disablement hooks. Pending support loss blocks further time until adjudication,
+  survives recovery and save continuation, and clears on emergency release.
+  Notification/rollback fixtures are authored; checks remain paused.

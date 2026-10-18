@@ -2710,3 +2710,10 @@ matching explicit values are not charged twice and conflicting overrides reject.
 See the [trait contract](traits.md#physical-danger-avoidance). The legacy authored
 classification path remains available when no concrete purchase exists. New
 expected-value and integration assertions remain unrun. Source: full-2008, B129.
+
+Shared carrying now receives unconsciousness, knockdown and committed disabling
+limb-wound notifications through profile hooks. An unresolved support-loss event
+blocks subsequent positive game-time advancement until its load is adjudicated.
+See [pending support-loss events](equipment.md#pending-support-loss-events). These
+hooks do not invent drop or impact consequences; notification/persistence fixtures
+are authored and unrun, and dedicated limb-wound coverage remains pending.

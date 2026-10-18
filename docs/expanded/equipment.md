@@ -515,3 +515,30 @@ death, knockdown, missing arrangement/impact evidence, rollback, undo, saved
 release continuation and recovery after release. Assertions remain unrun. Bound
 support injury integration, automatic dispatch from every health event, remaining
 helpers retaining/reallocating the load, and general impact damage remain pending.
+
+### Pending support-loss events
+
+Active shared carries now receive health notifications. `becomeUnconscious()`
+records unconsciousness (or death when already declared), the shared knockdown
+procedure invokes `onKnockdown()`, and a committed disabling limb wound invokes
+`onBodySupportLost(part)`. Bound hands and their supporting arms are matched to the
+carry's member rows. Default hooks preserve behavior when shared carrying is absent.
+
+`supportLosses` stores `[profile, cause, eventSeconds]` once for each member/cause.
+`pendingSupportLoss()` reports an unresolved recorded event, or a currently visible
+loss of support. The game-time ledger rejects positive advancement with
+`shared-support-loss-unresolved` while any active carry has such a loss. The health
+event itself remains committed; resolve the physical load before advancing time.
+No drop destination, distribution change or impact outcome is invented by a hook.
+
+Emergency release accepts a matching recorded event even if the member has since
+recovered. Recovery does not erase the need to resolve the load's fate. Release
+closes the carry and clears the clock gate; the event remains in history. Use the
+public health procedures when authoring incapacitation so these events participate
+in the same transaction. Direct field edits are not a substitute for event dispatch.
+
+The new fixture covers notification, duplicate notification, rollback and undo of
+the health change, blocked time before and after recovery, saved pending state,
+and release allowing time to advance. Assertions remain unrun. Dedicated limb-wound
+integration fixtures, remaining support-loss causes, retention/reallocation and
+coordinated movement remain incomplete.

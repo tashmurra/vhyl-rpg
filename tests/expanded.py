@@ -8988,6 +8988,7 @@ def test(build):
     test_shared_carry(Session, shared_carry, build.out)
     shared_release = build.build('expanded-shared-release', ROOT / 'tests/fixtures/expanded-shared-release.t')
     test_shared_release(Session, shared_release, build.out)
+    test_shared_support_loss(Session, shared_release, build.out)
     lifting_skill = build.build('expanded-lifting-skill', ROOT / 'tests/fixtures/expanded-lifting-skill.t')
     test_lifting_skill(Session, lifting_skill, build.out)
     test_skilled_pickup(Session, lifting_skill, build.out)
@@ -13444,3 +13445,38 @@ def test_shared_release(Session, bundle, out):
             assert state(s) == dropped
         finally:
             s.close()
+
+
+def test_shared_support_loss(Session, bundle, out):
+    def state(s):
+        s.action(2285, 802)
+        return last(s, 'test.shared-support-loss')
+    path = out / 'expanded-shared-support-loss.zsave'
+    s = Session(bundle)
+    try:
+        for code in (781,803):
+            s.action(2285, code)
+        assert state(s) == [0,0,0,4]
+        s.action(2285, 800)
+        s.command('undo')
+        assert state(s) == [0,0,0,4]
+        for code in (800,800,801):
+            s.action(2285, code)
+        assert last(s, 'test.shared-support-clock') == ['shared-support-loss-unresolved',4]
+        assert state(s) == [1,1,1,4]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (795,801):
+            s.action(2285, code)
+        assert state(s) == [1,1,0,4]
+        assert last(s, 'test.shared-support-clock') == ['shared-support-loss-unresolved',4]
+        for code in (791,801):
+            s.action(2285, code)
+        assert last(s, 'test.shared-support-clock') == ['advanced',5]
+        assert state(s) == [1,0,0,5]
+    finally:
+        s.close()

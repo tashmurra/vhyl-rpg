@@ -16,6 +16,21 @@ modify BleedTestAction
         if (code == 796) { sharedRelease.member = bleedProfile; return nil; }
         if (code == 797) { carryPartner.dead = true; sharedRelease.cause = 'dead'; return nil; }
         if (code == 798) { carryPartner.posture = 'lying'; carryPartner.stunned = true; sharedRelease.cause = 'knockdown'; return nil; }
+        if (code == 800 || code == 803)
+        { carryPartner.becomeUnconscious(); if (code == 803) throw new RpgError(); return nil; }
+        if (code == 801)
+        {
+            event('test.shared-support-clock');
+            try { rpgSpendTime(1); eventValue('advanced'); }
+            catch (RpgExpandedError error) { eventValue(error.reason); }
+            eventValue(rpgLedger.seconds); return nil;
+        }
+        if (code == 802)
+        {
+            event('test.shared-support-loss'); eventValue(sharedCarry.supportLosses.length());
+            eventValue(sharedCarry.pendingSupportLoss() ? 1 : 0); eventValue(carryPartner.unconscious ? 1 : 0);
+            eventValue(rpgLedger.seconds); return nil;
+        }
         return inherited(context);
     }
 ;
