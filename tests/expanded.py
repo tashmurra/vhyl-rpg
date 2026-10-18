@@ -7052,7 +7052,9 @@ def test_negative_pricing(s):
     assert last(s, 'test.negative-accounting') == [-22, -22, -22, 'point-budget', True, 0]
     s.action(1115)
     assert last(s, 'test.negative-invalid') == [
-        'self-control-rating', 'unapproved-trait', 'self-control-modifier-combination']
+        'self-control-rating', 'unapproved-trait',
+        'self-control-ineligible-trait', 'self-control-ineligible-trait',
+        'self-control-ineligible-trait', 'self-control-modifier-combination']
     assert state(s) == before, 'negative pricing spent time, points or randomness'
 
 

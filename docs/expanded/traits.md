@@ -745,3 +745,12 @@ inherited obligation interface remains available for authored action permission.
 failure choices, voluntary acceptance, preview, replay, rollback, undo and saved
 continuation. Assertions remain unrun. Parser/dialogue delivery and integrations
 with broader social contests remain incomplete.
+
+Self-control pricing requires `controlled = true` on the disadvantage. A rating
+on an uncontrolled disadvantage rejects with `self-control-ineligible-trait`
+both when priced directly and through character accounting. Runtime rating
+lookup uses the same eligibility gate. This explicit declaration identifies an
+authored resistance procedure; it does not establish catalogue eligibility or
+implement that procedure's consequences. Pure numeric pricing remains available
+for assessment. Regression assertions cover all three rejection paths and remain
+unrun while checks are paused. Source: full-2008, B121.

@@ -587,7 +587,7 @@ act(verb, args)
     if (verb == 1114)
     {
         local trait = new RpgExpandedDisadvantage(); trait.approved = true;
-        trait.points = -15; trait.selfControlRating = 9;
+        trait.points = -15; trait.controlled = true; trait.selfControlRating = 9;
         local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
         p.traits = [trait]; p.pointBudget = 1000; p.disadvantageLimit = 20;
         event('test.negative-accounting'); eventValue(trait.creationCost());
@@ -605,7 +605,16 @@ act(verb, args)
         local trait = new RpgExpandedDisadvantage(); trait.points = -10;
         try { trait.creationCost(); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
-        trait.approved = true; trait.selfControlRating = 12; trait.percentages = [-10];
+        trait.approved = true; trait.selfControlRating = 12;
+        try { trait.creationCost(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        local profile = new RpgExpandedProfile(); profile.rules = new RpgExpandedRules();
+        profile.traits = [trait];
+        try { rpgExpandedCharacterCost(profile,nil); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { trait.selfControlNumber(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        trait.controlled = true; trait.percentages = [-10];
         try { trait.creationCost(); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;

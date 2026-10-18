@@ -55,6 +55,7 @@ class RpgExpandedDisadvantage: RpgLiteTrait
     selfControlNumber()
     {
         if (!self.approved) rpgExpandedReject('unapproved-trait');
+        if (!self.controlled) rpgExpandedReject('self-control-ineligible-trait');
         if (self.selfControlRating == nil) return 12;
         if (!holds([6,9,12,15],self.selfControlRating)) rpgExpandedReject('self-control-rating');
         return self.selfControlRating;
@@ -67,6 +68,8 @@ class RpgExpandedDisadvantage: RpgLiteTrait
         local base = self.points * self.level;
         if (self.selfControlRating != nil)
         {
+            /* B121: a rating prices only a disadvantage with a resistance procedure. */
+            self.selfControlNumber();
             /* Resolve composition/rounding from source before supporting both. */
             if (self.percentages.length() != 0)
                 rpgExpandedReject('self-control-modifier-combination');

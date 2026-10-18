@@ -660,3 +660,8 @@ weight and storage state. Digging validates tool roles and authored material fac
 source entries do not imply a material from technology alone. Added authored,
 unrun purchase-to-work fixtures with transactional/save continuation. Wear,
 repairs and other tool uses remain incomplete.
+
+- Confirmed the expansion branch includes main's character/social merge
+  `5935592` through `84c3e5a`. Self-control trait pricing now rejects a rating on
+  an uncontrolled disadvantage, including through character accounting. Added
+  regression assertions; checks remain paused and the PR remains draft.
