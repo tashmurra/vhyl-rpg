@@ -1,0 +1,900 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B246-B249, before knowledge spells",
+  "review": "Twenty-five further spells enumerated with neutral keys and source metadata, covering earth, fire, planar travel and healing. Total first-pass catalogue definitions now fifty-two; execution, source decisions and validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "magic-catalogue-b-earth-create",
+      "source": "full-2008",
+      "pages": "B246",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Create earth touching ground, never suspended in air or floating on water; alternatively solidify existing mud. Validate actual contact and volume before execution. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "earth-create",
+        "groups": [
+          "earth"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "creation_per_cubic_yard": 2,
+          "creation_minimum": 2,
+          "mud_conversion_per_cubic_yard": 1,
+          "mud_conversion_minimum": 1
+        },
+        "maintenance": null,
+        "duration": "permanent",
+        "prerequisites": {
+          "spells_all": [
+            "earth-solidify"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-living-petrification",
+      "source": "full-2008",
+      "pages": "B246",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Turn a living subject and all carried gear to stone as a whole; partial-target casting is invalid. Preserve actor/item identity and original state for reversal. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "living-petrification",
+        "groups": [
+          "earth"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 2,
+        "energy": {
+          "fixed": 10
+        },
+        "maintenance": null,
+        "duration": "permanent until reversed",
+        "prerequisites": {
+          "spells_all": [
+            "earth-solidify"
+          ]
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-b-stone-soften",
+      "source": "full-2008",
+      "pages": "B246",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Convert an entire stone/block, including gemstone, to ordinary earth. Cannot affect only part of a block. Resolve whole-object boundaries and structural consequences. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "stone-soften",
+        "groups": [
+          "earth"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "per_cubic_yard": 6,
+          "minimum": 6
+        },
+        "maintenance": null,
+        "duration": "permanent",
+        "prerequisites": {
+          "any_of": [
+            {
+              "spells_all": [
+                "earth-solidify"
+              ]
+            },
+            {
+              "group_count": {
+                "group": "earth",
+                "minimum": 4
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-petrification-reversal",
+      "source": "full-2008",
+      "pages": "B246",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Restore a previously living petrified victim to life with stun. A statue never alive is invalid; recover the stored body and gear transformation rather than constructing an unrelated actor. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "petrification-reversal",
+        "groups": [
+          "earth"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 5,
+        "energy": {
+          "fixed": 10
+        },
+        "maintenance": null,
+        "duration": "permanent",
+        "prerequisites": {
+          "spells_all": [
+            "living-petrification",
+            "stone-soften"
+          ],
+          "aptitude": 2
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-earth-entomb",
+      "source": "full-2008",
+      "pages": "B246",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Move subject into a small spherical chamber fifty feet underground in suspended animation. Tunneling or reverse casting rescues them. A gifted self-caster may choose wakefulness, with ordinary breathing requirements. Author supplies valid underground geometry and rescue interaction. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "earth-entomb",
+        "groups": [
+          "earth"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 3,
+        "energy": {
+          "bury": 10,
+          "reverse": 6
+        },
+        "maintenance": null,
+        "duration": "permanent until reversed or rescued",
+        "prerequisites": {
+          "aptitude": 2,
+          "group_count": {
+            "group": "earth",
+            "minimum": 5
+          }
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-b-ignition",
+      "source": "full-2008",
+      "pages": "B246",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Heat one flammable spot without directly igniting living tissue or normally noncombustible material. Energy one lights tinder in one second; two ignites loose paper/cloth in one or worn clothing in four; three ignites dry wood/worn clothing in one, leather in two, heavy wood in six; four ignites coal in one or heavy wood in two. Track sustained exposure and ordinary fire after ignition. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "ignition",
+        "groups": [
+          "fire"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "minimum": 1,
+          "maximum": 4
+        },
+        "maintenance": "same as selected casting effect energy",
+        "duration": "one second per paid interval",
+        "prerequisites": {}
+      }
+    },
+    {
+      "id": "magic-catalogue-b-flame-create",
+      "source": "full-2008",
+      "pages": "B246",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Create fuel-independent real fire in open space, never inside solid material or another actor. An aerial fire sphere falls to ground. Touched flammables may ignite; those ordinary fires persist independently after magical flame expiry. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "flame-create",
+        "groups": [
+          "fire"
+        ],
+        "classes": [
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base": 2
+        },
+        "maintenance": {
+          "base": 1
+        },
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "ignition"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-flame-shape",
+      "source": "full-2008",
+      "pages": "B246",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reshape flame with one second concentration per change; fixed shape then persists without concentration. Moving flame requires ongoing concentration at movement five on caster turns. Natural fire requires burnable destination; magically created flame does not. Preserve volume: spreading over twice/three times area gives half/third damage. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "flame-shape",
+        "groups": [
+          "fire"
+        ],
+        "classes": [
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base": 2
+        },
+        "maintenance": {
+          "base": 1
+        },
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "ignition"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-energy-deflect",
+      "source": "full-2008",
+      "pages": "B246-B247",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Deflect one incoming energy attack, counting as a parry. Protecting another subject uses ordinary spell range penalties. Deflected trajectory may hit something beyond; author supplies trajectory/result instead of deleting the projectile unconditionally. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "energy-deflect",
+        "groups": [
+          "fire"
+        ],
+        "classes": [
+          "blocking"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 1
+        },
+        "maintenance": null,
+        "duration": "instantaneous defense",
+        "prerequisites": {
+          "spells_all": [
+            "flame-shape"
+          ],
+          "aptitude": 1
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-flame-extinguish",
+      "source": "full-2008",
+      "pages": "B247",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Extinguish ordinary and magical fire in the area, but not lava, molten metal or plasma. Later ignition is a new event rather than automatic restoration of the extinguished fire. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "flame-extinguish",
+        "groups": [
+          "fire"
+        ],
+        "classes": [
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base": 3
+        },
+        "maintenance": null,
+        "duration": "permanent extinguishing",
+        "prerequisites": {
+          "spells_all": [
+            "ignition"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-object-heating",
+      "source": "full-2008",
+      "pages": "B247",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Raise object temperature twenty Fahrenheit degrees per minute, maximum 2800F; double/triple rate costs double/triple and slower rate does not discount. Heat radiates normally through authored material/environment effects. Store temperature changes, not just a burning flag. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "object-heating",
+        "groups": [
+          "fire"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 60,
+        "energy": {
+          "fist_size_or_less": 1,
+          "up_to_cubic_yard": 2,
+          "larger_per_cubic_yard": 2,
+          "rate_multiplier": "proportional cost above twenty Fahrenheit degrees per minute"
+        },
+        "maintenance": "same as selected casting effect energy",
+        "duration": "sixty seconds per paid interval",
+        "prerequisites": {
+          "spells_all": [
+            "flame-create",
+            "flame-shape"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-object-cooling",
+      "source": "full-2008",
+      "pages": "B247",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Lower object temperature twenty Fahrenheit degrees per minute with heating-equivalent volume/rate costs and no cooling below absolute zero. Integrate ordinary thermal consequences through authored materials. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "object-cooling",
+        "groups": [
+          "fire"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 60,
+        "energy": {
+          "same_as": "object-heating"
+        },
+        "maintenance": "same as selected casting effect energy",
+        "duration": "sixty seconds per paid interval",
+        "prerequisites": {
+          "spells_all": [
+            "object-heating"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-cold-ward",
+      "source": "full-2008",
+      "pages": "B247",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Protect subject and carried items against cold/frostbite, not physical ice impacts. Double cost at the stated minus-forty-degree severe-cold threshold, triple for absolute zero; resolve inclusive threshold wording explicitly. Scale both casting and maintenance costs consistently. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "cold-ward",
+        "groups": [
+          "fire"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 2,
+          "severe_cold_multiplier": 2,
+          "absolute_zero_multiplier": 3
+        },
+        "maintenance": 1,
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "object-heating"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-heat-ward",
+      "source": "full-2008",
+      "pages": "B247",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Protect subject and carried items against heat/fire, not electricity. Ordinary combat fire spells need only the basic tier; extreme industrial/geological or stellar/nuclear heat uses higher tiers. This does not grant protection against blast or radiation merely because a nuclear source is involved. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "heat-ward",
+        "groups": [
+          "fire"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 2,
+          "furnace_volcano_multiplier": 2,
+          "stellar_nuclear_multiplier": 3
+        },
+        "maintenance": 1,
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "flame-extinguish",
+            "object-cooling"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-flame-projectile",
+      "source": "full-2008",
+      "pages": "B247",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Projectile has half-damage range twenty-five yards, maximum fifty, accuracy one and one die burning per effect energy. It vanishes on impact and may ignite flammables. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "flame-projectile",
+        "groups": [
+          "fire"
+        ],
+        "classes": [
+          "projectile"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "one through three",
+        "energy": {
+          "per_build_second": "one through aptitude",
+          "maximum_build_seconds": 3
+        },
+        "maintenance": null,
+        "duration": "held until discharged",
+        "prerequisites": {
+          "spells_all": [
+            "flame-create",
+            "flame-shape"
+          ],
+          "aptitude": 1
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-flame-explosion",
+      "source": "full-2008",
+      "pages": "B247",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use half-damage range twenty-five, maximum fifty, accuracy one and one die burning per full two effect energy. A surface target can receive +4 to hit. Direct target and subjects strictly within one yard take full damage; others take damage divided by three times yard distance, rounded down. Resolve exact one-yard boundary and surface targeting explicitly. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "flame-explosion",
+        "groups": [
+          "fire"
+        ],
+        "classes": [
+          "projectile"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "one through three",
+        "energy": {
+          "per_build_second": "one through twice aptitude",
+          "maximum_build_seconds": 3
+        },
+        "maintenance": null,
+        "duration": "held until discharged",
+        "prerequisites": {
+          "spells_all": [
+            "flame-projectile"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-planar-summon",
+      "source": "full-2008",
+      "pages": "B247",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Each destination plane is a separate learned version; exceptional entities may need unique versions. Author privately selects entity capabilities. On arrival contest spell skill against entity will, +4 for known true name. Win permits one command; tie/loss gives authored adverse reaction. Entity normally leaves after task/hour, but specified powerful entities may remain. Record command, control and departure conditions. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "planar-summon",
+        "groups": [
+          "gate"
+        ],
+        "classes": [
+          "special"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 300,
+        "energy": {
+          "per_character_points": {
+            "energy": 1,
+            "points": 10
+          },
+          "minimum": 20
+        },
+        "maintenance": null,
+        "duration": "task completion or one hour, with authored entity exceptions",
+        "prerequisites": {
+          "aptitude": 1,
+          "distinct_group_count": 10
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-planar-transit",
+      "source": "full-2008",
+      "pages": "B248",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Move caster and carried load up to heavy encumbrance to one specified plane, with a separate spell per destination. Return requires the appropriate reverse destination spell or banishment. Grant no protection from destination conditions; validate and apply arrival hazards through ordinary environment rules. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "planar-transit",
+        "groups": [
+          "gate"
+        ],
+        "classes": [
+          "special"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "very-hard",
+        "casting_seconds": 5,
+        "energy": {
+          "fixed": 20
+        },
+        "maintenance": null,
+        "duration": "permanent relocation",
+        "prerequisites": {
+          "spell_same_specialty": "planar-summon"
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-fatigue-transfer",
+      "source": "full-2008",
+      "pages": "B248",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Restore one lost fatigue per energy actually spent by caster, capped at subject capacity. High skill cannot discount payment. Keep transfer and any health-funded casting cost on their respective ledgers and prevent self-transfer from manufacturing energy. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "fatigue-transfer",
+        "groups": [
+          "healing"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "variable": "any affordable amount",
+          "high_skill_discount": false
+        },
+        "maintenance": null,
+        "duration": "instantaneous fatigue restoration",
+        "prerequisites": {
+          "any_of": [
+            {
+              "aptitude": 1
+            },
+            {
+              "trait": "empathy"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-temporary-vitality",
+      "source": "full-2008",
+      "pages": "B248",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Temporarily restore one lost health per actual energy paid, up to capacity. The restored health vanishes at expiry. Own the exact temporary contribution and its interaction with subsequent healing/injury; recasting is a new effect, not maintenance. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "temporary-vitality",
+        "groups": [
+          "healing"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "variable": "any affordable amount",
+          "high_skill_discount": false
+        },
+        "maintenance": null,
+        "duration": "one hour; not maintainable",
+        "prerequisites": {
+          "spells_all": [
+            "fatigue-transfer"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-rest-energy-recovery",
+      "source": "full-2008",
+      "pages": "B248",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "At spell skill fifteen restore one fatigue per five minutes, at twenty one per two minutes, with no higher improvement. Requires quiet rest, no ritual or roll; ordinary maintained spells are allowed but concentration-dependent ones are not. No operation in low/absent ambient energy. Restore only eligible fatigue once through the shared recovery clock. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "rest-energy-recovery",
+        "groups": [
+          "healing"
+        ],
+        "classes": [
+          "special"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 0,
+        "energy": {
+          "fixed": 0
+        },
+        "maintenance": null,
+        "duration": "while qualifying rest continues",
+        "prerequisites": {
+          "spells_all": [
+            "fatigue-transfer"
+          ],
+          "aptitude": 1
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-awaken-alert",
+      "source": "full-2008",
+      "pages": "B248",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Remove stun immediately. At positive fatigue strictly below one third capacity, grant one-hour alertness then charge one fatigue; zero or negative fatigue gets no effect. Sleeping/unconscious subjects check health plus casting success margin to wake, with -3 for injury unconsciousness or -6 for drugs. Own delayed fatigue charge and do not treat awakening as healing. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "awaken-alert",
+        "groups": [
+          "healing"
+        ],
+        "classes": [
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base": 1
+        },
+        "maintenance": null,
+        "duration": "instantaneous awakening; conditional alertness one hour",
+        "prerequisites": {
+          "spells_all": [
+            "temporary-vitality"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-lesser-healing",
+      "source": "full-2008",
+      "pages": "B248",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Restore one health per effect energy, not the underlying poison/disease. Repeat attempts by the same caster on the same subject in one day take cumulative -3 each. Physician fifteen mitigates critical failure to ordinary failure only on the first daily attempt. Track attempted use, not merely successful recovery. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "lesser-healing",
+        "groups": [
+          "healing"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "minimum": 1,
+          "maximum": 3
+        },
+        "maintenance": null,
+        "duration": "permanent health restoration",
+        "prerequisites": {
+          "spells_all": [
+            "temporary-vitality"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-greater-healing",
+      "source": "full-2008",
+      "pages": "B248",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Restore two health per effect energy. Use lesser-healing repeat penalties and physician protection, but count attempts independently by this spell, caster, patient and day. One attempt of each healing tier is initially unpenalized; neither cures the underlying disease/poison. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "greater-healing",
+        "groups": [
+          "healing"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "very-hard",
+        "casting_seconds": 1,
+        "energy": {
+          "minimum": 1,
+          "maximum": 4
+        },
+        "maintenance": null,
+        "duration": "permanent health restoration",
+        "prerequisites": {
+          "spells_all": [
+            "lesser-healing"
+          ],
+          "aptitude": 1
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-complete-healing",
+      "source": "full-2008",
+      "pages": "B248-B249",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Restore all missing health but not disease, poison, missing parts or crippled limbs. Physician fifteen converts critical failure to ordinary failure. Source says both one benefit per patient per day and one try per patient per day; use an explicit reconciled attempt policy shared across casters, never independent caster quotas. Apply class rules and record costs, durations and outcomes through shared actor/world ledgers. Source definition is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "complete-healing",
+        "groups": [
+          "healing"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "very-hard",
+        "casting_seconds": 60,
+        "energy": {
+          "fixed": 20
+        },
+        "maintenance": null,
+        "duration": "permanent health restoration",
+        "prerequisites": {
+          "spells_all": [
+            "greater-healing"
+          ],
+          "aptitude": 3
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-b-earth-air-alias",
+      "source": "full-2008",
+      "pages": "B246",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The earth-group cross-reference to stone-to-air is the same spell already inventoried at B243, not another catalogue definition or purchase.",
+      "tests": []
+    },
+    {
+      "id": "magic-catalogue-b-enchantment-cross-reference",
+      "source": "full-2008",
+      "pages": "B246",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Enchantment is both group and procedural class; its supplied definitions are inventoried at B480 onward. Do not count the chapter cross-reference itself as a separate spell.",
+      "tests": []
+    },
+    {
+      "id": "magic-catalogue-b-flame-height",
+      "source": "full-2008",
+      "pages": "B246",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Default magical flame height is six feet when volume matters. Use B433 ordinary ignition/flame effects and explicit spell geometry exceptions.",
+      "tests": []
+    },
+    {
+      "id": "magic-catalogue-b-healing-self",
+      "source": "full-2008",
+      "pages": "B248",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Self-healing takes a spell skill penalty equal to missing health. Healing critical failure must adversely affect the patient, subject to the specific physician mitigation. Define the concrete adverse result rather than using an unrelated generic backfire.",
+      "tests": []
+    }
+  ]
+}

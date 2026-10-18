@@ -13,8 +13,9 @@ learning, ambient energy, rituals, critical outcomes, maintenance and ceremonial
 casting. The [spell-class inventory](inventory/magic-procedures-b.json) adds
 targeting, charged attacks, defensive casting, information, resistance and optional
 magic systems. The [first catalogue segment](inventory/magic-catalogue-a.json)
-records twenty-seven of the ninety-three spells, with costs, classes, prerequisites
-and effect requirements. The remaining spell catalogue still needs its inventory.
+and [second segment](inventory/magic-catalogue-b.json) record fifty-two of the
+ninety-three spells, with costs, classes, prerequisites and effect requirements.
+The remaining spell catalogue still needs its inventory.
 The enchantment chapter now has a first text pass covering creation,
 level-cost tables, the item catalogue, use and market procedures. Underlying spell
 and trait references, numeric audits and validating tests remain pending.
@@ -132,3 +133,14 @@ per-target exposure clocks from cloud lifetime, and charging from contact delive
 Surface-thought reading also overrides ordinary resistance notification. The neutral
 spell definitions record these exceptions and prerequisite links; they are source
 inventory data, not a runtime spell library.
+
+
+The second catalogue segment covers persistent material transformations, thermal
+changes, planar summons/transit and healing. Reversible transformations must preserve
+actor and equipment identity. Summoned beings need explicit control, command and
+departure state, and planar arrival grants no automatic environmental protection.
+
+Healing needs distinct attempt histories for each limited spell and patient.
+Temporary health contributions expire, ordinary recovery uses shared clocks, and
+full restoration has a patient-wide daily restriction across casters. Physician
+mitigation and self-healing penalties are separate from the amount restored.

@@ -42,6 +42,7 @@ copies of the reference books.
 | `full-2008` | B234–B238 | [Casting and maintenance procedures](magic-procedures-a.json) | Learning, energy, rituals, critical outcomes and ceremonies enumerated; classes and catalogue still pending |
 | `full-2008` | B239–B242 | [Spell classes and variants](magic-procedures-b.json) | Targeting, charges, defenses, information, resistance and variants enumerated; catalogue pending |
 | `full-2008` | B243–B245 | [Spell catalogue, first segment](magic-catalogue-a.json) | Twenty-seven air, body, communication and earth definitions enumerated; execution pending |
+| `full-2008` | B246–B249, before knowledge spells | [Spell catalogue, second segment](magic-catalogue-b.json) | Twenty-five earth, fire, planar and healing definitions enumerated; execution pending |
 | `full-2008` | B254–B257 | [Psionic powers](psionics.json) | Family memberships, advancement, interference and information contracts enumerated; underlying traits pending |
 | `full-2008` | B258–B263; B445–B454 | [Templates and combined packages](templates.json) | Composition, ancestry accounting, sample packages and design permissions enumerated; component definitions pending |
 | `full-2008` | B290–B296 | [Development and transformations](development.json) | Advancement, study, maintenance and transformation procedures enumerated; existing study mappings remain partial |
