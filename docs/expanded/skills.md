@@ -15,4 +15,6 @@ The module provides only these interfaces. Its full catalogue and remaining chap
 The [skill procedure inventory](inventory/skills-procedures.json) records individual
 cost-table cells, default rules, familiarity requirements and technique definitions.
 Attribute-based techniques and technique-to-technique defaults remain unsupported.
-The complete skill catalogue still needs a separate inventory.
+The [first catalogue segment](inventory/skills-catalogue-a.json) covers B174–B185;
+later catalogue pages remain uninventoried. Its definition metadata is not an
+executable catalogue and does not imply completed skill effects.

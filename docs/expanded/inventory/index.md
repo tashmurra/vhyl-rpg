@@ -10,6 +10,7 @@ copies of the reference books.
 | --- | --- | --- | --- |
 | `full-2008` | B10–B31 | [Character creation](creation.json) | Text reviewed; table verification and complete enumeration still open |
 | `full-2008` | B167–B173; B229–B233 | [Skill and technique procedures](skills-procedures.json) | Text reviewed; main skill catalogue and table verification still open |
+| `full-2008` | B174–B185 | [Skill catalogue, first segment](skills-catalogue-a.json) | Text and definition metadata transcribed; procedures and cross-references pending |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 
@@ -42,6 +43,16 @@ Existing chapter-level or helper tests must not be assigned to every row simply
 because they invoke the same function. Tests must check the individual expected
 value or procedure, including failures and boundary cases where applicable.
 Structural inventory tests detect broken references; they do not verify rules.
+
+Catalogue entries may include `reference_data`: the controlling score, difficulty,
+technology qualification, default candidates and prerequisites transcribed from
+the supplied printing. These are implementation inputs, not runtime definitions.
+Conditional defaults and references to whole skill groups must be resolved before
+code generation or execution. An empty default list records no ordinary default;
+any campaign-dependent exception remains in the entry acceptance criterion.
+Shared procedure families and exact-equivalence skills must retain one investment
+identity where the source requires it. Merely generating skill objects from this
+metadata would leave their procedures, effects and author contracts unfinished.
 
 Entries of kind `author-decision` remain pending until a concrete contract exists.
 For example, permission to grant a character-creation reward needs the award

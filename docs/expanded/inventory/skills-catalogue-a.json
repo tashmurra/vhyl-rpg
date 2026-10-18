@@ -1,0 +1,2603 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B174-B185",
+  "review": "Catalogue text reviewed through the four crew definitions. Later catalogue pages and cross-reference procedures are pending. Reference data is transcription for implementation, not verified executable coverage.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "catalogue-skill-bookkeeping",
+      "source": "full-2008",
+      "pages": "B174",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require at least two hours for record examination; author the audit scope, evidence discovered and longer duration. Apply both eligible business and mathematical talents.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ],
+          [
+            "finance",
+            -4
+          ],
+          [
+            "mathematics-statistics",
+            -5
+          ],
+          [
+            "commerce",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-acrobatics",
+      "source": "full-2008",
+      "pages": "B174",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve each stunt separately; cap mounted or vehicle stunts by the operation skill, permit eligible dexterity substitutions, and integrate acrobatic defense and five-yard fall reduction.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "dx",
+            -6
+          ],
+          [
+            "aerial-acrobatics",
+            -4
+          ],
+          [
+            "aquatic-acrobatics",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-aerial-acrobatics",
+      "source": "full-2008",
+      "pages": "B174",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require flight capability; apply spatial awareness +2 and balance +1 where owned. Retain the shared stunt procedures.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "acrobatics",
+            -4
+          ],
+          [
+            "aquatic-acrobatics",
+            -4
+          ]
+        ],
+        "prerequisites": [
+          "flight-capability"
+        ]
+      }
+    },
+    {
+      "id": "catalogue-skill-aquatic-acrobatics",
+      "source": "full-2008",
+      "pages": "B174",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require swimming investment or an eligible aquatic body trait; apply balance +1 and shared stunt procedures.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "acrobatics",
+            -4
+          ],
+          [
+            "aerial-acrobatics",
+            -4
+          ]
+        ],
+        "prerequisites": [
+          "any:swimming,amphibious-body,aquatic-body"
+        ]
+      }
+    },
+    {
+      "id": "catalogue-skill-acting",
+      "source": "full-2008",
+      "pages": "B174",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use the intelligence difference against the smartest target; require disguise for visible impersonation and apply subject/observer familiarity and owned-trait modifiers.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "performance",
+            -2
+          ],
+          [
+            "public-speaking",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-administration",
+      "source": "full-2008",
+      "pages": "B174",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "On success grant the bureaucratic reaction bonus +2 in its applicable context; author procedural information separately.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "commerce",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-magical-chemistry",
+      "source": "full-2008",
+      "pages": "B174-B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Identify or prepare authored magical compounds without requiring magical talent or receiving its bonus. Preparation depends on ingredients and ambient magical resources.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "very-hard",
+        "technology_qualified": true,
+        "defaults": [],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-animal-handling",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require animal-category specialization; use daily training checks, distinct task and calming modifiers, and skill-threshold combat penalties for animals in the specialty.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-animal-handling-category-defaults",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Encode category defaults -2 within an order, -4 across orders and -6 for larger differences; author taxonomy and narrower intelligent-animal categories.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-animal-specialty-large-cats",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide the printed example specialty with explicitly authored category membership; do not make the example list exhaustive.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-animal-specialty-dogs",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide the printed example specialty with explicitly authored category membership; do not make the example list exhaustive.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-animal-specialty-equines",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide the printed example specialty with explicitly authored category membership; do not make the example list exhaustive.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-animal-specialty-raptors",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide the printed example specialty with explicitly authored category membership; do not make the example list exhaustive.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-animal-handling-combat",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply animal attack and defense penalties of -1 at handler skill 15 and -2 at 20 only against that handler and within the owned specialty.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-anthropology",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require species specialization; author cross-species defaults in the stated -2 to -5 range or no default for unrelated biology.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ],
+          [
+            "paleontology-human-origins",
+            -2
+          ],
+          [
+            "sociology",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-wildcard-substitution",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Require explicit campaign eligibility and owned wildcard investment; resolve its approved member-skill set with cognitive or physical base as appropriate. Buying a wildcard must not enable every skill in the catalogue.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-wildcard-investigation",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Map the printed example scope to neutral skill identifiers and declared alternate-base uses. Preserve its optional status and prohibit untrained defaults.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-wildcard-firearms",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Map the printed example scope to neutral skill identifiers and declared alternate-base uses. Preserve its optional status and prohibit untrained defaults.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-wildcard-science",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Map the printed example scope to neutral skill identifiers and declared alternate-base uses. Preserve its optional status and prohibit untrained defaults.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-wildcard-blades",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Map the printed example scope to neutral skill identifiers and declared alternate-base uses. Preserve its optional status and prohibit untrained defaults.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-wildcard-music",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Map the printed example scope to neutral skill identifiers and declared alternate-base uses. Preserve its optional status and prohibit untrained defaults.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-archaeology",
+      "source": "full-2008",
+      "pages": "B176",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Author discoverable information about ruins, artifacts and historical languages; distinguish learned knowledge from supernatural secrets.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-architecture",
+      "source": "full-2008",
+      "pages": "B176",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Assess design or building deduction with -2 for an unfamiliar building type and -5 for an alien type; author concealed features instead of inventing them.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "engineering-civil",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-local-knowledge",
+      "source": "full-2008",
+      "pages": "B176-B177",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Allow the attribute default only for inhabited places and the geography default only for its region; ordinary navigation needs no roll and restricted information needs an explicit author decision.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -4
+          ],
+          [
+            "geography-regional",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-local-knowledge-scale-neighborhood",
+      "source": "full-2008",
+      "pages": "B177",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Represent this distinct area scale with its source-defined information scope and common-knowledge eligibility.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-local-knowledge-scale-settlement",
+      "source": "full-2008",
+      "pages": "B177",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Represent this distinct area scale with its source-defined information scope and common-knowledge eligibility.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-local-knowledge-scale-city",
+      "source": "full-2008",
+      "pages": "B177",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Represent this distinct area scale with its source-defined information scope and common-knowledge eligibility.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-local-knowledge-scale-small-state",
+      "source": "full-2008",
+      "pages": "B177",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Represent this distinct area scale with its source-defined information scope and common-knowledge eligibility.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-local-knowledge-scale-large-state",
+      "source": "full-2008",
+      "pages": "B177",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Represent this distinct area scale with its source-defined information scope and common-knowledge eligibility.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-local-knowledge-scale-planet",
+      "source": "full-2008",
+      "pages": "B177",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Represent this distinct area scale with its source-defined information scope and common-knowledge eligibility.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-local-knowledge-scale-interplanetary-state",
+      "source": "full-2008",
+      "pages": "B177",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Represent this distinct area scale with its source-defined information scope and common-knowledge eligibility.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-local-knowledge-scale-galaxy",
+      "source": "full-2008",
+      "pages": "B177",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Represent this distinct area scale with its source-defined information scope and common-knowledge eligibility.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-regional-distance",
+      "source": "full-2008",
+      "pages": "B176",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply long-distance penalties to relevant regional skills; optionally waive them on a single technology-plus-one check at technology 5 or higher.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-regional-time",
+      "source": "full-2008",
+      "pages": "B176",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use years in place of distance and double the time penalty per technology difference; apply this to historical or time-displaced knowledge.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-regional-scale",
+      "source": "full-2008",
+      "pages": "B176",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For larger-to-smaller regions double the two-point penalty for each scale step. For questions about an entire containing region use two points per step; local questions use distance.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-regional-world-change",
+      "source": "full-2008",
+      "pages": "B176-B177",
+      "module": "skills",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Require an authored cross-world knowledge penalty and declared information scope; forbid treating familiarity with one reality as verified facts about another.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-arms-maintenance-powered-armor",
+      "source": "full-2008",
+      "pages": "B178",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Separate diagnosis and repair checks, require author-specified work duration and equipment, and apply unfamiliarity. This skill does not design weapons.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "engineering-matching",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-arms-maintenance-body-armor",
+      "source": "full-2008",
+      "pages": "B178",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Separate diagnosis and repair checks, require author-specified work duration and equipment, and apply unfamiliarity. This skill does not design weapons.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "engineering-matching",
+            -4
+          ],
+          [
+            "conditional:metalwork-bronze:tl1",
+            -3
+          ],
+          [
+            "conditional:metalwork-iron:tl2-4",
+            -3
+          ],
+          [
+            "conditional:machining:tl5+",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-arms-maintenance-force-barriers",
+      "source": "full-2008",
+      "pages": "B178",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Separate diagnosis and repair checks, require author-specified work duration and equipment, and apply unfamiliarity. This skill does not design weapons.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "engineering-matching",
+            -4
+          ]
+        ],
+        "prerequisites": [],
+        "equivalent_skill": "electronics-repair-force-barriers"
+      }
+    },
+    {
+      "id": "catalogue-skill-arms-maintenance-heavy-weapons",
+      "source": "full-2008",
+      "pages": "B178",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Separate diagnosis and repair checks, require author-specified work duration and equipment, and apply unfamiliarity. This skill does not design weapons.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "engineering-matching",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-arms-maintenance-melee-weapons",
+      "source": "full-2008",
+      "pages": "B178",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Separate diagnosis and repair checks, require author-specified work duration and equipment, and apply unfamiliarity. This skill does not design weapons.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "engineering-matching",
+            -4
+          ],
+          [
+            "conditional:metalwork-bronze:tl1",
+            -3
+          ],
+          [
+            "conditional:metalwork-iron:tl2-4",
+            -3
+          ],
+          [
+            "conditional:machining:tl5+",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-arms-maintenance-mechanical-projectiles",
+      "source": "full-2008",
+      "pages": "B178",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Separate diagnosis and repair checks, require author-specified work duration and equipment, and apply unfamiliarity. This skill does not design weapons.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "engineering-matching",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-arms-maintenance-small-arms",
+      "source": "full-2008",
+      "pages": "B178",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Separate diagnosis and repair checks, require author-specified work duration and equipment, and apply unfamiliarity. This skill does not design weapons.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "engineering-matching",
+            -4
+          ],
+          [
+            "conditional:machining:tl5+",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-arms-maintenance-vehicle-armor",
+      "source": "full-2008",
+      "pages": "B178",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Separate diagnosis and repair checks, require author-specified work duration and equipment, and apply unfamiliarity. This skill does not design weapons.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "engineering-matching",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-arms-maintenance-cross-defaults",
+      "source": "full-2008",
+      "pages": "B178",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use -4 between specialties except armor-to-weapon defaults above technology 4; equivalent definitions must not charge for two independent skills.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-indirect-fire-beams",
+      "source": "full-2008",
+      "pages": "B178-B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Allow no cross-specialty defaults. Require target designation when appropriate; use strength-based loading only where the weapon permits it.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-indirect-fire-bombs",
+      "source": "full-2008",
+      "pages": "B178-B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Allow no cross-specialty defaults. Require target designation when appropriate; use strength-based loading only where the weapon permits it.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-indirect-fire-cannon",
+      "source": "full-2008",
+      "pages": "B178-B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Allow no cross-specialty defaults. Require target designation when appropriate; use strength-based loading only where the weapon permits it.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-indirect-fire-siege-engines",
+      "source": "full-2008",
+      "pages": "B178-B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Allow no cross-specialty defaults. Require target designation when appropriate; use strength-based loading only where the weapon permits it.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-indirect-fire-guided-missiles",
+      "source": "full-2008",
+      "pages": "B178-B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Allow no cross-specialty defaults. Require target designation when appropriate; use strength-based loading only where the weapon permits it.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-indirect-fire-torpedoes",
+      "source": "full-2008",
+      "pages": "B178-B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Allow no cross-specialty defaults. Require target designation when appropriate; use strength-based loading only where the weapon permits it.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-indirect-fire-familiarity",
+      "source": "full-2008",
+      "pages": "B178-B179",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Stack independent -2 unfamiliarities for weapon type, fire control and mount; apply at least -4 for poor repair and ordinary combat context modifiers.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-visual-art-body-decoration",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-visual-art-calligraphy",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-visual-art-drawing",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-visual-art-illumination",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-visual-art-illusion",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ]
+        ],
+        "prerequisites": [
+          "illusion-capability"
+        ]
+      }
+    },
+    {
+      "id": "catalogue-skill-visual-art-interior-design",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ],
+          [
+            "architecture",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-visual-art-painting",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-visual-art-pottery",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-visual-art-stage-design",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ],
+          [
+            "architecture",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-visual-art-sculpture",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-visual-art-fine-woodwork",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ],
+          [
+            "carpentry",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-visual-art-default-network",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Encode -2 within calligraphy/drawing/illumination/painting, -4 to or from body decoration, -4 within interior/stage/woodwork, and -6 otherwise. Apply medium familiarity separately.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-astronomy",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require applied mathematics for the general skill; author observable celestial information.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ]
+        ],
+        "prerequisites": [
+          "mathematics-applied"
+        ]
+      }
+    },
+    {
+      "id": "catalogue-observational-astronomy",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide the optional observation-only specialty and its explicit exception to the mathematics prerequisite.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-self-trance",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require max(1,20-skill) seconds without movement or speech; select exactly one of the three permitted effects before execution.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "will",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "meditation",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-self-trance-concentration",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For an eligible quiet sustained task grant +2 to that task and -2 to unrelated cognitive, perception and skill checks; own the effect and end it with the task.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-self-trance-will",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At -2 to activation grant +2 will, or +5 on critical success, for one hour of the shared clock.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-self-trance-capacity-effects",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At -4 to activation suppress the specified low-resource penalties without restoring resources; permit only one attempt per hour.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-beam-weapons-pistol",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use -4 between specialties, treat beam type as familiarity and apply ordinary firearm context modifiers.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "dx",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-beam-weapons-projector",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use -4 between specialties, treat beam type as familiarity and apply ordinary firearm context modifiers.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "dx",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-beam-weapons-rifle",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use -4 between specialties, treat beam type as familiarity and apply ordinary firearm context modifiers.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "dx",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-beam-projectile-defaults",
+      "source": "full-2008",
+      "pages": "B179",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Connect only the matching pistol and rifle specialties across beam and projectile skills at -4; do not add this default to projectors.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-cycling",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Apply +4 for merely remaining upright; assess simple repairs on intelligence and require parts and tools.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "dx",
+            -4
+          ],
+          [
+            "driving-motorcycle",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-bioengineering-cloning",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use -4 defaults between these specialties; author feasible products and operations in the campaign technology.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "biology",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-bioengineering-genetic-engineering",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use -4 defaults between these specialties; author feasible products and operations in the campaign technology.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "biology",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-bioengineering-tissue-engineering",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use -4 defaults between these specialties; author feasible products and operations in the campaign technology.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "biology",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-biology",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require world-type specialization; default between types at -4 and permit optional subfields at the appropriate technology.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "very-hard",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "conditional:iq:native-world-type",
+            -6
+          ],
+          [
+            "natural-history",
+            -6
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-world-type-habitable",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide this world-type key for the applicable life, geological, weather and physical-geography skills; use the source-defined default network.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-world-type-gas-giant",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide this world-type key for the applicable life, geological, weather and physical-geography skills; use the source-defined default network.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-world-type-hostile-terrestrial",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide this world-type key for the applicable life, geological, weather and physical-geography skills; use the source-defined default network.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-world-type-icy-small-body",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide this world-type key for the applicable life, geological, weather and physical-geography skills; use the source-defined default network.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-world-type-ice-covered",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide this world-type key for the applicable life, geological, weather and physical-geography skills; use the source-defined default network.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-world-type-rocky",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide this world-type key for the applicable life, geological, weather and physical-geography skills; use the source-defined default network.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-nonvisual-fighting",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve activation for one melee attack or defense; retain the extra aimed-location penalty, sensory modifiers and the opposing stealth contest.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "perception",
+        "difficulty": "very-hard",
+        "technology_qualified": false,
+        "defaults": [],
+        "prerequisites": [
+          "any:martial-training-permission,weapon-mastery"
+        ]
+      }
+    },
+    {
+      "id": "catalogue-nonvisual-ranged-combination",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Require both the nonvisual and focused-archery checks at -6 to shoot an unseen target; prohibit substituting one check for both.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-nonvisual-sensory-modifiers",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Implement the five noise bands, -7 when deaf, acute hearing and the higher eligible psychic talent; preserve immunity to the specified concealment discipline.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-blowpipe",
+      "source": "full-2008",
+      "pages": "B180",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Distinguish ranged darts from one-yard powder attacks treated as melee at +2; apply wind penalties of -2 or worse.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "dx",
+            -6
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-boating-cabin-powerboat",
+      "source": "full-2008",
+      "pages": "B180-B181",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "dx",
+            -5
+          ],
+          [
+            "iq",
+            -5
+          ],
+          [
+            "open-powerboat",
+            -2
+          ],
+          [
+            "sailboat",
+            -4
+          ],
+          [
+            "muscle-boat",
+            -4
+          ],
+          [
+            "surface-crew",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-boating-open-powerboat",
+      "source": "full-2008",
+      "pages": "B180-B181",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "dx",
+            -5
+          ],
+          [
+            "iq",
+            -5
+          ],
+          [
+            "cabin-powerboat",
+            -2
+          ],
+          [
+            "sailboat",
+            -3
+          ],
+          [
+            "muscle-boat",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-boating-sailboat",
+      "source": "full-2008",
+      "pages": "B180-B181",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "dx",
+            -5
+          ],
+          [
+            "iq",
+            -5
+          ],
+          [
+            "cabin-powerboat",
+            -4
+          ],
+          [
+            "open-powerboat",
+            -3
+          ],
+          [
+            "muscle-boat",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-boating-muscle-boat",
+      "source": "full-2008",
+      "pages": "B180-B181",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "dx",
+            -5
+          ],
+          [
+            "iq",
+            -5
+          ],
+          [
+            "cabin-powerboat",
+            -4
+          ],
+          [
+            "open-powerboat",
+            -3
+          ],
+          [
+            "sailboat",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-bodily-control",
+      "source": "full-2008",
+      "pages": "B181",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require all prerequisites and implement each distinct activation, detection and resistance procedure.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "ht",
+        "difficulty": "very-hard",
+        "technology_qualified": false,
+        "defaults": [],
+        "prerequisites": [
+          "martial-training-permission",
+          "breathing-control",
+          "meditation"
+        ]
+      }
+    },
+    {
+      "id": "catalogue-bodily-control-trance",
+      "source": "full-2008",
+      "pages": "B181",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Require max(1,30-skill) concentration seconds; observers diagnose apparent death with an opposed diagnosis check.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-bodily-control-poison",
+      "source": "full-2008",
+      "pages": "B181",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Require awareness and successful identification of the poison, apply its resistance modifier, and end further poison effects only after the rolled one-to-six-hour interval.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-bodily-control-resistance",
+      "source": "full-2008",
+      "pages": "B181",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use the higher of the skill and base health for eligible resisted afflictions, spells and psychic attacks.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-body-reading",
+      "source": "full-2008",
+      "pages": "B181",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Observe only one visible subject, apply vision/physiology/obstruction modifiers, and distinguish noncombat inference from ordinary combat feints.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "perception",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "lie-detection",
+            -4
+          ],
+          [
+            "psychology",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-arrival-orientation",
+      "source": "full-2008",
+      "pages": "B181",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "After instant movement distinguish normal action, one turn limited to defense and critical fall with physical stun; apply orientation and direction-sense modifiers.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "dx",
+            -6
+          ],
+          [
+            "acrobatics",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-weighted-cord",
+      "source": "full-2008",
+      "pages": "B181",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use the special thrown entangling-weapon procedure and require actual training.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-physiology-cross-species",
+      "source": "full-2008",
+      "pages": "B181",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply the source physiology categories to each named medical/body-reading skill, reject machines and permit the specified successful familiarity check to remove the penalty.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-bow",
+      "source": "full-2008",
+      "pages": "B182",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Integrate bow operation and enforce model familiarity, including unfamiliar compound construction.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "dx",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-boxing",
+      "source": "full-2008",
+      "pages": "B182",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Apply punch-only training, damage increments at relative +1 and +2, per-hand parries, kick/weapon penalties and retreat benefit; do not improve kicks.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-personality-conditioning",
+      "source": "full-2008",
+      "pages": "B182",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use a daily regular contest against will and require authored training access and specific mental consequences. Optional defaults depend on the approved campaign method.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "defaults": [],
+        "prerequisites": [
+          "psychology"
+        ]
+      }
+    },
+    {
+      "id": "catalogue-skill-neural-conditioning",
+      "source": "full-2008",
+      "pages": "B182",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require a neural-interface setting and the computing prerequisite; represent subsecond attempts without rounding them to free unlimited actions.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "defaults": [],
+        "prerequisites": [
+          "cinematic-computer-intrusion"
+        ]
+      }
+    },
+    {
+      "id": "catalogue-skill-brawling",
+      "source": "full-2008",
+      "pages": "B182",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Support punches, penalized kicks, natural weapons and weighted punches; apply the trained damage bonus and separate hand parries.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "defaults": [],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-weak-point-strike",
+      "source": "full-2008",
+      "pages": "B182",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Charge one fatigue per attempt even on a miss; after a hit resolve the skill check, material/concentration modifiers, armor divisor and target-type restrictions.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [],
+        "prerequisites": [
+          "martial-training-permission"
+        ]
+      }
+    },
+    {
+      "id": "catalogue-weak-point-strike-critical",
+      "source": "full-2008",
+      "pages": "B182",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "On critical failure injure the attacking limb; optional cinematic targets require explicit policy and still exclude natural protection from the artificial-armor benefit.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-breathing-control",
+      "source": "full-2008",
+      "pages": "B182",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "On success extend breath duration by half or recover one fatigue over two minutes; prohibit combining recovery with restorative magic.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "ht",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "defaults": [],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-camouflage",
+      "source": "full-2008",
+      "pages": "B183",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve observation against camouflage, apply large-object size penalties and retain the separate stealth contest; author whether success conceals or only obscures.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -4
+          ],
+          [
+            "survival",
+            -2
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-carousing",
+      "source": "full-2008",
+      "pages": "B183",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Apply +2 to the relevant reaction or request on success and -2 on failure; include entertainment and owned-trait modifiers with authored scene consequences.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "ht",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "ht",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-carpentry",
+      "source": "full-2008",
+      "pages": "B183",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve one hour of work per check with equipment modifiers and +5 for qualified supervision at skill 15 or higher; permit authored fine-work dexterity checks.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-cartography",
+      "source": "full-2008",
+      "pages": "B183",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Create or interpret an authored map from travel or sensors; preserve technology-dependent methods.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "geography-any",
+            -2
+          ],
+          [
+            "mathematics-surveying",
+            -2
+          ],
+          [
+            "navigation-any",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-chemistry",
+      "source": "full-2008",
+      "pages": "B183",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require suitable equipment for analysis and synthesis and author what material properties are discoverable.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ],
+          [
+            "magical-chemistry",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-climbing",
+      "source": "full-2008",
+      "pages": "B183",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use the full climbing procedure and apply hanging-body, flexibility, balance and encumbrance modifiers without duplicate bonuses.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "dx",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-cloak",
+      "source": "full-2008",
+      "pages": "B184",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Support entanglement and feints plus blocking defense. Distinguish light and heavy cloaks at five pounds with their protection, health and defense bonuses.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "dx",
+            -5
+          ],
+          [
+            "net",
+            -4
+          ],
+          [
+            "shield-any",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-combat-art-sport",
+      "source": "full-2008",
+      "pages": "B184",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Create separate art and sport definitions inheriting parent difficulty and ordinary defaults, with -3 among all three forms; sport fouls and rule recall need explicit outcomes.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-cinematic-computer-intrusion",
+      "source": "full-2008",
+      "pages": "B184",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require cinematic campaign permission and programming investment. Distinguish fixed security penalties from opposed defenses and preserve incriminating evidence on critical failure.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "very-hard",
+        "technology_qualified": true,
+        "defaults": [],
+        "prerequisites": [
+          "programming"
+        ]
+      }
+    },
+    {
+      "id": "catalogue-skill-computer-operation",
+      "source": "full-2008",
+      "pages": "B184",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require societal exposure for default use; apply hardware/software familiarity and the distinct initial neural-interface penalty.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-programming",
+      "source": "full-2008",
+      "pages": "B184",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Author software work and duration, apply language familiarity and cap specialized work by the relevant subject when required.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "defaults": [],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-machine-mind-programming",
+      "source": "full-2008",
+      "pages": "B184",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Keep independent investment with no default to or from ordinary programming; cap social interaction with machine minds by the lower relevant score.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "defaults": [],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-appraisal-dance",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve cultural appraisal, +1 to relevant commerce and author-permitted social benefit; apply cultural and joylessness modifiers.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "matching-creation-or-study",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-appraisal-literature",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve cultural appraisal, +1 to relevant commerce and author-permitted social benefit; apply cultural and joylessness modifiers.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "matching-creation-or-study",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-appraisal-music",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve cultural appraisal, +1 to relevant commerce and author-permitted social benefit; apply cultural and joylessness modifiers.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "matching-creation-or-study",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-appraisal-visual-art",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve cultural appraisal, +1 to relevant commerce and author-permitted social benefit; apply cultural and joylessness modifiers.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "matching-creation-or-study",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-appraisal-wine",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve cultural appraisal, +1 to relevant commerce and author-permitted social benefit; apply cultural and joylessness modifiers.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "matching-creation-or-study",
+            -3
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-cooking",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve quality cooking rather than trivial food preparation and allow approved optional cuisine or method specialties.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "defaults": [
+          [
+            "iq",
+            -5
+          ],
+          [
+            "housekeeping",
+            -5
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-counterfeiting",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require a genuine sample and owned production batch; keep its secret initial result, repeat passing checks as specified and oppose suspicious recipients with their best eligible score.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -6
+          ],
+          [
+            "forgery",
+            -2
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-counterfeit-batch-outcomes",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Distinguish perfect batches, repeat-check batches and immediately detectable failures; retain original modifiers, equipment/material bonuses and authored critical consequences.",
+      "tests": []
+    },
+    {
+      "id": "catalogue-skill-airship-crew",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide distinct crew training. Use dexterity for the helm capped by the captain skill, and crew-average checks for group operations with authored failure consequences.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-surface-crew",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide distinct crew training. Use dexterity for the helm capped by the captain skill, and crew-average checks for group operations with authored failure consequences.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-space-crew",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide distinct crew training. Use dexterity for the helm capped by the captain skill, and crew-average checks for group operations with authored failure consequences.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    },
+    {
+      "id": "catalogue-skill-submarine-crew",
+      "source": "full-2008",
+      "pages": "B185",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Provide distinct crew training. Use dexterity for the helm capped by the captain skill, and crew-average checks for group operations with authored failure consequences.",
+      "tests": [],
+      "reference_data": {
+        "attribute": "iq",
+        "difficulty": "easy",
+        "technology_qualified": true,
+        "defaults": [
+          [
+            "iq",
+            -4
+          ]
+        ],
+        "prerequisites": []
+      }
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B174-B185",
+      "reason": "Illustrations, fictional examples and source prose are excluded. Alphabetic redirects are resolved to their defining entries rather than counted as extra skills."
+    }
+  ]
+}

@@ -276,6 +276,7 @@
   ],
   "detailed_inventories": [
     "inventory/creation.json",
-    "inventory/skills-procedures.json"
+    "inventory/skills-procedures.json",
+    "inventory/skills-catalogue-a.json"
   ]
 }
