@@ -8950,6 +8950,8 @@ def test(build):
     test_neurological_agent(Session, neurological, build.out)
     coughing = build.build('expanded-coughing', ROOT / 'tests/fixtures/expanded-coughing.t')
     test_coughing(Session, coughing, build.out)
+    pain = build.build('expanded-pain', ROOT / 'tests/fixtures/expanded-pain.t')
+    test_pain(Session, pain, build.out)
     temporary_blindness = build.build('expanded-temporary-blindness', ROOT / 'tests/fixtures/expanded-temporary-blindness.t')
     test_temporary_blindness(Session, temporary_blindness, build.out)
     paralysis = build.build('expanded-paralysis', ROOT / 'tests/fixtures/expanded-paralysis.t')
@@ -12392,3 +12394,52 @@ def test_interrogation_delivery(Session, bundle, out):
             assert state(s) == [count, 0, 0, statement, count, 300, 6]
         finally:
             s.close()
+
+
+def test_pain(Session, bundle, out):
+    def state(s):
+        s.action(2285, 553)
+        return last(s, 'test.pain')
+    clear = [0, 10, 10, 10, 10, 10, 10, 10, 20, 0, 0]
+    path = out / 'expanded-pain.zsave'
+    s = Session(bundle)
+    try:
+        for code in (550,552):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 551)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (551,551,414):
+            s.action(2285, code)
+        assert state(s) == [-2,8,8,8,8,10,8,10,20,0,59]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 415)
+        assert state(s) == clear[:-1] + [60]
+    finally:
+        s.close()
+    for severity, base in [(None,2),(554,4),(555,6)]:
+        for tolerance, amount in [(None,base),(556,base*2),(557,base//2)]:
+            s = Session(bundle)
+            try:
+                for code in (severity,tolerance,30,551):
+                    if code is not None:
+                        s.action(2285, code)
+                assert state(s) == [-amount,10-amount,10-amount,10-amount,10-amount,10,10-amount,10,20,0,0]
+                s.action(2285, 558)
+                score = 12-amount
+                if score < 3:
+                    result = last(s, 'test.pain-control')
+                    assert result[0:2] == ['blocked',score]
+                    assert result[3] == 0
+                else:
+                    assert last(s, 'test.pain-control') == ['resolved',score,'success' if score >= 10 else 'setback',3]
+                s.action(2285, 559)
+                assert last(s, 'test.pain-control') == ['resolved',None,'yielded',0 if score < 3 else 3]
+            finally:
+                s.close()

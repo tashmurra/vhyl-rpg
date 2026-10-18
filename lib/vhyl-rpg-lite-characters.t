@@ -60,6 +60,7 @@ class RpgLiteProfile: RpgProfile
     validateHealing(amount) { return nil; }
     /* Contextual health adjustments must not alter purchased attributes. */
     healthAttributeModifier(context) { return 0; }
+    healthSelfControlModifier(trait) { return 0; }
     healthCheckReason(context) { return nil; }
     healthManeuverReason(kind) { return nil; }
     voluntaryMovementUnavailable() { return nil; }
@@ -346,9 +347,16 @@ rpgLiteRead(profile, languageId)
 rpgLiteSelfControl(profile, trait, modifier, giveIn)
 {
     if (!holds(profile.traits, trait) || !trait.controlled || !trait.active) throw new RpgError();
-    local result = giveIn ? new RpgResult() : rpgCheck(12 + modifier - (profile.sleepPenalty ? 2 : 0), rpgRandom.roll());
-    if (giveIn) { result.status = 'resolved'; result.achieved = nil; result.outcome = 'yielded'; }
-    else { profile.lastCheck = result; profile.lastCheckDraw = rpgRandom.draws; }
+    if (giveIn)
+    {
+        local yielded = new RpgResult(); yielded.status = 'resolved'; yielded.achieved = nil;
+        yielded.outcome = 'yielded'; return yielded;
+    }
+    local health = profile.healthSelfControlModifier(trait);
+    local score = 12 + modifier - (profile.sleepPenalty ? 2 : 0) + health;
+    if (health != 0 && score < 3) return rpgCheck(score,3);
+    local result = rpgCheck(score, rpgRandom.roll());
+    profile.lastCheck = result; profile.lastCheckDraw = rpgRandom.draws;
     return result;
 }
 

@@ -5823,3 +5823,43 @@ class RpgExpandedAgonyThreatContext: RpgLiteContext
         return nil;
     }
 ;
+
+/** B428 irritating pain, distinct from incapacitating agony and injury shock. */
+class RpgExpandedPain: RpgExpandedCoughing
+    severity = 'moderate'
+    history() { return self.profile.painHistory; }
+    remember() { self.profile.painHistory = self.profile.painHistory + [self]; }
+    receiptKind() { return 'pain'; }
+    definition() { return inherited() + [self.severity]; }
+    penalty()
+    {
+        if (!holds(['moderate','severe','terrible'],self.severity)) rpgExpandedReject('pain-severity');
+        local low = self.profile.level('low-pain-threshold') > 0;
+        local high = self.profile.level('high-pain-threshold') > 0;
+        if (low && high) rpgExpandedReject('pain-threshold-conflict');
+        local amount = self.severity == 'moderate' ? 2 : self.severity == 'severe' ? 4 : 6;
+        return -(low ? amount * 2 : high ? amount / 2 : amount);
+    }
+    assess()
+    {
+        local value = inherited(); if (value.status == 'ready') self.penalty(); return value;
+    }
+;
+modify RpgExpandedProfile
+    painHistory = []
+    painPenalty()
+    {
+        local value = 0;
+        foreach (local episode in self.painHistory) if (episode.active()) value += episode.penalty();
+        return value;
+    }
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        if (context.defensiveReaction || holds(['defense','resistance','fright','fear'],context.kind)) return value;
+        if (context.skill != nil || context.kind == 'self-control'
+            || holds([rpgDX,rpgIQ,rpgPerception,rpgWill],context.controllingAttribute())) value += self.painPenalty();
+        return value;
+    }
+    healthSelfControlModifier(trait) { return inherited(trait) + self.painPenalty(); }
+;

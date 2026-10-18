@@ -133,9 +133,10 @@
       "pages": "B428",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Moderate pain imposes -2 on dexterity, intelligence, skill and self-control rolls; high pain threshold halves and low threshold doubles the penalty.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_pain"],
+      "validation_note": "Owned finite pain applies severity and high/low threshold adjustments once to affected attribute, skill and self-control checks. Defensive reactions and secondary statistics remain unchanged. Table, expiry, replay, rollback, undo and save-continuation assertions authored, unrun. Cause adapters and overlapping pain composition remain incomplete."
     },
     {
       "id": "condition-severe-pain",
@@ -143,9 +144,10 @@
       "pages": "B428",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Severe pain uses the same affected rolls with base -4, modified by pain tolerance.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_pain"],
+      "validation_note": "Owned finite pain applies severity and high/low threshold adjustments once to affected attribute, skill and self-control checks. Defensive reactions and secondary statistics remain unchanged. Table, expiry, replay, rollback, undo and save-continuation assertions authored, unrun. Cause adapters and overlapping pain composition remain incomplete."
     },
     {
       "id": "condition-terrible-pain",
@@ -153,9 +155,10 @@
       "pages": "B428",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Terrible pain uses base -6 with the same affected rolls and tolerance modifiers.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_pain"],
+      "validation_note": "Owned finite pain applies severity and high/low threshold adjustments once to affected attribute, skill and self-control checks. Defensive reactions and secondary statistics remain unchanged. Table, expiry, replay, rollback, undo and save-continuation assertions authored, unrun. Cause adapters and overlapping pain composition remain incomplete."
     },
     {
       "id": "condition-tipsy",

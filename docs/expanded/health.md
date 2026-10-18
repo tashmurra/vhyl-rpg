@@ -2677,3 +2677,29 @@ not invent answers, knowledge or a full interrogation procedure. Existing genera
 influence limitations still apply. `expanded-agony-social.t` specifies ordinary
 and low-threshold bonuses, both supported skills, repeated previews, missing
 credibility evidence and wrong-target rejection. Assertions remain unrun.
+
+
+### Moderate, severe and terrible pain
+
+`RpgExpandedPain` supplies full-2008 B428 irritating pain separately from agony
+and wound shock. Provide the usual finite-condition `id`, `profile`,
+`durationSeconds`, `approved` and `evidence`; `severity` is `moderate` (default),
+`severe` or `terrible`. Their base penalties are −2, −4 and −6. High pain threshold
+halves these values; low pain threshold doubles them. Conflicting thresholds reject.
+
+The penalty applies once to DX/IQ checks, their IQ-derived Per/Will checks, all
+skill checks including HT-based skills, and self-control checks. The existing
+B421 defensive-reaction exceptions remain; secondary characteristics are not
+reduced. `painPenalty()` reports the current effective penalty without rolling.
+The profile's default-zero `healthSelfControlModifier(trait)` hook connects this
+condition to `rpgLiteSelfControl`. If pain reduces self-control below an attemptable
+score, the operation returns blocked before randomness. Voluntarily yielding
+still spends no randomness. Unaffected Lite calls retain their previous behavior.
+
+`assess()` is pure; `apply()` owns onset without injury, fatigue or time costs.
+Replays do not restart the episode. Exact expiry removes the penalty, and purchased
+attributes remain unchanged. Overlapping pain episodes currently reject until
+composition rules are resolved. Causes must create the condition explicitly.
+`expanded-pain.t` specifies all three severities across normal/high/low thresholds,
+HT-based skills, self-control, defensive reactions, exact expiry, preview, replay,
+rollback, undo and saved continuation. Assertions are authored and unrun.

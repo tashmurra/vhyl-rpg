@@ -594,3 +594,11 @@ private outcome classifications; hearing either does not automatically establish
 a belief. Silence and duplicate delivery produce no new claim. Added authored,
 unrun fixtures for preview privacy and transactional/save continuation behavior.
 Witnesses, sharing and belief adoption remain separate unfinished integrations.
+
+
+Added owned moderate/severe/terrible pain with high/low threshold modifiers,
+affected skill and attribute checks, and a default-zero self-control health hook.
+Pain penalties do not double-count through skill attributes or change secondary
+statistics. Added authored, unrun fixtures for the penalty matrix, self-control
+admission, defensive exceptions and transactional/save continuation behavior.
+Cause adapters and overlapping pain composition remain incomplete.
