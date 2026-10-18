@@ -176,8 +176,7 @@ physiology remain incomplete; the balance-check cadence must not stand in for
 them. `test_swimming_encounter` records failure, recovery, normal cadence, repeat
 protection and leaving. `test_swimming_context` covers untrained caps, trained and
 untrained encumbrance, default availability and explicit unsupported states. These
-fixtures remain unrun while checks are paused; dedicated transaction and
-cross-process continuation fixtures are still outstanding.
+fixtures remain unrun while checks are paused; the combined-schedule transaction and continuation fixtures are described below.
 
 
 ## Water movement and endurance assessment
@@ -240,5 +239,17 @@ and one or fewer remaining fatigue before rolling. These cases need additional
 procedures; they do not silently receive the ordinary one-point approximation.
 `test_swimming_owned_endurance` covers failed checks, duplicate calls, leaving,
 and simultaneous balance/endurance boundaries with unchanged randomness on a
-blocked request. Fixtures remain unrun; transaction and save-continuation coverage
-for the combined schedules is still outstanding.
+blocked request. Fixtures remain unrun; the combined-schedule transaction and continuation fixtures below are also unrun.
+
+
+The dedicated
+[`expanded-swimming-transactions.t`](../../tests/fixtures/expanded-swimming-transactions.t)
+uses one continuous random stream for the entry balance check and first endurance
+check. `test_swimming_transactions` exercises exceptions after each commit, undo
+and deterministic replay, changed pace rejection, duplicate encounters, preview
+purity, competing rest/diving operations and unresolved checks before exit.
+`test_swimming_persistence` restores separate-process saves at encounter start,
+after entry, at an endurance boundary, after its fatigue cost and after exit.
+Historical requests must remain reusable without resetting either schedule or
+charging fatigue again. All these fixtures are authored but unrun; they do not
+establish passing native or persistence validation.

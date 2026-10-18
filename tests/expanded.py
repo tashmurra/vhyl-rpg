@@ -760,6 +760,76 @@ def test_cold_persistence(Session, bundle, out):
             second.close()
 
 
+def swim_state(s):
+    s.action(1911)
+    return last(s, 'test.swim-state')
+
+
+def test_swimming_transactions(s):
+    s.action(1910, 0)
+    started = swim_state(s)
+    assert started == [0,'entry',0,60,0,0,1,0,0,0,'top-speed']
+    for code in [0,2,9,10,12,14]:
+        s.action(1910, code)
+        assert swim_state(s) == started
+    s.action(1910, 1)
+    afloat = swim_state(s)
+    assert afloat == [0,'stable',300,60,1,0,1,0,3,0,'top-speed']
+    s.command('undo')
+    assert swim_state(s) == started
+    s.action(1910, 1)
+    s.action(1910, 3)
+    due = swim_state(s)
+    assert due == [0,'stable',300,60,1,0,1,0,3,60,'top-speed']
+    for code in [11,5,6,13,8]:
+        s.action(1910, code)
+        assert swim_state(s) == due
+    s.action(1910, 4)
+    tired = swim_state(s)
+    assert tired == [1,'stable',300,120,1,1,1,0,6,60,'top-speed']
+    s.command('undo')
+    assert swim_state(s) == due
+    s.action(1910, 4)
+    for code in [4,7,9,8]:
+        s.action(1910, code)
+        assert swim_state(s) == tired
+    s.action(1910, 6)
+    ended = swim_state(s)
+    assert ended == [1,'stable',300,120,1,1,0,1,6,60,'top-speed']
+    s.command('undo')
+    assert swim_state(s) == tired
+    for code in [6,6,4,13,8]:
+        s.action(1910, code)
+        assert swim_state(s) == ended
+
+
+def test_swimming_persistence(Session, bundle, out):
+    for stage in range(5):
+        path = out / f'expanded-swimming-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1910, 0)
+            for code in [1,3,4,6][:stage]:
+                first.action(1910, code)
+            saved = swim_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1911')
+            assert swim_state(second) == saved
+            second.action(1910, 8)
+            for code in [1,3,4,6][stage:]:
+                second.action(1910, code)
+            assert swim_state(second) == [1,'stable',300,120,1,1,0,1,6,60,'top-speed']
+            for code in [4,13,8]:
+                second.action(1910, code)
+                assert swim_state(second) == [1,'stable',300,120,1,1,0,1,6,60,'top-speed']
+        finally:
+            second.close()
+
+
 def test_swimming_owned_endurance(s):
     s.action(1882)
     assert last(s, 'test.swim-endurance-owned') == [
@@ -3916,6 +3986,9 @@ def test(build):
     fresh(Session,exploration,test_swimming_context)
     fresh(Session,exploration,test_swimming_movement_endurance)
     fresh(Session,exploration,test_swimming_owned_endurance)
+    swimming_transactions = build.build('expanded-swimming-transactions',ROOT / 'tests/fixtures/expanded-swimming-transactions.t')
+    fresh(Session,swimming_transactions,test_swimming_transactions)
+    test_swimming_persistence(Session,swimming_transactions,build.out)
     fresh(Session,exploration,test_breath_reserve)
     breath_transactions = build.build('expanded-breath-transactions',ROOT / 'tests/fixtures/expanded-breath-transactions.t')
     fresh(Session,breath_transactions,test_breath_transactions)
