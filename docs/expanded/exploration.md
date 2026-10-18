@@ -829,3 +829,36 @@ and thrown characters require their own independent damage roll on impact.
 Those owned operations and skill eligibility integrations remain incomplete.
 The minimal fixture is `tests/fixtures/expanded-throw-assessment.t`; full-table,
 weight-band, skill-bonus and source-example assertions are authored and unrun.
+
+## Assessing a held throw from character state
+
+`RpgExpandedHeldThrow` connects ordinary-object assessments to a `profile`,
+owned `item`, and optional ordinary `skill`. Supply `approved`, explanatory
+`evidence`, `palmSized`, target kind `specific` or `area`, any authored attack
+`modifier`, and whether the selected action uses the `offHand`.
+The skill must have the B226 DX/Average throwing definition with DX-3 default.
+A paid training entry establishes skill-based range bonuses; without one, an
+area throw uses DX while a specific target uses the available skill default.
+A character trained below DX still uses the selected skill for an area throw.
+
+The result includes `score` alongside range, hands and damage expression.
+Range bonuses use the trained rating relative to DX, independently of temporary
+attack penalties. The actual attack score passes through the common context
+modifiers, including shock and off-hand penalties. Expanded skill definitions
+can supply their existing richer default chains; this request does not create
+default edges or silently add catalogue entries.
+
+The item must be a single, ready, unworn, accessible object owned by the profile.
+Purpose-built weapon objects require their weapon procedure. The health module
+supplies `throwingHandsReason(profile, required)` using owned hand bindings;
+missing anatomy support is explicitly rejected. Disabled or reserved hands,
+conflicting held gear and unmapped competing grips prevent the assessment.
+Two hands are required above twice Basic Lift. One or two bound hands may be
+used for a lighter object; additional-hand throwing needs its own procedure.
+
+This is a pure assessment: it neither readies nor releases the object, draws a
+roll, spends maneuver time nor grants permission at zero HP. Cinematic skill
+prerequisites, exhausted-strength throwing, the attack/defense exchange, impact
+and catching remain incomplete. `tests/fixtures/expanded-held-throw.t` contains
+unrun assertions for training/defaults, range bonuses, injury and hand legality,
+readiness, shock, off-hand penalties and repeated preview purity.

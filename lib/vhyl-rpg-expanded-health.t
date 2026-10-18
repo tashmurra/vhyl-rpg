@@ -6507,3 +6507,30 @@ class RpgExpandedMarchHour: RpgExpandedMarchHourCost
         value.status = 'resolved'; return value;
     }
 ;
+
+/** A throwing grip must name actual usable hands. The thrown item itself is
+ * exempt from the occupied-hand check; other ready gear and reservations are not. */
+modify RpgLiteItem
+    throwingHandsReason(profile, required)
+    {
+        self.validateBodySupports(profile);
+        if (self.bodySupports.length() < required || self.bodySupports.length() > 2)
+            return 'throwing-hand-bindings';
+        foreach (local hand in self.bodySupports)
+        {
+            if (hand.kind != 'hand') return 'throwing-hand-bindings';
+            if (!hand.functional()) return 'throwing-hand-disabled';
+            if (profile.supportReserved(hand)) return 'throwing-hand-reserved';
+            foreach (local other in profile.equipment)
+                if (other != self && other.usableBy(profile) && (other.ready || other.worn))
+                {
+                    other.validateBodySupports(profile);
+                    if (other.ready && !other.worn && other.bodySupports.length() == 0)
+                        return 'throwing-other-grip-unmapped';
+                    foreach (local support in other.bodySupports)
+                        if (support == hand || support == hand.parent) return 'throwing-hand-occupied';
+                }
+        }
+        return nil;
+    }
+;

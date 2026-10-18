@@ -902,3 +902,9 @@ including lift limits, hand requirements and ordinary/cinematic skill bonuses.
 The inventory's negative half-point-per-die rounding description was corrected
 against the source. Source-table and example fixtures remain unrun; pickup,
 attack, catching and impact execution are still incomplete.
+
+Held-object throwing now derives ordinary skill bonuses and attack scores from
+character training, and validates readiness and owned hand bindings. Temporary
+attack penalties do not incorrectly reduce training-based range bonuses.
+Fixtures are authored but unrun; attack commitment and cinematic prerequisite
+integration remain incomplete.

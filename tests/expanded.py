@@ -9014,6 +9014,8 @@ def test(build):
     test_hiking_assessment(Session, hiking_assessment)
     throw_assessment = build.build('expanded-throw-assessment',ROOT / 'tests/fixtures/expanded-throw-assessment.t')
     test_throw_assessment(Session, throw_assessment)
+    held_throw = build.build('expanded-held-throw',ROOT / 'tests/fixtures/expanded-held-throw.t')
+    test_held_throw(Session, held_throw)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
     test_hiking_attempt(Session, hiking_attempt, build.out)
     hiking_party = build.build('expanded-hiking-party',ROOT / 'tests/fixtures/expanded-hiking-party.t')
@@ -14702,3 +14704,31 @@ def test_throw_assessment(Session, bundle):
         assert assess(16001,mode=3,relative=1,cinematic=1)[1] == 'throw-weight-limit'
     finally:
         s.close()
+
+
+def test_held_throw(Session, bundle):
+    cases = [
+        ((),['ready',None,11,3850,1,0,0]),
+        ((1151,),['ready',None,7,3500,1,0,0]),
+        ((1151,1152),['ready',None,10,3500,1,0,0]),
+        ((1152,),['ready',None,11,3850,1,0,0]),
+        ((1154,),['blocked','throwing-hand-bindings',None,275,2,0,0]),
+        ((1154,1155),['ready',None,11,275,2,0,0]),
+        ((1156,),['blocked','throwing-hand-disabled',None,3850,1,0,0]),
+        ((1157,),['blocked','throwing-hand-occupied',None,3850,1,0,0]),
+        ((1157,1163),['blocked','throwing-other-grip-unmapped',None,3850,1,0,0]),
+        ((1153,),['blocked','throw-item-not-held',None,0,0,0,0]),
+        ((1158,),['blocked','throw-item-not-held',None,0,0,0,0]),
+        ((1159,),['ready',None,9,3850,1,0,0]),
+        ((1160,),['ready',None,7,3850,1,0,0]),
+        ((1161,),['blocked','throw-skill-palm-size',None,0,0,0,0]),
+        ((1162,),['blocked','throw-fatigued-strength-adapter-required',None,0,0,0,0]),
+    ]
+    for codes, expected in cases:
+        s = Session(bundle)
+        try:
+            for code in (*codes,1150,1150):
+                s.action(2285,code)
+            assert last(s,'test.held-throw') == expected
+        finally:
+            s.close()

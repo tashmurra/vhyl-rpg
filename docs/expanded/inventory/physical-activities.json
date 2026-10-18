@@ -1445,9 +1445,10 @@
       "status": "partial",
       "acceptance": "Ordinary objects up to eight times lifting capacity may be thrown; ready them first, use one hand only up to twice capacity, and use an attack maneuver in combat.",
       "tests": [
-        "tests/expanded.py::test_throw_assessment"
+        "tests/expanded.py::test_throw_assessment",
+        "tests/expanded.py::test_held_throw"
       ],
-      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete. Held-object assessment now derives ordinary skill bonuses from paid training and computes specific-target/default or general-area scores, with readiness, ownership, actual hand bindings, disabled/reserved supports and competing grips. Shock/off-hand and invalid-state fixtures are authored, unrun. Cinematic prerequisite integration, low-fatigue throwing, pickup/attack commitment and target defense remain incomplete."
     },
     {
       "id": "throwing-accuracy",
@@ -1458,9 +1459,10 @@
       "status": "partial",
       "acceptance": "Ordinary object accuracy is dexterity-3 against a specific target or dexterity for a general area, with applicable size, speed and range modifiers.",
       "tests": [
-        "tests/expanded.py::test_throw_assessment"
+        "tests/expanded.py::test_throw_assessment",
+        "tests/expanded.py::test_held_throw"
       ],
-      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete. Held-object assessment now derives ordinary skill bonuses from paid training and computes specific-target/default or general-area scores, with readiness, ownership, actual hand bindings, disabled/reserved supports and competing grips. Shock/off-hand and invalid-state fixtures are authored, unrun. Cinematic prerequisite integration, low-fatigue throwing, pickup/attack commitment and target defense remain incomplete."
     },
     {
       "id": "throwing-range-selection",
@@ -1471,9 +1473,10 @@
       "status": "partial",
       "acceptance": "Divide object weight by lifting capacity, select the next higher table ratio at an in-between value, then multiply strength by the corresponding distance factor. Table rows above ordinary lift eligibility do not waive the weight limit.",
       "tests": [
-        "tests/expanded.py::test_throw_assessment"
+        "tests/expanded.py::test_throw_assessment",
+        "tests/expanded.py::test_held_throw"
       ],
-      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete. Held-object assessment now derives ordinary skill bonuses from paid training and computes specific-target/default or general-area scores, with readiness, ownership, actual hand bindings, disabled/reserved supports and competing grips. Shock/off-hand and invalid-state fixtures are authored, unrun. Cinematic prerequisite integration, low-fatigue throwing, pickup/attack commitment and target defense remain incomplete."
     },
     {
       "id": "throwing-damage",
@@ -1507,9 +1510,10 @@
       "status": "partial",
       "acceptance": "Throwing skill can replace accuracy for palm-sized objects; relative skill +1 adds one strength for range, and relative +2 or higher adds two.",
       "tests": [
-        "tests/expanded.py::test_throw_assessment"
+        "tests/expanded.py::test_throw_assessment",
+        "tests/expanded.py::test_held_throw"
       ],
-      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete. Held-object assessment now derives ordinary skill bonuses from paid training and computes specific-target/default or general-area scores, with readiness, ownership, actual hand bindings, disabled/reserved supports and competing grips. Shock/off-hand and invalid-state fixtures are authored, unrun. Cinematic prerequisite integration, low-fatigue throwing, pickup/attack commitment and target defense remain incomplete."
     },
     {
       "id": "throwing-art-skill",

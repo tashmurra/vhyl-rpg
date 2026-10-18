@@ -1692,3 +1692,67 @@ rpgExpandedAssessThrow(strength, lift, weight, skillAssessment)
     value.damageAdds += damageBonus * value.damageDice;
     value.status = 'ready'; return value;
 }
+
+modify RpgExpandedThrowAssessment
+    score = nil
+;
+/** Pure request for an ordinary object already held. Training, readiness and
+ * hand legality come from owned state; execution remains a separate operation. */
+class RpgExpandedHeldThrow: object
+    profile = nil
+    item = nil
+    skill = nil
+    target = 'specific'
+    palmSized = nil
+    modifier = 0
+    offHand = nil
+    approved = nil
+    evidence = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.item == nil
+            || !self.item.ofKind(RpgLiteItem)) rpgExpandedReject('held-throw-definition');
+        if (!holds(['specific','area'],self.target)) rpgExpandedReject('held-throw-target');
+        rpgInteger(self.modifier,-1000,1000);
+        local value = new RpgExpandedThrowAssessment();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'held-throw-author-facts'; return value; }
+        if (self.item.ofKind(RpgLiteWeapon)) { value.reason = 'throw-weapon-procedure-required'; return value; }
+        if (!holds(self.profile.equipment,self.item) || !self.item.usableBy(self.profile)
+            || !self.item.ready || self.item.worn) { value.reason = 'throw-item-not-held'; return value; }
+        if (self.item.quantity != 1) { value.reason = 'throw-single-object-required'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.mortal || self.profile.stunned
+            || self.profile.mentalStun || self.profile.healthEffortReason('action',nil,nil,true) != nil)
+        { value.reason = 'throw-actor-unavailable'; return value; }
+        if (self.profile.fp() * 3 < self.profile.maxEnergy)
+        { value.reason = 'throw-fatigued-strength-adapter-required'; return value; }
+        local trained = nil; local relative = 0;
+        if (self.skill != nil)
+        {
+            if (!self.skill.ofKind(RpgLiteSkill) || self.skill.id != 'throwing' || self.skill.attribute != rpgDX
+                || self.skill.difficulty != 1 || self.skill.defaultPenalty != -3)
+                rpgExpandedReject('held-throw-skill-definition');
+            if (!self.palmSized) { value.reason = 'throw-skill-palm-size'; return value; }
+            foreach (local training in self.profile.skills)
+                if (training.skill == self.skill && training.points > 0) trained = true;
+            if (trained)
+            {
+                local level = self.profile.skillScore(self.skill);
+                if (level == nil) { value.reason = 'throw-skill-unavailable'; return value; }
+                relative = level - self.profile.attributeScore(rpgDX);
+            }
+        }
+        local bonuses = rpgExpandedAssessThrowSkill(trained ? 'throwing' : 'unskilled',relative,self.palmSized,nil);
+        value = rpgExpandedAssessThrow(self.profile.st,self.profile.basicLiftHundredths(),self.item.weightHundredths(),bonuses);
+        if (value.status != 'ready') return value;
+        value.reason = self.item.throwingHandsReason(self.profile,value.handsRequired);
+        if (value.reason != nil) { value.status = 'blocked'; return value; }
+        local context = new RpgLiteContext(); context.kind = 'throwing'; context.attribute = rpgDX;
+        context.requiresMovement = true; context.offHand = self.offHand; context.modifier = self.modifier;
+        if (self.skill != nil && (trained || self.target == 'specific')) context.skill = self.skill;
+        else if (self.target == 'specific') context.modifier -= 3;
+        value.score = rpgLiteScore(self.profile,context);
+        if (value.score == nil || value.score < 3) { value.status = 'blocked'; value.reason = 'throw-score-unavailable'; }
+        return value;
+    }
+;

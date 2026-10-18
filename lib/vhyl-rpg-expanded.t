@@ -231,3 +231,7 @@ rpgExpandedRangeModifier(yards)
 class RpgExpandedLandingReceipt: object
     impactFor(profile,fall) { rpgExpandedReject('landing-receipt-unavailable'); }
 ;
+
+modify RpgLiteItem
+    throwingHandsReason(profile, required) { return 'throwing-anatomy-required'; }
+;

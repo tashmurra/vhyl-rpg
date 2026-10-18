@@ -3023,3 +3023,9 @@ dividing the daily mileage: the daily procedure includes preparation and rest.
 `tests/fixtures/expanded-march-hour.t` covers ordinary completion, rejected time
 changes, exhaustion success/failure, duplicate cost prevention, rollback, undo
 and saved continuation. These assertions are authored but have not been run.
+
+Held throwing assessments use `RpgLiteItem.throwingHandsReason(profile, required)`
+to validate bound functional hands, support reservations and competing grips.
+The thrown item itself does not count as a competing object. This integration
+is observational: injury, inventory and active mobility support are unchanged.
+See [held throwing](exploration.md#assessing-a-held-throw-from-character-state).
