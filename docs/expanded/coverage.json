@@ -689,6 +689,18 @@
         "tests/expanded.py::test_unknown_fact"
       ],
       "validation_note": "Once-per-statement intelligence/skill checks and belief acquisition authored. Checks unrun; cross-process coverage and research procedures pending."
+    },
+    {
+      "id": "trade-reaction-prices",
+      "module": "social",
+      "pages": "B560-B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedTradeReaction",
+      "tests": [
+        "tests/expanded.py::test_trade_reactions"
+      ],
+      "validation_note": "Unambiguous fair-price table and favorable offer limits authored. Checks unrun; altered counteroffer source conflict, fractional currency and committed trades remain unresolved."
     }
   ],
   "detailed_inventories": [

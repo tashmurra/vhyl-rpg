@@ -62,9 +62,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use the local current fair price, not a universal catalogue price. Without bargaining, roll only when willingness to transact remains uncertain.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_trade_reactions"
+      ],
+      "implementation_note": "Unambiguous pricing authored; altered offers at bands 1\u20135 explicitly blocked by source discrepancy. Trade execution and validation remain pending."
     },
     {
       "id": "reaction-detail-counteroffer",
@@ -72,9 +75,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use a revised offered price as counteroffer basis only when less favorable to the player than the fair-price basis. B562 prints an example equating half of 120% with 50%; visually confirmed inconsistency. Define and test a resolution policy before executable completion.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_trade_reactions"
+      ],
+      "implementation_note": "Unambiguous pricing authored; altered offers at bands 1\u20135 explicitly blocked by source discrepancy. Trade execution and validation remain pending."
     },
     {
       "id": "reaction-detail-floor",
@@ -82,9 +88,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ordinary bargaining cannot reduce purchase price below half fair value. An ulterior motive requires an explicit authored exception and consequence, not an unrestricted discount.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_trade_reactions"
+      ],
+      "implementation_note": "Unambiguous pricing authored; altered offers at bands 1\u20135 explicitly blocked by source discrepancy. Trade execution and validation remain pending."
     },
     {
       "id": "reaction-detail-skill-use",

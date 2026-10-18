@@ -741,6 +741,25 @@ def test_information_delivery(s):
     assert information_state(s) == [1, 0, 0, 0, 'bridge-open', 'ferry-closed', 'river-rising']
 
 
+def test_trade_reactions(s):
+    for band, buy, sell in [(1, 900, 100), (2, 600, 150), (3, 360, 225),
+                             (4, 300, 300), (5, 300, 300), (6, 300, 300), (7, 300, 300)]:
+        for direction, price in [('buy', buy), ('sell', sell)]:
+            s.action(1192, band, direction, 300, 300)
+            assert last(s, 'test.trade-price') == ['ready', None, price, 0, 0, 1 if band >= 5 else 0]
+    for band, direction, offer, price in [(6, 'buy', 200, 240), (6, 'sell', 500, 450),
+                                         (7, 'buy', 100, 150), (7, 'sell', 700, 600),
+                                         (6, 'buy', 250, 250), (7, 'sell', 400, 400)]:
+        s.action(1192, band, direction, 300, offer)
+        assert last(s, 'test.trade-price') == ['ready', None, price, 0, 0, 1]
+    s.action(1192, 0, 'buy', 300, 200)
+    assert last(s, 'test.trade-price') == ['ready', None, 0, 1, -2, 0]
+    s.action(1192, 2, 'sell', 300, 360)
+    assert last(s, 'test.trade-price') == ['blocked', 'trade-counteroffer-source-conflict', 0, 0, 0, 0]
+    s.action(1193)
+    assert last(s, 'test.trade-limits') == ['trade-fractional-money', 'trade-price-limit', 1073741820]
+
+
 def test_information_reactions(s):
     cases = [
         ((0, 0, 'lie', 0, 0), ['ready', None, 'none', 0, 0, 1, -2, 0, 0, 0, 0]),
@@ -1003,6 +1022,7 @@ def test(build):
     fresh(Session,social,test_combat_reactions)
     fresh(Session,social,test_aid_reactions)
     fresh(Session,social,test_information_reactions)
+    fresh(Session,social,test_trade_reactions)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
     test_reputation_persistence(Session,bundle,build.out)

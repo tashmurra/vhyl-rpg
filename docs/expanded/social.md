@@ -381,3 +381,32 @@ the random state, last check, stored result and any new belief together.
 preview, deterministic success/failure, no reroll, rollback and undo. These cases
 remain unrun; cross-process knowledge continuation and research procedures still
 need implementation/validation coverage.
+
+
+## Trade reaction prices
+
+`RpgExpandedTradeReaction` takes the private `band`, `direction` (`buy` or `sell`
+from the player party's perspective), local `fairPrice`, and optional
+`offeredPrice` (defaults to fair price). Pure assessment returns a price or refusal.
+The fair price is the current local value, not necessarily the catalogue cost.
+A lowest-band refusal requires a potential-combat follow-up at -2; it does not
+transfer goods or money. Favorable bands also indicate an offer of advice/help.
+
+At bands 1–3 the buy/sell factors are respectively 3 and 1/3, 2 and 1/2, and
+6/5 and 3/4. Neutral and good reactions use fair price. The next band accepts offers
+subject to a purchase minimum of 4/5 fair price and a sale maximum of 3/2; the
+highest band uses 1/2 and 2. These limits do not imply automatic availability,
+affordability or transfer of title. They are quoted prices, not committed trades.
+
+The B562 altered-counteroffer example is internally inconsistent. For bands 1–5,
+an offer differing from fair price returns `trade-counteroffer-source-conflict`.
+No silently chosen interpretation is applied. Exact whole-unit arithmetic uses
+`rpgExpandedTradeFraction`; fractional prices and overflow are explicitly rejected
+pending a currency-precision policy. Exceptional discounts motivated by hidden
+world circumstances remain separate, unimplemented author contracts.
+
+`tests/expanded.py::test_trade_reactions` contains independent expected values for
+all bands, both transaction directions, favorable offer limits, refusal, the source
+conflict and arithmetic boundaries. These cases remain unrun. Bargaining modifiers,
+merchant transfers, employment and professional-information trade integration
+remain pending.

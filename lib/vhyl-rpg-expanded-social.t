@@ -753,3 +753,62 @@ class RpgExpandedKnowledgeCheck: object
         value.status = 'resolved'; return value;
     }
 ;
+
+/** Exact whole-unit trade arithmetic. Fractional currency needs a separate
+ * explicit currency policy; do not silently round a quoted price. */
+rpgExpandedTradeFraction(amount, numerator, denominator)
+{
+    rpgInteger(amount,0,2147483647); rpgInteger(numerator,1,100); rpgInteger(denominator,1,100);
+    local quotient = amount / denominator; local remainder = amount % denominator;
+    if ((remainder * numerator) % denominator != 0) rpgExpandedReject('trade-fractional-money');
+    local tail = remainder * numerator / denominator;
+    if (quotient > (2147483647 - tail) / numerator) rpgExpandedReject('trade-price-limit');
+    return quotient * numerator + tail;
+}
+
+class RpgExpandedTradeResult: RpgExpandedResult
+    price = 0
+    refused = nil
+    combatFollowup = nil
+    followupModifier = 0
+    offersAdvice = nil
+;
+
+/** Trade table prices, full-2008 B560-B562. Direction is from the player party's
+ * perspective. Altered low-band counteroffers remain blocked by a source conflict. */
+class RpgExpandedTradeReaction: object
+    band = nil
+    direction = 'buy'
+    fairPrice = 0
+    offeredPrice = nil
+    assess()
+    {
+        rpgInteger(self.band,0,7); rpgInteger(self.fairPrice,1,2147483647);
+        if (!holds(['buy','sell'],self.direction)) rpgExpandedReject('trade-direction');
+        local offer = self.offeredPrice == nil ? self.fairPrice : self.offeredPrice;
+        rpgInteger(offer,0,2147483647);
+        local value = new RpgExpandedTradeResult();
+        if (self.band == 0)
+        {
+            value.refused = true; value.combatFollowup = true; value.followupModifier = -2;
+            value.status = 'ready'; return value;
+        }
+        if (self.band <= 5 && offer != self.fairPrice)
+        { value.reason = 'trade-counteroffer-source-conflict'; return value; }
+        if (self.band == 1)
+            value.price = rpgExpandedTradeFraction(self.fairPrice,self.direction == 'buy' ? 3 : 1,self.direction == 'buy' ? 1 : 3);
+        if (self.band == 2)
+            value.price = rpgExpandedTradeFraction(self.fairPrice,self.direction == 'buy' ? 2 : 1,self.direction == 'buy' ? 1 : 2);
+        if (self.band == 3)
+            value.price = rpgExpandedTradeFraction(self.fairPrice,self.direction == 'buy' ? 6 : 3,self.direction == 'buy' ? 5 : 4);
+        if (self.band == 4 || self.band == 5) value.price = self.fairPrice;
+        if (self.band >= 6)
+        {
+            local limit = self.band == 6
+                ? rpgExpandedTradeFraction(self.fairPrice,self.direction == 'buy' ? 4 : 3,self.direction == 'buy' ? 5 : 2)
+                : rpgExpandedTradeFraction(self.fairPrice,self.direction == 'buy' ? 1 : 2,self.direction == 'buy' ? 2 : 1);
+            value.price = self.direction == 'buy' ? (offer < limit ? limit : offer) : (offer > limit ? limit : offer);
+        }
+        value.offersAdvice = self.band >= 5; value.status = 'ready'; return value;
+    }
+;

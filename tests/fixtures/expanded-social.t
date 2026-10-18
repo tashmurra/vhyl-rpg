@@ -88,5 +88,22 @@ act(verb,args)
         context.complexity = 2; context.intrusive = true; context.danger = -3; context.knowledgeProfessionBonus = 2;
         eventValue(context.assess().modifier); context.discreet = nil; eventValue(context.assess().reason); return nil;
     }
+    if (verb == 1192)
+    {
+        local trade = new RpgExpandedTradeReaction(); trade.band = args[1]; trade.direction = args[2];
+        trade.fairPrice = args[3]; trade.offeredPrice = args[4];
+        local value = trade.assess(); event('test.trade-price'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.price); eventValue(value.refused ? 1 : 0); eventValue(value.followupModifier);
+        eventValue(value.offersAdvice ? 1 : 0); return nil;
+    }
+    if (verb == 1193)
+    {
+        event('test.trade-limits');
+        try { rpgExpandedTradeFraction(100,1,3); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { rpgExpandedTradeFraction(1000000000,3,1); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        eventValue(rpgExpandedTradeFraction(2147483640,1,2)); return nil;
+    }
     return vhylAct(verb,args);
 }
