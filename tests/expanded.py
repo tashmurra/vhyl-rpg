@@ -9099,6 +9099,8 @@ def test(build):
     test_learning_ownership(Session, learning_ownership)
     buyoff = build.build('expanded-buyoff',ROOT / 'tests/fixtures/expanded-buyoff.t')
     test_expanded_buyoff(Session, buyoff, build.out)
+    buyoff_offer = build.build('expanded-buyoff-offer',ROOT / 'tests/fixtures/expanded-buyoff-offer.t')
+    test_expanded_buyoff_offer(Session, buyoff_offer, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17568,6 +17570,46 @@ def test_expanded_buyoff(Session, bundle, out):
         s.command(f':restore {path}\n@2286')
         s.action(2285,5200)
         s.action(2285,5202)
+        assert last(s,'test.buyoff-state') == [70,0]
+    finally:
+        s.close()
+
+
+def test_expanded_buyoff_offer(Session, bundle, out):
+    for setup,reason in ((5302,'buyoff-original-cost-mismatch'),(5303,'buyoff-original-cost-mismatch'),
+                         (5204,'buyoff-original-cost-required'),(5203,'reserved')):
+        s = Session(bundle)
+        try:
+            for code in (setup,5301,5202):
+                s.action(2285,code)
+            assert last(s,'test.buyoff-offer')[:2] == ['blocked',reason]
+            assert last(s,'test.buyoff-state') == [100,1]
+        finally:
+            s.close()
+    path = out / 'expanded-buyoff-offer.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,5300)
+        assert last(s,'test.buyoff-offer') == ['ready',None,30]
+        for code in (5304,5202):
+            s.action(2285,code)
+        assert last(s,'test.buyoff-state') == [100,1]
+        s.action(2285,5301)
+        s.command('undo')
+        s.action(2285,5202)
+        assert last(s,'test.buyoff-state') == [100,1]
+        for code in (5206,5301,5200,5202):
+            s.action(2285,code)
+        assert last(s,'test.buyoff-state') == [70,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (5301,5202):
+            s.action(2285,code)
+        assert last(s,'test.buyoff-offer') == ['reused',None,0]
         assert last(s,'test.buyoff-state') == [70,0]
     finally:
         s.close()

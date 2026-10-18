@@ -1241,3 +1241,7 @@ expanded influence procedure remains partial.
 - Expanded direct disadvantage buyoffs now use explicit original-bonus records
   instead of the unmodified base price, and respect reserved points. Added unrun
   cost, rollback and save fixtures. Automatic historical-cost capture is pending.
+
+- Owned disadvantage-removal offers now enforce the same original-bonus basis
+  as direct buyoffs, rejecting mismatched prices before spending. Added unrun
+  direct/offer replay and persistence fixtures.

@@ -569,3 +569,16 @@ modify RpgExpandedProfile
         return found.originalBonus;
     }
 ;
+
+modify RpgExpandedProfile
+    developmentOfferReason(offer)
+    {
+        local reason = inherited(offer); if (reason != nil) return reason;
+        if (offer.kind != 'remove-trait' || offer.trait == nil || !offer.trait.ofKind(RpgLiteTrait)
+            || offer.trait.points >= 0) return nil;
+        local original = self.disadvantageBuyoffCost(offer.trait);
+        if (original == nil) return 'buyoff-original-cost-required';
+        if (offer.cost != original) return 'buyoff-original-cost-mismatch';
+        return nil;
+    }
+;

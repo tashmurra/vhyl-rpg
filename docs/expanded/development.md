@@ -128,3 +128,11 @@ existing downtime gate remains. The fixture covers missing evidence records,
 reservations, affordability, historical cost, rollback, undo and save replay;
 it remains unrun. Automated capture of original awards during all creation and
 transformation paths remains pending.
+
+Expanded `RpgDevelopment` offers with `kind = 'remove-trait'` now require the
+same historical basis for a disadvantage. Their explicit `cost` must equal the
+recorded original bonus; both undercharging and overcharging return a structured
+mismatch reason before spending. An absent or unapproved basis blocks the offer.
+Direct and owned buyoffs therefore use the same cost and reservation rules.
+The offer fixture covers both mismatch directions, cross-path replay, rollback,
+undo and saves; it remains unrun.
