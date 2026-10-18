@@ -6,7 +6,7 @@
     {
       "id": "campaign",
       "title": "Economics, laws, jobs, hirelings and world travel",
-      "pages": "B347; B474; B477; B482-B483; B486-B522; B529-B534; B544-B546",
+      "pages": "B347; B474; B477; B482-B483; B486-B546",
       "source": "full-2008",
       "status": "pending",
       "tests": []
@@ -70,7 +70,7 @@
     {
       "id": "hazards",
       "title": "Exposure, poison, disease and aging",
-      "pages": "B428-B444",
+      "pages": "B428-B444; B540",
       "source": "full-2008",
       "status": "pending",
       "tests": []
@@ -299,6 +299,7 @@
     "inventory/campaign-procedures.json",
     "inventory/economy-employment.json",
     "inventory/worlds-law-technology.json",
-    "inventory/world-transit.json"
+    "inventory/world-transit.json",
+    "inventory/setting-mechanics.json"
   ]
 }

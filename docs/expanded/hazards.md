@@ -1,6 +1,6 @@
 # Expanded hazards
 
-**Status: pending.** Exposure, poison, disease and aging. Neutral source: `full-2008`, B428-B444.
+**Status: pending.** Exposure, poison, disease and aging. Neutral source: `full-2008`, B428-B444; B540.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
@@ -69,3 +69,18 @@ separately accounted.
 
 These issues do not prevent inventorying other sections. They do prevent a
 complete-coverage claim for the affected procedures.
+
+
+## Fictional memory effects
+
+The [setting-content inventory](inventory/setting-mechanics.json) includes a
+fictional agent with resistance, unconsciousness and recent-memory effects. Its
+source name and associated setting are excluded. The printed description does not
+fully specify onset, unconscious duration or the anchor for its lost-memory window;
+those details require a documented author contract before the effect is supported.
+
+A memory effect must change what the affected character can recall while preserving
+what actually happened in the world. It must not undo purchases, wounds, movement or
+other committed events. Delivery, dose inventory, permissions and repeated exposure
+also need their own validation. This entry remains pending; it is not an implemented
+hazard or a real chemical specification.

@@ -2,7 +2,7 @@
 
 **Status: pending.** Campaign choices, economics, employment, legal systems and
 world travel. Neutral source: `full-2008`, B347; B474; B477; B482–B483;
-B486–B522; B529–B534; B544–B546.
+B486–B546 (mechanical content only).
 
 [Library selection](../libraries.md) · [Integration](index.md) ·
 [Coverage ledger](coverage.json)
@@ -21,7 +21,9 @@ a game yet. The detailed source inventory now contains:
 These are first-pass requirements. Reaction outcome tables, cross-references, numeric audits and executable
 validation remain open. The [world-transit ledger](inventory/world-transit.json)
 now records the detailed hardware-assisted transit, accident, portal and world-shift
-procedures. Other setting-chapter pages still need a mechanical-content audit.
+procedures. A [separate setting-content pass](inventory/setting-mechanics.json)
+records the remaining pages' reusable rules and explicit exclusions. A complete
+second-pass audit remains necessary; the first pass does not prove full coverage.
 Storytelling advice, quoted fiction and example settings are excluded; their presence
 in the reference does not imply a missing runtime feature.
 
@@ -140,6 +142,17 @@ A shifting region can move terrain and its occupants. A changed world band can s
 a working capsule, while a magic-free world can prevent a magical return. These cases
 must resolve through the actual route and world context rather than a universal
 return-to-origin action.
+
+The setting-content pass adds method-specific world restrictions: a destination
+can forbid unassisted entry and exit while permitting assisted travel, or admit
+travelers but block particular return methods. An institution's access permission
+cannot override those physical restrictions. Conversely, working hardware does
+not grant permission to enter a legally closed world.
+
+The source also describes some group-assisted travel without enough procedure to
+implement it. Its stated carrying capacity alone is insufficient: eligibility,
+ability construction, activation and costs remain required author inputs. Such a
+capability remains pending, rather than becoming a free generic party-transport rule.
 
 ## Required validation
 
