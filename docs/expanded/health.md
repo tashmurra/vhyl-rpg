@@ -466,7 +466,7 @@ the historical wound remains available. Classifying a temporary injury when the
 patient is already fully healed also clears that disability immediately.
 
 Lasting recovery is recorded in calendar months, not converted to a fixed number
-of ledger seconds. The calendar milestone interface below handles lasting expiry; later treatment, surgery, permanent repair
+of ledger seconds. The calendar milestone and later-care interfaces below handle lasting expiry and its physician adjustment; surgery and permanent repair
 and the character-value consequences of permanent disability remain pending.
 This procedure grants no advancement points. It is not complete injury recovery.
 
@@ -550,3 +550,42 @@ implemented. The source places the rule about ignoring further health loss from
 a capped location under that optional procedure; this implementation does not
 silently enable it or assume it governs every repeated limb wound. Requests to
 already-disabled parts remain explicitly unavailable pending that integration.
+
+
+## Physician care after classification
+
+`RpgExpandedCripplingCare` applies completed physician care to an existing lasting
+disability. Supply a unique `id`, its owned `duration`, the `physician`, the
+`medicalTL` used for care and nonempty `evidence` identifying that completed care.
+As with care recorded during classification, these are authored world facts.
+This operation records the calendar effect; it does not conduct treatment,
+certify a provider's qualifications or charge treatment time and supplies.
+
+Assessment computes the B422 reduction from `duration.result.monthRoll`, never
+from a previously discounted duration. A treatment that offers no shorter
+recovery blocks without appending another effect. Better care may shorten the
+period once; repeating the same request returns its saved outcome. Duplicate IDs
+and retargeted committed care reject. Temporary, permanent, already recovered or
+dead-patient cases do not receive this lasting-recovery adjustment.
+
+`duration.result.months` retains the classification-time value.
+`duration.requiredMonths()` gives the effective total calendar duration after
+later care. `duration.laterCare` retains the ordered care records; each result
+reports `monthsBefore`, `monthsAfter` and whether that care completed recovery.
+The history validates against the original die, so neither multiple providers
+nor repeated applications stack discounts. The calendar-milestone operation uses
+the effective requirement. If the completed milestone count already meets the
+shortened requirement, the care operation clears only this wound's disability
+immediately, without restoring health points or drawing more random numbers.
+
+For example, an untreated three-month result becomes two months after qualifying
+level-five care. Level-seven care reduces the original three-month result to the
+one-month minimum. If one monthly anniversary has already passed, that improved
+care completes the local recovery. Applying level-five care twice would still
+leave a two-month requirement.
+
+`test_later_crippling_care`, `test_later_care_calendar` and
+`test_later_care_persistence` cover preview purity, non-stacking reductions,
+initial-versus-later care, immediate and future calendar expiry, evidence and
+identity rejection, rollback, undo and cross-process replay. These fixtures are
+unrun. The full treatment, surgery and permanent-repair procedures remain pending.

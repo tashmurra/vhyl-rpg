@@ -408,6 +408,76 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def later_care_state(s):
+    s.action(1651)
+    return last(s, 'test.later-care-state')
+
+
+def test_later_crippling_care(s):
+    s.action(1640, 0); s.action(1640, 1)
+    initial = later_care_state(s)
+    assert initial == [3, 0, 3, 3, 6, 1, 0, 1, 4, 0]
+    s.action(1650, 0)
+    assert last(s, 'test.later-care') == ['ready', None, 3, 2, 0]
+    assert later_care_state(s) == initial
+    for code in [6, 7]:
+        s.action(1650, code)
+        assert later_care_state(s) == initial
+    s.action(1650, 1)
+    low = later_care_state(s)
+    assert low == [2, 1, 3, 3, 6, 1, 0, 1, 4, 0]
+    s.action(1650, 3)
+    assert last(s, 'test.later-care') == ['blocked', 'crippling-care-no-shorter-recovery', 2, 2, 0]
+    assert later_care_state(s) == low
+    for code in [4, 5]:
+        s.action(1650, code)
+        assert later_care_state(s) == low
+    s.action(1650, 2)
+    high = later_care_state(s)
+    assert high == [1, 2, 3, 3, 6, 0, 1, 1, 4, 0]
+    s.command('undo')
+    assert later_care_state(s) == low
+    s.action(1650, 2); s.action(1650, 2)
+    assert last(s, 'test.later-care') == ['reused', None, 2, 1, 1]
+    assert later_care_state(s) == high
+
+
+def test_later_care_calendar(s):
+    s.action(1650, 8)
+    assert later_care_state(s) == [2, 0, 2, 3, 6, 1, 0, 0, 4, 0]
+    s.action(1650, 1)
+    assert last(s, 'test.later-care') == ['blocked', 'crippling-care-no-shorter-recovery', 2, 2, 0]
+    s.action(1650, 2)
+    assert later_care_state(s) == [1, 1, 2, 3, 6, 1, 0, 0, 4, 0]
+    s.action(1640, 1)
+    assert later_care_state(s) == [1, 1, 2, 3, 6, 0, 1, 1, 4, 0]
+
+
+def test_later_care_persistence(Session, bundle, out):
+    for improved in [False, True]:
+        path = out / f'expanded-later-care-{improved}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1640, 0); first.action(1640, 1); first.action(1650, 1)
+            if improved:
+                first.action(1650, 2)
+            saved = later_care_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1651')
+            assert later_care_state(second) == saved
+            second.action(1650, 2 if improved else 1)
+            assert last(second, 'test.later-care')[0] == 'reused'
+            assert later_care_state(second) == saved
+            second.action(1650, 2)
+            assert later_care_state(second) == [1, 2, 3, 3, 6, 0, 1, 1, 4, 0]
+        finally:
+            second.close()
+
+
 def test_last_wounds_option(s):
     # B420: low-health boundary is strict; the one-third injury exception is inclusive.
     for capacity, prior, amount, kind, critical, enabled, ignored, loss, draws, disabled in [
@@ -2517,6 +2587,9 @@ def test(build):
     test_last_wound_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_crippling_duration)
     fresh(Session,wounds,test_lasting_recovery)
+    fresh(Session,wounds,test_later_crippling_care)
+    fresh(Session,wounds,test_later_care_calendar)
+    test_later_care_persistence(Session,wounds,build.out)
     test_lasting_recovery_persistence(Session,wounds,build.out)
     test_crippling_duration_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_limb_grip_retention)

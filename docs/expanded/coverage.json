@@ -109,9 +109,12 @@
         "tests/expanded.py::test_lasting_recovery_persistence",
         "tests/expanded.py::test_last_wounds_option",
         "tests/expanded.py::test_last_wound_transactions",
-        "tests/expanded.py::test_last_wound_persistence"
+        "tests/expanded.py::test_last_wound_persistence",
+        "tests/expanded.py::test_later_crippling_care",
+        "tests/expanded.py::test_later_care_calendar",
+        "tests/expanded.py::test_later_care_persistence"
       ],
-      "validation_note": "Partial upper-limb wounds include an explicit last-wounds option and retained ignored outcomes. Fixtures unrun. Accumulation/repeated-location injury, broader anatomy, complete treatment and permanent-disability accounting remain incomplete."
+      "validation_note": "Partial upper-limb recovery includes non-stacking later physician-care calendar adjustments. Fixtures unrun. Accumulation/repeated-location injury, broader anatomy, complete treatment, surgery and permanent-disability accounting remain incomplete."
     },
     {
       "id": "magic",

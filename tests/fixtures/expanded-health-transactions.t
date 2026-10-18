@@ -164,6 +164,36 @@ class RecoveryFixtureAction: Action
 ;
 recoveryAction: RecoveryFixtureAction;
 recoveryVerb: Verb code = 1640 action = recoveryAction label = 'recovery-fixture';
+laterCareLow: RpgExpandedCripplingCare id = 'first-care' duration = limbDuration physician = healthPatient
+    medicalTL = 5 evidence = 'completed low-technology care';
+laterCareHigh: RpgExpandedCripplingCare id = 'improved-care' duration = limbDuration physician = healthPatient
+    medicalTL = 7 evidence = 'completed improved care';
+class LaterCareFixtureAction: Action
+    exec(context)
+    {
+        if (healthInput.code == 8)
+        {
+            limbWound.apply(); limbPatient.ht = 18; rpgRandom.seed(5);
+            limbDuration.physician = healthPatient; limbDuration.medicalTL = 5;
+            limbDuration.careEvidence = 'initial completed care'; limbDuration.apply(); return nil;
+        }
+        local care = healthInput.code == 2 ? laterCareHigh : laterCareLow;
+        if (healthInput.code == 3 || healthInput.code == 4)
+        {
+            care = new RpgExpandedCripplingCare(); care.id = healthInput.code == 4 ? 'first-care' : 'same-level-care';
+            care.duration = limbDuration; care.physician = healthPatient; care.medicalTL = 5; care.evidence = 'later completed care';
+        }
+        if (healthInput.code == 5) care.medicalTL = 7;
+        if (healthInput.code == 7) care.evidence = nil;
+        local value = healthInput.code == 0 ? care.assess() : care.apply();
+        event('test.later-care'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.monthsBefore); eventValue(value.monthsAfter); eventValue(value.recovered ? 1 : 0);
+        if (healthInput.code == 6) throw new RpgError();
+        return nil;
+    }
+;
+laterCareAction: LaterCareFixtureAction;
+laterCareVerb: Verb code = 1650 action = laterCareAction label = 'later-care-fixture';
 modify gameMain initialRoom = healthRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
@@ -246,6 +276,14 @@ act(verb,args)
         event('test.last-wound-state'); eventValue(limbWound.ignored ? 1 : 0);
         eventValue(limbWound.assess().ignored ? 1 : 0); eventValue(limbPatient.injury);
         eventValue(limbPatient.woundSerial); eventValue(rpgRandom.draws); eventValue(limbPatient.expandedWounds.length()); return nil;
+    }
+    if (verb == 1650) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1651)
+    {
+        event('test.later-care-state'); eventValue(limbDuration.requiredMonths()); eventValue(limbDuration.laterCare.length());
+        eventValue(limbDuration.result.months); eventValue(limbDuration.result.monthRoll); eventValue(limbPatient.injury);
+        eventValue(limbArm.disabled ? 1 : 0); eventValue(limbDuration.result.recovered ? 1 : 0);
+        eventValue(limbDuration.recoveryMonths.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     return vhylAct(verb,args);
 }

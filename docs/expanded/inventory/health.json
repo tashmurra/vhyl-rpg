@@ -463,9 +463,12 @@
         "tests/expanded.py::test_crippling_duration_persistence",
         "tests/expanded.py::test_crippling_months",
         "tests/expanded.py::test_lasting_recovery",
-        "tests/expanded.py::test_lasting_recovery_persistence"
+        "tests/expanded.py::test_lasting_recovery_persistence",
+        "tests/expanded.py::test_later_crippling_care",
+        "tests/expanded.py::test_later_care_calendar",
+        "tests/expanded.py::test_later_care_persistence"
       ],
-      "validation_note": "Owned duration and consecutive authored calendar anniversaries commit lasting recovery without converting months to seconds or restoring HP. Replays cannot clear newer wounds. Fixtures authored but unrun; later physician care, surgery and other repair procedures remain incomplete."
+      "validation_note": "Owned classification, authored calendar anniversaries and non-stacking later completed-care adjustments authored. Fixtures unrun. Care facts are explicit author input; full treatment execution, surgery and permanent repair remain incomplete."
     },
     {
       "id": "health-permanent-crippling",
