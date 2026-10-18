@@ -760,6 +760,29 @@ def test_cold_persistence(Session, bundle, out):
             second.close()
 
 
+def test_airless_seconds(s):
+    for fatigue, seed, injury, unconscious, draws in [(8,5,0,0,0),(9,5,0,1,3),
+                                                    (9,1,0,0,3),(10,5,1,1,3),(20,5,1,1,0)]:
+        charged = 0 if fatigue == 20 else 1
+        s.action(1890, fatigue, seed)
+        assert last(s, 'test.airless-second') == [
+            'airless-second-not-due',charged,injury,fatigue+charged,2+injury,unconscious,1,'reused',draws]
+        assert last(s, 'test.airless-rescue') == ['resolved','reused',0,10,fatigue+charged,draws]
+
+
+def test_airless_duration(s):
+    for seconds, iq, lost, draws in [(120,10,0,0),(121,9,1,3),(239,9,1,3)]:
+        s.action(1891, seconds)
+        assert last(s, 'test.airless-duration') == ['ready','resolved',None,seconds,0,iq,0,lost,0,draws]
+    s.action(1891, 240)
+    assert last(s, 'test.airless-duration') == ['blocked','blocked','airless-rescue-too-late',240,240,10,1,0,0,0]
+
+
+def test_airless_scheduler_conflict(s):
+    s.action(1892)
+    assert last(s, 'test.airless-conflict') == [1,1,0,0,0]
+
+
 def breath_state(s):
     s.action(1881)
     return last(s, 'test.breath-state')
@@ -3692,6 +3715,9 @@ def test(build):
     test_breath_persistence(Session,breath_transactions,build.out)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
+    fresh(Session,hazards,test_airless_seconds)
+    fresh(Session,hazards,test_airless_duration)
+    fresh(Session,hazards,test_airless_scheduler_conflict)
     fresh(Session,hazards,test_infection_acquisition)
     fresh(Session,hazards,test_specific_natural_immunity)
     fresh(Session,hazards,test_infection_supervision)

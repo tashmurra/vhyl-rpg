@@ -1194,3 +1194,220 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+modify RpgExpandedProfile
+    airlessExposure = nil
+    airlessHistory = []
+;
+
+class RpgExpandedAirlessResult: RpgExpandedResult
+    fatigue = 0
+    injury = 0
+    wound = nil
+    consciousness = nil
+    brainCheck = nil
+    intelligenceLoss = 0
+;
+
+/** Complete air deprivation with no remaining breath reserve, B436-B437. */
+class RpgExpandedAirlessExposure: object
+    id = nil
+    profile = nil
+    evidence = nil
+    startedAt = nil
+    lastSecondAt = nil
+    seconds = []
+    endedAt = nil
+    airEvidence = nil
+    result = nil
+    boundId = nil
+    boundProfile = nil
+    boundEvidence = nil
+    validateBinding()
+    {
+        if (self.id != self.boundId || self.profile != self.boundProfile || self.evidence != self.boundEvidence
+            || !holds(self.profile.airlessHistory,self)) rpgExpandedReject('airless-binding');
+        return nil;
+    }
+    start()
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { self.validateBinding(); value.status = 'reused'; return value; }
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('airless-profile');
+        if (self.id == nil || self.id == '') rpgExpandedReject('airless-id');
+        if (self.evidence == nil || self.evidence == '') { value.reason = 'airless-exposure-evidence'; return value; }
+        if (self.profile.dead) { value.reason = 'airless-patient-dead'; return value; }
+        if (self.profile.airlessExposure != nil || self.profile.airClock != 0)
+        { value.reason = 'airless-existing-exposure'; return value; }
+        self.profile.validateSuffocation();
+        foreach (local prior in self.profile.airlessHistory)
+            if (prior.id == self.id) rpgExpandedReject('airless-duplicate');
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundEvidence = self.evidence;
+        self.startedAt = rpgLedger.seconds; self.lastSecondAt = self.startedAt;
+        self.profile.airlessExposure = self; self.profile.airlessHistory = self.profile.airlessHistory + [self];
+        value.status = 'resolved'; return value;
+    }
+    assessAir(evidence)
+    {
+        local value = new RpgExpandedAirlessResult();
+        if (self.startedAt == nil) { value.reason = 'airless-not-started'; return value; }
+        self.validateBinding();
+        if (self.result != nil)
+        { value.status = 'reused'; value.brainCheck = self.result.brainCheck; value.intelligenceLoss = self.result.intelligenceLoss; return value; }
+        if (evidence == nil || evidence == '') { value.reason = 'airless-clean-air-evidence'; return value; }
+        if (self.profile.dead) { value.reason = 'airless-rescue-too-late'; return value; }
+        if (rpgLedger.seconds != self.lastSecondAt) { value.reason = 'airless-unresolved-seconds'; return value; }
+        if (self.profile.airlessExposure != self || self.profile.airClock != self.seconds.length())
+            rpgExpandedReject('airless-clock-owner');
+        if (self.profile.airClock > 120)
+        {
+            if (self.profile.iq <= 1 || self.profile.will <= 1 || self.profile.perception <= 1)
+            { value.reason = 'airless-brain-loss-range'; return value; }
+            local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'brain-injury';
+            local score = rpgLiteScore(self.profile,context);
+            if (score == nil || score < 3) { value.reason = 'airless-brain-check-unavailable'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    resumeAir(evidence)
+    {
+        local value = self.assessAir(evidence); if (value.status != 'ready') return value;
+        if (self.profile.airClock > 120)
+        {
+            value.brainCheck = rpgLiteAttributeCheck(self.profile,rpgHT,'brain-injury',0);
+            if (!value.brainCheck.achieved) { self.profile.iq -= 1; value.intelligenceLoss = 1; }
+        }
+        self.profile.airClock = 0; self.profile.airlessExposure = nil;
+        self.endedAt = rpgLedger.seconds; self.airEvidence = evidence;
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+class RpgExpandedAirlessSecond: object
+    id = nil
+    exposure = nil
+    dropDestination = nil
+    boundId = nil
+    boundExposure = nil
+    boundDestination = nil
+    completedAt = nil
+    result = nil
+    assess()
+    {
+        local value = new RpgExpandedAirlessResult();
+        if (self.exposure == nil || !self.exposure.ofKind(RpgExpandedAirlessExposure)) rpgExpandedReject('airless-second-exposure');
+        if (self.exposure.startedAt == nil) { value.reason = 'airless-not-started'; return value; }
+        self.exposure.validateBinding();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.exposure != self.boundExposure || self.dropDestination != self.boundDestination
+                || !holds(self.exposure.seconds,self)) rpgExpandedReject('airless-second-binding');
+            value.status = 'reused'; value.fatigue = self.result.fatigue; value.injury = self.result.injury;
+            value.wound = self.result.wound; value.consciousness = self.result.consciousness; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('airless-second-id');
+        foreach (local prior in self.exposure.seconds)
+            if (prior.id == self.id) rpgExpandedReject('airless-second-duplicate');
+        local patient = self.exposure.profile;
+        if (patient.airlessExposure != self.exposure || self.exposure.endedAt != nil)
+        { value.reason = 'airless-not-active'; return value; }
+        if (patient.dead) { value.reason = 'airless-patient-dead'; return value; }
+        if (patient.airClock != self.exposure.seconds.length()) rpgExpandedReject('airless-clock-owner');
+        local due = self.exposure.lastSecondAt + 1;
+        if (rpgLedger.seconds != due)
+        { value.reason = rpgLedger.seconds < due ? 'airless-second-not-due' : 'airless-missed-boundary'; return value; }
+        if (patient.fp() <= 1 && !patient.unconscious)
+        {
+            local context = new RpgLiteContext(); context.attribute = rpgWill; context.kind = 'air';
+            local score = rpgLiteScore(patient,context);
+            if (score == nil || score < 3) { value.reason = 'airless-consciousness-unavailable'; return value; }
+        }
+        if (patient.fp() <= 0)
+        {
+            value.wound = new RpgExpandedWound(); value.wound.id = 'airless-' + self.exposure.id + '-' + self.id;
+            value.wound.profile = patient; value.wound.amount = 1; value.wound.dropDestination = self.dropDestination;
+            local harm = value.wound.assess();
+            if (harm.status != 'ready') { value.reason = harm.reason; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local patient = self.exposure.profile;
+        if (value.wound != nil)
+        {
+            local harm = value.wound.apply();
+            if (harm.status != 'resolved') rpgExpandedReject('airless-wound-commit-changed');
+            value.injury = harm.health.injury;
+        }
+        value.fatigue = rpgLiteFatigueIncrement(patient,'air');
+        if (patient.fp() <= -patient.maxEnergy) { patient.unconscious = true; patient.fatigueCollapse = true; }
+        if (patient.fp() <= 0 && !patient.unconscious && !patient.dead)
+        {
+            value.consciousness = rpgLiteAttributeCheck(patient,rpgWill,'air',0);
+            if (!value.consciousness.achieved) { patient.unconscious = true; patient.fatigueCollapse = true; }
+        }
+        patient.airClock += 1;
+        if (patient.airClock >= 240) { patient.dead = true; patient.unconscious = true; }
+        self.boundId = self.id; self.boundExposure = self.exposure; self.boundDestination = self.dropDestination;
+        self.completedAt = rpgLedger.seconds; self.exposure.lastSecondAt = self.completedAt;
+        self.exposure.seconds = self.exposure.seconds + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateSuffocation()
+    {
+        inherited();
+        if (self.airlessExposure != nil) rpgExpandedReject('suffocation-airless-exposure-owned');
+        return nil;
+    }
+    validateNaturalRecovery(seconds, food, allowed)
+    {
+        inherited(seconds,food,allowed);
+        if (self.airlessExposure != nil) rpgExpandedReject('airless-recovery-needs-air');
+        return nil;
+    }
+    validateFeatures()
+    {
+        inherited(); local active = nil; local ids = [];
+        foreach (local exposure in self.airlessHistory)
+        {
+            if (exposure == nil || !exposure.ofKind(RpgExpandedAirlessExposure) || exposure.profile != self
+                || holds(ids,exposure.id) || exposure.startedAt == nil || exposure.startedAt > rpgLedger.seconds)
+                rpgExpandedReject('airless-history');
+            exposure.validateBinding(); ids = ids + [exposure.id]; local lastTime = exposure.startedAt; local seconds = [];
+            foreach (local second in exposure.seconds)
+            {
+                if (second == nil || !second.ofKind(RpgExpandedAirlessSecond) || second.exposure != exposure
+                    || holds(seconds,second.id) || second.result == nil || second.completedAt != lastTime + 1
+                    || second.completedAt > rpgLedger.seconds || second.assess().status != 'reused')
+                    rpgExpandedReject('airless-second-history');
+                if (second.result.wound != nil && (second.result.wound.profile != self
+                    || second.result.wound.assess().status != 'reused')) rpgExpandedReject('airless-wound-history');
+                seconds = seconds + [second.id]; lastTime = second.completedAt;
+            }
+            if (exposure.lastSecondAt != lastTime || exposure.seconds.length() > 240) rpgExpandedReject('airless-time-history');
+            if (exposure.endedAt == nil)
+            {
+                if (active != nil || exposure.result != nil) rpgExpandedReject('airless-active-history');
+                active = exposure;
+            }
+            else if (exposure.endedAt != lastTime || exposure.result == nil || exposure.airEvidence == nil)
+                rpgExpandedReject('airless-rescue-history');
+        }
+        if (self.airlessExposure != active || active != nil && self.airClock != active.seconds.length())
+            rpgExpandedReject('airless-clock-history');
+        return nil;
+    }
+;
+
+modify RpgExpandedProfile
+    validateBreathStart()
+    {
+        inherited();
+        if (self.airlessExposure != nil) rpgExpandedReject('breath-airless-exposure-owned');
+        return nil;
+    }
+;

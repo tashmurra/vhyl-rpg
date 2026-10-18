@@ -324,5 +324,48 @@ act(verb,args)
         }
         return nil;
     }
+    if (verb == 1890)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.rules.scaledInjuryShock = true;
+        patient.fatigue = args[1]; patient.injury = 2;
+        local exposure = new RpgExpandedAirlessExposure(); exposure.id = 'air-test'; exposure.profile = patient;
+        exposure.evidence = 'Complete deprivation with no breath reserve or exceptional physiology'; exposure.start();
+        local second = new RpgExpandedAirlessSecond(); second.id = 'one'; second.exposure = exposure;
+        local early = second.apply(); rpgSpendTime(1); rpgRandom.seed(args[2]); local value = second.apply();
+        local repeated = second.apply(); patient.validateFeatures();
+        event('test.airless-second'); eventValue(early.reason); eventValue(value.fatigue); eventValue(value.injury);
+        eventValue(patient.fatigue); eventValue(patient.injury); eventValue(patient.unconscious ? 1 : 0);
+        eventValue(patient.airClock); eventValue(repeated.status); eventValue(rpgRandom.draws);
+        local rescue = exposure.resumeAir('Air supply restored'); local repeatRescue = exposure.resumeAir('Air supply restored');
+        patient.validateFeatures(); event('test.airless-rescue'); eventValue(rescue.status); eventValue(repeatRescue.status);
+        eventValue(patient.airClock); eventValue(patient.iq); eventValue(patient.fatigue); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 1891)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.fpAdjustment = 990;
+        local exposure = new RpgExpandedAirlessExposure(); exposure.id = 'duration-test'; exposure.profile = patient;
+        exposure.evidence = 'Complete deprivation, large fatigue capacity, no breathing exemption'; exposure.start();
+        local key = ''; rpgRandom.seed(5);
+        for (local count = 0; count < args[1]; count += 1)
+        {
+            key += 's'; rpgSpendTime(1); local second = new RpgExpandedAirlessSecond();
+            second.id = key; second.exposure = exposure; second.apply();
+        }
+        local before = rpgRandom.draws; local preview = exposure.assessAir('Fresh air');
+        local value = exposure.resumeAir('Fresh air'); exposure.resumeAir('Fresh air'); patient.validateFeatures();
+        event('test.airless-duration'); eventValue(preview.status); eventValue(value.status); eventValue(value.reason);
+        eventValue(patient.fatigue); eventValue(patient.airClock); eventValue(patient.iq); eventValue(patient.dead ? 1 : 0);
+        eventValue(value.intelligenceLoss); eventValue(before); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 1892)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        local exposure = new RpgExpandedAirlessExposure(); exposure.id = 'owned'; exposure.profile = patient;
+        exposure.evidence = 'No available air'; exposure.start(); local legacy = nil; local rest = nil;
+        try { rpgLiteSuffocate(patient,1,nil); } catch (RpgExpandedError error) { legacy = true; }
+        try { rpgLiteRest(patient,600,true,true,nil,true); } catch (RpgExpandedError error) { rest = true; }
+        event('test.airless-conflict'); eventValue(legacy ? 1 : 0); eventValue(rest ? 1 : 0);
+        eventValue(patient.fatigue); eventValue(patient.airClock); eventValue(rpgRandom.draws); return nil;
+    }
     return vhylAct(verb,args);
 }

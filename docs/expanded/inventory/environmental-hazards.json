@@ -2118,9 +2118,13 @@
       "pages": "B436-B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Complete lack of air spends one fatigue per second after any permitted breath reserve; at zero fatigue check will each second to remain conscious.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_airless_seconds",
+        "tests/expanded.py::test_airless_scheduler_conflict"
+      ],
+      "validation_note": "Owned no-reserve airless seconds, shared air ledger, fatigue/overflow, consciousness and clean-air rescue authored. Fixtures unrun. Breath-reserve handoff, exceptional physiology, drowning, full transaction/persistence and cross-module verification remain incomplete."
     },
     {
       "id": "hazard-suffocation-drowning",
@@ -2138,9 +2142,12 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Four minutes without air kills regardless of current health or fatigue, unless an applicable physiological trait changes the procedure.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_airless_duration"
+      ],
+      "validation_note": "Owned no-reserve airless seconds, shared air ledger, fatigue/overflow, consciousness and clean-air rescue authored. Fixtures unrun. Breath-reserve handoff, exceptional physiology, drowning, full transaction/persistence and cross-module verification remain incomplete."
     },
     {
       "id": "hazard-suffocation-rescue",
@@ -2148,9 +2155,13 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Clean air before death ends suffocation costs and enables ordinary fatigue recovery; unconsciousness from this cause ends at positive fatigue.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_airless_seconds",
+        "tests/expanded.py::test_airless_duration"
+      ],
+      "validation_note": "Owned no-reserve airless seconds, shared air ledger, fatigue/overflow, consciousness and clean-air rescue authored. Fixtures unrun. Breath-reserve handoff, exceptional physiology, drowning, full transaction/persistence and cross-module verification remain incomplete."
     },
     {
       "id": "hazard-drowning-resuscitation",
@@ -2168,9 +2179,12 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "More than two minutes without air requires a health check to avoid permanent intelligence loss of one; apply it once for the exposure and recalculate dependent scores.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_airless_duration"
+      ],
+      "validation_note": "Owned no-reserve airless seconds, shared air ledger, fatigue/overflow, consciousness and clean-air rescue authored. Fixtures unrun. Breath-reserve handoff, exceptional physiology, drowning, full transaction/persistence and cross-module verification remain incomplete."
     },
     {
       "id": "hazard-vacuum-protection",

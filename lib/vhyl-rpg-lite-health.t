@@ -338,6 +338,7 @@ modify RpgLiteProfile
     /* Optional hazard libraries may reject conflicting climate ownership. */
     validateClimateAdvance() { return nil; }
     validateSuffocation() { return nil; }
+    validateBreathStart() { return nil; }
 ;
 
 /** Authored poison or disease parameters: resistance, delay, cycle, damage and recovery modifier. */

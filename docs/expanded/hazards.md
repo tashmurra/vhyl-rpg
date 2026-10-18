@@ -5,8 +5,8 @@
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
 Include `vhyl-rpg-expanded-hazards.t` after the expanded foundation, expanded skills and expanded health. The current
-implementation supplies infection assessments and owned acquisition receipts;
-it supports a limited daily progression path. The all-module umbrella includes these capabilities
+implementation supplies partial infection, aging, rejuvenation, cold, immersion
+and airless-exposure procedures, plus heat assessments. The all-module umbrella includes these capabilities
 without activating any hazard.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
@@ -619,3 +619,56 @@ fixtures for exposure, its due boundary, multi-point fatigue and overflow injury
 exit and warming. All these
 fixtures are authored but unrun while checks are paused. Existing Lite regressions
 must verify the default dispatch hook when checks resume.
+
+
+## Complete air deprivation
+
+`RpgExpandedAirlessExposure` supports an ordinary respiratory system completely
+deprived of air, starting with no remaining breath reserve. Supply a unique `id`,
+an expanded `profile` and `evidence` establishing those facts. It does not infer
+air deprivation merely from being underwater. Partial-air drowning, breathing
+exemptions, altered physiology and the handoff from an earlier held breath remain
+incomplete; do not use this procedure as an approximation for them.
+
+`start()` records the shared-clock boundary. For each following second, create a
+`RpgExpandedAirlessSecond` with a unique `id` and its `exposure`. Advance the
+shared clock once in the enclosing action, then call `apply()` at that boundary.
+Assessment rejects early or missed boundaries and prepares any possible owned
+overflow wound before drawing randomness. Set the second's `dropDestination`
+when the health procedure requires it. Execution charges one fatigue, respecting
+the shared floor, and applies one-point overflow injury before that increment.
+At zero fatigue or less, a conscious survivor checks Will each second; failure
+sets the existing unconsciousness and fatigue-collapse flags. At 240 accounted
+seconds the character dies irrespective of remaining fatigue or health.
+
+`profile.airClock` is the existing air ledger. The exposure's receipts establish
+which seconds it contains; there is no second independent air balance. Repeating
+a second reuses its receipt. The result records charged `fatigue`, actual
+`injury`, the owned `wound` and any `consciousness` check. Exposure ownership blocks
+Lite suffocation, rest recovery and starting another breath reserve, including
+at the initial boundary before the first second has elapsed.
+
+`assessAir(evidence)` previews rescue; `resumeAir(evidence)` commits restored clean
+air after every due second has been resolved. Rescue at the same boundary as the
+last accounted second is allowed, but a dead character cannot be rescued by this
+operation. More than 120 accounted seconds requires one HT check; failure reduces
+base intelligence by one. Existing secondary offsets remain intact and earned
+or unspent advancement points are unchanged. Cases that could take intelligence,
+will or perception below one are explicitly unsupported before the check. A
+repeated rescue cannot repeat the loss or reset another exposure's air clock.
+
+Successful rescue resets `airClock` and releases exposure ownership. It restores
+no fatigue or health. Existing rest recovery and fatigue-collapse awakening then
+apply; this does not substitute for drowning resuscitation. Unsupported reserve
+handoffs must not reset the deprivation history. The no-reserve restriction is
+part of this implementation's scope, not a rule removing the ability to hold
+one's breath.
+
+`test_airless_seconds` covers reaching zero fatigue, successful and failed
+consciousness rolls, overflow injury, the fatigue floor and repeated operations.
+`test_airless_duration` records the 120/121-second brain-injury boundary and the
+239/240-second death boundary, using an enlarged fatigue capacity to isolate the
+time rule. `test_airless_scheduler_conflict` covers competing suffocation and rest
+operations. All fixtures are authored but unrun while checks are paused. Dedicated
+transaction, save-continuation, cross-module breathing and drowning fixtures remain
+outstanding; these partial mappings do not claim full suffocation coverage.

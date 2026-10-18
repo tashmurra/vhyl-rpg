@@ -96,6 +96,7 @@ class RpgExpandedBreathReserve: object
         { value.reason = 'breath-incapacitated'; return value; }
         if (self.profile.breathReserve != nil || self.profile.airClock != 0)
         { value.reason = 'breath-existing-exposure'; return value; }
+        self.profile.validateBreathStart();
         foreach (local prior in self.profile.breathHistory)
             if (prior.id == self.id) rpgExpandedReject('breath-duplicate');
         value = rpgExpandedBreathDuration(self.profile.ht,self.activity,self.prepared,self.ventilation,self.controlSucceeded,self.reserveLevels);
