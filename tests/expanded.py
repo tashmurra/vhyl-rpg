@@ -8946,6 +8946,8 @@ def test(build):
     test_poison_entry(Session, poison_entry)
     poison_exposure = build.build('expanded-poison-exposure', ROOT / 'tests/fixtures/expanded-poison-exposure.t')
     test_poison_exposure(Session, poison_exposure, build.out)
+    coughing = build.build('expanded-coughing', ROOT / 'tests/fixtures/expanded-coughing.t')
+    test_coughing(Session, coughing, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -11836,5 +11838,42 @@ def test_poison_exposure(Session, bundle, out):
         for code in (380, 406, 383, 384, 390, 387):
             s.action(2285, code)
         assert last(s, 'test.poison-environment') == [0, 1, 0, None, 0, 0, 0, 60, 0]
+    finally:
+        s.close()
+
+
+def test_coughing(Session, bundle, out):
+    def state(s):
+        s.action(2285, 413)
+        return last(s, 'test.coughing')
+    clear = [0, 10, 10, 10, 10, 10, 10, 10, 20, 0, 0]
+    active = [1, 7, 9, 9, 9, None, 7, 10, 20, 0, 0]
+    path = out / 'expanded-coughing.zsave'
+    s = Session(bundle)
+    try:
+        for code in (410, 412):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 411)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (411, 411, 416):
+            s.action(2285, code)
+        assert state(s) == active
+        s.action(2285, 414)
+        assert state(s) == active[:-2] + [59, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        assert state(s) == active[:-2] + [59, 0]
+        s.action(2285, 415)
+        assert state(s) == clear[:-2] + [60, 0]
+        s.action(2285, 411)  # expired receipt must not restart its duration
+        assert state(s) == clear[:-2] + [60, 0]
+        s.action(2285, 416)
+        assert state(s) == active[:-2] + [60, 0]
     finally:
         s.close()

@@ -2498,3 +2498,31 @@ integration.
 scores before/after care, unchanged injury, day boundaries, failed/repeated care,
 preview, replay, rollback, undo and cross-process continuation. They are authored
 and unrun.
+
+
+### Timed coughing or sneezing
+
+`RpgExpandedCoughing` implements full-2008 B428's irritating condition. Supply
+an `id`, expanded `profile`, `durationSeconds`, `approved` and `evidence` tying
+the condition to its resolved cause. The cause supplies the duration; the
+condition does not invent one. `assess()` is pure. `apply()` records an owned
+receipt in `coughingHistory` without spending time or randomness.
+
+While active, the shared check path applies −3 to DX and DX-based skills and −1
+to IQ, Perception, Will and their governed skills. Stealth is unavailable. Under
+B421's temporary-attribute exception, secondary characteristics and defensive
+reactions remain unchanged. Ordinary defense/resistance/fear check kinds are
+exempt; mark custom defensive checks with `defensiveReaction = true`.
+
+The condition is active from `startedAt` up to, but not including, `expiresAt`.
+Clock queries derive expiry without a second time ledger or a recovery roll.
+Replaying an expired receipt does not restart it. A new episode can start after
+expiry; overlapping episodes are rejected until their duration interaction is
+specified. The receipt binds its duration and cause.
+
+`expanded-coughing.t` is a minimal health fixture without the hazards library.
+Its authored scenarios cover attribute and skill modifiers, the Stealth block,
+defensive exceptions, unchanged speed, exact expiry, overlap rejection, preview,
+replay, rollback, undo and cross-process continuation. They remain unrun. Linking
+this condition to continuing poison exposure and other environmental causes is
+still required for those catalogue entries.

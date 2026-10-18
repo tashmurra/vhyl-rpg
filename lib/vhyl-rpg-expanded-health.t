@@ -5351,3 +5351,84 @@ modify RpgExpandedProfile
         return self.level('persistent-wound') > 0 && plagueRidden && !self.persistentWoundDressedToday() ? -3 : 0;
     }
 ;
+
+
+modify RpgLiteContext
+    /* B421: authors mark custom defensive reactions exempt from temporary
+     * attribute penalties. Ordinary defenses have their own recognized kind. */
+    defensiveReaction = nil
+;
+
+/** B428 coughing/sneezing, with an authored finite duration from its cause. */
+class RpgExpandedCoughing: object
+    id = nil
+    profile = nil
+    durationSeconds = nil
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    expiresAt = nil
+    boundDefinition = nil
+    result = nil
+    definition() { return [self.id,self.profile,self.durationSeconds,self.approved,self.evidence]; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.startedAt == nil || self.expiresAt != self.startedAt + self.durationSeconds
+            || !holds(self.profile.coughingHistory,self)) rpgExpandedReject('coughing-history');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('coughing-binding');
+        return nil;
+    }
+    active()
+    { self.validateReceipt(); return !self.profile.dead && rpgLedger.seconds >= self.startedAt && rpgLedger.seconds < self.expiresAt; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('coughing-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'coughing-cause-required'; return value; }
+        if (self.profile.dead) { value.reason = 'coughing-patient-dead'; return value; }
+        rpgInteger(self.durationSeconds,1,2147483647);
+        rpgInteger(rpgLedger.seconds,0,2147483647 - self.durationSeconds);
+        foreach (local prior in self.profile.coughingHistory)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id) rpgExpandedReject('coughing-duplicate');
+            if (prior.active()) { value.reason = 'coughing-overlap-unimplemented'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.startedAt = rpgLedger.seconds; self.expiresAt = self.startedAt + self.durationSeconds;
+        self.boundDefinition = self.definition(); self.profile.coughingHistory = self.profile.coughingHistory + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+modify RpgExpandedProfile
+    coughingHistory = []
+    coughing()
+    {
+        local active = nil;
+        foreach (local episode in self.coughingHistory) if (episode.active()) active = true;
+        return active;
+    }
+    healthCheckReason(context)
+    {
+        if (self.coughing() && context.skill != nil && context.skill.id == 'stealth') return 'coughing-no-stealth';
+        return inherited(context);
+    }
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        if (!self.coughing() || context.defensiveReaction || holds(['defense','resistance','fright','fear'],context.kind)) return value;
+        local attribute = context.controllingAttribute();
+        if (attribute == rpgDX) value -= 3;
+        else if (holds([rpgIQ,rpgPerception,rpgWill],attribute)) value -= 1;
+        return value;
+    }
+;

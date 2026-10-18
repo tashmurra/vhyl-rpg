@@ -61,9 +61,12 @@
       "pages": "B428",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Coughing/sneezing imposes -3 dexterity, -1 intelligence and prevents stealth.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_coughing"
+      ],
+      "validation_note": "Owned finite coughing/sneezing episodes now apply DX/IQ and governed-attribute modifiers, block Stealth and expire exactly on the shared clock, with B421 defensive/secondary exceptions. Minimal health-only fixture covers replay, rollback, undo and save continuation but remains unrun. Continuing environmental/poison cause integration and overlapping duration policies remain incomplete."
     },
     {
       "id": "condition-drowsy",

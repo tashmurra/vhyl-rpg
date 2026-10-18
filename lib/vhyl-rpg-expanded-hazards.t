@@ -3421,10 +3421,6 @@ rpgExpandedVenomDexterityPenalty(capacity, injury)
     if (injury * 3 >= capacity) return -2;
     return 0;
 }
-modify RpgLiteContext
-    /* Authors mark other defensive reactions that use a DX-based check. */
-    defensiveReaction = nil
-;
 modify RpgExpandedProfile
     poisonDexterityPenalty()
     {

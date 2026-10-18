@@ -498,3 +498,10 @@ physiology, character and agent. Explicit immunity resolves without effects or
 environmental retries; an authored modifier changes resistance. The decision is
 bound at admission and never inferred from ancestry labels. Fixtures are authored
 and unrun; changing physiology during exposure remains unsupported.
+
+
+Owned coughing/sneezing episodes now apply timed attribute/skill penalties and
+block Stealth, while preserving temporary-attribute defensive and secondary
+exceptions. Expiry follows the shared clock without extra rolls. Added a minimal
+health-only fixture, authored and unrun. Poison/environment cause integration and
+overlapping durations remain incomplete.
