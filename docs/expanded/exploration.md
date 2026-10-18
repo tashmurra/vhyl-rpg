@@ -1017,9 +1017,10 @@ support reservations. This initial adapter requires ordinary two-hand anatomy
 and an object within the one-hand lifting limit. Repeat parries and maintained
 concentration return explicit unsupported reasons before spending anything.
 
-This is a roll-and-parry stage. It does not transfer the item to the catcher or
-settle the flight, spend maneuver time, resolve critical consequences or implement
-interceptions. An unsettled flight continues to block positive time advancement.
+This is a roll-and-parry stage. Use equipment’s `RpgExpandedCatchCapture` with
+`receipt` set to the successful attempt to transfer the item and settle the
+flight. Neither stage spends maneuver time, resolves critical consequences or
+implements interceptions. An unsettled flight blocks positive time advancement.
 The integration fixture `expanded-catch-attempt.t` covers success, failure,
 preview purity, duplicates, rollback, undo and saved replay. Assertions remain
 unrun while checks are paused; the inventory entry remains partial.

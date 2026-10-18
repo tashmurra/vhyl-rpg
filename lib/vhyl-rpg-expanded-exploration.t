@@ -2037,7 +2037,7 @@ class RpgExpandedCatchAttemptResult: RpgExpandedResult
 ;
 /** Owned first hand-parry catch of a deliberate pass. The fighter owns turn
  * counters; this stage owns the roll but not the later inventory transfer. */
-class RpgExpandedCatchAttempt: object
+class RpgExpandedCatchAttempt: RpgExpandedCatchReceipt
     id = nil
     flight = nil
     fighter = nil
@@ -2115,5 +2115,17 @@ class RpgExpandedCatchAttempt: object
         self.boundDefinition = self.definition(); self.result = value;
         self.fighter.profile.catchAttempts = self.fighter.profile.catchAttempts + [self];
         value.status = 'resolved'; return value;
+    }
+;
+
+modify RpgExpandedCatchAttempt
+    captureAssessment()
+    {
+        local value = new RpgExpandedCatchFacts();
+        if (self.result == nil) { value.reason = 'catch-roll-unresolved'; return value; }
+        if (self.assess().status != 'reused') rpgExpandedReject('catch-roll-history');
+        if (!self.result.caught) { value.reason = 'catch-roll-unsuccessful'; return value; }
+        value.flight = self.flight; value.recipient = self.fighter.profile; value.hand = self.hand;
+        value.status = 'ready'; return value;
     }
 ;

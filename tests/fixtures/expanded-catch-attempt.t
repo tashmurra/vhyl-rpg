@@ -39,3 +39,27 @@ modify BleedTestAction
         return inherited(context);
     }
 ;
+
+catchCapture: RpgExpandedCatchCapture receipt = catchAttempt;
+catchCaptureDuplicate: RpgExpandedCatchCapture receipt = catchAttempt;
+modify BleedTestAction
+    exec(context)
+    {
+        local code = bleedInput.code;
+        if (code == 1270 || code == 1271)
+        { catchCapture.apply(); if (code == 1271) throw new RpgError(); return nil; }
+        if (code == 1272)
+        {
+            event('test.catch-inventory'); eventValue(bleedProfile.equipment.length());
+            eventValue(catchProfile.equipment.length()); eventValue(catchProfile.loadHundredths());
+            eventValue(throwStone.ready ? 1 : 0); eventValue(throwStone.thrownFlight != nil ? 1 : 0);
+            eventValue(holds(throwStone.bodySupports,catchHand) ? 1 : 0);
+            eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+        }
+        if (code == 1273)
+        { local value = catchCapture.assess(); event('test.capture-preview'); eventValue(value.status); eventValue(value.reason); return nil; }
+        if (code == 1274)
+        { event('test.capture-duplicate'); eventValue(catchCaptureDuplicate.apply().reason); return nil; }
+        return inherited(context);
+    }
+;

@@ -9029,6 +9029,7 @@ def test(build):
     test_thrown_limbs(Session, thrown_limbs, build.out)
     catch_attempt = build.build('expanded-catch-attempt',ROOT / 'tests/fixtures/expanded-catch-attempt.t')
     test_catch_attempt(Session, catch_attempt, build.out)
+    test_catch_capture(Session, catch_attempt, build.out)
     catch_assessment = build.build('expanded-catch-assessment',ROOT / 'tests/fixtures/expanded-catch-assessment.t')
     test_catch_assessment(Session, catch_assessment)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
@@ -15146,3 +15147,61 @@ def test_catch_attempt(Session, bundle, out):
         assert state(s) == [1,1,0,6,0,1]
     finally:
         s.close()
+
+
+def test_catch_capture(Session, bundle, out):
+    def state(s):
+        s.action(2285,1272)
+        return last(s,'test.catch-inventory')
+    path = out / 'expanded-catch-capture.zsave'
+    before = [1,0,0,0,1,0,6,0]
+    after = [0,1,100,1,0,1,6,0]
+    s = Session(bundle)
+    try:
+        for code in (30,1171,1200,1261,1273):
+            s.action(2285,code)
+        assert last(s,'test.capture-preview') == ['ready',None]
+        assert state(s) == before
+        s.action(2285,1271)
+        assert state(s) == before
+        s.action(2285,1270)
+        s.command('undo')
+        assert state(s) == before
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1270,1270,1261,1274):
+            s.action(2285,code)
+        assert state(s) == after
+        assert last(s,'test.capture-duplicate') == ['catch-flight-settled']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1270,1261,1206):
+            s.action(2285,code)
+        assert state(s) == after[:-1] + [1]
+        assert last(s,'test.throw-clock') == ['advanced']
+    finally:
+        s.close()
+    for choice, reason in ((1264,'catch-roll-unsuccessful'),(1265,'catch-hand-disabled')):
+        s = Session(bundle)
+        try:
+            for code in (30,1171,1200):
+                s.action(2285,code)
+            if choice == 1264:
+                s.action(2285,choice)
+            s.action(2285,1261)
+            if choice == 1265:
+                s.action(2285,choice)
+            for code in (1273,1270):
+                s.action(2285,code)
+            assert last(s,'test.capture-preview') == ['blocked',reason]
+            assert state(s) == before
+        finally:
+            s.close()

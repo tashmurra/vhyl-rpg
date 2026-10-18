@@ -614,3 +614,23 @@ and must not be used as a substitute for settlement.
 The minimal combined fixture is `tests/fixtures/expanded-throw-release.t`.
 Its rollback, undo, pending-save continuation, storage/trade exclusion,
 critical-failure and replay assertions are authored but unrun.
+
+
+## Capturing a successful pass
+
+`RpgExpandedCatchCapture` takes a `receipt` implementing the foundation's
+`RpgExpandedCatchReceipt`; exploration supplies `RpgExpandedCatchAttempt`.
+Call `assess()` to preview and `apply()` to commit. A successful recorded catch
+and an unsettled released flight are required. The recipient must still be
+available, the selected hand free and functional, the item unchanged in quantity
+and weight, and the thrower its sole inventory owner.
+
+The commit removes the item from the thrower's inventory, adds it once to the
+recipient's inventory, clears its flight/storage state, marks it ready and assigns
+its body support to the catching hand. The capture becomes the flight settlement,
+allowing time advancement. It spends no time or randomness. Replaying the same
+capture returns the prior result without moving an item again; another capture
+for an already settled flight is blocked. Failed catches require a separate
+landing or consequence procedure. Critical consequences and interceptions remain
+outside this adapter. Exception rollback, undo, duplicate rejection and save
+continuation assertions are authored in `test_catch_capture` and remain unrun.

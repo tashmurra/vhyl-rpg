@@ -303,3 +303,13 @@ class RpgExpandedThrowFlightReceipt: object
 modify RpgExpandedProfile
     catchHandReason(hand) { return 'catch-anatomy-required'; }
 ;
+
+class RpgExpandedCatchFacts: RpgExpandedResult
+    flight = nil
+    recipient = nil
+    hand = nil
+;
+class RpgExpandedCatchReceipt: object
+    captureAssessment()
+    { local value = new RpgExpandedCatchFacts(); value.reason = 'catch-receipt-unavailable'; return value; }
+;

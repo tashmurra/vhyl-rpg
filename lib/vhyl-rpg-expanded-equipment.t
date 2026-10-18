@@ -975,3 +975,56 @@ modify RpgExpandedThrownRelease
         value.throwReceipt = self.receipt; value.status = 'ready'; return value;
     }
 ;
+
+/** Settle a successful catch without rolling or charging another action. */
+class RpgExpandedCatchCapture: object
+    receipt = nil
+    result = nil
+    boundReceipt = nil
+    assess()
+    {
+        if (self.receipt == nil || !self.receipt.ofKind(RpgExpandedCatchReceipt))
+            rpgExpandedReject('catch-capture-definition');
+        local caught = self.receipt.captureAssessment(); if (caught.status != 'ready') return caught;
+        if (caught.flight == nil || !caught.flight.ofKind(RpgExpandedThrownRelease))
+            rpgExpandedReject('catch-capture-release');
+        if (self.result != nil)
+        {
+            if (self.receipt != self.boundReceipt || caught.flight.settlement != self)
+                rpgExpandedReject('catch-capture-binding');
+            caught.status = 'reused'; return caught;
+        }
+        local value = caught.flight.flightAssessment(); if (value.status != 'ready') return value;
+        if (value.recipient != caught.recipient) rpgExpandedReject('catch-capture-recipient');
+        value.status = 'blocked';
+        if (value.item.quantity != 1 || value.item.weightHundredths() != value.weight)
+        { value.reason = 'catch-capture-item-changed'; return value; }
+        if (caught.recipient.dead || caught.recipient.unconscious || caught.recipient.healthBlocksDefense())
+        { value.reason = 'catch-capture-recipient-unavailable'; return value; }
+        value.reason = caught.recipient.catchHandReason(caught.hand); if (value.reason != nil) return value;
+        local owners = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            foreach (local item in owner.equipment)
+                if (item == value.item)
+                {
+                    if (owner != value.profile) rpgExpandedReject('catch-capture-owner');
+                    owners += 1;
+                }
+        if (owners != 1) rpgExpandedReject('catch-capture-owner');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local caught = self.receipt.captureAssessment(); local remaining = [];
+        foreach (local item in value.profile.equipment) if (item != value.item) remaining = remaining + [item];
+        value.profile.equipment = remaining;
+        caught.recipient.equipment = caught.recipient.equipment + [value.item];
+        value.item.storageLocation = nil; value.item.thrownFlight = nil;
+        value.item.bodySupports = [caught.hand]; value.item.ready = true; value.item.worn = nil;
+        caught.flight.settlement = self; self.boundReceipt = self.receipt; self.result = value;
+        value.profile.onEquipmentUnavailable(value.item,'transferred');
+        value.status = 'resolved'; return value;
+    }
+;

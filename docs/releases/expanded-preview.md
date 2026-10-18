@@ -953,5 +953,6 @@ fixtures are authored but unrun; checks remain paused.
 Deliberate passes now have an owned catch-roll stage connected to released
 inventory and a recipient fighter's hand-parry counter. The stage rejects
 unsupported repeat parries, concentration and anatomy before spending randomness.
-Capture transfer and critical consequences remain pending. Regression and
+Successful catches now support an owned inventory transfer and flight settlement;
+critical consequences remain pending. Regression and
 persistence fixtures are authored, unrun under the check pause.
