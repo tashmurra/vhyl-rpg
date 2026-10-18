@@ -4366,13 +4366,13 @@ class RpgExpandedSenseObservationAction: Action
     perform(actor)
     {
         if (self.observation == nil || (!self.observation.ofKind(RpgExpandedVisionObservation)
-                && !self.observation.ofKind(RpgExpandedHearingObservation)) || !holds(['preview','resolve'],self.operation))
+                && !self.observation.ofKind(RpgExpandedHearingObservation) && !self.observation.ofKind(RpgExpandedChemicalObservation)) || !holds(['preview','resolve'],self.operation))
             rpgExpandedReject('sense-action-definition');
         local value = new RpgExpandedResult();
         if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile == nil || actor.rpgProfile != self.observation.profile)
             value.reason = 'sense-action-owner-required';
         else value = self.operation == 'preview' ? self.observation.assess() : self.observation.resolve();
-        event('rpg.expanded.sense'); eventValue(self.observation.ofKind(RpgExpandedVisionObservation) ? 'vision' : 'hearing');
+        event('rpg.expanded.sense'); eventValue(self.observation.ofKind(RpgExpandedVisionObservation) ? 'vision' : self.observation.ofKind(RpgExpandedHearingObservation) ? 'hearing' : self.observation.context.sense);
         eventValue(self.operation); eventValue(value.status); eventValue(value.reason); return value;
     }
     exec(context) { return self.perform(context.actor); }
@@ -4423,7 +4423,7 @@ class RpgExpandedSenseComprehension: object
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
             || self.observation == nil || (!self.observation.ofKind(RpgExpandedVisionObservation)
-                && !self.observation.ofKind(RpgExpandedHearingObservation))
+                && !self.observation.ofKind(RpgExpandedHearingObservation) && !self.observation.ofKind(RpgExpandedChemicalObservation))
             || self.context == nil || !self.context.ofKind(RpgExpandedComprehensionContext))
             rpgExpandedReject('sense-comprehension-definition');
         rpgInteger(self.seconds,0,86400);
@@ -4542,7 +4542,8 @@ class RpgExpandedOrdinaryDangerWarning: object
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.situation == nil)
             rpgExpandedReject('ordinary-warning-definition');
         if (self.failedAttempt != nil && !self.failedAttempt.ofKind(RpgExpandedVisionObservation)
-            && !self.failedAttempt.ofKind(RpgExpandedHearingObservation) && !self.failedAttempt.ofKind(RpgExpandedSenseComprehension))
+            && !self.failedAttempt.ofKind(RpgExpandedHearingObservation) && !self.failedAttempt.ofKind(RpgExpandedChemicalObservation)
+            && !self.failedAttempt.ofKind(RpgExpandedSenseComprehension))
             rpgExpandedReject('ordinary-warning-trigger');
         return [self.id,self.profile,self.situation,self.failedAttempt,self.hazardPresent,self.approved,
             self.evidence,self.warningText,self.detailText];
@@ -4636,3 +4637,122 @@ class RpgExpandedSenseComprehensionAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+/** B358 ordinary flavor/scent detection; specialist recognition needs its own adapter. */
+class RpgExpandedChemicalContext: RpgLiteContext
+    attribute = rpgPerception
+    kind = 'taste-smell'
+    someLight = nil
+    sense = 'smell'
+    intensityModifier = 0
+    disguiseModifier = 0
+    ordinarySenseAvailable = nil
+    stimulusAvailable = nil
+    approved = nil
+    evidence = nil
+    chemicalFacts()
+    {
+        if (self.attribute != rpgPerception || self.kind != 'taste-smell' || self.skill != nil || self.language != nil
+            || self.understandsSpeech || self.darkness != 0 || self.someLight || !holds(['taste','smell'],self.sense))
+            rpgExpandedReject('chemical-context-definition');
+        rpgInteger(self.intensityModifier,-100,100); rpgInteger(self.disguiseModifier,-100,0);
+        return [self.sense,self.intensityModifier,self.disguiseModifier,self.ordinarySenseAvailable,
+            self.stimulusAvailable,self.approved,self.evidence,self.modifier];
+    }
+    taskUnavailableReason(profile)
+    {
+        self.chemicalFacts();
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'chemical-world-facts-required';
+        if (!self.ordinarySenseAvailable) return 'chemical-ordinary-sense-unavailable';
+        if (!self.stimulusAvailable) return 'chemical-stimulus-unavailable';
+        return nil;
+    }
+    unavailableReason(profile)
+    {
+        local reason = self.taskUnavailableReason(profile); return reason == nil ? inherited(profile) : reason;
+    }
+    skillUseModifier(profile)
+    {
+        if (self.taskUnavailableReason(profile) != nil) return nil;
+        return self.intensityModifier + self.disguiseModifier;
+    }
+;
+
+class RpgExpandedChemicalResult: RpgExpandedResult
+    noticed = nil
+    score = nil
+;
+/** Noticing is recorded independently from a subsequent comprehension skill. */
+class RpgExpandedChemicalObservation: object
+    id = nil
+    profile = nil
+    context = nil
+    target = nil
+    occurrence = nil
+    result = nil
+    recordedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.context == nil || !self.context.ofKind(RpgExpandedChemicalContext) || self.target == nil || self.occurrence == nil)
+            rpgExpandedReject('chemical-observation-definition');
+        return [self.id,self.profile,self.context,self.target,self.occurrence] + self.context.chemicalFacts();
+    }
+    outcomeDefinition()
+    {
+        return [self.recordedAt,self.result,self.result.noticed,self.result.check,self.result.check.score,self.result.check.roll,
+            self.result.check.margin,self.result.check.achieved,self.result.check.critical];
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedChemicalResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.chemicalObservations,self) || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('chemical-observation-history');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('chemical-observation-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('chemical-observation-outcome');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('chemical-observation-outcome');
+            if (self.recordedAt > rpgLedger.seconds) rpgExpandedReject('chemical-observation-time');
+            value.status = 'reused'; return value;
+        }
+        if (self.recordedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('chemical-observation-uncommitted');
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'chemical-observer-unavailable'; return value; }
+        foreach (local prior in self.profile.chemicalObservations)
+            if (prior.id == self.id || prior.target == self.target && prior.occurrence == self.occurrence)
+                rpgExpandedReject('chemical-observation-repeat');
+        value.reason = self.context.taskUnavailableReason(self.profile); if (value.reason != nil) return value;
+        value.score = rpgLiteScore(self.profile,self.context);
+        if (value.score == nil || value.score < 3) { value.reason = 'chemical-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); value.check = rpgCheck(value.score,rpgRandom.roll());
+        value.noticed = value.check.achieved; self.recordedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = self.outcomeDefinition(); self.profile.chemicalObservations = self.profile.chemicalObservations + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    chemicalObservations = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local observation in self.chemicalObservations)
+        {
+            if (observation == nil || !observation.ofKind(RpgExpandedChemicalObservation) || observation.profile != self
+                || holds(ids,observation.id) || observation.assess().status != 'reused') rpgExpandedReject('chemical-observation-history');
+            ids = ids + [observation.id];
+        }
+        return nil;
+    }
+;
+
+

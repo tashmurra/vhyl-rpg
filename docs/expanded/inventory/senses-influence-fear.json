@@ -216,9 +216,13 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Taste and smell share their acute-sense trait, with +4 from the applicable discriminating sense; author intensity and disguise adjustments separately.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_chemical",
+        "tests/expanded.py::test_chemical_actions"
+      ],
+      "validation_note": "Ordinary taste/smell contexts share the acute bonus with separate authored intensity and disguise modifiers. Authored capacity and stimulus gates, owned observations, comprehension and danger-warning integration, and shared native actions implemented. Specialist discriminating bonuses, recognition/memory, automatic trait capacity integration and sampling consequences remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-chemical-detail",
@@ -226,9 +230,13 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Discriminating taste or smell can identify detailed people, places or objects according to evidence; no taste/smell prevents both forms of ordinary detection.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_chemical",
+        "tests/expanded.py::test_chemical_actions"
+      ],
+      "validation_note": "Ordinary taste/smell contexts share the acute bonus with separate authored intensity and disguise modifiers. Authored capacity and stimulus gates, owned observations, comprehension and danger-warning integration, and shared native actions implemented. Specialist discriminating bonuses, recognition/memory, automatic trait capacity integration and sampling consequences remain pending. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-rustling",

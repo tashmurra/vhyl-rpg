@@ -2259,3 +2259,36 @@ recipient. The adapter does not infer recipients or automatically broadcast
 private knowledge. `test_comprehension_actions` specifies all three routes,
 ownership rejection, preview purity, missing observation, rollback, undo and
 repeat execution. These fixtures remain unrun while checks are paused.
+
+
+## Ordinary taste and smell
+
+`RpgExpandedChemicalContext` selects `sense = 'smell'` or `'taste'` while using
+the shared `taste-smell` scoring kind and acute-sense bonus (full-2008 B358).
+Supply `approved`, concrete `evidence`, `ordinarySenseAvailable` and
+`stimulusAvailable`. For taste, the last fact means the flavor reaches the
+character's taste receptors; for smell, the odor must reach the character.
+Missing sensory capacity or stimulus blocks resolution before randomness.
+
+Author `intensityModifier` for strength and a nonpositive `disguiseModifier`
+for masking. These combine with the shared acute bonus and ordinary context
+modifier exactly once. Light, visual range and hearing-distance rules do not
+apply. This ordinary adapter does not implement specialist recognition, scent
+memorization, tracking or chemical analysis; those require further integration.
+
+`RpgExpandedChemicalObservation` binds a profile, context, target and occurrence.
+Its pure `assess()` and committed `resolve()` retain success or failure without
+charging time. A second request for the same target and occurrence is rejected,
+including switching between taste and smell to reroll the same shared-sense
+attempt. Distinct sensory events need distinct authored occurrences.
+
+The receipt is accepted by `RpgExpandedSenseObservationAction`, by ordinary or
+expert `RpgExpandedSenseComprehension`, and as a failed-check trigger for
+`RpgExpandedOrdinaryDangerWarning`. Speech comprehension still requires hearing.
+Taste detection itself neither consumes inventory nor applies poison: an authored
+sampling action must coordinate those consequences with the existing inventory
+and hazard ledgers. No safety or edibility conclusion follows from noticing.
+
+`test_chemical` and `test_chemical_actions` specify scores, blocked capacity,
+retained outcomes, rollback, undo, save continuation, comprehension, warnings
+and parser/structured/dialogue parity for both modes. Fixtures remain unrun.

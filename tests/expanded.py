@@ -9528,6 +9528,10 @@ def test(build):
     test_comprehension_actions(Session,comprehension_actions)
     danger_warning = build.build('expanded-danger-warning',ROOT / 'tests/fixtures/expanded-danger-warning.t')
     test_danger_warning(Session,danger_warning,build.out)
+    chemical = build.build('expanded-chemical',ROOT / 'tests/fixtures/expanded-chemical.t')
+    test_chemical(Session,chemical,build.out)
+    chemical_actions = build.build('expanded-chemical-actions',ROOT / 'tests/fixtures/expanded-chemical-actions.t')
+    test_chemical_actions(Session,chemical_actions)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26723,3 +26727,94 @@ def test_comprehension_actions(Session, bundle):
                     assert state(s) == [0,None,3,0]
             finally:
                 s.close()
+
+
+def test_chemical(Session, bundle, out):
+    """B358 shared acute sense, authored strength/disguise, receipt integration; unrun."""
+    def state(s):
+        s.action(1680,27902)
+        return last(s,'test.chemical-state')
+    for codes,score in (((),12),((27904,),12),((27905,),13),((27906,),14),((27904,27905,27906),15),((27907,),None),((27908,),None)):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,27903)
+            assert last(s,'test.chemical-score') == [score]
+            assert state(s) == [0,None,0,0]
+            if score is None:
+                s.action(1680,27900); assert state(s) == [0,None,0,0]
+        finally:
+            s.close()
+    path = out / 'chemical-observation.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,27901); assert state(s) == [0,None,0,0]
+        s.action(1680,27900); s.command('undo'); assert state(s) == [0,None,0,0]
+        s.action(1680,27900); s.action(1680,27900); assert state(s) == [1,True,3,0]
+        s.action(1680,27911); assert state(s) == [1,True,3,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,27900)
+        assert state(s) == [1,True,3,0]
+        s.action(1680,27909); s.action(1680,27600); s.action(1680,27603)
+        assert last(s,'test.comprehension-state') == [1,'The call warns of a blocked crossing',6,2]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (27900,27909,27604,27605,27600,27603):
+            s.action(1680,code)
+        assert last(s,'test.comprehension-state') == [0,None,3,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (27004,27900,27910,27706,27700,27702):
+            s.action(1680,code)
+        assert last(s,'test.ordinary-warning') == [1,'The crossing is about to collapse',1,6,0]
+    finally:
+        s.close()
+
+
+def test_chemical_actions(Session, bundle):
+    """Shared smell/taste native routes and observer authority; unrun."""
+    for sense in ('smell','taste'):
+        for route in ('parser','structured','dialogue'):
+            def perform(s,operation):
+                if route == 'parser':
+                    s.command({'preview':'assess sense','resolve':'resolve sense','rollback':'rollback sense'}[operation])
+                elif route == 'structured':
+                    s.action({'preview':27510,'resolve':27511,'rollback':27512}[operation])
+                else:
+                    s.action(80,'sensory-observation'); s.select(operation)
+            def state(s):
+                s.action(1680,27902)
+                return last(s,'test.chemical-state')
+            s = Session(bundle)
+            try:
+                if sense == 'taste':
+                    s.action(1680,27500)
+                perform(s,'preview')
+                assert last(s,'rpg.expanded.sense') == [sense,'preview','ready',None]
+                assert state(s) == [0,None,0,0]
+                perform(s,'rollback'); assert state(s) == [0,None,0,0]
+                perform(s,'resolve'); s.command('undo'); assert state(s) == [0,None,0,0]
+                perform(s,'resolve'); perform(s,'resolve'); assert state(s) == [1,True,3,0]
+            finally:
+                s.close()
+            for outsider in (27501,27502):
+                s = Session(bundle)
+                try:
+                    if sense == 'taste':
+                        s.action(1680,27500)
+                    s.action(1680,outsider)
+                    for operation in ('preview','resolve'):
+                        perform(s,operation)
+                        assert last(s,'rpg.expanded.sense') == [sense,operation,'blocked','sense-action-owner-required']
+                        assert state(s) == [0,None,0,0]
+                finally:
+                    s.close()
