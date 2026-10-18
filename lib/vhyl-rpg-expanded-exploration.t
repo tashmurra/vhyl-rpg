@@ -2034,6 +2034,9 @@ modify RpgExpandedProfile
 class RpgExpandedCatchAttemptResult: RpgExpandedResult
     assessment = nil
     caught = nil
+    concentrationScore = nil
+    concentrationCheck = nil
+    concentrationLost = nil
 ;
 /** Owned first hand-parry catch of a deliberate pass. The fighter owns turn
  * counters; this stage owns the roll but not the later inventory transfer. */
@@ -2084,8 +2087,16 @@ class RpgExpandedCatchAttempt: RpgExpandedCatchReceipt
         local previousParries = self.otherHand ? self.fighter.offParries : self.fighter.parries;
         rpgInteger(previousParries,0,1000);
         local repeatPenalty = previousParries * (4 / profile.martialParryDivisor());
+        rpgInteger(self.fighter.concentration,0,1000000);
         if (self.fighter.concentration > 0)
-        { value.reason = 'catch-concentration-adapter-required'; return value; }
+        {
+            local distraction = new RpgLiteContext(); distraction.attribute = rpgWill;
+            distraction.kind = 'concentration'; distraction.modifier = -3;
+            value.concentrationScore = rpgLiteScore(profile,distraction);
+            if (value.concentrationScore == nil)
+            { value.reason = 'catch-concentration-score-unavailable'; return value; }
+            rpgInteger(value.concentrationScore,-1000,1000);
+        }
         value.reason = profile.catchHandReason(self.hand); if (value.reason != nil) return value;
         if (facts.weight > profile.basicLiftHundredths() * 2)
         { value.reason = 'catch-heavy-object-adapter-required'; return value; }
@@ -2113,6 +2124,13 @@ class RpgExpandedCatchAttempt: RpgExpandedCatchReceipt
         self.fighter.participated = true; self.fighter.aimSeconds = 0;
         value.check = rpgExpandedCombatCheck('defense',value.assessment.score,rpgRandom.roll());
         value.caught = value.check.achieved;
+        if (value.concentrationScore != nil)
+        {
+            value.concentrationCheck = rpgCheck(value.concentrationScore,
+                value.concentrationScore < 3 ? 3 : rpgRandom.roll());
+            value.concentrationLost = !value.concentrationCheck.achieved;
+            if (value.concentrationLost) self.fighter.concentration = 0;
+        }
         self.boundDefinition = self.definition(); self.result = value;
         self.fighter.profile.catchAttempts = self.fighter.profile.catchAttempts + [self];
         value.status = 'resolved'; return value;

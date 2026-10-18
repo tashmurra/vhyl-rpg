@@ -9031,6 +9031,7 @@ def test(build):
     test_catch_attempt(Session, catch_attempt, build.out)
     test_catch_capture(Session, catch_attempt, build.out)
     test_catch_repeat_parry(Session, catch_attempt)
+    test_catch_concentration(Session, catch_attempt, build.out)
     catch_assessment = build.build('expanded-catch-assessment',ROOT / 'tests/fixtures/expanded-catch-assessment.t')
     test_catch_assessment(Session, catch_assessment)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
@@ -15093,14 +15094,13 @@ def test_catch_attempt(Session, bundle, out):
     def state(s):
         s.action(2285,1263)
         return last(s,'test.catch-state')
-    for choice, reason in ((1265,'catch-hand-disabled'),
-                           (1267,'catch-concentration-adapter-required')):
+    for choice, reason in ((1265,'catch-hand-disabled'),):
         s = Session(bundle)
         try:
             for code in (30,1171,1200,choice,1260,1261):
                 s.action(2285,code)
             assert last(s,'test.catch-preview') == ['blocked',reason]
-            assert state(s) == [0,1 if choice == 1266 else 0,0,3,0,None]
+            assert state(s) == [0,0,0,3,0,None]
         finally:
             s.close()
     for waiting, caught in ((True,1),(False,0)):
@@ -15228,3 +15228,58 @@ def test_catch_repeat_parry(Session, bundle):
                 assert state[1] == (3 if 1282 in choices else 2 if 1266 in choices else 1)
         finally:
             s.close()
+
+
+def test_catch_concentration(Session, bundle, out):
+    def state(s):
+        s.action(2285,1291)
+        return last(s,'test.catch-concentration')
+    for roll_code, expected in ((30,[0,7,10,9,1]),(1290,[1,7,7,9,1])):
+        s = Session(bundle)
+        try:
+            for code in (30,1171,1200,1267,roll_code,1260):
+                s.action(2285,code)
+            assert last(s,'test.catch-preview') == ['ready',None]
+            assert state(s) == [1,None,None,3,0]
+            for code in (1261,1261):
+                s.action(2285,code)
+            assert state(s) == expected
+        finally:
+            s.close()
+    path = out / 'expanded-catch-concentration.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,1171,1200,1267,1262):
+            s.action(2285,code)
+        assert state(s) == [1,None,None,3,0]
+        s.action(2285,1261)
+        s.command('undo')
+        assert state(s) == [1,None,None,3,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1261,1261):
+            s.action(2285,code)
+        assert state(s) == [0,7,10,9,1]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,1261)
+        assert state(s) == [0,7,10,9,1]
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (30,1171,1200,1267,1292,1261,1261):
+            s.action(2285,code)
+        # Effective Will 2 cannot roll: only the catch consumes another draw.
+        assert state(s) == [0,2,None,6,1]
+    finally:
+        s.close()

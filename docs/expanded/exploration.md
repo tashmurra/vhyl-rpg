@@ -1016,8 +1016,7 @@ recipient's health restrictions. The hand must be functional, empty and free of
 support reservations. This initial adapter requires ordinary two-hand anatomy
 and an object within the one-hand lifting limit. Repeated catches use the same hand counter as other parries: each prior parry
 subtracts four, or two with active approved advanced martial training (B376).
-The other hand has its own counter; the normal turn reset clears both. Maintained
-concentration remains explicitly unsupported before spending anything.
+The other hand has its own counter; the normal turn reset clears both.
 
 This is a roll-and-parry stage. Use equipment’s `RpgExpandedCatchCapture` with
 `receipt` set to the successful attempt to transfer the item and settle the
@@ -1026,3 +1025,19 @@ implements interceptions. An unsettled flight blocks positive time advancement.
 The integration fixture `expanded-catch-attempt.t` covers success, failure,
 preview purity, duplicates, rollback, undo and saved replay. Assertions remain
 unrun while checks are paused; the inventory entry remains partial.
+
+### Concentration during a catch
+
+If the recipient fighter has accumulated concentration, catch assessment also
+prepares a contextual Will-3 distraction score (B366). A committed catch records
+its defense roll first, followed by the concentration check. The result exposes
+`concentrationScore`, `concentrationCheck` and `concentrationLost`. Failure clears
+the fighter's accumulated concentration; success preserves it. An effective
+score below three fails without a concentration random draw. Invalid requests
+remain free of rolls and counter changes. Replaying the same catch reuses both
+outcomes, including after a save/restore.
+
+This integrates the existing fighter concentration counter. Spell-specific
+interruption consequences and other owned activities are not supplied by this
+adapter. The associated preview, success/failure, rollback, undo and saved-replay
+assertions in `test_catch_concentration` remain unrun while checks are paused.

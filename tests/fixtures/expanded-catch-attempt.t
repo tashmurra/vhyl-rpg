@@ -84,3 +84,22 @@ modify BleedTestAction
         return inherited(context);
     }
 ;
+
+modify BleedTestAction
+    exec(context)
+    {
+        local code = bleedInput.code;
+        if (code == 1290) { bleedInput.forcedRoll = 7; return nil; }
+        if (code == 1292) { catchProfile.willAdjustment = -5; return nil; }
+        if (code == 1291)
+        {
+            event('test.catch-concentration'); eventValue(catchFighter.concentration);
+            eventValue(catchAttempt.result == nil || catchAttempt.result.concentrationCheck == nil ? nil
+                : catchAttempt.result.concentrationCheck.score);
+            eventValue(catchAttempt.result == nil || catchAttempt.result.concentrationCheck == nil ? nil
+                : catchAttempt.result.concentrationCheck.roll);
+            eventValue(rpgRandom.draws); eventValue(catchFighter.parries); return nil;
+        }
+        return inherited(context);
+    }
+;

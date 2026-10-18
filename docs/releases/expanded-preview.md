@@ -951,8 +951,8 @@ helper moved to the foundation to avoid a new module dependency. Regression
 fixtures are authored but unrun; checks remain paused.
 
 Deliberate passes now have an owned catch-roll stage connected to released
-inventory and a recipient fighter's hand-parry counter. The stage applies repeated bare-hand parry penalties and rejects unsupported
-concentration and anatomy before spending randomness.
+inventory and a recipient fighter's hand-parry counter. The stage applies repeated bare-hand parry penalties and checks supported
+anatomy before spending randomness.
 Successful catches now support an owned inventory transfer and flight settlement;
 critical consequences remain pending. Regression and
 persistence fixtures are authored, unrun under the check pause.
@@ -961,3 +961,8 @@ Advanced martial training now has fixed thirty-point accounting and an active
 repeated-catch-parry benefit. Ordinary hand penalties accumulate by four and the
 training benefit reduces that increment to two. Rapid-strike and cinematic skill
 permissions remain incomplete. Added hand-counter assertions are unrun.
+
+Catching while concentrating now records a separate contextual Will-3 check,
+preserves accumulated concentration on success and clears it on failure. Catch
+replay does not repeat either roll. Spell-specific interruption consequences
+remain pending. New concentration and persistence assertions are authored, unrun.

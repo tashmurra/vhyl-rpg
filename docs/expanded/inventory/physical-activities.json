@@ -1563,9 +1563,10 @@
         "tests/expanded.py::test_throw_attempt",
         "tests/expanded.py::test_catch_attempt",
         "tests/expanded.py::test_catch_capture",
-        "tests/expanded.py::test_catch_repeat_parry"
+        "tests/expanded.py::test_catch_repeat_parry",
+        "tests/expanded.py::test_catch_concentration"
       ],
-      "validation_note": "Pure assessment and owned deliberate-pass throw/catch rolls implement the B355 waiting penalty and margin bonus with full ranged/defense check classification. The owned catch requires a released flight, its intended recipient, a functional free hand and explicit authored awareness, Wait and sports-suitability facts. It consumes the selected fighter hand-parry counter once, rejects duplicate flights and binds replay inputs. Repeated hand parries use a cumulative four-point penalty, halved by active approved advanced martial training. Concentration, heavy catches and nonstandard anatomy are explicitly unsupported. Owned capture now transfers a successful catch to its recipient hand and settles the flight once, with current hand, ownership and item checks. Maneuver scheduling, critical consequences and interception remain pending. Preview, success/failure, blocked requests, rollback, undo and cross-process saved replay assertions are authored and unrun while checks are paused."
+      "validation_note": "Pure assessment and owned deliberate-pass throw/catch rolls implement the B355 waiting penalty and margin bonus with full ranged/defense check classification. The owned catch requires a released flight, its intended recipient, a functional free hand and explicit authored awareness, Wait and sports-suitability facts. It consumes the selected fighter hand-parry counter once, rejects duplicate flights and binds replay inputs. Repeated hand parries use a cumulative four-point penalty, halved by active approved advanced martial training. Active fighter concentration now receives a recorded contextual Will-3 distraction check and is cleared on failure; task-specific interruption consequences remain pending. Heavy catches and nonstandard anatomy are explicitly unsupported. Owned capture now transfers a successful catch to its recipient hand and settles the flight once, with current hand, ownership and item checks. Maneuver scheduling, critical consequences and interception remain pending. Preview, success/failure, blocked requests, rollback, undo and cross-process saved replay assertions are authored and unrun while checks are paused."
     },
     {
       "id": "throwing-intercept",
