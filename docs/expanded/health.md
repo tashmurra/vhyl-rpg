@@ -1249,3 +1249,24 @@ then inspects both patients and the clock. Thus transaction rollback cannot conc
 a partial commit before validation rejected the later registered case.
 `test_cardiac_clock_batch_persistence` saves between the deadlines and continues
 the remaining case in another process. These batch fixtures remain unrun.
+
+
+## Critical injuries treated as major wounds
+
+A caller resolving a qualifying critical-hit effect may set both `criticalHit`
+and `forceMajorWound` on its owned `RpgExpandedWound`. Supply the actual final
+injury in `amount`, and set this flag only after damage penetrates protection.
+Zero injury and a missing critical-hit declaration are rejected. This input does
+not raise injury to the ordinary major-wound threshold or charge damage again.
+
+The wound preflights the existing knockdown/drop path with a mandatory major-wound
+check. `rpgExpandedMajorWoundModifier` supplies the location penalty, including
+supported absent-brain/vitals exceptions. Supported body-part wounds use the limb
+modifier. Execution keeps the original injury amount, shared health ledger and
+one wound receipt. Replaying it does not roll again; changing the major-wound
+flag on an existing receipt is rejected.
+
+`test_critical_major_wound` records one-point critical injuries to torso, face,
+skull, vitals and groin, anatomy exceptions, blocked low scores, unchanged injury,
+repeat protection and immutable declaration. Fixtures remain unrun. This supports
+the major-wound consequence, not the complete attack or other critical-hit effects.

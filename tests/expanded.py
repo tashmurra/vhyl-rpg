@@ -229,6 +229,20 @@ def test_knockdown_assessment(s):
         'expanded-knockdown-location-unavailable', 'expanded-knockdown-groin-context']
 
 
+def test_critical_major_wound(s):
+    for location, health, trait, male, modifier, score, knocked in [
+            ('torso',10,'none',0,0,10,0),('face',10,'none',0,-5,5,1),
+            ('skull',15,'none',0,-10,5,1),('vitals',10,'none',0,-5,5,1),
+            ('groin',10,'none',1,-5,5,1),('groin',10,'none',0,0,10,0),
+            ('skull',10,'no-brain',0,0,10,0),('vitals',10,'no-vitals',0,0,10,0)]:
+        s.action(2022, location, health, trait, male)
+        assert last(s,'test.critical-major-preview') == ['ready',None,modifier,0,0]
+        assert last(s,'test.critical-major') == [1,knocked,score,10,1,1,'reused',3,0]
+        assert last(s,'test.critical-major-binding') == ['expanded-wound-retargeted']
+    s.action(2022, 'skull', 10, 'none', 0)
+    assert last(s,'test.critical-major-preview') == ['blocked','expanded-knockdown-score-unavailable',-10,0,0]
+
+
 def test_expanded_wound_commit(s):
     for injury, location, ht, shock, stunned, unconscious, checks in [
             (5, 'torso', 10, 4, 0, 0, 0),
@@ -4794,6 +4808,7 @@ def test(build):
     fresh(Session,health,test_scaled_shock_turn_boundary)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
+    fresh(Session,health,test_critical_major_wound)
     fresh(Session,health,test_knockdown_anatomy_exceptions)
     fresh(Session,health,test_crippling_thresholds)
     fresh(Session,health,test_body_supports)

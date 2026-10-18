@@ -434,3 +434,10 @@ advanced martial training. Remote actions share the actor's concentration turn;
 physical injury still accumulates under unusual durability, with cause-specific
 fatal thresholds. Training reduces specified penalties but does not grant skills.
 These inventory requirements are not yet executable combat behavior.
+
+
+For the implemented major-wound consequence, the [health module](health.md)
+accepts `forceMajorWound` on an owned critical wound after penetration. This
+reuses its knockdown, drop and injury receipts without inflating damage. Other
+critical effects still require their own committed integration, and the combat
+assessment module does not automatically construct or apply the wound.

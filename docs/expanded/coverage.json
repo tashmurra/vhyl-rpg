@@ -35,7 +35,8 @@
         "tests/expanded.py::test_combat_check_classification",
         "tests/expanded.py::test_critical_hit_assessments",
         "tests/expanded.py::test_weapon_miss_assessments",
-        "tests/expanded.py::test_unarmed_miss_assessments"
+        "tests/expanded.py::test_unarmed_miss_assessments",
+        "tests/expanded.py::test_critical_major_wound"
       ],
       "validation_note": "Pure rapid-fire, combat-check and critical-hit table assessments authored; fixtures unrun. Numeric damage, armor and shock effects are assessed. Owned attacks, ammunition, critical/malfunction consequences, per-hit injury and broad integration remain incomplete."
     },
@@ -214,7 +215,8 @@
         "tests/expanded.py::test_effort_recovery",
         "tests/expanded.py::test_collapse_defense",
         "tests/expanded.py::test_effort_transactions",
-        "tests/expanded.py::test_effort_persistence"
+        "tests/expanded.py::test_effort_persistence",
+        "tests/expanded.py::test_critical_major_wound"
       ],
       "validation_note": "Partial recovery includes scheduled physician checks and owned bandaging/post-bandaging treatment using shared time and health. Source outcome, rollback, undo and save-continuation fixtures authored but unrun. Interrupted care, bleeding, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },

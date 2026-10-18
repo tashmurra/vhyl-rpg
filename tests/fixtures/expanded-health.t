@@ -10,6 +10,29 @@ modify gameMain initialRoom = healthRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2022)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        patient.rules.scaledInjuryShock = true; patient.ht = args[2];
+        if (args[3] != 'none')
+        { local trait = new RpgLiteTrait(); trait.id = args[3]; patient.traits = [trait]; }
+        local wound = new RpgExpandedWound(); wound.id = 'critical-major'; wound.profile = patient;
+        wound.amount = 1; wound.location = args[1]; wound.criticalHit = true; wound.forceMajorWound = true;
+        wound.maleGroin = args[4] == 1;
+        rpgRandom.seed(1); local clock = rpgLedger.seconds; local preview = wound.assess();
+        event('test.critical-major-preview'); eventValue(preview.status); eventValue(preview.reason);
+        eventValue(preview.assessment.modifier); eventValue(patient.injury); eventValue(rpgRandom.draws);
+        if (preview.status != 'ready') return nil;
+        local value = wound.apply(); local repeat = wound.apply();
+        event('test.critical-major'); eventValue(value.health.injury); eventValue(value.health.knockedDown ? 1 : 0);
+        eventValue(value.health.check.score); eventValue(value.health.check.roll); eventValue(patient.shock);
+        eventValue(patient.expandedWounds.length()); eventValue(repeat.status); eventValue(rpgRandom.draws);
+        eventValue(rpgLedger.seconds - clock);
+        wound.forceMajorWound = nil; local reason = nil;
+        try { wound.assess(); } catch (RpgExpandedError error) { reason = error.reason; }
+        event('test.critical-major-binding'); eventValue(reason); return nil;
+    }
+
     if (verb == 1600)
     {
         event('test.scaled-shock'); eventValue(rpgExpandedInjuryShock(args[1],args[2])); return nil;

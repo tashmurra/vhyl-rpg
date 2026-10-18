@@ -41,6 +41,17 @@ class RpgExpandedKnockdownAssessment: RpgExpandedResult
     shock = 0
 ;
 
+/** Location modifier for a major wound, including the supported absent-organ exceptions. */
+rpgExpandedMajorWoundModifier(location, maleGroin, noBrain, noVitals)
+{
+    if (!holds(['torso','face','skull','vitals','groin'],location)) rpgExpandedReject('expanded-knockdown-location-unavailable');
+    if (maleGroin && location != 'groin') rpgExpandedReject('expanded-knockdown-groin-context');
+    if (noBrain && holds(['face','skull'],location) || noVitals && holds(['vitals','groin'],location)) return 0;
+    if (location == 'skull') return -10;
+    if (holds(['face','vitals'],location) || location == 'groin' && maleGroin) return -5;
+    return 0;
+}
+
 /** Standard humanoid locations without crippling. B420 governs the strict
  * greater-than-half threshold; the conflicting appendix equality is not used. */
 rpgExpandedAssessKnockdown(capacity, injury, location, maleGroin)
@@ -53,12 +64,7 @@ rpgExpandedAssessKnockdown(capacity, injury, location, maleGroin)
     value.shock = rpgExpandedInjuryShock(capacity,injury);
     value.major = injury * 2 > capacity;
     value.required = value.major || value.shock > 0 && holds(['face','skull','vitals'],location);
-    if (value.major)
-    {
-        if (location == 'skull') value.modifier = -10;
-        else if (holds(['face','vitals'],location) || location == 'groin' && maleGroin)
-            value.modifier = -5;
-    }
+    if (value.major) value.modifier = rpgExpandedMajorWoundModifier(location,maleGroin,nil,nil);
     value.status = 'ready'; return value;
 }
 
@@ -101,6 +107,8 @@ class RpgExpandedWound: object
     location = 'torso'
     criticalHit = nil
     boundCriticalHit = nil
+    forceMajorWound = nil
+    boundForceMajorWound = nil
     ignored = nil
     bodyPart = nil
     severing = nil
@@ -134,7 +142,7 @@ class RpgExpandedWound: object
             if (self.profile != self.boundProfile || self.id != self.boundId || self.amount != self.boundAmount
                 || self.location != self.boundLocation || self.maleGroin != self.boundMaleGroin
                 || self.bodyPart != self.boundBodyPart || self.severing != self.boundSevering
-                || self.criticalHit != self.boundCriticalHit
+                || self.criticalHit != self.boundCriticalHit || self.forceMajorWound != self.boundForceMajorWound
                 || self.dropDestination != self.boundDropDestination
                 || self.anatomy != 'standard-humanoid') rpgExpandedReject('expanded-wound-retargeted');
             value.status = 'reused'; value.health = self.health; value.assessment = self.knockdownAssessment;
@@ -180,6 +188,14 @@ class RpgExpandedWound: object
                 { value.reason = value.limbDrop.reason; return value; }
             }
         }
+        if (self.forceMajorWound)
+        {
+            if (!self.criticalHit || self.amount <= 0) rpgExpandedReject('critical-major-wound-evidence');
+            value.assessment.major = true; value.assessment.required = true;
+            value.assessment.modifier = self.bodyPart != nil ? 0
+                : rpgExpandedMajorWoundModifier(self.location,self.maleGroin,
+                    self.profile.level('no-brain') > 0,self.profile.level('no-vitals') > 0);
+        }
         if (value.assessment.required && !self.profile.unconscious)
         {
             value.dropPlan = self.profile.prepareKnockdownDrop(self.dropDestination);
@@ -214,6 +230,7 @@ class RpgExpandedWound: object
             }
         }
         self.ignored = value.ignored; self.boundCriticalHit = self.criticalHit;
+        self.boundForceMajorWound = self.forceMajorWound;
         self.cripplingAssessment = value.crippling;
         self.boundBodyPart = self.bodyPart; self.boundSevering = self.severing;
         self.knockdownAssessment = value.assessment;
@@ -234,7 +251,7 @@ modify RpgExpandedProfile
         {
             if (wound == nil || !wound.ofKind(RpgExpandedWound) || wound.profile != self
                 || wound.boundProfile != self || wound.health == nil || wound.id != wound.boundId
-                || holds(ids,wound.id)) rpgExpandedReject('expanded-wound-history');
+                || holds(ids,wound.id) || wound.forceMajorWound != wound.boundForceMajorWound) rpgExpandedReject('expanded-wound-history');
             if (wound.bandage != nil)
             {
                 local bandage = wound.bandage;

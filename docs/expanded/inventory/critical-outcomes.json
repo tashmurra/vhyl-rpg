@@ -125,13 +125,14 @@
       "status": "partial",
       "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 7
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
     },
     {
       "id": "critical-hit-8",
@@ -227,13 +228,14 @@
       "status": "partial",
       "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 13
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
     },
     {
       "id": "critical-hit-14",
@@ -244,13 +246,14 @@
       "status": "partial",
       "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 14
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
     },
     {
       "id": "critical-hit-15",
@@ -346,13 +349,14 @@
       "status": "partial",
       "acceptance": "After armor divisors, halve DR rounding up; positive penetration also triggers major-wound handling.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound"
       ],
       "outcome_data": {
         "table": "head",
         "roll": 4
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
     },
     {
       "id": "critical-head-5",
@@ -363,13 +367,14 @@
       "status": "partial",
       "acceptance": "After armor divisors, halve DR rounding up; positive penetration also triggers major-wound handling.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound"
       ],
       "outcome_data": {
         "table": "head",
         "roll": 5
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
     },
     {
       "id": "critical-head-6",
@@ -380,13 +385,14 @@
       "status": "partial",
       "acceptance": "A face or skull hit becomes an eye hit even for normally ineligible damage types. If the angle makes an eye hit impossible, apply head outcome 4. Resolve pre-existing eye targets explicitly.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound"
       ],
       "outcome_data": {
         "table": "head",
         "roll": 6
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
     },
     {
       "id": "critical-head-7",
@@ -397,13 +403,14 @@
       "status": "partial",
       "acceptance": "A face or skull hit becomes an eye hit even for normally ineligible damage types. If the angle makes an eye hit impossible, apply head outcome 4. Resolve pre-existing eye targets explicitly.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound"
       ],
       "outcome_data": {
         "table": "head",
         "roll": 7
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
     },
     {
       "id": "critical-head-8",
