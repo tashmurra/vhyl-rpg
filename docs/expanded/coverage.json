@@ -300,9 +300,11 @@
         "tests/expanded.py::test_major_parts_persistence",
         "tests/expanded.py::test_computer_reservations",
         "tests/expanded.py::test_terminal_switches",
-        "tests/expanded.py::test_computer_persistence"
+        "tests/expanded.py::test_computer_persistence",
+        "tests/expanded.py::test_computer_storage",
+        "tests/expanded.py::test_computer_storage_persistence"
       ],
-      "validation_note": "Object assessments, fault repairs, computer processing reservations and ordinary terminal switches authored; fixtures unrun. Storage, network access, task software, structural injury/repair and maintenance scheduling remain incomplete."
+      "validation_note": "Object assessments, fault repairs, computer processing/storage and ordinary terminal switches authored; fixtures unrun. Network access, task software, structural injury/repair and maintenance scheduling remain incomplete."
     },
     {
       "id": "templates",

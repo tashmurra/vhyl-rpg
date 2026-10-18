@@ -155,9 +155,13 @@
       "pages": "B472",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use the reference decimal storage approximations: one gigabyte equals one thousand megabytes and one terabyte equals one thousand gigabytes. Reserve storage for actual data and recordings.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_storage",
+        "tests/expanded.py::test_computer_storage_persistence"
+      ],
+      "validation_note": "Owned whole-MB data allocations and decimal units authored; fixtures unrun. Recorder rates, media, transfers, backups and destruction-driven data loss remain incomplete."
     },
     {
       "id": "technology-terminal",
@@ -1086,9 +1090,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The novel reference storage allowance is 10 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_storage"
+      ],
+      "validation_note": "Reference-size lookup in whole MB authored for every table row; fixtures unrun. This supplies capacity estimates, not content creation or task capabilities."
     },
     {
       "id": "technology-storage-road-atlas",
@@ -1096,9 +1103,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The road-atlas reference storage allowance is 100 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_storage"
+      ],
+      "validation_note": "Reference-size lookup in whole MB authored for every table row; fixtures unrun. This supplies capacity estimates, not content creation or task capabilities."
     },
     {
       "id": "technology-storage-regional-navigation",
@@ -1106,9 +1116,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The regional-navigation reference storage allowance is 1000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_storage"
+      ],
+      "validation_note": "Reference-size lookup in whole MB authored for every table row; fixtures unrun. This supplies capacity estimates, not content creation or task capabilities."
     },
     {
       "id": "technology-storage-vehicle-plans",
@@ -1116,9 +1129,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The vehicle-plans reference storage allowance is 1000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_storage"
+      ],
+      "validation_note": "Reference-size lookup in whole MB authored for every table row; fixtures unrun. This supplies capacity estimates, not content creation or task capabilities."
     },
     {
       "id": "technology-storage-global-navigation",
@@ -1126,9 +1142,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The global-navigation reference storage allowance is 100000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_storage"
+      ],
+      "validation_note": "Reference-size lookup in whole MB authored for every table row; fixtures unrun. This supplies capacity estimates, not content creation or task capabilities."
     },
     {
       "id": "technology-storage-school-library",
@@ -1136,9 +1155,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The school-library reference storage allowance is 100000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_storage"
+      ],
+      "validation_note": "Reference-size lookup in whole MB authored for every table row; fixtures unrun. This supplies capacity estimates, not content creation or task capabilities."
     },
     {
       "id": "technology-storage-city-library",
@@ -1146,9 +1168,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The city-library reference storage allowance is 1000000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_storage"
+      ],
+      "validation_note": "Reference-size lookup in whole MB authored for every table row; fixtures unrun. This supplies capacity estimates, not content creation or task capabilities."
     },
     {
       "id": "technology-storage-university-library",
@@ -1156,9 +1181,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The university-library reference storage allowance is 10000000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_storage"
+      ],
+      "validation_note": "Reference-size lookup in whole MB authored for every table row; fixtures unrun. This supplies capacity estimates, not content creation or task capabilities."
     },
     {
       "id": "technology-storage-major-library",
@@ -1166,9 +1194,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The major-library reference storage allowance is 100000000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_storage"
+      ],
+      "validation_note": "Reference-size lookup in whole MB authored for every table row; fixtures unrun. This supplies capacity estimates, not content creation or task capabilities."
     },
     {
       "id": "technology-storage-mind",
@@ -1176,9 +1207,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The mind reference storage allowance is 100000000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_storage"
+      ],
+      "validation_note": "Reference-size lookup in whole MB authored for every table row; fixtures unrun. This supplies capacity estimates, not content creation or task capabilities."
     },
     {
       "id": "technology-invention-simple",

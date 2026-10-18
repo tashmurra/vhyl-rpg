@@ -621,3 +621,115 @@ class RpgExpandedTerminalSwitch: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B472 decimal storage units; no implicit rounding of fractional megabytes. */
+rpgExpandedStorageMB(amount, unit)
+{
+    if (!holds(['MB','GB','TB'],unit)) rpgExpandedReject('computer-storage-unit');
+    local factor = unit == 'MB' ? 1 : unit == 'GB' ? 1000 : 1000000;
+    rpgInteger(amount,0,1000000000 / factor); return amount * factor;
+}
+
+modify RpgExpandedComputer
+    storageMB = 0
+    data = []
+    usedStorageMB()
+    {
+        rpgInteger(self.storageMB,0,1000000000);
+        local used = 0; local ids = [];
+        foreach (local record in self.data)
+        {
+            if (record == nil || !record.ofKind(RpgExpandedStoredData) || record.host != self
+                || record.result == nil || holds(ids,record.id)) rpgExpandedReject('computer-data-history');
+            record.validateBinding(); ids = ids + [record.id];
+            if (record.present)
+            {
+                if (record.sizeMB > self.storageMB - used) rpgExpandedReject('computer-storage-overcommitted');
+                used += record.sizeMB;
+            }
+        }
+        return used;
+    }
+;
+
+class RpgExpandedStoredDataResult: RpgExpandedResult
+    sizeMB = 0
+    usedMB = 0
+;
+
+/** An owned fictional data allocation, not a filesystem read or write. */
+class RpgExpandedStoredData: object
+    id = nil
+    host = nil
+    reference = nil
+    sizeMB = 0
+    approved = nil
+    evidence = nil
+    present = nil
+    result = nil
+    storedAt = nil
+    removedAt = nil
+    boundId = nil
+    boundHost = nil
+    boundReference = nil
+    boundSizeMB = nil
+    boundEvidence = nil
+    validateBinding()
+    {
+        if (self.id != self.boundId || self.host != self.boundHost || self.reference != self.boundReference
+            || self.sizeMB != self.boundSizeMB || self.evidence != self.boundEvidence || !self.approved
+            || !holds(self.host.data,self)) rpgExpandedReject('computer-data-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.host == nil || !self.host.ofKind(RpgExpandedComputer)) rpgExpandedReject('computer-data-host');
+        local value = new RpgExpandedStoredDataResult();
+        if (self.result != nil)
+        {
+            self.validateBinding(); value.status = 'reused'; value.sizeMB = self.result.sizeMB;
+            value.usedMB = self.result.usedMB; return value;
+        }
+        if (self.id == nil || self.id == '' || self.reference == nil || self.reference == '')
+            rpgExpandedReject('computer-data-definition');
+        rpgInteger(self.sizeMB,1,1000000000);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'computer-data-author-facts'; return value; }
+        value.usedMB = self.host.usedStorageMB(); value.sizeMB = self.sizeMB;
+        foreach (local prior in self.host.data)
+            if (prior.id == self.id) rpgExpandedReject('computer-data-duplicate');
+        if (!self.host.powered || self.host.item == nil || !self.host.item.ofKind(RpgLiteItem)
+            || self.host.item.environmentFailure != nil)
+        { value.reason = 'computer-unavailable'; return value; }
+        if (self.sizeMB > self.host.storageMB - value.usedMB)
+        { value.reason = 'computer-storage-full'; return value; }
+        value.status = 'ready'; return value;
+    }
+    store()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundId = self.id; self.boundHost = self.host; self.boundReference = self.reference;
+        self.boundSizeMB = self.sizeMB; self.boundEvidence = self.evidence;
+        self.present = true; self.storedAt = rpgLedger.seconds; self.host.data = self.host.data + [self];
+        value.usedMB += self.sizeMB; value.status = 'resolved'; self.result = value; return value;
+    }
+    remove()
+    {
+        if (self.result == nil) rpgExpandedReject('computer-data-not-stored');
+        self.validateBinding();
+        if (!self.present) return 'reused';
+        if (!self.host.powered || self.host.item == nil || !self.host.item.ofKind(RpgLiteItem)
+            || self.host.item.environmentFailure != nil) rpgExpandedReject('computer-unavailable');
+        self.present = nil; self.removedAt = rpgLedger.seconds; return 'resolved';
+    }
+;
+
+/** B472 reference data sizes in MB; categories describe authored fictional content. */
+rpgExpandedReferenceDataMB(category)
+{
+    foreach (local row in [['long-text',10],['national-road-map',100],['regional-navigation',1000],
+        ['vehicle-plans',1000],['global-navigation',100000],['small-library',100000],
+        ['city-library',1000000],['large-library',10000000],['research-library',100000000],['human-mind',100000000]])
+        if (row[1] == category) return row[2];
+    rpgExpandedReject('computer-data-category');
+}

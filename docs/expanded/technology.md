@@ -366,7 +366,7 @@ remains to be implemented.
 `test_computer_reservations` and the [computer fixture](../../tests/fixtures/expanded-computer.t)
 cover preview purity, start/stop rollback, undo, host limits, a mixed workload,
 capacity rejection, historical replay and release/reallocation. They are authored
-and unrun. Software purchase, storage allocation, equipment bonuses, task
+and unrun. Software purchase, equipment bonuses, task
 prerequisites and network permissions remain unfinished; processing reservations do not substitute for those systems.
 
 ## Ordinary terminal switching
@@ -399,3 +399,47 @@ historical replay. `test_computer_persistence` saves mixed workloads before and
 after a switch, process stop and return switch, then continues in a separate
 process. These fixtures are authored and unrun. Terminal switching does not yet
 supply network connection establishment, task-specific software use or data transfer.
+
+## Owned computer data storage
+
+Set a computer's `storageMB` independently of its processing complexity.
+`rpgExpandedStorageMB(amount, unit)` converts whole `MB`, `GB` or `TB` using the
+B472 decimal convention (1,000 MB per GB and 1,000 GB per TB). The numeric limit
+is one billion MB. Sub-megabyte quantities are unsupported rather than silently
+rounded; authors must use an explicit aggregate for collections of small files.
+
+`RpgExpandedStoredData` declares a unique `id`, `host`, an authored content
+`reference`, `sizeMB`, `approved` permission and evidence that the data is available
+with that size. `assess()` is pure; `store()` reserves space only if the host is
+powered, operational and has room. The record describes fictional content. It
+never opens the reference as a path or URL and does not copy real files.
+
+The host derives used space from present records in `data`. Removal marks the
+record absent and releases its capacity, retaining identity and timestamps for
+replay. A historical `store()` call cannot recreate removed data; a new allocation
+needs a new ID. Repeated removal releases nothing further. Changed reference,
+size, host or evidence rejects. Store/remove operations belong in the enclosing
+action transaction and consume no implicit bandwidth, elapsed time or randomness.
+The author must separately resolve the action that produces, copies or transfers
+that content, including permissions and time.
+
+This storage ledger does not use processing capacity. Conversely, running a
+program does not invent its storage size. Streaming recorder rates, removable
+media, software installation size, network transfer, backup and destruction-driven
+data loss remain unfinished integrations. Current removal requires a powered,
+operational host; external media operations are not silently approximated.
+
+`test_computer_storage` covers decimal units, exact capacity, unavailable hosts,
+rollback, undo, historical replay and independence from running software.
+`test_computer_storage_persistence` resumes four allocation/removal stages in a
+separate process. Both use the computer fixture and are authored but unrun.
+
+
+`rpgExpandedReferenceDataMB(category)` supplies the B472 reference-size rows using
+neutral category IDs: `long-text`, `national-road-map`, `regional-navigation`,
+`vehicle-plans`, `global-navigation`, `small-library`, `city-library`,
+`large-library`, `research-library` and `human-mind`. They range from 10 MB to
+100 million MB. Vehicle plans represent the source's collection of one hundred
+small or ten complex vehicles. These are storage estimates, not generated content,
+a navigation capability or a procedure for creating or copying a mind. All rows
+have authored expectations in `test_computer_storage`; those checks remain unrun.

@@ -10,7 +10,7 @@
 #include <vhyl-rpg-expanded-technology.t>
 computerRoom: Room 'Control Room';
 computerItem: RpgLiteItem;
-computerHost: RpgExpandedComputer item = computerItem complexity = 2 powered = true
+computerHost: RpgExpandedComputer item = computerItem complexity = 2 powered = true storageMB = 100
     copies = [computerFull,computerSmall,computerLarge];
 computerFull: RpgExpandedSoftwareCopy id = 'full' host = computerHost complexity = 2 approved = true evidence = 'Installed copy';
 computerSmall: RpgExpandedSoftwareCopy id = 'small' host = computerHost complexity = 1 approved = true evidence = 'Installed copy';
@@ -29,11 +29,34 @@ terminalBack: RpgExpandedTerminalSwitch id = 'original-host' terminal = computer
     evidence = 'Return to original connected host';
 terminalSame: RpgExpandedTerminalSwitch id = 'same-host' terminal = computerTerminal target = computerHost
     evidence = 'Already selected host';
+computerData: RpgExpandedStoredData id = 'first-data' host = computerHost reference = 'authored-log'
+    sizeMB = 10 approved = true evidence = 'Available log with declared size';
+computerBulk: RpgExpandedStoredData id = 'bulk-data' host = computerHost reference = 'authored-charts'
+    sizeMB = 90 approved = true evidence = 'Available charts with declared size';
+computerOverflow: RpgExpandedStoredData id = 'extra-data' host = computerHost reference = 'authored-note'
+    sizeMB = 1 approved = true evidence = 'Available note with declared size';
+computerRefill: RpgExpandedStoredData id = 'replacement-data' host = computerHost reference = 'replacement-log'
+    sizeMB = 10 approved = true evidence = 'Another log with declared size';
 computerInput: object code = 0;
 class ComputerAction: Action
     exec(context)
     {
         local code = computerInput.code;
+        if (code >= 40)
+        {
+            if (code == 45 || code == 46 || code == 49)
+            {
+                event('test.data-remove'); eventValue(code == 49 ? computerBulk.remove() : computerData.remove());
+                if (code == 46) throw new RpgError(); return nil;
+            }
+            if (code == 47) computerData.sizeMB = 11;
+            if (code == 50) computerHost.powered = nil;
+            local record = code == 43 ? computerBulk : code == 44 || code == 50 ? computerOverflow
+                : code == 48 ? computerRefill : computerData;
+            local stored = code == 42 ? record.assess() : record.store();
+            event('test.data-operation'); eventValue(stored.status); eventValue(stored.reason);
+            if (code == 41) throw new RpgError(); return nil;
+        }
         if (code >= 20)
         {
             if (code == 25) terminalSwitch.target = terminalUnknown;
@@ -77,6 +100,16 @@ turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
     if (verb == 2080) { computerInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2083)
+    {
+        event('test.data-state'); eventValue(computerHost.usedStorageMB()); eventValue(computerHost.data.length());
+        eventValue(computerData.present ? 1 : 0); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
+        eventValue(computerHost.used()); return nil;
+    }
+    if (verb == 2085)
+    { event('test.reference-data'); eventValue(rpgExpandedReferenceDataMB(args[1])); return nil; }
+    if (verb == 2084)
+    { event('test.storage-units'); eventValue(rpgExpandedStorageMB(args[1],args[2])); return nil; }
     if (verb == 2082)
     {
         event('test.terminal-state'); eventValue(computerTerminal.current == computerHost ? 'original' : 'other');

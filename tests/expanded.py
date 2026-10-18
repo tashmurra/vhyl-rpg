@@ -973,6 +973,78 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def computer_data_state(s):
+    s.action(2083)
+    return last(s,'test.data-state')
+
+
+def test_computer_storage(s):
+    for category, size in [('long-text',10),('national-road-map',100),('regional-navigation',1000),
+            ('vehicle-plans',1000),('global-navigation',100000),('small-library',100000),
+            ('city-library',1000000),('large-library',10000000),('research-library',100000000),('human-mind',100000000)]:
+        s.action(2085,category)
+        assert last(s,'test.reference-data') == [size]
+    for amount, unit, expected in [(10,'MB',10),(1,'GB',1000),(100,'GB',100000),
+                                   (1,'TB',1000000),(10,'TB',10000000),(100,'TB',100000000)]:
+        s.action(2084,amount,unit)
+        assert last(s,'test.storage-units') == [expected]
+    s.action(2080,0)
+    initial = [0,0,0,0,0,100]
+    for code in [42,41]:
+        s.action(2080,code)
+        assert computer_data_state(s) == initial
+    s.action(2080,40)
+    assert computer_data_state(s) == [10,1,1,0,0,100]
+    s.command('undo')
+    assert computer_data_state(s) == initial
+    s.action(2080,40); s.action(2080,43)
+    full = [100,2,1,0,0,100]
+    for code,reason in [(44,'computer-storage-full'),(50,'computer-unavailable')]:
+        s.action(2080,code)
+        assert last(s,'test.data-operation') == ['blocked',reason]
+        assert computer_data_state(s) == full
+        s.command('undo')
+    s.action(2080,46)
+    assert computer_data_state(s) == full
+    s.action(2080,45)
+    assert computer_data_state(s) == [90,2,0,0,0,100]
+    s.command('undo')
+    assert computer_data_state(s) == full
+    s.action(2080,45); s.action(2080,48)
+    final = [100,3,0,0,0,100]
+    for code in [40,45,47]:
+        s.action(2080,code)
+        assert computer_data_state(s) == final
+    s.action(2080,49)
+    assert computer_data_state(s) == [10,3,0,0,0,100]
+
+
+def test_computer_storage_persistence(Session,bundle,out):
+    for stage in range(4):
+        path = out / f'expanded-storage-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2080,0); first.action(2080,40)
+            for threshold,code in [(1,43),(2,45),(3,48)]:
+                if stage >= threshold:
+                    first.action(2080,code)
+            saved = computer_data_state(first); first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2083')
+            assert computer_data_state(second) == saved
+            for threshold,code in [(1,43),(2,45),(3,48)]:
+                if stage < threshold:
+                    second.action(2080,code)
+            for code in [40,45,47]:
+                second.action(2080,code)
+                assert computer_data_state(second) == [100,3,0,0,0,100]
+        finally:
+            second.close()
+
+
 def terminal_state(s):
     s.action(2082)
     return last(s,'test.terminal-state')
@@ -5518,6 +5590,8 @@ def test(build):
     computer = build.build('expanded-computer',ROOT / 'tests/fixtures/expanded-computer.t')
     fresh(Session,computer,test_computer_reservations)
     fresh(Session,computer,test_terminal_switches)
+    fresh(Session,computer,test_computer_storage)
+    test_computer_storage_persistence(Session,computer,build.out)
     test_computer_persistence(Session,computer,build.out)
     maintenance_price = build.build('expanded-maintenance-price',ROOT / 'tests/fixtures/expanded-maintenance-price.t')
     fresh(Session,maintenance_price,test_maintenance_prices)
