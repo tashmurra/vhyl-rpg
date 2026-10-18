@@ -1358,6 +1358,7 @@ class RpgExpandedWealthAdvancement: object
     permitted = nil
     obligationsSettled = nil
     evidence = nil
+    employmentSources = []
     purchased = nil
     boundProfile = nil
     boundWealth = nil
@@ -1403,6 +1404,13 @@ class RpgExpandedWealthAdvancement: object
         { value.reason = 'wealth-advancement-points'; return value; }
         if (self.profile.pendingWealthObligation(self) != nil)
         { value.reason = 'employment-wealth-priority'; return value; }
+        foreach (local employment in self.employmentSources)
+        {
+            local review = self.continuingReview(employment);
+            local next = review.assessWealth(self.profile.money,target,self);
+            if (next.status == 'blocked' && !holds(['wealth-advancement-money','employment-inactive'],next.reason))
+            { value.reason = next.reason; return value; }
+        }
         value.status = 'ready'; return value;
     }
     advance()
@@ -1416,7 +1424,18 @@ class RpgExpandedWealthAdvancement: object
         self.wealth.wealthLevel = self.targetLevel; self.wealth.extraLevels = self.targetExtraLevels;
         self.profile.developmentRevision += 1; self.purchased = true;
         self.profile.wealthAdvancements = self.profile.wealthAdvancements + [self];
+        foreach (local employment in self.employmentSources) self.continuingReview(employment).record();
         value.status = 'resolved'; return value;
+    }
+    /* Pure construction from the same settled money; paying points changes no cash. */
+    continuingReview(employment)
+    {
+        if (employment == nil || !employment.ofKind(RpgExpandedEmployment)
+            || employment.owner != self.profile || !holds(employment.wealthObligations,self))
+            rpgExpandedReject('employment-wealth-owner');
+        local review = new RpgExpandedEmploymentWealthReview(); review.employment = employment;
+        review.wealth = self.wealth; review.obligationsSettled = self.obligationsSettled;
+        review.evidence = self.evidence; return review;
     }
 ;
 
@@ -1440,7 +1459,9 @@ class RpgExpandedEmploymentWealthReview: object
     evidence = nil
     assess() { return self.assessMoney(nil); }
     /** Project a wage outcome without changing the character money ledger. */
-    assessMoney(balance)
+    assessMoney(balance) { return self.assessWealth(balance,nil,nil); }
+    /* Internal projection for the next obligation after a proposed purchase. */
+    assessWealth(balance, prospectiveWealth, exempt)
     {
         if (self.employment == nil || !self.employment.ofKind(RpgExpandedEmployment))
             rpgExpandedReject('employment-wealth-owner');
@@ -1454,7 +1475,7 @@ class RpgExpandedEmploymentWealthReview: object
         {
             if (obligation.profile != profile || obligation.wealth != self.wealth)
                 rpgExpandedReject('employment-wealth-retargeted');
-            if (!obligation.purchased)
+            if (!obligation.purchased && obligation != exempt)
             { value.status = 'pending'; value.obligation = obligation; return value; }
         }
         if (!self.employment.active) { value.reason = 'employment-inactive'; return value; }
@@ -1462,11 +1483,12 @@ class RpgExpandedEmploymentWealthReview: object
         { value.reason = 'employment-wealth-unspecified'; return value; }
         local jobWealth = new RpgExpandedWealth(); jobWealth.wealthLevel = self.employment.job.wealthLevel;
         jobWealth.extraLevels = self.employment.job.wealthExtraLevels;
-        local jobCost = jobWealth.amounts(profile); local currentCost = self.wealth.amounts(profile);
+        local current = prospectiveWealth == nil ? self.wealth : prospectiveWealth;
+        local jobCost = jobWealth.amounts(profile); local currentCost = current.amounts(profile);
         if (jobCost[1] <= currentCost[1]) { value.status = 'satisfied'; return value; }
-        local target = new RpgExpandedWealth(); local rank = self.wealth.rank();
+        local target = new RpgExpandedWealth(); local rank = current.rank();
         if (rank >= 8)
-        { target.wealthLevel = 'multimillionaire'; target.extraLevels = rank == 8 ? 1 : self.wealth.extraLevels + 1; }
+        { target.wealthLevel = 'multimillionaire'; target.extraLevels = rank == 8 ? 1 : current.extraLevels + 1; }
         else
         {
             local levels = ['none','poor','struggling','average','comfortable','wealthy','very-wealthy','filthy-rich'];
@@ -1482,7 +1504,7 @@ class RpgExpandedEmploymentWealthReview: object
         rpgInteger(balance,0,2147483647);
         if (balance < value.requiredMoney)
         { value.reason = 'wealth-advancement-money'; return value; }
-        local existing = profile.pendingWealthObligation(nil);
+        local existing = profile.pendingWealthObligation(exempt);
         if (existing != nil && (existing.wealth != self.wealth || existing.targetLevel != value.targetLevel
             || existing.targetExtraLevels != value.targetExtraLevels))
             rpgExpandedReject('employment-wealth-obligation-conflict');
@@ -1498,6 +1520,8 @@ class RpgExpandedEmploymentWealthReview: object
                 || existing.targetExtraLevels != value.targetExtraLevels)
                 rpgExpandedReject('employment-wealth-obligation-conflict');
             self.employment.wealthObligations = self.employment.wealthObligations + [existing];
+            if (!holds(existing.employmentSources,self.employment))
+                existing.employmentSources = existing.employmentSources + [self.employment];
             value.obligation = existing; value.status = 'pending'; return value;
         }
         local obligation = new RpgExpandedWealthAdvancement();
@@ -1505,6 +1529,7 @@ class RpgExpandedEmploymentWealthReview: object
         obligation.id = obligation; obligation.profile = self.employment.owner; obligation.wealth = self.wealth;
         obligation.targetLevel = value.targetLevel; obligation.targetExtraLevels = value.targetExtraLevels;
         obligation.permitted = true; obligation.obligationsSettled = true; obligation.evidence = self.evidence;
+        obligation.employmentSources = [self.employment];
         self.employment.wealthObligations = self.employment.wealthObligations + [obligation];
         value.obligation = obligation; value.status = 'recorded'; return value;
     }

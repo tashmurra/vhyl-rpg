@@ -85,7 +85,8 @@ def test_employment_wealth_requirements(s):
     s.action(1246)
     assert last(s, 'test.employment-wealth') == [
         'employment-wealth-unspecified', 'required', 'comfortable', 10, 2000, 0,
-        'wealth-advancement-points', 'pending', 1, 10, 'wealthy', 10, 'satisfied',
+        'wealth-advancement-points', 'pending', 1, 10, 2, 'wealthy',
+        'employment-wealth-priority', 'wealthy', 10, 'satisfied',
         0, 5000, 100, 2]
     assert state(s) == before
 

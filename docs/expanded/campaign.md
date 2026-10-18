@@ -824,8 +824,10 @@ obligations block ordinary progression purchases, point-for-money exchanges and
 unrelated wealth purchases with `employment-wealth-priority`. The ordinary
 progression hook returns no restriction when this subsystem is absent. Reviews
 from multiple employments share the same next-level obligation; paying it once
-clears all those references. After payment, review the remaining required levels
-before offering discretionary purchases.
+clears all those references. An employment-derived receipt retains its originating employments. Before
+payment, it projects the next review without mutating wealth; after payment, it
+records any next qualifying obligation in the same transaction. This preserves
+priority between successive levels without granting points or spending money.
 
 `test_employment_wealth_requirements` covers explicit-category rejection, pure
 preview, successive thresholds, unfunded retention and unchanged wages/money.
@@ -850,5 +852,6 @@ behavior and is not a claim of complete expanded employment conversion.
 
 `test_employment_wealth_payroll` covers preflight rejection, a wage crossing the
 threshold, exception rollback, undo, deterministic replay and repeated settlement.
-It remains unrun. Review successive levels after each mandatory purchase, before
-making discretionary spending available.
+It remains unrun. Successive obligations created by a purchase reuse the same
+settled-money evidence because that purchase changes points and wealth, not cash.
+New income still needs its own current clearance evidence.

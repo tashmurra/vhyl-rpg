@@ -1805,6 +1805,8 @@ act(verb, args)
         local first = review.record().obligation; eventValue(first.advance().reason);
         p.money = 0; eventValue(review.record().status); eventValue(employment.wealthObligations.length());
         p.money = 5000; p.unspentPoints = 20; eventValue(first.advance().points);
+        eventValue(employment.wealthObligations.length());
+        eventValue(p.pendingWealthObligation(nil).targetLevel); eventValue(p.developmentSpendingReason());
         local second = review.record().obligation; eventValue(second.targetLevel);
         eventValue(second.advance().points); eventValue(review.record().status);
         eventValue(p.unspentPoints); eventValue(p.money); eventValue(employment.monthlyPay);
