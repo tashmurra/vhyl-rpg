@@ -841,3 +841,37 @@ administration of a new dose must be separate from replaying an old receipt.
 preview, rollback, undo, nonretroactivity and cross-process saved continuation.
 These cases are authored and unrun. Chelation, advanced resistance treatment,
 syndrome execution and broader radiation treatment remain incomplete.
+
+
+### Advanced radiation resistance treatment
+
+`RpgExpandedRadiationRepairMedicine` represents the technology-nine medication
+or cell-repair dose in `full-2008`, B436. Its reference unit price is 1,000;
+authors supply its inventory ID and weight. Purchase uses ordinary acquisition.
+`RpgExpandedRadiationResistanceTreatment` accepts this medicine and the same
+administration fields as preventive treatment. It consumes one owned dose through
+the shared administration path, retaining its receipt in
+`profile.radiationResistanceTreatments`. The inherited failure reasons use the
+`radiation-prevention-` prefix. Preventive and advanced medicines have distinct
+classes and cannot substitute for each other.
+
+Use `RpgExpandedRadiationContext` with `rpgLiteScore` or `rpgLiteCheck` for a
+radiation HT check. Its `attribute` is `rpgHT`, `kind` is `radiation`, and `skill`
+must remain nil. Set `modifier` to the applicable table or circumstance modifier;
+do not add the treatment bonus manually. The context adds the active treatment's
++3 once through normal score calculation, alongside existing health effects.
+Ordinary HT contexts receive no bonus. The pure supplied-number
+`rpgExpandedRadiationOutcome` helper does not inspect profiles or treatments.
+
+The bonus begins at administration and expires at 1,209,600 elapsed seconds
+(fourteen days); the exact expiry instant is outside the course. An earlier
+course must expire before a new course can be administered. Overlapping courses
+are explicitly unsupported rather than stacked. Replaying a receipt neither
+extends its duration nor consumes stock. This treatment changes neither received
+doses nor their recovery dates, and does not execute radiation symptoms itself.
+
+`tests/fixtures/expanded-radiation-treatment.t` and `test_radiation_treatment`
+specify the +3 scope, both sides of expiry, repeat administration, insufficient
+technology, missing evidence, preview, rollback, undo and saved continuation.
+They are authored and unrun. The underlying preventive-treatment fixtures remain
+part of the required regression coverage after the shared-path refactor.

@@ -1734,6 +1734,11 @@ class RpgExpandedRadiationPrevention: object
     administeredAt = nil
     boundDefinition = nil
     result = nil
+    medicineValid() { return self.medicine.ofKind(RpgExpandedRadiationPreventive); }
+    minimumTechnology() { return 7; }
+    history() { return self.profile.radiationPreventions; }
+    remember() { self.profile.radiationPreventions = self.profile.radiationPreventions + [self]; }
+    overlaps(prior) { return rpgLedger.seconds - prior.administeredAt <= 10800; }
     definition() { return [self.id,self.profile,self.medicine,self.approved,self.administrationEvidence]; }
     validateReceipt()
     {
@@ -1742,13 +1747,13 @@ class RpgExpandedRadiationPrevention: object
         local current = self.definition();
         for (local index = 1; index <= current.length(); index += 1)
             if (current[index] != self.boundDefinition[index]) rpgExpandedReject('radiation-prevention-binding');
-        if (!holds(self.profile.radiationPreventions,self)) rpgExpandedReject('radiation-prevention-history');
+        if (!holds(self.history(),self)) rpgExpandedReject('radiation-prevention-history');
         rpgInteger(self.administeredAt,0,rpgLedger.seconds); return nil;
     }
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
-            || self.medicine == nil || !self.medicine.ofKind(RpgExpandedRadiationPreventive))
+            || self.medicine == nil || !self.medicineValid())
             rpgExpandedReject('radiation-prevention-definition');
         local value = new RpgExpandedResult();
         if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
@@ -1756,7 +1761,7 @@ class RpgExpandedRadiationPrevention: object
         if (!self.approved || self.administrationEvidence == nil || self.administrationEvidence == '')
         { value.reason = 'radiation-prevention-administration-required'; return value; }
         if (self.profile.dead) { value.reason = 'radiation-prevention-patient-dead'; return value; }
-        rpgInteger(self.medicine.techLevel,7,12); rpgInteger(self.medicine.quantity,0,1000000);
+        rpgInteger(self.medicine.techLevel,self.minimumTechnology(),12); rpgInteger(self.medicine.quantity,0,1000000);
         if (!holds(self.profile.equipment,self.medicine) || self.medicine.quantity == 0
             || !self.medicine.usableBy(self.profile))
         { value.reason = 'radiation-prevention-supply'; return value; }
@@ -1764,12 +1769,12 @@ class RpgExpandedRadiationPrevention: object
         for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
             foreach (local item in owner.equipment) if (item == self.medicine) count += 1;
         if (count != 1) rpgExpandedReject('radiation-prevention-supply-ownership');
-        foreach (local prior in self.profile.radiationPreventions)
+        foreach (local prior in self.history())
         {
             prior.validateReceipt();
             if (prior.id == self.id) rpgExpandedReject('radiation-prevention-duplicate');
             /* Repeated-dose pharmacology is unspecified; reject overlapping windows. */
-            if (rpgLedger.seconds - prior.administeredAt <= 10800)
+            if (self.overlaps(prior))
             { value.reason = 'radiation-prevention-overlap'; return value; }
         }
         value.status = 'ready'; return value;
@@ -1785,7 +1790,54 @@ class RpgExpandedRadiationPrevention: object
             self.profile.equipment = remaining;
         }
         self.administeredAt = rpgLedger.seconds; self.boundDefinition = self.definition();
-        self.profile.radiationPreventions = self.profile.radiationPreventions + [self];
+        self.remember();
         value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+
+/** B436 advanced medication: the existing acquisition ledger charges per dose. */
+class RpgExpandedRadiationRepairMedicine: RpgLiteItem
+    cost = 1000
+    techLevel = 9
+;
+
+/** One two-week course; overlapping courses are unsupported, never additive. */
+class RpgExpandedRadiationResistanceTreatment: RpgExpandedRadiationPrevention
+    medicineValid() { return self.medicine.ofKind(RpgExpandedRadiationRepairMedicine); }
+    minimumTechnology() { return 9; }
+    history() { return self.profile.radiationResistanceTreatments; }
+    remember() { self.profile.radiationResistanceTreatments = self.profile.radiationResistanceTreatments + [self]; }
+    overlaps(prior) { return rpgLedger.seconds - prior.administeredAt < 1209600; }
+;
+
+modify RpgExpandedProfile
+    radiationResistanceTreatments = []
+    radiationTreatmentModifier()
+    {
+        local active = 0;
+        foreach (local treatment in self.radiationResistanceTreatments)
+        {
+            if (treatment == nil || !treatment.ofKind(RpgExpandedRadiationResistanceTreatment)
+                || treatment.profile != self) rpgExpandedReject('radiation-treatment-history');
+            treatment.validateReceipt();
+            if (rpgLedger.seconds - treatment.administeredAt < 1209600) active += 1;
+        }
+        if (active > 1) rpgExpandedReject('radiation-treatment-overlap');
+        return active == 1 ? 3 : 0;
+    }
+;
+
+/** Every HT roll against radiation can use this context, including later recovery.
+ * It supplies the medication bonus once; the caller supplies other rule modifiers. */
+class RpgExpandedRadiationContext: RpgLiteContext
+    kind = 'radiation'
+    attribute = rpgHT
+    skillUseModifier(profile)
+    {
+        if (!profile.ofKind(RpgExpandedProfile) || self.attribute != rpgHT
+            || self.skill != nil || self.kind != 'radiation') rpgExpandedReject('radiation-check-context');
+        local base = inherited(profile);
+        return base == nil ? nil : base + profile.radiationTreatmentModifier();
     }
 ;

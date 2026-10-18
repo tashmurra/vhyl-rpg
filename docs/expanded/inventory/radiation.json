@@ -322,9 +322,12 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Technology-nine treatment costs 1000 and grants +3 on radiation health checks for two weeks; overlapping administrations require explicit duration handling rather than unrestricted bonus stacking.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_treatment"
+      ],
+      "implementation": "RpgExpandedRadiationResistanceTreatment consumes one owned technology-nine dose and retains a two-week receipt. RpgExpandedRadiationContext adds three to radiation HT checks, with no dose removal. Overlapping courses are rejected. Fixtures for expiry, replay, rollback, undo and cross-process continuation are authored and unrun. Automatic syndrome and recovery procedures remain pending."
     },
     {
       "id": "radiation-advanced-repair",

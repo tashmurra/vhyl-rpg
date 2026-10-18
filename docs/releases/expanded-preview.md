@@ -238,3 +238,11 @@ owned dose grants the reference reduction during its one-to-three-hour window.
 Receipts prevent duplicate consumption and preserve already-recorded exposure.
 Overlapping administrations are explicitly unsupported. Boundary and persistence
 fixtures are authored and unrun; other radiation treatments remain pending.
+
+
+Advanced radiation treatment now consumes one technology-nine inventory dose and
+grants +3 through a dedicated radiation HT context for fourteen days. It shares
+administration and receipt handling with preventive medication; overlapping
+courses are blocked and absorbed dose is unchanged. New expiry and persistence
+fixtures are authored and unrun. Automatic radiation syndrome procedures remain
+pending.

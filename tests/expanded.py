@@ -8896,6 +8896,8 @@ def test(build):
     test_radiation_traits(Session, radiation_traits)
     radiation_prevention = build.build('expanded-radiation-prevention', ROOT / 'tests/fixtures/expanded-radiation-prevention.t')
     test_radiation_prevention(Session, radiation_prevention, build.out)
+    radiation_treatment = build.build('expanded-radiation-treatment', ROOT / 'tests/fixtures/expanded-radiation-treatment.t')
+    test_radiation_treatment(Session, radiation_treatment, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10068,3 +10070,54 @@ def test_radiation_prevention(Session, bundle, out):
         assert last(s, 'test.radiation-prevention') == [1, 1, 2, 1, 3600, 0]
     finally:
         s.close()
+
+
+def test_radiation_treatment(Session, bundle, out):
+    s = Session(bundle)
+    path = out / 'expanded-radiation-treatment.zsave'
+    try:
+        s.action(2291, 21, 0)
+        s.action(2291, 22, 0)
+        s.action(2291, 31, 0)
+        assert last(s, 'test.radiation-treatment') == [2, 0, 10, 10, 0, 0]
+        s.action(2291, 20, 0)
+        s.command('undo')
+        s.action(2291, 31, 0)
+        assert last(s, 'test.radiation-treatment') == [2, 0, 10, 10, 0, 0]
+        s.action(2291, 20, 0)
+        s.action(2291, 20, 0)
+        s.action(2291, 24, 0)
+        assert last(s, 'test.radiation-treatment-result') == ['blocked', 'radiation-prevention-overlap']
+        s.action(2291, 31, 0)
+        assert last(s, 'test.radiation-treatment') == [1, 1, 13, 10, 0, 0]
+        s.action(2291, 10, 0)
+        s.action(2295)
+        assert last(s, 'test.radiation-ratio') == [100, 1, 1, 0, 0]
+        s.action(2291, 3, 13)
+        s.action(2291, 30, 86399)
+        s.action(2291, 31, 0)
+        assert last(s, 'test.radiation-treatment') == [1, 1, 13, 10, 1209599, 0]
+        s.command(f':save {path}\n@2295')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2295')
+        s.action(2291, 20, 0)
+        s.action(2291, 30, 1)
+        s.action(2291, 31, 0)
+        assert last(s, 'test.radiation-treatment') == [1, 1, 10, 10, 1209600, 0]
+        s.action(2291, 24, 0)
+        s.action(2291, 31, 0)
+        assert last(s, 'test.radiation-treatment') == [0, 2, 13, 10, 1209600, 0]
+    finally:
+        s.close()
+    for invalid in (32, 33):
+        s = Session(bundle)
+        try:
+            s.action(2291, invalid, 0)
+            s.action(2291, 20, 0)
+            s.action(2291, 31, 0)
+            assert last(s, 'test.radiation-treatment') == [2, 0, 10, 10, 0, 0]
+        finally:
+            s.close()
