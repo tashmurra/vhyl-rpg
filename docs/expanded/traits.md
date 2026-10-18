@@ -264,3 +264,16 @@ also differ at the activation boundary, which remains an explicit source decisio
 Compulsions carry real time, expenditure, living-cost and reaction consequences.
 Hidden truthfulness rolls and sensory restrictions need controlled information
 outputs. Existing character accounting does not execute these new effects.
+
+
+The [third disadvantage segment](inventory/disadvantages-c.json) separates
+missed-sustenance injury from daily depletion that ordinary healing cannot restore.
+Both need owned clocks and source-tagged injury in the shared health ledger.
+Calendar boundaries, qualifying contact durations and the depletion recovery amount
+need explicit source decisions before those procedures can be completed.
+
+Dependents, external duties and adverse fate also affect advancement and character
+accounting. Their author interfaces must record appearances, assignments, losses
+and settlement decisions; a general narrative callback cannot establish coverage.
+Reduced personal time changes action scheduling, while outside events retain their
+world-time schedule. These entries remain pending executable implementation.
