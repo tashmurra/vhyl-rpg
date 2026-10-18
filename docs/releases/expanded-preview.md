@@ -1258,3 +1258,9 @@ expanded influence procedure remains partial.
 - Template composition now copies supported trait purchases instead of sharing
   mutable traits with intermediate profiles. Added an unrun level/cost isolation
   and save-continuation fixture, retaining concrete rated behavior types.
+
+Occupational composition now validates reconstructed duplicate trait purchases
+and rejects conflicting activation, mitigation or skill-scope state. Pending
+trait checks are rejected instead of discarded when creating the combined
+character. Both package orders have regression assertions; these remain unrun
+while validation is paused.

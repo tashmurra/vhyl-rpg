@@ -73,6 +73,7 @@ rpgExpandedCopyTemplateTrait(trait)
 {
     if (trait == nil || !trait.ofKind(RpgLiteTrait) || trait.labelId == nil)
         rpgExpandedReject('template-trait-copy-definition');
+    if (trait.nextCheck != 0) rpgExpandedReject('template-trait-runtime-state');
     local copy = trait.templatePurchaseKind == 'shared-catalogue'
         ? rpgLiteMakeTrait(trait.labelId,trait.level,trait.scope)
         : rpgExpandedTemplateTraits.rated(trait.labelId,trait.level,trait.scope,trait.selfControlNumber());
@@ -132,16 +133,23 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
         if (source.basicMove() > move) move = source.basicMove();
         foreach (local trait in source.traits)
         {
+            local purchase = rpgExpandedCopyTemplateTrait(trait);
             local found = nil;
             foreach (local current in result.traits)
                 if (current.id == trait.id && current.scope == trait.scope) found = current;
-            if (found == nil) result.traits = result.traits + [rpgExpandedCopyTemplateTrait(trait)];
+            if (found == nil) result.traits = result.traits + [purchase];
             else
             {
                 if (trait.templatePurchaseKind != found.templatePurchaseKind
                     || trait.controlled != found.controlled
                     || trait.controlled && trait.selfControlNumber() != found.selfControlNumber())
                     rpgExpandedReject('template-trait-purchase-conflict');
+                if (trait.active != found.active || trait.mitigated != found.mitigated
+                    || trait.skills.length() != found.skills.length())
+                    rpgExpandedReject('template-trait-state-conflict');
+                for (local i = 1; i <= trait.skills.length(); i += 1)
+                    if (trait.skills[i] != found.skills[i])
+                        rpgExpandedReject('template-trait-state-conflict');
                 if (trait.level > found.level) found.level = trait.level;
             }
         }

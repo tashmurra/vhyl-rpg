@@ -257,3 +257,13 @@ classes and their costs are checked during reconstruction; unknown purchase
 kinds require a supported factory rather than silently becoming plain traits.
 The isolation fixture retains the intermediate profile and checks independent
 levels and costs before and after a save; it remains unrun.
+
+Every trait is reconstructed and its purchase checked, including duplicates that
+will merge with an earlier package. Composition rejects differing active,
+mitigated or skill-scope state with `template-trait-state-conflict`, and any
+pending trait check (`nextCheck != 0`) with `template-trait-runtime-state`.
+Resolve these states in the template definitions before composing a new
+character. This avoids package-order-dependent behavior or silently dropping a
+customized purchase. The isolation fixture specifies both package orders for
+these cases; execution remains paused. Arbitrary custom trait methods are not a
+supported template purchase interface.

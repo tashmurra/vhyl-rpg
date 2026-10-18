@@ -17678,6 +17678,16 @@ def test_template_isolation(Session, bundle, out):
     path = out / 'expanded-template-isolation.zsave'
     s = Session(bundle)
     try:
+        for code, reason in (
+            (5610, 'accepted'),
+            (5611, 'template-trait-copy-purchase'),
+            (5612, 'template-trait-state-conflict'),
+            (5613, 'template-trait-state-conflict'),
+            (5614, 'template-trait-state-conflict'),
+            (5615, 'template-trait-runtime-state'),
+        ):
+            s.action(2285, code)
+            assert last(s, 'test.template-customization') == [reason, reason]
         for code in (5600,5602):
             s.action(2285,code)
         assert last(s,'test.template-isolation') == [1,2,0,5,10]
