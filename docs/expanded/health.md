@@ -3929,3 +3929,12 @@ rest and does not establish an hourly conversion.
 preview purity, denied effort, mid-hour changes, rollback, undo, individual/group
 replay, duplicate combat-fatigue rejection and cross-process continuation. Fixtures
 remain unrun while checks are paused.
+
+
+Grouped marching receipts are also registered in each participant's `marchGroups`.
+Profile validation checks membership in every participant's history, the shared
+start/end timestamps, the committed duration and permission outcome, and the exact
+member-result list. A group id cannot be reused for another group involving the
+same participant. These bindings cover denied marches as well as completed hours.
+The group fixture includes unrun cases for altered outcomes, duration, result
+membership, missing history and duplicate group identifiers.

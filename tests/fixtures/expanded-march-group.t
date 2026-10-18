@@ -4,6 +4,7 @@ marchPartner: RpgExpandedProfile rules = bleedRules equipment = [marchPartnerLoa
 marchPartnerHour: RpgExpandedMarchHour id = 'partner-hour' profile = marchPartner interval = marchInterval
     approved = true evidence = 'Same continuous hour for the loaded partner' dropDestination = bleedRoom;
 marchGroup: RpgExpandedMarchGroup id = 'concurrent-hour' hours = [marchExecution,marchPartnerHour];
+marchDuplicateGroup: RpgExpandedMarchGroup id = 'concurrent-hour' hours = [marchExecution,marchPartnerHour];
 modify rpgLedger
     afterAdvance(previous)
     {
@@ -25,6 +26,16 @@ modify BleedTestAction
         { event('test.march-group-state'); eventValue(rpgLedger.seconds); eventValue(bleedProfile.fatigue); eventValue(marchPartner.fatigue);
           eventValue(bleedProfile.marchHours.length()); eventValue(marchPartner.marchHours.length()); eventValue(rpgRandom.draws); return nil; }
         if (code == 23504) { marchExecution.apply(); marchPartnerHour.apply(); return nil; }
+        if (code >= 23600 && code <= 23604)
+        {
+            if (code == 23600) marchGroup.result.allowed = nil;
+            if (code == 23601) marchGroup.result.seconds = 0;
+            if (code == 23602) marchGroup.result.members = [];
+            if (code == 23603) bleedProfile.marchGroups = [];
+            try { if (code == 23604) marchDuplicateGroup.assess(); else rpgExpandedValidate(marchPartner); }
+            catch (RpgExpandedError error) { event('test.march-group-error'); eventValue(error.reason); }
+            return nil;
+        }
         return inherited(context);
     }
 ;

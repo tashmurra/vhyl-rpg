@@ -24968,3 +24968,13 @@ def test_march_group(Session, bundle, out):
         assert last(s,'test.march-group-state') == [0,10,0,0,0,3]
     finally:
         s.close()
+
+    for code, reason in ((23600,'march-group-result-binding'),(23601,'march-group-result-binding'),
+                         (23602,'march-group-result-binding'),(23603,'march-group-history'),
+                         (23604,'march-group-duplicate')):
+        s = Session(bundle)
+        try:
+            s.action(2285,23500); s.action(2285,code)
+            assert last(s,'test.march-group-error') == [reason]
+        finally:
+            s.close()

@@ -8794,6 +8794,8 @@ class RpgExpandedMarchGroup: object
     result = nil
     startedAt = nil
     completedAt = nil
+    boundAllowed = nil
+    boundSeconds = nil
     boundDefinition = nil
     definition()
     {
@@ -8815,6 +8817,9 @@ class RpgExpandedMarchGroup: object
         }
         if (self.result != nil)
         {
+            if (self.result.members.length() != self.hours.length() || self.result.allowed != self.boundAllowed
+                || self.result.seconds != self.boundSeconds || self.completedAt != self.startedAt + self.boundSeconds
+                || self.completedAt > rpgLedger.seconds) rpgExpandedReject('march-group-result-binding');
             local facts = self.definition();
             if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('march-group-binding');
             for (local i = 1; i <= facts.length(); i += 1)
@@ -8822,7 +8827,8 @@ class RpgExpandedMarchGroup: object
             for (local i = 1; i <= self.hours.length(); i += 1)
             {
                 local hour = self.hours[i];
-                if (hour.result != self.result.members[i] || hour.assess().status != 'reused'
+                if (!holds(hour.profile.marchGroups,self) || hour.result.allowed != self.boundAllowed
+                    || hour.result.seconds != self.boundSeconds || hour.result != self.result.members[i] || hour.assess().status != 'reused'
                     || hour.startedAt != self.startedAt || hour.completedAt != self.completedAt)
                     rpgExpandedReject('march-group-history');
             }
@@ -8830,6 +8836,8 @@ class RpgExpandedMarchGroup: object
         }
         foreach (local hour in self.hours)
         {
+            foreach (local prior in hour.profile.marchGroups)
+                if (prior.id == self.id) rpgExpandedReject('march-group-duplicate');
             if (hour.result != nil) rpgExpandedReject('march-group-used-member');
             local prepared = hour.assess();
             if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
@@ -8875,14 +8883,37 @@ class RpgExpandedMarchGroup: object
                 if (prepared.cost.apply().status != 'resolved') rpgExpandedReject('march-group-cost-changed');
             value.seconds = 3600;
         }
+        local finalFacts = self.definition();
+        if (finalFacts.length() != facts.length()) rpgExpandedReject('march-group-interrupted');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (finalFacts[i] != facts[i]) rpgExpandedReject('march-group-interrupted');
         for (local i = 1; i <= self.hours.length(); i += 1)
         {
             local hour = self.hours[i]; local prepared = value.members[i];
             prepared.allowed = value.allowed; prepared.reason = value.reason; prepared.seconds = value.seconds; prepared.status = 'resolved';
             hour.startedAt = start; hour.completedAt = rpgLedger.seconds; hour.boundDefinition = hour.definition(); hour.result = prepared;
             hour.profile.marchExecutions = hour.profile.marchExecutions + [hour];
+            hour.profile.marchGroups = hour.profile.marchGroups + [self];
         }
+        self.boundAllowed = value.allowed; self.boundSeconds = value.seconds;
         self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = facts; self.result = value;
         value.status = 'resolved'; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    marchGroups = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local group in self.marchGroups)
+        {
+            if (group == nil || !group.ofKind(RpgExpandedMarchGroup) || holds(ids,group.id)) rpgExpandedReject('march-group-history');
+            local member = nil;
+            foreach (local hour in group.hours) if (hour.profile == self) member = true;
+            if (!member || group.assess().status != 'reused') rpgExpandedReject('march-group-history');
+            ids = ids + [group.id];
+        }
+        return nil;
     }
 ;
