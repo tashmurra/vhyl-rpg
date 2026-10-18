@@ -1322,3 +1322,8 @@ purchase and discard the other, recalculating combined cost and preserving the
 decision in the owned receipt. Missing, compatible and contradictory selections
 reject. Personal ancestry omissions remain unsupported. New resolution and
 persistence fixtures are authored but unrun.
+
+Ancestry packages now install owned mandatory purchase prohibitions and retain
+zero-cost cosmetic notes with ancestry provenance. Shared learning rejects
+removed or altered constraint records. Cosmetic notes grant no numerical
+abilities. Creation, ownership, undo and save fixtures remain unrun.

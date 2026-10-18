@@ -9120,6 +9120,8 @@ def test(build):
     test_ancestry_stacking(Session, ancestry_stacking, build.out)
     ancestry_conflicts = build.build('expanded-ancestry-conflicts',ROOT / 'tests/fixtures/expanded-ancestry-conflicts.t')
     test_ancestry_conflicts(Session, ancestry_conflicts, build.out)
+    ancestry_features = build.build('expanded-ancestry-features',ROOT / 'tests/fixtures/expanded-ancestry-features.t')
+    test_ancestry_features(Session, ancestry_features, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -18066,5 +18068,51 @@ def test_ancestry_conflicts(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.ancestry-resolution') == [-30, 30, 1, 'compelled-aid', 6, 1, 0, 0]
         assert last(s, 'test.ancestry-score-error') == ['ancestry-resolution-binding']
+    finally:
+        s.close()
+
+
+def test_ancestry_features(Session, bundle, out):
+    path = out / 'expanded-ancestry-features.zsave'
+    expected = [0, 1, 'marked-ancestry', 'silver freckles', 'taboo-skill']
+    for mutation, reason in ((6303, 'ancestry-taboo-mandatory'), (6304, 'ancestry-taboo-binding'), (6305, 'ancestry-feature-binding')):
+        s = Session(bundle)
+        try:
+            for code in (6300, mutation, 6309):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-feature-error') == [reason]
+        finally:
+            s.close()
+    for mutation, reason in ((6307, 'taboo-attribute'), (6310, 'taboo-trait')):
+        s = Session(bundle)
+        try:
+            for code in (6300, mutation, 6308, 6301):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-feature-error') == [reason]
+            assert last(s, 'test.ancestry-features') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (6300, 6301, 6302, 6311):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-features') == expected
+        assert last(s, 'test.ancestry-feature-learning') == [0, 100, 0, 0]
+        assert last(s, 'test.ancestry-feature-ownership') == [0, 1]
+        s.action(2285, 6303)
+        s.command('undo')
+        for code in (6306, 6301):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-features') == expected
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (6301, 6302):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-features') == expected
+        assert last(s, 'test.ancestry-feature-learning') == [0, 100, 0, 0]
     finally:
         s.close()

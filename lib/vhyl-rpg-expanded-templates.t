@@ -515,6 +515,10 @@ modify RpgExpandedProfile
 /** Ancestry score modifiers only; traits and skills require their own origin rules. */
 class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
     supportsTraits = nil
+    tabooTraitIds = []
+    tabooSkills = []
+    tabooAttributeRanges = []
+    cosmeticFeatures = []
     nonhuman = nil
     approved = nil
     evidence = nil
@@ -523,6 +527,8 @@ class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
         if (self.id == nil || self.id == '' || !self.approved || self.evidence == nil || self.evidence == ''
             || !self.eligible || self.skillRows.length() != 0 || !self.supportsTraits && self.traitRows.length() != 0)
             rpgExpandedReject('ancestry-score-definition');
+        foreach (local feature in self.cosmeticFeatures)
+            if (feature == nil || feature == '') rpgExpandedReject('ancestry-feature-definition');
         self.changes(); return nil;
     }
 ;
@@ -546,6 +552,15 @@ class RpgExpandedAncestryScores: object
     boundTraits = []
     decisions = []
     boundDecisions = []
+    constraints = []
+    boundConstraints = []
+    features = []
+    boundFeatures = []
+    constraintDefinition(constraint)
+    {
+        return [constraint,constraint.id,constraint.owner,constraint.traitIds,constraint.skills,
+            constraint.attributeRanges,constraint.approved,constraint.evidence];
+    }
     traitDefinition(trait,origin)
     {
         return [trait,origin,trait.id,trait.level,trait.scope,trait.points,trait.templatePurchaseKind,
@@ -557,6 +572,20 @@ class RpgExpandedAncestryScores: object
             || self.boundChanges.length() != 10 || self.origins.length() != self.boundOrigins.length())
             rpgExpandedReject('ancestry-score-ownership');
         if (self.nonhuman != self.boundNonhuman) rpgExpandedReject('ancestry-score-binding');
+        if (self.constraints.length() != self.boundConstraints.length()) rpgExpandedReject('ancestry-taboo-binding');
+        for (local i = 1; i <= self.constraints.length(); i += 1)
+        {
+            local constraint = self.constraints[i]; local count = 0;
+            foreach (local contribution in profile.contributions) if (contribution == constraint) count += 1;
+            if (count != 1) rpgExpandedReject('ancestry-taboo-mandatory');
+            local definition = self.constraintDefinition(constraint);
+            if (definition.length() != self.boundConstraints[i].length()) rpgExpandedReject('ancestry-taboo-binding');
+            for (local j = 1; j <= definition.length(); j += 1)
+                if (definition[j] != self.boundConstraints[i][j]) rpgExpandedReject('ancestry-taboo-binding');
+        }
+        if (self.features.length() != self.boundFeatures.length()) rpgExpandedReject('ancestry-feature-binding');
+        for (local i = 1; i <= self.features.length(); i += 1)
+            if (self.features[i] != self.boundFeatures[i]) rpgExpandedReject('ancestry-feature-binding');
         if (self.decisions.length() != self.boundDecisions.length()) rpgExpandedReject('ancestry-resolution-binding');
         for (local i = 1; i <= self.decisions.length(); i += 1)
             if (self.decisions[i] != self.boundDecisions[i]) rpgExpandedReject('ancestry-resolution-binding');
@@ -587,6 +616,11 @@ class RpgExpandedAncestryScores: object
 ;
 modify RpgExpandedProfile
     ancestryScores = nil
+    socialSkillLearningReason(skill)
+    {
+        if (self.ancestryScores != nil) self.ancestryScores.validate(self);
+        return inherited(skill);
+    }
     quirkCountsTowardCreationLimit(trait)
     {
         if (self.ancestryScores != nil)
@@ -792,6 +826,21 @@ rpgExpandedCreateResolvedAncestryCharacter(personal, ancestries, resolutions, ru
     receipt.nonhuman = nonhuman; receipt.boundNonhuman = nonhuman;
     receipt.origins = origins; receipt.boundOrigins = origins;
     receipt.changes = changes; receipt.boundChanges = changes; p.ancestryScores = receipt;
+    foreach (local ancestry in ancestries)
+    {
+        foreach (local feature in ancestry.cosmeticFeatures) receipt.features = receipt.features + [[ancestry.id,feature]];
+        if (ancestry.tabooTraitIds.length() != 0 || ancestry.tabooSkills.length() != 0
+            || ancestry.tabooAttributeRanges.length() != 0)
+        {
+            local constraint = new RpgExpandedTabooTraits(); constraint.id = 'ancestry-taboo:' + ancestry.id;
+            constraint.owner = p; constraint.traitIds = ancestry.tabooTraitIds; constraint.skills = ancestry.tabooSkills;
+            constraint.attributeRanges = ancestry.tabooAttributeRanges; constraint.approved = ancestry.approved;
+            constraint.evidence = ancestry.evidence; constraint.validateDefinition(p);
+            p.contributions = p.contributions + [constraint]; receipt.constraints = receipt.constraints + [constraint];
+            receipt.boundConstraints = receipt.boundConstraints + [receipt.constraintDefinition(constraint)];
+        }
+    }
+    receipt.boundFeatures = receipt.features;
     foreach (local ancestry in ancestries)
         foreach (local row in ancestry.traitRows)
         {

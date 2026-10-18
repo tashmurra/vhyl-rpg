@@ -547,3 +547,31 @@ replacement accounting and remain unsupported.
 conflict, retaining one rated purchase, invalid and contradictory decisions,
 unchanged prior characters, receipt binding, undo and save continuation. These
 assertions remain unrun while checks are paused.
+
+## Package prohibitions and cosmetic notes
+
+An ancestry definition can supply `tabooTraitIds`, `tabooSkills` and
+`tabooAttributeRanges` using the `RpgExpandedTabooTraits` formats above. The
+factory creates a separate owned constraint contribution for each package with
+prohibitions, carrying its approval and explanatory evidence. Final validation
+checks the combined character against every installed constraint, including a
+package that contradicts its own mandatory traits.
+
+The ancestry receipt binds these contributions and their definitions. Removing a
+required contribution or changing its prohibited purchases rejects before shared
+learning or ordinary advancement. Two characters created from one definition
+receive different owned contributions. Editing the source package later does not
+rewrite an existing character's constraints. Conflict decisions about trait rows
+do not remove ancestry prohibitions.
+
+`cosmeticFeatures` stores nonempty cosmetic descriptions at zero point cost.
+The owned receipt's `features` list contains `[ancestry ID, description]` pairs.
+These notes grant no movement, resistance, sensing, injury, or environmental
+benefit. Native environmental conditions and physiological features with
+mechanical consequences still require their specific implementations; they
+must not be represented as cosmetic notes to claim support.
+
+Sources: `full-2008`, B261 and B452. `test_ancestry_features` specifies zero cost,
+mandatory constraint ownership, prohibited initial purchases, direct learning,
+rejected edits and removals, source-definition isolation, undo and save
+continuation. Assertions are authored but unrun.

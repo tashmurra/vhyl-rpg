@@ -320,9 +320,12 @@
       "pages": "B261; B450; B452",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Store cosmetic and other zero-cost features without inventing prices; distinguish a baseline environmental adaptation from broader environmental tolerance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_features"
+      ],
+      "validation_note": " Ancestry factories now install owned mandatory prohibition contributions and retain zero-cost cosmetic notes with source ancestry IDs. Definitions are bound and source edits do not rewrite existing characters. Mechanical environmental/physiological features remain unfinished; assertions authored, unrun."
     },
     {
       "id": "ancestry-taboo-validation",
@@ -333,9 +336,10 @@
       "status": "partial",
       "acceptance": "Reject purchased attributes, traits and skills forbidden by an ancestry taboo, including later advancement and template composition, even though the taboo itself costs zero.",
       "tests": [
-        "tests/expanded.py::test_template_taboo"
+        "tests/expanded.py::test_template_taboo",
+        "tests/expanded.py::test_ancestry_features"
       ],
-      "validation_note": "Owned zero-cost prohibitions validate trait IDs, purchased skill definitions and inclusive basic-attribute, Will and Perception ranges. Shared learning and ordinary development offers gate prohibited purchases, including derived Will/Perception increases from IQ. Other secondary ranges, ancestry composition and other purchase adapters remain pending; assertions authored and unrun."
+      "validation_note": "Owned zero-cost prohibitions validate trait IDs, purchased skill definitions and inclusive basic-attribute, Will and Perception ranges. Shared learning and ordinary development offers gate prohibited purchases, including derived Will/Perception increases from IQ. Other secondary ranges, ancestry composition and other purchase adapters remain pending; assertions authored and unrun. Ancestry factories now install owned mandatory prohibition contributions and retain zero-cost cosmetic notes with source ancestry IDs. Definitions are bound and source edits do not rewrite existing characters. Mechanical environmental/physiological features remain unfinished; assertions authored, unrun."
     },
     {
       "id": "ancestry-native-environment",
