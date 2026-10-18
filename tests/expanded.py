@@ -9440,6 +9440,8 @@ def test(build):
     test_packing_disclosure(Session,packing_disclosure,build.out)
     packing_actions = build.build("expanded-packing-actions",ROOT / "tests/fixtures/expanded-packing-actions.t")
     test_packing_actions(Session,packing_actions)
+    packing_transfer = build.build("expanded-packing-transfer",ROOT / "tests/fixtures/expanded-packing-transfer.t")
+    test_packing_transfer(Session,packing_transfer,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24680,3 +24682,52 @@ def test_packing_actions(Session, bundle):
 
 
 
+
+
+def test_packing_transfer(Session, bundle, out):
+    """Successful packing moves a stack once through the existing ledger; unrun."""
+    path = out / 'packing-transfer.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,22900)
+        assert last(s,'test.packing-transfer') == ['blocked','packing-transfer-unresolved']
+        s.action(1680,22500); s.action(1680,22905); s.action(1680,22902)
+        assert last(s,'test.packing-transfer') == ['ready',None]
+        assert last(s,'test.packing-inventory') == [1,0,0,3,0]
+        s.action(1680,22901); s.action(1680,22902)
+        assert last(s,'test.packing-inventory') == [1,0,0,3,0]
+        s.action(1680,22900); s.command('undo'); s.action(1680,22902)
+        assert last(s,'test.packing-inventory') == [1,0,0,3,0]
+        for code in (22900,22900,22902):
+            s.action(1680,code)
+        assert last(s,'test.packing-inventory') == [0,1,1,3,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,22900); s.action(1680,22902)
+        assert last(s,'test.packing-inventory') == [0,1,1,3,0]
+        s.action(1680,22906)
+        assert last(s,'test.packing-transfer-error') == ['packing-transfer-binding']
+    finally:
+        s.close()
+    for setup, reason in (((22505,22500),'packing-transfer-failed'),
+                          ((22500,22903),'packing-transfer-overload-unsupported'),
+                          ((22500,22904),'packing-transfer-inaccessible')):
+        s = Session(bundle)
+        try:
+            for code in (*setup,22900,22902):
+                s.action(1680,code)
+            assert last(s,'test.packing-transfer') == ['blocked',reason]
+            assert last(s,'test.packing-inventory') == [1,0,0,3,0]
+        finally:
+            s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (22500,22900,22907,22907,22902):
+            s.action(1680,code)
+        assert last(s,'test.packing-inventory') == [1,0,1,6,0]
+    finally:
+        s.close()

@@ -837,6 +837,7 @@ rpgExpandedPackingHandling: object
 
 /** Shared contract for exploration packing outcomes consumed by social. */
 class RpgExpandedPackingReceipt: object
+    inventoryTransfer = nil
     profile = nil
     result = nil
     disclosure = nil

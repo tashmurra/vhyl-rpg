@@ -1809,3 +1809,60 @@ modify rpgExpandedPaleontologyEquipment
         value.equipmentTL = assessment.techLevel; return value;
     }
 ;
+
+/** Transfer one packed stack using the existing inventory and trade receipt ledger. */
+class RpgExpandedPackingTransfer: RpgExpandedTradeTransfer
+    attempt = nil
+    evidence = nil
+    boundPackingDefinition = nil
+    packingDefinition()
+    { return [self.id,self.attempt,self.buyer,self.seller,self.item,self.price,self.buyerAgrees,self.sellerAgrees,self.available,self.permitted,self.evidence]; }
+    assess()
+    {
+        if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedPackingReceipt) || self.price != 0)
+            rpgExpandedReject('packing-transfer-definition');
+        local value = new RpgExpandedAcquisitionResult(); value.item = self.item;
+        if (self.attempt.result == nil) { value.reason = 'packing-transfer-unresolved'; return value; }
+        self.attempt.validateReceipt();
+        if (!self.attempt.result.check.achieved) { value.reason = 'packing-transfer-failed'; return value; }
+        if (self.attempt.task == 'load')
+        {
+            if (self.seller != self.attempt.profile || self.buyer != self.attempt.animal) rpgExpandedReject('packing-transfer-direction');
+        }
+        else if (self.attempt.task == 'unload')
+        {
+            if (self.seller != self.attempt.animal || self.buyer != self.attempt.profile) rpgExpandedReject('packing-transfer-direction');
+        }
+        else rpgExpandedReject('packing-transfer-task');
+        if (self.attempt.inventoryTransfer != nil && self.attempt.inventoryTransfer != self)
+        { value.reason = 'packing-transfer-already-recorded'; return value; }
+        if (self.claimed)
+        {
+            if (self.attempt.inventoryTransfer != self || self.boundPackingDefinition == nil) rpgExpandedReject('packing-transfer-history');
+            local facts = self.packingDefinition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundPackingDefinition[i]) rpgExpandedReject('packing-transfer-binding');
+            return inherited();
+        }
+        if (self.evidence == nil || self.evidence == '') { value.reason = 'packing-transfer-load-evidence'; return value; }
+        value = inherited();
+        if (value.status == 'reused') rpgExpandedReject('packing-transfer-receipt-conflict');
+        if (value.status != 'ready') return value;
+        if (!self.item.usableBy(self.seller)) { value.status = 'blocked'; value.reason = 'packing-transfer-inaccessible'; return value; }
+        local weight = self.item.weightHundredths(); local existing = self.buyer.loadHundredths();
+        rpgInteger(weight,0,100000000); rpgInteger(existing,0,100000000);
+        local lift = self.buyer.basicLiftHundredths(); rpgInteger(lift,1,100000000);
+        if (existing + weight > lift * 10)
+        { value.status = 'blocked'; value.reason = 'packing-transfer-overload-unsupported'; return value; }
+        return value;
+    }
+    transfer()
+    {
+        local value = inherited();
+        if (value.status == 'resolved')
+        {
+            self.boundPackingDefinition = self.packingDefinition(); self.attempt.inventoryTransfer = self;
+        }
+        return value;
+    }
+;

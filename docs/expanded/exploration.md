@@ -1845,7 +1845,8 @@ roll adds none; authored handling durations still use the common ledger.
 
 `test_packing_attempt` specifies blocked prerequisites, successful ordering,
 preview purity, rollback, undo, save continuation, replay and mismatched occurrence
-rejection. Fixtures remain unrun. Inventory movement and journey execution integration remain pending.
+rejection. Fixtures remain unrun. Single-stack inventory movement is available through the equipment adapter below;
+bundle loading and journey execution integration remain pending.
 
 
 ### Packing evaluations and route recommendations
@@ -1889,4 +1890,13 @@ The disclosure and action fixtures demonstrate route planning through parser,
 structured verbs and dialogue, including missing results, failed rolls, wrong
 knowledge owners, rollback, undo, repeated delivery and cross-process saves. They
 remain unrun while checks are paused. These actions resolve the packing check;
-loading inventory and executing caravan travel remain separate unfinished work.
+single-stack loading uses the equipment adapter; executing caravan travel remains unfinished.
+
+
+### Committing the packed inventory
+
+After a successful `load` or `unload` attempt, use equipment's
+[`RpgExpandedPackingTransfer`](equipment.md#loading-and-unloading-pack-animals)
+for one stack. The transfer reuses the existing inventory ledger and does not reroll
+the packing check. Bundle loading, overload fatigue and journey integration remain
+incomplete.

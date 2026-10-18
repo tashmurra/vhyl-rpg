@@ -1034,3 +1034,27 @@ borrowed-tool permissions. The [exploration guide](exploration.md#live-laborator
 describes the context connection, age-only quality bonus and replay contract.
 The author establishes that the purchased facilities actually constitute a
 laboratory for the requested study; the engine verifies access and scoring.
+
+
+## Loading and unloading pack animals
+
+`RpgExpandedPackingTransfer` extends the existing inventory transfer operation for
+one item stack following a successful `RpgExpandedPackingAttempt`. Set `attempt`,
+`id`, `item`, zero `price`, agreement/availability/permission fields and `evidence`
+that the load placement and restraint are suitable. For `load`, `seller` is the
+packer and `buyer` the animal; `unload` reverses them. These names identify inventory
+holders in the shared transfer ledger, not an additional sale or currency charge.
+
+`assess()` verifies the committed packing result, direction, unique item ownership,
+accessibility and resulting load. `transfer()` moves the stack once, clears stored,
+worn and ready state through the existing transfer machinery, and records the same
+trade receipt used by other transfers. Repeated calls reuse that receipt. One
+packing attempt authorizes one transfer; multiple stacks need separately defined
+attempts until bundle loading is implemented. No extra roll or time is charged.
+
+Loads above ten times Basic Lift explicitly reject as unsupported: they need the
+overload-fatigue procedure rather than ordinary travel treatment (full-2008 B353).
+The author remains responsible for animal body form, suitable equipment and load
+placement. `test_packing_transfer` specifies preview, failed/unresolved checks,
+access, capacity, duplicate prevention, rollback, undo and save continuation. These
+fixtures remain unrun. Bundle loading and overload-fatigue integration remain pending.
