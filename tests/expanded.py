@@ -9134,6 +9134,8 @@ def test(build):
     test_talent_study(Session, talent_study, build.out)
     talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
     test_talent_communication_study(Session, talent_communication)
+    talent_reaction = build.build('expanded-talent-reaction',ROOT / 'tests/fixtures/expanded-talent-reaction.t')
+    test_talent_reaction(Session, talent_reaction, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -18386,5 +18388,58 @@ def test_talent_communication_study(Session, bundle):
         for code in (4001, 4003):
             s.action(2285, code)
         assert last(s, 'test.communication-study-state') == [0, 1, 2, 10, 0, 1]
+    finally:
+        s.close()
+
+
+def test_talent_reaction(Session, bundle, out):
+    path = out / 'expanded-talent-reaction.zsave'
+    for mutation in (7003, 7004, 7005, 7006):
+        s = Session(bundle)
+        try:
+            for code in (mutation, 7000):
+                s.action(2285, code)
+            assert last(s, 'test.talent-reaction-preview') == [0, 'ready', 0, 0]
+        finally:
+            s.close()
+    for mutation, reason in ((7007, 'talent-reaction-evidence'), (7008, 'talent-reaction-skill'), (7009, 'talent-reaction-observer')):
+        s = Session(bundle)
+        try:
+            for code in (mutation, 7010):
+                s.action(2285, code)
+            assert last(s, 'test.talent-reaction-error') == [reason, 0, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (7011, 7000):
+            s.action(2285, code)
+        assert last(s, 'test.talent-reaction-preview') == [2, 'ready', 0, 0]
+        for code in (7012, 7000):
+            s.action(2285, code)
+        assert last(s, 'test.talent-reaction-preview') == [0, 'ready', 0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (30, 7002, 7000):
+            s.action(2285, code)
+        assert last(s, 'test.talent-reaction-preview') == [2, 'ready', 0, 0]
+        s.action(2285, 7001)
+        assert last(s, 'test.talent-reaction') == ['resolved', 12, 3, 1]
+        s.command('undo')
+        s.action(2285, 7000)
+        assert last(s, 'test.talent-reaction-preview') == [2, 'ready', 0, 0]
+        for code in (7001, 7001):
+            s.action(2285, code)
+        assert last(s, 'test.talent-reaction') == ['reused', 12, 3, 1]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 7001)
+        assert last(s, 'test.talent-reaction') == ['reused', 12, 3, 1]
     finally:
         s.close()

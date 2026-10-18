@@ -1355,3 +1355,9 @@ ledger, including communication credit, without changing skill point prices.
 Exact thresholds preserve fractional progress; unresolved mid-progress rate
 changes reject. Custom talent groups and full reaction integration remain pending.
 New boundary, ownership and persistence fixtures are authored but unrun.
+
+Catalogue talent reaction benefits now require an owned talent, a matching
+demonstrated skill and approved observer-specific appreciation. Social aptitude
+provides no bonus while manipulating that observer. Existing encounter history
+prevents repeated rolls. Custom talents and overlap remain unfinished; new
+reaction, rollback and persistence fixtures are unrun.

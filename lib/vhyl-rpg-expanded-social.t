@@ -1956,3 +1956,45 @@ class RpgExpandedCompanionshipReactionContext: RpgLiteSocialContext
         return nil;
     }
 ;
+
+
+/** B89-B91 observer-specific appreciation of demonstrated catalogue talent. */
+class RpgExpandedTalentReactionContext: RpgLiteSocialContext
+    subject = nil
+    observer = nil
+    talent = nil
+    demonstratedSkill = nil
+    observedPerformance = nil
+    eligibleAudience = nil
+    impressed = nil
+    manipulatingObserver = nil
+    approved = nil
+    evidence = nil
+    traitReactionModifier(profile)
+    {
+        if (profile != self.subject || self.subject == nil || !self.subject.ofKind(RpgExpandedProfile)
+            || self.observer == nil || !self.observer.ofKind(RpgLiteProfile) || self.observer == self.subject)
+            rpgExpandedReject('talent-reaction-participants');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('talent-reaction-evidence');
+        if (self.talent == nil || !self.talent.ofKind(RpgLiteTrait) || !holds(profile.traits,self.talent))
+            rpgExpandedReject('talent-reaction-purchase');
+        local skills = profile.catalogueTalentSkills(self.talent.id);
+        if (skills.length() == 0) rpgExpandedReject('talent-reaction-unavailable');
+        local count = 0;
+        foreach (local trait in profile.traits) if (trait.id == self.talent.id) count += 1;
+        if (count != 1) rpgExpandedReject('talent-reaction-purchase');
+        rpgInteger(self.talent.level,1,4);
+        if (self.demonstratedSkill == nil || !self.demonstratedSkill.ofKind(RpgLiteSkill)
+            || !holds(skills,self.demonstratedSkill.studyIdentity())) rpgExpandedReject('talent-reaction-skill');
+        local bonus = self.talent.active && !self.talent.mitigated && self.observedPerformance
+            && self.eligibleAudience && self.impressed
+            && !(self.talent.id == 'smooth-operator' && self.manipulatingObserver) ? self.talent.level : 0;
+        return inherited(profile) + bonus;
+    }
+    validateParticipants(profile,target)
+    {
+        self.traitReactionModifier(profile);
+        if (target != self.observer) rpgExpandedReject('talent-reaction-observer');
+        return nil;
+    }
+;

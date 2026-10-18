@@ -25,6 +25,7 @@ class RpgExpandedProfile: RpgLiteProfile
     contributions = []
     ancestrySkillModifier(skill) { return 0; }
     studyTimePercent(skill) { return 100; }
+    catalogueTalentSkills(id) { return []; }
     /* Character module supplies creation-budget assessment for cash exchanges. */
     creationMoneyReason(points) { return 'creation-money-accounting-unavailable'; }
     validateFeatures() { return nil; }

@@ -1005,3 +1005,35 @@ the completed request and rejects replay. Membership changes during elapsed time
 reject even when the replacement group has the same size and penalty. The two
 integration fixtures cover scoring, interruption rollback and replay; they are
 unrun while checks are paused.
+
+## Demonstrated talent reactions
+
+`RpgExpandedTalentReactionContext` supplies the reaction benefit for the three
+shared catalogue talents (full-2008, B89-B91). Supply an expanded `subject`, a
+separate `observer`, the subject's owned `talent`, and a `demonstratedSkill` in
+that talent's printed skill group. The traits module supplies the shared group
+list; absent support rejects rather than guessing a talent definition.
+
+The author must approve the facts with nonempty `evidence`. Set
+`observedPerformance`, `eligibleAudience` and `impressed` for the specific
+observer. All three must hold for the active, unmitigated talent to add its level
+(+1 through +4). For mechanical aptitude, the relevant audience is someone the
+subject does work for; for wilderness aptitude, explorers and nature enthusiasts;
+for social aptitude, social professionals such as salespeople or politicians.
+The author determines whether this observer qualifies and appreciates the
+performance. These facts are not inferred from an occupation label alone.
+
+For social aptitude, `manipulatingObserver = true` suppresses the bonus. Possession
+of a talent alone grants no reaction benefit. The context does not grant a bonus
+for an unrelated demonstrated skill, an unowned purchase, or an incorrectly
+identified observer. Invalid facts reject before any reaction dice are spent.
+
+Assign the context to `RpgExpandedReactionAttempt.socialContext`. Existing
+encounter history preserves the result and prevents another roll for the same
+approach. The general personal modifiers still compose through the normal social
+context. Custom talents, combined talent-reaction contexts and overlap policy
+remain unfinished.
+
+`test_talent_reaction` specifies eligibility, mitigation, the manipulation
+exception, pure assessment, rejection before rolling, replay, exception rollback,
+undo and cross-process save continuation. Assertions remain unrun.

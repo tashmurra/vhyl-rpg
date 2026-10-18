@@ -1342,23 +1342,27 @@ modify rpgExpandedTemplateTraits
 ;
 
 
-/** B89-B91 time reduction for the three shared catalogue talents. */
+/** B89-B91 shared talent membership for learning and demonstrated reactions. */
 modify RpgExpandedProfile
+    catalogueTalentSkills(id)
+    {
+        if (id == 'artificer') return ['armoury','carpentry','electrician','electronics-repair','engineer','machinist','masonry','mechanic','smith'];
+        if (id == 'outdoorsman') return ['camouflage','fishing','mimicry','naturalist','navigation','survival','tracking'];
+        if (id == 'smooth-operator') return ['acting','carousing','detect-lies','diplomacy','fast-talk','intimidation','leadership',
+            'panhandling','politics','public-speaking','savoir-faire','sex-appeal','streetwise'];
+        return inherited(id);
+    }
     studyTimePercent(skill)
     {
         local percent = inherited(skill);
         if (skill == nil || !skill.ofKind(RpgLiteSkill)) return percent;
         local id = skill.studyIdentity(); local level = 0;
-        foreach (local row in [
-            ['artificer',['armoury','carpentry','electrician','electronics-repair','engineer','machinist','masonry','mechanic','smith']],
-            ['outdoorsman',['camouflage','fishing','mimicry','naturalist','navigation','survival','tracking']],
-            ['smooth-operator',['acting','carousing','detect-lies','diplomacy','fast-talk','intimidation','leadership',
-                'panhandling','politics','public-speaking','savoir-faire','sex-appeal','streetwise']]])
-            if (holds(row[2],id))
+        foreach (local talentId in ['artificer','outdoorsman','smooth-operator'])
+            if (holds(self.catalogueTalentSkills(talentId),id))
             {
                 local count = 0;
                 foreach (local trait in self.traits)
-                    if (trait.id == row[1])
+                    if (trait.id == talentId)
                     {
                         count += 1; rpgInteger(trait.level,1,4);
                         if (trait.active && !trait.mitigated && trait.level > level) level = trait.level;
