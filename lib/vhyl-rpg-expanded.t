@@ -486,3 +486,11 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     callousnessActive() { return nil; }
 ;
+
+modify RpgLiteContext
+    requiresSpeech = nil
+    requiresVocalization = nil
+;
+modify RpgLiteTrait
+    voiceRelated = nil
+;

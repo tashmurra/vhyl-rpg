@@ -1031,3 +1031,24 @@ Direct assignments to character fields are author operations and must not be
 used to bypass advancement assessment. The fixture covers rejection without
 spending, allowed purchases, mitigation, replay, rollback, undo and save
 continuation; it has not been run while checks are paused.
+
+### Speech limitation (full-2008, B125)
+
+`RpgExpandedSpeechLimitation` costs -15 for inability to articulate speech, or
+-25 with `total = true` and `points = -25` for inability to vocalize at all.
+The first form permits nonlinguistic sounds and compatible voice traits. Both
+reject stuttering; the total form also rejects voice, mimicry, disturbing voice,
+and custom traits marked `voiceRelated`. Compatibility is checked independently
+of mitigation; mitigation suspends the action restriction, not the point cost.
+
+Set `requiresSpeech` on a context for articulated words, or
+`requiresVocalization` for a nonlinguistic sound. The shared score/check path
+rejects unavailable communication before randomness. Existing effort checks
+using `talk` or a speech requirement also respect the limitation. Contexts for
+writing, shared signing and other nonvocal channels remain available; authors
+must describe the actual channel rather than infer it from a skill name.
+
+Nonshared signing between player characters and full-rate communication study
+still require their dedicated authored exchange and time-credit interfaces.
+They remain pending. The fixture covers costs, channel distinctions, compatibility
+and rejection without random draws; checks remain paused.

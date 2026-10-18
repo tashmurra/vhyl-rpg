@@ -9068,6 +9068,8 @@ def test(build):
     test_technique_eligibility(Session, technique_eligibility)
     training_interruption = build.build('expanded-training-interruption',ROOT / 'tests/fixtures/expanded-training-interruption.t')
     test_training_interruption(Session, training_interruption, build.out)
+    speech_limitation = build.build('expanded-speech-limitation',ROOT / 'tests/fixtures/expanded-speech-limitation.t')
+    test_speech_limitation(Session, speech_limitation)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17032,5 +17034,42 @@ def test_training_interruption(Session, bundle, out):
         for code in (3723,3724,3722):
             s.action(2285,code)
         assert last(s,'test.training-interruption-state') == [2,'self',1,1,0,1,0,1,1,0,86400,0]
+    finally:
+        s.close()
+
+
+def test_speech_limitation(Session, bundle):
+    for setup,cost,score in (((),-15,None),((3802,),-15,9),((3803,),-25,None),
+                             ((3802,3803),-25,None),((3803,3804),-25,9),
+                             ((3805,),-15,9)):
+        s = Session(bundle)
+        try:
+            for code in setup+(3800,3800):
+                s.action(2285,code)
+            assert last(s,'test.speech-preview') == [cost,score,0]
+        finally:
+            s.close()
+    for setup,reason in (((),'articulated-speech-unavailable'),
+                         ((3802,3803),'vocalization-unavailable')):
+        s = Session(bundle)
+        try:
+            for code in setup+(3801,):
+                s.action(2285,code)
+            assert last(s,'test.speech-check') == [reason,0]
+        finally:
+            s.close()
+    for setup,result in (((3806,),'valid'),((3806,3807),'speech-limitation-incompatible'),
+                         ((3803,3806),'speech-limitation-incompatible')):
+        s = Session(bundle)
+        try:
+            for code in setup+(3808,):
+                s.action(2285,code)
+            assert last(s,'test.speech-validation') == [result]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285,3809)
+        assert last(s,'test.speech-effort') == ['articulated-speech-unavailable']
     finally:
         s.close()

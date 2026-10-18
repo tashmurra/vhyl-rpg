@@ -161,9 +161,9 @@
       "pages": "B125",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "No articulated speech is -15 but permits nonlinguistic vocal sounds and compatible voice/imitation traits, excluding stuttering. Total muteness is -25 and forbids all other voice traits; nonverbal channels remain. Communication study time counts fully without duplicating time spent.",
-      "tests": []
+      "tests": ["tests/fixtures/expanded-speech-limitation.t", "tests/expanded.py::test_speech_limitation"]
     },
     {
       "id": "disadvantages-b-speech-authored",

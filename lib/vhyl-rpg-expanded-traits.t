@@ -1031,3 +1031,49 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** B125 distinguish articulated speech from all vocal sound. */
+class RpgExpandedSpeechLimitation: RpgExpandedDisadvantage
+    id = 'speech-limitation'
+    points = -15
+    total = nil
+    creationCost()
+    {
+        if (!self.approved || self.id != 'speech-limitation' || self.level != 1
+            || self.percentages.length() != 0 || self.selfControlRating != nil || self.controlled
+            || self.points != (self.total ? -25 : -15)) rpgExpandedReject('speech-limitation-definition');
+        return self.total ? -25 : -15;
+    }
+;
+modify RpgExpandedProfile
+    speechLimitationLevel()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedSpeechLimitation))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-speech-limitation'); found = trait;
+            }
+        if (found == nil) return 0;
+        foreach (local trait in self.traits)
+            if (trait != found && trait.ofKind(RpgLiteTrait)
+                && (trait.id == 'stuttering' || found.total && (trait.voiceRelated
+                    || holds(['voice','mimicry','disturbing-voice'],trait.id))))
+                rpgExpandedReject('speech-limitation-incompatible');
+        return !found.active || found.mitigated ? 0 : found.total ? 2 : 1;
+    }
+    validateFeatures() { inherited(); self.speechLimitationLevel(); return nil; }
+    healthEffortReason(purpose,mentalAbility,speech,movement)
+    {
+        if ((purpose == 'talk' || speech) && self.speechLimitationLevel() > 0)
+            return 'articulated-speech-unavailable';
+        return inherited(purpose,mentalAbility,speech,movement);
+    }
+    healthCheckReason(context)
+    {
+        local limitation = self.speechLimitationLevel();
+        if (context.requiresSpeech && limitation > 0) return 'articulated-speech-unavailable';
+        if (context.requiresVocalization && limitation == 2) return 'vocalization-unavailable';
+        return inherited(context);
+    }
+;

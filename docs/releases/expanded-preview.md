@@ -1176,3 +1176,8 @@ expanded influence procedure remains partial.
 - Study and familiarity practice now revalidate their targets and eligibility
   after time hooks, preventing credit after interruption or retargeting. Added
   unrun rollback, midnight-boundary and save-continuation fixtures.
+
+- Added two speech-limitation tiers, voice-trait compatibility and pre-roll
+  articulated-speech/vocalization gates. Nonverbal contexts remain available;
+  authored gestures and communication study are still pending. Fixtures are
+  unrun (full-2008 B125).
