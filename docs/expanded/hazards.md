@@ -928,3 +928,43 @@ source-check cadence or syndrome execution is implied by a received-dose record.
 `tests/fixtures/expanded-fallout.t` and `test_fallout_treatment` specify both sides
 of each treatment boundary, retained absorbed radiation, single-dose consumption,
 preview, rollback, undo, replay and saved continuation. They are authored and unrun.
+
+
+### Owned living-subject radiation checks
+
+`RpgExpandedRadiationCheck` records a source-specific check from `full-2008`, B436.
+Supply a unique `id`, committed `triggerDose`, `approved` and `exposureEvidence`
+confirming a currently exposed living subject to whom the living-subject table
+applies. This contract does not select machine or other nonhuman effects. The
+trigger dose supplies the profile and source identity; the check reads the
+profile's total current accumulated dose, including other sources.
+
+For an initial acute exposure, apply at the same ledger instant as the dose.
+Set `continued = true` for author-confirmed continued exposure. That evidence is
+required even if the trigger dose is older: the record alone does not establish
+that a source is still irradiating the character. Each source can use at most one
+check per ledger day. Days are fixed 86,400-second buckets from ledger epoch zero;
+this is the engine's day-boundary convention for the printed daily restriction.
+Separate repeated acute exposures from the same source and delayed initial
+checks remain explicitly unsupported. Source identities must represent the same
+physical source consistently across dose records.
+
+`assess()` is pure. Below-one-rad totals, fractional effects-table bands, the
+800-rad overlap and unavailable scores block before randomness. Otherwise the
+check uses `RpgExpandedRadiationContext`, including active advanced treatment,
+and the accumulated-dose table modifier. Applying rolls once, stores the selected
+outcome and adds the receipt to `profile.radiationChecks`. Replay returns the saved
+roll and pending-consequence flag without rerolling or spending time. Definitions
+are bound to their receipt, and duplicate IDs are rejected.
+
+A no-effect outcome is `resolved` and retains every dose. Other outcomes return
+`awaiting-consequences`, with `consequencesPending = true` and an `effect`
+descriptor. This is deliberately an incomplete medical procedure: it records the
+mandatory roll, but does not yet apply the syndrome's delayed injuries, symptoms,
+trait changes or recovery. Authors must not treat that status as completed care.
+Automatic exposure scheduling and the syndrome executor remain pending.
+
+`tests/fixtures/expanded-radiation-check.t` and `test_radiation_checks` specify
+preview purity, exception rollback, undo, source/day throttling, treatment
+integration, pending syndrome status, replay, saved continuation and blocked
+fractional/overlapping bands. The cases are authored and unrun.

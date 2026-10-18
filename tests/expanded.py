@@ -8900,6 +8900,8 @@ def test(build):
     test_radiation_treatment(Session, radiation_treatment, build.out)
     fallout = build.build('expanded-fallout', ROOT / 'tests/fixtures/expanded-fallout.t')
     test_fallout_treatment(Session, fallout, build.out)
+    radiation_check = build.build('expanded-radiation-check', ROOT / 'tests/fixtures/expanded-radiation-check.t')
+    test_radiation_checks(Session, radiation_check, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10178,3 +10180,63 @@ def test_fallout_treatment(Session, bundle, out):
         assert last(s, 'test.fallout') == [0, 1, 15, 1, 0, 1, 1, 2, 604800, 0]
     finally:
         s.close()
+
+
+def test_radiation_checks(Session, bundle, out):
+    path = out / 'expanded-radiation-check.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2291, 0, 0)
+        s.action(2291, 51, 0)
+        s.action(2291, 52, 0)
+        s.action(2291, 55, 0)
+        assert last(s, 'test.radiation-check-state') == [0, 0, 0, None, None]
+        s.action(2291, 50, 0)
+        assert last(s, 'test.radiation-check-result') == ['resolved', None, 'none', None]
+        s.command('undo')
+        s.action(2291, 55, 0)
+        assert last(s, 'test.radiation-check-state') == [0, 0, 0, None, None]
+        s.action(2291, 50, 0)
+        s.action(2291, 50, 0)
+        s.action(2291, 54, 0)
+        assert last(s, 'test.radiation-check-result')[:2] == ['blocked', 'radiation-check-source-day-used']
+        s.action(2291, 30, 86399)
+        s.action(2291, 54, 0)
+        assert last(s, 'test.radiation-check-result')[:2] == ['blocked', 'radiation-check-source-day-used']
+        s.command(f':save {path}\n@2295')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2295')
+        s.action(2291, 30, 1)
+        s.action(2291, 54, 0)
+        assert last(s, 'test.radiation-check-result') == ['awaiting-consequences', None, 'burns', True]
+        s.action(2291, 54, 0)
+        s.action(2291, 55, 0)
+        assert last(s, 'test.radiation-check-state') == [2, 6, 86400, 0, 86400]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2291, 20, 0)  # Advanced treatment makes the second roll of 11 a success.
+        s.action(2291, 0, 0)
+        s.action(2291, 50, 0)
+        s.action(2291, 3, 1)
+        s.action(2291, 54, 0)
+        assert last(s, 'test.radiation-check-result') == ['resolved', None, 'none', None]
+    finally:
+        s.close()
+    for setup, reason in [(40, 'radiation-eight-hundred-overlap'),
+                          (41, 'radiation-check-below-threshold'),
+                          (42, 'radiation-check-fractional-band-unresolved')]:
+        s = Session(bundle)
+        try:
+            s.action(2291, setup, 0)
+            s.action(2291, 0, 0)
+            s.action(2291, 50, 0)
+            assert last(s, 'test.radiation-check-result')[:2] == ['blocked', reason]
+            s.action(2291, 55, 0)
+            assert last(s, 'test.radiation-check-state') == [0, 0, 0, None, None]
+        finally:
+            s.close()

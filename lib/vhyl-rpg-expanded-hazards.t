@@ -2022,3 +2022,98 @@ class RpgExpandedFalloutRelease: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    radiationChecks = []
+;
+
+class RpgExpandedRadiationCheckResult: RpgExpandedRadiationResult
+    context = nil
+    score = nil
+    accumulated = nil
+    consequencesPending = nil
+;
+
+/** Owned living-subject check. Nonzero syndromes remain explicit pending work;
+ * recording a check is not an assertion that its medical consequences ran. */
+class RpgExpandedRadiationCheck: object
+    id = nil
+    triggerDose = nil
+    continued = nil
+    approved = nil
+    exposureEvidence = nil
+    checkedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition() { return [self.id,self.triggerDose,self.continued,self.approved,self.exposureEvidence]; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || self.checkedAt == nil)
+            rpgExpandedReject('radiation-check-uncommitted');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('radiation-check-binding');
+        if (!holds(self.triggerDose.profile.radiationChecks,self)) rpgExpandedReject('radiation-check-history');
+        rpgInteger(self.checkedAt,0,rpgLedger.seconds); return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.triggerDose == nil
+            || !self.triggerDose.ofKind(RpgExpandedRadiationDose)) rpgExpandedReject('radiation-check-definition');
+        if (self.triggerDose.assess().status != 'reused') rpgExpandedReject('radiation-check-dose-required');
+        local profile = self.triggerDose.profile; local value = new RpgExpandedRadiationCheckResult();
+        if (self.result != nil)
+        {
+            self.validateReceipt(); value.status = 'reused'; value.check = self.result.check;
+            value.effect = self.result.effect; value.consequencesPending = self.result.consequencesPending;
+            return value;
+        }
+        rpgExpandedValidate(profile);
+        if (!self.approved || self.exposureEvidence == nil || self.exposureEvidence == '')
+        { value.reason = 'radiation-check-living-exposure-evidence'; return value; }
+        if (profile.dead) { value.reason = 'radiation-check-patient-dead'; return value; }
+        local found = nil;
+        foreach (local prior in profile.radiationChecks)
+        {
+            if (prior == nil || !prior.ofKind(RpgExpandedRadiationCheck)
+                || prior.triggerDose.profile != profile) rpgExpandedReject('radiation-check-history');
+            prior.validateReceipt();
+            if (prior.id == self.id) rpgExpandedReject('radiation-check-duplicate');
+            if (prior.triggerDose.source == self.triggerDose.source)
+            {
+                if (prior.checkedAt / 86400 == rpgLedger.seconds / 86400)
+                { value.reason = 'radiation-check-source-day-used'; return value; }
+                found = prior;
+            }
+        }
+        if (found != nil && !self.continued)
+        { value.reason = 'radiation-check-repeated-acute-exposure-unimplemented'; return value; }
+        if (!self.continued && self.triggerDose.receivedAt != rpgLedger.seconds)
+        { value.reason = 'radiation-check-delayed-onset-unimplemented'; return value; }
+        value.accumulated = rpgExpandedRadiationTotal(profile);
+        if (value.accumulated.numerator < value.accumulated.denominator)
+        { value.reason = 'radiation-check-below-threshold'; return value; }
+        if (value.accumulated.denominator != 1)
+        { value.reason = 'radiation-check-fractional-band-unresolved'; return value; }
+        local band = rpgExpandedRadiationBand(value.accumulated.numerator);
+        if (band.status != 'ready') { value.reason = band.reason; return value; }
+        value.effects = band.effects; value.modifier = band.modifier;
+        value.context = new RpgExpandedRadiationContext(); value.context.modifier = band.modifier;
+        value.score = rpgLiteScore(profile,value.context);
+        if (value.score == nil || value.score < 3)
+        { value.reason = 'radiation-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.triggerDose.profile,value.context);
+        local column = value.check.critical == 'success' ? 1 : value.check.critical == 'failure' ? 4
+            : value.check.achieved ? 2 : 3;
+        value.effect = value.effects[column]; value.consequencesPending = value.effect != 'none';
+        value.status = value.consequencesPending ? 'awaiting-consequences' : 'resolved';
+        self.checkedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.triggerDose.profile.radiationChecks = self.triggerDose.profile.radiationChecks + [self];
+        self.result = value; return value;
+    }
+;

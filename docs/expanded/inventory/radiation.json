@@ -41,9 +41,12 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At one or more accumulated rads, make the applicable health check, no more than once per day for continuing exposure to a given source; preserve source identity and current accumulated dose.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_checks"
+      ],
+      "implementation": "Owned living-subject checks use current accumulated whole-rad dose and RpgExpandedRadiationContext, retaining source/day receipts and pending syndrome outcomes. Days are fixed 86400-second ledger buckets. Repeated acute exposures, delayed onset and fractional bands are explicitly blocked. Nonzero syndromes remain awaiting-consequences, not executed. Fixtures authored and unrun."
     },
     {
       "id": "radiation-outcome-order",
