@@ -9549,6 +9549,8 @@ def test(build):
     march_steps = build.build('expanded-march-steps',ROOT / 'tests/fixtures/expanded-march-steps.t')
     test_march_steps(Session,march_steps,build.out)
     test_march_partial_exclusion(Session,march_steps,build.out)
+    partial_march_interruption = build.build('expanded-partial-march-interruption',ROOT / 'tests/fixtures/expanded-partial-march-interruption.t')
+    test_partial_march_interruption(Session,partial_march_interruption,build.out)
     tracking_encounter = build.build('expanded-tracking-encounter',ROOT / 'tests/fixtures/expanded-tracking-encounter.t')
     test_tracking_encounter(Session,tracking_encounter,build.out)
     test_tracking_marching_boundaries(Session,tracking_encounter,build.out)
@@ -27284,3 +27286,39 @@ def test_march_partial_exclusion(Session, bundle, out):
         assert state(s) == [3600,2,3660,1,1,0]
     finally:
         s.close()
+
+
+def test_partial_march_interruption(Session, bundle, out):
+    """B426 explicit assumed-hour settlement adds fatigue once and no elapsed time; unrun."""
+    def state(s):
+        s.action(1680,28703)
+        return last(s,'test.march-steps')
+    path = out / 'partial-march-interruption.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,28900); assert state(s) == [0,0,0,0,0,0]
+        s.action(1680,28700); s.action(1680,28902)
+        assert last(s,'test.partial-interruption') == ['ready',None]
+        s.action(1680,28901); assert state(s) == [60,1,60,0,0,0]
+        s.action(1680,28900); s.command('undo'); assert state(s) == [60,1,60,0,0,0]
+        s.action(1680,28900); s.action(1680,28900); assert state(s) == [60,1,60,1,1,0]
+        for code in (28905,28906,28702,28705):
+            s.action(1680,code); assert state(s) == [60,1,60,1,1,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,28900); s.action(1680,28709)
+        assert last(s,'test.march-competing') == ['resolved',None]
+        assert state(s) == [60,1,120,1,1,0]
+        s.action(1680,28700); assert state(s) == [60,1,120,1,1,0]
+    finally:
+        s.close()
+    for code in (28903,28904,28707):
+        s = Session(bundle)
+        try:
+            s.action(1680,28700); s.action(1680,code); s.action(1680,28900)
+            assert state(s) == [60,1,61 if code == 28707 else 60,0,0,0]
+        finally:
+            s.close()

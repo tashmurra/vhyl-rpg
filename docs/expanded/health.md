@@ -4060,3 +4060,28 @@ step with zero accrued time does not reserve an hour of exertion. Explicit
 settlement for interrupted/rested partial hours remains pending.
 `test_march_partial_exclusion` specifies those competing paths, persisted
 exclusion, release at hour completion and historical replay; it remains unrun.
+
+
+## Combat interrupts a partial marching hour
+
+`RpgExpandedPartialMarchInterruption` applies the full-2008 B426 assumed-hour
+rule to an owned `RpgExpandedMarchProgress`. Supply `id`, `progress`,
+`combat = true`, `assumeFullHour = true`, `approved` and concrete `evidence`.
+Author approval must establish that the full-hour assumption applies; the source
+allows actual events to dictate otherwise. Other interpretations and ordinary
+rest are rejected rather than silently charged as a full hour.
+
+There must be positive progress below 3,600 seconds, and the interruption must
+occur at the last step's completion time. `assess()` is pure. `apply()` uses the
+same hourly cost receipt, adds no time, retains the interruption, and prevents
+further steps in that hour. Repeated application cannot add fatigue again.
+The settled partial hour no longer excludes a fresh marching interval. Original
+step receipts remain replayable, including after later travel.
+
+The underlying cost retains its original definition; the interruption receipt
+records why the hour was charged early. Bound receipt links reject deleting the
+interruption or changing its time. Party interruption, ordinary rest settlement,
+and explicit event-based exceptions to the full-hour assumption remain pending.
+`test_partial_march_interruption` specifies approval gates, no-time settlement,
+no double charging, blocked old-hour continuation, later interval eligibility,
+rollback, undo, tamper rejection and saved replay. Fixtures remain unrun.

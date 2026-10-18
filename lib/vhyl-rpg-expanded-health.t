@@ -9117,6 +9117,9 @@ class RpgExpandedMarchProgress: object
     boundCostDefinition = nil
     boundEncumbrance = nil
     settlingStep = nil
+    interruption = nil
+    boundInterruption = nil
+    settlingInterruption = nil
     validate()
     {
         if (self.cost == nil || !self.cost.ofKind(RpgExpandedMarchHourCost) || self.cost.ofKind(RpgExpandedMarchHour)
@@ -9142,7 +9145,14 @@ class RpgExpandedMarchProgress: object
         }
         if (total == 3600 && (self.cost.result == nil || self.cost.assess().status != 'reused'))
             rpgExpandedReject('march-progress-missing-cost');
-        if (total < 3600 && self.cost.result != nil) rpgExpandedReject('march-progress-premature-cost');
+        if (self.interruption != self.boundInterruption) rpgExpandedReject('march-progress-interruption-binding');
+        if (self.interruption != nil)
+        {
+            if (total <= 0 || total >= 3600 || self.interruption.progress != self) rpgExpandedReject('march-progress-interruption');
+            self.interruption.validateReceipt();
+            if (self.cost.assess().status != 'reused') rpgExpandedReject('march-progress-interruption-cost');
+        }
+        else if (total < 3600 && self.cost.result != nil) rpgExpandedReject('march-progress-premature-cost');
         return nil;
     }
 ;
@@ -9187,6 +9197,7 @@ class RpgExpandedMarchStep: RpgExpandedMarchStepReceipt
         }
         if (self.startedAt != nil || self.completedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil)
             rpgExpandedReject('march-step-uncommitted');
+        if (self.progress.interruption != nil) { value.reason = 'march-step-interrupted-hour'; return value; }
         if (self.progress.elapsed+self.seconds > 3600) { value.reason = 'march-step-hour-boundary'; return value; }
         foreach (local prior in self.progress.steps)
             if (prior.id == self.id) rpgExpandedReject('march-step-id-used');
@@ -9253,7 +9264,7 @@ modify RpgExpandedProfile
             if (progress == nil || !progress.ofKind(RpgExpandedMarchProgress) || progress.cost.profile != self
                 || holds(intervals,progress.cost.interval)) rpgExpandedReject('march-progress-profile');
             progress.validate();
-            if (progress.elapsed > 0 && progress.elapsed < 3600)
+            if (progress.elapsed > 0 && progress.elapsed < 3600 && progress.interruption == nil)
             {
                 if (partial != nil) rpgExpandedReject('march-multiple-partial-hours');
                 partial = progress;
@@ -9272,7 +9283,7 @@ modify RpgExpandedMarchHourCost
             {
                 if (progress.cost != self && progress.cost.interval == self.interval)
                     rpgExpandedReject('march-hour-owned-by-progress');
-                if (self.result == nil && progress.cost != self && progress.elapsed > 0 && progress.elapsed < 3600)
+                if (self.result == nil && progress.cost != self && progress.elapsed > 0 && progress.elapsed < 3600 && progress.interruption == nil)
                 {
                     progress.validate(); local value = new RpgExpandedMarchHourResult();
                     value.reason = 'march-unsettled-partial-hour'; return value;
@@ -9284,7 +9295,8 @@ modify RpgExpandedMarchHourCost
     {
         if (self.result == nil && self.profile != nil && self.profile.ofKind(RpgExpandedProfile))
             foreach (local progress in self.profile.marchProgress)
-                if (progress.cost == self && (progress.settlingStep == nil
+                if (progress.cost == self && (progress.settlingInterruption == nil || !progress.settlingInterruption.permitsCost(progress))
+                    && (progress.settlingStep == nil
                     || progress.settlingStep.progress != progress || progress.settlingStep.result != nil
                     || progress.elapsed+progress.settlingStep.seconds != 3600))
                     rpgExpandedReject('march-hour-progress-not-complete');
@@ -9295,4 +9307,84 @@ modify RpgExpandedMarchHourCost
 modify RpgExpandedMarchStep
     trackingProfile() { return self.progress == nil || self.progress.cost == nil ? nil : self.progress.cost.profile; }
     trackingDefinition() { return self.definition() + self.progress.cost.definition(); }
+;
+
+
+/** B426 explicit combat assumption for a positive partial marching hour. */
+class RpgExpandedPartialMarchInterruption: object
+    id = nil
+    progress = nil
+    combat = nil
+    assumeFullHour = nil
+    approved = nil
+    evidence = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.progress == nil || !self.progress.ofKind(RpgExpandedMarchProgress))
+            rpgExpandedReject('partial-march-interruption-definition');
+        return [self.id,self.progress,self.combat,self.assumeFullHour,self.approved,self.evidence] + self.progress.cost.definition();
+    }
+    permitsCost(progress)
+    { return self.progress == progress && self.completedAt == nil && self.combat && self.assumeFullHour && self.approved
+        && self.evidence != nil && self.evidence != '' && progress.elapsed > 0 && progress.elapsed < 3600; }
+    validateReceipt()
+    {
+        local facts = self.definition();
+        if (self.completedAt == nil || self.completedAt > rpgLedger.seconds || self.boundDefinition == nil
+            || facts.length() != self.boundDefinition.length() || self.boundOutcome == nil
+            || self.completedAt != self.boundOutcome[1] || self.progress.cost.result != self.boundOutcome[2]
+            || self.progress.interruption != self || !holds(self.progress.cost.profile.partialMarchInterruptions,self))
+            rpgExpandedReject('partial-march-interruption-history');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('partial-march-interruption-binding');
+        return nil;
+    }
+    assess()
+    {
+        self.definition(); self.progress.validate(); local value = new RpgExpandedResult();
+        if (self.completedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('partial-march-interruption-uncommitted');
+        if (self.progress.interruption != nil) { value.reason = 'partial-march-already-interrupted'; return value; }
+        if (!self.permitsCost(self.progress)) { value.reason = 'partial-march-combat-assumption-required'; return value; }
+        if (self.progress.steps[self.progress.steps.length()].completedAt != rpgLedger.seconds)
+        { value.reason = 'partial-march-interruption-not-current'; return value; }
+        foreach (local prior in self.progress.cost.profile.partialMarchInterruptions)
+            if (prior.id == self.id) rpgExpandedReject('partial-march-interruption-id-used');
+        local cost = self.progress.cost.assess();
+        if (cost.status != 'ready') { value.reason = cost.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds;
+        self.progress.settlingInterruption = self;
+        if (self.progress.cost.apply().status != 'resolved') rpgExpandedReject('partial-march-cost-changed');
+        self.progress.settlingInterruption = nil;
+        local current = self.definition();
+        if (current.length() != facts.length() || rpgLedger.seconds != start) rpgExpandedReject('partial-march-interruption-changed');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (current[i] != facts[i]) rpgExpandedReject('partial-march-interruption-changed');
+        self.completedAt = start; self.boundDefinition = facts; self.boundOutcome = [start,self.progress.cost.result];
+        self.progress.interruption = self; self.progress.boundInterruption = self;
+        self.progress.cost.profile.partialMarchInterruptions = self.progress.cost.profile.partialMarchInterruptions + [self];
+        value.status = 'resolved'; return value;
+    }
+;
+modify RpgExpandedProfile
+    partialMarchInterruptions = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local interruption in self.partialMarchInterruptions)
+        {
+            if (interruption == nil || !interruption.ofKind(RpgExpandedPartialMarchInterruption)
+                || interruption.progress.cost.profile != self || holds(ids,interruption.id)) rpgExpandedReject('partial-march-interruption-profile');
+            interruption.validateReceipt(); ids = ids + [interruption.id];
+        }
+        return nil;
+    }
 ;
