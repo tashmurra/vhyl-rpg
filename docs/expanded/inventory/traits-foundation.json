@@ -1,0 +1,715 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B32-B37",
+  "review": "Trait categories, origins, activation, potential purchases and initial catalogue entries inventoried. Companion continuation B38, modifier interactions and executable effect contracts remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-first-pricing",
+      "source": "full-2008",
+      "pages": "B32",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Definitions distinguish fixed, per-level and variable prices. Validate eligibility and campaign permission at creation and later acquisition; an arithmetic modifier helper alone does not supply executable trait behavior.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-transfer",
+      "source": "full-2008",
+      "pages": "B32",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mental traits follow mind transfer, physical traits remain with body, social traits follow authored identity policy. Ambiguous mental/physical traits require declared category; transformation must preserve contribution identity and reprice actual state.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-permission",
+      "source": "full-2008",
+      "pages": "B32-B34",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Exotic traits outside ancestry need permission, supernatural access depends on campaign, and mundane cinematic traits can also be restricted. Permission belongs to concrete trait/category and origin, not blanket approval of all catalogue entries.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-origin",
+      "source": "full-2008",
+      "pages": "B33-B34",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Record origin per ability. Origin normally changes description, not price/effect, unless actual modifier or authored interaction applies. Biological, technological, spiritual and divine suppression/detection need explicit scoped contracts.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-magic-origin",
+      "source": "full-2008",
+      "pages": "B34",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Energy-sensitive modifier costs -10%, disables ability without ambient energy and gives -5 to activation rolls in low-energy regions. Merely assigning a magical origin must not automatically grant its discount.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-activation",
+      "source": "full-2008",
+      "pages": "B32; B34",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Automatic abilities need no activation check; nonautomatic physical defaults use health, mental use stated intelligence/perception/will. Specific definitions override category defaults.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-switch",
+      "source": "full-2008",
+      "pages": "B34",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Always-on beneficial/permanent traits cannot toggle. Other switchable traits normally toggle immediately through one-second ready, without interruptible concentration; default unconscious/asleep state is on. Attack abilities instead require an attack and cannot remain continuously active without a modifier.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-potential",
+      "source": "full-2008",
+      "pages": "B33",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Potential trait reserves half full price under authored acquisition conditions. On fulfillment remaining investment must be paid from awards as soon as possible; intermediate uncontrolled/partial benefits require concrete definition. Preserve reserved value versus spendable bank and resolve fractional price rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-inheritance",
+      "source": "full-2008",
+      "pages": "B33",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Potential inheritance grants half prospective money/reaction benefits before fulfillment, then full social value worth twice reserved points. Keep cash benefits distinct from point value and debt.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-emergent",
+      "source": "full-2008",
+      "pages": "B33",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Unspecified latent ability gives no benefit until crisis revelation; define eligible ability worth twice reservation and pay remaining price immediately. Author choice must be validated before use.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-secret",
+      "source": "full-2008",
+      "pages": "B33",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Secret trait is author-selected at twice reserved investment, with normal but uncontrolled benefits until revealed and paid. Hidden definition must not leak through public character report or preview.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-all-around",
+      "source": "full-2008",
+      "pages": "B34",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "All-around vision costs 25, removes side/rear defense penalties and wild classification, grants +5 against being shadowed, and prevents surprise from visible rear danger. Detailed B389 restricts awkward-angle -2 to rear/opposite-side while B34 says sides/rear; retain precedence issue.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-exposed-eyes",
+      "source": "full-2008",
+      "pages": "B34",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Vision vulnerability modifier -20% makes eyes targetable at -6 from within attacker\u2019s vision arc. Record actual eye anatomy and override ordinary target penalty.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-orientation",
+      "source": "full-2008",
+      "pages": "B34-B35",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Orientation tier costs five: knows north, retraces paths traveled within prior month, +3 body-orientation and air/land/sea navigation. Unanchored environments are excluded. Spatial tier costs ten, works in three dimensions but not cross-dimensional travel, also +1 piloting and +2 aerial movement/freefall/space-navigation skills.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-orientation-signal",
+      "source": "full-2008",
+      "pages": "B35",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Signal-dependent orientation modifier -20% requires compatible functioning navigation network and can be jammed. Validate world facts without inventing signal coverage.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-time-sense",
+      "source": "full-2008",
+      "pages": "B35",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Internal clock costs two with culture-limited precision never better than a few seconds; handles sleep/time zones and scheduled waking, but unconsciousness/hypnosis can interfere and time travel requires recalibration. Five-point tier retains absolute time through time travel but not automatic calendar interpretation.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-acute",
+      "source": "full-2008",
+      "pages": "B35",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each enhanced sense costs two per level and adds one per level to its own sense checks, including hidden checks. Hearing, combined taste/smell, touch and sight are separate purchases; specialized senses require approval. Ordinary later purchase is restricted except authored compensatory acquisition after sense loss.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-attack",
+      "source": "full-2008",
+      "pages": "B35",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Condition attack costs ten per level, default half-range ten/max100/accuracy3/rate1/recoil1/no shot limit. Resistance is health+1-level plus eligible armor, with +3 beyond half-range. Delivery modifiers and divisors change armor treatment; preserve exact range boundary reconciliation with B378.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-stun",
+      "source": "full-2008",
+      "pages": "B35",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Default failed resistance stuns; each-second recovery checks health+1-level without armor bonus. Repeated same effects normally use worst severity instead of stacking; track sources and expiry independently.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-secondary",
+      "source": "full-2008",
+      "pages": "B35",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Secondary effect only triggers on resistance failure by at least five or critical failure, costs one fifth its ordinary enhancement. Multiple effects ordinarily simultaneous unless their specific staging rule says otherwise.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-granted-trait",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Granting specified physical/mental trait costs +10% per trait point. Instantaneous ability executes once; switchable grant forces it on uncontrolled for failure-margin minutes. Specify level and actual ability execution contract.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-attribute-loss",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Temporary strength/health loss costs +5% per point, dexterity/intelligence +10%. Based skills fall equally; strength also changes lift/damage, intelligence changes will/perception; other secondaries remain unchanged. Duration is failure-margin minutes.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-stacking",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cumulative modifier +400% only with attribute penalty or leveled granted/negative/suppressed trait effect. Validate combination before pricing and maintain independent contributions.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-negative-trait",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Temporary physical/mental disadvantage costs +1% per absolute point value and lasts failure-margin minutes. Exclude self-imposed belief/code traits and specify levels.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-suppress-trait",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Suppressing specified advantage costs +1% per point suppressed for failure-margin minutes; absent trait has no effect. Restore only suppressed contribution, retaining other changes during interval.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-incapacitation-sequence",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Incapacitation lasts failure-margin minutes, then ordinary health recovery from stun each second. Additional effects instead begin after incapacitation and last equally long, replacing residual stun. Preserve phase transition and repeated-source handling.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-irritant-duration",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Irritant substitutes its specified condition for default stun for failure-margin minutes; each condition needs executable health permissions/modifiers.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-added-stun",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Extra stun costs +10% and may accompany only granted trait, attribute penalty, temporary negative trait or suppressed trait. It does not make arbitrary condition combinations valid.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-relationship-frequency",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Associated nonplayer appearance rolls three dice once at adventure start. Apply frequency multiplier after power/group costs and before special modifiers. Constant appearance is restricted to attached/worn/implanted or similar authored cases, not ordinary convenience.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-companion-cost",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only player purchase of skilled nonplayer companion incurs this advantage cost; player-player and nonplayer relationships do not. Price uses companion percentage of starting player points rounded to higher listed band. Above150% prohibited except intelligence-zero entities; each additional50% adds five.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-companion-dependent",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Companion at no more than100% starting points may also be dependent: combine both costs into one signed trait. Do not apply disadvantage cap to negative component without considering the combined definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-companion-group",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Distinct companions sum individual costs before shared appearance/modifiers. More than five identical interchangeable companions sharing definition use group multipliers. Author can restrict hordes or require background cost.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-companion-agency",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Companion has independent authored judgment and can refuse unreasonable plans; purchase does not grant puppeteering. Betrayal/unnecessary endangerment prevents session awards, severe betrayal permanently removes relationship and invested value without refund.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-companion-growth",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Author adjusts companion to retain fixed proportional point value as player earns points, while relationship price stays constant. Record actual adjustments, not an automatic unconstrained stat boost.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-companion-replacement",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Blameless death or friendly departure permits transfer of invested relationship value to a new approved companion; gradual acquisition may apply. Author may convert remaining value to money under B26. Prevent repeat transfer/refund and preserve loss cause.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-coma",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "coma enhancement costs +250%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-cardiac-crisis",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "cardiac-crisis enhancement costs +300%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-daze",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "daze enhancement costs +50%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-hallucination",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "hallucination enhancement costs +50%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-retching",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "retching enhancement costs +50%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-agony",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "agony enhancement costs +100%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-choking",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "choking enhancement costs +100%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-ecstasy",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "ecstasy enhancement costs +100%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-seizure",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "seizure enhancement costs +100%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-paralysis",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "paralysis enhancement costs +150%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-sleep",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "sleep enhancement costs +150%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-unconsciousness",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "unconsciousness enhancement costs +200%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-tipsy",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "tipsy enhancement costs +10%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-cough",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "cough enhancement costs +20%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-drunk",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "drunk enhancement costs +20%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-moderate-pain",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "moderate-pain enhancement costs +20%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-euphoria",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "euphoria enhancement costs +30%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-nausea",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "nausea enhancement costs +30%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-severe-pain",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "severe-pain enhancement costs +40%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-condition-extreme-pain",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "extreme-pain enhancement costs +60%; resolve its specific B428-B429 condition, treatment and timing rather than a generic status label.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-frequency-constant",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Appearance constant uses cost multiplier 4; constant consumes no appearance roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-frequency-15",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Appearance 15 uses cost multiplier 3; constant consumes no appearance roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-frequency-12",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Appearance 12 uses cost multiplier 2; constant consumes no appearance roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-frequency-9",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Appearance 9 uses cost multiplier 1; constant consumes no appearance roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-frequency-6",
+      "source": "full-2008",
+      "pages": "B36",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Appearance 6 uses cost multiplier 1/2 rounded up; constant consumes no appearance roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-companion-band-25",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Companion value through 25% of player starting points has base price 1; use next band for intermediate values.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-companion-band-50",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Companion value through 50% of player starting points has base price 2; use next band for intermediate values.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-companion-band-75",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Companion value through 75% of player starting points has base price 3; use next band for intermediate values.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-companion-band-100",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Companion value through 100% of player starting points has base price 5; use next band for intermediate values.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-companion-band-150",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Companion value through 150% of player starting points has base price 10; use next band for intermediate values.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-group-6",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "6\u201310 identical interchangeable companions multiply single-member base cost by 6.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-group-11",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "11\u201320 identical interchangeable companions multiply single-member base cost by 8.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-group-21",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "21\u201350 identical interchangeable companions multiply single-member base cost by 10.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-group-51",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "51\u2013100 identical interchangeable companions multiply single-member base cost by 12.",
+      "tests": []
+    },
+    {
+      "id": "traits-first-group-extension",
+      "source": "full-2008",
+      "pages": "B37",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Beyond printed group bands add six to multiplier per tenfold size increase; exact intermediate bands need a declared verified policy before generation.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B32-B37",
+      "reason": "Narrative origin examples, named fictional analogies and source terminology are not reproduced; neutral mechanical requirements retained."
+    }
+  ]
+}

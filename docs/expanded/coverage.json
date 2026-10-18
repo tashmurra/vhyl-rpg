@@ -318,6 +318,7 @@
     "inventory/targeting-elevation.json",
     "inventory/special-weapons.json",
     "inventory/ranged-special.json",
-    "inventory/guidance-area-cinematic.json"
+    "inventory/guidance-area-cinematic.json",
+    "inventory/traits-foundation.json"
   ]
 }
