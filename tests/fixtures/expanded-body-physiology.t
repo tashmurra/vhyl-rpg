@@ -1,7 +1,7 @@
 #include "expanded-body-reading.t"
 physiologySkill: RpgExpandedPhysiologySkill techLevel = 8 specialty = 'river-folk';
 physiologyTraining: RpgTraining skill = physiologySkill points = 4;
-biologySkill: RpgExpandedSkill id = 'biology' attribute = rpgIQ difficulty = 3 techLevel = 8 specialty = 'temperate';
+biologySkill: RpgExpandedBiologySkill techLevel = 8 specialty = 'habitable';
 biologyTraining: RpgTraining skill = biologySkill points = 8;
 modify lieObserver techLevel = 8 skills = [bodyReadingTraining,physiologyTraining,biologyTraining];
 physiologyObservation: RpgExpandedPhysiologyCheck id = 'read-river-folk' profile = lieObserver subject = lieSubject
@@ -19,7 +19,7 @@ modify ExpandedTestAction
             eventValue(value.observerScore); eventValue(rpgRandom.draws); eventValue(lieObserver.physiologyChecks.length()); return nil;
         }
         if (code == 18703)
-        { physiologyObservation.skill = biologySkill; physiologyObservation.commonAnimal = true; physiologyObservation.planetType = 'temperate'; physiologyObservation.species = 'marsh-animal';
+        { physiologyObservation.skill = biologySkill; physiologyObservation.commonAnimal = true; physiologyObservation.planetType = 'habitable'; physiologyObservation.species = 'marsh-animal';
           bodyReading.subjectSpecies = 'marsh-animal'; bodyReading.physiology = 'different'; bodyReading.speciesModifier = -5; return nil; }
         if (code == 18704)
         {

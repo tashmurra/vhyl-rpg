@@ -820,3 +820,27 @@ integration. Drug procedures remain incomplete.
 `test_medical_skills` specifies each default, incompatible technology and the
 low-technology author contract. Medical integration fixtures also use these types.
 All new fixtures remain unrun while checks are paused.
+
+
+## Biology and native planet types
+
+`RpgExpandedBiologySkill` implements IQ/Very Hard biology at an explicit
+`techLevel` (full-2008 B180). Set `specialty` to `habitable`, `gas-giant`,
+`hostile-terrestrial`, `icy-small-body`, `ice-covered` or `rocky`. Set the
+character's `nativePlanetType` to the type where they grew up. IQ-6 applies only
+when that background matches the requested specialty. An unspecified background
+grants no IQ default; it does not silently assume familiarity with a world.
+
+Purchased biology at the same technology defaults between planet types at -4.
+Purchased `RpgExpandedNaturalistSkill` for a planet of the matching type provides
+its printed -6 default. Untrained source skills cannot provide default chains.
+The common-animal physiology knowledge check can use this typed biology skill
+with its existing -4 modifier and an explicitly matching planet type.
+
+The new `attributeDefaultAllowed(profile)` hook preserves existing defaults by
+returning true unless overridden; optional specialties delegate to their parent.
+Biology's optional subfield definitions and their technology eligibility still
+need catalogue integration. `test_biology_skill` specifies native and foreign
+attribute defaults, purchased scientific and practical defaults, incompatible
+technology, untrained sources and preview purity. The body-physiology fixture
+now uses typed biology. All affected fixtures remain unrun.

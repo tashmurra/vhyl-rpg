@@ -8,6 +8,7 @@ class RpgExpandedSkill: RpgLiteSkill
     studySpecialty() { rpgExpandedValidateSkill(self); return self.optionalParent == nil ? self.specialty : self.optionalParent.specialty; }
     defaults = []
     attributeDefaults = []
+    attributeDefaultAllowed(profile) { return self.optionalParent == nil ? true : self.optionalParent.attributeDefaultAllowed(profile); }
     wildcard = nil
     prerequisite = nil
     optionalParent = nil
@@ -129,7 +130,7 @@ rpgExpandedSkillScore(profile, skill)
     local score = rpgExpandedPaidSkill(profile, skill, []);
     if (skill.techLevel != nil && skill.techLevel > profile.techLevel && score == nil) return nil;
     if (profile.familiarSkills != nil && !holds(profile.familiarSkills, skill) && score == nil) return nil;
-    if (skill.defaultPenalty != nil)
+    if (skill.defaultPenalty != nil && (!skill.ofKind(RpgExpandedSkill) || skill.attributeDefaultAllowed(profile)))
     {
         local which = skill.defaultAttribute == nil ? skill.attribute : skill.defaultAttribute;
         local base = profile.attributeScore(which);
@@ -1485,5 +1486,48 @@ modify RpgExpandedFirstAidSkill
     {
         self.validateDefinition(); local context = new RpgExpandedSkillContext();
         context.skill = self; context.kind = 'first-aid'; context.equipmentTL = equipmentTL; return context;
+    }
+;
+
+/** B180 native background for conditional scientific attribute defaults. */
+modify RpgExpandedProfile
+    nativePlanetType = nil
+;
+
+/** B180 biology: scientific knowledge of a planet type at an explicit TL. */
+class RpgExpandedBiologySkill: RpgExpandedSkill
+    id = 'biology'
+    attribute = rpgIQ
+    difficulty = 3
+    defaultPenalty = -6
+    validateDefinition()
+    {
+        if (self.id != 'biology' || self.attribute != rpgIQ || self.difficulty != 3 || self.defaultPenalty != -6
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil || self.techLevel == nil
+            || !holds(['habitable','gas-giant','hostile-terrestrial','icy-small-body','ice-covered','rocky'],self.specialty))
+            rpgExpandedReject('biology-skill-definition');
+        rpgInteger(self.techLevel,0,12); return nil;
+    }
+    attributeDefaultAllowed(profile)
+    {
+        if (profile.nativePlanetType != nil
+            && !holds(['habitable','gas-giant','hostile-terrestrial','icy-small-body','ice-covered','rocky'],profile.nativePlanetType))
+            rpgExpandedReject('biology-native-planet-type');
+        return profile.nativePlanetType == self.specialty;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self) continue;
+            if (source.ofKind(RpgExpandedBiologySkill) && source.techLevel == self.techLevel && source.specialty != self.specialty)
+            { source.validateDefinition(); edges = edges + [[source,-4]]; }
+            if (source.ofKind(RpgExpandedNaturalistSkill) && source.planetType == self.specialty)
+            { source.validateDefinition(); edges = edges + [[source,-6]]; }
+        }
+        return edges;
     }
 ;

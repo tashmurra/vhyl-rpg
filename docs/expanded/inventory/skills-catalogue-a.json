@@ -2022,9 +2022,10 @@
       "pages": "B180",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require world-type specialization; default between types at -4 and permit optional subfields at the appropriate technology.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_biology_skill", "tests/expanded.py::test_body_physiology"],
+      "validation_note": "Typed planet specialties, native-background IQ default, paid same-TL cross-type defaults and matching-planet-type naturalist defaults authored. Common-animal physiology fixture uses the typed definition. Optional subfield catalogue and technology eligibility remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "very-hard",

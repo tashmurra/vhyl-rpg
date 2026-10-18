@@ -9382,6 +9382,8 @@ def test(build):
     test_first_aid_diagnosis(Session, first_aid_diagnosis)
     first_aid_equipment = build.build("expanded-first-aid-equipment",ROOT / "tests/fixtures/expanded-first-aid-equipment.t")
     test_first_aid_equipment(Session, first_aid_equipment)
+    biology_skill = build.build("expanded-biology-skill",ROOT / "tests/fixtures/expanded-biology-skill.t")
+    test_biology_skill(Session, biology_skill)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23694,3 +23696,17 @@ def test_first_aid_equipment(Session, bundle):
         assert last(s,'test.aid-tools-error') == ['first-aid-equipment-binding']
     finally:
         s.close()
+
+
+def test_biology_skill(Session, bundle):
+    """B180 restricts IQ defaults to native planet type; unrun."""
+    for setup, expected in (((),None),((20001,),6),((20002,),None),((20003,),12),
+                            ((20003,20005),None),((20003,20007),None),((20004,),10),
+                            ((20004,20006),None),((20001,20003),12)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,20000):
+                s.action(1680,code)
+            assert last(s,'test.biology-score') == [expected,0]
+        finally:
+            s.close()
