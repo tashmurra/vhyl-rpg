@@ -1226,3 +1226,39 @@ ledger support and copies carrying defects remain incomplete.
 interruption, undo, retarget rejection, separate manual/line timing, replay and
 continuation before and after delivery. Fixtures remain unrun. Source:
 `full-2008`, B474.
+
+
+## Cinematic invention assessments
+
+`rpgExpandedCinematicInventionCosts(category, retailPrice, campaignTL, deviceTL,
+reusedFacilities)` implements B475's base facilities costs and per-technology
+increments. The adjusted retail cost accumulates the original amount and every
+successive doubling; it is not merely the final doubled amount. Appropriate
+reused facilities divide their cost by ten. The author must establish their
+required similarity, complexity and technology. Integer overflow rejects explicitly.
+
+`rpgExpandedCinematicInventionModifier(category, softwareComplexity, personalTL,
+deviceTL)` uses the milder category penalty, or numerical software complexity,
+and minus five for each level above the inventor. Category and software complexity
+are mutually exclusive inputs. This assessment does not add a campaign-new
+technology penalty. Other situational modifiers remain separate. Campaign and
+personal technology are separate inputs because the cost and skill rules compare
+to different levels.
+
+`rpgExpandedRapidConceptSeconds(die)` and
+`rpgExpandedRapidPrototypeSeconds(category, dice)` preserve the rapid variant's
+specific dice and units. In particular, average construction on a roll of one or
+two takes thirty minutes, and the ordinary one-day minimum does not apply.
+Supplied dice keep these helpers pure.
+
+These are assessment helpers only. They neither enable cinematic rules nor grant
+the required purchased capabilities. Ordinary proposal, concept and prototype
+execution continues using its existing formulas. Trait eligibility, explicit
+campaign/world permissions, rapid resource acquisition, advanced-device defect
+tables and owned cinematic execution remain pending; callers must not substitute
+these assessments into an ordinary project's mutable receipts.
+
+`test_cinematic_invention_assessments` authors the published cost example,
+accumulated-price progression, campaign/personal technology distinctions, category
+penalties, rapid timing boundaries and preview purity. Fixtures remain unrun.
+Source: `full-2008`, B475–B476.

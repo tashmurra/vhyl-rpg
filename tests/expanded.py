@@ -973,6 +973,29 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_cinematic_invention_assessments(s):
+    for args,expected in [
+            (('simple',4000,8,8,0),[50000,4000]),
+            (('average',4000,8,9,0),[350000,12000]),
+            (('complex',4000,8,11,0),[1750000,60000]),
+            (('complex',4000,8,11,1),[175000,60000]),
+            (('amazing',100,8,10,0),[2500000,700]),
+            (('simple',4000,8,7,0),[50000,4000])]:
+        s.action(2122,*args)
+        assert last(s,'test.cinematic-invention-cost') == expected + [0,0]
+    for args,expected in [(('simple',0,8,8),0),(('average',0,8,8),-2),
+            (('complex',0,8,11),-19),(('amazing',0,8,8),-8),
+            (('software',6,8,9),-11),(('complex',0,10,8),-4)]:
+        s.action(2123,*args)
+        assert last(s,'test.cinematic-invention-modifier') == [expected]
+    for args,expected in [(('simple',1,1,1),[120,60]),(('simple',6,6,6),[720,360]),
+            (('average',2,1),[1800,120]),(('average',2,2),[1800,120]),
+            (('average',2,3),[3600,120]),(('average',2,6),[14400,120]),
+            (('complex',3,6),[21600,180]),(('amazing',4,6,6,6,6),[86400,240])]:
+        s.action(2124,*args)
+        assert last(s,'test.rapid-invention-duration') == expected + [0,0]
+
+
 def production_order_state(s):
     s.action(2121)
     return last(s,'test.production-order-state')
@@ -6756,6 +6779,7 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')
+    fresh(Session,technology,test_cinematic_invention_assessments)
     fresh(Session,technology,test_production_assessments)
     fresh(Session,technology,test_prototype_assessments)
     test_invention_proposals(Session,technology)

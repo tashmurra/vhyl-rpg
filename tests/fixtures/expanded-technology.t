@@ -23,6 +23,23 @@ modify gameMain initialRoom = technologyRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2122)
+    {
+        local value = rpgExpandedCinematicInventionCosts(args[1],args[2],args[3],args[4],args[5] != 0);
+        event('test.cinematic-invention-cost'); eventValue(value.facilities); eventValue(value.adjustedRetail);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2123)
+    {
+        event('test.cinematic-invention-modifier');
+        eventValue(rpgExpandedCinematicInventionModifier(args[1] == 'software' ? nil : args[1],args[2] == 0 ? nil : args[2],args[3],args[4])); return nil;
+    }
+    if (verb == 2124)
+    {
+        local dice = []; for (local index = 3; index <= args.length(); index += 1) dice = dice + [args[index]];
+        event('test.rapid-invention-duration'); eventValue(rpgExpandedRapidPrototypeSeconds(args[1],dice));
+        eventValue(rpgExpandedRapidConceptSeconds(args[2])); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2117)
     {
         local value = rpgExpandedAssessProduction(args[1],args[2],args[3] != 0,args[4] != 0);

@@ -605,9 +605,12 @@
       "pages": "B475",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Cinematic invention uses milder difficulty penalties, ignores the campaign-new-technology penalty, permits any authored technology with -5 per level above the inventor, and uses software complexity rather than twice complexity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cinematic_invention_assessments"
+      ],
+      "validation_note": "Pure cinematic cost/modifier and rapid-duration assessments authored; fixtures unrun. Purchased-capability and campaign gates, committed execution and cinematic consequences remain pending."
     },
     {
       "id": "technology-cinematic-tools",
@@ -645,9 +648,12 @@
       "pages": "B475",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For each level above campaign technology, double native retail and accumulate every term including the base. A native price of four thousand advanced three levels costs sixty thousand per attempt, not thirty-two thousand.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cinematic_invention_assessments"
+      ],
+      "validation_note": "Pure cinematic cost/modifier and rapid-duration assessments authored; fixtures unrun. Purchased-capability and campaign gates, committed execution and cinematic consequences remain pending."
     },
     {
       "id": "technology-cinematic-bugs",
@@ -675,9 +681,12 @@
       "pages": "B476",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The separately purchased rapid invention capability changes concept duration to one die minutes and retains cinematic modifiers; ordinary cinematic invention does not gain this speed.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cinematic_invention_assessments"
+      ],
+      "validation_note": "Pure cinematic cost/modifier and rapid-duration assessments authored; fixtures unrun. Purchased-capability and campaign gates, committed execution and cinematic consequences remain pending."
     },
     {
       "id": "technology-rapid-parts",

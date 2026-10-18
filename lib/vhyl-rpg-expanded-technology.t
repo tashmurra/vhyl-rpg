@@ -2692,3 +2692,68 @@ class RpgExpandedProductionOrder: object
         value.seconds = self.result.seconds; value.status = 'resolved'; return value;
     }
 ;
+
+class RpgExpandedCinematicInventionCost: RpgExpandedResult
+    facilities = 0
+    adjustedRetail = 0
+;
+
+/** B475 costs compare with campaign technology, not the inventor's personal level. */
+rpgExpandedCinematicInventionCosts(category, retailPrice, campaignTL, deviceTL, reusedFacilities)
+{
+    local categories = ['simple','average','complex','amazing'];
+    if (!holds(categories,category)) rpgExpandedReject('cinematic-invention-category');
+    rpgInteger(retailPrice,0,100000000); rpgInteger(campaignTL,0,12); rpgInteger(deviceTL,0,12);
+    local index = 1; while (categories[index] != category) index += 1;
+    local base = [50000,100000,250000,500000]; local increment = [100000,250000,500000,1000000];
+    local difference = deviceTL > campaignTL ? deviceTL-campaignTL : 0;
+    local value = new RpgExpandedCinematicInventionCost();
+    value.facilities = base[index] + difference * increment[index];
+    if (reusedFacilities) value.facilities /= 10;
+    local term = retailPrice; value.adjustedRetail = term;
+    for (local level = 1; level <= difference; level += 1)
+    {
+        if (term > 1073741823) rpgExpandedReject('cinematic-invention-price-limit');
+        term *= 2;
+        if (value.adjustedRetail > 2147483647-term) rpgExpandedReject('cinematic-invention-price-limit');
+        value.adjustedRetail += term;
+    }
+    value.status = 'ready'; return value;
+}
+
+/** B475 base concept/prototype modifier; other authored circumstances remain separate. */
+rpgExpandedCinematicInventionModifier(category, softwareComplexity, personalTL, deviceTL)
+{
+    rpgInteger(personalTL,0,12); rpgInteger(deviceTL,0,12);
+    local penalty = 0;
+    if (softwareComplexity != nil)
+    {
+        if (category != nil) rpgExpandedReject('cinematic-invention-complexity-source');
+        rpgInteger(softwareComplexity,1,12); penalty = -softwareComplexity;
+    }
+    else
+    {
+        local categories = ['simple','average','complex','amazing'];
+        if (!holds(categories,category)) rpgExpandedReject('cinematic-invention-category');
+        local index = 1; while (categories[index] != category) index += 1;
+        local penalties = [0,-2,-4,-8]; penalty = penalties[index];
+    }
+    if (deviceTL > personalTL) penalty -= 5 * (deviceTL-personalTL);
+    return penalty;
+}
+
+/** B476 rapid construction uses its own dice and units, with no ordinary one-day minimum. */
+rpgExpandedRapidPrototypeSeconds(category, dice)
+{
+    if (!holds(['simple','average','complex','amazing'],category)) rpgExpandedReject('rapid-prototype-category');
+    local count = category == 'simple' ? 2 : category == 'amazing' ? 4 : 1;
+    if (dice.length() != count) rpgExpandedReject('rapid-prototype-dice');
+    local total = 0; foreach (local die in dice) { rpgInteger(die,1,6); total += die; }
+    if (category == 'simple') return total * 60;
+    if (category == 'average') return total <= 2 ? 1800 : (total-2)*3600;
+    return total * 3600;
+}
+rpgExpandedRapidConceptSeconds(die)
+{
+    rpgInteger(die,1,6); return die * 60;
+}
