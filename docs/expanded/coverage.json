@@ -288,9 +288,12 @@
       "tests": [
         "tests/expanded.py::test_broken_weapons",
         "tests/expanded.py::test_object_capacity",
-        "tests/expanded.py::test_object_injury_thresholds"
+        "tests/expanded.py::test_object_injury_thresholds",
+        "tests/expanded.py::test_breakdown_transactions",
+        "tests/expanded.py::test_breakdown_days",
+        "tests/expanded.py::test_breakdown_persistence"
       ],
-      "validation_note": "Pure object-capacity, injury-threshold and disabled-weapon assessments authored; fixtures unrun. Owned object damage, piece transformations and remaining technology procedures are pending."
+      "validation_note": "Pure object assessments and owned environmental breakdown checks authored; fixtures unrun. Owned object injury, repair, maintenance scheduling, piece transformations and remaining technology procedures are pending."
     },
     {
       "id": "templates",

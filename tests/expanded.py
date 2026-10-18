@@ -973,6 +973,71 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def breakdown_state(s):
+    s.action(2061)
+    return last(s,'test.breakdown-state')
+
+
+def test_breakdown_transactions(s):
+    initial = [1,0,None,None,0,0]
+    assert breakdown_state(s) == initial
+    for code in [7,1]:
+        s.action(2060,code)
+        assert breakdown_state(s) == initial
+    for code,reason in [(10,'breakdown-maintenance-not-required'),(13,'breakdown-score-unavailable')]:
+        s.action(2060,code)
+        assert last(s,'test.breakdown-operation') == ['blocked',reason]
+        assert breakdown_state(s) == initial
+        s.command('undo')
+    for code, expected in [(0,[1,1,None,14,3,0]),(2,[0,1,'minor',16,3,0]),
+                           (3,[0,1,'major',14,3,0]),(8,[0,1,'minor',9,3,0])]:
+        s.action(2060,code)
+        assert breakdown_state(s) == expected
+        s.command('undo')
+        assert breakdown_state(s) == initial
+    s.action(2060,3)
+    expected = breakdown_state(s)
+    for code in [0,6]:
+        s.action(2060,code)
+        assert breakdown_state(s) == expected
+
+
+def test_breakdown_days(s):
+    s.action(2060,4)
+    s.action(2060,5)
+    assert last(s,'test.breakdown-operation') == ['blocked','breakdown-day-already-checked']
+    assert breakdown_state(s) == [1,1,None,14,3,0]
+    s.action(2060,12)
+    assert breakdown_state(s) == [1,2,None,14,6,0]
+    s.command('undo')
+    s.action(2060,11)
+    assert breakdown_state(s) == [1,2,None,14,6,86400]
+    s.action(2060,9)
+    assert breakdown_state(s)[0] == 0  # Existing storage restriction still applies.
+
+
+def test_breakdown_persistence(Session,bundle,out):
+    for code in [0,2,3]:
+        path = out / f'expanded-breakdown-{code}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2060,code); saved = breakdown_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2061')
+            assert breakdown_state(second) == saved
+            second.action(2060,0)
+            assert last(second,'test.breakdown-operation') == ['reused',None]
+            assert breakdown_state(second) == saved
+            second.action(2060,6)
+            assert breakdown_state(second) == saved
+        finally:
+            second.close()
+
+
 def test_object_capacity(s):
     # Exact cube weights and adjacent hundredth-pound values exercise rounding.
     for construction, rows in [
@@ -5166,6 +5231,10 @@ def test(build):
     fresh(Session,combat,test_critical_hit_assessments)
     fresh(Session,combat,test_weapon_miss_assessments)
     fresh(Session,combat,test_unarmed_miss_assessments)
+    breakdown = build.build('expanded-breakdown',ROOT / 'tests/fixtures/expanded-breakdown.t')
+    fresh(Session,breakdown,test_breakdown_transactions)
+    fresh(Session,breakdown,test_breakdown_days)
+    test_breakdown_persistence(Session,breakdown,build.out)
     technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')
     fresh(Session,technology,test_broken_weapons)
     fresh(Session,technology,test_object_capacity)

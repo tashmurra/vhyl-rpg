@@ -10,7 +10,7 @@ hazards, health, skills, social, technology, templates and traits. Creatures, ma
 psionics, tactical and vehicles remain proposed modules without standalone runtime
 libraries. Available include paths are distinguished from proposals in the
 [library catalogue](../libraries.md). Technology currently supplies pure object-capacity,
-injury-threshold and disabled-weapon assessments; object damage, inventory transformation,
+injury-threshold and disabled-weapon assessments, plus owned environmental breakdowns; object damage, inventory transformation,
 maintenance, repair and inventions remain unfinished.
 
 The implemented subsets include secondary purchases and character accounting,

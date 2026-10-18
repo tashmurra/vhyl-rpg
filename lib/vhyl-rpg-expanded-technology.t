@@ -124,3 +124,88 @@ rpgExpandedObjectInjury(capacity, priorInjury, injury)
     value.majorDamage = injury * 2 > capacity;
     value.status = 'ready'; return value;
 }
+
+modify RpgLiteItem
+    artifactHT = nil
+    maintenanceHTLoss = 0
+    requiresMaintenance = nil
+    environmentFailures = []
+    environmentFailure = nil
+    usableBy(profile)
+    {
+        return self.environmentFailure == nil && inherited(profile);
+    }
+;
+
+class RpgExpandedBreakdownResult: RpgExpandedResult
+    repair = nil
+    day = nil
+;
+
+/** Owned B485 exposure check. World code supplies the exposure; it owns no elapsed time. */
+class RpgExpandedBreakdown: object
+    id = nil
+    item = nil
+    trigger = 'careless-exposure'
+    evidence = nil
+    dailyCleaning = nil
+    brutality = 0
+    result = nil
+    boundId = nil
+    boundItem = nil
+    boundTrigger = nil
+    boundEvidence = nil
+    boundCleaning = nil
+    boundBrutality = nil
+    assessedHT = nil
+    assess()
+    {
+        if (self.item == nil || !self.item.ofKind(RpgLiteItem)) rpgExpandedReject('breakdown-item');
+        local value = new RpgExpandedBreakdownResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.item != self.boundItem || self.trigger != self.boundTrigger
+                || self.evidence != self.boundEvidence || self.dailyCleaning != self.boundCleaning
+                || self.brutality != self.boundBrutality || !holds(self.item.environmentFailures,self))
+                rpgExpandedReject('breakdown-binding');
+            value.status = 'reused'; value.check = self.result.check; value.repair = self.result.repair;
+            value.day = self.result.day; return value;
+        }
+        if (self.id == nil || self.id == '' || !holds(['careless-exposure','extreme-day'],self.trigger))
+            rpgExpandedReject('breakdown-declaration');
+        if (self.evidence == nil || self.evidence == '') { value.reason = 'breakdown-evidence'; return value; }
+        if (!self.item.requiresMaintenance) { value.reason = 'breakdown-maintenance-not-required'; return value; }
+        if (self.item.environmentFailure != nil) { value.reason = 'breakdown-repair-required'; return value; }
+        rpgInteger(self.brutality,-2,0); rpgInteger(self.item.maintenanceHTLoss,0,1000);
+        local health = self.item.artifactHT == nil ? 10 : self.item.artifactHT;
+        rpgInteger(health,1,1000);
+        local score = health - self.item.maintenanceHTLoss + 4 + (self.dailyCleaning ? 1 : 0) + self.brutality;
+        if (score < 3 || score > 1000) { value.reason = 'breakdown-score-unavailable'; return value; }
+        value.modifier = score;
+        value.day = rpgLedger.seconds / 86400;
+        foreach (local prior in self.item.environmentFailures)
+        {
+            if (prior == nil || !prior.ofKind(RpgExpandedBreakdown) || prior.item != self.item
+                || prior.result == nil || prior.assess().status != 'reused') rpgExpandedReject('breakdown-history');
+            if (prior.id == self.id) rpgExpandedReject('breakdown-duplicate');
+            if (self.trigger == 'extreme-day' && prior.trigger == 'extreme-day' && prior.result.day == value.day)
+            { value.reason = 'breakdown-day-already-checked'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgCheck(value.modifier,rpgRandom.roll());
+        if (!value.check.achieved)
+        {
+            value.repair = value.check.critical == 'failure' ? 'major' : 'minor';
+            self.item.environmentFailure = self;
+        }
+        self.boundId = self.id; self.boundItem = self.item; self.boundTrigger = self.trigger;
+        self.boundEvidence = self.evidence; self.boundCleaning = self.dailyCleaning; self.boundBrutality = self.brutality;
+        self.assessedHT = value.modifier - 4 - (self.dailyCleaning ? 1 : 0) - self.brutality;
+        self.item.environmentFailures = self.item.environmentFailures + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

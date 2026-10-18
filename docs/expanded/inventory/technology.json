@@ -930,9 +930,14 @@
       "pages": "B485",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Careless exposure of maintenance-requiring equipment triggers current reliability +4. Extreme environments add one check per item per day independently of particular mistreatment; default reliability is ten if unspecified.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_breakdown_transactions",
+        "tests/expanded.py::test_breakdown_days",
+        "tests/expanded.py::test_breakdown_persistence"
+      ],
+      "validation_note": "Owned environmental checks, daily deduplication and operational restriction authored; fixtures unrun. Automatic exposure scheduling, repair and diagnosis remain incomplete."
     },
     {
       "id": "technology-environment-modifiers",
@@ -940,9 +945,14 @@
       "pages": "B485",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Significant daily cleaning can grant +1 with authored qualification; unusually severe conditions impose -1 or -2. Failed exposure requires minor repair, critical failure major repair, with malfunction knowledge allowed to remain hidden until use.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_breakdown_transactions",
+        "tests/expanded.py::test_breakdown_days",
+        "tests/expanded.py::test_breakdown_persistence"
+      ],
+      "validation_note": "Owned environmental checks, daily deduplication and operational restriction authored; fixtures unrun. Automatic exposure scheduling, repair and diagnosis remain incomplete."
     },
     {
       "id": "technology-shield-option",
