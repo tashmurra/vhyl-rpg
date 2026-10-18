@@ -74,3 +74,25 @@ the engine transaction boundary to roll back time and hook effects together.
 Sessions ending at midnight retain credit against the day on which they began.
 The interruption fixture covers retargeting, eligibility changes, clock changes,
 rollback, undo and save continuation. It remains unrun while checks are paused.
+
+### Credit for nonvocal communication (full-2008, B125, B292)
+
+`RpgExpandedCommunicationStudy` credits a completed communication receipt to an
+owned `RpgExpandedStudy` track. Supply `source`, `study`, approval and evidence
+that its skill covers the actual communication. Gesture exchanges are the first
+concrete adapter: they record the sender's total speech limitation during the
+exchange and expose only time already charged. Mitigating the limitation later
+does not erase that historical eligibility.
+
+`assess()` previews; `apply()` adds four quarter-learning-seconds per elapsed
+second, sharing the study track's existing 200-hour point threshold. It never
+advances time or awards spendable adventure points. Each exchange can credit
+only one track, even through another request object. Replay, rollback and save
+continuation retain that restriction. Skill-learning restrictions still apply;
+initial ownership and related-skill approval are required.
+
+Only the sending participant of the implemented gesture adapter is supported.
+Writing, shared languages, language-proficiency study and other channels require
+concrete adapters and remain pending. Zero-duration exchanges grant no credit.
+The fixtures cover full-rate accumulation, threshold crossing, duplicate claims,
+historical eligibility, rollback, undo and saves; they remain unrun.

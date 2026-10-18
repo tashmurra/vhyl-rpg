@@ -9072,6 +9072,8 @@ def test(build):
     test_speech_limitation(Session, speech_limitation)
     gesture_exchange = build.build('expanded-gesture-exchange',ROOT / 'tests/fixtures/expanded-gesture-exchange.t')
     test_gesture_exchange(Session, gesture_exchange, build.out)
+    communication_study = build.build('expanded-communication-study',ROOT / 'tests/fixtures/expanded-communication-study.t')
+    test_communication_study(Session, communication_study, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17119,5 +17121,49 @@ def test_gesture_exchange(Session, bundle, out):
         s.action(2285,3901)
         s.action(2285,3903)
         assert last(s,'test.gesture-state') == [1,1,10,0,0,'understood']
+    finally:
+        s.close()
+
+
+def test_communication_study(Session, bundle, out):
+    for setup,credit,awarded,points in (((),40,0,1),((4004,),0,1,2)):
+        s = Session(bundle)
+        try:
+            for code in setup+(3901,4000,4001,4001,4003):
+                s.action(2285,code)
+            assert last(s,'test.communication-study-state') == [credit,awarded,points,10,0,1]
+            s.action(2285,4008)
+            assert last(s,'test.communication-study')[1] == 'communication-study-already-credited'
+        finally:
+            s.close()
+    for setup,reason in (((),'communication-study-no-eligible-time'),
+                         ((4007,3901),'communication-study-no-eligible-time'),
+                         ((4005,3901),'communication-study-related-skill-required')):
+        s = Session(bundle)
+        try:
+            for code in setup+(4001,):
+                s.action(2285,code)
+            assert last(s,'test.communication-study')[:2] == ['blocked',reason]
+        finally:
+            s.close()
+    path = out / 'expanded-communication-study.zsave'
+    s = Session(bundle)
+    try:
+        for code in (3901,4002,4003):
+            s.action(2285,code)
+        assert last(s,'test.communication-study-state') == [0,0,1,10,0,0]
+        s.action(2285,4001)
+        s.command('undo')
+        s.action(2285,4003)
+        assert last(s,'test.communication-study-state') == [0,0,1,10,0,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (4006,4001,4003):
+            s.action(2285,code)
+        assert last(s,'test.communication-study-state') == [40,0,1,10,0,1]
     finally:
         s.close()

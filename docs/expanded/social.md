@@ -984,6 +984,7 @@ interruptions to the transaction boundary for rollback.
 Replay does not charge time or duplicate records. The receipt preserves both
 meanings without treating either as a world fact or forcing belief. Shared
 languages and NPC interpretation need their own communication procedures.
-Communication-study credit is still pending. Authored fixtures cover all three
+The development library can credit the sender’s recorded interval through
+`RpgExpandedCommunicationStudy`; other channels remain pending. Authored fixtures cover all three
 interpretations, unavailable observation, interruption, undo and save replay;
 checks remain paused.

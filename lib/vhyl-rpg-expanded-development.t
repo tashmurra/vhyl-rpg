@@ -111,3 +111,60 @@ class RpgExpandedStudy: object
         value.status = 'resolved'; return value;
     }
 ;
+
+/** B125/B292 full-value communication time, without advancing the clock again. */
+class RpgExpandedCommunicationStudy: object
+    id = nil
+    source = nil
+    study = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.source,self.study,self.study.profile,self.study.training,
+        self.study.training.skill,self.approved,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.source == nil || !self.source.ofKind(RpgExpandedCommunicationReceipt)
+            || self.study == nil || !self.study.ofKind(RpgExpandedStudy) || self.study.profile == nil
+            || !self.study.profile.ofKind(RpgExpandedProfile) || self.study.training == nil
+            || !holds(self.study.profile.skills,self.study.training)) rpgExpandedReject('communication-study-ownership');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local i = 1; i <= current.length(); i += 1)
+                if (current[i] != self.boundDefinition[i]) rpgExpandedReject('communication-study-binding');
+            if (self.source.creditedStudy != self || self.source.studySeconds(self.study.profile) != self.result.seconds)
+                rpgExpandedReject('communication-study-history');
+            value.status = 'reused'; return value;
+        }
+        if (!self.approved || self.evidence == nil || self.evidence == '' || !self.study.permitted)
+        { value.reason = 'communication-study-related-skill-required'; return value; }
+        if (self.source.creditedStudy != nil) { value.reason = 'communication-study-already-credited'; return value; }
+        value.seconds = self.source.studySeconds(self.study.profile);
+        if (value.seconds <= 0) { value.reason = 'communication-study-no-eligible-time'; return value; }
+        rpgInteger(value.seconds,1,86400);
+        value.reason = self.study.profile.skillLearningWithTeacherReason(self.study.training.skill,nil);
+        if (value.reason != nil) return value;
+        if (self.study.creditOwner != nil && (self.study.creditOwner != self.study.profile
+            || self.study.creditTraining != self.study.training || self.study.creditSkill != self.study.training.skill))
+            rpgExpandedReject('study-retargeted');
+        rpgInteger(self.study.credit,0,2879999); rpgInteger(self.study.awarded,0,1000000);
+        value.points = (self.study.credit + value.seconds * 4) / 2880000;
+        rpgInteger(self.study.training.points,0,10000-value.points);
+        rpgInteger(self.study.awarded,0,1000000-value.points);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition();
+        self.study.creditOwner = self.study.profile; self.study.creditTraining = self.study.training;
+        self.study.creditSkill = self.study.training.skill;
+        self.study.credit = (self.study.credit + value.seconds * 4) % 2880000;
+        self.study.training.points += value.points; self.study.awarded += value.points;
+        self.source.creditedStudy = self; value.status = 'resolved'; self.result = value; return value;
+    }
+;

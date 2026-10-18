@@ -1186,3 +1186,8 @@ expanded influence procedure remains partial.
   intent and interpretation separately and charging elapsed time once. Added
   unrun interruption, undo and save fixtures. Communication-study integration
   remains pending (full-2008 B125).
+
+- Added full-rate communication-study credit from completed gesture exchanges,
+  using recorded eligibility and elapsed time without a second time charge.
+  Credit shares the existing study track and rejects duplicate claims. Other
+  communication channels remain pending; new fixtures are unrun.

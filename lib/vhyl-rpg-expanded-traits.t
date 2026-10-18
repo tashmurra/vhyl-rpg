@@ -1077,3 +1077,7 @@ modify RpgExpandedProfile
         return inherited(context);
     }
 ;
+
+modify RpgExpandedProfile
+    communicationStudyEligible() { return self.speechLimitationLevel() == 2; }
+;

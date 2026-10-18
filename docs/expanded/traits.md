@@ -1048,7 +1048,7 @@ using `talk` or a speech requirement also respect the limitation. Contexts for
 writing, shared signing and other nonvocal channels remain available; authors
 must describe the actual channel rather than infer it from a skill name.
 
-Nonshared signing between player characters and full-rate communication study
-still require their dedicated authored exchange and time-credit interfaces.
-They remain pending. The fixture covers costs, channel distinctions, compatibility
+Nonshared signing between player characters uses `RpgExpandedGestureExchange`
+in the social library. Its sender can receive full-rate credit through
+`RpgExpandedCommunicationStudy` in development; other channels remain pending. The fixture covers costs, channel distinctions, compatibility
 and rejection without random draws; checks remain paused.

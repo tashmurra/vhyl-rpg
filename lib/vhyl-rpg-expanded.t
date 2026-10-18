@@ -494,3 +494,12 @@ modify RpgLiteContext
 modify RpgLiteTrait
     voiceRelated = nil
 ;
+
+/** Completed communication adapters expose time already charged to the ledger. */
+class RpgExpandedCommunicationReceipt: object
+    creditedStudy = nil
+    studySeconds(profile) { return 0; }
+;
+modify RpgExpandedProfile
+    communicationStudyEligible() { return nil; }
+;

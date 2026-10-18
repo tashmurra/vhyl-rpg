@@ -1825,12 +1825,13 @@ modify RpgExpandedProfile
     gestureExchanges = []
 ;
 class RpgExpandedGestureResult: RpgExpandedResult
+    studyEligible = nil
     intendedMeaning = nil
     interpretedMeaning = nil
     interpretation = nil
 ;
 /** B125 player-authored communication without a shared signing language. */
-class RpgExpandedGestureExchange: object
+class RpgExpandedGestureExchange: RpgExpandedCommunicationReceipt
     id = nil
     sender = nil
     recipient = nil
@@ -1888,6 +1889,12 @@ class RpgExpandedGestureExchange: object
         rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds); rpgLedger.validateAdvance(self.seconds);
         value.status = 'ready'; value.seconds = self.seconds; return value;
     }
+    studySeconds(profile)
+    {
+        if (self.result == nil || profile != self.sender) return 0;
+        self.assess();
+        return self.result.studyEligible ? self.result.seconds : 0;
+    }
     conditionsReason()
     {
         if (self.sender.dead || self.sender.unconscious || self.recipient.dead || self.recipient.unconscious)
@@ -1899,6 +1906,7 @@ class RpgExpandedGestureExchange: object
         local value = self.assess(); if (value.status == 'reused') return self.result;
         if (value.status != 'ready') return value;
         local definition = self.definition(); local start = rpgLedger.seconds;
+        local studyEligible = self.sender.communicationStudyEligible();
         local sent = self.sender.gestureExchanges.length(); local received = self.recipient.gestureExchanges.length();
         rpgSpendTime(self.seconds);
         local current = self.definition();
@@ -1906,8 +1914,10 @@ class RpgExpandedGestureExchange: object
             if (current[i] != definition[i]) rpgExpandedReject('gesture-exchange-interrupted');
         if (rpgLedger.seconds != start + value.seconds || self.sender.gestureExchanges.length() != sent
             || self.recipient.gestureExchanges.length() != received) rpgExpandedReject('gesture-exchange-interrupted');
-        if (self.conditionsReason() != nil) rpgExpandedReject('gesture-exchange-conditions-changed');
+        if (self.conditionsReason() != nil || self.sender.communicationStudyEligible() != studyEligible)
+            rpgExpandedReject('gesture-exchange-conditions-changed');
         self.boundDefinition = definition; self.startedAt = start; self.completedAt = rpgLedger.seconds;
+        value.studyEligible = studyEligible;
         value.intendedMeaning = self.intendedMeaning; value.interpretedMeaning = self.interpretedMeaning;
         value.interpretation = self.interpretation;
         self.sender.gestureExchanges = self.sender.gestureExchanges + [self];
