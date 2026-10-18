@@ -231,9 +231,10 @@
       "status": "partial",
       "acceptance": "Initial status-appropriate wardrobe is included and normal replacements are covered by living costs. Sudden replacement uses catalogue pricing. Full wardrobe uses actual status; individual outfits normally cap at status three. Do not add initial wardrobe expense or treat all clothes as weightless.",
       "tests": [
-        "tests/expanded.py::test_initial_wardrobe"
+        "tests/expanded.py::test_initial_wardrobe",
+        "tests/expanded.py::test_cultural_wardrobe"
       ],
-      "validation_note": "Starting wardrobe now issues a physical lifestyle item once during creation without charging money. Receipt binds authored full cultural standing and original item, rejects duplicate entitlement and replays without restoring transferred/lost clothes. Availability and permission still apply. Automatic cultural-standing selection and normal replacement coverage remain pending. Fixture covers rollback, undo, cross-process saved replay and invalid claims; unrun while checks are paused."
+      "validation_note": "Starting wardrobe now issues a physical lifestyle item once during creation without charging money. Receipt binds authored full cultural standing and original item, rejects duplicate entitlement and replays without restoring transferred/lost clothes. Availability and permission still apply. Automatic cultural-standing selection and normal replacement coverage remain pending. Fixture covers rollback, undo, cross-process saved replay and invalid claims; unrun while checks are paused. Optional social-structure integration now derives full cultural standing from existing status/rank/wealth policy, rejecting culture mismatch and competing explicit input. Completed issue remains historical after later standing changes. Automatic initial setup and normal replacement coverage remain pending. Fixtures unrun."
     },
     {
       "id": "equipment-procedures-wardrobe-context",

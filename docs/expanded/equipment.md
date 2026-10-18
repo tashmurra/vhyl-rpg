@@ -977,3 +977,26 @@ separate integration.
 `expanded-initial-wardrobe.t` / `test_initial_wardrobe` specify free issuance,
 duplicate rejection, creation boundaries, bound choices, lost-item replay,
 rollback, undo and save continuation. These fixtures remain unrun.
+
+
+## Cultural standing for starting clothes
+
+When social and campaign libraries are both installed, set
+`RpgExpandedInitialWardrobe.socialStructure` to an authored
+`RpgExpandedSocialStructure` and leave `applicableStatus` unset. The receipt
+uses `profile.initialWardrobeStanding(culture,structure)` to derive full standing
+from existing cultural status, rank and the structure's wealth policy. The
+structure and receipt must name the same culture, and the physical wardrobe's
+lifestyle status must match the result. Conflicting explicit and derived inputs
+reject. Supported wardrobe standing remains −2 through 8.
+
+This is the full standing used by B266 clothing valuation, not the reduced
+personal monthly expense when an institution supports rank benefits. The
+initial issue still costs no money. After issuance, replay validates the original
+receipt without recalculating later promotions, demotions or wealth changes.
+
+Campaign-only integrations can retain the explicitly authored `applicableStatus`
+path. Supplying a structure without the social adapter rejects explicitly.
+`expanded-cultural-wardrobe.t` / `test_cultural_wardrobe` specify rank integration,
+culture and price mismatches, competing inputs and saved historical replay;
+fixtures remain unrun while checks are paused.

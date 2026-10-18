@@ -1623,6 +1623,7 @@ modify RpgExpandedProfile
 class RpgExpandedInitialWardrobe: RpgExpandedAcquisition
     mode = 'issue'
     applicableStatus = nil
+    socialStructure = nil
     culture = nil
     approved = nil
     evidence = nil
@@ -1633,7 +1634,7 @@ class RpgExpandedInitialWardrobe: RpgExpandedAcquisition
             rpgExpandedReject('initial-wardrobe-item');
         local price = self.item.packagePrice();
         return [self.profile,self.item,self.mode,self.quote,self.startingPurchase,self.marketOffer,self.coinTender,
-            self.applicableStatus,self.culture,self.approved,self.evidence,self.item.lifestyle,
+            self.applicableStatus,self.socialStructure,self.culture,self.approved,self.evidence,self.item.lifestyle,
             self.item.lifestyle.status,self.item.lifestyle.kind,self.item.exactWeight,
             self.item.approved,self.item.evidence,price.money];
     }
@@ -1654,8 +1655,14 @@ class RpgExpandedInitialWardrobe: RpgExpandedAcquisition
         if (self.mode != 'issue' || self.quote != nil || self.startingPurchase
             || self.marketOffer != nil || self.coinTender != nil)
             rpgExpandedReject('initial-wardrobe-price-source');
-        rpgInteger(self.applicableStatus,-2,8);
-        if (self.item.lifestyle.kind != 'wardrobe' || self.item.lifestyle.status != self.applicableStatus)
+        local level = self.applicableStatus;
+        if (self.socialStructure != nil)
+        {
+            if (level != nil) rpgExpandedReject('initial-wardrobe-standing-source');
+            level = self.profile.initialWardrobeStanding(self.culture,self.socialStructure);
+        }
+        rpgInteger(level,-2,8);
+        if (self.item.lifestyle.kind != 'wardrobe' || self.item.lifestyle.status != level)
             rpgExpandedReject('initial-wardrobe-status');
         local value = new RpgExpandedAcquisitionResult();
         if (self.profile.initialWardrobe != nil) { value.reason = 'initial-wardrobe-already-issued'; return value; }

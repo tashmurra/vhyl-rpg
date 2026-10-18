@@ -711,3 +711,9 @@ modify RpgExpandedProfile
     dependentReplacementTraitFacts(trait) { rpgExpandedReject('dependent-replacement-trait-unsupported'); }
     validateDependentReplacementTrait(trait) { rpgExpandedReject('dependent-replacement-trait-unsupported'); }
 ;
+
+
+modify RpgExpandedProfile
+    initialWardrobeStanding(culture,structure)
+    { rpgExpandedReject('initial-wardrobe-social-adapter-required'); return nil; }
+;

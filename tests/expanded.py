@@ -9296,6 +9296,8 @@ def test(build):
     test_lifestyle_items(Session, lifestyle_items, build.out)
     initial_wardrobe = build.build("expanded-initial-wardrobe",ROOT / "tests/fixtures/expanded-initial-wardrobe.t")
     test_initial_wardrobe(Session, initial_wardrobe, build.out)
+    cultural_wardrobe = build.build("expanded-cultural-wardrobe",ROOT / "tests/fixtures/expanded-cultural-wardrobe.t")
+    test_cultural_wardrobe(Session, cultural_wardrobe, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22193,3 +22195,35 @@ def test_initial_wardrobe(Session, bundle, out):
         assert last(s, 'test.initial-clothes-state') == [1000, 0, 0, 0]
     finally:
         s.close()
+
+
+def test_cultural_wardrobe(Session, bundle, out):
+    """Purchased standing plus rank determines wardrobe, not personal living support; unrun."""
+    path = out / 'cultural-wardrobe.zsave'
+    s = Session(bundle)
+    try:
+        for code in (15700, 15600, 15701, 15600, 15602):
+            s.action(1100, code)
+        assert last(s, 'test.wardrobe-standing') == [2, 3000, 0, 1000]
+        assert last(s, 'test.initial-clothes-result') == ['reused', None]
+        assert last(s, 'test.initial-clothes-state') == [1000, 1, 1, 0]
+        s.command(f':save {path}\n@1101')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1101')
+        for code in (15600, 15602):
+            s.action(1100, code)
+        assert last(s, 'test.initial-clothes-state') == [1000, 1, 1, 0]
+    finally:
+        s.close()
+    for code, reason in [(15702, 'initial-wardrobe-status'),
+                         (15703, 'initial-wardrobe-standing-source'),
+                         (15704, 'initial-wardrobe-social-structure')]:
+        s = Session(bundle)
+        try:
+            s.action(1100, code)
+            assert last(s, 'test.wardrobe-standing-reject') == [reason]
+        finally:
+            s.close()

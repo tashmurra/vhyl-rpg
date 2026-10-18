@@ -2972,3 +2972,17 @@ class RpgExpandedDependentTraitReplacement: object
         profile.developmentRevision += 1; value.status = 'resolved'; return value;
     }
 ;
+
+
+/** Full cultural standing for the included wardrobe, B266. Keep this adapter
+ * here so campaign equipment does not require the social catalogue. */
+modify RpgExpandedProfile
+    initialWardrobeStanding(culture,structure)
+    {
+        if (structure == nil || !structure.ofKind(RpgExpandedSocialStructure)
+            || culture == nil || structure.culture != culture)
+            rpgExpandedReject('initial-wardrobe-social-structure');
+        local level = structure.standingFor(self);
+        rpgInteger(level,-2,8); return level;
+    }
+;
