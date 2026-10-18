@@ -20,3 +20,5 @@
 #include <vhyl-rpg-expanded-technology.t>
 
 #include <vhyl-rpg-expanded-creatures.t>
+
+#include <vhyl-rpg-expanded-psionics.t>

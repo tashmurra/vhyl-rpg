@@ -268,8 +268,11 @@
       "title": "Ability-based powers and interference",
       "pages": "B254-B257",
       "source": "full-2008",
-      "status": "pending",
-      "tests": []
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_psionic_talents"
+      ],
+      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
     },
     {
       "id": "skills",

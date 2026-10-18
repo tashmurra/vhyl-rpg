@@ -29,7 +29,7 @@ SOURCES += ('lib/vhyl-rpg-expanded.t', 'lib/vhyl-rpg-expanded-characters.t',
             'lib/vhyl-rpg-expanded-campaign.t', 'lib/vhyl-rpg-expanded-social.t',
             'lib/vhyl-rpg-expanded-health.t', 'lib/vhyl-rpg-expanded-hazards.t',
             'lib/vhyl-rpg-expanded-combat.t', 'lib/vhyl-rpg-expanded-technology.t',
-            'lib/vhyl-rpg-expanded-creatures.t')
+            'lib/vhyl-rpg-expanded-creatures.t', 'lib/vhyl-rpg-expanded-psionics.t')
 REPOSITORY = 'https://github.com/tashmurra/vhyl-rpg'
 PUBLIC = {
     'Thing', 'RpgError', 'RpgSkill', 'RpgTraining', 'RpgTrait', 'RpgProfile',

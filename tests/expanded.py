@@ -1664,6 +1664,24 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_psionic_talents(s):
+    for level,permission,active,mode,ability,cost,bonus,status,reason in [
+            (1,0,1,0,'danger-sense',5,1,'ready',None),
+            (4,0,1,0,'danger-sense',20,4,'ready',None),
+            (5,1,1,0,'danger-sense',25,5,'ready',None),
+            (2,0,0,0,'danger-sense',10,0,'ready',None),
+            (2,0,1,1,'danger-sense',0,0,'blocked','psionic-latent-talent-required'),
+            (2,0,1,0,'unrelated-ability',10,2,'blocked','psionic-ability-outside-power'),
+            (2,0,1,3,'danger-sense',20,2,'ready',None)]:
+        s.action(2230,level,permission,active,mode,ability)
+        assert last(s,'test.psionic-talent') == [cost,bonus,status,reason,0,0]
+    for level,mode,reason in [(5,0,'psionic-talent-level-permission'),
+            (2,2,'psionic-talent-price-permission'),(2,4,'psionic-power-has-no-talent')]:
+        s.action(2230,level,0,1,mode,'danger-sense')
+        assert last(s,'test.psionic-reject') == [reason,0,0]
+
+
+
 def test_swarm_persistence(Session,bundle,out):
     path = out / 'expanded-swarm-combat.zsave'
     first = Session(bundle)
@@ -7757,6 +7775,8 @@ def test(build):
     fresh(Session,invention,test_invention_concept)
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
+    psionics = build.build('expanded-psionics',ROOT / 'tests/fixtures/expanded-psionics.t')
+    fresh(Session,psionics,test_psionic_talents)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
     swarms = build.build('expanded-swarms',ROOT / 'tests/fixtures/expanded-swarms.t')
     test_swarm_attacks(Session,swarms)

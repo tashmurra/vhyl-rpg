@@ -193,3 +193,7 @@ Tags reuse successful PR validation and packages when the complete Git tree
 matches. Source and HTML archives remain byte-for-byte identical; publication
 adds a small provenance file tying the validated build to the release commit.
 A changed tree or unavailable build evidence requires fresh validation.
+
+The partial [psionics library](docs/expanded/psionics.md) adds explicit power
+membership, owned talent pricing and latent purchase eligibility. Ability effects,
+activation and interference remain incomplete; the new fixtures are unrun.

@@ -21,9 +21,12 @@
       "pages": "B254; B257",
       "module": "psionics",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A power definition has an explicit ability membership list, source modifier and talent policy; missing required fields or conflicting definitions cannot silently use defaults from another power.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_psionic_talents"
+      ],
+      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
     },
     {
       "id": "psionic-new-power-permission",
@@ -71,9 +74,12 @@
       "pages": "B257",
       "module": "psionics",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require an explicit authored talent price for unusually broad powers rather than silently applying the ordinary five-point rate.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_psionic_talents"
+      ],
+      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
     },
     {
       "id": "psionic-telepathic-target-policy",
@@ -111,9 +117,12 @@
       "pages": "B254-B255",
       "module": "psionics",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A character with a power's talent but no abilities can buy an eligible first ability within that power using earned points.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_psionic_talents"
+      ],
+      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
     },
     {
       "id": "psionic-existing-power-advancement",
@@ -161,9 +170,12 @@
       "pages": "B255",
       "module": "psionics",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Add the associated talent level to rolls to activate or use that power, including applicable intelligence, will and perception rolls; do not add the bonus twice when an ability delegates to another module.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_psionic_talents"
+      ],
+      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
     },
     {
       "id": "psionic-talent-optional",
@@ -171,9 +183,12 @@
       "pages": "B255",
       "module": "psionics",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Allow ability possession without talent and talent without ability; talent does not supply missing abilities or additional effect magnitude by itself.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_psionic_talents"
+      ],
+      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
     },
     {
       "id": "psionic-talent-cost-cap",
@@ -181,9 +196,12 @@
       "pages": "B255",
       "module": "psionics",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ordinary talents cost five points per level and normally stop at four; exceeding four requires a specific campaign permission.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_psionic_talents"
+      ],
+      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
     },
     {
       "id": "psionic-layered-ability-levels",
