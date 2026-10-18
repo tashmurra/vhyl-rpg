@@ -810,3 +810,23 @@ and gold retain their exact four-thousandths-pound coin weight.
 copper weight to specify rounding, missing-detail rejection, physical purchase,
 rollback, undo, receipt binding and saved continuation. That fixture weight is
 not a reference-table value. Fixtures remain unrun.
+
+
+## Starting allocation and equipment integration
+
+Use the campaign library's `RpgExpandedWealthAllocation` before starting purchases
+(`full-2008`, B25-B27/B264). It computes campaign-TL wealth and the purchased wealth
+multiplier, credits only the spendable share to `profile.money`, and records
+settled assets separately as nonspendable property value. Subsequent acquisitions
+spend that same balance. Starting higher-TL purchases retain their existing price
+adjustment; issued equipment adds its item without charging its listed price.
+
+Allocation receipts bind the original mobile/settled choice, its approval and
+recorded total/cash/assets. Replaying after purchases never replenishes cash.
+Changing the wealth purchase later does not recalculate the original allocation;
+changing the allocation's recorded choice or amounts rejects. No optional
+starting-purchase wrapper or second purse is required: perform allocation and
+purchases in the normal engine transaction when they must succeed together.
+`expanded-starting-purchases.t` / `test_starting_purchases` specify the shared
+balance, higher-TL charge, unaffordable purchase, issued gear, unchanged allocation
+after wealth changes, rollback, undo and saved replay. Fixtures remain unrun.

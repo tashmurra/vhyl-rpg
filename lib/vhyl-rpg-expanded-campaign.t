@@ -258,6 +258,9 @@ class RpgExpandedWealthAllocation: object
     mobileApproved = nil
     boundProfile = nil
     boundWealth = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition() { return [self.profile,self.wealth,self.mobile,self.mobileApproved]; }
     total = 0
     cash = 0
     settledAssets = 0
@@ -274,9 +277,17 @@ class RpgExpandedWealthAllocation: object
         {
             if (self.profile.startingWealthAllocation != self)
             { value.reason = 'starting-wealth-already-allocated'; return value; }
+            local facts = self.definition();
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('wealth-allocation-binding');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('wealth-allocation-binding');
+            if (self.boundOutcome == nil || self.boundOutcome.length() != 3 || self.total != self.boundOutcome[1]
+                || self.cash != self.boundOutcome[2] || self.settledAssets != self.boundOutcome[3])
+                rpgExpandedReject('wealth-allocation-outcome');
             value.status = 'reused'; value.total = self.total; value.cash = self.cash;
             value.settledAssets = self.settledAssets; return value;
         }
+        if (self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('wealth-allocation-uncommitted');
         rpgExpandedValidate(self.profile);
         if (self.profile.creationComplete) { value.reason = 'starting-wealth-creation-only'; return value; }
         if (self.profile.money != 0 || self.profile.equipment.length() != 0)
@@ -292,6 +303,7 @@ class RpgExpandedWealthAllocation: object
         local value = self.assess(); if (value.status != 'ready') return value;
         self.total = value.total; self.cash = value.cash; self.settledAssets = value.settledAssets;
         self.boundProfile = self.profile; self.boundWealth = self.wealth;
+        self.boundDefinition = self.definition(); self.boundOutcome = [self.total,self.cash,self.settledAssets];
         self.profile.money = value.cash; self.profile.startingWealthAllocation = self;
         value.status = 'resolved'; return value;
     }

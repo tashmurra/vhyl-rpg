@@ -11,9 +11,14 @@
       "pages": "B264",
       "module": "equipment",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Starting equipment budget uses campaign technology starting wealth times the character wealth multiplier from B25-B27. Purchases spend the existing money ledger; do not create an independent expanded starting purse.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_starting_wealth",
+        "tests/expanded.py::test_starting_equipment_price",
+        "tests/expanded.py::test_starting_purchases"
+      ],
+      "validation_note": "Existing wealth allocation and purchases use one purse; allocation choice/outcomes are now bound. New integration fixture covers settled assets, higher-TL purchase, issue, insufficient funds, rollback/undo/save and later wealth change. Required validation remains unrun."
     },
     {
       "id": "equipment-procedures-price-context",

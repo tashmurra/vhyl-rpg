@@ -433,3 +433,9 @@ One-unit copper coins now work through the existing physical-money paths when
 the author supplies explicit weight and evidence. No copper weight is invented.
 Mass/value overflow checks precede withdrawals; synthetic-weight fixtures remain
 unrun. Change-making and currency conversion remain pending.
+
+
+Starting-wealth receipts now bind the approved allocation and original outcomes.
+An integration fixture covers allocation, starting gear prices and issued items
+through one purse, including replay after later wealth changes. Fixtures remain
+unrun while checks are paused.

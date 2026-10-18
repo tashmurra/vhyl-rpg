@@ -9280,6 +9280,8 @@ def test(build):
     test_coin_purchases(Session, coin_purchases, build.out)
     copper = build.build('expanded-copper',ROOT / 'tests/fixtures/expanded-copper.t')
     test_copper(Session, copper, build.out)
+    starting_purchases = build.build('expanded-starting-purchases',ROOT / 'tests/fixtures/expanded-starting-purchases.t')
+    test_starting_purchases(Session, starting_purchases, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21888,3 +21890,46 @@ def test_copper(Session, bundle, out):
         assert last(s, 'test.copper-reject') == ['coinage-copper-weight-required']
     finally:
         s.close()
+
+
+def test_starting_purchases(Session, bundle, out):
+    """B25-B27/B264 starting cash, advanced-TL purchase and issued gear share one ledger; unrun."""
+    path = out / 'starting-purchases.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1100, 15002)
+        initial = last(s, 'test.starting-purchase-state')
+        for code in (15001, 15002):
+            s.action(1100, code)
+        assert last(s, 'test.starting-purchase-state') == initial
+        s.action(1100, 15000)
+        s.command('undo')
+        s.action(1100, 15002)
+        assert last(s, 'test.starting-purchase-state') == initial
+        for code in (15000, 15000, 15003, 15002):
+            s.action(1100, code)
+        assert last(s, 'test.starting-second-sale') == ['blocked', 'equipment-unaffordable']
+        assert last(s, 'test.starting-purchase-state') == [200, 1, 2000, 400, 1600, initial[-1]]
+        for code in (15004, 15004, 15005, 15002):
+            s.action(1100, code)
+        expected = [200, 2, 2000, 400, 1600, initial[-1]]
+        assert last(s, 'test.starting-purchase-state') == expected
+        s.command(f':save {path}\n@1101')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1101')
+        for code in (15000, 15004, 15002):
+            s.action(1100, code)
+        assert last(s, 'test.starting-purchase-state') == expected
+    finally:
+        s.close()
+    for code, reason in [(15006, 'wealth-allocation-binding'), (15007, 'wealth-allocation-outcome')]:
+        s = Session(bundle)
+        try:
+            s.action(1100, 15000)
+            s.action(1100, code)
+            assert last(s, 'test.starting-binding') == [reason]
+        finally:
+            s.close()
