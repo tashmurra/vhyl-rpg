@@ -373,5 +373,37 @@ act(verb,args)
         event('test.resuscitation-procedure'); eventValue(value.status); eventValue(value.reason);
         eventValue(value.modifier); eventValue(value.seconds); return nil;
     }
+    if (verb == 1920)
+    {
+        local value = rpgExpandedCardiacHealth(args[1],args[2],args[3] == 1);
+        event('test.cardiac-health'); eventValue(value.totalInjury); eventValue(value.addedInjury); return nil;
+    }
+    if (verb == 1921)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        patient.ht = args[1]; patient.fatigue = 3; patient.injury = args[2];
+        patient.temperatureFatigue = 1; patient.temperatureInjury = 1;
+        if (args[3] != 'none') { local trait = new RpgLiteTrait(); trait.id = args[3]; patient.traits = [trait]; }
+        local arrest = new RpgExpandedCardiacArrest(); arrest.id = 'arrest'; arrest.profile = patient;
+        arrest.evidence = 'Confirmed affliction trigger'; local started = arrest.start(); local repeated = arrest.start();
+        patient.validateFeatures();
+        event('test.cardiac-onset'); eventValue(started.prevented ? 1 : 0); eventValue(started.fatigueAdded);
+        eventValue(patient.fatigue); eventValue(patient.injury); eventValue(patient.unconscious ? 1 : 0);
+        eventValue(arrest.deadline == nil ? nil : arrest.deadline - arrest.startedAt); eventValue(repeated.status);
+        eventValue(patient.temperatureFatigue); eventValue(patient.temperatureInjury); eventValue(rpgRandom.draws);
+        if (started.prevented)
+        {
+            local rejected = arrest.expire(); event('test.cardiac-immune'); eventValue(rejected.reason);
+            eventValue(patient.cardiacArrest == nil ? 0 : 1); return nil;
+        }
+        local rest = nil;
+        try { rpgLiteRest(patient,60,true,true,nil,true); } catch (RpgExpandedError error) { rest = true; }
+        rpgSpendTime(args[1] * 20 - 1); local early = arrest.expire(); rpgSpendTime(1);
+        local value = arrest.expire(); local repeat = arrest.expire(); patient.validateFeatures();
+        event('test.cardiac-expiry'); eventValue(rest ? 1 : 0); eventValue(early.reason); eventValue(value.injuryAdded);
+        eventValue(patient.injury); eventValue(patient.dead ? 1 : 0); eventValue(patient.cardiacArrest == nil ? 0 : 1);
+        eventValue(repeat.status); eventValue(patient.temperatureFatigue); eventValue(patient.temperatureInjury);
+        eventValue(rpgRandom.draws); return nil;
+    }
     return vhylAct(verb,args);
 }

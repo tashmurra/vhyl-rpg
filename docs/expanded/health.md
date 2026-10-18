@@ -914,3 +914,37 @@ suffocation. Owned treatment, repeated attempts, lung clearance and deadline
 integration remain incomplete. `test_resuscitation_assessment` records the skill,
 technology, training and cause distinctions and remains unrun while checks are
 paused.
+
+
+## Cardiac arrest onset and deadline
+
+`RpgExpandedCardiacArrest` owns a confirmed cardiac-arrest trigger. Supply a unique
+`id`, `profile` and `evidence` from the actual triggering procedure. `start()` checks
+the supported diffuse, homogeneous and no-vitals anatomy immunities first. Immune
+onsets are recorded as prevented without fatigue loss, collapse or a deadline.
+Other onsets set the existing fatigue deficit to twice fatigue capacity, producing
+negative full fatigue and unconsciousness. This is a condition assignment, not
+an FP expenditure: it does not inflict fatigue-overflow injury or erase existing
+recovery restrictions.
+
+The B429 deadline is twenty seconds per point of HT, captured at onset. Repeating
+`start()` cannot refresh it. `assessExpiry()` is pure; `expire()` at or after the
+deadline records death and clears active condition ownership. The author must
+schedule this deadline on the shared clock. Ordinary rest is rejected while the
+condition is active. This stage does not implement resuscitation, changing
+physiology or interactions with other causes of death. Do not clear the active
+condition manually as a substitute for a successful treatment procedure.
+
+`rpgExpandedCardiacHealth(capacity, injury, survived)` supplies the condition's
+health floor using the existing injury-deficit representation. Survival requires
+at least full capacity in injury, meaning zero current HP; death requires at least
+twice capacity, meaning negative full HP. A worse existing injury total is retained.
+The helper itself changes nothing. Untreated expiry applies the death consequence
+directly without attack damage, shock or survival rolls. The successful-revival
+consequence remains an assessment until treatment integration is implemented.
+
+`test_cardiac_condition` records duration, fatigue assignment without overflow,
+repeated onset, early expiry, exact expiry, preserved recovery restrictions,
+immunities and both health-floor formulas. Fixtures remain unrun while checks are
+paused. Treatment integration, transaction rollback, undo, save continuation and
+automatic deadline dispatch remain outstanding.

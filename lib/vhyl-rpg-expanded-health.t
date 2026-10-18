@@ -1519,3 +1519,144 @@ rpgExpandedResuscitationProcedure(skillKind, medicalTL, trained, modernTechnique
         value.modifier = trained && modernTechnique && cause != 'heart-attack' ? -2 : -4;
     value.status = 'ready'; return value;
 }
+
+class RpgExpandedCardiacHealth: RpgExpandedResult
+    totalInjury = 0
+    addedInjury = 0
+;
+
+/** Post-arrest health floor, B429; this is a condition consequence, not an attack. */
+rpgExpandedCardiacHealth(capacity, injury, survived)
+{
+    rpgInteger(capacity,1,1000); rpgInteger(injury,0,100000);
+    local value = new RpgExpandedCardiacHealth(); local minimum = capacity * (survived ? 1 : 2);
+    value.totalInjury = injury > minimum ? injury : minimum;
+    value.addedInjury = value.totalInjury - injury; value.status = 'ready'; return value;
+}
+
+class RpgExpandedCardiacResult: RpgExpandedResult
+    prevented = nil
+    fatigueAdded = 0
+    injuryAdded = 0
+    deadline = nil
+;
+
+modify RpgExpandedProfile
+    cardiacArrest = nil
+    cardiacHistory = []
+;
+
+/** Owned onset and untreated deadline. Revival requires the pending treatment integration. */
+class RpgExpandedCardiacArrest: object
+    id = nil
+    profile = nil
+    evidence = nil
+    startedAt = nil
+    deadline = nil
+    startingHealth = nil
+    onset = nil
+    fatalResult = nil
+    endedAt = nil
+    boundId = nil
+    boundProfile = nil
+    boundEvidence = nil
+    validateBinding()
+    {
+        if (self.id != self.boundId || self.profile != self.boundProfile || self.evidence != self.boundEvidence
+            || !holds(self.profile.cardiacHistory,self)) rpgExpandedReject('cardiac-binding');
+        return nil;
+    }
+    start()
+    {
+        local value = new RpgExpandedCardiacResult();
+        if (self.startedAt != nil)
+        {
+            self.validateBinding(); value.status = 'reused'; value.prevented = self.onset.prevented;
+            value.fatigueAdded = self.onset.fatigueAdded; value.deadline = self.onset.deadline; return value;
+        }
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('cardiac-profile');
+        if (self.id == nil || self.id == '') rpgExpandedReject('cardiac-id');
+        if (self.evidence == nil || self.evidence == '') { value.reason = 'cardiac-trigger-evidence'; return value; }
+        if (self.profile.dead) { value.reason = 'cardiac-patient-dead'; return value; }
+        if (self.profile.cardiacArrest != nil) { value.reason = 'cardiac-already-active'; return value; }
+        foreach (local prior in self.profile.cardiacHistory)
+            if (prior.id == self.id) rpgExpandedReject('cardiac-duplicate');
+        rpgInteger(self.profile.ht,1,1000); rpgInteger(self.profile.maxEnergy,1,1000);
+        rpgInteger(self.profile.fatigue,0,2 * self.profile.maxEnergy);
+        value.prevented = self.profile.level('diffuse') > 0 || self.profile.level('homogenous') > 0
+            || self.profile.level('no-vitals') > 0;
+        if (!value.prevented)
+        {
+            value.fatigueAdded = 2 * self.profile.maxEnergy - self.profile.fatigue;
+            value.deadline = rpgLedger.seconds + self.profile.ht * 20;
+            self.profile.fatigue = 2 * self.profile.maxEnergy;
+            self.profile.unconscious = true; self.profile.fatigueCollapse = true;
+            self.profile.cardiacArrest = self;
+        }
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundEvidence = self.evidence;
+        self.startingHealth = self.profile.ht; self.startedAt = rpgLedger.seconds; self.deadline = value.deadline;
+        if (value.prevented) self.endedAt = self.startedAt;
+        self.profile.cardiacHistory = self.profile.cardiacHistory + [self];
+        value.status = 'resolved'; self.onset = value; return value;
+    }
+    assessExpiry()
+    {
+        local value = new RpgExpandedCardiacResult();
+        if (self.startedAt == nil) { value.reason = 'cardiac-not-started'; return value; }
+        self.validateBinding();
+        if (self.fatalResult != nil)
+        { value.status = 'reused'; value.injuryAdded = self.fatalResult.injuryAdded; value.deadline = self.deadline; return value; }
+        if (self.onset.prevented) { value.reason = 'cardiac-immune'; return value; }
+        if (self.profile.dead) { value.reason = 'cardiac-other-death-unavailable'; return value; }
+        if (self.profile.cardiacArrest != self) rpgExpandedReject('cardiac-owner');
+        if (rpgLedger.seconds < self.deadline) { value.reason = 'cardiac-deadline-not-reached'; return value; }
+        value.injuryAdded = rpgExpandedCardiacHealth(self.profile.maxHP,self.profile.injury,nil).addedInjury;
+        value.deadline = self.deadline; value.status = 'ready'; return value;
+    }
+    expire()
+    {
+        local value = self.assessExpiry(); if (value.status != 'ready') return value;
+        self.profile.injury += value.injuryAdded;
+        self.profile.dead = true; self.profile.unconscious = true; self.profile.cardiacArrest = nil;
+        self.endedAt = self.deadline; value.status = 'resolved'; self.fatalResult = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateNaturalRecovery(seconds, food, allowed)
+    {
+        inherited(seconds,food,allowed);
+        if (self.cardiacArrest != nil) rpgExpandedReject('cardiac-resuscitation-required');
+        return nil;
+    }
+    validateFeatures()
+    {
+        inherited(); local ids = []; local active = nil;
+        foreach (local arrest in self.cardiacHistory)
+        {
+            if (arrest == nil || !arrest.ofKind(RpgExpandedCardiacArrest) || arrest.profile != self
+                || holds(ids,arrest.id) || arrest.startedAt == nil || arrest.startedAt > rpgLedger.seconds || arrest.onset == nil)
+                rpgExpandedReject('cardiac-history');
+            arrest.validateBinding(); ids = ids + [arrest.id];
+            if (arrest.onset.prevented)
+            {
+                if (arrest.deadline != nil || arrest.endedAt != arrest.startedAt || arrest.fatalResult != nil
+                    || arrest.onset.fatigueAdded != 0) rpgExpandedReject('cardiac-immunity-history');
+            }
+            else
+            {
+                if (arrest.deadline != arrest.startedAt + arrest.startingHealth * 20 || arrest.onset.deadline != arrest.deadline)
+                    rpgExpandedReject('cardiac-deadline-history');
+                if (arrest.fatalResult == nil)
+                {
+                    if (active != nil || arrest.endedAt != nil) rpgExpandedReject('cardiac-active-history');
+                    active = arrest;
+                }
+                else if (arrest.endedAt != arrest.deadline || arrest.endedAt > rpgLedger.seconds || !self.dead)
+                    rpgExpandedReject('cardiac-fatal-history');
+            }
+        }
+        if (self.cardiacArrest != active) rpgExpandedReject('cardiac-owner-history');
+        return nil;
+    }
+;

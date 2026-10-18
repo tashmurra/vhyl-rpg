@@ -291,9 +291,12 @@
       "pages": "B429",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Cardiac arrest sets fatigue to negative full capacity and establishes a death deadline of health/3 minutes unless resuscitated; surviving health becomes the lower of zero and current health.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cardiac_condition"
+      ],
+      "validation_note": "Owned onset, anatomy immunity and untreated expiry plus pure post-arrest health floors authored; fixtures unrun. Revival treatment, automatic deadlines, other death causes and transaction/persistence coverage remain incomplete."
     },
     {
       "id": "condition-heart-attack-death-value",
@@ -301,9 +304,12 @@
       "pages": "B429",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "If cardiac arrest kills and postmortem health matters, use the lower of negative full health capacity and current health.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cardiac_condition"
+      ],
+      "validation_note": "Owned onset, anatomy immunity and untreated expiry plus pure post-arrest health floors authored; fixtures unrun. Revival treatment, automatic deadlines, other death causes and transaction/persistence coverage remain incomplete."
     },
     {
       "id": "condition-heart-attack-immunity",
@@ -311,9 +317,12 @@
       "pages": "B429",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Diffuse, homogeneous or no-vitals anatomy grants immunity to cardiac arrest; do not apply the fatigue collapse or death timer to immune actors.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cardiac_condition"
+      ],
+      "validation_note": "Owned onset, anatomy immunity and untreated expiry plus pure post-arrest health floors authored; fixtures unrun. Revival treatment, automatic deadlines, other death causes and transaction/persistence coverage remain incomplete."
     },
     {
       "id": "acid-splash",
