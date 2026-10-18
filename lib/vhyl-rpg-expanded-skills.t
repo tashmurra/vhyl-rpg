@@ -2065,3 +2065,65 @@ class RpgExpandedPackingSkill: RpgExpandedSkill
         return edges;
     }
 ;
+
+/** B212 begging: fixed ordinary defaults; hourly settlement belongs to social. */
+class RpgExpandedBeggingSkill: RpgExpandedSkill
+    id = 'begging'
+    attribute = rpgIQ
+    difficulty = 0
+    defaultPenalty = -4
+    validateDefinition()
+    {
+        if (self.id != 'begging' || self.attribute != rpgIQ || self.difficulty != 0 || self.defaultPenalty != -4
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil
+            || self.techLevel != nil || self.specialty != nil || self.influence)
+            rpgExpandedReject('begging-skill-definition');
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill)) continue;
+            local general = source.ofKind(RpgExpandedSkill) && source.optionalParent != nil ? source.optionalParent : source;
+            if (general.techLevel != nil || general.specialty != nil) continue;
+            local penalty = general.id == 'quick-persuasion' ? -2 : general.id == 'public-speaking' ? -3 : nil;
+            if (penalty != nil) edges = edges + [[general,penalty]];
+        }
+        return edges;
+    }
+;
+
+/** Explicit local facts, not a general reaction roll or a grant of money. */
+class RpgExpandedBeggingContext: RpgExpandedSkillContext
+    approved = nil
+    evidence = nil
+    pitiable = nil
+    shynessPenalty = 0
+    invertAppearance = nil
+    appearanceModifier = 0
+    extremeAppearance = nil
+    crowdModifier = 0
+    validateBegging()
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedBeggingSkill)
+            || self.fixedBase != nil || self.rollAttribute != nil || self.interaction)
+            rpgExpandedReject('begging-context-definition');
+        self.skill.validateDefinition();
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('begging-context-evidence');
+        rpgInteger(self.shynessPenalty,-4,0); rpgInteger(self.appearanceModifier,-1000,1000);
+        rpgInteger(self.crowdModifier,-1000,1000);
+        if (self.invertAppearance && self.extremeAppearance) rpgExpandedReject('begging-appearance-inversion');
+        return nil;
+    }
+    unavailableReason(profile) { self.validateBegging(); return inherited(profile); }
+    skillUseModifier(profile)
+    {
+        self.validateBegging(); local base = inherited(profile); if (base == nil) return nil;
+        return base + profile.level('charisma') + (self.pitiable ? 3 : 0) + self.shynessPenalty
+            + (self.invertAppearance ? -self.appearanceModifier : 0) + self.crowdModifier;
+    }
+;

@@ -1070,3 +1070,23 @@ the exploration guide. Hiking pace accepts this percentage through `RpgExpandedH
 committed caravan movement remains incomplete. `test_packing_skill` specifies the
 attribute and equine defaults, non-equine and untrained rejection, the 14/15 speed
 boundary, unavailable packers and duplicate members. Fixtures remain unrun.
+
+### Begging skill and local modifiers
+
+`RpgExpandedBeggingSkill` supplies the IQ/Easy definition and ordinary defaults
+from full-2008 B212: IQ at −4, purchased quick persuasion at −2, or purchased
+public speaking at −3. The common resolver selects the best eligible default.
+The skill has no technology level or specialty.
+
+`RpgExpandedBeggingContext` requires `approved` and concrete `evidence` describing
+the local crowd and personal presentation. It adds the profile's charisma level,
+3 for an authored `pitiable` fact, `shynessPenalty` from −4 through 0, and an
+authored `crowdModifier`. `invertAppearance` optionally subtracts the supplied
+normal `appearanceModifier`; `extremeAppearance` prohibits this inversion. These
+facts need author adjudication until all corresponding trait adapters exist.
+Keep `interaction` false: this is a skill task, not a general reaction roll.
+
+The context only assesses a score. It does not spend an hour, award money, or
+resolve critical bonuses and legal or violent consequences. Those owned social
+procedures remain pending. `test_begging_skill` specifies default arithmetic,
+modifier composition and forbidden appearance inversion; fixtures are unrun.

@@ -673,9 +673,10 @@
       "pages": "B212",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Resolve one hour at a time, awarding twice the success margin in campaign money; author critical bonuses and consequences and apply permitted appearance inversion and crowd modifiers.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_begging_skill"],
+      "validation_note": "Typed skill defaults and explicit local modifier context implemented. Hourly earnings, critical outcomes, owned execution and complete trait adapters remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "easy",

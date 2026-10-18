@@ -9456,6 +9456,8 @@ def test(build):
     test_travel_day(Session,travel_day,build.out)
     test_travel_day_interruption(Session,travel_day,build.out)
     test_travel_full_day_pace(Session,travel_day)
+    begging_skill = build.build('expanded-begging-skill',ROOT / 'tests/fixtures/expanded-begging-skill.t')
+    test_begging_skill(Session,begging_skill)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
     test_travel_digging(Session,travel_digging,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
@@ -25235,3 +25237,22 @@ def test_hiking_day_party(Session, bundle, out):
             assert last(s,'test.party-day-error') == ['hiking-party-outcome-binding']
         finally:
             s.close()
+
+
+def test_begging_skill(Session, bundle):
+    """B212 ordinary defaults and explicit modifier arithmetic; unrun."""
+    for setup, base, score in (((),8,8),((24201,),12,12),((24202,),11,11),
+                               ((24203,),12,12),((24204,),8,12)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,24200):
+                s.action(1680,code)
+            assert last(s,'test.begging-score') == [base,score,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,24204); s.action(1680,24205)
+        assert last(s,'test.begging-error') == ['begging-appearance-inversion']
+    finally:
+        s.close()
