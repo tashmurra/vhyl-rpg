@@ -952,3 +952,11 @@ those paths are implemented. The fixture `tests/fixtures/expanded-thrown-damage.
 contains unrun assertions for independent dice, crushing/non-crushing minima,
 invalid hit facts, duplicate rolls, rollback, undo and saved continuation before
 and after damage resolution.
+
+The equipment module now consumes throw-attempt receipts through
+`RpgExpandedThrownRelease` and `RpgExpandedThrowLanding`. These stages own
+in-flight inventory state and an authored resting location, respectively; see
+[thrown release and landing](equipment.md#thrown-release-and-landing). They add
+no include cycle: the receipt interface lives in the expanded foundation.
+The complete timed action, catching, impact application and critical-failure
+release remain incomplete.

@@ -1650,6 +1650,7 @@ rpgExpandedAssessThrowSkill(mode, relativeLevel, palmSized, cinematicAllowed)
     value.status = 'ready'; return value;
 }
 class RpgExpandedThrowAssessment: RpgExpandedResult
+    weightHundredths = 0
     handsRequired = 0
     distanceHundredths = 0
     distanceFactor = 0
@@ -1666,7 +1667,7 @@ class RpgExpandedThrowAssessment: RpgExpandedResult
 rpgExpandedAssessThrow(strength, lift, weight, skillAssessment)
 {
     rpgInteger(strength,1,1000); rpgInteger(lift,1,1000000); rpgInteger(weight,1,1000000);
-    local value = new RpgExpandedThrowAssessment();
+    local value = new RpgExpandedThrowAssessment(); value.weightHundredths = weight;
     if (weight > lift * 8) { value.reason = 'throw-weight-limit'; return value; }
     local rangeBonus = 0; local damageBonus = 0;
     if (skillAssessment != nil)
@@ -1813,7 +1814,7 @@ class RpgExpandedThrowAttemptResult: RpgExpandedResult
 ;
 /** Owned roll stage for one authored throw occurrence. It does not release the
  * object, charge maneuver time, resolve critical consequences or apply damage. */
-class RpgExpandedThrowAttempt: object
+class RpgExpandedThrowAttempt: RpgExpandedThrowReceipt
     id = nil
     request = nil
     occurrence = nil
@@ -1969,5 +1970,21 @@ class RpgExpandedThrownDamage: object
         self.boundDefinition = self.definition(); self.result = value;
         self.attempt.request.profile.thrownDamageRolls = self.attempt.request.profile.thrownDamageRolls + [self];
         value.status = 'resolved'; return value;
+    }
+;
+
+
+modify RpgExpandedThrowAttempt
+    releaseAssessment()
+    {
+        local value = new RpgExpandedThrowReleaseFacts();
+        if (self.result == nil) { value.reason = 'throw-release-unresolved'; return value; }
+        if (self.assess().status != 'reused') rpgExpandedReject('throw-release-receipt-history');
+        if (!self.result.allowed || self.result.check == nil)
+        { value.reason = 'throw-release-not-permitted'; return value; }
+        if (self.result.check.critical == 'failure')
+        { value.reason = 'throw-release-critical-failure-required'; return value; }
+        value.profile = self.request.profile; value.item = self.request.item;
+        value.weight = self.result.assessment.weightHundredths; value.status = 'ready'; return value;
     }
 ;

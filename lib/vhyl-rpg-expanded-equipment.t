@@ -174,6 +174,7 @@ modify RpgLiteItem
     techLevel = nil
     /* nil means carried; a non-nil authored location means stored off-character. */
     storageLocation = nil
+    thrownFlight = nil
     usableBy(profile) { return self.storageLocation == nil; }
 ;
 
@@ -191,6 +192,7 @@ class RpgExpandedEquipmentStorage: object
             || !holds(self.profile.equipment,self.item))
             rpgExpandedReject('storage-ownership');
         local value = new RpgExpandedAcquisitionResult(); value.item = self.item;
+        if (self.item.thrownFlight != nil) { value.reason = 'equipment-in-flight'; return value; }
         if (self.item.sharedCarry != nil) { value.reason = 'equipment-in-shared-carry'; return value; }
         if (self.item.storageLocation == self.destination) { value.status = 'reused'; return value; }
         if (!self.accessible) { value.reason = 'storage-inaccessible'; return value; }
@@ -249,6 +251,7 @@ class RpgExpandedTradeTransfer: object
                 if (receipt[2] != self.seller || receipt[3] != self.item) rpgExpandedReject('trade-transfer-id-conflict');
                 value.status = 'reused'; return value;
             }
+        if (self.item.thrownFlight != nil) { value.reason = 'equipment-in-flight'; return value; }
         if (self.item.sharedCarry != nil) { value.reason = 'equipment-in-shared-carry'; return value; }
         rpgExpandedValidate(self.buyer); rpgExpandedValidate(self.seller);
         rpgInteger(self.price,0,2147483647);
@@ -429,6 +432,7 @@ class RpgExpandedEquipmentLift: RpgExpandedLiftIdentity
         local value = new RpgExpandedResult();
         if (!self.approved || !self.accessible || self.evidence == nil || self.evidence == '')
         { value.reason = 'lifting-author-facts'; return value; }
+        if (self.item.thrownFlight != nil) { value.reason = 'equipment-in-flight'; return value; }
         if (self.item.sharedCarry != nil) { value.reason = 'equipment-in-shared-carry'; return value; }
         if (!holds(self.profile.equipment,self.item))
         { value.reason = 'lifting-item-ownership'; return value; }
@@ -616,6 +620,7 @@ class RpgExpandedSharedCarry: object
         if (self.result != nil)
         { self.validateReceipt(); local value = new RpgExpandedResult(); value.status = 'reused'; return value; }
         self.definition(); local blocked = new RpgExpandedResult();
+        if (self.item.thrownFlight != nil) { blocked.reason = 'equipment-in-flight'; return blocked; }
         if (self.item.sharedCarry != nil || self.item.storageLocation != self.sourceLocation)
         { blocked.reason = 'shared-carry-location'; return blocked; }
         local owners = 0;
@@ -850,5 +855,112 @@ modify RpgExpandedProfile
         if (hands.length() == 0 && self.supportReserved(nil)) return 'lifting-shared-support-unmapped';
         foreach (local hand in hands) if (self.supportReserved(hand)) return 'lifting-shared-support-occupied';
         return inherited(hands);
+    }
+;
+
+modify RpgExpandedProfile
+    thrownReleases = []
+;
+/** Inventory stage of a throw. Storage becomes this owned in-flight record;
+ * the object remains in exactly one owner's inventory until a later transfer. */
+class RpgExpandedThrownRelease: object
+    id = nil
+    receipt = nil
+    result = nil
+    boundId = nil
+    boundReceipt = nil
+    settlement = nil
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.receipt == nil || !self.receipt.ofKind(RpgExpandedThrowReceipt))
+            rpgExpandedReject('thrown-release-definition');
+        local value = self.receipt.releaseAssessment(); if (value.status != 'ready') return value;
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.receipt != self.boundReceipt
+                || !holds(value.profile.thrownReleases,self)) rpgExpandedReject('thrown-release-binding');
+            if (self.settlement == nil && (value.item.thrownFlight != self || value.item.storageLocation != self))
+                rpgExpandedReject('thrown-release-location-changed');
+            value.status = 'reused'; return value;
+        }
+        foreach (local prior in value.profile.thrownReleases)
+            if (prior.id == self.id || prior.receipt == self.receipt) rpgExpandedReject('thrown-release-duplicate');
+        if (value.item.thrownFlight != nil || value.item.sharedCarry != nil || value.item.storageLocation != nil
+            || !value.item.ready || value.item.worn || value.item.quantity != 1 || value.item.weightHundredths() != value.weight)
+        { value.status = 'blocked'; value.reason = 'thrown-release-item-changed'; return value; }
+        local owners = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            foreach (local item in owner.equipment)
+                if (item == value.item)
+                {
+                    if (owner != value.profile) rpgExpandedReject('thrown-release-owner');
+                    owners += 1;
+                }
+        if (owners != 1) rpgExpandedReject('thrown-release-owner');
+        return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        value.item.storageLocation = self; value.item.thrownFlight = self;
+        value.item.ready = nil; value.item.worn = nil;
+        value.profile.onEquipmentUnavailable(value.item,'thrown');
+        for (local fighter = firstObj(RpgLiteFighter); fighter != nil; fighter = nextObj(fighter,RpgLiteFighter))
+            if (fighter.aimWeapon == value.item)
+            { fighter.aimSeconds = 0; fighter.aimTarget = nil; fighter.aimWeapon = nil; }
+        self.boundId = self.id; self.boundReceipt = self.receipt; self.result = value;
+        value.profile.thrownReleases = value.profile.thrownReleases + [self]; value.status = 'resolved'; return value;
+    }
+;
+/** Author-selected resting location after the throw's mechanical consequences
+ * have been resolved. This stage does not adjudicate damage or a successful catch. */
+class RpgExpandedThrowLanding: object
+    release = nil
+    destination = nil
+    consequencesResolved = nil
+    evidence = nil
+    boundDefinition = nil
+    result = nil
+    definition() { return [self.release,self.destination,self.consequencesResolved,self.evidence]; }
+    assess()
+    {
+        if (self.release == nil || !self.release.ofKind(RpgExpandedThrownRelease) || self.destination == nil
+            || dataType(self.destination) != TypeObject || self.destination == self.release)
+            rpgExpandedReject('throw-landing-definition');
+        local value = self.release.assess();
+        if (value.status != 'reused') { value.status = 'blocked'; value.reason = 'throw-landing-not-released'; return value; }
+        value.status = 'blocked';
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('throw-landing-binding');
+            if (self.release.settlement != self) rpgExpandedReject('throw-landing-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.release.settlement != nil) rpgExpandedReject('throw-landing-already-settled');
+        if (!self.consequencesResolved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'throw-landing-consequences-required'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        value.item.storageLocation = self.destination; value.item.thrownFlight = nil;
+        self.boundDefinition = self.definition(); self.release.settlement = self; self.result = value;
+        value.status = 'resolved'; return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        if (seconds > 0)
+            for (local profile = firstObj(RpgExpandedProfile); profile != nil; profile = nextObj(profile,RpgExpandedProfile))
+                foreach (local release in profile.thrownReleases)
+                    if (release.settlement == nil) rpgExpandedReject('throw-flight-settlement-required');
+        return nil;
     }
 ;

@@ -925,3 +925,9 @@ objects and thrown characters use independent self-damage dice, preserved across
 replay. Unresolved defenses and critical outcomes are rejected before damage RNG.
 Fixtures are authored but unrun; release, protection and injury integration
 remain unfinished.
+
+Thrown release now has owned in-flight inventory state with storage, sale and
+lifting exclusions. Landing settlement clears that state without duplicating
+ownership or moving a retrieved item on replay. Unresolved flight blocks positive
+time advancement. Fixtures remain unrun; complete action timing, catches and
+impact consequences still require integration.

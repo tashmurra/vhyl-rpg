@@ -239,3 +239,12 @@ modify RpgLiteItem
 modify RpgExpandedProfile
     prepareThrowGate(id,evidence) { return nil; }
 ;
+
+class RpgExpandedThrowReleaseFacts: RpgExpandedResult
+    profile = nil
+    item = nil
+    weight = nil
+;
+class RpgExpandedThrowReceipt: object
+    releaseAssessment() { local value = new RpgExpandedThrowReleaseFacts(); value.reason = 'throw-release-receipt-unavailable'; return value; }
+;

@@ -9018,6 +9018,8 @@ def test(build):
     test_held_throw(Session, held_throw)
     throw_attempt = build.build('expanded-throw-attempt',ROOT / 'tests/fixtures/expanded-throw-attempt.t')
     test_throw_attempt(Session, throw_attempt, build.out)
+    throw_release = build.build('expanded-throw-release',ROOT / 'tests/fixtures/expanded-throw-release.t')
+    test_throw_release(Session, throw_release, build.out)
     thrown_damage = build.build('expanded-thrown-damage',ROOT / 'tests/fixtures/expanded-thrown-damage.t')
     test_thrown_damage(Session, thrown_damage, build.out)
     catch_assessment = build.build('expanded-catch-assessment',ROOT / 'tests/fixtures/expanded-catch-assessment.t')
@@ -14888,5 +14890,62 @@ def test_thrown_damage(Session, bundle, out):
             s.action(2285,code)
         # 3d-1: independent [4,2,4] and [2,4,2], not one copied total.
         assert state(s) == [1,9,0,9,7,3,3]
+    finally:
+        s.close()
+
+
+def test_throw_release(Session, bundle, out):
+    def state(s):
+        s.action(2285,1202)
+        return last(s,'test.throw-release')
+    path = out / 'expanded-throw-release.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,1171,1201):
+            s.action(2285,code)
+        assert state(s) == [0,100,1,0,0,3,0]
+        s.action(2285,1200)
+        s.command('undo')
+        assert state(s) == [0,100,1,0,0,3,0]
+        for code in (1200,1200,1203,1206):
+            s.action(2285,code)
+        assert state(s) == [1,0,0,0,1,3,0]
+        assert last(s,'test.throw-retrieve') == ['blocked','equipment-in-flight']
+        assert last(s,'test.throw-clock') == ['throw-flight-settlement-required']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1200,1205):
+            s.action(2285,code)
+        assert state(s) == [1,0,0,0,1,3,0]
+        s.action(2285,1204)
+        s.command('undo')
+        assert state(s) == [1,0,0,0,1,3,0]
+        for code in (1204,1204):
+            s.action(2285,code)
+        assert state(s) == [0,0,0,1,1,3,0]
+        for code in (1203,1200,1204,1206):
+            s.action(2285,code)
+        assert state(s) == [0,100,0,0,1,3,1]
+        assert last(s,'test.throw-clock') == ['advanced']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (1209,1171,1208,1200):
+            s.action(2285,code)
+        assert last(s,'test.throw-release-preview') == ['blocked','throw-release-critical-failure-required']
+        assert state(s) == [0,100,1,0,0,3,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,1171,1200,1207,1204,1206):
+            s.action(2285,code)
+        assert state(s) == [1,0,0,0,1,3,0]
+        assert last(s,'test.throw-clock') == ['throw-flight-settlement-required']
     finally:
         s.close()

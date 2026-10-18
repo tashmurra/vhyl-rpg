@@ -580,3 +580,37 @@ including unchanged scores before and after carrying and zero RNG consumption.
 Assertions remain unrun while checks are paused.
 
 Storage changes and committed trades call the profile's `onEquipmentUnavailable(item, cause)` hook, with `storage-change` and `transferred` respectively. The default hook does nothing. Health integration records active mobility support loss through this hook; storing or selling an aid does not itself adjudicate a fall. A storage move clears readiness even when retrieving an item, so integrations should settle pending support loss before reactivating an aid.
+
+## Thrown release and landing
+
+`RpgExpandedThrownRelease` owns the inventory stage of a throw. Supply an `id`
+and a resolved `receipt` implementing `RpgExpandedThrowReceipt`; exploration's
+`RpgExpandedThrowAttempt` supplies the concrete implementation. Its release
+assessment requires permission and a throw roll. Critical failures require their
+separate outcome procedure before a release can be inferred.
+
+`assess()` verifies that the bound item still has its recorded weight, one owner,
+one quantity and a ready carried state. `apply()` sets `storageLocation` and
+`thrownFlight` to the release record and clears readiness. The item stays in the
+thrower's inventory but no longer contributes to carried load. Aim is cleared,
+and `onEquipmentUnavailable(item, 'thrown')` informs support-loss integrations.
+The record is retained in `profile.thrownReleases`. Replay cannot release it twice.
+
+While `thrownFlight` is active, storage, trade, individual lifting and shared
+carrying reject the item. Positive ledger advances reject any unresolved release;
+the containing action must settle flight before continuing game time. These
+stages themselves spend no time or randomness. The complete throw action's
+maneuver/time integration is still pending.
+
+`RpgExpandedThrowLanding` supplies an authored resting location after the
+mechanical consequences have been resolved. Set `release`, a non-nil
+`destination`, `consequencesResolved = true` and explanatory `evidence`.
+`apply()` clears flight state and stores the item there; it does not adjudicate
+a hit, damage, a catch or ownership transfer. Replaying a landing does not move
+an item that has subsequently been retrieved. The same release cannot acquire
+a second landing settlement. Direct edits to flight state bypass this contract
+and must not be used as a substitute for settlement.
+
+The minimal combined fixture is `tests/fixtures/expanded-throw-release.t`.
+Its rollback, undo, pending-save continuation, storage/trade exclusion,
+critical-failure and replay assertions are authored but unrun.
