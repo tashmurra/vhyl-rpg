@@ -290,3 +290,14 @@ outcomes rather than simply increasing damage. Persistent bleeding also needs
 per-wound original injury and separate external/internal recovery stages. Added
 sleep, food and life-support requirements use the existing time, inventory and
 health ledgers. All these integrations remain pending.
+
+
+The [fifth disadvantage segment](inventory/disadvantages-e.json) distinguishes
+missed-maintenance attribute loss from injury and records its staffing, frequency
+and restoration requirements. Sleep interruptions, nightmares, indecision and
+cycling moods each need owned clocks with different retry and recovery rules.
+
+Mobility traits also alter valid hit locations, manipulator access, armor coverage
+and point accounting. Acquired leg loss, naturally legless movement and anchored
+bodies must remain distinct. The inventory records these integration requirements;
+it does not yet provide their runtime behavior.
