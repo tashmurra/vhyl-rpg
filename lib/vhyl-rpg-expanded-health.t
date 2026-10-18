@@ -8935,3 +8935,80 @@ class RpgExpandedMarchGroupAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+/** B426 combat interruption: settle a party's marching costs without advancing time. */
+class RpgExpandedMarchInterruption: object
+    id = nil
+    costs = []
+    boundCompletedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    definition()
+    {
+        local facts = [self.id,self.costs.length()];
+        foreach (local cost in self.costs) facts = facts + [cost] + cost.definition();
+        return facts;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.id == nil || self.id == '' || self.costs.length() == 0) rpgExpandedReject('march-interruption-definition');
+        local profiles = []; local interval = nil;
+        foreach (local cost in self.costs)
+        {
+            if (cost == nil || !cost.ofKind(RpgExpandedMarchHourCost) || cost.ofKind(RpgExpandedMarchHour)
+                || holds(profiles,cost.profile)) rpgExpandedReject('march-interruption-member');
+            if (interval != nil && cost.interval != interval) rpgExpandedReject('march-interruption-interval');
+            interval = cost.interval; profiles = profiles + [cost.profile];
+            if (cost.result == nil && cost.basis != 'combat-assumed-hour') rpgExpandedReject('march-interruption-basis');
+            local ready = cost.assess();
+            if (!holds(['ready','reused'],ready.status)) { value.reason = ready.reason; return value; }
+        }
+        if (self.completedAt != nil)
+        {
+            local facts = self.definition();
+            if (self.completedAt != self.boundCompletedAt || self.completedAt > rpgLedger.seconds || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('march-interruption-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('march-interruption-binding');
+            foreach (local cost in self.costs)
+                if (!holds(cost.profile.marchInterruptions,self) || cost.result == nil) rpgExpandedReject('march-interruption-history');
+            value.status = 'reused'; return value;
+        }
+        foreach (local cost in self.costs)
+            foreach (local prior in cost.profile.marchInterruptions)
+                if (prior.id == self.id) rpgExpandedReject('march-interruption-duplicate');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds;
+        foreach (local cost in self.costs)
+            if (cost.result == nil && cost.apply().status != 'resolved') rpgExpandedReject('march-interruption-cost-changed');
+        local current = self.definition();
+        if (rpgLedger.seconds != start || current.length() != facts.length()) rpgExpandedReject('march-interruption-changed');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (current[i] != facts[i]) rpgExpandedReject('march-interruption-changed');
+        self.completedAt = start; self.boundCompletedAt = start; self.boundDefinition = facts;
+        foreach (local cost in self.costs) cost.profile.marchInterruptions = cost.profile.marchInterruptions + [self];
+        value.status = 'resolved'; return value;
+    }
+;
+modify RpgExpandedProfile
+    marchInterruptions = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local interruption in self.marchInterruptions)
+        {
+            if (interruption == nil || !interruption.ofKind(RpgExpandedMarchInterruption) || holds(ids,interruption.id))
+                rpgExpandedReject('march-interruption-history');
+            local member = nil;
+            foreach (local cost in interruption.costs) if (cost.profile == self) member = true;
+            if (!member || interruption.assess().status != 'reused') rpgExpandedReject('march-interruption-history');
+            ids = ids + [interruption.id];
+        }
+        return nil;
+    }
+;

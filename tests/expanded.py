@@ -9518,6 +9518,8 @@ def test(build):
     test_march_group(Session,march_group,build.out)
     march_group_actions = build.build("expanded-march-group-actions",ROOT / "tests/fixtures/expanded-march-group-actions.t")
     test_march_group_actions(Session,march_group_actions)
+    march_interruption = build.build("expanded-march-interruption",ROOT / "tests/fixtures/expanded-march-interruption.t")
+    test_march_interruption(Session,march_interruption,build.out)
     test_climb_fall_assessment(Session, climb_assessment)
     test_landing_assessment(Session, climb_assessment)
     landing_attempt = build.build('expanded-landing-attempt',ROOT / 'tests/fixtures/expanded-landing-attempt.t')
@@ -25018,3 +25020,40 @@ def test_march_group_actions(Session, bundle):
             assert last(s,'test.march-group-state') == [0,10,0,0,0,3]
         finally:
             s.close()
+
+
+def test_march_interruption(Session, bundle, out):
+    """B426 encounter fatigue reuses settled participant costs without charging time; unrun."""
+    for setup, seconds in (((),0),((1141,23803),3600),((23500,23804),3600)):
+        path = out / f'march-interruption-{len(setup)}-{setup[0] if setup else 0}.zsave'
+        s = Session(bundle)
+        try:
+            for code in setup:
+                s.action(2285,code)
+            s.action(2285,23802)
+            assert last(s,'test.march-interruption') == ['ready',None]
+            s.action(2285,23503); initial = last(s,'test.march-group-state')
+            s.action(2285,23801); s.action(2285,23503)
+            assert last(s,'test.march-group-state') == initial
+            s.action(2285,23800); s.command('undo'); s.action(2285,23503)
+            assert last(s,'test.march-group-state') == initial
+            for code in (23800,23800,23503):
+                s.action(2285,code)
+            assert last(s,'test.march-group-state') == [seconds,1,2,1,1,0]
+            s.command(f':save {path}')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286'); s.action(2285,23800); s.action(2285,23503)
+            assert last(s,'test.march-group-state') == [seconds,1,2,1,1,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (23805,23800,23503):
+            s.action(2285,code)
+        assert last(s,'test.march-interruption') == ['blocked','march-hour-author-facts']
+        assert last(s,'test.march-group-state') == [0,0,0,0,0,0]
+    finally:
+        s.close()

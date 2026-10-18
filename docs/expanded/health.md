@@ -3953,3 +3953,26 @@ was allowed to proceed. Replay returns the original group outcome. The minimal
 `expanded-march-group-actions.t` fixture demonstrates all three native routes.
 `test_march_group_actions` specifies route parity for successful marches, denied
 effort, wrong actors, rollback, undo and repeat execution. Fixtures remain unrun.
+
+
+### Combat interrupts a shared march
+
+`RpgExpandedMarchInterruption` takes an `id` and a nonempty `costs` list, one
+`RpgExpandedMarchHourCost` per participant, all naming the same interval. New
+costs must use `basis = 'combat-assumed-hour'` with approval and evidence that the
+full-2008 B426 assumed-hour rule applies. If events establish a different elapsed
+interval, the author must resolve that exception rather than assert this basis.
+
+For participants already charged for the interval, supply their existing cost
+receipt (for an executed hour, `hour.result.cost`). Do not create another cost for
+that participant and interval. The interruption previews every cost first, applies
+only uncommitted ones and advances no time. It records itself in each profile's
+`marchInterruptions`; replay preserves the existing costs and timestamp. Supplying
+an execution object instead of its cost receipt rejects to prevent accidental time
+advancement during fatigue settlement.
+
+The normal action transaction makes settlement atomic. `test_march_interruption`
+specifies wholly uncharged, partially charged and already charged parties, blocked
+author facts, preview, rollback, undo and cross-process reuse. Fixtures remain unrun.
+This operation settles marching fatigue only; encounter setup and interrupted
+movement distances still require author integration.

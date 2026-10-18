@@ -1957,3 +1957,9 @@ time. Each participant retains their own encumbrance and environmental fatigue.
 Use it alongside caravan pace assessment; it does not convert daily mileage to an
 hourly distance. Interrupted travel, overloaded movement and encounter boundaries
 still need explicit integration.
+
+
+A combat interruption can settle the party's marching fatigue with
+[`RpgExpandedMarchInterruption`](health.md#combat-interrupts-a-shared-march),
+reusing any already charged costs for the same interval. This does not add another
+hour to the ledger or resolve encounter positioning.
