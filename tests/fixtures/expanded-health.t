@@ -87,5 +87,18 @@ act(verb,args)
         wound.anatomy = 'standard-humanoid'; rules.scaledInjuryShock = nil; eventValue(wound.apply().reason);
         eventValue(p.injury); eventValue(p.expandedWounds.length()); eventValue(rpgRandom.draws - before); return nil;
     }
+    if (verb == 1608)
+    {
+        local rules = new RpgExpandedRules(); rules.scaledInjuryShock = true;
+        local p = new RpgExpandedProfile(); p.rules = rules;
+        local trait = new RpgLiteTrait(); trait.id = args[3]; p.traits = [trait];
+        local wound = new RpgExpandedWound(); wound.id = 'anatomy-impact'; wound.profile = p;
+        wound.amount = args[1]; wound.location = args[2]; wound.maleGroin = args[4] == 1;
+        rpgRandom.seed(1); local value = wound.apply(); event('test.anatomy-wound');
+        eventValue(value.status); eventValue(p.injury); eventValue(value.assessment.required ? 1 : 0);
+        eventValue(value.assessment.modifier); eventValue(p.stunned ? 1 : 0);
+        eventValue(rpgRandom.draws); eventValue(wound.knockdownAssessment.brainException ? 1 : 0);
+        eventValue(wound.knockdownAssessment.vitalsException ? 1 : 0); return nil;
+    }
     return vhylAct(verb,args);
 }

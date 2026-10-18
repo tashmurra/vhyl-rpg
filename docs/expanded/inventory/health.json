@@ -195,9 +195,12 @@
       "pages": "B420",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Without a brain, skull, face and eye hits cause knockdown/stun only when major and have no special location penalty.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_knockdown_anatomy_exceptions"
+      ],
+      "validation_note": "Active absent-brain/vitals knockdown exceptions and retained assessment authored. Cases unrun; full injury-tolerance catalogue, body forms and crippling remain incomplete."
     },
     {
       "id": "health-knockdown-no-vitals",
@@ -205,9 +208,12 @@
       "pages": "B420",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Without vitals, vitals and groin hits cause knockdown/stun only when major and have no special location penalty; homogeneous and diffuse anatomy include both this and the brain exception.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_knockdown_anatomy_exceptions"
+      ],
+      "validation_note": "Active absent-brain/vitals knockdown exceptions and retained assessment authored. Cases unrun; full injury-tolerance catalogue, body forms and crippling remain incomplete."
     },
     {
       "id": "health-stun-actions",

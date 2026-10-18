@@ -29,6 +29,8 @@ modify RpgExpandedProfile
 /** Pure location knockdown assessment; injury is already adjusted after protection.
  * This is not a damage multiplier or a wound commit. Source: full-2008 B419-B420. */
 class RpgExpandedKnockdownAssessment: RpgExpandedResult
+    brainException = nil
+    vitalsException = nil
     major = nil
     required = nil
     modifier = 0
@@ -54,6 +56,19 @@ rpgExpandedAssessKnockdown(capacity, injury, location, maleGroin)
             value.modifier = -5;
     }
     value.status = 'ready'; return value;
+}
+
+
+/** Apply only the B420 absent-organ exceptions, leaving final injury unchanged.
+ * This does not price anatomy traits or implement their other damage effects. */
+rpgExpandedAssessAnatomyKnockdown(capacity, injury, location, maleGroin, noBrain, noVitals)
+{
+    local value = rpgExpandedAssessKnockdown(capacity,injury,location,maleGroin);
+    value.brainException = noBrain && holds(['face','skull'],location);
+    value.vitalsException = noVitals && holds(['vitals','groin'],location);
+    if (value.brainException || value.vitalsException)
+    { value.required = value.major; value.modifier = 0; }
+    return value;
 }
 
 
@@ -87,6 +102,7 @@ class RpgExpandedWound: object
     boundMaleGroin = nil
     boundDropDestination = nil
     health = nil
+    knockdownAssessment = nil
     assess()
     {
         if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.id == nil || self.id == '')
@@ -99,7 +115,7 @@ class RpgExpandedWound: object
                 || self.location != self.boundLocation || self.maleGroin != self.boundMaleGroin
                 || self.dropDestination != self.boundDropDestination
                 || self.anatomy != 'standard-humanoid') rpgExpandedReject('expanded-wound-retargeted');
-            value.status = 'reused'; value.health = self.health; return value;
+            value.status = 'reused'; value.health = self.health; value.assessment = self.knockdownAssessment; return value;
         }
         rpgExpandedValidate(self.profile);
         foreach (local wound in self.profile.expandedWounds)
@@ -108,11 +124,12 @@ class RpgExpandedWound: object
         { value.reason = 'expanded-wound-shock-rule-required'; return value; }
         if (self.anatomy != 'standard-humanoid')
         { value.reason = 'expanded-wound-anatomy-unavailable'; return value; }
-        foreach (local traitId in ['no-brain','no-vitals','homogenous','diffuse','low-pain-threshold'])
+        foreach (local traitId in ['homogenous','diffuse','low-pain-threshold'])
             if (self.profile.level(traitId) > 0)
             { value.reason = 'expanded-wound-trait-unavailable'; return value; }
         if (self.profile.dead) { value.reason = 'expanded-wound-dead'; return value; }
-        value.assessment = rpgExpandedAssessKnockdown(self.profile.maxHP,self.amount,self.location,self.maleGroin);
+        value.assessment = rpgExpandedAssessAnatomyKnockdown(self.profile.maxHP,self.amount,self.location,self.maleGroin,
+            self.profile.level('no-brain') > 0,self.profile.level('no-vitals') > 0);
         if (value.assessment.required && !self.profile.unconscious)
         {
             value.dropPlan = self.profile.prepareKnockdownDrop(self.dropDestination);
@@ -136,6 +153,7 @@ class RpgExpandedWound: object
             value.assessment.required,value.assessment.modifier);
         if (self.health.knockedDown && value.dropPlan != nil)
         { value.dropPlan.commit(); self.droppedEquipment = value.dropPlan; }
+        self.knockdownAssessment = value.assessment;
         self.boundProfile = self.profile; self.boundId = self.id; self.boundAmount = self.amount;
         self.boundLocation = self.location; self.boundMaleGroin = self.maleGroin;
         self.boundDropDestination = self.dropDestination;

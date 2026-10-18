@@ -183,8 +183,9 @@ unconsciousness and mortality processing remain in the shared commit. There is
 no second injury ledger. Raw attack damage, armour and damage multipliers must be
 resolved before creating this request.
 
-The supported subset requires standard humanoid anatomy, excludes eye/limb
-crippling and the listed injury-tolerance/pain-sensitivity traits, and blocks a
+The supported subset requires humanoid locations, permits the absent-brain and
+absent-vitals knockdown exceptions below, excludes eye/limb crippling and other
+unsupported body/pain traits, and blocks a
 required check with an unavailable score. If a knockdown check could require held equipment to be dropped, include the
 expanded equipment module and supply `dropDestination`. Without that integration
 or destination, the request blocks before injury. These are
@@ -227,3 +228,23 @@ checks, preserves the drop receipt's item identities, and checks that retrieving
 a dropped item does not let replay of the old wound drop it again. Its pickup
 fixture assumes an authored later recovery; it is not a medical recovery test.
 These cases remain unrun under the build-check pause.
+
+
+## Absent-organ knockdown exceptions
+
+`rpgExpandedAssessAnatomyKnockdown` adds explicit `noBrain` and `noVitals` facts
+to the standard location assessment. Under B420, absent brain removes the minor
+face/skull trigger and the major-wound location penalty; absent vitals does the
+same for vitals/groin. A major wound still requires an unpenalized check. The
+unrelated location family is unchanged.
+
+Committed wounds derive these flags from active `no-brain` and `no-vitals` trait
+IDs and retain the assessment in `wound.knockdownAssessment`. This integrates the
+knockdown effects only; it neither supplies trait prices nor changes final injury,
+protects other locations or implements every injury-tolerance effect. Authors
+still supply validated trait definitions and final injury. Homogeneous/diffuse
+bodies and eye/limb crippling remain explicitly unsupported by this request.
+
+`test_knockdown_anatomy_exceptions` covers minor/major cases, unchanged unrelated
+locations, retained assessment flags and random draw counts. It is authored but
+unrun. The broader anatomy/trait inventory remains partial.

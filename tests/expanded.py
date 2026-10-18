@@ -370,6 +370,20 @@ def test_knockdown_drop_persistence(Session, bundle, out):
             second.close()
 
 
+def test_knockdown_anatomy_exceptions(s):
+    for injury, location, trait, male, expected in [
+            (1, 'face', 'no-brain', 0, [1, 0, 0, 0, 0, 1, 0]),
+            (6, 'face', 'no-brain', 0, [6, 1, 0, 0, 3, 1, 0]),
+            (6, 'skull', 'no-brain', 0, [6, 1, 0, 0, 3, 1, 0]),
+            (1, 'vitals', 'no-vitals', 0, [1, 0, 0, 0, 0, 0, 1]),
+            (6, 'vitals', 'no-vitals', 0, [6, 1, 0, 0, 3, 0, 1]),
+            (6, 'groin', 'no-vitals', 1, [6, 1, 0, 0, 3, 0, 1]),
+            (6, 'face', 'no-vitals', 0, [6, 1, -5, 1, 3, 0, 0]),
+            (1, 'vitals', 'no-brain', 0, [1, 1, 0, 0, 3, 0, 0])]:
+        s.action(1608, injury, location, trait, male)
+        assert last(s, 'test.anatomy-wound') == ['resolved'] + expected
+
+
 def test_numbers(s):
     before = state(s)
     # Full-2008 B170. Enumerated offsets rather than the implementation formula.
@@ -2119,6 +2133,7 @@ def test(build):
     fresh(Session,health,test_scaled_shock_turn_boundary)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
+    fresh(Session,health,test_knockdown_anatomy_exceptions)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_knockdown_equipment_drop)
