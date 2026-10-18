@@ -1337,6 +1337,7 @@ class RpgExpandedInventionProposal: object
     finalizeAssessment(value) { return value; }
     noveltyModifier(campaignNew) { return campaignNew ? -5 : 0; }
     prototypeExecutionReason() { return nil; }
+    conceptRequestReason(request) { return nil; }
     prototypeBugDiceCount(check, flawed)
     { return flawed || !check.achieved || check.critical == 'success' ? 0 : check.margin >= 3 ? 1 : 2; }
     prototypeOutcome(score, roll, flawed, dice)
@@ -1441,6 +1442,8 @@ class RpgExpandedInventionConceptResult: RpgExpandedResult
 
 /** Secret concept receipt. Authors decide what the inventor learns; no public event is emitted. */
 class RpgExpandedInventionConcept: object
+    dailyLimited = true
+    prepareExecution(value) { return value; }
     id = nil
     project = nil
     knowledge = 'new'
@@ -1452,7 +1455,7 @@ class RpgExpandedInventionConcept: object
     result = nil
     boundDefinition = nil
     definition()
-    { return [self.id,self.project,self.knowledge,self.variantBonus,self.campaignNew,self.historicalSources,self.researchSkill,self.evidence]; }
+    { return [self.id,self.project,self.knowledge,self.variantBonus,self.campaignNew,self.historicalSources,self.researchSkill,self.evidence,self.dailyLimited]; }
     validateBinding()
     {
         local current = self.definition();
@@ -1473,7 +1476,8 @@ class RpgExpandedInventionConcept: object
         if (self.result != nil)
         {
             self.validateBinding(); value.status = 'reused'; value.check = self.result.check;
-            value.theory = self.result.theory; value.day = self.result.day; value.score = self.result.score; return value;
+            value.theory = self.result.theory; value.day = self.result.day; value.score = self.result.score;
+            value.seconds = self.result.seconds; return value;
         }
         if (self.id == nil || self.id == '' || !holds(['new','exists','model'],self.knowledge))
             rpgExpandedReject('invention-concept-definition');
@@ -1481,6 +1485,7 @@ class RpgExpandedInventionConcept: object
         if (self.evidence == nil || self.evidence == '')
         { value.reason = 'invention-concept-evidence'; return value; }
         local proposal = self.project.proposal; local inventor = proposal.inventor;
+        value.reason = proposal.conceptRequestReason(self); if (value.reason != nil) return value;
         local assessment = proposal.assess();
         if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
         if (self.project.theory != nil) { value.reason = 'invention-theory-already-held'; return value; }
@@ -1493,7 +1498,8 @@ class RpgExpandedInventionConcept: object
                 rpgExpandedReject('invention-concept-history');
             prior.validateBinding();
             if (prior.id == self.id) rpgExpandedReject('invention-concept-duplicate');
-            if (prior.result.day == value.day) { value.reason = 'invention-concept-day-used'; return value; }
+            if (self.dailyLimited && prior.dailyLimited && prior.result.day == value.day)
+            { value.reason = 'invention-concept-day-used'; return value; }
         }
         local base = assessment.skillScore;
         if (self.historicalSources)
@@ -1516,6 +1522,7 @@ class RpgExpandedInventionConcept: object
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
+        value = self.prepareExecution(value);
         value.check = rpgCheck(value.score,rpgRandom.roll());
         value.theory = value.check.achieved ? 'testable' : value.check.critical == 'failure' ? 'flawed' : nil;
         self.boundDefinition = self.definition();
@@ -2878,3 +2885,53 @@ rpgExpandedCinematicPrototypeOutcome(score, roll, flawed, bugDice)
     if (count == 1) value.minorBugs = bugDice[1] / 2;
     return value;
 }
+
+/** B476: rapid concepts require their own timed request and purchased tier. */
+class RpgExpandedRapidProposal: RpgExpandedCinematicProposal
+    technologyPermissionReason()
+    {
+        if (self.permission == nil || !self.permission.ofKind(RpgExpandedInventionPermission)
+            || self.permission.inventor != self.inventor) rpgExpandedReject('rapid-proposal-permission');
+        if (self.permission.mode != 'rapid') return 'rapid-proposal-mode';
+        local value = self.permission.assess(); return value.status == 'ready' ? nil : value.reason;
+    }
+    conceptRequestReason(request)
+    { return request.ofKind(RpgExpandedRapidConcept) ? nil : 'rapid-concept-timed-request-required'; }
+    prototypeExecutionReason() { return 'rapid-prototype-components-unavailable'; }
+;
+
+class RpgExpandedRapidConcept: RpgExpandedInventionConcept
+    dailyLimited = nil
+    approved = nil
+    uninterrupted = nil
+    definition() { return inherited() + [self.approved,self.uninterrupted]; }
+    assess()
+    {
+        if (self.project == nil || !self.project.ofKind(RpgExpandedInventionProject)
+            || self.project.proposal == nil || !self.project.proposal.ofKind(RpgExpandedRapidProposal))
+            rpgExpandedReject('rapid-concept-proposal');
+        local value = inherited();
+        if (value.status != 'ready') return value;
+        if (!self.approved || !self.uninterrupted)
+        { value.status = 'blocked'; value.reason = 'rapid-concept-author-facts'; return value; }
+        return value;
+    }
+    prepareExecution(value)
+    {
+        local definition = self.definition(); local proposal = self.project.proposal.definition();
+        for (local die = 1; die <= 6; die += 1) rpgLedger.validateAdvance(rpgExpandedRapidConceptSeconds(die));
+        local seconds = rpgExpandedRapidConceptSeconds(rpgRandom.die()); local start = rpgLedger.seconds;
+        rpgSpendTime(seconds);
+        local current = self.definition(); local design = self.project.proposal.definition();
+        if (current.length() != definition.length() || design.length() != proposal.length())
+            rpgExpandedReject('rapid-concept-definition-changed');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('rapid-concept-definition-changed');
+        for (local index = 1; index <= design.length(); index += 1)
+            if (design[index] != proposal[index]) rpgExpandedReject('rapid-concept-definition-changed');
+        local updated = self.assess();
+        if (updated.status != 'ready' || rpgLedger.seconds != start + seconds)
+            rpgExpandedReject('rapid-concept-interrupted');
+        updated.seconds = seconds; return updated;
+    }
+;

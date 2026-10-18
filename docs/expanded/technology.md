@@ -1349,3 +1349,32 @@ and post-start retargeting cases. `test_cinematic_prototype_persistence` authors
 cross-process continuation before and after completion, historical adjusted-price
 reuse for production, and undo of a paid production order. Fixtures remain unrun
 while checks are paused. Source: `full-2008`, B475–B476.
+
+## Rapid concept sessions
+
+Use `RpgExpandedRapidProposal` with permission mode `rapid`, the purchased rapid
+capability tier, and both campaign invention options enabled. Submit concepts
+through `RpgExpandedRapidConcept`; a generic concept request rejects this proposal
+instead of skipping its time charge. Each request needs a unique ID, project,
+evidence, `approved` and `uninterrupted` author facts.
+
+Assessment is pure. Execution preflights all six possible elapsed durations, rolls
+one die for minutes, spends that time once, and rechecks the request, bound design,
+inventor and permission before rolling the secret concept check. An interrupted
+session raises an error so the enclosing action transaction restores time, random
+state and other changes. Always execute `apply()` inside an engine action.
+
+Rapid attempts have no daily quota. Their receipts share the inventor's concept
+history and unique-ID enforcement, but do not consume an ordinary daily attempt.
+Failed attempts may be followed by another owned session. Replay returns the
+recorded duration and result without another time charge or roll. Ordinary and
+non-rapid cinematic requests preserve their daily limit and existing draw counts.
+
+Rapid prototype funding still rejects `rapid-prototype-components-unavailable`:
+component discovery, resource consumption and construction remain pending. The
+rapid concept path does not enable ordinary prototype construction as a fallback.
+
+`test_rapid_concepts` and `test_rapid_concept_retry` author permission gates,
+request-type rejection, preview, transaction rollback, interruption, replay,
+unsupported construction, elapsed time and same-day retry. Fixtures remain unrun.
+Source: `full-2008`, B476.

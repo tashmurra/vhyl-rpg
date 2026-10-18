@@ -74,11 +74,43 @@ cinematicPermission: RpgExpandedInventionPermission inventor = conceptUser desig
 cinematicProposal: RpgExpandedCinematicProposal inventor = conceptUser skill = conceptSkill permission = cinematicPermission
     description = 'Compact optical survey design' mechanism = 'Optical measurement' evidence = 'Feasible cinematic design'
     approved = true techLevel = 8 category = 'average' retailPrice = 1000;
+rapidProposal: RpgExpandedRapidProposal inventor = conceptUser skill = conceptSkill permission = cinematicPermission
+    description = 'Rapid optical design' mechanism = 'Optical measurement' evidence = 'Approved rapid design'
+    approved = true techLevel = 8 category = 'average' retailPrice = 1000;
+rapidConcept: RpgExpandedRapidConcept id = 'rapid-first' project = conceptProject approved = true uninterrupted = true
+    evidence = 'Uninterrupted design session';
+rapidRetry: RpgExpandedRapidConcept id = 'rapid-second' project = conceptProject approved = true uninterrupted = true
+    evidence = 'Another design session';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 260)
+        {
+            if (code == 260)
+            {
+                conceptProject.proposal = rapidProposal; conceptUser.campaignTL = 8;
+                conceptUser.traits = [cinematicCapability]; cinematicCapability.tier = 'rapid';
+                cinematicPermission.mode = 'rapid'; conceptRules.cinematicInvention = true; conceptRules.rapidInvention = true;
+                return nil;
+            }
+            if (code == 264) conceptRules.rapidInvention = nil;
+            if (code == 265) cinematicCapability.active = nil;
+            if (code == 266) conceptUser.iq = 7;
+            if (code == 267) prototypeClockFault.enabled = true;
+            if (code == 268) rapidConcept.uninterrupted = nil;
+            local request = rapidConcept;
+            if (code == 269) request = conceptAttempt;
+            if (code == 271) { request = rapidRetry; conceptUser.iq = 10; rpgRandom.seed(1); }
+            local value = code == 263 ? request.assess() : request.apply();
+            event('test.rapid-concept'); eventValue(value.status); eventValue(value.reason); eventValue(value.score); eventValue(value.seconds);
+            if (code == 270)
+            {
+                local funding = conceptFacilities.fund(); event('test.rapid-funding'); eventValue(funding.status); eventValue(funding.reason);
+            }
+            if (code == 262) throw new RpgError(); return nil;
+        }
         if (code >= 240)
         {
             if (code == 240 || code == 244 || code == 247 || code == 248 || code == 249)
@@ -430,6 +462,7 @@ act(verb,args)
         eventValue(conceptProject.facilities == nil ? nil : conceptProject.facilities.destroyed ? 'destroyed' : 'available');
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
+    if (verb == 2129) { conceptInput.code = 260 + args[1]; return vhylAct(2097,args); }
     if (verb == 2128) { conceptInput.code = 240 + args[1]; return vhylAct(2097,args); }
     if (verb == 2097) { conceptInput.code = args[1]; return vhylAct(verb,args); }
     if (verb == 2098)

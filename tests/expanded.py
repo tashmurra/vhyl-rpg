@@ -1093,6 +1093,41 @@ def test_cinematic_prototype_persistence(Session,bundle,out):
         third.close()
 
 
+def test_rapid_concepts(s):
+    s.action(2129,0)
+    initial = [0,None,0,0,1000000]
+    for code in [3,2,7]:
+        s.action(2129,code)
+        assert cinematic_state(s) == initial
+    for code,reason in [(4,'invention-campaign-option'),(5,'invention-capability-required'),
+            (8,'rapid-concept-author-facts'),(9,'rapid-concept-timed-request-required')]:
+        s.action(2129,code)
+        assert last(s,'test.rapid-concept')[:2] == ['blocked',reason]
+        assert cinematic_state(s) == initial
+        s.command('undo')
+    s.action(2129,10)
+    assert last(s,'test.rapid-concept') == ['resolved',None,13,120]
+    assert last(s,'test.rapid-funding') == ['blocked','rapid-prototype-components-unavailable']
+    completed = [1,'testable',4,120,1000000]
+    assert cinematic_state(s) == completed
+    s.action(2129,1)
+    assert last(s,'test.rapid-concept') == ['reused',None,13,120]
+    assert cinematic_state(s) == completed
+    s.command('undo')
+    s.command('undo')
+    assert cinematic_state(s) == initial
+
+
+def test_rapid_concept_retry(s):
+    s.action(2129,0)
+    s.action(2129,6)
+    assert last(s,'test.rapid-concept') == ['resolved',None,10,120]
+    assert cinematic_state(s) == [1,None,4,120,1000000]
+    s.action(2129,11)
+    assert last(s,'test.rapid-concept') == ['resolved',None,13,120]
+    assert cinematic_state(s) == [2,'testable',4,240,1000000]
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -6904,6 +6939,8 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_rapid_concepts)
+    fresh(Session,invention,test_rapid_concept_retry)
     test_cinematic_tools(Session,invention)
     test_cinematic_prototype_persistence(Session,invention,build.out)
     test_cinematic_prototypes(Session,invention)

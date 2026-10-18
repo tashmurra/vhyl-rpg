@@ -705,9 +705,11 @@
       "status": "partial",
       "acceptance": "The separately purchased rapid invention capability changes concept duration to one die minutes and retains cinematic modifiers; ordinary cinematic invention does not gain this speed.",
       "tests": [
-        "tests/expanded.py::test_cinematic_invention_assessments"
+        "tests/expanded.py::test_cinematic_invention_assessments",
+        "tests/expanded.py::test_rapid_concepts",
+        "tests/expanded.py::test_rapid_concept_retry"
       ],
-      "validation_note": "Pure cinematic cost/modifier and rapid-duration assessments authored; fixtures unrun. Purchased-capability and campaign gates, committed execution and cinematic consequences remain pending."
+      "validation_note": "Owned gated rapid concepts charge rolled minutes, revalidate after elapsed time, replay historical receipts and permit same-day retries; fixtures unrun. Rapid prototype component sourcing and execution remain pending."
     },
     {
       "id": "technology-rapid-parts",
