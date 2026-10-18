@@ -27,9 +27,10 @@
       "status": "partial",
       "acceptance": "Noticing an event is distinct from understanding it; an authored follow-up uses intelligence for ordinary interpretation or the relevant specialist skill.",
       "tests": [
-        "tests/expanded.py::test_vision"
+        "tests/expanded.py::test_vision",
+        "tests/expanded.py::test_terrain_observation"
       ],
-      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun. Optional terrain comprehension consumes an already-successful owned visual observation for the same observer/site/occurrence, with explicit current-applicability evidence and no duplicate sense roll. Other comprehension integrations remain pending. Fixtures unrun."
     },
     {
       "id": "senses-danger-warning",

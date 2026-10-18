@@ -9514,6 +9514,8 @@ def test(build):
     test_terrain_search(Session,terrain_search,build.out)
     vision = build.build('expanded-vision',ROOT / 'tests/fixtures/expanded-vision.t')
     test_vision(Session,vision,build.out)
+    terrain_observation = build.build('expanded-terrain-observation',ROOT / 'tests/fixtures/expanded-terrain-observation.t')
+    test_terrain_observation(Session,terrain_observation,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26423,3 +26425,44 @@ def test_vision(Session, bundle, out):
         assert state(s) == [1,True,3,0]
     finally:
         s.close()
+
+
+def test_terrain_observation(Session, bundle, out):
+    """B358 noticing feeds B223 interpretation without a duplicate vision roll; unrun."""
+    def state(s):
+        s.action(1680,27003)
+        return last(s,'test.terrain-search')
+    s = Session(bundle)
+    path = out / 'terrain-observation.zsave'
+    try:
+        s.action(1680,27002); s.action(1680,27000)
+        assert last(s,'test.terrain-preview') == ['blocked','terrain-search-observation-unresolved']
+        assert state(s) == [0,None,0,0]
+        s.action(1680,27120); s.action(1680,27002)
+        assert last(s,'test.terrain-preview') == ['ready',None]
+        assert state(s) == [0,None,0,3]
+        s.action(1680,27001); assert state(s) == [0,None,0,3]
+        s.action(1680,27000); s.command('undo'); assert state(s) == [0,None,0,3]
+        s.action(1680,27000); s.action(1680,27000)
+        assert state(s) == [1,'down the eastern gully',30,6]
+        s.action(1680,27205); assert state(s) == [1,'down the eastern gully',30,6]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,27000)
+        assert state(s) == [1,'down the eastern gully',30,6]
+    finally:
+        s.close()
+    for code,reason in ((27200,'terrain-search-observation-owner'),(27201,'terrain-search-observation-scope'),
+                        (27202,'terrain-search-observation-scope'),(27203,'terrain-search-observation-applicability-required'),
+                        (27004,'terrain-search-not-observed')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code); s.action(1680,27120); s.action(1680,27204)
+            s.action(1680,27002); s.action(1680,27000)
+            assert last(s,'test.terrain-preview') == ['blocked',reason]
+            assert state(s) == [0,None,0,3]
+        finally:
+            s.close()

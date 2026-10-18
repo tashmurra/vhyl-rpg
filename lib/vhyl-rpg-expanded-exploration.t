@@ -3957,6 +3957,9 @@ class RpgExpandedTerrainSearch: object
     id = nil
     profile = nil
     context = nil
+    observation = nil
+    observationApplicable = nil
+    observationEvidence = nil
     site = nil
     occurrence = nil
     featureExists = nil
@@ -3976,8 +3979,28 @@ class RpgExpandedTerrainSearch: object
         rpgInteger(self.seconds,0,86400);
         if ((self.featureExists && self.direction == nil) || (!self.featureExists && self.direction != nil))
             rpgExpandedReject('terrain-search-direction');
+        if (self.observation != nil && !self.observation.ofKind(RpgExpandedVisionObservation))
+            rpgExpandedReject('terrain-search-observation-definition');
         return [self.id,self.profile,self.context,self.site,self.occurrence,self.featureExists,self.direction,
-            self.seconds,self.approved,self.evidence] + self.context.terrainSearchFacts();
+            self.seconds,self.approved,self.evidence,self.observation,self.observationApplicable,self.observationEvidence]
+            + self.context.terrainSearchFacts();
+    }
+    observationReason()
+    {
+        if (self.observation == nil)
+        {
+            if (self.observationApplicable || self.observationEvidence != nil) rpgExpandedReject('terrain-search-observation-required');
+            return nil;
+        }
+        if (self.observation.profile != self.profile) return 'terrain-search-observation-owner';
+        if (self.observation.target != self.site || self.observation.occurrence != self.occurrence)
+            return 'terrain-search-observation-scope';
+        if (self.observation.result == nil) return 'terrain-search-observation-unresolved';
+        if (self.observation.assess().status != 'reused') rpgExpandedReject('terrain-search-observation-receipt');
+        if (!self.observation.result.noticed) return 'terrain-search-not-observed';
+        if (!self.observationApplicable || self.observationEvidence == nil || self.observationEvidence == '')
+            return 'terrain-search-observation-applicability-required';
+        return nil;
     }
     outcomeDefinition()
     {
@@ -4000,6 +4023,7 @@ class RpgExpandedTerrainSearch: object
             for (local index = 1; index <= outcome.length(); index += 1)
                 if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('terrain-search-outcome');
             if (self.completedAt > rpgLedger.seconds || self.result.gate.assess().status != 'reused') rpgExpandedReject('terrain-search-gate');
+            if (self.observation != nil && self.observation.assess().status != 'reused') rpgExpandedReject('terrain-search-observation-receipt');
             value.status = 'reused'; return value;
         }
         if (self.completedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('terrain-search-uncommitted');
@@ -4007,6 +4031,7 @@ class RpgExpandedTerrainSearch: object
         foreach (local prior in self.profile.terrainSearches)
             if (prior.id == self.id || prior.site == self.site && prior.occurrence == self.occurrence && prior.context.feature == self.context.feature)
                 rpgExpandedReject('terrain-search-repeat');
+        value.reason = self.observationReason(); if (value.reason != nil) return value;
         value.reason = self.context.taskUnavailableReason(self.profile); if (value.reason != nil) return value;
         value.reason = self.profile.nonTravelScheduleReason(rpgLedger.seconds,self.seconds); if (value.reason != nil) return value;
         value.score = rpgLiteScore(self.profile,self.context);
@@ -4037,6 +4062,7 @@ class RpgExpandedTerrainSearch: object
         if (current.length() != facts.length()) rpgExpandedReject('terrain-search-changed');
         for (local index = 1; index <= facts.length(); index += 1)
             if (current[index] != facts[index]) rpgExpandedReject('terrain-search-changed');
+        if (self.observation != nil && self.observation.assess().status != 'reused') rpgExpandedReject('terrain-search-observation-receipt');
         if (value.allowed)
         {
             value.check = rpgCheck(value.score,rpgRandom.roll());

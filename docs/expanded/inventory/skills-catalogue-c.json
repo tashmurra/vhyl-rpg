@@ -142,7 +142,8 @@
       "status": "partial",
       "acceptance": "Require world-type specialization, interpret geological evidence and integrate the field-water search procedure.",
       "tests": [
-        "tests/expanded.py::test_terrain_search"
+        "tests/expanded.py::test_terrain_search",
+        "tests/expanded.py::test_terrain_observation"
       ],
       "reference_data": {
         "attribute": "iq",
@@ -177,7 +178,7 @@
           "source_pages": "B180"
         }
       },
-      "validation_note": "Typed planet-qualified skill and printed default edges implemented. Owned health-gated field direction uses shared time and returns an authored water direction only on successful search for an existing feature. Broader geological interpretation, live senses, shared actions and societal default eligibility remain pending. Fixtures authored, unrun."
+      "validation_note": "Typed planet-qualified skill and printed default edges implemented. Owned health-gated field direction uses shared time and returns an authored water direction only on successful search for an existing feature. Broader geological interpretation, live senses, shared actions and societal default eligibility remain pending. Fixtures authored, unrun. Optional terrain comprehension consumes an already-successful owned visual observation for the same observer/site/occurrence, with explicit current-applicability evidence and no duplicate sense roll. Other comprehension integrations remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-gesture",

@@ -2092,4 +2092,29 @@ outcome are retained against mutation.
 
 `test_vision` specifies ordinary numeric modifiers, visual boundaries, scope,
 rollback, undo, repeated use and saved continuation. Fixtures remain unrun. The
-terrain-search observation adapter and common player actions remain pending.
+terrain-search observation adapter is described below; common player actions
+remain pending.
+
+### Using a noticed scene for terrain interpretation
+
+A terrain search may set `observation` to an owned
+`RpgExpandedVisionObservation`. It must have resolved successfully for the same
+`profile`, with `target` equal to the search `site` and the same `occurrence`.
+Set `observationApplicable` and concrete `observationEvidence` explaining why
+that observed scene still supplies the evidence for this interpretation. The
+reference gives no fixed expiry interval; applicability remains an authored
+world fact. A matching old receipt alone does not establish current applicability.
+
+A missing result, failed noticing, wrong observer or wrong scene blocks the
+search before the skill roll or time debit. Interpretation does not make another
+vision roll. Completed search replay validates the retained observation and
+cannot substitute another receipt. The earlier observation remains recorded when
+interpretation is undone or fails. Searches without a linked observation retain
+the explicit authored-evidence path, for scenes where a notice check is not
+required. This link is an opt-in comprehension workflow, not an automatic extra
+roll on every search.
+
+`test_terrain_observation` specifies two distinct checks, observer/site/encounter
+matching, failed noticing, applicability, pure preview, rollback, undo and saved
+continuation. Fixtures remain unrun. Automatic geometry, special senses and
+player actions remain pending.
