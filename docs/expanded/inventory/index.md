@@ -21,6 +21,8 @@ copies of the reference books.
 | `full-2008` | B349–B357 | [Physical activities](physical-activities.json) | Activity procedures, gravity, numeric tables and effort options enumerated |
 | `full-2008` | B358–B361 | [Senses, influence and fear](senses-influence-fear.json) | Hearing and fear tables enumerated by row; full fear dispatch remains pending |
 | `full-2008` | B418–B427 | [Injury, recovery and fatigue](health.json) | Anatomy, wound options, treatment, drug design, resource recovery and foraging enumerated |
+| `full-2008` | B428–B437, excluding poison and radiation | [Conditions and environmental hazards](environmental-hazards.json) | Conditions, exposure, collisions, fire, electricity and pressure enumerated; falling formula conflict open |
+| `full-2008` | B435–B436 | [Radiation](radiation.json) | Dose histories, effects, shielding and treatment enumerated; overlapping printed boundary confirmed visually and unresolved |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 
@@ -125,6 +127,13 @@ and global injury from body-part damage. Treatment needs records for individual
 wounds, recovery restrictions, caregiver capacity and retry history. A new
 treatment object must not reset a patient's eligibility or grant another healing
 allowance. The same applies to foraging attempts, meals and sleep recovery.
+
+Two source decisions remain explicit in the environmental ledgers. B350 describes
+linear gravity scaling of terminal velocity, while B431 uses square-root scaling
+with gravity and pressure. B436 prints adjacent radiation bands that both include
+800 rads; this overlap is visible in the rendered page, not merely extracted text.
+These entries cannot be called complete until the implementation documents and
+tests its specific selection policy. Later-printing corrections are outside scope.
 
 The implementation remains incomplete and the PR remains draft. Build checks are
 currently suspended at the user's request. Newly authored inventory checks have

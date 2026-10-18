@@ -1,0 +1,525 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B435-B436",
+  "review": "Radiation text, dose schedules, effect categories, shielding and treatment rows reviewed. The printed 800-rad overlap was also confirmed in the rendered page and remains explicitly unresolved. Symptom inheritance, duration boundaries and cross-module trait consequences need independent validation before runtime completion.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "radiation-dose-history",
+      "source": "full-2008",
+      "pages": "B435",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Record each received radiation dose and its date separately; ongoing exposures must not merge all doses into one recovery start date.",
+      "tests": []
+    },
+    {
+      "id": "radiation-dose-recovery",
+      "source": "full-2008",
+      "pages": "B435",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each dose begins diminishing after thirty days at ten rads per day, stopping at ten percent of that original dose; the permanent residue remains unless specifically removed.",
+      "tests": []
+    },
+    {
+      "id": "radiation-living-check",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At one or more accumulated rads, make the applicable health check, no more than once per day for continuing exposure to a given source; preserve source identity and current accumulated dose.",
+      "tests": []
+    },
+    {
+      "id": "radiation-outcome-order",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use the table columns in critical-success, success, failure, critical-failure order; a no-obvious-effect outcome still leaves accumulated dose.",
+      "tests": []
+    },
+    {
+      "id": "radiation-eight-hundred-boundary",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The supplied table prints both 161-800 and 800-4000 bands. Resolve the shared 800-rad endpoint explicitly before generating runtime ranges or asserting table completeness; do not silently choose a later-edition correction.",
+      "tests": []
+    },
+    {
+      "id": "radiation-burn-onset",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Outcome A begins after health hours, inflicts one die injury and gives low pain threshold for a week, or removes existing high pain threshold for that period.",
+      "tests": []
+    },
+    {
+      "id": "radiation-burn-late-checks",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After recovery from outcome A, make separate table-modified health checks for sterility and a one-year terminal condition; each occurs only on its own critical failure.",
+      "tests": []
+    },
+    {
+      "id": "radiation-blood-onset",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Outcome B includes A and, after health hours, nausea lasting forty minus health hours, independently rolled one-die losses to dexterity, intelligence and fatigue, plus impaired clotting; preserve the special recovery restrictions instead of assuming ordinary rest repairs these losses.",
+      "tests": []
+    },
+    {
+      "id": "radiation-blood-recovery",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each day make table-modified health checking: critical success restores two to each lost score, success one, failure none, and critical failure loses one more from each and adds nausea that day.",
+      "tests": []
+    },
+    {
+      "id": "radiation-blood-expiry",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Once all B-related dexterity, intelligence and fatigue losses recover, remove its clotting impairment and daily recovery checks without deleting unrelated causes of those traits.",
+      "tests": []
+    },
+    {
+      "id": "radiation-intestinal-onset",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Outcome C includes B and adds hair loss and daily injury checks after half a die of weeks; until those injury checks stop, apply nausea and disease susceptibility -3.",
+      "tests": []
+    },
+    {
+      "id": "radiation-intestinal-daily",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For C daily health checks, critical failure inflicts one die injury, failure two, success one and critical success ends this injury process and enables normal recovery and hair regrowth.",
+      "tests": []
+    },
+    {
+      "id": "radiation-intestinal-severe",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If radiation injury exceeds two-thirds full health capacity, record the associated teeth and nail loss; preexisting nonradiation injury does not satisfy this trigger.",
+      "tests": []
+    },
+    {
+      "id": "radiation-terminal",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Outcome D includes C but begins health loss after half a die of days; critical success postpones loss only for that day and does not end the terminal process.",
+      "tests": []
+    },
+    {
+      "id": "radiation-rapid-onset",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Outcome E begins after one hour, with separate one-die losses to dexterity, intelligence and fatigue, one die injury, impaired clotting, low pain threshold, disease susceptibility -3 and nausea.",
+      "tests": []
+    },
+    {
+      "id": "radiation-rapid-hourly",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each E hourly health check causes immediate death on critical failure, two-point losses to each affected score and health on failure, one each on success, and no decline on critical success.",
+      "tests": []
+    },
+    {
+      "id": "radiation-single-dose-two-hundred",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A single dose of at least two hundred rads causes sterility and blindness for one die of months in addition to other results.",
+      "tests": []
+    },
+    {
+      "id": "radiation-single-dose-five-hundred",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A single dose of at least five hundred makes those sterility and blindness effects permanent.",
+      "tests": []
+    },
+    {
+      "id": "radiation-reproductive-effect",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "At accumulated dose at least one hundred, a later parenthood event triggers a health check, with the source's male-parent +3 modifier; failure needs an authored offspring condition, not an arbitrary generated trait.",
+      "tests": []
+    },
+    {
+      "id": "radiation-nonhuman-tolerance",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply species and individual radiation tolerance before selecting applicable biological effects; do not apply mammalian illness to every creature or machine.",
+      "tests": []
+    },
+    {
+      "id": "radiation-machine-exemption",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Machines without electrical vulnerability are unaffected by these radiation rules.",
+      "tests": []
+    },
+    {
+      "id": "radiation-electrical-machine",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For an electrically vulnerable machine, each newly accumulated hundred rads triggers health at +4 minus one per hundred accumulated rads; failure disables until repaired and critical failure destroys it and its stored data.",
+      "tests": []
+    },
+    {
+      "id": "radiation-shielding",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Divide received dose by protection factor from actual intervening shielding; preserve exposure geometry and distinguish protection from subsequent dose recovery.",
+      "tests": []
+    },
+    {
+      "id": "radiation-solar-shielding",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Multiply shielding protection factor by twenty against the specified solar-flare and planetary-belt radiation.",
+      "tests": []
+    },
+    {
+      "id": "radiation-cosmic-shielding",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Divide protection factor by one hundred against cosmic radiation; resolve effective factors below one without silently converting shielding into extra dose.",
+      "tests": []
+    },
+    {
+      "id": "radiation-advance-prophylaxis",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At technology seven, a 500-unit preventive treatment taken one through three hours before exposure halves effective dose; it is not a retroactive eraser of absorbed radiation.",
+      "tests": []
+    },
+    {
+      "id": "radiation-early-chelation",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Technology-seven chelation costs 500, halves ongoing exposure from ingested fallout after three days and eliminates it after a week; already absorbed dose remains.",
+      "tests": []
+    },
+    {
+      "id": "radiation-advanced-chelation",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Technology-eight chelation costs 500 and removes ingested fallout in twelve hours, retaining already absorbed dose.",
+      "tests": []
+    },
+    {
+      "id": "radiation-advanced-resistance",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Technology-nine treatment costs 1000 and grants +3 on radiation health checks for two weeks; overlapping administrations require explicit duration handling rather than unrestricted bonus stacking.",
+      "tests": []
+    },
+    {
+      "id": "radiation-advanced-repair",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "At technology ten or higher, an authored procedure may repair radiation injury completely while the patient is alive; specify which dose, symptoms and permanent changes it reverses.",
+      "tests": []
+    },
+    {
+      "id": "radiation-band-1-10",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For one through ten rads, modifier zero and ordered outcomes none, none, A, B.",
+      "tests": []
+    },
+    {
+      "id": "radiation-band-11-20",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For eleven through twenty rads, modifier zero and outcomes none, A, B, C.",
+      "tests": []
+    },
+    {
+      "id": "radiation-band-21-40",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For twenty-one through forty rads, modifier zero and outcomes A, B, C, D.",
+      "tests": []
+    },
+    {
+      "id": "radiation-band-41-80",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For forty-one through eighty rads, modifier -1 and outcomes A, B, C, D.",
+      "tests": []
+    },
+    {
+      "id": "radiation-band-81-160",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For eighty-one through 160 rads, modifier -3 and outcomes A, B, C, D.",
+      "tests": []
+    },
+    {
+      "id": "radiation-band-161-800",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The printed 161-800 band has modifier -4 and outcomes A, B, C, D; its upper endpoint conflicts with the next row.",
+      "tests": []
+    },
+    {
+      "id": "radiation-band-800-4000",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The printed 800-4000 band has modifier -5 and outcomes C, D, E, E; resolve its overlapping lower endpoint explicitly.",
+      "tests": []
+    },
+    {
+      "id": "radiation-band-over-4000",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Above 4000 rads, modifier -5 and outcomes D, E, E, E.",
+      "tests": []
+    },
+    {
+      "id": "radiation-source-cosmic",
+      "source": "full-2008",
+      "pages": "B435",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline cosmic exposure is one rad per week before applicable shielding.",
+      "tests": []
+    },
+    {
+      "id": "radiation-source-early-fallout",
+      "source": "full-2008",
+      "pages": "B435",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Fallout within a few hours can deliver two through five rads per minute; the author specifies dose rate and duration.",
+      "tests": []
+    },
+    {
+      "id": "radiation-source-late-fallout",
+      "source": "full-2008",
+      "pages": "B435",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Over the following day fallout can deliver several rads per hour; ingestion creates a separate continuing internal source.",
+      "tests": []
+    },
+    {
+      "id": "radiation-source-reactor",
+      "source": "full-2008",
+      "pages": "B435",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A nearby reactor accident can deliver at least one thousand rads per hour, divided by squared distance in yards; zero-distance handling requires a finite defined source geometry.",
+      "tests": []
+    },
+    {
+      "id": "radiation-source-ingestion",
+      "source": "full-2008",
+      "pages": "B435",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ingested material creates a persistent isotope-specific rate from roughly one rad daily to several per minute; separate toxic effects may also apply.",
+      "tests": []
+    },
+    {
+      "id": "radiation-source-attack",
+      "source": "full-2008",
+      "pages": "B435",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A radiation-modified innate attack delivers one rad per point of rolled damage, before applicable radiation protection.",
+      "tests": []
+    },
+    {
+      "id": "radiation-source-blast",
+      "source": "full-2008",
+      "pages": "B435",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The listed one-megaton fission air/space-burst example at two thousand yards delivers 6600 rads; do not extrapolate a complete blast model from this single example.",
+      "tests": []
+    },
+    {
+      "id": "radiation-shield-lead",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Half an inch of lead gives protection factor two.",
+      "tests": []
+    },
+    {
+      "id": "radiation-shield-steel",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "One and a half inches of steel gives protection factor two.",
+      "tests": []
+    },
+    {
+      "id": "radiation-shield-air",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Seven hundred fifty yards of air gives protection factor two.",
+      "tests": []
+    },
+    {
+      "id": "radiation-shield-water",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "One yard of water gives protection factor eight.",
+      "tests": []
+    },
+    {
+      "id": "radiation-shield-earth",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "One yard of earth gives protection factor twenty-seven.",
+      "tests": []
+    },
+    {
+      "id": "radiation-shield-concrete",
+      "source": "full-2008",
+      "pages": "B436",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "One yard of concrete gives protection factor sixty-four.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B435-B436",
+      "reason": "Exclude source prose and narrative context. Retain fictional-game hazard rates and mechanics as neutral implementation requirements; these are not real-world exposure guidance."
+    }
+  ]
+}

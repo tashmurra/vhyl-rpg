@@ -78,7 +78,7 @@
     {
       "id": "health",
       "title": "Injury, treatment, recovery and fatigue",
-      "pages": "B360-B361; B418-B427",
+      "pages": "B360-B361; B418-B429",
       "source": "full-2008",
       "status": "pending",
       "tests": []
@@ -287,6 +287,8 @@
     "inventory/task-resolution.json",
     "inventory/physical-activities.json",
     "inventory/senses-influence-fear.json",
-    "inventory/health.json"
+    "inventory/health.json",
+    "inventory/environmental-hazards.json",
+    "inventory/radiation.json"
   ]
 }

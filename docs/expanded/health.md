@@ -1,6 +1,6 @@
 # Expanded health
 
-**Status: pending.** Injury, treatment, recovery, fear consequences and fatigue. Neutral source: `full-2008`, B360-B361; B418-B427.
+**Status: pending.** Injury, treatment, recovery, fear consequences and fatigue. Neutral source: `full-2008`, B360-B361; B418-B429.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
@@ -50,3 +50,11 @@ and uninterrupted sleep have different requirements. Successful recovery of one
 cause must not erase another cause's restrictions. Drug effects likewise need
 onset, resistance, dose history and expiry, with suppressed traits restored only
 when that suppression ends.
+
+The condition catalogue on B428–B429 is recorded in the
+[environmental inventory](inventory/environmental-hazards.json), with health as
+its owning module. Conditions such as paralysis, retching, daze and cardiac
+arrest have different action permissions, resistance and recovery rules. They
+cannot all be implemented by setting the existing stun flag. Each cause needs
+owned duration and consequence records so resolving one condition does not erase
+another.
