@@ -468,3 +468,11 @@ wounds. Active cyclic FP and HP losses remain protected from rest/healing until
 termination, while unrelated fatigue may recover. A default-zero Lite recovery
 hook preserves the existing behavior when no expansion lock is present. Added
 authored, unrun overflow and persistence fixtures; validation remains paused.
+
+
+Poison identification now owns clue/symptom examination time, skill checks and
+results, including increased-dose detection modifiers. Successful receipts can
+authorize timed treatment for the same examiner and exposure. Failed or
+unsupported identification does not grant care permission. Added authored, unrun
+transaction/persistence fixtures; knowledge sharing and other recognition paths
+remain incomplete.

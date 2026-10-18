@@ -3060,6 +3060,7 @@ class RpgExpandedPoisonTreatment: object
     kind = 'wound'
     suitable = nil
     approved = nil
+    identification = nil
     identificationEvidence = nil
     suitabilityEvidence = nil
     medicalSeconds = nil
@@ -3072,7 +3073,7 @@ class RpgExpandedPoisonTreatment: object
     definition()
     {
         return [self.id,self.exposure,self.healer,self.skill,self.skill.techLevel,self.kind,self.suitable,
-            self.approved,self.identificationEvidence,self.suitabilityEvidence,self.medicalSeconds,
+            self.approved,self.identification,self.identificationEvidence,self.suitabilityEvidence,self.medicalSeconds,
             self.medicalBonus,self.medicalTechnology];
     }
     validateReceipt()
@@ -3082,6 +3083,7 @@ class RpgExpandedPoisonTreatment: object
         local current = self.definition();
         for (local index = 1; index <= current.length(); index += 1)
             if (current[index] != self.boundDefinition[index]) rpgExpandedReject('poison-treatment-binding');
+        if (self.identification != nil) self.identification.validateReceipt();
         self.exposure.validateReceipt(); return nil;
     }
     prepare()
@@ -3090,9 +3092,16 @@ class RpgExpandedPoisonTreatment: object
         if (!e.started || e.finished || e.profile.dead || !e.hazard.resistible)
         { value.reason = 'poison-treatment-active-resistible-exposure'; return value; }
         e.validateReceipt();
-        if (!self.approved || !self.suitable || self.identificationEvidence == nil || self.identificationEvidence == ''
+        if (!self.approved || !self.suitable || self.identification == nil && (self.identificationEvidence == nil || self.identificationEvidence == '')
             || self.suitabilityEvidence == nil || self.suitabilityEvidence == '')
         { value.reason = 'poison-treatment-suitability-required'; return value; }
+        if (self.identification != nil)
+        {
+            if (!self.identification.ofKind(RpgExpandedPoisonIdentification)) rpgExpandedReject('poison-treatment-identification-type');
+            self.identification.validateReceipt();
+            if (self.identification.exposure != e || self.identification.examiner != self.healer || !self.identification.result.identified)
+            { value.reason = 'poison-treatment-not-identified'; return value; }
+        }
         if ((self.kind == 'wound' && !holds(['blood','follow-up'],e.entry.route))
             || (self.kind == 'digestive' && e.entry.route != 'digestive'))
         { value.reason = 'poison-treatment-route'; return value; }
@@ -3434,4 +3443,105 @@ modify RpgExpandedProfile
         rpgInteger(total,0,self.fatigue - self.hunger - self.thirst - self.sleepDebt - self.temperatureFatigue);
         return total;
     }
+;
+
+
+class RpgExpandedPoisonIdentificationResult: RpgExpandedResult
+    context = nil
+    identified = nil
+;
+/** B439 concrete clue/symptom identification. Interrogation uses social play and
+ * is not substituted by a generic skill check here. */
+class RpgExpandedPoisonIdentification: object
+    id = nil
+    exposure = nil
+    examiner = nil
+    skill = nil
+    clue = 'residue'
+    observedSymptoms = nil
+    approved = nil
+    evidence = nil
+    durationSeconds = nil
+    conditionsModifier = 0
+    completedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition() { return [self.id,self.exposure,self.examiner,self.skill,self.skill.techLevel,self.clue,
+        self.observedSymptoms,self.approved,self.evidence,self.durationSeconds,self.conditionsModifier]; }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.exposure.profile.poisonIdentifications,self))
+            rpgExpandedReject('poison-identification-history');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('poison-identification-binding');
+        self.exposure.validateReceipt(); return nil;
+    }
+    prepare()
+    {
+        local value = new RpgExpandedPoisonIdentificationResult(); local e = self.exposure;
+        if (!e.started) { value.reason = 'poison-identification-exposure'; return value; }
+        e.validateReceipt();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'poison-identification-clue-required'; return value; }
+        if (self.examiner.dead || self.examiner.unconscious || self.examiner.mortal || self.examiner.stunned || self.examiner.mentalStun)
+        { value.reason = 'poison-identification-examiner'; return value; }
+        if (self.clue == 'symptoms')
+        {
+            local effects = nil;
+            foreach (local cycle in e.cycleHistory)
+                if (cycle.result.injury > 0 || cycle.result.fatigue > 0) effects = true;
+            if (!self.observedSymptoms || !effects)
+            { value.reason = 'poison-identification-no-symptoms'; return value; }
+        }
+        foreach (local prior in e.profile.poisonIdentifications)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id) rpgExpandedReject('poison-identification-duplicate');
+            if (prior.exposure == e && prior.examiner == self.examiner)
+            { value.reason = 'poison-identification-retry-unimplemented'; return value; }
+        }
+        value.context = new RpgLiteContext(); value.context.skill = self.skill; value.context.kind = 'poison-identification';
+        value.context.modifier = self.conditionsModifier + e.doseAssessment().detectionModifier;
+        local score = rpgLiteScore(self.examiner,value.context);
+        if (score == nil || score < 3) { value.reason = 'poison-identification-score'; return value; }
+        value.seconds = self.durationSeconds; value.status = 'ready'; return value;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.exposure == nil || !self.exposure.ofKind(RpgExpandedPoisonExposure)
+            || self.examiner == nil || !self.examiner.ofKind(RpgLiteProfile) || self.skill == nil
+            || !self.skill.ofKind(RpgLiteSkill) || !holds(['residue','animal','symptoms'],self.clue))
+            rpgExpandedReject('poison-identification-definition');
+        if (self.clue == 'residue' && self.skill.id != 'poisons'
+            || self.clue == 'animal' && self.skill.id != 'naturalist'
+            || self.clue == 'symptoms' && !holds(['poisons','diagnosis'],self.skill.id))
+            rpgExpandedReject('poison-identification-skill');
+        if (self.result != nil)
+        {
+            self.validateReceipt(); local reused = new RpgExpandedPoisonIdentificationResult(); reused.status = 'reused';
+            reused.check = self.result.check; reused.identified = self.result.identified; return reused;
+        }
+        rpgInteger(self.durationSeconds,1,86400); rpgInteger(self.conditionsModifier,-100,100);
+        rpgInteger(rpgLedger.seconds,0,2147483647 - self.durationSeconds);
+        local value = self.prepare(); if (value.status == 'ready') rpgLedger.validateAdvance(self.durationSeconds);
+        return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local definition = self.definition(); local started = rpgLedger.seconds;
+        rpgSpendTime(self.durationSeconds); local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('poison-identification-interrupted');
+        if (rpgLedger.seconds != started + self.durationSeconds) rpgExpandedReject('poison-identification-clock');
+        value = self.prepare(); if (value.status != 'ready') rpgExpandedReject(value.reason);
+        value.check = rpgLiteCheck(self.examiner,value.context); value.identified = value.check.achieved;
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.exposure.profile.poisonIdentifications = self.exposure.profile.poisonIdentifications + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+modify RpgExpandedProfile
+    poisonIdentifications = []
 ;

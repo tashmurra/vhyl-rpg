@@ -345,9 +345,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Before symptoms, identifying the agent requires an available clue and appropriate poison, naturalist or social procedure; a hidden exposure does not automatically notify the victim.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned clue/symptom identification checks appropriate skills, actual damage before symptom-based examination, authored duration and dose detection modifiers. Successful same-examiner receipts authorize timed treatment; failure does not. Fixtures authored, unrun. Pre-admission recognition, social interrogation, knowledge sharing, retries and antidote receipt integration remain incomplete."
     },
     {
       "id": "poison-post-symptom-identification",
@@ -355,9 +358,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After damage begins, diagnosis or poison knowledge can identify the agent; successful identification selects valid treatments rather than curing it automatically.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned clue/symptom identification checks appropriate skills, actual damage before symptom-based examination, authored duration and dose detection modifiers. Successful same-examiner receipts authorize timed treatment; failure does not. Fixtures authored, unrun. Pre-admission recognition, social interrogation, knowledge sharing, retries and antidote receipt integration remain incomplete."
     },
     {
       "id": "poison-wound-treatment",

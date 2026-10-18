@@ -11658,3 +11658,54 @@ def test_poison_exposure(Session, bundle, out):
             assert last(s, 'test.poison-fatigue') == [15 if overflow else 7, 7 if overflow else 0, 0, 0, 2, 1800, 6]
         finally:
             s.close()
+
+    # B439 clue identification can authorize later care for the same examiner.
+    s = Session(bundle)
+    try:
+        for code in (360, 293, 287, 260, 361, 363, 364):
+            s.action(2285, code)
+        assert last(s, 'test.poison-identification') == [0, 0, 0, 0, None]
+        s.action(2285, 362)
+        s.command('undo')
+        s.action(2285, 364)
+        assert last(s, 'test.poison-identification') == [0, 0, 0, 0, None]
+        for code in (362, 362, 364):
+            s.action(2285, code)
+        assert last(s, 'test.poison-identification') == [1, 1, 5, 3, 14]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (367, 291, 296):
+            s.action(2285, code)
+        assert last(s, 'test.poison-treatment') == [1, 2, 0, 15, 6]
+        for code in (368, 262, 264):
+            s.action(2285, code)
+        assert last(s, 'test.poison-exposure') == [0, 60, 60, 1, 0, 60, 9]
+    finally:
+        s.close()
+    for setup, expected in [((366,), [1, 1, 5, 3, 14]), ((276,), [1, 1, 5, 3, 16]),
+                            ((365,), [0, 0, 0, 0, None])]:
+        s = Session(bundle)
+        try:
+            for code in (360, 287) + setup + (260, 362, 364):
+                s.action(2285, code)
+            assert last(s, 'test.poison-identification') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (360, 293, 265, 260, 362, 367, 291, 364):
+            s.action(2285, code)
+        assert last(s, 'test.poison-identification') == [1, 0, 5, 3, 14]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (360, 269, 265, 260, 4, 262, 365, 287, 362, 364):
+            s.action(2285, code)
+        assert last(s, 'test.poison-identification') == [1, 1, 65, 7, 14]
+    finally:
+        s.close()

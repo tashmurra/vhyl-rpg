@@ -26,6 +26,15 @@ coatingFighter: RpgLiteFighter profile = surgicalHealer weapon = coatingWeapon;
 coatingTarget: RpgLiteFighter profile = bleedProfile;
 coatingAttack: RpgLiteManeuver kind = 'attack' target = coatingTarget defense = 'dodge' defenseModifier = 20;
 poisonCatalogueInput: object nextId = 'cycle';
+poisonKnowledge: RpgExpandedSkill id = 'poisons' attribute = rpgIQ difficulty = 2 techLevel = 8;
+poisonKnowledgeTraining: RpgExpandedTraining skill = poisonKnowledge points = 4;
+poisonDiagnosis: RpgExpandedSkill id = 'diagnosis' attribute = rpgIQ difficulty = 2 techLevel = 8;
+poisonDiagnosisTraining: RpgExpandedTraining skill = poisonDiagnosis points = 4;
+poisonNaturalist: RpgExpandedSkill id = 'naturalist' attribute = rpgIQ difficulty = 2;
+poisonNaturalistTraining: RpgExpandedTraining skill = poisonNaturalist points = 4;
+poisonIdentification: RpgExpandedPoisonIdentification id = 'identified-agent' exposure = poisonExposure
+    examiner = surgicalHealer skill = poisonKnowledge approved = true durationSeconds = 5
+    evidence = 'An available residue sample from the same original fictional agent';
 modify BleedTestAction
     exec(context)
     {
@@ -213,6 +222,23 @@ modify BleedTestAction
         }
         if (code == 353) { bleedProfile.fatigue = 9; return nil; }
         if (code == 354) { rpgSpendTime(600); return nil; }
+        if (code == 360)
+        { surgicalHealer.skills = [surgicalAidTraining,poisonKnowledgeTraining,poisonDiagnosisTraining,poisonNaturalistTraining]; return nil; }
+        if (code == 361) { poisonIdentification.assess(); return nil; }
+        if (code == 362 || code == 363)
+        { poisonIdentification.apply(); if (code == 363) throw new RpgError(); return nil; }
+        if (code == 364)
+        {
+            event('test.poison-identification'); eventValue(bleedProfile.poisonIdentifications.length());
+            eventValue(poisonIdentification.result != nil && poisonIdentification.result.identified ? 1 : 0);
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws);
+            eventValue(poisonIdentification.result == nil ? nil : poisonIdentification.result.check.score); return nil;
+        }
+        if (code == 365)
+        { poisonIdentification.clue = 'symptoms'; poisonIdentification.skill = poisonDiagnosis; poisonIdentification.observedSymptoms = true; return nil; }
+        if (code == 366) { poisonIdentification.clue = 'animal'; poisonIdentification.skill = poisonNaturalist; return nil; }
+        if (code == 367) { poisonTreatment.identification = poisonIdentification; poisonTreatment.identificationEvidence = nil; return nil; }
+        if (code == 368) { rpgSpendTime(45); return nil; }
         return inherited(context);
     }
 ;

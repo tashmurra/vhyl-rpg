@@ -1415,3 +1415,38 @@ overflow injury, recovery of unrelated FP, protected rest, final release, replay
 rollback, undo and saved continuation. These fixtures are unrun. The remaining
 condition-based catalogue agents and persistent environmental repetition are
 still incomplete.
+
+
+### Owned poison identification
+
+`RpgExpandedPoisonIdentification` implements clue-based and symptom-based
+identification from full-2008 B439. Supply a unique `id`, admitted `exposure`,
+`examiner`, `skill`, `approved`, concrete `evidence`, authored `durationSeconds`
+and any `conditionsModifier`. The source gives no universal examination time,
+so the duration is an explicit encounter fact. Use `clue = 'residue'` with
+poisons, `animal` with naturalist, or `symptoms` with diagnosis or poisons.
+Symptom identification additionally requires `observedSymptoms = true` and an
+owned cycle that actually caused HP or FP loss. A claim of symptoms before any
+effect is rejected. The clue must be available to that examiner.
+
+`assess()` checks the examiner, clue and clock boundary without rolling.
+`apply()` spends the authored duration once, rechecks facts and makes one skill
+roll. The exposure's dose detection modifier applies to this check. Success and
+failure are both recorded in the patient's `poisonIdentifications`; replay spends
+nothing. Further attempts by the same examiner on the same exposure are rejected
+until a retry procedure is supplied. Identification does not treat the patient,
+reveal unrelated agents or clear an exposure.
+
+Timed care can set `identification` to a successful receipt instead of supplying
+`identificationEvidence`. The receipt must identify the same exposure and belong
+to the treating healer. Failed identification cannot authorize care. Explicit
+prior knowledge remains available through `identificationEvidence` when the
+story has established it independently. Suitability evidence is still required:
+knowing the agent does not make every proposed treatment safe.
+
+Interrogation remains a social procedure rather than an unconditional
+intimidation roll in this interface. Recognition before an exposure is admitted,
+sharing knowledge between characters, retries, and antidote receipt integration
+remain unfinished. Fixtures specify residue and animal clues, observed symptoms,
+dose bonuses, failed identification, treatment linkage, replay, rollback, undo
+and saved continuation. They are authored and unrun.
