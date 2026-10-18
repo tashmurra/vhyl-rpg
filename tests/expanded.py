@@ -9286,6 +9286,8 @@ def test(build):
     test_owned_tools(Session, owned_tools, build.out)
     equipment_access = build.build('expanded-equipment-access',ROOT / 'tests/fixtures/expanded-equipment-access.t')
     test_equipment_access(Session, equipment_access, build.out)
+    toolkit_purchase = build.build('expanded-toolkit-purchase',ROOT / 'tests/fixtures/expanded-toolkit-purchase.t')
+    test_toolkit_purchase(Session, toolkit_purchase, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22017,5 +22019,45 @@ def test_equipment_access(Session, bundle, out):
                 s.action(2285, code)
             assert last(s, 'test.owned-tool-preview') == [2, None, 0]
             assert last(s, 'test.owned-tool-check') == ['blocked', reason, 0]
+        finally:
+            s.close()
+
+
+def test_toolkit_purchase(Session, bundle, out):
+    """B345 adopted price multipliers purchase the same kit used for task modifiers; unrun."""
+    path = out / 'toolkit-purchase.zsave'
+    s = Session(bundle)
+    try:
+        for code in (15300, 15103, 15302, 15303):
+            s.action(2285, code)
+        assert last(s, 'test.toolkit-prices') == [10, 50, 200]
+        assert last(s, 'test.owned-tool-check') == ['blocked', 'equipment-access-grant-required', 0]
+        assert last(s, 'test.toolkit-purchase') == [250, 0, 200, 0]
+        s.action(2285, 15301)
+        s.command('undo')
+        s.action(2285, 15303)
+        assert last(s, 'test.toolkit-purchase') == [250, 0, 200, 0]
+        for code in (15301, 15301, 15101, 15303):
+            s.action(2285, code)
+        assert last(s, 'test.owned-tool-preview') == [2, None, 0]
+        assert last(s, 'test.toolkit-purchase') == [50, 1, 200, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (15301, 15101, 15303):
+            s.action(2285, code)
+        assert last(s, 'test.owned-tool-preview') == [2, None, 0]
+        assert last(s, 'test.toolkit-purchase') == [50, 1, 200, 0]
+    finally:
+        s.close()
+    for code, reason in [(15304, 'toolkit-assessment-purchase-mismatch'), (15305, 'toolkit-authored-price-required')]:
+        s = Session(bundle)
+        try:
+            for action in (15300, code):
+                s.action(2285, action)
+            assert last(s, 'test.toolkit-reject') == [reason]
         finally:
             s.close()

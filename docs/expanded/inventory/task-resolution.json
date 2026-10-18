@@ -467,7 +467,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric assessments, owned/shared access and purchased task-scoped kits are implemented. Author-approved approximate price multipliers cover basic/good/fine; best needs authored price. Movement wiring, consumption and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-none-other",
@@ -481,7 +481,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric assessments, owned/shared access and purchased task-scoped kits are implemented. Author-approved approximate price multipliers cover basic/good/fine; best needs authored price. Movement wiring, consumption and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-improvised-technical",
@@ -495,7 +495,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric assessments, owned/shared access and purchased task-scoped kits are implemented. Author-approved approximate price multipliers cover basic/good/fine; best needs authored price. Movement wiring, consumption and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-improvised-other",
@@ -509,7 +509,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric assessments, owned/shared access and purchased task-scoped kits are implemented. Author-approved approximate price multipliers cover basic/good/fine; best needs authored price. Movement wiring, consumption and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-basic",
@@ -520,10 +520,11 @@
       "status": "partial",
       "acceptance": "Apply equipment modifier 0. Appropriate basic equipment.",
       "tests": [
-        "tests/expanded.py::test_equipment_quality"
+        "tests/expanded.py::test_equipment_quality",
+        "tests/expanded.py::test_toolkit_purchase"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric assessments, owned/shared access and purchased task-scoped kits are implemented. Author-approved approximate price multipliers cover basic/good/fine; best needs authored price. Movement wiring, consumption and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-good",
@@ -534,10 +535,11 @@
       "status": "partial",
       "acceptance": "Apply equipment modifier 1. Good equipment, priced at approximately five times basic cost.",
       "tests": [
-        "tests/expanded.py::test_equipment_quality"
+        "tests/expanded.py::test_equipment_quality",
+        "tests/expanded.py::test_toolkit_purchase"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric assessments, owned/shared access and purchased task-scoped kits are implemented. Author-approved approximate price multipliers cover basic/good/fine; best needs authored price. Movement wiring, consumption and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-fine",
@@ -550,10 +552,11 @@
       "tests": [
         "tests/expanded.py::test_equipment_quality",
         "tests/expanded.py::test_owned_tools",
-        "tests/expanded.py::test_equipment_access"
+        "tests/expanded.py::test_equipment_access",
+        "tests/expanded.py::test_toolkit_purchase"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric assessments, owned/shared access and purchased task-scoped kits are implemented. Author-approved approximate price multipliers cover basic/good/fine; best needs authored price. Movement wiring, consumption and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-best",
@@ -565,10 +568,11 @@
       "acceptance": "Best available equipment at a technology level gives floor(technology/2), with minimum +2; it is not automatically available for purchase.",
       "tests": [
         "tests/expanded.py::test_equipment_quality",
-        "tests/expanded.py::test_owned_tools"
+        "tests/expanded.py::test_owned_tools",
+        "tests/expanded.py::test_toolkit_purchase"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric assessments, owned/shared access and purchased task-scoped kits are implemented. Author-approved approximate price multipliers cover basic/good/fine; best needs authored price. Movement wiring, consumption and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-missing",
@@ -583,7 +587,7 @@
         "tests/expanded.py::test_owned_tools"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric assessments, owned/shared access and purchased task-scoped kits are implemented. Author-approved approximate price multipliers cover basic/good/fine; best needs authored price. Movement wiring, consumption and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-damaged",
@@ -598,7 +602,7 @@
         "tests/expanded.py::test_owned_tools"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric assessments, owned/shared access and purchased task-scoped kits are implemented. Author-approved approximate price multipliers cover basic/good/fine; best needs authored price. Movement wiring, consumption and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-time-extra-1",

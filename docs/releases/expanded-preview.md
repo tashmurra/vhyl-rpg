@@ -1892,3 +1892,9 @@ Task equipment can now use owned permission grants for shared carried tools or
 fixed facilities. Expiry, revocation, ownership and authored site facts are checked
 before rolls without moving inventory. Native movement wiring, consumption and
 capacity scheduling remain pending. Fixtures unrun.
+
+
+Quality-specific kits now adopt the reference's approximate basic/good/fine price
+multipliers and connect the purchased item to its task bonus. Best-quality pricing
+requires explicit author input. Consumables, upgrades and kit catalogues remain
+pending. Fixtures are authored but unrun.

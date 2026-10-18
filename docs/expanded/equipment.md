@@ -884,3 +884,29 @@ movement wiring remain pending. `expanded-equipment-access.t` /
 `test_equipment_access` specify carried and workshop access, expiry, revocation,
 movement/ownership changes, no transfer, rollback, undo and saved continuation.
 Fixtures remain unrun while checks are paused.
+
+
+## Purchasing quality-specific kits
+
+`rpgExpandedToolkitBaseline(baseCost,quality)` implements the B345 typical price
+relationships: basic ×1, good ×5 and fine ×20, with overflow rejection. The source
+says approximately; these become a campaign baseline only when the author adopts
+them. `RpgExpandedToolkit` records `baseCost`, `quality`, `techLevel`, a nonempty
+list of exact `supportedSkills`, approval and evidence. One kit is one inventory
+item (`quantity = 1`), with its authored physical weight.
+
+A `best` kit requires `exceptionalPrice`; no universal price or automatic market
+availability is inferred. Other quality classes reject that extra price field.
+Ordinary acquisition still checks permissions, availability and affordability;
+local market offers may adjust the adopted baseline. The kit's actual cost is
+charged through the same purse and its weight stays in the existing inventory.
+
+`RpgExpandedToolkitAssessment` takes the purchased `toolkit` as its sole `items`
+entry. Its quality and technology must match the item, and the task skill must
+appear in the kit's supported scope. This prevents claiming a better bonus than
+the purchased kit provides. Existing owned/shared-access checks, task adequacy,
+missing components and damage penalties still apply. Tool-specific consumables,
+physical upgrades and detailed kit catalogues remain pending.
+`expanded-toolkit-purchase.t` / `test_toolkit_purchase` specify baseline prices,
+purchase-to-modifier integration, unavailable/unowned use, quality mismatch,
+missing exceptional price, rollback, undo and saved replay. Fixtures remain unrun.

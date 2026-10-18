@@ -1673,3 +1673,58 @@ class RpgExpandedAccessibleEquipmentAssessment: RpgExpandedOwnedEquipmentAssessm
         return found == nil ? 'equipment-access-grant-required' : found.useReason(self.profile,self.skill);
     }
 ;
+
+/** B345 approximate typical purchase multipliers, adopted as a campaign baseline. */
+rpgExpandedToolkitBaseline(baseCost,quality)
+{
+    rpgInteger(baseCost,0,2147483647);
+    local factor = quality == 'basic' ? 1 : quality == 'good' ? 5 : quality == 'fine' ? 20 : nil;
+    if (factor == nil) rpgExpandedReject('toolkit-authored-price-required');
+    if (baseCost > 2147483647 / factor) rpgExpandedReject('toolkit-price-limit');
+    return baseCost * factor;
+}
+class RpgExpandedToolkit: RpgLiteItem
+    quality = 'basic'
+    baseCost = nil
+    exceptionalPrice = nil
+    supportedSkills = []
+    approved = nil
+    evidence = nil
+    cost = (self.baselinePrice())
+    baselinePrice()
+    {
+        if (self.quality != 'best') return rpgExpandedToolkitBaseline(self.baseCost,self.quality);
+        if (self.exceptionalPrice == nil) rpgExpandedReject('toolkit-authored-price-required');
+        rpgInteger(self.exceptionalPrice,0,2147483647); return self.exceptionalPrice;
+    }
+    validateDefinition()
+    {
+        if (self.id == nil || self.id == '' || !self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('toolkit-author-facts');
+        rpgInteger(self.techLevel,0,12); rpgInteger(self.quantity,1,1);
+        if (self.quality != 'best' && self.exceptionalPrice != nil) rpgExpandedReject('toolkit-conflicting-price');
+        self.baselinePrice();
+        if (self.supportedSkills.length() == 0) rpgExpandedReject('toolkit-skill-scope');
+        local seen = [];
+        foreach (local skill in self.supportedSkills)
+        {
+            if (skill == nil || !skill.ofKind(RpgSkill) || holds(seen,skill)) rpgExpandedReject('toolkit-skill-scope');
+            seen = seen + [skill];
+        }
+        return nil;
+    }
+    validateAcquisition() { return self.validateDefinition(); }
+;
+/** One purchased kit's quality, combined with live ownership/access and task condition. */
+class RpgExpandedToolkitAssessment: RpgExpandedAccessibleEquipmentAssessment
+    toolkit = nil
+    assess(skill)
+    {
+        if (self.toolkit == nil || !self.toolkit.ofKind(RpgExpandedToolkit)) rpgExpandedReject('toolkit-assessment-definition');
+        self.toolkit.validateDefinition();
+        if (self.items.length() != 1 || self.items[1] != self.toolkit || self.quality != self.toolkit.quality
+            || self.techLevel != self.toolkit.techLevel) rpgExpandedReject('toolkit-assessment-purchase-mismatch');
+        if (!holds(self.toolkit.supportedSkills,skill)) rpgExpandedReject('toolkit-assessment-unsupported-task');
+        return inherited(skill);
+    }
+;
