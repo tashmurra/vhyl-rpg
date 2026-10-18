@@ -241,3 +241,9 @@ Sustenance deprivation now owns exact periodic injury receipts and uses the
 shared wound ledger. Time cannot cross an unsettled injury boundary. Restored
 access, consumption, calendar ownership and aging remain pending. Replay,
 rollback, undo and save fixtures are authored but unrun.
+
+
+Owned periodic object/environment contact can now restore sustenance access after
+the full required duration. A documented author ruling settles simultaneous
+injury/completion; bound receipts release the clock guard once. Interrupted
+contact, substances and calendar recurrence remain pending. Fixtures are unrun.

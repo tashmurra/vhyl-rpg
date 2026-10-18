@@ -657,4 +657,5 @@ modify RpgExpandedProfile
 
 modify RpgExpandedProfile
     sustenanceInjuryInterval(trait) { rpgExpandedReject('sustenance-traits-module-required'); }
+    sustenanceContactSeconds(trait) { rpgExpandedReject('sustenance-traits-module-required'); }
 ;

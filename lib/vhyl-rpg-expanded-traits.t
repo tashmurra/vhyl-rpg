@@ -2739,3 +2739,10 @@ modify RpgExpandedProfile
         return rpgExpandedSustenanceSchedule(trait.frequency)[3];
     }
 ;
+
+modify RpgExpandedProfile
+    sustenanceContactSeconds(trait)
+    {
+        self.sustenanceInjuryInterval(trait); return trait.requiredContactSeconds();
+    }
+;
