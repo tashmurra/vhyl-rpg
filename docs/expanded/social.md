@@ -1484,3 +1484,29 @@ path. Supplying a structure without the social adapter rejects explicitly.
 `expanded-cultural-wardrobe.t` / `test_cultural_wardrobe` specify rank integration,
 culture and price mismatches, competing inputs and saved historical replay;
 fixtures remain unrun while checks are paused.
+
+
+## Private lie detection
+
+`RpgExpandedLieDetection` owns a single assessment of an authored `statement`
+from a `subject` by an `observer`. Supply a `RpgExpandedLieDetectionSkill`,
+`truthKnown`, private `subjectLying`, `approved` and evidence for the scene facts.
+The default defense is intelligence; `defenseSkill` may instead select an authored
+IQ/Average quick-persuasion or acting skill (full-2008 B187).
+
+`assess()` obtains scores without rolling. `apply()` resolves the opposed check
+and records a private `conclusion`: success gives `lying` or `truthful` from the
+known fact; failure gives the authored `failureConclusion`, default `uncertain`.
+A misleading failure conclusion is permitted. No automatic event exposes the
+truth, scores or rolls. Authors choose how to deliver the conclusion.
+
+Modifier facts are explicit: `empathyModifier` is -3, 0, +1 or +3;
+`easyToRead` adds +4; `speciesModifier` is nonpositive. Approval and evidence
+must establish applicable traits and species context. Automatic derivation from
+all trait catalogues remains incomplete. Repeated use of one receipt spends
+nothing; another receipt for the same subject and statement rejects until the
+author supplies a genuinely new observation. No fixed time is imposed by this
+procedure. Body-reading uses and delivery/knowledge integration remain pending.
+
+`test_lie_detection` specifies opposed success/failure, misleading reports,
+modifier arithmetic, preview purity, replay, rollback and undo. Fixtures are unrun.

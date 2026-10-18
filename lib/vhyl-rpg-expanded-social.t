@@ -2986,3 +2986,85 @@ modify RpgExpandedProfile
         rpgInteger(level,-2,8); return level;
     }
 ;
+
+class RpgExpandedLieDetectionResult: RpgExpandedResult
+    observerScore = nil
+    subjectScore = nil
+    conclusion = nil
+;
+
+/** B187 private opposed assessment. Truth and modifier facts are authored. */
+class RpgExpandedLieDetection: object
+    id = nil
+    observer = nil
+    subject = nil
+    skill = nil
+    defenseSkill = nil
+    statement = nil
+    truthKnown = nil
+    subjectLying = nil
+    failureConclusion = 'uncertain'
+    empathyModifier = 0
+    easyToRead = nil
+    speciesModifier = 0
+    approved = nil
+    evidence = nil
+    boundDefinition = nil
+    result = nil
+    definition()
+    {
+        return [self.id,self.observer,self.subject,self.skill,self.defenseSkill,self.statement,self.truthKnown,
+            self.subjectLying,self.failureConclusion,self.empathyModifier,self.easyToRead,self.speciesModifier,self.approved,self.evidence];
+    }
+    assess()
+    {
+        local value = new RpgExpandedLieDetectionResult();
+        if (self.result != nil)
+        {
+            local facts = self.definition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('lie-detection-binding');
+            if (!holds(self.observer.lieDetections,self)) rpgExpandedReject('lie-detection-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.id == nil || self.id == '' || self.observer == nil || !self.observer.ofKind(RpgExpandedProfile)
+            || self.subject == nil || !self.subject.ofKind(RpgLiteProfile) || self.observer == self.subject
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)) rpgExpandedReject('lie-detection-definition');
+        self.skill.validateLieDetection();
+        if (!self.approved || !self.truthKnown || self.statement == nil || self.statement == '' || self.evidence == nil || self.evidence == '')
+        { value.reason = 'lie-detection-authored-facts-required'; return value; }
+        if (self.observer.dead || self.subject.dead || self.observer.unconscious || self.subject.unconscious)
+        { value.reason = 'lie-detection-participant-unavailable'; return value; }
+        if (!holds(['uncertain','lying','truthful'],self.failureConclusion) || !holds([-3,0,1,3],self.empathyModifier))
+            rpgExpandedReject('lie-detection-modifiers');
+        rpgInteger(self.speciesModifier,-100,0);
+        foreach (local prior in self.observer.lieDetections)
+            if (prior.id == self.id || prior.subject == self.subject && prior.statement == self.statement)
+                rpgExpandedReject('lie-detection-repeat-statement');
+        local reading = new RpgLiteContext(); reading.skill = self.skill; reading.kind = 'lie-detection';
+        reading.modifier = self.empathyModifier + (self.easyToRead ? 4 : 0) + self.speciesModifier;
+        local defense = new RpgLiteContext(); defense.attribute = rpgIQ; defense.kind = 'lie-detection-defense';
+        if (self.defenseSkill != nil)
+        {
+            if (!self.defenseSkill.ofKind(RpgLiteSkill) || !holds(['fast-talk','acting'],self.defenseSkill.id)
+                || self.defenseSkill.attribute != rpgIQ || self.defenseSkill.difficulty != 1)
+                rpgExpandedReject('lie-detection-defense-skill');
+            defense.skill = self.defenseSkill;
+        }
+        value.observerScore = rpgLiteScore(self.observer,reading); value.subjectScore = rpgLiteScore(self.subject,defense);
+        if (value.observerScore == nil || value.subjectScore == nil || value.observerScore < 3 || value.subjectScore < 3)
+        { value.reason = 'lie-detection-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgEvaluate(value.observerScore,rpgRandom.roll(),value.subjectScore,rpgRandom.roll(),0);
+        value.conclusion = value.check.achieved ? (self.subjectLying ? 'lying' : 'truthful') : self.failureConclusion;
+        self.boundDefinition = self.definition(); value.status = 'resolved'; self.result = value;
+        self.observer.lieDetections = self.observer.lieDetections + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    lieDetections = []
+;

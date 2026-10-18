@@ -747,3 +747,7 @@ modify RpgLiteSkill
 modify RpgExpandedProfile
     purchasedBreathReserveLevels() { rpgExpandedReject('breath-reserve-traits-required'); }
 ;
+
+modify RpgLiteSkill
+    validateLieDetection() { rpgExpandedReject('lie-detection-expanded-skill-required'); }
+;

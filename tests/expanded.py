@@ -9350,6 +9350,8 @@ def test(build):
     test_breath_reserve_trait(Session, reserve_trait)
     reserve_templates = build.build("expanded-breath-reserve-templates",ROOT / "tests/fixtures/expanded-breath-reserve-templates.t")
     test_breath_reserve_templates(Session, reserve_templates)
+    lie_detection = build.build("expanded-lie-detection",ROOT / "tests/fixtures/expanded-lie-detection.t")
+    test_lie_detection(Session, lie_detection, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23113,3 +23115,35 @@ def test_breath_reserve_templates(Session, bundle):
             assert last(s,'test.reserve-package-error') == [reason]
         finally:
             s.close()
+
+
+def test_lie_detection(Session, bundle, out):
+    """B187 opposition resolves private truth separately from an authored report; unrun."""
+    for setup, conclusion in (((), 'lying'), ((18402,), 'uncertain'), ((18402,18403), 'truthful')):
+        s = Session(bundle)
+        try:
+            for code in setup:
+                s.action(1100,code)
+            s.action(1100,18404)
+            assert last(s,'test.lie-assessment') == ['ready',10,10]
+            for code in (18401,18406):
+                s.action(1100,code)
+            assert last(s,'test.lie-state') == [0,0,0]
+            s.action(1100,18400)
+            assert last(s,'test.lie-result') == ['resolved',conclusion]
+            s.command('undo')
+            s.action(1100,18406)
+            assert last(s,'test.lie-state') == [0,0,0]
+            for code in (18400,18400,18406):
+                s.action(1100,code)
+            assert last(s,'test.lie-state') == [1,6,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (18405,18404,18406):
+            s.action(1100,code)
+        assert last(s,'test.lie-assessment') == ['ready',15,10]
+        assert last(s,'test.lie-state') == [0,0,0]
+    finally:
+        s.close()

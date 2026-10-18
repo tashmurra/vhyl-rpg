@@ -1193,3 +1193,30 @@ class RpgExpandedBreathControlSkill: RpgExpandedSkill
     }
     validateBreathControl() { return self.validateDefinition(); }
 ;
+
+/** Full-2008 B187: perception-based lie detection and purchased skill defaults. */
+class RpgExpandedLieDetectionSkill: RpgExpandedSkill
+    id = 'lie-detection'
+    attribute = rpgPerception
+    difficulty = 2
+    defaultPenalty = -6
+    validateDefinition()
+    {
+        if (self.id != 'lie-detection' || self.attribute != rpgPerception || self.difficulty != 2
+            || self.defaultPenalty != -6 || self.defaultAttribute != nil || self.alternateAttribute != nil
+            || self.defaults.length() != 0 || self.attributeDefaults.length() != 0 || self.wildcard
+            || self.optionalParent != nil || self.specialty != nil || self.techLevel != nil)
+            rpgExpandedReject('lie-detection-skill-definition');
+        return nil;
+    }
+    validateLieDetection() { return self.validateDefinition(); }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+            if (training.points > 0 && training.skill != self && training.skill.ofKind(RpgLiteSkill)
+                && holds(['body-reading','psychology'],training.skill.studyIdentity()))
+                edges = edges + [[training.skill,-4]];
+        return edges;
+    }
+;
