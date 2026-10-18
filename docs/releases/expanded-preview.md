@@ -832,3 +832,8 @@ locations, lower limbs and broader equipment combinations remain incomplete.
 Combined fall-arm equipment fixtures now cover shared-weapon retention, secondary
 arm drops, knockdown precedence, missing destinations and transaction/persistence
 behavior. They remain unrun; no equipment integration pass is claimed.
+
+Health now exposes lower-limb consequence assessments for a biped's crippled foot
+or leg, including skill penalties, movement limits and support/posture requirements.
+Owned lower-limb anatomy and movement enforcement remain pending; boundary fixtures
+are authored and unrun.

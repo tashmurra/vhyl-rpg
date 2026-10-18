@@ -9152,6 +9152,7 @@ def test(build):
     fresh(Session,health,test_knockdown_anatomy_exceptions)
     fresh(Session,health,test_crippling_thresholds)
     fresh(Session,health,test_fall_crippling)
+    fresh(Session,health,test_lower_limb_assessment)
     fresh(Session,health,test_body_supports)
     fresh(Session,health,test_unarmed_limb_capacity)
     fresh(Session,health,test_crippling_months)
@@ -14092,3 +14093,11 @@ def test_fall_arm_equipment(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_lower_limb_assessment(s):
+    for speed, limit in ((500,2),(575,2),(600,3),(799,3),(800,4)):
+        s.action(2298,1,speed)
+        assert last(s,'test.lower-limb') == [-3,limit,1,1,'crutch','lean','lying','sitting','kneeling',1,0,0]
+        s.action(2298,2,speed)
+        assert last(s,'test.lower-limb') == [-6,2,1,1,'crutch','peg','lying','sitting',0,0,0]

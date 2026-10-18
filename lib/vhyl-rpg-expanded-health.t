@@ -6016,3 +6016,27 @@ class RpgExpandedFallLimbWound: RpgExpandedWound
         return value;
     }
 ;
+
+class RpgExpandedLowerLimbAssessment: RpgExpandedResult
+    fallsDown = true
+    legSkillPenalty = 0
+    moveLimit = 0
+    supportRequired = true
+    supportOptions = []
+    unaidedCombatPostures = []
+    bracedCombatPossible = nil
+;
+/** B421/B141: one injured lower limb on a biped, before an authored aid assessment.
+ * This does not change purchased movement or character points. */
+rpgExpandedAssessLowerLimb(kind,basicSpeedHundredths)
+{
+    if (!holds(['foot','leg'],kind)) rpgExpandedReject('lower-limb-kind');
+    rpgInteger(basicSpeedHundredths,0,100000);
+    local value = new RpgExpandedLowerLimbAssessment();
+    value.legSkillPenalty = kind == 'foot' ? -3 : -6;
+    value.moveLimit = kind == 'foot' ? basicSpeedHundredths / 200 : 2;
+    value.supportOptions = kind == 'foot' ? ['crutch','lean'] : ['crutch','peg'];
+    value.unaidedCombatPostures = kind == 'foot' ? ['lying','sitting','kneeling'] : ['lying','sitting'];
+    value.bracedCombatPossible = kind == 'foot';
+    value.status = 'ready'; return value;
+}

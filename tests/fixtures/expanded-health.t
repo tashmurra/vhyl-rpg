@@ -10,6 +10,15 @@ modify gameMain initialRoom = healthRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2298)
+    {
+        local value = rpgExpandedAssessLowerLimb(args[1] == 1 ? 'foot' : 'leg',args[2]);
+        event('test.lower-limb'); eventValue(value.legSkillPenalty); eventValue(value.moveLimit);
+        eventValue(value.fallsDown ? 1 : 0); eventValue(value.supportRequired ? 1 : 0);
+        foreach (local aid in value.supportOptions) eventValue(aid);
+        foreach (local posture in value.unaidedCombatPostures) eventValue(posture);
+        eventValue(value.bracedCombatPossible ? 1 : 0); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
     if (verb == 2299)
     {
         local value = rpgExpandedAssessFallCrippling(args[1],args[2],args[3] == 1 ? 'limb' : 'extremity',args[4],args[5] == 0 ? nil : args[5]);

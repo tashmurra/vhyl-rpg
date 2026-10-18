@@ -2800,3 +2800,26 @@ location and active grip bindings change. Assertions cover both extra-die branch
 knockdown precedence, missing drop destination before RNG, replay, rollback, undo
 and separate-process continuation. These are authored expectations, not passing
 validation; checks remain paused.
+
+### Lower-limb consequence assessment
+
+`rpgExpandedAssessLowerLimb(kind, basicSpeedHundredths)` supplies the B421/B141
+consequences for one crippled `foot` or `leg` on a biped. It reports falling down,
+the need for support, the leg-dependent skill penalty, the movement limit, named
+aid options and unaided combat postures. Foot injury gives a -3 leg-skill penalty
+and a movement limit of half Basic Speed rounded down. Leg injury gives -6 and a
+limit of 2. These are injury consequences, not purchased attribute edits or point
+refunds. The skill penalty does not apply to ranged combat skills.
+
+Foot support options are a crutch or something to lean on; bracing can permit
+fighting. Leg support options are crutches or a peg. The reported options do not
+assert that equipment is present, fits, is usable, or permits a particular route.
+Authors still need an aid/terrain assessment before allowing supported movement.
+`moveLimit` is a limit, not permission to move while unsupported or a replacement
+for slower existing movement. No fields, points, posture or time are changed by
+this helper. Multi-legged physiology and loss of all legs need separate handling.
+
+Owned leg/foot anatomy and movement enforcement remain pending, so the wound
+operation still rejects those locations. The new fixtures specify both kinds,
+posture/aid distinctions and half-speed rounding boundaries. Assertions remain
+unrun while checks are paused. Source: `full-2008`, B141 and B421.
