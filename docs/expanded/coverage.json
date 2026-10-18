@@ -38,9 +38,11 @@
         "tests/expanded.py::test_unarmed_miss_assessments",
         "tests/expanded.py::test_critical_major_wound",
         "tests/expanded.py::test_critical_major_transactions",
-        "tests/expanded.py::test_critical_major_persistence"
+        "tests/expanded.py::test_critical_major_persistence",
+        "tests/expanded.py::test_critical_drop_transactions",
+        "tests/expanded.py::test_critical_drop_persistence"
       ],
-      "validation_note": "Pure rapid-fire, combat-check and critical-hit table assessments authored; fixtures unrun. Numeric damage, armor and shock effects are assessed. Owned attacks, ammunition, critical/malfunction consequences, per-hit injury and broad integration remain incomplete."
+      "validation_note": "Rapid-fire and critical-outcome assessments, explicit critical major-wound integration and owned critical-hit drops authored; fixtures unrun. Complete attack execution, ammunition, other critical/malfunction consequences and multi-hit injury remain incomplete."
     },
     {
       "id": "creatures",

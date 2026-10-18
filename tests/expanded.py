@@ -973,6 +973,65 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def critical_drop_state(s):
+    s.action(2031)
+    return last(s,'test.critical-drop-state')
+
+
+def test_critical_drop_transactions(s):
+    initial = critical_drop_state(s)
+    assert initial == [None,None,None,1,None,500,0,0,2,0,0]
+    for code in [9,1,3]:
+        s.action(2030,code)
+        assert critical_drop_state(s) == initial
+    s.action(2030,4)
+    assert last(s,'test.critical-drop-operation') == ['blocked','knockdown-drop-destination-required']
+    assert critical_drop_state(s) == initial
+    s.command('undo')
+    for code, expected in [(0,['yard','yard','yard',1,None,200,1,3,0,0,0]),
+                           (2,['yard',None,None,1,None,400,1,1,0,1,0]),
+                           (11,[None,'yard',None,1,None,400,1,1,2,1,0])]:
+        s.action(2030,code)
+        assert critical_drop_state(s) == expected
+        s.command('undo')
+        assert critical_drop_state(s) == initial
+    s.action(2030,2)
+    dropped = critical_drop_state(s)
+    for code in [6,5,8]:
+        s.action(2030,code)
+        assert critical_drop_state(s) == dropped
+    s.action(2030,7)
+    picked_up = [None,None,None,1,None,500,1,1,0,1,0]
+    assert critical_drop_state(s) == picked_up
+    s.action(2030,6)
+    assert last(s,'test.critical-drop-operation') == ['reused',None]
+    assert critical_drop_state(s) == picked_up
+
+
+def test_critical_drop_persistence(Session,bundle,out):
+    for code in [0,2,11]:
+        path = out / f'expanded-critical-drop-{code}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2030,code); saved = critical_drop_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2031')
+            assert critical_drop_state(second) == saved
+            for operation in [8,6,5]:
+                second.action(2030,operation)
+                assert critical_drop_state(second) == saved
+            second.action(2030,7)
+            picked_up = critical_drop_state(second)
+            second.action(2030,6)
+            assert critical_drop_state(second) == picked_up
+        finally:
+            second.close()
+
+
 def test_unarmed_miss_assessments(s):
     keys = ['outcome','injury','dice','adds','location','recovery','disability','pain','damage',
             'divisor','natural','attack','defense','affected','guard','move','away','dx','forbid']
@@ -4783,6 +4842,9 @@ def test(build):
     fresh(Session,combat,test_critical_hit_assessments)
     fresh(Session,combat,test_weapon_miss_assessments)
     fresh(Session,combat,test_unarmed_miss_assessments)
+    combat_drop = build.build('expanded-combat-drop',ROOT / 'tests/fixtures/expanded-combat-drop.t')
+    fresh(Session,combat_drop,test_critical_drop_transactions)
+    test_critical_drop_persistence(Session,combat_drop,build.out)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_airless_seconds)

@@ -391,3 +391,110 @@ rpgExpandedUnarmedMissInjury(die)
 {
     rpgInteger(die,1,6); return die > 3 ? die - 3 : 0;
 }
+
+class RpgExpandedCriticalDropResult: RpgExpandedResult
+    plans = []
+    selectedPlan = nil
+    items = []
+    selectionRoll = nil
+;
+
+modify RpgExpandedProfile
+    criticalDrops = []
+;
+
+/** Owned B556 forced drop, independent of whether the triggering attack penetrated. */
+class RpgExpandedCriticalDrop: object
+    id = nil
+    profile = nil
+    trigger = 'general-12'
+    evidence = nil
+    destination = nil
+    result = nil
+    boundId = nil
+    boundProfile = nil
+    boundTrigger = nil
+    boundEvidence = nil
+    boundDestination = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('critical-drop-profile');
+        local value = new RpgExpandedCriticalDropResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.profile != self.boundProfile || self.trigger != self.boundTrigger
+                || self.evidence != self.boundEvidence || self.destination != self.boundDestination
+                || !holds(self.profile.criticalDrops,self)) rpgExpandedReject('critical-drop-binding');
+            value.status = 'reused'; value.items = self.result.items;
+            value.selectedPlan = self.result.selectedPlan; value.selectionRoll = self.result.selectionRoll; return value;
+        }
+        if (self.id == nil || self.id == '' || !holds(['general-12','head-14'],self.trigger))
+            rpgExpandedReject('critical-drop-declaration');
+        if (self.evidence == nil || self.evidence == '') { value.reason = 'critical-drop-evidence'; return value; }
+        foreach (local prior in self.profile.criticalDrops)
+            if (prior.id == self.id) rpgExpandedReject('critical-drop-duplicate');
+        rpgExpandedValidate(self.profile);
+        local held = [];
+        foreach (local item in self.profile.equipment)
+            if (item.ready && !item.worn)
+            {
+                if (holds(held,item)) rpgExpandedReject('critical-drop-duplicate-item');
+                held = held + [item];
+            }
+        if (self.trigger == 'general-12')
+        {
+            local plan = self.profile.prepareKnockdownDrop(self.destination);
+            if (plan != nil)
+            {
+                if (plan.status != 'ready') { value.reason = plan.reason; return value; }
+                value.plans = [plan];
+            }
+        }
+        else
+        {
+            local weapons = [];
+            foreach (local item in held)
+                if (item.ofKind(RpgLiteWeapon)) weapons = weapons + [item];
+            if (weapons.length() > 2) { value.reason = 'critical-drop-many-weapons-unavailable'; return value; }
+            foreach (local weapon in weapons)
+            {
+                local plan = self.profile.prepareForcedDrop([weapon],self.destination);
+                if (plan == nil || plan.status != 'ready')
+                { value.reason = plan == nil ? 'critical-drop-plan-unavailable' : plan.reason; return value; }
+                value.plans = value.plans + [plan];
+            }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (value.plans.length() > 0)
+        {
+            local index = 1;
+            if (value.plans.length() == 2)
+            { value.selectionRoll = rpgRandom.die(); index = value.selectionRoll <= 3 ? 1 : 2; }
+            value.selectedPlan = value.plans[index]; value.selectedPlan.commit(); value.items = value.selectedPlan.items;
+        }
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundTrigger = self.trigger;
+        self.boundEvidence = self.evidence; self.boundDestination = self.destination;
+        self.profile.criticalDrops = self.profile.criticalDrops + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local drop in self.criticalDrops)
+        {
+            if (drop == nil || !drop.ofKind(RpgExpandedCriticalDrop) || drop.profile != self
+                || drop.result == nil || holds(ids,drop.id) || drop.assess().status != 'reused'
+                || drop.result.selectedPlan != nil && !drop.result.selectedPlan.committed)
+                rpgExpandedReject('critical-drop-history');
+            ids = ids + [drop.id];
+        }
+        return nil;
+    }
+;

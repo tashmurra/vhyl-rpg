@@ -213,13 +213,15 @@
       "status": "partial",
       "acceptance": "Apply ordinary damage and release all held objects even with zero penetration.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_drop_transactions",
+        "tests/expanded.py::test_critical_drop_persistence"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 12
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Owned critical-hit drop uses shared inventory/storage, preflighted random selection and persistent receipt. Transaction, undo and save fixtures authored but unrun. Automatic attack consequence dispatch remains incomplete."
     },
     {
       "id": "critical-hit-13",
@@ -537,13 +539,15 @@
       "status": "partial",
       "acceptance": "Apply ordinary head damage and drop the weapon; select randomly between two held weapons.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_drop_transactions",
+        "tests/expanded.py::test_critical_drop_persistence"
       ],
       "outcome_data": {
         "table": "head",
         "roll": 14
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Owned critical-hit drop uses shared inventory/storage, preflighted random selection and persistent receipt. Transaction, undo and save fixtures authored but unrun. Automatic attack consequence dispatch remains incomplete."
     },
     {
       "id": "critical-head-15",

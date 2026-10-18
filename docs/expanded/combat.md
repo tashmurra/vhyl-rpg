@@ -441,3 +441,38 @@ accepts `forceMajorWound` on an owned critical wound after penetration. This
 reuses its knockdown, drop and injury receipts without inflating damage. Other
 critical effects still require their own committed integration, and the combat
 assessment module does not automatically construct or apply the wound.
+
+
+## Owned critical-hit equipment drops
+
+`RpgExpandedCriticalDrop` commits the B556 general-table row twelve or head-table
+row fourteen equipment consequence. Supply a unique `id`, the victim `profile`,
+`trigger` (`general-12` or `head-14`), evidence identifying the recorded critical
+result, and a destination. It does not require injury or penetration: these drops
+can happen when armor stops all damage.
+
+The general trigger selects every ready, non-worn item. The head trigger selects
+ready, non-worn weapon objects. With two weapons it draws one die, selecting the
+first on 1–3 and the second on 4–6; both candidate drop plans are assessed before
+that draw. More than two held weapons is explicitly unsupported. With one weapon
+no selection roll is needed; with no eligible items the request records an empty
+receipt without rolling. Actual hand/weapon bindings must describe held equipment,
+not intrinsic natural attacks represented as artificial inventory items.
+
+Include expanded equipment for actual transfers. The foundation's fallback rejects
+nonempty transfers when that module is absent. This operation reuses equipment's
+forced-drop plans: item identity stays in the owner's inventory, destination
+storage removes it from carried load, readiness clears, and aim with a dropped
+item is lost. Worn and packed items remain untouched by these two triggers.
+
+Run `apply()` in the enclosing action transaction. The request, chosen plan,
+selection die and affected items remain in `profile.criticalDrops`. Replays return
+the historical result; picking an item up later does not let the old receipt drop
+it again. Changed IDs, profiles, trigger evidence or destinations are rejected.
+No action time, injury or additional attack roll is charged.
+
+The [equipment integration fixture](../../tests/fixtures/expanded-combat-drop.t)
+covers both trigger types, both random choices, missing destinations, preview
+purity, rollback, undo, historical replay after pickup and separate-process save
+continuation. `test_critical_drop_transactions` and `test_critical_drop_persistence`
+are authored but unrun. Automatic wiring from a committed attack remains pending.
