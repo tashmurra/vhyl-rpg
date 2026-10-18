@@ -3938,3 +3938,18 @@ member-result list. A group id cannot be reused for another group involving the
 same participant. These bindings cover denied marches as well as completed hours.
 The group fixture includes unrun cases for altered outcomes, duration, result
 membership, missing history and duplicate group identifiers.
+
+
+### Native grouped-march actions
+
+`RpgExpandedMarchGroupAction` binds one authored `group`. Commands use
+`exec(context)` and dialogue choices use `perform(context.asker)`. The acting
+character must have an `rpgProfile` participating in the group; other actors are
+blocked before any action gate, random roll or time advance. Membership does not
+replace the approved conditions required for every member's marching hour.
+
+The `rpg.expanded.march-group` event reports status, reason and whether the group
+was allowed to proceed. Replay returns the original group outcome. The minimal
+`expanded-march-group-actions.t` fixture demonstrates all three native routes.
+`test_march_group_actions` specifies route parity for successful marches, denied
+effort, wrong actors, rollback, undo and repeat execution. Fixtures remain unrun.

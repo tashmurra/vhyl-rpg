@@ -8917,3 +8917,21 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Shared command/dialogue route for a participant in an authored marching group. */
+class RpgExpandedMarchGroupAction: Action
+    group = nil
+    perform(actor)
+    {
+        if (self.group == nil || !self.group.ofKind(RpgExpandedMarchGroup)) rpgExpandedReject('march-group-action-definition');
+        local value = new RpgExpandedMarchGroupResult(); local participant = nil;
+        if (actor != nil && actor.ofKind(Thing) && actor.rpgProfile != nil)
+            foreach (local hour in self.group.hours)
+                if (hour != nil && hour.ofKind(RpgExpandedMarchHour) && hour.profile == actor.rpgProfile) participant = true;
+        if (!participant) value.reason = 'march-group-action-participant-required';
+        else value = self.group.apply();
+        event('rpg.expanded.march-group'); eventValue(value.status); eventValue(value.reason); eventValue(value.allowed ? 1 : 0);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;

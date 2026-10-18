@@ -9516,6 +9516,8 @@ def test(build):
     test_march_hour(Session, march_hour, build.out)
     march_group = build.build("expanded-march-group",ROOT / "tests/fixtures/expanded-march-group.t")
     test_march_group(Session,march_group,build.out)
+    march_group_actions = build.build("expanded-march-group-actions",ROOT / "tests/fixtures/expanded-march-group-actions.t")
+    test_march_group_actions(Session,march_group_actions)
     test_climb_fall_assessment(Session, climb_assessment)
     test_landing_assessment(Session, climb_assessment)
     landing_attempt = build.build('expanded-landing-attempt',ROOT / 'tests/fixtures/expanded-landing-attempt.t')
@@ -24976,5 +24978,43 @@ def test_march_group(Session, bundle, out):
         try:
             s.action(2285,23500); s.action(2285,code)
             assert last(s,'test.march-group-error') == [reason]
+        finally:
+            s.close()
+
+
+def test_march_group_actions(Session, bundle):
+    """All native routes use one participant-bound group transaction; unrun."""
+    for route in ('parser','structured','dialogue'):
+        s = Session(bundle)
+        try:
+            def perform(operation):
+                if route == 'parser':
+                    s.command('march together' if operation == 'march' else 'rollback march')
+                elif route == 'structured':
+                    s.action(23710 if operation == 'march' else 23711)
+                else:
+                    s.action(80,'march-plan'); s.select(operation)
+            perform('rollback'); s.action(2285,23503)
+            assert last(s,'test.march-group-state') == [0,0,0,0,0,0]
+            perform('march')
+            assert last(s,'rpg.expanded.march-group') == ['resolved',None,1]
+            s.command('undo'); s.action(2285,23503)
+            assert last(s,'test.march-group-state') == [0,0,0,0,0,0]
+            perform('march'); perform('march'); s.action(2285,23503)
+            assert last(s,'test.march-group-state') == [3600,1,2,1,1,0]
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.action(2285,23700); perform('march'); s.action(2285,23503)
+            assert last(s,'rpg.expanded.march-group') == ['blocked','march-group-action-participant-required',0]
+            assert last(s,'test.march-group-state') == [0,0,0,0,0,0]
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.action(2285,1144); s.action(2285,1145); perform('march'); perform('march'); s.action(2285,23503)
+            assert last(s,'rpg.expanded.march-group') == ['resolved','march-group-member-denied',0]
+            assert last(s,'test.march-group-state') == [0,10,0,0,0,3]
         finally:
             s.close()
