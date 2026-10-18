@@ -117,5 +117,40 @@ act(verb,args)
         eventValue(value.context.skill == skill ? 1 : 0); eventValue(value.seconds); eventValue(value.failureFatigue);
         eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws); return nil;
     }
+    if (verb == 1882 || verb == 1883)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.ht = verb == 1883 ? 20 : 14;
+        local encounter = new RpgExpandedSwimmingEncounter(); encounter.id = 'endurance'; encounter.profile = patient;
+        encounter.defaultAvailable = true; encounter.pace = 'top-speed'; encounter.evidence = 'Continuous fast swimming in ordinary conditions';
+        encounter.start(); local balance = new RpgExpandedSwimCheck(); balance.id = 'entry'; balance.encounter = encounter;
+        rpgRandom.seed(1); balance.apply();
+        if (verb == 1882)
+        {
+            local endurance = new RpgExpandedSwimEndurance(); endurance.id = 'first'; endurance.encounter = encounter;
+            local early = endurance.apply(); rpgSpendTime(60); local exit = encounter.leave('Bank reached at due check');
+            rpgRandom.seed(5); local value = endurance.apply(); local repeat = endurance.apply(); patient.validateFeatures();
+            event('test.swim-endurance-owned'); eventValue(early.reason); eventValue(exit.reason);
+            eventValue(value.fatigue); eventValue(repeat.status); eventValue(patient.fatigue);
+            eventValue(encounter.nextEnduranceAt - encounter.startedAt); eventValue(rpgRandom.draws);
+            rpgSpendTime(60); local next = new RpgExpandedSwimEndurance(); next.id = 'second'; next.encounter = encounter;
+            next.apply(); local ended = encounter.leave('Reached the bank'); patient.validateFeatures(); endurance.apply();
+            event('test.swim-endurance-exit'); eventValue(patient.fatigue); eventValue(ended.status);
+            eventValue(encounter.enduranceChecks.length()); eventValue(rpgRandom.draws); return nil;
+        }
+        local key = '';
+        for (local count = 0; count < 4; count += 1)
+        {
+            key += 's'; rpgSpendTime(60); local endurance = new RpgExpandedSwimEndurance();
+            endurance.id = key; endurance.encounter = encounter; endurance.apply();
+        }
+        rpgSpendTime(60); local tied = new RpgExpandedSwimEndurance(); tied.id = 'tied'; tied.encounter = encounter;
+        local before = rpgRandom.draws; local blocked = tied.apply(); local after = rpgRandom.draws;
+        local balanceAgain = new RpgExpandedSwimCheck(); balanceAgain.id = 'five-minute'; balanceAgain.encounter = encounter;
+        balanceAgain.apply(); tied.apply(); patient.validateFeatures();
+        event('test.swim-endurance-tie'); eventValue(blocked.reason); eventValue(before); eventValue(after);
+        eventValue(patient.fatigue); eventValue(encounter.checks.length()); eventValue(encounter.enduranceChecks.length());
+        eventValue(encounter.nextCheckAt - encounter.startedAt); eventValue(encounter.nextEnduranceAt - encounter.startedAt);
+        eventValue(rpgRandom.draws); return nil;
+    }
     return vhylAct(verb,args);
 }

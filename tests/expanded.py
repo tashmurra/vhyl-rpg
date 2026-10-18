@@ -760,6 +760,16 @@ def test_cold_persistence(Session, bundle, out):
             second.close()
 
 
+def test_swimming_owned_endurance(s):
+    s.action(1882)
+    assert last(s, 'test.swim-endurance-owned') == [
+        'swimming-endurance-not-due','swimming-unresolved-endurance',1,'reused',1,120,3]
+    assert last(s, 'test.swim-endurance-exit') == [1,'resolved',2,6]
+    s.action(1883)
+    assert last(s, 'test.swim-endurance-tie') == [
+        'swimming-balance-check-required',15,15,0,2,5,600,360,21]
+
+
 def test_swimming_movement_endurance(s):
     for move, adapted, load, water, distance in [(1,0,0,1,10),(4,0,3,1,4),
             (9,0,0,1,10),(10,0,0,2,20),(15,0,4,3,6),
@@ -3905,6 +3915,7 @@ def test(build):
     fresh(Session,exploration,test_swimming_encounter)
     fresh(Session,exploration,test_swimming_context)
     fresh(Session,exploration,test_swimming_movement_endurance)
+    fresh(Session,exploration,test_swimming_owned_endurance)
     fresh(Session,exploration,test_breath_reserve)
     breath_transactions = build.build('expanded-breath-transactions',ROOT / 'tests/fixtures/expanded-breath-transactions.t')
     fresh(Session,breath_transactions,test_breath_transactions)

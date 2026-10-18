@@ -76,7 +76,8 @@
         "tests/expanded.py::test_swimming_assessments",
         "tests/expanded.py::test_swimming_encounter",
         "tests/expanded.py::test_swimming_context",
-        "tests/expanded.py::test_swimming_movement_endurance"
+        "tests/expanded.py::test_swimming_movement_endurance",
+        "tests/expanded.py::test_swimming_owned_endurance"
       ],
       "validation_note": "Fixed-activity breath reserves and duration arithmetic authored; new fixtures unrun. Preparation actions, skill and trait integration, activity changes and suffocation handoff remain incomplete."
     },

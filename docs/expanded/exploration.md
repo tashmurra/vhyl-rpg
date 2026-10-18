@@ -206,8 +206,39 @@ and `failureFatigue` without rolling or spending. It excludes the intentional-en
 and build bonuses of the separate balance-check procedure. A skill context still
 receives its ordinary encumbrance modifier once through the shared scorer.
 
-Owned endurance intervals, intersections with balance checks, heat surcharges,
-extra effort and movement changes at fatigue thresholds remain incomplete.
+The owned endurance procedure below handles fixed-pace intervals and balance
+check ordering. Heat surcharges, extra effort and movement changes at fatigue
+thresholds remain incomplete.
 `test_swimming_movement_endurance` records movement boundaries, the printed
 heavy-encumbrance example, adapted movement, HT/skill selection and pace intervals.
 These fixtures remain unrun while checks are paused.
+
+
+## Owned endurance intervals
+
+Set the encounter's `pace` before starting: `top-speed` checks each sixty seconds;
+`slow` and the default `floating` check each eighteen hundred seconds. Pace is bound
+to that encounter and cannot change silently. The start schedules both the
+immediate balance check and the first endurance interval. Each uses the same
+shared clock with its own owned receipts.
+
+`RpgExpandedSwimEndurance` requires a unique `id` and `encounter`. Assess or apply
+it exactly at `nextEnduranceAt`; it does not advance time. It selects the HT or
+Swimming context through `rpgExpandedSwimmingEndurance`, rolls once and charges
+one fatigue only on failure. A repeat reuses the result, including after leaving
+the water. Balance and endurance are distinct source costs, so both may apply at
+one boundary; neither includes the other's charge.
+
+If both checks are due, resolve balance first. Endurance rejects until that check
+is resolved, and a balance check rejects if an earlier endurance boundary was
+skipped. `leave()` also rejects unresolved endurance. These ordering rules do not
+permit catch-up, pace changes or skipping intervening checks. The encounter's
+history validator checks both schedules independently.
+
+The current executor rejects positive heat surcharges, overload, incapacitation
+and one or fewer remaining fatigue before rolling. These cases need additional
+procedures; they do not silently receive the ordinary one-point approximation.
+`test_swimming_owned_endurance` covers failed checks, duplicate calls, leaving,
+and simultaneous balance/endurance boundaries with unchanged randomness on a
+blocked request. Fixtures remain unrun; transaction and save-continuation coverage
+for the combined schedules is still outstanding.

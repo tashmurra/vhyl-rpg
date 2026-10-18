@@ -573,9 +573,10 @@
       "status": "partial",
       "acceptance": "At top speed roll the higher of health or swimming each minute; slow swimming or floating checks every thirty minutes. Failure costs one fatigue and low-fatigue state halves water movement.",
       "tests": [
-        "tests/expanded.py::test_swimming_movement_endurance"
+        "tests/expanded.py::test_swimming_movement_endurance",
+        "tests/expanded.py::test_swimming_owned_endurance"
       ],
-      "validation_note": "Pure ordinary water movement and HT/Swimming endurance selection authored; fixtures unrun. Owned movement/endurance intervals, low-fatigue/injury adjustments, heat, extra effort and balance-check integration remain incomplete."
+      "validation_note": "Pure target selection and owned fixed-pace endurance intervals authored, with balance-before-endurance ordering at coincident boundaries. Fixtures unrun. Exhaustion, heat, extra effort, changing pace, movement adjustments and full persistence verification remain incomplete."
     },
     {
       "id": "activity-swim-rescue",
