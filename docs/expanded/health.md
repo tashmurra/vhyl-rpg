@@ -1316,7 +1316,7 @@ reaction dice. No generic callback is treated as implementing these outcomes.
 
 Row twenty's post-duration recovery is marked `source-followup-required` because
 the inspected paragraph specifies duration and fatigue without explicitly
-repeating a recovery roll. Do not silently select a recovery policy. All rows
+repeating a recovery roll. Do not silently select a recovery policy. Rows twelve and above
 still need owned execution, exact resource spending, recovery scheduling and
 where applicable author-selected trait or behavior consequences. Terrifying
 object-history readings therefore remain blocked.
@@ -1362,3 +1362,42 @@ reports the complete `modifier`, capped `score` and immunity. It does not
 execute a fear event or recovery check. `test_fear_context` specifies the printed
 categories, trait contributions, distance boundary, exclusive remote bonus and
 combined modifiers. All new fixtures remain unrun.
+
+
+## Owned short fear-stun episodes
+
+`RpgExpandedFearStun` executes an authored outcome from `full-2008`, B360,
+rows four through eleven. Supply a unique `id`, a ready `RpgExpandedFearContext`,
+`tableTotal`, `approved` and `evidence` recording the selected outcome. This is
+an explicit outcome interface; it does not yet roll the initial fear check or
+select an outcome from the whole table. Unsupported rows are rejected before
+randomness or state changes. Apply it inside an engine action transaction.
+
+The episode owns the profile's mental-stun condition and records its start,
+initial deadline and original scene modifier. Rows four and five clear that
+condition automatically when shared time reaches the one-second deadline.
+Rows six through nine have a one-second initial duration; ten and eleven roll
+one or two duration dice. Starting an episode does not advance time. Existing
+stun, another fear episode, unconsciousness or death prevents starting it.
+
+After the initial duration, create a distinct `RpgExpandedFearStunRecovery`
+with an `id` and `episode` for each recovery attempt. `assess()` is pure;
+`apply()` spends one shared second and then rolls. Rows six and seven use
+unmodified Will. Later supported rows retain the original fear modifier even
+when the scene changes. Recovery does not apply the initial-check cap of
+thirteen. A failed attempt leaves the episode active. Replaying a committed
+attempt returns its receipt without another time charge or roll.
+
+The Lite recovery hook defers while an expanded fear episode owns recovery.
+Completion clears mental stun without clearing an independently acquired
+physical stun. This standalone timed interface still needs a combat-turn
+adapter: do not call it inside an already charged combat turn. Episodes and
+receipts use ordinary persistent game objects and the engine's transaction,
+undo and exact-compiled-game save mechanisms.
+
+`test_fear_stun`, `test_fear_stun_modifiers` and `test_fear_stun_persistence`
+specify duration boundaries, automatic recovery, pure previews, exception
+rollback, original modifier retention, uncapped recovery, undo, failed-attempt
+receipts and cross-process continuation. These fixtures remain unrun while
+checks are paused. Full-table execution, encounter history and fear-triggered
+supernatural reading integration remain incomplete.

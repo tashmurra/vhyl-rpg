@@ -1664,6 +1664,92 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_fear_stun(Session,bundle):
+    def state(s):
+        s.action(2251)
+        return last(s,'test.fear-state')
+    for row,duration,draws in [(4,1,0),(5,1,0),(6,1,0),(7,1,0),(8,1,0),(9,1,0),(10,2,1),(11,4,2)]:
+        s=Session(bundle)
+        try:
+            for code in [1,2]:
+                s.action(2250,code,row)
+                assert state(s) == [0,0,None,0,0,0]
+            s.action(2250,0,row)
+            assert state(s) == [1,0,duration,0,draws,0]
+            s.action(2250,4,row) # Lite recovery cannot consume dice or clear owned fear.
+            assert state(s) == [1,0,duration,0,draws,0]
+            if row >= 6:
+                s.action(2250,5,row)
+                assert last(s,'test.fear-recovery')[:2] == ['blocked','fear-recovery-initial-duration']
+            for second in range(duration): s.action(2250,3,row)
+            if row <= 5:
+                assert state(s) == [0,1,duration,0,draws,duration]
+            else:
+                s.action(2250,8,row) # Recovery is not subject to the initial thirteen-point cap.
+                s.action(2250,6,row)
+                assert state(s) == [1,0,duration,0,draws,duration]
+                s.action(2250,7,row)
+                assert state(s) == [1,0,duration,0,draws,duration]
+                s.action(2250,5,row)
+                assert last(s,'test.fear-recovery') == ['resolved',None,20]
+                assert state(s) == [0,1,duration,1,draws+3,duration+1]
+                s.action(2250,5,row)
+                assert last(s,'test.fear-recovery')[:2] == ['reused',None]
+                assert state(s) == [0,1,duration,1,draws+3,duration+1]
+        finally: s.close()
+
+
+def test_fear_stun_modifiers(Session,bundle):
+    # Original scene modifiers apply only to rows 8+, and survive scene changes.
+    for row,expected in [(6,20),(7,20),(8,19),(9,19),(10,19),(11,19)]:
+        s = Session(bundle)
+        try:
+            s.action(2250,9,row)
+            s.action(2250,0,row)
+            s.action(2251)
+            duration = last(s,'test.fear-state')[2]
+            s.action(2250,10,row)
+            s.action(2250,8,row)
+            for second in range(duration): s.action(2250,3,row)
+            s.action(2250,5,row)
+            assert last(s,'test.fear-recovery') == ['resolved',None,expected]
+            s.command('undo')
+            s.action(2251)
+            assert last(s,'test.fear-state')[0:4] == [1,0,duration,0]
+            s.action(2250,5,row)
+            assert last(s,'test.fear-recovery') == ['resolved',None,expected]
+        finally: s.close()
+
+
+def test_fear_stun_persistence(Session,bundle,out):
+    # Save a failed recovery receipt: replay must not reroll or spend another second.
+    path = out / 'expanded-fear-stun.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2250,0,6)
+        first.action(2250,3,6)
+        first.action(2250,11,6)
+        first.action(2250,5,6)
+        first.action(2251)
+        assert last(first,'test.fear-state') == [1,0,1,1,3,2]
+        first.command(f':save {path}\n@2251')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+    finally: first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2251')
+        second.action(2250,5,6)
+        assert last(second,'test.fear-recovery') == ['reused',None,3]
+        second.action(2251)
+        assert last(second,'test.fear-state') == [1,0,1,1,3,2]
+        second.action(2250,8,6)
+        second.action(2250,12,6)
+        assert last(second,'test.fear-recovery') == ['resolved',None,20]
+        second.action(2251)
+        assert last(second,'test.fear-state') == [0,1,1,2,6,3]
+    finally: second.close()
+
+
 def test_fear_context(s):
     for code,a,b,modifier,score in [
             (0,0,0,0,10),(1,0,0,6,13),(2,0,0,2,12),(3,0,0,0,10),
@@ -8235,6 +8321,10 @@ def test(build):
     fresh(Session,hazard_transactions,test_infection_transactions)
     test_infection_persistence(Session,hazard_transactions,build.out)
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
+    fear = build.build('expanded-fear',ROOT / 'tests/fixtures/expanded-fear.t')
+    test_fear_stun(Session,fear)
+    test_fear_stun_modifiers(Session,fear)
+    test_fear_stun_persistence(Session,fear,build.out)
     fresh(Session,health,test_fear_assessments)
     fresh(Session,health,test_fear_context)
     fresh(Session,health,test_scaled_injury_shock)

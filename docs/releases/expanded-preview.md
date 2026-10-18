@@ -4,10 +4,10 @@ This branch implements an incomplete experimental suite. It is not a stable
 release and does not claim full-reference coverage. VERSION remains unchanged;
 no tag or release publication is part of this work.
 
-The expanded foundation and convenience umbrella currently include thirteen partial
-feature modules: campaign, characters, combat, development, equipment, exploration,
-hazards, health, skills, social, technology, templates and traits. Creatures, magic,
-psionics, tactical and vehicles remain proposed modules without standalone runtime
+The expanded foundation and convenience umbrella currently include fifteen partial
+feature modules: campaign, characters, combat, creatures, development, equipment,
+exploration, hazards, health, psionics, skills, social, technology, templates and
+traits. Magic, tactical and vehicles remain proposed modules without standalone runtime
 libraries. Available include paths are distinguished from proposals in the
 [library catalogue](../libraries.md). Technology currently supplies pure object-capacity,
 injury-threshold and disabled-weapon assessments, owned environmental faults and
@@ -94,3 +94,10 @@ The creature library now provides pure general-training and single-trick duratio
 training-plan eligibility and handling modifiers (`full-2008`, B175 and B458–B459).
 Its minimal dependency fixture is authored but unrun. Daily courses, creature
 profiles, mounts and swarms remain incomplete.
+
+
+Fear support includes pure full-table consequence specifications and scene
+modifiers, plus owned execution of the short-stun outcomes on B360. Automatic
+recovery and subsequent Will attempts share the time ledger; replay does not
+charge twice. Complete fear-event execution and combat-turn integration remain
+unfinished. Persistence, rollback and recovery fixtures are authored and unrun.

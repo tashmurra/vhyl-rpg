@@ -185,6 +185,7 @@ class RpgLiteTreatment: object
 /** Attempt end-of-turn stun recovery; fixed Fright durations cannot be shortened. */
 rpgLiteRecoverStun(profile)
 {
+    if (profile.stunRecoveryOwned()) return nil;
     if ((!profile.stunned && !profile.mentalStun) || profile.unconscious || profile.dead || profile.fearSeconds > 0) return nil;
     local check = rpgLiteAttributeCheck(profile, profile.mentalStun ? rpgIQ : rpgHT,
         profile.mentalStun ? 'mental-stun' : 'stun', 0);

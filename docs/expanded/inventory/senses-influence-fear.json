@@ -530,9 +530,14 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Persist the selected result, elapsed duration, next recovery check, injury, fatigue and aftereffects as one owned fear episode, sharing health and time ledgers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence"
+      ],
+      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
     },
     {
       "id": "fear-modifier-fear-traits",
@@ -907,9 +912,12 @@
       "status": "partial",
       "acceptance": "Stun for one second, then recover automatically.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
     },
     {
       "id": "fear-outcome-6-7",
@@ -920,9 +928,12 @@
       "status": "partial",
       "acceptance": "Stun for one second, then check unmodified will each second until recovery.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
     },
     {
       "id": "fear-outcome-8-9",
@@ -933,9 +944,12 @@
       "status": "partial",
       "acceptance": "Stun for one second, then check will with the original fear modifiers each second until recovery; do not reuse the fear-only thirteen cap.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
     },
     {
       "id": "fear-outcome-10",
@@ -946,9 +960,12 @@
       "status": "partial",
       "acceptance": "Stun for one die of seconds, then use the modified-will recovery sequence.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
     },
     {
       "id": "fear-outcome-11",
@@ -959,9 +976,12 @@
       "status": "partial",
       "acceptance": "Stun for two dice of seconds, then use the modified-will recovery sequence.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
     },
     {
       "id": "fear-outcome-12",
