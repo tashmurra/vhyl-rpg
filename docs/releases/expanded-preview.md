@@ -1365,4 +1365,9 @@ reaction, rollback and persistence fixtures are unrun.
 Expanded contextual talent bonuses now share the full catalogue membership used
 by study and demonstrated reactions. A dispatch hook preserves Lite membership;
 new trained/default and disabled-purchase assertions remain unrun. Raw skill and
-technique talent integration remains incomplete.
+technique talent integration follows in the next increment.
+
+Catalogue talent bonuses now enter available raw skill scores, floating/fixed-base
+checks and skill-based technique checks exactly once. Paid investment calculations
+stay separate. Source-skill default transfer and prerequisite threshold integration
+remain unresolved; assertions are authored but unrun.

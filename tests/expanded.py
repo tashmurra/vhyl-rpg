@@ -9138,6 +9138,7 @@ def test(build):
     test_talent_reaction(Session, talent_reaction, build.out)
     talent_check = build.build('expanded-talent-check',ROOT / 'tests/fixtures/expanded-talent-check.t')
     test_talent_check(Session, talent_check)
+    test_talent_scores(Session, talent_check)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -18449,11 +18450,11 @@ def test_talent_reaction(Session, bundle, out):
 
 def test_talent_check(Session, bundle):
     # Printed B89-B91: +level for every listed skill, including default use.
-    for changes, expected in (([], [2, 2, 2, 0, 0]),
-                              ([6814], [2, 0, 2, 0, 0]),
-                              ([6815], [2, 0, 2, 0, 0]),
-                              ([6816], [2, 0, 2, 0, 0]),
-                              ([6814, 7101], [2, 0, 2, 0, 0]),
+    for changes, expected in (([], [0, 2, 0, 0, 0]),
+                              ([6814], [0, 0, 0, 0, 0]),
+                              ([6815], [0, 0, 0, 0, 0]),
+                              ([6816], [0, 0, 0, 0, 0]),
+                              ([6814, 7101], [0, 0, 0, 0, 0]),
                               ([6805], [0, 0, 0, 0, 0]),
                               ([6806], [0, 0, 0, 0, 0])):
         s = Session(bundle)
@@ -18461,5 +18462,19 @@ def test_talent_check(Session, bundle):
             for code in changes + [7100, 7100]:
                 s.action(2285, code)
             assert last(s, 'test.talent-check') == expected
+        finally:
+            s.close()
+
+
+def test_talent_scores(Session, bundle):
+    for changes, expected in (([], [11, 11, 21, 9, None, 9, 0, 0]),
+                              ([6814], [11, 11, 21, 9, None, 9, 0, 0]),
+                              ([7101], [7, 7, 17, None, None, None, 0, 0]),
+                              ([6805], [9, 9, 19, 7, None, 9, 0, 0])):
+        s = Session(bundle)
+        try:
+            for code in changes + [7102, 7102]:
+                s.action(2285, code)
+            assert last(s, 'test.talent-scores') == expected
         finally:
             s.close()

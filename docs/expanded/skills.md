@@ -609,6 +609,15 @@ optional specialties identified by their parent. Trained and default contextual
 checks receive the bonus once. Inactive or mitigated purchases give no bonus.
 The Lite profile retains its original membership and contextual arithmetic.
 
-This hook does not change raw `skillScore`, paid default investment, or technique
-basis calculations. Full talent integration with those interfaces and custom
-skill groups remains pending. The contextual fixtures are authored but unrun.
+With the skills module installed, `catalogueTalentSkillModifier(skill)` adds the
+catalogue bonus to an available raw `skillScore`. The contextual hook then returns
+zero, avoiding a second bonus. Relative and fixed-base checks and skill-based
+techniques inherit that raw bonus. Skills without a legal purchased/default level
+remain unavailable. Without the skills module, expanded traits retain the
+contextual bonus path.
+
+`rpgExpandedPaidSkill` remains the investment-only calculation, keeping talent
+levels out of point prices. Transfer of source-skill talents through paid default
+chains, prerequisite thresholds and custom skill groups still needs dedicated
+source verification and implementation. The raw, contextual, fixed-base and
+technique assertions are authored but unrun.

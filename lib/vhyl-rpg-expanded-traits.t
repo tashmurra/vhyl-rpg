@@ -1354,6 +1354,10 @@ modify RpgExpandedProfile
     }
     catalogueTalentCheckModifier(skill)
     {
+        return self.talentBonusInSkillScore() ? 0 : self.catalogueTalentSkillModifier(skill);
+    }
+    catalogueTalentSkillModifier(skill)
+    {
         if (!skill.ofKind(RpgLiteSkill)) return 0;
         local id = skill.studyIdentity(); local bonus = 0;
         foreach (local talentId in ['artificer','outdoorsman','smooth-operator'])

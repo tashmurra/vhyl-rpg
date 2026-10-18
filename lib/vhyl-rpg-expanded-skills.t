@@ -140,15 +140,16 @@ rpgExpandedSkillScore(profile, skill)
             local source = rpgExpandedPaidSkill(profile, pair[1], [skill]);
             if (source != nil && (score == nil || source + pair[2] > score)) score = source + pair[2];
         }
-    return score == nil ? nil : score + profile.ancestrySkillModifier(skill);
+    return score == nil ? nil : score + profile.ancestrySkillModifier(skill) + profile.catalogueTalentSkillModifier(skill);
 }
 
 modify RpgExpandedProfile
+    talentBonusInSkillScore() { return true; }
     skillScore(skill)
     {
         if (skill.ofKind(RpgExpandedSkill)) return rpgExpandedSkillScore(self, skill);
         local score = inherited(skill);
-        return score == nil ? nil : score + self.ancestrySkillModifier(skill);
+        return score == nil ? nil : score + self.ancestrySkillModifier(skill) + self.catalogueTalentSkillModifier(skill);
     }
 ;
 
