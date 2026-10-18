@@ -238,3 +238,17 @@ rest locks are separate constraints. Every use must validate them before spendin
 resources, while failed attempts still commit their specified costs. Gadget damage,
 theft, repair and unique loss also need identity-based lifecycle records. These
 behaviors remain unimplemented.
+
+
+The [initial disadvantage inventory](inventory/disadvantages-a.json) covers
+custom-trait design, self-control and the catalogue through impaired sight.
+Self-control has a purchased rating independent of Will, with an optional paid
+success rule requiring explicit campaign selection. Acquired injuries reduce
+character value without granting spendable points; buying them off uses earned
+points and any required recovery conditions.
+
+Hidden disadvantages and memory loss need private definitions plus controlled
+public disclosure. Repeated withdrawal, focus, injury-trigger and recovery checks
+need dated episode histories. Reconstructing an action must not reset those
+histories, while narrative uncertainty must not overwrite already committed facts.
+All new entries remain pending implementation and validation.
