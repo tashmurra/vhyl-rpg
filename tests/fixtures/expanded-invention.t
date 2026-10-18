@@ -81,11 +81,38 @@ rapidConcept: RpgExpandedRapidConcept id = 'rapid-first' project = conceptProjec
     evidence = 'Uninterrupted design session';
 rapidRetry: RpgExpandedRapidConcept id = 'rapid-second' project = conceptProject approved = true uninterrupted = true
     evidence = 'Another design session';
+rapidParts: RpgLiteItem id = 'rapid-optics-parts' cost = 10 weight = 100;
+rapidSpareParts: RpgLiteItem id = 'rapid-optics-spares' cost = 10 weight = 100;
+rapidPurchase: RpgExpandedRapidPurchase id = 'first-parts' project = conceptProject payer = conceptUser item = rapidParts
+    approved = true available = true permitted = true evidence = 'Available optical components and workshop';
+rapidSparePurchase: RpgExpandedRapidPurchase id = 'spare-parts' project = conceptProject payer = conceptUser item = rapidSpareParts
+    approved = true available = true permitted = true evidence = 'Additional matching components';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 280)
+        {
+            if (code == 280 || code == 284 || code == 285)
+            {
+                conceptProject.proposal = rapidProposal; conceptUser.campaignTL = 8;
+                conceptUser.traits = [cinematicCapability]; cinematicCapability.tier = 'rapid';
+                cinematicPermission.mode = 'rapid'; conceptRules.cinematicInvention = true; conceptRules.rapidInvention = true;
+                if (code == 284) rapidProposal.retailPrice = 1001;
+                if (code == 285) { conceptUser.techLevel = 10; rapidProposal.techLevel = 10; }
+                conceptBlueprint.apply(); return nil;
+            }
+            if (code == 286) conceptUser.money = 1009;
+            if (code == 287) rapidPurchase.available = nil;
+            if (code == 289) rapidPurchase.evidence = 'Changed source';
+            local request = code == 290 ? rapidSparePurchase : rapidPurchase;
+            if (code == 288) { request = rapidSparePurchase; request.id = rapidPurchase.id; }
+            local value = code == 283 ? request.assess() : request.acquire();
+            event('test.rapid-purchase'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.money); eventValue(value.facilitiesMoney); eventValue(value.partsMoney);
+            if (code == 282) throw new RpgError(); return nil;
+        }
         if (code >= 260)
         {
             if (code == 260)
@@ -461,6 +488,12 @@ act(verb,args)
         event('test.facilities-state'); eventValue(conceptUser.money); eventValue(conceptProject.facilityFunding.length());
         eventValue(conceptProject.facilities == nil ? nil : conceptProject.facilities.destroyed ? 'destroyed' : 'available');
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2130) { conceptInput.code = 280 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2131)
+    {
+        event('test.rapid-purchase-state'); eventValue(conceptUser.money); eventValue(conceptUser.equipment.length());
+        eventValue(conceptProject.rapidPurchases.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     if (verb == 2129) { conceptInput.code = 260 + args[1]; return vhylAct(2097,args); }
     if (verb == 2128) { conceptInput.code = 240 + args[1]; return vhylAct(2097,args); }

@@ -1128,6 +1128,55 @@ def test_rapid_concept_retry(s):
     assert cinematic_state(s) == [2,'testable',4,240,1000000]
 
 
+def rapid_purchase_state(s):
+    s.action(2131)
+    return last(s,'test.rapid-purchase-state')
+
+
+def test_rapid_purchases(Session,bundle):
+    for setup,setup_cost,parts in [(0,1000,10),(5,6000,70)]:
+        s = Session(bundle)
+        try:
+            s.action(2130,setup)
+            initial = [1000000,0,0,0,0]
+            for code in [3,2]:
+                s.action(2130,code)
+                assert rapid_purchase_state(s) == initial
+            s.action(2130,7)
+            assert last(s,'test.rapid-purchase')[:2] == ['blocked','rapid-purchase-author-facts']
+            s.command('undo')
+            s.action(2130,1)
+            assert last(s,'test.rapid-purchase') == ['resolved',None,setup_cost + parts,setup_cost,parts]
+            bought = [1000000 - setup_cost - parts,1,1,0,0]
+            assert rapid_purchase_state(s) == bought
+            for code in [1,8,9]:
+                s.action(2130,code)
+                assert rapid_purchase_state(s) == bought
+            s.action(2130,10)
+            assert last(s,'test.rapid-purchase') == ['resolved',None,parts,0,parts]
+            assert rapid_purchase_state(s) == [1000000 - setup_cost - parts * 2,2,2,0,0]
+            s.command('undo')
+            assert rapid_purchase_state(s) == bought
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2130,4)
+        s.action(2130,1)
+        assert last(s,'test.rapid-purchase')[:2] == ['blocked','rapid-purchase-fractional-ledger-unavailable']
+        assert rapid_purchase_state(s) == [1000000,0,0,0,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2130,0)
+        s.action(2130,6)
+        assert last(s,'test.rapid-purchase')[:2] == ['blocked','equipment-unaffordable']
+        assert rapid_purchase_state(s) == [1009,0,0,0,0]
+    finally:
+        s.close()
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -6939,6 +6988,7 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    test_rapid_purchases(Session,invention)
     fresh(Session,invention,test_rapid_concepts)
     fresh(Session,invention,test_rapid_concept_retry)
     test_cinematic_tools(Session,invention)

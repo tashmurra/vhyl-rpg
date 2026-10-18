@@ -1378,3 +1378,33 @@ rapid concept path does not enable ordinary prototype construction as a fallback
 request-type rejection, preview, transaction rollback, interruption, replay,
 unsupported construction, elapsed time and same-day retry. Fixtures remain unrun.
 Source: `full-2008`, B476.
+
+## Purchasing rapid-construction components
+
+`RpgExpandedRapidPurchase` acquires an authored component bundle into the payer's
+ordinary inventory. Supply a unique `id`, rapid invention `project`, `payer`,
+`item`, and approved availability, permission and evidence. A held theory and the
+current rapid capability/campaign permission are required. Assessment computes
+prices without spending currency or consuming randomness.
+
+The first receipt charges cinematic facilities and prototype costs divided by
+100. Subsequent receipts for the same project charge only the divided prototype
+cost; the project's `rapidFacilityPurchase` retains the original setup receipt.
+Both parts and setup must be exact whole currency units. Fractional amounts reject
+with `rapid-purchase-fractional-ledger-unavailable`, without rounding or payment.
+Designs requiring the unimplemented advanced defect table also reject.
+
+Call `acquire()` inside an engine action. It uses `RpgExpandedAcquisition` for a
+single shared currency deduction and inventory grant. Replaying a receipt neither
+charges again nor restores components removed later. The receipt binds its
+project, payer, item and evidence, and each project enforces unique purchase IDs.
+Results expose `money`, `facilitiesMoney`, `partsMoney` and the owned `acquisition`.
+For replay, `money` is zero while the historical price components remain visible.
+
+These receipts currently acquire resources only. Prototype reservation,
+consumption, critical-failure destruction and scrounged alternatives still need
+integration; rapid construction remains blocked. No separate inventory is added.
+`test_rapid_purchases` authors ordinary and campaign-advanced prices, setup paid
+once, spare parts, preview, rollback, replay, undo, duplicate IDs, retargeting,
+availability, insufficient funds and fractional rejection. Fixtures remain unrun.
+Source: `full-2008`, B477.

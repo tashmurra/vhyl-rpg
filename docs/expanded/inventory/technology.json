@@ -727,9 +727,12 @@
       "pages": "B477",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "When parts must be bought, calculate cinematic facility and prototype costs then divide by one hundred. Critical prototype failure ruins parts and requires replacement before resuming.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_purchases"
+      ],
+      "validation_note": "Owned purchases use shared inventory/currency with one setup payment, divided cinematic prices, binding and replay; fixtures unrun. Construction consumption, critical-failure destruction and fractional currency remain unresolved."
     },
     {
       "id": "technology-analyze-device",

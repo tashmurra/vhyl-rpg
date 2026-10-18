@@ -2935,3 +2935,94 @@ class RpgExpandedRapidConcept: RpgExpandedInventionConcept
         updated.seconds = seconds; return updated;
     }
 ;
+
+modify RpgExpandedInventionProject
+    rapidPurchases = []
+    rapidFacilityPurchase = nil
+;
+
+class RpgExpandedRapidPurchaseResult: RpgExpandedResult
+    money = 0
+    facilitiesMoney = 0
+    partsMoney = 0
+    acquisition = nil
+;
+
+/** B477 bought components: shared inventory and currency, one facilities payment. */
+class RpgExpandedRapidPurchase: object
+    id = nil
+    project = nil
+    payer = nil
+    item = nil
+    approved = nil
+    available = nil
+    permitted = nil
+    evidence = nil
+    result = nil
+    definitionSnapshot = nil
+    facilityReceipt = nil
+    definition() { return [self.id,self.project,self.payer,self.item,self.evidence]; }
+    assess()
+    {
+        if (self.project == nil || !self.project.ofKind(RpgExpandedInventionProject)
+            || self.project.proposal == nil || !self.project.proposal.ofKind(RpgExpandedRapidProposal)
+            || self.payer == nil || !self.payer.ofKind(RpgExpandedProfile)
+            || self.item == nil || !self.item.ofKind(RpgLiteItem))
+            rpgExpandedReject('rapid-purchase-definition');
+        self.project.validate(); local value = new RpgExpandedRapidPurchaseResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.definitionSnapshot == nil || current.length() != self.definitionSnapshot.length())
+                rpgExpandedReject('rapid-purchase-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('rapid-purchase-binding');
+            if (!holds(self.project.rapidPurchases,self) || self.facilityReceipt != self.project.rapidFacilityPurchase
+                || self.result.acquisition.profile != self.payer || self.result.acquisition.item != self.item
+                || !self.result.acquisition.claimed)
+                rpgExpandedReject('rapid-purchase-history');
+            value.status = 'reused'; value.facilitiesMoney = self.result.facilitiesMoney;
+            value.partsMoney = self.result.partsMoney; value.acquisition = self.result.acquisition; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('rapid-purchase-id');
+        if (!self.approved || !self.available || !self.permitted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'rapid-purchase-author-facts'; return value; }
+        if (!holds(['testable','flawed'],self.project.theory))
+        { value.reason = 'rapid-purchase-theory-required'; return value; }
+        foreach (local prior in self.project.rapidPurchases)
+            if (prior.id == self.id) rpgExpandedReject('rapid-purchase-duplicate');
+        local proposal = self.project.proposal; local quote = proposal.assess();
+        if (quote.status != 'ready') { value.reason = quote.reason; return value; }
+        // Parts with unsupported advanced defects cannot yet enter construction.
+        if (proposal.techLevel > proposal.inventor.techLevel)
+        { value.reason = 'cinematic-advanced-defects-unavailable'; return value; }
+        local facilities = self.project.rapidFacilityPurchase;
+        if (facilities != nil)
+        {
+            if (!facilities.ofKind(RpgExpandedRapidPurchase) || facilities.project != self.project || facilities.result == nil)
+                rpgExpandedReject('rapid-purchase-facilities');
+            facilities.assess();
+        }
+        local setup = facilities == nil ? quote.facilitiesCost : 0;
+        if (setup % 100 != 0 || quote.attemptCost % 100 != 0)
+        { value.reason = 'rapid-purchase-fractional-ledger-unavailable'; return value; }
+        value.facilitiesMoney = setup / 100; value.partsMoney = quote.attemptCost / 100;
+        value.money = value.facilitiesMoney + value.partsMoney;
+        value.acquisition = new RpgExpandedAcquisition(); value.acquisition.profile = self.payer;
+        value.acquisition.item = self.item; value.acquisition.mode = 'purchase'; value.acquisition.quote = value.money;
+        value.acquisition.available = true; value.acquisition.permitted = true;
+        local access = value.acquisition.assess();
+        if (access.status != 'ready') { value.reason = access.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    acquire()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (value.acquisition.acquire().status != 'resolved') rpgExpandedReject('rapid-purchase-changed');
+        if (self.project.definitionSnapshot == nil) self.project.definitionSnapshot = self.project.proposal.definition();
+        if (self.project.rapidFacilityPurchase == nil) self.project.rapidFacilityPurchase = self;
+        self.facilityReceipt = self.project.rapidFacilityPurchase; self.definitionSnapshot = self.definition();
+        self.project.rapidPurchases = self.project.rapidPurchases + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
