@@ -1048,9 +1048,10 @@
       "status": "partial",
       "acceptance": "Worn armor counts as flexible for fall blunt trauma, even if normally rigid; innate resistance does not inherit this treatment.",
       "tests": [
-        "tests/expanded.py::test_fall_protection"
+        "tests/expanded.py::test_fall_protection",
+        "tests/expanded.py::test_fall_injury"
       ],
-      "validation_note": "Pure homogeneous-layer protection assessment distinguishes worn armor from innate resistance and separates penetration from direct blunt injury. Threshold and exception assertions authored, unrun. Layer ordering, location injury and owned falling integration remain incomplete."
+      "validation_note": "Pure homogeneous-layer protection assessment distinguishes worn armor from innate resistance and separates penetration from direct blunt injury. Threshold and exception assertions authored, unrun. Layer ordering, location injury and owned falling integration remain incomplete. Owned torso injury bridge now uses the existing wound ledger with replay binding; rollback, undo and save fixtures authored, unrun. This does not complete fall execution or location rules."
     },
     {
       "id": "collision-controlled-fall",

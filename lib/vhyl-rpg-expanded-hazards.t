@@ -3884,3 +3884,66 @@ rpgExpandedAssessFallProtection(damage,resistance,kind)
     if (kind == 'armor' && value.penetratingDamage == 0) value.bluntInjury = damage / 5;
     value.status = 'ready'; return value;
 }
+
+modify RpgExpandedProfile
+    fallInjuries = []
+;
+class RpgExpandedFallInjuryResult: RpgExpandedResult
+    protection = nil
+    wound = nil
+;
+/** Owned bridge from an already resolved fall damage roll to torso injury.
+ * Location rules, mixed protection and special anatomy must not use this adapter. */
+class RpgExpandedFallInjury: object
+    id = nil
+    profile = nil
+    damage = 0
+    resistance = 0
+    protectionKind = 'armor'
+    location = 'torso'
+    approved = nil
+    evidence = nil
+    dropDestination = nil
+    result = nil
+    boundDefinition = nil
+    committedAt = nil
+    definition()
+    { return [self.id,self.profile,self.damage,self.resistance,self.protectionKind,self.location,
+        self.approved,self.evidence,self.dropDestination]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('fall-injury-definition');
+        local value = new RpgExpandedFallInjuryResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('fall-injury-binding');
+            if (!holds(self.profile.fallInjuries,self) || self.result.wound.assess().status != 'reused')
+                rpgExpandedReject('fall-injury-history');
+            value.status = 'reused'; return value;
+        }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'fall-injury-author-facts'; return value; }
+        if (self.location != 'torso') { value.reason = 'fall-injury-location-unavailable'; return value; }
+        foreach (local prior in self.profile.fallInjuries)
+            if (prior.id == self.id) rpgExpandedReject('fall-injury-duplicate');
+        value.protection = rpgExpandedAssessFallProtection(self.damage,self.resistance,self.protectionKind);
+        value.wound = new RpgExpandedWound(); value.wound.id = self.id; value.wound.profile = self.profile;
+        value.wound.amount = value.protection.penetratingDamage + value.protection.bluntInjury;
+        value.wound.dropDestination = self.dropDestination;
+        local prepared = value.wound.assess();
+        if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        if (value.wound.apply().status != 'resolved') rpgExpandedReject('fall-injury-wound-changed');
+        self.boundDefinition = self.definition(); self.committedAt = rpgLedger.seconds;
+        self.profile.fallInjuries = self.profile.fallInjuries + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

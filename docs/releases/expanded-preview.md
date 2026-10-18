@@ -780,3 +780,8 @@ Fall protection assessment now distinguishes worn armor (all treated as flexible
 for falls) from innate resistance and separates penetrating damage from blunt
 trauma injury. It covers a single homogeneous layer; layered protection and wound
 commitment remain incomplete. Boundary fixtures are authored and unrun.
+
+An owned torso fall-injury operation now connects already resolved crushing damage
+and homogeneous protection to the existing wound ledger. Reapplication uses its
+bound receipt. Preview, transaction, undo and cross-process save fixtures are
+provided but unrun. Location rules and the rest of fall execution remain partial.

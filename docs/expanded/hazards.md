@@ -1669,3 +1669,28 @@ represented by this interface, and layered fall protection remains pending.
 The authored fixture covers zero damage, zero resistance, five-point boundaries,
 exactly stopped damage, penetration and the innate exception. Checks remain paused.
 Source: `full-2008`, B379 and B431.
+
+### Owned torso fall injury
+
+`RpgExpandedFallInjury` commits an already resolved crushing fall damage value to
+an expanded profile. Set `id`, `profile`, `damage`, `resistance`, `protectionKind`,
+`approved` and `evidence`; supply `dropDestination` where a knockdown could drop
+held gear. Evidence must establish the resolved damage, torso treatment without
+location rules, and one homogeneous protection layer. This operation does not roll
+damage or repeat a landing check and adds no second time charge.
+
+`assess()` preflights protection and the standard wound procedure without committing
+injury. `apply()` creates one wound in `expandedWounds` and records the operation in
+`fallInjuries`. Run it within the engine action transaction. Repeated application
+returns the recorded result; changing the bound request or reusing its identifier
+is rejected. The result exposes the protection assessment and owned wound. Even a
+fully protected zero-injury fall retains its receipt so it cannot later be rerolled
+through this operation. Normal wound consequences use the existing injury ledger.
+
+Only `location = 'torso'` is supported here. Random hit locations, uncapped limb
+injury, multiple crippled limbs, mixed protection, special anatomy, collision caps,
+landing maneuvers and automatic linkage from an owned climb remain incomplete.
+This bridge must not be used as a fallback for those rules. The authored fixture
+covers preview, replay, changed-request rejection, rollback, undo, cross-process
+save continuation, armor blunt injury, penetration and innate protection. Checks
+remain paused; none of these new assertions has run.

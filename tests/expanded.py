@@ -8899,6 +8899,8 @@ def test(build):
     collision = build.build('expanded-collision',ROOT / 'tests/fixtures/expanded-collision.t')
     test_collision_assessment(Session, collision)
     test_fall_protection(Session, collision)
+    fall_injury = build.build('expanded-fall-injury',ROOT / 'tests/fixtures/expanded-fall-injury.t')
+    test_fall_injury(Session, fall_injury, build.out)
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_radiation_tables)
     fresh(Session,hazards,test_radiation_shielding)
@@ -13681,3 +13683,47 @@ def test_fall_protection(Session, bundle):
             assert last(s, 'test.fall-protection') == [expected[0],0,expected[2],0,0]
     finally:
         s.close()
+
+
+def test_fall_injury(Session, bundle, out):
+    def state(s):
+        s.action(2285,833)
+        return last(s,'test.fall-owned')
+    path = out / 'expanded-fall-injury.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,830)
+        assert last(s,'test.fall-preview') == ['ready',None]
+        assert state(s) == [0,0,0,0,0]
+        s.action(2285,832)
+        assert state(s) == [0,0,0,0,0]
+        s.action(2285,831)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,0]
+        for code in (831,831):
+            s.action(2285,code)
+        assert state(s) == [2,1,1,0,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,831)
+        assert state(s) == [2,1,1,0,0]
+        s.action(2285,836)
+        s.action(2285,831)
+        assert state(s) == [2,1,1,0,0]
+    finally:
+        s.close()
+    for setup, expected in ((835,[0,1,1,0,0]),(836,[1,1,1,0,0]),(834,[0,0,0,0,0])):
+        s = Session(bundle)
+        try:
+            s.action(2285,setup)
+            s.action(2285,831)
+            assert state(s) == expected
+            if setup == 834:
+                s.action(2285,830)
+                assert last(s,'test.fall-preview') == ['blocked','fall-injury-location-unavailable']
+        finally:
+            s.close()
