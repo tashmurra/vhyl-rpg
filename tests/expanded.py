@@ -9390,6 +9390,8 @@ def test(build):
     test_biology_foraging(Session, biology_foraging)
     nature_observation = build.build("expanded-nature-observation",ROOT / "tests/fixtures/expanded-nature-observation.t")
     test_nature_observation(Session, nature_observation)
+    nature_disclosure = build.build("expanded-nature-disclosure",ROOT / "tests/fixtures/expanded-nature-disclosure.t")
+    test_nature_disclosure(Session, nature_disclosure, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23794,5 +23796,46 @@ def test_nature_observation(Session, bundle):
             s.action(2285,code)
         assert last(s,'test.nature-assessment') == ['blocked','nature-observation-inaccessible',None]
         assert last(s,'test.nature-history') == [0,0,0,0]
+    finally:
+        s.close()
+
+
+def test_nature_disclosure(Session, bundle, out):
+    """Only completed nature findings enter the observer's received history; unrun."""
+    path = out / 'nature-disclosure.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,20400)
+        assert last(s,'test.nature-disclosure') == ['blocked','nature-disclosure-unresolved',[]]
+        for code in (31,20300,20401,20402):
+            s.action(2285,code)
+        assert last(s,'test.nature-knowledge') == [0,0,3]
+        s.action(2285,20400)
+        assert last(s,'test.nature-disclosure') == ['resolved',None,['These berries are unsafe to eat']]
+        s.command('undo')
+        s.action(2285,20402)
+        assert last(s,'test.nature-knowledge') == [0,0,3]
+        for code in (20400,20400,20402):
+            s.action(2285,code)
+        assert last(s,'test.nature-knowledge') == [1,0,3]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (20400,20402):
+            s.action(2285,code)
+        assert last(s,'test.nature-knowledge') == [1,0,3]
+        s.action(2285,20403)
+        assert last(s,'test.nature-history-error') == ['nature-observation-result-binding']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (1606,20300,20400,20402):
+            s.action(2285,code)
+        assert last(s,'test.nature-disclosure') == ['blocked','nature-disclosure-no-finding',[]]
+        assert last(s,'test.nature-knowledge') == [0,0,3]
     finally:
         s.close()

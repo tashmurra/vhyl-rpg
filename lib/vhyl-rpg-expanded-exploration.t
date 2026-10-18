@@ -3409,7 +3409,7 @@ class RpgExpandedNatureFinding: RpgExpandedResult
     finding = nil
     score = nil
 ;
-class RpgExpandedNatureObservation: object
+class RpgExpandedNatureObservation: RpgExpandedNatureReceipt
     id = nil
     profile = nil
     skill = nil
@@ -3425,6 +3425,7 @@ class RpgExpandedNatureObservation: object
     result = nil
     boundDefinition = nil
     boundFinding = nil
+    boundSucceeded = nil
     definition()
     { return [self.id,self.profile,self.skill,self.occurrence,self.purpose,self.planet,self.planetType,self.accessible,self.approved,self.evidence,self.finding,self.modifier]; }
     context()
@@ -3436,7 +3437,7 @@ class RpgExpandedNatureObservation: object
         local facts = self.definition();
         for (local i = 1; i <= facts.length(); i += 1)
             if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('nature-observation-binding');
-        if (self.result.finding != self.boundFinding) rpgExpandedReject('nature-observation-result-binding');
+        if (self.result.check == nil || self.result.check.achieved != self.boundSucceeded || self.result.finding != self.boundFinding) rpgExpandedReject('nature-observation-result-binding');
         return nil;
     }
     assess()
@@ -3467,11 +3468,25 @@ class RpgExpandedNatureObservation: object
         local value = self.assess(); if (value.status != 'ready') return value;
         value.check = rpgLiteCheck(self.profile,self.context());
         if (value.check.achieved) value.finding = self.finding;
-        self.boundDefinition = self.definition(); self.boundFinding = value.finding;
+        self.boundDefinition = self.definition(); self.boundFinding = value.finding; self.boundSucceeded = value.check.achieved;
         value.status = 'resolved'; self.result = value;
         self.profile.natureObservations = self.profile.natureObservations + [self]; return value;
     }
 ;
 modify RpgExpandedProfile
     natureObservations = []
+    validateFeatures()
+    {
+        inherited(); local ids = []; local seen = [];
+        foreach (local observation in self.natureObservations)
+        {
+            if (observation == nil || !observation.ofKind(RpgExpandedNatureObservation) || observation.profile != self
+                || holds(ids,observation.id)) rpgExpandedReject('nature-observation-history');
+            foreach (local prior in seen)
+                if (prior.occurrence == observation.occurrence && prior.purpose == observation.purpose)
+                    rpgExpandedReject('nature-observation-history');
+            observation.validateReceipt(); ids = ids + [observation.id]; seen = seen + [observation];
+        }
+        return nil;
+    }
 ;

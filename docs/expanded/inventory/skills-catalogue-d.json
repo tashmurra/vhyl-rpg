@@ -257,9 +257,10 @@
       "tests": [
         "tests/expanded.py::test_nature_defaults",
         "tests/expanded.py::test_biology_foraging",
-        "tests/expanded.py::test_nature_observation"
+        "tests/expanded.py::test_nature_observation",
+        "tests/expanded.py::test_nature_disclosure"
       ],
-      "validation_note": "Matching planet-type typed biology supplies -3; purchased optional biology subfields supply -5 through explicit optional-specialty propagation. Forage fixtures cover shared yield history, preview, rollback, undo and replay. Owned nature observations now resolve plant/animal safety, shelter and weather findings with explicit author evidence, access, occurrence and planet binding; failed checks reveal no finding. Disclosure and broader environmental action integration remain pending. Fixtures unrun.",
+      "validation_note": "Matching planet-type typed biology supplies -3; purchased optional biology subfields supply -5 through explicit optional-specialty propagation. Forage fixtures cover shared yield history, preview, rollback, undo and replay. Owned nature observations now resolve plant/animal safety, shelter and weather findings with explicit author evidence, access, occurrence and planet binding; failed checks reveal no finding. Optional social disclosure now records a successful finding in the observer's received knowledge without modifying beliefs. Broader environmental action integration remains pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",

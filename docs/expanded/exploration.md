@@ -1687,3 +1687,21 @@ finding are explicit author responsibilities, not inferred from a generic hook.
 `test_nature_observation` covers success/failure, biology defaults, pure preview,
 inaccessible evidence, replay, rollback and undo without resource or time changes.
 Fixtures remain unrun while checks are paused.
+
+
+## Receiving a nature finding
+
+With social included, `RpgExpandedNatureDisclosure` delivers a resolved
+observation's finding to its observer. Supply `id`, `assessment` (the observation)
+and `recipient` (its profile), whose `knowledge` must be an owned
+`RpgExpandedKnowledge`. `assess()` does not reveal a statement. `deliver()` records
+one received statement and returns it; replay returns the same statement without
+an additional entry, roll or time charge. An unresolved or failed observation
+cannot disclose a finding. Other recipients need a separate communication action.
+
+This delivery does not add beliefs or fabrications. It records what the observer
+learned without forcing later choices. Observation history validation checks
+ownership, unique IDs and occurrence/purpose pairs, bound facts, and the original
+check outcome and finding. `test_nature_disclosure` specifies missing and failed
+findings, rollback, undo, replay, cross-process saves and outcome-tampering
+rejection. Fixtures remain unrun while checks are paused.

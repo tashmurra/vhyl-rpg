@@ -795,3 +795,11 @@ modify RpgLiteSkill
 modify RpgLiteSkill
     validateNatureObservation(planet,planetType) { rpgExpandedReject('nature-observation-expanded-skill-required'); }
 ;
+
+/** Cross-module contract for an owned practical nature result. */
+class RpgExpandedNatureReceipt: object
+    profile = nil
+    result = nil
+    disclosure = nil
+    validateReceipt() { rpgExpandedReject('nature-observation-exploration-required'); }
+;

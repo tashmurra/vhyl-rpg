@@ -3201,3 +3201,64 @@ class RpgExpandedBodyReadingLieDetection: RpgExpandedLieDetection
         value.status = 'ready'; return value;
     }
 ;
+
+/** Deliver a resolved naturalist finding to its observer once. */
+class RpgExpandedNatureDisclosure: object
+    id = nil
+    assessment = nil
+    recipient = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundKnowledge = nil
+    boundStatement = nil
+    definition()
+    { return [self.id,self.assessment,self.recipient]; }
+    assess()
+    {
+        local value = new RpgExpandedInformationDeliveryResult();
+        if (self.id == nil || self.id == '' || self.assessment == nil || !self.assessment.ofKind(RpgExpandedNatureReceipt)
+            || self.recipient == nil || !self.recipient.ofKind(RpgExpandedProfile) || self.recipient.knowledge == nil
+            || !self.recipient.knowledge.ofKind(RpgExpandedKnowledge)) rpgExpandedReject('nature-disclosure-definition');
+        if (self.assessment.result == nil) { value.reason = 'nature-disclosure-unresolved'; return value; }
+        self.assessment.validateReceipt(); self.recipient.knowledge.validate();
+        if (self.recipient != self.assessment.profile) { value.reason = 'nature-disclosure-observer-required'; return value; }
+        if (self.completedAt != nil)
+        {
+            local facts = self.definition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('nature-disclosure-binding');
+            if (self.boundKnowledge != self.recipient.knowledge || self.assessment.disclosure != self
+                || self.boundStatement != self.assessment.result.finding)
+                rpgExpandedReject('nature-disclosure-binding');
+            local count = 0;
+            foreach (local row in self.boundKnowledge.received)
+                if (row[1] == self.id)
+                {
+                    if (row[2] != self.assessment.profile || row[3].length() != 1
+                        || row[3][1] != self.boundStatement || row[4] != 0) rpgExpandedReject('nature-disclosure-history');
+                    count += 1;
+                }
+            if (count != 1) rpgExpandedReject('nature-disclosure-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.assessment.disclosure != nil) { value.reason = 'nature-disclosure-already-recorded'; return value; }
+        if (self.assessment.result.finding == nil)
+        { value.reason = 'nature-disclosure-no-finding'; return value; }
+        foreach (local row in self.recipient.knowledge.received)
+            if (row[1] == self.id) rpgExpandedReject('nature-disclosure-duplicate');
+        value.status = 'ready'; return value;
+    }
+    deliver()
+    {
+        local value = self.assess();
+        if (value.status == 'reused') { value.statements = [self.boundStatement]; return value; }
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.boundKnowledge = self.recipient.knowledge;
+        self.boundStatement = self.assessment.result.finding;
+        value.statements = [self.boundStatement];
+        self.boundKnowledge.received = self.boundKnowledge.received + [[self.id,self.assessment.profile,value.statements,0]];
+        self.completedAt = rpgLedger.seconds; self.assessment.disclosure = self;
+        value.status = 'resolved'; return value;
+    }
+;
+
