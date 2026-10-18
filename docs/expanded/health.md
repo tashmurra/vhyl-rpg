@@ -1146,3 +1146,30 @@ rejection, and refusal to reuse a gate in the next round.
 and after the round boundary, then continues each phase in a separate process.
 These checks are authored but unrun. Parser/dialogue parity and automatic defense
 integration remain outstanding.
+
+## Low-fatigue strength checks
+
+Set `rules.expandedFatigueStrength = true` to apply the B426 temporary strength
+reduction through `rpgLiteScore` and `rpgLiteCheck`. Below one-third FP, direct ST
+checks use half ST, rounded up. Trained skills whose controlling attribute is ST
+receive the same attribute reduction while retaining their relative training.
+This includes a trained `RpgExpandedSkillContext` with `rollAttribute = rpgST`.
+Fixed-base checks have no controlling attribute and retain their fixed base.
+
+The adjustment is contextual: purchased `st`, `maxHP`, basic lifting capacity,
+strength-based damage and character-point accounting do not change. Existing
+Move and Dodge procedures already apply their separate low-health and low-fatigue
+halvings. Do not apply the pure low-fatigue helper again to their final values.
+The default-inert `healthAttributeModifier(context)` hook preserves the existing
+score path when the option is absent or disabled.
+
+An untrained strength-based default at low fatigue is explicitly rejected with
+`fatigue-strength-default-unavailable`; the interaction between temporary strength,
+attribute-default caps and chained defaults is not implemented here. Callers that
+read `attributeScore` directly, other strength-based procedures, and the separate
+core resilience system are not automatically redirected to this option.
+
+`test_fatigue_strength` records the strict one-third boundary, odd-strength rounding,
+relative training, fixed-base exemption, preserved purchased characteristics and
+lifting capacity, combined low-health/low-fatigue Move and Dodge, the disabled
+option, and pure assessment. These fixtures are authored but unrun.

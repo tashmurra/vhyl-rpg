@@ -48,6 +48,8 @@ class RpgLiteProfile: RpgProfile
     injury = 0
     fatigue = 0
     afterHealing() { return nil; }
+    /* Contextual health adjustments must not alter purchased attributes. */
+    healthAttributeModifier(context) { return 0; }
     naturalRecoveryInterval() { return 86400; }
     naturalRecoveryModifier() { return 0; }
     naturalRecoveryAmount() { return 1; }
@@ -218,7 +220,8 @@ rpgLiteScore(profile, context)
     if (useModifier == nil) return nil;
     local equipmentModifier = context.equipmentUseModifier(profile);
     if (equipmentModifier == nil) return nil;
-    local adjustment = context.modifier + useModifier + equipmentModifier;
+    local adjustment = context.modifier + useModifier + equipmentModifier
+        + profile.healthAttributeModifier(context);
     if (context.offHand && profile.level('ambidexterity') == 0 && skillId != 'karate') adjustment -= 4;
     local darkness = context.darkness;
     if (context.someLight) darkness -= profile.level('night-vision');

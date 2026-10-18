@@ -908,6 +908,20 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_fatigue_strength(s):
+    for strength, health, fatigue, injury, enabled, expected in [
+            (11,12,8,0,1,[11,11,10,11,11,2400,5,8,0,0]),
+            (11,12,9,0,1,[6,6,10,11,11,2400,3,4,0,0]),
+            (11,12,9,8,1,[6,6,10,11,11,2400,2,2,0,0]),
+            (11,12,9,0,0,[11,11,10,11,11,2400,3,4,0,0]),
+            (10,10,7,0,1,[5,5,10,10,10,2000,3,4,0,0]),
+            (10,10,6,0,1,[10,10,10,10,10,2000,5,8,0,0])]:
+        s.action(1990, strength, health, fatigue, injury, enabled)
+        assert last(s, 'test.fatigue-strength') == expected
+    s.action(1991)
+    assert last(s, 'test.fatigue-strength-default') == ['fatigue-strength-default-unavailable',7,0,0]
+
+
 def maneuver_state(s):
     s.action(1981)
     return last(s, 'test.maneuver-state')
@@ -4329,6 +4343,7 @@ def test(build):
     fresh(Session,hazards,test_owned_effort)
     fresh(Session,hazards,test_action_gate)
     fresh(Session,hazards,test_health_maneuver)
+    fresh(Session,hazards,test_fatigue_strength)
     maneuver_transactions = build.build('expanded-maneuver-transactions',ROOT / 'tests/fixtures/expanded-maneuver-transactions.t')
     fresh(Session,maneuver_transactions,test_maneuver_transactions)
     test_maneuver_persistence(Session,maneuver_transactions,build.out)

@@ -5,6 +5,7 @@ modify RpgExpandedRules
     scaledInjuryShock = nil
     lastWounds = nil
     expandedNaturalRecovery = nil
+    expandedFatigueStrength = nil
 ;
 
 /** Shock from one wound, before trait exceptions; high capacity scales the divisor. */
@@ -2004,5 +2005,25 @@ class RpgExpandedHealthManeuver: RpgLiteManeuver
         local value = self.healthGate.apply();
         if (value.status != 'resolved') rpgExpandedReject('maneuver-health-gate-changed');
         return value.allowed;
+    }
+;
+
+
+modify RpgExpandedProfile
+    healthAttributeModifier(context)
+    {
+        local amount = inherited(context);
+        if (self.rules == nil || !self.rules.ofKind(RpgExpandedRules)) rpgExpandedReject('expanded-rules-required');
+        if (!self.rules.expandedFatigueStrength || context.controllingAttribute() != rpgST) return amount;
+        local effective = rpgExpandedLowFatigueValue(self.st,self.fp(),self.maxEnergy);
+        if (effective == self.st) return amount;
+        if (context.skill != nil)
+        {
+            local trained = nil;
+            foreach (local training in self.skills)
+                if (training.skill == context.skill && training.points > 0) trained = true;
+            if (!trained) rpgExpandedReject('fatigue-strength-default-unavailable');
+        }
+        return amount + effective - self.st;
     }
 ;

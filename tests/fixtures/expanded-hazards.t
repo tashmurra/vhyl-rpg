@@ -12,6 +12,41 @@ modify gameMain initialRoom = hazardRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 1991)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        patient.rules.expandedFatigueStrength = true; patient.fatigue = 7;
+        local skill = new RpgLiteSkill(); skill.attribute = rpgST; skill.defaultPenalty = -4;
+        local context = new RpgLiteContext(); context.skill = skill;
+        local draws = rpgRandom.draws; local clock = rpgLedger.seconds; local reason = nil;
+        try { rpgLiteCheck(patient,context); }
+        catch (RpgExpandedError error) { reason = error.reason; }
+        event('test.fatigue-strength-default'); eventValue(reason); eventValue(patient.fatigue);
+        eventValue(rpgRandom.draws - draws); eventValue(rpgLedger.seconds - clock); return nil;
+    }
+
+    if (verb == 1990)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        patient.rules.expandedFatigueStrength = args[5] == 1;
+        patient.st = args[1]; patient.ht = args[2]; patient.fatigue = args[3]; patient.injury = args[4];
+        local context = new RpgLiteContext(); context.attribute = rpgST;
+        local skill = new RpgLiteSkill(); skill.attribute = rpgDX; skill.difficulty = 0;
+        local training = new RpgTraining(); training.skill = skill; training.points = 1; patient.skills = [training];
+        local relative = new RpgExpandedSkillContext(); relative.skill = skill; relative.rollAttribute = rpgST;
+        local fixed = new RpgExpandedSkillContext(); fixed.skill = skill; fixed.fixedBase = 10;
+        local defender = new RpgLiteFighter(); defender.profile = patient;
+        local attacker = new RpgLiteFighter(); attacker.profile = new RpgLiteProfile();
+        attacker.weapon = rpgLiteMakeWeapon('punch',10);
+        local request = new RpgLiteManeuver();
+        local draws = rpgRandom.draws; local clock = rpgLedger.seconds;
+        event('test.fatigue-strength'); eventValue(rpgLiteScore(patient,context));
+        eventValue(rpgLiteScore(patient,relative)); eventValue(rpgLiteScore(patient,fixed));
+        eventValue(patient.st); eventValue(patient.maxHP); eventValue(patient.basicLiftHundredths());
+        eventValue(patient.move()); eventValue(rpgLiteDefenseScore(defender,attacker,request,'dodge'));
+        eventValue(rpgRandom.draws - draws); eventValue(rpgLedger.seconds - clock); return nil;
+    }
+
     if (verb == 1971)
     {
         local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.dx = 11;

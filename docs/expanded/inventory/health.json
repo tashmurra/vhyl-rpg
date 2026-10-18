@@ -31,9 +31,12 @@
       "pages": "B419",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Below one-third full health capacity, halve movement and dodge, rounding up; test the strict threshold and combination with low fatigue.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fatigue_strength"
+      ],
+      "validation_note": "Opt-in contextual strength reduction and existing Move/Dodge paths have authored unrun fixtures. Purchased ST, HP and basic lift are preserved. Untrained strength defaults, broader strength procedures and cross-module validation remain incomplete."
     },
     {
       "id": "health-zero-health-check",
@@ -1720,9 +1723,10 @@
       "status": "partial",
       "acceptance": "Below one-third fatigue capacity, halve movement, dodge and strength rounding up; this strength reduction does not change strength-based quantities such as health or damage.",
       "tests": [
-        "tests/expanded.py::test_exhaustion_assessments"
+        "tests/expanded.py::test_exhaustion_assessments",
+        "tests/expanded.py::test_fatigue_strength"
       ],
-      "validation_note": "Pure action outcome and low-fatigue arithmetic authored; fixtures unrun. Owned effort, cardiac commitment and collapse recovery are separately available. Applying the low-fatigue helper consistently across movement and defense dispatch remains incomplete."
+      "validation_note": "Opt-in contextual strength reduction and existing Move/Dodge paths have authored unrun fixtures. Purchased ST, HP and basic lift are preserved. Untrained strength defaults, broader strength procedures and cross-module validation remain incomplete."
     },
     {
       "id": "health-fatigue-overflow",

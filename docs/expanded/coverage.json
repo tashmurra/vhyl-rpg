@@ -191,6 +191,7 @@
         "tests/expanded.py::test_cardiac_deadline_transactions",
         "tests/expanded.py::test_cardiac_persistence",
         "tests/expanded.py::test_exhaustion_assessments",
+        "tests/expanded.py::test_fatigue_strength",
         "tests/expanded.py::test_owned_effort",
         "tests/expanded.py::test_action_gate",
         "tests/expanded.py::test_health_maneuver",
