@@ -319,5 +319,24 @@ act(verb,args)
         eventValue(p.injury); eventValue(rpgLedger.seconds - before); eventValue(rpgRandom.draws - draws);
         return nil;
     }
+    if (verb == 1626)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.rules.scaledInjuryShock = true;
+        local wound = new RpgExpandedWound(); wound.id = 'gate-injury'; wound.profile = p; wound.amount = 2; wound.apply();
+        local healer = new RpgLiteProfile(); local request = new RpgExpandedBandage();
+        request.wound = wound; request.healer = healer; request.evidence = 'Observed wound'; request.eligibleInjury = 2;
+        if (args[1] == 1) request.evidence = nil;
+        if (args[1] == 2) request.eligibleInjury = 3;
+        if (args[1] == 3) request.eligibleInjury = 0;
+        if (args[1] == 4) p.diseaseInjury = 1;
+        if (args[1] == 5) p.mortal = true;
+        if (args[1] == 6) healer.stunned = true;
+        if (args[1] == 7) rpgLiteWound(p,1);
+        if (args[1] == 8) p.bandagedSerial = p.woundSerial;
+        local injury = p.injury; local time = rpgLedger.seconds; local draws = rpgRandom.draws;
+        local value = request.apply(); event('test.bandage-gate'); eventValue(value.status); eventValue(value.reason);
+        eventValue(p.injury - injury); eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws);
+        eventValue(wound.bandage == nil ? 0 : 1); return nil;
+    }
     return vhylAct(verb,args);
 }

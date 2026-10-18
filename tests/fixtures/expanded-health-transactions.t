@@ -292,11 +292,45 @@ class PhysicianFixtureAction: Action
 ;
 physicianAction: PhysicianFixtureAction;
 physicianVerb: Verb code = 1680 action = physicianAction label = 'physician-fixture';
+bandagePatient: RpgExpandedProfile rules = healthRules st = 30;
+bandageHealer: RpgLiteProfile;
+bandageWound: RpgExpandedWound id = 'bandage-injury' profile = bandagePatient amount = 4;
+bandageRequest: RpgExpandedBandage wound = bandageWound healer = bandageHealer
+    evidence = 'Observed pressure-treatable injury' eligibleInjury = 4;
+class BandageFixtureAction: Action
+    exec(context)
+    {
+        if (healthInput.code == 0) { bandageWound.apply(); return nil; }
+        if (healthInput.code == 5) bandageRequest.evidence = 'Changed evidence';
+        local request = bandageRequest;
+        if (healthInput.code == 4)
+        {
+            request = new RpgExpandedBandage(); request.wound = bandageWound;
+            request.healer = bandageHealer; request.evidence = bandageRequest.evidence;
+            request.eligibleInjury = 1;
+        }
+        local value = healthInput.code == 3 ? request.assess() : request.apply();
+        event('test.bandage-action'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.healed); eventValue(value.seconds);
+        if (healthInput.code == 2) throw new RpgError();
+        return nil;
+    }
+;
+bandageAction: BandageFixtureAction;
+bandageVerb: Verb code = 1690 action = bandageAction label = 'bandage-fixture';
 modify gameMain initialRoom = healthRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 1690) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1691)
+    {
+        event('test.bandage-state'); eventValue(bandagePatient.injury); eventValue(bandagePatient.woundSerial);
+        eventValue(bandagePatient.bandagedSerial); eventValue(bandageWound.bandage == bandageRequest ? 1 : 0);
+        eventValue(bandageRequest.result == nil ? 0 : bandageRequest.result.healed);
+        eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); eventValue(bandageRequest.evidence); return nil;
+    }
     if (verb == 1610) { healthInput.code = args[1]; return vhylAct(verb,args); }
     if (verb == 1611)
     {

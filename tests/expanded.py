@@ -408,6 +408,65 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def bandage_state(s):
+    s.action(1691)
+    return last(s, 'test.bandage-state')
+
+
+def test_bandage_transactions(s):
+    s.action(1690, 0)
+    before = bandage_state(s)
+    assert before == [4, 1, -1, 0, 0, 0, 0, 'Observed pressure-treatable injury']
+    s.action(1690, 3)
+    assert last(s, 'test.bandage-action') == ['ready', None, 3, 60]
+    assert bandage_state(s) == before
+    s.action(1690, 2)
+    assert bandage_state(s) == before
+    s.action(1690, 1)
+    committed = bandage_state(s)
+    assert committed == [1, 1, 1, 1, 3, 60, 0, 'Observed pressure-treatable injury']
+    s.command('undo')
+    assert bandage_state(s) == before
+    s.action(1690, 1)
+    assert bandage_state(s) == committed
+    for code in [1, 4, 5]:
+        s.action(1690, code)
+        assert bandage_state(s) == committed
+
+
+def test_bandage_persistence(Session, bundle, out):
+    for treated in [False, True]:
+        path = out / f'expanded-bandage-{treated}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1690, 0)
+            if treated:
+                first.action(1690, 1)
+            saved = bandage_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1691')
+            assert bandage_state(second) == saved
+            second.action(1690, 1)
+            assert last(second, 'test.bandage-action') == [
+                'reused' if treated else 'resolved', None, 3, 0 if treated else 60]
+            assert bandage_state(second) == [1, 1, 1, 1, 3, 60, 0, 'Observed pressure-treatable injury']
+        finally:
+            second.close()
+
+
+def test_bandage_rejections(s):
+    for code, reason in [(1, 'bandage-evidence'), (2, 'bandage-eligible-injury'),
+                         (3, 'bandage-eligible-injury'), (4, 'bandage-injury-eligibility-unavailable'),
+                         (5, 'bandage-condition'), (6, 'bandage-condition'),
+                         (7, 'bandage-earlier-wound-unavailable'), (8, 'bandage-already-treated')]:
+        s.action(1626, code)
+        assert last(s, 'test.bandage-gate') == ['blocked', reason, 0, 0, 0, 0]
+
+
 def test_expanded_bandage(s):
     s.action(1625)
     assert last(s, 'test.bandage-preview') == ['ready', 3, 4, 0, 0]
@@ -2831,7 +2890,10 @@ def test(build):
     fresh(Session,health,test_physician_outcomes)
     fresh(Session,health,test_expanded_first_aid_values)
     fresh(Session,health,test_expanded_bandage)
+    fresh(Session,health,test_bandage_rejections)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
+    fresh(Session,wounds,test_bandage_transactions)
+    test_bandage_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_limb_wound_transactions)
     fresh(Session,wounds,test_last_wound_transactions)

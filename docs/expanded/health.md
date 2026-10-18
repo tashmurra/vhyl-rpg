@@ -804,5 +804,10 @@ This atomic one-minute operation does not yet support interrupted treatment,
 bleeding checks, or the subsequent shock-treatment session. It relies on authored
 eligibility evidence; it does not infer injury allocation from a generic callback.
 `test_expanded_bandage` covers preview purity, scaled recovery, repeated requests
-and shared time accounting. Transaction, undo and save fixtures for bandaging
-remain to be added. All new fixtures remain unrun while checks are paused.
+and shared time accounting. `test_bandage_rejections` asserts no spending for missing evidence, invalid
+eligible injury, protected injury, incapacity, earlier wounds and an existing
+bandage marker. `test_bandage_transactions` covers preview, exception rollback,
+undo, replay, duplicate requests and changed evidence after completion.
+`test_bandage_persistence` saves before and after treatment, restores in a separate
+process and continues or reuses the same owned request. These are authored
+expectations; all new fixtures remain unrun while checks are paused.

@@ -690,9 +690,12 @@
       "acceptance": "One minute applying pressure or a tourniquet restores one health before scaling; bind treatment to eligible injury so repeated new sessions cannot farm the same bandage benefit.",
       "tests": [
         "tests/expanded.py::test_expanded_first_aid_values",
-        "tests/expanded.py::test_expanded_bandage"
+        "tests/expanded.py::test_expanded_bandage",
+        "tests/expanded.py::test_bandage_rejections",
+        "tests/expanded.py::test_bandage_transactions",
+        "tests/expanded.py::test_bandage_persistence"
       ],
-      "validation_note": "Owned latest-wound bandaging uses authored eligible injury, the shared bandage marker, scaled healing and one minute of shared time. Fixtures unrun. Earlier-wound allocation, interruption, bleeding, transaction/undo/save coverage and subsequent treatment remain incomplete."
+      "validation_note": "Owned latest-wound bandaging uses authored eligible injury, the shared bandage marker, scaled healing and one minute of shared time. Rejection, rollback, undo and cross-process continuation fixtures authored but unrun. Earlier-wound allocation, interruption, bleeding and subsequent treatment remain incomplete."
     },
     {
       "id": "health-first-aid-bleeding",
