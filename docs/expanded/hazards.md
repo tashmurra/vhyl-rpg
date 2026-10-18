@@ -1181,7 +1181,7 @@ losses remain protected from healing. Ending the sequence releases only that
 exposure's restriction and does not heal any injury. Natural recovery is limited
 to unprotected injury; other disease, temperature and clotting restrictions remain
 in force. Dead patients incur no later cycle. Fatigue poison, symptom thresholds,
-antidotes and continuing environmental exposure remain unfinished.
+general medical treatments and continuing environmental exposure remain unfinished.
 
 `expanded-poison-exposure.t` and `test_poison_exposure` specify success/failure,
 unresistible injury, size-adjusted timing, premature resolution, exact deadlines,
@@ -1209,3 +1209,34 @@ interface does not claim those integrations. Increased dose on other routes is
 rejected. Fractional doses and their author-selected efficacy remain unsupported.
 The fixture includes twofold and fourfold arithmetic, doubled injury, shortened
 cycle deadlines, route rejection and mutation rejection. Checks remain paused.
+
+
+### Agent-specific antidotes
+
+`RpgExpandedAntidote` is an inventory item with an exact `targetHazard`, original
+`effectEvidence`, and either a positive `resistanceBonus` or `endsExposure = true`
+with zero bonus. These values are authored facts about that particular remedy;
+the interface does not assume that every poison has an antidote. A resistance
+remedy requires a resistible agent.
+
+Create `RpgExpandedAntidoteAdministration` with a unique `id`, the active owned
+`exposure`, `medicine`, `approved`, `identificationEvidence` and
+`administrationEvidence`. Identification must already be established by the
+story's actual identification procedure. Administration must already be resolved
+by its action, including any action time. `assess()` is pure; `apply()` consumes
+one available, uniquely owned inventory unit and stores a receipt in the patient's
+`poisonAntidotes`. Removing the final unit removes the item from inventory.
+Replaying the receipt consumes nothing and does not charge time again.
+
+A bonus changes subsequent resistance checks, including those during cyclic
+poisoning. Termination cancels remaining cycles and releases that exposure's
+healing restriction without healing any lost HP. Neither variant rewrites earlier
+checks or affects another exposure. The receipt binds the agent and remedy
+properties; later editing them invalidates execution. Combined/repeated remedies
+on one exposure are rejected pending an explicit interaction procedure.
+
+This implements the remedy-effect contract in full-2008 B439. Discovering a
+remedy, automatic identification rolls, administration action durations and other
+medical procedures remain separate unfinished integrations. Fixture scenarios
+cover inventory consumption, mismatched agents, future resistance, termination,
+replay, rollback, undo and saved continuation. They are authored and unrun.

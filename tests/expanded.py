@@ -11406,3 +11406,44 @@ def test_poison_exposure(Session, bundle, out):
         assert last(s, 'test.poison-dose') == ['ready', 4, 4, 4, 15, 15, -4, 4]
     finally:
         s.close()
+
+    # B439: one owned remedy changes future resistance or ends the sequence,
+    # without refunding the four injury already suffered.
+    for terminates in (False, True):
+        s = Session(bundle)
+        try:
+            for code in (269, 265, 260, 4, 262, 280):
+                s.action(2285, code)
+            if terminates:
+                s.action(2285, 284)
+            for code in (281, 283, 286):
+                s.action(2285, code)
+            assert last(s, 'test.poison-antidote') == [1, 0, 0, 0, 4, 60, 4]
+            s.action(2285, 282)
+            s.command('undo')
+            s.action(2285, 286)
+            assert last(s, 'test.poison-antidote') == [1, 0, 0, 0, 4, 60, 4]
+            for code in (282, 282, 288, 286):
+                s.action(2285, code)
+            assert last(s, 'test.poison-antidote') == [0, 1, 0 if terminates else 3, int(terminates), 4, 60, 4]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (282, 287, 4, 272, 286):
+                s.action(2285, code)
+            assert last(s, 'test.poison-antidote') == [0, 1, 0 if terminates else 3, 1, 4, 120, 4 if terminates else 7]
+            s.action(2285, 274)
+            s.action(2285, 286)
+            assert last(s, 'test.poison-antidote')[4] == 3
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (260, 280, 285, 282, 286):
+            s.action(2285, code)
+        assert last(s, 'test.poison-antidote') == [1, 0, 0, 0, 0, 0, 0]
+    finally:
+        s.close()

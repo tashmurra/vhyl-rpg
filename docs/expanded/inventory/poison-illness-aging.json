@@ -376,9 +376,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An antidote must match its target agent and explicitly define a resistance bonus or termination effect; it is not a generic cure for every poison.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned agent-specific antidote administration consumes one inventory unit and applies an authored resistance bonus or terminates an exposure without healing injury. Identification and administration require explicit evidence; action durations, identification rolls, combined remedies and general medical treatment remain unfinished. Fixtures authored, unrun."
     },
     {
       "id": "poison-medical-treatment",
@@ -396,9 +399,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Treatment after cyclic damage begins changes future resistance or terminates the remaining sequence as defined; it does not refund already suffered injury.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned agent-specific antidote administration consumes one inventory unit and applies an authored resistance bonus or terminates an exposure without healing injury. Identification and administration require explicit evidence; action durations, identification rolls, combined remedies and general medical treatment remain unfinished. Fixtures authored, unrun."
     },
     {
       "id": "poison-catalogue-delayed-ingested-agent",

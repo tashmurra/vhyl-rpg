@@ -2738,7 +2738,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         if (self.hazard.resistible)
         {
             value.context = new RpgLiteContext(); value.context.attribute = rpgHT; value.context.kind = 'poison';
-            value.context.modifier = self.hazard.resistanceModifier + value.entryModifier + dose.resistanceModifier;
+            value.context.modifier = self.hazard.resistanceModifier + value.entryModifier + dose.resistanceModifier + self.antidoteBonus();
             local score = rpgLiteScore(self.profile,value.context);
             if (score == nil || score < 3) { value.reason = 'poison-resistance-score'; return value; }
         }
@@ -2875,5 +2875,114 @@ modify rpgLedger
                 if (self.seconds + seconds > exposure.dueAt) rpgExpandedReject('poison-onset-boundary');
             }
         return nil;
+    }
+;
+
+
+/** full-2008 B439: author-defined medicine for one identified agent. */
+class RpgExpandedAntidote: RpgLiteItem
+    targetHazard = nil
+    resistanceBonus = 0
+    endsExposure = nil
+    effectEvidence = nil
+;
+class RpgExpandedAntidoteAdministration: object
+    id = nil
+    exposure = nil
+    medicine = nil
+    approved = nil
+    identificationEvidence = nil
+    administrationEvidence = nil
+    administeredAt = nil
+    boundDefinition = nil
+    result = nil
+    definition()
+    {
+        return [self.id,self.exposure,self.medicine,self.approved,self.identificationEvidence,
+            self.administrationEvidence,self.medicine.targetHazard,self.medicine.resistanceBonus,
+            self.medicine.endsExposure,self.medicine.effectEvidence];
+    }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil
+            || !holds(self.exposure.profile.poisonAntidotes,self)) rpgExpandedReject('antidote-history');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('antidote-binding');
+        self.exposure.validateReceipt(); return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.exposure == nil
+            || !self.exposure.ofKind(RpgExpandedPoisonExposure) || self.medicine == nil
+            || !self.medicine.ofKind(RpgExpandedAntidote)) rpgExpandedReject('antidote-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        local e = self.exposure; local patient = e.profile;
+        if (!e.started || e.finished) { value.reason = 'antidote-active-exposure-required'; return value; }
+        e.validateReceipt(); rpgExpandedValidate(patient);
+        if (patient.dead) { value.reason = 'antidote-patient-dead'; return value; }
+        if (!self.approved || self.identificationEvidence == nil || self.identificationEvidence == ''
+            || self.administrationEvidence == nil || self.administrationEvidence == ''
+            || self.medicine.effectEvidence == nil || self.medicine.effectEvidence == '')
+        { value.reason = 'antidote-authored-evidence-required'; return value; }
+        if (self.medicine.targetHazard != e.hazard)
+        { value.reason = 'antidote-agent-mismatch'; return value; }
+        rpgInteger(self.medicine.resistanceBonus,0,100);
+        if (self.medicine.endsExposure ? self.medicine.resistanceBonus != 0 : self.medicine.resistanceBonus == 0)
+        { value.reason = 'antidote-effect-definition'; return value; }
+        if (!self.medicine.endsExposure && !e.hazard.resistible)
+        { value.reason = 'antidote-resistance-unavailable'; return value; }
+        foreach (local prior in patient.poisonAntidotes)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id) rpgExpandedReject('antidote-duplicate');
+            if (prior.exposure == e)
+            { value.reason = 'antidote-combined-treatment-unimplemented'; return value; }
+        }
+        rpgInteger(self.medicine.quantity,0,1000000);
+        if (!holds(patient.equipment,self.medicine) || self.medicine.quantity == 0 || !self.medicine.usableBy(patient))
+        { value.reason = 'antidote-supply'; return value; }
+        local count = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            foreach (local item in owner.equipment) if (item == self.medicine) count += 1;
+        if (count != 1) rpgExpandedReject('antidote-supply-ownership');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local e = self.exposure; local patient = e.profile;
+        self.medicine.quantity -= 1;
+        if (self.medicine.quantity == 0)
+        {
+            local remaining = [];
+            foreach (local item in patient.equipment) if (item != self.medicine) remaining = remaining + [item];
+            patient.equipment = remaining;
+        }
+        self.administeredAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        value.status = 'resolved'; self.result = value;
+        patient.poisonAntidotes = patient.poisonAntidotes + [self];
+        if (self.medicine.endsExposure)
+        {
+            e.finished = true; e.remaining = 0; e.lockedInjury = 0; e.completedAt = rpgLedger.seconds;
+            e.result = new RpgExpandedPoisonResult(); e.result.status = 'resolved';
+        }
+        return value;
+    }
+;
+modify RpgExpandedProfile
+    poisonAntidotes = []
+;
+modify RpgExpandedPoisonExposure
+    antidoteBonus()
+    {
+        local bonus = 0;
+        foreach (local care in self.profile.poisonAntidotes)
+        {
+            care.validateReceipt();
+            if (care.exposure == self && !care.medicine.endsExposure) bonus += care.medicine.resistanceBonus;
+        }
+        return bonus;
     }
 ;

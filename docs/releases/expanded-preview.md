@@ -416,3 +416,11 @@ and resistance to one immutable exposure setting. The pure assessment also
 returns dose count, cost and detection modifiers. Fractional doses, automatic
 payload consumption and purchasing/detection integration remain unfinished.
 Added authored, unrun fixtures for arithmetic, injury and invalid routes.
+
+
+Agent-specific antidote receipts now consume one owned inventory unit and either
+modify future poison resistance or terminate the admitted exposure without
+healing existing injury. Wrong agents and combined remedies are rejected.
+Identification and administration require explicit authored evidence; their
+action integrations and general treatment remain incomplete. Replay, rollback,
+undo and save-continuation fixtures are authored but unrun.

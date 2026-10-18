@@ -5,6 +5,14 @@ poisonDelivery: RpgExpandedPoisonEntry patient = bleedProfile route = 'blood' pe
 poisonExposure: RpgExpandedPoisonExposure id = 'fictional-agent' profile = bleedProfile hazard = poisonDefinition entry = poisonDelivery
     approved = true effectEvidence = 'Original fictional single-cycle agent: one die of toxic injury after one minute, resisted at HT-2';
 poisonSecondCycle: RpgExpandedPoisonCycle id = 'second' exposure = poisonExposure;
+poisonAntidote: RpgExpandedAntidote id = 'fictional-antidote' targetHazard = poisonDefinition quantity = 1
+    resistanceBonus = 3 effectEvidence = 'Original agent-specific fictional remedy grants three to resistance';
+poisonCare: RpgExpandedAntidoteAdministration id = 'fictional-care' exposure = poisonExposure medicine = poisonAntidote
+    approved = true identificationEvidence = 'The sealed fictional sample identifies the admitted agent'
+    administrationEvidence = 'An authored action administered one available dose';
+poisonCareRepeat: RpgExpandedAntidoteAdministration id = 'fictional-repeat' exposure = poisonExposure medicine = poisonAntidote
+    approved = true identificationEvidence = 'Same identified fictional agent'
+    administrationEvidence = 'A proposed repeat administration';
 modify BleedTestAction
     exec(context)
     {
@@ -46,6 +54,22 @@ modify BleedTestAction
             eventValue(value.resistanceModifier); eventValue(value.detectionModifier); return nil;
         }
         if (code == 279) { poisonExposure.doseDoublings = 2; return nil; }
+        if (code == 280) { bleedProfile.equipment = bleedProfile.equipment + [poisonAntidote]; return nil; }
+        if (code == 281) { poisonCare.assess(); return nil; }
+        if (code == 282 || code == 283)
+        { poisonCare.apply(); if (code == 283) throw new RpgError(); return nil; }
+        if (code == 284)
+        { poisonAntidote.resistanceBonus = 0; poisonAntidote.endsExposure = true; return nil; }
+        if (code == 285) { poisonAntidote.targetHazard = nil; return nil; }
+        if (code == 286)
+        {
+            event('test.poison-antidote'); eventValue(poisonAntidote.quantity);
+            eventValue(bleedProfile.poisonAntidotes.length()); eventValue(poisonExposure.antidoteBonus());
+            eventValue(poisonExposure.finished ? 1 : 0); eventValue(bleedProfile.injury);
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 287) { bleedInput.forcedRoll = 10; return nil; }
+        if (code == 288) { poisonCareRepeat.apply(); return nil; }
         return inherited(context);
     }
 ;
