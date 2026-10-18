@@ -908,6 +908,39 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_rapid_fire_assessments(s):
+    for shots, bonus in [(1,0),(2,0),(4,0),(5,1),(8,1),(9,2),(12,2),(13,3),
+                         (16,3),(17,4),(24,4),(25,5),(49,5),(50,6),(99,6),
+                         (100,7),(199,7),(200,8),(399,8),(400,9),(799,9),
+                         (800,10),(1599,10),(1600,11),(1000000,20)]:
+        s.action(2010, shots)
+        assert last(s, 'test.burst-bonus') == [bonus]
+        assert last(s, 'test.burst-purity') == [0,0]
+    for shots, rate, loaded, recoil, expected in [
+            (3,3,6,2,['ready',None,3,0]),(10,10,10,2,['ready',None,10,2]),
+            (11,10,20,2,['blocked','burst-rate-exceeded',0,0]),
+            (10,10,9,2,['blocked','burst-ammunition-insufficient',0,0]),
+            (1,1,0,1,['blocked','burst-ammunition-insufficient',0,0])]:
+        s.action(2011, shots, rate, loaded, recoil)
+        assert last(s, 'test.burst-assessment') == expected
+        assert last(s, 'test.burst-purity') == [0,0]
+    for shots, recoil, margin, hits in [(10,2,0,1),(10,2,1,1),(10,2,2,2),
+            (10,2,3,2),(10,2,4,3),(10,2,5,3),(10,2,6,4),(10,2,7,4),
+            (3,1,10,3),(10,1,9,10),(1,3,20,1),(3,2,-1,1)]:
+        s.action(2012, shots, recoil, margin)
+        assert last(s, 'test.burst-hits') == [hits]
+        assert last(s, 'test.burst-purity') == [0,0]
+    for hits, score, roll, expected in [(4,10,8,[3,1,1,None]),
+            (4,10,10,[1,3,1,None]),(4,10,11,[0,4,0,None]),
+            (20,10,3,[20,0,1,'success']),(20,15,5,[20,0,1,'success']),
+            (20,16,6,[20,0,1,'success']),(20,14,5,[10,10,1,None]),
+            (20,20,17,[0,20,0,None]),(20,20,18,[0,20,0,'failure']),
+            (4,0,4,[4,0,1,'success']),(4,0,5,[0,4,0,None])]:
+        s.action(2013, hits, score, roll)
+        assert last(s, 'test.burst-dodge') == expected
+        assert last(s, 'test.burst-purity') == [0,0]
+
+
 def test_collapse_defense(s):
     s.action(1993)
     assert last(s, 'test.collapse-defense') == [0,None,None,None,0,0]
@@ -4514,6 +4547,8 @@ def test(build):
     fresh(Session,breath_transactions,test_breath_transactions)
     fresh(Session,breath_transactions,test_breath_expired_transactions)
     test_breath_persistence(Session,breath_transactions,build.out)
+    combat = build.build('expanded-combat',ROOT / 'tests/fixtures/expanded-combat.t')
+    fresh(Session,combat,test_rapid_fire_assessments)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_airless_seconds)

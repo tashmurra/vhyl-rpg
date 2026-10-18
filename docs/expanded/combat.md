@@ -1,12 +1,53 @@
 # Expanded combat
 
-**Status: pending.** Maneuvers, attacks, defenses and special combat. Neutral source: `full-2008`, B357; B362-B383; B393-B417; B547-B558.
+**Status: partial; fixtures unrun.** Maneuvers, attacks, defenses and special combat. Neutral source: `full-2008`, B357; B362-B383; B393-B417; B547-B558.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
-This module has not been implemented. Its proposed filename is reserved in the catalogue only; do not include it in a game.
+Include `vhyl-rpg-expanded-combat.t` after the expanded foundation, or use the
+expanded-all umbrella. This first implementation supplies pure ordinary rapid-fire
+assessments from `full-2008`, B373–B375. It does not yet execute a complete expanded
+attack. Existing Lite attacks retain their current path.
 
-Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
+## Ordinary rapid-fire assessments
+
+`rpgExpandedRapidFireBonus(shots)` returns the attack bonus for the actual number
+of shots, including the above-99 doubling bands. One shot has no burst bonus.
+`rpgExpandedAssessBurst(shots, rate, loaded, recoil)` checks a positive declared
+shot count against firing rate and loaded ammunition. A ready receipt contains
+`shots` and `modifier`; a blocked receipt explains the insufficient ammunition or
+exceeded rate. This assessment never spends ammunition or advances time.
+
+After a successful attack, call `rpgExpandedRapidFireHits(shots, recoil,
+successMargin)` to obtain potential hits: one initial hit plus complete recoil
+multiples, capped at the shots fired. Do not call it for a failed attack. The -1
+margin allowed by automatic success at skill three on a four still gives the
+initial hit. Critical-hit consequences and defense denial belong to the attack
+resolver, which is not implemented here.
+
+For one already-eligible Dodge, `rpgExpandedRapidFireDodge(hits, score, roll)` uses
+supplied dice and returns `avoided`, `remaining` and the check. Ordinary success
+avoids one plus margin; critical success avoids every hit. For example, four hits
+against Dodge 10 with a roll of eight leave one hit. Automatic success on three or
+four remains possible at low defense scores. These functions draw no randomness.
+
+All counts are bounded integers. A burst can contain at most 1,000,000 shots and
+recoil is limited to 1–1,000; defense scores accept -1,000–1,000. These are runtime
+bounds, not additional source restrictions. The helpers model one ordinary
+projectile per shot against one target. Multiple-projectile rounds, special
+close-range behavior, spraying, suppression and malfunctions require their own
+procedures. Do not silently route those attacks through this assessment.
+
+`test_rapid_fire_assessments` records every printed bonus band's endpoints,
+several doubling boundaries, declaration limits, recoil margins, shot-count caps,
+the printed Dodge example, critical and automatic defenses, and preview purity.
+The [minimal integration fixture](../../tests/fixtures/expanded-combat.t) includes
+only the foundation and this module above the common dependencies. These cases
+are authored but unrun while checks are paused.
+
+Owned attack execution, ammunition commitment, independently rolled damage for
+each remaining hit, injury transactions and playable encounters remain incomplete.
+The inventory below is still a list of requirements, not a claim of full coverage.
 
 The [physical-activity inventory](inventory/physical-activities.json) includes the
 optional combat-effort procedures. They require declared campaign enablement,

@@ -60,3 +60,11 @@ regressions, independent source-value checks, module dependencies, combined
 examples, input parity, rollback/undo/save continuation, strict documentation,
 neutral naming, source coverage and packaging. The full PR remains draft until
 implementation and those acceptance requirements are satisfied.
+
+
+The partial expanded combat library now exposes ordinary rapid-fire assessments
+from `full-2008` B373–B375: burst limits, attack bonuses, recoil hit counts and
+Dodge hit reduction. It is listed in the library catalogue and available through
+the umbrella. Minimal dependency and expected-value fixtures are authored but
+unrun. Complete attack execution, ammunition expenditure and per-hit injury remain
+unimplemented. This preview is not a release or a complete conversion claim.

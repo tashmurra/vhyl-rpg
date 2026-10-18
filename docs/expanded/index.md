@@ -153,3 +153,9 @@ acquisition and daily progression. It adds disease-specific first-attempt immuni
 and calendar-authored aging events. Broader diseases, environmental hazards,
 automatic scheduling and rejuvenation remain incomplete. Their guides and source
 entries identify unsupported cases and authored test coverage; checks are paused.
+
+
+The [combat module](combat.md) now supplies pure ordinary burst declaration,
+rate-of-fire bonus, recoil hit-count and supplied-roll Dodge assessments. The
+umbrella includes it without replacing existing attacks. Owned attack execution
+and per-hit injury remain incomplete; new fixtures are authored but unrun.

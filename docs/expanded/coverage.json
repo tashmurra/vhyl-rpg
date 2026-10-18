@@ -29,8 +29,11 @@
       "title": "Maneuvers, attacks, defenses and special combat",
       "pages": "B357; B362-B383; B393-B417; B547-B558",
       "source": "full-2008",
-      "status": "pending",
-      "tests": []
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary burst declaration, bonus, successful hit count and supplied-roll Dodge assessments authored; fixtures unrun. Owned attack execution, ammunition spending, critical outcomes, per-hit injury and broad combat integration remain incomplete."
     },
     {
       "id": "creatures",

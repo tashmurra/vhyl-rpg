@@ -381,9 +381,12 @@
       "pages": "B373",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Declare positive shot count before rolling, bounded by firing rate and loaded ammunition. One burst uses one attack roll and one ammunition expenditure, not one attack per projectile.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary rapid-fire assessments authored, fixtures unrun. Committed attack/ammunition/defense/injury integration and special firing modes remain incomplete."
     },
     {
       "id": "attack-defense-burst-hits",
@@ -391,9 +394,12 @@
       "pages": "B374",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "On successful rapid fire, hits equal one plus floor(success margin/recoil), limited to shots fired. Spraying, suppression and special projectile types require separate B408-B409 procedures.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary rapid-fire assessments authored, fixtures unrun. Committed attack/ammunition/defense/injury integration and special firing modes remain incomplete."
     },
     {
       "id": "attack-defense-defense-eligibility",
@@ -451,9 +457,12 @@
       "pages": "B375",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Successful dodge removes one hit plus success margin; critical dodge removes all hits in that attack. Retain remaining hits for independent damage resolution.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary rapid-fire assessments authored, fixtures unrun. Committed attack/ammunition/defense/injury integration and special firing modes remain incomplete."
     },
     {
       "id": "attack-defense-acrobatic-dodge",
@@ -681,9 +690,12 @@
       "pages": "B373",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Firing 2 through 4 shots gives attack bonus +0. Validate both boundaries and use committed shot count.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary rapid-fire assessments authored, fixtures unrun. Committed attack/ammunition/defense/injury integration and special firing modes remain incomplete."
     },
     {
       "id": "attack-defense-burst-band-5",
@@ -691,9 +703,12 @@
       "pages": "B373",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Firing 5 through 8 shots gives attack bonus +1. Validate both boundaries and use committed shot count.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary rapid-fire assessments authored, fixtures unrun. Committed attack/ammunition/defense/injury integration and special firing modes remain incomplete."
     },
     {
       "id": "attack-defense-burst-band-9",
@@ -701,9 +716,12 @@
       "pages": "B373",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Firing 9 through 12 shots gives attack bonus +2. Validate both boundaries and use committed shot count.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary rapid-fire assessments authored, fixtures unrun. Committed attack/ammunition/defense/injury integration and special firing modes remain incomplete."
     },
     {
       "id": "attack-defense-burst-band-13",
@@ -711,9 +729,12 @@
       "pages": "B373",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Firing 13 through 16 shots gives attack bonus +3. Validate both boundaries and use committed shot count.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary rapid-fire assessments authored, fixtures unrun. Committed attack/ammunition/defense/injury integration and special firing modes remain incomplete."
     },
     {
       "id": "attack-defense-burst-band-17",
@@ -721,9 +742,12 @@
       "pages": "B373",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Firing 17 through 24 shots gives attack bonus +4. Validate both boundaries and use committed shot count.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary rapid-fire assessments authored, fixtures unrun. Committed attack/ammunition/defense/injury integration and special firing modes remain incomplete."
     },
     {
       "id": "attack-defense-burst-band-25",
@@ -731,9 +755,12 @@
       "pages": "B373",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Firing 25 through 49 shots gives attack bonus +5. Validate both boundaries and use committed shot count.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary rapid-fire assessments authored, fixtures unrun. Committed attack/ammunition/defense/injury integration and special firing modes remain incomplete."
     },
     {
       "id": "attack-defense-burst-band-50",
@@ -741,9 +768,12 @@
       "pages": "B373",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Firing 50 through 99 shots gives attack bonus +6. Validate both boundaries and use committed shot count.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary rapid-fire assessments authored, fixtures unrun. Committed attack/ammunition/defense/injury integration and special firing modes remain incomplete."
     },
     {
       "id": "attack-defense-burst-extension",
@@ -751,9 +781,12 @@
       "pages": "B373",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Beyond the 50\u201399 band, each doubling increases the rapid-fire attack bonus by one. Verify integer band boundaries independently.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments"
+      ],
+      "validation_note": "Pure ordinary rapid-fire assessments authored, fixtures unrun. Committed attack/ammunition/defense/injury integration and special firing modes remain incomplete."
     }
   ]
 }

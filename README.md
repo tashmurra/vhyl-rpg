@@ -47,6 +47,8 @@ modules add owned injury/recovery, treatment, infection and aging procedures.
 These share character balances and retain explicit unsupported cases; their
 recent transaction and save-continuation fixtures are authored but unrun while
 checks are paused.
+The partial [combat module](docs/expanded/combat.md) adds pure ordinary rapid-fire
+assessments; ammunition and per-hit injury integration remain incomplete.
 Try the [signal workshop](examples/expanded/main.t) with the corresponding
 [host](examples/expanded/host.py); it accepts `study`, `decode`, `rest day`,
 `status`, `undo` and `:plan` choices. Build it like the other examples, selecting
