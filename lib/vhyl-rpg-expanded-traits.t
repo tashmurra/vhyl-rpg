@@ -373,9 +373,18 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
     evidence = nil
     result = nil
     boundDefinition = nil
-    definition() { return [self.id,self.profile,self.trait,self.trigger,self.modifier,self.giveIn,self.evidence,self.buySuccess]; }
+    stressRelation = nil
+    phantomVoiceOccurrence = nil
+    boundPhantomVoiceOccurrence = nil
+    definition() { return [self.id,self.profile,self.trait,self.trigger,self.modifier,self.giveIn,self.evidence,self.buySuccess,self.stressRelation]; }
     effectiveModifier() { return self.modifier; }
     newResult() { return new RpgExpandedResult(); }
+    phantomVoiceRequest()
+    {
+        local occurrence = new RpgExpandedPhantomVoiceOccurrence();
+        occurrence.id = 'self-control:' + self.id; occurrence.profile = self.profile; occurrence.stressor = self;
+        occurrence.approved = true; occurrence.evidence = self.evidence; return occurrence;
+    }
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
@@ -389,6 +398,12 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
             for (local index = 1; index <= current.length(); index += 1)
                 if (current[index] != self.boundDefinition[index]) rpgExpandedReject('self-control-trigger-binding');
             if (!holds(self.profile.selfControlTriggers,self)) rpgExpandedReject('self-control-trigger-history');
+            if (self.phantomVoiceOccurrence != self.boundPhantomVoiceOccurrence) rpgExpandedReject('self-control-voices-binding');
+            if (self.phantomVoiceOccurrence != nil)
+            {
+                self.profile.validatePhantomVoiceOccurrence(self.phantomVoiceOccurrence);
+                if (self.phantomVoiceOccurrence.stressor != self) rpgExpandedReject('self-control-voices-binding');
+            }
             value.status = 'reused'; value.check = self.check; value.points = self.result.points; return value;
         }
         if (!holds(self.profile.traits,self.trait) || !self.trait.controlled || !self.trait.active)
@@ -398,6 +413,9 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
         foreach (local prior in self.profile.selfControlTriggers)
             if (prior.id == self.id || prior.trait == self.trait && prior.trigger == self.trigger)
                 rpgExpandedReject('self-control-trigger-duplicate');
+        if (self.profile.phantomVoiceSeverity() > 0 && !self.giveIn && !self.buySuccess
+            && !holds(['stress-related','unrelated'],self.stressRelation))
+        { value.reason = 'self-control-stress-classification'; return value; }
         rpgInteger(self.modifier,-100,100);
         local base = self.trait.selfControlNumber();
         if (self.buySuccess)
@@ -416,6 +434,11 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
         if (!self.buySuccess && !self.giveIn && base + self.effectiveModifier() - (self.profile.sleepPenalty ? 2 : 0)
             + self.profile.healthSelfControlModifier(self.trait) < 3)
         { value.reason = 'self-control-trigger-score'; return value; }
+        if (self.stressRelation == 'stress-related' && !self.giveIn && !self.buySuccess && self.profile.phantomVoiceSeverity() > 0)
+        {
+            local voices = self.phantomVoiceRequest().assess();
+            if (voices.status != 'ready') { value.reason = voices.reason; return value; }
+        }
         value.status = 'ready'; return value;
     }
     resolve()
@@ -431,7 +454,16 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
         if (value.check.status != 'resolved') rpgExpandedReject('self-control-trigger-changed');
         self.check = value.check; self.active = !self.check.achieved;
         self.boundDefinition = self.definition(); self.profile.selfControlTriggers = self.profile.selfControlTriggers + [self];
-        value.status = 'resolved'; self.result = value; return value;
+        value.status = 'resolved'; self.result = value;
+        if (self.stressRelation == 'stress-related' && value.check.roll != nil && !value.check.achieved
+            && self.profile.phantomVoiceSeverity() > 0)
+        {
+            local occurrence = self.phantomVoiceRequest();
+            local voices = occurrence.resolve();
+            if (voices.status != 'resolved') rpgExpandedReject('self-control-phantom-voices-changed');
+            self.phantomVoiceOccurrence = occurrence; self.boundPhantomVoiceOccurrence = occurrence;
+        }
+        return value;
     }
     begin(modifier,giveIn)
     {

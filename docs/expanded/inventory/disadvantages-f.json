@@ -273,9 +273,10 @@
       "status": "partial",
       "acceptance": "Phantom voices may trigger during authored stress on three dice six or less, and require that check on failed or exactly successful fear checks and failed stress-related self-control. Effects coexist with the triggering result. Specify episode end through an authored contract because this passage supplies no duration.",
       "tests": [
-        "tests/expanded.py::test_phantom_voices"
+        "tests/expanded.py::test_phantom_voices",
+        "tests/expanded.py::test_voice_self_control"
       ],
-      "validation_note": "Optional authored stress occurrence rolls once, triggering at six or less, with owned immutable result and author-confirmed end. Mandatory fear and stress-related self-control integration remains pending. Lifecycle fixtures authored, unrun."
+      "validation_note": "Optional authored stress occurrence rolls once, triggering at six or less, with owned immutable result and author-confirmed end. Owned self-control triggers require stress classification when relevant and automatically append the check after a failed stress-related roll, preserving the original obligation. Surrender and purchased success add no roll. Mandatory fear integration and low-level direct self-control integration remain pending. Lifecycle fixtures authored, unrun."
     },
     {
       "id": "disadvantages-f-voices-annoying",

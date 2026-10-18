@@ -1561,3 +1561,10 @@ stress occurrences with the printed six-or-less trigger. Witnessed responses at
 the first two severities can affect reactions. Endings require explicit author
 evidence; mandatory fear/self-control triggers, masking, commands, treatment and
 buyoff remain pending. Lifecycle fixtures are authored but unrun.
+
+
+Owned self-control triggers now preflight authored stress classification and
+append one phantom-voice check after a failed stress-related roll. Both results
+persist without suppressing the original obligation. Successful rolls, unrelated
+checks, mitigation, surrender and purchased success do not add that roll.
+Mandatory fear and direct low-level integration remain pending; fixtures are unrun.

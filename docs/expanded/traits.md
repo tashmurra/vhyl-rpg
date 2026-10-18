@@ -1351,7 +1351,8 @@ end another. Existing fear, injury and other consequences are not replaced.
 These records contain private author information, not automatically player-visible
 explanations of the character's experiences.
 
-Mandatory checks after relevant fear and self-control results are still pending.
+Mandatory checks after relevant fear results and low-level direct self-control
+calls are still pending. Owned self-control triggers integrate as described below.
 Sound masking, episode-induced fear, commands and will resistance, origin-aware
 treatment and buyoff also remain incomplete. This interface must not be presented
 as the complete disadvantage.
@@ -1360,3 +1361,33 @@ as the complete disadvantage.
 specifies costs, copies, the six/seven trigger boundary, preview, duplicate
 occurrences, replay, explicit ending, rollback, undo and save continuation.
 The fixture and `test_phantom_voices` remain unrun while checks are paused.
+
+
+### Stress-related self-control integration
+
+For an owned `RpgExpandedSelfControlTrigger` on a character with active phantom
+voices, set `stressRelation` to `stress-related` or `unrelated` before a rolled
+attempt. Missing classification blocks assessment before randomness or spending.
+The author uses the trigger's existing `evidence` to explain the relationship.
+Characters without the active trait keep their existing behavior and draw count.
+
+A failed stress-related roll automatically resolves one additional voice check
+and stores it in `phantomVoiceOccurrence`. The original self-control obligation
+remains active regardless of whether voices occur. Exact self-control success,
+unrelated rolls, voluntary surrender and purchased success do not trigger the
+extra check. The latter two are choices without a failed die roll. Trait
+mitigation suppresses the extra check.
+
+The generated occurrence uses `self-control:` followed by the trigger ID, and
+the trigger object as its stressor. These identities are preflighted before the
+original roll. Reserve that ID prefix for this integration. Replay validates the
+linked occurrence and returns both saved results without rolling. Engine
+transactions restore both histories and randomness together on exception or undo.
+
+Use the owned trigger interface for this combination. Direct low-level
+`rpgLiteSelfControl` calls do not yet dispatch the additional check; mandatory
+fear checks also remain pending. This does not complete the full trigger entry.
+[`expanded-voice-self-control.t`](../../tests/fixtures/expanded-voice-self-control.t)
+specifies classification, success/failure boundaries, unrelated rolls, mitigation,
+surrender, purchased success, preview, replay, rollback, undo and save continuation.
+Its assertions remain unrun while checks are paused.

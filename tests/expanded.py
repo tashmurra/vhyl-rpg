@@ -9181,6 +9181,8 @@ def test(build):
     test_distrust_reactions(Session, distrust_reactions, build.out)
     phantom_voices = build.build('expanded-phantom-voices',ROOT / 'tests/fixtures/expanded-phantom-voices.t')
     test_phantom_voices(Session, phantom_voices, build.out)
+    voice_self_control = build.build('expanded-voice-self-control',ROOT / 'tests/fixtures/expanded-voice-self-control.t')
+    test_voice_self_control(Session, voice_self_control, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19864,5 +19866,54 @@ def test_phantom_voices(Session, bundle, out):
             assert last(s, 'test.voice-preview') == ['ready', cost, 1, 0]
             assert last(s, 'test.voice-result') == ['resolved', 7, 0, severity, 3]
             assert last(s, 'test.voice-ending') == ['blocked', 0]
+        finally:
+            s.close()
+
+
+def test_voice_self_control(Session, bundle, out):
+    """Mandatory B148 stress-related failed self-control follow-up; unrun."""
+    path = out / 'expanded-voice-self-control.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10100, 10102):
+            s.action(2285, code)
+        assert last(s, 'test.voice-control-preview') == ['blocked', 'self-control-stress-classification', 0]
+        for code in (10101, 10102, 10104, 10105):
+            s.action(2285, code)
+        assert last(s, 'test.voice-control-preview') == ['ready', None, 0]
+        assert last(s, 'test.voice-control-state') == [0, 0, 0, None, 0, 0]
+        s.action(2285, 10103)
+        s.command('undo')
+        s.action(2285, 10105)
+        assert last(s, 'test.voice-control-state') == [0, 0, 0, None, 0, 0]
+        for code in (10103, 10103, 10105):
+            s.action(2285, code)
+        assert last(s, 'test.voice-control-result') == ['reused', 10, 6]
+        assert last(s, 'test.voice-control-state') == [1, 1, 1, 6, 1, 6]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10103, 10105):
+            s.action(2285, code)
+        assert last(s, 'test.voice-control-result') == ['reused', 10, 6]
+        assert last(s, 'test.voice-control-state') == [1, 1, 1, 6, 1, 6]
+    finally:
+        s.close()
+    for changes, expected in (
+        ((10106,), [1, 0, 1, None, 0, 3]),
+        ((10101, 10107), [1, 0, 0, None, 0, 3]),
+        ((10108,), [1, 0, 1, None, 0, 0]),
+        ((10111,), [1, 0, 0, None, 0, 0]),
+        ((10109,), [1, 0, 1, None, 0, 3]),
+        ((10101, 10110), [1, 1, 1, 7, 0, 6]),
+    ):
+        s = Session(bundle)
+        try:
+            for code in (10100,) + changes + (10103, 10105):
+                s.action(2285, code)
+            assert last(s, 'test.voice-control-state') == expected
         finally:
             s.close()
