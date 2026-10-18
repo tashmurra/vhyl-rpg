@@ -198,3 +198,16 @@ pass, not complete implementation. Teleportation keeps preparation and distance
 rules separate, owns failure cooldowns and limits defensive use to once per turn.
 Spontaneous skill retention also owns its point reservation, learning restrictions
 and month-long provisional state.
+
+
+The [first modifier segment](inventory/traits-modifiers-a.json) records perks,
+percentage arithmetic, compatibility and initial attack enhancements. Perks cannot
+receive modifiers. Most enhancements cannot be switched off individually without
+an explicit permission. Default range, area and duration apply only where a
+modifier requires an otherwise unspecified dimension.
+
+Repeating damage owns recovery restrictions and termination actions. Delayed
+attacks retain their selected trigger or deadline and neutralization method.
+Follow-up attacks depend on a carrier's hit and penetration result and inherit
+only the specified modifier subset for pricing. These behaviors are pending;
+the existing positive-price helper does not validate or execute them.

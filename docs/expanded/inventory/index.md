@@ -22,6 +22,7 @@ copies of the reference books.
 | `full-2008` | B83 shapeshifting–B88, before striking strength | [Trait catalogue, eleventh segment](traits-catalogue-k.json) | Transformations, shrinking, signature equipment, acquisition, dialogue and appendages enumerated; state integration pending |
 | `full-2008` | B88 striking strength–B93 | [Trait catalogue, twelfth segment](traits-catalogue-l.json) | Aptitudes, communication, remote actions, environmental control and martial permissions enumerated; catalogue linkage and integration pending |
 | `full-2008` | B94–B100, before perks | [Trait catalogue, thirteenth segment](traits-catalogue-m.json) | Survival variants, teleport tables, weapon mastery and spontaneous skills enumerated; verification and integration pending |
+| `full-2008` | B100 perks–B105, before guidance | [Perks and modifiers, first segment](traits-modifiers-a.json) | Perks, pricing, areas, repeating/delayed damage and follow-up carriers enumerated; compatibility and lifecycle validation pending |
 | `full-2008` | B167–B173; B229–B233 | [Skill and technique procedures](skills-procedures.json) | Text reviewed; table verification and cross-reference resolution still open |
 | `full-2008` | B174–B185 | [Skill catalogue, first segment](skills-catalogue-a.json) | Text and definition metadata transcribed; procedures and cross-references pending |
 | `full-2008` | B186–B197 | [Skill catalogue, second segment](skills-catalogue-b.json) | Definition metadata, timed procedures and specialty requirements transcribed |
