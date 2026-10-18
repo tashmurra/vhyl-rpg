@@ -8,6 +8,42 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_trait_summary_tier_and_sense_distinctions(self):
+        """Source metadata expectations; runtime accounting still needs fixtures."""
+        base = ROOT / 'docs/expanded/inventory'
+        ledger = json.loads((base / 'trait-summary-a.json').read_text())
+        rows = [entry['summary_data'] for entry in ledger['entries']]
+        self.assertEqual(len(rows), 112)
+        self.assertEqual([r['row'] for r in rows], list(range(1, 113)))
+        for row in rows:
+            self.assertTrue(row['targets'])
+            for target in row['targets']:
+                detail = json.loads((base / target['file']).read_text())
+                self.assertIn(target['entry'], {e['id'] for e in detail['entries']})
+        by_key = {row['neutral_key']: row for row in rows}
+        for lower, higher, lower_cost, higher_cost in [
+                ('absolute-orientation', 'spatial-orientation', 5, 10),
+                ('precise-time', 'date-sense', 2, 5),
+                ('flexibility', 'advanced-flexibility', 5, 15)]:
+            first = by_key[lower]['tier_data']
+            second = by_key[higher]['tier_data']
+            self.assertEqual(first['family'], second['family'])
+            self.assertEqual(first['total_point_cost'], lower_cost)
+            self.assertEqual(second['total_point_cost'], higher_cost)
+            self.assertTrue(second['replaces_lower_tier'])
+            self.assertFalse(second['additive_bonus_stacking'])
+        thermal = {v['key']: v for v in by_key['thermal-sight']['variants']}
+        self.assertEqual(thermal['thermal-only']['point_cost'], 0)
+        self.assertFalse(thermal['thermal-only']['ordinary_vision'])
+        self.assertTrue(thermal['thermal-only']['thermal_vision'])
+        self.assertEqual(thermal['switchable-thermal']['point_cost'], 10)
+        self.assertTrue(thermal['switchable-thermal']['ordinary_vision'])
+        self.assertTrue(thermal['switchable-thermal']['thermal_vision'])
+        identities = {v['key']: v for v in by_key['alternate-identity']['variants']}
+        self.assertEqual(identities['legal']['point_cost_per_identity'], 5)
+        self.assertEqual(identities['legal']['minimum_approved_authority_access_points'], 10)
+        self.assertEqual(identities['illegal']['point_cost_per_identity'], 15)
+
     def test_modifier_summary_preserves_detail_constraints(self):
         """Inventory assertions do not establish executable modifier support."""
         base = ROOT / 'docs/expanded/inventory'

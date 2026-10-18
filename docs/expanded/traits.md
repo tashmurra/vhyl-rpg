@@ -369,3 +369,23 @@ Delivery modifiers also have mutually exclusive price forms. Blood exposure cost
 bypasses armor or uses the specified remote-resistance procedure. A builder must
 select the applicable form after checking the complete ability, then price it
 once. Group summary rows are navigation to actual modifiers, not extra purchases.
+
+## Trait summary reconciliation
+
+The [first trait-summary segment](inventory/trait-summary-a.json) maps 112 rows
+to the detailed character and trait ledgers. These include named tiers, sensory
+variants, relationship groups, perks and skill aptitudes. The remaining trait
+summary pages and full field comparison are still pending.
+
+Orientation, internal timekeeping and bodily flexibility have alternative tiers.
+Their listed prices are totals for the selected tier; an upgrade replaces the
+lower tier's contribution rather than adding a second purchase and stacking both
+sets of bonuses. Thermal-only sight is a zero-point feature, while switching
+between ordinary and thermal sight costs ten points. The inventory records that
+distinction so a zero price cannot accidentally grant both senses.
+
+Arm-specific attribute purchases also have bounded scope: dexterity pricing covers
+one or two arms, and strength pricing covers one through three. Broader purchases
+use the overall attribute. Alternate identities have separate legal/illegal costs
+and eligibility, but never create funds. These records await executable character
+accounting, application and advancement fixtures.
