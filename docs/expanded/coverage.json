@@ -8,8 +8,11 @@
       "title": "Economics, laws, jobs, hirelings and world travel",
       "pages": "B347; B474; B477; B482-B483; B486-B546",
       "source": "full-2008",
-      "status": "pending",
-      "tests": []
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_legal_access",
+        "tests/expanded.py::test_campaign_minimal"
+      ]
     },
     {
       "id": "characters",
@@ -484,6 +487,19 @@
         "tests/expanded.py::test_equipment_persistence"
       ],
       "validation_note": "One-inventory carried/stored distinction and combat/load exclusions authored. Checks unrun; containers, capacity and tool binding pending."
+    },
+    {
+      "id": "equipment-legal-access",
+      "module": "campaign",
+      "pages": "B507",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLegalAccess",
+      "tests": [
+        "tests/expanded.py::test_legal_access",
+        "tests/expanded.py::test_campaign_minimal"
+      ],
+      "validation_note": "Bound equipment-access policy and acquisition gate authored; new checks unrun, credentials issuance, fees and wider law systems pending."
     }
   ],
   "detailed_inventories": [

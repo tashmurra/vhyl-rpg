@@ -40,6 +40,8 @@ characteristics, authored skill defaults and techniques, trait pricing, extended
 numeric tables, task timing, character packages and study. This is an **incomplete
 conversion**: most planned systems and the full catalogues remain unimplemented.
 The [coverage ledger](docs/expanded/coverage.json) records these gaps explicitly.
+The partial [campaign module](docs/expanded/campaign.md) adds authored equipment
+legal-access policies; its new validation cases remain unrun.
 Try the [signal workshop](examples/expanded/main.t) with the corresponding
 [host](examples/expanded/host.py); it accepts `study`, `decode`, `rest day`,
 `status`, `undo` and `:plan` choices. Build it like the other examples, selecting

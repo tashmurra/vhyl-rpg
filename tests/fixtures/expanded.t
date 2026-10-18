@@ -732,6 +732,32 @@ act(verb, args)
         eventValue(rpgLiteDefenseScore(fighter,fighter,request,'dodge'));
         return nil;
     }
+    if (verb == 1149)
+    {
+        local policy = new RpgExpandedLegalAccess(); policy.controlRating = args[1];
+        policy.legality = args[2]; policy.role = args[3]; policy.licensed = args[4] == 1;
+        local value = policy.assess(); event('test.legal-table'); eventValue(value.status);
+        eventValue(value.reason); eventValue(value.requirement); return nil;
+    }
+    if (verb == 1150)
+    {
+        local policy = new RpgExpandedLegalAccess(); policy.controlRating = 3; policy.legality = 3;
+        policy.registrationRequired = true;
+        event('test.legal-access'); eventValue(policy.assess().reason);
+        policy.registered = true; eventValue(policy.assess().status);
+        policy.excluded = true; eventValue(policy.assess().reason);
+        policy.legality = 4; policy.citizen = nil; eventValue(policy.assess().reason);
+        policy.exception = 'allow'; eventValue(policy.assess().status);
+        policy.exception = 'deny'; eventValue(policy.assess().reason);
+        policy.exception = 'table'; policy.legality = 2; policy.legitimateNeed = true;
+        eventValue(policy.assess().licenseEligible); eventValue(policy.assess().reason);
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.money = 100;
+        local item = new RpgLiteItem(); item.cost = 20;
+        local offer = new RpgExpandedAcquisition(); offer.profile = p; offer.item = item;
+        offer.available = true; offer.permitted = true; offer.legalAccess = policy; policy.subject = p; policy.equipment = item;
+        eventValue(offer.acquire().reason); eventValue(p.money); eventValue(p.equipment.length());
+        policy.licensed = true; eventValue(offer.assess().status); return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

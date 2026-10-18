@@ -9,3 +9,5 @@
 
 #include <vhyl-rpg-expanded-development.t>
 #include <vhyl-rpg-expanded-templates.t>
+
+#include <vhyl-rpg-expanded-campaign.t>

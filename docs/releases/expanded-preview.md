@@ -17,7 +17,7 @@ page labels; private reference files and branded source identifiers are excluded
 The [library catalogue](../libraries.md) lists all current modules and the full
 proposed suite, sorted by required dependencies and optional libraries. The
 [coverage ledger](../expanded/coverage.json) records implemented features and
-remaining work. Eleven proposed modules have no runtime implementation, the
+remaining work. Ten proposed modules have no runtime implementation, the
 available modules are partial, and detailed catalogue-entry enumeration remains
 unfinished. Full combat, tactical, health/hazard, supernatural, creature,
 technology, vehicle and campaign integration must be completed before claiming
@@ -33,3 +33,9 @@ feed into the existing character cost ledger. Self-control pricing supports the
 four printed ratings and rejects unresolved combinations with percentage
 modifiers. Native examples and invalid-request cases are authored but have not
 been run during the requested check pause; catalogue effects remain pending.
+
+The campaign module now provides a partial equipment legal-access assessment and
+an acquisition gate bound to the buyer and item. It requires the expanded equipment
+module. Registration, licensing and institutional-access boundaries have authored
+native cases, including a minimal dependency fixture, but validation remains paused.
+This does not implement the remaining economic, legal or world-travel procedures.

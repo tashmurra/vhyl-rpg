@@ -71,9 +71,13 @@
       "pages": "B507",
       "module": "campaign",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Item legality class and jurisdiction control rating jointly determine access. A specific license and identity restrictions attach to an actual person/item scope, not merely a global permission boolean.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_legal_access"
+      ],
+      "existing_feature": "equipment-legal-access",
+      "validation_note": "Access table and person/item binding authored; tests unrun, license issuance/fees/expiry pending."
     },
     {
       "id": "world-spell-legality",

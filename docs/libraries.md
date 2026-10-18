@@ -3,7 +3,7 @@
 Essential means required by the selected integration, not enabled in every game.
 Include the engine once. For Lite, include progression followed by the Lite umbrella; do not also include its components separately. Expanded integrations add the expanded foundation after this sequence.
 
-**The expanded conversion is incomplete.** Seven feature modules currently provide the scoped mechanics described below. Remaining modules are a roadmap, not includeable libraries. The [coverage ledger](expanded/coverage.json) is a chapter-level inventory; detailed catalogue enumeration remains unfinished.
+**The expanded conversion is incomplete.** Eight feature modules currently provide the scoped mechanics described below. Remaining modules are a roadmap, not includeable libraries. The [coverage ledger](expanded/coverage.json) is a chapter-level inventory; detailed catalogue enumeration remains unfinished.
 
 ## Core / essential
 
@@ -27,7 +27,7 @@ Include the engine once. For Lite, include progression followed by the Lite umbr
 | --- | --- | --- | --- | --- | --- |
 | Conflict | `vhyl-rpg-conflict.t` | Core + resilience | Simplified profiles | Available | [Guide](resilience.md) / [example](../examples/resilience/main.t) |
 | Expanded all | `vhyl-rpg-expanded-all.t` | Core + progression + Lite | Expanded profiles | Experimental; available modules only | [Guide](expanded/index.md) / [example](../examples/expanded/main.t) |
-| Expanded campaign | `vhyl-rpg-expanded-campaign.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/campaign.md) / no example yet |
+| Expanded campaign | `vhyl-rpg-expanded-campaign.t` | Expanded foundation + equipment | Expanded profiles | Partial: equipment legal access | [Guide](expanded/campaign.md) / [minimal fixture](../tests/fixtures/expanded-campaign.t) |
 | Expanded characters | `vhyl-rpg-expanded-characters.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/characters.md) / [example](../examples/expanded/main.t) |
 | Expanded combat | `vhyl-rpg-expanded-combat.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/combat.md) / no example yet |
 | Expanded creatures | `vhyl-rpg-expanded-creatures.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/creatures.md) / no example yet |

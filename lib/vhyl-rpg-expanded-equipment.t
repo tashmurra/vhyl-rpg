@@ -143,6 +143,7 @@ class RpgExpandedAcquisition: object
     claimed = nil
     claimedProfile = nil
     claimedItem = nil
+    authorizationReason() { return self.permitted ? nil : 'equipment-permission'; }
     assess()
     {
         if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
@@ -162,7 +163,8 @@ class RpgExpandedAcquisition: object
         if (self.mode == 'issue' && self.quote != nil && self.quote != 0)
             rpgExpandedReject('issued-equipment-price');
         if (!self.available) { value.reason = 'equipment-unavailable'; return value; }
-        if (!self.permitted) { value.reason = 'equipment-permission'; return value; }
+        value.reason = self.authorizationReason();
+        if (value.reason != nil) return value;
         for (local owner = firstObj(RpgProfile); owner != nil; owner = nextObj(owner,RpgProfile))
             if (owner.ofKind(RpgLiteProfile) && holds(owner.equipment,self.item))
             { value.reason = 'equipment-already-owned'; return value; }

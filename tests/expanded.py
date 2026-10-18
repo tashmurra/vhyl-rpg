@@ -454,6 +454,32 @@ def test_equipment_persistence(Session, bundle, out):
         second.close()
 
 
+def test_legal_access(s):
+    before = state(s)
+    for control, legality, role, licensed, expected in [
+            (2, 4, 'civilian', 0, ['ready', None, 'none']),
+            (3, 3, 'civilian', 0, ['ready', None, 'none']),
+            (3, 2, 'civilian', 0, ['blocked', 'license-required', 'license']),
+            (3, 2, 'civilian', 1, ['ready', None, 'license']),
+            (3, 1, 'civilian', 1, ['blocked', 'special-unit-required', 'special-unit']),
+            (3, 1, 'special-police', 0, ['ready', None, 'special-unit']),
+            (4, 1, 'intelligence', 0, ['blocked', 'military-or-secret-police-required', 'military-or-secret-police']),
+            (4, 1, 'secret-police', 0, ['ready', None, 'military-or-secret-police']),
+            (6, 0, 'military', 0, ['ready', None, 'military-or-secret-police'])]:
+        s.action(1149, control, legality, role, licensed)
+        assert last(s, 'test.legal-table') == expected
+    s.action(1150)
+    assert last(s, 'test.legal-access') == [
+        'registration-required', 'ready', 'legal-exclusion', 'noncitizen-policy-required',
+        'ready', 'local-prohibition', True, 'license-required', 'license-required', 100, 0, 'ready']
+    assert state(s) == before, 'legal assessment spent time, money or randomness'
+
+
+def test_campaign_minimal(s):
+    s.action(1151)
+    assert last(s, 'test.campaign-minimal') == ['license-required', True]
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -531,9 +557,11 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_acquisition,test_equipment_storage,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_acquisition,test_equipment_storage,test_legal_access,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
+    minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
+    fresh(Session,minimal,test_campaign_minimal)
     test_equipment_persistence(Session,bundle,build.out)
     test_recognition_persistence(Session,bundle,build.out)
     test_familiarity_persistence(Session,bundle,build.out)

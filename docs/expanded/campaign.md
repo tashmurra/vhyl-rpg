@@ -1,15 +1,16 @@
 # Expanded campaign
 
-**Status: pending.** Campaign choices, economics, employment, legal systems and
+**Status: partial.** Campaign choices, economics, employment, legal systems and
 world travel. Neutral source: `full-2008`, B347; B474; B477; B482–B483;
 B486–B546 (mechanical content only).
 
 [Library selection](../libraries.md) · [Integration](index.md) ·
 [Coverage ledger](coverage.json)
 
-This module has not been implemented. Its proposed filename,
-`vhyl-rpg-expanded-campaign.t`, is reserved in the catalogue; do not include it in
-a game yet. The detailed source inventory now contains:
+Include `vhyl-rpg-expanded-campaign.t` after the expanded foundation and equipment
+module. The available interface currently covers equipment legal access only;
+economics, employment, wider legal procedures and world travel remain pending.
+The detailed source inventory contains:
 
 - [Campaign procedures](inventory/campaign-procedures.json): profile choices,
   knowledge, time, reactions, awards, mapping and encounters.
@@ -174,3 +175,39 @@ from following travelers, and combined teleport/travel partial successes. Artifa
 attempts and temporary portals retain identities and expiry. Legal authority and
 exemptions use authored jurisdictions, duties and sanctions; the source's game
 models are not descriptions of current real-world law. These effects remain pending.
+
+## Equipment legal access
+
+`RpgExpandedLegalAccess.assess()` implements the B507 comparison of item legality
+class (0–4) and the relevant local control rating (0–6). Select the jurisdiction's
+rating for this domain explicitly. At one or more classes above control, citizens
+may carry the item; noncitizens require an authored policy. At equality, an
+excluded person is blocked, and the author can require registration. One class
+below requires an existing license. `licenseEligible` separately indicates a
+legitimate need or government employment; eligibility alone grants no license.
+Two below requires a special police, military or intelligence role. Three or more
+below requires military or secret-police status.
+
+Use `exception = 'allow'` or `'deny'` for an explicit local exception, and `'table'`
+for the ordinary comparison. `legality = nil` means no assigned restriction in
+this policy. Identity and institutional roles are supplied world facts, not inferred
+from a character's appearance or a generic social bonus. A government employee
+is not automatically a military or secret-police officer.
+
+To gate an acquisition, set `offer.legalAccess`, and bind that policy's `subject`
+and `equipment` to the exact buyer and item. The ordinary authored availability
+and permission gates still apply. A blocked legal result returns its reason before
+money or ownership changes. Merely including the campaign module enables no
+restrictions until an author supplies a policy.
+
+Registration fees, license applications and their variable fees, credential expiry,
+uncertain enforcement rolls, trials and penalties remain pending. The current
+interface assesses supplied credentials; it does not create them or enact a legal
+system merely through a callback.
+
+The [minimal fixture](../../tests/fixtures/expanded-campaign.t) includes only the
+required modules and demonstrates eligibility without permission. Authored native
+cases in `tests/expanded.py::test_legal_access` cover the comparison boundaries,
+registration, exclusions, institutional roles, local exceptions and acquisition
+blocking with unchanged funds. `test_campaign_minimal` covers the minimal include
+set. These checks are unrun while validation is paused.
