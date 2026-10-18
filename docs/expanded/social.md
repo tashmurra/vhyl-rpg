@@ -28,8 +28,9 @@ The B562 counteroffer example contains a visually confirmed arithmetic
 inconsistency: half of an offer at 120% is described as 50%. A documented selection
 policy and independent tests are required before that procedure can be complete.
 
-These entries remain pending. No reaction subsystem or validating runtime tests
-are claimed by the inventory, and build checks remain paused.
+The subsystem is partially implemented as described below. Individual inventory
+entries retain their remaining gaps; authored fixtures are unrun while build
+checks remain paused.
 
 ## Reaction requirements now inventoried
 
@@ -44,8 +45,9 @@ penalties until an authored sufficient interval passes. Eligibility and attempt
 history need persistent encounter state. Influence uses its own procedure and must
 not also grant an ordinary reaction roll to select the better outcome.
 
-The detailed reaction outcome table and underlying trait integration remain pending.
-This inventory does not establish an implemented social subsystem.
+Several context-specific outcomes and owned reaction procedures are implemented
+below. Complete outcome and trait integration remain pending; the inventory alone
+does not establish runtime correctness.
 
 
 ## Purchased standing
@@ -825,3 +827,28 @@ retain their arithmetic and dice consumption. The fixture covers all four rating
 unknown/inapplicable cases, unrelated modifiers, Diplomacy and invalid requests
 before RNG. These assertions remain unrun. General multi-trait reaction composition
 and parser/dialogue routing remain broader integration obligations.
+
+## Automatic social-skill reaction bonus
+
+Attach `RpgExpandedReactionMastery` to a reaction attempt's `mastery` field.
+Supply the same encounter, one selected Diplomacy or Fast-Talk skill, approval
+and concrete context evidence. The assessment uses the subject's skill rating,
+not a fresh skill roll or a temporary skill-check modifier. Diplomacy at level
+20 or higher gives +2 (full-2008, B187). Fast-Talk at that level gives +2 only
+when `canSpeak` establishes that the character is allowed to talk (B195).
+Level 19 gives no bonus. The ordinary definitions are checked against their
+printed attributes, difficulties and attribute defaults.
+
+The reaction attempt adds this bonus once to its existing modifier. Do not also
+include the same bonus manually in `modifier`. The encounter stores the selected
+skill, assessed level, modifier and evidence in `masteryHistory`, alongside its
+existing private reaction history. Preview adds no history or randomness, and
+replay retains the original total after skill changes. Predetermined reactions
+bypass the mastery assessment and consume no dice.
+
+This adapter selects one qualifying skill. Combining multiple mastery sources
+and the separate successful-skill-roll bonus are not implemented by this field.
+It does not replace influence procedures or expose secret attitudes to players.
+`tests/fixtures/expanded-reaction-mastery.t` covers the 19/20 boundary, speaking
+eligibility, predetermined outcomes, replay, rollback, undo and saved
+continuation; assertions are authored, unrun.

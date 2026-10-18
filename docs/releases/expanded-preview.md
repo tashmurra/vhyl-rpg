@@ -1097,3 +1097,10 @@ with matched terrain/world conditions, equipment and weather modifiers. Failure
 commits independently rolled direct injuries through existing wounds; duplicate
 daily resolution is blocked across recipients. Expected values, zero-injury
 floors, rollback, undo and saved continuation fixtures are authored, unrun.
+
+Reaction attempts now accept one explicit social-skill mastery bonus: Diplomacy
+20+ supplies +2, and Fast-Talk 20+ does so when speaking is allowed. The private
+encounter records its contribution once; predetermined reactions bypass it.
+Threshold, eligibility, replay, rollback, undo and saved-continuation fixtures
+are authored, unrun. The social guide's obsolete no-implementation statements
+have been corrected; the subsystem remains partial.

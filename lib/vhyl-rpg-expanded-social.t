@@ -307,6 +307,7 @@ class RpgExpandedReactionResult: RpgExpandedResult
 /** A distinct authored approach. assess() never exposes saved attitudes or dice.
  * resolve() is an author-only operation: do not emit its private result directly. */
 class RpgExpandedReactionAttempt: object
+    mastery = nil
     encounter = nil
     approach = nil
     modifier = 0
@@ -329,6 +330,13 @@ class RpgExpandedReactionAttempt: object
             if (!self.approvedChange) { value.reason = 'reaction-approach-unchanged'; return value; }
         }
         if (self.encounter.nuisanceCount >= 1000) rpgExpandedReject('reaction-retry-limit');
+        if (self.mastery != nil && self.encounter.predeterminedBand == nil)
+        {
+            if (!self.mastery.ofKind(RpgExpandedReactionMastery) || self.mastery.encounter != self.encounter)
+                rpgExpandedReject('reaction-mastery-encounter');
+            local mastery = self.mastery.assess();
+            if (mastery.status != 'ready') { value.reason = mastery.reason; return value; }
+        }
         value.status = 'ready'; return value;
     }
     resolve()
@@ -342,16 +350,20 @@ class RpgExpandedReactionAttempt: object
             return value;
         }
         if (value.status != 'ready') return value;
+        local mastery = self.mastery == nil || self.encounter.predeterminedBand != nil ? nil : self.mastery.assess();
         local count = self.waitedReasonably ? 0 : self.encounter.nuisanceCount;
         if (self.encounter.history.length() > 0 && self.nuisance && !self.waitedReasonably) count += 1;
         if (self.encounter.predeterminedBand != nil) value.band = self.encounter.predeterminedBand;
         else
         {
-            value.check = rpgRandom.roll(); value.total = value.check + self.modifier - count * 2;
+            value.check = rpgRandom.roll(); value.total = value.check + self.modifier + (mastery == nil ? 0 : mastery.modifier) - count * 2;
             value.band = rpgExpandedReactionBand(value.total);
             if (value.band < self.encounter.worstBand) value.band = self.encounter.worstBand;
             if (value.band > self.encounter.bestBand) value.band = self.encounter.bestBand;
         }
+        if (mastery != nil)
+            self.encounter.masteryHistory = self.encounter.masteryHistory
+                + [[self.approach,self.mastery.skill,mastery.score,mastery.modifier,self.mastery.evidence]];
         self.encounter.nuisanceCount = count;
         self.encounter.history = self.encounter.history + [[self.approach,value.check,value.total,value.band]];
         value.status = 'resolved'; return value;
@@ -1529,5 +1541,35 @@ class RpgExpandedDangerReactionContext: RpgLiteSocialContext
         self.traitReactionModifier(profile);
         if (target != self.observer) rpgExpandedReject('danger-reaction-observer');
         return nil;
+    }
+;
+
+modify RpgExpandedReactionEncounter
+    masteryHistory = []
+;
+class RpgExpandedReactionMasteryResult: RpgExpandedResult
+    score = nil
+;
+/** B187/B195/B560 one selected automatic social-skill reaction bonus. */
+class RpgExpandedReactionMastery: object
+    encounter = nil
+    skill = nil
+    canSpeak = nil
+    approved = nil
+    evidence = nil
+    assess()
+    {
+        if (self.encounter == nil || !self.encounter.ofKind(RpgExpandedReactionEncounter)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)) rpgExpandedReject('reaction-mastery-definition');
+        self.encounter.validate(); local value = new RpgExpandedReactionMasteryResult();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'reaction-mastery-context'; return value; }
+        local diplomacy = self.skill.id == 'diplomacy';
+        if ((!diplomacy && self.skill.id != 'fast-talk') || self.skill.attribute != rpgIQ
+            || self.skill.difficulty != (diplomacy ? 2 : 1) || self.skill.defaultPenalty != (diplomacy ? -6 : -5)
+            || self.skill.techLevel != nil) rpgExpandedReject('reaction-mastery-skill');
+        value.score = self.encounter.subject.skillScore(self.skill);
+        value.modifier = value.score != nil && value.score >= 20 && (diplomacy || self.canSpeak) ? 2 : 0;
+        value.status = 'ready'; return value;
     }
 ;

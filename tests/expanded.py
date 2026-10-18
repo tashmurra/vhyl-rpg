@@ -9038,6 +9038,8 @@ def test(build):
     test_nature_defaults(Session, nature_defaults, build.out)
     wilderness_day = build.build('expanded-wilderness-day',ROOT / 'tests/fixtures/expanded-wilderness-day.t')
     test_wilderness_day(Session, wilderness_day, build.out)
+    reaction_mastery = build.build('expanded-reaction-mastery',ROOT / 'tests/fixtures/expanded-reaction-mastery.t')
+    test_reaction_mastery(Session, reaction_mastery, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16424,5 +16426,55 @@ def test_wilderness_day(Session, bundle, out):
         s.action(2285,2309)
         assert last(s,'test.wilderness-limit') == ['wilderness-dependent-limit']
         assert state(s) == [0,0,0,0,0,0]
+    finally:
+        s.close()
+
+
+def test_reaction_mastery(Session, bundle, out):
+    def state(s):
+        s.action(2285,2405)
+        return last(s,'test.reaction-mastery-state')
+    for setup,score,bonus in (((),20,2),((2401,),19,0),((2406,),20,2),((2402,),20,2),((2402,2406),20,0)):
+        s = Session(bundle)
+        try:
+            for code in (2410,)+setup+(2400,2403,2403):
+                s.action(2285,code)
+            assert last(s,'test.reaction-mastery') == ['ready',score,bonus]
+            assert state(s) == [1,1,3,12+bonus]
+        finally:
+            s.close()
+    path = out / 'expanded-reaction-mastery.zsave'
+    s = Session(bundle)
+    try:
+        for code in (2410,2404):
+            s.action(2285,code)
+        assert state(s) == [0,0,0,None]
+        s.action(2285,2403)
+        s.command('undo')
+        assert state(s) == [0,0,0,None]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,2403)
+        assert state(s) == [1,1,3,14]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (2401,2403):
+            s.action(2285,code)
+        assert state(s) == [1,1,3,14]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (2407,2403,2403):
+            s.action(2285,code)
+        assert state(s) == [1,0,0,None]
     finally:
         s.close()

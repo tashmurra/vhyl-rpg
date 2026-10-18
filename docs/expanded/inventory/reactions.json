@@ -114,9 +114,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Specified social skills at level 20+ supply an automatic +2 where eligible; resolve exact skill definitions.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_reaction_mastery"
+      ],
+      "validation_note": "One selected Diplomacy or Fast-Talk mastery source now supplies its automatic +2 at skill 20+, with Fast-Talk requiring authored permission to speak. The owned reaction attempt records the contribution once without a skill roll, retains the total on replay, and bypasses mastery for predetermined reactions. Threshold, speaking, replay, rollback, undo and saved continuation assertions authored, unrun. Combining multiple mastery sources, other eligible catalogue skills and the separate successful-skill-check bonus remain pending."
     },
     {
       "id": "reaction-detail-approach",
