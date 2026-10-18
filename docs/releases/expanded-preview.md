@@ -1400,3 +1400,8 @@ lifecycle fixtures are authored but unrun.
 Adjudicated instant death now has an owned receipt, explicit helplessness/lethality
 requirements and shared injury/death state without damage rolls. Preview, replay,
 rollback, undo and saved-continuation fixtures are authored but unrun.
+
+An explicit postmortem-injury option now retains final injury in the shared ledger
+through owned receipts and the shared wound interface. Lite defaults remain
+unchanged. Body destruction and revival adapters remain pending; compatibility,
+preview, replay and lifecycle fixtures are authored but unrun.

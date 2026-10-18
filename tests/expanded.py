@@ -9133,6 +9133,8 @@ def test(build):
     test_ancestry_incompetence(Session, ancestry_incompetence, build.out)
     instant_death = build.build('expanded-instant-death',ROOT / 'tests/fixtures/expanded-instant-death.t')
     test_instant_death(Session, instant_death, build.out)
+    postmortem = build.build('expanded-postmortem',ROOT / 'tests/fixtures/expanded-postmortem.t')
+    test_postmortem(Session, postmortem, build.out)
     talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
     test_talent_study(Session, talent_study, build.out)
     talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
@@ -18683,5 +18685,48 @@ def test_instant_death(Session, bundle, out):
         for code in (7509, 7510):
             s.action(2285, code)
         assert last(s, 'test.instant-death-error') == ['instant-death-binding']
+    finally:
+        s.close()
+
+
+def test_postmortem(Session, bundle, out):
+    path = out / 'expanded-postmortem.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 7607)
+        assert last(s, 'test.postmortem-lite') == [0, 60]
+        for code in (7608, 7602):
+            s.action(2285, code)
+        assert last(s, 'test.postmortem') == ['blocked', 'postmortem-living', 0]
+        for code in (7600, 7606, 7604, 7603):
+            s.action(2285, code)
+        assert last(s, 'test.postmortem-state') == [-50, 1, 0, 0, 0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (7600, 7601, 7603):
+            s.action(2285, code)
+        assert last(s, 'test.postmortem') == ['ready', None, 50]
+        assert last(s, 'test.postmortem-state') == [-50, 1, 0, 0, 0, 0]
+        for code in (7605, 7603):
+            s.action(2285, code)
+        assert last(s, 'test.postmortem-state') == [-50, 1, 0, 0, 0, 0]
+        s.action(2285, 7602)
+        s.command('undo')
+        s.action(2285, 7603)
+        assert last(s, 'test.postmortem-state') == [-50, 1, 0, 0, 0, 0]
+        for code in (7602, 7602, 7603):
+            s.action(2285, code)
+        assert last(s, 'test.postmortem-state') == [-100, 1, 1, 0, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (7602, 7604, 7603):
+            s.action(2285, code)
+        assert last(s, 'test.postmortem-state') == [-105, 1, 2, 0, 0, 0]
     finally:
         s.close()

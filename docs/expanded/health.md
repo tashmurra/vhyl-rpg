@@ -3313,3 +3313,26 @@ including state changes from unconsciousness hooks, roll back the operation.
 This procedure does not infer body destruction or grant a dying action. Preview,
 eligibility, replay, rollback, undo and save-continuation fixtures are authored but
 unrun while checks are paused.
+
+## Injury after death
+
+Enable `rules.retainPostmortemInjury` to retain final injury after death
+(full-2008, B423). Calls through the shared `rpgLiteWound` interface then append an
+owned record to `profile.postmortemHistory` and increase the existing injury
+ledger. Lite profiles and campaigns without the option retain their existing
+early return. Each new call represents a new injury; callers needing replay
+protection should retain a `RpgExpandedPostmortemInjury` object instead.
+
+For an explicit record, supply a unique `id`, `profile`, final injury `amount`,
+`approved` and source `evidence`. `assess()` is pure; `apply()` commits once and
+returns the stored result on replay. Living targets and disabled campaigns are
+blocked. Amounts are final injury, so protection and damage multipliers must have
+already been resolved. No shock, first-aid reset, survival roll or clock charge
+occurs. The enclosing action owns time and transaction rollback.
+
+This tracks injury relevant to remains and revival, but does not declare a body
+destroyed merely because health reaches negative ten times capacity. Source-based
+body-destruction adjudication and revival remain separate unfinished integrations.
+Higher-level attack procedures which reject dead targets still need their own
+adapters. Preview, Lite compatibility, disabled-option, replay, rollback, undo and
+saved-continuation fixtures are authored but unrun.

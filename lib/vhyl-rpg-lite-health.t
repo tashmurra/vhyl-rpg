@@ -23,7 +23,8 @@ rpgLiteWoundWithKnockdown(profile, amount, knockdown, modifier)
 {
     rpgInteger(amount, 0, 100000); rpgInteger(modifier,-1000,1000);
     local result = new RpgLiteHealthResult();
-    if (profile.dead || amount == 0) return result;
+    if (amount == 0) return result;
+    if (profile.dead) return profile.postmortemInjury(amount);
     profile.validateInjury(amount);
     local shock = profile.shockFromInjury(amount);
     local oldHP = profile.hp(); profile.injury += amount; result.injury = amount;
@@ -606,4 +607,9 @@ modify RpgLiteProfile
 modify RpgLiteProfile
     validateSleepRecovery(seconds) { return self.validateSleepRecoveryInterval(rpgLedger.seconds,seconds); }
     validateSleepRecoveryInterval(start,seconds) { return nil; }
+;
+
+modify RpgLiteProfile
+    /* Expanded opt-in retains damage after death; Lite keeps its early return. */
+    postmortemInjury(amount) { return new RpgLiteHealthResult(); }
 ;

@@ -7364,3 +7364,63 @@ class RpgExpandedInstantDeath: object
         return value;
     }
 ;
+
+
+/** B423 optional retention of final injury after death, on the shared ledger. */
+modify RpgExpandedRules
+    retainPostmortemInjury = nil
+;
+modify RpgExpandedProfile
+    postmortemHistory = []
+    postmortemInjury(amount)
+    {
+        if (self.rules == nil || !self.rules.retainPostmortemInjury) return inherited(amount);
+        local receipt = new RpgExpandedPostmortemInjury();
+        receipt.id = self.postmortemHistory.length() + 1; receipt.profile = self; receipt.amount = amount;
+        receipt.approved = true; receipt.evidence = 'Final injury supplied through the shared wound interface';
+        local applied = receipt.apply(); local value = new RpgLiteHealthResult();
+        value.status = applied.status; value.injury = applied.injuryAdded; return value;
+    }
+;
+class RpgExpandedPostmortemInjury: object
+    id = nil
+    profile = nil
+    amount = 0
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.amount,self.approved,self.evidence]; }
+    assess()
+    {
+        local value = new RpgExpandedInstantDeathResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local i = 1; i <= current.length(); i += 1)
+                if (current[i] != self.boundDefinition[i]) rpgExpandedReject('postmortem-binding');
+            if (!holds(self.profile.postmortemHistory,self)) rpgExpandedReject('postmortem-owner');
+            value.status = 'reused'; value.injuryAdded = self.result.injuryAdded; return value;
+        }
+        if (self.id == nil || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('postmortem-definition');
+        rpgExpandedValidate(self.profile); rpgInteger(self.amount,1,100000);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'postmortem-approval'; return value; }
+        if (!self.profile.rules.retainPostmortemInjury) { value.reason = 'postmortem-disabled'; return value; }
+        if (!self.profile.dead) { value.reason = 'postmortem-living'; return value; }
+        foreach (local prior in self.profile.postmortemHistory)
+            if (prior.id == self.id) rpgExpandedReject('postmortem-duplicate');
+        rpgInteger(self.profile.injury,0,1000000 - self.amount);
+        value.injuryAdded = self.amount; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess();
+        if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.profile.injury += self.amount;
+        self.profile.postmortemHistory = self.profile.postmortemHistory + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

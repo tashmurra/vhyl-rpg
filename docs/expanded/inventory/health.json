@@ -660,9 +660,12 @@
       "pages": "B423",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Retain postmortem damage and body integrity where revival depends on them; a dead-state early return must not erase damage relevant to body destruction.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_postmortem"
+      ],
+      "validation_note": "Explicit campaign option routes shared wound calls on dead profiles through owned final-injury receipts. Shared injury is retained without shock or survival checks; explicit receipts support replay. Lite/default behavior unchanged. Body destruction, revival and higher-level dead-target attack adapters remain pending. Lifecycle fixtures authored, unrun."
     },
     {
       "id": "health-instant-death",
