@@ -270,3 +270,40 @@ after recovery, occupied-destination rejection, rollback, undo and continuation
 from a saved prone figure. The fixtures are authored and unrun. Automatic
 composition with every attack, fall, maneuver and death remains outstanding, as
 do forced overlap, close combat and crowded-map resolution.
+
+
+## Posture maneuvers in battle
+
+`RpgExpandedPostureManeuver` composes supported posture changes with the existing
+`RpgLiteBattle` scheduler. Set its `battle`, owned `figure`, destination `posture`
+and, when entering or leaving lying, a fresh matching `footprint` operation.
+Use zero `movement`: selecting either former occupied hex on recovery is part of
+the posture transition, not additional walking. Run `battle.step(fighter, request)`
+inside the usual engine action transaction.
+
+`available(fighter)` previews destination terrain and occupancy before action
+permission can consume randomness. The footprint's `assessTransition()` previews
+the requested future posture without temporarily writing to the character.
+Ordinary `assess()` still requires the profile's actual posture, and `apply()`
+never accepts the preview as a substitute for that committed change.
+
+After the battle resolves the posture maneuver, the adapter commits its footprint
+before the scheduler advances. It spends no separate seconds. A failed footprint
+commit raises an error so the enclosing transaction rolls back the posture as
+well. A used maneuver or footprint cannot be reused for a later turn. Entering
+lying and recovering to kneeling or sitting are supported; directly standing
+from lying is rejected, following `full-2008` B364. A later kneeling/sitting-to-
+standing maneuver retains the chosen recovery hex and needs no footprint object.
+
+Crawling, free crouching, posture changes in place of a step, forced knockdown and
+large-body transitions still need dedicated integration. Characters at zero or
+negative HP/FP return `tactical-posture-health-permission-required`; this adapter
+must gain explicit expanded action-gate composition before supporting those
+cases, rather than silently substituting the abridged permission procedure.
+Existing unconsciousness and stun restrictions remain enforced by the battle.
+
+The [battle fixture](../../tests/fixtures/expanded-tactical-posture.t) and
+`test_tactical_posture_maneuvers` specify pure previews, atomic rollback, undo,
+lying-to-kneeling-to-standing transitions, rejection of a direct rise and one
+shared second per completed combat round. They remain unrun while checks are
+paused. This adapter covers posture only, not a complete tactical combat engine.

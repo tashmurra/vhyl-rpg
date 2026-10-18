@@ -444,7 +444,9 @@ class RpgExpandedFootprintChange: object
         return [self.id,self.figure,self.figure.map,self.figure.profile,self.posture,
             self.selected.q,self.selected.r,self.approved,self.evidence];
     }
-    assess()
+    assess() { return self.assessForPosture(nil); }
+    assessTransition() { return self.assessForPosture(self.posture); }
+    assessForPosture(anticipated)
     {
         if (self.id == nil || self.id == '' || self.figure == nil
             || !self.figure.ofKind(RpgExpandedTacticalFigure) || self.figure.map == nil
@@ -465,7 +467,7 @@ class RpgExpandedFootprintChange: object
         { value.reason = 'tactical-footprint-evidence'; return value; }
         if (self.figure.bodyForm != 'upright-human')
         { value.reason = 'tactical-body-form-unimplemented'; return value; }
-        if (self.figure.profile.posture != self.posture)
+        if ((anticipated == nil ? self.figure.profile.posture : anticipated) != self.posture)
         { value.reason = 'tactical-posture-not-committed'; return value; }
         foreach (local prior in self.figure.footprintChanges)
             if (prior.id == self.id) rpgExpandedReject('tactical-footprint-duplicate');
@@ -517,5 +519,58 @@ class RpgExpandedFootprintChange: object
         }
         self.figure.footprintChanges = self.figure.footprintChanges + [self];
         value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+
+/** Atomic posture/geometry adapter for the existing battle scheduler. Only
+ * supported ordinary footprints and healthy action permission are accepted. */
+class RpgExpandedPostureManeuver: RpgLiteManeuver
+    kind = 'posture'
+    battle = nil
+    figure = nil
+    footprint = nil
+    completed = nil
+    available(fighter)
+    {
+        if (self.battle == nil || !self.battle.ofKind(RpgLiteBattle)
+            || self.figure == nil || !self.figure.ofKind(RpgExpandedTacticalFigure)
+            || self.figure.profile != fighter.profile || self.figure.map == nil)
+            rpgExpandedReject('tactical-posture-maneuver');
+        if (self.completed) return 'tactical-posture-maneuver-used';
+        if (self.battle.current() != fighter) return 'not-your-turn';
+        if (self.kind != 'posture' || self.movement != 0) return 'tactical-posture-movement';
+        self.figure.map.validate();
+        if (!holds(self.figure.map.figures,self.figure)) rpgExpandedReject('tactical-figure-ownership');
+        local reason = self.figure.footprintReason(); if (reason != nil) return reason;
+        if (!holds(['standing','kneeling','sitting','lying'],self.posture))
+            return 'tactical-posture-maneuver-unimplemented';
+        if (self.posture == fighter.profile.posture) return 'tactical-posture-unchanged';
+        if (fighter.profile.posture == 'lying' && self.posture == 'standing') return 'invalid-posture-change';
+        if (fighter.profile.hp() <= 0 || fighter.profile.fp() <= 0)
+            return 'tactical-posture-health-permission-required';
+        if (self.posture == 'lying' || fighter.profile.posture == 'lying')
+        {
+            if (self.footprint == nil || !self.footprint.ofKind(RpgExpandedFootprintChange)
+                || self.footprint.figure != self.figure || self.footprint.posture != self.posture)
+                return 'tactical-posture-footprint-required';
+            if (self.footprint.result != nil) return 'tactical-posture-footprint-used';
+            local assessment = self.footprint.assessTransition();
+            if (assessment.status != 'ready') return assessment.reason;
+        }
+        else if (self.footprint != nil) return 'tactical-posture-unexpected-footprint';
+        return inherited(fighter);
+    }
+    apply(fighter, result)
+    {
+        if (result.status != 'resolved' || result.outcome != 'posture'
+            || fighter.profile != self.figure.profile || fighter.profile.posture != self.posture)
+            rpgExpandedReject('tactical-posture-not-resolved');
+        if (self.footprint != nil)
+        {
+            local value = self.footprint.apply();
+            if (value.status != 'resolved') rpgExpandedReject('tactical-posture-footprint-changed');
+        }
+        self.completed = true; return inherited(fighter,result);
     }
 ;

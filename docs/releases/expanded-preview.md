@@ -163,3 +163,9 @@ posture with two occupied cells and recovery into either cell. They preserve
 shared posture and charge no duplicate time. Transaction/save fixtures are
 authored and unrun. Automatic composition with maneuvers, knockdown and forced
 overlap remains incomplete.
+
+An explicit tactical posture maneuver now previews geometry before action
+permission and commits posture plus footprint in one battle transaction, using
+the existing round clock. Direct standing from lying is rejected. Expanded
+exhaustion permission and forced knockdown composition remain pending; the
+new battle fixture is authored but unrun.

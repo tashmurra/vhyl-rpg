@@ -9055,6 +9055,8 @@ def test(build):
     positions = build.build('expanded-tactical-positions', ROOT / 'tests/fixtures/expanded-tactical-positions.t')
     fresh(Session, positions, test_tactical_positions)
     fresh(Session, positions, test_tactical_footprints)
+    posture = build.build('expanded-tactical-posture', ROOT / 'tests/fixtures/expanded-tactical-posture.t')
+    fresh(Session, posture, test_tactical_posture_maneuvers)
     test_tactical_footprint_persistence(Session, positions, build.out)
     test_tactical_position_persistence(Session, positions, build.out)
     example = build.build('expanded-example',ROOT / 'examples/expanded/main.t')
@@ -9301,3 +9303,30 @@ def test_tactical_footprint_persistence(Session, bundle, out):
         assert tactical_footprint_state(session) == ['lying', 0, 0, None, None, 0, 0, 0]
     finally:
         session.close()
+
+
+def test_tactical_posture_maneuvers(s):
+    s.action(2278, 50)
+    before = tactical_footprint_state(s)
+    s.action(2278, 58)
+    assert last(s, 'test.posture-preview') == [None]
+    assert tactical_footprint_state(s) == before
+    s.action(2278, 55)
+    assert tactical_footprint_state(s) == before
+    s.action(2278, 51)
+    assert last(s, 'test.posture-battle') == ['resolved', None]
+    assert tactical_footprint_state(s) == ['lying', 0, 0, 0, -1, 1, 0, 0]
+    s.command('undo')
+    assert tactical_footprint_state(s) == before
+    s.action(2278, 51)
+    s.action(2278, 52)
+    assert tactical_footprint_state(s)[-2:] == [1, 0]
+    s.action(2278, 54)
+    assert last(s, 'test.posture-battle') == ['blocked', 'invalid-posture-change']
+    s.action(2278, 53)
+    assert last(s, 'test.posture-battle') == ['resolved', None]
+    assert tactical_footprint_state(s) == ['kneeling', 0, -1, None, None, 2, 1, 0]
+    s.action(2278, 52)
+    s.action(2278, 54)
+    assert last(s, 'test.posture-battle') == ['resolved', None]
+    assert tactical_footprint_state(s) == ['standing', 0, -1, None, None, 2, 2, 0]
