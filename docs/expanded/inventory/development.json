@@ -1,0 +1,1254 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B290-B296",
+  "review": "Chapter text reviewed and existing study implementation inspected. Advancement, learning, maintenance and transformation requirements are enumerated. Partial mappings identify related study code only; teacher provenance, scheduling and other integration details still need implementation. Cross-reference and arithmetic audits remain open.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "development-unspent-points",
+      "source": "full-2008",
+      "pages": "B290",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Keep unspent awards available indefinitely and exclude them from character point value; spending transfers value from the available bank into traits exactly once.",
+      "tests": []
+    },
+    {
+      "id": "development-new-positive-trait",
+      "source": "full-2008",
+      "pages": "B290",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An eligible new positive trait consumes its ordinary cost and increases character value by the amount spent.",
+      "tests": []
+    },
+    {
+      "id": "development-leveled-trait-upgrade",
+      "source": "full-2008",
+      "pages": "B290",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Charge the difference between resolved new and old costs for an eligible leveled improvement, not the full new cost or a flat per-level estimate where modifiers alter pricing.",
+      "tests": []
+    },
+    {
+      "id": "development-negative-trait-removal",
+      "source": "full-2008",
+      "pages": "B290-B291",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An eligible removal of a negative trait consumes the original awarded magnitude and increases character value accordingly; preserve the original purchase record for later repricing.",
+      "tests": []
+    },
+    {
+      "id": "development-attribute-improvement",
+      "source": "full-2008",
+      "pages": "B290",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Increasing an attribute or secondary characteristic charges its applicable per-step cost, obeys profile limits and updates the same owned profile.",
+      "tests": []
+    },
+    {
+      "id": "development-derived-improvement",
+      "source": "full-2008",
+      "pages": "B290",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Attribute changes propagate to derived characteristics and dependent skills without separately charging those derived improvements; health +1 yields fatigue +1 and speed +0.25, with movement changing at the applicable boundary.",
+      "tests": []
+    },
+    {
+      "id": "development-strength-appearance",
+      "source": "full-2008",
+      "pages": "B290",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A strength increase does not automatically increase adult height; optional weight changes and childhood growth remain authored physical changes without invented point rebates.",
+      "tests": []
+    },
+    {
+      "id": "development-learnable-adventure-advantages",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Permit adventure-point purchase of a learnable advantage only when the campaign judges the experience equivalent to its required training.",
+      "tests": []
+    },
+    {
+      "id": "development-event-positive-trait",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An event-granted positive trait changes character value but consumes no adventure points and grants no spendable points; identify the event so replay cannot award it twice.",
+      "tests": []
+    },
+    {
+      "id": "development-event-negative-trait",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An event-imposed negative trait lowers character value but creates no compensating spendable points or free replacement abilities.",
+      "tests": []
+    },
+    {
+      "id": "development-event-refusal",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A permitted refusal of an event-granted advantage leaves both trait state and spendable points unchanged; refusing a benefit does not convert it into points.",
+      "tests": []
+    },
+    {
+      "id": "development-event-trait-buyoff",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A campaign-approved later removal of an event-imposed disadvantage requires the applicable points and world event; it must not assume that event acquisition originally credited the point bank.",
+      "tests": []
+    },
+    {
+      "id": "development-points-to-currency",
+      "source": "full-2008",
+      "pages": "B291; B26",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Convert each spent bonus point to 10% of average campaign starting wealth, with an authorized windfall reason; credit inventory currency and debit points once.",
+      "tests": []
+    },
+    {
+      "id": "development-skill-adventure-cost",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Charge the difference in skill or technique investment needed for the requested level; the 200-learning-hour equivalence explains awarded points and must not also advance calendar time.",
+      "tests": []
+    },
+    {
+      "id": "development-skill-significant-use",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Adventure-point improvement eligibility identifies significant use during the adventure that earned those points; saved points retain enough award provenance to apply the campaign decision.",
+      "tests": []
+    },
+    {
+      "id": "development-new-skill-exposure",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A new skill requires a qualifying default attempt or spending most of the adventure around sustained use by others, plus the campaign decision; mere catalogue availability is insufficient.",
+      "tests": []
+    },
+    {
+      "id": "development-new-technique-exposure",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A new technique may be purchased after significant use of its parent skill in the relevant adventure; validate its ordinary prerequisite and cap independently.",
+      "tests": []
+    },
+    {
+      "id": "development-pressure-learning-trigger",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Record a stressful default attempt as a possible learning opportunity regardless of success; a skill without a default cannot create this opportunity.",
+      "tests": []
+    },
+    {
+      "id": "development-pressure-learning-session",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At the beginning of the next session, permit the intelligence learning roll once for a qualifying opportunity; it expires if more than one session passes.",
+      "tests": []
+    },
+    {
+      "id": "development-pressure-learning-memory",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply +5 for first-level memory or +10 for photographic memory to the pressure-learning intelligence roll, with mutually exclusive levels rather than additive bonuses.",
+      "tests": []
+    },
+    {
+      "id": "development-pressure-learning-purchase",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After a successful learning roll, spend exactly one point earned in the previous session to acquire the skill; no available eligible point means no learning, and a failed roll grants no training.",
+      "tests": []
+    },
+    {
+      "id": "development-award-contract",
+      "source": "full-2008",
+      "pages": "B290",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Expose an authored award with session identity, amount, recipient and reason; ensure duplicate awards are rejected and preserve provenance for subsequent spending eligibility.",
+      "tests": []
+    },
+    {
+      "id": "development-social-relationship-acquisition",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "New allies, contacts and patrons require an identified relationship earned in play; payment for hired services alone does not establish the corresponding trait.",
+      "tests": []
+    },
+    {
+      "id": "development-social-authority-acquisition",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "New rank, status, clearance, legal or religious authority requires an identified grant by a qualified authority, with any prerequisite course, service or payment represented separately.",
+      "tests": []
+    },
+    {
+      "id": "development-reputation-acquisition",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Require a qualifying deed or body of work before permitting reputation purchase; record its audience and recognition properties through the social module.",
+      "tests": []
+    },
+    {
+      "id": "development-signature-item-acquisition",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Bind a new protected-equipment trait to an actual acquired suitable item; trait purchase alone must not fabricate another inventory copy.",
+      "tests": []
+    },
+    {
+      "id": "development-technology-improvement",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Require residence in and access to the higher-technology society's education and conveniences; imprisonment or isolation does not qualify. Expose the suggested one-level-per-year restriction as a campaign option.",
+      "tests": []
+    },
+    {
+      "id": "development-wealth-improvement",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Require accumulated money equal to the new wealth level's starting wealth after relevant payments; changing the wealth trait must not grant that starting money again.",
+      "tests": []
+    },
+    {
+      "id": "development-inborn-trait-acquisition",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Disallow routine post-creation purchase of inborn physical or mental advantages; a campaign exception names its qualifying revelation, ordeal, transformation or other event.",
+      "tests": []
+    },
+    {
+      "id": "development-dependent-removal",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Removing a dependent requires an authored explanation of the relationship change plus the trait buyoff; preserve relevant world actors rather than deleting them automatically.",
+      "tests": []
+    },
+    {
+      "id": "development-enemy-removal",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Permanent removal of an enemy trait requires both the world resolution and point buyoff; a defeated enemy can otherwise return or be replaced under authored campaign decisions.",
+      "tests": []
+    },
+    {
+      "id": "development-mental-disadvantage-removal",
+      "source": "full-2008",
+      "pages": "B291",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Permit eligible mental problems or offensive habits to be overcome at their original point value with the campaign's world justification.",
+      "tests": []
+    },
+    {
+      "id": "development-physical-disadvantage-removal",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Specify available treatment, technology or supernatural intervention, time and costs; distinguish a temporary mitigating device from permanently removing the disadvantage.",
+      "tests": []
+    },
+    {
+      "id": "development-social-stigma-removal",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Require a demonstrated change of social position or society before charging the original disadvantage buyoff; points alone cannot remove the social condition.",
+      "tests": []
+    },
+    {
+      "id": "development-stress-qualification",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Record a campaign decision on whether the triggering default attempt was stressful, including event and skill identity; do not treat every failed default as a qualifying opportunity.",
+      "tests": []
+    },
+    {
+      "id": "development-study-targets",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Support learning ordinary skills, spells, techniques and eligible advantages through their own investment and prerequisite rules, without converting study credit into unrestricted adventure points.",
+      "tests": []
+    },
+    {
+      "id": "development-study-rate",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Award one point of target investment per 200 effective learning hours, carry fractional credit forward and make preview pure; each award updates the same training ledger once.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-subject-exclusivity",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An elapsed hour contributes to only one study subject unless a specific source or authored exception applies; concurrent owned tracks cannot double-claim the interval.",
+      "tests": []
+    },
+    {
+      "id": "development-study-independent-of-adventures",
+      "source": "full-2008",
+      "pages": "B292",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Study does not require bonus-point awards; account for actual age, calendar time and applicable costs while training, including periods between played adventures.",
+      "tests": []
+    },
+    {
+      "id": "development-study-job-eligibility",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Credit employment only toward skills actually used in that job, with an employment record and qualifying hours; possessing a skill is not proof it was used at work.",
+      "tests": []
+    },
+    {
+      "id": "development-study-job-rate",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Every four qualifying job hours produce one learning hour; preserve partial-hour credit without rounding each action into a full hour.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-job-full-cap",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "For full-time employment, at most eight worked hours each day count toward job learning even if actual work lasts longer.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-job-part-cap",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "For part-time employment, at most four worked hours each day count toward job learning.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-self-eligibility",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Honor skill-specific restrictions and prerequisites that prevent self-teaching, including restricted instruction and required mastery traits; a generic study permission cannot bypass these.",
+      "tests": []
+    },
+    {
+      "id": "development-study-self-rate",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Two qualifying self-study hours yield one learning hour, with fractional credit carried across study actions.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-self-schedule",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Self-study time cannot overlap adventuring, work, meals, sleep or personal care; use the shared time ledger and explicit schedule records.",
+      "tests": []
+    },
+    {
+      "id": "development-study-self-unemployed-cap",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Apply the twelve-hour daily self-study guideline for an unemployed learner through the campaign's declared scheduling policy.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-self-part-cap",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Apply the eight-hour daily self-study guideline for a learner with a part-time job.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-self-full-cap",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Apply the four-hour daily self-study guideline for a learner with a full-time job.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-education-rate",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Each qualifying hour of professional instruction yields one learning hour; ordinary scheduling generally permits eight instruction hours per day.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-education-teaching",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Verify the instructor's actual teaching skill is at least twelve; an unrelated caller-supplied number cannot establish teaching competence.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-education-subject",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "The instructor qualifies by having either at least the learner's current subject skill level or at least the learner's invested points; do not require both for ordinary instruction.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-education-courses",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Represent semester and night-school courses as schedules whose actual credited hours determine awards; the approximate one-point examples are not extra automatic grants.",
+      "tests": []
+    },
+    {
+      "id": "development-study-intensive-rate",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Each intensive-training hour yields two learning hours; ordinary intensive scheduling can last up to sixteen hours per day.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-intensive-instructor",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Intensive instruction requires teaching skill at least twelve and both strictly higher subject skill and strictly more subject investment than the learner.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-intensive-materials",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Require the intensive course's lavish materials and expert instruction before crediting its doubled learning rate.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-intensive-fees",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Quadruple all applicable training costs and tuition for intensive instruction; debit agreed fees once through the shared currency ledger.",
+      "tests": []
+    },
+    {
+      "id": "development-study-intensive-health",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Require effective health at least twelve to complete intensive training without washing out; include the applicable fitness bonus.",
+      "tests": [],
+      "existing_feature": "study"
+    },
+    {
+      "id": "development-study-teacher-possession",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An instructor teaching a learnable advantage must possess that advantage; ordinary skill-level comparisons are insufficient for this target type.",
+      "tests": []
+    },
+    {
+      "id": "development-study-advantage-price",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Eligible advantages use the same 200-learning-hours-per-point rule and the relevant study mode, with accumulated investment buying the actual trait rather than an unrelated skill.",
+      "tests": []
+    },
+    {
+      "id": "development-study-magic-instruction",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Spell instruction uses ordinary intelligence-skill learning with spell prerequisites and qualified instruction; rarity changes teacher availability, not the spell's base skill pricing.",
+      "tests": []
+    },
+    {
+      "id": "development-study-magic-self",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Spell self-study requires literacy and suitable books; expose a specific campaign slowdown for difficult texts rather than granting the ordinary rate unconditionally.",
+      "tests": []
+    },
+    {
+      "id": "development-study-master-course",
+      "source": "full-2008",
+      "pages": "B293-B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After finding a suitable martial instructor, an authorized mastery course takes 1d+1 game-years away from ordinary play, may require authored final tests, and grants the designated mastery trait plus twenty points restricted to allowed special skills.",
+      "tests": []
+    },
+    {
+      "id": "development-study-master-compensation",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The campaign may treat mastery-course skill points as ordinary study gains or balance them with equal-value disadvantages; do not additionally put the twenty points into the unrestricted bank.",
+      "tests": []
+    },
+    {
+      "id": "development-study-teacher-availability",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Declare accessible instructors, subjects, schedule and terms, including barter or services. Instructor availability alone does not waive qualification checks.",
+      "tests": []
+    },
+    {
+      "id": "development-study-adventure-conversion",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An authored adventure-learning award specifies target, qualifying interval and effective learning rate; protect against duplicating ordinary study or bonus-point investment for the same claimed award.",
+      "tests": []
+    },
+    {
+      "id": "development-study-scheduling-policy",
+      "source": "full-2008",
+      "pages": "B293",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Distinguish source hard caps from recommendations described as usual or rare; an exceptional course needs explicit scheduling policy rather than silently exceeding or universally forbidding those recommendations.",
+      "tests": []
+    },
+    {
+      "id": "development-learnable-reflex-training",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "At technology seven or higher, realistic military simulation can teach combat reflexes; below that level the campaign can require fighting experience and bonus points instead.",
+      "tests": []
+    },
+    {
+      "id": "development-learnable-culture-immersion",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Time in a foreign land contributes four hours per day toward the local cultural familiarity even while otherwise occupied; this is a specific exception to subject exclusivity.",
+      "tests": []
+    },
+    {
+      "id": "development-learnable-language-immersion",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The same foreign residence contributes four hours per day toward the local language as well as cultural familiarity; preserve language-mode and literacy rules from the character module.",
+      "tests": []
+    },
+    {
+      "id": "development-learnable-memory-practice",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Only the first memory-advantage level is learnable through the specified daily practice or apprenticeship; one hour a day requires the corresponding accumulated learning time and does not grant photographic memory.",
+      "tests": []
+    },
+    {
+      "id": "development-learnable-enhanced-defense-training",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Learning enhanced defenses requires the specified unarmed or weapon mastery trait and follows martial-training eligibility.",
+      "tests": []
+    },
+    {
+      "id": "development-learnable-fitness-training",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Either fitness level may be acquired through exercise alone or with a trainer, using the relevant ordinary learning rate.",
+      "tests": []
+    },
+    {
+      "id": "development-learnable-gravity-experience",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Qualify gravity experience through visits to different gravity fields or suitable advanced gravity-manipulation training; identify the fields experienced rather than granting universal adaptation.",
+      "tests": []
+    },
+    {
+      "id": "development-learnable-mental-power-training",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental-power academies may teach eligible abilities and talents under the power acquisition rules. Resolve the narrower wording about talent acquisition here against B254-B255 explicitly; do not silently remove latent characters or assume a new-family permission.",
+      "tests": []
+    },
+    {
+      "id": "development-learnable-mastery-training",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use the dedicated instructor, long-duration course and completion rules for the two mastery advantages; ordinary hourly skill purchase alone is insufficient.",
+      "tests": []
+    },
+    {
+      "id": "development-maintenance-opt-in",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Skill maintenance is a campaign option disabled by default; enabling it creates owned use/practice and due-check records without retroactively inventing missed checks.",
+      "tests": []
+    },
+    {
+      "id": "development-maintenance-normal-interval",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After at least six months without use or practice, schedule an intelligence check, then repeat for each further six-month inactive period. Define calendar months through the campaign time model, not an unexplained constant number of seconds.",
+      "tests": []
+    },
+    {
+      "id": "development-maintenance-memory-modifier",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use +5 for first-level memory or +10 for photographic memory on a maintenance intelligence check.",
+      "tests": []
+    },
+    {
+      "id": "development-maintenance-intensive-modifier",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply -2 if the maintained skill was learned through intensive training; retain enough training provenance to determine when this applies.",
+      "tests": []
+    },
+    {
+      "id": "development-maintenance-failure-loss",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "On failure reduce skill by one level and remove the corresponding investment points from character value, without crediting the spendable point bank.",
+      "tests": []
+    },
+    {
+      "id": "development-maintenance-one-point-floor",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A degrading one-point skill becomes untrained/default-only and cannot degrade further; do not force a negative investment or erase unrelated prerequisites silently.",
+      "tests": []
+    },
+    {
+      "id": "development-maintenance-extreme-threshold",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A skill strictly above controlling attribute+10 is subject to daily maintenance checks when neither used in the field nor practiced for an hour that day.",
+      "tests": []
+    },
+    {
+      "id": "development-maintenance-practice-not-study",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The hour of practice that avoids an extreme-skill daily check consumes time but earns no study credit.",
+      "tests": []
+    },
+    {
+      "id": "development-maintenance-threshold-transition",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Once the skill drops to attribute+10, switch to ordinary maintenance intervals and avoid an extra daily check from stale scheduled state.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-origin-before-play",
+      "source": "full-2008",
+      "pages": "B294",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Body modifications present before play use normal character-point pricing; their artificial origin alone neither changes point price nor requires an additional creation-time cash charge.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-point-payment",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Under a point-priced modification policy, debit the required points; insufficient points follow an explicitly selected failure, equal-value replacement or debt policy rather than silently granting the trait.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-point-debt",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Permitted modification debt is a negative unspent balance; all subsequent bonus awards repay it before becoming spendable, without suppressing the granted traits or altering their purchased value.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-money-payment",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Under a cash-priced policy, debit the agreed currency and adjust character value for the new traits without also charging bonus points; enforce the procedure's recovery and failure outcomes.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-involuntary",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An involuntary transformation uses event-acquired trait accounting: adjust character value without spending or granting bonus points.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-surgical-recovery",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Surgery requires one recovery day per character point of traits added or removed; preserve the priced component changes used to establish this duration and expose recovery restrictions through health state.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-surgical-roll-modifier",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply -1 to surgery skill for each full week of required recovery; test the boundary immediately below and at a full week.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-surgical-critical-success",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A critical success halves required recovery time while retaining the successful trait changes and agreed cost accounting.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-surgical-success",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary success grants the intended modifications with normal recovery; effects and recovery belong to persistent owned records.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-surgical-failure",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A failed surgery grants no intended modification, requires normal recovery, and damages the affected body part by recovery-weeks divided by two dice. Resolve fractional dice through verified shared damage rules rather than inventing a rounding convention.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-surgical-critical-failure",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A critical failure doubles the failed-operation damage and requires an authored complication decision with specific resulting disadvantages or consequences.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-surgical-price",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "When cash pricing applies, use 1000 currency units per character point of traits added or removed, with the same auditable change basis used for recovery.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-surgical-sensitive-organ",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Operations on brain, eyes or vital organs triple both recovery time and cash cost; include this in the recovery-dependent skill penalty and failure damage.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-supernatural-recovery",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Permanent supernatural modification has no surgical recovery period; preserve any independently specified prerequisites or costs.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-supernatural-price",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "When charging cash for supernatural modification, the authored price is at least twice the equivalent surgical price; record fees or donations once.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-instant-learning",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Instantly granted skills use the selected modification payment policy and actual skill investments; any compensating mental traits or quirks are explicit changes, not implicit discounts.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-modular-learning",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Temporary skill loading from modular abilities follows the modular trait's allocation rules instead of permanent modification or ordinary study grants.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-mind-transfer-physical",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A mind transfer replaces strength, dexterity, health, their dependent secondary characteristics and physical traits with those of the receiving body.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-mind-transfer-mental",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary mind transfer preserves intelligence, will, perception and mental traits; retain skill investments and recompute their levels from the resulting attributes.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-mind-transfer-point-total",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Recalculate value after transfer; replacing a baseline body with one-arm disadvantage by a two-armed body with strength, dexterity and health twelve increases value by 100.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-mind-transfer-payment",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply the selected modification policy to voluntary transfer, using the change in value; involuntary transfer normally adjusts value without a bonus-point payment.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-brain-dependent-transfer",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An explicit brain-dependent campaign option changes intelligence, will and perception by the difference between old and new ancestry modifiers; ancestry intelligence +1 to -5 reduces intelligence by six and value by 120.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-brain-dependent-dexterity",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Support the separately chosen option to apply the ancestry-difference transfer model to dexterity; do not activate it merely because the mental brain-dependence option is enabled.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-backup-body",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A dormant backup reserved for use after death is a suitably modified extra-life trait with the chosen cash or point policy, not an automatically active duplicate character.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-backup-updates",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Maintain a backup snapshot and explicit update schedule, fees and failure/expiry conditions; restoring it must not grant skills or memories acquired after its last update.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-active-copy",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An activated copy is an independent nonplayer character with its own subsequent development; the player controls only one character and shared initial identity must not share mutable ledgers.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-copy-relationships",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Copies are not automatically allies; friendship purchases and hostile-copy consequences use the appropriate social traits and explicit authored relationship decisions.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-copy-succession",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Taking over a surviving copy after death requires campaign permission and preserves that copy's independently changed skills, traits and memories.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-involuntary-affliction",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An involuntary supernatural infection applies the resulting ancestry template and adjusts character value through event-acquisition rules.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-voluntary-affliction",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A deliberately accepted beneficial supernatural transformation follows the modification payment policy; any additional disadvantages used to meet its price are explicit authorized traits.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-death-default",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary death ends the character's career; creating a replacement is distinct from restoring an identical state or consuming an extra-life benefit.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-resurrection",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A permitted resurrection resumes the same character under the specified intervention rules; do not automatically rebuild starting inventory or reset advancement records.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-postmortem-new-form",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Returning as a different kind of body uses mind-transfer composition and the supernatural-affliction price policy, combining retained mental traits with the new physical form.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-contract-scope",
+      "source": "full-2008",
+      "pages": "B294-B295",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A campaign modification definition declares permitted trait changes, provider qualifications, payment mode, recovery, failed outcomes and consent status before execution.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-contract-surgical-complications",
+      "source": "full-2008",
+      "pages": "B295",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A complication interface identifies the operated body part, critical-failure damage and permitted resulting trait changes; validate cost and incompatibilities and preserve the decision in the treatment record.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-contract-copy-divergence",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An authored copy history specifies acquired or lost traits, investment changes and relationships since duplication; expose these differences before a player adopts that copy.",
+      "tests": []
+    },
+    {
+      "id": "development-transformation-contract-replacement-character",
+      "source": "full-2008",
+      "pages": "B296",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Replacement-character policy declares its allowed budget and creation constraints; prior character death does not authorize cloning the deceased sheet for free.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B290-B296",
+      "reason": "Exclude named fictional examples, artwork and explanatory prose. Retain mechanical examples, optional procedures and specific campaign decisions as neutral requirements."
+    },
+    {
+      "pages": "B293",
+      "reason": "Approximate yearly and semester outcomes illustrate elapsed study rates; they are not additional automatic point awards."
+    }
+  ]
+}

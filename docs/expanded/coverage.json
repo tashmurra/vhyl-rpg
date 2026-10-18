@@ -282,6 +282,7 @@
     "inventory/skills-catalogue-c.json",
     "inventory/skills-catalogue-d.json",
     "inventory/templates.json",
-    "inventory/psionics.json"
+    "inventory/psionics.json",
+    "inventory/development.json"
   ]
 }

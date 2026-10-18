@@ -16,6 +16,7 @@ copies of the reference books.
 | `full-2008` | B210–B228 | [Skill catalogue, final segment](skills-catalogue-d.json) | First text pass complete through the catalogue end; enumeration audit still open |
 | `full-2008` | B254–B257 | [Psionic powers](psionics.json) | Family memberships, advancement, interference and information contracts enumerated; underlying traits pending |
 | `full-2008` | B258–B263; B445–B454 | [Templates and combined packages](templates.json) | Composition, ancestry accounting, sample packages and design permissions enumerated; component definitions pending |
+| `full-2008` | B290–B296 | [Development and transformations](development.json) | Advancement, study, maintenance and transformation procedures enumerated; existing study mappings remain partial |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 
@@ -100,6 +101,13 @@ membership, talent bonuses and interference; it does not prescribe one universal
 activation roll or ongoing cost. The counterpower family has neither talent nor
 a source discount. Information powers also need a specific hidden-information
 contract, including the severe-failure exception for two abilities.
+
+Development has several distinct accounting paths. Spending earned points,
+earning restricted study investment, receiving an event-imposed trait and buying
+a body modification must not all use the same point-bank operation. The source
+also distinguishes ordinary teaching qualifications from intensive instruction,
+and has specific exceptions to the usual prohibition on overlapping study.
+The existing study helper covers only part of these requirements.
 
 The implementation remains incomplete and the PR remains draft. Build checks are
 currently suspended at the user's request. Newly authored inventory checks have
