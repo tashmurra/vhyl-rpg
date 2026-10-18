@@ -337,3 +337,48 @@ or blocked geometry, atomic rollback/undo, failed-consciousness immobility and
 cross-process continuation with a used permission receipt. They remain unrun.
 Forced falls from failed permission, expanded combat injuries and other footprint
 changes still need their own integration; this composes voluntary posture only.
+
+
+## Ordered path assessment
+
+`RpgExpandedMovementPath` assesses an ordered `legs` list for an owned `figure`.
+Each `RpgExpandedPathLeg` has `kind = 'entry'`, an adjacent `destination` and
+`travel` (`forward` or `sidestep`), or `kind = 'turn'` with its target `heading`.
+An optional `finalFacing` applies the free end-of-movement facing rule. The
+supported maneuver choices are `move`, `move-attack` and `increased-dodge`.
+Committed attack remains explicitly blocked until its alternative two-hex
+allowance is reconciled with terrain and action ordering.
+
+Supply verified `move` before posture reductions: this is the available movement
+score after applicable load and health effects, not the abridged profile's
+`move()` result, which already reduces movement for posture. Path assessment
+adds posture costs once through the tactical table. Deriving the score from all
+traits, sprinting and other movement modes remains an integration obligation.
+
+Terrain records now expose `minorObstructions`, `severeObstruction`,
+`treacherous`, `footingExtra`, `footingEvidence`, `stairs` and `water`, using the
+entry-assessment contracts above. The path reads these from each actual map cell.
+Its explicit `allies` list identifies figures whose cells may be crossed. Each
+such occupant adds one obstruction point; do not also count that figure in the
+terrain's static obstruction count. An unlisted occupant requires evasion. Ending
+in an occupied cell requires the separate sharing procedure and is blocked.
+
+The result reports copied `destination`, final `heading`, `halfPoints`,
+`allowanceHalfPoints`, `enteredHexes` and ordered `stages` of
+`[q, r, heading, cumulativeHalfPoints]`. Forward diagonals change the heading used
+for the next leg. A path exceeding its budget is rejected unless it contains
+exactly one entry and no paid turn: that one-hex minimum-progress exception is
+reported as `minimumProgress`. It does not bypass barriers, sitting, evasion or
+adjacency. Whole-allowance terrain accepts one entry and no paid turn, reports
+`wholeAllowance`, and cannot be followed by another entry.
+
+Only supported one-hex footprints are accepted. Lying paths require swept
+footprint handling; steps, jumps, close combat, high-speed movement, opportunity
+interruptions and full maneuver execution remain pending. Path assessment does
+not spend time, move a figure, change its facing, authorize a world action or
+consume randomness. It must be re-assessed at the eventual commit boundary.
+
+The [path fixture](../../tests/fixtures/expanded-tactical-path.t) and
+`test_tactical_paths` specify ordered headings, paid/free turns, fractional costs,
+budget rejection, minimum progress, deep water, allied traversal, occupied
+endpoints and required evasion. These fixtures remain unrun.

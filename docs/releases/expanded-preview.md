@@ -174,3 +174,8 @@ Posture maneuvers can now delegate to a fresh expanded health action gate.
 Exhaustion and injury consciousness resolve once, after geometry preflight;
 failed permission leaves the footprint unchanged. Combined rollback, undo and
 save-continuation fixtures are authored and unrun.
+
+Ordered tactical path assessment now composes entry costs, paid turns, final
+facing, ally traversal, occupied endpoints, one-hex minimum progress and
+whole-allowance terrain. It does not yet execute movement or interrupts.
+The path fixtures are authored and unrun.

@@ -594,3 +594,131 @@ class RpgExpandedPostureManeuver: RpgLiteManeuver
         self.completed = true; return inherited(fighter,result);
     }
 ;
+
+modify RpgExpandedHexTerrain
+    minorObstructions = 0
+    severeObstruction = nil
+    treacherous = nil
+    footingExtra = 1
+    footingEvidence = nil
+    stairs = nil
+    water = 'none'
+;
+
+/** One ordered path instruction: either an in-place turn or an adjacent entry. */
+class RpgExpandedPathLeg: object
+    kind = 'entry'
+    destination = nil
+    travel = 'forward'
+    heading = 0
+;
+
+/** Complete assessed path values; no position or clock has been committed. */
+class RpgExpandedPathResult: RpgExpandedMovementResult
+    destination = nil
+    allowanceHalfPoints = 0
+    enteredHexes = 0
+    minimumProgress = nil
+    stages = []
+;
+
+/** Pure single-hex path assessment, B385-B387. Move is the verified allowance
+ * before posture costs, not the posture-reduced abridged move() value. */
+class RpgExpandedMovementPath: object
+    figure = nil
+    move = 0
+    maneuver = 'move'
+    legs = []
+    allies = []
+    finalFacing = nil
+    assess()
+    {
+        local value = new RpgExpandedPathResult();
+        if (self.figure == nil || !self.figure.ofKind(RpgExpandedTacticalFigure)
+            || self.figure.map == nil || !self.figure.map.ofKind(RpgExpandedTacticalMap))
+            rpgExpandedReject('tactical-path-figure');
+        self.figure.map.validate();
+        if (!holds(self.figure.map.figures,self.figure)) rpgExpandedReject('tactical-figure-ownership');
+        value.reason = self.figure.footprintReason(); if (value.reason != nil) return value;
+        if (self.figure.upperCoordinate != nil) { value.reason = 'tactical-multi-hex-path-unimplemented'; return value; }
+        if (self.figure.profile.dead || self.figure.profile.unconscious)
+        { value.reason = 'tactical-path-incapacity'; return value; }
+        if (self.figure.profile.posture == 'sitting') { value.reason = 'tactical-sitting'; return value; }
+        local allowance = rpgExpandedMovementAllowance(self.move,self.maneuver);
+        if (self.maneuver == 'committed-attack')
+        { value.reason = 'tactical-committed-path-unimplemented'; return value; }
+        rpgInteger(self.legs.length(),0,1000);
+        local seen = [];
+        foreach (local ally in self.allies)
+        {
+            if (ally == self.figure || !holds(self.figure.map.figures,ally) || holds(seen,ally))
+                rpgExpandedReject('tactical-path-ally');
+            seen = seen + [ally];
+        }
+        local current = self.figure.coordinate; local heading = self.figure.facing;
+        local spent = 0; local paidTurns = 0; local whole = nil; local endOccupied = nil;
+        foreach (local leg in self.legs)
+        {
+            if (leg == nil || !leg.ofKind(RpgExpandedPathLeg)) rpgExpandedReject('tactical-path-leg');
+            if (leg.kind == 'turn')
+            {
+                if (leg.destination != nil) rpgExpandedReject('tactical-turn-destination');
+                local turn = rpgExpandedMovementTurn(heading,leg.heading,self.maneuver);
+                if (turn.status != 'ready') { value.reason = turn.reason; return value; }
+                spent += turn.halfPoints; paidTurns += turn.halfPoints; heading = turn.heading;
+            }
+            else if (leg.kind == 'entry')
+            {
+                if (whole) { value.reason = 'tactical-whole-allowance-path'; return value; }
+                local occupancy = self.figure.map.occupancy(leg.destination);
+                if (occupancy.status != 'ready') { value.reason = occupancy.reason; return value; }
+                local allyCount = 0;
+                foreach (local occupant in occupancy.occupants)
+                    if (occupant != self.figure)
+                    {
+                        if (!holds(self.allies,occupant)) { value.reason = 'tactical-evasion-required'; return value; }
+                        allyCount += 1;
+                    }
+                local cell = self.figure.map.cellAt(leg.destination);
+                local entry = new RpgExpandedHexEntry();
+                entry.origin = current; entry.target = leg.destination; entry.facing = heading;
+                entry.maneuver = self.maneuver; entry.travel = leg.travel;
+                entry.posture = self.figure.profile.posture; entry.terrain = cell;
+                entry.minorObstructions = cell.minorObstructions + allyCount;
+                entry.severeObstruction = cell.severeObstruction; entry.treacherous = cell.treacherous;
+                entry.footingExtra = cell.footingExtra; entry.footingEvidence = cell.footingEvidence;
+                entry.stairs = cell.stairs; entry.water = cell.water;
+                local cost = entry.assess();
+                if (cost.status != 'ready') { value.reason = cost.reason; return value; }
+                if (cost.wholeAllowance)
+                {
+                    if (value.enteredHexes != 0 || paidTurns != 0)
+                    { value.reason = 'tactical-whole-allowance-path'; return value; }
+                    whole = true; spent = allowance.halfPoints;
+                }
+                else spent += cost.halfPoints;
+                heading = cost.heading; current = leg.destination;
+                value.enteredHexes += 1; endOccupied = allyCount != 0;
+            }
+            else rpgExpandedReject('tactical-path-leg-kind');
+            value.stages = value.stages + [[current.q,current.r,heading,spent]];
+        }
+        if (endOccupied) { value.reason = 'tactical-shared-cell-procedure-required'; return value; }
+        if (whole && paidTurns != 0) { value.reason = 'tactical-whole-allowance-path'; return value; }
+        if (spent > allowance.halfPoints)
+        {
+            if (value.enteredHexes != 1 || paidTurns != 0)
+            { value.reason = 'tactical-path-budget'; return value; }
+            value.minimumProgress = true;
+        }
+        if (self.finalFacing != nil)
+        {
+            local final = rpgExpandedFinalFacing(heading,self.finalFacing,self.maneuver,allowance.halfPoints,spent);
+            if (final.status != 'ready') { value.reason = final.reason; return value; }
+            heading = final.heading;
+        }
+        value.destination = rpgExpandedHex(current.q,current.r); value.heading = heading;
+        value.halfPoints = spent; value.allowanceHalfPoints = allowance.halfPoints;
+        value.wholeAllowance = whole; value.status = 'ready'; return value;
+    }
+;

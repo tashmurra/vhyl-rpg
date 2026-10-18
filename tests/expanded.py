@@ -9052,6 +9052,8 @@ def test(build):
     tactical = build.build('expanded-tactical', ROOT / 'tests/fixtures/expanded-tactical.t')
     fresh(Session, tactical, test_tactical_geometry)
     fresh(Session, tactical, test_tactical_movement_values)
+    paths = build.build('expanded-tactical-path', ROOT / 'tests/fixtures/expanded-tactical-path.t')
+    test_tactical_paths(Session, paths)
     positions = build.build('expanded-tactical-positions', ROOT / 'tests/fixtures/expanded-tactical-positions.t')
     fresh(Session, positions, test_tactical_positions)
     fresh(Session, positions, test_tactical_footprints)
@@ -9396,3 +9398,47 @@ def test_tactical_posture_health(Session, bundle, out):
         assert health(s) == before
     finally:
         s.close()
+
+
+def test_tactical_paths(Session, bundle):
+    cases = [
+        ([], [2, 0, 0, 4, 10, 2, None, None]),
+        ([77], [1, 1, 1, 4, 10, 2, None, None]),
+        ([78], [1, 0, 0, 4, 10, 1, None, None]),
+        ([79], [2, 0, 3, 4, 10, 2, None, None]),
+        ([80], [2, 0, 0, 6, 6, 2, None, None]),
+        ([80, 81], [2, 0, 1, 6, 6, 2, None, None]),
+        ([71, 72], [1, 0, 0, 6, 2, 1, True, None]),
+        ([73], [2, 0, 0, 6, 10, 2, None, None]),
+        ([74, 76], [1, 0, 0, 10, 10, 1, None, True]),
+    ]
+    for changes, expected in cases:
+        s = Session(bundle)
+        try:
+            s.action(2278, 70)
+            initial = tactical_footprint_state(s)
+            for code in changes:
+                s.action(2278, code)
+            s.action(2278, 83)
+            assert last(s, 'test.tactical-path') == ['ready', None] + expected + [0, 0]
+            # Assessment never installs the assessed destination or changes facing.
+            s.action(2279)
+            assert last(s, 'test.tactical-position-state')[4:7] == [0, 0, 0]
+            assert tactical_footprint_state(s)[1:6] == initial[1:6]
+        finally:
+            s.close()
+    for changes, reason in [([71], 'tactical-path-budget'),
+                            ([73, 74], 'tactical-shared-cell-procedure-required'),
+                            ([73, 75], 'tactical-evasion-required'),
+                            ([76], 'tactical-whole-allowance-path'),
+                            ([80, 79], 'tactical-final-facing-limit'),
+                            ([82], 'tactical-committed-path-unimplemented')]:
+        s = Session(bundle)
+        try:
+            s.action(2278, 70)
+            for code in changes:
+                s.action(2278, code)
+            assert last(s, 'test.tactical-path')[:2] == ['blocked', reason]
+            assert tactical_footprint_state(s)[1:6] == [0, 0, None, None, 0]
+        finally:
+            s.close()
