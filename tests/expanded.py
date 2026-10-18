@@ -408,6 +408,74 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def recovery_state(s):
+    s.action(1641)
+    return last(s, 'test.recovery-state')
+
+
+def test_lasting_recovery(s):
+    s.action(1640, 0)
+    initial = recovery_state(s)
+    assert initial == [0, 1, 0, 6, 4, 0, 1, 3]
+    s.action(1640, 4)
+    assert last(s, 'test.recovery-preview') == ['recovery-month-not-reached']
+    assert recovery_state(s) == initial
+    s.action(1640, 5)
+    assert last(s, 'test.recovery-month') == ['blocked', 'recovery-month-gap']
+    assert recovery_state(s) == initial
+    s.action(1640, 7)
+    assert recovery_state(s) == initial
+    s.action(1640, 1)
+    first = recovery_state(s)
+    assert first == [1, 1, 0, 6, 4, 0, 1, 3]
+    for code in [6, 8, 10]:
+        s.action(1640, code)
+        assert recovery_state(s) == first
+    s.action(1640, 9)
+    assert last(s, 'test.recovery-month') == ['reused', None]
+    assert recovery_state(s) == first
+    s.action(1640, 2)
+    second = recovery_state(s)
+    assert second == [2, 1, 0, 6, 4, 0, 1, 3]
+    s.action(1640, 3)
+    assert recovery_state(s) == [3, 0, 1, 6, 4, 0, 0, 3]
+    s.command('undo')
+    assert recovery_state(s) == second
+    s.action(1640, 3)
+    s.action(1640, 12)
+    later = recovery_state(s)
+    assert later == [3, 1, 1, 12, 7, 0, 1, 3]
+    s.action(1640, 3)
+    assert last(s, 'test.recovery-month') == ['reused', None]
+    assert recovery_state(s) == later
+
+
+def test_lasting_recovery_persistence(Session, bundle, out):
+    for months in [1, 3]:
+        path = out / f'expanded-lasting-{months}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1640, 0)
+            for month in range(1, months + 1):
+                first.action(1640, month)
+            saved = recovery_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1641')
+            assert recovery_state(second) == saved
+            second.action(1640, months)
+            assert last(second, 'test.recovery-month') == ['reused', None]
+            assert recovery_state(second) == saved
+            for month in range(months + 1, 4):
+                second.action(1640, month)
+            assert recovery_state(second) == [3, 0, 1, 6, 4, 0, 0, 3]
+        finally:
+            second.close()
+
+
 def duration_state(s):
     s.action(1631)
     return last(s, 'test.duration-state')
@@ -2384,6 +2452,8 @@ def test(build):
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_limb_wound_transactions)
     fresh(Session,wounds,test_crippling_duration)
+    fresh(Session,wounds,test_lasting_recovery)
+    test_lasting_recovery_persistence(Session,wounds,build.out)
     test_crippling_duration_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_limb_grip_retention)
     test_limb_grip_persistence(Session,wounds,build.out)

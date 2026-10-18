@@ -120,6 +120,44 @@ class DurationFixtureAction: Action
 ;
 durationAction: DurationFixtureAction;
 durationVerb: Verb code = 1630 action = durationAction label = 'duration-fixture';
+recoveryOne: RpgExpandedRecoveryMonth duration = limbDuration ordinal = 1 calendarId = 'harbor-calendar'
+    boundaryId = 'injury-month-1' evidence = 'first calendar anniversary';
+recoveryTwo: RpgExpandedRecoveryMonth duration = limbDuration ordinal = 2 calendarId = 'harbor-calendar'
+    boundaryId = 'injury-month-2' evidence = 'second calendar anniversary';
+recoveryThree: RpgExpandedRecoveryMonth duration = limbDuration ordinal = 3 calendarId = 'harbor-calendar'
+    boundaryId = 'injury-month-3' evidence = 'third calendar anniversary';
+class RecoveryFixtureAction: Action
+    exec(context)
+    {
+        if (healthInput.code == 0)
+        {
+            limbWound.apply(); limbPatient.ht = 18; rpgRandom.seed(5); limbDuration.apply(); return nil;
+        }
+        local month = healthInput.code == 2 || healthInput.code == 8 ? recoveryTwo
+            : healthInput.code == 3 || healthInput.code == 5 ? recoveryThree : recoveryOne;
+        if (healthInput.code == 4)
+        { event('test.recovery-preview'); eventValue(month.assess().reason); return nil; }
+        if (healthInput.code == 6)
+        {
+            month = new RpgExpandedRecoveryMonth(); month.duration = limbDuration; month.ordinal = 2;
+            month.calendarId = 'harbor-calendar'; month.boundaryId = recoveryOne.boundaryId; month.evidence = 'duplicate';
+        }
+        if (healthInput.code == 8) month.calendarId = 'different-calendar';
+        if (healthInput.code == 10) month.boundaryId = 'different-boundary';
+        if (healthInput.code == 12)
+        {
+            local wound = new RpgExpandedWound(); wound.id = 'later-injury'; wound.profile = limbPatient;
+            wound.bodyPart = limbArm; wound.location = 'arm'; wound.amount = 6; wound.dropDestination = 'floor';
+            wound.apply(); return nil;
+        }
+        month.reached = true; local value = month.apply(); event('test.recovery-month');
+        eventValue(value.status); eventValue(value.reason);
+        if (healthInput.code == 7) throw new RpgError();
+        return nil;
+    }
+;
+recoveryAction: RecoveryFixtureAction;
+recoveryVerb: Verb code = 1640 action = recoveryAction label = 'recovery-fixture';
 modify gameMain initialRoom = healthRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
@@ -188,6 +226,14 @@ act(verb,args)
         eventValue(value == nil || value.check == nil ? 0 : value.check.roll); eventValue(rpgRandom.draws);
         eventValue(value != nil && value.recovered ? 1 : 0); eventValue(limbWound.durationRecord == limbDuration ? 1 : 0);
         eventValue(limbArm.disablingWound != nil ? 1 : 0); return nil;
+    }
+    if (verb == 1640) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1641)
+    {
+        event('test.recovery-state'); eventValue(limbDuration.recoveryMonths.length());
+        eventValue(limbArm.disabled ? 1 : 0); eventValue(limbDuration.result.recovered ? 1 : 0);
+        eventValue(limbPatient.injury); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
+        eventValue(limbArm.disablingWound != nil ? 1 : 0); eventValue(limbDuration.result.months); return nil;
     }
     return vhylAct(verb,args);
 }

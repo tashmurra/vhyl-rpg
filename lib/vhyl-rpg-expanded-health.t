@@ -224,6 +224,26 @@ modify RpgExpandedProfile
                 || wound.durationRecord.result == nil
                 || !holds(['temporary','lasting','permanent'],wound.durationRecord.result.duration)))
                 rpgExpandedReject('crippling-duration-history');
+            if (wound.durationRecord != nil)
+            {
+                local record = wound.durationRecord; local boundaries = []; local calendar = nil; local ordinal = 0;
+                if (record.result.duration == 'lasting') rpgInteger(record.result.months,1,6);
+                foreach (local month in record.recoveryMonths)
+                {
+                    ordinal += 1;
+                    if (month == nil || !month.ofKind(RpgExpandedRecoveryMonth) || !month.completed
+                        || month.duration != record || month.boundDuration != record || month.ordinal != ordinal
+                        || month.boundOrdinal != ordinal || month.calendarId != month.boundCalendarId
+                        || month.boundaryId != month.boundBoundaryId || month.evidence != month.boundEvidence
+                        || !month.reached || holds(boundaries,month.boundaryId)
+                        || calendar != nil && calendar != month.calendarId)
+                        rpgExpandedReject('recovery-month-history');
+                    boundaries = boundaries + [month.boundaryId]; calendar = month.calendarId;
+                }
+                if (ordinal > 0 && (record.result.duration != 'lasting' || ordinal > record.result.months
+                    || record.result.recovered != (ordinal == record.result.months)))
+                    rpgExpandedReject('recovery-month-history');
+            }
             ids = ids + [wound.id];
         }
         return nil;
@@ -572,6 +592,7 @@ class RpgExpandedCripplingDurationResult: RpgExpandedResult
  * treatment is an explicit completed-care fact; this does not perform treatment. */
 class RpgExpandedCripplingDuration: object
     wound = nil
+    recoveryMonths = []
     combatEnded = nil
     physician = nil
     medicalTL = nil
@@ -668,5 +689,74 @@ modify RpgExpandedProfile
             }
         }
         return nil;
+    }
+;
+
+
+/** One observed campaign-calendar anniversary of a lasting injury, B422.
+ * Authors identify the actual month boundary; no fixed seconds/month is assumed. */
+class RpgExpandedRecoveryMonth: object
+    duration = nil
+    ordinal = 1
+    calendarId = nil
+    boundaryId = nil
+    reached = nil
+    evidence = nil
+    boundDuration = nil
+    boundOrdinal = 0
+    boundCalendarId = nil
+    boundBoundaryId = nil
+    boundEvidence = nil
+    completed = nil
+    assess()
+    {
+        if (self.duration == nil || !self.duration.ofKind(RpgExpandedCripplingDuration)
+            || self.duration.result == nil || self.duration.wound == nil
+            || !self.duration.wound.ofKind(RpgExpandedWound) || self.duration.wound.durationRecord != self.duration
+            || self.duration.boundWound != self.duration.wound)
+            rpgExpandedReject('recovery-month-duration');
+        local wound = self.duration.wound; local profile = wound.profile; rpgExpandedValidate(profile);
+        local value = new RpgExpandedResult();
+        if (self.completed)
+        {
+            if (!holds(self.duration.recoveryMonths,self) || self.duration != self.boundDuration
+                || self.ordinal != self.boundOrdinal || self.calendarId != self.boundCalendarId
+                || self.boundaryId != self.boundBoundaryId || self.evidence != self.boundEvidence || !self.reached)
+                rpgExpandedReject('recovery-month-retargeted');
+            value.status = 'reused'; return value;
+        }
+        rpgInteger(self.ordinal,1,6);
+        if (self.calendarId == nil || self.calendarId == '' || self.boundaryId == nil || self.boundaryId == ''
+            || self.evidence == nil || self.evidence == '') rpgExpandedReject('recovery-month-calendar-evidence');
+        if (self.duration.result.duration != 'lasting')
+        { value.reason = 'recovery-month-not-lasting'; return value; }
+        foreach (local prior in self.duration.recoveryMonths)
+        {
+            if (prior.boundaryId == self.boundaryId) rpgExpandedReject('recovery-month-duplicate-boundary');
+            if (prior.calendarId != self.calendarId) rpgExpandedReject('recovery-month-calendar-changed');
+        }
+        if (self.duration.result.recovered) { value.reason = 'recovery-month-already-recovered'; return value; }
+        if (self.ordinal != self.duration.recoveryMonths.length() + 1)
+        { value.reason = 'recovery-month-gap'; return value; }
+        if (!self.reached) { value.reason = 'recovery-month-not-reached'; return value; }
+        if (profile.dead) { value.reason = 'recovery-month-dead'; return value; }
+        if (!wound.bodyPart.disabled || wound.bodyPart.disablingWound != wound)
+            rpgExpandedReject('recovery-month-current-wound');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDuration = self.duration; self.boundOrdinal = self.ordinal;
+        self.boundCalendarId = self.calendarId; self.boundBoundaryId = self.boundaryId;
+        self.boundEvidence = self.evidence; self.completed = true;
+        self.duration.recoveryMonths = self.duration.recoveryMonths + [self];
+        if (self.ordinal >= self.duration.result.months)
+        {
+            local part = self.duration.wound.bodyPart;
+            part.disabled = nil; part.severed = nil; part.disablingWound = nil;
+            self.duration.result.recovered = true;
+        }
+        value.status = 'resolved'; return value;
     }
 ;

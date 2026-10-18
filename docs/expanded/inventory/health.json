@@ -455,9 +455,11 @@
       "tests": [
         "tests/expanded.py::test_crippling_duration",
         "tests/expanded.py::test_crippling_duration_persistence",
-        "tests/expanded.py::test_crippling_months"
+        "tests/expanded.py::test_crippling_months",
+        "tests/expanded.py::test_lasting_recovery",
+        "tests/expanded.py::test_lasting_recovery_persistence"
       ],
-      "validation_note": "Owned duration classification, active-combat gate, destroyed-part roll suppression, healing-trait bonus, explicit completed-care adjustment and temporary full-health recovery authored. Fixtures unrun. Calendar expiry, later care, permanent repair and character-value accounting remain incomplete."
+      "validation_note": "Owned duration and consecutive authored calendar anniversaries commit lasting recovery without converting months to seconds or restoring HP. Replays cannot clear newer wounds. Fixtures authored but unrun; later physician care, surgery and other repair procedures remain incomplete."
     },
     {
       "id": "health-permanent-crippling",

@@ -466,7 +466,7 @@ the historical wound remains available. Classifying a temporary injury when the
 patient is already fully healed also clears that disability immediately.
 
 Lasting recovery is recorded in calendar months, not converted to a fixed number
-of ledger seconds. Calendar expiry, later treatment, surgery, permanent repair
+of ledger seconds. The calendar milestone interface below handles lasting expiry; later treatment, surgery, permanent repair
 and the character-value consequences of permanent disability remain pending.
 This procedure grants no advancement points. It is not complete injury recovery.
 
@@ -475,3 +475,47 @@ This procedure grants no advancement points. It is not complete injury recovery.
 trait bonuses, care reductions, full-health restrictions, active-combat gates,
 duplicate/retargeted requests, rollback, undo and cross-process continuation.
 They are authored but unrun while build checks remain paused.
+
+
+## Lasting recovery on the campaign calendar
+
+`RpgExpandedRecoveryMonth` commits one observed monthly anniversary of a lasting
+injury. Set `duration` to the wound's committed duration record, `ordinal` to the
+anniversary number starting at one, and supply `calendarId`, `boundaryId`,
+`evidence` and `reached`. The author or host calendar determines actual dates:
+`boundaryId` must identify the corresponding monthly anniversary of the injury,
+not simply the next month-end or another unrelated boundary. `evidence` records
+that authored calendar fact. This is a concrete integration contract, not a date
+parser or a second clock.
+
+`assess()` blocks until the boundary is reached and requires consecutive
+ordinals. `apply()` appends the owned milestone to `duration.recoveryMonths`.
+Calendar identity must stay consistent, boundary IDs cannot be reused, and a
+committed request binds its ordinal and evidence. Reapplying that same request
+returns `reused`; changing it or supplying a duplicate boundary rejects. Profile
+validation checks the retained history and completion state.
+
+At the required number of months, the operation clears the current wound's
+functional disability and marks its duration result recovered. It does not add
+health points, consume randomness, grant advancement points, or charge elapsed
+time again. Unlike temporary disability, lasting disability does not require
+full global health at this boundary. Dead patients cannot recover through this
+operation. Temporary and permanent classifications are unavailable here.
+
+For example, a recorded three-month recovery uses three distinct authored
+anniversaries. Months one and two retain the disability; month three clears it.
+If the character later suffers a new injury to the same part, replaying month
+three of the old injury cannot clear the new disability. Ownership is checked
+against the specific wound before recovery, and completed requests are historical
+receipts thereafter.
+
+An author may commit several separately identified milestones when the story
+advances across several months. The host must establish that each anniversary
+was reached. The library deliberately does not equate a month with thirty days
+or use `rpgLedger.seconds` as a world calendar. Surgery that changes months to
+weeks, later physician care and permanent repair still need their own procedures.
+
+`test_lasting_recovery` and `test_lasting_recovery_persistence` cover early/skipped
+boundaries, calendar changes, duplicate and retargeted requests, rollback, undo,
+partial and completed save continuation, unchanged injury/time/randomness and
+replay after a newer wound. These fixtures are authored but unrun.
