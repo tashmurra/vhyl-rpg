@@ -126,7 +126,9 @@
       "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
       "tests": [
         "tests/expanded.py::test_critical_hit_assessments",
-        "tests/expanded.py::test_critical_major_wound"
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence"
       ],
       "outcome_data": {
         "table": "hit",
@@ -229,7 +231,9 @@
       "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
       "tests": [
         "tests/expanded.py::test_critical_hit_assessments",
-        "tests/expanded.py::test_critical_major_wound"
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence"
       ],
       "outcome_data": {
         "table": "hit",
@@ -247,7 +251,9 @@
       "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
       "tests": [
         "tests/expanded.py::test_critical_hit_assessments",
-        "tests/expanded.py::test_critical_major_wound"
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence"
       ],
       "outcome_data": {
         "table": "hit",
@@ -350,7 +356,9 @@
       "acceptance": "After armor divisors, halve DR rounding up; positive penetration also triggers major-wound handling.",
       "tests": [
         "tests/expanded.py::test_critical_hit_assessments",
-        "tests/expanded.py::test_critical_major_wound"
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence"
       ],
       "outcome_data": {
         "table": "head",
@@ -368,7 +376,9 @@
       "acceptance": "After armor divisors, halve DR rounding up; positive penetration also triggers major-wound handling.",
       "tests": [
         "tests/expanded.py::test_critical_hit_assessments",
-        "tests/expanded.py::test_critical_major_wound"
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence"
       ],
       "outcome_data": {
         "table": "head",
@@ -386,7 +396,9 @@
       "acceptance": "A face or skull hit becomes an eye hit even for normally ineligible damage types. If the angle makes an eye hit impossible, apply head outcome 4. Resolve pre-existing eye targets explicitly.",
       "tests": [
         "tests/expanded.py::test_critical_hit_assessments",
-        "tests/expanded.py::test_critical_major_wound"
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence"
       ],
       "outcome_data": {
         "table": "head",
@@ -404,7 +416,9 @@
       "acceptance": "A face or skull hit becomes an eye hit even for normally ineligible damage types. If the angle makes an eye hit impossible, apply head outcome 4. Resolve pre-existing eye targets explicitly.",
       "tests": [
         "tests/expanded.py::test_critical_hit_assessments",
-        "tests/expanded.py::test_critical_major_wound"
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence"
       ],
       "outcome_data": {
         "table": "head",

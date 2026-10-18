@@ -1270,3 +1270,12 @@ flag on an existing receipt is rejected.
 skull, vitals and groin, anatomy exceptions, blocked low scores, unchanged injury,
 repeat protection and immutable declaration. Fixtures remain unrun. This supports
 the major-wound consequence, not the complete attack or other critical-hit effects.
+
+
+`test_critical_major_transactions` exercises the one-point critical wound with
+held equipment inside an action transaction. It records rollback of injury,
+knockdown, random draws and the forced drop; rejection of a missing critical
+qualification or drop destination; undo; and rejection of changed historical
+flags or destinations. `test_critical_major_persistence` saves before and after
+the wound, then continues in another process without repeating the check or
+inventory transfer. These fixtures remain unrun while checks are paused.

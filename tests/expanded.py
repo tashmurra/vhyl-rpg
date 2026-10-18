@@ -291,6 +291,57 @@ def test_owned_wound_transactions(s):
     assert last(s, 'test.owned-wound') == ['reused']
 
 
+def test_critical_major_transactions(s):
+    initial = owned_wound_state(s); initial_equipment = wound_drop_state(s)
+    for code in [12,15]:
+        s.action(1610,code)
+        assert owned_wound_state(s) == initial
+        assert wound_drop_state(s) == initial_equipment
+    s.action(1610,14)
+    assert last(s,'test.owned-wound') == ['blocked']
+    assert owned_wound_state(s) == [0,0,0,0,'standing',0,0,1,0,0,0]
+    s.command('undo')
+    assert owned_wound_state(s) == initial
+    s.action(1610,11)
+    wounded = [1,1,1,1,'lying',1,1,1,10,3,0]
+    dropped = [0,'floor',0,1,1,None,500,1,0]
+    assert owned_wound_state(s) == wounded
+    assert wound_drop_state(s) == dropped
+    s.command('undo')
+    assert owned_wound_state(s) == initial
+    assert wound_drop_state(s) == initial_equipment
+    s.action(1610,11)
+    for code in [1,13,9]:
+        s.action(1610,code)
+        assert owned_wound_state(s) == wounded
+        assert wound_drop_state(s) == dropped
+
+
+def test_critical_major_persistence(Session, bundle, out):
+    for wounded in [False,True]:
+        path = out / f'expanded-critical-major-{int(wounded)}.zsave'
+        first = Session(bundle)
+        try:
+            if wounded:
+                first.action(1610,11)
+            state_before = owned_wound_state(first); equipment_before = wound_drop_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1611')
+            assert owned_wound_state(second) == state_before
+            assert wound_drop_state(second) == equipment_before
+            second.action(1610,1 if wounded else 11)
+            for code in [1,13]:
+                second.action(1610,code)
+                assert owned_wound_state(second) == [1,1,1,1,'lying',1,1,1,10,3,0]
+                assert wound_drop_state(second) == [0,'floor',0,1,1,None,500,1,0]
+        finally:
+            second.close()
+
+
 def test_owned_wound_persistence(Session, bundle, out):
     for wounded in [False, True]:
         path = out / f'expanded-owned-wound-{wounded}.zsave'
@@ -4829,6 +4880,8 @@ def test(build):
     fresh(Session,wounds,test_bandage_transactions)
     test_bandage_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_owned_wound_transactions)
+    fresh(Session,wounds,test_critical_major_transactions)
+    test_critical_major_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_limb_wound_transactions)
     fresh(Session,wounds,test_last_wound_transactions)
     test_last_wound_persistence(Session,wounds,build.out)

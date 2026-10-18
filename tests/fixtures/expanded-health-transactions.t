@@ -25,6 +25,15 @@ class HealthFixtureAction: Action
             healthPatient.equipment = [healthHeld,healthWorn,healthPacked];
             if (healthInput.code != 7) healthWound.dropDestination = 'floor';
         }
+        if (holds([11,12,14,15],healthInput.code))
+        {
+            healthPatient.equipment = [healthHeld,healthWorn,healthPacked];
+            healthWound.amount = 1; healthWound.criticalHit = healthInput.code != 15;
+            healthWound.forceMajorWound = true;
+            healthWound.dropDestination = healthInput.code == 14 ? nil : 'floor';
+        }
+        if (healthInput.code == 13)
+        { healthWound.forceMajorWound = nil; healthPatient.validateFeatures(); }
         if (healthInput.code == 8) healthPatient.ht = 15;
         if (healthInput.code == 9) healthWound.dropDestination = 'different-floor';
         if (healthInput.code == 10)
@@ -43,7 +52,7 @@ class HealthFixtureAction: Action
         else
         {
             local result = healthWound.apply(); event('test.owned-wound'); eventValue(result.status);
-            if (healthInput.code == 2 || healthInput.code == 6) throw new RpgError();
+            if (healthInput.code == 2 || healthInput.code == 6 || healthInput.code == 12) throw new RpgError();
         }
         return nil;
     }
