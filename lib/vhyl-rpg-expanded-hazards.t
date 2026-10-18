@@ -141,7 +141,122 @@ modify RpgExpandedProfile
                     || exposure.result == nil || exposure.acquiredAt == nil
                     || exposure.acquiredAt > rpgLedger.seconds || exposure.assess().status != 'reused')
                     rpgExpandedReject('infection-exposure-history');
+                local ordinal = 0; local locked = 0; local ended = nil; local ids = [];
+                foreach (local day in exposure.days)
+                {
+                    ordinal += 1;
+                    if (!day.ofKind(RpgExpandedInfectionDay) || day.exposure != exposure
+                        || day.result == nil || day.ordinal != ordinal || holds(ids,day.id)
+                        || day.completedAt != exposure.acquiredAt + ordinal * 86400
+                        || day.completedAt > rpgLedger.seconds || ended || day.assess().status != 'reused')
+                        rpgExpandedReject('infection-day-history');
+                    ids = ids + [day.id]; locked += day.result.injury; ended = day.result.ended;
+                }
+                if (exposure.ended != ended || exposure.lockedInjury != (ended ? 0 : locked)
+                    || exposure.lockedInjury > self.diseaseInjury)
+                    rpgExpandedReject('infection-injury-history');
             }
         return nil;
+    }
+;
+
+modify RpgExpandedInfectionExposure
+    days = []
+    lockedInjury = 0
+    ended = nil
+;
+
+class RpgExpandedInfectionDayResult: RpgExpandedResult
+    injury = 0
+    ended = nil
+    context = nil
+    failureWound = nil
+;
+
+/** One typical infection interval at its exact shared-time boundary. */
+class RpgExpandedInfectionDay: object
+    id = nil
+    boundId = nil
+    exposure = nil
+    antibiotics = nil
+    medicalTL = 6
+    careEvidence = nil
+    dropDestination = nil
+    boundExposure = nil
+    boundAntibiotics = nil
+    boundMedicalTL = nil
+    boundEvidence = nil
+    boundDestination = nil
+    ordinal = 0
+    completedAt = nil
+    result = nil
+    assess()
+    {
+        local value = new RpgExpandedInfectionDayResult();
+        if (self.exposure == nil || !self.exposure.ofKind(RpgExpandedInfectionExposure)
+            || self.exposure.result == nil || self.exposure.assess().status != 'reused')
+            rpgExpandedReject('infection-day-exposure');
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.exposure != self.boundExposure || self.antibiotics != self.boundAntibiotics
+                || self.medicalTL != self.boundMedicalTL || self.careEvidence != self.boundEvidence
+                || self.dropDestination != self.boundDestination || !holds(self.exposure.days,self))
+                rpgExpandedReject('infection-day-binding');
+            value.status = 'reused'; value.check = self.result.check; value.injury = self.result.injury;
+            value.ended = self.result.ended; value.failureWound = self.result.failureWound; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('infection-day-id');
+        foreach (local prior in self.exposure.days)
+            if (prior.id == self.id) rpgExpandedReject('infection-day-duplicate');
+        local patient = self.exposure.wound.profile;
+        if (!self.exposure.result.infected || self.exposure.ended || patient.dead)
+        { value.reason = 'infection-not-active'; return value; }
+        local due = self.exposure.acquiredAt + (self.exposure.days.length() + 1) * 86400;
+        if (rpgLedger.seconds != due)
+        { value.reason = rpgLedger.seconds < due ? 'infection-day-not-due' : 'infection-missed-boundary'; return value; }
+        if (self.careEvidence == nil || self.careEvidence == '')
+        { value.reason = 'infection-day-care-evidence'; return value; }
+        if (patient.medicalSupervision != nil)
+        { value.reason = 'infection-physician-care-unavailable'; return value; }
+        if (self.exposure.lockedInjury < 0 || self.exposure.lockedInjury > patient.diseaseInjury
+            || patient.diseaseInjury > patient.injury) rpgExpandedReject('infection-injury-balance');
+        local conditions = new RpgExpandedInfectionContext(); conditions.infectedMatter = self.exposure.infectedMatter;
+        conditions.specialLocale = self.exposure.specialLocale; conditions.antibiotics = self.antibiotics;
+        conditions.medicalTL = self.medicalTL;
+        local assessment = conditions.assessTypicalProgression();
+        if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
+        value.context = new RpgLiteContext(); value.context.attribute = rpgHT;
+        value.context.kind = 'disease'; value.context.modifier = assessment.modifier;
+        local score = rpgLiteScore(patient,value.context);
+        if (score == nil || score < 3) { value.reason = 'infection-resistance-score-unavailable'; return value; }
+        value.failureWound = new RpgExpandedWound(); value.failureWound.profile = patient;
+        value.failureWound.id = 'infection-' + self.exposure.wound.id + '-' + self.id;
+        value.failureWound.amount = 1; value.failureWound.dropDestination = self.dropDestination;
+        local failure = value.failureWound.assess();
+        if (failure.status != 'ready') { value.reason = failure.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local patient = self.exposure.wound.profile;
+        value.check = rpgLiteCheck(patient,value.context);
+        if (value.check.achieved)
+        {
+            self.exposure.ended = true; value.ended = true; value.failureWound = nil;
+            patient.diseaseInjury -= self.exposure.lockedInjury; self.exposure.lockedInjury = 0;
+        }
+        else
+        {
+            local harm = value.failureWound.apply();
+            if (harm.status != 'resolved') rpgExpandedReject('infection-injury-commit-changed');
+            value.injury = harm.health.injury; patient.diseaseInjury += value.injury;
+            self.exposure.lockedInjury += value.injury;
+        }
+        self.boundId = self.id; self.boundExposure = self.exposure; self.boundAntibiotics = self.antibiotics;
+        self.boundMedicalTL = self.medicalTL; self.boundEvidence = self.careEvidence; self.boundDestination = self.dropDestination;
+        self.ordinal = self.exposure.days.length() + 1; self.completedAt = rpgLedger.seconds;
+        self.exposure.days = self.exposure.days + [self]; value.status = 'resolved'; self.result = value;
+        return value;
     }
 ;

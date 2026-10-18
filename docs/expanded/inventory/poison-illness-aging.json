@@ -1152,9 +1152,10 @@
       "status": "partial",
       "acceptance": "A typical infection checks health daily with the stated contamination modifiers; failure loses one health and success ends it, ordinarily continuing until recovery or death.",
       "tests": [
-        "tests/expanded.py::test_infection_assessments"
+        "tests/expanded.py::test_infection_assessments",
+        "tests/expanded.py::test_infection_progression"
       ],
-      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
+      "validation_note": "Owned exact-boundary daily infection checks and shared disease-injury restrictions authored. Fixtures unrun. Scheduler/catch-up, physician care, immunity, discovery and transaction/save coverage remain incomplete."
     },
     {
       "id": "infection-treatment",
@@ -1165,9 +1166,10 @@
       "status": "partial",
       "acceptance": "The specified antibacterial treatment grants +3 to infection recovery checks while applicable; do not also award unrelated immediate healing.",
       "tests": [
-        "tests/expanded.py::test_infection_assessments"
+        "tests/expanded.py::test_infection_assessments",
+        "tests/expanded.py::test_infection_progression"
       ],
-      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
+      "validation_note": "Owned exact-boundary daily infection checks and shared disease-injury restrictions authored. Fixtures unrun. Scheduler/catch-up, physician care, immunity, discovery and transaction/save coverage remain incomplete."
     },
     {
       "id": "infection-surgical-eligibility",

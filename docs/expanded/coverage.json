@@ -78,9 +78,10 @@
       "status": "partial",
       "tests": [
         "tests/expanded.py::test_infection_assessments",
-        "tests/expanded.py::test_infection_acquisition"
+        "tests/expanded.py::test_infection_acquisition",
+        "tests/expanded.py::test_infection_progression"
       ],
-      "validation_note": "Pure infection assessments and private owned wound-acquisition receipts authored. Fixtures unrun. Acquisition transaction/save coverage, progression, immunity exceptions, discovery and other hazard procedures remain incomplete."
+      "validation_note": "Owned exact-boundary daily infection checks and shared disease-injury restrictions authored. Fixtures unrun. Scheduler/catch-up, physician care, immunity, discovery and transaction/save coverage remain incomplete."
     },
     {
       "id": "health",

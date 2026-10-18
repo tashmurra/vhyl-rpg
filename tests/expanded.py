@@ -408,6 +408,12 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def test_infection_progression(s):
+    s.action(1802)
+    assert last(s, 'test.infection-day') == ['infection-day-not-due',1,'reused',5,3,1,0,3]
+    assert last(s, 'test.infection-recovered') == [1,5,2,0,2,0,3]
+
+
 def test_infection_acquisition(s):
     for seed, antibiotic, expected in [
             (1,0,[0,0,10,'reused','infection-exposure-already-resolved',2,3,0]),
@@ -2994,6 +3000,7 @@ def test(build):
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_infection_acquisition)
+    fresh(Session,hazards,test_infection_progression)
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)

@@ -6,7 +6,7 @@
 
 Include `vhyl-rpg-expanded-hazards.t` after the expanded foundation and expanded health. The current
 implementation supplies infection assessments and owned acquisition receipts;
-it does not yet commit daily progression. The all-module umbrella includes these capabilities
+it supports a limited daily progression path. The all-module umbrella includes these capabilities
 without activating any hazard.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
@@ -152,3 +152,32 @@ reinfection and discovery contracts remain incomplete. Acquisition rollback,
 undo and save fixtures also remain to be added. `test_infection_acquisition`
 covers resistance, infection, prevention, preview purity and repeat protection;
 these authored cases remain unrun while checks are paused.
+
+
+## Typical daily progression
+
+`RpgExpandedInfectionDay` owns one daily check for an acquired infection. Supply
+an episode-local unique `id`, `exposure`, `antibiotics`, `medicalTL` and
+`careEvidence` describing treatment during the interval. Acquisition contamination
+stays fixed; antibiotic care can change on subsequent days. Set `dropDestination`
+if the possible injury requires an equipment drop.
+
+The host advances the shared clock to each exact daily boundary measured from
+`exposure.acquiredAt`. The request checks that boundary and spends no additional
+time. Early requests block; missed boundaries block with
+`infection-missed-boundary` rather than applying current conditions retroactively.
+Automatic scheduling and historical catch-up remain incomplete.
+
+A failed check commits one owned wound and increments the shared `diseaseInjury`
+restriction. `exposure.lockedInjury` identifies this episode's contribution to that
+restriction; it is not another health balance. A successful check ends the episode
+and releases only that contribution. It does not heal any injury or release another
+illness's restriction. Day receipts retain their outcome for idempotent replay,
+and profile validation checks order, timestamps and injury contributions.
+
+Active physician supervision blocks pending integration of B443 medical-care
+bonuses. Exceptional infection types, complete immunity, discovery, interruption,
+transaction/undo/save coverage and other disease procedures remain incomplete.
+`test_infection_progression` covers an early request, failed daily check, reuse,
+recovery and preservation of a separate disease-injury restriction. The fixture
+is authored but unrun while checks are paused.

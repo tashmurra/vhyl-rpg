@@ -41,5 +41,27 @@ act(verb,args)
         eventValue(result.check == nil ? 0 : result.check.roll); eventValue(repeat.status); eventValue(duplicate.apply().reason);
         eventValue(patient.injury); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds - time); return nil;
     }
+    if (verb == 1802)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.rules.scaledInjuryShock = true;
+        patient.injury = 2; patient.diseaseInjury = 2;
+        local wound = new RpgExpandedWound(); wound.profile = patient; wound.id = 'daily-wound'; wound.amount = 2; wound.apply();
+        local exposure = new RpgExpandedInfectionExposure(); exposure.wound = wound;
+        exposure.conditions = new RpgExpandedInfectionContext(); exposure.conditions.untreatedDirtyWound = true;
+        exposure.evidence = 'Observed wound exposure'; rpgRandom.seed(5); exposure.apply();
+        local day = new RpgExpandedInfectionDay(); day.id = 'day-one'; day.exposure = exposure;
+        day.careEvidence = 'No antibiotic care during this interval';
+        local early = day.apply(); rpgSpendTime(86400); rpgRandom.seed(5);
+        local time = rpgLedger.seconds; local first = day.apply(); local repeat = day.apply();
+        event('test.infection-day'); eventValue(early.reason); eventValue(first.injury); eventValue(repeat.status);
+        eventValue(patient.injury); eventValue(patient.diseaseInjury); eventValue(exposure.lockedInjury);
+        eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws);
+        local next = new RpgExpandedInfectionDay(); next.id = 'day-two'; next.exposure = exposure;
+        next.careEvidence = 'No antibiotic care during this interval'; rpgSpendTime(86400); rpgRandom.seed(1);
+        time = rpgLedger.seconds; local recovered = next.apply();
+        event('test.infection-recovered'); eventValue(recovered.ended ? 1 : 0); eventValue(patient.injury);
+        eventValue(patient.diseaseInjury); eventValue(exposure.lockedInjury); eventValue(exposure.days.length());
+        eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws); return nil;
+    }
     return vhylAct(verb,args);
 }
