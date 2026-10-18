@@ -362,6 +362,9 @@
     "inventory/armor-catalogue-c.json",
     "inventory/shields-and-carrying.json",
     "inventory/general-equipment-a.json",
-    "inventory/general-equipment-b.json"
+    "inventory/general-equipment-b.json",
+    "inventory/reference-overview.json",
+    "inventory/condensed-combat.json",
+    "inventory/example-compositions.json"
   ]
 }

@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "full-2008",
   "pages": "B284-B285 advanced armor",
-  "review": "All 28 advanced armor and attachment rows visually reviewed. Damage/location selectors, equipment-granted traits, power and breathing supplies inventoried. Runtime, rounding decisions and independent fixtures pending.",
+  "review": "All 28 advanced armor and attachment rows visually reviewed. Damage/location selectors, equipment-granted traits, power and breathing supplies inventoried. General rounding linked to B9; runtime and independent fixtures pending.",
   "enumeration_complete": false,
   "entries": [
     {
@@ -880,11 +880,11 @@
     {
       "id": "armor-advanced-scaling",
       "source": "full-2008",
-      "pages": "B284-B285",
+      "pages": "B9; B284-B285",
       "module": "equipment",
       "kind": "table",
       "status": "pending",
-      "acceptance": "Only note-3 pieces scale resistance beyond their introduction technology: multipliers one, one-and-a-half, two, three, four at offsets zero, one, two, three, four-or-more respectively. Scale both sides of split resistance. Do not grant unmarked inserts or every high-technology object the multiplier. Resolve fractional resistance rounding from the supplied general arithmetic before finalizing runtime fixtures.",
+      "acceptance": "Only note-3 pieces scale resistance beyond their introduction technology: multipliers one, one-and-a-half, two, three, four at offsets zero, one, two, three, four-or-more respectively. Scale both sides of split resistance. Do not grant unmarked inserts or every high-technology object the multiplier. Apply the B9 downward-rounding convention for combat results to fractional resistance unless a more specific rule overrides it; preserve the unrounded base for later technology changes. Independently test split values and half-integer products.",
       "tests": []
     },
     {

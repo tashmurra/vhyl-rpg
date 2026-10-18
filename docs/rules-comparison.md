@@ -48,3 +48,11 @@ A mechanical resolution and its fictional interpretation are separate. World
 geometry, legal permission, a teacher's availability, motives and narrative
 consequences remain explicit author inputs. That distinction must not hide an
 unimplemented numeric procedure behind a generic hook.
+
+The full reference also contains its own condensed combat appendix (B324–B328).
+This is a separate source section from `abridged-2004`. For example, B326 makes
+an attack roll of three inflict maximum damage without a damage roll; the detailed
+critical tables use another procedure (B556–B557). The expanded implementation
+must document its selection policy and test random-number consumption for each
+supported choice. The [appendix inventory](expanded/inventory/condensed-combat.json)
+records this distinction; it does not imply that either procedure is implemented.

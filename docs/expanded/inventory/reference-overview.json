@@ -1,0 +1,315 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B7-B9; B297-B306; B335-B336",
+  "review": "Introductory arithmetic and conversion rows, summary reconciliation obligations and original reporting requirements recorded. Summary catalogues still need individual cross-reference reconciliation; no completeness claim.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "overview-dice",
+      "source": "full-2008",
+      "pages": "B7-B9",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use six-sided dice; nd means sum n independent faces, signed adds apply after summation, and a written multiplier applies to the resulting dice expression. Keep expression parsing and expected values distinct from execution; preview consumes no randomness. Detailed critical and automatic-result rules still apply to success checks despite the introductory roll-under shorthand.",
+      "tests": []
+    },
+    {
+      "id": "overview-point-rounding",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Except for an explicit exception, percentage-modified or multiplied point costs round toward positive infinity. Examples: fifteen times 1.25 gives nineteen; negative seven times one half gives negative three. Use exact rational intermediate values, and apply rounding at the procedure-defined stage rather than rounding each modifier independently.",
+      "tests": []
+    },
+    {
+      "id": "overview-feat-combat-rounding",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Except for an explicit exception, computed feats and combat results round downward. Three damage with a fifty-percent increase yields four. Keep special nearest-integer, upward and no-rounding rules local to their procedures; a shared helper must not erase those exceptions or perform early rounding of a chain of factors.",
+      "tests": []
+    },
+    {
+      "id": "overview-reaction-contract",
+      "source": "full-2008",
+      "pages": "B8-B9",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reactions may be authored in advance or rolled. Rolled reactions use three dice with modifiers and increasing desirability as totals rise. Apply appearance only when the reacting observer can perceive it; do not mutate hidden attitudes during preview or consume reaction randomness when the author supplied a definite reaction.",
+      "tests": []
+    },
+    {
+      "id": "overview-prerequisite-investment",
+      "source": "full-2008",
+      "pages": "B7; B169",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A required skill needs at least one invested point; a derived default score alone does not satisfy a prerequisite. Reconcile this with explicit catalogue exceptions using the original investment identity, not a copied displayed level.",
+      "tests": []
+    },
+    {
+      "id": "overview-units-inch",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preserve the distinction between the convenient game conversion and the printed more precise conversion. Use a declared display/unit policy, retaining canonical mechanical units and avoiding repeated conversion drift. The printed precision is not a claim of exact physical equality.",
+      "tests": [],
+      "conversion_data": {
+        "source_unit": "inch",
+        "target_unit": "centimeter",
+        "game_multiplier": 2.5,
+        "printed_multiplier": 2.54
+      }
+    },
+    {
+      "id": "overview-units-foot",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preserve the distinction between the convenient game conversion and the printed more precise conversion. Use a declared display/unit policy, retaining canonical mechanical units and avoiding repeated conversion drift. The printed precision is not a claim of exact physical equality.",
+      "tests": [],
+      "conversion_data": {
+        "source_unit": "foot",
+        "target_unit": "centimeter",
+        "game_multiplier": 30,
+        "printed_multiplier": 30.48
+      }
+    },
+    {
+      "id": "overview-units-yard",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preserve the distinction between the convenient game conversion and the printed more precise conversion. Use a declared display/unit policy, retaining canonical mechanical units and avoiding repeated conversion drift. The printed precision is not a claim of exact physical equality.",
+      "tests": [],
+      "conversion_data": {
+        "source_unit": "yard",
+        "target_unit": "meter",
+        "game_multiplier": 1,
+        "printed_multiplier": 0.914
+      }
+    },
+    {
+      "id": "overview-units-mile",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preserve the distinction between the convenient game conversion and the printed more precise conversion. Use a declared display/unit policy, retaining canonical mechanical units and avoiding repeated conversion drift. The printed precision is not a claim of exact physical equality.",
+      "tests": [],
+      "conversion_data": {
+        "source_unit": "mile",
+        "target_unit": "kilometer",
+        "game_multiplier": 1.5,
+        "printed_multiplier": 1.609
+      }
+    },
+    {
+      "id": "overview-units-pound",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preserve the distinction between the convenient game conversion and the printed more precise conversion. Use a declared display/unit policy, retaining canonical mechanical units and avoiding repeated conversion drift. The printed precision is not a claim of exact physical equality.",
+      "tests": [],
+      "conversion_data": {
+        "source_unit": "pound",
+        "target_unit": "kilogram",
+        "game_multiplier": 0.5,
+        "printed_multiplier": 0.454
+      }
+    },
+    {
+      "id": "overview-units-ton",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preserve the distinction between the convenient game conversion and the printed more precise conversion. Use a declared display/unit policy, retaining canonical mechanical units and avoiding repeated conversion drift. The printed precision is not a claim of exact physical equality.",
+      "tests": [],
+      "conversion_data": {
+        "source_unit": "ton",
+        "target_unit": "metric-ton",
+        "game_multiplier": 1,
+        "printed_multiplier": 0.907
+      }
+    },
+    {
+      "id": "overview-units-gallon",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preserve the distinction between the convenient game conversion and the printed more precise conversion. Use a declared display/unit policy, retaining canonical mechanical units and avoiding repeated conversion drift. The printed precision is not a claim of exact physical equality.",
+      "tests": [],
+      "conversion_data": {
+        "source_unit": "gallon",
+        "target_unit": "liter",
+        "game_multiplier": 4,
+        "printed_multiplier": 3.785
+      }
+    },
+    {
+      "id": "overview-units-quart",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preserve the distinction between the convenient game conversion and the printed more precise conversion. Use a declared display/unit policy, retaining canonical mechanical units and avoiding repeated conversion drift. The printed precision is not a claim of exact physical equality.",
+      "tests": [],
+      "conversion_data": {
+        "source_unit": "quart",
+        "target_unit": "liter",
+        "game_multiplier": 1,
+        "printed_multiplier": 0.946
+      }
+    },
+    {
+      "id": "overview-units-ounce",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preserve the distinction between the convenient game conversion and the printed more precise conversion. Use a declared display/unit policy, retaining canonical mechanical units and avoiding repeated conversion drift. The printed precision is not a claim of exact physical equality.",
+      "tests": [],
+      "conversion_data": {
+        "source_unit": "ounce",
+        "target_unit": "gram",
+        "game_multiplier": 30,
+        "printed_multiplier": 28.349
+      }
+    },
+    {
+      "id": "overview-units-cubic-inch",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preserve the distinction between the convenient game conversion and the printed more precise conversion. Use a declared display/unit policy, retaining canonical mechanical units and avoiding repeated conversion drift. The printed precision is not a claim of exact physical equality.",
+      "tests": [],
+      "conversion_data": {
+        "source_unit": "cubic-inch",
+        "target_unit": "cubic-centimeter",
+        "game_multiplier": 16,
+        "printed_multiplier": 16.387
+      }
+    },
+    {
+      "id": "overview-units-cubic-yard",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preserve the distinction between the convenient game conversion and the printed more precise conversion. Use a declared display/unit policy, retaining canonical mechanical units and avoiding repeated conversion drift. The printed precision is not a claim of exact physical equality.",
+      "tests": [],
+      "conversion_data": {
+        "source_unit": "cubic-yard",
+        "target_unit": "cubic-meter",
+        "game_multiplier": 0.75,
+        "printed_multiplier": 0.765
+      }
+    },
+    {
+      "id": "overview-temperature-conversion",
+      "source": "full-2008",
+      "pages": "B9",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For a temperature difference, multiply Fahrenheit degrees by five ninths; for an absolute reading, subtract thirty-two first. Thus a forty-five-degree difference is twenty-five Celsius degrees and ninety-five Fahrenheit is thirty-five Celsius. Keep temperature and temperature difference distinct in hazard thresholds.",
+      "tests": []
+    },
+    {
+      "id": "overview-summary-traits-audit",
+      "source": "full-2008",
+      "pages": "B297-B300",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reconcile every summary trait row with its detailed entry, including category, physical/mental/social scope, exotic/supernatural classification and point cost. A summary alias is not a new purchasable instance. Keep detailed modifiers and restrictions authoritative under an explicit documented precedence policy; catalogue-row reconciliation is still pending.",
+      "tests": []
+    },
+    {
+      "id": "overview-summary-skills-audit",
+      "source": "full-2008",
+      "pages": "B301-B304",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reconcile each summary skill and technique row with detailed catalogue metadata: governing attribute, difficulty, default edges, specializations, technology and source page. Asterisks mark conditional defaults and cannot be discarded. Summary cross-checks remain pending and must become row-level mappings before inventory completeness.",
+      "tests": []
+    },
+    {
+      "id": "overview-summary-spells-audit",
+      "source": "full-2008",
+      "pages": "B304-B306",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reconcile every spell summary row against detailed spell data for difficulty, class, group, casting time, duration, energy, maintenance and prerequisites. Shared spell rows must retain a single purchase identity. Summary-table reconciliation and any disagreement decisions remain pending rather than assumed identical.",
+      "tests": []
+    },
+    {
+      "id": "overview-character-display-state",
+      "source": "full-2008",
+      "pages": "B335-B336",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Provide original views over existing state for purchased primary/secondary scores, current health/fatigue, lift, damage, movement, dodge, languages, cultural knowledge, reaction modifiers, defenses and costs. Distinguish current resources from purchased maxima. Reporting must not create another mutable character ledger or reproduce the supplied form layout.",
+      "tests": []
+    },
+    {
+      "id": "overview-character-accounting-view",
+      "source": "full-2008",
+      "pages": "B336",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Point summaries distinguish attributes/secondary scores, beneficial traits and social/background purchases, drawbacks, skills/techniques and other contributions. Equipment views retain location, cost and mass and weapon mode statistics. Sum registered contributions once; derived displayed values do not independently cost points.",
+      "tests": []
+    },
+    {
+      "id": "overview-sheet-encumbrance",
+      "source": "full-2008",
+      "pages": "B335",
+      "module": "exploration",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Reconcile sheet formulas with detailed rules: basic lift is strength squared divided by five; load thresholds are one, two, three, six and ten times lift; move multipliers one, 0.8, 0.6, 0.4, 0.2; dodge penalties zero through four. Preserve detailed rounding and nonhuman exceptions, including powered equipment and actual carried mass.",
+      "tests": []
+    },
+    {
+      "id": "overview-sheet-range-locations",
+      "source": "full-2008",
+      "pages": "B336; B398-B400; B550",
+      "module": "combat",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "The sheet repeats range bands through seven hundred yards and common location penalties. It lists torso zero, arm/leg minus two, groin minus three, hand minus four, face minus five and skull minus seven, and identifies impaling/piercing for vitals minus three and eyes minus nine. Compare against the detailed tables, which include additional eligible attacks and locations; the short sheet must not remove those capabilities.",
+      "tests": []
+    }
+  ]
+}

@@ -6,8 +6,13 @@ smaller obligations that must be resolved before those modules can be complete.
 They contain neutral identifiers and acceptance criteria, not source prose or
 copies of the reference books.
 
+The [scope and reconciliation guide](scope.md) distinguishes mechanical entries,
+summary cross-checks and excluded narrative material. Summary-table and index
+reconciliation remain open; reading a chapter is not proof of complete coverage.
+
 | Reference | Printed pages | Detailed ledger | Review state |
 | --- | --- | --- | --- |
+| `full-2008` | B7–B9; B297–B306; B335–B336 | [Conventions, summaries and reporting](reference-overview.json) | Arithmetic and display obligations recorded; row-level summary reconciliation pending |
 | `full-2008` | B10–B31 | [Character creation](creation.json) | Text reviewed; table verification and complete enumeration still open |
 | `full-2008` | B32–B37 | [Trait foundation and initial catalogue](traits-foundation.json) | Categories, activation, potential purchases, senses, condition attacks and companion pricing enumerated; catalogue continuation pending |
 | `full-2008` | B38–B42 | [Trait catalogue, second segment](traits-catalogue-b.json) | Companion modifiers, time, identities, limb attributes, restraint and perception capabilities enumerated; natural-weapon continuation pending |
@@ -61,6 +66,8 @@ copies of the reference books.
 | `full-2008` | B288 camping section | [Camping and survival equipment](general-equipment-a.json) | 47 distinct profiles visually reviewed; capacities, prerequisites and supply clocks recorded; execution pending |
 | `full-2008` | B288 communications; B289 | [Tools, communications and accessories](general-equipment-b.json) | 79 profiles visually reviewed; skill-specific uses, supplies and mount modifiers recorded; execution pending |
 | `full-2008` | B290–B296 | [Development and transformations](development.json) | Advancement, study, maintenance and transformation procedures enumerated; existing study mappings remain partial |
+| `full-2008` | B307–B323 mechanical constructions | [Example composition requirements](example-compositions.json) | Reusable attack/template combinations recorded; named characters and fiction excluded; component integration pending |
+| `full-2008` | B324–B328 | [Condensed combat appendix](condensed-combat.json) | Procedures inventoried; critical-hit variant and detailed-rule precedence recorded; execution pending |
 | `full-2008` | B343–B349 | [Task resolution](task-resolution.json) | Roll procedures, equipment modifiers, timing, projects and contests enumerated |
 | `full-2008` | B349–B357 | [Physical activities](physical-activities.json) | Activity procedures, gravity, numeric tables and effort options enumerated |
 | `full-2008` | B358–B361 | [Senses, influence and fear](senses-influence-fear.json) | Hearing and fear tables enumerated by row; full fear dispatch remains pending |

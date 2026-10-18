@@ -1,0 +1,229 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B324-B328",
+  "review": "Condensed combat procedures inventoried and separated from the standalone abridged source. Critical-hit simplification and detailed-rule precedence remain explicit implementation decisions; executable behavior and independent fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "condensed-profile-precedence",
+      "source": "full-2008",
+      "pages": "B324-B328",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The full reference contains a condensed combat appendix; it is not the separate abridged-2004 source. Document which detailed procedures govern the expanded profile and any explicitly selectable condensed variants. Do not replace existing Lite behavior merely because the appendix has a similar title. Differences require independent expected-value and random-consumption fixtures.",
+      "tests": []
+    },
+    {
+      "id": "condensed-turns",
+      "source": "full-2008",
+      "pages": "B324",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Turn order is fixed at encounter start by descending basic speed, then dexterity where player characters are involved, then a single tie roll. Author may order equal-speed allied nonplayer actors. All actors acting once advances one second, not one second per actor. Author controls transitions into and out of combat time.",
+      "tests": []
+    },
+    {
+      "id": "condensed-aim",
+      "source": "full-2008",
+      "pages": "B324",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Aim binds one detected target and one weapon or aiming device. Next matching attack or committed all-out attack gains accuracy; consecutive aim grants one additional at two seconds or two at three-plus. One step is allowed. Active defense cancels aim; injury requires will to retain it. Do not transfer accumulated aim to a new item or target.",
+      "tests": []
+    },
+    {
+      "id": "condensed-all-out-attack",
+      "source": "full-2008",
+      "pages": "B324",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Melee choices are one attack at plus four, two eligible attacks on the same target, feint then attack, or strength-based damage plus two or plus one per die if larger. Off-hand penalties remain. Ranged choices are plus one to hit or suppression requiring rate five-plus. Permit forward movement up to half Move and no active defense until the next turn. Resolve detailed procedure conditions separately from the summary.",
+      "tests": []
+    },
+    {
+      "id": "condensed-all-out-defense",
+      "source": "full-2008",
+      "pages": "B324-B325",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Choose plus two to one active defense or two distinct defenses against one attack, trying the second only after the first fails. A parry with the other hand counts as distinct. Increased dodge permits half Move; otherwise one step. Respect eligibility and defense-use limits rather than granting any two arbitrary rolls.",
+      "tests": []
+    },
+    {
+      "id": "condensed-attack-posture",
+      "source": "full-2008",
+      "pages": "B325",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Attack requires ready weapon and legal reach/range with at most a step. Standing from lying takes two posture changes through crawling, kneeling or sitting; standing/kneeling may interchange as a step. Track posture and apply detailed movement, attack and defense modifiers rather than only changing descriptive text.",
+      "tests": []
+    },
+    {
+      "id": "condensed-concentration",
+      "source": "full-2008",
+      "pages": "B325",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A concentration action occupies the turn. Active defense, knockdown, injury or other qualifying distraction requires will minus three; failure loses progress and requires restarting. Preserve owned pending actions and identify each actual interruption event so one event cannot provoke duplicate checks.",
+      "tests": []
+    },
+    {
+      "id": "condensed-stun-do-nothing",
+      "source": "full-2008",
+      "pages": "B325; B327",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Physical or mental stun requires doing nothing with minus four active defense. Health or intelligence recovery, respectively, resolves at turn end. A successful recovery cannot retroactively free the already-spent turn. Non-stunned doing nothing still permits ordinary defenses.",
+      "tests": []
+    },
+    {
+      "id": "condensed-evaluate",
+      "source": "full-2008",
+      "pages": "B325",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Evaluate targets a visible opponent within attack or one move-and-attack reach. Consecutive turns grant one each to a maximum three on the next qualifying attack or feint against that opponent. Expire or invalidate the owned target-specific benefit according to the detailed rules; do not create a permanent skill increase.",
+      "tests": []
+    },
+    {
+      "id": "condensed-feint",
+      "source": "full-2008",
+      "pages": "B325",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Feint is not a damaging attack and does not unready the weapon. Use the opposed eligible combat skills or defender dexterity. Attacker failure or no greater success produces no benefit; defender failure gives attacker success margin, otherwise attacker winning margin. Apply only to the attacker's next qualifying attack, including both attacks of a double all-out action, never an ally's attack.",
+      "tests": []
+    },
+    {
+      "id": "condensed-movement-ready-wait",
+      "source": "full-2008",
+      "pages": "B325",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Move permits full movement without another action. Move-and-attack applies worse of minus two or bulk at range, or minus four capped at skill nine in melee, with dodge/block only. Ready handles preparation, physical operations and eligible trait toggles while permitting step and defense. Wait stores a trigger and action before execution and may interrupt into attack, feint, declared all-out option or ready; turn order resumes afterward.",
+      "tests": []
+    },
+    {
+      "id": "condensed-attack-resolution",
+      "source": "full-2008",
+      "pages": "B326",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Attack requires ready item and valid range/reach before rolls. Effective skill includes accuracy when aimed, size, combined range/speed and applicable circumstances. Three/four are critical; five is critical at skill fifteen and six at sixteen-plus; seventeen/eighteen miss. Ordinary success allows a legal defense before damage. Avoid spending randomness for an invalid range or undetected aim target.",
+      "tests": []
+    },
+    {
+      "id": "condensed-critical-procedure-difference",
+      "source": "full-2008",
+      "pages": "B326; B556-B557",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The condensed appendix makes attack-roll three deal maximum damage without a damage roll; other critical hits bypass defense but roll ordinary damage. Detailed critical tables use a separate procedure. Record a named profile/option and precedence decision; do not combine maximum damage with a detailed critical-table roll or silently apply the condensed rule to every expanded attack.",
+      "tests": []
+    },
+    {
+      "id": "condensed-active-defense",
+      "source": "full-2008",
+      "pages": "B326-B327",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Eligible conscious, mobile defenders aware of an attack may choose a legal active defense; three/four always succeeds and seventeen/eighteen fails. Dodge is floor(basic speed plus three) minus encumbrance, once per attack. Against multiple hits it avoids one plus success margin; critical success avoids all. Apply maneuver limits and declared double defense without granting defenses to unaware or incapacitated targets.",
+      "tests": []
+    },
+    {
+      "id": "condensed-block",
+      "source": "full-2008",
+      "pages": "B327",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Block requires a ready shield or cloak and scores three plus floor(half skill), once per turn. It covers melee, thrown weapons, projected liquids and muscle-powered missiles, not ordinary bullets/beams. Shield defense bonus and active block eligibility are separate decisions.",
+      "tests": []
+    },
+    {
+      "id": "condensed-parry",
+      "source": "full-2008",
+      "pages": "B327",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Parry requires a ready weapon or empty hand and scores three plus floor(half weapon skill), with weapon bonuses and unbalanced restrictions. Ordinary parries cover melee and thrown weapons; thrown penalty is minus one, or minus two at one pound or less. A reachable missile weapon can be deflected at its source. A weapon parry against an unarmed limb allows the stated immediate skill check and damage without another defense; reconcile detailed skill exceptions rather than assuming all unarmed attacks behave identically.",
+      "tests": []
+    },
+    {
+      "id": "condensed-damage-low-health",
+      "source": "full-2008",
+      "pages": "B327",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Subtract applicable resistance then apply injury multipliers: crushing one, cutting one-and-a-half, impaling two, with other types using their detailed rules. Below one third health halve Move and Dodge upward; at zero or less check consciousness each turn; death checks occur at negative whole multiples and automatic death at negative five times maximum. Detailed exceptions govern immobility, rest and further injuries.",
+      "tests": []
+    },
+    {
+      "id": "condensed-wounds-shock",
+      "source": "full-2008",
+      "pages": "B327",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A single wound strictly above half maximum health is major; torso checks health, failure stuns/knocks down and failure by five-plus causes unconsciousness. Shock penalizes dexterity, intelligence and their skills for the next turn only, capped at four; high-health scaling uses the supplied health-divided-by-ten rule and detailed rounding. Reconcile the glossary's different equal-half wording explicitly.",
+      "tests": []
+    },
+    {
+      "id": "condensed-unconscious-recovery",
+      "source": "full-2008",
+      "pages": "B328",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Positive-health unconsciousness ends after fifteen minutes. At zero through above negative maximum, hourly health checks awaken; new injury restarts consciousness pressure. At negative maximum or below, one health check after twelve hours may awaken; failure requires medical help and subsequent twelve-hour health checks risk death. Keep incapacitation description authored without changing the mechanical inability to act.",
+      "tests": []
+    },
+    {
+      "id": "condensed-natural-healing",
+      "source": "full-2008",
+      "pages": "B328",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A day of rest and adequate food allows a health check to recover one health, modified by authored conditions. Exclude damage that cannot heal naturally. Record eligible intervals and wound restrictions rather than permitting a fresh day or extra roll whenever the actor changes rooms or reloads a save.",
+      "tests": []
+    },
+    {
+      "id": "condensed-fatigue-thresholds",
+      "source": "full-2008",
+      "pages": "B328",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Below one third fatigue halve Move, Dodge and strength upward without changing strength-derived health or damage. At zero or below, further fatigue also injures health and non-rest/talk actions need will. Failure incapacitates until positive fatigue. At negative maximum fatigue become unconscious, clamp fatigue there and charge further costs to health; awakening requires positive fatigue. Preserve combined low-health/low-fatigue effects and one resource charge.",
+      "tests": []
+    },
+    {
+      "id": "condensed-fatigue-recovery",
+      "source": "full-2008",
+      "pages": "B328",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary fatigue recovers one per ten minutes of quiet rest; talking, reading and thinking qualify, walking does not. An authored adequate meal may grant one extra fatigue. Special fatigue types and supernatural recovery use their own restrictions. Persistent recovery intervals and meal identity prevent duplicate credit.",
+      "tests": []
+    }
+  ]
+}
