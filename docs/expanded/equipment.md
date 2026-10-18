@@ -409,6 +409,7 @@ charge another pickup duration for this action.
 
 The fixture specifies preview, one-/two-hand limits, disabled-hand rejection,
 post-time interruption rollback, undo, replay and separate-process save
-continuation. Assertions remain unrun. Combat Ready sequences, lifting skill,
-cooperative lifts, overload, sustained gripping and parser/dialogue routing remain
+continuation. Assertions remain unrun. A resolved lifting-skill attempt can now be attached through `skillAttempt`; see
+[trained capacity](exploration.md#applying-trained-capacity-to-a-pickup). Combat Ready
+sequences, failed-attempt timing, cooperative lifts, overload, sustained gripping and parser/dialogue routing remain
 incomplete. Source: full-2008, B353.

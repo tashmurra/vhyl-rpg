@@ -968,13 +968,14 @@ class RpgExpandedLiftingSkillAttempt: object
     modifier = 0
     result = nil
     boundDefinition = nil
+    boundLiftDefinition = nil
     definition() { return [self.id,self.profile,self.skill,self.lift,self.approved,self.evidence,self.modifier]; }
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
             || self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || self.skill.id != 'lifting'
             || self.skill.attribute != rpgHT || self.skill.difficulty != 1 || self.skill.defaultPenalty != nil
-            || self.lift == nil) rpgExpandedReject('lifting-skill-definition');
+            || self.lift == nil || !self.lift.ofKind(RpgExpandedLiftIdentity)) rpgExpandedReject('lifting-skill-definition');
         local value = new RpgExpandedLiftingSkillResult();
         if (self.result != nil)
         {
@@ -988,6 +989,8 @@ class RpgExpandedLiftingSkillAttempt: object
             if (prior.id == self.id || prior.lift == self.lift) rpgExpandedReject('lifting-skill-duplicate');
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'lifting-skill-author-facts'; return value; }
+        value.reason = self.lift.skillPreparationReason();
+        if (value.reason != nil) return value;
         local trained = nil;
         foreach (local training in self.profile.skills)
             if (training.skill == self.skill && training.points > 0) trained = true;
@@ -1010,10 +1013,44 @@ class RpgExpandedLiftingSkillAttempt: object
     {
         local value = self.assess(); if (value.status == 'reused') return self.result;
         if (value.status != 'ready') return value;
+        self.boundLiftDefinition = self.lift.liftingDefinition();
         value.check = rpgCheck(value.score,rpgRandom.roll());
         local margin = value.check.achieved && value.check.margin > 0 ? value.check.margin : 0;
         value.liftNumerator = value.baseLift * (100 + 5 * margin);
         self.boundDefinition = self.definition(); self.profile.liftingSkillAttempts = self.profile.liftingSkillAttempts + [self];
         value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedLoadAssessment
+    capacityNumerator = nil
+    capacityDenominator = 100
+;
+modify rpgExpandedLiftingRules
+    assessWithSkill(operation,attempt)
+    {
+        local value = new RpgExpandedLoadAssessment();
+        if (attempt == nil || !attempt.ofKind(RpgExpandedLiftingSkillAttempt)
+            || attempt.lift != operation || attempt.profile != operation.profile)
+            rpgExpandedReject('lifting-skill-operation');
+        if (attempt.result == nil) { value.reason = 'lifting-skill-unresolved'; return value; }
+        attempt.assess();
+        local current = operation.liftingDefinition();
+        if (current.length() != attempt.boundLiftDefinition.length()) rpgExpandedReject('lifting-skill-request-changed');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != attempt.boundLiftDefinition[index]) rpgExpandedReject('lifting-skill-request-changed');
+        local result = attempt.result;
+        local margin = result.check.achieved && result.check.margin > 0 ? result.check.margin : 0;
+        if (result.baseLift != operation.profile.basicLiftHundredths() || result.liftDenominator != 100
+            || result.liftNumerator != result.baseLift * (100 + 5 * margin))
+            rpgExpandedReject('lifting-skill-capacity-binding');
+        local multiple = operation.mode == 'one-hand' ? 2 : 8;
+        rpgInteger(result.liftNumerator,1,2147483647 / multiple);
+        value.capacityNumerator = result.liftNumerator * multiple;
+        value.capacityHundredths = value.capacityNumerator % 100 == 0 ? value.capacityNumerator / 100 : nil;
+        value.seconds = operation.mode == 'one-hand' ? 2 : 4;
+        local weight = operation.item.weightHundredths(); rpgInteger(weight,1,2147483647 / 100);
+        if (weight * 100 > value.capacityNumerator) { value.reason = 'lifting-capacity'; return value; }
+        value.status = 'ready'; return value;
     }
 ;

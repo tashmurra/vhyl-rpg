@@ -8984,6 +8984,7 @@ def test(build):
     test_equipment_lift(Session, equipment_lift, build.out)
     lifting_skill = build.build('expanded-lifting-skill', ROOT / 'tests/fixtures/expanded-lifting-skill.t')
     test_lifting_skill(Session, lifting_skill, build.out)
+    test_skilled_pickup(Session, lifting_skill, build.out)
     digging_work = build.build('expanded-digging-work', ROOT / 'tests/fixtures/expanded-digging-work.t')
     test_digging_work(Session, digging_work, build.out)
     test_digging_material(Session, digging_work, build.out)
@@ -13164,3 +13165,52 @@ def test_lifting_skill(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_skilled_pickup(Session, bundle, out):
+    def state(s):
+        s.action(2285, 743)
+        return last(s, 'test.lift-owned')
+    clear = [0,0,0,0,0,18000]
+    carried = [1,18000,1,4,3,18000]
+    path = out / 'expanded-skilled-pickup.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,757,740):
+            s.action(2285, code)
+        assert last(s, 'test.lift-preview')[:2] == ['blocked','lifting-skill-unresolved']
+        s.action(2285, 759)
+        assert state(s) == clear
+        s.action(2285, 750)
+        s.action(2285, 740)
+        assert last(s, 'test.lift-preview') == ['ready',None,4]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 741)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,3,18000]
+        for code in (741,741):
+            s.action(2285, code)
+        assert state(s) == carried
+        s.action(2285, 752)
+        assert last(s, 'test.lifting-skill')[4] == 2000, 'skill changed carrying capacity'
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,757,750,758,741):
+            s.action(2285, code)
+        assert state(s) == [0,0,0,0,3,17000], 'altered lift reused the bonus'
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,757,745,750):
+            s.action(2285, code)
+        assert state(s) == clear, 'invalid physical attempt consumed a skill roll'
+    finally:
+        s.close()

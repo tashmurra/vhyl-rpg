@@ -408,12 +408,13 @@ modify RpgExpandedProfile
     liftingReceipts = []
 ;
 /** Pick up one already owned, stored item outside combat. Storage is not a second inventory. */
-class RpgExpandedEquipmentLift: object
+class RpgExpandedEquipmentLift: RpgExpandedLiftIdentity
     id = nil
     profile = nil
     item = nil
     sourceLocation = nil
     mode = 'two-hands'
+    skillAttempt = nil
     accessible = nil
     freeHands = 0
     hands = []
@@ -425,7 +426,16 @@ class RpgExpandedEquipmentLift: object
     completedAt = nil
     definition()
     { return [self.id,self.profile,self.item,self.sourceLocation,self.mode,self.accessible,
-        self.freeHands,self.approved,self.evidence,self.hands.length()] + self.hands; }
+        self.freeHands,self.approved,self.evidence,self.skillAttempt,self.hands.length()] + self.hands; }
+    liftingDefinition()
+    { return self.definition() + [self.item.weightHundredths(),self.profile.basicLiftHundredths()]; }
+    skillPreparationReason()
+    {
+        if (self.result != nil) return 'lifting-already-completed';
+        local value = self.assess();
+        return value.status == 'ready' || holds(['lifting-capacity','lifting-skill-unresolved'],value.reason)
+            ? nil : value.reason;
+    }
     prepare()
     {
         local value = new RpgExpandedResult();
@@ -449,7 +459,9 @@ class RpgExpandedEquipmentLift: object
         rpgInteger(self.item.weight,1,1000000); rpgInteger(self.item.quantity,1,100);
         if (self.profile.loadHundredths() + self.item.weightHundredths() > self.profile.basicLiftHundredths() * 10)
         { value.reason = 'lifting-overload-execution-required'; return value; }
-        return rpgExpandedLiftingRules.assess(self.profile.basicLiftHundredths(),self.item.weightHundredths(),self.mode);
+        return self.skillAttempt == nil
+            ? rpgExpandedLiftingRules.assess(self.profile.basicLiftHundredths(),self.item.weightHundredths(),self.mode)
+            : rpgExpandedLiftingRules.assessWithSkill(self,self.skillAttempt);
     }
     assess()
     {

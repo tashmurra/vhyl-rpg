@@ -703,3 +703,8 @@ repairs and other tool uses remain incomplete.
 - Added owned lifting-skill rolls with exact margin-based capacity ratios and
   duplicate-lift rejection. Carrying and encumbrance remain unchanged. Pickup
   consumption is pending; rollback/undo/save fixtures are authored and unrun.
+
+- Connected owned lifting-skill results to physical pickups, preserving baseline
+  carrying limits and exact capacity comparisons. Request and weight binding prevents
+  bonus reuse for a changed lift. Added joint rollback and between-stage save
+  fixtures; checks remain paused and failed physical-attempt timing remains pending.

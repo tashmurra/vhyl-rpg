@@ -439,13 +439,37 @@ for the same lift identity rejects even if given another request ID. The profile
 This result applies to that pickup only. It never changes the profile's Basic
 Lift, encumbrance thresholds, carrying limit or inventory. Assessment and skill
 resolution do not charge additional action time. The actual lift must charge its
-ordinary action duration once. Automatic consumption of this receipt by
-`RpgExpandedEquipmentLift` is still pending, so authors must not treat resolving
-the skill as completing or authorizing the physical pickup. The lifting operation
-must first establish that a physical attempt is available; this skill interface
-alone does not validate equipment ownership, reach or hands.
+ordinary action duration once. Set the equipment lift's `skillAttempt` before resolving the skill. The operation
+now validates physical eligibility before the roll and consumes its resolved
+capacity assessment when picking up the item. Resolving the skill alone still
+does not complete the pickup. The request must implement the foundation's
+`RpgExpandedLiftIdentity` contract; equipment lifts supply that implementation.
 
 The fixture specifies margin-four success, critical success using its actual
 margin, failure, no-default rejection, duplicate-lift rejection, preview purity,
 rollback, undo and cross-process continuation. Carrying state remains unchanged
 in every case. Assertions remain unrun while checks are paused.
+
+### Applying trained capacity to a pickup
+
+Set `pickup.skillAttempt = attempt` and `attempt.lift = pickup` before calling
+`attempt.resolve()`. Both must use the same profile. The attempt binds the physical
+request, item weight and ordinary Basic Lift. A changed request cannot reuse the
+bonus. Pure pickup assessment reports `lifting-skill-unresolved` before the roll;
+it never rolls implicitly. Physical ownership, reach, hands and carrying-limit
+failures block the skill roll as well.
+
+After resolution, `pickup.apply()` compares the weight with the exact multiplied
+capacity and charges its normal two/four seconds on success. The character's
+carrying limit still uses ordinary Basic Lift. The result reports
+`capacityNumerator / capacityDenominator`; `capacityHundredths` is nil if that
+capacity cannot be represented as a whole hundredth. No rounding can make an
+otherwise excessive load pass.
+
+The roll and pickup may be committed in one surrounding action transaction, or
+saved between resolution and pickup. Replay never grants a second roll or repeats
+the pickup. The fixture covers both transaction rollback and saved continuation,
+including a 180-pound load above baseline two-hand capacity that a margin-four
+bonus can lift. These assertions remain unrun. Failed physical-lift time accounting,
+combat sequences, cooperation and broader action routing remain incomplete; a
+blocked capacity assessment must not be reported as a completed physical attempt.

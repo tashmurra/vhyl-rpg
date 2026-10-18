@@ -410,9 +410,10 @@
       "status": "partial",
       "acceptance": "Roll lifting once per lift; success increases capacity for that lift by five percent per success margin, without permanently changing strength or encumbrance capacity.",
       "tests": [
-        "tests/expanded.py::test_lifting_skill"
+        "tests/expanded.py::test_lifting_skill",
+        "tests/expanded.py::test_skilled_pickup"
       ],
-      "validation_note": "Owned once-per-lift skill attempt retains exact five-percent-per-margin capacity without changing encumbrance or carrying. Paid training and physical-action gates precede RNG; replay and alternate-ID duplicate attempts cannot reroll. Fixtures authored, unrun. Consumption by the physical pickup and broader action routing remain pending."
+      "validation_note": "Owned once-per-lift skill attempt retains exact five-percent-per-margin capacity without changing encumbrance or carrying. Paid training and physical-action gates precede RNG; replay and alternate-ID duplicate attempts cannot reroll. Fixtures authored, unrun. Equipment pickup now consumes the exact bound capacity and validates physical eligibility before the roll; carrying remains unmodified. Joint rollback and between-stage save fixtures are authored, unrun. Failed physical-attempt timing and broader action routing remain pending."
     },
     {
       "id": "activity-drag-cap",

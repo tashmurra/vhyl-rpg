@@ -183,10 +183,18 @@ class RpgExpandedStatementReceipt: object
 
 /** Optional exploration supplies physical lifting assessment without an include cycle. */
 rpgExpandedLiftingRules: object
+    assessWithSkill(operation,attempt)
+    { local value = new RpgExpandedResult(); value.reason = 'lifting-exploration-required'; return value; }
     assess(lift,weight,mode)
     { local value = new RpgExpandedResult(); value.reason = 'lifting-exploration-required'; return value; }
 ;
 modify RpgExpandedProfile
     liftingHandsReason(hands,required)
     { return hands.length() == 0 ? nil : 'lifting-anatomy-required'; }
+;
+
+/** Concrete physical request used to bind a once-per-lift skill roll. */
+class RpgExpandedLiftIdentity: object
+    liftingDefinition() { rpgExpandedReject('lifting-identity-unimplemented'); }
+    skillPreparationReason() { return 'lifting-identity-unimplemented'; }
 ;

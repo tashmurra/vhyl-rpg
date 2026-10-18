@@ -25,6 +25,10 @@ modify BleedTestAction
         if (code == 754) { bleedInput.forcedRoll = 17; return nil; }
         if (code == 755) { liftingDuplicate.resolve(); return nil; }
         if (code == 756) { liftingAttempt.assess(); return nil; }
+        if (code == 757) { liftOperation.skillAttempt = liftingAttempt; liftCrate.weight = 18000; return nil; }
+        if (code == 758) { liftCrate.weight = 17000; return nil; }
+        if (code == 759)
+        { liftingAttempt.resolve(); liftOperation.apply(); throw new RpgError(); }
         return inherited(context);
     }
 ;
