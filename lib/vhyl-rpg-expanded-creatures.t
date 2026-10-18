@@ -254,3 +254,134 @@ class RpgExpandedAnimalPerformance: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedAnimalTrainingPlan
+    definition()
+    {
+        return [self.animal,self.trainer,self.skill,self.appropriateSpecialty,self.approved,self.evidence,
+            self.kind,self.level,self.trick,self.wild,self.animal.iq];
+    }
+;
+modify RpgExpandedProfile
+    animalTrainingSessions = []
+    pendingAnimalTrainingCourse = nil
+;
+
+/** Owned attendance course; daily checks and learned milestones are separate. */
+class RpgExpandedAnimalCourse: object
+    plan = nil
+    definitionSnapshot = nil
+    sessions = []
+    requiredDays = nil
+    successfulDays = 0
+    pendingDay = nil
+    assess()
+    {
+        if (self.plan == nil || !self.plan.ofKind(RpgExpandedAnimalTrainingPlan)) rpgExpandedReject('animal-course-plan');
+        if (self.definitionSnapshot != nil)
+        {
+            local current = self.plan.definition();
+            if (current.length() != self.definitionSnapshot.length()) rpgExpandedReject('animal-course-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('animal-course-binding');
+        }
+        return self.plan.assess();
+    }
+;
+class RpgExpandedAnimalSessionResult: RpgExpandedResult
+    day = nil
+    attendance = 0
+    dailyCheckRequired = nil
+;
+
+/** One of the two source-prescribed two-hour sessions; attendance is not learning. */
+class RpgExpandedAnimalTrainingSession: object
+    id = nil
+    course = nil
+    approved = nil
+    uninterrupted = nil
+    evidence = nil
+    result = nil
+    definitionSnapshot = nil
+    startedAt = nil
+    endedAt = nil
+    definition() { return [self.id,self.course,self.evidence]; }
+    assess()
+    {
+        if (self.course == nil || !self.course.ofKind(RpgExpandedAnimalCourse)) rpgExpandedReject('animal-session-course');
+        local quote = self.course.assess(); local value = new RpgExpandedAnimalSessionResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.definitionSnapshot == nil || current.length() != self.definitionSnapshot.length())
+                rpgExpandedReject('animal-session-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('animal-session-binding');
+            if (!holds(self.course.sessions,self) || !holds(self.course.plan.animal.animalTrainingSessions,self))
+                rpgExpandedReject('animal-session-history');
+            value.status = 'reused'; value.seconds = self.result.seconds; value.day = self.result.day;
+            value.attendance = self.result.attendance; value.dailyCheckRequired = self.result.dailyCheckRequired; return value;
+        }
+        if (quote.status != 'ready') { value.reason = quote.reason; return value; }
+        if (self.id == nil || self.id == '') rpgExpandedReject('animal-session-id');
+        if (!self.approved || !self.uninterrupted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'animal-session-author-facts'; return value; }
+        local animal = self.course.plan.animal;
+        if (self.course.pendingDay != nil || animal.pendingAnimalTrainingCourse != nil)
+        { value.reason = 'animal-training-daily-check-required'; return value; }
+        foreach (local participant in [animal,self.course.plan.trainer])
+            if (participant.dead || participant.unconscious || participant.stunned || participant.hp() <= 0 || participant.fp() <= 0)
+            { value.reason = 'animal-training-participant-unavailable'; return value; }
+        value.day = rpgLedger.seconds / 86400; value.seconds = quote.sessionSeconds;
+        rpgInteger(rpgLedger.seconds,0,2147483647-value.seconds);
+        if ((rpgLedger.seconds + value.seconds - 1) / 86400 != value.day)
+        { value.reason = 'animal-training-session-crosses-day'; return value; }
+        foreach (local prior in animal.animalTrainingSessions)
+        {
+            if (prior == nil || !prior.ofKind(RpgExpandedAnimalTrainingSession) || prior.result == nil)
+                rpgExpandedReject('animal-session-history');
+            prior.assess();
+            if (prior.course == self.course && prior.id == self.id) rpgExpandedReject('animal-session-duplicate');
+            if (prior.result.day == value.day)
+            {
+                if (prior.course != self.course) { value.reason = 'animal-training-other-course-today'; return value; }
+                value.attendance += 1;
+            }
+        }
+        if (value.attendance >= 2) { value.reason = 'animal-training-day-full'; return value; }
+        value.attendance += 1; value.dailyCheckRequired = value.attendance == 2;
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local current = self.definition(); local plan = self.course.plan.definition(); local start = rpgLedger.seconds;
+        local courseCount = self.course.sessions.length(); local animalCount = self.course.plan.animal.animalTrainingSessions.length();
+        rpgSpendTime(value.seconds);
+        local changed = self.definition(); local changedPlan = self.course.plan.definition();
+        if (changed.length() != current.length() || changedPlan.length() != plan.length())
+            rpgExpandedReject('animal-session-definition-changed');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != changed[index]) rpgExpandedReject('animal-session-definition-changed');
+        for (local index = 1; index <= plan.length(); index += 1)
+            if (plan[index] != changedPlan[index]) rpgExpandedReject('animal-session-definition-changed');
+        // Revalidate live participants without assessing a new session at the ending clock.
+        local quote = self.course.assess();
+        if (quote.status != 'ready' || !self.approved || !self.uninterrupted
+            || rpgLedger.seconds != start + value.seconds || self.course.pendingDay != nil
+            || self.course.plan.animal.pendingAnimalTrainingCourse != nil
+            || self.course.sessions.length() != courseCount || self.course.plan.animal.animalTrainingSessions.length() != animalCount)
+            rpgExpandedReject('animal-session-interrupted');
+        foreach (local participant in [self.course.plan.animal,self.course.plan.trainer])
+            if (participant.dead || participant.unconscious || participant.stunned || participant.hp() <= 0 || participant.fp() <= 0)
+                rpgExpandedReject('animal-session-interrupted');
+        if (self.course.definitionSnapshot == nil)
+        { self.course.definitionSnapshot = plan; self.course.requiredDays = quote.days; }
+        self.startedAt = start; self.endedAt = rpgLedger.seconds; self.definitionSnapshot = current;
+        self.course.sessions = self.course.sessions + [self];
+        self.course.plan.animal.animalTrainingSessions = self.course.plan.animal.animalTrainingSessions + [self];
+        if (value.dailyCheckRequired)
+        { self.course.pendingDay = value.day; self.course.plan.animal.pendingAnimalTrainingCourse = self.course; }
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

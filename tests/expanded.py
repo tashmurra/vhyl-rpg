@@ -1484,6 +1484,63 @@ def test_animal_performance(Session,bundle):
             s.close()
 
 
+def animal_session_state(s):
+    s.action(2208)
+    return last(s,'test.animal-session-state')
+
+
+def test_animal_sessions(s):
+    initial = [0,0,0,None,0,0]
+    for code in [3,2,6]:
+        s.action(2207,code)
+        assert animal_session_state(s) == initial
+    s.action(2207,7)
+    assert last(s,'test.animal-session')[:2] == ['blocked','animal-training-session-crosses-day']
+    s.command('undo')
+    assert animal_session_state(s) == initial
+    s.action(2207,1)
+    assert last(s,'test.animal-session') == ['resolved',None,1,0,7200]
+    first = [1,1,0,None,0,7200]
+    assert animal_session_state(s) == first
+    s.action(2207,4)
+    assert last(s,'test.animal-session')[:2] == ['blocked','animal-training-other-course-today']
+    assert animal_session_state(s) == first
+    s.action(2207,8)
+    assert animal_session_state(s) == first
+    s.action(2207,1)
+    assert last(s,'test.animal-session') == ['reused',None,1,0,7200]
+    assert animal_session_state(s) == first
+    s.action(2207,5)
+    assert last(s,'test.animal-session') == ['resolved',None,2,1,7200]
+    second = [2,2,0,0,0,14400]
+    assert animal_session_state(s) == second
+    s.command('undo')
+    assert animal_session_state(s) == first
+    s.action(2207,5)
+    s.action(2207,9)
+    assert last(s,'test.animal-session')[:2] == ['blocked','animal-training-daily-check-required']
+    assert animal_session_state(s) == second
+
+
+def test_animal_session_persistence(Session,bundle,out):
+    path = out / 'expanded-animal-session.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2207,1)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2208')
+        second.action(2207,1)
+        assert animal_session_state(second) == [1,1,0,None,0,7200]
+        second.action(2207,5)
+        assert animal_session_state(second) == [2,2,0,0,0,14400]
+    finally:
+        second.close()
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -7344,6 +7401,8 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
+    test_animal_session_persistence(Session,creatures,build.out)
+    fresh(Session,creatures,test_animal_sessions)
     test_animal_performance(Session,creatures)
     fresh(Session,creatures,test_animal_handling)
     test_animal_handling_modifiers(Session,creatures)

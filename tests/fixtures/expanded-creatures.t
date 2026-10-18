@@ -23,6 +23,14 @@ animalPerformance: RpgExpandedAnimalPerformance handling = handlingAttempt skill
     approved = true available = true evidence = 'Entertain the yard audience during this task';
 animalOtherPerformance: RpgExpandedAnimalPerformance handling = handlingAttempt skill = performanceSkill
     approved = true available = true evidence = 'Duplicate entertainment check';
+animalCourse: RpgExpandedAnimalCourse plan = animalPlan;
+animalOtherCourse: RpgExpandedAnimalCourse plan = animalPlan;
+animalSessionOne: RpgExpandedAnimalTrainingSession id = 'morning' course = animalCourse
+    approved = true uninterrupted = true evidence = 'Two hours of suitable training';
+animalSessionTwo: RpgExpandedAnimalTrainingSession id = 'afternoon' course = animalCourse
+    approved = true uninterrupted = true evidence = 'Second two-hour training session';
+animalSessionOther: RpgExpandedAnimalTrainingSession id = 'other-course' course = animalOtherCourse
+    approved = true uninterrupted = true evidence = 'Competing training course';
 handlingInput: object code = 0;
 handlingClockFault: object enabled = nil;
 modify rpgLedger
@@ -36,6 +44,22 @@ class AnimalHandlingAction: Action
     exec(context)
     {
         local code = handlingInput.code;
+        if (code >= 40)
+        {
+            if (code == 46) handlingClockFault.enabled = true;
+            if (code == 47) rpgLedger.seconds = 80000;
+            if (code == 48) animalSessionOne.evidence = 'Changed attendance';
+            local request = code == 45 ? animalSessionTwo : code == 44 ? animalSessionOther : animalSessionOne;
+            if (code == 49)
+            {
+                request = new RpgExpandedAnimalTrainingSession(); request.id = 'extra'; request.course = animalCourse;
+                request.approved = true; request.uninterrupted = true; request.evidence = 'Extra training';
+            }
+            local value = code == 43 ? request.assess() : request.apply();
+            event('test.animal-session'); eventValue(value.status); eventValue(value.reason); eventValue(value.attendance);
+            eventValue(value.dailyCheckRequired ? 1 : 0); eventValue(value.seconds);
+            if (code == 42) throw new RpgError(); return nil;
+        }
         if (code >= 20)
         {
             if (code == 20 || code == 24)
@@ -78,6 +102,13 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2207) { handlingInput.code = 40 + args[1]; return vhylAct(2203,args); }
+    if (verb == 2208)
+    {
+        event('test.animal-session-state'); eventValue(animalCourse.sessions.length());
+        eventValue(trainingAnimal.animalTrainingSessions.length()); eventValue(animalCourse.successfulDays);
+        eventValue(animalCourse.pendingDay); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2205) { handlingInput.code = 20 + args[1]; return vhylAct(2203,args); }
     if (verb == 2206)
     {

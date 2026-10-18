@@ -162,3 +162,36 @@ is being counted as their implementation.
 `test_animal_performance` authors success/failure combinations, preview, rollback,
 undo, replay, unavailable acts, duplicate checks, retargeting and unchanged elapsed
 time. Fixtures remain unrun. Sources: `full-2008`, B175 and B212–B213.
+
+## Owned training attendance
+
+Create `RpgExpandedAnimalCourse` with an approved training `plan`, then create
+separate `RpgExpandedAnimalTrainingSession` receipts for the two daily sessions.
+Each session needs an ID unique within its course, approval, uninterrupted access
+and evidence. The course binds the plan, participants, specialty, target and
+animal intelligence at the first committed session. Retargeting that plan rejects.
+
+A session charges 7,200 seconds through the shared time ledger, rechecks the plan
+and both participants, and records attendance on the course and animal. It grants
+no learned behavior or successful training day. `successfulDays` remains zero
+until the still-pending daily check procedure awards progress. Sessions do not
+roll and therefore preserve random state.
+
+A session may end exactly at midnight but cannot straddle a day boundary. The
+animal cannot attend a different course on the same day. One isolated session on
+a previous day does not count as the first half of a later training day. This
+implementation uses the shared clock's whole-day boundaries to represent the
+source's daily schedule. Multiple animals can be trained sequentially; no parallel
+time is silently credited to a trainer.
+
+After the second session, `dailyCheckRequired` is true, `course.pendingDay` records
+that day, and `animal.pendingAnimalTrainingCourse` identifies the course. Further
+sessions reject until the daily check is resolved. Do not clear these fields to
+simulate success: daily rolls, failed-day credit, bad-failure attacks and learned
+milestones remain unimplemented. Attendance alone is not a training course.
+
+`test_animal_sessions` and `test_animal_session_persistence` author two-session
+accounting, competing-course rejection, midnight rejection, pending-check gating,
+preview, interruption rollback, undo, replay, binding and cross-process
+continuation. Fixtures remain unrun. Source: `full-2008`, B458–B459; daily check
+requirement: B175.
