@@ -2083,6 +2083,7 @@ class RpgExpandedPrototypeCompletion: object
             value.delivered = self.result.delivered; value.pendingDefects = self.result.pendingDefects; return value;
         }
         if (self.attempt.completion != nil) { value.reason = 'prototype-already-completed'; return value; }
+        value.reason = self.attempt.completionExecutionReason(); if (value.reason != nil) return value;
         value.reason = self.attempt.workReason(); if (value.reason != nil) return value;
         if (self.attempt.workedSeconds != self.attempt.result.seconds)
         { value.reason = 'prototype-work-incomplete'; return value; }
@@ -3198,5 +3199,109 @@ class RpgExpandedRapidSalvage: object
         self.search.claimedBy = self;
         self.search.project.rapidSalvages = self.search.project.rapidSalvages + [self];
         self.definitionSnapshot = self.definition(); value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgLiteItem
+    rapidPrototypeReservation = nil
+;
+modify RpgExpandedRapidPurchase
+    componentProject() { return self.project; }
+;
+modify RpgExpandedRapidSalvage
+    componentProject() { return self.search.project; }
+;
+modify RpgExpandedRapidProposal
+    rapidPrototypeReason()
+    {
+        local reason = self.technologyPermissionReason();
+        if (reason != nil) return reason;
+        return self.techLevel > self.inventor.techLevel ? 'cinematic-advanced-defects-unavailable' : nil;
+    }
+;
+modify RpgExpandedPrototypeStart
+    completionExecutionReason() { return nil; }
+;
+
+/** B476: reserve an acquired bundle and size rapid work without a second payment. */
+class RpgExpandedRapidPrototypeStart: RpgExpandedPrototypeStart
+    components = nil
+    definition() { return inherited() + [self.components]; }
+    completionExecutionReason() { return 'rapid-prototype-completion-unavailable'; }
+    componentReason()
+    {
+        if (self.components == nil || !(self.components.ofKind(RpgExpandedRapidPurchase)
+            || self.components.ofKind(RpgExpandedRapidSalvage)) || self.components.result == nil
+            || self.components.componentProject() != self.project || self.components.payer != self.payer)
+            rpgExpandedReject('rapid-prototype-components');
+        self.components.assess();
+        local item = self.components.item;
+        if (!holds(self.payer.equipment,item) || !item.usableBy(self.payer)) return 'rapid-prototype-components-unavailable';
+        if (item.rapidPrototypeReservation != nil && item.rapidPrototypeReservation != self)
+            return 'rapid-prototype-components-reserved';
+        return nil;
+    }
+    participantReason()
+    {
+        local inventor = self.project.proposal.inventor;
+        if (inventor.dead || inventor.unconscious || inventor.stunned || inventor.hp() <= 0 || inventor.fp() <= 0)
+            return 'prototype-participant-unavailable';
+        return nil;
+    }
+    assess()
+    {
+        if (self.project == nil || !self.project.ofKind(RpgExpandedInventionProject)
+            || self.project.proposal == nil || !self.project.proposal.ofKind(RpgExpandedRapidProposal)
+            || self.payer == nil || !self.payer.ofKind(RpgExpandedProfile)) rpgExpandedReject('rapid-prototype-definition');
+        self.project.validate(); local value = new RpgExpandedPrototypeStartResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.definitionSnapshot == nil || current.length() != self.definitionSnapshot.length())
+                rpgExpandedReject('prototype-start-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('prototype-start-binding');
+            if (!holds(self.project.prototypes,self)) rpgExpandedReject('prototype-start-history');
+            value.status = 'reused'; value.seconds = self.result.seconds;
+            value.duration = self.result.duration; value.durationDice = self.result.durationDice; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('prototype-start-id');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'prototype-start-approval'; return value; }
+        if (self.assistants.length() != 0 || self.monthDays.length() != 0 || self.extraSeconds != 0)
+        { value.reason = 'rapid-prototype-team-calendar-unavailable'; return value; }
+        value.reason = self.project.proposal.rapidPrototypeReason(); if (value.reason != nil) return value;
+        if (!holds(['testable','flawed'],self.project.theory)) { value.reason = 'prototype-theory-required'; return value; }
+        if (self.project.activePrototype != nil) { value.reason = 'prototype-already-active'; return value; }
+        if (self.project.workingPrototype != nil) { value.reason = 'prototype-already-created'; return value; }
+        foreach (local prior in self.project.prototypes)
+            if (prior.id == self.id) rpgExpandedReject('prototype-start-duplicate');
+        value.reason = self.componentReason(); if (value.reason != nil) return value;
+        value.reason = self.participantReason(); if (value.reason != nil) return value;
+        local quote = self.project.proposal.assess();
+        if (quote.status != 'ready') { value.reason = quote.reason; return value; }
+        value.modifier = rpgExpandedPrototypeTeamModifier(self.project.proposal,[],self.toolsPenalty);
+        value.duration = quote.category; value.status = 'ready'; return value;
+    }
+    begin()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local count = value.duration == 'simple' ? 2 : value.duration == 'amazing' ? 4 : 1;
+        for (local index = 1; index <= count; index += 1) value.durationDice = value.durationDice + [rpgRandom.die()];
+        value.seconds = rpgExpandedRapidPrototypeSeconds(value.duration,value.durationDice);
+        self.components.item.rapidPrototypeReservation = self; self.startedAt = rpgLedger.seconds;
+        self.definitionSnapshot = self.definition(); self.project.prototypes = self.project.prototypes + [self];
+        self.project.activePrototype = self; value.status = 'resolved'; self.result = value; return value;
+    }
+    workReason()
+    {
+        if (self.result == nil) return 'prototype-not-started';
+        self.assess();
+        if (self.project.activePrototype != self) return 'prototype-not-active';
+        local reason = self.project.proposal.rapidPrototypeReason(); if (reason != nil) return reason;
+        reason = self.componentReason(); if (reason != nil) return reason;
+        if (self.components.item.rapidPrototypeReservation != self) return 'rapid-prototype-reservation-lost';
+        reason = self.participantReason(); if (reason != nil) return reason;
+        local quote = self.project.proposal.assess(); return quote.status == 'ready' ? nil : quote.reason;
     }
 ;

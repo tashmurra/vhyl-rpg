@@ -1632,6 +1632,20 @@
         "tests/expanded.py::test_broken_weapons"
       ],
       "validation_note": "Pure supplied-die outcome assessment authored; fixtures unrun. Owned item transformation, hand/location binding, object damage and repair are pending."
+    },
+    {
+      "id": "technology-rapid-prototype-time",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Rapid prototype durations: simple two dice minutes; average one die minus two hours with die results one/two taking thirty minutes; complex one die hours; amazing four dice hours. Use acquired components without paying twice.",
+      "tests": [
+        "tests/expanded.py::test_cinematic_invention_assessments",
+        "tests/expanded.py::test_rapid_starts"
+      ],
+      "validation_note": "Owned rapid starts reserve purchased or salvaged inventory bundles; common work receipts advance the rolled duration. Fixtures unrun. Completion, part consumption, destruction and team timing remain pending."
     }
   ]
 }

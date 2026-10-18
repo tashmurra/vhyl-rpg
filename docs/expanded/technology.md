@@ -1370,9 +1370,9 @@ Failed attempts may be followed by another owned session. Replay returns the
 recorded duration and result without another time charge or roll. Ordinary and
 non-rapid cinematic requests preserve their daily limit and existing draw counts.
 
-Rapid prototype funding still rejects `rapid-prototype-components-unavailable`:
-component discovery, resource consumption and construction remain pending. The
-rapid concept path does not enable ordinary prototype construction as a fallback.
+Ordinary prototype funding still rejects rapid proposals. Use the dedicated
+component acquisition and rapid start interfaces below; the rapid concept path
+does not enable ordinary prototype construction as a fallback.
 
 `test_rapid_concepts` and `test_rapid_concept_retry` author permission gates,
 request-type rejection, preview, transaction rollback, interruption, replay,
@@ -1401,9 +1401,9 @@ project, payer, item and evidence, and each project enforces unique purchase IDs
 Results expose `money`, `facilitiesMoney`, `partsMoney` and the owned `acquisition`.
 For replay, `money` is zero while the historical price components remain visible.
 
-These receipts currently acquire resources only. Prototype reservation,
-consumption, critical-failure destruction and scrounged alternatives still need
-integration; rapid construction remains blocked. No separate inventory is added.
+These receipts acquire resources for `RpgExpandedRapidPrototypeStart`. Completion,
+consumption and critical-failure destruction remain pending. Scrounged acquisition
+uses the separate search/salvage path below. No separate inventory is added.
 `test_rapid_purchases` authors ordinary and campaign-advanced prices, setup paid
 once, spare parts, preview, rollback, replay, undo, duplicate IDs, retargeting,
 availability, insufficient funds and fractional rejection. Fixtures remain unrun.
@@ -1465,3 +1465,35 @@ Prototype construction and destruction of consumed parts remain pending.
 `test_rapid_salvage` and `test_rapid_salvage_failed_search` author preview, rollback,
 affordability, source withdrawal, single claiming, replay, retargeting and failed
 search rejection. Fixtures remain unrun. Source: `full-2008`, B476–B477.
+
+## Starting rapid prototype work
+
+`RpgExpandedRapidPrototypeStart` extends the common prototype-start interface.
+Set `components` to a completed `RpgExpandedRapidPurchase` or
+`RpgExpandedRapidSalvage` for the same project and payer, plus the usual attempt
+ID, approval and evidence. The acquired bundle must still be owned and accessible.
+A bundle reserved by another rapid attempt rejects before randomness or payment.
+
+`begin()` reserves the bundle and records the rapid duration without another money
+charge. Simple designs use two dice in minutes; average designs use one die minus
+two hours, with results of one or two taking thirty minutes; complex designs use
+one die in hours; amazing designs use four dice in hours. No ordinary one-day
+minimum is applied. The bundle remains in the shared inventory and contributes
+its normal carried weight. Replay keeps the reservation and recorded duration.
+
+Use ordinary `RpgExpandedPrototypeWork` receipts against this start object. Work
+checks current capability, skill availability, inventor health, component
+ownership/access and reservation. A component moved away or transferred prevents
+further work; it does not disappear from its owner's inventory. Work executes
+inside the existing action transaction and supports preview, rollback and replay.
+
+Assistants, month calendars and additional authored delay fields currently reject
+on this path rather than guessing how to combine them with rapid timing.
+`completionExecutionReason()` explicitly blocks ordinary completion with
+`rapid-prototype-completion-unavailable`; rapid outcomes, component consumption
+and critical-failure destruction are the next integration step.
+
+`test_rapid_starts` authors purchased and salvaged bundles, preview, rollback,
+reservation conflicts, access withdrawal, permission changes, replay, retargeting,
+work interruption and elapsed construction time. Fixtures remain unrun.
+Source: `full-2008`, B476.

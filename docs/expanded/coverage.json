@@ -364,7 +364,8 @@
         "tests/expanded.py::test_rapid_search",
         "tests/expanded.py::test_rapid_search_failure",
         "tests/expanded.py::test_rapid_salvage",
-        "tests/expanded.py::test_rapid_salvage_failed_search"
+        "tests/expanded.py::test_rapid_salvage_failed_search",
+        "tests/expanded.py::test_rapid_starts"
       ],
       "validation_note": "Object assessments, fault repairs, computer processing/storage/link/transfer/recording and task equipment contributions and required-software technology fallback authored; fixtures unrun. Combined tools, interrupted recording, structural injury/repair and maintenance scheduling remain incomplete."
     },

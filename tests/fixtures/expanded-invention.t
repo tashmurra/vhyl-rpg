@@ -94,11 +94,45 @@ rapidSalvage: RpgExpandedRapidSalvage search = rapidSearch payer = conceptUser i
     approved = true available = true permitted = true evidence = 'Recover selected optical components';
 rapidOtherSalvage: RpgExpandedRapidSalvage search = rapidSearch payer = conceptUser item = rapidSpareParts
     approved = true available = true permitted = true evidence = 'Attempt to recover another bundle';
+rapidStart: RpgExpandedRapidPrototypeStart id = 'rapid-build' project = conceptProject payer = conceptUser
+    components = rapidPurchase approved = true evidence = 'Build from acquired components';
+rapidWork: RpgExpandedPrototypeWork id = 'rapid-work' attempt = rapidStart seconds = 1800
+    approved = true uninterrupted = true evidence = 'Uninterrupted rapid construction';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 340)
+        {
+            if (code == 340 || code == 345)
+            {
+                conceptProject.proposal = rapidProposal; conceptUser.campaignTL = 8;
+                conceptUser.traits = [cinematicCapability]; cinematicCapability.tier = 'rapid';
+                cinematicPermission.mode = 'rapid'; conceptRules.cinematicInvention = true; conceptRules.rapidInvention = true;
+                conceptBlueprint.apply();
+                if (code == 345) { rapidSearch.apply(); rapidSalvage.acquire(); rapidStart.components = rapidSalvage; }
+                else rapidPurchase.acquire();
+                rpgRandom.seed(1); return nil;
+            }
+            if (code == 344) rapidParts.storageLocation = 'store';
+            if (code == 346) rapidParts.rapidPrototypeReservation = prototypeStart;
+            if (code == 347) conceptRules.rapidInvention = nil;
+            if (code == 349) rapidStart.evidence = 'Changed build';
+            if (code == 350 || code == 351)
+            {
+                if (code == 351) prototypeClockFault.enabled = true;
+                local work = rapidWork.apply(); event('test.rapid-work'); eventValue(work.status); eventValue(work.reason); return nil;
+            }
+            if (code == 352)
+            {
+                prototypeCompletion.attempt = rapidStart;
+                local completed = prototypeCompletion.assess(); event('test.rapid-completion'); eventValue(completed.status); eventValue(completed.reason); return nil;
+            }
+            local value = code == 343 ? rapidStart.assess() : rapidStart.begin();
+            event('test.rapid-start'); eventValue(value.status); eventValue(value.reason); eventValue(value.seconds); eventValue(value.money);
+            if (code == 342) throw new RpgError(); return nil;
+        }
         if (code >= 320)
         {
             if (code == 320 || code == 325)
@@ -533,6 +567,13 @@ act(verb,args)
         event('test.facilities-state'); eventValue(conceptUser.money); eventValue(conceptProject.facilityFunding.length());
         eventValue(conceptProject.facilities == nil ? nil : conceptProject.facilities.destroyed ? 'destroyed' : 'available');
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2136) { conceptInput.code = 340 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2137)
+    {
+        event('test.rapid-start-state'); eventValue(conceptUser.money); eventValue(conceptUser.equipment.length());
+        eventValue(conceptProject.prototypes.length()); eventValue(rapidParts.rapidPrototypeReservation == rapidStart ? 1 : 0);
+        eventValue(rapidStart.workedSeconds); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     if (verb == 2134) { conceptInput.code = 320 + args[1]; return vhylAct(2097,args); }
     if (verb == 2135)

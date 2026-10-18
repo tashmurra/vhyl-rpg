@@ -1249,6 +1249,49 @@ def test_rapid_salvage_failed_search(s):
     assert rapid_salvage_state(s) == [1000000,0,0,0,3,60]
 
 
+def rapid_start_state(s):
+    s.action(2137)
+    return last(s,'test.rapid-start-state')
+
+
+def test_rapid_starts(Session,bundle):
+    for setup,money,start_time in [(0,998990,0),(5,999800,60)]:
+        s = Session(bundle)
+        try:
+            s.action(2136,setup)
+            initial = [money,1,0,0,0,0,start_time]
+            for code in [3,2]:
+                s.action(2136,code)
+                assert rapid_start_state(s) == initial
+            for code,reason in [(4,'rapid-prototype-components-unavailable'),
+                    (6,'rapid-prototype-components-reserved'),(7,'invention-campaign-option')]:
+                s.action(2136,code)
+                assert last(s,'test.rapid-start')[:2] == ['blocked',reason]
+                s.command('undo')
+                assert rapid_start_state(s) == initial
+            s.action(2136,1)
+            assert last(s,'test.rapid-start') == ['resolved',None,1800,0]
+            begun = [money,1,1,1,0,1,start_time]
+            assert rapid_start_state(s) == begun
+            s.action(2136,9)
+            assert rapid_start_state(s) == begun
+            s.action(2136,1)
+            assert last(s,'test.rapid-start') == ['reused',None,1800,0]
+            assert rapid_start_state(s) == begun
+            s.action(2136,11)
+            assert rapid_start_state(s) == begun
+            s.action(2136,10)
+            assert last(s,'test.rapid-work') == ['resolved',None]
+            worked = [money,1,1,1,1800,1,start_time+1800]
+            assert rapid_start_state(s) == worked
+            s.action(2136,10)
+            assert rapid_start_state(s) == worked
+            s.action(2136,12)
+            assert last(s,'test.rapid-completion') == ['blocked','rapid-prototype-completion-unavailable']
+        finally:
+            s.close()
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -7060,6 +7103,7 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    test_rapid_starts(Session,invention)
     fresh(Session,invention,test_rapid_salvage)
     fresh(Session,invention,test_rapid_salvage_failed_search)
     fresh(Session,invention,test_rapid_search)
