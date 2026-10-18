@@ -17791,6 +17791,34 @@ def test_template_customization(Session, bundle, out):
 
 def test_template_taboo(Session, bundle, out):
     path = out / 'expanded-template-taboo.zsave'
+    for setup, invalid in ((5810, 5817), (5811, 5818)):
+        s = Session(bundle)
+        try:
+            for code in (5800, setup, 5816):
+                s.action(2285, code)
+            assert last(s, 'test.taboo-secondary') == ['blocked', 'taboo-attribute', 40, 10, 10, 10, 100]
+            for code in (5814, 5816):
+                s.action(2285, code)
+            assert last(s, 'test.taboo-secondary') == ['blocked', 'taboo-attribute', 60, 10, 10, 10, 100]
+            for code in (5815, 5816):
+                s.action(2285, code)
+            assert last(s, 'test.taboo-secondary') == ['ready', None, 80, 10, 10, 10, 100]
+            for code in (setup, 5812, 5816):
+                s.action(2285, code)
+            assert last(s, 'test.taboo-secondary') == ['blocked', 'taboo-attribute', 10, 10, 10, 10, 100]
+            for code in (5813, 5816):
+                s.action(2285, code)
+            assert last(s, 'test.taboo-secondary') == ['ready', None, 5, 10, 10, 10, 100]
+            for code in (5819, 5816):
+                s.action(2285, code)
+            expected_will, expected_perception = (11, 10) if setup == 5810 else (10, 11)
+            assert last(s, 'test.taboo-secondary') == [
+                'blocked', 'taboo-attribute', 20, 10, expected_will, expected_perception, 100]
+            for code in (invalid, 5806):
+                s.action(2285, code)
+            assert last(s, 'test.taboo-error') == ['taboo-attribute']
+        finally:
+            s.close()
     for change, reason in ((5803, 'taboo-attribute'), (5804, 'taboo-trait'), (5805, 'taboo-skill')):
         s = Session(bundle)
         try:

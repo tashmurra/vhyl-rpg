@@ -15,6 +15,31 @@ modify BleedTestAction
     exec(context)
     {
         local code = bleedInput.code;
+        if (code == 5810 || code == 5811)
+        {
+            tabooConstraint.attributeRanges = [[code == 5810 ? rpgWill : rpgPerception,12,13]];
+            tabooOffer.kind = 'attribute'; tabooOffer.attribute = rpgIQ; tabooOffer.target = 12; return nil;
+        }
+        if (code == 5812) { tabooOffer.attribute = tabooConstraint.attributeRanges[1][1]; return nil; }
+        if (code == 5813) { tabooOffer.target = 11; return nil; }
+        if (code == 5814) { tabooOffer.target = 13; return nil; }
+        if (code == 5815) { tabooOffer.target = 14; return nil; }
+        if (code == 5816)
+        {
+            local value = rpgAssessDevelopment(tabooOffer); event('test.taboo-secondary');
+            eventValue(value.status); eventValue(value.reason); eventValue(value.points);
+            eventValue(personalState.profile.iq); eventValue(personalState.profile.will);
+            eventValue(personalState.profile.perception); eventValue(personalState.profile.unspentPoints);
+            return nil;
+        }
+        if (code == 5819)
+        {
+            if (tabooConstraint.attributeRanges[1][1] == rpgWill) personalState.profile.willAdjustment = 1;
+            else personalState.profile.perceptionAdjustment = 1;
+            tabooOffer.attribute = rpgIQ; tabooOffer.target = 11; return nil;
+        }
+        if (code == 5817) { personalState.profile.willAdjustment = 2; return nil; }
+        if (code == 5818) { personalState.profile.perceptionAdjustment = 2; return nil; }
         if (code == 5800)
         {
             local p = personalRequest.create(bleedRules); personalState.profile = p;

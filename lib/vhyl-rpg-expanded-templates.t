@@ -420,7 +420,7 @@ class RpgExpandedTabooTraits: RpgExpandedContribution
         }
         foreach (local row in self.attributeRanges)
         {
-            if (row.length() != 3 || !holds([rpgST,rpgDX,rpgIQ,rpgHT],row[1]))
+            if (row.length() != 3 || !holds([rpgST,rpgDX,rpgIQ,rpgHT,rpgWill,rpgPerception],row[1]))
                 rpgExpandedReject('taboo-definition');
             rpgInteger(row[2],1,1000); rpgInteger(row[3],row[2],1000);
         }
@@ -439,7 +439,7 @@ class RpgExpandedTabooTraits: RpgExpandedContribution
             if (holds(self.traitIds,trait.id)) rpgExpandedReject('taboo-trait');
         foreach (local training in profile.skills)
             if (training.points > 0 && holds(self.skills,training.skill)) rpgExpandedReject('taboo-skill');
-        foreach (local attribute in [rpgST,rpgDX,rpgIQ,rpgHT])
+        foreach (local attribute in [rpgST,rpgDX,rpgIQ,rpgHT,rpgWill,rpgPerception])
         {
             local reason = self.attributeReason(attribute,profile.attributeScore(attribute));
             if (reason != nil) rpgExpandedReject(reason);
@@ -473,6 +473,13 @@ modify RpgExpandedProfile
                 {
                     reason = contribution.attributeReason(offer.attribute,offer.target);
                     if (reason != nil) return reason;
+                    if (offer.attribute == rpgIQ)
+                    {
+                        local delta = offer.target - self.iq;
+                        reason = contribution.attributeReason(rpgWill,self.will + delta);
+                        if (reason == nil) reason = contribution.attributeReason(rpgPerception,self.perception + delta);
+                        if (reason != nil) return reason;
+                    }
                 }
             }
         return nil;

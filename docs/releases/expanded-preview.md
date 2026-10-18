@@ -1280,3 +1280,8 @@ Owned zero-cost ancestry prohibitions now cover specified traits, purchased skil
 and basic-attribute ranges. Character validation and shared learning/development
 gates reject these purchases without spending resources. Ancestry composition and
 secondary-characteristic prohibitions remain pending. Fixtures are unrun.
+
+Ancestry prohibitions now support Will and Perception. IQ purchase assessment
+checks their derived increases as well as the IQ target, preserving purchased
+offsets and rejecting prohibited results before spending points. Boundary and
+direct-purchase assertions are authored but unrun.

@@ -352,8 +352,8 @@ Install it in that character's `contributions`.
 - `skills` prohibits purchased training in the specified shared skill
   definitions. An untrained default is not a purchased skill.
 - `attributeRanges` holds `[attribute, minimum, maximum]` rows. Both endpoints
-  are forbidden, with supported attributes ST, DX, IQ and HT. Secondary
-  characteristics need a separate implementation and reject as definitions.
+  are forbidden, with supported attributes ST, DX, IQ, HT, Will and Perception.
+  Other secondary characteristics need separate interfaces.
 
 Character validation rejects existing prohibited investments. Shared skill
 learning gates reject new training before spending points or study time. Ordinary
@@ -370,3 +370,12 @@ constraints. Each character needs its own contribution instance.
 `test_template_taboo` specifies zero cost, creation rejection, learning and
 advancement gates, unchanged resources on rejection, undo, and save continuation.
 Assertions remain unrun while checks are paused.
+
+Will and Perception prohibitions also apply to the derived increases caused by
+an IQ development offer. Assessment projects both scores with their existing
+purchased offsets before any points are spent. Direct Will/Perception offers use
+their explicit target. Ranges forbid their endpoints; targets outside the range
+remain eligible under the other purchase rules. The prohibition is on possession
+of a level, not on crossing intermediate levels during a single purchase.
+The taboo fixture specifies both endpoints, direct and derived purchases, and
+invalid existing secondary scores; these additions remain unrun.
