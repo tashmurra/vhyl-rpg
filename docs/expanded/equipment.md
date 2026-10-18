@@ -537,6 +537,11 @@ closes the carry and clears the clock gate; the event remains in history. Use th
 public health procedures when authoring incapacitation so these events participate
 in the same transaction. Direct field edits are not a substitute for event dispatch.
 
+Lowering also checks pending support loss after its time interval. Even if a
+participant recovers during that interval, an unresolved event interrupts lowering
+and rolls back that action's time, events and inventory changes. The support-loss
+fixture includes this transient incapacitation case; its assertions remain unrun.
+
 The new fixture covers notification, duplicate notification, rollback and undo of
 the health change, blocked time before and after recovery, saved pending state,
 and release allowing time to advance. Assertions remain unrun. Dedicated limb-wound fixtures now cover bound hands, parent arms, unbound hands

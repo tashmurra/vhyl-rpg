@@ -13461,6 +13461,12 @@ def test_shared_support_loss(Session, bundle, out):
         for code in (781,803):
             s.action(2285, code)
         assert state(s) == [0,0,0,4]
+        # Recovery during lowering does not settle the physical support loss.
+        # The failed action must roll back its clock, event and load transfer.
+        s.action(2285, 804)
+        assert state(s) == [0,0,0,4]
+        s.action(2285, 783)
+        assert last(s, 'test.shared-carry') == [2000,4000,1,0,1,1,1,4,0]
         s.action(2285, 800)
         s.command('undo')
         assert state(s) == [0,0,0,4]

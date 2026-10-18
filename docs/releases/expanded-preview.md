@@ -4,6 +4,11 @@ This branch implements an incomplete experimental suite. It is not a stable
 release and does not claim full-reference coverage. VERSION follows the merged
 main prerelease; no new tag or release publication is part of this work.
 
+Shared-load lowering now rejects unresolved support loss detected during its time
+interval, including a carrier who recovers before the interval ends. An authored
+fixture covers rollback of the clock, support event and inventory transfer. Checks
+remain paused, so this behavior has not yet been validated by execution.
+
 The expanded foundation and convenience umbrella currently include sixteen partial
 feature modules: campaign, characters, combat, creatures, development, equipment,
 exploration, hazards, health, psionics, skills, social, tactical, technology, templates

@@ -706,7 +706,8 @@ class RpgExpandedSharedCarry: object
         value.reason = self.loweringReason(); if (value.reason != nil) return value;
         rpgInteger(seconds,1,86400); rpgInteger(rpgLedger.seconds,0,2147483647-seconds);
         rpgLedger.validateAdvance(seconds); local start = rpgLedger.seconds; rpgSpendTime(seconds);
-        self.validateReceipt(); if (rpgLedger.seconds != start+seconds || self.loweringReason() != nil)
+        self.validateReceipt(); if (rpgLedger.seconds != start+seconds || self.loweringReason() != nil
+            || self.pendingSupportLoss())
             rpgExpandedReject('shared-carry-interrupted');
         self.endedAt = rpgLedger.seconds; self.endDestination = destination; self.endEvidence = evidence; self.endSeconds = seconds;
         self.item.storageLocation = destination; self.item.sharedCarry = nil;
