@@ -6319,6 +6319,13 @@ modify rpgLedger
 
 
 modify RpgExpandedProfile
+    onEquipmentUnavailable(item, cause)
+    {
+        inherited(item,cause);
+        if (self.mobilitySupport != nil && self.mobilitySupport.item == item)
+            self.mobilitySupport.noteLoss(cause);
+        return nil;
+    }
     onEquipmentDropped(item)
     {
         inherited(item);

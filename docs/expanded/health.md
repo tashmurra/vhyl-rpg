@@ -2955,3 +2955,5 @@ blocked time, saved pending history, settlement, and a real hand wound that both
 drops the aid and disables its support. Assertions remain unrun. Transfers, terrain
 changes and other loss causes still need their own event integration; direct field
 edits are not a substitute for the public notification hooks.
+
+Owned equipment storage and trade operations notify `onEquipmentUnavailable(item, cause)` after changing inventory state. An active mobility aid records the occurrence as `storage-change` or `transferred`, even if its readiness is subsequently restored. Pending support loss still requires an authored mobility settlement before positive time advances. Reused operations do not repeat notifications. Direct field edits remain the author's responsibility.

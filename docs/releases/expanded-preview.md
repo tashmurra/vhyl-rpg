@@ -866,3 +866,5 @@ Forced aid drops and supporting-hand injuries now record persistent mobility-los
 events. Restoring readiness does not bypass settlement. Rollback, undo, saved
 pending history and real hand-wound fixtures are authored and unrun; other loss
 causes still require integration.
+
+Active mobility aid storage and sales now preserve support-loss occurrences. Authored regression fixtures cover repeated operations, exception rollback, undo and settlement before time advancement. These fixtures have not been run: all requested checks remain paused, and the expanded suite remains incomplete.

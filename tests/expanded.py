@@ -8917,6 +8917,7 @@ def test(build):
     test_mobility_settlement(Session, mobility_settlement, build.out)
     mobility_loss = build.build('expanded-mobility-loss',ROOT / 'tests/fixtures/expanded-mobility-loss.t')
     test_mobility_loss(Session, mobility_loss, build.out)
+    test_mobility_inventory_loss(Session, mobility_loss)
     fall_arm_equipment = build.build('expanded-fall-arm-equipment',ROOT / 'tests/fixtures/expanded-fall-arm-equipment.t')
     test_fall_arm_equipment(Session, fall_arm_equipment, build.out)
     test_collision_cap(Session, collision, fall_injury)
@@ -14340,3 +14341,26 @@ def test_mobility_loss(Session, bundle, out):
         assert state(s) == [2,1,1,1,7,0]
     finally:
         s.close()
+
+
+def test_mobility_inventory_loss(Session, bundle):
+    for operation, failing, stored in ((1006,1007,1),(1008,1009,0)):
+        s = Session(bundle)
+        try:
+            for code in (30,931,831,980,975,failing):
+                s.action(2285,code)
+            s.action(2285,1003)
+            assert last(s,'test.mobility-loss') == [0,0,1,0,4,0]
+            s.action(2285,operation)
+            s.command('undo')
+            s.action(2285,1003)
+            assert last(s,'test.mobility-loss') == [0,0,1,0,4,0]
+            for code in (operation,operation,1003,994):
+                s.action(2285,code)
+            assert last(s,'test.mobility-loss') == [1,1,1,stored,4,0]
+            assert last(s,'test.mobility-clock') == ['mobility-support-settlement-required',0]
+            for code in (990,990,994,1003):
+                s.action(2285,code)
+            assert last(s,'test.mobility-loss') == [1,0,0,stored,4,1]
+        finally:
+            s.close()

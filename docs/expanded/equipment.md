@@ -578,3 +578,5 @@ the same reservation query; no second mutable hand-count ledger is introduced.
 `test_shared_hands` now specifies actual defense-score queries for these cases,
 including unchanged scores before and after carrying and zero RNG consumption.
 Assertions remain unrun while checks are paused.
+
+Storage changes and committed trades call the profile's `onEquipmentUnavailable(item, cause)` hook, with `storage-change` and `transferred` respectively. The default hook does nothing. Health integration records active mobility support loss through this hook; storing or selling an aid does not itself adjudicate a fall. A storage move clears readiness even when retrieving an item, so integrations should settle pending support loss before reactivating an aid.

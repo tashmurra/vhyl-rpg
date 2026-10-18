@@ -1,6 +1,11 @@
 #include "expanded-mobility-settlement.t"
 crutchHandWound: RpgExpandedWound id = 'support-hand-hit' profile = bleedProfile
     bodyPart = crutchLeftHand location = 'hand' amount = 4 dropDestination = bleedRoom;
+mobilityStorage: RpgExpandedEquipmentStorage profile = bleedProfile item = crutchItem
+    destination = bleedRoom accessible = true;
+mobilityBuyer: RpgExpandedProfile rules = bleedRules;
+mobilityTrade: RpgExpandedTradeTransfer id = 'aid-sale' seller = bleedProfile buyer = mobilityBuyer
+    item = crutchItem price = 0 buyerAgrees = true sellerAgrees = true available = true permitted = true;
 modify BleedTestAction
     exec(context)
     {
@@ -20,6 +25,14 @@ modify BleedTestAction
         }
         if (code == 1004) { bleedProfile.onEquipmentDropped(crutchItem); return nil; }
         if (code == 1005) { crutchHandWound.apply(); return nil; }
+        if (code == 1006 || code == 1007)
+        {
+            mobilityStorage.move(); if (code == 1007) throw new RpgError(); return nil;
+        }
+        if (code == 1008 || code == 1009)
+        {
+            mobilityTrade.transfer(); if (code == 1009) throw new RpgError(); return nil;
+        }
         return inherited(context);
     }
 ;

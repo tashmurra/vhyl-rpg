@@ -204,6 +204,7 @@ class RpgExpandedEquipmentStorage: object
         if (value.status != 'ready') return value;
         self.item.storageLocation = self.destination;
         self.item.worn = nil; self.item.ready = nil;
+        self.profile.onEquipmentUnavailable(self.item,'storage-change');
         for (local fighter = firstObj(RpgLiteFighter); fighter != nil; fighter = nextObj(fighter,RpgLiteFighter))
             if (fighter.profile == self.profile && fighter.aimWeapon == self.item)
             { fighter.aimSeconds = 0; fighter.aimTarget = nil; fighter.aimWeapon = nil; }
@@ -278,6 +279,7 @@ class RpgExpandedTradeTransfer: object
         self.seller.equipment = remaining; self.buyer.equipment = self.buyer.equipment + [self.item];
         self.buyer.money -= value.money; self.seller.money += value.money;
         self.item.storageLocation = nil; self.item.worn = nil; self.item.ready = nil;
+        self.seller.onEquipmentUnavailable(self.item,'transferred');
         for (local fighter = firstObj(RpgLiteFighter); fighter != nil; fighter = nextObj(fighter,RpgLiteFighter))
             if (fighter.aimWeapon == self.item)
             { fighter.aimSeconds = 0; fighter.aimTarget = nil; fighter.aimWeapon = nil; }
