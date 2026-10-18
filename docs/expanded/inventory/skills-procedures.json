@@ -91,9 +91,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Separate starting access, physical training with a teacher, cognitive technology limits and programmed low-cognition capabilities.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_learning"
+      ],
+      "existing_feature": "technology-learning-access",
+      "validation_note": "Ordinary learning gates authored; native checks unrun and programmed low-cognition capabilities pending."
     },
     {
       "id": "skill-cognitive-technology-plus-four-or-more",

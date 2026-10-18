@@ -222,10 +222,34 @@ class RpgExpandedPrerequisite: object
 modify RpgExpandedProfile
     skillLearningReason(skill)
     {
+        rpgExpandedValidateSkill(skill);
+        if (skill.ofKind(RpgLiteSkill) && skill.techLevel != nil)
+        {
+            rpgInteger(skill.techLevel, 0, 12); rpgInteger(self.techLevel, 0, 12);
+            if (self.iq < 6) return 'technology-learning-cognition';
+            if (skill.techLevel > self.techLevel)
+            {
+                if (!self.creationComplete) return 'technology-starting-access';
+                if (skill.attribute == rpgIQ) return 'technology-personal-level';
+            }
+        }
         if (!skill.ofKind(RpgExpandedSkill) || skill.prerequisite == nil) return nil;
         if (!skill.prerequisite.ofKind(RpgExpandedPrerequisite))
             rpgExpandedReject('invalid-prerequisite');
         return skill.prerequisite.satisfied(self, []) ? nil : 'skill-prerequisite';
+    }
+    skillLearningWithTeacherReason(skill, teacher)
+    {
+        local reason = self.skillLearningReason(skill);
+        if (reason != nil) return reason;
+        if (!skill.ofKind(RpgLiteSkill) || skill.techLevel == nil || skill.techLevel <= self.techLevel)
+            return nil;
+        if (teacher == nil || !teacher.ofKind(RpgProfile) || teacher == self)
+            return 'technology-teacher-required';
+        local training = rpgExpandedTrainingFor(teacher, skill);
+        if (training == nil || training.points < 1 || teacher.skillScore(skill) == nil)
+            return 'technology-teacher-subject';
+        return nil;
     }
 ;
 

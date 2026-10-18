@@ -8,6 +8,7 @@ modify RpgProfile
     developmentRevision = 0
     /* Optional profile rules may reject learning before any resources are spent. */
     skillLearningReason(skill) { return nil; }
+    skillLearningWithTeacherReason(skill, teacher) { return self.skillLearningReason(skill); }
 ;
 
 /** Authored objective award. Eligibility is observational; apply can unlock
@@ -34,6 +35,7 @@ class RpgDevelopment: object
     profile = nil
     kind = 'skill'
     training = nil
+    teacher = nil
     attribute = nil
     trait = nil
     target = 1
@@ -124,7 +126,7 @@ rpgAssessDevelopment(offer)
     }
     if (offer.kind == 'skill')
     {
-        value.reason = p.skillLearningReason(offer.training.skill);
+        value.reason = p.skillLearningWithTeacherReason(offer.training.skill, offer.teacher);
         if (value.reason != nil) return value;
     }
     value.reason = offer.available(p);

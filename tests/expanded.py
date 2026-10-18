@@ -210,6 +210,20 @@ def test_relative_skill(s):
     assert state(s) == before, 'relative skill queries changed state'
 
 
+def test_technology_learning(s):
+    before = state(s)
+    s.action(1129)
+    assert last(s, 'test.technology-learning') == [
+        'technology-starting-access', 'technology-teacher-required',
+        'technology-teacher-required', None, 'technology-teacher-subject',
+        'technology-personal-level', None, 'technology-learning-cognition', None]
+    s.action(1130)
+    assert last(s, 'test.technology-learning-gates') == [
+        'technology-teacher-required', 'technology-teacher-required', 5, 0,
+        'ready', 'ready', 'technology-learning-cognition', 0]
+    assert state(s) == before, 'rejected technology learning consumed resources'
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -287,7 +301,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     test_familiarity_persistence(Session,bundle,build.out)

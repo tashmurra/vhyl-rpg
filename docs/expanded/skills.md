@@ -266,11 +266,10 @@ Familiarity removes only its own penalty. At an impossible technology difference
 `technology-too-advanced`, without consuming randomness. Untouched Lite contexts
 retain their existing unavailable reason and zero additional modifier.
 
-This covers use modifiers, not learning access. Teacher requirements for learning
-higher-level physical skills, cognitive learning restrictions, programmed
-capabilities and the exceptions for improved or obsolete familiar equipment still
-need implementation. Native expected-value table checks and combined-context cases
-are authored in `tests/expanded.py::test_technology_modifiers` but remain unrun.
+Learning access is handled separately below. Programmed capabilities and the
+exceptions for improved or obsolete familiar equipment remain pending. Native
+expected-value table checks and combined-context cases are authored in
+`tests/expanded.py::test_technology_modifiers` but remain unrun.
 
 ## Optional specialties
 
@@ -330,3 +329,35 @@ authored in the operation's context.
 `tests/expanded.py::test_relative_skill` includes the source's alternate-attribute
 and fixed-base examples, negative and unavailable training, conflicting choices,
 attribute-dependent shock, and preview purity. These new cases remain unrun.
+
+## Learning across technology levels
+
+B168 learning access applies whenever the skill has a `techLevel`, including
+technology-qualified Lite definitions used by an expanded profile. Ordinary
+learning requires IQ 6 or higher. A starting character cannot buy skills above
+personal technology level. During play, IQ-based technological skills still require
+raising personal technology level first. Other controlling attributes may learn
+above personal level with a teacher. Mark the profile's existing `creationComplete`
+state when character creation ends; it distinguishes starting access from learning
+in play, not permission to ignore the remaining requirements.
+
+`skillLearningReason(skill)` checks these character eligibility restrictions and
+prerequisites. `skillLearningWithTeacherReason(skill, teacher)` additionally checks
+the teacher requirement for an above-level skill. The teacher must be another
+profile with purchased training in that exact skill definition, including its
+technology level and specialty, and an available skill rating.
+
+Point purchases use `RpgDevelopment.teacher`; their normal author availability
+hook still controls access to the lesson or opportunity. Study supplies its teacher
+only for education or intensive instruction, and continues to check its existing
+teaching and subject requirements. A teacher reference on a self-study or work
+track does not bypass the requirement. Blocked requests return a specific
+`technology-*` reason before charging points, time or study credit. Profiles without
+expanded rules retain the default learning hook.
+
+Low-IQ programmed capabilities do not count as ordinary learning and are not
+implemented by this gate. Technology-level transformation, training loss and
+catalogue-specific exceptions remain pending. The authored checks in
+`tests/expanded.py::test_technology_learning` cover starting versus in-play access,
+IQ-based restrictions, teacher identity and training, lower cognition, purchase and
+study gates, and unchanged ledgers on rejection. They have not run.

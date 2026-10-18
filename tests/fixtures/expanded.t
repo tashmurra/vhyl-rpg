@@ -403,6 +403,42 @@ act(verb, args)
         event('test.fixed-skill'); eventValue(rpgLiteScore(p,context));
         eventValue(rpgExpandedSkillStrength(p,skill)); return nil;
     }
+    if (verb == 1129)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.techLevel = 3;
+        local skill = new RpgExpandedSkill(); skill.techLevel = 5; skill.attribute = rpgDX;
+        local teacher = new RpgExpandedProfile(); teacher.rules = p.rules; teacher.techLevel = 5;
+        local tt = new RpgExpandedTraining(); tt.skill = skill; teacher.skills = [tt];
+        event('test.technology-learning'); eventValue(p.skillLearningWithTeacherReason(skill,teacher));
+        p.creationComplete = true; eventValue(p.skillLearningWithTeacherReason(skill,nil));
+        eventValue(p.skillLearningWithTeacherReason(skill,p));
+        eventValue(p.skillLearningWithTeacherReason(skill,teacher));
+        tt.points = 0; eventValue(p.skillLearningWithTeacherReason(skill,teacher));
+        tt.points = 1; skill.attribute = rpgIQ; eventValue(p.skillLearningWithTeacherReason(skill,teacher));
+        p.techLevel = 5; eventValue(p.skillLearningWithTeacherReason(skill,nil));
+        p.iq = 5; eventValue(p.skillLearningWithTeacherReason(skill,teacher));
+        skill.techLevel = nil; eventValue(p.skillLearningWithTeacherReason(skill,nil));
+        return nil;
+    }
+    if (verb == 1130)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        p.techLevel = 3; p.creationComplete = true; p.developmentOpen = true; p.unspentPoints = 5;
+        local skill = new RpgExpandedSkill(); skill.techLevel = 5; skill.attribute = rpgDX;
+        local training = new RpgExpandedTraining(); training.skill = skill; training.points = 0;
+        p.skills = [training];
+        local offer = new RpgDevelopment(); offer.profile = p; offer.training = training; offer.unlocked = true;
+        local teacher = new RpgExpandedProfile(); teacher.rules = p.rules; teacher.techLevel = 5;
+        local tt = new RpgExpandedTraining(); tt.skill = skill; teacher.skills = [tt];
+        local study = new RpgExpandedStudy(); study.profile = p; study.training = training;
+        study.permitted = true; study.teacher = teacher; study.teachingScore = 12;
+        event('test.technology-learning-gates'); eventValue(rpgDevelop(offer).reason);
+        eventValue(study.advance(100).reason); eventValue(p.unspentPoints); eventValue(training.points);
+        offer.teacher = teacher; eventValue(rpgAssessDevelopment(offer).status);
+        study.mode = 'education'; eventValue(study.assess(100).status);
+        p.iq = 5; eventValue(study.advance(100).reason); eventValue(study.credit);
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

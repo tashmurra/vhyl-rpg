@@ -36,7 +36,8 @@ class RpgExpandedStudy: object
         rpgInteger(self.credit, 0, 2879999); rpgInteger(self.awarded, 0, 1000000);
         if (!self.permitted || !profile.developmentOpen)
         { value.reason = 'study-unavailable'; return value; }
-        value.reason = profile.skillLearningReason(training.skill);
+        value.reason = profile.skillLearningWithTeacherReason(training.skill,
+            self.mode == 'education' || self.mode == 'intensive' ? self.teacher : nil);
         if (value.reason != nil) return value;
         if (profile.dead || profile.unconscious) { value.reason = 'cannot-study'; return value; }
         local index = self.modeIndex(); local limit = self.dailyLimit();

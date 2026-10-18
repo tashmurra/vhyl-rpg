@@ -368,6 +368,18 @@
         "tests/expanded.py::test_relative_skill"
       ],
       "validation_note": "Alternate-attribute, fixed-base and positive-only strength interfaces authored; expected-value checks unrun, catalogue operation wiring pending."
+    },
+    {
+      "id": "technology-learning-access",
+      "module": "skills",
+      "pages": "B168",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedProfile",
+      "tests": [
+        "tests/expanded.py::test_technology_learning"
+      ],
+      "validation_note": "Starting access, cognitive restrictions and teacher gates implemented for ordinary learning. New checks unrun; programmed capabilities and catalogue exceptions pending."
     }
   ],
   "detailed_inventories": [
