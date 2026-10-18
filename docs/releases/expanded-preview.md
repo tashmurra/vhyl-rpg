@@ -13,7 +13,8 @@ libraries. Available include paths are distinguished from proposals in the
 injury-threshold and disabled-weapon assessments, owned environmental faults and
 repairs, computer processing, storage, links, terminals, transfers and recordings.
 Task-scoped software can contribute an equipment modifier through a running copy
-and live terminal. Object damage, inventory transformation, maintenance scheduling,
+and live terminal. Required software can select an explicitly approved lower
+technology for the task without changing learned skill. Object damage, inventory transformation, maintenance scheduling,
 structural repair and inventions remain unfinished. New fixtures are authored and
 unrun while checks are paused.
 

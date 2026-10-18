@@ -1147,3 +1147,92 @@ modify RpgLiteContext
         return inherited(profile);
     }
 ;
+
+
+class RpgExpandedSoftwareRequirementResult: RpgExpandedResult
+    effectiveTL = nil
+    softwareAvailable = nil
+    softwareReason = nil
+;
+
+/** Authored task-specific technical prerequisite and explicit lower-technology fallback. */
+class RpgExpandedSoftwareRequirement: object
+    taskId = nil
+    skill = nil
+    minimumComplexity = nil
+    fallbackTL = nil
+    use = nil
+    approved = nil
+    evidence = nil
+    assess(profile, subject)
+    {
+        local value = new RpgExpandedSoftwareRequirementResult();
+        if (subject == nil || !subject.ofKind(RpgLiteSkill) || subject.techLevel == nil
+            || self.skill != subject || self.taskId == nil || self.taskId == '')
+            rpgExpandedReject('software-requirement-scope');
+        rpgInteger(subject.techLevel,7,12);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'software-requirement-approval'; return value; }
+        local minimum = self.minimumComplexity == nil
+            ? rpgExpandedRequiredSoftwareComplexity(subject.techLevel) : self.minimumComplexity;
+        rpgInteger(minimum,0,12);
+        if (self.fallbackTL != nil) rpgInteger(self.fallbackTL,0,subject.techLevel-1);
+        value.softwareReason = 'required-software-missing';
+        if (self.use != nil)
+        {
+            if (!self.use.ofKind(RpgExpandedSoftwareUse) || self.use.taskId != self.taskId)
+                rpgExpandedReject('software-requirement-use');
+            local support = self.use.assess(profile,subject);
+            value.softwareReason = support.reason;
+            if (support.status == 'ready')
+            {
+                if (self.use.program.copy.complexity >= minimum)
+                { value.softwareAvailable = true; value.softwareReason = nil; }
+                else value.softwareReason = 'required-software-complexity';
+            }
+        }
+        value.effectiveTL = value.softwareAvailable ? subject.techLevel : self.fallbackTL;
+        if (value.effectiveTL == nil) { value.reason = value.softwareReason; return value; }
+        value.status = 'ready'; return value;
+    }
+;
+
+modify RpgLiteContext
+    softwareRequirement = nil
+    softwareTechnologyEnabled = nil
+    technologyUnavailableReason(profile)
+    {
+        if (self.softwareRequirement != nil)
+        {
+            if (!self.softwareRequirement.ofKind(RpgExpandedSoftwareRequirement))
+                rpgExpandedReject('software-requirement');
+            local value = self.softwareRequirement.assess(profile,self.skill);
+            if (value.status != 'ready') return value.reason;
+        }
+        return 'technology-too-advanced';
+    }
+    technologySkillLevel(profile)
+    {
+        if (self.softwareRequirement == nil) return self.skill == nil ? nil : self.skill.techLevel;
+        if (!self.softwareTechnologyEnabled) rpgExpandedReject('software-requirement-context');
+        if (self.equipmentTL == nil) rpgExpandedReject('software-requirement-task-technology');
+        if (!self.softwareRequirement.ofKind(RpgExpandedSoftwareRequirement))
+            rpgExpandedReject('software-requirement');
+        local value = self.softwareRequirement.assess(profile,self.skill);
+        return value.status == 'ready' ? value.effectiveTL : nil;
+    }
+    equipmentUseModifier(profile)
+    {
+        if (self.softwareRequirement != nil)
+        {
+            if (!self.softwareTechnologyEnabled) rpgExpandedReject('software-requirement-context');
+            if (!self.softwareRequirement.ofKind(RpgExpandedSoftwareRequirement))
+                rpgExpandedReject('software-requirement');
+            if (self.softwareUse != nil && self.softwareUse != self.softwareRequirement.use)
+                rpgExpandedReject('software-requirement-bonus-source');
+            local value = self.softwareRequirement.assess(profile,self.skill);
+            if (value.status != 'ready') return nil;
+        }
+        return inherited(profile);
+    }
+;

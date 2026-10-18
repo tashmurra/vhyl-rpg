@@ -612,11 +612,10 @@ combined physical/software tool policy is implemented.
 
 `rpgExpandedRequiredSoftwareComplexity(techLevel)` returns the B472 usual baseline
 for levels seven through twelve. This is an assessment helper, not automatic
-permission to execute a technical task. Task-specific exceptions, effective skill
-technology when mandatory software is absent, superior-software time reductions,
+permission to execute a technical task. Superior-software time reductions,
 robot personality/skill installations and general utilities remain pending.
 The current processing reservation range also limits which complexities can run;
-returning a baseline does not bypass host limits.
+returning a baseline does not bypass host limits. Required-software use is described below.
 
 [Minimal fixture](../../tests/fixtures/expanded-software.t) demonstrates accounting
 support with an explicitly approved good-quality program. `test_software_task_support`
@@ -624,3 +623,41 @@ authors expected values for ordinary and fine equipment, duplicate instances,
 stopped programs, task mismatch, revoked approval, unavailable terminals and
 operators, unchanged learned skill and pure previews. These fixtures are unrun
 while checks remain paused.
+
+
+## Required software and effective technology
+
+Use `RpgExpandedSoftwareRequirement` for a technical task whose permitted methods
+depend on software. Declare the exact `skill` and `taskId`, approval and evidence,
+an optional `minimumComplexity` overriding the usual baseline, and the selected
+software `use`. The evidence must justify the minimum and the alternative method.
+`fallbackTL` is an explicit lower technology level at which the skill can function
+without suitable software; omit it when there is no approved fallback.
+
+`assess(profile, skill)` returns `effectiveTL`, `softwareAvailable` and
+`softwareReason` as well as status and reason. Insufficient complexity, a stopped
+program or lost access can select the declared fallback. Missing author approval
+blocks instead. No fallback is inferred merely by subtracting one from a level.
+
+Set `RpgExpandedSkillContext.softwareRequirement` and its task `equipmentTL` to
+apply that effective skill technology through the B168 technology-difference
+arithmetic. Include the skills module before technology for this integration.
+The context requires an explicit task technology; it never changes the learned
+skill object, points, or personal technology. Existing contexts without a
+requirement retain their original technology modifier, including authored overrides.
+`technologyModifierFor(profile)` performs the contextual calculation; the original
+parameterless `technologyModifier()` remains the unmodified-skill calculation.
+
+A requirement grants no equipment bonus automatically. To request a separate
+bonus, select the same requirement use in `softwareUse`; a different program
+selection rejects explicitly. A selected bonus whose software is unavailable
+still blocks that bonus-bearing context; omit the bonus selection when intentionally
+using the lower-technology method. Task execution continues to own time and rolls.
+
+`test_software_requirements` authors cases for insufficient and sufficient
+complexity, a task-specific minimum, absent and stopped software, forbidden
+fallback, missing author approval, the lower-technology task itself, and an
+explicit bonus. It also records unchanged skill technology, learned score, time
+and randomness. These fixtures remain unrun. Automatic selection among several
+alternative programs, superior-software time savings and interrupted task execution
+remain incomplete.

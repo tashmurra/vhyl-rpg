@@ -364,6 +364,7 @@ class RpgExpandedFamiliarity: object
  * once, alongside (rather than replacing) other contextual modifiers. */
 class RpgExpandedSkillContext: RpgLiteContext
     familiarity = nil
+    softwareTechnologyEnabled = true
     equipmentTL = nil
     rollAttribute = nil
     fixedBase = nil
@@ -394,14 +395,24 @@ class RpgExpandedSkillContext: RpgLiteContext
         return rpgExpandedTechnologyModifier(self.skill.techLevel, self.equipmentTL,
             self.skill.attribute == rpgIQ);
     }
+    technologyModifierFor(profile)
+    {
+        local level = self.technologySkillLevel(profile);
+        if (level == nil && self.skill != nil && self.skill.techLevel != nil) return nil;
+        if (self.skill == nil || level == self.skill.techLevel) return self.technologyModifier();
+        if (self.equipmentTL == nil) return 0;
+        if (self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || level == nil)
+            rpgExpandedReject('technology-skill-required');
+        return rpgExpandedTechnologyModifier(level,self.equipmentTL,self.skill.attribute == rpgIQ);
+    }
     unavailableReason(profile)
     {
-        if (self.technologyModifier() == nil) return 'technology-too-advanced';
+        if (self.technologyModifierFor(profile) == nil) return self.technologyUnavailableReason(profile);
         return inherited(profile);
     }
     skillUseModifier(profile)
     {
-        local technology = self.technologyModifier();
+        local technology = self.technologyModifierFor(profile);
         if (technology == nil) return nil;
         if (self.familiarity == nil) return technology;
         if (!self.familiarity.ofKind(RpgExpandedFamiliarity)
@@ -566,4 +577,11 @@ class RpgExpandedFamiliarityRecognition: object
         target.recognized = self.mode != 'roll' || value.check.achieved;
         value.status = 'resolved'; return value;
     }
+;
+
+
+/** Context-local effective technology; never changes the learned skill definition. */
+modify RpgLiteContext
+    technologySkillLevel(profile) { return self.skill == nil ? nil : self.skill.techLevel; }
+    technologyUnavailableReason(profile) { return 'technology-too-advanced'; }
 ;

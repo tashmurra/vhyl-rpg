@@ -311,9 +311,10 @@
         "tests/expanded.py::test_computer_recording_persistence",
         "tests/expanded.py::test_remote_terminal",
         "tests/expanded.py::test_remote_terminal_persistence",
-        "tests/expanded.py::test_software_task_support"
+        "tests/expanded.py::test_software_task_support",
+        "tests/expanded.py::test_software_requirements"
       ],
-      "validation_note": "Object assessments, fault repairs, computer processing/storage/link/transfer/recording and task equipment contributions authored; fixtures unrun. Mandatory-software fallback, combined tools, interrupted recording, structural injury/repair and maintenance scheduling remain incomplete."
+      "validation_note": "Object assessments, fault repairs, computer processing/storage/link/transfer/recording and task equipment contributions and required-software technology fallback authored; fixtures unrun. Combined tools, interrupted recording, structural injury/repair and maintenance scheduling remain incomplete."
     },
     {
       "id": "templates",

@@ -995,6 +995,24 @@ def test_software_task_support(Session,bundle):
         s.close()
 
 
+def test_software_requirements(Session,bundle):
+    for code,expected in [
+            (0,['ready',7,0,None,'required-software-complexity',5,None]),
+            (1,['ready',8,1,None,None,10,None]),
+            (2,['ready',7,0,None,'required-software-missing',5,None]),
+            (3,['blocked',None,0,'required-software-complexity','required-software-complexity',None,'required-software-complexity']),
+            (4,['blocked',None,0,'software-requirement-approval',None,None,'software-requirement-approval']),
+            (5,['ready',7,0,None,'task-software-not-running',5,None]),
+            (6,['ready',7,0,None,'required-software-complexity',10,None]),
+            (7,['ready',8,1,None,None,11,None])]:
+        s = Session(bundle)
+        try:
+            s.action(2092,code)
+            assert last(s,'test.software-requirement') == expected + [8,10,0,0]
+        finally:
+            s.close()
+
+
 def remote_terminal_state(s):
     s.action(2089)
     return last(s,'test.remote-state')
@@ -5859,6 +5877,7 @@ def test(build):
     fresh(Session,combat,test_unarmed_miss_assessments)
     software = build.build('expanded-software',ROOT / 'tests/fixtures/expanded-software.t')
     test_software_task_support(Session,software)
+    test_software_requirements(Session,software)
     computer = build.build('expanded-computer',ROOT / 'tests/fixtures/expanded-computer.t')
     fresh(Session,computer,test_computer_reservations)
     fresh(Session,computer,test_terminal_switches)

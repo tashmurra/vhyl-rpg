@@ -233,9 +233,10 @@
       "status": "partial",
       "acceptance": "Required technical software generally has complexity two at technology seven, four at eight, six at nine and the same progression thereafter. Missing software may force the specified lower-technology skill procedure; superior software needs an explicit bonus or time benefit.",
       "tests": [
-        "tests/expanded.py::test_software_task_support"
+        "tests/expanded.py::test_software_task_support",
+        "tests/expanded.py::test_software_requirements"
       ],
-      "validation_note": "Usual complexity baseline for technology levels seven through twelve authored; fixtures unrun. Task-specific minima, missing-software lower-technology execution and superior-software time benefits remain pending."
+      "validation_note": "Usual complexity baseline, task-specific minimum and approved lower-technology fallback integrated through contextual skill technology; fixtures unrun. Multiple-program selection, superior-software time benefits and interrupted execution remain pending."
     },
     {
       "id": "technology-robot-program",
