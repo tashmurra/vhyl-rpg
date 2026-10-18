@@ -9184,6 +9184,8 @@ def test(build):
     voice_self_control = build.build('expanded-voice-self-control',ROOT / 'tests/fixtures/expanded-voice-self-control.t')
     test_voice_self_control(Session, voice_self_control, build.out)
     test_voice_direct_guards(Session, voice_self_control)
+    voice_command = build.build('expanded-voice-command',ROOT / 'tests/fixtures/expanded-voice-command.t')
+    test_voice_command(Session, voice_command, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19943,3 +19945,52 @@ def test_voice_direct_guards(Session, bundle):
         assert last(s, 'test.voice-direct') == ['resolved', 6]
     finally:
         s.close()
+
+
+def test_voice_command(Session, bundle, out):
+    """B148 authored Will resistance preserves outcomes without executing commands; unrun."""
+    path = out / 'expanded-voice-command.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10200, 10201, 10203, 10204):
+            s.action(2285, code)
+        assert last(s, 'test.voice-command-preview') == ['ready', None, 10, 3]
+        assert last(s, 'test.voice-command-state') == [0, 0, 3]
+        s.action(2285, 10202)
+        s.command('undo')
+        s.action(2285, 10204)
+        assert last(s, 'test.voice-command-state') == [0, 0, 3]
+        for code in (10202, 10202, 10208):
+            s.action(2285, code)
+        assert last(s, 'test.voice-command-result') == ['reused', 1, 10, 6]
+        assert last(s, 'test.voice-command-duplicate') == ['voice-command-duplicate', 6]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10209, 10202, 10204):
+            s.action(2285, code)
+        assert last(s, 'test.voice-command-result') == ['reused', 1, 10, 6]
+        assert last(s, 'test.voice-command-state') == [1, 0, 6]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (10200, 10206, 10201):
+            s.action(2285, code)
+        assert last(s, 'test.voice-command-preview') == ['blocked', 'voice-command-qualifying-state', None, 3]
+        for code in (10207, 10205, 10202):
+            s.action(2285, code)
+        assert last(s, 'test.voice-command-result') == ['resolved', 0, 11, 6]
+    finally:
+        s.close()
+    for change in (10209, 10210):
+        s = Session(bundle)
+        try:
+            for code in (10200, change, 10201):
+                s.action(2285, code)
+            assert last(s, 'test.voice-command-preview') == ['blocked', 'voice-command-active-severity', None, 3]
+        finally:
+            s.close()

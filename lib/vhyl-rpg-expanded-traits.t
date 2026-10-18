@@ -2068,3 +2068,82 @@ modify RpgExpandedProfile
         return inherited();
     }
 ;
+
+modify RpgExpandedPhantomVoiceOccurrence
+    commands = []
+;
+class RpgExpandedVoiceCommandResult: RpgExpandedResult
+    resisted = nil
+    instruction = nil
+    score = nil
+;
+/** B148: author-selected resistance; does not execute the commanded action. */
+class RpgExpandedVoiceCommand: object
+    id = nil
+    occurrence = nil
+    command = nil
+    instruction = nil
+    underStress = nil
+    intoxicated = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    recordedAt = nil
+    boundDefinition = nil
+    boundCheck = nil
+    definition()
+    {
+        return [self.id,self.occurrence,self.command,self.instruction,self.underStress,self.intoxicated,
+            self.approved,self.evidence,self.recordedAt];
+    }
+    context()
+    {
+        local context = new RpgLiteContext(); context.attribute = rpgWill; context.kind = 'resistance'; return context;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.occurrence == nil
+            || !self.occurrence.ofKind(RpgExpandedPhantomVoiceOccurrence)) rpgExpandedReject('voice-command-definition');
+        self.occurrence.validateReceipt(); local value = new RpgExpandedVoiceCommandResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.occurrence.commands,self)) rpgExpandedReject('voice-command-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('voice-command-binding');
+            local check = self.result.check;
+            if (check != self.boundCheck[1] || check.score != self.boundCheck[2] || check.roll != self.boundCheck[3]
+                || check.achieved != self.boundCheck[4] || check.critical != self.boundCheck[5] || check.margin != self.boundCheck[6]
+                || self.result.resisted != check.achieved || self.result.instruction != self.instruction)
+                rpgExpandedReject('voice-command-check-binding');
+            value.status = 'reused'; value.check = check; value.resisted = check.achieved;
+            value.instruction = self.instruction; value.score = check.score; return value;
+        }
+        if (self.recordedAt != nil || self.boundDefinition != nil || self.boundCheck != nil) rpgExpandedReject('voice-command-uncommitted-state');
+        if (!self.approved || self.command == nil || self.instruction == nil || self.instruction == ''
+            || self.evidence == nil || self.evidence == '') { value.reason = 'voice-command-author-facts'; return value; }
+        if (!self.underStress && !self.intoxicated) { value.reason = 'voice-command-qualifying-state'; return value; }
+        local profile = self.occurrence.profile;
+        if (!self.occurrence.active() || self.occurrence.result.severity != 3 || profile.phantomVoiceSeverity() != 3)
+        { value.reason = 'voice-command-active-severity'; return value; }
+        if (profile.dead || profile.unconscious) { value.reason = 'voice-command-incapacitated'; return value; }
+        foreach (local prior in self.occurrence.commands)
+        {
+            prior.assess();
+            if (prior.id == self.id || prior.command == self.command) rpgExpandedReject('voice-command-duplicate');
+        }
+        value.score = rpgLiteScore(profile,self.context());
+        if (value.score == nil) { value.reason = 'voice-command-check-unavailable'; return value; }
+        value.instruction = self.instruction; value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.occurrence.profile,self.context());
+        if (value.check.status != 'resolved') rpgExpandedReject('voice-command-check-changed');
+        value.resisted = value.check.achieved; value.status = 'resolved';
+        self.recordedAt = self.occurrence.profile.timeElapsed; self.boundDefinition = self.definition();
+        self.boundCheck = [value.check,value.check.score,value.check.roll,value.check.achieved,value.check.critical,value.check.margin];
+        self.result = value; self.occurrence.commands = self.occurrence.commands + [self]; return value;
+    }
+;

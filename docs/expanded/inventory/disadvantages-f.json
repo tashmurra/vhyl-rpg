@@ -314,9 +314,10 @@
       "status": "partial",
       "acceptance": "Phantom-voice severity commanding costs -15. Voices can urge harmful deeds; during stress or intoxication an authored will check may be required to resist. The author supplies the command and qualifying trigger, without automatically succeeding at any resulting action.",
       "tests": [
-        "tests/expanded.py::test_phantom_voices"
+        "tests/expanded.py::test_phantom_voices",
+        "tests/expanded.py::test_voice_command"
       ],
-      "validation_note": "Severity three costs -15 and participates in optional stress occurrences. Authored command, resistance and treatment interfaces remain pending. Reaction inheritance is not explicit in the supplied entry; the observation interface rejects this severity until resolved. Fixtures unrun."
+      "validation_note": "Severity three costs -15 and participates in owned stress occurrences. Active episodes support author-selected Will resistance for an identified command under stress or intoxication, with immutable result, duplicate prevention and replay. The result does not execute or guarantee success of the commanded action; author/player flow resolves that action separately. Treatment remains pending. Reaction inheritance is not explicit in the supplied entry, so that observation combination rejects pending resolution. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-f-voices-origin",

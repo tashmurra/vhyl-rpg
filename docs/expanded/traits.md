@@ -1354,8 +1354,8 @@ explanations of the character's experiences.
 Mandatory checks after relevant full fear results remain pending. Direct rolled
 self-control and abridged fear calls reject active phantom-voice combinations
 before randomness; owned self-control triggers integrate as described below.
-Sound masking, episode-induced fear, commands and will resistance, origin-aware
-treatment and buyoff also remain incomplete. This interface must not be presented
+Sound masking, episode-induced fear, origin-aware treatment and buyoff remain
+incomplete. Command resistance is implemented through the interface below. This interface must not be presented
 as the complete disadvantage.
 
 [`expanded-phantom-voices.t`](../../tests/fixtures/expanded-phantom-voices.t)
@@ -1406,3 +1406,37 @@ Its assertions remain unrun while checks are paused.
 voluntary surrender, mitigation and unchanged direct behavior without the trait.
 Both guards throw a structured expanded error so callers cannot mistake an
 unsupported request for a failed resistance roll.
+
+
+### Command resistance
+
+`RpgExpandedVoiceCommand` implements the author-selected Will roll for commanding
+severity (`full-2008`, B148). Supply a unique `id`, an owned active `occurrence`
+at severity three, a distinct `command` token, original `instruction` text,
+`approved = true` and `evidence`. At least one of `underStress` or `intoxicated`
+must describe the current authored situation. Approval explicitly selects the
+source's discretionary resistance check; the module does not roll for every
+spoken command. Current mitigation, unconsciousness or death prevents a new check.
+
+`assess()` is pure. `resolve()` uses the shared Will resistance check, including
+applicable health effects, and stores its result in the occurrence's `commands`
+history. It returns `resisted`, `check`, `instruction` and the assessed `score`.
+There is no additional time, fatigue, point or inventory charge. A successful
+check resists this command. On failure, the author/player flow must adjudicate
+the named action, including its legality, targets, costs and ordinary success
+checks. The resistance result never makes the commanded action succeed or directly
+changes another character, item or injury ledger. This is an explicit narrative
+decision point tied to the recorded instruction and check.
+
+The same command token or ID cannot be rolled again within the occurrence.
+Repeating the original request validates its bound instruction, qualifying facts
+and result, then returns `reused`. Historical results remain readable after the
+episode ends; new checks require an active episode. Distinct commands use new
+tokens and author approval. Command content and episode origins remain private
+author data unless deliberately revealed by the game.
+
+[`expanded-voice-command.t`](../../tests/fixtures/expanded-voice-command.t)
+and `test_voice_command` specify stress and intoxication eligibility, exact Will
+success and failure, duplicate rejection, inactive episodes, mitigation, preview,
+replay, rollback, undo and cross-process save continuation. Assertions remain
+unrun while checks are paused. Automatic command/action routing remains pending.

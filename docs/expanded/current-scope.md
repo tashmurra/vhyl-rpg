@@ -139,3 +139,10 @@ Direct self-control and abridged fear now reject unsupported active phantom-voic
 combinations before randomness. Owned self-control retains its integrated
 follow-up; surrender, absent traits and mitigation preserve ordinary behavior.
 Full fear resolution remains pending, and the guard fixtures are unrun.
+
+
+Commanding voice episodes now support approved Will resistance under authored
+stress or intoxication. Commands have distinct identities and persistent results;
+replay adds no roll or charge, and failed resistance does not automatically execute
+the commanded action. Automatic action routing and treatment remain pending.
+The new eligibility and lifecycle fixtures are authored but unrun.
