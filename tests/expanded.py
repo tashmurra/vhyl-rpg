@@ -9398,6 +9398,8 @@ def test(build):
     test_veterinary_skill(Session, veterinary_skill)
     animal_handling_skill = build.build("expanded-animal-handling-skill",ROOT / "tests/fixtures/expanded-animal-handling-skill.t")
     test_animal_handling_skill(Session, animal_handling_skill)
+    psychology_skill = build.build("expanded-psychology-skill",ROOT / "tests/fixtures/expanded-psychology-skill.t")
+    test_psychology_skill(Session, psychology_skill)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23922,5 +23924,24 @@ def test_animal_handling_skill(Session, bundle):
     try:
         s.action(1680,20701); s.action(1680,20705)
         assert last(s,'test.handling-error') == ['animal-handling-default-evidence']
+    finally:
+        s.close()
+
+
+def test_psychology_skill(Session, bundle):
+    """B216's optional split is one-way and does not create double defaults; unrun."""
+    for setup, expected in (((),[6,6,6,0]),((20801,),[12,17,6,0]),((20801,20802),[17,6,13,0]),
+                            ((20801,20804),[14,6,13,0]),((20801,20805),[13,13,6,0])):
+        s = Session(bundle)
+        try:
+            for code in (*setup,20800):
+                s.action(1680,code)
+            assert last(s,'test.psychology-scores') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,20803)
+        assert last(s,'test.psychology-error') == ['psychology-split-evidence']
     finally:
         s.close()

@@ -933,3 +933,27 @@ apply. This catalogue definition alone grants no training, command compliance or
 combat effect. `test_animal_handling_skill` specifies all relationship penalties,
 untrained sources, missing approval and the veterinary connection. Fixtures remain
 unrun; combined animal-procedure and combat validation remains incomplete.
+
+
+## Psychology disciplines and species defaults
+
+`RpgExpandedPsychologySkill` implements IQ/Hard psychology with IQ-6 and
+same-species sociology-4 defaults (full-2008 B216). Set the species `specialty`.
+The default `discipline` is `general`. Campaigns using the optional split select
+`applied` or `experimental` and provide `splitApproved` and `splitEvidence`.
+Purchased experimental psychology supplies applied psychology at -5; there is no
+reverse discipline default. The attribute default remains available.
+
+Cross-species defaults require explicit `RpgExpandedPsychologyDefault` entries
+in `speciesDefaults`, with a typed `source`, nonpositive `penalty`, approval and
+evidence. Relationships must remain within the same discipline. This prevents a
+species relationship from silently bypassing the directional discipline rule.
+Experimental training does not directly supply the applied-psychology defaults
+used by lie detection and body reading, and an untrained applied intermediary
+cannot create a default chain. Existing authored skill definitions retain their
+previous behavior.
+
+Behavior prediction, subject familiarity, empathy and callousness still need their
+own operation/context integration. `test_psychology_skill` specifies the one-way
+discipline default, attribute fallback, social-inference default eligibility and
+campaign-approval rejection. Fixtures remain unrun while checks are paused.

@@ -1221,7 +1221,7 @@ class RpgExpandedLieDetectionSkill: RpgExpandedSkill
         local edges = inherited(profile);
         foreach (local training in profile.skills)
             if (training.points > 0 && training.skill != self && training.skill.ofKind(RpgLiteSkill)
-                && holds(['body-reading','psychology'],training.skill.studyIdentity()))
+                && holds(['body-reading','psychology'],training.skill.studyIdentity()) && training.skill.socialInferenceDefaultEligible())
                 edges = edges + [[training.skill,-4]];
         return edges;
     }
@@ -1247,7 +1247,7 @@ class RpgExpandedBodyReadingSkill: RpgExpandedSkill
         local edges = inherited(profile);
         foreach (local training in profile.skills)
             if (training.points > 0 && training.skill != self && training.skill.ofKind(RpgLiteSkill)
-                && holds(['lie-detection','psychology'],training.skill.studyIdentity()))
+                && holds(['lie-detection','psychology'],training.skill.studyIdentity()) && training.skill.socialInferenceDefaultEligible())
                 edges = edges + [[training.skill,-4]];
         return edges;
     }
@@ -1676,5 +1676,70 @@ class RpgExpandedAnimalHandlingSkill: RpgExpandedSkill
         local edges = inherited(profile);
         foreach (local relation in self.relationships) edges = edges + [relation.edge(self)];
         return edges;
+    }
+;
+
+modify RpgLiteSkill
+    socialInferenceDefaultEligible() { return true; }
+;
+
+/** B216 psychology, with an explicit optional campaign split. */
+class RpgExpandedPsychologySkill: RpgExpandedSkill
+    id = 'psychology'
+    attribute = rpgIQ
+    difficulty = 2
+    defaultPenalty = -6
+    discipline = 'general'
+    splitApproved = nil
+    splitEvidence = nil
+    speciesDefaults = []
+    socialInferenceDefaultEligible() { self.validateDefinition(); return self.discipline != 'experimental'; }
+    validateDefinition()
+    {
+        if (self.id != 'psychology' || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != -6
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil || self.techLevel != nil
+            || self.specialty == nil || self.specialty == '' || !holds(['general','applied','experimental'],self.discipline))
+            rpgExpandedReject('psychology-skill-definition');
+        if (self.discipline != 'general' && (!self.splitApproved || self.splitEvidence == nil || self.splitEvidence == ''))
+            rpgExpandedReject('psychology-split-evidence');
+        local seen = [];
+        foreach (local relation in self.speciesDefaults)
+        {
+            if (relation == nil || !relation.ofKind(RpgExpandedPsychologyDefault)) rpgExpandedReject('psychology-default-definition');
+            local edge = relation.edge(self);
+            if (holds(seen,edge[1])) rpgExpandedReject('psychology-default-duplicate');
+            seen = seen + [edge[1]];
+        }
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill)) continue;
+            if (source.id == 'sociology' && source.specialty == self.specialty && source.techLevel == nil) edges = edges + [[source,-4]];
+            if (self.discipline == 'applied' && source.ofKind(RpgExpandedPsychologySkill)
+                && source.discipline == 'experimental' && source.specialty == self.specialty)
+            { source.validateDefinition(); edges = edges + [[source,-5]]; }
+        }
+        foreach (local relation in self.speciesDefaults) edges = edges + [relation.edge(self)];
+        return edges;
+    }
+;
+class RpgExpandedPsychologyDefault: object
+    source = nil
+    penalty = nil
+    approved = nil
+    evidence = nil
+    edge(target)
+    {
+        if (self.source == nil || !self.source.ofKind(RpgExpandedPsychologySkill) || self.source == target
+            || self.source.specialty == target.specialty || self.source.discipline != target.discipline)
+            rpgExpandedReject('psychology-default-source');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('psychology-default-evidence');
+        rpgInteger(self.penalty,-100,0); return [self.source,self.penalty];
     }
 ;
