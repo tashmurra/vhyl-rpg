@@ -23,3 +23,11 @@ been visually compared with the reference page; this is source verification, not
 a runtime test. `rpgExpandedRangeModifier` still handles only whole-yard lookup,
 not size calculation, fractional units, target-speed selection or sensing rules.
 Those integrations and independent boundary tests remain pending.
+
+
+[Signature and transformed equipment](inventory/traits-catalogue-k.json) needs
+identity-based ownership and disposition. Voluntary disposal of signature equipment
+removes its invested value; blameless permanent loss permits either replacement or
+point return, with an authored recovery opportunity first. Shrinking equipment
+returns to normal size when put down, potentially changing occupied space. The
+existing numeric equipment helpers do not provide these lifecycle rules.

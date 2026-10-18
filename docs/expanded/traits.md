@@ -174,3 +174,11 @@ ancestral and object histories, recovery, active sensors and shadow form. Sensor
 retain their own range, emission visibility, environmental limits and detail
 outputs. A targeting lock is distinct from discovery, and switching sensor modes
 must not accumulate bonuses from incompatible modes. These effects remain pending.
+
+
+The [eleventh catalogue segment](inventory/traits-catalogue-k.json) records fixed
+and adaptive transformations, shrinking, protected equipment, parallel item
+acquisition and natural appendages. Shrinking scales different quantities from
+stretching, and each full-value exception applies only to its selected quantity.
+Acquired items retain origin, expiry and retry-family records; transferred or
+consumed items must not evade their return rule. These effects remain pending.

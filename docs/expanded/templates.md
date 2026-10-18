@@ -44,3 +44,17 @@ Zero-cost features and prohibited traits still affect validation and play.
 These are implementation requirements; the existing factory does not yet provide
 these operations. Template design recommendations, such as leaving some starting
 points unspent, will remain guidance rather than mandatory character limits.
+
+
+[Transformation requirements](inventory/traits-catalogue-k.json) replace native
+ancestry contributions while retaining personal purchases. Conflicting physical
+forms can suspend personal benefits without deleting them. Injury, fatigue,
+crippling and conditions persist, with proportionally scaled health/fatigue losses.
+The current fresh-profile factory cannot implement these transitions.
+
+Adaptive forms require existing authored templates, purchased value capacity and
+memorized identities. Omitting allowed mental disadvantages or ancestry intelligence
+adjustments changes template value and must be checked against capacity. Ancestry
+costs exclude the transformation ability itself when calculating its allowance,
+preventing circular pricing. Every transition needs rollback and save coverage
+before it can be considered implemented.
