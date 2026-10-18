@@ -1254,3 +1254,7 @@ expanded influence procedure remains partial.
 - Added concrete rated template rows for compelled assistance and low motivation,
   preserving behavior types and self-control prices through composition and
   finalization. Added an unrun template-to-cost-history integration fixture.
+
+- Template composition now copies supported trait purchases instead of sharing
+  mutable traits with intermediate profiles. Added an unrun level/cost isolation
+  and save-continuation fixture, retaining concrete rated behavior types.

@@ -68,6 +68,21 @@ class RpgExpandedTemplateSkillRequirement: object
     score = 0
 ;
 
+/** Reconstruct supported purchases rather than sharing intermediate profile state. */
+rpgExpandedCopyTemplateTrait(trait)
+{
+    if (trait == nil || !trait.ofKind(RpgLiteTrait) || trait.labelId == nil)
+        rpgExpandedReject('template-trait-copy-definition');
+    local copy = trait.templatePurchaseKind == 'shared-catalogue'
+        ? rpgLiteMakeTrait(trait.labelId,trait.level,trait.scope)
+        : rpgExpandedTemplateTraits.rated(trait.labelId,trait.level,trait.scope,trait.selfControlNumber());
+    if (copy.templatePurchaseKind != trait.templatePurchaseKind || copy.id != trait.id
+        || copy.controlled != trait.controlled || copy.creationCost() != trait.creationCost())
+        rpgExpandedReject('template-trait-copy-purchase');
+    copy.active = trait.active; copy.mitigated = trait.mitigated; copy.skills = trait.skills;
+    return copy;
+}
+
 /** Combine occupational packages, B259. All outputs are freshly constructed;
  * actual secondary scores are maximized before their final costs are derived. */
 rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
@@ -120,7 +135,7 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
             local found = nil;
             foreach (local current in result.traits)
                 if (current.id == trait.id && current.scope == trait.scope) found = current;
-            if (found == nil) result.traits = result.traits + [trait];
+            if (found == nil) result.traits = result.traits + [rpgExpandedCopyTemplateTrait(trait)];
             else
             {
                 if (trait.templatePurchaseKind != found.templatePurchaseKind

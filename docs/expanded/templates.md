@@ -249,3 +249,11 @@ Templates create new, unfinished profiles. Finalize the assembled profile with
 its actual original disadvantage costs. The integration fixture covers concrete
 types, independent instances, conflicting purchases and final cost capture; it
 remains unrun while checks are paused.
+
+Composition now reconstructs each supported trait purchase before adding it to
+the output profile. Raising a duplicate trait to a later package's level no
+longer mutates the intermediate profile that supplied it. Concrete rated behavior
+classes and their costs are checked during reconstruction; unknown purchase
+kinds require a supported factory rather than silently becoming plain traits.
+The isolation fixture retains the intermediate profile and checks independent
+levels and costs before and after a save; it remains unrun.

@@ -9105,6 +9105,8 @@ def test(build):
     test_character_finalization(Session, character_finalization, build.out)
     behavior_templates = build.build('expanded-behavior-templates',ROOT / 'tests/fixtures/expanded-behavior-templates.t')
     test_behavior_templates(Session, behavior_templates)
+    template_isolation = build.build('expanded-template-isolation',ROOT / 'tests/fixtures/expanded-template-isolation.t')
+    test_template_isolation(Session, template_isolation, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17668,5 +17670,29 @@ def test_behavior_templates(Session, bundle):
         assert last(s,'test.behavior-template-conflict') == ['template-trait-purchase-conflict']
         s.action(2285,5502)
         assert last(s,'test.behavior-template-fresh') == [0,0]
+    finally:
+        s.close()
+
+
+def test_template_isolation(Session, bundle, out):
+    path = out / 'expanded-template-isolation.zsave'
+    s = Session(bundle)
+    try:
+        for code in (5600,5602):
+            s.action(2285,code)
+        assert last(s,'test.template-isolation') == [1,2,0,5,10]
+        for code in (5601,5602):
+            s.action(2285,code)
+        assert last(s,'test.template-isolation') == [1,3,0,5,15]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,5602)
+        assert last(s,'test.template-isolation') == [1,3,0,5,15]
+        s.action(2285,5500)
+        assert last(s,'test.behavior-template') == [-45,2,1,1,6,12]
     finally:
         s.close()
