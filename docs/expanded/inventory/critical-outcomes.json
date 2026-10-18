@@ -38,11 +38,11 @@
     {
       "id": "critical-failure-boundaries",
       "source": "full-2008",
-      "pages": "B556-B557",
+      "pages": "B382; B556",
       "module": "combat",
       "kind": "procedure",
       "status": "pending",
-      "acceptance": "Roll 18 critically fails. Roll 17 critically fails at effective skill 15 or below, otherwise ordinarily fails. A roll exceeding effective skill by at least ten critically fails.",
+      "acceptance": "Roll 18 critically fails. Roll 17 critically fails at effective skill 15 or below, otherwise ordinarily fails. Failure margin at least ten critically fails melee attacks and defenses; B382 explicitly excludes ranged attacks despite the generic B556 summary. Apply firearm malfunction priority before table dispatch.",
       "tests": []
     },
     {

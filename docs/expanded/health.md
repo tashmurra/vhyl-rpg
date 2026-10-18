@@ -77,3 +77,9 @@ B420 requires injury strictly greater than half capacity for an ordinary major
 wound, while B564 includes equality. Completion requires a documented precedence
 policy and an independent exact-half test; the inventory does not silently erase
 either wording.
+
+The [damage review](inventory/damage-readiness.json) also records differing
+low-health formulas. B380 halves basic speed and movement, while B419 halves
+movement and dodge. These are numerically different because dodge includes a
+constant bonus and encumbrance. The expanded profile needs a documented
+precedence choice and boundary cases; Lite behavior must remain unchanged.

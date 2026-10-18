@@ -121,3 +121,24 @@ to determine damage. Mounts and vehicles substitute their own capacity and the
 appropriate control skill. Shield collisions redirect incoming damage to the
 shield without removing the actor's fall risk. These integrations remain pending;
 the inventory does not establish an executable combat module.
+
+## Damage ordering and equipment actions
+
+The [damage and readiness inventory](inventory/damage-readiness.json) records
+B378–B383. Basic damage, range reduction, protection, penetration, wound factors
+and final injury are distinct stages. Flexible armor trauma bypasses wound
+multipliers, corrosion weakens protection for later hits, and internal follow-up
+effects bypass protection without creating knockback or blunt trauma. Linked
+effects instead share an attack roll while retaining separate resistance and
+damage resolution.
+
+Critical-failure dispatch has explicit combat exceptions. Failure by ten applies
+to melee attacks and defenses, but not ranged attacks. Firearm malfunction takes
+priority over a simultaneous critical miss, so the implementation must select
+the consequence before consuming randomness for a critical-outcome table.
+
+Readying, finding, transferring, dropping and stowing an item have different
+requirements. A combat handoff needs both participants' actions; shield release
+can require an action even when ordinary item release is free. Long actions need
+owned progress, interruption policy and resource reservations. Completing a
+reload must not also grant a free attack or duplicate ammunition.
