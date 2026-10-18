@@ -8,6 +8,71 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_specialty_default_network_exceptions(self):
+        """Independent source examples for cross-specialty relationships."""
+        base = ROOT / 'docs/expanded/inventory'
+        entries = {
+            e['id'].removeprefix('catalogue-skill-'): e['reference_data']
+            for path in base.glob('skills-catalogue-*.json')
+            for e in json.loads(path.read_text())['entries']
+            if 'reference_data' in e
+        }
+        examples = [
+            ('visual-art-calligraphy', 'visual-art-painting', -2),
+            ('visual-art-body-decoration', 'visual-art-illumination', -4),
+            ('visual-art-interior-design', 'visual-art-fine-woodwork', -4),
+            ('visual-art-body-decoration', 'visual-art-interior-design', -6),
+            ('visual-art-pottery', 'visual-art-sculpture', -6),
+            ('visual-art-illusion', 'visual-art-drawing', -6),
+            ('explosives-demolition', 'explosives-underwater-demolition', -2),
+            ('explosives-disposal', 'explosives-nuclear-disposal', -2),
+            ('explosives-disposal', 'explosives-underwater-demolition', -4),
+            ('explosives-pyrotechnics', 'explosives-demolition', -4),
+            ('geography-physical', 'geography-regional', -5),
+            ('hazardous-materials-chemical', 'hazardous-materials-biological', -5),
+        ]
+        for first, second, modifier in examples:
+            with self.subTest(first=first, second=second):
+                self.assertEqual(dict(entries[first]['defaults'])[second], modifier)
+                self.assertEqual(dict(entries[second]['defaults'])[first], modifier)
+        self.assertEqual(dict(entries['visual-art-interior-design']['defaults'])['architecture'], -3)
+        self.assertEqual(dict(entries['explosives-demolition']['defaults'])['engineering-mining'], -3)
+        for key in ('hazardous-materials-magical', 'hazardous-materials-nanotechnology'):
+            self.assertTrue(entries[key]['specialty_default_policy'])
+            self.assertFalse(any(source.startswith('hazardous-materials-')
+                                 for source, _ in entries[key]['defaults']))
+        for key in ('visual-art-illusion', 'visual-art-drawing'):
+            self.assertTrue(entries[key]['default_use_restrictions'])
+
+    def test_navigation_and_survival_default_boundaries(self):
+        base = ROOT / 'docs/expanded/inventory/skills-catalogue-d.json'
+        entries = {e['id'].removeprefix('catalogue-skill-'): e['reference_data']
+                   for e in json.loads(base.read_text())['entries']
+                   if 'reference_data' in e}
+        for first, second, modifier in [
+                ('navigation-air', 'navigation-sea', -2),
+                ('navigation-space', 'navigation-transit-space', -5),
+                ('survival-arctic', 'survival-desert', -3),
+                ('survival-bank', 'survival-open-ocean', -4),
+                ('survival-coast', 'survival-lagoon', -4),
+                ('survival-swamp', 'survival-river', -4)]:
+            self.assertEqual(dict(entries[first]['defaults'])[second], modifier)
+            self.assertEqual(dict(entries[second]['defaults'])[first], modifier)
+        for first, second in [('navigation-air', 'navigation-space'),
+                              ('survival-coast', 'survival-open-ocean'),
+                              ('survival-desert', 'survival-river')]:
+            self.assertNotIn(second, dict(entries[first]['defaults']))
+            self.assertNotIn(first, dict(entries[second]['defaults']))
+        world = entries['survival-coast']['world_specialization_defaults']
+        self.assertEqual(world['same_terrain_different_world_modifier'], -4)
+        self.assertEqual(world['different_terrain_different_world_additional_modifier'], -4)
+        self.assertTrue(world['different_worlds_require_same_world_type'])
+        self.assertTrue(world['additional_world_penalty_does_not_create_missing_terrain_edge'])
+        self.assertIsNone(world['different_world_type_default'])
+        self.assertIsNone(world['unlisted_land_water_transition_default'])
+        for key in ('navigation-air', 'navigation-sea'):
+            self.assertTrue(entries[key]['default_conditions']['astronomy'])
+
     def test_final_trait_summary_avoids_duplicate_variants(self):
         """Metadata checks do not replace runtime composition and recovery tests."""
         base = ROOT / 'docs/expanded/inventory'

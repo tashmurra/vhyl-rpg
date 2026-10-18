@@ -86,3 +86,23 @@ meteorology, with a home-area bonus and no planet-type specialty requirement unt
 technology level five. These exceptions are recorded explicitly. Defaults,
 prerequisites, conditional specializations and executable effects still need their
 full reconciliation and integration fixtures.
+
+Detailed specialty networks are also recorded for visual art, explosives, geography
+and ordinary hazardous materials. Visual art uses its close-family exceptions and
+a −6 fallback between other specialties; familiarity remains a separate modifier.
+The explosives network has two −2 pairs, with −4 between the other specialties.
+Geography specialties default at −5, as do the three ordinary hazardous-material
+specialties. Exotic hazardous materials receive no automatic cross-default:
+any allowed relationship needs an explicit authored definition. None of these
+edges permits chains through untrained skills. Runtime catalogue dispatch and
+context-sensitive default eligibility remain pending.
+
+Navigation retains two separate default groups: air/land/sea at −2 and
+space/transit-space at −5, with no default between the groups. Sea and air cannot
+use their astronomy default when bad weather hides the stars and no technological
+aids are available. Survival defaults connect land specialties at −3 and aquatic
+specialties at −4, with only coast/lagoon and swamp/river bridging those groups.
+A different planet adds −4 only when both planets share a type; it cannot create
+a missing terrain edge. Natural-history defaults likewise require the same planet
+type. These conditions are recorded separately from familiarity and attribute
+defaults, awaiting runtime eligibility and composition fixtures.

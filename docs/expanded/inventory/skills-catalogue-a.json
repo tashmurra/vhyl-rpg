@@ -968,7 +968,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed. Resolve all cross-specialty defaults from the detailed group network, including minus six for otherwise unlisted art pairs. Keep medium familiarity separate; do not permit default-only creation of saleable fine art.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -978,9 +978,52 @@
           [
             "iq",
             -6
+          ],
+          [
+            "visual-art-calligraphy",
+            -4
+          ],
+          [
+            "visual-art-drawing",
+            -4
+          ],
+          [
+            "visual-art-illumination",
+            -4
+          ],
+          [
+            "visual-art-illusion",
+            -6
+          ],
+          [
+            "visual-art-interior-design",
+            -6
+          ],
+          [
+            "visual-art-painting",
+            -4
+          ],
+          [
+            "visual-art-pottery",
+            -6
+          ],
+          [
+            "visual-art-stage-design",
+            -6
+          ],
+          [
+            "visual-art-sculpture",
+            -6
+          ],
+          [
+            "visual-art-fine-woodwork",
+            -6
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_use_restrictions": [
+          "A default cannot produce a work whose artistic beauty qualifies it for sale under the detailed skill rule."
+        ]
       }
     },
     {
@@ -990,7 +1033,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed. Resolve all cross-specialty defaults from the detailed group network, including minus six for otherwise unlisted art pairs. Keep medium familiarity separate; do not permit default-only creation of saleable fine art.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -1000,9 +1043,52 @@
           [
             "iq",
             -6
+          ],
+          [
+            "visual-art-body-decoration",
+            -4
+          ],
+          [
+            "visual-art-drawing",
+            -2
+          ],
+          [
+            "visual-art-illumination",
+            -2
+          ],
+          [
+            "visual-art-illusion",
+            -6
+          ],
+          [
+            "visual-art-interior-design",
+            -6
+          ],
+          [
+            "visual-art-painting",
+            -2
+          ],
+          [
+            "visual-art-pottery",
+            -6
+          ],
+          [
+            "visual-art-stage-design",
+            -6
+          ],
+          [
+            "visual-art-sculpture",
+            -6
+          ],
+          [
+            "visual-art-fine-woodwork",
+            -6
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_use_restrictions": [
+          "A default cannot produce a work whose artistic beauty qualifies it for sale under the detailed skill rule."
+        ]
       }
     },
     {
@@ -1012,7 +1098,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed. Resolve all cross-specialty defaults from the detailed group network, including minus six for otherwise unlisted art pairs. Keep medium familiarity separate; do not permit default-only creation of saleable fine art.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -1022,9 +1108,52 @@
           [
             "iq",
             -6
+          ],
+          [
+            "visual-art-body-decoration",
+            -4
+          ],
+          [
+            "visual-art-calligraphy",
+            -2
+          ],
+          [
+            "visual-art-illumination",
+            -2
+          ],
+          [
+            "visual-art-illusion",
+            -6
+          ],
+          [
+            "visual-art-interior-design",
+            -6
+          ],
+          [
+            "visual-art-painting",
+            -2
+          ],
+          [
+            "visual-art-pottery",
+            -6
+          ],
+          [
+            "visual-art-stage-design",
+            -6
+          ],
+          [
+            "visual-art-sculpture",
+            -6
+          ],
+          [
+            "visual-art-fine-woodwork",
+            -6
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_use_restrictions": [
+          "A default cannot produce a work whose artistic beauty qualifies it for sale under the detailed skill rule."
+        ]
       }
     },
     {
@@ -1034,7 +1163,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed. Resolve all cross-specialty defaults from the detailed group network, including minus six for otherwise unlisted art pairs. Keep medium familiarity separate; do not permit default-only creation of saleable fine art.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -1044,9 +1173,52 @@
           [
             "iq",
             -6
+          ],
+          [
+            "visual-art-body-decoration",
+            -4
+          ],
+          [
+            "visual-art-calligraphy",
+            -2
+          ],
+          [
+            "visual-art-drawing",
+            -2
+          ],
+          [
+            "visual-art-illusion",
+            -6
+          ],
+          [
+            "visual-art-interior-design",
+            -6
+          ],
+          [
+            "visual-art-painting",
+            -2
+          ],
+          [
+            "visual-art-pottery",
+            -6
+          ],
+          [
+            "visual-art-stage-design",
+            -6
+          ],
+          [
+            "visual-art-sculpture",
+            -6
+          ],
+          [
+            "visual-art-fine-woodwork",
+            -6
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_use_restrictions": [
+          "A default cannot produce a work whose artistic beauty qualifies it for sale under the detailed skill rule."
+        ]
       }
     },
     {
@@ -1056,7 +1228,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed. Resolve all cross-specialty defaults from the detailed group network, including minus six for otherwise unlisted art pairs. Keep medium familiarity separate; do not permit default-only creation of saleable fine art.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -1066,10 +1238,53 @@
           [
             "iq",
             -6
+          ],
+          [
+            "visual-art-body-decoration",
+            -6
+          ],
+          [
+            "visual-art-calligraphy",
+            -6
+          ],
+          [
+            "visual-art-drawing",
+            -6
+          ],
+          [
+            "visual-art-illumination",
+            -6
+          ],
+          [
+            "visual-art-interior-design",
+            -6
+          ],
+          [
+            "visual-art-painting",
+            -6
+          ],
+          [
+            "visual-art-pottery",
+            -6
+          ],
+          [
+            "visual-art-stage-design",
+            -6
+          ],
+          [
+            "visual-art-sculpture",
+            -6
+          ],
+          [
+            "visual-art-fine-woodwork",
+            -6
           ]
         ],
         "prerequisites": [
           "illusion-capability"
+        ],
+        "default_use_restrictions": [
+          "A default cannot produce a work whose artistic beauty qualifies it for sale under the detailed skill rule."
         ]
       }
     },
@@ -1080,7 +1295,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed. Resolve all cross-specialty defaults from the detailed group network, including minus six for otherwise unlisted art pairs. Keep medium familiarity separate; do not permit default-only creation of saleable fine art.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -1094,9 +1309,52 @@
           [
             "architecture",
             -3
+          ],
+          [
+            "visual-art-body-decoration",
+            -6
+          ],
+          [
+            "visual-art-calligraphy",
+            -6
+          ],
+          [
+            "visual-art-drawing",
+            -6
+          ],
+          [
+            "visual-art-illumination",
+            -6
+          ],
+          [
+            "visual-art-illusion",
+            -6
+          ],
+          [
+            "visual-art-painting",
+            -6
+          ],
+          [
+            "visual-art-pottery",
+            -6
+          ],
+          [
+            "visual-art-stage-design",
+            -4
+          ],
+          [
+            "visual-art-sculpture",
+            -6
+          ],
+          [
+            "visual-art-fine-woodwork",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_use_restrictions": [
+          "A default cannot produce a work whose artistic beauty qualifies it for sale under the detailed skill rule."
+        ]
       }
     },
     {
@@ -1106,7 +1364,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed. Resolve all cross-specialty defaults from the detailed group network, including minus six for otherwise unlisted art pairs. Keep medium familiarity separate; do not permit default-only creation of saleable fine art.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -1116,9 +1374,52 @@
           [
             "iq",
             -6
+          ],
+          [
+            "visual-art-body-decoration",
+            -4
+          ],
+          [
+            "visual-art-calligraphy",
+            -2
+          ],
+          [
+            "visual-art-drawing",
+            -2
+          ],
+          [
+            "visual-art-illumination",
+            -2
+          ],
+          [
+            "visual-art-illusion",
+            -6
+          ],
+          [
+            "visual-art-interior-design",
+            -6
+          ],
+          [
+            "visual-art-pottery",
+            -6
+          ],
+          [
+            "visual-art-stage-design",
+            -6
+          ],
+          [
+            "visual-art-sculpture",
+            -6
+          ],
+          [
+            "visual-art-fine-woodwork",
+            -6
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_use_restrictions": [
+          "A default cannot produce a work whose artistic beauty qualifies it for sale under the detailed skill rule."
+        ]
       }
     },
     {
@@ -1128,7 +1429,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed. Resolve all cross-specialty defaults from the detailed group network, including minus six for otherwise unlisted art pairs. Keep medium familiarity separate; do not permit default-only creation of saleable fine art.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -1138,9 +1439,52 @@
           [
             "iq",
             -6
+          ],
+          [
+            "visual-art-body-decoration",
+            -6
+          ],
+          [
+            "visual-art-calligraphy",
+            -6
+          ],
+          [
+            "visual-art-drawing",
+            -6
+          ],
+          [
+            "visual-art-illumination",
+            -6
+          ],
+          [
+            "visual-art-illusion",
+            -6
+          ],
+          [
+            "visual-art-interior-design",
+            -6
+          ],
+          [
+            "visual-art-painting",
+            -6
+          ],
+          [
+            "visual-art-stage-design",
+            -6
+          ],
+          [
+            "visual-art-sculpture",
+            -6
+          ],
+          [
+            "visual-art-fine-woodwork",
+            -6
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_use_restrictions": [
+          "A default cannot produce a work whose artistic beauty qualifies it for sale under the detailed skill rule."
+        ]
       }
     },
     {
@@ -1150,7 +1494,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed. Resolve all cross-specialty defaults from the detailed group network, including minus six for otherwise unlisted art pairs. Keep medium familiarity separate; do not permit default-only creation of saleable fine art.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -1164,9 +1508,52 @@
           [
             "architecture",
             -3
+          ],
+          [
+            "visual-art-body-decoration",
+            -6
+          ],
+          [
+            "visual-art-calligraphy",
+            -6
+          ],
+          [
+            "visual-art-drawing",
+            -6
+          ],
+          [
+            "visual-art-illumination",
+            -6
+          ],
+          [
+            "visual-art-illusion",
+            -6
+          ],
+          [
+            "visual-art-interior-design",
+            -4
+          ],
+          [
+            "visual-art-painting",
+            -6
+          ],
+          [
+            "visual-art-pottery",
+            -6
+          ],
+          [
+            "visual-art-sculpture",
+            -6
+          ],
+          [
+            "visual-art-fine-woodwork",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_use_restrictions": [
+          "A default cannot produce a work whose artistic beauty qualifies it for sale under the detailed skill rule."
+        ]
       }
     },
     {
@@ -1176,7 +1563,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed. Resolve all cross-specialty defaults from the detailed group network, including minus six for otherwise unlisted art pairs. Keep medium familiarity separate; do not permit default-only creation of saleable fine art.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -1186,9 +1573,52 @@
           [
             "iq",
             -6
+          ],
+          [
+            "visual-art-body-decoration",
+            -6
+          ],
+          [
+            "visual-art-calligraphy",
+            -6
+          ],
+          [
+            "visual-art-drawing",
+            -6
+          ],
+          [
+            "visual-art-illumination",
+            -6
+          ],
+          [
+            "visual-art-illusion",
+            -6
+          ],
+          [
+            "visual-art-interior-design",
+            -6
+          ],
+          [
+            "visual-art-painting",
+            -6
+          ],
+          [
+            "visual-art-pottery",
+            -6
+          ],
+          [
+            "visual-art-stage-design",
+            -6
+          ],
+          [
+            "visual-art-fine-woodwork",
+            -6
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_use_restrictions": [
+          "A default cannot produce a work whose artistic beauty qualifies it for sale under the detailed skill rule."
+        ]
       }
     },
     {
@@ -1198,7 +1628,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed.",
+      "acceptance": "Require training for sale-quality art. Use author-specified duration, possible alternate bases, equipment and material modifiers; optional medium specialization is allowed. Resolve all cross-specialty defaults from the detailed group network, including minus six for otherwise unlisted art pairs. Keep medium familiarity separate; do not permit default-only creation of saleable fine art.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -1212,9 +1642,52 @@
           [
             "carpentry",
             -3
+          ],
+          [
+            "visual-art-body-decoration",
+            -6
+          ],
+          [
+            "visual-art-calligraphy",
+            -6
+          ],
+          [
+            "visual-art-drawing",
+            -6
+          ],
+          [
+            "visual-art-illumination",
+            -6
+          ],
+          [
+            "visual-art-illusion",
+            -6
+          ],
+          [
+            "visual-art-interior-design",
+            -4
+          ],
+          [
+            "visual-art-painting",
+            -6
+          ],
+          [
+            "visual-art-pottery",
+            -6
+          ],
+          [
+            "visual-art-stage-design",
+            -4
+          ],
+          [
+            "visual-art-sculpture",
+            -6
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_use_restrictions": [
+          "A default cannot produce a work whose artistic beauty qualifies it for sale under the detailed skill rule."
+        ]
       }
     },
     {

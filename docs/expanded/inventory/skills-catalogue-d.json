@@ -269,7 +269,11 @@
             -3
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_world_type_different_world_modifier": -4,
+          "different_world_type_default": null
+        }
       }
     },
     {
@@ -293,9 +297,20 @@
           [
             "surface-crew",
             -5
+          ],
+          [
+            "navigation-air",
+            -2
+          ],
+          [
+            "navigation-land",
+            -2
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "astronomy": "Unavailable when there are no high-technology aids, weather is bad and stars are hidden."
+        }
       }
     },
     {
@@ -315,9 +330,20 @@
           [
             "astronomy",
             -5
+          ],
+          [
+            "navigation-land",
+            -2
+          ],
+          [
+            "navigation-sea",
+            -2
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "astronomy": "Unavailable when there are no high-technology aids, weather is bad and stars are hidden."
+        }
       }
     },
     {
@@ -345,6 +371,14 @@
           [
             "mathematics-surveying",
             -4
+          ],
+          [
+            "navigation-air",
+            -2
+          ],
+          [
+            "navigation-sea",
+            -2
           ]
         ],
         "prerequisites": []
@@ -371,9 +405,14 @@
           [
             "mathematics-applied",
             -4
+          ],
+          [
+            "navigation-transit-space",
+            -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "specialty_default_policy": "The printed space/transit-space edge does not authorize an automatic default between every authored exotic drive specialty."
       }
     },
     {
@@ -397,9 +436,14 @@
           [
             "mathematics-applied",
             -4
+          ],
+          [
+            "navigation-space",
+            -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "specialty_default_policy": "The printed space/transit-space edge does not authorize an automatic default between every authored exotic drive specialty."
       }
     },
     {
@@ -3296,9 +3340,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-desert",
+            -3
+          ],
+          [
+            "survival-coast",
+            -3
+          ],
+          [
+            "survival-jungle",
+            -3
+          ],
+          [
+            "survival-mountain",
+            -3
+          ],
+          [
+            "survival-plains",
+            -3
+          ],
+          [
+            "survival-swamp",
+            -3
+          ],
+          [
+            "survival-woodland",
+            -3
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-desert": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-coast": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-jungle": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-mountain": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-plains": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3322,9 +3411,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-arctic",
+            -3
+          ],
+          [
+            "survival-coast",
+            -3
+          ],
+          [
+            "survival-jungle",
+            -3
+          ],
+          [
+            "survival-mountain",
+            -3
+          ],
+          [
+            "survival-plains",
+            -3
+          ],
+          [
+            "survival-swamp",
+            -3
+          ],
+          [
+            "survival-woodland",
+            -3
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-arctic": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-coast": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-jungle": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-mountain": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-plains": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3348,9 +3482,59 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-arctic",
+            -3
+          ],
+          [
+            "survival-desert",
+            -3
+          ],
+          [
+            "survival-jungle",
+            -3
+          ],
+          [
+            "survival-mountain",
+            -3
+          ],
+          [
+            "survival-plains",
+            -3
+          ],
+          [
+            "survival-swamp",
+            -3
+          ],
+          [
+            "survival-woodland",
+            -3
+          ],
+          [
+            "survival-lagoon",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-arctic": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-desert": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-jungle": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-mountain": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-plains": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3374,9 +3558,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-arctic",
+            -3
+          ],
+          [
+            "survival-desert",
+            -3
+          ],
+          [
+            "survival-coast",
+            -3
+          ],
+          [
+            "survival-mountain",
+            -3
+          ],
+          [
+            "survival-plains",
+            -3
+          ],
+          [
+            "survival-swamp",
+            -3
+          ],
+          [
+            "survival-woodland",
+            -3
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-arctic": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-desert": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-coast": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-mountain": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-plains": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3400,9 +3629,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-arctic",
+            -3
+          ],
+          [
+            "survival-desert",
+            -3
+          ],
+          [
+            "survival-coast",
+            -3
+          ],
+          [
+            "survival-jungle",
+            -3
+          ],
+          [
+            "survival-plains",
+            -3
+          ],
+          [
+            "survival-swamp",
+            -3
+          ],
+          [
+            "survival-woodland",
+            -3
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-arctic": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-desert": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-coast": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-jungle": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-plains": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3426,9 +3700,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-arctic",
+            -3
+          ],
+          [
+            "survival-desert",
+            -3
+          ],
+          [
+            "survival-coast",
+            -3
+          ],
+          [
+            "survival-jungle",
+            -3
+          ],
+          [
+            "survival-mountain",
+            -3
+          ],
+          [
+            "survival-swamp",
+            -3
+          ],
+          [
+            "survival-woodland",
+            -3
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-arctic": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-desert": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-coast": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-jungle": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-mountain": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3452,9 +3771,59 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-arctic",
+            -3
+          ],
+          [
+            "survival-desert",
+            -3
+          ],
+          [
+            "survival-coast",
+            -3
+          ],
+          [
+            "survival-jungle",
+            -3
+          ],
+          [
+            "survival-mountain",
+            -3
+          ],
+          [
+            "survival-plains",
+            -3
+          ],
+          [
+            "survival-woodland",
+            -3
+          ],
+          [
+            "survival-river",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-arctic": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-desert": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-coast": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-jungle": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-mountain": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-plains": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-river": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3478,9 +3847,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-arctic",
+            -3
+          ],
+          [
+            "survival-desert",
+            -3
+          ],
+          [
+            "survival-coast",
+            -3
+          ],
+          [
+            "survival-jungle",
+            -3
+          ],
+          [
+            "survival-mountain",
+            -3
+          ],
+          [
+            "survival-plains",
+            -3
+          ],
+          [
+            "survival-swamp",
+            -3
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-arctic": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-desert": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-coast": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-jungle": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-mountain": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-plains": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3504,9 +3918,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-deep-vent",
+            -4
+          ],
+          [
+            "survival-freshwater-lake",
+            -4
+          ],
+          [
+            "survival-open-ocean",
+            -4
+          ],
+          [
+            "survival-reef",
+            -4
+          ],
+          [
+            "survival-river",
+            -4
+          ],
+          [
+            "survival-saltwater-sea",
+            -4
+          ],
+          [
+            "survival-lagoon",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-deep-vent": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-freshwater-lake": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-open-ocean": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-reef": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-river": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3530,9 +3989,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-bank",
+            -4
+          ],
+          [
+            "survival-freshwater-lake",
+            -4
+          ],
+          [
+            "survival-open-ocean",
+            -4
+          ],
+          [
+            "survival-reef",
+            -4
+          ],
+          [
+            "survival-river",
+            -4
+          ],
+          [
+            "survival-saltwater-sea",
+            -4
+          ],
+          [
+            "survival-lagoon",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-bank": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-freshwater-lake": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-open-ocean": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-reef": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-river": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3556,9 +4060,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-bank",
+            -4
+          ],
+          [
+            "survival-deep-vent",
+            -4
+          ],
+          [
+            "survival-open-ocean",
+            -4
+          ],
+          [
+            "survival-reef",
+            -4
+          ],
+          [
+            "survival-river",
+            -4
+          ],
+          [
+            "survival-saltwater-sea",
+            -4
+          ],
+          [
+            "survival-lagoon",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-bank": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-deep-vent": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-open-ocean": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-reef": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-river": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3582,9 +4131,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-bank",
+            -4
+          ],
+          [
+            "survival-deep-vent",
+            -4
+          ],
+          [
+            "survival-freshwater-lake",
+            -4
+          ],
+          [
+            "survival-reef",
+            -4
+          ],
+          [
+            "survival-river",
+            -4
+          ],
+          [
+            "survival-saltwater-sea",
+            -4
+          ],
+          [
+            "survival-lagoon",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-bank": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-deep-vent": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-freshwater-lake": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-reef": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-river": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3608,9 +4202,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-bank",
+            -4
+          ],
+          [
+            "survival-deep-vent",
+            -4
+          ],
+          [
+            "survival-freshwater-lake",
+            -4
+          ],
+          [
+            "survival-open-ocean",
+            -4
+          ],
+          [
+            "survival-river",
+            -4
+          ],
+          [
+            "survival-saltwater-sea",
+            -4
+          ],
+          [
+            "survival-lagoon",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-bank": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-deep-vent": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-freshwater-lake": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-open-ocean": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-river": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3634,9 +4273,59 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-bank",
+            -4
+          ],
+          [
+            "survival-deep-vent",
+            -4
+          ],
+          [
+            "survival-freshwater-lake",
+            -4
+          ],
+          [
+            "survival-open-ocean",
+            -4
+          ],
+          [
+            "survival-reef",
+            -4
+          ],
+          [
+            "survival-saltwater-sea",
+            -4
+          ],
+          [
+            "survival-lagoon",
+            -4
+          ],
+          [
+            "survival-swamp",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-bank": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-deep-vent": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-freshwater-lake": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-open-ocean": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-reef": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3660,9 +4349,54 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-bank",
+            -4
+          ],
+          [
+            "survival-deep-vent",
+            -4
+          ],
+          [
+            "survival-freshwater-lake",
+            -4
+          ],
+          [
+            "survival-open-ocean",
+            -4
+          ],
+          [
+            "survival-reef",
+            -4
+          ],
+          [
+            "survival-river",
+            -4
+          ],
+          [
+            "survival-lagoon",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-bank": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-deep-vent": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-freshwater-lake": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-open-ocean": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-reef": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-river": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {
@@ -3686,9 +4420,59 @@
           [
             "natural-history-matching-planet",
             -3
+          ],
+          [
+            "survival-bank",
+            -4
+          ],
+          [
+            "survival-deep-vent",
+            -4
+          ],
+          [
+            "survival-freshwater-lake",
+            -4
+          ],
+          [
+            "survival-open-ocean",
+            -4
+          ],
+          [
+            "survival-reef",
+            -4
+          ],
+          [
+            "survival-river",
+            -4
+          ],
+          [
+            "survival-saltwater-sea",
+            -4
+          ],
+          [
+            "survival-coast",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "world_specialization_defaults": {
+          "same_terrain_different_world_modifier": -4,
+          "different_terrain_different_world_additional_modifier": -4,
+          "different_worlds_require_same_world_type": true,
+          "different_world_type_default": null,
+          "unlisted_land_water_transition_default": null,
+          "additional_world_penalty_does_not_create_missing_terrain_edge": true
+        },
+        "default_conditions": {
+          "survival-bank": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-deep-vent": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-freshwater-lake": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-open-ocean": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-reef": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-river": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
+          "survival-coast": "Same world, or apply world-specialization rules; never cross different world types."
+        }
       }
     },
     {

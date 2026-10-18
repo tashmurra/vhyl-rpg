@@ -2934,6 +2934,22 @@
           [
             "engineering-mining",
             -3
+          ],
+          [
+            "explosives-disposal",
+            -4
+          ],
+          [
+            "explosives-pyrotechnics",
+            -4
+          ],
+          [
+            "explosives-nuclear-disposal",
+            -4
+          ],
+          [
+            "explosives-underwater-demolition",
+            -2
           ]
         ],
         "prerequisites": []
@@ -2956,6 +2972,22 @@
           [
             "iq",
             -5
+          ],
+          [
+            "explosives-demolition",
+            -4
+          ],
+          [
+            "explosives-pyrotechnics",
+            -4
+          ],
+          [
+            "explosives-nuclear-disposal",
+            -2
+          ],
+          [
+            "explosives-underwater-demolition",
+            -4
           ]
         ],
         "prerequisites": [
@@ -2984,6 +3016,22 @@
           [
             "chemistry",
             -3
+          ],
+          [
+            "explosives-demolition",
+            -4
+          ],
+          [
+            "explosives-disposal",
+            -4
+          ],
+          [
+            "explosives-nuclear-disposal",
+            -4
+          ],
+          [
+            "explosives-underwater-demolition",
+            -4
           ]
         ],
         "prerequisites": []
@@ -3006,6 +3054,22 @@
           [
             "iq",
             -5
+          ],
+          [
+            "explosives-demolition",
+            -4
+          ],
+          [
+            "explosives-disposal",
+            -2
+          ],
+          [
+            "explosives-pyrotechnics",
+            -4
+          ],
+          [
+            "explosives-underwater-demolition",
+            -4
           ]
         ],
         "prerequisites": []
@@ -3028,6 +3092,22 @@
           [
             "iq",
             -5
+          ],
+          [
+            "explosives-demolition",
+            -2
+          ],
+          [
+            "explosives-disposal",
+            -4
+          ],
+          [
+            "explosives-pyrotechnics",
+            -4
+          ],
+          [
+            "explosives-nuclear-disposal",
+            -4
           ]
         ],
         "prerequisites": []

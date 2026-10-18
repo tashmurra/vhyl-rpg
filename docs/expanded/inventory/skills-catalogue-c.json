@@ -30,6 +30,14 @@
           [
             "meteorology-matching-world",
             -4
+          ],
+          [
+            "geography-political",
+            -5
+          ],
+          [
+            "geography-regional",
+            -5
           ]
         ],
         "prerequisites": []
@@ -56,6 +64,14 @@
           [
             "economics",
             -4
+          ],
+          [
+            "geography-physical",
+            -5
+          ],
+          [
+            "geography-regional",
+            -5
           ]
         ],
         "prerequisites": []
@@ -82,6 +98,14 @@
           [
             "local-knowledge-matching-region",
             -6
+          ],
+          [
+            "geography-physical",
+            -5
+          ],
+          [
+            "geography-political",
+            -5
           ]
         ],
         "prerequisites": []
@@ -986,6 +1010,14 @@
           [
             "conditional:iq:lay-access",
             -5
+          ],
+          [
+            "hazardous-materials-chemical",
+            -5
+          ],
+          [
+            "hazardous-materials-radioactive",
+            -5
           ]
         ],
         "prerequisites": []
@@ -1008,6 +1040,14 @@
           [
             "conditional:iq:lay-access",
             -5
+          ],
+          [
+            "hazardous-materials-biological",
+            -5
+          ],
+          [
+            "hazardous-materials-radioactive",
+            -5
           ]
         ],
         "prerequisites": []
@@ -1029,6 +1069,14 @@
         "defaults": [
           [
             "conditional:iq:lay-access",
+            -5
+          ],
+          [
+            "hazardous-materials-biological",
+            -5
+          ],
+          [
+            "hazardous-materials-chemical",
             -5
           ]
         ],
@@ -1054,7 +1102,8 @@
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "specialty_default_policy": "No automatic edge to or from an exotic specialty; author must specify any permitted default."
       }
     },
     {
@@ -1076,7 +1125,8 @@
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "specialty_default_policy": "No automatic edge to or from an exotic specialty; author must specify any permitted default."
       }
     },
     {
