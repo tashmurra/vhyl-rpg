@@ -2666,6 +2666,27 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
     result = nil
     cycleHistory = []
     condition = nil
+    associatedCondition = nil
+    associatedPolicy = nil
+    associationEvidence = nil
+    associatedApplied = nil
+    assessAssociated()
+    {
+        local value = new RpgExpandedResult();
+        local required = self.hazard.ofKind(RpgExpandedCataloguePoison) && self.hazard.catalogueId == 'neurological-agent';
+        if (!required && self.associatedCondition == nil) { value.status = 'ready'; return value; }
+        if (self.associatedCondition == nil || self.associatedPolicy != 'first-failed-cycle'
+            || self.associationEvidence == nil || self.associationEvidence == '')
+        { value.reason = 'poison-associated-condition-contract'; return value; }
+        local effect = self.associatedCondition;
+        if (self.causesCondition()) { value.reason = 'poison-combined-conditions-unimplemented'; return value; }
+        if ((!effect.ofKind(RpgExpandedParalysis) && !effect.ofKind(RpgExpandedSeizure)) || effect.profile != self.profile)
+        { value.reason = 'poison-associated-condition-unsupported'; return value; }
+        if (self.associatedApplied)
+        { effect.validateReceipt(); value.status = 'ready'; return value; }
+        if (effect.result != nil) { value.reason = 'poison-associated-condition-already-owned'; return value; }
+        return effect.assess();
+    }
     causesCoughing() { return self.hazard.ofKind(RpgExpandedCataloguePoison) && self.hazard.coughingEffect; }
     causesBlindness() { return self.hazard.ofKind(RpgExpandedCataloguePoison) && self.hazard.blindingEffect; }
     causesCondition() { return self.causesCoughing() || self.causesBlindness(); }
@@ -2712,7 +2733,9 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             e.sensePresent,e.senseProtected,e.senseKind,
             h.ofKind(RpgExpandedCataloguePoison) ? h.catalogueId : nil,
             h.ofKind(RpgExpandedCataloguePoison) ? h.route : nil,self.susceptibility]
-            + (self.susceptibility == nil ? [nil,nil,nil,nil,nil,nil,nil] : self.susceptibility.signature());
+            + (self.susceptibility == nil ? [nil,nil,nil,nil,nil,nil,nil] : self.susceptibility.signature())
+            + [self.associatedCondition,self.associatedPolicy,self.associationEvidence]
+            + (self.associatedCondition == nil ? [] : self.associatedCondition.definition());
     }
     validateReceipt()
     {
@@ -2720,6 +2743,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         for (local index = 1; index <= current.length(); index += 1)
             if (current[index] != self.boundDefinition[index]) rpgExpandedReject('poison-exposure-binding');
         if (!holds(self.profile.poisonExposures,self)) rpgExpandedReject('poison-exposure-history');
+        if (self.associatedApplied) self.associatedCondition.validateReceipt();
         return nil;
     }
     failureFatigue(amount)
@@ -2803,6 +2827,8 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             local score = rpgLiteScore(self.profile,value.context);
             if (score == nil || score < 3) { value.reason = 'poison-resistance-score'; return value; }
         }
+        local associated = self.assessAssociated();
+        if (associated.status != 'ready') { value.reason = associated.reason; return value; }
         if (self.causesCondition())
         {
             if (!self.ofKind(RpgExpandedEnvironmentalPoisonExposure))
@@ -2901,6 +2927,12 @@ class RpgExpandedPoisonCycle: object
         local e = self.exposure;
         if (value.context != nil) value.check = rpgLiteCheck(e.profile,value.context);
         value.resisted = value.check != nil && value.check.achieved;
+        if (!value.resisted && e.associatedCondition != nil && !e.associatedApplied)
+        {
+            local associated = e.associatedCondition.apply();
+            if (associated.status != 'resolved') rpgExpandedReject('poison-associated-condition-changed');
+            e.associatedApplied = true; value.condition = e.associatedCondition;
+        }
         if (!value.resisted && e.causesCondition())
         {
             value.condition = e.newPoisonCondition(-value.check.margin * 60);
@@ -3432,6 +3464,14 @@ rpgExpandedPoisonCatalogue(id, route)
             value.delay = 7200; value.resistanceModifier = -1; value.dice = 1;
             value.interval = 3600; value.cycles = 6;
         }
+    }
+    else if (id == 'neurological-agent')
+    {
+        if (route != 'contact') rpgExpandedReject('poison-catalogue-route');
+        value.techLevel = 6; value.unitCost = 20; value.legality = 0;
+        value.deliveryMethod = 'area'; value.unpreparedFear = true;
+        value.delay = 0; value.resistanceModifier = -6; value.dice = 2;
+        value.interval = 60; value.cycles = 6;
     }
     else if (id == 'combustion-smoke')
     {

@@ -1594,3 +1594,36 @@ Fixtures cover both route effects and expiry after departure, protected vision,
 wrong senses, missing preparation, density arithmetic, undo and saved continuation.
 They are authored and unrun. Unprepared fear resolution, overlapping conditions,
 changed protection and the remaining combat integration are still incomplete.
+
+
+### Neurological agents and associated conditions
+
+The neutral `neurological-agent` catalogue entry (full-2008 B439) accepts area
+contact delivery. Its fixed values are TL6, cost 20 per dose, legality 0, immediate
+onset, HT−6 resistance, two dice of toxic injury and six cycles one minute apart.
+Use the existing environmental exposure type for continuing presence in a cloud;
+a regular exposure represents a single admitted contact. Prepared-patient evidence
+is still required until unprepared fear admission is integrated.
+
+This entry also requires an executable authored affliction contract on the
+exposure: `associatedCondition`, `associatedPolicy`, and `associationEvidence`.
+The supported policy is `first-failed-cycle`. Supply an approved
+`RpgExpandedParalysis` or `RpgExpandedSeizure` for the same patient, with its own
+unique ID, duration and evidence. Paralysis also requires its balance assessment.
+The book lists possible accompanying conditions but does not supply their duration
+or precise onset/refresh procedure here. Selecting this policy and duration is an
+explicit author adjudication, not a fixed catalogue rule.
+
+Admission preflights the selected condition. The first failed resistance applies
+it alongside injury; successful resistance does not apply it. Later cycles never
+restart or extend it. Its definition is bound into the exposure receipt and cannot
+be changed after admission. Its own recovery remains independent of poison-cycle
+termination: an antidote that ends toxic cycles does not silently cure paralysis
+or settle a seizure's pending fatigue. A seizure end must be resolved at its exact
+shared-clock boundary. Agony, retching, combined irritant effects and alternative
+onset policies reject as unsupported rather than being approximated.
+
+`expanded-neurological-agent.t` specifies fixed catalogue values, six injury
+cycles, absence of condition refresh, successful resistance, missing-contract
+rejection, seizure-end integration, preview, replay, rollback, undo and saved
+continuation. These assertions are authored and unrun.

@@ -8946,6 +8946,8 @@ def test(build):
     test_poison_entry(Session, poison_entry)
     poison_exposure = build.build('expanded-poison-exposure', ROOT / 'tests/fixtures/expanded-poison-exposure.t')
     test_poison_exposure(Session, poison_exposure, build.out)
+    neurological = build.build('expanded-neurological-agent', ROOT / 'tests/fixtures/expanded-neurological-agent.t')
+    test_neurological_agent(Session, neurological, build.out)
     coughing = build.build('expanded-coughing', ROOT / 'tests/fixtures/expanded-coughing.t')
     test_coughing(Session, coughing, build.out)
     temporary_blindness = build.build('expanded-temporary-blindness', ROOT / 'tests/fixtures/expanded-temporary-blindness.t')
@@ -12118,5 +12120,61 @@ def test_seizure(Session, bundle, out):
         for code in (476, 471):
             s.action(2285, code)
         assert state(s) == [1, 'sitting', 0, 0, 0, 0, 0, 0]
+    finally:
+        s.close()
+
+
+def test_neurological_agent(Session, bundle, out):
+    def state(s):
+        s.action(2285, 485)
+        return last(s, 'test.neurological')
+    for invalid in (481, 483):
+        s = Session(bundle)
+        try:
+            for code in (480, invalid, 260):
+                s.action(2285, code)
+            assert state(s) == [0, 0, 0, 0, 0, 0, 0, 0]
+        finally:
+            s.close()
+    path = out / 'expanded-neurological.zsave'
+    s = Session(bundle)
+    try:
+        for code in (480, 324, 265, 260, 261, 263):
+            s.action(2285, code)
+        assert last(s, 'test.poison-catalogue') == [6, 20, 0, 0, 60, 6, 2, 1, -6]
+        assert state(s) == [1, 6, 0, 0, 0, 0, 0, 0]
+        s.action(2285, 262)
+        s.command('undo')
+        assert state(s) == [1, 6, 0, 0, 0, 0, 0, 0]
+        for code in (262, 262):
+            s.action(2285, code)
+        assert state(s) == [1, 5, 8, 1, 0, 1, 0, 5]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for count in range(2, 7):
+            s.action(2285, 333)
+            assert state(s) == [1, 6-count, 8*count, int(count == 2), 0, 1, 60*(count-1), 5*count]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (480, 482, 265, 260, 262):
+            s.action(2285, code)
+        assert state(s) == [1, 5, 8, 0, 1, 1, 0, 5]
+        for code in (4, 486, 486):
+            s.action(2285, code)
+        assert state(s) == [1, 5, 8, 0, 0, 1, 60, 6]
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (480, 31, 260, 262):
+            s.action(2285, code)
+        assert state(s) == [1, 0, 0, 0, 0, 0, 0, 3]
     finally:
         s.close()

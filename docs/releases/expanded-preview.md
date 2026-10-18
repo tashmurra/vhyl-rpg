@@ -549,3 +549,11 @@ restrictions, and an explicit end operation that rolls and charges fatigue once.
 The shared clock prevents skipping an unresolved end. Added authored, unrun
 fixtures for boundaries, replay, rollback, undo and saved continuation. Cause
 integrations and broader validation remain incomplete.
+
+
+Added the neutral neurological-agent catalogue and explicit authored contracts
+for accompanying paralysis or seizure on the first failed cycle. The contract
+binds condition duration and evidence, preflights before randomness and prevents
+later toxic cycles from refreshing the condition. Added authored, unrun coverage
+for six cycles, resistance, recovery boundaries and transactional continuation.
+Other afflictions, onset policies and unprepared fear remain incomplete.
