@@ -1795,3 +1795,14 @@ modify RpgExpandedProfile
         return level;
     }
 ;
+modify RpgExpandedOrientationSense
+    templatePurchaseOptions() { return self.signalDependent ? ['signal-dependent'] : []; }
+;
+modify rpgExpandedTemplateTraits
+    configured(id,level,scope,options)
+    {
+        if (id != 'orientation-sense' || options.length() == 0) return inherited(id,level,scope,options);
+        if (options.length() != 1 || options[1] != 'signal-dependent') rpgExpandedReject('template-trait-options-unavailable');
+        local trait = self.plain(id,level,scope); trait.signalDependent = true; trait.creationCost(); return trait;
+    }
+;

@@ -628,3 +628,13 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     effectiveOrientationSenseLevel() { return self.orientationSenseLevel(); }
 ;
+modify RpgLiteTrait
+    templatePurchaseOptions() { return []; }
+;
+modify rpgExpandedTemplateTraits
+    configured(id,level,scope,options)
+    {
+        if (options.length() == 0) return self.plain(id,level,scope);
+        rpgExpandedReject('template-trait-options-unavailable');
+    }
+;

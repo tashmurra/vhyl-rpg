@@ -745,3 +745,38 @@ later affects only future characters. Omitting or transforming this mandatory
 feature needs a separate authored replacement procedure; direct mutation is not
 supported. Binding, source-isolation, conflict, undo and save fixtures are authored
 but unrun.
+
+
+## Explicit purchase options
+
+Trait rows retain their three-field form and existing four-field self-control
+form. Supported named purchase options use five fields:
+`[id, level, scope, nil, options]`. The fourth field must be `nil`; combining these
+options with self-control is not implied. An empty options list delegates to the
+ordinary purchase factory. Unsupported options reject before character creation.
+
+Signal-dependent orientation is authored as
+`['orientation-sense', 2, nil, nil, ['signal-dependent']]` and costs eight points.
+`['free-fall-susceptibility', 1, 'regular-space-travel']` retains its explicit
+campaign requirement and costs minus ten points. The factory creates fresh owned
+purchases for each character; mutable trait instances are never shared.
+
+Occupational composition selects the higher orientation level only when purchase
+options agree. Limited and unlimited purchases conflict instead of silently
+changing the limitation. Ancestry composition merges identical fixed/tiered
+purchases once while retaining every origin; it does not add orientation levels
+or duplicate susceptibility credit. Different tiers or limitations require the
+existing explicit ancestry-conflict decision interface. Mandatory ancestry
+restrictions continue to use the shared character/learning validation.
+
+Option identities are included in ancestry and omission bindings and checked
+when copying or combining traits. Editing an inherited option later is rejected
+until handled by an explicit character-change procedure. For example, two
+ancestries with the same eight-point orientation and minus-ten susceptibility
+produce one of each purchase, total minus two, with ten points of ancestry
+negative-cost exemption and both origins retained.
+
+[`expanded-navigation-templates.t`](../../tests/fixtures/expanded-navigation-templates.t)
+contains composition, isolation, conflict, cost, binding and persistence fixtures;
+they remain unrun. Arbitrary modifier combinations and transformation/buyoff of
+these inherited purchases remain pending.

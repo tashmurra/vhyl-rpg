@@ -1535,3 +1535,9 @@ Signal-dependent orientation now has the printed cost reduction and immutable
 current-time/frame observations for network availability, compatibility and
 jamming. Stale facts reject; known interference disables the ability. Automatic
 network integration and modifier composition remain pending; fixtures are unrun.
+
+
+Orientation and susceptibility now compose through explicit template purchase
+options, with ancestry-origin preservation, duplicate-cost prevention and bound
+limitations. Mixed limited/unlimited purchases reject. Inherited transformation
+and arbitrary modifier combinations remain pending; fixtures are unrun.

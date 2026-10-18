@@ -9173,6 +9173,8 @@ def test(build):
     test_orientation_route(Session, orientation_route, build.out)
     orientation_signal = build.build('expanded-orientation-signal',ROOT / 'tests/fixtures/expanded-orientation-signal.t')
     test_orientation_signal(Session, orientation_signal, build.out)
+    navigation_templates = build.build('expanded-navigation-templates',ROOT / 'tests/fixtures/expanded-navigation-templates.t')
+    test_navigation_templates(Session, navigation_templates, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19689,5 +19691,31 @@ def test_orientation_signal(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.orientation-signal') == [4, 5, 1, 1, 0, 0]
         assert last(s, 'test.orientation-signal-error') == ['orientation-signal-observation-stale', 1]
+    finally:
+        s.close()
+
+
+def test_navigation_templates(Session, bundle, out):
+    """B258-B261 purchase composition preserves limitations and ancestry origins; unrun."""
+    path = out / 'expanded-navigation-templates.zsave'
+    s = Session(bundle)
+    try:
+        for code in (9700, 9701, 9702):
+            s.action(2285, code)
+        assert last(s, 'test.navigation-template') == [8, 2, 1, 1]
+        assert last(s, 'test.navigation-template-conflict') == ['template-trait-purchase-conflict']
+        for code in (9703, 9705, 9706, 9707):
+            s.action(2285, code)
+        assert last(s, 'test.navigation-ancestry') == [-2, 2, 10, 1, 1, 2, 2]
+        assert last(s, 'test.navigation-ancestry-binding') == ['ancestry-trait-binding']
+        assert last(s, 'test.navigation-ancestry-conflict') == ['ancestry-trait-conflict']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 9705)
+        assert last(s, 'test.navigation-ancestry') == [-2, 2, 10, 1, 1, 2, 2]
     finally:
         s.close()

@@ -145,9 +145,10 @@
       "acceptance": "Orientation tier costs five: knows north, retraces paths traveled within prior month, +3 body-orientation and air/land/sea navigation. Unanchored environments are excluded. Spatial tier costs ten, works in three dimensions but not cross-dimensional travel, also +1 piloting and +2 aerial movement/freefall/space-navigation skills.",
       "tests": [
         "tests/expanded.py::test_orientation_sense",
-        "tests/expanded.py::test_orientation_route"
+        "tests/expanded.py::test_orientation_route",
+        "tests/expanded.py::test_navigation_templates"
       ],
-      "validation_note": "Fixed 5/10-point purchase, template copying and exact skill/specialty bonuses through shared raw/check paths. Explicit environment declaration gates local/deep-space/cross-dimensional behavior. North answers, month-bounded retracing, ancestry and transition integration remain pending. Expected-value fixtures authored, unrun. North answers now have an explicit world-fact assessment. Owned journey-backed whole-route traces support reverse-path retrieval under an authored calendar-month cutoff, endpoint confirmation and cancellation. Partial-route and automatic world/calendar integration remain pending. New fixtures unrun."
+      "validation_note": "Fixed 5/10-point purchase, template copying and exact skill/specialty bonuses through shared raw/check paths. Explicit environment declaration gates local/deep-space/cross-dimensional behavior. North answers, month-bounded retracing, ancestry and transition integration remain pending. Expected-value fixtures authored, unrun. North answers now have an explicit world-fact assessment. Owned journey-backed whole-route traces support reverse-path retrieval under an authored calendar-month cutoff, endpoint confirmation and cancellation. Partial-route and automatic world/calendar integration remain pending. New fixtures unrun. Configured template rows, option comparison/binding and identical ancestry merging now preserve signal dependency, tier and susceptibility cost without duplicate credit. Inherited transformations and arbitrary modifier combinations remain pending. Composition/persistence fixtures authored, unrun."
     },
     {
       "id": "traits-first-orientation-signal",
@@ -158,9 +159,10 @@
       "status": "partial",
       "acceptance": "Signal-dependent orientation modifier -20% requires compatible functioning navigation network and can be jammed. Validate world facts without inventing signal coverage.",
       "tests": [
-        "tests/expanded.py::test_orientation_signal"
+        "tests/expanded.py::test_orientation_signal",
+        "tests/expanded.py::test_navigation_templates"
       ],
-      "validation_note": "Fixed -20% cost and copied option; immutable current-time/frame reports explicitly bind availability, compatibility, network and jamming. Shared effective ability gates numeric bonuses, north and route recall. Automatic network/jamming contests, modifier combinations and ancestry integration remain pending. Lifecycle and cost fixtures authored, unrun."
+      "validation_note": "Fixed -20% cost and copied option; immutable current-time/frame reports explicitly bind availability, compatibility, network and jamming. Shared effective ability gates numeric bonuses, north and route recall. Automatic network/jamming contests, modifier combinations and ancestry integration remain pending. Lifecycle and cost fixtures authored, unrun. Configured template rows, option comparison/binding and identical ancestry merging now preserve signal dependency, tier and susceptibility cost without duplicate credit. Inherited transformations and arbitrary modifier combinations remain pending. Composition/persistence fixtures authored, unrun."
     },
     {
       "id": "traits-first-time-sense",

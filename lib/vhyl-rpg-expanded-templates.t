@@ -6,6 +6,7 @@
 rpgExpandedTemplateTrait(row)
 {
     if (row.length() == 3) return rpgExpandedTemplateTraits.plain(row[1],row[2],row[3]);
+    if (row.length() == 5 && row[4] == nil) return rpgExpandedTemplateTraits.configured(row[1],row[2],row[3],row[5]);
     if (row.length() == 4) return rpgExpandedTemplateTraits.rated(row[1],row[2],row[3],row[4]);
     rpgExpandedReject('template-trait');
 }
@@ -76,6 +77,15 @@ class RpgExpandedTemplateSkillRequirement: object
     score = 0
 ;
 
+/** Compare supported purchase options without conflating them with runtime state. */
+rpgExpandedTemplateOptionsEqual(first,second)
+{
+    local a = first.templatePurchaseOptions(); local b = second.templatePurchaseOptions();
+    if (a.length() != b.length()) return nil;
+    for (local i = 1; i <= a.length(); i += 1) if (a[i] != b[i]) return nil;
+    return true;
+}
+
 /** Reconstruct supported purchases rather than sharing intermediate profile state. */
 rpgExpandedCopyTemplateTrait(trait)
 {
@@ -84,7 +94,8 @@ rpgExpandedCopyTemplateTrait(trait)
     if (trait.nextCheck != 0) rpgExpandedReject('template-trait-runtime-state');
     local copy = rpgExpandedTemplateTraits.copy(trait);
     if (copy.templatePurchaseKind != trait.templatePurchaseKind || copy.id != trait.id
-        || copy.controlled != trait.controlled || copy.creationCost() != trait.creationCost())
+        || copy.controlled != trait.controlled || copy.creationCost() != trait.creationCost()
+        || !rpgExpandedTemplateOptionsEqual(copy,trait))
         rpgExpandedReject('template-trait-copy-purchase');
     copy.active = trait.active; copy.mitigated = trait.mitigated; copy.skills = trait.skills;
     return copy;
@@ -171,6 +182,7 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
             else
             {
                 if (trait.templatePurchaseKind != found.templatePurchaseKind
+                    || !rpgExpandedTemplateOptionsEqual(trait,found)
                     || trait.controlled != found.controlled
                     || trait.controlled && trait.selfControlNumber() != found.selfControlNumber())
                     rpgExpandedReject('template-trait-purchase-conflict');
@@ -686,7 +698,7 @@ class RpgExpandedAncestryScores: object
     traitDefinition(trait,origin)
     {
         return [trait,origin,trait.id,trait.level,trait.scope,trait.points,trait.templatePurchaseKind,
-            trait.controlled,trait.selfControlNumber(),trait.creationCost(),trait.skills];
+            trait.controlled,trait.selfControlNumber(),trait.creationCost(),trait.skills] + trait.templatePurchaseOptions();
     }
     validate(profile)
     {
@@ -742,6 +754,7 @@ class RpgExpandedAncestryScores: object
             local omission = self.omissions[i];
             if (omission != self.boundOmissions[i]) rpgExpandedReject('ancestry-omission-binding');
             local definition = self.traitDefinition(omission[2],omission[3]);
+            if (definition.length() != omission[5].length()) rpgExpandedReject('ancestry-omission-binding');
             for (local j = 1; j <= definition.length(); j += 1)
                 if (definition[j] != omission[5][j]) rpgExpandedReject('ancestry-omission-binding');
             foreach (local trait in profile.traits)
@@ -902,6 +915,7 @@ modify RpgExpandedProfile
 rpgExpandedMergeAncestryTrait(existing, incoming)
 {
     if (existing.id != incoming.id || existing.scope != incoming.scope
+        || !rpgExpandedTemplateOptionsEqual(existing,incoming)
         || existing.templatePurchaseKind != incoming.templatePurchaseKind
         || existing.points != incoming.points || existing.controlled != incoming.controlled
         || existing.selfControlNumber() != incoming.selfControlNumber()
