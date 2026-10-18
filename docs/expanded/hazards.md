@@ -2191,7 +2191,7 @@ These fixtures remain unrun while checks are paused.
 
 `RpgExpandedSustenanceContact` owns one uninterrupted object/environment contact
 interval for an `episode`. Set approval and evidence of actual qualifying access,
-and explicitly choose `boundaryOrder = 'access-first'` or `'injury-first'`.
+set `contactPolicy = 'uninterrupted'`, and explicitly choose `boundaryOrder = 'access-first'` or `'injury-first'`.
 This tie ordering is an authored ruling: B130 specifies duration but does not
 settle simultaneous completion and injury. `begin()` records the shared clock;
 it does not spend time, assume a dose was consumed, or cancel deprivation.
@@ -2205,11 +2205,32 @@ injury remains. Repeated completion returns the receipt without spending time.
 
 The restored episode remains historical. A new episode with a distinct ID may
 start after a later author-confirmed missed deadline. Automatic recurrence and
-calendar tracking remain pending. Continuous requirements, substances, interrupted
-or accumulated contact and mitigation/removal transitions are not supported by
+calendar tracking remain pending. Continuous requirements, substances, accumulated contact and mitigation/removal
+transitions are not supported by
 this contact operation. A generic elapsed-time interval alone does not establish
 qualifying access; the author must connect the receipt to actual world events.
 
 [`expanded-sustenance-contact.t`](../../tests/fixtures/expanded-sustenance-contact.t)
 and `test_sustenance_contact` cover both authored boundary choices, short contact,
 clock release, replay, rollback, undo and save continuation. Fixtures are unrun.
+
+
+### Interrupting and restarting contact
+
+The source does not define accumulation across interruptions. The explicit
+`contactPolicy = 'uninterrupted'` selects a campaign ruling: each successful
+contact must supply the entire duration in one interval. Other values reject
+before commitment; this is not presented as the only published interpretation.
+
+Call `interrupt(true, evidence)` when qualifying contact ceases. It records the
+shared timestamp without ending deprivation or changing existing injury. The
+interrupted receipt can no longer complete. Begin a fresh contact object to
+restart; the earlier elapsed time is not credited under this policy. The episode
+keeps each interval, verifies chronological non-overlap and retains the latest
+contact identity. Repeated interruption or completion reuses the stored result.
+World movement adapters must record interruptions when access actually ends.
+
+[`expanded-sustenance-interruption.t`](../../tests/fixtures/expanded-sustenance-interruption.t)
+and `test_sustenance_interruption` specify partial-duration rejection after a
+restart, continued injury, replay, rollback, undo and save continuation. These
+fixtures remain unrun. Accumulated-contact policies remain unimplemented.

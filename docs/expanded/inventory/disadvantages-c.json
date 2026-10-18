@@ -189,9 +189,10 @@
       "acceptance": "Object contact or environmental residence must last as long as the damage interval within each required period. A daily requirement with hourly injury needs one hour of residence per day; a yearly requirement with fortnightly injury needs two weeks per year. Define whether interrupted residence accumulates through an explicit author contract because this passage does not specify it.",
       "tests": [
         "tests/expanded.py::test_sustenance",
-        "tests/expanded.py::test_sustenance_contact"
+        "tests/expanded.py::test_sustenance_contact",
+        "tests/expanded.py::test_sustenance_interruption"
       ],
-      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted periodic object/environment contact now measures actual elapsed duration and ends deprivation through an author-confirmed receipt. Simultaneous injury/access ordering is an explicit authored ruling. Restored episodes allow a distinct later episode; automatic calendar recurrence, interrupted contact and substance consumption remain pending. Fixtures unrun."
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted periodic object/environment contact now measures actual elapsed duration and ends deprivation through an author-confirmed receipt. Simultaneous injury/access ordering is an explicit authored ruling. Restored episodes allow a distinct later episode; automatic calendar recurrence, interrupted contact and substance consumption remain pending. Fixtures unrun. An explicit uninterrupted-contact campaign ruling now supports owned interruption and fresh restart; historical intervals cannot overlap or contribute partial time to the restarted interval. Accumulated policies and automatic movement adapters remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-sustenance-clock-boundary",

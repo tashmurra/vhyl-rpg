@@ -9218,6 +9218,8 @@ def test(build):
     test_sustenance_injury(Session, sustenance_injury, build.out)
     sustenance_contact = build.build('expanded-sustenance-contact',ROOT / 'tests/fixtures/expanded-sustenance-contact.t')
     test_sustenance_contact(Session, sustenance_contact, build.out)
+    sustenance_interruption = build.build('expanded-sustenance-interruption',ROOT / 'tests/fixtures/expanded-sustenance-interruption.t')
+    test_sustenance_interruption(Session, sustenance_interruption, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20675,3 +20677,36 @@ def test_sustenance_contact(Session, bundle, out):
             assert last(s, 'test.sustenance-contact-state') == [1, injury, 10800, 0]
         finally:
             s.close()
+
+
+def test_sustenance_interruption(Session, bundle, out):
+    """Explicit uninterrupted-contact policy, interruption and restart; unrun."""
+    path = out / 'expanded-sustenance-interruption.zsave'
+    s = Session(bundle)
+    try:
+        for code in (11700, 11800, 11900, 11902, 11906):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-interruption') == [None, 1, 0, 0, 1800, 0]
+        s.action(2285, 11901)
+        s.command('undo')
+        s.action(2285, 11906)
+        assert last(s, 'test.sustenance-interruption') == [None, 1, 0, 0, 1800, 0]
+        for code in (11901, 11901, 11801, 11903, 11903, 11900, 11904):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-contact-preview') == ['blocked', 'sustenance-contact-interrupted']
+        assert last(s, 'test.sustenance-restart-preview') == ['blocked', 'sustenance-contact-too-short']
+        for code in (11703, 11900, 11904, 11905, 11905, 11906):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-restart-preview') == ['ready', None]
+        assert last(s, 'test.sustenance-interruption') == [1800, 2, 1, 1, 5400, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (11901, 11905, 11701, 11906):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-interruption') == [1800, 2, 1, 1, 9000, 0]
+    finally:
+        s.close()

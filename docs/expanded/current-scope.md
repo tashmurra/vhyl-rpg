@@ -247,3 +247,9 @@ Owned periodic object/environment contact can now restore sustenance access afte
 the full required duration. A documented author ruling settles simultaneous
 injury/completion; bound receipts release the clock guard once. Interrupted
 contact, substances and calendar recurrence remain pending. Fixtures are unrun.
+
+
+Sustenance contact now supports interruption and restart under an explicitly
+selected uninterrupted-contact ruling. Bound chronological receipts preserve
+elapsed intervals without crediting partial time to a restart. Accumulated contact
+and automatic movement integration remain pending; persistence fixtures are unrun.

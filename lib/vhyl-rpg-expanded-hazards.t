@@ -5250,6 +5250,7 @@ class RpgExpandedSustenanceDeprivation: object
     boundDefinition = nil
     ticks = []
     contact = nil
+    contacts = []
     restoration = nil
     definition()
     {
@@ -5274,7 +5275,16 @@ class RpgExpandedSustenanceDeprivation: object
                 rpgExpandedReject('sustenance-tick-history');
             ids = ids + [tick.id]; tick.validateReceipt();
         }
-        if (self.contact != nil) self.contact.validateReceipt();
+        local previous = nil; local seen = [];
+        foreach (local contact in self.contacts)
+        {
+            if (contact == nil || !contact.ofKind(RpgExpandedSustenanceContact) || contact.episode != self || holds(seen,contact)
+                || contact.previousContact != previous || contact.startedAt < self.startedAt || contact.startedAt > rpgLedger.seconds
+                || previous != nil && (previous.interruptedAt == nil || contact.startedAt < previous.interruptedAt))
+                rpgExpandedReject('sustenance-contact-sequence');
+            contact.validateReceipt(); seen = seen + [contact]; previous = contact;
+        }
+        if (self.contact != previous) rpgExpandedReject('sustenance-contact-sequence');
         if (self.restoration != nil && (self.restoration != self.contact || self.restoration.completedAt == nil))
             rpgExpandedReject('sustenance-restoration-history');
         return nil;
@@ -5285,7 +5295,7 @@ class RpgExpandedSustenanceDeprivation: object
             rpgExpandedReject('sustenance-deprivation-definition');
         local value = new RpgExpandedResult();
         if (self.startedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
-        if (self.boundDefinition != nil || self.intervalSeconds != nil || self.ticks.length() != 0 || self.contact != nil || self.restoration != nil)
+        if (self.boundDefinition != nil || self.intervalSeconds != nil || self.ticks.length() != 0 || self.contacts.length() != 0 || self.contact != nil || self.restoration != nil)
             rpgExpandedReject('sustenance-deprivation-uncommitted-state');
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'sustenance-missed-access-evidence'; return value; }
@@ -5372,16 +5382,21 @@ class RpgExpandedSustenanceContact: object
     approved = nil
     evidence = nil
     boundaryOrder = nil
+    contactPolicy = nil
+    previousContact = nil
     startedAt = nil
     requiredSeconds = nil
     boundDefinition = nil
     completedAt = nil
     completionEvidence = nil
     boundCompletion = nil
-    definition() { return [self.episode,self.approved,self.evidence,self.boundaryOrder,self.startedAt,self.requiredSeconds]; }
+    interruptedAt = nil
+    interruptionEvidence = nil
+    boundInterruption = nil
+    definition() { return [self.episode,self.approved,self.evidence,self.boundaryOrder,self.contactPolicy,self.previousContact,self.startedAt,self.requiredSeconds]; }
     validateReceipt()
     {
-        if (self.startedAt == nil || self.episode.contact != self || self.boundDefinition == nil)
+        if (self.startedAt == nil || !holds(self.episode.contacts,self) || self.boundDefinition == nil)
             rpgExpandedReject('sustenance-contact-history');
         local facts = self.definition();
         for (local index = 1; index <= facts.length(); index += 1)
@@ -5393,6 +5408,14 @@ class RpgExpandedSustenanceContact: object
                 || self.completedAt > rpgLedger.seconds) rpgExpandedReject('sustenance-contact-completion-binding');
         }
         else if (self.boundCompletion != nil || self.completionEvidence != nil) rpgExpandedReject('sustenance-contact-incomplete-state');
+        if (self.interruptedAt != nil)
+        {
+            if (self.completedAt != nil || self.boundInterruption == nil || self.interruptedAt != self.boundInterruption[1]
+                || self.interruptionEvidence != self.boundInterruption[2] || self.interruptedAt < self.startedAt
+                || self.interruptedAt > rpgLedger.seconds) rpgExpandedReject('sustenance-contact-interruption-binding');
+        }
+        else if (self.boundInterruption != nil || self.interruptionEvidence != nil)
+            rpgExpandedReject('sustenance-contact-interruption-state');
         return nil;
     }
     assess()
@@ -5400,11 +5423,13 @@ class RpgExpandedSustenanceContact: object
         if (self.episode == nil || !self.episode.ofKind(RpgExpandedSustenanceDeprivation)) rpgExpandedReject('sustenance-contact-episode');
         local value = new RpgExpandedResult(); self.episode.validateReceipt();
         if (self.startedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
-        if (self.boundDefinition != nil || self.requiredSeconds != nil || self.completedAt != nil || self.boundCompletion != nil
-            || self.completionEvidence != nil) rpgExpandedReject('sustenance-contact-uncommitted-state');
-        if (self.episode.contact != nil || self.episode.restoration != nil) rpgExpandedReject('sustenance-contact-duplicate');
+        if (self.previousContact != nil || self.boundDefinition != nil || self.requiredSeconds != nil || self.completedAt != nil || self.boundCompletion != nil
+            || self.completionEvidence != nil || self.interruptedAt != nil || self.interruptionEvidence != nil || self.boundInterruption != nil)
+            rpgExpandedReject('sustenance-contact-uncommitted-state');
+        if (self.episode.contact != nil && self.episode.contact.interruptedAt == nil || self.episode.restoration != nil) rpgExpandedReject('sustenance-contact-duplicate');
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'sustenance-contact-author-facts'; return value; }
+        if (self.contactPolicy != 'uninterrupted') rpgExpandedReject('sustenance-contact-policy-required');
         if (!holds(['injury-first','access-first'],self.boundaryOrder)) rpgExpandedReject('sustenance-contact-boundary-ruling');
         if (self.episode.profile.dead) { value.reason = 'sustenance-dead'; return value; }
         local duration = self.episode.profile.sustenanceContactSeconds(self.episode.requirement);
@@ -5413,13 +5438,15 @@ class RpgExpandedSustenanceContact: object
     begin()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        self.requiredSeconds = value.seconds; self.startedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
-        self.episode.contact = self; value.status = 'resolved'; return value;
+        self.previousContact = self.episode.contact; self.requiredSeconds = value.seconds;
+        self.startedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.episode.contacts = self.episode.contacts + [self]; self.episode.contact = self; value.status = 'resolved'; return value;
     }
     assessCompletion()
     {
         self.episode.validateReceipt(); self.validateReceipt(); local value = new RpgExpandedResult();
         if (self.completedAt != nil) { value.status = 'reused'; return value; }
+        if (self.interruptedAt != nil) { value.reason = 'sustenance-contact-interrupted'; return value; }
         if (self.episode.profile.dead) { value.reason = 'sustenance-dead'; return value; }
         self.episode.profile.sustenanceContactSeconds(self.episode.requirement);
         if (rpgLedger.seconds < self.startedAt + self.requiredSeconds)
@@ -5428,6 +5455,16 @@ class RpgExpandedSustenanceContact: object
             || self.boundaryOrder == 'injury-first' && self.episode.nextTickAt() == rpgLedger.seconds)
         { value.reason = 'sustenance-contact-injury-due'; return value; }
         value.status = 'ready'; return value;
+    }
+    interrupt(approved,evidence)
+    {
+        self.episode.validateReceipt(); self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.interruptedAt != nil) { value.status = 'reused'; return value; }
+        if (self.completedAt != nil) { value.reason = 'sustenance-contact-already-complete'; return value; }
+        if (!approved || evidence == nil || evidence == '')
+        { value.reason = 'sustenance-contact-interruption-evidence'; return value; }
+        self.interruptedAt = rpgLedger.seconds; self.interruptionEvidence = evidence;
+        self.boundInterruption = [self.interruptedAt,self.interruptionEvidence]; value.status = 'resolved'; return value;
     }
     finish(approved,evidence)
     {

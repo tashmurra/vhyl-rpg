@@ -1,5 +1,5 @@
 #include "expanded-sustenance-injury.t"
-sustenanceContact: RpgExpandedSustenanceContact episode = sustenanceEpisode boundaryOrder = 'access-first'
+sustenanceContact: RpgExpandedSustenanceContact episode = sustenanceEpisode boundaryOrder = 'access-first' contactPolicy = 'uninterrupted'
     approved = true evidence = 'Contact with the required environment begins now';
 modify BleedTestAction
     exec(context)
