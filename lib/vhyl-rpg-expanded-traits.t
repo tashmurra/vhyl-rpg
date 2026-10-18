@@ -1340,3 +1340,32 @@ modify rpgExpandedTemplateTraits
         trait.approved = true; trait.selfControlRating = rating; trait.creationCost(); return trait;
     }
 ;
+
+
+/** B89-B91 time reduction for the three shared catalogue talents. */
+modify RpgExpandedProfile
+    studyTimePercent(skill)
+    {
+        local percent = inherited(skill);
+        if (skill == nil || !skill.ofKind(RpgLiteSkill)) return percent;
+        local id = skill.studyIdentity(); local level = 0;
+        foreach (local row in [
+            ['artificer',['armoury','carpentry','electrician','electronics-repair','engineer','machinist','masonry','mechanic','smith']],
+            ['outdoorsman',['camouflage','fishing','mimicry','naturalist','navigation','survival','tracking']],
+            ['smooth-operator',['acting','carousing','detect-lies','diplomacy','fast-talk','intimidation','leadership',
+                'panhandling','politics','public-speaking','savoir-faire','sex-appeal','streetwise']]])
+            if (holds(row[2],id))
+            {
+                local count = 0;
+                foreach (local trait in self.traits)
+                    if (trait.id == row[1])
+                    {
+                        count += 1; rpgInteger(trait.level,1,4);
+                        if (trait.active && !trait.mitigated && trait.level > level) level = trait.level;
+                    }
+                if (count > 1) rpgExpandedReject('duplicate-study-talent');
+            }
+        local talentPercent = 100 - level * 10;
+        return talentPercent < percent ? talentPercent : percent;
+    }
+;

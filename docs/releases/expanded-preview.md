@@ -1349,3 +1349,9 @@ Single-skill ancestry incompetence now applies its default penalty, learning
 prohibition and ancestry-only negative cost across specialties. Relevance evidence
 and the five-skill maximum are enforced, with owned mandatory accounting.
 Group penalties and omission support remain unfinished. New fixtures are unrun.
+
+The three shared talents now reduce learning time through the existing study
+ledger, including communication credit, without changing skill point prices.
+Exact thresholds preserve fractional progress; unresolved mid-progress rate
+changes reject. Custom talent groups and full reaction integration remain pending.
+New boundary, ownership and persistence fixtures are authored but unrun.

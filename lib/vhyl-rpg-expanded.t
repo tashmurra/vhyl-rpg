@@ -24,6 +24,7 @@ class RpgExpandedProfile: RpgLiteProfile
     rules = nil
     contributions = []
     ancestrySkillModifier(skill) { return 0; }
+    studyTimePercent(skill) { return 100; }
     /* Character module supplies creation-budget assessment for cash exchanges. */
     creationMoneyReason(points) { return 'creation-money-accounting-unavailable'; }
     validateFeatures() { return nil; }
@@ -584,4 +585,8 @@ modify RpgExpandedProfile
         if (offer.cost != original) return 'buyoff-original-cost-mismatch';
         return nil;
     }
+;
+
+modify RpgLiteSkill
+    studyIdentity() { return self.id; }
 ;

@@ -4,6 +4,7 @@
  * A catalogue is not implied by this definition type. */
 class RpgExpandedSkill: RpgLiteSkill
     validateDefinition() { return nil; }
+    studyIdentity() { rpgExpandedValidateSkill(self); return self.optionalParent == nil ? self.id : self.optionalParent.id; }
     defaults = []
     wildcard = nil
     prerequisite = nil

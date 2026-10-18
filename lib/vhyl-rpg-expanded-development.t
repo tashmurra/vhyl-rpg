@@ -21,6 +21,17 @@ class RpgExpandedStudy: object
     creditOwner = nil
     creditTraining = nil
     creditSkill = nil
+    creditThreshold = nil
+    learningThreshold()
+    {
+        local percent = self.profile.studyTimePercent(self.training.skill);
+        rpgInteger(percent,60,100);
+        if (percent % 10 != 0) rpgExpandedReject('study-rate-definition');
+        local threshold = 28800 * percent;
+        if (self.creditThreshold != nil && self.creditThreshold != threshold && self.credit != 0)
+            rpgExpandedReject('study-rate-change-unresolved');
+        return threshold;
+    }
     validateOwnership()
     {
         if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
@@ -45,7 +56,8 @@ class RpgExpandedStudy: object
             rpgExpandedReject('study-retargeted');
         if (!holds(['job','self','education','intensive'], self.mode)
             || !holds(['none','part','full'], self.employment)) rpgExpandedReject('study-mode');
-        rpgInteger(self.credit, 0, 2879999); rpgInteger(self.awarded, 0, 1000000);
+        local threshold = self.learningThreshold();
+        rpgInteger(self.credit, 0, threshold - 1); rpgInteger(self.awarded, 0, 1000000);
         if (!self.permitted || !profile.developmentOpen)
         { value.reason = 'study-unavailable'; return value; }
         value.reason = profile.skillLearningWithTeacherReason(training.skill,
@@ -77,7 +89,7 @@ class RpgExpandedStudy: object
             { value.reason = 'intensive-requirements'; return value; }
         }
         value.status = 'ready'; value.seconds = seconds;
-        value.points = (self.credit + seconds * self.factor()) / 2880000;
+        value.points = (self.credit + seconds * self.factor()) / threshold;
         if (self.training.points + value.points > 10000) rpgExpandedReject('training-limit');
         return value;
     }
@@ -93,7 +105,7 @@ class RpgExpandedStudy: object
     {
         return [self.profile,self.training,self.training.skill,self.training.points,self.mode,self.permitted,
             self.employment,self.teacher,self.teachingScore,self.lavishMaterials,self.credit,self.awarded,
-            self.creditOwner,self.creditTraining,self.creditSkill,self.profile.studyDay]
+            self.creditOwner,self.creditTraining,self.creditSkill,self.profile.studyDay,self.creditThreshold,self.learningThreshold()]
             + self.profile.studyUsed;
     }
     advance(seconds)
@@ -118,7 +130,8 @@ class RpgExpandedStudy: object
         self.creditOwner = self.profile; self.creditTraining = self.training;
         self.creditSkill = self.training.skill;
         self.profile.studyDay = day; self.profile.studyUsed = used;
-        self.credit = (self.credit + seconds * self.factor()) % 2880000;
+        local threshold = self.learningThreshold(); self.creditThreshold = threshold;
+        self.credit = (self.credit + seconds * self.factor()) % threshold;
         self.training.points += value.points; self.awarded += value.points;
         value.status = 'resolved'; return value;
     }
@@ -163,8 +176,9 @@ class RpgExpandedCommunicationStudy: object
         if (self.study.creditOwner != nil && (self.study.creditOwner != self.study.profile
             || self.study.creditTraining != self.study.training || self.study.creditSkill != self.study.training.skill))
             rpgExpandedReject('study-retargeted');
-        rpgInteger(self.study.credit,0,2879999); rpgInteger(self.study.awarded,0,1000000);
-        value.points = (self.study.credit + value.seconds * 4) / 2880000;
+        local threshold = self.study.learningThreshold();
+        rpgInteger(self.study.credit,0,threshold-1); rpgInteger(self.study.awarded,0,1000000);
+        value.points = (self.study.credit + value.seconds * 4) / threshold;
         rpgInteger(self.study.training.points,0,10000-value.points);
         rpgInteger(self.study.awarded,0,1000000-value.points);
         value.status = 'ready'; return value;
@@ -176,7 +190,8 @@ class RpgExpandedCommunicationStudy: object
         self.boundDefinition = self.definition();
         self.study.creditOwner = self.study.profile; self.study.creditTraining = self.study.training;
         self.study.creditSkill = self.study.training.skill;
-        self.study.credit = (self.study.credit + value.seconds * 4) % 2880000;
+        local threshold = self.study.learningThreshold(); self.study.creditThreshold = threshold;
+        self.study.credit = (self.study.credit + value.seconds * 4) % threshold;
         self.study.training.points += value.points; self.study.awarded += value.points;
         self.source.creditedStudy = self; value.status = 'resolved'; self.result = value; return value;
     }

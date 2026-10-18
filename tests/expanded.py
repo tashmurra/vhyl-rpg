@@ -9130,6 +9130,10 @@ def test(build):
     test_ancestry_skill_bonus(Session, ancestry_bonus, build.out)
     ancestry_incompetence = build.build('expanded-ancestry-incompetence',ROOT / 'tests/fixtures/expanded-ancestry-incompetence.t')
     test_ancestry_incompetence(Session, ancestry_incompetence, build.out)
+    talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
+    test_talent_study(Session, talent_study, build.out)
+    talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
+    test_talent_communication_study(Session, talent_communication)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -18321,5 +18325,66 @@ def test_ancestry_incompetence(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.ancestry-incompetence') == expected
         assert last(s, 'test.ancestry-incompetence-learn') == ['ancestry-skill-incompetence', 0, 100, 0, 0]
+    finally:
+        s.close()
+
+
+def test_talent_study(Session, bundle, out):
+    path = out / 'expanded-talent-study.zsave'
+    for setup, threshold in ((6810, 2592000), (6811, 2304000), (6812, 2016000), (6813, 1728000),
+                             (6814, 2304000), (6815, 2304000), (6816, 2304000), (6806, 2880000)):
+        s = Session(bundle)
+        try:
+            for code in (setup, 6803, 6800, 6802):
+                s.action(2285, code)
+            assert last(s, 'test.talent-study') == ['ready', 1]
+            assert last(s, 'test.talent-study-state') == [threshold - 7200, 0, 1, threshold, 0, 0, 100]
+            for code in (6801, 6802):
+                s.action(2285, code)
+            assert last(s, 'test.talent-study-state') == [0, 1, 2, threshold, 3600, 0, 100]
+        finally:
+            s.close()
+    for mutation in (6804, 6805):
+        s = Session(bundle)
+        try:
+            for code in (6801, mutation, 6807):
+                s.action(2285, code)
+            assert last(s, 'test.talent-study-error') == ['study-rate-change-unresolved', 7200, 3600, 1]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 6801)
+        s.command('undo')
+        s.action(2285, 6802)
+        assert last(s, 'test.talent-study-state') == [0, 0, 1, 2304000, 0, 0, 100]
+        for code in (6803, 6801, 6802):
+            s.action(2285, code)
+        assert last(s, 'test.talent-study-state') == [0, 1, 2, 2304000, 3600, 0, 100]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (6801, 6802):
+            s.action(2285, code)
+        assert last(s, 'test.talent-study-state') == [7200, 1, 2, 2304000, 7200, 0, 100]
+    finally:
+        s.close()
+
+
+def test_talent_communication_study(Session, bundle):
+    s = Session(bundle)
+    try:
+        for code in (3901, 6900, 4000):
+            s.action(2285, code)
+        assert last(s, 'test.communication-study') == ['ready', None, 1, 10]
+        for code in (4001, 4003):
+            s.action(2285, code)
+        assert last(s, 'test.communication-study-state') == [0, 1, 2, 10, 0, 1]
+        for code in (4001, 4003):
+            s.action(2285, code)
+        assert last(s, 'test.communication-study-state') == [0, 1, 2, 10, 0, 1]
     finally:
         s.close()

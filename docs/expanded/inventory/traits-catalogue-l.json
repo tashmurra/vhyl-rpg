@@ -96,9 +96,13 @@
       "pages": "B89-B91",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A skill talent adds one per level to its fixed related skills including defaults. Maximum four levels per talent; overlapping talents may exceed four for skill bonuses only. Reaction bonus needs demonstrated aptitude and an observer able to appreciate it. Study time falls ten percent per level regardless of learning mode, without reducing skill point cost. Define overlap policy for study/reaction without assuming additive beyond-cap benefits.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_talent_study",
+        "tests/expanded.py::test_talent_communication_study"
+      ],
+      "validation_note": "Three existing catalogue talents now use full printed skill lists for exact study-time reductions across ordinary and communication credit. Skill point cost and actual clock limits remain unchanged; partial-progress rate conversion rejects. Custom groups, full reaction integration and overlap handling remain pending. Assertions authored, unrun."
     },
     {
       "id": "traits-l-talent-price",

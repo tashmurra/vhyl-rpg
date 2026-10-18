@@ -136,3 +136,31 @@ mismatch reason before spending. An absent or unapproved basis blocks the offer.
 Direct and owned buyoffs therefore use the same cost and reservation rules.
 The offer fixture covers both mismatch directions, cross-path replay, rollback,
 undo and saves; it remains unrun.
+
+## Talent study time
+
+The three shared catalogue talents now reduce the study time for their full
+printed skill lists by ten percent per active level (full-2008, B89-B91).
+Mechanical aptitude includes the nine printed trades; wilderness aptitude
+includes fishing and mimicry; social aptitude includes the full thirteen-skill
+list. Required specialties use their skill ID and optional specialties use their
+parent identity. Inactive or mitigated talents grant no reduction.
+
+`RpgExpandedStudy.learningThreshold()` keeps credit in quarter learning-seconds
+and changes the exact threshold for a point. Levels one through four use
+2,592,000, 2,304,000, 2,016,000 and 1,728,000 credit units respectively. The
+ordinary threshold remains 2,880,000. Daily limits and clock spending still use
+actual elapsed seconds, and skill point prices do not change. The same threshold
+applies to communication-study credit without charging its elapsed time again.
+
+A study track binds its current threshold. If the applicable rate changes while
+partial credit remains, assessment rejects with `study-rate-change-unresolved`;
+conversion of partial progress is not implemented. At zero credit, a new point
+may start under the new rate. Changes during a committed time interval trigger
+the existing transaction rollback checks. Custom group talents and overlapping
+study benefits remain unfinished; this adapter covers the three existing,
+disjoint catalogue groups.
+
+`test_talent_study` and `test_talent_communication_study` specify exact boundaries,
+preview purity, the full group memberships, ordinary rates, rate changes,
+communication credit, undo and save continuation. Assertions remain unrun.
