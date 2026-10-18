@@ -28,6 +28,7 @@ copies of the reference books.
 | `full-2008` | B398–B403, before advanced unarmed techniques | [Targeting and elevation](targeting-elevation.json) | Location dispatch, exposure, armor gaps, disarming and elevation bands enumerated; geometry and rounding audit pending |
 | `full-2008` | B403–B407 | [Advanced techniques and special weapons](special-weapons.json) | Holds, weapon-specific state, improvised actions and malfunction procedures enumerated; catalogue integration and visual table audit pending |
 | `full-2008` | B408–B411 | [Cover and special ranged procedures](ranged-special.json) | Overpenetration, burst exceptions, suppression and restraint weapons enumerated; spray-fire ambiguities visually confirmed |
+| `full-2008` | B412–B417 | [Guidance, areas and cinematic options](guidance-area-cinematic.json) | Accessories, flight, blast, fragments, delivery and optional procedures enumerated; boundary and integration audit pending |
 | `full-2008` | B418–B427 | [Injury, recovery and fatigue](health.json) | Anatomy, wound options, treatment, drug design, resource recovery and foraging enumerated |
 | `full-2008` | B428–B437, excluding poison and radiation | [Conditions and environmental hazards](environmental-hazards.json) | Conditions, exposure, collisions, fire, electricity and pressure enumerated; falling formula conflict open |
 | `full-2008` | B435–B436 | [Radiation](radiation.json) | Dose histories, effects, shielding and treatment enumerated; overlapping printed boundary confirmed visually and unresolved |

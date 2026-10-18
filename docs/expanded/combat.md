@@ -217,3 +217,25 @@ Ranged restraints also need distinct state: taut versus slack rope, escape
 progress, consecutive failures, tether length and weapon attachment. Grenade
 countdowns and prepared-projectile expiry follow the item across ownership
 changes. Shared time and inventory integration remains pending.
+
+The [guidance and area inventory](inventory/guidance-area-cinematic.json) reaches
+the end of the detailed combat chapter. This completes its first text pass, not
+its implementation or completeness audit. Trait definitions, equipment entries,
+geometric fixtures and independent tests still need reconciliation.
+
+Guided and autonomous projectiles need owned flight records with target, speed,
+remaining travel, seeker senses and any required operator or designator activity.
+The hit roll occurs on arrival. Reloading or launching another item must not erase
+an in-flight projectile or reset its range budget.
+
+Area, cone, blast and fragment effects share an impact event but resolve different
+exposure and damage rules. Scatter is determined once. Fragment hits have their
+own locations and protection, while internal and contact detonations use separate
+branches. The source's torso-armor instruction for blasts differs from its general
+large-area armor procedure; that precedence remains explicit and unresolved.
+
+Cinematic procedures are separate campaign choices, defaulting off. Point-funded
+injury reduction and fatigue-funded defense conversion require atomic accounting
+across damage, advancement and skipped turns. Minor-opponent behavior, unlimited
+ammunition and altered knockback likewise need executable permissions and state;
+descriptive callbacks alone do not complete these options.

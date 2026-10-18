@@ -1,0 +1,615 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B412-B417",
+  "review": "Accessories, guidance, areas, blast/fragmentation, delivery modifiers and cinematic options inventoried. Formula boundaries, armor precedence, trait/catalogue integration and executable validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "area-guidance-bipod",
+      "source": "full-2008",
+      "pages": "B412",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Deployed bipod permits prone bracing and reduces required strength to ceil(two thirds normal); opening/closing consumes ready. Keep deployment and stance requirements.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-tripod",
+      "source": "full-2008",
+      "pages": "B412",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mounted heavy weapon ignores strength requirement but firing forbids movement/step. Normal defenses remain. Mounting/removal takes three ready actions unless definition specifies longer.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-laser-sight",
+      "source": "full-2008",
+      "pages": "B412",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Visible-to-user aiming dot within sight range gives +1 attack without aim; visible-to-target dot gives target +1 dodge. Activation is free but declared before aim/attack. Default range equals weapon half-damage distance; sensory bands matter.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-scope",
+      "source": "full-2008",
+      "pages": "B412",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fixed scope requires aim seconds at least its bonus; variable scope permits proportionally reduced benefit for shorter aim. Only one scope including innate magnification applies; retain general targeting bonus caps.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-sound",
+      "source": "full-2008",
+      "pages": "B412",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Distant/out-of-sight firearm detection uses hearing+5 with authored environment/weapon adjustment from -4 to +4; typical suppression -4, best commercial -6. Exposed in-front targets within attack range hear automatically; locating suppressed shooter requires intelligence unless visible.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-guided-launch",
+      "source": "full-2008",
+      "pages": "B412-B413",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Guided attack ignores range penalties. Within listed speed distance launch uses attack/committed attack; farther launch uses concentration and subsequent guidance. Multi-turn flight automatically qualifies for accuracy; short-flight accuracy requires prior aim.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-guided-arrival",
+      "source": "full-2008",
+      "pages": "B413",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Guide with concentration each flight turn, maintaining target sight. Loss of sight misses automatically. Arrival requires attack or determined committed attack; unavailable action causes miss. Specify transition from guidance to arrival without charging both maneuvers.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-homing-lock",
+      "source": "full-2008",
+      "pages": "B413",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Lock uses aim plus guided-projectile skill check. Launch uses ready, not attack; launcher preparation already included in reload must not be charged again. Resolve failed-lock launch legality explicitly from trait/equipment definitions.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-homing-score",
+      "source": "full-2008",
+      "pages": "B413",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Autonomous projectile attacks at ten plus accuracy for successful lock. Ignore firer injury, motion and posture, and range; use seeker senses for visibility/jamming, with target size/speed and other applicable modifiers.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-flight-record",
+      "source": "full-2008",
+      "pages": "B413",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Guided/homing half-damage statistic is speed, never damage reduction. Defer hit roll until arrival; expire after maximum traveled distance including launch turn. Track moving target, travel, sight/control, launch identity and autonomous ownership across saves.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-semi-active",
+      "source": "full-2008",
+      "pages": "B412",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Semi-active guidance needs a compatible designator maintained by firer or ally through aim and dexterity-based observation skill. Failed designation misses. Own designation and projectile separately with a shared target link.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-countermeasures",
+      "source": "full-2008",
+      "pages": "B413",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Detailed electronic countermeasure penalties are outside supplied reference scope. Require explicit authored system compatibility/penalty definitions or reject unsupported interaction; do not invent a catalogue.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-area",
+      "source": "full-2008",
+      "pages": "B413",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Area attacks affect every eligible target within radius, ordinarily without distance reduction. Miss scatters center. Ordinary defense does not negate area; legal retreat/dive can escape or reach cover. Oversized targets can expose only a body part.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-cone",
+      "source": "full-2008",
+      "pages": "B413",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cone hit aims its axis; miss scatters target point but may still catch original target. Width grows by specified maximum width divided by range; unspecified width grows one yard per yard. Source says width one at origin but example uses proportional width, requiring explicit origin/boundary policy.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-cone-cover",
+      "source": "full-2008",
+      "pages": "B413",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fully screened targets receive normal cover, including screening by another person. Resolve actual axis, maximum extent and footprint before affected-target checks; dodge can leave area or reach cover.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-dissipation",
+      "source": "full-2008",
+      "pages": "B413-B414",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Selected dissipation divides cone damage by width at target or area damage by center distance. Resistance effects instead add this divisor to health. Define zero-distance, fractional width and rounding before completion.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-area-ground",
+      "source": "full-2008",
+      "pages": "B414",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Deliberate ground targeting of area/explosive attacks adds four to hit with no ordinary target defense; affected actors still have permitted diving responses.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-scatter",
+      "source": "full-2008",
+      "pages": "B414",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Miss displacement is failure margin capped at ceil(half target distance); a dodge uses success margin. Airborne/underwater targets or unseen artillery/drop attacks use squared failure margin, but not squared dodge margin. Reconcile cap precedence for squared case.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-scatter-direction",
+      "source": "full-2008",
+      "pages": "B414",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One die selects six directions relative to facing: one forward, subsequent values clockwise by sixty degrees. Persist impact location; do not reroll for separate effects of same projectile.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-blast-radius",
+      "source": "full-2008",
+      "pages": "B414",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Blast collateral extent is twice effective damage dice in yards, including expression multipliers. Direct target takes listed damage; others divide rolled damage by three times distance rounding down. Zero-distance/contact and internal blasts use explicit separate branches.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-blast-armor",
+      "source": "full-2008",
+      "pages": "B413-B414; B400",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "B414 says torso armor for blast while general area rules refer to exposed-location average. Preserve discrepancy and document precedence. Direct-hit armor divisor does not reduce collateral protection.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-blast-rolls",
+      "source": "full-2008",
+      "pages": "B414",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Roll damage separately per target by default; author may select shared nonplayer rolls as a speed option. Explosion can ignite materials and permits diving response; do not conflate fragment and blast damage.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-fragments",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fragment radius is five times fragment dice. Direct target automatically hit; others attacked at fifteen modified only by distance, posture and size, gaining another hit per three success margin. Each hit uses random location, cutting damage and cover; blast divisor does not apply.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-airburst",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Airburst fragment targeting ignores posture advantage and only overhead cover protects. Actual detonation altitude and exposure must be retained.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-incidental-fragments",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Loose material can produce incidental fragment profile from 1d-4 through 1d. Author supplies actual debris and profile before resolution; absence of listed fragments does not imply arbitrary automatic fragments.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-hot-fragments",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Special burning fragments typically inflict 1d with divisor .2 every ten seconds for one minute. Record retained fragments, scheduled ticks and actual removal/protection contract; no duplicate initial tick.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-blast-medium",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Underwater collateral divisor uses distance, vacuum/trace uses ten times distance, ordinary air three times distance. Other pressures need specified authored treatment; do not infer continuous interpolation.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-contact-blast",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Actor covering explosive takes maximum possible damage through normal armor. Others gain that actor\u2019s torso protection plus health as cover. Resolve protective response before blast without regenerating cover from post-blast remaining health unless source requires it.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-internal-blast",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Internal detonation bypasses armor and uses vital-organ factor three. Link to actual successful internal delivery rather than treating every follow-up as an explosion.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-profile",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Game charge profile uses six-die multiplier and reference relative-force coefficient: required abstract weight n*n/(4*coefficient), inverse multiplier square-root(weight*4*coefficient). Preserve units, rounding policy and game-only scope; exclude real-world fabrication/composition guidance.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-affliction",
+      "source": "full-2008",
+      "pages": "B416",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Non-damaging effect uses modified health resistance, normally adding applicable armor. Divisors and penetration modifiers can change that bonus; penetrating carrier removes armor bonus for its internal follow-up. Each effect needs concrete condition/duration behavior.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-linked-affliction",
+      "source": "full-2008",
+      "pages": "B416",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Linked condition resistance occurs on hit regardless of damage penetration. Injury-triggered side effect instead requires injury, usually resistance penalty one per two injury; use actual definition and rounding.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-blood-delivery",
+      "source": "full-2008",
+      "pages": "B416",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Blood-agent delivery needs wound or mucous-membrane access; otherwise no effect. Resolve detailed trait restrictions and exposure before resistance.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-contact-delivery",
+      "source": "full-2008",
+      "pages": "B416",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Contact requires bare skin or porous clothing; armor stops it except skin-limited protection. Area/cone contact effects instead reach anyone lacking sealed protection. Use actual suit/trait state.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-respiratory-delivery",
+      "source": "full-2008",
+      "pages": "B416",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Inhaled effect bypasses armor but fails against held breath, supplied air, suitable respirator/filter or nonbreathing physiology. Link to actual breathing state and exposure duration.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-sensory-delivery",
+      "source": "full-2008",
+      "pages": "B416",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sense-mediated attack only reaches users of the specified sense; resolve actual senses and trait-specific protection, not ordinary armor alone.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-cinematic-selection",
+      "source": "full-2008",
+      "pages": "B417",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Every cinematic procedure is individually selected in campaign context, default off. Including all libraries must not activate them or silently change random consumption.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-cinematic-attire",
+      "source": "full-2008",
+      "pages": "B417",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional appearance-qualified attire defense grants one for exposed limbs/torso, two for minimal clothing, with printed sex-specific additional one and unclothed movement bonuses one ground/two water. Require explicit authored eligibility policy preserving stated source scope rather than automatic body inspection.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-minor-opponents",
+      "source": "full-2008",
+      "pages": "B417",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional minor-opponent designation forces failed defenses, prohibits committed attack and collapses on any penetration; author selects unconscious/dead. Skip damage dice only when penetration is certain. Shared actor state still records actual incapacity.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-cinematic-blast",
+      "source": "full-2008",
+      "pages": "B417",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional spectacle blast removes direct damage/fragments, causing knockback with one crushing injury per yard. Reconcile knockback source magnitude and collisions explicitly rather than running ordinary explosion injury as well.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-cinematic-knockback",
+      "source": "full-2008",
+      "pages": "B417",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional piercing knockback uses crushing procedure; any knockback additionally requires intelligence at -1 per yard or mental stun next turn. Avoid repeated checks for one displacement event.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-point-mitigation",
+      "source": "full-2008",
+      "pages": "B417",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Immediately after damage, optional one-point spend reduces an attack\u2019s aggregate health/fatigue loss including burst hits to one. Authored debt permitted only explicitly; use advancement ledger and reverse superseded wound consequences atomically.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-endless-ammunition",
+      "source": "full-2008",
+      "pages": "B417",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional player ammunition replenishment supplies spare rounds/cells when carried supply exhausted and suppresses malfunctions. Distinguish reserve replenishment from reload or magically refilling loaded chamber; validate selected behavior.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-melee-etiquette",
+      "source": "full-2008",
+      "pages": "B417",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional opponent conduct limits engagement to one adversary at a time against player melee/unarmed fighter, with specified monster behavior favoring displacement/restraint. Author scheduler must enforce permissions, not merely narrate intent.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-fatigue-defense",
+      "source": "full-2008",
+      "pages": "B417",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional failed-defense conversion costs one fatigue and next turn, covers entire lethal attack including burst. Exclude ordinary crushing/no-damage unarmed/melee/thrown attacks unless skull/neck, and exclude possessions. Preserve actual available fatigue and skipped-turn state.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-dual-hands",
+      "source": "full-2008",
+      "pages": "B417",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional ordinary attack can use two hands simultaneously with eligible unarmed/one-handed/pistol modes. Each -4 plus off-hand -4 unless exempted/trained. Roll separately; same target defends -1, distinct melee targets must be adjacent. Replace only one existing attack; remaining attacks stay single. Reconcile simultaneous consequences and rapid-strike exclusion.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-1",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 01: technology 3, relative-force coefficient 0.3.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-2",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 02: technology 4, relative-force coefficient 0.4.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-3",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 03: technology 4, relative-force coefficient 0.4.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-4",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 04: technology 5, relative-force coefficient 0.5.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-5",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 05: technology 6, relative-force coefficient 0.5.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-6",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 06: technology 6, relative-force coefficient 0.8.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-7",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 07: technology 6, relative-force coefficient 1.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-8",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 08: technology 6, relative-force coefficient 1.2.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-9",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 09: technology 6, relative-force coefficient 1.5. Printed instability triggers detonation on unmodified three-dice result at least thirteen after dropping; require actual drop event.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-10",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 10: technology 7, relative-force coefficient 1.3.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-11",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 11: technology 7, relative-force coefficient 1.4.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-12",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 12: technology 7, relative-force coefficient 1.4.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-13",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 13: technology 9, relative-force coefficient 4.",
+      "tests": []
+    },
+    {
+      "id": "area-guidance-charge-row-14",
+      "source": "full-2008",
+      "pages": "B415",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Neutral game material profile 14: technology 10, relative-force coefficient 6.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B412-B417",
+      "reason": "Source fiction, named materials and physical explosive composition are not repository deliverables. Neutral game coefficients retained; detailed countermeasure systems are explicitly outside supplied-reference coverage."
+    }
+  ]
+}

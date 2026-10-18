@@ -317,6 +317,7 @@
     "inventory/special-mobility.json",
     "inventory/targeting-elevation.json",
     "inventory/special-weapons.json",
-    "inventory/ranged-special.json"
+    "inventory/ranged-special.json",
+    "inventory/guidance-area-cinematic.json"
   ]
 }
