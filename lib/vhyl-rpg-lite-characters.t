@@ -68,6 +68,7 @@ class RpgLiteProfile: RpgProfile
     healthManeuverReason(kind) { return nil; }
     voluntaryMovementUnavailable() { return nil; }
     postureChangeReason(posture) { return nil; }
+    legUsePenalty() { return 0; }
     healthEffortReason(purpose, mentalAbility, speech, movement) { return nil; }
     healthDefensePenalty() { return 0; }
     afterNeedsCycle(needs) { return nil; }
@@ -226,6 +227,8 @@ class RpgLiteContext: object
     }
     controllingAttribute() { return self.skill == nil ? self.attribute : self.skill.attribute; }
     skillUseModifier(profile) { return 0; }
+    legUse = 'auto'
+    limbUseModifier(profile) { return 0; }
     equipmentUseModifier(profile) { return 0; }
     validateInfluenceTarget(target) { return nil; }
     unavailableReason(profile) { return 'training-required'; }
@@ -245,7 +248,7 @@ rpgLiteScore(profile, context)
     local equipmentModifier = context.equipmentUseModifier(profile);
     if (equipmentModifier == nil) return nil;
     local adjustment = context.modifier + useModifier + equipmentModifier
-        + profile.healthAttributeModifier(context);
+        + profile.healthAttributeModifier(context) + context.limbUseModifier(profile);
     if (context.offHand && profile.level('ambidexterity') == 0 && skillId != 'karate') adjustment -= 4;
     local darkness = context.darkness;
     if (context.someLight) darkness -= profile.level('night-vision');

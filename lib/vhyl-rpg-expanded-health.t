@@ -6072,3 +6072,31 @@ modify RpgExpandedProfile
         return inherited();
     }
 ;
+
+modify RpgLiteSkill
+    usesLegs = nil
+;
+modify RpgExpandedProfile
+    legUsePenalty()
+    {
+        local legs = 0; local impairedLeg = nil; local impairedFoot = nil;
+        foreach (local part in self.bodyParts)
+        {
+            if (part.kind == 'leg')
+            { legs += 1; if (!part.functional()) impairedLeg = true; }
+            if (part.kind == 'foot' && !part.functional()) impairedFoot = true;
+        }
+        if (!impairedLeg && !impairedFoot) return inherited();
+        if (legs != 2) rpgExpandedReject('lower-limb-anatomy-adapter-required');
+        return impairedLeg ? -6 : -3;
+    }
+;
+modify RpgLiteContext
+    limbUseModifier(profile)
+    {
+        if (!holds(['auto','required','none'],self.legUse)) rpgExpandedReject('leg-use-context');
+        local applies = self.legUse == 'required' || self.legUse == 'auto'
+            && self.skill != nil && self.skill.ofKind(RpgLiteSkill) && self.skill.usesLegs;
+        return inherited(profile) + (applies ? profile.legUsePenalty() : 0);
+    }
+;

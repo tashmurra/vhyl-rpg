@@ -183,7 +183,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
         if (unarmed)
         {
             if (fighter.unarmedParryCapacity() < fighter.unarmedParryRequirement(otherHand)) return nil;
-            score = 3 + rpgLiteUnarmedScore(fighter) / 2;
+            score = 3 + (rpgLiteUnarmedScore(fighter) + profile.legUsePenalty()) / 2;
             local karate = profile.skillScore(rpgLiteTraining(profile, 'karate', nil, nil));
             if (attacker.weapon.id != 'punch' && attacker.weapon.id != 'kick'
                 && incoming.base != 'thrust' && karate == nil) score -= 3;
@@ -196,6 +196,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
             local rating = profile.skillScore(rpgLiteTraining(profile, parryMode.skillId, nil, parryMode.specialty));
             if (rating == nil) return nil;
             if (otherHand && profile.level('ambidexterity') == 0) rating -= 4;
+            rating += profile.legUsePenalty();
             score = 3 + rating / 2;
             if (parryWeapon.id == 'quarterstaff') score += 2;
             if (parryMode.skillId == 'knife') score -= 1;
@@ -258,6 +259,7 @@ rpgLiteResolveStrike(attacker, defender, request)
     if (mode.ranged && request.distance > maximum) { result.reason = 'out-of-range'; return result; }
     if (mode.ranged && !mode.thrown && weapon.ammunition < 1) { result.reason = 'empty'; return result; }
     local context = new RpgLiteContext(); context.kind = 'attack';
+    context.legUse = mode.ranged ? 'none' : 'required';
     context.skill = rpgLiteCombatSkill(attacker, mode); context.offHand = request.offHand;
     context.darkness = request.darkness; context.someLight = request.someLight;
     context.modifier = request.attackModifier;
@@ -348,6 +350,7 @@ rpgLiteResolveStrike(attacker, defender, request)
                     && !holds(['punch','kick','brass-knuckles'], defender.weapon.id))
                 {
                     local counter = new RpgLiteContext(); counter.kind = 'attack';
+                    counter.legUse = 'required';
                     counter.skill = rpgLiteCombatSkill(defender, defender.mode());
                     if (profile.skillScore(rpgLiteTraining(profile, 'karate', nil, nil)) != nil) counter.modifier = -4;
                     if (rpgLiteCheck(defender.profile, counter).achieved)

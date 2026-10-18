@@ -2841,3 +2841,23 @@ modifiers and broader locomotion integration remain pending.
 Fixtures specify leg/foot falls, forced lying despite a successful health check,
 same-kind secondary disability, movement rejection, sub-threshold injury, replay,
 rollback, undo and saved continuation. Assertions remain unrun while checks are paused.
+
+### Leg-dependent skills
+
+Expanded profiles now return the biped lower-limb skill penalty through
+`legUsePenalty()`: -3 for foot impairment and -6 for leg impairment. Impairments
+do not add together, and an impaired parent leg takes precedence over its foot.
+Non-biped impaired anatomy rejects pending a separate adapter.
+
+A context's `legUse` is `auto` (default), `required` or `none`. Automatic mode reads
+`RpgLiteSkill.usesLegs`; authors must mark skills or specific tasks that require
+legs. The new modifier is separate from technology, familiarity and temporary
+attribute penalties, so it is applied once. Melee attack contexts and weapon/
+unarmed parry ratings use it; ranged attacks explicitly select `none`. It does not
+change purchased skill levels or directly penalize dodge. Shield-skill classification
+and complete catalogue annotations remain pending.
+
+The score fixture compares intact anatomy, a foot wound and leg wounds, including
+explicit exemption, skill metadata and actual unarmed parry scores. It uses defense
+contexts to separate the persistent skill penalty from temporary shock. Assertions
+remain unrun while checks are paused. Source: `full-2008`, B141 and B421.

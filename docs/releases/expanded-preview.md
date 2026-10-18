@@ -841,3 +841,8 @@ are authored and unrun.
 Owned legs and feet now support ordinary and uncapped fall injuries, forced lying
 and same-kind extra crippling. Unsupported movement/posture changes reject pending
 aid integration. Transaction/save fixtures are authored and unrun.
+
+Lower-limb penalties now apply once to declared leg-dependent skills and melee
+attacks/parries, with ranged attacks exempt. Context overrides and skill metadata
+support authored tasks; complete classification remains pending. Score fixtures
+are authored and unrun.

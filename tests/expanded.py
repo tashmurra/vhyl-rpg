@@ -8907,6 +8907,8 @@ def test(build):
     test_fall_arm(Session, fall_arm, build.out)
     fall_lower = build.build('expanded-fall-lower',ROOT / 'tests/fixtures/expanded-fall-lower.t')
     test_fall_lower(Session, fall_lower, build.out)
+    lower_skills = build.build('expanded-lower-skills',ROOT / 'tests/fixtures/expanded-lower-skills.t')
+    test_lower_skills(Session, lower_skills)
     fall_arm_equipment = build.build('expanded-fall-arm-equipment',ROOT / 'tests/fixtures/expanded-fall-arm-equipment.t')
     test_fall_arm_equipment(Session, fall_arm_equipment, build.out)
     test_collision_cap(Session, collision, fall_injury)
@@ -14145,5 +14147,18 @@ def test_fall_lower(Session, bundle, out):
             for code in (30,setup,831):
                 s.action(2285,code)
             assert state(s) == expected
+        finally:
+            s.close()
+
+
+def test_lower_skills(Session, bundle):
+    for setup, expected in [((),[0,10,10,11,8,0]),
+                            ((30,831),[-6,4,10,5,2,4]),
+                            ((30,951,831),[-3,7,10,8,3,3])]:
+        s = Session(bundle)
+        try:
+            for code in setup+(960,):
+                s.action(2285,code)
+            assert last(s,'test.lower-skills') == expected
         finally:
             s.close()
