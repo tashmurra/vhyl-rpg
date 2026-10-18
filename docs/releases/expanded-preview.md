@@ -1016,3 +1016,9 @@ Small ordinary obstacles now have a pure automatic-jump size test and a tactical
 path entry costing one extra movement point. The entry requires Move and rejects
 significant hazards, missing approval and unsupported posture/water combinations.
 Boundary, additive-cost and purity assertions are authored, unrun.
+
+Uninterrupted tactical Move paths now commit through health-aware battle turns,
+including automatic small-obstacle jumps. Shared pre-posture movement arithmetic
+avoids double crouching costs while retaining Lite's final movement calculation.
+Replay, rollback, undo, save continuation and Lite expected-value fixtures are
+authored, unrun. Reactions, interrupts and movement attacks remain pending.

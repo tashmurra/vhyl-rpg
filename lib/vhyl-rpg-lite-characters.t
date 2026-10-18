@@ -165,7 +165,7 @@ class RpgLiteProfile: RpgProfile
     {
         return rpgLiteLoadLevel(self.loadHundredths(),self.basicLiftHundredths());
     }
-    move()
+    moveBeforePosture()
     {
         local load = self.encumbrance();
         if (load == 5 || self.unconscious || self.dead) return 0;
@@ -173,6 +173,12 @@ class RpgLiteProfile: RpgProfile
         if (amount < 1) amount = 1;
         if (self.hp() * 3 < self.maxHP) amount = (amount + 1) / 2;
         if (self.fp() * 3 < self.maxEnergy) amount = (amount + 1) / 2;
+        return amount;
+    }
+    move()
+    {
+        local amount = self.moveBeforePosture();
+        if (amount == 0) return 0;
         if (self.posture == 'crouching') amount = amount * 2 / 3;
         if (self.posture == 'kneeling' || self.posture == 'crawling') amount /= 3;
         if (self.posture == 'sitting') amount = 0;

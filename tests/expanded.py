@@ -9279,6 +9279,8 @@ def test(build):
     paths = build.build('expanded-tactical-path', ROOT / 'tests/fixtures/expanded-tactical-path.t')
     test_tactical_paths(Session, paths)
     test_tactical_small_jumps(Session, paths)
+    path_move = build.build('expanded-path-move',ROOT / 'tests/fixtures/expanded-path-move.t')
+    test_path_move(Session, path_move, build.out)
     positions = build.build('expanded-tactical-positions', ROOT / 'tests/fixtures/expanded-tactical-positions.t')
     fresh(Session, positions, test_tactical_positions)
     fresh(Session, positions, test_tactical_footprints)
@@ -15677,3 +15679,71 @@ def test_tactical_small_jumps(Session, bundle):
             assert last(s,'test.tactical-path')[-2:] == [0,0]
         finally:
             s.close()
+
+
+def test_path_move(Session, bundle, out):
+    def state(s):
+        s.action(2278,104)
+        return last(s,'test.path-move')
+    def setup(s):
+        for code in (70,84,100):
+            s.action(2278,code)
+    path = out / 'expanded-path-move.zsave'
+    s = Session(bundle)
+    try:
+        setup(s)
+        s.action(2278,105)
+        assert last(s,'test.path-move-preview') == ['ready',None]
+        assert state(s) == [0,0,0,0,0,0]
+        s.action(2278,102)
+        assert state(s) == [0,0,0,0,0,0]
+        s.action(2278,101)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,0,0]
+        s.command(f':save {path}\n@2279')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2279')
+        for code in (101,101,103,105,101):
+            s.action(2278,code)
+        assert state(s) == [2,0,0,1,1,0]
+        assert last(s,'test.path-move-preview') == ['reused',None]
+        s.command(f':save {path}\n@2279')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2279')
+        s.action(2278,101)
+        assert state(s) == [2,0,0,1,1,0]
+    finally:
+        s.close()
+    for choice, reason in ((106,'path-move-interruption-facts'),(71,'path-move-allowance')):
+        s = Session(bundle)
+        try:
+            setup(s)
+            for code in (choice,105,101):
+                s.action(2278,code)
+            assert last(s,'test.path-move-preview') == ['blocked',reason]
+            assert state(s) == [0,0,0,0,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        setup(s)
+        for code in (80,91,107,101):
+            s.action(2278,code)
+        assert last(s,'test.path-move-allowance') == [5,3]
+        assert state(s) == [2,0,0,1,0,0]
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        s.action(2278,108)
+        rows = [event['values'] for event in s.log if event['id'] == 'test.legacy-move']
+        assert rows == [[5],[3],[1],[1],[0],[1],[2],[1],[0],[0],[0],[1],[0]]
+    finally:
+        s.close()

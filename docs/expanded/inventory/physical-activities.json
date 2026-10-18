@@ -328,9 +328,10 @@
       "status": "partial",
       "acceptance": "A small-obstacle combat jump uses a movement maneuver and costs one additional movement point.",
       "tests": [
-        "tests/expanded.py::test_tactical_small_jumps"
+        "tests/expanded.py::test_tactical_small_jumps",
+        "tests/expanded.py::test_path_move"
       ],
-      "validation_note": "Pure actor-relative size threshold and tactical small-jump path assessment implemented. An approved ordinary obstacle at least three size steps smaller uses Move and adds one movement point, preserving other path costs. Significant hazards, non-Move maneuvers, unsupported posture/deep water and missing facts are rejected. Threshold, additive crouching costs, invalid cases and preview purity assertions authored, unrun. Committed full-path movement remains pending."
+      "validation_note": "Pure actor-relative size threshold and tactical small-jump path assessment implemented. An approved ordinary obstacle at least three size steps smaller uses Move and adds one movement point, preserving other path costs. Significant hazards, non-Move maneuvers, unsupported posture/deep water and missing facts are rejected. Threshold, additive crouching costs, invalid cases and preview purity assertions authored, unrun. Committed full-path movement remains pending. Uninterrupted Move paths now commit to the existing tactical figure through a health-aware battle maneuver. Shared pre-posture allowance avoids duplicate posture costs; battle alone owns time. Replay, invalid input, rollback, undo, save continuation and Lite movement assertions authored, unrun. Interrupted routes and other maneuvers remain pending."
     },
     {
       "id": "activity-jump-combat-large",

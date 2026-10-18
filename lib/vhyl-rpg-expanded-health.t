@@ -6717,3 +6717,28 @@ class RpgExpandedJumpLaunchManeuver: RpgExpandedHealthManeuver
         inherited(fighter,result); self.launch.commit(self.preparedLaunch); return nil;
     }
 ;
+
+class RpgExpandedPathMoveManeuver: RpgExpandedHealthManeuver
+    kind = 'move'
+    operation = nil
+    preparedPath = nil
+    available(fighter)
+    {
+        if (self.kind != 'move' || self.movement != 0 || self.operation == nil
+            || !self.operation.ofKind(RpgExpandedPathMoveReceipt) || self.operation.fighter != fighter)
+            rpgExpandedReject('path-move-maneuver-definition');
+        local reason = inherited(fighter); if (reason != nil) return reason;
+        local value = self.operation.assess();
+        if (value.status == 'reused') return 'path-move-already-committed';
+        return value.status == 'ready' ? nil : value.reason;
+    }
+    canAct(fighter)
+    {
+        if (!inherited(fighter)) return nil;
+        self.preparedPath = self.operation.assess();
+        if (self.preparedPath.status != 'ready') rpgExpandedReject('path-move-after-permission');
+        return true;
+    }
+    apply(fighter,result)
+    { inherited(fighter,result); self.operation.commit(self.preparedPath); return nil; }
+;

@@ -850,3 +850,89 @@ modify RpgExpandedPathLeg
     jumpApproved = nil
     jumpEvidence = nil
 ;
+
+class RpgExpandedPathMoveResult: RpgExpandedResult
+    operation = nil
+    definition = []
+    pathResult = nil
+    originQ = 0
+    originR = 0
+    originFacing = 0
+;
+modify RpgExpandedProfile
+    pathMoves = []
+;
+/** One uninterrupted Move turn; the battle remains owner of time. */
+class RpgExpandedPathMove: RpgExpandedPathMoveReceipt
+    id = nil
+    fighter = nil
+    battle = nil
+    path = nil
+    uninterrupted = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    {
+        local values = [self.id,self.fighter,self.battle,self.path,self.path.figure,self.path.move,
+            self.path.maneuver,self.path.finalFacing,self.uninterrupted,self.evidence,self.path.legs.length(),self.path.allies.length()];
+        foreach (local ally in self.path.allies) values = values + [ally];
+        foreach (local leg in self.path.legs)
+            values = values + [leg,leg.kind,leg.destination == nil ? nil : leg.destination.q,
+                leg.destination == nil ? nil : leg.destination.r,leg.travel,leg.heading,
+                leg.actorSize,leg.obstacleSize,leg.significant,leg.jumpApproved,leg.jumpEvidence];
+        return values;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter)
+            || self.battle == nil || !self.battle.ofKind(RpgLiteBattle) || self.path == nil
+            || !self.path.ofKind(RpgExpandedMovementPath) || self.path.figure == nil
+            || self.path.figure.profile != self.fighter.profile) rpgExpandedReject('path-move-definition');
+        local value = new RpgExpandedPathMoveResult(); value.operation = self; value.definition = self.definition();
+        if (self.result != nil)
+        {
+            if (value.definition.length() != self.boundDefinition.length()) rpgExpandedReject('path-move-binding');
+            for (local index = 1; index <= value.definition.length(); index += 1)
+                if (value.definition[index] != self.boundDefinition[index]) rpgExpandedReject('path-move-binding');
+            if (!holds(self.fighter.profile.pathMoves,self)) rpgExpandedReject('path-move-history');
+            value.status = 'reused'; return value;
+        }
+        foreach (local prior in self.fighter.profile.pathMoves)
+            if (prior.id == self.id) rpgExpandedReject('path-move-duplicate');
+        if (!self.battle.active || self.battle.current() != self.fighter)
+        { value.reason = 'path-move-turn'; return value; }
+        if (self.path.maneuver != 'move') { value.reason = 'path-move-maneuver'; return value; }
+        if (!self.uninterrupted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'path-move-interruption-facts'; return value; }
+        if (self.fighter.profile.moveBeforePosture() <= 0)
+        { value.reason = 'path-move-unavailable'; return value; }
+        if (self.path.move != self.fighter.profile.moveBeforePosture())
+        { value.reason = 'path-move-allowance'; return value; }
+        value.pathResult = self.path.assess();
+        if (value.pathResult.status != 'ready') { value.reason = value.pathResult.reason; return value; }
+        value.originQ = self.path.figure.coordinate.q; value.originR = self.path.figure.coordinate.r;
+        value.originFacing = self.path.figure.facing; value.status = 'ready'; return value;
+    }
+    commit(value)
+    {
+        if (self.result != nil || value == nil || !value.ofKind(RpgExpandedPathMoveResult)
+            || value.operation != self || value.status != 'ready' || self.fighter.maneuver != 'move')
+            rpgExpandedReject('path-move-commit');
+        local current = self.assess();
+        if (current.status != 'ready' || current.definition.length() != value.definition.length())
+            rpgExpandedReject('path-move-changed');
+        for (local index = 1; index <= current.definition.length(); index += 1)
+            if (current.definition[index] != value.definition[index]) rpgExpandedReject('path-move-changed');
+        if (current.originQ != value.originQ || current.originR != value.originR || current.originFacing != value.originFacing
+            || current.pathResult.halfPoints != value.pathResult.halfPoints
+            || current.pathResult.heading != value.pathResult.heading
+            || rpgExpandedHexDistance(current.pathResult.destination,value.pathResult.destination) != 0)
+            rpgExpandedReject('path-move-changed');
+        self.path.figure.coordinate = rpgExpandedHex(value.pathResult.destination.q,value.pathResult.destination.r);
+        self.path.figure.facing = value.pathResult.heading;
+        self.boundDefinition = value.definition; self.result = value;
+        self.fighter.profile.pathMoves = self.fighter.profile.pathMoves + [self];
+        value.status = 'resolved'; return value;
+    }
+;

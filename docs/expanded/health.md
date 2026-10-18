@@ -3112,3 +3112,11 @@ capturing preparation for a jump. It then lets the normal Move maneuver clear
 concentration and commits the recorded launch assessment. It does not charge an
 extra second. See [recording the jump launch](exploration.md#recording-the-jump-launch)
 for the outcome interface and remaining landing limitations.
+
+## Tactical Move paths
+
+`RpgExpandedPathMoveManeuver` obtains ordinary health permission before committing
+an uninterrupted tactical path. Supply a fresh movement-aware health gate and
+an owned `RpgExpandedPathMove` operation. The battle remains responsible for
+elapsed time; neither path costs nor automatic small jumps spend time separately.
+See [committing a Move path](tactical.md#committing-an-uninterrupted-move-path).

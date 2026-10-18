@@ -432,3 +432,33 @@ This extends pure path assessment; committing the complete path remains separate
 actor-relative size, significant hazards, Move restriction, approval, crouching,
 deep water and preview purity. Assertions are authored, unrun while checks remain
 paused.
+
+## Committing an uninterrupted Move path
+
+`RpgExpandedPathMove` binds an `id`, `fighter`, `battle` and assessed `path`.
+The path must belong to that fighter's existing figure and use `maneuver = 'move'`.
+Set its allowance from `profile.moveBeforePosture()`. This shares the existing
+load, injury, fatigue and base-movement arithmetic while leaving posture costs
+to the path, avoiding a second crouching reduction. Lite `move()` still applies
+its existing posture reductions after this shared calculation.
+
+Set `uninterrupted` and `evidence` only for an authored route with no pending
+reaction, interrupt or additional hazard check. Interrupted routes, movement
+attacks and other maneuvers are not implemented by this adapter. The existing
+path validation still rejects unknown terrain, unsupported footprints, unresolved
+evasion and illegal destinations.
+
+Use `RpgExpandedPathMoveManeuver` from health, with `operation` set to this object
+and a fresh movement-aware `healthGate`. Pass it to the existing battle's `step`.
+Leave the maneuver's separate `movement` value at zero: the path accounts for
+movement points. After health permission, it captures the path and revalidates
+its definition, origin, allowance, cost, destination and facing at commit. It then
+updates the existing figure once. The battle charges time once at the round
+boundary; neither the operation nor small-obstacle entries charge extra seconds.
+
+A committed operation returns `reused` from assessment; replay cannot move the
+figure or spend another turn. Use a fresh operation and health gate for another
+turn. Exceptions and undo cover the move, permission, battle state and clock.
+The `expanded-path-move.t` fixture includes small-obstacle movement, crouching,
+preview, invalid inputs, rollback, undo, save continuation and Lite movement
+expected values. Assertions remain unrun while checks are paused.

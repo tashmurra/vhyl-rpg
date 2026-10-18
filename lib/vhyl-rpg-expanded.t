@@ -357,3 +357,8 @@ rpgExpandedCanJumpAutomatically(actorSize, obstacleSize, significant)
     rpgInteger(actorSize,-20,20); rpgInteger(obstacleSize,-20,20);
     return !significant && obstacleSize <= actorSize - 3;
 }
+
+class RpgExpandedPathMoveReceipt: object
+    assess() { local value = new RpgExpandedResult(); value.reason = 'path-move-unavailable'; return value; }
+    commit(value) { rpgExpandedReject('path-move-unavailable'); }
+;
