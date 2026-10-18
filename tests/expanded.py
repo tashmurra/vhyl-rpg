@@ -8928,6 +8928,8 @@ def test(build):
     test_surgical_operation(Session, surgical_operation, build.out)
     lasting_repair = build.build('expanded-lasting-repair', ROOT / 'tests/fixtures/expanded-lasting-repair.t')
     test_lasting_repair(Session, lasting_repair, build.out)
+    surgical_infection = build.build('expanded-surgical-infection', ROOT / 'tests/fixtures/expanded-surgical-infection.t')
+    test_surgical_infection(Session, surgical_infection, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -10966,3 +10968,48 @@ def test_lasting_repair(Session, bundle, out):
             assert state(s) == [duration, 1, None, None, 33, 7200, 13]
         finally:
             s.close()
+
+
+def test_surgical_infection(Session, bundle, out):
+    def state(s):
+        s.action(2285, 164)
+        return last(s, 'test.surgical-infection')
+    path = out / 'expanded-surgical-infection.zsave'
+    s = Session(bundle)
+    try:
+        for code in (160, 129, 120, 4, 123):
+            s.action(2285, code)
+        assert state(s) == [None, 0, None, 0, 0, 0, 60, 0]
+        s.action(2285, 122)
+        s.command('undo')
+        assert state(s) == [None, 0, None, 0, 0, 0, 60, 0]
+        s.action(2285, 122)
+        s.action(2285, 122)
+        s.action(2285, 165)  # both advances roll back on crossing the daily boundary
+        assert state(s) == [True, 0, None, 0, 0, 0, 60, 6]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 161)
+        s.action(2285, 162)
+        s.command('undo')
+        assert state(s) == [True, 0, None, 0, 0, 0, 86460, 6]
+        s.action(2285, 162)
+        s.action(2285, 162)
+        assert state(s) == [True, 1, None, 1, 1, 1, 86460, 9]
+        s.action(2285, 161)
+        s.action(2285, 163)
+        assert state(s) == [True, 2, True, 1, 1, 0, 172860, 12]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (160, 166, 120, 4, 122):
+            s.action(2285, code)
+        # First disease resistance roll of 3 gives natural immunity; no wound.
+        assert state(s) == [None, 0, None, 0, 0, 0, 60, 6]
+    finally:
+        s.close()

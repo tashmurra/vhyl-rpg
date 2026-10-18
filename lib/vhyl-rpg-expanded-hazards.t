@@ -60,6 +60,10 @@ class RpgExpandedInfectionResult: RpgExpandedResult
 
 /** Private acquisition receipt. Hosts must not display it before discovery. */
 class RpgExpandedInfectionExposure: object
+    patient() { return self.wound.profile; }
+    sourceId() { return self.wound.id; }
+    ownsSource() { return holds(self.patient().expandedWounds,self.wound); }
+    rememberExposure() { self.wound.infectionExposure = self; }
     diseaseId = nil
     boundDiseaseId = nil
     wound = nil
@@ -126,14 +130,14 @@ class RpgExpandedInfectionExposure: object
         local value = self.assess(); if (value.status != 'ready') return value;
         if (value.context != nil)
         {
-            value.check = rpgLiteCheck(self.wound.profile,value.context); value.infected = !value.check.achieved;
-            if (self.wound.profile.diseaseResistance(self.diseaseId) == nil)
+            value.check = rpgLiteCheck(self.patient(),value.context); value.infected = !value.check.achieved;
+            if (self.patient().diseaseResistance(self.diseaseId) == nil)
             {
                 local record = new RpgExpandedDiseaseResistance(); record.diseaseId = self.diseaseId;
-                record.profile = self.wound.profile; record.firstExposure = self; record.firstRoll = value.check.roll;
+                record.profile = self.patient(); record.firstExposure = self; record.firstRoll = value.check.roll;
                 record.immune = rpgExpandedNaturalDiseaseImmunity(value.check.roll);
                 value.immune = record.immune;
-                self.wound.profile.diseaseResistances = self.wound.profile.diseaseResistances + [record];
+                self.patient().diseaseResistances = self.patient().diseaseResistances + [record];
             }
         }
         self.boundDiseaseId = self.diseaseId;
@@ -142,7 +146,7 @@ class RpgExpandedInfectionExposure: object
         self.antibiotics = self.conditions.antibiotics; self.medicalTL = self.conditions.medicalTL;
         self.criticalTreatmentFailure = self.conditions.criticalTreatmentFailure;
         self.untreatedDirtyWound = self.conditions.untreatedDirtyWound;
-        self.acquiredAt = rpgLedger.seconds; self.wound.infectionExposure = self;
+        self.acquiredAt = rpgLedger.seconds; self.rememberExposure();
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
@@ -233,7 +237,7 @@ class RpgExpandedInfectionDay: object
         if (self.id == nil || self.id == '') rpgExpandedReject('infection-day-id');
         foreach (local prior in self.exposure.days)
             if (prior.id == self.id) rpgExpandedReject('infection-day-duplicate');
-        local patient = self.exposure.wound.profile;
+        local patient = self.exposure.patient();
         if (!self.exposure.result.infected || self.exposure.ended || patient.dead)
         { value.reason = 'infection-not-active'; return value; }
         local due = self.exposure.acquiredAt + (self.exposure.days.length() + 1) * 86400;
@@ -265,7 +269,7 @@ class RpgExpandedInfectionDay: object
         local score = rpgLiteScore(patient,value.context);
         if (score == nil || score < 3) { value.reason = 'infection-resistance-score-unavailable'; return value; }
         value.failureWound = new RpgExpandedWound(); value.failureWound.profile = patient;
-        value.failureWound.id = 'infection-' + self.exposure.wound.id + '-' + self.id;
+        value.failureWound.id = 'infection-' + self.exposure.sourceId() + '-' + self.id;
         value.failureWound.amount = 1; value.failureWound.dropDestination = self.dropDestination;
         local failure = value.failureWound.assess();
         if (failure.status != 'ready') { value.reason = failure.reason; return value; }
@@ -274,7 +278,7 @@ class RpgExpandedInfectionDay: object
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        local patient = self.exposure.wound.profile;
+        local patient = self.exposure.patient();
         value.check = rpgLiteCheck(patient,value.context);
         if (value.check.achieved)
         {
@@ -328,8 +332,8 @@ modify RpgExpandedProfile
             if (record == nil || !record.ofKind(RpgExpandedDiseaseResistance) || record.profile != self
                 || record.diseaseId == nil || record.diseaseId == '' || holds(ids,record.diseaseId)
                 || record.firstExposure == nil || record.firstExposure.result == nil
-                || record.firstExposure.wound.profile != self || record.firstExposure.diseaseId != record.diseaseId
-                || !holds(self.expandedWounds,record.firstExposure.wound)
+                || record.firstExposure.patient() != self || record.firstExposure.diseaseId != record.diseaseId
+                || !record.firstExposure.ownsSource()
                 || record.firstExposure.result.check == nil || record.firstExposure.result.check.roll != record.firstRoll
                 || record.immune != rpgExpandedNaturalDiseaseImmunity(record.firstRoll))
                 rpgExpandedReject('disease-resistance-history');
@@ -2336,5 +2340,147 @@ class RpgExpandedRadiationBurnRecovery: object
         self.episode.radiationCheck.result.consequencesPending = nil;
         self.episode.radiationCheck.result.status = 'resolved';
         value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+/** B424 mandates the B444 acquisition check after low-technology surgery,
+ * even when no HP-loss wound was created by the successful procedure. */
+class RpgExpandedSurgicalInfectionContext: RpgExpandedInfectionContext
+    assessAcquisition()
+    {
+        rpgInteger(self.medicalTL,0,12);
+        local value = new RpgExpandedInfectionAssessment();
+        if (self.antibiotics || self.criticalTreatmentFailure)
+        { value.reason = 'surgical-infection-treatment-combination-unimplemented'; return value; }
+        value.checkRequired = true; value.modifier = 3 + self.contaminationModifier();
+        value.status = 'ready'; return value;
+    }
+;
+class RpgExpandedSurgicalInfectionExposure: RpgExpandedInfectionExposure
+    operation = nil
+    boundOperation = nil
+    patient() { return self.operation.patient; }
+    sourceId() { return 'surgery-' + self.operation.id; }
+    ownsSource() { return holds(self.patient().surgicalOperations,self.operation); }
+    rememberExposure() { self.boundOperation = self.operation; }
+    assessPreparation()
+    {
+        if (self.operation == nil || !self.operation.ofKind(RpgExpandedSurgicalOperation)
+            || self.operation.infectionExposure != self || self.wound != nil
+            || self.conditions == nil || !self.conditions.ofKind(RpgExpandedSurgicalInfectionContext)
+            || self.diseaseId == nil || self.diseaseId == '') rpgExpandedReject('surgical-infection-definition');
+        local value = new RpgExpandedInfectionResult();
+        if (self.evidence == nil || self.evidence == '')
+        { value.reason = 'surgical-infection-evidence'; return value; }
+        if (self.conditions.medicalTL != self.operation.assessment.conditions.techLevel)
+        { value.reason = 'surgical-infection-technology'; return value; }
+        if (self.patient().dead) { value.reason = 'surgical-infection-patient-dead'; return value; }
+        local resistance = self.patient().diseaseResistance(self.diseaseId);
+        if (resistance != nil && resistance.immune)
+        { value.immune = true; value.status = 'ready'; return value; }
+        local acquisition = self.conditions.assessAcquisition();
+        if (acquisition.status != 'ready') { value.reason = acquisition.reason; return value; }
+        value.context = new RpgLiteContext(); value.context.attribute = rpgHT;
+        value.context.kind = 'disease'; value.context.modifier = acquisition.modifier;
+        local score = rpgLiteScore(self.patient(),value.context);
+        if (score == nil || score < 3) { value.reason = 'infection-resistance-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    assess()
+    {
+        local value = new RpgExpandedInfectionResult();
+        if (self.result != nil)
+        {
+            if (self.operation != self.boundOperation || !self.ownsSource()
+                || self.operation.infectionExposure != self || self.wound != nil
+                || self.diseaseId != self.boundDiseaseId || self.conditions != self.boundConditions
+                || self.evidence != self.boundEvidence || self.conditions.infectedMatter != self.infectedMatter
+                || self.conditions.specialLocale != self.specialLocale || self.conditions.antibiotics != self.antibiotics
+                || self.conditions.medicalTL != self.medicalTL
+                || self.conditions.criticalTreatmentFailure != self.criticalTreatmentFailure
+                || self.conditions.untreatedDirtyWound != self.untreatedDirtyWound)
+                rpgExpandedReject('surgical-infection-binding');
+            self.operation.validateReceipt();
+            value.status = 'reused'; value.check = self.result.check; value.immune = self.result.immune;
+            value.infected = self.result.infected; value.prevented = self.result.prevented; return value;
+        }
+        value = self.assessPreparation(); if (value.status != 'ready') return value;
+        if (self.operation.result == nil || self.operation.result.check == nil
+            || self.operation.completedAt != rpgLedger.seconds || !self.ownsSource())
+        { value.status = 'blocked'; value.reason = 'surgical-infection-operation-not-completed'; }
+        return value;
+    }
+;
+modify RpgExpandedSurgicalOperation
+    infectionExposure = nil
+    infectionReason()
+    {
+        if (self.infectionExposure == nil || !self.infectionExposure.ofKind(RpgExpandedSurgicalInfectionExposure))
+            return 'surgical-infection-exposure-required';
+        local prepared = self.infectionExposure.assessPreparation();
+        return prepared.status == 'ready' ? nil : prepared.reason;
+    }
+    definition()
+    {
+        local fields = inherited() + [self.infectionExposure];
+        if (self.infectionExposure == nil) return fields;
+        local e = self.infectionExposure; local c = e.conditions;
+        return fields + [e.operation,e.diseaseId,c,e.evidence,c.medicalTL,c.infectedMatter,c.specialLocale,
+            c.antibiotics,c.criticalTreatmentFailure,c.untreatedDirtyWound];
+    }
+    complete()
+    {
+        local value = inherited(); if (value.status != 'resolved') return value;
+        if (!self.patient.dead && self.assessment.conditions.assess().infectionCheckRequired)
+        {
+            local exposure = self.infectionExposure.apply();
+            if (exposure.status != 'resolved') rpgExpandedReject('surgical-infection-commit-changed');
+        }
+        return value;
+    }
+;
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited();
+        foreach (local operation in self.surgicalOperations)
+            if (operation.infectionExposure != nil && operation.infectionExposure.result != nil)
+            {
+                local exposure = operation.infectionExposure;
+                if (!exposure.ofKind(RpgExpandedSurgicalInfectionExposure) || exposure.patient() != self
+                    || exposure.operation != operation || exposure.assess().status != 'reused'
+                    || exposure.acquiredAt != operation.completedAt)
+                    rpgExpandedReject('surgical-infection-history');
+                local ordinal = 0; local locked = 0; local ended = nil; local ids = [];
+                foreach (local day in exposure.days)
+                {
+                    ordinal += 1;
+                    if (!day.ofKind(RpgExpandedInfectionDay) || day.exposure != exposure
+                        || day.result == nil || day.ordinal != ordinal || holds(ids,day.id)
+                        || day.completedAt != exposure.acquiredAt + ordinal * 86400
+                        || day.completedAt > rpgLedger.seconds || ended || day.assess().status != 'reused')
+                        rpgExpandedReject('surgical-infection-day-history');
+                    ids = ids + [day.id]; locked += day.result.injury; ended = day.result.ended;
+                }
+                if (exposure.ended != ended || exposure.lockedInjury != (ended ? 0 : locked)
+                    || exposure.lockedInjury > self.diseaseInjury)
+                    rpgExpandedReject('surgical-infection-injury-history');
+            }
+        return nil;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local exposure = firstObj(RpgExpandedSurgicalInfectionExposure); exposure != nil;
+            exposure = nextObj(exposure,RpgExpandedSurgicalInfectionExposure))
+            if (exposure.result != nil && exposure.result.infected && !exposure.ended && !exposure.patient().dead)
+            {
+                exposure.assess();
+                local due = exposure.acquiredAt + (exposure.days.length() + 1) * 86400;
+                if (self.seconds + seconds > due) rpgExpandedReject('surgical-infection-day-boundary');
+            }
+        return nil;
     }
 ;

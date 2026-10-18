@@ -4452,6 +4452,7 @@ modify RpgExpandedProfile
     surgicalOperations = []
 ;
 class RpgExpandedSurgicalOperation: object
+    infectionReason() { return 'surgical-operation-infection-unimplemented'; }
     id = nil
     patient = nil
     assessment = nil
@@ -4506,7 +4507,10 @@ class RpgExpandedSurgicalOperation: object
         local prepared = self.assessment.assess();
         if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
         if (prepared.infectionCheckRequired)
-        { value.reason = 'surgical-operation-infection-unimplemented'; return value; }
+        {
+            local reason = self.infectionReason();
+            if (reason != nil) { value.reason = reason; return value; }
+        }
         if (self.startedAt == nil)
         {
             rpgInteger(rpgLedger.seconds,0,2147483647 - self.durationSeconds);

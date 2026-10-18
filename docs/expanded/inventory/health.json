@@ -827,9 +827,10 @@
       "status": "partial",
       "acceptance": "Check post-surgical infection before technology five and during technology five when the campaign selects that poor-antisepsis condition.",
       "tests": [
-        "tests/expanded.py::test_surgery_assessments"
+        "tests/expanded.py::test_surgery_assessments",
+        "tests/expanded.py::test_surgical_infection"
       ],
-      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
+      "validation_note": "Owned surgical exposure now preflights and commits B444 acquisition after mandatory low-technology surgery, including success with no HP wound. Shared natural immunity, daily disease injury and recovery are integrated. Fixtures authored and unrun; antibiotic acquisition exceptions and bleeding/clotting combinations remain incomplete."
     },
     {
       "id": "health-stabilization-duration",

@@ -2259,9 +2259,10 @@ receipt and cannot roll or injure again. Use the normal action transaction to
 compose procedure-specific consequences; no callback is counted as their
 implementation.
 
-Infection-requiring care, impaired clotting and campaigns using optional bleeding
-are currently rejected before time or randomness because their surgical failure
-and exposure adapters are incomplete. Amputation's two-die failure procedure is
+Infection-requiring care needs the hazards library and an owned
+`RpgExpandedSurgicalInfectionExposure`; without that adapter it is rejected before
+time or randomness. Impaired clotting and optional bleeding still require
+unimplemented surgical failure adapters. Amputation's two-die failure procedure is
 also outside this general-operation class. These remain explicit coverage gaps.
 A dead patient releases the clock deadline; interruption still closes the owned
 record. Changing bound procedure facts after starting is rejected.
@@ -2299,8 +2300,8 @@ part and records recovery while leaving HP injury unchanged. The clock cannot
 skip that deadline for a living patient. Preview and replay do not change the
 schedule. Permanent-injury repair remains a distinct unfinished procedure.
 
-The adapter retains the common operation's explicit limitations for infection,
-optional bleeding and impaired clotting. Calendar changes after scheduling,
+The adapter uses the common operation's infection exposure when hazards is
+installed and retains its limitations for optional bleeding and impaired clotting. Calendar changes after scheduling,
 sub-second conversion and further physician adjustments require additional
 verified rules rather than silent approximation. `expanded-lasting-repair.t` and
 `test_lasting_repair` cover a fractional conversion, ordinary and critical failure,

@@ -350,3 +350,9 @@ converts the remaining authored month fraction to campaign weeks, while critical
 failure makes the disability permanent in addition to the general failure injury.
 An owned deadline restores function without healing HP. Integration and persistence
 fixtures are authored and unrun; the documented medical combination gaps remain.
+
+Post-surgical infection now uses an operation-owned exposure with shared disease
+resistance, daily progression and protected disease injury. Successful surgery
+does not create a fictitious wound. Required exposures are preflighted before
+starting and committed once after the operation; integration/persistence fixtures
+remain authored and unrun. Antibiotic acquisition exceptions remain incomplete.

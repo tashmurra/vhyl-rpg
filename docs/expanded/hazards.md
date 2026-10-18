@@ -1048,3 +1048,35 @@ finished. Cures and terminal-condition buy-off remain unsupported.
 all combinations of the two critical-failure outcomes, ordinary failure, healing
 preconditions, preview, rollback, undo, replay, accounting and saved continuation.
 These cases are authored and unrun.
+
+### Infection after surgery
+
+`RpgExpandedSurgicalInfectionExposure` attaches to one owned surgical operation,
+including successful operations that cause no HP injury. Assign it to the
+operation's `infectionExposure`; set its `operation`, `diseaseId`, `evidence` and
+`RpgExpandedSurgicalInfectionContext`. The context records the actual care
+`medicalTL`, infected matter and special locale. B424's mandatory check does not
+require inventing an untreated dirty wound: the surgical context directly supplies
+the B444 acquisition modifier of +3 plus contamination modifiers.
+
+When the hazards library is included, infection-requiring surgery must have this
+exposure prepared before starting. The operation binds the exposure and its facts,
+preflights resistance, and commits the acquisition after either surgical success
+or failure. A patient killed by the failure injury receives no postmortem infection
+roll. Replay does not roll again. The receipt is private medical state; authors
+must not reveal an infection before it is discovered in play.
+
+Natural immunity and `RpgExpandedInfectionDay` use the same mechanisms as wound
+infections. The daily record's exposure can now obtain its patient and source ID
+from a surgical operation. Daily failure creates a genuine one-HP disease wound;
+ending infection unlocks its disease injury without healing that HP automatically.
+The clock cannot skip a pending surgical infection's daily boundary. No second
+injury or time ledger is created.
+
+Antibiotic acquisition combinations and critical treatment exceptions remain
+explicitly unsupported by this surgical adapter; the existing daily treatment
+interface still supports its documented antibiotics rules. Optional bleeding and
+impaired clotting during surgery remain unfinished. The surgical infection fixture
+and `test_surgical_infection` cover acquisition without a wound, daily injury and
+resolution, immunity, replay, rollback, undo and cross-process continuation. They
+are authored and unrun.
