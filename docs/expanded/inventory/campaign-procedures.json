@@ -1,0 +1,489 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B486-B505",
+  "review": "First text pass. Mechanically relevant profile, knowledge, reaction, time, advancement, mapping and encounter procedures enumerated; linked reaction tables and trait contracts remain pending.",
+  "enumeration_complete": false,
+  "excluded_material": [
+    {
+      "pages": "B486-B504",
+      "reason": "General storytelling, group management, adventure-writing advice, quoted fiction, example plots and online-service discussion have no additional required executable mechanic and are not repository content."
+    },
+    {
+      "pages": "B505",
+      "reason": "Worldbuilding prose is represented only by explicit required world parameters; no sample setting fiction is copied."
+    }
+  ],
+  "entries": [
+    {
+      "id": "campaign-profile-choice",
+      "source": "full-2008",
+      "pages": "B486; B488-B489",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Campaign profiles explicitly select optional rules and authored interpretations; a cinematic style or high starting budget alone does not activate every cinematic procedure.",
+      "tests": []
+    },
+    {
+      "id": "campaign-starting-budget",
+      "source": "full-2008",
+      "pages": "B487",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The campaign supplies the actual starting point budget; suggested power bands are descriptive guidance rather than exact legal ranges.",
+      "tests": []
+    },
+    {
+      "id": "campaign-staged-creation",
+      "source": "full-2008",
+      "pages": "B487",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An optional staged budget first approves a character built on base points, then applies remaining points under advancement restrictions; retain both stages without treating the second as unrestricted creation.",
+      "tests": []
+    },
+    {
+      "id": "campaign-required-package",
+      "source": "full-2008",
+      "pages": "B488",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A campaign may require a fixed trait/template package and grant a separate discretionary budget; charge the package exactly once and validate its prerequisites.",
+      "tests": []
+    },
+    {
+      "id": "campaign-category-budget",
+      "source": "full-2008",
+      "pages": "B488",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An optional character policy can reserve minimum point percentages for declared ability categories; explicitly define category membership and overlapping contributions before validating totals.",
+      "tests": []
+    },
+    {
+      "id": "campaign-attribute-cap",
+      "source": "full-2008",
+      "pages": "B488",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Campaign-specific caps can restrict individual attributes or total attribute expenditure; defaults must not silently impose caps from a different campaign.",
+      "tests": []
+    },
+    {
+      "id": "campaign-adjudication",
+      "source": "full-2008",
+      "pages": "B492-B493",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Authored exceptional rulings and stochastic world facts need a stated situation, allowed outcome and committed result. Preserve that decision for replay; no automatic reroll on preview.",
+      "tests": []
+    },
+    {
+      "id": "campaign-knowledge",
+      "source": "full-2008",
+      "pages": "B493; B495-B496",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Character knowledge is separate from world truth. Player and nonplayer decisions must use their actual observations, languages and learned information, not private records exposed by an assessment.",
+      "tests": []
+    },
+    {
+      "id": "campaign-abbreviated-npc",
+      "source": "full-2008",
+      "pages": "B493; B502",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Important nonplayer characters can use full accounting; incidental characters may have explicitly incomplete profiles. If an incidental statistic is generated with three dice, store it on that character rather than regenerating each use.",
+      "tests": []
+    },
+    {
+      "id": "campaign-reaction",
+      "source": "full-2008",
+      "pages": "B494",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A nonpredetermined reaction uses secret three dice plus reaction modifiers, with higher totals favorable; it is not a roll-under check and must not inherit success-roll critical thresholds.",
+      "tests": []
+    },
+    {
+      "id": "campaign-reaction-subject",
+      "source": "full-2008",
+      "pages": "B494-B495",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply relevant appearance, behavior, social traits and apparent status of the person interacting, with actual audience applicability and bias traits. Do not sum every party member's bonuses indiscriminately.",
+      "tests": []
+    },
+    {
+      "id": "campaign-reaction-skill",
+      "source": "full-2008",
+      "pages": "B495",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A successful context-appropriate skill can grant +2 reaction. Skill twenty or more gives automatic +2 for diplomacy or fast-talk when speech is allowed and merchant during trade; additional skill applicability requires author approval.",
+      "tests": []
+    },
+    {
+      "id": "campaign-reaction-approach",
+      "source": "full-2008",
+      "pages": "B495",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored appropriate approach can grant +1 or more, while an antagonistic approach can impose -1 or -2. Record the selected modifier and reason, separately from character traits.",
+      "tests": []
+    },
+    {
+      "id": "campaign-reaction-bounds",
+      "source": "full-2008",
+      "pages": "B495",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Predetermined best/worst reaction bounds clamp the resulting category rather than rerolling; a fully predetermined reaction bypasses random generation.",
+      "tests": []
+    },
+    {
+      "id": "campaign-reaction-retry",
+      "source": "full-2008",
+      "pages": "B495",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A new approach may permit another reaction unless the initial encounter became a fight. If the audience regards repeated requests as a nuisance, apply cumulative -2 after the first; an authored sufficient wait can reset that penalty.",
+      "tests": []
+    },
+    {
+      "id": "campaign-reaction-influence",
+      "source": "full-2008",
+      "pages": "B495",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Eligible influence skills replace the ordinary reaction through the B359 procedure, with applicable reaction modifiers applied to that skill; do not roll both procedures and select the best.",
+      "tests": []
+    },
+    {
+      "id": "campaign-mapping-measurement",
+      "source": "full-2008",
+      "pages": "B491",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Exact survey measurements require tools, authored time and a surveying check; casually walking an area does not reveal the private exact map. Fast escape prevents simultaneous careful mapping.",
+      "tests": []
+    },
+    {
+      "id": "campaign-mapping-overland",
+      "source": "full-2008",
+      "pages": "B491",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An author may allow automatic mapping along obvious landmarks. A reliable map of featureless or precise terrain requires cartography, with default intelligence-5, geography-2, surveying-2 or navigation-4, and direction-sense bonus +3.",
+      "tests": []
+    },
+    {
+      "id": "campaign-map-scale",
+      "source": "full-2008",
+      "pages": "B490-B492",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Map display scale does not change the one-yard world hex. Area, room and combat display scales are six, two and one hexes per inch; partial boundary hexes count as full hexes for the stated combat-map procedure.",
+      "tests": []
+    },
+    {
+      "id": "campaign-rescue-award",
+      "source": "full-2008",
+      "pages": "B497",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored outside rescue gives no bonus character points for escaping that situation; distinguish unrelated session awards from the rescued outcome.",
+      "tests": []
+    },
+    {
+      "id": "campaign-time-mode",
+      "source": "full-2008",
+      "pages": "B497-B498",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Combat advances by one-second turns, ordinary discussions can consume declared scene time and routine travel can skip uneventful intervals. All modes advance the same game clock and process due effects once.",
+      "tests": []
+    },
+    {
+      "id": "campaign-session-pause",
+      "source": "full-2008",
+      "pages": "B497",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A session paused mid-adventure does not advance world time merely because real time passes; resuming keeps the same encounter state.",
+      "tests": []
+    },
+    {
+      "id": "campaign-downtime",
+      "source": "full-2008",
+      "pages": "B498-B499",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored between-adventure interval allocates study, work, healing and long projects through shared time records. Starting an unexpected adventure interrupts affected activities using their own interruption rules.",
+      "tests": []
+    },
+    {
+      "id": "campaign-real-time-ratio",
+      "source": "full-2008",
+      "pages": "B498",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional real-time conversion needs explicit numerator and denominator units. The printed general sentence and following seven-day/seven-week example express inconsistent directions; preserve this ambiguity until a documented policy is chosen.",
+      "tests": []
+    },
+    {
+      "id": "campaign-session-award",
+      "source": "full-2008",
+      "pages": "B498",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Session advancement awards are individually authored, commonly zero through five points with two/three average; these are guidelines, not a mandatory automatic amount. Record each award event once.",
+      "tests": []
+    },
+    {
+      "id": "campaign-dependent-award",
+      "source": "full-2008",
+      "pages": "B498",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "No session points are awarded when the character's dependent is killed, seriously injured or abducted and unrecovered; integrate the actual dependent event state.",
+      "tests": []
+    },
+    {
+      "id": "campaign-arc-award",
+      "source": "full-2008",
+      "pages": "B498",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored major-story completion award is separate from the session award and may coexist, but cannot be duplicated by repeatedly closing the same milestone.",
+      "tests": []
+    },
+    {
+      "id": "campaign-direct-award",
+      "source": "full-2008",
+      "pages": "B499",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An advancement award may grant a specified social trait or exercised skill directly instead of discretionary points; update complete accounting without also crediting spendable points.",
+      "tests": []
+    },
+    {
+      "id": "campaign-work-study",
+      "source": "full-2008",
+      "pages": "B499",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Job work counts as study at one-quarter time: an eight-hour workday yields two hours study credit. It occupies the same work interval, not eight additional study hours.",
+      "tests": []
+    },
+    {
+      "id": "campaign-encounter-schedule",
+      "source": "full-2008",
+      "pages": "B502-B504",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Planned, improvised and random encounters create persistent participants and events. An authored cadence and table govern random encounters; advancing a long interval must visit each due boundary once.",
+      "tests": []
+    },
+    {
+      "id": "campaign-trap-definition",
+      "source": "full-2008",
+      "pages": "B503",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A trap requires detection skills/modifiers, safe disabling method, a concrete trigger predicate, and triggered effects including permitted avoidance. Validate all required facts before exposure; puzzle solutions are explicit author actions.",
+      "tests": []
+    },
+    {
+      "id": "campaign-world-parameters",
+      "source": "full-2008",
+      "pages": "B505",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "World definitions supply physical conditions, cultures/languages, laws, technology availability and altered/forbidden abilities. Validate a requested operation against its current world rather than the character's birthplace alone.",
+      "tests": []
+    },
+    {
+      "id": "campaign-budget-minimal",
+      "source": "full-2008",
+      "pages": "B487",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Suggested minimal starting budget is below 25 points. Shared endpoints are guidance, not mutually exclusive machine classifications.",
+      "tests": []
+    },
+    {
+      "id": "campaign-budget-ordinary",
+      "source": "full-2008",
+      "pages": "B487",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Suggested ordinary starting budget is 25-50 points. Shared endpoints are guidance, not mutually exclusive machine classifications.",
+      "tests": []
+    },
+    {
+      "id": "campaign-budget-trained",
+      "source": "full-2008",
+      "pages": "B487",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Suggested trained starting budget is 50-75 points. Shared endpoints are guidance, not mutually exclusive machine classifications.",
+      "tests": []
+    },
+    {
+      "id": "campaign-budget-exceptional",
+      "source": "full-2008",
+      "pages": "B487",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Suggested exceptional starting budget is 75-100 points. Shared endpoints are guidance, not mutually exclusive machine classifications.",
+      "tests": []
+    },
+    {
+      "id": "campaign-budget-heroic",
+      "source": "full-2008",
+      "pages": "B487",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Suggested heroic starting budget is 100-200 points. Shared endpoints are guidance, not mutually exclusive machine classifications.",
+      "tests": []
+    },
+    {
+      "id": "campaign-budget-cinematic",
+      "source": "full-2008",
+      "pages": "B487",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Suggested cinematic starting budget is 200-300 points. Shared endpoints are guidance, not mutually exclusive machine classifications.",
+      "tests": []
+    },
+    {
+      "id": "campaign-budget-legendary",
+      "source": "full-2008",
+      "pages": "B487",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Suggested legendary starting budget is 300-500 points. Shared endpoints are guidance, not mutually exclusive machine classifications.",
+      "tests": []
+    },
+    {
+      "id": "campaign-budget-superhuman",
+      "source": "full-2008",
+      "pages": "B487",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Suggested superhuman starting budget is 500-1000 points. Shared endpoints are guidance, not mutually exclusive machine classifications.",
+      "tests": []
+    },
+    {
+      "id": "campaign-budget-mythic",
+      "source": "full-2008",
+      "pages": "B487",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Suggested mythic starting budget is above 1000 points. Shared endpoints are guidance, not mutually exclusive machine classifications.",
+      "tests": []
+    },
+    {
+      "id": "campaign-example-encounter-1",
+      "source": "full-2008",
+      "pages": "B503",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For the optional hourly one-die roadside example: Create two dice ordinary workers. Use original authored identities and behavior, not copied setting prose.",
+      "tests": []
+    },
+    {
+      "id": "campaign-example-encounter-2",
+      "source": "full-2008",
+      "pages": "B503",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For the optional hourly one-die roadside example: Create one solitary religious traveler. Use original authored identities and behavior, not copied setting prose.",
+      "tests": []
+    },
+    {
+      "id": "campaign-example-encounter-3",
+      "source": "full-2008",
+      "pages": "B503",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For the optional hourly one-die roadside example: Create one mendicant traveler. Use original authored identities and behavior, not copied setting prose.",
+      "tests": []
+    },
+    {
+      "id": "campaign-example-encounter-4",
+      "source": "full-2008",
+      "pages": "B503",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For the optional hourly one-die roadside example: Create one trader, one horse, one wagon and half a die guards; verify the general rounding rule before executable conversion. Use original authored identities and behavior, not copied setting prose.",
+      "tests": []
+    },
+    {
+      "id": "campaign-example-encounter-5",
+      "source": "full-2008",
+      "pages": "B503",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For the optional hourly one-die roadside example: Create one mounted traveler. Use original authored identities and behavior, not copied setting prose.",
+      "tests": []
+    },
+    {
+      "id": "campaign-example-encounter-6",
+      "source": "full-2008",
+      "pages": "B503",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For the optional hourly one-die roadside example: No encounter occurs, but the hourly boundary is consumed. Use original authored identities and behavior, not copied setting prose.",
+      "tests": []
+    }
+  ]
+}

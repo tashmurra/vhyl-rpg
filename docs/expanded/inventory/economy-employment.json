@@ -1,0 +1,859 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B514-B519",
+  "review": "First text pass of trade, crafting, living costs, jobs, recruiting and loyalty, including every pay, wealth, population and conditional loyalty row. Numeric and cross-reference verification pending; no runtime coverage claimed.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "economy-accounts",
+      "source": "full-2008",
+      "pages": "B514",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Track carried currency separately from stored funds, with actual location and access. Asset loss or transfer is an explicit world event; character wealth category is not a second cash balance.",
+      "tests": []
+    },
+    {
+      "id": "economy-ordinary-trade",
+      "source": "full-2008",
+      "pages": "B514",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary purchases need no reaction roll. Unusual circumstances may require one before the merchant offers terms; player-to-player prices are agreed directly.",
+      "tests": []
+    },
+    {
+      "id": "economy-market",
+      "source": "full-2008",
+      "pages": "B514-B515",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "World markets supply actual availability, currency, prices and barter terms. Goods transferred across worlds are commodities valued locally, not automatically legal tender at their printed face value.",
+      "tests": []
+    },
+    {
+      "id": "economy-trade-limit",
+      "source": "full-2008",
+      "pages": "B514",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cross-world cargo and trip-frequency limits are explicit campaign choices and are enforced by transit assessment, not ad hoc removal of acquired property.",
+      "tests": []
+    },
+    {
+      "id": "economy-loot-sale",
+      "source": "full-2008",
+      "pages": "B515",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Locating a buyer may use area knowledge or streetwise. A merchant reaction and offer do not automatically sell the item: acceptance, funds, ownership and transport must be validated and committed together.",
+      "tests": []
+    },
+    {
+      "id": "economy-loot-properties",
+      "source": "full-2008",
+      "pages": "B515",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Treasure may require recognition, specialist buyers, lawful handling, preservation or transport. Define these constraints on the actual goods rather than awarding an immediate generic cash value.",
+      "tests": []
+    },
+    {
+      "id": "economy-damaged-resale",
+      "source": "full-2008",
+      "pages": "B516",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The one-third-retail resale guidance for damaged military loot is an authored market valuation, not a universal resale floor or guaranteed buyer.",
+      "tests": []
+    },
+    {
+      "id": "economy-starting-craft",
+      "source": "full-2008",
+      "pages": "B515",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Starting self-made equipment costs full list price against starting wealth; crafting skill does not generate a creation-time discount.",
+      "tests": []
+    },
+    {
+      "id": "economy-crafting",
+      "source": "full-2008",
+      "pages": "B515",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "In-play crafting requires authored materials, duration, skill and failure behavior. Parts are usually twenty percent of finished cost; occupied crafting time cannot simultaneously earn ordinary income or study credit under this procedure.",
+      "tests": []
+    },
+    {
+      "id": "economy-craft-failure",
+      "source": "full-2008",
+      "pages": "B515",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary crafting failure normally wastes materials; critical failure creates equipment that fails catastrophically on use. Record that latent fault and its concrete effect without revealing it in public preview.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-status",
+      "source": "full-2008",
+      "pages": "B516",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A world may link wealth and status in either direction, both directions or neither. Apply only its selected relationship; do not globally reject wealthy low-status or poor high-status concepts.",
+      "tests": []
+    },
+    {
+      "id": "economy-living-cost",
+      "source": "full-2008",
+      "pages": "B516",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Monthly disposable income subtracts the character's status-based living cost and noncontributing dependents' costs. Without job simulation, the campaign explicitly chooses adventuring-income payment or omission.",
+      "tests": []
+    },
+    {
+      "id": "economy-job-definition",
+      "source": "full-2008",
+      "pages": "B516",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A job defines work, schedule, risks, affiliations, prerequisite skills/traits, roll selection, monthly pay and wealth category before employment begins.",
+      "tests": []
+    },
+    {
+      "id": "economy-job-prerequisite",
+      "source": "full-2008",
+      "pages": "B516",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Every required job skill needs at least one purchased point; a default score is insufficient. Minimums may be absolute or relative to the governing attribute, and trait requirements/prohibitions are also enforced.",
+      "tests": []
+    },
+    {
+      "id": "economy-job-roll",
+      "source": "full-2008",
+      "pages": "B516",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At the end of each worked month, roll the declared specific, best or worst prerequisite skill with job difficulty. A job without prerequisites uses its declared fixed target or attribute instead.",
+      "tests": []
+    },
+    {
+      "id": "economy-salary",
+      "source": "full-2008",
+      "pages": "B516",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fixed-pay jobs pay normal salary on ordinary success or failure. Critical success gives a permanent ten-percent raise; critical failure uses the job's adverse outcome instead.",
+      "tests": []
+    },
+    {
+      "id": "economy-variable-pay",
+      "source": "full-2008",
+      "pages": "B516",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Variable-income jobs pay base on exact success, plus ten percent per success margin or minus ten percent per failure margin; critical success triples that month's income. Define treatment of negative calculated pay before allowing large-margin failures.",
+      "tests": []
+    },
+    {
+      "id": "economy-critical-job",
+      "source": "full-2008",
+      "pages": "B516",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Critical job failure pays nothing at best and may cause authored demotion of at least ten percent, savings loss, dismissal, injury or arrest. Require a concrete outcome definition and commit each consequence once.",
+      "tests": []
+    },
+    {
+      "id": "economy-worked-time",
+      "source": "full-2008",
+      "pages": "B516-B517",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Adventure time is not ordinarily paid work; vacation or traveling work requires explicit job terms. Define partial-month settlement instead of assuming every started month is fully worked.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-range",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Typical pay is a campaign suggestion, with the adjacent technology levels furnishing the usual range. Exceptional rates require authored job terms; do not extrapolate missing endpoint levels silently.",
+      "tests": []
+    },
+    {
+      "id": "economy-job-wealth",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Multiply the average-wealth pay/range by the job's wealth multiplier. Pay follows the job, not the worker's personal wealth, and independent income remains a separate contribution.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-growth",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A worker in a higher-wealth job must purchase successive wealth levels as savings reach each next level's starting-wealth threshold, until matching the job. Preserve the advancement obligation without automatically granting free points.",
+      "tests": []
+    },
+    {
+      "id": "economy-job-search",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Employer-based job seeking allows one intelligence check per week with laziness -5; self-employment does not require finding an employer.",
+      "tests": []
+    },
+    {
+      "id": "economy-job-experience",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A prerequisite exceeded by one skill level gives job search +1, by two or more +2. Other useful abilities can receive explicit author bonuses; resolve multiple prerequisites without multiplying an unspecified bonus.",
+      "tests": []
+    },
+    {
+      "id": "economy-job-advertising",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Job-seeker advertising grants +1 at five percent of prospective monthly pay, +2 at fifty percent, +3 at five hundred percent, continuing by factors of ten; spend the actual selected budget once per search.",
+      "tests": []
+    },
+    {
+      "id": "economy-job-scarcity",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Job search subtracts twice the job's typical status; a status -1 job therefore gives +2. Simultaneous searches impose -1 on every roll for each additional job.",
+      "tests": []
+    },
+    {
+      "id": "economy-hireling-control",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hirelings are independently controlled nonplayer characters; payment and orders do not guarantee obedience. Preserve private statistics and distinguish full characters from incidental profiles.",
+      "tests": []
+    },
+    {
+      "id": "economy-hireling-template",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored hireling may use an occupational template; adapting a heroic template can apply -1 or -2 attributes and skills. Specify the adaptation and recompute dependent values rather than blindly reducing every stored number twice.",
+      "tests": []
+    },
+    {
+      "id": "economy-hireling-search",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Recruiting allows one check per sought hireling per party per week, using intelligence or an approved contextual skill. Multiple party members cannot each reset the same search limit.",
+      "tests": []
+    },
+    {
+      "id": "economy-recruit-advertising",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Recruiter advertising grants +1 at fifty percent monthly pay, +2 at five hundred percent, +3 at five thousand percent, continuing by tens. This differs from job-seeker advertising by a factor of ten.",
+      "tests": []
+    },
+    {
+      "id": "economy-recruit-pay",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Offered pay twenty percent above normal gives recruitment +1, fifty percent +2, and double or more +3; this is distinct from ongoing loyalty pay bonuses.",
+      "tests": []
+    },
+    {
+      "id": "economy-recruit-risk",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An obviously dangerous job gives -2 recruitment unless the sought role is an authored combatant role.",
+      "tests": []
+    },
+    {
+      "id": "economy-recruit-illegal",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Illegal recruitment gives -5, optionally waived for a streetwise search; critical failure still causes a defined legal complication even when the modifier is waived.",
+      "tests": []
+    },
+    {
+      "id": "economy-recruit-result",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A successful search produces a candidate for an interview, not an automatic hire. Rejecting a candidate starts a new search; repeated attempts after failure depend on actual authored availability.",
+      "tests": []
+    },
+    {
+      "id": "economy-initial-loyalty",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Generate loyalty from its reaction-table context at first meeting unless preset. Loyalty can affect interview truthfulness without exposing the true rating to the employer.",
+      "tests": []
+    },
+    {
+      "id": "economy-loyalty-check",
+      "source": "full-2008",
+      "pages": "B519",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A secret three-dice loyalty check passes at or below the rating, and rating twenty or more passes automatically. Trigger it for meaningful danger or temptation, with concrete authored circumstance modifiers; do not import ordinary critical failure thresholds.",
+      "tests": []
+    },
+    {
+      "id": "economy-loyalty-failure",
+      "source": "full-2008",
+      "pages": "B519",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Failed loyalty means a specific self-interested action, not necessarily total betrayal. Forgiving a failed hireling with rating at least sixteen raises base loyalty by one; record the incident to prevent repeat awards.",
+      "tests": []
+    },
+    {
+      "id": "economy-loyalty-pay",
+      "source": "full-2008",
+      "pages": "B519",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each ten percent pay above the role's norm gives +1 loyalty; the bonus lasts one month after extra pay stops. Track the end date rather than immediately removing it.",
+      "tests": []
+    },
+    {
+      "id": "economy-loyalty-danger",
+      "source": "full-2008",
+      "pages": "B519",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A noncombatant exposed to combat checks loyalty; failure imposes -1 for a week. Permanent consequences of repetition need an authored decision.",
+      "tests": []
+    },
+    {
+      "id": "economy-loyalty-rescue",
+      "source": "full-2008",
+      "pages": "B519",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A rescue risking lives or mission prompts a reaction at +3 or more. On a good-or-better reaction, loyalty becomes max(original rating,roll result); serious injury or death in the rescue can justify an additional authored permanent bonus.",
+      "tests": []
+    },
+    {
+      "id": "economy-loyalty-performance",
+      "source": "full-2008",
+      "pages": "B519",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored end-of-adventure performance adjustment can permanently change loyalty by one; it applies once for that adventure.",
+      "tests": []
+    },
+    {
+      "id": "economy-loyalty-service",
+      "source": "full-2008",
+      "pages": "B519",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At each completed service year, a successful loyalty check permanently increases loyalty by one; process anniversaries once across time skips and saves.",
+      "tests": []
+    },
+    {
+      "id": "economy-bondage-availability",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only a setting explicitly permitting slavery uses the printed fifty-percent enslaved-candidate substitution; ordinary recruitment never enables it implicitly.",
+      "tests": []
+    },
+    {
+      "id": "economy-bondage-price",
+      "source": "full-2008",
+      "pages": "B518",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "In an enabled setting, the base quoted price is five years of typical pay for the best job the person qualifies for, with explicit authored adjustments. The person remains a character with their own decisions and state.",
+      "tests": []
+    },
+    {
+      "id": "economy-bondage-loyalty",
+      "source": "full-2008",
+      "pages": "B518-B519",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The enabled procedure starts with ordinary loyalty and adds a two-dice result; confinement with no escape can grant an authored +1 or +2 to a specific check.",
+      "tests": []
+    },
+    {
+      "id": "economy-bondage-law",
+      "source": "full-2008",
+      "pages": "B519",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Jurisdictions separately define ownership, sale, transit, residence and emancipation rules. Crossing a border reevaluates permissions; no universal legality follows from the origin world.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-0",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 0 typical average-wealth monthly pay is 625.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-1",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 1 typical average-wealth monthly pay is 650.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-2",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 2 typical average-wealth monthly pay is 675.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-3",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 3 typical average-wealth monthly pay is 700.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-4",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 4 typical average-wealth monthly pay is 800.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-5",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 5 typical average-wealth monthly pay is 1100.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-6",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 6 typical average-wealth monthly pay is 1600.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-7",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 7 typical average-wealth monthly pay is 2100.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-8",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 8 typical average-wealth monthly pay is 2600.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-9",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 9 typical average-wealth monthly pay is 3600.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-10",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 10 typical average-wealth monthly pay is 5600.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-11",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 11 typical average-wealth monthly pay is 8100.",
+      "tests": []
+    },
+    {
+      "id": "economy-pay-12",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 12 typical average-wealth monthly pay is 10600.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-poor",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The poor employment category multiplies typical pay by 0.2 and supports typical status -2; apply the matching character wealth definition.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-struggling",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The struggling employment category multiplies typical pay by 0.5 and supports typical status -1; apply the matching character wealth definition.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-average",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The average employment category multiplies typical pay by 1 and supports typical status 0; apply the matching character wealth definition.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-comfortable",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The comfortable employment category multiplies typical pay by 2 and supports typical status 1; apply the matching character wealth definition.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-wealthy",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The wealthy employment category multiplies typical pay by 5 and supports typical status 2; apply the matching character wealth definition.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-very-wealthy",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The very-wealthy employment category multiplies typical pay by 20 and supports typical status 3; apply the matching character wealth definition.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-extremely-wealthy",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The extremely-wealthy employment category multiplies typical pay by 100 and supports typical status 4; apply the matching character wealth definition.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-fortune-one",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The fortune-one employment category multiplies typical pay by 1000 and supports typical status 5; apply the matching character wealth definition.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-fortune-two",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The fortune-two employment category multiplies typical pay by 10000 and supports typical status 6; apply the matching character wealth definition.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-fortune-three",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The fortune-three employment category multiplies typical pay by 100000 and supports typical status 7; apply the matching character wealth definition.",
+      "tests": []
+    },
+    {
+      "id": "economy-wealth-fortune-four",
+      "source": "full-2008",
+      "pages": "B517",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The fortune-four employment category multiplies typical pay by 1000000 and supports typical status 8; apply the matching character wealth definition.",
+      "tests": []
+    },
+    {
+      "id": "economy-population-0",
+      "source": "full-2008",
+      "pages": "B517-B518",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Population below 100 gives -3 to both recruiting and job seeking.",
+      "tests": []
+    },
+    {
+      "id": "economy-population-1",
+      "source": "full-2008",
+      "pages": "B517-B518",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Population 100-999 gives -2 to both recruiting and job seeking.",
+      "tests": []
+    },
+    {
+      "id": "economy-population-2",
+      "source": "full-2008",
+      "pages": "B517-B518",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Population 1000-4999 gives -1 to both recruiting and job seeking.",
+      "tests": []
+    },
+    {
+      "id": "economy-population-3",
+      "source": "full-2008",
+      "pages": "B517-B518",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Population 5000-9999 gives 0 to both recruiting and job seeking.",
+      "tests": []
+    },
+    {
+      "id": "economy-population-4",
+      "source": "full-2008",
+      "pages": "B517-B518",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Population 10000-49999 gives 1 to both recruiting and job seeking.",
+      "tests": []
+    },
+    {
+      "id": "economy-population-5",
+      "source": "full-2008",
+      "pages": "B517-B518",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Population 50000-99999 gives 2 to both recruiting and job seeking.",
+      "tests": []
+    },
+    {
+      "id": "economy-population-6",
+      "source": "full-2008",
+      "pages": "B517-B518",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Population at least 100000 gives 3 to both recruiting and job seeking.",
+      "tests": []
+    },
+    {
+      "id": "economy-bondage-result-2-7",
+      "source": "full-2008",
+      "pages": "B518-B519",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "No additional loyalty adjustment.",
+      "tests": []
+    },
+    {
+      "id": "economy-bondage-result-8",
+      "source": "full-2008",
+      "pages": "B518-B519",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Resentment imposes -1 loyalty.",
+      "tests": []
+    },
+    {
+      "id": "economy-bondage-result-9",
+      "source": "full-2008",
+      "pages": "B518-B519",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Resentment imposes -2 loyalty.",
+      "tests": []
+    },
+    {
+      "id": "economy-bondage-result-10",
+      "source": "full-2008",
+      "pages": "B518-B519",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Kind treatment in the first week grants +2 loyalty; otherwise no adjustment.",
+      "tests": []
+    },
+    {
+      "id": "economy-bondage-result-11",
+      "source": "full-2008",
+      "pages": "B518-B519",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Opposition to enslavement creates intent to escape even with kind treatment; average or worse treatment sets loyalty to six.",
+      "tests": []
+    },
+    {
+      "id": "economy-bondage-result-12",
+      "source": "full-2008",
+      "pages": "B518-B519",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Apply the specified subservient mental trait and loyalty twenty with no checks under this printed outcome; campaign permission and full trait accounting remain required.",
+      "tests": []
+    },
+    {
+      "id": "economy-currency-compact",
+      "source": "full-2008",
+      "pages": "B515",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Optional compact coinage: a small silver coin is worth four units, 250 such coins weigh one pound, and one pound gold is worth twenty thousand at a twenty-to-one value ratio.",
+      "tests": []
+    },
+    {
+      "id": "economy-currency-bulky",
+      "source": "full-2008",
+      "pages": "B515",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Optional bulky coinage: an ounce silver coin is worth one unit and an ounce gold coin twenty; the printed example uses twelve troy ounces per pound and gold value 240. Keep troy mass distinct from the ordinary sixteen-ounce equipment pound.",
+      "tests": []
+    }
+  ]
+}

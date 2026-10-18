@@ -58,3 +58,10 @@ Mind transfer must retain mental traits and skill investments while replacing th
 appropriate physical traits, then recalculate derived scores and value. Backups
 and active copies require independent persistent state and dated snapshots.
 Neither operation may silently share mutable inventory or advancement ledgers.
+
+The [campaign procedure ledger](inventory/campaign-procedures.json) also records
+session and story awards, dependent restrictions, direct ability awards and the
+outside-rescue exception under this module. These need unique award events and the
+shared advancement account. Work-based study must share the employment time record;
+a job's eight-hour workday contributes two hours of study credit without reserving
+another study interval. These integrations are not yet implemented.

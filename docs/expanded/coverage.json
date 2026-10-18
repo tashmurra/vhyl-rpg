@@ -40,7 +40,7 @@
     {
       "id": "development",
       "title": "Study, teaching and transformations",
-      "pages": "B290-B296",
+      "pages": "B290-B296; B497-B499",
       "source": "full-2008",
       "status": "partial",
       "tests": [
@@ -60,7 +60,7 @@
     {
       "id": "exploration",
       "title": "Tasks, physical feats, senses and travel",
-      "pages": "B343-B361; B427",
+      "pages": "B343-B361; B427; B491; B503",
       "source": "full-2008",
       "status": "partial",
       "tests": [
@@ -295,6 +295,9 @@
     "inventory/vehicles.json",
     "inventory/technology.json",
     "inventory/technology-outcomes.json",
-    "inventory/enchantment.json"
+    "inventory/enchantment.json",
+    "inventory/campaign-procedures.json",
+    "inventory/economy-employment.json",
+    "inventory/worlds-law-technology.json"
   ]
 }

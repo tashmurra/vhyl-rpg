@@ -28,6 +28,9 @@ copies of the reference books.
 | `full-2008` | B462–B470 | [Vehicles, travel and mounted combat](vehicles.json) | Catalogue rows, terrain multipliers, mounts and control consequences transcribed; visual and cross-reference audits pending |
 | `full-2008` | B471–B479; B483–B485 | [Technology procedures](technology.json) and [outcome tables](technology-outcomes.json) | Electronics, inventions, investigation, defects, object damage and repair enumerated; cross-reference and numeric audits pending |
 | `full-2008` | B479–B483 | [Enchantment and magic items](enchantment.json) | Creation, level costs, item catalogue, use and pricing enumerated; underlying spells pending |
+| `full-2008` | B486–B505 | [Campaign procedures](campaign-procedures.json) | Mechanical profile, reaction, time, award, map and encounter requirements separated from nonmechanical advice |
+| `full-2008` | B505–B514; B519–B522 | [Worlds, law and technology](worlds-law-technology.json) | Jurisdiction, trial, technology-field and travel contracts enumerated; later transit rules still pending |
+| `full-2008` | B514–B519 | [Economics and employment](economy-employment.json) | Pay, recruiting, loyalty and market procedures enumerated; numeric and integration audits pending |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 
