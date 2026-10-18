@@ -1077,3 +1077,10 @@ marks it edible, while interruption and cancellation grant no preservation.
 Duration and fire capacity remain authored facts. Timing, interruption, rollback,
 undo and saved-continuation fixtures are authored, unrun; fuel inventory and
 spoilage remain pending.
+
+Dedicated foraging-day reservations now enable five plant and five shared
+hunting/fishing rolls while blocking owned hiking and marching travel. They must
+be committed at a day boundary before activity and cannot be cancelled to gain
+travel after extra rolls. Next-day limits reset normally. Boundary, shared-limit,
+travel-exclusion, rollback, undo and saved-continuation fixtures are authored,
+unrun; external travel adapters must use the exposed scheduling restriction.

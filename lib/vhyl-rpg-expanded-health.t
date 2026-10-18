@@ -6456,6 +6456,8 @@ class RpgExpandedMarchHour: RpgExpandedMarchHourCost
                 rpgExpandedReject('march-execution-cost-history');
             value.status = 'reused'; return value;
         }
+        value.reason = self.profile.travelScheduleReason(rpgLedger.seconds,3600);
+        if (value.reason != nil) return value;
         foreach (local prior in self.profile.marchExecutions)
             if (prior.id == self.id || prior.interval == self.interval) rpgExpandedReject('march-execution-duplicate');
         if (!self.approved || self.evidence == nil || self.evidence == '')
@@ -6914,5 +6916,16 @@ class RpgExpandedFoodMeal: RpgExpandedMealCredit
     {
         local value = inherited(); if (value.status != 'resolved') return value;
         self.stock.quantity -= self.meals; self.boundStock = self.stock; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    foragingDayConflict(day)
+    {
+        local reason = inherited(day); if (reason != nil) return reason;
+        foreach (local march in self.marchExecutions)
+            if (march.result.allowed && march.startedAt / 86400 <= day && (march.completedAt-1) / 86400 >= day)
+                return 'foraging-day-travel-started';
+        return nil;
     }
 ;

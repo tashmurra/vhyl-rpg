@@ -1414,3 +1414,37 @@ authored fire interval and duration, keeps the same meal stock, and marks it
 preserved only after uninterrupted coverage. It does not create extra rations or
 supply a shelf-life model. The earlier preservation gap is partially addressed;
 authored fixtures remain unrun.
+
+## Dedicated foraging days
+
+Reserve `RpgExpandedForagingDay` for each participating character before that
+ledger day starts its activities. Supply an ID, profile, approval and evidence
+that the party has chosen gathering instead of travel. `assess()` is pure;
+`reserve()` persists the commitment. The current adapter accepts reservations
+only at an exact 86400-second day boundary and before recorded forage or hiking
+activity. It does not reinterpret a partly traveled day as a full foraging day.
+
+A reservation raises that character's allowance to five plant rolls and five
+animal-food rolls for the day. Hunting and fishing still share the animal-food
+count. Every resolved roll, successful or failed, uses its category allowance;
+a denied physical permission uses no roll. Request IDs and sites do not reset
+these counts, and replay uses the recorded results.
+
+The reservation blocks the owned hiking attempt and marching-hour integrations
+for any overlapping day. `profile.travelScheduleReason(start, seconds)` exposes
+the same restriction for authored travel adapters; custom travel must consult
+it before committing travel. Imported travel must be recorded through the shared
+integrations or excluded by the author's day-choice contract. Broader vehicle,
+flight and world-travel integration is not implied by this adapter.
+
+Reservation and forage rolls do not advance the clock a second time. Advance the
+world's existing schedule normally through the day; the commitment remains in
+history and cannot be cancelled to reclaim travel after using extra rolls. On
+the next day, the ordinary one-per-category allowance resumes unless another day
+is reserved. Past reservations survive saves without extending their allowance.
+
+`tests/fixtures/expanded-foraging-day.t` covers both five-roll limits, rejection
+of sixth attempts, hiking/marching exclusion, next-day reset, late reservations,
+prior activity, rollback, undo and saved continuation. Assertions are authored,
+unrun. Partial-day scheduling and arbitrary external travel adapters remain
+explicit integration limits.

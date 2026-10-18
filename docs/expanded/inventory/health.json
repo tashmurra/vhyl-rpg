@@ -2310,9 +2310,12 @@
       "pages": "B427",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A day devoted to foraging instead of travel permits five plant and five hunting-or-fishing attempts per actor, consuming the shared day schedule.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_foraging_day"
+      ],
+      "validation_note": "Owned day-boundary reservations before activity grant five plant and five shared hunting/fishing rolls per profile using existing histories. Reservations exclude owned hiking and marching intervals, persist without cancellation, and expire for allowance purposes at the next ledger day. Sixth-roll, travel exclusion, boundary, prior activity, next-day, rollback, undo and saved continuation assertions authored, unrun. No extra time is charged by the reservation; the shared world schedule advances normally. Partial-day scheduling and external/vehicle/flight travel integration remain pending; custom travel must consult the concrete schedule restriction and author evidence must establish the whole-party day choice."
     },
     {
       "id": "health-foraging-preservation",

@@ -9032,6 +9032,8 @@ def test(build):
     test_forage_food(Session, forage_food, build.out)
     food_smoking = build.build('expanded-food-smoking',ROOT / 'tests/fixtures/expanded-food-smoking.t')
     test_food_smoking(Session, food_smoking, build.out)
+    foraging_day = build.build('expanded-foraging-day',ROOT / 'tests/fixtures/expanded-foraging-day.t')
+    test_foraging_day(Session, foraging_day, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16271,3 +16273,62 @@ def test_food_smoking(Session, bundle, out):
         assert state(s) == [2,0,0,0,0,0,3]
     finally:
         s.close()
+
+
+def test_foraging_day(Session, bundle, out):
+    def state(s):
+        s.action(2285,2108)
+        return last(s,'test.foraging-day-state')
+    path = out / 'expanded-foraging-day.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,2106):
+            s.action(2285,code)
+        assert state(s) == [0,0,0,0,0]
+        s.action(2285,2100)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,0]
+        s.action(2285,2100)
+        for code in (2104,2105):
+            s.action(2285,code)
+            assert last(s,'test.foraging-day-travel') == ['blocked','travel-dedicated-foraging-day']
+        assert state(s) == [1,0,0,0,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for _ in range(5):
+            s.action(2285,2101)
+            s.action(2285,2102)
+        assert state(s) == [1,5,5,30,0]
+        s.action(2285,2101)
+        assert last(s,'test.foraging-day-roll') == ['blocked','fishing-forage-daily-limit']
+        s.action(2285,2102)
+        assert last(s,'test.foraging-day-roll') == ['blocked','plant-forage-daily-limit']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,2100)
+        assert state(s) == [1,5,5,30,0]
+        for code in (1605,1700,1704):
+            s.action(2285,code)
+        assert last(s,'test.fishing-alternate') == ['blocked','fishing-forage-daily-limit']
+        assert state(s) == [1,5,6,33,86400]
+    finally:
+        s.close()
+    for setup,reason,expected in ((2107,'foraging-day-boundary-required',[0,0,0,0,1]),
+                                  (1700,'foraging-day-activity-started',[0,0,1,3,0]),
+                                  (2104,'foraging-day-travel-started',[0,0,0,3,0])):
+        s = Session(bundle)
+        try:
+            for code in (30,setup,2100):
+                s.action(2285,code)
+            assert last(s,'test.foraging-day') == ['blocked',reason]
+            assert state(s) == expected
+        finally:
+            s.close()

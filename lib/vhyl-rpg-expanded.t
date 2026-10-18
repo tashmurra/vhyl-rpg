@@ -393,3 +393,67 @@ class RpgExpandedForageYieldReceipt: object
     availableYield()
     { local value = new RpgExpandedResult(); value.reason = 'forage-yield-unavailable'; return value; }
 ;
+
+modify RpgExpandedProfile
+    foragingDays = []
+    foragingDayConflict(day) { return nil; }
+    foragingAttemptLimit(day)
+    {
+        foreach (local reservation in self.foragingDays)
+        { reservation.validateBinding(); if (reservation.day == day) return 5; }
+        return 1;
+    }
+    travelScheduleReason(start, seconds)
+    {
+        rpgInteger(start,0,2147483647); rpgInteger(seconds,0,2147483647-start);
+        local last = start + (seconds > 0 ? seconds-1 : 0);
+        foreach (local reservation in self.foragingDays)
+        {
+            reservation.validateBinding();
+            if (reservation.day >= start / 86400 && reservation.day <= last / 86400)
+                return 'travel-dedicated-foraging-day';
+        }
+        return nil;
+    }
+;
+/** B427 reserve a whole ledger day before its travel or forage activity begins. */
+class RpgExpandedForagingDay: object
+    id = nil
+    profile = nil
+    approved = nil
+    evidence = nil
+    day = nil
+    reservedAt = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.approved,self.evidence]; }
+    validateBinding()
+    {
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('foraging-day-binding');
+        if (!holds(self.profile.foragingDays,self) || self.day != self.reservedAt / 86400)
+            rpgExpandedReject('foraging-day-history');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('foraging-day-definition');
+        local value = new RpgExpandedResult();
+        if (self.reservedAt != nil) { self.validateBinding(); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'foraging-day-choice-required'; return value; }
+        if (rpgLedger.seconds % 86400 != 0) { value.reason = 'foraging-day-boundary-required'; return value; }
+        local day = rpgLedger.seconds / 86400;
+        foreach (local prior in self.profile.foragingDays)
+            if (prior.id == self.id || prior.day == day) rpgExpandedReject('foraging-day-duplicate');
+        value.reason = self.profile.foragingDayConflict(day); if (value.reason != nil) return value;
+        value.status = 'ready'; return value;
+    }
+    reserve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.reservedAt = rpgLedger.seconds; self.day = self.reservedAt / 86400;
+        self.profile.foragingDays = self.profile.foragingDays + [self]; value.status = 'resolved'; return value;
+    }
+;

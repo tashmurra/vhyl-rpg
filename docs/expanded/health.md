@@ -3203,3 +3203,9 @@ nonhuman nutrition, spoilage, poison ingestion and preparation scheduling remain
 separate integrations. The combined forage-food fixture covers stock collection,
 preparation rejection, consumption, rollback, undo and saved continuation;
 assertions are authored, unrun while checks are paused.
+
+Owned marching-hour execution now checks
+[dedicated foraging day reservations](exploration.md#dedicated-foraging-days)
+before health permission, time or fatigue is spent. Completed marching intervals
+also participate in reservation conflict detection. Ordinary movement within a
+foraging area is not treated as expedition travel by this day-choice interface.

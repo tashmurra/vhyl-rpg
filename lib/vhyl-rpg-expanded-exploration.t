@@ -1473,6 +1473,8 @@ class RpgExpandedHikingAttempt: object
             local profile = row[1]; local skill = row[2];
             if (holds(profiles,profile)) rpgExpandedReject('hiking-attempt-duplicate-member');
             profiles = profiles + [profile];
+            value.reason = profile.travelScheduleReason(rpgLedger.seconds,0);
+            if (value.reason != nil) return value;
             foreach (local prior in profile.hikingAttempts)
                 if (prior.id == self.id || prior.result.day == value.day) rpgExpandedReject('hiking-attempt-duplicate');
             if (!holds(['hiking','skiing','skating'],skill.id) || skill.attribute != rpgHT
@@ -2671,12 +2673,14 @@ class RpgExpandedTravelForageAttempt: RpgExpandedForageYieldReceipt
             value.status = 'reused'; return value;
         }
         value.day = rpgLedger.seconds / 86400;
+        local attempts = 0;
         foreach (local prior in self.history())
         {
             if (prior.id == self.id) rpgExpandedReject(self.reason('duplicate'));
-            if (prior.result.day == value.day && prior.result.forage != nil)
-            { value.reason = self.reason('daily-limit'); return value; }
+            if (prior.result.day == value.day && prior.result.forage != nil) attempts += 1;
         }
+        if (attempts >= self.profile.foragingAttemptLimit(value.day))
+        { value.reason = self.reason('daily-limit'); return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = self.reason('travel-facts'); return value; }
         local skillReason = self.skillReason();
@@ -2805,5 +2809,17 @@ class RpgExpandedHuntingForageAttempt: RpgExpandedTravelForageAttempt
         local reason = self.skillReason();
         if (reason != nil || self.weapon.ammunition != value.resourceState) rpgExpandedReject('hunting-forage-resources-changed');
         self.weapon.ammunition -= self.ammunitionUsed;
+    }
+;
+
+modify RpgExpandedProfile
+    foragingDayConflict(day)
+    {
+        local reason = inherited(day); if (reason != nil) return reason;
+        foreach (local attempt in self.plantForageAttempts + self.animalFoodForageAttempts)
+            if (attempt.result.day == day) return 'foraging-day-activity-started';
+        foreach (local attempt in self.hikingAttempts)
+            if (attempt.result.day == day) return 'foraging-day-travel-started';
+        return nil;
     }
 ;
