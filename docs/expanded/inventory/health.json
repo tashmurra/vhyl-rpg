@@ -535,9 +535,12 @@
       "pages": "B421",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Temporary intelligence penalties also lower will and perception for affected nondefensive checks and their skills.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_attribute_reduction"
+      ],
+      "validation_note": "Owned finite DX/IQ/HT reduction applies through contextual checks, propagates IQ to Will/Perception and exempts defensive reactions without mutating secondary capacities. Strength damage and direct consumers remain unsupported; cause-specific overlap rejects. Propagation and lifecycle assertions authored, unrun."
     },
     {
       "id": "health-temporary-secondary-exemption",
@@ -545,9 +548,12 @@
       "pages": "B421",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Temporary strength, dexterity and health reductions do not ordinarily recalculate health, speed, movement or fatigue capacity; explicit exceptions such as gravity must remain separately stated.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_attribute_reduction"
+      ],
+      "validation_note": "Owned finite DX/IQ/HT reduction applies through contextual checks, propagates IQ to Will/Perception and exempts defensive reactions without mutating secondary capacities. Strength damage and direct consumers remain unsupported; cause-specific overlap rejects. Propagation and lifecycle assertions authored, unrun."
     },
     {
       "id": "health-temporary-skill-propagation",
@@ -555,9 +561,12 @@
       "pages": "B421",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Propagate temporary penalties to skills governed by the affected attribute, including will/perception skills affected through intelligence.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_attribute_reduction"
+      ],
+      "validation_note": "Owned finite DX/IQ/HT reduction applies through contextual checks, propagates IQ to Will/Perception and exempts defensive reactions without mutating secondary capacities. Strength damage and direct consumers remain unsupported; cause-specific overlap rejects. Propagation and lifecycle assertions authored, unrun."
     },
     {
       "id": "health-temporary-defense-exemption",
@@ -565,9 +574,12 @@
       "pages": "B421",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "No-maneuver defensive reactions, including defenses, resistance and fear checks, ignore temporary attribute reductions unless a specific rule overrides this.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_attribute_reduction"
+      ],
+      "validation_note": "Owned finite DX/IQ/HT reduction applies through contextual checks, propagates IQ to Will/Perception and exempts defensive reactions without mutating secondary capacities. Strength damage and direct consumers remain unsupported; cause-specific overlap rejects. Propagation and lifecycle assertions authored, unrun."
     },
     {
       "id": "health-permanent-score-loss",

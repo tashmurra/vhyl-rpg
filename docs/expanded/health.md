@@ -3357,3 +3357,25 @@ medical or supernatural restoration needs its own rules and authored facts.
 Apply inside an action transaction. Preview, threshold, conflicting-decision,
 staleness, replay, rollback, undo and saved-continuation fixtures are authored but
 unrun while checks are paused.
+
+## Temporary attribute reductions
+
+`RpgExpandedAttributeReduction` records a finite reduction from an already-resolved
+cause (full-2008, B421). Supply `id`, `profile`, `attribute` (`rpgDX`, `rpgIQ` or
+`rpgHT`), positive `penalty`, `durationSeconds`, `approved` and cause `evidence`.
+Its assessment and activation do not spend time or roll. The owned receipt uses
+the shared clock and expires exactly at `expiresAt`; replay does not restart it.
+Overlapping episodes are explicitly unsupported pending cause-specific stacking.
+
+The shared contextual check path applies the reduction to the controlling
+attribute and its skills. Intelligence reduction also applies to Will and
+Perception checks and their skills. Defense, resistance and fear check kinds are
+exempt, as are authored contexts with `defensiveReaction = true`. Purchased skill
+ratings, base attributes, health/fatigue capacities, speed and move remain intact.
+This is distinct from permanent score loss, which requires recalculation.
+
+Strength reductions are rejected until muscle-powered damage is integrated.
+Direct consumers bypassing contextual checks require their own adapters. This
+receipt does not invent the originating affliction's resistance, cost or duration.
+Propagation, defense exemption, capacity preservation, expiry, rollback, undo and
+saved-continuation fixtures are authored but unrun.

@@ -7499,3 +7499,38 @@ class RpgExpandedBodyAssessment: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B421 finite attribute loss from an already-resolved authored cause.
+ * Strength needs a muscle-damage adapter and is rejected here. */
+class RpgExpandedAttributeReduction: RpgExpandedCoughing
+    attribute = nil
+    penalty = 0
+    history() { return self.profile.attributeReductionHistory; }
+    remember() { self.profile.attributeReductionHistory = self.profile.attributeReductionHistory + [self]; }
+    receiptKind() { return 'attribute-reduction'; }
+    definition() { return inherited() + [self.attribute,self.penalty]; }
+    assess()
+    {
+        if (!holds([rpgDX,rpgIQ,rpgHT],self.attribute)) rpgExpandedReject('attribute-reduction-attribute-unsupported');
+        rpgInteger(self.penalty,1,1000);
+        return inherited();
+    }
+;
+modify RpgExpandedProfile
+    attributeReductionHistory = []
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        local exempt = context.defensiveReaction || holds(['defense','resistance','fright','fear'],context.kind);
+        local attribute = context.controllingAttribute();
+        foreach (local episode in self.attributeReductionHistory)
+        {
+            if (episode.profile != self) rpgExpandedReject('attribute-reduction-owner');
+            if (episode.active() && !exempt
+                && (attribute == episode.attribute
+                    || episode.attribute == rpgIQ && holds([rpgWill,rpgPerception],attribute)))
+                value -= episode.penalty;
+        }
+        return value;
+    }
+;

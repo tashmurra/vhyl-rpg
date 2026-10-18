@@ -1410,3 +1410,8 @@ Body integrity now has explicit source-based judgments at the destruction
 threshold, bound to injury and capacity. Additional injury invalidates recognizable
 assessments; destruction persists. No revival eligibility is inferred. Boundary,
 conflict, replay and lifecycle fixtures are authored but unrun.
+
+Owned timed DX/IQ/HT reductions now propagate through contextual checks while
+preserving secondary capacities and defensive exemptions. Strength reductions
+and overlapping causes reject pending integration. Propagation and lifecycle
+fixtures are authored but unrun.

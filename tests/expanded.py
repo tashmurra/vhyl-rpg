@@ -9137,6 +9137,8 @@ def test(build):
     test_postmortem(Session, postmortem, build.out)
     body_assessment = build.build('expanded-body-assessment',ROOT / 'tests/fixtures/expanded-body-assessment.t')
     test_body_assessment(Session, body_assessment, build.out)
+    attribute_reduction = build.build('expanded-attribute-reduction',ROOT / 'tests/fixtures/expanded-attribute-reduction.t')
+    test_attribute_reduction(Session, attribute_reduction, build.out)
     talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
     test_talent_study(Session, talent_study, build.out)
     talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
@@ -18776,5 +18778,45 @@ def test_body_assessment(Session, bundle, out):
         for code in (7705, 7706):
             s.action(2285, code)
         assert last(s, 'test.body-error') == ['body-assessment-binding']
+    finally:
+        s.close()
+
+
+def test_attribute_reduction(Session, bundle, out):
+    path = out / 'expanded-attribute-reduction.zsave'
+    for setup, expected in (([], 8), ([7803], 8), ([7804], 8),
+                            ([7805], 10), ([7806], 10), ([7810], 8), ([7811], 8)):
+        s = Session(bundle)
+        try:
+            for code in setup + [7801, 7802]:
+                s.action(2285, code)
+            assert last(s, 'test.attribute-state') == [expected, 10, 10, 10, 40, 0, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (7800, 7802):
+            s.action(2285, code)
+        assert last(s, 'test.attribute-state') == [10, 10, 10, 10, 40, 0, 0]
+        for code in (7809, 7802):
+            s.action(2285, code)
+        assert last(s, 'test.attribute-state') == [10, 10, 10, 10, 40, 0, 0]
+        s.action(2285, 7801)
+        s.command('undo')
+        s.action(2285, 7802)
+        assert last(s, 'test.attribute-state') == [10, 10, 10, 10, 40, 0, 0]
+        for code in (7801, 7807, 7802):
+            s.action(2285, code)
+        assert last(s, 'test.attribute-state') == [8, 10, 10, 10, 40, 59, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (7808, 7801, 7802):
+            s.action(2285, code)
+        assert last(s, 'test.attribute-reduction') == ['reused', None]
+        assert last(s, 'test.attribute-state') == [10, 10, 10, 10, 40, 60, 0]
     finally:
         s.close()
