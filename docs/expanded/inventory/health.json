@@ -867,9 +867,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Surgery for lasting crippling takes two hours; success changes remaining recovery from months to weeks, while critical failure makes the injury permanent.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_lasting_repair"
+      ],
+      "validation_note": "Owned two-hour surgical repair, shared failure injury, success conversion of authored remaining month fraction to campaign weeks, critical-failure permanence and exact recovery boundary authored. Fixtures unrun. Infection/bleeding combinations, sub-second conversion and later-care interactions remain incomplete."
     },
     {
       "id": "health-permanent-repair",

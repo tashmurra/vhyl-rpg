@@ -344,3 +344,9 @@ receipt, with one skill roll and a shared 3d failure wound. It supports interrup
 and replay, with rollback/undo/save fixtures authored but unrun. Specific treatment
 effects and infection/bleeding combinations remain incomplete and are not claimed
 as covered by this common lifecycle.
+
+Lasting crippling injuries now have a two-hour surgical repair adapter: success
+converts the remaining authored month fraction to campaign weeks, while critical
+failure makes the disability permanent in addition to the general failure injury.
+An owned deadline restores function without healing HP. Integration and persistence
+fixtures are authored and unrun; the documented medical combination gaps remain.

@@ -2271,3 +2271,38 @@ solely as an integration fixture, not a source duration. `test_surgical_operatio
 specifies preview purity, timing, overlap, failure injury, replay, interruption,
 rollback, undo and cross-process continuation. These fixtures are authored and
 unrun while checks remain paused.
+
+### Repairing a lasting crippling injury
+
+`RpgExpandedLastingRepair` specializes the common surgical operation for B424.
+It requires an owned `RpgExpandedCripplingDuration` that is still lasting and
+currently disables the recorded body part. `durationSeconds` must remain 7200.
+A successful operation converts the remaining month units into week units. An
+ordinary failure retains the original recovery schedule and applies the common
+3d injury; a critical failure also makes the original disability permanent.
+No result grants HP or immediately restores the part.
+
+Provide `remainingMonthNumerator` and `remainingMonthDenominator` describing the
+actual remaining month units at operation completion, plus the campaign's
+`weekSeconds` and `calendarEvidence`. These are concrete calendar facts, not an
+extra treatment benefit. The remaining fraction must lie in the current uncompleted
+month interval established by the owned duration and monthly receipts. For
+example, 3.5 remaining months become 3.5 weeks; a seven-day campaign week gives
+2,116,800 seconds. The author must establish that remaining fraction from the
+campaign calendar. The engine does not assume a fixed month length. Fractions
+that require sub-second rounding and clock overflow are rejected before starting.
+
+Success binds the duration's `surgicalRecovery` and records `recoversAt`. The
+original monthly completion and later physician-care adjustments cannot change
+this surgical schedule. At the exact deadline, `recover()` restores the disabled
+part and records recovery while leaving HP injury unchanged. The clock cannot
+skip that deadline for a living patient. Preview and replay do not change the
+schedule. Permanent-injury repair remains a distinct unfinished procedure.
+
+The adapter retains the common operation's explicit limitations for infection,
+optional bleeding and impaired clotting. Calendar changes after scheduling,
+sub-second conversion and further physician adjustments require additional
+verified rules rather than silent approximation. `expanded-lasting-repair.t` and
+`test_lasting_repair` cover a fractional conversion, ordinary and critical failure,
+old-schedule rejection, exact boundaries, replay, rollback, undo and saved
+continuation. They are authored and unrun.

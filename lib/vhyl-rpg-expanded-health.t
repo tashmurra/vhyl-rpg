@@ -4587,3 +4587,136 @@ modify rpgLedger
         return nil;
     }
 ;
+
+modify RpgExpandedCripplingDuration
+    surgicalRecovery = nil
+;
+modify RpgExpandedSurgicalOperationResult
+    recoveryAt = nil
+    permanent = nil
+;
+
+/** B424: two-hour repair of a lasting crippling injury. Calendar facts refer
+ * to completion, not the start of the operation. No month length is invented. */
+class RpgExpandedLastingRepair: RpgExpandedSurgicalOperation
+    durationSeconds = 7200
+    duration = nil
+    remainingMonthNumerator = nil
+    remainingMonthDenominator = 1
+    weekSeconds = nil
+    calendarEvidence = nil
+    recoversAt = nil
+    recoveredAt = nil
+    definition()
+    {
+        return inherited() + [self.duration,self.remainingMonthNumerator,self.remainingMonthDenominator,
+            self.weekSeconds,self.calendarEvidence];
+    }
+    recoverySeconds()
+    {
+        rpgInteger(self.remainingMonthNumerator,1,6000000);
+        rpgInteger(self.remainingMonthDenominator,1,1000000);
+        rpgInteger(self.weekSeconds,1,2147483647 / self.remainingMonthNumerator);
+        local product = self.remainingMonthNumerator * self.weekSeconds;
+        if (product % self.remainingMonthDenominator != 0)
+            rpgExpandedReject('lasting-repair-fractional-second-unimplemented');
+        return product / self.remainingMonthDenominator;
+    }
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'reused')
+        {
+            value.recoveryAt = self.result.recoveryAt; value.permanent = self.result.permanent; return value;
+        }
+        if (value.status != 'ready') return value;
+        if (self.durationSeconds != 7200 || self.duration == nil
+            || !self.duration.ofKind(RpgExpandedCripplingDuration) || self.duration.wound.profile != self.patient)
+            rpgExpandedReject('lasting-repair-definition');
+        self.duration.assess();
+        if (self.duration.result == nil || self.duration.result.duration != 'lasting'
+            || self.duration.result.recovered || self.duration.surgicalRecovery != nil)
+        { value.status = 'blocked'; value.reason = 'lasting-repair-not-eligible'; return value; }
+        if (!self.duration.wound.bodyPart.disabled
+            || self.duration.wound.bodyPart.disablingWound != self.duration.wound)
+            rpgExpandedReject('lasting-repair-current-wound');
+        if (self.calendarEvidence == nil || self.calendarEvidence == '')
+        { value.status = 'blocked'; value.reason = 'lasting-repair-calendar-required'; return value; }
+        local seconds = self.recoverySeconds();
+        local remaining = self.duration.requiredMonths() - self.duration.recoveryMonths.length();
+        if (self.remainingMonthNumerator > remaining * self.remainingMonthDenominator
+            || self.remainingMonthNumerator <= (remaining - 1) * self.remainingMonthDenominator)
+            rpgExpandedReject('lasting-repair-calendar-fraction');
+        local completion = self.startedAt == nil ? rpgLedger.seconds + 7200 : self.completesAt;
+        rpgInteger(completion,0,2147483647 - seconds);
+        return value;
+    }
+    complete()
+    {
+        local value = inherited(); if (value.status != 'resolved' || self.completedAt != rpgLedger.seconds) return value;
+        if (value.succeeded)
+        {
+            self.recoversAt = rpgLedger.seconds + self.recoverySeconds();
+            self.duration.surgicalRecovery = self; value.recoveryAt = self.recoversAt;
+        }
+        else if (value.check.critical == 'failure')
+        {
+            self.duration.result.duration = 'permanent'; self.duration.surgicalRecovery = self;
+            value.permanent = true;
+        }
+        return value;
+    }
+    assessRecovery()
+    {
+        local value = new RpgExpandedResult(); self.validateReceipt();
+        if (self.result == nil || !self.result.succeeded || self.duration.surgicalRecovery != self)
+        { value.reason = 'lasting-repair-not-successful'; return value; }
+        if (self.recoveredAt != nil) { value.status = 'reused'; return value; }
+        if (self.patient.dead) { value.reason = 'lasting-repair-patient-dead'; return value; }
+        if (rpgLedger.seconds != self.recoversAt) { value.reason = 'lasting-repair-recovery-not-due'; return value; }
+        if (self.duration.result.duration != 'lasting' || self.duration.result.recovered
+            || self.duration.wound.bodyPart.disablingWound != self.duration.wound)
+            rpgExpandedReject('lasting-repair-recovery-state');
+        value.status = 'ready'; return value;
+    }
+    recover()
+    {
+        local value = self.assessRecovery(); if (value.status != 'ready') return value;
+        local part = self.duration.wound.bodyPart;
+        part.disabled = nil; part.severed = nil; part.disablingWound = nil;
+        self.duration.result.recovered = true; self.recoveredAt = rpgLedger.seconds;
+        value.status = 'resolved'; return value;
+    }
+;
+modify RpgExpandedRecoveryMonth
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'ready' && self.duration.surgicalRecovery != nil)
+        { value.status = 'blocked'; value.reason = 'recovery-month-surgical-schedule'; }
+        return value;
+    }
+;
+modify RpgExpandedCripplingCare
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'ready' && self.duration.surgicalRecovery != nil)
+        { value.status = 'blocked'; value.reason = 'crippling-care-surgical-schedule'; }
+        return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local repair = firstObj(RpgExpandedLastingRepair); repair != nil;
+            repair = nextObj(repair,RpgExpandedLastingRepair))
+            if (repair.recoversAt != nil && repair.recoveredAt == nil && !repair.patient.dead)
+            {
+                repair.validateReceipt();
+                if (self.seconds + seconds > repair.recoversAt) rpgExpandedReject('lasting-repair-recovery-boundary');
+            }
+        return nil;
+    }
+;

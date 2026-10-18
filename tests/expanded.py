@@ -8926,6 +8926,8 @@ def test(build):
     test_surgical_training_assessment(Session, surgical_assessment)
     surgical_operation = build.build('expanded-surgical-operation', ROOT / 'tests/fixtures/expanded-surgical-operation.t')
     test_surgical_operation(Session, surgical_operation, build.out)
+    lasting_repair = build.build('expanded-lasting-repair', ROOT / 'tests/fixtures/expanded-lasting-repair.t')
+    test_lasting_repair(Session, lasting_repair, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -10905,3 +10907,62 @@ def test_surgical_operation(Session, bundle, out):
         assert state(s) == [0, 0, 1, 0, 61, 0, 'surgical-operation-interrupted', None]
     finally:
         s.close()
+
+
+def test_lasting_repair(Session, bundle, out):
+    def state(s):
+        s.action(2285, 150)
+        return last(s, 'test.lasting-repair')
+    path = out / 'expanded-lasting-repair.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 140)
+        s.action(2285, 154)  # cannot claim 4.5 months remain on a four-month injury
+        s.action(2285, 141)
+        s.action(2285, 143)
+        assert state(s) == ['lasting', 1, None, None, 21, 0, 7]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 140)
+        s.action(2285, 151)
+        assert state(s) == ['lasting', 1, None, None, 21, 0, 7]
+        s.action(2285, 141)
+        s.action(2285, 142)
+        s.action(2285, 144)
+        assert state(s) == ['lasting', 1, None, None, 21, 7200, 7]
+        s.action(2285, 143)
+        s.command('undo')
+        assert state(s) == ['lasting', 1, None, None, 21, 7200, 7]
+        s.action(2285, 143)
+        s.action(2285, 143)
+        s.action(2285, 153)
+        s.action(2285, 146)
+        s.action(2285, 152)
+        assert state(s) == ['lasting', 1, 7410, None, 21, 7200, 10]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 145)
+        s.action(2285, 147)
+        assert state(s) == ['lasting', 1, 7410, None, 21, 7410, 10]
+        s.action(2285, 146)
+        s.command('undo')
+        assert state(s) == ['lasting', 1, 7410, None, 21, 7410, 10]
+        s.action(2285, 146)
+        s.action(2285, 146)
+        assert state(s) == ['lasting', 0, 7410, 7410, 21, 7410, 10]
+    finally:
+        s.close()
+    for mode, duration in [(148, 'permanent'), (149, 'lasting')]:
+        s = Session(bundle)
+        try:
+            for code in (140, 141, 142, mode, 143, 143):
+                s.action(2285, code)
+            assert state(s) == [duration, 1, None, None, 33, 7200, 13]
+        finally:
+            s.close()
