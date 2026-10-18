@@ -127,7 +127,7 @@ paused, so these fixtures are unrun.
 
 ## Owned wound exposure
 
-`RpgExpandedInfectionExposure` takes a committed expanded `wound`, an
+`RpgExpandedInfectionExposure` takes a committed expanded `wound`, a stable neutral `diseaseId`, an
 `RpgExpandedInfectionContext` as `conditions`, and authored `evidence` identifying
 its open-wound exposure. `assess()` performs eligibility checks without consuming
 randomness. `apply()` resolves the acquisition check once through the shared HT
@@ -198,3 +198,26 @@ a failed day, and recovery. Each route continues to the same final balance and
 reuses old receipts without spending more time or randomness. Save files retain
 the exact-compiled-game policy. These fixtures are authored but unrun; they do not
 establish verified persistence until checks resume and pass.
+
+
+## Specific natural immunity
+
+B443's first-attempt immunity uses `profile.diseaseResistances`, with one
+`RpgExpandedDiseaseResistance` record per authored disease identifier. Use the
+same `diseaseId` for exposures to the same agent, regardless of wound or location;
+use a different identifier for a genuinely different disease. The host defines
+these identities from its disease catalogue, not from presentation names.
+
+The first rolled acquisition attempt records its exposure and raw roll. A natural
+three or four grants specific hidden immunity. Later resistance rolls cannot
+retroactively grant it. Prevention without a roll does not create a first-attempt
+record. An immune patient resolves later exposure without a resistance roll;
+`result.immune` distinguishes this from antibiotic prevention. Historical receipts
+retain their original result even if later state changes.
+
+The library does not announce these records. Broad immunity traits, acquired
+immunity after recovery and authored physiology exceptions remain incomplete.
+`test_specific_natural_immunity` covers both qualifying raw rolls, an ordinary
+first success followed by a later natural three, different disease identities,
+no extra randomness for immunity, and profile history validation. The fixture
+is authored but unrun; immunity-specific transaction/save coverage is pending.

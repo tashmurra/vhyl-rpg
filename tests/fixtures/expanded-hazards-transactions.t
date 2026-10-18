@@ -13,7 +13,7 @@ hazardRules: RpgExpandedRules scaledInjuryShock = true;
 hazardPatient: RpgExpandedProfile rules = hazardRules injury = 2 diseaseInjury = 2;
 hazardWound: RpgExpandedWound id = 'exposed-injury' profile = hazardPatient amount = 2;
 hazardConditions: RpgExpandedInfectionContext untreatedDirtyWound = true;
-hazardExposure: RpgExpandedInfectionExposure wound = hazardWound conditions = hazardConditions
+hazardExposure: RpgExpandedInfectionExposure diseaseId = 'wound-agent' wound = hazardWound conditions = hazardConditions
     evidence = 'Observed open wound in dirty conditions';
 hazardFirstDay: RpgExpandedInfectionDay id = 'first' exposure = hazardExposure careEvidence = 'No antibacterial care';
 hazardSecondDay: RpgExpandedInfectionDay id = 'second' exposure = hazardExposure careEvidence = 'No antibacterial care';

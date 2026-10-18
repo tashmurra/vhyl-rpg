@@ -941,9 +941,12 @@
       "pages": "B443",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A natural three or four on the first resistance attempt grants hidden specific immunity; record it persistently and do not automatically disclose it.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_specific_natural_immunity"
+      ],
+      "validation_note": "Specific first-attempt immunity is owned by the character and neutral disease identity and integrated with infection acquisition. Fixtures unrun. Other disease types, broad/acquired immunity and immunity-specific transaction/save coverage remain incomplete."
     },
     {
       "id": "illness-acquired-immunity",

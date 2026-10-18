@@ -494,6 +494,15 @@ def test_infection_progression(s):
     assert last(s, 'test.infection-recovered') == [1,5,2,0,2,0,3]
 
 
+def test_specific_natural_immunity(s):
+    # Park-Miller first three dice: seed 48 -> 3, seed 55 -> 4.
+    for seed, expected in [(48,[1,0,1,0,0,1,3,0,3,2,3]),
+                           (55,[1,0,1,0,0,1,3,0,3,2,4]),
+                           (1,[0,0,0,0,0,1,3,3,3,2,10])]:
+        s.action(1803, seed)
+        assert last(s, 'test.natural-immunity') == expected
+
+
 def test_infection_acquisition(s):
     for seed, antibiotic, expected in [
             (1,0,[0,0,10,'reused','infection-exposure-already-resolved',2,3,0]),
@@ -3080,6 +3089,7 @@ def test(build):
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_infection_acquisition)
+    fresh(Session,hazards,test_specific_natural_immunity)
     fresh(Session,hazards,test_infection_progression)
     hazard_transactions = build.build('expanded-hazards-transactions',ROOT / 'tests/fixtures/expanded-hazards-transactions.t')
     fresh(Session,hazard_transactions,test_infection_transactions)

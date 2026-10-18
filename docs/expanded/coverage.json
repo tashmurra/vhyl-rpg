@@ -81,7 +81,8 @@
         "tests/expanded.py::test_infection_acquisition",
         "tests/expanded.py::test_infection_progression",
         "tests/expanded.py::test_infection_transactions",
-        "tests/expanded.py::test_infection_persistence"
+        "tests/expanded.py::test_infection_persistence",
+        "tests/expanded.py::test_specific_natural_immunity"
       ],
       "validation_note": "Owned acquisition and exact-boundary progression use shared disease-injury restrictions. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Scheduling/catch-up, physician care, complete immunity, discovery and other disease procedures remain incomplete."
     },
