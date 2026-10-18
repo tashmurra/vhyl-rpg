@@ -2799,3 +2799,22 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+modify RpgExpandedProfile
+    dependentReplacementTraitFacts(trait)
+    {
+        if (!trait.ofKind(RpgExpandedLowMotivation)) return inherited(trait);
+        return [trait.id,trait.points,trait.level,trait.scope,trait.approved,trait.controlled,
+            trait.selfControlRating,trait.percentages.length(),trait.skills.length()];
+    }
+    validateDependentReplacementTrait(trait)
+    {
+        if (!trait.ofKind(RpgExpandedLowMotivation)) return inherited(trait);
+        trait.creationCost();
+        if (!trait.active || trait.mitigated || trait.nextCheck != 0 || trait.skills.length() != 0)
+            rpgExpandedReject('dependent-replacement-trait-existing-state');
+        foreach (local owned in self.traits)
+            if (owned.id == trait.id) rpgExpandedReject('dependent-replacement-trait-duplicate-kind');
+        return nil;
+    }
+;

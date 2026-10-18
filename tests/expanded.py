@@ -9270,6 +9270,8 @@ def test(build):
     test_dependent_replacement(Session, dependent_replacement, build.out)
     dependent_trait_replacement = build.build('expanded-dependent-trait-replacement',ROOT / 'tests/fixtures/expanded-dependent-trait-replacement.t')
     test_dependent_trait_replacement(Session, dependent_trait_replacement, build.out)
+    dependent_motivation_replacement = build.build('expanded-dependent-motivation-replacement',ROOT / 'tests/fixtures/expanded-dependent-motivation-replacement.t')
+    test_dependent_motivation_replacement(Session, dependent_motivation_replacement, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21667,5 +21669,47 @@ def test_dependent_trait_replacement(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.dependent-trait-preview') == ['blocked', 'dependent-replacement-trait-story-required', 10]
         assert last(s, 'test.dependent-trait-state') == before
+    finally:
+        s.close()
+
+
+def test_dependent_motivation_replacement(Session, bundle, out):
+    """B126/B131 replacement retains self-control obligations and funded buyoff; unrun."""
+    path = out / 'dependent-motivation-replacement.zsave'
+    s = Session(bundle)
+    try:
+        for code in (14500, 14401, 14403, 14503):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-trait-preview') == ['ready', None, 15]
+        assert last(s, 'test.loss-motivation-state') == [0, -15, 25, None, 0, 0]
+        s.action(2285, 14402)
+        s.command('undo')
+        s.action(2285, 14503)
+        assert last(s, 'test.loss-motivation-state') == [0, -15, 25, None, 0, 0]
+        for code in (14402, 14402, 14501, 14503):
+            s.action(2285, code)
+        assert last(s, 'test.loss-motivation-decision') == ['blocked', 'motivation-least-effort-required']
+        assert last(s, 'test.loss-motivation-state') == [1, -15, 25, 15, 3, 1]
+        s.action(2285, 14502)
+        assert last(s, 'test.loss-motivation-decision') == ['resolved', 'rest']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (14402, 14502, 14503):
+            s.action(2285, code)
+        assert last(s, 'test.loss-motivation-state') == [1, -15, 25, 15, 3, 1]
+        for code in (14504, 14402, 14503):
+            s.action(2285, code)
+        assert last(s, 'test.loss-motivation-state') == [0, 0, 10, 15, 3, 1]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (14500, 14402, 14505):
+            s.action(2285, code)
+        assert last(s, 'test.loss-motivation-reject') == ['dependent-replacement-trait-binding']
     finally:
         s.close()

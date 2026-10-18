@@ -1845,3 +1845,8 @@ Replacement disadvantages and mixed settlements remain pending; fixtures unrun.
 Dependent loss can now be replaced with an approved equal-credit fixed belief,
 using existing behavior and validation plus a transferred buyoff basis. Broader
 disadvantage adapters and mixed settlements remain pending. Fixtures are unrun.
+
+
+Dependent disadvantage replacement now also supports low motivation, preserving
+self-control pricing, authored choice obligations and historical buyoff cost.
+Other adapters and mixed settlements remain pending. Integration fixtures unrun.

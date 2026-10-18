@@ -331,9 +331,10 @@
         "tests/expanded.py::test_dependent_loss",
         "tests/expanded.py::test_dependent_original_credit",
         "tests/expanded.py::test_dependent_replacement",
-        "tests/expanded.py::test_dependent_trait_replacement"
+        "tests/expanded.py::test_dependent_trait_replacement",
+        "tests/expanded.py::test_dependent_motivation_replacement"
       ],
-      "validation_note": "Permanent loss supports funded settlement, equal-credit replacement dependents and approved fixed-belief disadvantage replacement with transferred buyoff basis. Other disadvantage adapters, unequal/mixed settlements and partial group loss remain pending. Fixtures unrun."
+      "validation_note": "Permanent loss supports funded settlement, equal-credit replacement dependents and approved fixed-belief/low-motivation disadvantage replacement with transferred buyoff basis. Other disadvantage adapters, unequal/mixed settlements and partial group loss remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-adverse-fate",

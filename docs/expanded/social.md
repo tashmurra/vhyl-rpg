@@ -1442,9 +1442,22 @@ The trait uses its normal executable portrayal/reaction interfaces. Subsequent
 ordinary buyoff spends the transferred amount through the existing bank.
 Replaying settlement after buyoff does not recreate the removed trait.
 
-This is the first supported disadvantage type; broader replacements, bundles and
+Fixed beliefs and low motivation are supported; broader replacements, bundles and
 mixed funded settlements remain pending. The foundation alone rejects unsupported
 trait adapters. `expanded-dependent-trait-replacement.t` and
 `test_dependent_trait_replacement` specify accounting, approval/mismatched credit,
 rollback, undo, replay, saved continuation and later funded buyoff. Fixtures are
 unrun while checks remain paused.
+
+
+The same disadvantage-replacement interface also supports
+`RpgExpandedLowMotivation` (`full-2008`, B126/B131). Its purchased self-control
+rating determines the replacement credit. New purchases must be active,
+unmitigated, free of prior check state and nonduplicative by trait kind. Settlement
+binds the rating and purchase facts without freezing later runtime checks.
+The normal `RpgExpandedMotivationTrigger` and `RpgExpandedMotivationDecision`
+continue to enforce the authored least-effort choice after failed resistance.
+The integration fixture exercises that consequence, successful compliance and
+later funded buyoff using the transferred historical cost. See
+`expanded-dependent-motivation-replacement.t` and
+`test_dependent_motivation_replacement`; they remain unrun.
