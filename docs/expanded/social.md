@@ -1392,3 +1392,32 @@ single existing unspent bank. Replacement options remain pending.
 `expanded-dependent-original-credit.t` / `test_dependent_original_credit` specify
 zero-credit capture, repricing, mismatched/tampered history rejection, rollback,
 undo and cross-process saved continuation. Fixtures remain unrun.
+
+
+### Replacing a permanently lost dependent
+
+`RpgExpandedDependentReplacement` provides the replacement-dependent option from
+`full-2008`, B131. Supply the recorded `loss`, a fresh `replacement` purchase owned
+by the same profile, explicit approval and story `evidence`. Replacement is an
+authored campaign decision; it is not automatically available just because the
+player can construct a matching purchase. The new person/group identity and ID
+must differ from the old purchase, and its negative credit must exactly match
+the original outstanding bonus. Zero-credit and unequal-value exchanges reject.
+Replacement disadvantages and mixed point/replacement settlements remain pending.
+
+Pure `assess()` checks the new purchase, identity uniqueness and the resulting
+credit-slot count, excluding the retiring relationship. `apply()` retires the old
+contribution in place, installs the fresh purchase, records settlement and advances
+development revision once. Neither earned nor unspent points change. A new owned
+historical-credit basis transfers the obligation, so any later loss of the
+replacement uses the same captured amount instead of requiring another author
+assertion. Replays validate the bound purchase and never duplicate it.
+
+Closed sessions bind their actual outcome relationships, rather than recomputing
+membership from the current contribution list. Installing a later relationship
+therefore preserves earlier receipts; every new session still checks coverage of
+all currently unretired relationships. The original loss session remains ineligible
+for awards. `expanded-dependent-replacement.t` and `test_dependent_replacement`
+specify credit/identity/approval rejection, unchanged banks, inherited historical
+credit, historical session replay, rollback, undo and saved continuation. Fixtures
+remain unrun while checks are paused.

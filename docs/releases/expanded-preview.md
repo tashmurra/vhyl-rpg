@@ -1834,3 +1834,9 @@ Character finalization now captures contribution credit, including zero-credit
 dependents. Permanent-loss settlement uses verified original credit despite later
 repricing; imported/post-creation relationships retain the explicit evidence path.
 Replacement options remain pending. New fixtures are authored but unrun.
+
+
+Permanent dependent loss can now be settled by an explicitly approved equal-credit
+replacement, transferring the historical obligation without changing either point
+bank. Historical session receipts survive later relationship installation.
+Replacement disadvantages and mixed settlements remain pending; fixtures unrun.

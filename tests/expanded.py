@@ -9266,6 +9266,8 @@ def test(build):
     test_dependent_loss(Session, dependent_loss, build.out)
     dependent_original_credit = build.build('expanded-dependent-original-credit',ROOT / 'tests/fixtures/expanded-dependent-original-credit.t')
     test_dependent_original_credit(Session, dependent_original_credit, build.out)
+    dependent_replacement = build.build('expanded-dependent-replacement',ROOT / 'tests/fixtures/expanded-dependent-replacement.t')
+    test_dependent_replacement(Session, dependent_replacement, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21562,3 +21564,56 @@ def test_dependent_original_credit(Session, bundle, out):
             assert last(s, 'test.dependent-original-reject') == [reason]
         finally:
             s.close()
+
+
+def test_dependent_replacement(Session, bundle, out):
+    """B131 approved replacement transfers the obligation without bank credit; unrun."""
+    before = [1, 0, -20, 25, 25, 0, None, 0]
+    after = [2, 1, -20, 25, 25, 1, 20, 0]
+    path = out / 'dependent-replacement.zsave'
+    s = Session(bundle)
+    try:
+        for code in (14100, 14101, 14301, 14303, 14304):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-replacement-preview') == ['ready', None, 20]
+        assert last(s, 'test.dependent-replacement-state') == before
+        s.action(2285, 14302)
+        s.command('undo')
+        s.action(2285, 14304)
+        assert last(s, 'test.dependent-replacement-state') == before
+        for code in (14302, 14302, 14304, 14305, 14306, 13507):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-replacement-state') == after
+        assert last(s, 'test.dependent-replacement-old-session') == ['reused']
+        assert last(s, 'test.dependent-replacement-next-loss') == ['ready', 20]
+        assert last(s, 'test.dependent-session-award') == ['blocked', 'dependent-serious-harm-no-session-points']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (14302, 14304, 14305, 14306):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-replacement-state') == after
+        assert last(s, 'test.dependent-replacement-old-session') == ['reused']
+        assert last(s, 'test.dependent-replacement-next-loss') == ['ready', 20]
+    finally:
+        s.close()
+    for mutation, reason in [(14307, 'dependent-replacement-credit'), (14308, 'dependent-replacement-same-identity')]:
+        s = Session(bundle)
+        try:
+            for code in (14100, 14101, mutation, 14304):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-replacement-reject') == [reason]
+            assert last(s, 'test.dependent-replacement-state') == before
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (14100, 14101, 14309, 14301, 14302, 14304):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-replacement-preview') == ['blocked', 'dependent-replacement-story-approval-required', 20]
+        assert last(s, 'test.dependent-replacement-state') == before
+    finally:
+        s.close()

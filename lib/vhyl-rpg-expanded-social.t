@@ -2356,8 +2356,6 @@ class RpgExpandedDependentSession: object
     {
         local facts = [self.profile,self.session,self.approved,self.evidence,self.outcomes.length()];
         foreach (local row in self.outcomes) facts = facts + row + row[1].definition();
-        foreach (local relationship in self.profile.contributions)
-            if (relationship.ofKind(RpgExpandedDependent)) facts = facts + [relationship];
         return facts;
     }
     assess()
@@ -2813,5 +2811,90 @@ class RpgExpandedDependentLossBuyoff: object
         profile.unspentPoints -= value.points; profile.developmentRevision += 1;
         relationship.retiredBy = self; profile.dependentLossSettlements = profile.dependentLossSettlements + [self];
         value.status = 'resolved'; return value;
+    }
+;
+
+
+/** B131 author-approved replacement carrying the original outstanding credit. */
+class RpgExpandedDependentReplacement: object
+    loss = nil
+    replacement = nil
+    approved = nil
+    evidence = nil
+    recorded = nil
+    boundDefinition = nil
+    boundPoints = nil
+    basis = nil
+    definition()
+    {
+        return [self.loss,self.replacement,self.approved,self.evidence] + self.replacement.definition();
+    }
+    validateContributionBasis(candidate)
+    {
+        if (candidate != self.basis || !self.recorded || candidate.creationReceipt != self
+            || candidate.owner != self.loss.relationship.owner || candidate.contribution != self.replacement
+            || candidate.originalBonus != self.boundPoints
+            || !holds(candidate.owner.contributionBuyoffBases,candidate)) rpgExpandedReject('dependent-replacement-basis');
+        if (self.assess().status != 'reused') rpgExpandedReject('dependent-replacement-basis');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.loss == nil || !self.loss.ofKind(RpgExpandedDependentLoss) || self.loss.assess().status != 'reused')
+            rpgExpandedReject('dependent-replacement-loss');
+        local old = self.loss.relationship; local profile = old.owner;
+        if (self.replacement == nil || !self.replacement.ofKind(RpgExpandedDependent) || self.replacement == old
+            || self.replacement.owner != profile) rpgExpandedReject('dependent-replacement-owner');
+        if (self.recorded)
+        {
+            if (old.retiredBy != self || !holds(profile.dependentLossSettlements,self)
+                || !holds(profile.contributions,self.replacement) || self.boundPoints != self.loss.bonus())
+                rpgExpandedReject('dependent-replacement-history');
+            if (self.basis == nil || self.basis.owner != profile || self.basis.contribution != self.replacement
+                || self.basis.creationReceipt != self || self.basis.originalBonus != self.boundPoints
+                || !holds(profile.contributionBuyoffBases,self.basis)) rpgExpandedReject('dependent-replacement-basis');
+            local facts = self.definition();
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('dependent-replacement-binding');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('dependent-replacement-binding');
+            value.status = 'reused'; return value;
+        }
+        if (self.boundDefinition != nil || self.boundPoints != nil || self.basis != nil || old.retiredBy != nil)
+            rpgExpandedReject('dependent-replacement-duplicate');
+        rpgExpandedValidate(profile);
+        if (!holds(profile.contributions,old) || holds(profile.contributions,self.replacement)
+            || self.replacement.loss != nil || self.replacement.retiredBy != nil
+            || self.replacement.growthHistory.length() != 0) rpgExpandedReject('dependent-replacement-existing-history');
+        if (self.replacement.dependent == old.dependent) rpgExpandedReject('dependent-replacement-same-identity');
+        self.replacement.validate(profile);
+        value.points = self.loss.bonus();
+        if (!self.replacement.credited || -self.replacement.cost() != value.points || value.points == 0)
+            rpgExpandedReject('dependent-replacement-credit');
+        local slots = self.replacement.group ? 2 : 1;
+        foreach (local entry in profile.contributions)
+        {
+            if (entry.id == self.replacement.id) rpgExpandedReject('dependent-replacement-duplicate-id');
+            if (entry != old && entry.ofKind(RpgExpandedDependent) && entry.retiredBy == nil && entry.credited)
+                slots += entry.group ? 2 : 1;
+        }
+        if (slots > 2) rpgExpandedReject('dependent-credit-slots');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'dependent-replacement-story-approval-required'; return value; }
+        rpgInteger(profile.developmentRevision,0,2147483646);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local old = self.loss.relationship; local profile = old.owner;
+        self.boundDefinition = self.definition(); self.boundPoints = value.points; self.recorded = true;
+        old.retiredBy = self; profile.contributions = profile.contributions + [self.replacement];
+        profile.dependentLossSettlements = profile.dependentLossSettlements + [self];
+        local basis = new RpgExpandedContributionBasis(); basis.owner = profile; basis.contribution = self.replacement;
+        basis.originalBonus = value.points; basis.creationReceipt = self; self.basis = basis;
+        profile.contributionBuyoffBases = profile.contributionBuyoffBases + [basis];
+        profile.developmentRevision += 1; value.status = 'resolved'; return value;
     }
 ;

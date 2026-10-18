@@ -329,9 +329,10 @@
       "acceptance": "Death or permanent removal of a dependent requires replacing its negative credit: spend earned points, accept an approved replacement disadvantage, or accept an approved new dependent. Own a single outstanding accounting obligation and resolve it once, with the author deciding permanent removal.",
       "tests": [
         "tests/expanded.py::test_dependent_loss",
-        "tests/expanded.py::test_dependent_original_credit"
+        "tests/expanded.py::test_dependent_original_credit",
+        "tests/expanded.py::test_dependent_replacement"
       ],
-      "validation_note": "Owned permanent-loss record and funded settlement use the shared bank and retire credit once. Character finalization captures original contribution credit, including zero; imported/post-creation relationships require historical author evidence. Replacement disadvantages/dependents and partial group loss remain pending. Fixtures unrun."
+      "validation_note": "Owned permanent loss supports funded settlement and explicitly approved equal-credit replacement dependents. Creation or replacement receipts preserve historical credit. Earlier sessions remain valid after installation. Replacement disadvantages, unequal/mixed settlements and partial group loss remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-adverse-fate",
