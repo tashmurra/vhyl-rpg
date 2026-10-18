@@ -237,3 +237,15 @@ Sources: full-2008, B121, B159 and B259. `test_template_composition` specifies t
 four prices, fresh ownership, choice accounting, duplicate purchase handling,
 conflicting definitions, unsupported IDs and disadvantage-limit rejection.
 Assertions are authored and unrun while checks remain paused.
+
+Four-field trait rows now support `compelled-aid` and `low-motivation`:
+`[id, 1, scope, selfControlRating]`, with ratings 6, 9, 12 or 15. The factory
+creates the concrete behavior class and retains the purchased rating. Composition
+rejects conflicting ratings for the same trait instead of silently choosing a
+price. Each creation produces fresh trait instances.
+
+Templates create new, unfinished profiles. Finalize the assembled profile with
+`RpgExpandedCharacterFinalization` to validate the complete character and record
+its actual original disadvantage costs. The integration fixture covers concrete
+types, independent instances, conflicting purchases and final cost capture; it
+remains unrun while checks are paused.

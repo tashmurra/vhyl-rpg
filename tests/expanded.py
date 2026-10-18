@@ -9103,6 +9103,8 @@ def test(build):
     test_expanded_buyoff_offer(Session, buyoff_offer, build.out)
     character_finalization = build.build('expanded-character-finalization',ROOT / 'tests/fixtures/expanded-character-finalization.t')
     test_character_finalization(Session, character_finalization, build.out)
+    behavior_templates = build.build('expanded-behavior-templates',ROOT / 'tests/fixtures/expanded-behavior-templates.t')
+    test_behavior_templates(Session, behavior_templates)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17651,5 +17653,20 @@ def test_character_finalization(Session, bundle, out):
         for code in (5401,5404,5405,5406):
             s.action(2285,code)
         assert last(s,'test.character-history-error') == ['creation-original-cost-changed',100]
+    finally:
+        s.close()
+
+
+def test_behavior_templates(Session, bundle):
+    s = Session(bundle)
+    try:
+        s.action(2285,5500)
+        assert last(s,'test.behavior-template') == [-45,2,1,1,6,12]
+        s.action(2285,5503)
+        assert last(s,'test.behavior-template-history') == [2,30,15]
+        s.action(2285,5501)
+        assert last(s,'test.behavior-template-conflict') == ['template-trait-purchase-conflict']
+        s.action(2285,5502)
+        assert last(s,'test.behavior-template-fresh') == [0,0]
     finally:
         s.close()

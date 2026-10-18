@@ -1323,3 +1323,20 @@ modify RpgLiteContext
         return amount + self.company.penalty(profile);
     }
 ;
+
+modify RpgExpandedCompelledAid
+    templatePurchaseKind = 'expanded-compelled-aid'
+;
+modify RpgExpandedLowMotivation
+    templatePurchaseKind = 'expanded-low-motivation'
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (!holds(['compelled-aid','low-motivation'],id)) return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = id == 'compelled-aid' ? new RpgExpandedCompelledAid() : new RpgExpandedLowMotivation();
+        trait.labelId = id; trait.level = level; trait.scope = scope;
+        trait.approved = true; trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+;

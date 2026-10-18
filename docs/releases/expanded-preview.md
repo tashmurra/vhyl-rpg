@@ -1250,3 +1250,7 @@ expanded influence procedure remains partial.
   original disadvantage costs. Creation approval remains separate from later
   buyoff approval. Added unrun historical-cost and persistence fixtures; legacy
   manual finalization still requires explicit cost history.
+
+- Added concrete rated template rows for compelled assistance and low motivation,
+  preserving behavior types and self-control prices through composition and
+  finalization. Added an unrun template-to-cost-history integration fixture.
