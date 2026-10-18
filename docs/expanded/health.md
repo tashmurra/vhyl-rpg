@@ -2992,3 +2992,34 @@ interval through the legacy journey fatigue path.
 `tests/fixtures/expanded-march-fatigue.t` provides authored, unrun assertions for
 the cost table, preview purity, cooling, overflow injury, rollback, undo,
 duplicate charges and saved replay.
+
+## Continuous marching hours
+
+`RpgExpandedMarchHour` extends the marching-hour cost definition with owned time
+and action permission. Supply the same profile, interval, approved conditions,
+evidence and drop destination described above. Keep `basis = 'completed-hour'`.
+This operation requires the health module and does not depend on exploration's
+daily mileage calculation.
+
+`assess()` preflights the fatigue cost, the character's action gate and the
+3600-second ledger advance before spending time or drawing dice. `apply()` first
+resolves its owned action gate. A denied exhausted effort is retained in
+`profile.marchExecutions`, with no hour or fatigue cost; replay cannot reroll it.
+On permission, it resets the rest clock, advances one hour, revalidates fixed
+conditions and commits the owned fatigue cost. The result exposes `gate`, `cost`,
+`allowed` and `seconds`, with start and completion times on the operation.
+Replaying a completed hour spends neither time nor fatigue again. Another cost
+for its interval, including a combat interruption charge, is rejected.
+
+This is a continuous-hour operation under explicitly unchanged authored
+conditions. Changes to its definition, HP, FP, movement, fatigue cost or active
+incapacity during the advance reject the interval; the enclosing engine
+transaction restores it. Starting at zero or fewer HP requires a future adapter
+for recurring consciousness checks and is rejected before RNG. The operation
+does not claim to handle transient events, mid-hour interruptions, rest periods,
+world movement or full-day travel occupation. Do not derive hourly distance by
+dividing the daily mileage: the daily procedure includes preparation and rest.
+
+`tests/fixtures/expanded-march-hour.t` covers ordinary completion, rejected time
+changes, exhaustion success/failure, duplicate cost prevention, rollback, undo
+and saved continuation. These assertions are authored but have not been run.

@@ -890,3 +890,9 @@ Marching-hour fatigue now has an owned cost record, including hot-weather,
 heavy-clothing and cooling adjustments, overflow injury and duplicate interval
 protection. Time remains the travel controller's responsibility. Cost-table and
 persistence fixtures are authored but unrun; automatic scheduling remains partial.
+
+Continuous marching hours now own both action permission and elapsed time with
+their fatigue cost. Failed effort attempts persist without rerolling; completed
+hours replay without another time or fatigue charge. Fixed-condition changes
+reject the transaction. Authored fixtures remain unrun; interrupted travel,
+recurring consciousness checks and full-day scheduling are still incomplete.

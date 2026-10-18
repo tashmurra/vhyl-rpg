@@ -783,3 +783,9 @@ Its owned interval prevents duplicate charging between those pathways and feeds
 the existing fatigue/injury ledger. See [marching-hour fatigue](health.md#marching-hour-fatigue).
 A travel controller must supply the interval and own its time; automatic travel
 scheduling and actual-event interruption exceptions are still incomplete.
+
+For a continuous hour under unchanged conditions, health now also supplies
+`RpgExpandedMarchHour`, which owns the action gate, one ledger hour and the
+marching cost together. Failed permission is retained without charging an hour.
+See [continuous marching hours](health.md#continuous-marching-hours). This does
+not complete the full-day itinerary, rest or interruption procedures.

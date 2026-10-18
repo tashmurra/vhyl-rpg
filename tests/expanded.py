@@ -9018,6 +9018,8 @@ def test(build):
     test_hiking_party(Session, hiking_party, build.out)
     march_fatigue = build.build('expanded-march-fatigue',ROOT / 'tests/fixtures/expanded-march-fatigue.t')
     test_march_fatigue(Session, march_fatigue, build.out)
+    march_hour = build.build('expanded-march-hour',ROOT / 'tests/fixtures/expanded-march-hour.t')
+    test_march_hour(Session, march_hour, build.out)
     test_climb_fall_assessment(Session, climb_assessment)
     test_landing_assessment(Session, climb_assessment)
     landing_attempt = build.build('expanded-landing-attempt',ROOT / 'tests/fixtures/expanded-landing-attempt.t')
@@ -14599,3 +14601,58 @@ def test_march_fatigue(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_march_hour(Session, bundle, out):
+    def state(s):
+        s.action(2285,1143)
+        return last(s,'test.march-hour-owned')
+    path = out / 'expanded-march-hour.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,1140)
+        assert last(s,'test.march-hour-preview') == ['ready',None,0,0]
+        for code in (1142,1147):
+            s.action(2285,code)
+            assert state(s) == [0,0,0,0,0,0,0]
+        s.action(2285,1141)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,0,0,0]
+        for code in (1141,1141,1137):
+            s.action(2285,code)
+        assert state(s) == [3600,1,0,1,1,0,1]
+        assert last(s,'test.march-combat') == ['march-hour-already-charged']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,1141)
+        assert state(s) == [3600,1,0,1,1,0,1]
+    finally:
+        s.close()
+    for forced, expected in ((30,[3600,11,1,1,1,3,1]), (1145,[0,10,0,1,0,3,0])):
+        s = Session(bundle)
+        try:
+            for code in (1144,forced,1141,1141):
+                s.action(2285,code)
+            assert state(s) == expected
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            s.action(2285,1141)
+            assert state(s) == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (1146,1140,1141):
+            s.action(2285,code)
+        assert last(s,'test.march-hour-preview') == ['blocked','march-continuous-consciousness-required',0,0]
+        assert state(s) == [0,0,10,0,0,0,0]
+    finally:
+        s.close()

@@ -1928,9 +1928,10 @@
       "status": "partial",
       "acceptance": "Apply battle-equivalent encumbrance and heat costs per road-marching hour; entering combat normally assumes one hour since the last stop unless actual events specify otherwise.",
       "tests": [
-        "tests/expanded.py::test_march_fatigue"
+        "tests/expanded.py::test_march_fatigue",
+        "tests/expanded.py::test_march_hour"
       ],
-      "validation_note": "B426 hourly and assumed-hour combat-interruption costs now use an owned interval receipt with encumbrance, hot weather, heavy clothing and effective cooling. The shared fatigue ledger receives one cost, with owned overflow wounds and no duplicate heat adjustment. Alternate-ID charges for the same interval are rejected. Table, preview, rollback, undo, save replay, cooling and exhaustion assertions authored, unrun. Automatic interval ownership by travel, actual-event exceptions, effort permissions and full-day scheduling remain incomplete."
+      "validation_note": "B426 hourly and assumed-hour combat-interruption costs now use an owned interval receipt with encumbrance, hot weather, heavy clothing and effective cooling. The shared fatigue ledger receives one cost, with owned overflow wounds and no duplicate heat adjustment. Alternate-ID charges for the same interval are rejected. Table, preview, rollback, undo, save replay, cooling and exhaustion assertions authored, unrun. An owned continuous-hour operation now preflights action permission, advances time once, applies this cost and preserves denied attempts. Its exhaustion, rollback, time-change and saved-continuation fixtures are unrun. Mid-hour interruptions, recurring low-HP consciousness checks, actual-event exceptions and full-day scheduling remain incomplete."
     },
     {
       "id": "health-overload-fatigue",

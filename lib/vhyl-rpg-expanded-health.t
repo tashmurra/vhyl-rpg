@@ -6424,3 +6424,86 @@ class RpgExpandedMarchHourCost: object
         value.status = 'resolved'; return value;
     }
 ;
+
+class RpgExpandedMarchExecutionResult: RpgExpandedResult
+    gate = nil
+    cost = nil
+    allowed = nil
+;
+modify RpgExpandedProfile
+    marchExecutions = []
+;
+/** A continuous, fixed-condition marching hour. No distance is inferred from
+ * hourly time: B351 daily mileage includes preparation and rest. */
+class RpgExpandedMarchHour: RpgExpandedMarchHourCost
+    startedAt = nil
+    completedAt = nil
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.interval == nil || dataType(self.interval) != TypeObject || self.basis != 'completed-hour')
+            rpgExpandedReject('march-execution-definition');
+        local value = new RpgExpandedMarchExecutionResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('march-execution-binding');
+            if (!holds(self.profile.marchExecutions,self) || self.result.gate.assess().status != 'reused'
+                || self.completedAt != self.startedAt + self.result.seconds)
+                rpgExpandedReject('march-execution-history');
+            if (self.result.allowed && self.result.cost.assess().status != 'reused')
+                rpgExpandedReject('march-execution-cost-history');
+            value.status = 'reused'; return value;
+        }
+        foreach (local prior in self.profile.marchExecutions)
+            if (prior.id == self.id || prior.interval == self.interval) rpgExpandedReject('march-execution-duplicate');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'march-hour-author-facts'; return value; }
+        if (self.profile.hp() <= 0)
+        { value.reason = 'march-continuous-consciousness-required'; return value; }
+        if (self.profile.move() <= 0) { value.reason = 'march-movement-unavailable'; return value; }
+        local cost = new RpgExpandedMarchHourCost(); cost.id = self.id; cost.profile = self.profile;
+        cost.interval = self.interval; cost.hot = self.hot; cost.heavyClothing = self.heavyClothing; cost.cooling = self.cooling;
+        cost.approved = self.approved; cost.evidence = self.evidence; cost.dropDestination = self.dropDestination;
+        local prepared = cost.assess();
+        if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        local gate = new RpgExpandedActionGate(); gate.id = 'march-' + self.id; gate.profile = self.profile;
+        gate.requiresMovement = true; gate.evidence = self.evidence;
+        local permission = gate.assess();
+        if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147480047); rpgLedger.validateAdvance(3600);
+        value.gate = gate; value.cost = cost; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local start = rpgLedger.seconds;
+        local permission = value.gate.apply();
+        if (permission.status != 'resolved') rpgExpandedReject('march-permission-changed');
+        value.allowed = permission.allowed; value.reason = permission.reason;
+        if (value.allowed)
+        {
+            local before = value.cost.assess(); local movement = self.profile.move();
+            local hp = self.profile.hp(); local fp = self.profile.fp();
+            if (before.status != 'ready') rpgExpandedReject('march-cost-changed');
+            self.profile.restClock = 0; rpgSpendTime(3600);
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != definition[index]) rpgExpandedReject('march-hour-interrupted');
+            local after = value.cost.assess();
+            if (rpgLedger.seconds != start + 3600 || after.status != 'ready' || before.fatigueCost != after.fatigueCost
+                || self.profile.move() != movement || self.profile.hp() != hp || self.profile.fp() != fp
+                || self.profile.hp() <= 0 || self.profile.unconscious
+                || self.profile.dead || self.profile.stunned || self.profile.mentalStun
+                || self.profile.healthEffortReason('action',nil,nil,true) != nil)
+                rpgExpandedReject('march-hour-conditions-changed');
+            if (value.cost.apply().status != 'resolved') rpgExpandedReject('march-hour-cost-unresolved');
+            value.seconds = 3600;
+        }
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = definition;
+        self.result = value; self.profile.marchExecutions = self.profile.marchExecutions + [self];
+        value.status = 'resolved'; return value;
+    }
+;
