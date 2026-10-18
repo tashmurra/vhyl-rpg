@@ -9514,6 +9514,8 @@ def test(build):
     test_march_fatigue(Session, march_fatigue, build.out)
     march_hour = build.build('expanded-march-hour',ROOT / 'tests/fixtures/expanded-march-hour.t')
     test_march_hour(Session, march_hour, build.out)
+    march_group = build.build("expanded-march-group",ROOT / "tests/fixtures/expanded-march-group.t")
+    test_march_group(Session,march_group,build.out)
     test_climb_fall_assessment(Session, climb_assessment)
     test_landing_assessment(Session, climb_assessment)
     landing_attempt = build.build('expanded-landing-attempt',ROOT / 'tests/fixtures/expanded-landing-attempt.t')
@@ -24927,5 +24929,42 @@ def test_packing_pace(Session, bundle):
         assert packed[0] == 80 and ordinary[0] == 100
         assert packed[1] * 5 == ordinary[1] * 4
         assert packed[2:] == ordinary[2:] == [3,0]
+    finally:
+        s.close()
+
+
+def test_march_group(Session, bundle, out):
+    """B426 simultaneous march costs share one hour and existing per-member receipts; unrun."""
+    path = out / 'march-group.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,23502); s.action(2285,23503)
+        assert last(s,'test.march-group-preview') == ['ready',None]
+        assert last(s,'test.march-group-state') == [0,0,0,0,0,0]
+        for code in (23501,23505):
+            s.action(2285,code); s.action(2285,23503)
+            assert last(s,'test.march-group-state') == [0,0,0,0,0,0]
+        s.action(2285,23500); s.command('undo'); s.action(2285,23503)
+        assert last(s,'test.march-group-state') == [0,0,0,0,0,0]
+        for code in (23500,23500,23504,23503):
+            s.action(2285,code)
+        assert last(s,'test.march-group-state') == [3600,1,2,1,1,0]
+        s.action(2285,1137)
+        assert last(s,'test.march-combat') == ['march-hour-already-charged']
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286'); s.action(2285,23500); s.action(2285,23504); s.action(2285,23503)
+        assert last(s,'test.march-group-state') == [3600,1,2,1,1,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (1144,1145,23500,23500,23503):
+            s.action(2285,code)
+        assert last(s,'test.march-group') == ['resolved','march-group-member-denied',0]
+        assert last(s,'test.march-group-state') == [0,10,0,0,0,3]
     finally:
         s.close()

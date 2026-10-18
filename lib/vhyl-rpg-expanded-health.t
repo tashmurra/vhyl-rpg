@@ -8782,3 +8782,107 @@ class RpgExpandedDiagnosticConsultation: object
 modify RpgExpandedProfile
     diagnosticConsultations = []
 ;
+
+/** B426: concurrent marching participants share one elapsed hour. */
+class RpgExpandedMarchGroupResult: RpgExpandedResult
+    allowed = nil
+    members = []
+;
+class RpgExpandedMarchGroup: object
+    id = nil
+    hours = []
+    result = nil
+    startedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    definition()
+    {
+        local facts = [self.id,self.hours.length()];
+        foreach (local hour in self.hours) facts = facts + [hour] + hour.definition();
+        return facts;
+    }
+    assess()
+    {
+        local value = new RpgExpandedMarchGroupResult();
+        if (self.id == nil || self.id == '' || self.hours.length() == 0) rpgExpandedReject('march-group-definition');
+        local profiles = []; local interval = nil;
+        foreach (local hour in self.hours)
+        {
+            if (hour == nil || !hour.ofKind(RpgExpandedMarchHour) || holds(profiles,hour.profile))
+                rpgExpandedReject('march-group-member');
+            if (interval != nil && hour.interval != interval) rpgExpandedReject('march-group-interval');
+            interval = hour.interval; profiles = profiles + [hour.profile];
+        }
+        if (self.result != nil)
+        {
+            local facts = self.definition();
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('march-group-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('march-group-binding');
+            for (local i = 1; i <= self.hours.length(); i += 1)
+            {
+                local hour = self.hours[i];
+                if (hour.result != self.result.members[i] || hour.assess().status != 'reused'
+                    || hour.startedAt != self.startedAt || hour.completedAt != self.completedAt)
+                    rpgExpandedReject('march-group-history');
+            }
+            value.status = 'reused'; return value;
+        }
+        foreach (local hour in self.hours)
+        {
+            if (hour.result != nil) rpgExpandedReject('march-group-used-member');
+            local prepared = hour.assess();
+            if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+            value.members = value.members + [prepared];
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds; local states = []; value.allowed = true;
+        foreach (local prepared in value.members)
+        {
+            local permission = prepared.gate.apply();
+            if (permission.status != 'resolved') rpgExpandedReject('march-group-gate-changed');
+            if (!permission.allowed) { value.allowed = nil; value.reason = 'march-group-member-denied'; }
+        }
+        if (value.allowed)
+        {
+            for (local i = 1; i <= self.hours.length(); i += 1)
+            {
+                local profile = self.hours[i].profile; local before = value.members[i].cost.assess();
+                if (before.status != 'ready') rpgExpandedReject('march-group-cost-changed');
+                states = states + [[profile.move(),profile.hp(),profile.fp(),before.fatigueCost]]; profile.restClock = 0;
+            }
+            rpgSpendTime(3600);
+            local current = self.definition();
+            if (current.length() != facts.length()) rpgExpandedReject('march-group-interrupted');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (current[i] != facts[i]) rpgExpandedReject('march-group-interrupted');
+            for (local i = 1; i <= self.hours.length(); i += 1)
+            {
+                local profile = self.hours[i].profile; local prepared = value.members[i]; local after = prepared.cost.assess();
+                if (rpgLedger.seconds != start + 3600 || after.status != 'ready'
+                    || after.fatigueCost != states[i][4] || profile.move() != states[i][1]
+                    || profile.hp() != states[i][2] || profile.fp() != states[i][3] || profile.hp() <= 0
+                    || profile.dead || profile.unconscious || profile.stunned || profile.mentalStun
+                    || profile.healthEffortReason('action',nil,nil,true) != nil)
+                    rpgExpandedReject('march-group-conditions-changed');
+            }
+            foreach (local prepared in value.members)
+                if (prepared.cost.apply().status != 'resolved') rpgExpandedReject('march-group-cost-changed');
+            value.seconds = 3600;
+        }
+        for (local i = 1; i <= self.hours.length(); i += 1)
+        {
+            local hour = self.hours[i]; local prepared = value.members[i];
+            prepared.allowed = value.allowed; prepared.reason = value.reason; prepared.seconds = value.seconds; prepared.status = 'resolved';
+            hour.startedAt = start; hour.completedAt = rpgLedger.seconds; hour.boundDefinition = hour.definition(); hour.result = prepared;
+            hour.profile.marchExecutions = hour.profile.marchExecutions + [hour];
+        }
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = facts; self.result = value;
+        value.status = 'resolved'; return value;
+    }
+;

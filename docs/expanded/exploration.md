@@ -1947,3 +1947,13 @@ animals a hiking skill or create a separate daily-roll entitlement.
 hiking, a weather case sensitive to rounding order, missing participation facts
 and daily receipt reuse. Fixtures remain unrun. Committed caravan movement,
 fatigue across all participants and encounter boundaries remain pending.
+
+
+### Concurrent caravan exertion
+
+Health's [`RpgExpandedMarchGroup`](health.md#a-shared-marching-hour) can execute one
+continuous road-travel hour for multiple participants without multiplying elapsed
+time. Each participant retains their own encumbrance and environmental fatigue.
+Use it alongside caravan pace assessment; it does not convert daily mileage to an
+hourly distance. Interrupted travel, overloaded movement and encounter boundaries
+still need explicit integration.

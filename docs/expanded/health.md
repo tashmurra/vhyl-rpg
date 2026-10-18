@@ -3902,3 +3902,30 @@ during the care interval; those still require integration.
 `test_first_aid_equipment` specifies fine-tool scoring, advanced technology,
 inaccessible tools, preview purity, rollback, undo and replay after tools are
 removed. Definition changes reject. Fixtures are authored and unrun.
+
+
+## A shared marching hour
+
+`RpgExpandedMarchGroup` coordinates a nonempty `hours` list of
+`RpgExpandedMarchHour` objects under one group `id` (full-2008 B426). Each member
+must be a different profile, with its own approved conditions and the same interval
+identity. `assess()` previews every member before any roll or elapsed time.
+
+`apply()` resolves each existing action gate. If any member cannot proceed, the
+group commits those gate outcomes but spends no marching time and charges no hourly
+fatigue. If all may proceed, it advances the shared ledger by 3600 seconds once,
+checks that every member's conditions stayed stable, then applies each existing
+march-hour cost. The resulting individual executions remain reusable on their own;
+neither group replay nor later individual calls charge a second hour or cost.
+
+Use the normal engine action transaction so changed conditions or a failed commit
+roll back the whole group. Different encumbrance, heat and clothing costs remain
+per member. Existing overload one-second restrictions reject this continuous-hour
+operation. Interrupted or overloaded travel still requires a finer-grained adapter.
+Daily mileage is separate: the reference's daily distance includes preparation and
+rest and does not establish an hourly conversion.
+
+`test_march_group` specifies individual fatigue amounts with one shared hour,
+preview purity, denied effort, mid-hour changes, rollback, undo, individual/group
+replay, duplicate combat-fatigue rejection and cross-process continuation. Fixtures
+remain unrun while checks are paused.
