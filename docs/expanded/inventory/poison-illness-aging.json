@@ -1124,9 +1124,10 @@
       "status": "partial",
       "acceptance": "An open wound treated with the specified technology-six-or-higher antibacterial care avoids infection except on critical failure of first aid or physician treatment.",
       "tests": [
-        "tests/expanded.py::test_infection_assessments"
+        "tests/expanded.py::test_infection_assessments",
+        "tests/expanded.py::test_infection_acquisition"
       ],
-      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
+      "validation_note": "Pure infection assessments and private owned wound-acquisition receipts authored. Fixtures unrun. Acquisition transaction/save coverage, progression, immunity exceptions, discovery and other hazard procedures remain incomplete."
     },
     {
       "id": "infection-initial-check",
@@ -1137,9 +1138,10 @@
       "status": "partial",
       "acceptance": "An untreated wound exposed to authored unclean circumstances checks health+3 with cumulative contamination modifiers; these replace ordinary contagion contact categories.",
       "tests": [
-        "tests/expanded.py::test_infection_assessments"
+        "tests/expanded.py::test_infection_assessments",
+        "tests/expanded.py::test_infection_acquisition"
       ],
-      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
+      "validation_note": "Pure infection assessments and private owned wound-acquisition receipts authored. Fixtures unrun. Acquisition transaction/save coverage, progression, immunity exceptions, discovery and other hazard procedures remain incomplete."
     },
     {
       "id": "infection-progression",

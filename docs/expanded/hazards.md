@@ -4,9 +4,9 @@
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
-Include `vhyl-rpg-expanded-hazards.t` after the expanded foundation. The initial
-implementation supplies pure infection assessments; it does not yet commit
-exposures or progression. The all-module umbrella includes these capabilities
+Include `vhyl-rpg-expanded-hazards.t` after the expanded foundation and expanded health. The current
+implementation supplies infection assessments and owned acquisition receipts;
+it does not yet commit daily progression. The all-module umbrella includes these capabilities
 without activating any hazard.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
@@ -123,3 +123,32 @@ remain incomplete. The minimal fixture
 library independently; `test_infection_assessments` covers combined modifiers,
 prevention, daily treatment, unsupported cases and preview purity. Checks remain
 paused, so these fixtures are unrun.
+
+
+## Owned wound exposure
+
+`RpgExpandedInfectionExposure` takes a committed expanded `wound`, an
+`RpgExpandedInfectionContext` as `conditions`, and authored `evidence` identifying
+its open-wound exposure. `assess()` performs eligibility checks without consuming
+randomness. `apply()` resolves the acquisition check once through the shared HT
+and disease-resistance context, or records prevention without rolling. It does
+not spend additional time for discovering an exposure that already occurred.
+
+The wound's `infectionExposure` owns the receipt. Its `acquiredAt` captures the
+shared time ledger. Repeated calls return the original result; another object
+for that wound is blocked. Conditions and evidence bind on commit and cannot be
+changed to obtain another roll. New contamination of the same wound is currently
+unsupported rather than silently treated as a fresh exposure.
+
+The result's `infected`, `prevented` and `check` fields are private author state.
+The library emits no event announcing infection; hosts must preserve hidden
+acquisition until an appropriate discovery or symptom procedure permits it.
+This receipt is not a symptom, diagnosis, or disease-damage record.
+
+The module now depends on expanded health for authoritative wound ownership.
+Existing disease-resistance bonuses are reused. Complete immunity, unusually low
+resistance scores, critical-treatment exceptions, progression, recovery locks,
+reinfection and discovery contracts remain incomplete. Acquisition rollback,
+undo and save fixtures also remain to be added. `test_infection_acquisition`
+covers resistance, infection, prevention, preview purity and repeat protection;
+these authored cases remain unrun while checks are paused.

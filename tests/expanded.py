@@ -408,6 +408,16 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def test_infection_acquisition(s):
+    for seed, antibiotic, expected in [
+            (1,0,[0,0,10,'reused','infection-exposure-already-resolved',2,3,0]),
+            (5,0,[1,0,17,'reused','infection-exposure-already-resolved',2,3,0]),
+            (5,1,[0,1,0,'reused','infection-exposure-already-resolved',2,0,0])]:
+        s.action(1801, seed, antibiotic)
+        assert last(s, 'test.infection-preview') == ['ready',0,0]
+        assert last(s, 'test.infection-acquisition') == expected
+
+
 def test_infection_assessments(s):
     for matter, locale, penalty in [(0,0,0),(1,0,-2),(0,1,-3),(1,1,-5)]:
         s.action(1800, 0, matter, locale, 0, 6, 0, 1)
@@ -2983,6 +2993,7 @@ def test(build):
     fresh(Session,social,test_trade_modifiers)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
+    fresh(Session,hazards,test_infection_acquisition)
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)
