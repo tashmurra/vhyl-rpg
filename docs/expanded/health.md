@@ -3423,3 +3423,38 @@ checks, collapse/drop uniqueness, missing-destination preflight, preview, replay
 rollback, undo and cross-process save continuation. All assertions remain unrun
 while checks are paused. Full fear-roll orchestration and remaining row executors
 are still incomplete.
+
+
+## Timed fear panic
+
+`RpgExpandedFearPanic` supplies the timing of row twenty-one (`full-2008`,
+B361). Set a unique `id`, ready `RpgExpandedFearContext`, `approved = true`,
+`evidence` recording that selected table outcome, `behaviorKind` and original
+`behavior` text. Kinds are `cry`, `agitated-motion` or `other-pointless`; the
+author describes the actual pointless behavior. The record does not invent a
+route, move the character, choose targets or charge an action. Behavior/action
+routing is still pending, so this is a partial outcome executor.
+
+`assess()` is pure. `apply()` rolls one die and records an initial deadline that
+many minutes after the shared clock, without immediately advancing time. The
+profile owns the current episode in `fearPanic` and retains history in
+`fearPanicEpisodes`. Repeated application does not roll again.
+
+At the exact deadline, a distinct `RpgExpandedFearPanicRecovery` with an `id` and
+`episode` resolves the first recovery check through `apply()`. It uses unmodified
+Will, with neither the initial fear cap nor the original scene modifier. Success
+clears the current panic pointer; failure schedules another check sixty seconds
+later. The caller's shared clock has already charged the elapsed interval, so
+recovery adds no second time charge. Replaying a receipt does not reroll.
+
+The clock rejects advances past an unresolved recovery deadline. Dead actors do
+not hold up the clock. An actor who becomes unconscious cannot take a recovery
+check; interruption/resumption semantics for that combination remain unresolved
+and must not be represented as a supported progression through the deadline.
+Starting while dead, unconscious or already in a panic episode is rejected.
+
+[`expanded-fear-panic.t`](../../tests/fixtures/expanded-fear-panic.t) and
+`test_fear_panic` specify preview, one-die timing, early and due recovery, failed
+and successful minute checks, uncapped Will, clock boundaries, replay, rollback,
+undo and cross-process save continuation. All assertions remain unrun. The
+presence of a behavior description does not count as implemented action routing.

@@ -9192,6 +9192,8 @@ def test(build):
     test_voice_origin(Session, voice_origin, build.out)
     fear_acute = build.build('expanded-fear-acute',ROOT / 'tests/fixtures/expanded-fear-acute.t')
     test_fear_acute(Session, fear_acute, build.out)
+    fear_panic = build.build('expanded-fear-panic',ROOT / 'tests/fixtures/expanded-fear-panic.t')
+    test_fear_panic(Session, fear_panic, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20140,5 +20142,44 @@ def test_fear_acute(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.fear-acute-preview') == ['blocked', 'knockdown-drop-destination-required', 0]
         assert last(s, 'test.fear-acute-state') == [0, 'standing', 0, 0, 0, 0, 0, 0]
+    finally:
+        s.close()
+
+
+def test_fear_panic(Session, bundle, out):
+    """B361 row 21 duration and uncapped unmodified Will minute recovery; unrun."""
+    path = out / 'expanded-fear-panic.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10600, 10601, 10603, 10604):
+            s.action(2285, code)
+        assert last(s, 'test.panic-preview') == ['ready', 0]
+        assert last(s, 'test.panic-state') == [0, 0, None, None, 0, 0]
+        s.action(2285, 10602)
+        s.command('undo')
+        s.action(2285, 10604)
+        assert last(s, 'test.panic-state') == [0, 0, None, None, 0, 0]
+        for code in (10602, 10602, 10606, 10609, 10605, 10610, 10604):
+            s.action(2285, code)
+        assert last(s, 'test.panic-clock') == ['fear-panic-recovery-boundary', 0, 1]
+        assert last(s, 'test.panic-state') == [1, 1, 60, None, 60, 1]
+        s.action(2285, 10606)
+        s.command('undo')
+        s.action(2285, 10604)
+        assert last(s, 'test.panic-state') == [1, 1, 60, None, 60, 1]
+        for code in (10606, 10606, 10604):
+            s.action(2285, code)
+        assert last(s, 'test.panic-recovery') == ['reused', None, 10, 0]
+        assert last(s, 'test.panic-state') == [1, 1, 120, None, 60, 4]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10605, 10608, 10607, 10607, 10604):
+            s.action(2285, code)
+        assert last(s, 'test.panic-recovery') == ['reused', None, 20, 1]
+        assert last(s, 'test.panic-state') == [1, 0, 120, 120, 120, 7]
     finally:
         s.close()

@@ -1121,9 +1121,10 @@
       "status": "partial",
       "acceptance": "An authored panic behavior lasts one die of minutes, then unmodified will is checked each minute for recovery.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_panic"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned initial 1d-minute episode with explicit authored pointless behavior, shared-clock boundaries and persistent unmodified-Will recovery once per minute. Does not impose automatic routes or execute behavior; action routing, incapacitation interruptions and full fear selection remain pending. Lifecycle fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-22",

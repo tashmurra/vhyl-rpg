@@ -1602,3 +1602,10 @@ the shared wound ledger, unconditional collapse and one held-item drop. Every
 possible injury amount is preflighted before randomness. Full fear orchestration
 and remaining outcomes are still pending; new injury/drop lifecycle fixtures are
 authored but unrun.
+
+
+Fear row twenty-one now has an owned one-die-minute timeline and persistent
+unmodified-Will recovery checks at minute boundaries, without duplicate time
+charges or rerolls. Author-selected pointless behavior is recorded, but action
+routing and incapacitation interruptions remain unfinished. Timing and lifecycle
+fixtures are authored but unrun; the row remains partial.
