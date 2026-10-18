@@ -4,9 +4,9 @@
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
-Include `vhyl-rpg-expanded-social.t` after the expanded foundation. Purchased
-standing and a pure relative-standing modifier are available; full reactions,
-influence and permissions remain pending.
+Include `vhyl-rpg-expanded-social.t` after the expanded foundation. Available procedures include standing and rank accounting, contextual reactions,
+information exchanges, trade and loyalty. The guide below defines each supported
+subset; full catalogue effects, influence and permissions remain incomplete.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
 

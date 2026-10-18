@@ -1,41 +1,49 @@
 # Unreleased expanded preview
 
-This branch starts the optional expanded rules conversion. It is not a stable
-release and does not claim full-reference coverage. VERSION remains the current
-published release until a separately reviewed release is prepared.
+This branch implements an incomplete experimental suite. It is not a stable
+release and does not claim full-reference coverage. VERSION remains unchanged;
+no tag or release publication is part of this work.
 
-Available experimental mechanics include secondary purchases, four-column skill
-pricing, explicit paid defaults, technique investment, positive-trait percentage
-pricing, extended range and damage rows, task timing, character package factories
-and study tracks. The signal-workshop example uses common parser, structured-action
-and dialogue operations.
+The expanded foundation and convenience umbrella currently include ten partial
+feature modules: campaign, characters, development, equipment, exploration,
+health, skills, social, templates and traits. Combat, creatures, hazards, magic,
+psionics, tactical, technology and vehicles remain proposed modules with no
+standalone runtime library. Available include paths are distinguished from
+proposals in the [library catalogue](../libraries.md).
 
-Existing core and Lite APIs retain their behavior. New APIs use the
-`RpgExpanded` / `rpgExpanded` prefixes. Public guides use neutral reference IDs and
-page labels; private reference files and branded source identifiers are excluded.
+The implemented subsets include secondary purchases and character accounting,
+trait pricing, richer skill/default/technique procedures, template composition,
+equipment and legal access, contextual reactions and social exchanges, study,
+employment and wealth advancement. Each module guide records its actual scope.
+The full skill, trait, equipment and supernatural catalogues remain incomplete.
 
-The [library catalogue](../libraries.md) lists all current modules and the full
-proposed suite, sorted by required dependencies and optional libraries. The
-[coverage ledger](../expanded/coverage.json) records implemented features and
-remaining work. Ten proposed modules have no runtime implementation, the
-available modules are partial, and detailed catalogue-entry enumeration remains
-unfinished. Full combat, tactical, health/hazard, supernatural, creature,
-technology, vehicle and campaign integration must be completed before claiming
-the planned conversion is delivered.
+The health module now includes scaled shock, supported location wounds, owned
+arm/hand state, equipment and unarmed-parry restrictions, single- and multiple-grip
+drops, disability duration, temporary full-health recovery and lasting recovery
+through authored calendar milestones. Later completed physician care can shorten
+recovery without stacking discounts. An explicit last-wounds option records
+ignored injuries without spending health or randomness. Other anatomy,
+accumulated wounds, full medical procedures, surgery and permanent-disability
+accounting remain incomplete.
 
-Validation for this preview must include the existing regressions, independent
-expanded arithmetic checks, study history/persistence, example input parity,
-strict documentation generation and package construction. Passing those checks
-validates the implemented subset; it does not certify pending mechanics.
+New public expansion APIs use `RpgExpanded` / `rpgExpanded` prefixes. Shared Lite
+hooks default to the existing behavior; the latest compatibility and persistence
+claims still require validation. Injury, fatigue, inventory and advancement
+continue to use their existing balances. Calendar milestones represent authored
+world facts and do not introduce a second time-spending ledger. Save support
+retains the exact-compiled-game policy; there is no automatic old-save migration.
 
-Signed trait-price arithmetic and an approved negative-price specification now
-feed into the existing character cost ledger. Self-control pricing supports the
-four printed ratings and rejects unresolved combinations with percentage
-modifiers. Native examples and invalid-request cases are authored but have not
-been run during the requested check pause; catalogue effects remain pending.
+Public documentation uses neutral reference IDs, edition/printing metadata and
+printed page labels. Private source links, source book titles, source prose and
+artwork are not repository deliverables. The comparison guide, per-module guides,
+source inventories and [coverage ledger](../expanded/coverage.json) describe the
+remaining work. Detailed inventory and catalogue enumeration are not complete.
 
-The campaign module now provides a partial equipment legal-access assessment and
-an acquisition gate bound to the buyer and item. It requires the expanded equipment
-module. Registration, licensing and institutional-access boundaries have authored
-native cases, including a minimal dependency fixture, but validation remains paused.
-This does not implement the remaining economic, legal or world-travel procedures.
+Build checks and CI are paused at the user's request until implementation is
+complete. Recent source/native fixtures, transaction and save-continuation cases,
+and documentation changes are authored but unrun. Older successful checks do
+not validate the current head. Required final checks include existing core/Lite
+regressions, independent source-value checks, module dependencies, combined
+examples, input parity, rollback/undo/save continuation, strict documentation,
+neutral naming, source coverage and packaging. The full PR remains draft until
+implementation and those acceptance requirements are satisfied.

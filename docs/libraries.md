@@ -27,7 +27,7 @@ Include the engine once. For Lite, include progression followed by the Lite umbr
 | --- | --- | --- | --- | --- | --- |
 | Conflict | `vhyl-rpg-conflict.t` | Core + resilience | Simplified profiles | Available | [Guide](resilience.md) / [example](../examples/resilience/main.t) |
 | Expanded all | `vhyl-rpg-expanded-all.t` | Core + progression + Lite | Expanded profiles | Experimental; available modules only | [Guide](expanded/index.md) / [example](../examples/expanded/main.t) |
-| Expanded campaign | `vhyl-rpg-expanded-campaign.t` | Expanded foundation + equipment | Expanded profiles | Partial: legal access, enforcement and starting wealth | [Guide](expanded/campaign.md) / [minimal fixture](../tests/fixtures/expanded-campaign.t) |
+| Expanded campaign | `vhyl-rpg-expanded-campaign.t` | Expanded foundation + equipment | Expanded profiles | Partial: legal access, employment, wealth and recurring finances | [Guide](expanded/campaign.md) / [minimal fixture](../tests/fixtures/expanded-campaign.t) |
 | Expanded characters | `vhyl-rpg-expanded-characters.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/characters.md) / [example](../examples/expanded/main.t) |
 | Expanded combat | `vhyl-rpg-expanded-combat.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/combat.md) / no example yet |
 | Expanded creatures | `vhyl-rpg-expanded-creatures.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/creatures.md) / no example yet |
@@ -35,11 +35,11 @@ Include the engine once. For Lite, include progression followed by the Lite umbr
 | Expanded equipment | `vhyl-rpg-expanded-equipment.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/equipment.md) / [example](../examples/expanded/main.t) |
 | Expanded exploration | `vhyl-rpg-expanded-exploration.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/exploration.md) / [example](../examples/expanded/main.t) |
 | Expanded hazards | `vhyl-rpg-expanded-hazards.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/hazards.md) / no example yet |
-| Expanded health | `vhyl-rpg-expanded-health.t` | Expanded foundation | Expanded profiles | Partial: shock and supported location wounds | [Guide](expanded/health.md) / [minimal fixture](../tests/fixtures/expanded-health.t) |
+| Expanded health | `vhyl-rpg-expanded-health.t` | Expanded foundation | Expanded profiles | Partial: supported wounds, upper-limb effects and recovery | [Guide](expanded/health.md) / [minimal fixture](../tests/fixtures/expanded-health.t) |
 | Expanded magic | `vhyl-rpg-expanded-magic.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/magic.md) / no example yet |
 | Expanded psionics | `vhyl-rpg-expanded-psionics.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/psionics.md) / no example yet |
 | Expanded skills | `vhyl-rpg-expanded-skills.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/skills.md) / [example](../examples/expanded/main.t) |
-| Expanded social | `vhyl-rpg-expanded-social.t` | Expanded foundation | Expanded profiles | Partial: standing and rank accounting | [Guide](expanded/social.md) / [minimal fixture](../tests/fixtures/expanded-social.t) |
+| Expanded social | `vhyl-rpg-expanded-social.t` | Expanded foundation | Expanded profiles | Partial: standing, reactions, trade, information and loyalty | [Guide](expanded/social.md) / [minimal fixture](../tests/fixtures/expanded-social.t) |
 | Expanded tactical | `vhyl-rpg-expanded-tactical.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/tactical.md) / no example yet |
 | Expanded technology | `vhyl-rpg-expanded-technology.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/technology.md) / no example yet |
 | Expanded templates | `vhyl-rpg-expanded-templates.t` | Expanded foundation + characters + skills | Expanded profiles | Partial | [Guide](expanded/templates.md) / [example](../examples/expanded/main.t) |

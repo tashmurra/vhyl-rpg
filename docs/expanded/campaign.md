@@ -9,8 +9,9 @@ B486–B546 (mechanical content only).
 
 Include `vhyl-rpg-expanded-campaign.t` after the expanded foundation and equipment
 module. Available interfaces cover equipment legal access, uncertain control-rating
-decisions, starting wealth, recurring income/debt and point-for-money exchanges.
-Employment, wider economic/legal procedures and world travel remain pending.
+decisions, starting wealth, recurring income/debt, point-for-money exchanges,
+employment, recruitment and wealth advancement. These remain partial procedures;
+wider economic/legal coverage and world travel remain pending.
 The detailed source inventory contains:
 
 - [Campaign procedures](inventory/campaign-procedures.json): profile choices,
