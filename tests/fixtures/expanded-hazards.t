@@ -208,5 +208,22 @@ act(verb,args)
         eventValue(value.context.skill == skill ? 1 : 0); eventValue(rpgRandom.draws - draws);
         eventValue(rpgLedger.seconds - time); return nil;
     }
+    if (verb == 1832)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.fatigue = 2; patient.temperatureFatigue = 2;
+        local exposure = new RpgExpandedColdExposure(); exposure.id = 'winter-watch'; exposure.profile = patient;
+        exposure.temperatureEvidence = 'Observed freezing temperature, still air'; exposure.start();
+        local interval = new RpgExpandedColdInterval(); interval.id = 'first'; interval.exposure = exposure;
+        rpgRandom.seed(5); local early = interval.apply(); rpgSpendTime(1800); local time = rpgLedger.seconds;
+        local value = interval.apply(); local repeat = interval.apply(); patient.validateFeatures();
+        event('test.cold-interval'); eventValue(early.reason); eventValue(value.fatigue); eventValue(repeat.status);
+        eventValue(patient.fatigue); eventValue(patient.temperatureFatigue); eventValue(exposure.lockedFatigue);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds - time);
+        local blocked = exposure.finish(true,nil,'Shelter without heat');
+        local ended = exposure.finish(true,true,'Shelter and a working heat source'); patient.validateFeatures();
+        event('test.cold-shelter'); eventValue(blocked.reason); eventValue(ended.status);
+        eventValue(patient.fatigue); eventValue(patient.temperatureFatigue); eventValue(exposure.lockedFatigue);
+        eventValue(patient.coldExposure == nil ? 1 : 0); eventValue(rpgLedger.seconds - time); return nil;
+    }
     return vhylAct(verb,args);
 }

@@ -683,6 +683,12 @@ def test_rejuvenation(s):
     assert last(s, 'test.youth-result') == ['blocked','blocked',0,10,0,20,0,0,0,0]
 
 
+def test_cold_intervals(s):
+    s.action(1832)
+    assert last(s, 'test.cold-interval') == ['cold-interval-not-due',1,'reused',3,3,1,3,0]
+    assert last(s, 'test.cold-shelter') == ['cold-recovery-shelter-and-heat','resolved',3,2,0,1,0]
+
+
 def test_cold_assessments(s):
     for args, expected in [
             ((35,0,'winter',0,35),[0,0,0,0]), ((34,9,'winter',0,35),[1,1800,0,1]),
@@ -3353,6 +3359,7 @@ def test(build):
     fresh(Session,hazards,test_aging_sequence)
     fresh(Session,hazards,test_aging_events)
     fresh(Session,hazards,test_cold_assessments)
+    fresh(Session,hazards,test_cold_intervals)
     fresh(Session,hazards,test_rejuvenation)
     aging_transactions = build.build('expanded-aging-transactions',ROOT / 'tests/fixtures/expanded-aging-transactions.t')
     fresh(Session,aging_transactions,test_rejuvenation_transactions)

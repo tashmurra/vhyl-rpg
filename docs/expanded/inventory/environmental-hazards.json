@@ -604,9 +604,10 @@
       "status": "partial",
       "acceptance": "Below the actor's cold comfort threshold, roll the better of health and health-based arctic survival every thirty minutes, shortened by wind.",
       "tests": [
-        "tests/expanded.py::test_cold_assessments"
+        "tests/expanded.py::test_cold_assessments",
+        "tests/expanded.py::test_cold_intervals"
       ],
-      "validation_note": "Pure B430 cold assessment uses explicit effective temperature and compares HT with HT-based arctic survival through expanded skills. Fixtures unrun. Owned intervals, fatigue/injury commits, shelter recovery and exceptional physiology remain incomplete."
+      "validation_note": "Owned fixed-condition intervals use shared fatigue and episode-specific temperature recovery restrictions. Shelter plus heat releases only the episode lock. Fixtures unrun. Overflow injury, changing conditions, automatic scheduling and cold transaction/save coverage remain incomplete."
     },
     {
       "id": "environment-cold-cost",
@@ -614,9 +615,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Cold-check failure spends one fatigue and may cause overflow injury; recovery of cold-caused fatigue or injury requires adequate shelter and a heat source.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cold_intervals"
+      ],
+      "validation_note": "Owned fixed-condition intervals use shared fatigue and episode-specific temperature recovery restrictions. Shelter plus heat releases only the episode lock. Fixtures unrun. Overflow injury, changing conditions, automatic scheduling and cold transaction/save coverage remain incomplete."
     },
     {
       "id": "environment-cold-armor",

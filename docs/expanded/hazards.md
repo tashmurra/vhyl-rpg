@@ -443,3 +443,33 @@ They do not clear another climate episode's recovery restriction. The source and
 integration expectations in `test_cold_assessments` include wind boundaries,
 clothing combinations, subzero increments, comfort thresholds and a character
 whose perception exceeds HT. Fixtures remain unrun while checks are paused.
+
+
+## Owned cold intervals
+
+`RpgExpandedColdExposure` extends the cold context with a unique `id` and owned
+history. `start()` records the current shared time and binds unchanged conditions;
+one active cold exposure is permitted per character. Repeated starts do not reset
+the clock. Changing bound weather, clothing or survival inputs is rejected.
+Weather transitions and partial-interval carryover remain unsupported.
+
+For each due boundary create `RpgExpandedColdInterval` with unique episode-local
+`id` and `exposure`. The host advances time once; `apply()` checks the exact
+boundary without charging it again. Failure uses the shared fatigue function and
+adds the loss to `temperatureFatigue`. The episode's `lockedFatigue` records its
+contribution to that restriction, not another fatigue balance. Repeated interval
+requests return their receipt. Early or missed boundaries block, and finishing
+an episode cannot skip an already due interval.
+
+`finish(shelter, heatSource, evidence)` requires both adequate shelter and a heat
+source. It releases only this episode's temperature recovery restriction and
+ends the exposure; it does not restore fatigue or remove another source's lock.
+Normal recovery can then restore eligible fatigue. Historical receipts remain
+available after the episode ends.
+
+Overflow at zero fatigue is explicitly blocked pending integration with owned
+injury consequences. Thermal shock, changing conditions, automatic scheduling,
+and cold-specific transaction/save fixtures remain incomplete.
+`test_cold_intervals` records expected timing, failure cost, repeated use, history
+validation, missing-heat rejection and preservation of another temperature lock.
+The fixture remains unrun while checks are paused.

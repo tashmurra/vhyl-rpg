@@ -715,3 +715,163 @@ class RpgExpandedColdContext: object
         return value;
     }
 ;
+
+modify RpgExpandedProfile
+    coldExposure = nil
+    coldHistory = []
+;
+
+/** One period of unchanged authored cold conditions. */
+class RpgExpandedColdExposure: RpgExpandedColdContext
+    id = nil
+    startedAt = nil
+    lastCheckAt = nil
+    intervals = []
+    lockedFatigue = 0
+    lockedInjury = 0
+    ended = nil
+    endedAt = nil
+    shelterEvidence = nil
+    boundId = nil
+    boundProfile = nil
+    boundTemperature = 0
+    boundWind = 0
+    boundClothing = nil
+    boundWet = nil
+    boundComfort = 0
+    boundEvidence = nil
+    boundSurvival = nil
+    validateBinding()
+    {
+        if (self.id != self.boundId || self.profile != self.boundProfile || self.effectiveF != self.boundTemperature
+            || self.windMph != self.boundWind || self.clothing != self.boundClothing || self.wet != self.boundWet
+            || self.lowerComfortF != self.boundComfort || self.temperatureEvidence != self.boundEvidence
+            || self.survival != self.boundSurvival || !holds(self.profile.coldHistory,self))
+            rpgExpandedReject('cold-exposure-binding');
+        return nil;
+    }
+    start()
+    {
+        if (self.startedAt != nil)
+        {
+            self.validateBinding(); local reused = new RpgExpandedResult(); reused.status = 'reused'; return reused;
+        }
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (!value.checkRequired) { value.status = 'blocked'; value.reason = 'cold-exposure-not-required'; return value; }
+        if (self.id == nil || self.id == '') rpgExpandedReject('cold-exposure-id');
+        if (self.profile.coldExposure != nil) { value.status = 'blocked'; value.reason = 'cold-exposure-active'; return value; }
+        foreach (local prior in self.profile.coldHistory)
+            if (prior.id == self.id) rpgExpandedReject('cold-exposure-duplicate');
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundTemperature = self.effectiveF;
+        self.boundWind = self.windMph; self.boundClothing = self.clothing; self.boundWet = self.wet;
+        self.boundComfort = self.lowerComfortF; self.boundEvidence = self.temperatureEvidence; self.boundSurvival = self.survival;
+        self.startedAt = rpgLedger.seconds; self.lastCheckAt = self.startedAt;
+        self.profile.coldHistory = self.profile.coldHistory + [self]; self.profile.coldExposure = self;
+        value.status = 'resolved'; return value;
+    }
+    finish(shelter, heatSource, evidence)
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt == nil) { value.reason = 'cold-exposure-not-started'; return value; }
+        self.validateBinding();
+        if (self.ended) { value.status = 'reused'; return value; }
+        if (!shelter || !heatSource || evidence == nil || evidence == '')
+        { value.reason = 'cold-recovery-shelter-and-heat'; return value; }
+        local conditions = rpgExpandedColdWeather(self.effectiveF,self.windMph,self.clothing,self.wet,self.lowerComfortF);
+        if (rpgLedger.seconds >= self.lastCheckAt + conditions.intervalSeconds)
+        { value.reason = 'cold-unresolved-interval'; return value; }
+        if (self.profile.coldExposure != self || self.lockedFatigue > self.profile.temperatureFatigue
+            || self.lockedInjury > self.profile.temperatureInjury) rpgExpandedReject('cold-exposure-balance');
+        self.profile.temperatureFatigue -= self.lockedFatigue; self.profile.temperatureInjury -= self.lockedInjury;
+        self.lockedFatigue = 0; self.lockedInjury = 0; self.ended = true; self.endedAt = rpgLedger.seconds; self.shelterEvidence = evidence;
+        self.profile.coldExposure = nil; value.status = 'resolved'; return value;
+    }
+;
+
+class RpgExpandedColdIntervalResult: RpgExpandedResult
+    fatigue = 0
+;
+
+class RpgExpandedColdInterval: object
+    id = nil
+    exposure = nil
+    boundId = nil
+    boundExposure = nil
+    completedAt = nil
+    result = nil
+    assess()
+    {
+        local value = new RpgExpandedColdIntervalResult();
+        if (self.exposure == nil || !self.exposure.ofKind(RpgExpandedColdExposure)) rpgExpandedReject('cold-interval-exposure');
+        if (self.exposure.startedAt == nil) { value.reason = 'cold-exposure-not-started'; return value; }
+        self.exposure.validateBinding();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.exposure != self.boundExposure || !holds(self.exposure.intervals,self))
+                rpgExpandedReject('cold-interval-binding');
+            value.status = 'reused'; value.check = self.result.check; value.fatigue = self.result.fatigue; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('cold-interval-id');
+        foreach (local prior in self.exposure.intervals)
+            if (prior.id == self.id) rpgExpandedReject('cold-interval-duplicate');
+        if (self.exposure.ended || self.exposure.profile.coldExposure != self.exposure)
+        { value.reason = 'cold-exposure-not-active'; return value; }
+        local assessment = self.exposure.assess();
+        if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
+        local due = self.exposure.lastCheckAt + assessment.intervalSeconds;
+        if (rpgLedger.seconds != due)
+        { value.reason = rpgLedger.seconds < due ? 'cold-interval-not-due' : 'cold-missed-boundary'; return value; }
+        if (self.exposure.profile.fp() <= 0)
+        { value.reason = 'cold-overflow-injury-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local assessment = self.exposure.assess();
+        value.check = rpgLiteCheck(self.exposure.profile,assessment.context);
+        if (!value.check.achieved)
+        {
+            local fatigue = rpgLiteFatigue(self.exposure.profile,1,'temperature'); value.fatigue = fatigue.fatigue;
+            self.exposure.profile.temperatureFatigue += value.fatigue; self.exposure.lockedFatigue += value.fatigue;
+        }
+        self.boundId = self.id; self.boundExposure = self.exposure; self.completedAt = rpgLedger.seconds;
+        self.exposure.lastCheckAt = self.completedAt; self.exposure.intervals = self.exposure.intervals + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local ids = []; local active = nil; local locked = 0;
+        foreach (local exposure in self.coldHistory)
+        {
+            if (exposure == nil || !exposure.ofKind(RpgExpandedColdExposure) || exposure.profile != self
+                || holds(ids,exposure.id) || exposure.startedAt == nil || exposure.startedAt > rpgLedger.seconds)
+                rpgExpandedReject('cold-exposure-history');
+            exposure.validateBinding(); ids = ids + [exposure.id];
+            local lastTime = exposure.startedAt; local fatigue = 0; local intervals = [];
+            local table = rpgExpandedColdWeather(exposure.effectiveF,exposure.windMph,exposure.clothing,exposure.wet,exposure.lowerComfortF);
+            foreach (local interval in exposure.intervals)
+            {
+                if (interval == nil || !interval.ofKind(RpgExpandedColdInterval) || interval.exposure != exposure
+                    || interval.result == nil || holds(intervals,interval.id)
+                    || interval.completedAt != lastTime + table.intervalSeconds || interval.completedAt > rpgLedger.seconds
+                    || interval.assess().status != 'reused') rpgExpandedReject('cold-interval-history');
+                intervals = intervals + [interval.id]; lastTime = interval.completedAt; fatigue += interval.result.fatigue;
+            }
+            if (exposure.lastCheckAt != lastTime || exposure.lockedFatigue != (exposure.ended ? 0 : fatigue))
+                rpgExpandedReject('cold-fatigue-history');
+            if (!exposure.ended)
+            {
+                if (active != nil) rpgExpandedReject('cold-multiple-exposures');
+                active = exposure; locked += exposure.lockedFatigue;
+            }
+            else if (exposure.endedAt == nil || exposure.endedAt < lastTime || exposure.endedAt > rpgLedger.seconds
+                || exposure.shelterEvidence == nil) rpgExpandedReject('cold-shelter-history');
+        }
+        if (self.coldExposure != active || locked > self.temperatureFatigue) rpgExpandedReject('cold-active-history');
+        return nil;
+    }
+;
