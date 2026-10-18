@@ -1304,3 +1304,36 @@ an expanded wound, or cover unusual persistent coatings. Those delivery paths
 remain explicit unfinished work. Fixtures specify inventory, miss/dodge/hit
 hooks, repeated parries, receipt reuse, rollback, undo and saved continuation;
 they remain unrun while checks are paused.
+
+
+### Executable poison catalogue entries
+
+`rpgExpandedPoisonCatalogue(id, route)` returns a fresh definition for the
+following neutral entries from full-2008 B439:
+
+| Identifier | Route | Onset | Resistance | Toxic damage | Cycles | Technology | Price/dose | Legality |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `delayed-ingested-agent` | digestive | 3600 seconds | HT−2 | 1d | Eight, 3600-second intervals | 1 | 1 | 1 |
+| `rapid-systemic-agent` | follow-up or respiratory | Immediate | None | 4d | One | 4 | 2 | 1 |
+| `rapid-systemic-agent` | contact or digestive | 900 seconds | None | 4d | One | 4 | 2 | 1 |
+
+Use the returned definition as an owned exposure's `hazard`, with an approved
+entry of the same route. The common exposure implementation handles size, dose,
+resistance, cyclic protection, treatment and exact deadlines. Catalogue values
+are validated against the supplied printing before admission and continuation.
+Changing a catalogue definition is rejected; use an ordinary authored hazard for
+an original variant. Other catalogue identifiers are explicitly unsupported until
+their symptom, fatigue or condition procedures have executable support.
+
+`rpgExpandedPoisonCatalogueStock(stockId, catalogueId, route, doses)` creates an
+unowned inventory lot with the definition, quantity, technology and legality.
+Its `cost` is the total price of that lot, matching the acquisition API's price
+contract. World authors must still supply sale availability, legal permission
+and any price override through normal acquisition. Weight is unspecified by this
+catalogue; supply it before acquisition when the game accounts for it. The helper
+does not itself buy, issue, administer or consume the stock.
+
+The fixture's expected values are literal source values. It specifies all eight
+failed cycles of the delayed agent, immediate and delayed unresisted injury,
+lot pricing and rejection of modified catalogue statistics. Tests remain unrun;
+catalogue coverage remains partial pending validation and delivery integration.

@@ -427,9 +427,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Technology one, digestive delivery, one-hour delay, health-2 resistance, one die toxic damage at hourly intervals for eight cycles, price one per abstract dose and legality class one.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Neutral fixed catalogue definitions now execute through owned toxic exposure: source timing, resistance, damage and cycles, with route validation and immutable source statistics. Stock factory carries total lot price, technology and legality. Literal source-value and full delayed-agent cycle fixtures authored, unrun. Automatic payload delivery and complete market/identification integrations remain unfinished."
     },
     {
       "id": "poison-catalogue-injected-venom",
@@ -447,9 +450,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Technology four, unresisted four-dice toxic damage; follow-up or respiratory delivery has no delay, contact or digestive delivery has fifteen-minute delay. Price two and legality one.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Neutral fixed catalogue definitions now execute through owned toxic exposure: source timing, resistance, damage and cycles, with route validation and immutable source statistics. Stock factory carries total lot price, technology and legality. Literal source-value and full delayed-agent cycle fixtures authored, unrun. Automatic payload delivery and complete market/identification integrations remain unfinished."
     },
     {
       "id": "poison-catalogue-dual-route-agent",

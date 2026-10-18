@@ -26,8 +26,11 @@ source, native, documentation and packaging checks after implementation, along
 with the required regression and persistence coverage. Keep the existing PR draft
 until the implementation and required validation support its claims.
 
-The next health work includes owned bleeding state, wound eligibility, minute
-boundaries and first-aid interaction. The pure minute outcome is only one part of
-that procedure. Continue through every pending entry in the selected modules,
-including catalogue effects and cross-module dependencies; do not stop after
-these immediate health tasks.
+Recent health work includes owned bleeding, surgery, mortal recovery and
+persistent-wound care. Hazard work now includes toxic exposure cycles, selected
+catalogue definitions, dose scaling, treatments and weapon coating depletion.
+These are partial implementations with authored, unrun fixtures. Remaining
+poison work includes fatigue effects, symptoms, delivery integration, persistent
+environments and the rest of its catalogue. Continue through every pending entry
+in all nine selected modules, including catalogue effects and cross-module
+dependencies; these recent changes do not narrow the completion target.

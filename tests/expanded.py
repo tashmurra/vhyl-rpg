@@ -11528,3 +11528,35 @@ def test_poison_exposure(Session, bundle, out):
             assert last(s, 'test.poison-coating') == [0, count, count, int(count == 3)]
     finally:
         s.close()
+
+    # Independent B439 catalogue values, not derived from the runtime helper.
+    for setup, expected in [(320, [1, 1, 1, 3600, 3600, 8, 1, 1, -2]),
+                            (321, [4, 2, 1, 0, 1, 1, 4, 0, 0]),
+                            (322, [4, 2, 1, 900, 1, 1, 4, 0, 0])]:
+        s = Session(bundle)
+        try:
+            for code in (setup, 324, 265, 260):
+                s.action(2285, code)
+            assert last(s, 'test.poison-catalogue') == expected
+            if setup != 321:
+                s.action(2285, 325 if setup == 320 else 326)
+            s.action(2285, 262)
+            s.action(2285, 275)
+            if setup == 320:
+                assert last(s, 'test.poison-cycle') == [1, 7, 4, 4, 3600, 4]
+                for _ in range(7):
+                    s.action(2285, 328)
+                s.action(2285, 275)
+                assert last(s, 'test.poison-cycle') == [8, 0, 0, 32, 28800, 32]
+            else:
+                assert last(s, 'test.poison-cycle') == [1, 0, 0, 16, 0 if setup == 321 else 900, 4]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (323, 320, 327, 260, 264):
+            s.action(2285, code)
+        assert last(s, 'test.poison-stock') == [3, 6, 4, 1]
+        assert last(s, 'test.poison-exposure') == [None, None, None, 0, 0, 0, 0]
+    finally:
+        s.close()

@@ -2674,13 +2674,16 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
     definition()
     {
         local e = self.entry; local h = self.hazard;
+        if (h.ofKind(RpgExpandedCataloguePoison)) h.validateCatalogue();
         return [self.id,self.profile,h,self.sizeModifier,self.doseDoublings,self.approved,self.effectEvidence,self.dropDestination,
             h.kind,h.delay,h.interval,h.cycles,h.dice,h.adds,h.fatigueDamage,h.resistible,h.resistanceModifier,
             e,e.patient,e.route,e.method,e.approved,e.evidence,e.inArea,e.mucousContact,e.openWoundContact,
             e.persistentWoundReached,e.vulnerableAreaHit,e.skinContact,e.unarmored,e.unclad,e.swallowed,
             e.forcedSwallow,e.headOrNeckHeldSeconds,e.wound,e.penetrationKind,e.inhaled,e.holdingBreath,
             e.improvisedMask,e.sealed,e.noBreathing,e.filteredLungs,e.eyeMembrane,e.protectedVision,
-            e.sensePresent,e.senseProtected];
+            e.sensePresent,e.senseProtected,
+            h.ofKind(RpgExpandedCataloguePoison) ? h.catalogueId : nil,
+            h.ofKind(RpgExpandedCataloguePoison) ? h.route : nil];
     }
     validateReceipt()
     {
@@ -2702,6 +2705,12 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             || self.entry == nil || !self.entry.ofKind(RpgExpandedPoisonEntry) || self.entry.patient != self.profile)
             rpgExpandedReject('poison-exposure-definition');
         local value = new RpgExpandedPoisonResult();
+        if (self.hazard.ofKind(RpgExpandedCataloguePoison))
+        {
+            self.hazard.validateCatalogue();
+            if (self.entry.route != self.hazard.route)
+            { value.reason = 'poison-catalogue-route'; return value; }
+        }
         if (self.started)
         {
             self.validateReceipt();
@@ -3121,6 +3130,8 @@ modify RpgExpandedPoisonExposure
 
 /** B439 abstract dose stock and ordinary point/edge coating. */
 class RpgExpandedPoisonStock: RpgLiteItem
+    techLevel = nil
+    legality = nil
     hazard = nil
 ;
 class RpgExpandedCoatingResult: RpgExpandedResult
@@ -3232,3 +3243,54 @@ modify RpgLiteWeapon
         return nil;
     }
 ;
+
+
+/** Neutral executable catalogue subset, full-2008 B439. Values are fixed to the
+ * supplied printing; use an ordinary hazard for original authored agents. */
+class RpgExpandedCataloguePoison: RpgLiteHazard
+    catalogueId = nil
+    route = nil
+    techLevel = 0
+    unitCost = 0
+    legality = 1
+    signature() { return [self.kind,self.delay,self.interval,self.cycles,self.dice,self.adds,
+        self.fatigueDamage,self.resistible,self.resistanceModifier,self.techLevel,self.unitCost,self.legality]; }
+    validateCatalogue()
+    {
+        local expected = rpgExpandedPoisonCatalogue(self.catalogueId,self.route).signature();
+        local actual = self.signature();
+        for (local index = 1; index <= actual.length(); index += 1)
+            if (actual[index] != expected[index]) rpgExpandedReject('poison-catalogue-modified');
+        return nil;
+    }
+;
+rpgExpandedPoisonCatalogue(id, route)
+{
+    local value = new RpgExpandedCataloguePoison(); value.kind = 'poison';
+    value.catalogueId = id; value.route = route;
+    if (id == 'delayed-ingested-agent')
+    {
+        if (route != 'digestive') rpgExpandedReject('poison-catalogue-route');
+        value.techLevel = 1; value.unitCost = 1; value.delay = 3600;
+        value.interval = 3600; value.cycles = 8; value.dice = 1; value.resistanceModifier = -2;
+    }
+    else if (id == 'rapid-systemic-agent')
+    {
+        if (!holds(['follow-up','respiratory','contact','digestive'],route)) rpgExpandedReject('poison-catalogue-route');
+        value.techLevel = 4; value.unitCost = 2; value.resistible = nil; value.dice = 4;
+        value.delay = holds(['follow-up','respiratory'],route) ? 0 : 900;
+    }
+    else rpgExpandedReject('poison-catalogue-entry-unimplemented');
+    return value;
+}
+/** Return an unowned lot. The acquisition library charges cost for the whole lot;
+ * market availability and permission remain explicit authored decisions. */
+rpgExpandedPoisonCatalogueStock(stockId, catalogueId, route, doses)
+{
+    if (stockId == nil || stockId == '') rpgExpandedReject('poison-stock-id');
+    rpgInteger(doses,1,1000000);
+    local hazard = rpgExpandedPoisonCatalogue(catalogueId,route);
+    local stock = new RpgExpandedPoisonStock(); stock.id = stockId; stock.hazard = hazard;
+    stock.quantity = doses; stock.techLevel = hazard.techLevel; stock.legality = hazard.legality;
+    stock.cost = doses * hazard.unitCost; return stock;
+}

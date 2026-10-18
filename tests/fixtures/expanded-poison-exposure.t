@@ -120,6 +120,37 @@ modify BleedTestAction
             local strike = new RpgLiteCombatResult(); strike.status = 'resolved'; strike.outcome = 'defended';
             strike.successfulDefense = 'parry'; weaponCoating.recordStrike(strike); weaponCoating.recordStrike(strike); return nil;
         }
+        if (code == 320 || code == 322)
+        {
+            poisonExposure.hazard = rpgExpandedPoisonCatalogue(code == 320 ? 'delayed-ingested-agent' : 'rapid-systemic-agent','digestive');
+            poisonDelivery.route = 'digestive'; poisonDelivery.swallowed = true; return nil;
+        }
+        if (code == 321)
+        {
+            poisonExposure.hazard = rpgExpandedPoisonCatalogue('rapid-systemic-agent','respiratory');
+            poisonDelivery.route = 'respiratory'; poisonDelivery.inhaled = true; return nil;
+        }
+        if (code == 323)
+        {
+            local stock = rpgExpandedPoisonCatalogueStock('catalogue-lot','rapid-systemic-agent','digestive',3);
+            event('test.poison-stock'); eventValue(stock.quantity); eventValue(stock.cost);
+            eventValue(stock.techLevel); eventValue(stock.legality); return nil;
+        }
+        if (code == 324)
+        {
+            local h = poisonExposure.hazard; event('test.poison-catalogue'); eventValue(h.techLevel);
+            eventValue(h.unitCost); eventValue(h.legality); eventValue(h.delay); eventValue(h.interval);
+            eventValue(h.cycles); eventValue(h.dice); eventValue(h.resistible ? 1 : 0); eventValue(h.resistanceModifier); return nil;
+        }
+        if (code == 325) { rpgSpendTime(3600); return nil; }
+        if (code == 326) { rpgSpendTime(900); return nil; }
+        if (code == 327) { poisonExposure.hazard.delay = 1; return nil; }
+        if (code == 328)
+        {
+            local names = ['one','two','three','four','five','six','seven','eight'];
+            local cycle = new RpgExpandedPoisonCycle(); cycle.exposure = poisonExposure;
+            cycle.id = names[poisonExposure.cycleHistory.length() + 1]; rpgSpendTime(3600); cycle.apply(); return nil;
+        }
         return inherited(context);
     }
 ;

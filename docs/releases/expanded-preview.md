@@ -439,3 +439,10 @@ from actual strike outcomes: one hit or three blocks/parries, with misses and
 dodges preserved. Default no-op weapon hooks retain uncoated attack behavior.
 Fixtures are authored and unrun. Automatic penetration-to-exposure delivery,
 injectors, unusual coatings and ranged payloads remain incomplete.
+
+
+Added neutral executable delayed-ingested and rapid-systemic poison catalogue
+definitions from full-2008 B439, including fixed route-specific timing and an
+inventory lot factory with price, technology and legality. Literal source-value
+fixtures cover the eight-cycle sequence and unresisted onset variants; they remain
+unrun. Other agents and automatic payload admission remain incomplete.
