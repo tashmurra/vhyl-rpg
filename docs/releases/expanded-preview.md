@@ -966,3 +966,9 @@ Catching while concentrating now records a separate contextual Will-3 check,
 preserves accumulated concentration on success and clears it on failure. Catch
 replay does not repeat either roll. Spell-specific interruption consequences
 remain pending. New concentration and persistence assertions are authored, unrun.
+
+Exploration now provides ordinary jump-distance assessment from B352: standing
+and running formulas, independent running caps, half-skill substitution,
+preparation and optional encumbrance. Distances retain tenths of an inch.
+Owned preparation, movement and landing consequences remain pending. Printed
+example and boundary assertions are authored, unrun while checks are paused.

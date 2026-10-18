@@ -9018,6 +9018,8 @@ def test(build):
     test_held_throw(Session, held_throw)
     throw_attempt = build.build('expanded-throw-attempt',ROOT / 'tests/fixtures/expanded-throw-attempt.t')
     test_throw_attempt(Session, throw_attempt, build.out)
+    jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
+    test_jump_assessment(Session, jump_assessment)
     throw_release = build.build('expanded-throw-release',ROOT / 'tests/fixtures/expanded-throw-release.t')
     test_throw_release(Session, throw_release, build.out)
     test_throw_ranged_failure(Session, throw_release)
@@ -15281,5 +15283,33 @@ def test_catch_concentration(Session, bundle, out):
             s.action(2285,code)
         # Effective Will 2 cannot roll: only the catch consumes another draw.
         assert state(s) == [0,2,None,6,1]
+    finally:
+        s.close()
+
+
+def test_jump_assessment(Session, bundle):
+    s = Session(bundle)
+    try:
+        # Printed Move 6 examples: 26 inches high and nine feet broad.
+        cases = [((6,0,-1,1,-1),[6,260,1080]),
+                 ((6,1,-1,1,-1),[6,320,1320]),
+                 ((6,4,-1,1,-1),[6,500,2040]),
+                 ((6,5,-1,1,-1),[6,520,2160]),
+                 ((6,100,-1,1,-1),[6,520,2160]),
+                 ((6,0,-1,0,-1),[6,130,540]),
+                 ((5,0,13,1,-1),[6,260,1080]),
+                 ((8,0,13,1,-1),[6,260,1080]),
+                 ((6,0,-1,1,1),[6,208,864]),
+                 ((6,0,-1,1,2),[6,156,648]),
+                 ((6,0,-1,1,3),[6,104,432]),
+                 ((6,0,-1,1,4),[6,52,216]),
+                 ((6,0,-1,0,4),[6,26,108]),
+                 ((2,0,-1,0,4),[2,2,12])]
+        for args, expected in cases:
+            for _ in range(2):
+                s.action(2292,*args)
+                assert last(s,'test.jump-assessment') == ['ready',None,*expected,0,0]
+        s.action(2292,1,0,-1,1,-1)
+        assert last(s,'test.jump-assessment') == ['blocked','jump-low-movement-adapter-required',1,0,0,0,0]
     finally:
         s.close()

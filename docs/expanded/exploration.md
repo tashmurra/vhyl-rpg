@@ -1041,3 +1041,37 @@ This integrates the existing fighter concentration counter. Spell-specific
 interruption consequences and other owned activities are not supplied by this
 adapter. The associated preview, success/failure, rollback, undo and saved-replay
 assertions in `test_catch_concentration` remain unrun while checks are paused.
+
+## Assessing ordinary jump distance
+
+`rpgExpandedAssessJump(basicMove, runYards, jumpingSkill, prepared, encumbrance)`
+provides a pure B352 distance assessment. Pass `nil` for `jumpingSkill` to use
+Basic Move; supplying a skill selects half that score, rounded down, even when
+it is worse than Basic Move. The caller must establish actual skill eligibility.
+`runYards` is the available running start. Each resulting distance is capped
+independently at twice its standing value.
+
+`prepared` means the required preparation has occurred; a false value halves
+both distances. In combat, preparation requires two consecutive concentration
+maneuvers. This assessment does not establish or spend those maneuvers. Pass
+`encumbrance = -1` to disable the optional load reduction, or a load category
+from zero through four to apply it explicitly. Results expose `basis`,
+`highInchTenths` and `broadInchTenths`, both distances in tenths of an inch, so
+half-distance and fifth-based load factors do not lose fractional inches.
+
+For Basic Move six, standing results are 260 and 1080 tenths of an inch:
+26 inches high and nine feet broad. A five-yard run reaches the respective
+running caps of 52 inches and eighteen feet. Preview consumes no time or dice.
+Effective movement below two returns an explicit unsupported reason because the
+printed linear formulas give nonpositive heights in that range. Enhanced movement,
+enhanced jumping, the optional strength basis, owned preparation, difficult-jump
+rolls, landing consequences and actual movement remain pending.
+
+The `expanded-jump-assessment.t` fixture covers the printed examples, run-up
+boundaries, deliberate skill substitution, preparation and all optional load
+factors. Its assertions are authored, unrun while checks are paused.
+
+The held-throw low-fatigue guard remains in place. B426 halves current strength
+but preserves strength-derived quantities, explicitly including damage. The
+throwing adapter does not yet resolve the interaction with every range and
+lifting formula; it rejects that case instead of halving all derived quantities.

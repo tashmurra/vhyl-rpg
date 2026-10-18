@@ -2148,3 +2148,30 @@ modify RpgExpandedCatchAttempt
         value.status = 'ready'; return value;
     }
 ;
+
+class RpgExpandedJumpAssessment: RpgExpandedResult
+    basis = 0
+    highInchTenths = 0
+    broadInchTenths = 0
+;
+/** B352 ordinary jump distances. -1 disables the optional encumbrance rule.
+ * Integer tenths of an inch preserve preparation and fifth-based load factors. */
+rpgExpandedAssessJump(basicMove, runYards, jumpingSkill, prepared, encumbrance)
+{
+    rpgInteger(basicMove,0,1000); rpgInteger(runYards,0,1000);
+    rpgInteger(encumbrance,-1,4);
+    local value = new RpgExpandedJumpAssessment(); local basis = basicMove;
+    if (jumpingSkill != nil)
+    { rpgInteger(jumpingSkill,0,1000); basis = jumpingSkill / 2; }
+    value.basis = basis;
+    if (basis < 2) { value.reason = 'jump-low-movement-adapter-required'; return value; }
+    local standingHigh = 6 * basis - 10; local standingBroad = 2 * basis - 3;
+    local high = 6 * (basis + runYards) - 10;
+    local broad = 2 * (basis + runYards) - 3;
+    if (high > standingHigh * 2) high = standingHigh * 2;
+    if (broad > standingBroad * 2) broad = standingBroad * 2;
+    local factor = encumbrance < 0 ? 5 : 5 - encumbrance;
+    value.highInchTenths = high * (prepared ? 2 : 1) * factor;
+    value.broadInchTenths = broad * 12 * (prepared ? 2 : 1) * factor;
+    value.status = 'ready'; return value;
+}

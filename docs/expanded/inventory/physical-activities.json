@@ -258,9 +258,12 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Standing high-jump height in inches is six times basic movement minus ten; a running start adds its yards to movement in the formula, with running height capped at twice standing height.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_jump_assessment"
+      ],
+      "validation_note": "Pure ordinary distance assessment implements standing/running formulas and independent caps, explicit half-skill substitution, preparation halving and optional fifth-based encumbrance factors without losing fractional inches. Printed examples, boundaries and preview purity assertions authored, unrun. Owned preparation, skill eligibility, difficult-jump rolls, enhanced traits, optional strength basis, movement and landing consequences remain pending; effective basis below two is explicitly unsupported."
     },
     {
       "id": "activity-jump-broad",
@@ -268,9 +271,12 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Standing broad-jump distance in feet is twice basic movement minus three; a running start adds its yards before evaluation, with distance capped at twice standing distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_jump_assessment"
+      ],
+      "validation_note": "Pure ordinary distance assessment implements standing/running formulas and independent caps, explicit half-skill substitution, preparation halving and optional fifth-based encumbrance factors without losing fractional inches. Printed examples, boundaries and preview purity assertions authored, unrun. Owned preparation, skill eligibility, difficult-jump rolls, enhanced traits, optional strength basis, movement and landing consequences remain pending; effective basis below two is explicitly unsupported."
     },
     {
       "id": "activity-jump-enhanced-move",
@@ -298,9 +304,12 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Full combat jump distance requires two consecutive concentration maneuvers; an unprepared jump has half distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_jump_assessment"
+      ],
+      "validation_note": "Pure ordinary distance assessment implements standing/running formulas and independent caps, explicit half-skill substitution, preparation halving and optional fifth-based encumbrance factors without losing fractional inches. Printed examples, boundaries and preview purity assertions authored, unrun. Owned preparation, skill eligibility, difficult-jump rolls, enhanced traits, optional strength basis, movement and landing consequences remain pending; effective basis below two is explicitly unsupported."
     },
     {
       "id": "activity-jump-combat-small",
@@ -348,9 +357,12 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Permit half jumping skill, rounded down, in place of basic movement for distance and jumping skill in place of dexterity for difficult jump checks.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_jump_assessment"
+      ],
+      "validation_note": "Pure ordinary distance assessment implements standing/running formulas and independent caps, explicit half-skill substitution, preparation halving and optional fifth-based encumbrance factors without losing fractional inches. Printed examples, boundaries and preview purity assertions authored, unrun. Owned preparation, skill eligibility, difficult-jump rolls, enhanced traits, optional strength basis, movement and landing consequences remain pending; effective basis below two is explicitly unsupported."
     },
     {
       "id": "activity-jump-strength-option",
@@ -368,9 +380,12 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "When explicitly enabled, multiply distance by the encumbrance factor 1, 0.8, 0.6, 0.4 or 0.2; do not assume this optional reduction in the baseline formulas.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_jump_assessment"
+      ],
+      "validation_note": "Pure ordinary distance assessment implements standing/running formulas and independent caps, explicit half-skill substitution, preparation halving and optional fifth-based encumbrance factors without losing fractional inches. Printed examples, boundaries and preview purity assertions authored, unrun. Owned preparation, skill eligibility, difficult-jump rolls, enhanced traits, optional strength basis, movement and landing consequences remain pending; effective basis below two is explicitly unsupported."
     },
     {
       "id": "activity-lift-cooperation",
