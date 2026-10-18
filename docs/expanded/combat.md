@@ -177,3 +177,21 @@ Armor-gap targeting replaces the ordinary location penalty and restricts eligibl
 damage types. Reduced-force and blunt-mode attacks likewise need declared attack
 profiles before rolling. They do not change the character's purchased strength or
 permanently rewrite the weapon's normal damage definition.
+
+The [special-weapon inventory](inventory/special-weapons.json) records advanced
+unarmed techniques and weapon-specific behavior. Joint locks, neck holds and
+ordinary grapples have different entry conditions, escape modifiers, resource
+timing and armor treatment. Some ongoing contests do not consume attacks, but
+still require the original hold to remain valid and the relevant hands occupied.
+
+Embedded weapons and entangled equipment need persistent relationships among
+items, holders and targets. Extraction can cause additional injury based on the
+original wound; failed extraction cannot repeatedly deal that injury. Releasing
+an embedded item transfers grip without necessarily detaching it from the target.
+Weapon-specific critical outcomes also override parts of the general tables.
+
+Optional malfunctions use unmodified attack dice and actual device categories.
+A stoppage fires one shot before failing, while other outcomes can prevent all
+shots, delay an explosive or create a dud. Diagnosis, clearing and repair have
+different checks, durations and hand requirements. These states must integrate
+with ammunition, ongoing work and technology repair without duplicating costs.
