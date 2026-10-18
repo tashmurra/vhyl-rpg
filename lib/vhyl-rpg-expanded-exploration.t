@@ -878,3 +878,68 @@ class RpgExpandedDiggingTeamHour: object
         self.site.teams = self.site.teams + [self]; return value;
     }
 ;
+
+/** B353 capacity assessment; weights are hundredths of a pound. */
+class RpgExpandedLoadAssessment: RpgExpandedResult
+    capacityHundredths = 0
+    effectiveNumerator = 0
+    effectiveDenominator = 1
+    encumbranceLevel = nil
+    fatiguePerSecond = 0
+    maneuver = nil
+;
+
+/** No action is committed. nil seconds denotes an authored duration still needed. */
+rpgExpandedAssessLift(lift,weight,mode,combat,runningStart,braced)
+{
+    rpgInteger(lift,1,1000000); rpgInteger(weight,1,100000000);
+    if (!holds(['one-hand','two-hands','shove','back','shift'],mode)) rpgExpandedReject('lifting-mode');
+    if (runningStart && mode != 'shove') rpgExpandedReject('lifting-running-mode');
+    local value = new RpgExpandedLoadAssessment(); value.effectiveNumerator = weight;
+    value.seconds = nil;
+    if (mode == 'one-hand' || mode == 'two-hands')
+    {
+        value.capacityHundredths = lift * (mode == 'one-hand' ? 2 : 8);
+        value.seconds = combat && weight <= lift ? 1 : mode == 'one-hand' ? 2 : 4;
+        value.maneuver = combat ? 'ready' : nil;
+    }
+    if (mode == 'shove')
+    {
+        value.capacityHundredths = lift * (runningStart ? 24 : 12);
+        value.maneuver = combat ? (runningStart ? 'move' : 'attack') : nil;
+        if (combat) value.seconds = 1;
+    }
+    if (mode == 'back')
+    {
+        value.capacityHundredths = lift * 15;
+        if (weight > lift * 10) value.fatiguePerSecond = 1;
+    }
+    if (mode == 'shift')
+    {
+        value.capacityHundredths = lift * 50;
+        if (!braced) { value.reason = 'lifting-bracing-required'; return value; }
+    }
+    if (weight > value.capacityHundredths) { value.reason = 'lifting-capacity'; return value; }
+    value.status = 'ready'; return value;
+}
+
+/** B353 effective dragging load; device is none, snow-sledge, cart or wagon.
+ * Includes the device's own weight before dividing, retaining exact fractions. */
+rpgExpandedAssessDragging(lift,load,deviceWeight,device,smoothLevel)
+{
+    rpgInteger(lift,1,1000000); rpgInteger(load,0,100000000);
+    rpgInteger(deviceWeight,0,100000000);
+    if (!holds(['none','snow-sledge','cart','wagon'],device)) rpgExpandedReject('dragging-device');
+    if (device == 'none' && deviceWeight != 0) rpgExpandedReject('dragging-unassisted-device-weight');
+    local value = new RpgExpandedLoadAssessment();
+    value.effectiveNumerator = load + deviceWeight;
+    value.effectiveDenominator = device == 'none' ? 1 : device == 'snow-sledge' ? 2 : device == 'cart' ? 10 : 20;
+    if (smoothLevel) value.effectiveDenominator *= 2;
+    value.capacityHundredths = lift * 15; value.seconds = nil;
+    if (value.effectiveNumerator > value.capacityHundredths * value.effectiveDenominator)
+    { value.reason = 'dragging-capacity'; return value; }
+    local scaledLift = lift * value.effectiveDenominator;
+    value.encumbranceLevel = rpgLiteLoadLevel(value.effectiveNumerator,scaledLift);
+    if (value.encumbranceLevel < 5) { value.status = 'ready'; return value; }
+    value.reason = 'dragging-overload-execution-required'; return value;
+}

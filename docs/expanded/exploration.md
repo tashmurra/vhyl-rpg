@@ -373,3 +373,43 @@ pickaxes and shovels for the existing purchase/issue ledger. Digging checks thei
 role and explicitly established material as well as ownership and usability.
 See the [equipment guide](equipment.md) for catalogue fields and the material
 contract. Generic authored tools remain supported through the base item hook.
+
+## Lifting and dragging assessments
+
+`rpgExpandedAssessLift(lift, weight, mode, combat, runningStart, braced)` implements
+full-2008 B353 capacity arithmetic. `lift` is the profile's
+`basicLiftHundredths()` and `weight` is hundredths of a pound. Modes are
+`one-hand`, `two-hands`, `shove`, `back` and `shift`, with limits of 2, 8, 12,
+15 and 50 times basic lift. A running shove doubles its limit. The caller must
+establish adequate running space (full Move in combat); shifting requires authored
+footing and bracing. These facts do not grant permission to move an unwilling
+character or bypass grappling.
+
+The result reports capacity, readiness, duration when specified, and combat
+maneuver. One- and two-hand lifts take two and four seconds, except a combat
+Ready can pick up a load at or below basic lift in one second. Combat shoves use
+Attack, or Move with a running start. Back carrying reports one fatigue per second
+strictly above ten times basic lift. A nil duration means the source has not
+specified a duration for this assessment; do not interpret it as free execution.
+
+`rpgExpandedAssessDragging(lift, load, deviceWeight, device, smoothLevel)` preserves
+an exact effective-weight numerator and denominator. Devices are `none`,
+`snow-sledge` (sledge over snow/ice), `cart` (two wheels) or `wagon` (four wheels),
+with divisors 1, 2, 10 and 20. Add the device weight before dividing. Smooth,
+relatively level terrain doubles the divisor. Arbitrary sledges or surfaces do
+not qualify without the stated physical conditions. `none` requires zero device
+weight. The result uses the shared encumbrance bands, comparing rational weights
+without rounding them to whole pounds or hundredths.
+
+Above fifteen times basic lift, dragging rejects for capacity. Between ten and
+fifteen times basic lift it exposes the overloaded band but remains blocked with
+`dragging-overload-execution-required`; do not pass it through the ordinary
+immobile-load result as if that completed the expanded procedure.
+
+These are pure assessments: they do not transfer inventory, change map positions,
+spend time/fatigue, roll Lifting, or create an ongoing carrying operation. Combined
+workers, carried equipment during dragging, lifting-skill bonuses, consecutive
+Ready maneuvers, unwilling targets and overload execution remain separate pending
+work. `expanded-loads.t` specifies exact limits, immediate boundary values,
+fractional loads, device weight, surface stacking, bracing and zero time/RNG.
+Its assertions remain unrun while checks are paused.

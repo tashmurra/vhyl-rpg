@@ -157,11 +157,7 @@ class RpgLiteProfile: RpgProfile
     }
     encumbrance()
     {
-        local weight = self.loadHundredths(); local lift = self.basicLiftHundredths();
-        local factors = [1, 2, 3, 6, 10];
-        for (local index = 1; index <= 5; index += 1)
-            if (weight <= lift * factors[index]) return index - 1;
-        return 5;
+        return rpgLiteLoadLevel(self.loadHundredths(),self.basicLiftHundredths());
     }
     move()
     {
@@ -564,3 +560,12 @@ class RpgLiteRegularContest: object
         return self.winner;
     }
 ;
+
+/** Shared encumbrance bands; numerator and lift must use the same weight unit. */
+rpgLiteLoadLevel(weight,lift)
+{
+    local factors = [1,2,3,6,10];
+    for (local index = 1; index <= 5; index += 1)
+        if (weight <= lift * factors[index]) return index - 1;
+    return 5;
+}

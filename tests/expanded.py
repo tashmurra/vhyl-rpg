@@ -8978,6 +8978,8 @@ def test(build):
     test_statement_delivery(Session, statement_delivery, build.out)
     digging = build.build('expanded-digging', ROOT / 'tests/fixtures/expanded-digging.t')
     test_digging_assessment(Session, digging)
+    loads = build.build('expanded-loads', ROOT / 'tests/fixtures/expanded-loads.t')
+    test_load_assessments(Session, loads)
     digging_work = build.build('expanded-digging-work', ROOT / 'tests/fixtures/expanded-digging-work.t')
     test_digging_work(Session, digging_work, build.out)
     test_digging_material(Session, digging_work, build.out)
@@ -13024,3 +13026,47 @@ def test_danger_reaction(Session, bundle):
             assert last(s, 'test.avoidance-influence') == expected
         finally:
             s.close()
+
+
+def test_load_assessments(Session, bundle):
+    s = Session(bundle)
+    try:
+        # B353 at BL 24.2 lb: preserve the fraction rather than rounding BL.
+        for mode, maximum, seconds in [(1,4840,2),(2,19360,4),(3,29040,None),
+                                        (4,36300,None),(5,121000,None)]:
+            s.action(2292,2420,maximum,mode,0,0,1)
+            fatigue = 1 if mode == 4 else 0
+            assert last(s, 'test.lift') == ['ready',None,maximum,seconds,None,fatigue,0,0]
+            s.action(2292,2420,maximum+1,mode,0,0,1)
+            assert last(s, 'test.lift')[:2] == ['blocked','lifting-capacity']
+        for weight, mode, seconds in [(2420,1,1),(2420,2,1),(2421,1,2),(2421,2,4)]:
+            s.action(2292,2420,weight,mode,1,0,0)
+            assert last(s, 'test.lift')[3:5] == [seconds,'ready']
+        s.action(2292,2420,58080,3,1,1,0)
+        assert last(s, 'test.lift') == ['ready',None,58080,1,'move',0,0,0]
+        s.action(2292,2420,121000,5,0,0,0)
+        assert last(s, 'test.lift')[:2] == ['blocked','lifting-bracing-required']
+        for weight, fatigue in [(24200,0),(24201,1)]:
+            s.action(2292,2420,weight,4,0,0,0)
+            assert last(s, 'test.lift')[5] == fatigue
+        # Device weight participates before division; no fractional rounding.
+        for device, divisor in [(1,1),(2,2),(3,10),(4,20)]:
+            for smooth in [0,1]:
+                den = divisor * (2 if smooth else 1)
+                device_weight = 0 if device == 1 else 101
+                gross = 2420 * den
+                s.action(2293,2420,gross-device_weight,device_weight,device,smooth)
+                assert last(s, 'test.drag') == ['ready',None,gross,den,0,0,0]
+                s.action(2293,2420,gross+1-device_weight,device_weight,device,smooth)
+                assert last(s, 'test.drag') == ['ready',None,gross+1,den,1,0,0]
+        for multiple, level in [(1,0),(2,1),(3,2),(6,3),(10,4)]:
+            s.action(2293,2420,2420*multiple,0,1,0)
+            assert last(s, 'test.drag')[4] == level
+        for gross, reason in [(24201,'dragging-overload-execution-required'),
+                              (36300,'dragging-overload-execution-required'),
+                              (36301,'dragging-capacity')]:
+            s.action(2293,2420,gross,0,1,0)
+            assert last(s, 'test.drag')[:2] == ['blocked',reason]
+            assert last(s, 'test.drag')[-2:] == [0,0]
+    finally:
+        s.close()

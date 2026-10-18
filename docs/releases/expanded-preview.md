@@ -690,3 +690,8 @@ repairs and other tool uses remain incomplete.
   observer and setting facts control applicability; Diplomacy uses the shared
   reaction path, and invalid participants reject before dice. Rating and integration
   assertions are authored but remain unrun while checks are paused.
+
+- Added exact lifting and dragging assessments from full-2008 B353, including
+  device weight, surface divisors, combat pickup duration and capacity boundaries.
+  Dragging and existing carried loads share encumbrance arithmetic. Owned execution
+  and overload handling remain pending; boundary fixtures are authored and unrun.

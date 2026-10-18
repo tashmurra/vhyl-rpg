@@ -53,7 +53,12 @@
       "kind": "procedure",
       "status": "partial",
       "acceptance": "Compute cubic-foot volume from dimensions and divide by the applicable cubic-feet-per-hour rate to obtain duration; preserve fractional lifting capacity and work credit.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_team", "tests/expanded.py::test_digging_work"],
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team",
+        "tests/expanded.py::test_digging_work"
+      ],
       "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
     },
     {
@@ -64,7 +69,12 @@
       "kind": "procedure",
       "status": "partial",
       "acceptance": "The listed digging rates assume iron or steel tools; wooden tools halve them and improvised tools divide them by at least four according to an authored equipment condition.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_team", "tests/expanded.py::test_digging_work"],
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team",
+        "tests/expanded.py::test_digging_work"
+      ],
       "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
     },
     {
@@ -341,9 +351,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Carrying more than ten times lifting capacity costs one fatigue per second, including when another procedure also spends effort fatigue.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "activity-lift-ready-small",
@@ -351,9 +364,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An item no heavier than basic lifting capacity takes one ready second to pick up; heavier allowed one-handed and two-handed lifts require two and four consecutive ready actions respectively.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "activity-lift-unwilling",
@@ -732,7 +748,12 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Loose soil removal rate is twice lifting capacity cubic feet per hour; fatigue cost is one per work hour.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_team", "tests/expanded.py::test_digging_work"],
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team",
+        "tests/expanded.py::test_digging_work"
+      ],
       "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
     },
     {
@@ -743,7 +764,12 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Ordinary soil removal rate is lifting capacity cubic feet per hour; fatigue cost is two per hour.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_team", "tests/expanded.py::test_digging_work"],
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team",
+        "tests/expanded.py::test_digging_work"
+      ],
       "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
     },
     {
@@ -754,7 +780,11 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "A pick loosens ordinary soil at four times lifting capacity cubic feet per hour; removal of that loosened material is separately accounted.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_team"],
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team"
+      ],
       "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
     },
     {
@@ -765,7 +795,11 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "A pick breaks hard soil at twice lifting capacity cubic feet per hour before shoveling.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_team"],
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team"
+      ],
       "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
     },
     {
@@ -776,7 +810,11 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Broken hard soil is shoveled at twice lifting capacity cubic feet per hour; hard-soil work costs three fatigue per hour.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_team"],
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team"
+      ],
       "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
     },
     {
@@ -787,7 +825,12 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "One worker alternating pick and shovel removes hard soil at 0.6 times lifting capacity cubic feet per hour.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_team", "tests/expanded.py::test_digging_work"],
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team",
+        "tests/expanded.py::test_digging_work"
+      ],
       "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
     },
     {
@@ -798,7 +841,11 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "A pick breaks rock at lifting capacity cubic feet per hour or a specifically slower authored rate for unusually hard rock.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_team"],
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team"
+      ],
       "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
     },
     {
@@ -809,7 +856,11 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Broken rock is removed at lifting capacity cubic feet per hour; rock work costs four fatigue per hour.",
-      "tests": ["tests/expanded.py::test_digging_assessment", "tests/expanded.py::test_digging_material", "tests/expanded.py::test_digging_team"],
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team"
+      ],
       "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
     },
     {
@@ -1009,9 +1060,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "One hand can lift twice basic capacity in two seconds.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "lifting-capacity-two-hands",
@@ -1019,9 +1073,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Two hands can lift eight times basic capacity in four seconds.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "lifting-capacity-shove",
@@ -1029,9 +1086,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A shove can knock over twelve times capacity; a running start doubles this.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "lifting-capacity-back",
@@ -1039,9 +1099,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Back carrying can support fifteen times capacity, subject to overload fatigue.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "lifting-capacity-shift",
@@ -1049,9 +1112,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Suitable bracing and footing can permit rocking or slightly shifting fifty times capacity; require the authored physical conditions.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "dragging-device-unassisted",
@@ -1059,9 +1125,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use the full gross weight for unassisted dragging.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "dragging-device-sledge",
@@ -1069,9 +1138,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A sledge on snow or ice halves gross weight.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "dragging-device-cart",
@@ -1079,9 +1151,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A two-wheeled cart divides gross weight by ten.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "dragging-device-wagon",
@@ -1089,9 +1164,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A four-wheeled wagon divides gross weight by twenty.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "dragging-device-surface",
@@ -1099,9 +1177,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A smooth level surface halves effective weight again, cumulatively with the device reduction.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
     },
     {
       "id": "gravity-mass-weight",
