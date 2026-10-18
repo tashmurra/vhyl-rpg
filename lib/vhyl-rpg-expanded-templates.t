@@ -521,6 +521,8 @@ class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
     tabooAttributeRanges = []
     cosmeticFeatures = []
     skillBonusRows = []
+    incompetentSkillIds = []
+    incompetenceEvidence = nil
     nonhuman = nil
     approved = nil
     evidence = nil
@@ -559,6 +561,25 @@ class RpgExpandedAncestrySkillBonuses: RpgExpandedContribution
         return result;
     }
 ;
+
+/** B164/B452 ancestry incompetence: no training, -4 defaults, -1 point per skill. */
+class RpgExpandedAncestrySkillIncompetence: RpgExpandedContribution
+    id = 'ancestry-skill-incompetence'
+    receipt = nil
+    rows = []
+    amounts(profile)
+    {
+        if (self.owner != profile || self.receipt == nil || self.receipt != profile.ancestryScores
+            || self.receipt.skillIncompetence != self) rpgExpandedReject('ancestry-incompetence-ownership');
+        self.receipt.validate(profile); return [-self.rows.length()];
+    }
+    validate(profile) { self.amounts(profile); return nil; }
+;
+rpgExpandedAncestrySkillId(skill)
+{
+    if (skill == nil || !skill.ofKind(RpgLiteSkill)) return nil;
+    return skill.ofKind(RpgExpandedSkill) && skill.optionalParent != nil ? skill.optionalParent.id : skill.id;
+}
 
 /** Author-approved complete omission; partial or modified replacements are separate. */
 class RpgExpandedAncestryOmission: object
@@ -610,6 +631,8 @@ class RpgExpandedAncestryScores: object
     boundTrainings = []
     skillBonuses = nil
     boundSkillBonusRows = []
+    skillIncompetence = nil
+    boundIncompetenceRows = []
     omit(profile, requests)
     {
         local ids = [];
@@ -661,6 +684,21 @@ class RpgExpandedAncestryScores: object
             || self.boundChanges.length() != 10 || self.origins.length() != self.boundOrigins.length())
             rpgExpandedReject('ancestry-score-ownership');
         if (self.nonhuman != self.boundNonhuman) rpgExpandedReject('ancestry-score-binding');
+        if (self.boundIncompetenceRows.length() != 0)
+        {
+            local count = 0;
+            foreach (local contribution in profile.contributions) if (contribution == self.skillIncompetence) count += 1;
+            if (count != 1 || self.skillIncompetence.owner != profile || self.skillIncompetence.receipt != self)
+                rpgExpandedReject('ancestry-incompetence-ownership');
+            if (self.skillIncompetence.rows.length() != self.boundIncompetenceRows.length()) rpgExpandedReject('ancestry-incompetence-binding');
+            for (local i = 1; i <= self.boundIncompetenceRows.length(); i += 1)
+                if (self.skillIncompetence.rows[i] != self.boundIncompetenceRows[i]) rpgExpandedReject('ancestry-incompetence-binding');
+            foreach (local training in profile.skills)
+                foreach (local row in self.skillIncompetence.rows)
+                    if (training.points > 0 && row[1] == rpgExpandedAncestrySkillId(training.skill))
+                        rpgExpandedReject('ancestry-skill-incompetence');
+        }
+        else if (self.skillIncompetence != nil) rpgExpandedReject('ancestry-incompetence-binding');
         if (self.boundSkillBonusRows.length() != 0)
         {
             local count = 0;
@@ -752,21 +790,33 @@ modify RpgExpandedProfile
     {
         local amount = inherited(skill);
         if (self.ancestryScores == nil) return amount;
-        self.ancestryScores.validate(self);
-        if (self.ancestryScores.skillBonuses == nil || skill == nil || !skill.ofKind(RpgLiteSkill)) return amount;
-        local identity = skill;
-        if (skill.ofKind(RpgExpandedSkill) && skill.optionalParent != nil) identity = skill.optionalParent;
-        foreach (local row in self.ancestryScores.skillBonuses.rows)
-            if (row[1] == identity.id)
-            {
-                if (skill.ofKind(RpgExpandedSkill) && skill.wildcard) rpgExpandedReject('ancestry-skill-bonus-wildcard-unresolved');
-                amount += row[2];
-            }
+        self.ancestryScores.validate(self); local id = rpgExpandedAncestrySkillId(skill);
+        if (id == nil) return amount;
+        if (self.ancestryScores.skillBonuses != nil)
+            foreach (local row in self.ancestryScores.skillBonuses.rows)
+                if (row[1] == id)
+                {
+                    if (skill.ofKind(RpgExpandedSkill) && skill.wildcard) rpgExpandedReject('ancestry-skill-bonus-wildcard-unresolved');
+                    amount += row[2];
+                }
+        if (self.ancestryScores.skillIncompetence != nil)
+            foreach (local row in self.ancestryScores.skillIncompetence.rows)
+                if (row[1] == id)
+                {
+                    if (skill.ofKind(RpgExpandedSkill) && skill.wildcard) rpgExpandedReject('ancestry-incompetence-wildcard-unresolved');
+                    amount -= 4;
+                }
         return amount;
     }
     socialSkillLearningReason(skill)
     {
-        if (self.ancestryScores != nil) self.ancestryScores.validate(self);
+        if (self.ancestryScores != nil)
+        {
+            self.ancestryScores.validate(self);
+            if (self.ancestryScores.skillIncompetence != nil)
+                foreach (local row in self.ancestryScores.skillIncompetence.rows)
+                    if (row[1] == rpgExpandedAncestrySkillId(skill)) return 'ancestry-skill-incompetence';
+        }
         return inherited(skill);
     }
     quirkCountsTowardCreationLimit(trait)
@@ -830,6 +880,7 @@ modify RpgExpandedProfile
         foreach (local trait in self.ancestryScores.traits)
             if (trait.creationCost() < 0) amount -= trait.creationCost();
         foreach (local omission in self.ancestryScores.omissions) if (omission[4] < 0) amount -= omission[4];
+        if (self.ancestryScores.skillIncompetence != nil) amount += self.ancestryScores.skillIncompetence.rows.length();
         return amount;
     }
 ;
@@ -1073,6 +1124,39 @@ rpgExpandedCreateCustomizedAncestryCharacter(personal, ancestries, resolutions, 
     {
         local bonuses = new RpgExpandedAncestrySkillBonuses(); bonuses.owner = p; bonuses.receipt = receipt; bonuses.rows = bonusRows;
         receipt.skillBonuses = bonuses; receipt.boundSkillBonusRows = bonusRows; p.contributions = p.contributions + [bonuses];
+    }
+    local incompetenceRows = [];
+    foreach (local ancestry in ancestries)
+    {
+        if (ancestry.incompetentSkillIds.length() != 0
+            && (ancestry.incompetenceEvidence == nil || ancestry.incompetenceEvidence == ''))
+            rpgExpandedReject('ancestry-incompetence-relevance');
+        local seen = [];
+        foreach (local id in ancestry.incompetentSkillIds)
+        {
+            if (id == nil || id == '' || holds(seen,id)) rpgExpandedReject('ancestry-incompetence-definition');
+            seen = seen + [id];
+            foreach (local bonus in bonusRows) if (bonus[1] == id) rpgExpandedReject('ancestry-skill-modifier-conflict');
+            local found = nil; local updated = [];
+            foreach (local prior in incompetenceRows)
+            {
+                if (prior[1] == id)
+                {
+                    updated = updated + [[id,prior[2] + [[ancestry.id,ancestry.incompetenceEvidence]]]]; found = true;
+                }
+                else updated = updated + [prior];
+            }
+            if (!found) updated = updated + [[id,[[ancestry.id,ancestry.incompetenceEvidence]]]];
+            incompetenceRows = updated;
+        }
+    }
+    if (incompetenceRows.length() > 5) rpgExpandedReject('ancestry-incompetence-limit');
+    if (incompetenceRows.length() != 0)
+    {
+        local incompetence = new RpgExpandedAncestrySkillIncompetence(); incompetence.owner = p;
+        incompetence.receipt = receipt; incompetence.rows = incompetenceRows;
+        receipt.skillIncompetence = incompetence; receipt.boundIncompetenceRows = incompetenceRows;
+        p.contributions = p.contributions + [incompetence];
     }
     receipt.omit(p,omissions);
     for (local i = 1; i <= receipt.traits.length(); i += 1)

@@ -668,10 +668,39 @@ bonus hook. Profiles without ancestry keep the zero-modifier default.
 For example, one point in an Average IQ skill normally yields IQ−1. A +1 ancestry
 bonus gives IQ, and buying one additional training point gives IQ+1. The personal
 improvement costs one point; the innate +1 remains its separate two-point
-purchase. Group talents, negative skill modifiers, and modifier-bearing bonus
-purchases remain unfinished.
+purchase. Group talents, group penalties, and modifier-bearing bonus purchases remain
+unfinished. Single-skill incompetence is described below.
 
 `test_ancestry_skill_bonus` specifies this example, untrained defaults, specialties,
 unavailable skills, default-chain separation, floating rolls, the combined cap,
 mandatory contribution ownership, undo and save continuation. The assertions are
 authored but unrun while checks remain paused.
+
+## Single-skill ancestry incompetence
+
+Set `incompetentSkillIds` on an ancestry definition to skill IDs, and provide
+nonempty `incompetenceEvidence` explaining why these skills matter in the
+campaign. This implements the B164/B452 single-skill rule: −4 to an available
+default, no purchased training in the skill, and −1 ancestry point per distinct
+skill. It covers all required specialties and optional specialties through their
+parent skill IDs. A skill without an available default remains unavailable.
+
+The combined ancestry may identify at most five such skills. Duplicate IDs within
+one package reject; matching IDs from different ancestries retain both origins
+without another penalty or credit. These are ancestry quirks, so their costs are
+exempt from the personal disadvantage cap and do not consume personal quirk
+slots. They are stored in a separate owned contribution, not as personal training
+or an authored numerical modifier.
+
+Character validation rejects positive training in an affected skill, including
+ancestry-learned training. Shared learning gates reject attempts before point or
+time expenditure. The mandatory contribution and its rows are bound to the
+ancestry receipt. A positive ancestry bonus for the same skill rejects as an
+unresolved modifier conflict; the library does not cancel away the learning
+restriction. Wildcard applications, group incompetence and personal omission of
+this contribution remain unsupported.
+
+`test_ancestry_incompetence` specifies defaults and specialties, unavailable
+skills, forbidden training, unchanged resources, relevant-skill approval, the
+five-skill boundary, modifier conflicts, ownership, undo and save continuation.
+Assertions remain unrun while checks are paused.

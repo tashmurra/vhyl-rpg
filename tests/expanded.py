@@ -9128,6 +9128,8 @@ def test(build):
     test_ancestry_training(Session, ancestry_training, build.out)
     ancestry_bonus = build.build('expanded-ancestry-skill-bonus',ROOT / 'tests/fixtures/expanded-ancestry-skill-bonus.t')
     test_ancestry_skill_bonus(Session, ancestry_bonus, build.out)
+    ancestry_incompetence = build.build('expanded-ancestry-incompetence',ROOT / 'tests/fixtures/expanded-ancestry-incompetence.t')
+    test_ancestry_incompetence(Session, ancestry_incompetence, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -18267,5 +18269,57 @@ def test_ancestry_skill_bonus(Session, bundle, out):
         s.command(f':restore {path}\n@2286')
         s.action(2285, 6603)
         assert last(s, 'test.ancestry-skill-bonus') == improved
+    finally:
+        s.close()
+
+
+def test_ancestry_incompetence(Session, bundle, out):
+    path = out / 'expanded-ancestry-incompetence.zsave'
+    expected = [-1, -1, 1, 1, 1, None, 11, 0]
+    for mutation, reason in ((6703, 'ancestry-skill-incompetence'), (6704, 'ancestry-incompetence-relevance'),
+                             (6705, 'ancestry-incompetence-limit'), (6706, 'ancestry-skill-modifier-conflict'),
+                             (6712, 'ancestry-incompetence-definition')):
+        s = Session(bundle)
+        try:
+            for code in (6700, mutation, 6709, 6701):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-incompetence-error') == [reason]
+            assert last(s, 'test.ancestry-incompetence') == expected
+        finally:
+            s.close()
+    for mutation, reason in ((6707, 'ancestry-incompetence-ownership'), (6708, 'ancestry-incompetence-binding')):
+        s = Session(bundle)
+        try:
+            for code in (6700, mutation, 5907):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-score-error') == [reason]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (6710, 6700, 6701):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-incompetence') == [-5, -5, 5, 1, 1, None, 11, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (6700, 6702):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-incompetence-learn') == ['ancestry-skill-incompetence', 0, 100, 0, 0]
+        s.action(2285, 6707)
+        s.command('undo')
+        s.action(2285, 6701)
+        assert last(s, 'test.ancestry-incompetence') == expected
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (6701, 6702):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-incompetence') == expected
+        assert last(s, 'test.ancestry-incompetence-learn') == ['ancestry-skill-incompetence', 0, 100, 0, 0]
     finally:
         s.close()

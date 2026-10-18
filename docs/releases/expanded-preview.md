@@ -1344,3 +1344,8 @@ Single-skill ancestry bonuses now have owned two-points-per-level accounting,
 a combined +3 cap, and final-score application across specialties. Paid training
 and default-chain investments remain separate, and unavailable skills remain
 unavailable. Group bonuses and penalties remain unfinished. New fixtures are unrun.
+
+Single-skill ancestry incompetence now applies its default penalty, learning
+prohibition and ancestry-only negative cost across specialties. Relevance evidence
+and the five-skill maximum are enforced, with owned mandatory accounting.
+Group penalties and omission support remain unfinished. New fixtures are unrun.

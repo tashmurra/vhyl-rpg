@@ -376,9 +376,12 @@
       "pages": "B452",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A single-skill ancestry incompetence costs -1 for -4, uses the ordinary incompetence restrictions, and is limited to five qualifying important skills.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_incompetence"
+      ],
+      "validation_note": "Owned ancestry incompetence enforces -4 defaults, no purchased learning, -1 per distinct relevant skill, all specialties and a combined five-skill maximum. Ancestry negatives are exempt from personal caps. Opposing bonuses and wildcard applications reject; omission/modifier support remains pending. Assertions authored, unrun."
     },
     {
       "id": "ancestry-group-skill-bonus",
