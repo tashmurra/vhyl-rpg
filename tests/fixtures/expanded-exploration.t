@@ -42,5 +42,26 @@ act(verb,args)
         event('test.breath-conflict'); eventValue(duplicate.reason); eventValue(rejected ? 1 : 0);
         eventValue(patient.fatigue); eventValue(patient.airClock); eventValue(rpgRandom.draws); return nil;
     }
+    if (verb == 1873)
+    {
+        event('test.swimming-modifier'); eventValue(rpgExpandedSwimmingModifier(args[1] == 1,args[2],args[3])); return nil;
+    }
+    if (verb == 1874)
+    {
+        local time = rpgLedger.seconds; local draws = rpgRandom.draws;
+        local value = rpgExpandedSwimmingOutcome(args[1],args[2],args[3]);
+        event('test.swimming-outcome'); eventValue(value.nextStage); eventValue(value.seconds);
+        eventValue(value.fatigue); eventValue(value.inhaledWater ? 1 : 0);
+        eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws); return nil;
+    }
+    if (verb == 1875)
+    {
+        local modifier = rpgExpandedLifesavingModifier(args[1],args[2],args[3]);
+        local time = rpgLedger.seconds; local draws = rpgRandom.draws;
+        local value = rpgExpandedLifesavingOutcome(args[4],args[5]);
+        event('test.lifesaving'); eventValue(modifier); eventValue(value.rescued ? 1 : 0);
+        eventValue(value.fatigue); eventValue(value.inhaledWater ? 1 : 0); eventValue(value.seconds);
+        eventValue(value.mustBreakOff ? 1 : 0); eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws); return nil;
+    }
     return vhylAct(verb,args);
 }

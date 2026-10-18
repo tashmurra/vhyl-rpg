@@ -938,9 +938,12 @@
       "pages": "B425",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Each resuscitation attempt takes one minute and uses physician at technology seven or higher, or first aid at that technology with -4; preserve the cause-specific revival deadline.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_resuscitation_assessment"
+      ],
+      "validation_note": "Pure duration and modifier assessment authored; fixtures unrun. Owned attempts, skill execution, cause-specific deadlines and revival effects remain incomplete."
     },
     {
       "id": "health-resuscitation-trained-aid",
@@ -948,9 +951,12 @@
       "pages": "B425",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Trained first aid for drowning or asphyxiation uses -2 instead of -4 with the specified modern rescue technique; default rolls do not receive that improvement.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_resuscitation_assessment"
+      ],
+      "validation_note": "Pure duration and modifier assessment authored; fixtures unrun. Owned attempts, skill execution, cause-specific deadlines and revival effects remain incomplete."
     },
     {
       "id": "health-knockdown-modifier-face-vitals",

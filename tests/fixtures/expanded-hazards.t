@@ -367,5 +367,11 @@ act(verb,args)
         event('test.airless-conflict'); eventValue(legacy ? 1 : 0); eventValue(rest ? 1 : 0);
         eventValue(patient.fatigue); eventValue(patient.airClock); eventValue(rpgRandom.draws); return nil;
     }
+    if (verb == 1893)
+    {
+        local value = rpgExpandedResuscitationProcedure(args[1],args[2],args[3] == 1,args[4] == 1,args[5]);
+        event('test.resuscitation-procedure'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.modifier); eventValue(value.seconds); return nil;
+    }
     return vhylAct(verb,args);
 }

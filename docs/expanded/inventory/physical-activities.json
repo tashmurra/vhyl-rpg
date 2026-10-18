@@ -489,9 +489,12 @@
       "pages": "B354",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use +3 for intentional entry, minus twice encumbrance level, and the applicable body-build buoyancy bonus.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swimming_assessments"
+      ],
+      "validation_note": "Pure modifiers, check cadence and lifesaving outcomes authored; fixtures unrun. Owned swimming, skill resolution, fatigue, consciousness, equipment shedding and rescue integration remain incomplete."
     },
     {
       "id": "activity-swim-failure",
@@ -499,9 +502,12 @@
       "pages": "B354",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A failed swim check inhales water and spends one fatigue, with retry after five seconds; after successful recovery check again in one minute, then return to five-minute intervals after success.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swimming_assessments"
+      ],
+      "validation_note": "Pure modifiers, check cadence and lifesaving outcomes authored; fixtures unrun. Owned swimming, skill resolution, fatigue, consciousness, equipment shedding and rescue integration remain incomplete."
     },
     {
       "id": "activity-swim-shed-equipment",
@@ -559,9 +565,12 @@
       "pages": "B355",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A lifesaving check uses swimming-5 plus rescuer strength minus victim strength, with any authored technique bonus.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swimming_assessments"
+      ],
+      "validation_note": "Pure modifiers, check cadence and lifesaving outcomes authored; fixtures unrun. Owned swimming, skill resolution, fatigue, consciousness, equipment shedding and rescue integration remain incomplete."
     },
     {
       "id": "activity-swim-rescue-failure",
@@ -569,9 +578,12 @@
       "pages": "B355",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ordinary failed rescue costs one fatigue through inhaled water and allows retry after a minute; critical failure costs six fatigue and forces abandonment of the attempt.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swimming_assessments"
+      ],
+      "validation_note": "Pure modifiers, check cadence and lifesaving outcomes authored; fixtures unrun. Owned swimming, skill resolution, fatigue, consciousness, equipment shedding and rescue integration remain incomplete."
     },
     {
       "id": "activity-flight-substitution",

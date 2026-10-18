@@ -168,3 +168,60 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+class RpgExpandedSwimmingOutcome: RpgExpandedResult
+    nextStage = nil
+    fatigue = 0
+    inhaledWater = nil
+;
+
+/** Deep-water balance modifiers, full-2008 B354. */
+rpgExpandedSwimmingModifier(intentionalEntry, encumbrance, build)
+{
+    rpgInteger(encumbrance,0,4);
+    if (!holds(['ordinary','overweight','fat','very-fat'],build)) rpgExpandedReject('swimming-build');
+    return (intentionalEntry ? 3 : 0) - 2 * encumbrance
+        + (build == 'overweight' ? 1 : build == 'fat' ? 3 : build == 'very-fat' ? 5 : 0);
+}
+
+/** Supplied swimming roll selects the next balance-check boundary, B354. */
+rpgExpandedSwimmingOutcome(stage, score, roll)
+{
+    if (!holds(['entry','stable','struggling','recovering'],stage)) rpgExpandedReject('swimming-stage');
+    rpgInteger(score,3,1000); local value = new RpgExpandedSwimmingOutcome(); value.check = rpgCheck(score,roll);
+    if (!value.check.achieved)
+    {
+        value.nextStage = 'struggling'; value.seconds = 5; value.fatigue = 1; value.inhaledWater = true;
+    }
+    else if (stage == 'struggling') { value.nextStage = 'recovering'; value.seconds = 60; }
+    else { value.nextStage = 'stable'; value.seconds = 300; }
+    value.status = 'ready'; return value;
+}
+
+class RpgExpandedLifesavingOutcome: RpgExpandedResult
+    fatigue = 0
+    inhaledWater = nil
+    rescued = nil
+    mustBreakOff = nil
+;
+
+/** Rescue target modifier before ordinary skill context modifiers, B355. */
+rpgExpandedLifesavingModifier(rescuerStrength, victimStrength, techniqueBonus)
+{
+    rpgInteger(rescuerStrength,1,1000); rpgInteger(victimStrength,1,1000); rpgInteger(techniqueBonus,0,1000);
+    return -5 + rescuerStrength - victimStrength + techniqueBonus;
+}
+
+/** Failure retry and critical-failure break-off are distinct outcomes, B355. */
+rpgExpandedLifesavingOutcome(score, roll)
+{
+    rpgInteger(score,3,1000); local value = new RpgExpandedLifesavingOutcome(); value.check = rpgCheck(score,roll);
+    value.rescued = value.check.achieved;
+    if (!value.rescued)
+    {
+        value.inhaledWater = true;
+        if (value.check.critical == 'failure') { value.fatigue = 6; value.mustBreakOff = true; }
+        else { value.fatigue = 1; value.seconds = 60; }
+    }
+    value.status = 'ready'; return value;
+}

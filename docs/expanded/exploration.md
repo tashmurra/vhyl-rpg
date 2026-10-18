@@ -103,3 +103,37 @@ expired reserve must not reset its clock or permit a new breath to erase the
 unresolved suffocation interval. These transaction and persistence fixtures also
 remain unrun; they do not establish passing validation or complete suffocation
 coverage.
+
+
+## Swimming and lifesaving assessments
+
+`rpgExpandedSwimmingModifier(intentionalEntry, encumbrance, build)` returns the
+B354 balance-check modifier. Supply encumbrance level zero through four and build
+`ordinary`, `overweight`, `fat` or `very-fat`. Intentional entry adds three; each
+encumbrance level subtracts two. The build additions are zero, one, three and five.
+The caller owns entry facts and must obtain encumbrance from the same equipment
+ledger used by other actions. This helper does not charge exertion fatigue.
+
+`rpgExpandedSwimmingOutcome(stage, score, roll)` accepts an effective target and
+supplied roll. Stages are `entry`, `stable`, `struggling` and `recovering`. Every
+failure inhales water, costs one fatigue and selects another check in five
+seconds. Successful recovery from `struggling` selects a one-minute check; success
+at that check returns to the normal five-minute cadence. Critical failure adds no
+extra fatigue to this particular procedure. `seconds` is the next-check interval,
+not time spent by this assessment. At zero fatigue, intervening one-second
+consciousness checks still require their own owned scheduler; this helper does
+not perform them or permit their costs to be skipped.
+
+`rpgExpandedLifesavingModifier(rescuerStrength, victimStrength, techniqueBonus)`
+provides the B355 rescue modifier. The author supplies any nonnegative bonus for
+an actual rescue technique. `rpgExpandedLifesavingOutcome(score, roll)` returns
+`rescued` on success. Ordinary failure costs one fatigue, inhales water and permits
+a retry after sixty seconds. Critical failure costs six fatigue and sets
+`mustBreakOff`; it does not schedule a retry. These are rescue checks, distinct
+from ordinary swimming balance checks.
+
+The assessments are pure. Owned swimming intervals, skill/default resolution,
+water inhalation, consciousness, shedding equipment, rescue movement and
+resuscitation remain incomplete. A `rescued` assessment does not clear lungs,
+restore fatigue or teleport either character. `test_swimming_assessments` records
+modifier, cadence, failure and rescue expectations; the fixture remains unrun.

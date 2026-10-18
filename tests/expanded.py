@@ -760,6 +760,40 @@ def test_cold_persistence(Session, bundle, out):
             second.close()
 
 
+def test_swimming_assessments(s):
+    for intentional, encumbrance, build, modifier in [(0,0,'ordinary',0),(1,0,'ordinary',3),
+            (0,3,'ordinary',-6),(1,4,'ordinary',-5),(0,2,'overweight',-3),
+            (0,2,'fat',-1),(0,2,'very-fat',1)]:
+        s.action(1873, intentional, encumbrance, build)
+        assert last(s, 'test.swimming-modifier') == [modifier]
+    for stage in ['entry','stable','struggling','recovering']:
+        s.action(1874, stage, 10, 10)
+        assert last(s, 'test.swimming-outcome') == [
+            'recovering' if stage == 'struggling' else 'stable',60 if stage == 'struggling' else 300,0,0,0,0]
+        for roll in [11,18]:
+            s.action(1874, stage, 10, roll)
+            assert last(s, 'test.swimming-outcome') == ['struggling',5,1,1,0,0]
+    for strength, victim, bonus, score, roll, expected in [
+            (10,10,0,10,10,[-5,1,0,0,0,0,0,0]),
+            (12,9,2,10,11,[0,0,1,1,60,0,0,0]),
+            (8,12,0,10,18,[-9,0,6,1,0,1,0,0]),
+            (10,10,0,18,17,[-5,0,1,1,60,0,0,0])]:
+        s.action(1875, strength, victim, bonus, score, roll)
+        assert last(s, 'test.lifesaving') == expected
+
+
+def test_resuscitation_assessment(s):
+    for kind, tl, trained, modern, cause, modifier in [
+            ('physician',7,1,1,'heart-attack',0),('physician',8,1,0,'drowning',0),
+            ('first-aid',7,1,1,'drowning',-2),('first-aid',7,1,1,'asphyxiation',-2),
+            ('first-aid',7,0,1,'drowning',-4),('first-aid',7,1,0,'drowning',-4),
+            ('first-aid',7,1,1,'heart-attack',-4)]:
+        s.action(1893, kind, tl, trained, modern, cause)
+        assert last(s, 'test.resuscitation-procedure') == ['ready',None,modifier,60]
+    s.action(1893, 'physician', 6, 1, 1, 'drowning')
+    assert last(s, 'test.resuscitation-procedure') == ['blocked','resuscitation-technology-unavailable',0,0]
+
+
 def air_state(s):
     s.action(1901)
     return last(s, 'test.air-state')
@@ -3833,6 +3867,7 @@ def test(build):
     fresh(Session,social,test_trade_modifiers)
     exploration = build.build('expanded-exploration',ROOT / 'tests/fixtures/expanded-exploration.t')
     fresh(Session,exploration,test_breath_duration)
+    fresh(Session,exploration,test_swimming_assessments)
     fresh(Session,exploration,test_breath_reserve)
     breath_transactions = build.build('expanded-breath-transactions',ROOT / 'tests/fixtures/expanded-breath-transactions.t')
     fresh(Session,breath_transactions,test_breath_transactions)
@@ -3841,6 +3876,7 @@ def test(build):
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_airless_seconds)
+    fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_airless_duration)
     fresh(Session,hazards,test_airless_scheduler_conflict)
     airless_transactions = build.build('expanded-airless-transactions',ROOT / 'tests/fixtures/expanded-airless-transactions.t')

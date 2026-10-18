@@ -1505,3 +1505,17 @@ rpgExpandedSurgeryOutcome(score, roll, simpleAmputation, damageRolls)
     }
     value.status = 'ready'; return value;
 }
+
+/** Resuscitation skill and cause modifiers, full-2008 B425. No attempt committed. */
+rpgExpandedResuscitationProcedure(skillKind, medicalTL, trained, modernTechnique, cause)
+{
+    rpgInteger(medicalTL,0,1000);
+    if (!holds(['physician','first-aid'],skillKind)) rpgExpandedReject('resuscitation-skill');
+    if (!holds(['drowning','asphyxiation','heart-attack'],cause)) rpgExpandedReject('resuscitation-cause');
+    local value = new RpgExpandedResult();
+    if (medicalTL < 7) { value.reason = 'resuscitation-technology-unavailable'; return value; }
+    value.seconds = 60;
+    if (skillKind == 'first-aid')
+        value.modifier = trained && modernTechnique && cause != 'heart-attack' ? -2 : -4;
+    value.status = 'ready'; return value;
+}

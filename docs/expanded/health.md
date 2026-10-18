@@ -894,3 +894,23 @@ It remains fixed when a scheduled physician check advances `medicalCareSince`;
 release clears it and readmission records a new start. The hazards module uses
 this timestamp when assessing care over a full infection interval. This preserves
 one provider roster and avoids treating a check timestamp as the admission date.
+
+
+## Resuscitation assessment
+
+`rpgExpandedResuscitationProcedure(skillKind, medicalTL, trained,
+modernTechnique, cause)` supplies the B425 attempt duration and skill modifier.
+Use `physician` or `first-aid`, and cause `drowning`, `asphyxiation` or
+`heart-attack`. The recorded procedure requires technology seven or higher.
+Each attempt takes sixty seconds. Physician has no procedure penalty. First aid
+normally has minus four; trained modern rescue breathing for drowning or
+asphyxiation reduces that penalty to minus two. A default roll or a heart-attack
+attempt retains minus four. Equipment and other applicable skill circumstances
+must be assessed separately.
+
+This helper performs no skill check and starts no treatment. It does not establish
+that a victim is revivable, extend a cause-specific deadline or interrupt ongoing
+suffocation. Owned treatment, repeated attempts, lung clearance and deadline
+integration remain incomplete. `test_resuscitation_assessment` records the skill,
+technology, training and cause distinctions and remains unrun while checks are
+paused.
