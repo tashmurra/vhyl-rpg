@@ -271,3 +271,9 @@ Timely substance doses now settle owned deadlines without entering deprivation,
 consuming one shared inventory unit exactly once. Fulfilled and missed outcomes
 are mutually exclusive. Timely contact, early dosing and automatic next-period
 registration remain pending. Persistence fixtures are authored but unrun.
+
+
+Full uninterrupted object/environment contact ending at an owned deadline now
+fulfills the requirement without deprivation or injury. Early completion, timely
+interruption/restart and automatic recurrence remain pending. Duration, replay,
+rollback, undo and save fixtures are authored but unrun.

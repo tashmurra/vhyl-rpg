@@ -2281,8 +2281,8 @@ The clock cannot cross it unsettled. At exactly `dueAt`, supply a fresh matching
 its first injury is one injury interval later, not at the missed deadline.
 Replay retains both receipts without another episode or time charge.
 
-The missed-deadline path and timely substance doses are supported. Timely
-object/environment contact, early doses, initial access before any deprivation
+The missed-deadline path, timely substance doses and full uninterrupted contact
+ending at the deadline are supported. Early access, initial access before any deprivation
 and automatic recurrence remain pending. Do not register a cycle that needs
 those unsupported paths. Continuous requirements use a separate access model and reject
 this periodic API.
@@ -2307,9 +2307,34 @@ A deadline cannot be both fulfilled and missed. Repeated application reuses its
 receipt after the stock is exhausted, and time can advance beyond the settled
 boundary. Early dosing and automatic next-period registration remain pending;
 this operation does not silently choose a rolling or fixed schedule for early
-access. Timely contact requirements need a separate duration-aware settlement.
+access. Timely contact requirements use the duration-aware settlement below.
 
 [`expanded-sustenance-timely-dose.t`](../../tests/fixtures/expanded-sustenance-timely-dose.t)
 and `test_sustenance_timely_dose` specify fixed and calendar deadlines, premature
 requests, mutually exclusive outcomes, one-time consumption, rollback, undo and
 cross-process save continuation. Fixtures remain unrun.
+
+
+### Timely object and environmental contact
+
+`RpgExpandedSustenanceDueContact` supplies the registered `deadline`, approval,
+evidence of actual access and `contactPolicy = 'uninterrupted'`. This explicitly
+selects the same no-accumulation campaign ruling as restoration contact. `begin()`
+records the shared time and requires enough time remaining to supply the full
+contact duration within the registered period. It does not charge time or mark
+the requirement satisfied merely because contact started.
+
+At the deadline, `assessCompletion()` requires that full elapsed interval.
+`finish(true, evidence)` records author-confirmed uninterrupted qualifying contact
+as fulfillment. It creates no deprivation or injury and releases the boundary
+once. Missed and fulfilled outcomes remain exclusive. Contact spanning outside
+the registered period cannot receive credit from this operation.
+
+This path covers uninterrupted contact ending at the deadline. Early completed
+contact, interruption/restart within a timely period, accumulated contact and
+automatic recurrence remain pending. Authors must not confirm continuity when
+world movement or changed conditions interrupted access.
+[`expanded-sustenance-timely-contact.t`](../../tests/fixtures/expanded-sustenance-timely-contact.t)
+and `test_sustenance_timely_contact` specify the full duration, premature
+completion, replay, clock release, rollback, undo and save continuation. Fixtures
+remain unrun.

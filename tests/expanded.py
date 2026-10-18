@@ -9226,6 +9226,8 @@ def test(build):
     test_sustenance_deadline(Session, sustenance_deadline, build.out)
     sustenance_timely_dose = build.build('expanded-sustenance-timely-dose',ROOT / 'tests/fixtures/expanded-sustenance-timely-dose.t')
     test_sustenance_timely_dose(Session, sustenance_timely_dose, build.out)
+    sustenance_timely_contact = build.build('expanded-sustenance-timely-contact',ROOT / 'tests/fixtures/expanded-sustenance-timely-contact.t')
+    test_sustenance_timely_contact(Session, sustenance_timely_contact, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20834,3 +20836,36 @@ def test_sustenance_timely_dose(Session, bundle, out):
             assert last(s, 'test.sustenance-timely-state') == [0, 0, 1, 1, due + 3600, 0]
         finally:
             s.close()
+
+
+def test_sustenance_timely_contact(Session, bundle, out):
+    """B130 full contact duration within a due period, without injury; unrun."""
+    path = out / 'expanded-sustenance-timely-contact.zsave'
+    s = Session(bundle)
+    try:
+        for code in (12300, 11701, 12301, 12302, 12303, 12303, 12304):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-timely-contact-preview') == ['blocked', 'sustenance-deadline-not-due']
+        for code in (11701, 12304, 12306, 12307):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-timely-contact-preview') == ['ready', None]
+        assert last(s, 'test.sustenance-timely-contact-state') == [0, 1, 0, 90000, 0]
+        s.action(2285, 12305)
+        s.command('undo')
+        s.action(2285, 12307)
+        assert last(s, 'test.sustenance-timely-contact-state') == [0, 1, 0, 90000, 0]
+        for code in (12305, 12305, 12105, 12307):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-deadline-boundary') == ['accepted']
+        assert last(s, 'test.sustenance-timely-contact-state') == [1, 1, 0, 90000, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (12305, 11701, 12307):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-timely-contact-state') == [1, 1, 0, 93600, 0]
+    finally:
+        s.close()
