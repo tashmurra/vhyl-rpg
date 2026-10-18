@@ -1332,3 +1332,20 @@ These fixtures remain unrun. Source: `full-2008`, B475–B476.
 novelty behavior, beyond-one-level attempts, unsupported-stage rejection, preview,
 rollback, undo, replay and cross-process continuation. Fixtures remain unrun.
 Source: `full-2008`, B475.
+
+### Cinematic workshop decisions
+
+Set `RpgExpandedCinematicProposal.waiveToolsPenalty = true` only when the author
+approves ignoring the questionable-equipment penalty for this design. Supply
+`toolsWaiverEvidence` describing that decision. The default preserves the
+prototype's `toolsPenalty`; owning the capability alone never waives it.
+The waiver changes only that penalty, leaving assistant qualifications and all
+other modifiers intact. Both fields are part of the bound project definition;
+changing either after execution rejects the request before further work or rolls.
+Missing evidence rejects an attempted waiver.
+
+`test_cinematic_tools` authors explicit waiver, default penalty, missing evidence
+and post-start retargeting cases. `test_cinematic_prototype_persistence` authors
+cross-process continuation before and after completion, historical adjusted-price
+reuse for production, and undo of a paid production order. Fixtures remain unrun
+while checks are paused. Source: `full-2008`, B475–B476.

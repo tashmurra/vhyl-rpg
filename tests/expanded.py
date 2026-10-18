@@ -1037,6 +1037,62 @@ def test_cinematic_prototypes(Session,bundle):
             s.close()
 
 
+def test_cinematic_tools(Session,bundle):
+    for setup,expected in [(7,[0,'testable',1,0,0,0,0,3,345600]),
+            (8,[0,'testable',0,0,0,0,0,3,345600])]:
+        s = Session(bundle)
+        try:
+            s.action(2128,setup)
+            if setup == 7:
+                s.action(2128,10)
+                s.action(2110)
+                assert last(s,'test.prototype-completion-state') == [1,'testable',0,None,None,0,0,0,345600]
+            s.action(2128,1)
+            s.action(2110)
+            assert last(s,'test.prototype-completion-state') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2128,9)
+        s.action(2103)
+        assert last(s,'test.facilities-state') == [1000000,0,None,0,0]
+    finally:
+        s.close()
+
+
+def test_cinematic_prototype_persistence(Session,bundle,out):
+    path = out / 'expanded-cinematic-prototype.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2128,4)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2110')
+        second.action(2128,1)
+        assert last(second,'test.cinematic-prototype') == ['resolved',None,7000]
+        second.command(f':save {path}')
+    finally:
+        second.close()
+    third = Session(bundle)
+    try:
+        third.command(f':restore {path}\n@2110')
+        third.action(2128,1)
+        assert last(third,'test.cinematic-prototype') == ['reused',None,7000]
+        third.action(2118,1)
+        third.action(2120,1)
+        third.action(2121)
+        assert last(third,'test.production-order-state') == [251600,1,1,0,3,345600,0]
+        third.command('undo')
+        third.action(2121)
+        assert last(third,'test.production-order-state') == [253000,1,0,0,3,345600,0]
+    finally:
+        third.close()
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -6848,6 +6904,8 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    test_cinematic_tools(Session,invention)
+    test_cinematic_prototype_persistence(Session,invention,build.out)
     test_cinematic_prototypes(Session,invention)
     fresh(Session,invention,test_cinematic_concepts)
     fresh(Session,invention,test_cinematic_advanced_concept)

@@ -81,11 +81,17 @@ class InventionConceptAction: Action
         local code = conceptInput.code;
         if (code >= 240)
         {
-            if (code == 240 || code == 244)
+            if (code == 240 || code == 244 || code == 247 || code == 248 || code == 249)
             {
                 conceptProject.proposal = cinematicProposal; conceptUser.campaignTL = 8;
                 conceptUser.traits = [cinematicCapability]; conceptRules.cinematicInvention = true;
                 if (code == 244) { conceptUser.techLevel = 10; cinematicProposal.techLevel = 10; }
+                if (code >= 247)
+                {
+                    prototypeStart.toolsPenalty = 4;
+                    cinematicProposal.waiveToolsPenalty = code != 248;
+                    if (code != 249) cinematicProposal.toolsWaiverEvidence = 'Author permits improvised workshop';
+                }
                 conceptBlueprint.apply(); conceptFacilities.fund(); prototypeStart.begin();
                 for (local day = 1; day <= 4; day += 1)
                 {
@@ -94,6 +100,7 @@ class InventionConceptAction: Action
                 }
                 rpgRandom.seed(1); return nil;
             }
+            if (code == 250) cinematicProposal.waiveToolsPenalty = nil;
             if (code == 245) conceptUser.iq = 9;
             if (code == 246) conceptRules.cinematicInvention = nil;
             local value = code == 243 ? prototypeCompletion.assess() : prototypeCompletion.apply();

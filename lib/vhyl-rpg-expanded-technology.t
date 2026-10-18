@@ -1342,6 +1342,7 @@ class RpgExpandedInventionProposal: object
     prototypeOutcome(score, roll, flawed, dice)
     { return rpgExpandedPrototypeOutcome(score,roll,flawed,dice); }
     productionPrice() { return self.retailPrice; }
+    prototypeToolsPenalty(penalty) { rpgInteger(penalty,0,10); return penalty; }
     paidScore(subject)
     {
         if (subject == nil || !subject.ofKind(RpgSkill)) rpgExpandedReject('invention-skill');
@@ -1603,7 +1604,7 @@ rpgExpandedPrototypeTeamModifier(proposal, assistants, toolsPenalty)
         }
         if (qualifies && bonus < 4) bonus += 1;
     }
-    return bonus - toolsPenalty;
+    return bonus - proposal.prototypeToolsPenalty(toolsPenalty);
 }
 
 modify RpgExpandedInventionProject
@@ -2811,6 +2812,16 @@ class RpgExpandedInventionPermission: object
 /** Owned concept-compatible cinematic proposal. Prototype execution remains gated. */
 class RpgExpandedCinematicProposal: RpgExpandedInventionProposal
     permission = nil
+    waiveToolsPenalty = nil
+    toolsWaiverEvidence = nil
+    prototypeToolsPenalty(penalty)
+    {
+        rpgInteger(penalty,0,10);
+        if (!self.waiveToolsPenalty) return penalty;
+        if (self.toolsWaiverEvidence == nil || self.toolsWaiverEvidence == '')
+            rpgExpandedReject('cinematic-tools-waiver-evidence');
+        return 0;
+    }
     technologyPermissionReason()
     {
         if (self.permission == nil || !self.permission.ofKind(RpgExpandedInventionPermission)
@@ -2848,7 +2859,7 @@ class RpgExpandedCinematicProposal: RpgExpandedInventionProposal
     {
         if (self.permission == nil || !self.permission.ofKind(RpgExpandedInventionPermission))
             rpgExpandedReject('cinematic-proposal-permission');
-        return inherited() + [self.permission,self.permission.inventor,self.permission.mode,
+        return inherited() + [self.waiveToolsPenalty,self.toolsWaiverEvidence,self.permission,self.permission.inventor,self.permission.mode,
             self.permission.violatesOrdinaryPhysics,self.permission.designApproved,self.permission.evidence];
     }
 ;

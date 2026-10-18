@@ -624,9 +624,12 @@
       "pages": "B475",
       "module": "technology",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The author may waive inadequate-tools penalties for cinematic invention; do not infer waiver merely from the trait.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cinematic_tools"
+      ],
+      "validation_note": "Explicit evidence-backed waiver dispatch and immutable project binding authored; fixtures unrun."
     },
     {
       "id": "technology-cinematic-overtime",
@@ -674,7 +677,8 @@
       "status": "partial",
       "acceptance": "Cinematic success by at least three has no bugs; lesser success has half a die minor bugs and no major bugs. For technology above the inventor, each minor bug invokes the special defect table.",
       "tests": [
-        "tests/expanded.py::test_cinematic_prototypes"
+        "tests/expanded.py::test_cinematic_prototypes",
+        "tests/expanded.py::test_cinematic_prototype_persistence"
       ],
       "validation_note": "Owned cinematic physical prototype funding, outcomes and recorded production pricing authored at/below personal technology; fixtures unrun. Above-personal technology special defects, rapid execution and broader production restrictions remain unresolved."
     },
@@ -687,7 +691,8 @@
       "status": "partial",
       "acceptance": "Use the accumulated technology-adjusted prototype price as retail in cinematic production calculations.",
       "tests": [
-        "tests/expanded.py::test_cinematic_prototypes"
+        "tests/expanded.py::test_cinematic_prototypes",
+        "tests/expanded.py::test_cinematic_prototype_persistence"
       ],
       "validation_note": "Owned cinematic physical prototype funding, outcomes and recorded production pricing authored at/below personal technology; fixtures unrun. Above-personal technology special defects, rapid execution and broader production restrictions remain unresolved."
     },
