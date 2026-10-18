@@ -9040,6 +9040,8 @@ def test(build):
     test_wilderness_day(Session, wilderness_day, build.out)
     reaction_mastery = build.build('expanded-reaction-mastery',ROOT / 'tests/fixtures/expanded-reaction-mastery.t')
     test_reaction_mastery(Session, reaction_mastery, build.out)
+    reaction_preparation = build.build('expanded-reaction-preparation',ROOT / 'tests/fixtures/expanded-reaction-preparation.t')
+    test_reaction_preparation(Session, reaction_preparation, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16476,5 +16478,59 @@ def test_reaction_mastery(Session, bundle, out):
         for code in (2407,2403,2403):
             s.action(2285,code)
         assert state(s) == [1,0,0,None]
+    finally:
+        s.close()
+
+
+def test_reaction_preparation(Session, bundle, out):
+    def state(s):
+        s.action(2285,2503)
+        return last(s,'test.reaction-preparation-state')
+    path = out / 'expanded-reaction-preparation.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,2502,2501):
+            s.action(2285,code)
+        assert last(s,'test.reaction-preparation') == ['ready',None,10]
+        assert state(s) == [0,0,0,None]
+        s.action(2285,2500)
+        s.command('undo')
+        assert state(s) == [0,0,0,None]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (2500,2500,2410,2403,2403,2405):
+            s.action(2285,code)
+        assert state(s) == [1,6,60,2]
+        assert last(s,'test.reaction-mastery-state') == [1,0,6,14]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (2500,2403):
+            s.action(2285,code)
+        assert state(s) == [1,6,60,2]
+    finally:
+        s.close()
+    for setup,bonus in (((),0),((2504,),-2)):
+        s = Session(bundle)
+        try:
+            for code in (2410,)+setup+(2500,2403,2507,2508):
+                s.action(2285,code)
+            assert state(s) == [1,9,60,bonus]
+            assert last(s,'test.reaction-second') == [12+bonus]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (2505,2502,2500):
+            s.action(2285,code)
+        assert last(s,'test.reaction-preparation') == ['blocked','reaction-preparation-kind',None]
+        assert state(s) == [0,0,0,None]
     finally:
         s.close()

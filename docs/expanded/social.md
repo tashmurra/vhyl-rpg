@@ -852,3 +852,33 @@ It does not replace influence procedures or expose secret attitudes to players.
 `tests/fixtures/expanded-reaction-mastery.t` covers the 19/20 boundary, speaking
 eligibility, predetermined outcomes, replay, rollback, undo and saved
 continuation; assertions are authored, unrun.
+
+## Contextual skill preparation
+
+`RpgExpandedReactionPreparation` owns one Administration or Carousing check for
+an encounter before its reaction history begins. Supply the encounter, skill,
+reaction kind, contextual modifier, approval and evidence. Administration requires
+`reactionKind = 'bureaucracy'` and gives +2 on success (B174). Carousing supports
+`general`, `aid` or `information`, gives +2 on success, and gives -2 on failure
+(B183). The evidence must establish the actual audience and appropriate setting.
+
+Include health for action permission. `requiresMovement` describes the authored
+task. `seconds` is its authored duration, charged through the existing ledger
+once; zero is available for a check whose activity time was already accounted
+for, which must be explained in the evidence. The reference gives no universal
+duration for these contextual tasks. Skill modifiers must likewise have a
+concrete rationale; this request does not automatically purchase entertainment.
+
+Call `assess()` for a pure preview and `resolve()` before the reaction attempt.
+The encounter records the check and automatically includes its modifier in later
+reaction attempts, including approved changed approaches. A failed Carousing
+check therefore continues to penalize that audience. A second preparation cannot
+replace the recorded check, and replay neither spends time nor rolls again.
+Health permission denial is recorded without setting a reaction modifier.
+Predetermined reactions need no preparation and bypass any modifier.
+
+Do not manually add the same modifier to the reaction attempt. Other contextual
+skills, entertainment purchasing, special failure dangers and broader carry-over
+between separately authored encounters remain pending. The preparation fixture
+covers success, distinct failure effects, persistent modifiers, time charged
+once, rollback, undo and saved continuation; assertions are authored, unrun.

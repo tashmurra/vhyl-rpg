@@ -284,6 +284,8 @@ class RpgExpandedReactionEncounter: object
     predeterminedBand = nil
     fighting = nil
     history = []
+    skillPreparation = nil
+    preparationHistory = []
     nuisanceCount = 0
     validate()
     {
@@ -330,6 +332,14 @@ class RpgExpandedReactionAttempt: object
             if (!self.approvedChange) { value.reason = 'reaction-approach-unchanged'; return value; }
         }
         if (self.encounter.nuisanceCount >= 1000) rpgExpandedReject('reaction-retry-limit');
+        if (self.encounter.skillPreparation != nil && self.encounter.predeterminedBand == nil)
+        {
+            local preparation = self.encounter.skillPreparation;
+            if (!preparation.ofKind(RpgExpandedReactionPreparation) || preparation.encounter != self.encounter)
+                rpgExpandedReject('reaction-preparation-owner');
+            if (preparation.assess().status != 'reused' || preparation.result.check == nil)
+            { value.reason = 'reaction-preparation-unresolved'; return value; }
+        }
         if (self.mastery != nil && self.encounter.predeterminedBand == nil)
         {
             if (!self.mastery.ofKind(RpgExpandedReactionMastery) || self.mastery.encounter != self.encounter)
@@ -356,7 +366,8 @@ class RpgExpandedReactionAttempt: object
         if (self.encounter.predeterminedBand != nil) value.band = self.encounter.predeterminedBand;
         else
         {
-            value.check = rpgRandom.roll(); value.total = value.check + self.modifier + (mastery == nil ? 0 : mastery.modifier) - count * 2;
+            value.check = rpgRandom.roll(); value.total = value.check + self.modifier + (mastery == nil ? 0 : mastery.modifier)
+                + (self.encounter.skillPreparation == nil ? 0 : self.encounter.skillPreparation.result.modifier) - count * 2;
             value.band = rpgExpandedReactionBand(value.total);
             if (value.band < self.encounter.worstBand) value.band = self.encounter.worstBand;
             if (value.band > self.encounter.bestBand) value.band = self.encounter.bestBand;
@@ -1571,5 +1582,94 @@ class RpgExpandedReactionMastery: object
         value.score = self.encounter.subject.skillScore(self.skill);
         value.modifier = value.score != nil && value.score >= 20 && (diplomacy || self.canSpeak) ? 2 : 0;
         value.status = 'ready'; return value;
+    }
+;
+
+class RpgExpandedReactionPreparationResult: RpgExpandedResult
+    score = nil
+    gate = nil
+    allowed = nil
+;
+/** B174/B183/B560 an owned contextual social task before the encounter's reactions. */
+class RpgExpandedReactionPreparation: object
+    id = nil
+    encounter = nil
+    skill = nil
+    reactionKind = 'general'
+    skillModifier = 0
+    requiresMovement = nil
+    seconds = 0
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.encounter,self.encounter.subject,self.encounter.audience,self.skill,
+        self.skill.id,self.skill.attribute,self.skill.difficulty,self.skill.defaultPenalty,self.reactionKind,
+        self.skillModifier,self.requiresMovement,self.seconds,self.approved,self.evidence]; }
+    context()
+    {
+        local context = new RpgLiteContext(); context.skill = self.skill; context.kind = self.skill.id;
+        context.modifier = self.skillModifier; context.requiresMovement = self.requiresMovement; return context;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.encounter == nil || !self.encounter.ofKind(RpgExpandedReactionEncounter)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)) rpgExpandedReject('reaction-preparation-definition');
+        self.encounter.validate(); local value = new RpgExpandedReactionPreparationResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('reaction-preparation-binding');
+            if (!holds(self.encounter.preparationHistory,self) || self.result.check != nil && self.encounter.skillPreparation != self
+                || self.result.gate.assess().status != 'reused')
+                rpgExpandedReject('reaction-preparation-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.encounter.skillPreparation != nil) rpgExpandedReject('reaction-preparation-duplicate');
+        foreach (local prior in self.encounter.preparationHistory)
+            if (prior.id == self.id) rpgExpandedReject('reaction-preparation-duplicate');
+        if (self.encounter.history.length() > 0 || self.encounter.predeterminedBand != nil)
+        { value.reason = 'reaction-preparation-too-late'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'reaction-preparation-context'; return value; }
+        local administrative = self.skill.id == 'administration';
+        if ((!administrative && self.skill.id != 'carousing') || self.skill.attribute != (administrative ? rpgIQ : rpgHT)
+            || self.skill.difficulty != (administrative ? 1 : 0) || self.skill.defaultPenalty != (administrative ? -5 : -4))
+            rpgExpandedReject('reaction-preparation-skill');
+        if (administrative ? self.reactionKind != 'bureaucracy' : !holds(['general','aid','information'],self.reactionKind))
+        { value.reason = 'reaction-preparation-kind'; return value; }
+        rpgInteger(self.skillModifier,-1000,1000); rpgInteger(self.seconds,0,86400);
+        value.score = rpgLiteScore(self.encounter.subject,self.context());
+        if (value.score == nil || value.score < 3) { value.reason = 'reaction-preparation-score'; return value; }
+        value.gate = self.encounter.subject.prepareSocialGate(self.id,self.evidence,self.requiresMovement);
+        if (value.gate == nil) { value.reason = 'reaction-preparation-health-adapter-required'; return value; }
+        local permission = value.gate.assess(); if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds); rpgLedger.validateAdvance(self.seconds);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local start = rpgLedger.seconds; local permission = value.gate.apply();
+        if (permission.status != 'resolved') rpgExpandedReject('reaction-preparation-permission-changed');
+        value.allowed = permission.allowed;
+        if (value.allowed)
+        {
+            rpgSpendTime(self.seconds);
+            if (rpgLedger.seconds != start+self.seconds || rpgLiteScore(self.encounter.subject,self.context()) != value.score)
+                rpgExpandedReject('reaction-preparation-context-changed');
+            value.check = rpgCheck(value.score,rpgRandom.roll());
+            value.modifier = value.check.achieved ? 2 : self.skill.id == 'carousing' ? -2 : 0;
+        }
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('reaction-preparation-changed');
+        self.boundDefinition = definition; self.result = value;
+        self.encounter.preparationHistory = self.encounter.preparationHistory + [self];
+        if (value.check != nil) self.encounter.skillPreparation = self;
+        value.status = 'resolved'; return value;
     }
 ;

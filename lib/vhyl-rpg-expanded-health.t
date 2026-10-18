@@ -7058,3 +7058,11 @@ class RpgExpandedWildernessDay: object
         self.boundDefinition = definition; self.result = value; value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    prepareSocialGate(id, evidence, movement)
+    {
+        local gate = new RpgExpandedActionGate(); gate.id = 'social-' + id; gate.profile = self;
+        gate.evidence = evidence; gate.requiresMovement = movement; return gate;
+    }
+;

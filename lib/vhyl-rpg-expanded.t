@@ -462,3 +462,7 @@ modify RpgLiteSkill
     expandedForageDefaultsReady() { return nil; }
     foragingDefinition() { return []; }
 ;
+
+modify RpgExpandedProfile
+    prepareSocialGate(id, evidence, movement) { return nil; }
+;

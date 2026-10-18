@@ -104,9 +104,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Successful context-appropriate skill can add +2; identify the contributing check and avoid duplicate application.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_reaction_preparation"
+      ],
+      "validation_note": "Owned Administration and Carousing checks validate concrete reaction context, apply action permission and authored duration, then retain the recorded modifier in the private encounter. Success gives +2; Carousing failure gives persistent -2, Administration failure gives no bonus. Retry/replay cannot replace the check or duplicate time and randomness. Predetermined reactions bypass it. Expected values, changed-approach persistence, rollback, undo and saved continuation assertions authored, unrun. Other appropriate skills, entertainment purchasing, special Carousing dangers and carry-over across separately authored encounters remain pending."
     },
     {
       "id": "reaction-detail-skill-mastery",

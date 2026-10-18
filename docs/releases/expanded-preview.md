@@ -1104,3 +1104,10 @@ encounter records its contribution once; predetermined reactions bypass it.
 Threshold, eligibility, replay, rollback, undo and saved-continuation fixtures
 are authored, unrun. The social guide's obsolete no-implementation statements
 have been corrected; the subsystem remains partial.
+
+Owned Administration and Carousing preparation checks now feed encounter
+reactions without duplicate rolls or time charges. Carousing failure retains its
+-2 modifier across changed approaches to the same audience. Health permission
+precedes the check; predetermined reactions bypass preparation. Persistence and
+failure-effect fixtures are authored, unrun; other skills and special failure
+consequences remain pending.
