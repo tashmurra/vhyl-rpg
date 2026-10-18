@@ -5250,3 +5250,96 @@ modify RpgExpandedProfile
         return value;
     }
 ;
+
+class RpgExpandedPersistentDressingResult: RpgExpandedResult
+    context = nil
+    day = nil
+    dressed = nil
+;
+/** B162 daily dressing; the author supplies time because the source gives no
+ * fixed procedure duration. This never grants the ordinary bandaging HP. */
+class RpgExpandedPersistentDressing: object
+    id = nil
+    patient = nil
+    healer = nil
+    skill = nil
+    durationSeconds = nil
+    approved = nil
+    evidence = nil
+    completedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition() { return [self.id,self.patient,self.healer,self.skill,self.skill.techLevel,self.durationSeconds,self.approved,self.evidence]; }
+    prepare(day)
+    {
+        local value = new RpgExpandedPersistentDressingResult(); value.day = day;
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'persistent-dressing-care-required'; return value; }
+        if (self.patient.dead || self.patient.level('persistent-wound') == 0
+            || self.healer.dead || self.healer.unconscious || self.healer.mortal || self.healer.stunned || self.healer.mentalStun)
+        { value.reason = 'persistent-dressing-condition'; return value; }
+        foreach (local prior in self.patient.persistentDressings)
+        {
+            if (prior.id == self.id) rpgExpandedReject('persistent-dressing-duplicate');
+            if (prior.result.day == day)
+            { value.reason = 'persistent-dressing-repeat-unimplemented'; return value; }
+        }
+        value.context = new RpgLiteContext(); value.context.skill = self.skill; value.context.kind = 'persistent-dressing';
+        local score = rpgLiteScore(self.healer,value.context);
+        if (score == nil || score < 3) { value.reason = 'persistent-dressing-score'; return value; }
+        value.seconds = self.durationSeconds; value.status = 'ready'; return value;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.patient == nil || !self.patient.ofKind(RpgExpandedProfile)
+            || self.healer == nil || !self.healer.ofKind(RpgLiteProfile) || self.skill == nil
+            || !self.skill.ofKind(RpgLiteSkill) || !holds(['first-aid','physician'],self.skill.id)
+            || self.skill.techLevel == nil) rpgExpandedReject('persistent-dressing-definition');
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('persistent-dressing-binding');
+            if (!holds(self.patient.persistentDressings,self)) rpgExpandedReject('persistent-dressing-history');
+            local value = new RpgExpandedPersistentDressingResult(); value.status = 'reused';
+            value.check = self.result.check; value.day = self.result.day; value.dressed = self.result.dressed; return value;
+        }
+        rpgInteger(self.durationSeconds,1,86400);
+        rpgInteger(rpgLedger.seconds,0,2147483647 - self.durationSeconds);
+        local value = self.prepare((rpgLedger.seconds + self.durationSeconds) / 86400);
+        if (value.status == 'ready') rpgLedger.validateAdvance(self.durationSeconds);
+        return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local definition = self.definition(); local start = rpgLedger.seconds;
+        rpgSpendTime(self.durationSeconds);
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('persistent-dressing-interrupted');
+        if (rpgLedger.seconds != start + self.durationSeconds) rpgExpandedReject('persistent-dressing-clock');
+        value = self.prepare(rpgLedger.seconds / 86400);
+        if (value.status != 'ready') rpgExpandedReject(value.reason);
+        value.check = rpgLiteCheck(self.healer,value.context); value.dressed = value.check.achieved;
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.patient.persistentDressings = self.patient.persistentDressings + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+modify RpgExpandedProfile
+    persistentDressings = []
+    persistentWoundDressedToday()
+    {
+        foreach (local care in self.persistentDressings)
+        {
+            if (care.patient != self || care.assess().status != 'reused') rpgExpandedReject('persistent-dressing-owner');
+            if (care.result.day == rpgLedger.seconds / 86400 && care.result.dressed) return true;
+        }
+        return nil;
+    }
+    persistentWoundInfectionModifier(plagueRidden)
+    {
+        return self.level('persistent-wound') > 0 && plagueRidden && !self.persistentWoundDressedToday() ? -3 : 0;
+    }
+;

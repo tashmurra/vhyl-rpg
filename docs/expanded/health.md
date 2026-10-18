@@ -2469,3 +2469,32 @@ for those runtime procedures.
 once-only acquisition, unchanged HP/advancement balances, source assessment values,
 decision conflict, preview, rollback, undo and cross-process continuation. The
 fixtures are authored and unrun.
+
+### Daily persistent-wound dressing
+
+`RpgExpandedPersistentDressing` implements B162's First Aid or Physician check.
+Supply `patient`, `healer`, the appropriate technology-qualified `skill`, unique
+`id`, `approved`, evidence of careful dressing, and authored `durationSeconds`.
+The source does not specify a fixed duration. Preview validates eligibility,
+current score and the shared time boundary; application charges the interval once,
+rechecks conditions, rolls once and stores the receipt in `persistentDressings`.
+It does not grant the HP credited by ordinary bandaging or remove the disadvantage.
+
+Success applies to the ledger day on which care completes. Days use the shared
+86400-second ledger boundaries; a dressing finishing at the next boundary belongs
+to that new day. `persistentWoundDressedToday()` derives current protection from
+successful receipts without a second timer. Replay cannot refresh an old dressing.
+Repeated attempts within one day are explicitly unsupported until their retry
+interaction is verified, including after failure.
+
+`persistentWoundInfectionModifier(plagueRidden)` returns the source's -3 only for
+an active persistent wound, plague-ridden surroundings and no successful dressing
+that day. The hazard module applies it to wound/surgical acquisition and daily
+infection resistance. Ordinary disease checks without that setting fact receive
+no new modifier. Attack targeting and blood-agent entry still need their own
+integration.
+
+`expanded-persistent-dressing.t` and `test_persistent_dressing` specify source
+scores before/after care, unchanged injury, day boundaries, failed/repeated care,
+preview, replay, rollback, undo and cross-process continuation. They are authored
+and unrun.

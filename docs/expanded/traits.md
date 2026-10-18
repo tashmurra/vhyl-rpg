@@ -655,6 +655,7 @@ facts: an informed attacker can target the opening at -7 with a 3/2 wounding
 multiplier; a blood agent that actually reaches it has a broken-skin entry route;
 an undressed wound in plague-ridden surroundings gives -3 infection resistance.
 These are assessments, not automatic attack, poison or treatment execution.
-Damage-type/location composition, daily dressing and live exposure integration
-remain unfinished. Do not apply the assessed multiplier twice or treat it as a
+Damage-type/location composition and blood-agent entry remain unfinished. Daily
+dressing now has an owned health operation, and infection resistance uses its
+current-day result in the hazard module. Do not apply the assessed multiplier twice or treat it as a
 new HP loss merely for having the trait.

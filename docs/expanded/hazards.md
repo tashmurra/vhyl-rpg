@@ -1080,3 +1080,13 @@ impaired clotting during surgery remain unfinished. The surgical infection fixtu
 and `test_surgical_infection` cover acquisition without a wound, daily injury and
 resolution, immunity, replay, rollback, undo and cross-process continuation. They
 are authored and unrun.
+
+Persistent-wound infection resistance now uses the current daily dressing receipt.
+Set `plagueRidden` on an acquisition's infection context and independently on each
+`RpgExpandedInfectionDay` to establish the actual surroundings for that roll. This
+fact is bound in the resulting receipt. It is distinct from `specialLocale`:
+that existing modifier describes a special pathogen, whereas plague-ridden
+surroundings activate the persistent wound's separate -3 when it is not dressed.
+Both apply when both facts are established. A successful dressing removes only
+the persistent-wound penalty, not the pathogen modifier. Acquisition and daily
+progression still share the original resistance and disease-injury pipelines.

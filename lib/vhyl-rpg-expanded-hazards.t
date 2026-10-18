@@ -10,6 +10,7 @@ class RpgExpandedInfectionAssessment: RpgExpandedResult
 
 /** Explicit wound contamination and treatment facts; no exposure is committed. */
 class RpgExpandedInfectionContext: object
+    plagueRidden = nil
     infectedMatter = nil
     specialLocale = nil
     antibiotics = nil
@@ -74,6 +75,7 @@ class RpgExpandedInfectionExposure: object
     boundWound = nil
     boundConditions = nil
     boundEvidence = nil
+    plagueRidden = nil
     infectedMatter = nil
     specialLocale = nil
     antibiotics = nil
@@ -90,6 +92,7 @@ class RpgExpandedInfectionExposure: object
         {
             if (self.diseaseId != self.boundDiseaseId || self.wound != self.boundWound || self.conditions != self.boundConditions
                 || self.evidence != self.boundEvidence || self.wound.infectionExposure != self
+                || self.conditions.plagueRidden != self.plagueRidden
                 || self.conditions.infectedMatter != self.infectedMatter
                 || self.conditions.specialLocale != self.specialLocale || self.conditions.antibiotics != self.antibiotics
                 || self.conditions.medicalTL != self.medicalTL
@@ -118,7 +121,8 @@ class RpgExpandedInfectionExposure: object
         if (assessment.checkRequired)
         {
             value.context = new RpgLiteContext(); value.context.attribute = rpgHT;
-            value.context.kind = 'disease'; value.context.modifier = assessment.modifier;
+            value.context.kind = 'disease'; value.context.modifier = assessment.modifier
+                + self.patient().persistentWoundInfectionModifier(self.conditions.plagueRidden);
             local score = rpgLiteScore(self.wound.profile,value.context);
             if (score == nil || score < 3)
             { value.reason = 'infection-resistance-score-unavailable'; return value; }
@@ -142,6 +146,7 @@ class RpgExpandedInfectionExposure: object
         }
         self.boundDiseaseId = self.diseaseId;
         self.boundWound = self.wound; self.boundConditions = self.conditions; self.boundEvidence = self.evidence;
+        self.plagueRidden = self.conditions.plagueRidden;
         self.infectedMatter = self.conditions.infectedMatter; self.specialLocale = self.conditions.specialLocale;
         self.antibiotics = self.conditions.antibiotics; self.medicalTL = self.conditions.medicalTL;
         self.criticalTreatmentFailure = self.conditions.criticalTreatmentFailure;
@@ -198,6 +203,8 @@ class RpgExpandedInfectionDayResult: RpgExpandedResult
 
 /** One typical infection interval at its exact shared-time boundary. */
 class RpgExpandedInfectionDay: object
+    plagueRidden = nil
+    boundPlagueRidden = nil
     id = nil
     boundId = nil
     practice = nil
@@ -225,7 +232,8 @@ class RpgExpandedInfectionDay: object
             rpgExpandedReject('infection-day-exposure');
         if (self.result != nil)
         {
-            if (self.practice != self.boundPractice || self.continuousCare != self.boundContinuousCare
+            if (self.plagueRidden != self.boundPlagueRidden
+                || self.practice != self.boundPractice || self.continuousCare != self.boundContinuousCare
                 || self.id != self.boundId || self.exposure != self.boundExposure || self.antibiotics != self.boundAntibiotics
                 || self.medicalTL != self.boundMedicalTL || self.careEvidence != self.boundEvidence
                 || self.dropDestination != self.boundDestination || !holds(self.exposure.days,self))
@@ -265,7 +273,8 @@ class RpgExpandedInfectionDay: object
         local assessment = conditions.assessTypicalProgression();
         if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
         value.context = new RpgLiteContext(); value.context.attribute = rpgHT;
-        value.context.kind = 'disease'; value.context.modifier = assessment.modifier + value.physicianBonus;
+        value.context.kind = 'disease'; value.context.modifier = assessment.modifier + value.physicianBonus
+            + patient.persistentWoundInfectionModifier(self.plagueRidden);
         local score = rpgLiteScore(patient,value.context);
         if (score == nil || score < 3) { value.reason = 'infection-resistance-score-unavailable'; return value; }
         value.failureWound = new RpgExpandedWound(); value.failureWound.profile = patient;
@@ -292,6 +301,7 @@ class RpgExpandedInfectionDay: object
             value.injury = harm.health.injury; patient.diseaseInjury += value.injury;
             self.exposure.lockedInjury += value.injury;
         }
+        self.boundPlagueRidden = self.plagueRidden;
         self.boundPractice = self.practice; self.boundContinuousCare = self.continuousCare;
         self.boundId = self.id; self.boundExposure = self.exposure; self.boundAntibiotics = self.antibiotics;
         self.boundMedicalTL = self.medicalTL; self.boundEvidence = self.careEvidence; self.boundDestination = self.dropDestination;
@@ -2381,7 +2391,8 @@ class RpgExpandedSurgicalInfectionExposure: RpgExpandedInfectionExposure
         local acquisition = self.conditions.assessAcquisition();
         if (acquisition.status != 'ready') { value.reason = acquisition.reason; return value; }
         value.context = new RpgLiteContext(); value.context.attribute = rpgHT;
-        value.context.kind = 'disease'; value.context.modifier = acquisition.modifier;
+        value.context.kind = 'disease'; value.context.modifier = acquisition.modifier
+            + self.patient().persistentWoundInfectionModifier(self.conditions.plagueRidden);
         local score = rpgLiteScore(self.patient(),value.context);
         if (score == nil || score < 3) { value.reason = 'infection-resistance-score-unavailable'; return value; }
         value.status = 'ready'; return value;
@@ -2394,7 +2405,8 @@ class RpgExpandedSurgicalInfectionExposure: RpgExpandedInfectionExposure
             if (self.operation != self.boundOperation || !self.ownsSource()
                 || self.operation.infectionExposure != self || self.wound != nil
                 || self.diseaseId != self.boundDiseaseId || self.conditions != self.boundConditions
-                || self.evidence != self.boundEvidence || self.conditions.infectedMatter != self.infectedMatter
+                || self.evidence != self.boundEvidence || self.conditions.plagueRidden != self.plagueRidden
+                || self.conditions.infectedMatter != self.infectedMatter
                 || self.conditions.specialLocale != self.specialLocale || self.conditions.antibiotics != self.antibiotics
                 || self.conditions.medicalTL != self.medicalTL
                 || self.conditions.criticalTreatmentFailure != self.criticalTreatmentFailure
@@ -2425,7 +2437,7 @@ modify RpgExpandedSurgicalOperation
         local fields = inherited() + [self.infectionExposure];
         if (self.infectionExposure == nil) return fields;
         local e = self.infectionExposure; local c = e.conditions;
-        return fields + [e.operation,e.diseaseId,c,e.evidence,c.medicalTL,c.infectedMatter,c.specialLocale,
+        return fields + [e.operation,e.diseaseId,c,e.evidence,c.medicalTL,c.plagueRidden,c.infectedMatter,c.specialLocale,
             c.antibiotics,c.criticalTreatmentFailure,c.untreatedDirtyWound];
     }
     complete()

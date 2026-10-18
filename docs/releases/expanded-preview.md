@@ -385,3 +385,9 @@ with a bound location and decision receipt, without additional HP loss or spenda
 points. Its source assessment is available; daily dressing and live combat/exposure
 integration remain incomplete. Acquisition/persistence fixtures are authored and
 unrun.
+
+Persistent wounds now support owned daily dressing through First Aid or Physician,
+with authored duration and no HP grant. Successful care suppresses the relevant
+-3 modifier in live infection acquisition/progression for that ledger day. Same-day
+retries and combat/blood-agent integration remain incomplete. New persistence and
+boundary fixtures are authored and unrun.
