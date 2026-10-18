@@ -2258,3 +2258,100 @@ modify RpgLiteContext
         return inherited(profile);
     }
 ;
+
+modify RpgExpandedPrototypeDefectSet
+    operations = []
+;
+
+class RpgExpandedPrototypeOperationResult: RpgExpandedResult
+    activated = nil
+    score = nil
+;
+
+/** One explicit operation check and its fault consequence, B474. */
+class RpgExpandedPrototypeOperation: object
+    id = nil
+    profile = nil
+    item = nil
+    skill = nil
+    modifier = 0
+    seconds = 0
+    marginDefect = nil
+    criticalDefect = nil
+    approved = nil
+    uninterrupted = nil
+    evidence = nil
+    result = nil
+    definitionSnapshot = nil
+    defects = nil
+    context()
+    {
+        local value = new RpgLiteContext(); value.skill = self.skill; value.prototypeItem = self.item;
+        value.modifier = self.modifier; return value;
+    }
+    definition()
+    { return [self.id,self.profile,self.item,self.skill,self.modifier,self.seconds,self.marginDefect,self.criticalDefect,self.evidence]; }
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgLiteProfile) || self.item == nil || !self.item.ofKind(RpgLiteItem)
+            || self.skill == nil || !self.skill.ofKind(RpgSkill)) rpgExpandedReject('prototype-operation-definition');
+        local value = new RpgExpandedPrototypeOperationResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.definitionSnapshot.length()) rpgExpandedReject('prototype-operation-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('prototype-operation-binding');
+            if (self.item.prototypeDefects != self.defects || !holds(self.defects.operations,self))
+                rpgExpandedReject('prototype-operation-history');
+            value.status = 'reused'; value.check = self.result.check; value.activated = self.result.activated;
+            value.score = self.result.score; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('prototype-operation-id');
+        rpgInteger(self.seconds,0,86400); rpgInteger(self.modifier,-1000,1000);
+        if (!self.approved || !self.uninterrupted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'prototype-operation-author-facts'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.stunned || self.profile.hp() <= 0 || self.profile.fp() <= 0)
+        { value.reason = 'prototype-operator-unavailable'; return value; }
+        local faults = self.item.prototypeDefects;
+        if (faults == nil || !faults.ofKind(RpgExpandedPrototypeDefectSet) || faults.result == nil)
+        { value.reason = 'prototype-operation-defects-required'; return value; }
+        faults.assess();
+        foreach (local prior in faults.operations)
+            if (prior.id == self.id) rpgExpandedReject('prototype-operation-duplicate');
+        local unknown = []; local major = [];
+        foreach (local defect in faults.defects)
+        {
+            if (!defect.discovered) unknown = unknown + [defect];
+            if (defect.severity == 'major') major = major + [defect];
+        }
+        if (unknown.length() > 0 && !holds(unknown,self.marginDefect)
+            || major.length() > 0 && !holds(major,self.criticalDefect))
+        { value.reason = 'prototype-operation-fault-choice'; return value; }
+        if (unknown.length() == 0 && self.marginDefect != nil || major.length() == 0 && self.criticalDefect != nil)
+            rpgExpandedReject('prototype-operation-unused-fault');
+        local context = self.context(); value.score = rpgLiteScore(self.profile,context);
+        if (value.score == nil) { value.reason = context.unavailableReason(self.profile); return value; }
+        if (value.score < 3) { value.reason = 'too-difficult'; return value; }
+        value.seconds = self.seconds; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local start = rpgLedger.seconds;
+        rpgSpendTime(value.seconds);
+        local refreshed = self.assess();
+        if (refreshed.status != 'ready' || rpgLedger.seconds != start + value.seconds)
+            rpgExpandedReject('prototype-operation-conditions-changed');
+        value.score = refreshed.score; value.check = rpgLiteCheck(self.profile,self.context());
+        if (value.check.status != 'resolved') rpgExpandedReject('prototype-operation-check-changed');
+        if (!value.check.achieved)
+        {
+            if (value.check.critical == 'failure' && self.criticalDefect != nil) value.activated = self.criticalDefect;
+            else if (value.check.margin <= -5) value.activated = self.marginDefect;
+        }
+        if (value.activated != nil) { value.activated.active = true; value.activated.discovered = true; }
+        self.defects = self.item.prototypeDefects; self.defects.operations = self.defects.operations + [self];
+        self.definitionSnapshot = self.definition(); value.status = 'resolved'; self.result = value; return value;
+    }
+;

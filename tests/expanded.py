@@ -973,6 +973,64 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def prototype_use_state(s):
+    s.action(2114)
+    return last(s,'test.prototype-use-state')
+
+
+def test_prototype_operation(s):
+    s.action(2113,0)
+    initial = [0,0,0,0,0,345600]
+    for code in [3,2,7]:
+        s.action(2113,code)
+        assert prototype_use_state(s) == initial
+    s.action(2113,6)
+    assert last(s,'test.prototype-use') == ['blocked','prototype-operation-fault-choice',None,None]
+    s.command('undo')
+    s.action(2113,1)
+    assert last(s,'test.prototype-use') == ['resolved',None,10,'blur']
+    activated = [1,1,0,1,3,345660]
+    assert prototype_use_state(s) == activated
+    s.command('undo')
+    assert prototype_use_state(s) == initial
+    s.action(2113,1)
+    for code in [1,8]:
+        s.action(2113,code)
+        assert prototype_use_state(s) == activated
+
+
+def test_prototype_operation_boundaries(Session,bundle):
+    for code,expected in [(4,[0,0,0,1,3,345660]),(5,[0,0,1,1,3,345660])]:
+        s = Session(bundle)
+        try:
+            s.action(2113,0)
+            s.action(2113,code)
+            assert prototype_use_state(s) == expected
+            s.action(2113,1)
+            assert prototype_use_state(s) == expected
+        finally:
+            s.close()
+
+
+def test_prototype_operation_persistence(Session,bundle,out):
+    path = out / 'expanded-prototype-operation.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2113,0)
+        first.action(2113,1)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2114')
+        second.action(2113,1)
+        assert prototype_use_state(second) == [1,1,0,1,3,345660]
+        assert prototype_operation_state(second) == [13,None,1,3,345660]
+    finally:
+        second.close()
+
+
 def prototype_operation_state(s):
     s.action(2112)
     return last(s,'test.prototype-operation')
@@ -6480,6 +6538,9 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_prototype_operation)
+    test_prototype_operation_boundaries(Session,invention)
+    test_prototype_operation_persistence(Session,invention,build.out)
     fresh(Session,invention,test_prototype_defects)
     test_prototype_defects_persistence(Session,invention,build.out)
     fresh(Session,invention,test_prototype_completion)

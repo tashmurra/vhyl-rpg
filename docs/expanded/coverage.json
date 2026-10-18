@@ -337,7 +337,10 @@
         "tests/expanded.py::test_prototype_completion_outcomes",
         "tests/expanded.py::test_prototype_completion_persistence",
         "tests/expanded.py::test_prototype_defects",
-        "tests/expanded.py::test_prototype_defects_persistence"
+        "tests/expanded.py::test_prototype_defects_persistence",
+        "tests/expanded.py::test_prototype_operation",
+        "tests/expanded.py::test_prototype_operation_boundaries",
+        "tests/expanded.py::test_prototype_operation_persistence"
       ],
       "validation_note": "Object assessments, fault repairs, computer processing/storage/link/transfer/recording and task equipment contributions and required-software technology fallback authored; fixtures unrun. Combined tools, interrupted recording, structural injury/repair and maintenance scheduling remain incomplete."
     },

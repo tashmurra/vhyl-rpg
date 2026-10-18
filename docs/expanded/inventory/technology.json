@@ -511,9 +511,14 @@
       "pages": "B474",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An operation failure by at least five surfaces an undiscovered bug, and critical failure always surfaces an existing major bug. Known, latent and triggered states must not be conflated.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_prototype_operation",
+        "tests/expanded.py::test_prototype_operation_boundaries",
+        "tests/expanded.py::test_prototype_operation_persistence"
+      ],
+      "validation_note": "Owned skill operations surface authored executable faults on margin-five failure or critical failure with a major fault; fixtures unrun. Specialized operation contexts and cross-module dispatch remain incomplete."
     },
     {
       "id": "technology-copy-production",

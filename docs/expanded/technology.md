@@ -1055,3 +1055,41 @@ as executable defects.
 validation, preview, rollback, undo, inventory delivery, replay, bound definitions,
 active penalty/block effects, item accessibility and cross-process continuation.
 They remain unrun. Source: `full-2008`, B474; concrete fault effects are authored.
+
+
+## Operation failures that surface faults
+
+`RpgExpandedPrototypeOperation` owns one explicitly authored operation check.
+Supply an operation `id`, profile, item, skill, bounded contextual modifier,
+zero through 86,400 seconds, approval, uninterrupted availability and evidence.
+The item must have an installed executable defect set. Ordinary items without
+defects continue to use existing check interfaces.
+
+Choose `marginDefect` from the currently undiscovered faults and `criticalDefect`
+from existing major faults. Omit a choice only when its eligible set is empty.
+These are authored choices rather than invented random selection rules; explain
+them in the operation evidence. A critical failure selects the major fault when
+one exists, even with a failure margin smaller than five. Otherwise, failure by
+five or more surfaces the selected undiscovered fault. The selected fault becomes
+active and discovered; operation failure does not silently repair an old fault.
+
+Assessment checks choices and current operation legality before time or randomness.
+Execution advances the shared clock once, rechecks conditions, makes the normal
+contextual skill check and records the activation. If clock events invalidate the
+operation, the enclosing transaction restores the interval. The operation emits
+no narrative event; the author describes the attempted task and manifested fault
+from the structured check. A failed check already has its ordinary failure result;
+the new fault affects subsequent operations through the item context.
+
+Receipts live in `defects.operations`. Replay returns the original check and fault
+without another roll, time charge or activation. Different operations require
+new ids and currently valid choices. This interface supports one skill check and
+its concrete penalty/block faults. Vehicle/weapon dispatch, specialized technology
+and familiarity contexts, physical consequences beyond those faults, and weekly
+testing remain incomplete.
+
+`test_prototype_operation`, `test_prototype_operation_boundaries` and
+`test_prototype_operation_persistence` author the margin-five boundary, a major
+fault at critical failure with a small margin, preflight choices, clock interruption,
+rollback, undo, replay and separate-process continuation. Fixtures remain unrun.
+Source: `full-2008`, B474.

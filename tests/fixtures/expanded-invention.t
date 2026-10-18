@@ -56,11 +56,37 @@ prototypeDefects: RpgExpandedPrototypeDefectSet completion = prototypeCompletion
     defects = [prototypeMajor,prototypeMinor1,prototypeMinor2,prototypeMinor3,prototypeMinor4,prototypeMinor5]
     approved = true evidence = 'Complete set of executable optical prototype faults';
 prototypeOperation: RpgLiteContext skill = conceptSkill prototypeItem = prototypeProduct;
+prototypeUse: RpgExpandedPrototypeOperation id = 'survey-use' profile = conceptUser item = prototypeProduct skill = conceptSkill
+    modifier = -10 seconds = 60 marginDefect = prototypeMinor1 criticalDefect = prototypeMajor
+    approved = true uninterrupted = true evidence = 'One difficult survey observation with authored fault choices';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 140)
+        {
+            if (code == 140)
+            {
+                conceptBlueprint.apply(); conceptFacilities.fund(); prototypeStart.begin();
+                for (local day = 1; day <= 4; day += 1)
+                {
+                    local work = new RpgExpandedPrototypeWork(); work.id = day; work.attempt = prototypeStart;
+                    work.seconds = 86400; work.approved = true; work.uninterrupted = true; work.evidence = 'Complete day'; work.apply();
+                }
+                rpgRandom.seed(1); prototypeCompletion.knowledge = 'model'; prototypeCompletion.apply();
+                prototypeDefects.apply(); rpgRandom.seed(1); return nil;
+            }
+            if (code == 144) prototypeUse.modifier = -9;
+            if (code == 145) { prototypeUse.modifier = 0; rpgRandom.seed(5); }
+            if (code == 146) prototypeUse.criticalDefect = nil;
+            if (code == 147) prototypeClockFault.enabled = true;
+            if (code == 148) prototypeUse.evidence = 'Changed observation';
+            local value = code == 143 ? prototypeUse.assess() : prototypeUse.apply();
+            event('test.prototype-use'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.check == nil ? nil : value.check.roll); eventValue(value.activated == nil ? nil : value.activated.id);
+            if (code == 142) throw new RpgError(); return nil;
+        }
         if (code >= 120)
         {
             if (code == 120)
@@ -200,6 +226,13 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2113) { conceptInput.code = 140 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2114)
+    {
+        event('test.prototype-use-state'); eventValue(prototypeMinor1.active ? 1 : 0); eventValue(prototypeMinor1.discovered ? 1 : 0);
+        eventValue(prototypeMajor.active ? 1 : 0); eventValue(prototypeDefects.operations.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2111) { conceptInput.code = 120 + args[1]; return vhylAct(2097,args); }
     if (verb == 2112)
     {
