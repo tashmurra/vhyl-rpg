@@ -36,6 +36,8 @@ animalOtherCheck: RpgExpandedAnimalTrainingCheck course = animalCourse approved 
 animalTrainingFailure: RpgExpandedAnimalTrainingFailure attempt = animalDailyCheck classification = 'ordinary'
     approved = true evidence = 'Author classifies this as a day without learning';
 animalMilestone: RpgExpandedAnimalTrainingMilestone course = animalCourse approved = true evidence = 'Confirm the completed training objective';
+learnedAnimalTask: RpgExpandedAnimalTask id = 'food-recall' requiredLevel = 2 approved = true
+    evidence = 'Species-appropriate food recall at general level two';
 handlingInput: object code = 0;
 handlingClockFault: object enabled = nil;
 modify rpgLedger
@@ -69,6 +71,16 @@ class AnimalHandlingAction: Action
                     daily.approved = true; daily.evidence = 'Completed training day'; rpgRandom.seed(1); daily.apply();
                 }
                 return nil;
+            }
+            if (code == 90 || code == 91 || code == 92)
+            {
+                handlingAttempt.trainingEstablished = nil; handlingAttempt.taskDefinition = learnedAnimalTask;
+                if (animalPlan.kind == 'trick')
+                { learnedAnimalTask.kind = 'trick'; learnedAnimalTask.requiredLevel = nil; learnedAnimalTask.id = animalPlan.trick; }
+                handlingAttempt.taskId = learnedAnimalTask.id;
+                if (code == 92) learnedAnimalTask.evidence = 'Changed task contract';
+                local task = code == 91 ? handlingAttempt.assess() : handlingAttempt.apply();
+                event('test.learned-animal-task'); eventValue(task.status); eventValue(task.reason); eventValue(task.score); return nil;
             }
             if (code == 85) animalCourse.successfulDays += 1;
             if (code == 86) animalMilestone.approved = nil;

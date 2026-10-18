@@ -183,9 +183,10 @@
       "acceptance": "The general training-level table and learning a single new trick are distinct operations; finishing one trick must not grant the whole level.",
       "tests": [
         "tests/expanded.py::test_animal_training_plans",
-        "tests/expanded.py::test_animal_milestones"
+        "tests/expanded.py::test_animal_milestones",
+        "tests/expanded.py::test_learned_animal_tasks"
       ],
-      "validation_note": "Verified owned course milestones distinguish general training levels from a single trick; fixtures unrun. Actual animal behavior and bad-failure attacks remain pending."
+      "validation_note": "Owned course milestones feed explicit general-level or learned-trick task eligibility and handling checks. Fixtures unrun. Actual behavior and bad-failure attacks remain pending."
     },
     {
       "id": "creature-wild-training",
@@ -2245,9 +2246,10 @@
       "tests": [
         "tests/expanded.py::test_animal_training_tables",
         "tests/expanded.py::test_animal_handling",
-        "tests/expanded.py::test_animal_handling_modifiers"
+        "tests/expanded.py::test_animal_handling_modifiers",
+        "tests/expanded.py::test_learned_animal_tasks"
       ],
-      "validation_note": "Owned shared-skill task/calming checks with time, revalidation and replay authored; fixtures unrun. Actual animal behavior responses, training and performance remain pending."
+      "validation_note": "Owned course milestones feed explicit general-level or learned-trick task eligibility and handling checks. Fixtures unrun. Actual behavior and bad-failure attacks remain pending."
     },
     {
       "id": "creature-handling-calming",

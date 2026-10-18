@@ -107,6 +107,7 @@ class RpgExpandedAnimalHandlingAttempt: object
     appropriateSpecialty = nil
     mode = 'task'
     taskId = nil
+    taskDefinition = nil
     trainingEstablished = nil
     familiar = nil
     stressful = nil
@@ -125,9 +126,15 @@ class RpgExpandedAnimalHandlingAttempt: object
     definitionSnapshot = nil
     definition()
     {
-        return [self.id,self.animal,self.handler,self.skill,self.appropriateSpecialty,self.mode,self.taskId,
+        local value = [self.id,self.animal,self.handler,self.skill,self.appropriateSpecialty,self.mode,self.taskId,
             self.trainingEstablished,self.familiar,self.stressful,self.complexityPenalty,self.wild,self.frightened,
-            self.manKiller,self.speciesModifier,self.performance,self.seconds,self.evidence];
+            self.manKiller,self.speciesModifier,self.performance,self.seconds,self.evidence,self.taskDefinition];
+        if (self.taskDefinition != nil)
+        {
+            if (!self.taskDefinition.ofKind(RpgExpandedAnimalTask)) rpgExpandedReject('animal-handling-task-definition');
+            value = value + self.taskDefinition.definition();
+        }
+        return value;
     }
     context()
     {
@@ -164,9 +171,16 @@ class RpgExpandedAnimalHandlingAttempt: object
         if (self.mode == 'task')
         {
             if (self.taskId == nil || self.taskId == '') rpgExpandedReject('animal-handling-task');
-            if (!self.trainingEstablished) { value.reason = 'animal-handling-training-required'; return value; }
+            if (self.taskDefinition != nil)
+            {
+                if (!self.taskDefinition.ofKind(RpgExpandedAnimalTask) || self.taskDefinition.id != self.taskId)
+                    rpgExpandedReject('animal-handling-task-definition');
+                local eligibility = self.taskDefinition.assess(self.animal);
+                if (eligibility.status != 'ready') { value.reason = eligibility.reason; return value; }
+            }
+            else if (!self.trainingEstablished) { value.reason = 'animal-handling-training-required'; return value; }
         }
-        else if (self.taskId != nil || self.complexityPenalty != 0 || self.stressful || self.trainingEstablished)
+        else if (self.taskId != nil || self.taskDefinition != nil || self.complexityPenalty != 0 || self.stressful || self.trainingEstablished)
             rpgExpandedReject('animal-calming-unused-task-fields');
         foreach (local prior in self.animal.animalHandlingAttempts)
             if (prior.id == self.id) rpgExpandedReject('animal-handling-duplicate');
@@ -588,5 +602,37 @@ class RpgExpandedAnimalTrainingMilestone: object
         self.course.milestone = self; animal.animalTrainingMilestones = animal.animalTrainingMilestones + [self];
         self.boundCourse = self.course; self.boundEvidence = self.evidence;
         value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+/** An authored species-appropriate task requirement, checked against learned metadata. */
+class RpgExpandedAnimalTask: object
+    id = nil
+    kind = 'general'
+    requiredLevel = 3
+    approved = nil
+    evidence = nil
+    definition() { return [self.id,self.kind,self.requiredLevel,self.approved,self.evidence]; }
+    assess(animal)
+    {
+        if (animal == nil || !animal.ofKind(RpgExpandedProfile) || self.id == nil || self.id == ''
+            || !holds(['general','trick'],self.kind)) rpgExpandedReject('animal-task-definition');
+        local value = new RpgExpandedResult();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'animal-task-author-facts'; return value; }
+        rpgInteger(animal.animalTrainingLevel,0,5);
+        if (self.kind == 'general')
+        {
+            rpgInteger(self.requiredLevel,2,5);
+            if (animal.animalTrainingLevel < self.requiredLevel)
+            { value.reason = 'animal-task-level-required'; return value; }
+        }
+        else
+        {
+            if (self.requiredLevel != nil) rpgExpandedReject('animal-task-unused-level');
+            if (!holds(animal.animalKnownTricks,self.id))
+            { value.reason = 'animal-task-trick-required'; return value; }
+        }
+        value.status = 'ready'; return value;
     }
 ;

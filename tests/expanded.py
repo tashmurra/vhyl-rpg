@@ -1636,6 +1636,34 @@ def test_animal_milestones(Session,bundle):
             s.close()
 
 
+def test_learned_animal_tasks(Session,bundle):
+    for setup,reason,elapsed in [(0,'animal-task-level-required',100800),(4,'animal-task-trick-required',1137600)]:
+        s = Session(bundle)
+        try:
+            s.action(2211,setup)
+            s.action(2211,10)
+            assert last(s,'test.learned-animal-task')[:2] == ['blocked',reason]
+            assert animal_handling_state(s) == [0,0,0,3,elapsed]
+            s.action(2211,1)
+            s.action(2211,11)
+            assert last(s,'test.learned-animal-task') == ['ready',None,11]
+            assert animal_handling_state(s) == [0,0,0,3,elapsed]
+            s.action(2211,10)
+            assert last(s,'test.learned-animal-task') == ['resolved',None,11]
+            completed = [1,0,0,6,elapsed+30]
+            assert animal_handling_state(s) == completed
+            s.command('undo')
+            assert animal_handling_state(s) == [0,0,0,3,elapsed]
+            s.action(2211,10)
+            s.action(2211,12)
+            assert animal_handling_state(s) == completed
+            s.action(2211,10)
+            assert last(s,'test.learned-animal-task') == ['reused',None,11]
+            assert animal_handling_state(s) == completed
+        finally:
+            s.close()
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -7496,6 +7524,7 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
+    test_learned_animal_tasks(Session,creatures)
     test_animal_milestones(Session,creatures)
     fresh(Session,creatures,test_animal_daily)
     test_animal_daily_failure(Session,creatures)

@@ -254,3 +254,30 @@ as implemented by these metadata fields. Training-attack execution remains pendi
 single-trick course using attendance and daily checks, then verifies distinct
 awards, preview, rollback, inflated-counter rejection, approval, binding, undo and
 replay. Fixtures remain unrun. Sources: `full-2008`, B175 and B458–B459.
+
+## Requiring learned training for a task
+
+Attach an approved `RpgExpandedAnimalTask` as a handling attempt's
+`taskDefinition`; its ID must match `taskId`. For `kind = 'general'`, set
+`requiredLevel` from two through five according to the source training level and
+species-appropriate behavior. For `kind = 'trick'`, use the learned trick ID and
+set `requiredLevel = nil`. The author supplies approval and evidence for why this
+task fits that training; the library does not infer a creature's possible behavior
+from an arbitrary identifier.
+
+The task definition checks `animalTrainingLevel` or `animalKnownTricks` before
+time or randomness. A provided definition takes precedence over the older
+`trainingEstablished` author assertion, so that assertion cannot bypass a failed
+metadata requirement. Existing authored creatures may continue to use the explicit
+assertion when no task definition is supplied. Calming requests reject task
+definitions because calming is a separate operation.
+
+The handling receipt binds the task contract as well as its ID. Retargeting its
+required level, trick or evidence after a committed attempt rejects; replay does
+not perform another task check. Passing eligibility permits the handling roll and
+still does not force obedience or execute a behavior.
+
+`test_learned_animal_tasks` authors complete general and trick courses, verifies
+that attendance alone cannot enable the task, records the milestone, then checks
+eligibility, preview, execution, undo, task-contract binding and replay. Fixtures
+remain unrun. Sources: `full-2008`, B175 and B458–B459.
