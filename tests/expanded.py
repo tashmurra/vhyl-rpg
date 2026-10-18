@@ -9420,6 +9420,8 @@ def test(build):
     test_anthropology_skill(Session, anthropology_skill)
     paleontology_skill = build.build("expanded-paleontology-skill",ROOT / "tests/fixtures/expanded-paleontology-skill.t")
     test_paleontology_skill(Session, paleontology_skill)
+    paleontology_assessment = build.build("expanded-paleontology-assessment",ROOT / "tests/fixtures/expanded-paleontology-assessment.t")
+    test_paleontology_assessment(Session,paleontology_assessment,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24226,3 +24228,50 @@ def test_paleontology_skill(Session, bundle):
             assert last(s,'test.fossil-error') == [reason]
         finally:
             s.close()
+
+
+def test_paleontology_assessment(Session, bundle, out):
+    """B212 bounded authored fossil study preserves outcome and context; unrun."""
+    for failure in (False,True):
+        path = out / f'paleontology-assessment-{failure}.zsave'
+        s = Session(bundle)
+        try:
+            if failure:
+                s.action(1680,21903)
+            s.action(1680,21904)
+            assert last(s,'test.paleontology-preview') == ['ready',17,None,None]
+            s.action(1680,21901); s.action(1680,21902)
+            assert last(s,'test.paleontology-history') == [0,0,0]
+            s.action(1680,21900)
+            assert last(s,'test.paleontology-finding') == ['resolved',None if failure else 'This organism lived in shallow coastal water']
+            s.command('undo'); s.action(1680,21902)
+            assert last(s,'test.paleontology-history') == [0,0,0]
+            for code in (21900,21900,21902):
+                s.action(1680,code)
+            assert last(s,'test.paleontology-history') == [1,3,0]
+            s.action(1680,21909)
+            assert last(s,'test.paleontology-binding') == ['paleontology-assessment-repeat']
+            s.command(f':save {path}')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@1681')
+            s.action(1680,21900); s.action(1680,21902)
+            assert last(s,'test.paleontology-history') == [1,3,0]
+            s.action(1680,21905)
+            assert last(s,'test.paleontology-binding') == ['paleontology-assessment-binding']
+        finally:
+            s.close()
+    for code, reason in ((21906,'paleontology-assessment-inaccessible'),
+                         (21907,'paleontology-assessment-finding-required'),
+                         (21908,'paleontology-laboratory-required')):
+        s = Session(bundle)
+        try:
+            for step in (code,21904,21900,21902):
+                s.action(1680,step)
+            assert last(s,'test.paleontology-preview') == ['blocked',None,None,reason]
+            assert last(s,'test.paleontology-history') == [0,0,0]
+        finally:
+            s.close()
+

@@ -1986,3 +1986,14 @@ class RpgExpandedPaleontologyContext: RpgExpandedSkillContext
         return base == nil ? nil : base + self.equipmentModifier;
     }
 ;
+
+/** Snapshot the specimen study context for owned exploration results. */
+modify RpgExpandedPaleontologyContext
+    paleontologyFacts()
+    {
+        self.validatePaleontology();
+        if (self.familiarity != nil) rpgExpandedReject('paleontology-assessment-familiarity-unsupported');
+        return [self.skill,self.task,self.laboratory,self.equipmentModifier,self.approved,self.evidence,
+            self.modifier,self.equipmentTL,self.softwareTechnologyEnabled,self.skill.specialty,self.skill.techLevel];
+    }
+;

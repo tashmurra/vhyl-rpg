@@ -1721,3 +1721,33 @@ Use the separate disclosure operation to present a finding to its observer.
 No vocabulary or conversation choice is installed merely by including exploration.
 `test_nature_actions` specifies parser, structured-action and dialogue parity,
 wrong-actor rejection, rollback, undo and replay. Fixtures remain unrun.
+
+
+## Fossil study findings
+
+With skills installed, `RpgExpandedPaleontologyAssessment` resolves one approved
+finding from a specimen (full-2008 B212). Supply a stable `id`, observing `profile`,
+`RpgExpandedPaleontologyContext`, stable `specimen` identity, `accessible = true`,
+and the authored `finding`, `approved` and `evidence`. The context selects
+recognition, habitat, structure or age; authors must ground the conclusion in the
+specimen and provide any applicable equipment modifier. An age finding should
+state the supported approximate age, not an invented precision.
+
+`assess()` returns eligibility and score without exposing the finding, rolling,
+spending time or recording history. `resolve()` performs one check and returns the
+finding only on success. Both successful and failed checks enter the observer's
+`paleontologyAssessments`; repeating the same object reuses its outcome. A second
+object with the same id, or the same specimen and task, rejects. The supplied
+printing specifies no fixed study duration here, so this operation adds none.
+
+The receipt binds the specimen, conclusion, approvals, task, specialty, technology,
+laboratory flag and scoring inputs. Changing those facts after resolution rejects
+rather than rerolling. Profile validation checks owned history. Familiarity contexts
+are explicitly unsupported for this receipt until their changing state can be
+bound. Laboratory access is currently an authored fact; live equipment receipts,
+knowledge delivery and shared parser/dialogue actions remain unfinished.
+
+`test_paleontology_assessment` specifies preview purity, successful and failed
+findings, duplicate rejection, exception rollback, undo, replay, cross-process save
+continuation, changed-context rejection and blocked access. These fixtures are
+unrun while checks are paused.

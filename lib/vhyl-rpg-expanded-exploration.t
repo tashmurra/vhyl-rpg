@@ -3507,3 +3507,87 @@ class RpgExpandedNatureObservationAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+/** Full-2008 B212: one authored fossil finding per specimen and study task. */
+class RpgExpandedPaleontologyResult: RpgExpandedResult
+    finding = nil
+    score = nil
+;
+class RpgExpandedPaleontologyAssessment: object
+    id = nil
+    profile = nil
+    context = nil
+    specimen = nil
+    finding = nil
+    approved = nil
+    evidence = nil
+    accessible = nil
+    result = nil
+    boundDefinition = nil
+    boundFinding = nil
+    boundSucceeded = nil
+    definition()
+    { return [self.id,self.profile,self.context,self.specimen,self.finding,self.approved,self.evidence,self.accessible] + self.context.paleontologyFacts(); }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || !holds(self.profile.paleontologyAssessments,self))
+            rpgExpandedReject('paleontology-assessment-history');
+        local facts = self.definition();
+        if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('paleontology-assessment-binding');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('paleontology-assessment-binding');
+        if (self.result.finding != self.boundFinding || self.result.check == nil || self.result.check.achieved != self.boundSucceeded)
+            rpgExpandedReject('paleontology-assessment-result-binding');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedPaleontologyResult();
+        if (self.result != nil)
+        { self.validateReceipt(); value.status = 'reused'; value.check = self.result.check; value.finding = self.result.finding; return value; }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.context == nil || !self.context.ofKind(RpgLiteContext) || self.specimen == nil)
+            rpgExpandedReject('paleontology-assessment-definition');
+        self.context.paleontologyFacts();
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.finding == nil || self.finding == '')
+        { value.reason = 'paleontology-assessment-finding-required'; return value; }
+        if (!self.accessible) { value.reason = 'paleontology-assessment-inaccessible'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.stunned)
+        { value.reason = 'paleontology-assessment-observer-unavailable'; return value; }
+        foreach (local prior in self.profile.paleontologyAssessments)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.specimen == self.specimen && prior.context.task == self.context.task) rpgExpandedReject('paleontology-assessment-repeat');
+        }
+        local reason = self.context.unavailableReason(self.profile);
+        if (reason != nil) { value.reason = reason; return value; }
+        value.score = rpgLiteScore(self.profile,self.context);
+        if (value.score == nil || value.score < 3) { value.reason = 'paleontology-assessment-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.profile,self.context);
+        if (value.check.achieved) value.finding = self.finding;
+        self.boundDefinition = self.definition(); self.boundFinding = value.finding; self.boundSucceeded = value.check.achieved;
+        self.result = value; value.status = 'resolved'; self.profile.paleontologyAssessments = self.profile.paleontologyAssessments + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    paleontologyAssessments = []
+    validateFeatures()
+    {
+        inherited(); local seen = [];
+        foreach (local assessment in self.paleontologyAssessments)
+        {
+            if (assessment == nil || !assessment.ofKind(RpgExpandedPaleontologyAssessment) || assessment.profile != self)
+                rpgExpandedReject('paleontology-assessment-history');
+            foreach (local prior in seen)
+                if (prior.id == assessment.id || prior.specimen == assessment.specimen && prior.context.task == assessment.context.task) rpgExpandedReject('paleontology-assessment-history');
+            assessment.validateReceipt(); seen = seen + [assessment];
+        }
+        return nil;
+    }
+;
+

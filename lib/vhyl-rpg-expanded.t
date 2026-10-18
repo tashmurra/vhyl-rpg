@@ -805,6 +805,7 @@ class RpgExpandedNatureReceipt: object
 ;
 
 modify RpgLiteContext
+    paleontologyFacts() { rpgExpandedReject('paleontology-assessment-skills-required'); }
     psychologyFacts() { rpgExpandedReject('psychology-assessment-skills-required'); }
     psychologySubjectIdentity() { rpgExpandedReject('psychology-assessment-skills-required'); }
 ;
