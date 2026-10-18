@@ -1646,6 +1646,7 @@ class RpgExpandedHikingAttempt: object
     }
     assessFullDayPace(conditions, enhancedPercents, reservations)
     {
+        if (self.assess().status != 'reused') rpgExpandedReject('hiking-attempt-unresolved');
         local profiles = []; foreach (local row in self.members) profiles = profiles + [row[1]];
         local value = new RpgExpandedHikingAssessment();
         value.reason = rpgExpandedHikingDayReason(profiles,reservations);
@@ -1690,6 +1691,8 @@ class RpgExpandedHikingParty: object
     evidence = nil
     result = nil
     boundDefinition = nil
+    boundOutcome = nil
+    outcomeDefinition() { return [self.result.day,self.result.bonusAchieved,self.result.profiles.length()] + self.result.profiles; }
     definition() { return [self.id,self.evidence,self.attempts.length()] + self.attempts; }
     assessFullDayPace(conditions, enhancedPercents, reservations)
     {
@@ -1717,6 +1720,10 @@ class RpgExpandedHikingParty: object
             if (current.length() != self.boundDefinition.length()) rpgExpandedReject('hiking-party-binding');
             for (local index = 1; index <= current.length(); index += 1)
                 if (current[index] != self.boundDefinition[index]) rpgExpandedReject('hiking-party-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('hiking-party-outcome-binding');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('hiking-party-outcome-binding');
             foreach (local profile in self.result.profiles)
                 if (!holds(profile.hikingParties,self)) rpgExpandedReject('hiking-party-history');
             value.status = 'reused'; return value;
@@ -1740,6 +1747,7 @@ class RpgExpandedHikingParty: object
         local value = self.assess(); if (value.status == 'reused') return self.result;
         if (value.status != 'ready') return value;
         self.boundDefinition = self.definition(); self.result = value; value.status = 'resolved';
+        self.boundOutcome = self.outcomeDefinition();
         foreach (local profile in value.profiles) profile.hikingParties = profile.hikingParties + [self];
         return value;
     }

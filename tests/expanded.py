@@ -9516,6 +9516,8 @@ def test(build):
     test_hiking_attempt(Session, hiking_attempt, build.out)
     hiking_party = build.build('expanded-hiking-party',ROOT / 'tests/fixtures/expanded-hiking-party.t')
     test_hiking_party(Session, hiking_party, build.out)
+    hiking_day_party = build.build('expanded-hiking-day-party',ROOT / 'tests/fixtures/expanded-hiking-day-party.t')
+    test_hiking_day_party(Session,hiking_day_party,build.out)
     march_fatigue = build.build('expanded-march-fatigue',ROOT / 'tests/fixtures/expanded-march-fatigue.t')
     test_march_fatigue(Session, march_fatigue, build.out)
     march_hour = build.build('expanded-march-hour',ROOT / 'tests/fixtures/expanded-march-hour.t')
@@ -25197,3 +25199,39 @@ def test_travel_full_day_pace(Session, bundle):
         assert last(s,'test.travel-full-pace') == ['blocked','hiking-day-expired',0,3,86400]
     finally:
         s.close()
+
+
+def test_hiking_day_party(Session, bundle, out):
+    """Every independently rolled traveler needs a bound travel commitment; unrun."""
+    path = out / 'hiking-party-day.zsave'
+    s = Session(bundle)
+    try:
+        for code in (1101,1120,1122,24101):
+            s.action(2285,code)
+        assert last(s,'test.party-day') == ['blocked','travel-day-not-reserved',6,0]
+        for code in (24100,24101):
+            s.action(2285,code)
+        assert last(s,'test.party-day') == ['ready',None,6,0]
+        s.action(2285,24103)
+        assert last(s,'test.party-day-error') == ['hiking-day-owner']
+        s.action(2285,24102); s.command('undo'); s.action(2285,24101)
+        assert last(s,'test.party-day') == ['ready',None,6,0]
+        s.action(2285,24102); s.action(2285,24101)
+        assert last(s,'test.party-day') == ['blocked','travel-day-interrupted',6,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286'); s.action(2285,24101)
+        assert last(s,'test.party-day') == ['blocked','travel-day-interrupted',6,0]
+    finally:
+        s.close()
+    for tamper in (24104,24105,24106):
+        s = Session(bundle)
+        try:
+            for code in (1101,1120,1122,tamper):
+                s.action(2285,code)
+            assert last(s,'test.party-day-error') == ['hiking-party-outcome-binding']
+        finally:
+            s.close()

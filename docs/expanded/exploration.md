@@ -2029,3 +2029,11 @@ still be interrupted later. `assessPace` remains an unrestricted route estimate.
 Neither method supplies a partial-day distance rule or a position update.
 `test_travel_full_day_pace` specifies reservation, interruption and expiry behavior
 without additional random draws. Fixtures remain unrun.
+
+An independently rolled party binds its committed member order, day and combined
+success bonus. Altering these result fields rejects replay, including full-day
+eligibility assessment. Each participant still owns a separate daily reservation;
+one interruption blocks the party's full-day assessment without consuming another
+roll or altering the other participants' reservations. `test_hiking_day_party`
+covers member ownership, interruption, undo, save continuation and altered result
+rejection. These fixtures remain unrun while checks are paused.
