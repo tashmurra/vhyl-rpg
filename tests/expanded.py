@@ -9086,6 +9086,8 @@ def test(build):
     test_recurrent_pain_definition(Session, recurrent_pain)
     recurrent_episode = build.build('expanded-recurrent-pain-episode',ROOT / 'tests/fixtures/expanded-recurrent-pain-episode.t')
     test_recurrent_pain_episode(Session, recurrent_episode, build.out)
+    pain_sleep = build.build('expanded-pain-sleep',ROOT / 'tests/fixtures/expanded-pain-sleep.t')
+    test_pain_sleep(Session, pain_sleep, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17404,5 +17406,39 @@ def test_recurrent_pain_episode(Session, bundle, out):
         for code in (4600,4603,4604,4607):
             s.action(2285,code)
         assert last(s,'test.recurrent-episode') == [1,0,3610,1,3610,6,10,10,10,0]
+    finally:
+        s.close()
+
+
+def test_pain_sleep(Session, bundle, out):
+    before = [57590,0,0,0,0,0,3,0,0]
+    after = [57600,0,1,1,10,10,3,1,0]
+    path = out / 'expanded-pain-sleep.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,4600,4700,4703):
+            s.action(2285,code)
+        assert last(s,'test.pain-sleep-state') == before
+        s.action(2285,4704)
+        assert last(s,'test.pain-sleep-direct') == ['recurrent-pain-sleepless-rest-required',0,3]
+        s.action(2285,4702)
+        s.action(2285,4703)
+        assert last(s,'test.pain-sleep-state') == before
+        s.action(2285,4701)
+        s.command('undo')
+        s.action(2285,4703)
+        assert last(s,'test.pain-sleep-state') == before
+        for code in (4701,4701,4703):
+            s.action(2285,code)
+        assert last(s,'test.pain-sleep-state') == after
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,4701)
+        s.action(2285,4703)
+        assert last(s,'test.pain-sleep-state') == after
     finally:
         s.close()

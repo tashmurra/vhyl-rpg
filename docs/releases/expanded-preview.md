@@ -1216,3 +1216,8 @@ expanded influence procedure remains partial.
 - Added owned daily recurrent-pain appearance and waking episodes, contextual
   penalties and interval recovery receipts. Added unrun onset, recovery and save
   fixtures. Sleep, overlapping-day and derived-defense integration remain pending.
+
+- Sleep-time recurrent pain now uses an owned sleepless-rest operation, advancing
+  existing needs and rest once without sleep credit or waking pain penalties.
+  Direct sleep recovery is guarded. Added unrun fatigue-boundary and persistence
+  fixtures; overlapping-day and forced-unconsciousness integration remain pending.

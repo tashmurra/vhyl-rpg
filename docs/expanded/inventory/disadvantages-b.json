@@ -213,7 +213,7 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Recurrent pain severity mild has base -5, applying -2 to dexterity, intelligence and self-control during an awake episode. Sleep episodes instead cause sleep deprivation under the rest rules.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode"]
+      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
     },
     {
       "id": "disadvantages-b-pain-severe",
@@ -223,7 +223,7 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Recurrent pain severity severe has base -10, applying -4 to dexterity, intelligence and self-control during an awake episode. Sleep episodes instead cause sleep deprivation under the rest rules.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode"]
+      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
     },
     {
       "id": "disadvantages-b-pain-agonizing",
@@ -233,7 +233,7 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Recurrent pain severity agonizing has base -15, applying -6 to dexterity, intelligence and self-control during an awake episode. Sleep episodes instead cause sleep deprivation under the rest rules.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode"]
+      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
     },
     {
       "id": "disadvantages-b-pain-interval-1",
@@ -243,7 +243,7 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Pain interval 1 hours multiplies severity cost by 1/2. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode"]
+      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
     },
     {
       "id": "disadvantages-b-pain-interval-2",
@@ -253,7 +253,7 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Pain interval 2 hours multiplies severity cost by 1/1. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode"]
+      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
     },
     {
       "id": "disadvantages-b-pain-interval-4",
@@ -263,7 +263,7 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Pain interval 4 hours multiplies severity cost by 3/2. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode"]
+      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
     },
     {
       "id": "disadvantages-b-pain-interval-8",
@@ -273,7 +273,7 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Pain interval 8 hours multiplies severity cost by 2/1. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode"]
+      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
     },
     {
       "id": "disadvantages-b-pain-frequency-6",
@@ -283,7 +283,7 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Daily pain frequency 6 multiplies cost by 1/2; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode"]
+      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
     },
     {
       "id": "disadvantages-b-pain-frequency-9",
@@ -293,7 +293,7 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Daily pain frequency 9 multiplies cost by 1/1; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode"]
+      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
     },
     {
       "id": "disadvantages-b-pain-frequency-12",
@@ -303,7 +303,7 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Daily pain frequency 12 multiplies cost by 2/1; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode"]
+      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
     },
     {
       "id": "disadvantages-b-pain-frequency-15",
@@ -313,7 +313,7 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Daily pain frequency 15 multiplies cost by 3/1; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode"]
+      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
     },
     {
       "id": "disadvantages-b-company",

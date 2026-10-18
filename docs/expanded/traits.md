@@ -1114,6 +1114,7 @@ those explicit table boundaries.
 
 The health library now supplies `RpgExpandedRecurrentPainDay` and
 `RpgExpandedRecurrentPainRecovery` for daily waking episodes and interval checks.
-Sleep loss and overlapping-day handling remain pending. These definition
+Sleep episodes use the health library’s sleepless-rest adapter; overlapping-day
+handling remains pending. These definition
 methods alone do not modify character scores. The fixture independently lists all 48 prices and appearance boundaries;
 it remains unrun and all corresponding inventory entries remain partial.

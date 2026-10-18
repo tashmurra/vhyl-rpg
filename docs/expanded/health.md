@@ -3260,7 +3260,25 @@ after that time. Success ends the episode; failure schedules another full
 interval from the actual check time. A repeated receipt never rerolls or charges
 time. The episode and recovery records persist through undo and saves.
 
-Sleep episodes and a new daily check while a prior day's episode remains open
-reject with explicit unresolved reasons. Their interaction rules remain pending.
+A new daily check while a prior day's episode remains open rejects with an
+explicit unresolved reason. That interaction rule remains pending.
 The fixtures cover onset, early recovery rejection, failed and successful
 intervals, replay, rollback, undo and save continuation; checks remain paused.
+
+
+For episodes authored with `duringSleep`, use `RpgExpandedPainSleeplessRest`.
+Bind the episode and its character's existing `RpgLiteNeeds` object, mark that
+needs object inactive (quiet rest), and supply the interval and scene evidence.
+The operation advances waking needs and ordinary nonsleeping rest once. It
+permits eligible quiet-rest recovery but grants no sleep recovery, and applies
+sleep-deprivation effects through the existing fatigue ledger. Such episodes do
+not also impose the waking DX/IQ/self-control penalty.
+
+Split intervals at the episode's recovery deadline. The operation rejects
+changed episode conditions or a second advancement of the needs object by a time
+hook; let errors reach the engine transaction boundary for rollback. Direct
+`rpgLiteRest` calls requesting sleep during a scheduled sleep-pain episode reject
+before time advances. Once the episode ends, ordinary sleep recovery is available.
+The fixture crosses the sixteen-hour waking boundary, checks replay and verifies
+undo/save expectations; it remains unrun. Overlapping-day episodes and forced
+unconsciousness during a sleepless interval still require further integration.

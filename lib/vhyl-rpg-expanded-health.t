@@ -7118,7 +7118,6 @@ class RpgExpandedRecurrentPainDay: object
         { value.reason = 'recurrent-pain-trait-unavailable'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'recurrent-pain-onset-required'; return value; }
-        if (self.duringSleep) { value.reason = 'recurrent-pain-sleep-adapter-required'; return value; }
         local day = rpgLedger.seconds / 86400;
         rpgInteger(self.onsetAt,rpgLedger.seconds,2147483647-self.trait.intervalSeconds());
         if (self.onsetAt / 86400 != day) { value.reason = 'recurrent-pain-onset-day'; return value; }
@@ -7193,7 +7192,7 @@ modify RpgExpandedProfile
     recurrentPainPenalty()
     {
         local amount = 0;
-        foreach (local episode in self.recurrentPainDays) if (episode.active()) amount += episode.trait.awakePenalty();
+        foreach (local episode in self.recurrentPainDays) if (episode.active() && !episode.duringSleep) amount += episode.trait.awakePenalty();
         return amount;
     }
     healthAttributeModifier(context)
@@ -7202,4 +7201,94 @@ modify RpgExpandedProfile
         return amount + (holds([rpgDX,rpgIQ],context.controllingAttribute()) ? self.recurrentPainPenalty() : 0);
     }
     healthSelfControlModifier(trait) { return inherited(trait) + self.recurrentPainPenalty(); }
+;
+
+modify RpgExpandedProfile
+    validateSleepRecovery(seconds)
+    {
+        inherited(seconds);
+        foreach (local episode in self.recurrentPainDays)
+            if (episode.result.occurs && episode.duringSleep && episode.endedAt == nil
+                && holds(self.traits,episode.trait) && episode.trait.active && !episode.trait.mitigated
+                && episode.onsetAt < rpgLedger.seconds + seconds)
+                rpgExpandedReject('recurrent-pain-sleepless-rest-required');
+        return nil;
+    }
+;
+/** B126 sleep interruption uses the existing waking-needs and rest ledgers. */
+class RpgExpandedPainSleeplessRest: object
+    id = nil
+    episode = nil
+    needs = nil
+    seconds = 0
+    food = nil
+    water = nil
+    healingAllowed = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    startedAt = nil
+    completedAt = nil
+    definition()
+    {
+        return [self.id,self.episode,self.needs,self.seconds,self.food,self.water,self.healingAllowed,self.approved,self.evidence];
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedRecurrentPainDay)
+            || self.needs == nil || !self.needs.ofKind(RpgLiteNeeds) || self.needs.profile != self.episode.profile)
+            rpgExpandedReject('pain-sleepless-rest-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local i = 1; i <= current.length(); i += 1)
+                if (current[i] != self.boundDefinition[i]) rpgExpandedReject('pain-sleepless-rest-binding');
+            if (!holds(self.episode.sleeplessRests,self) || self.completedAt != self.startedAt + self.seconds)
+                rpgExpandedReject('pain-sleepless-rest-history');
+            value.status = 'reused'; return value;
+        }
+        rpgInteger(self.seconds,1,86400);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'pain-sleepless-rest-evidence'; return value; }
+        if (!self.episode.active() || !self.episode.duringSleep || self.needs.active)
+        { value.reason = 'pain-sleepless-rest-conditions'; return value; }
+        if (self.episode.profile.dead || self.episode.profile.unconscious)
+        { value.reason = 'pain-sleepless-rest-unavailable'; return value; }
+        if (self.seconds > self.episode.dueAt - rpgLedger.seconds)
+        { value.reason = 'pain-sleepless-rest-recovery-boundary'; return value; }
+        foreach (local prior in self.episode.sleeplessRests)
+            if (prior.id == self.id) rpgExpandedReject('pain-sleepless-rest-duplicate');
+        self.episode.profile.validateNaturalRecovery(self.seconds,self.food,self.healingAllowed);
+        rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds);
+        rpgLedger.validateAdvance(self.seconds);
+        value.status = 'ready'; value.seconds = self.seconds; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local start = rpgLedger.seconds;
+        local elapsed = self.needs.elapsed; local cycle = self.needs.cycle;
+        local due = self.episode.dueAt; local ended = self.episode.endedAt;
+        self.needs.advance(self.seconds);
+        if (self.episode.profile.unconscious) rpgExpandedReject('pain-sleepless-rest-consciousness-changed');
+        local rest = rpgLiteRest(self.episode.profile,self.seconds,self.food,self.water,nil,self.healingAllowed);
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != definition[i]) rpgExpandedReject('pain-sleepless-rest-interrupted');
+        if (self.episode.dueAt != due || self.episode.endedAt != ended || !self.episode.active())
+            rpgExpandedReject('pain-sleepless-rest-episode-changed');
+        if (rest.status != 'resolved' || rpgLedger.seconds != start + self.seconds
+            || self.needs.elapsed != (elapsed+self.seconds) % 86400
+            || self.needs.cycle != cycle + (elapsed+self.seconds) / 86400)
+            rpgExpandedReject('pain-sleepless-rest-double-time');
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = definition;
+        self.episode.sleeplessRests = self.episode.sleeplessRests + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+modify RpgExpandedRecurrentPainDay
+    sleeplessRests = []
 ;
