@@ -9490,6 +9490,8 @@ def test(build):
     test_makeup_lifecycle(Session,makeup_lifecycle,build.out)
     makeup_equipment = build.build('expanded-makeup-equipment',ROOT / 'tests/fixtures/expanded-makeup-equipment.t')
     test_makeup_equipment(Session,makeup_equipment,build.out)
+    makeup_actions = build.build('expanded-makeup-actions',ROOT / 'tests/fixtures/expanded-makeup-actions.t')
+    test_makeup_actions(Session,makeup_actions)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25837,3 +25839,47 @@ def test_makeup_equipment(Session, bundle, out):
         assert last(s,'test.makeup-state') == [1,1,600,3]
     finally:
         s.close()
+
+
+def test_makeup_actions(Session, bundle):
+    """Native routes distinguish performer from wearer and share one application; unrun."""
+    for route in ('parser','structured','dialogue'):
+        def perform(session, operation):
+            if route == 'parser':
+                session.command({'preview':'assess makeup','apply':'apply makeup','end':'end makeup','rollback':'rollback makeup'}[operation])
+            elif route == 'structured':
+                session.action({'preview':25910,'apply':25911,'end':25912,'rollback':25913}[operation])
+            else:
+                session.action(80,'makeup-plan'); session.select(operation)
+        s = Session(bundle)
+        try:
+            perform(s,'preview')
+            assert last(s,'rpg.expanded.makeup') == ['preview','ready',None]
+            perform(s,'rollback'); s.action(1680,25603)
+            assert last(s,'test.makeup-state') == [0,0,0,0]
+            perform(s,'apply'); s.command('undo'); s.action(1680,25603)
+            assert last(s,'test.makeup-state') == [0,0,0,0]
+            perform(s,'apply'); perform(s,'apply'); s.action(1680,25603)
+            assert last(s,'test.makeup-state') == [1,1,600,3]
+            perform(s,'end')
+            assert last(s,'rpg.expanded.makeup') == ['end','blocked','makeup-action-owner-required']
+            s.action(1680,25901); perform(s,'apply')
+            assert last(s,'rpg.expanded.makeup') == ['apply','blocked','makeup-action-owner-required']
+            perform(s,'end'); s.command('undo'); s.action(1680,25603)
+            assert last(s,'test.makeup-state') == [1,1,600,3]
+            perform(s,'end'); perform(s,'end')
+            assert last(s,'rpg.expanded.makeup') == ['end','reused',None]
+            s.action(1680,25902); perform(s,'apply'); s.action(1680,25603)
+            assert last(s,'test.makeup-state') == [0,1,600,3]
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.action(1680,25900)
+            for operation in ('preview','apply','end'):
+                perform(s,operation)
+                assert last(s,'rpg.expanded.makeup') == [operation,'blocked','makeup-action-owner-required']
+            s.action(1680,25603)
+            assert last(s,'test.makeup-state') == [0,0,0,0]
+        finally:
+            s.close()

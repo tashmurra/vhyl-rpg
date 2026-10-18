@@ -2520,8 +2520,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Alter authored theatrical appearance within technology limits; cannot change actual stature.",
-      "tests": ["tests/expanded.py::test_makeup", "tests/expanded.py::test_makeup_lifecycle", "tests/expanded.py::test_makeup_equipment"],
-      "validation_note": "Typed defaults, cosmetic context restrictions and owned health-gated application use shared time and preserve presentation without changing physical traits. Recorded end and replacement preserve newer presentations across replay, undo and saves. Toolkit quality, technology and owned/shared access now use equipment assessments. Consumable inventory, physical removal, observer contests and native action routes remain pending. Fixtures unrun.",
+      "tests": ["tests/expanded.py::test_makeup", "tests/expanded.py::test_makeup_lifecycle", "tests/expanded.py::test_makeup_equipment", "tests/expanded.py::test_makeup_actions"],
+      "validation_note": "Typed defaults, cosmetic context restrictions and owned health-gated application use shared time and preserve presentation without changing physical traits. Recorded end and replacement preserve newer presentations across replay, undo and saves. Toolkit quality, technology and owned/shared access now use equipment assessments. Shared native actions enforce performer/wearer roles with parity fixtures. Consumable inventory, physical removal and observer contests remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "easy",

@@ -1762,3 +1762,17 @@ application is still current, so an older receipt cannot erase newer makeup.
 undo, save continuation and end-timestamp binding. Fixtures remain unrun. Physical
 removal operations and automatic environment-dependent wear remain authored;
 this lifecycle supplies no invented universal cosmetic duration.
+
+`RpgExpandedMakeupAction` exposes `preview`, `apply` and `end` operations for one
+`application`. Command execution uses the command actor; dialogue choices call
+`perform(context.asker)`. Preview and application require the performer's profile.
+Ending requires the subject's profile, so a performer cannot clear another
+person's presentation through this action. Unauthorized calls return
+`makeup-action-owner-required` and change no resources.
+
+For `end`, supply concrete `endEvidence` and use the action only after the authored
+removal event. This records the lifecycle transition; it does not supply a washing
+procedure or duration. `rpg.expanded.makeup` contains operation, status and reason,
+not the cosmetic description. `test_makeup_actions` specifies parser, structured
+and dialogue parity, distinct actor roles, preview, rollback, undo, repeat calls
+and ending without replay resurrection. Fixtures remain unrun.

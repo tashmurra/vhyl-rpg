@@ -4042,3 +4042,26 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Shared native route; the performer applies, the wearer records removal. */
+class RpgExpandedMakeupAction: Action
+    application = nil
+    operation = 'apply'
+    endEvidence = nil
+    perform(actor)
+    {
+        if (self.application == nil || !self.application.ofKind(RpgExpandedMakeupApplication)
+            || !holds(['preview','apply','end'],self.operation)) rpgExpandedReject('makeup-action-definition');
+        self.application.definition();
+        if (self.operation == 'end' && (self.endEvidence == nil || self.endEvidence == '')) rpgExpandedReject('makeup-end-evidence');
+        local owner = self.operation == 'end' ? self.application.context.subject : self.application.profile;
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile != owner) value.reason = 'makeup-action-owner-required';
+        else if (self.operation == 'preview') value = self.application.assess();
+        else if (self.operation == 'apply') value = self.application.apply();
+        else value = self.application.end(self.endEvidence);
+        event('rpg.expanded.makeup'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;
