@@ -9320,6 +9320,8 @@ def test(build):
     test_driving_familiarity(Session, driving_familiarity, build.out)
     boating = build.build("expanded-boating",ROOT / "tests/fixtures/expanded-boating.t")
     test_boating(Session, boating)
+    boat_entry = build.build("expanded-boat-entry",ROOT / "tests/fixtures/expanded-boat-entry.t")
+    test_boat_entry(Session, boat_entry, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22540,3 +22542,40 @@ def test_boating(Session, bundle):
         assert last(s, 'test.boating-crew-default') == [13,9]
     finally:
         s.close()
+
+
+def test_boat_entry(Session, bundle, out):
+    """Failed defaulted entry starts water encounter once; trained entry needs no RNG; unrun."""
+    path = out / 'boat-entry.zsave'
+    s = Session(bundle)
+    try:
+        for code in (16905,16901,16902):
+            s.action(1100, code)
+        assert last(s, 'test.boat-entry-preview') == ['ready',0]
+        assert last(s, 'test.boat-entry') == [0,0,None,0]
+        s.action(1100,16900)
+        s.command('undo')
+        s.action(1100,16902)
+        assert last(s, 'test.boat-entry') == [0,0,None,0]
+        for code in (16900,16900,16902):
+            s.action(1100,code)
+        assert last(s, 'test.boat-entry') == [1,1,0,3]
+        s.command(f':save {path}\n@1101')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1101')
+        for code in (16900,16902):
+            s.action(1100,code)
+        assert last(s, 'test.boat-entry') == [1,1,0,3]
+    finally:
+        s.close()
+    for setup, draws in [(16903,3),(16904,0)]:
+        s = Session(bundle)
+        try:
+            for code in (setup,16900,16902):
+                s.action(1100,code)
+            assert last(s, 'test.boat-entry') == [1,0,1,draws]
+        finally:
+            s.close()

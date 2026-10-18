@@ -1153,3 +1153,26 @@ class RpgExpandedBoatingContext: RpgExpandedSkillContext
         return base == nil ? nil : base + self.conditionsPenalty;
     }
 ;
+
+
+modify RpgExpandedBoatingContext
+    boatEntryDefinition()
+    {
+        self.validateBoating();
+        if (self.eventKind != 'enter') rpgExpandedReject('boat-entry-context-event');
+        return [self.skill,self.skill.techLevel,self.skill.specialty,self.eventKind,self.conditionsPenalty,
+            self.evidence,self.familiarity,self.equipmentTL,self.modifier];
+    }
+    assessBoatEntry(profile)
+    {
+        self.boatEntryDefinition(); local value = new RpgExpandedBoatEntryAssessment();
+        value.checkRequired = self.checkRequired(profile);
+        if (value.checkRequired)
+        {
+            value.reason = self.unavailableReason(profile); if (value.reason != nil) return value;
+            local score = rpgLiteScore(profile,self);
+            if (score == nil || score < 3) { value.reason = 'boat-entry-score-unavailable'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+;

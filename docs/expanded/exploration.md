@@ -1511,3 +1511,26 @@ completed attempt or spend resources again.
 `expanded-owned-fishing.t` / `test_owned_fishing` cover owner mismatch, inaccessible
 tools, preview purity, item retargeting, replay, rollback, undo and save continuation.
 These fixtures are authored but unrun while checks are paused.
+
+
+## Defaulted small-boat entry
+
+`RpgExpandedBoatEntry` connects B180–B181 boarding to the B354 swimming state.
+Supply `id`, `profile`, an `enter` Boating `context`, `approved` and `evidence`.
+For an untrained entry, also supply a fresh `RpgExpandedSwimmingEncounter` owned
+by the same profile with `intentionalEntry` unset. `assess()` preflights both
+possible outcomes without rolling. Swimming now exposes `assessStart()` for this
+pure preparation; its existing `start()` uses the same checks.
+
+`apply()` rolls only when the target boating skill is defaulted. Failure starts
+the involuntary water encounter with its immediate entry check due; the ordinary
+swimming procedure then handles that separate check. Success reports `boarded`.
+Trained entry reports boarding without randomness. The owned attempt preserves
+its result across replay, undo and save. It does not move native room objects,
+spend invented action time or bypass subsequent water checks. The game must bind
+the result to its actual boarding/location action.
+
+`expanded-boat-entry.t` / `test_boat_entry` specify pure preview, failed and
+successful defaulted entry, trained entry, rollback, undo and saved replay.
+Fixtures remain unrun. Docking, underway checks and their movement consequences
+remain outstanding.

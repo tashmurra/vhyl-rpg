@@ -2185,7 +2185,8 @@
       "status": "partial",
       "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
       "tests": [
-        "tests/expanded.py::test_boating"
+        "tests/expanded.py::test_boating",
+        "tests/expanded.py::test_boat_entry"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -2219,7 +2220,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending."
+      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending. Owned defaulted boarding now preflights and starts involuntary swimming on failure; trained boarding spends no RNG. Pure swimming-start assessment extracted for atomic preparation. Native location movement and other boating outcomes remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-boating-open-powerboat",
@@ -2230,7 +2231,8 @@
       "status": "partial",
       "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
       "tests": [
-        "tests/expanded.py::test_boating"
+        "tests/expanded.py::test_boating",
+        "tests/expanded.py::test_boat_entry"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -2260,7 +2262,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending."
+      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending. Owned defaulted boarding now preflights and starts involuntary swimming on failure; trained boarding spends no RNG. Pure swimming-start assessment extracted for atomic preparation. Native location movement and other boating outcomes remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-boating-sailboat",
@@ -2271,7 +2273,8 @@
       "status": "partial",
       "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
       "tests": [
-        "tests/expanded.py::test_boating"
+        "tests/expanded.py::test_boating",
+        "tests/expanded.py::test_boat_entry"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -2301,7 +2304,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending."
+      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending. Owned defaulted boarding now preflights and starts involuntary swimming on failure; trained boarding spends no RNG. Pure swimming-start assessment extracted for atomic preparation. Native location movement and other boating outcomes remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-boating-muscle-boat",
@@ -2312,7 +2315,8 @@
       "status": "partial",
       "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
       "tests": [
-        "tests/expanded.py::test_boating"
+        "tests/expanded.py::test_boating",
+        "tests/expanded.py::test_boat_entry"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -2342,7 +2346,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending."
+      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending. Owned defaulted boarding now preflights and starts involuntary swimming on failure; trained boarding spends no RNG. Pure swimming-start assessment extracted for atomic preparation. Native location movement and other boating outcomes remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-bodily-control",

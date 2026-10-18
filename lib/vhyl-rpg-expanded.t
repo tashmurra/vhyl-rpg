@@ -722,3 +722,15 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     motionSusceptible(activeOnly) { return nil; }
 ;
+
+
+class RpgExpandedBoatEntryAssessment: RpgExpandedResult
+    checkRequired = nil
+    boarded = nil
+    fellInWater = nil
+;
+modify RpgLiteContext
+    boatEntryDefinition() { rpgExpandedReject('boat-entry-skill-adapter-required'); return []; }
+    assessBoatEntry(profile)
+    { local value = new RpgExpandedBoatEntryAssessment(); value.reason = 'boat-entry-skill-adapter-required'; return value; }
+;

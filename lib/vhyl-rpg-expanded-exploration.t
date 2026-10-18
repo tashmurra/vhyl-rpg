@@ -280,7 +280,7 @@ class RpgExpandedSwimmingEncounter: object
             rpgExpandedReject('swimming-binding');
         return nil;
     }
-    start()
+    assessStart()
     {
         local value = new RpgExpandedResult();
         if (self.startedAt != nil) { self.validateBinding(); value.status = 'reused'; return value; }
@@ -296,6 +296,12 @@ class RpgExpandedSwimmingEncounter: object
         if (!holds(['top-speed','slow','floating'],self.pace)) rpgExpandedReject('swimming-pace');
         foreach (local prior in self.profile.swimmingHistory)
             if (prior.id == self.id) rpgExpandedReject('swimming-duplicate');
+        rpgInteger(rpgLedger.seconds,0,2147481847);
+        value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assessStart(); if (value.status != 'ready') return value;
         self.boundId = self.id; self.boundProfile = self.profile; self.boundSkill = self.skill;
         self.boundDefaultAvailable = self.defaultAvailable;
         self.boundIntentional = self.intentionalEntry; self.boundBuild = self.build; self.boundEvidence = self.evidence; self.boundPace = self.pace;
@@ -2949,5 +2955,63 @@ class RpgExpandedOrientationRoute: object
         { value.reason = 'orientation-route-position'; return value; }
         for (local i = self.waypoints.length(); i >= 1; i -= 1) value.path = value.path + [self.waypoints[i]];
         value.status = 'ready'; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    boatEntries = []
+;
+/** B180-B181 failed defaulted entry begins involuntary water entry, B354. */
+class RpgExpandedBoatEntry: object
+    id = nil
+    profile = nil
+    context = nil
+    swimming = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.profile,self.context,self.swimming,self.approved,self.evidence] + self.context.boatEntryDefinition(); }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.context == nil || !self.context.ofKind(RpgLiteContext)) rpgExpandedReject('boat-entry-definition');
+        local facts = self.definition(); local value = new RpgExpandedBoatEntryAssessment();
+        if (self.result != nil)
+        {
+            if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('boat-entry-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('boat-entry-binding');
+            if (!holds(self.profile.boatEntries,self)) rpgExpandedReject('boat-entry-history');
+            if (self.result.fellInWater) self.swimming.validateBinding();
+            value.status = 'reused'; return value;
+        }
+        rpgExpandedValidate(self.profile);
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'boat-entry-evidence'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.swimmingEncounter != nil)
+        { value.reason = 'boat-entry-unavailable'; return value; }
+        foreach (local prior in self.profile.boatEntries)
+            if (prior.id == self.id) rpgExpandedReject('boat-entry-duplicate');
+        value = self.context.assessBoatEntry(self.profile); if (value.status != 'ready') return value;
+        if (value.checkRequired)
+        {
+            if (self.swimming == nil || !self.swimming.ofKind(RpgExpandedSwimmingEncounter)
+                || self.swimming.profile != self.profile || self.swimming.intentionalEntry || self.swimming.startedAt != nil)
+                rpgExpandedReject('boat-entry-water-definition');
+            if (self.swimming.assessStart().status != 'ready')
+            { value.status = 'blocked'; value.reason = 'boat-entry-water-unavailable'; return value; }
+        }
+        return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (value.checkRequired) value.check = rpgLiteCheck(self.profile,self.context);
+        value.fellInWater = value.checkRequired && !value.check.achieved;
+        value.boarded = !value.fellInWater;
+        if (value.fellInWater && self.swimming.start().status != 'resolved') rpgExpandedReject('boat-entry-water-changed');
+        self.boundDefinition = self.definition(); self.profile.boatEntries = self.profile.boatEntries + [self];
+        self.result = value; value.status = 'resolved'; return value;
     }
 ;
