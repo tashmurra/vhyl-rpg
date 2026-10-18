@@ -3207,7 +3207,8 @@
       "tests": [
         "tests/expanded.py::test_shadowing_context",
         "tests/expanded.py::test_shadowing_outcome",
-        "tests/expanded.py::test_shadowing_assessment"
+        "tests/expanded.py::test_shadowing_assessment",
+        "tests/expanded.py::test_shadowing_round"
       ],
       "reference_data": {
         "attribute": "iq",
@@ -3229,7 +3230,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": " Typed Shadowing context now selects foot-only purchased Stealth default, applies vehicle/known-target/appearance/crowd modifiers, and uses one fine-hearing bonus for an authored noisy target. Timed contests, awareness/loss transitions, vehicle encounters and conditional paid-default improvements remain pending. Fixtures unrun. Pure B219/B348 contest outcome interpretation now exposes the 600/300-second cadence, strict greater-than-five detection/false-escape thresholds, loss and critical-failure mistaken targets. Persistent timed encounters and target-context selection remain pending. Fixtures unrun. Pure two-profile shadowing preparation now selects Vision before awareness and authored Shadowing/Stealth afterward, validates typed contexts and the scent observer, and rejects unavailable scores. Timed owned execution remains pending. Fixtures unrun."
+      "validation_note": " Typed Shadowing context now selects foot-only purchased Stealth default, applies vehicle/known-target/appearance/crowd modifiers, and uses one fine-hearing bonus for an authored noisy target. Timed contests, awareness/loss transitions, vehicle encounters and conditional paid-default improvements remain pending. Fixtures unrun. Pure B219/B348 contest outcome interpretation now exposes the 600/300-second cadence, strict greater-than-five detection/false-escape thresholds, loss and critical-failure mistaken targets. Persistent timed encounters and target-context selection remain pending. Fixtures unrun. Pure two-profile shadowing preparation now selects Vision before awareness and authored Shadowing/Stealth afterward, validates typed contexts and the scent observer, and rejects unavailable scores. Timed owned execution remains pending. Fixtures unrun. Owned foot-shadowing rounds now bind concurrent marching, 600/300-second contests, persisted awareness, target loss, health denial and replay. Vehicle pursuit, arbitrary hourly-boundary splitting, external awareness transitions and player-action adapters remain pending. Regression fixtures authored but unrun."
     },
     {
       "id": "catalogue-shadowing-context",
@@ -3241,9 +3242,10 @@
       "acceptance": "Apply vehicle penalty and remove the foot-only default, plus target recognition and crowd/body distinctiveness penalties.",
       "tests": [
         "tests/expanded.py::test_shadowing_context",
-        "tests/expanded.py::test_shadowing_assessment"
+        "tests/expanded.py::test_shadowing_assessment",
+        "tests/expanded.py::test_shadowing_round"
       ],
-      "validation_note": " Typed Shadowing context now selects foot-only purchased Stealth default, applies vehicle/known-target/appearance/crowd modifiers, and uses one fine-hearing bonus for an authored noisy target. Timed contests, awareness/loss transitions, vehicle encounters and conditional paid-default improvements remain pending. Fixtures unrun. Pure two-profile shadowing preparation now selects Vision before awareness and authored Shadowing/Stealth afterward, validates typed contexts and the scent observer, and rejects unavailable scores. Timed owned execution remains pending. Fixtures unrun."
+      "validation_note": " Typed Shadowing context now selects foot-only purchased Stealth default, applies vehicle/known-target/appearance/crowd modifiers, and uses one fine-hearing bonus for an authored noisy target. Timed contests, awareness/loss transitions, vehicle encounters and conditional paid-default improvements remain pending. Fixtures unrun. Pure two-profile shadowing preparation now selects Vision before awareness and authored Shadowing/Stealth afterward, validates typed contexts and the scent observer, and rejects unavailable scores. Timed owned execution remains pending. Fixtures unrun. Owned foot-shadowing rounds now bind concurrent marching, 600/300-second contests, persisted awareness, target loss, health denial and replay. Vehicle pursuit, arbitrary hourly-boundary splitting, external awareness transitions and player-action adapters remain pending. Regression fixtures authored but unrun."
     },
     {
       "id": "catalogue-skill-shield-strapped",

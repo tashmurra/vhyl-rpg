@@ -9393,7 +9393,7 @@ class RpgExpandedMarchStepGroupResult: RpgExpandedMarchStepResult
     members = []
 ;
 /** Concurrent incremental marching advances the shared world clock once. */
-class RpgExpandedMarchStepGroup: object
+class RpgExpandedMarchStepGroup: RpgExpandedMarchStepGroupReceipt
     id = nil
     steps = []
     result = nil
@@ -9527,4 +9527,15 @@ modify RpgExpandedProfile
         }
         return nil;
     }
+;
+
+modify RpgExpandedMarchStepGroup
+    shadowingProfiles()
+    {
+        local profiles = [];
+        foreach (local step in self.steps) profiles = profiles + [step.trackingProfile()];
+        return profiles;
+    }
+    shadowingFacts() { return self.definition(); }
+    shadowingSeconds() { return self.steps.length() == 0 ? 0 : self.steps[1].seconds; }
 ;

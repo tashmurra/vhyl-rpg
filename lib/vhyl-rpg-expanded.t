@@ -1094,3 +1094,10 @@ modify RpgLiteContext
     shadowingContestRole() { return nil; }
     shadowingContestFacts() { rpgExpandedReject('shadowing-context-adapter-required'); }
 ;
+
+class RpgExpandedMarchStepGroupReceipt: object
+    shadowingOwner = nil
+    shadowingProfiles() { rpgExpandedReject('shadowing-movement-health-required'); }
+    shadowingFacts() { rpgExpandedReject('shadowing-movement-health-required'); }
+    shadowingSeconds() { rpgExpandedReject('shadowing-movement-health-required'); }
+;

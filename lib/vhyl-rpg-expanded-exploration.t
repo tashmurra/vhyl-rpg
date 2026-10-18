@@ -5227,3 +5227,136 @@ rpgExpandedPrepareShadowing(follower,followerContext,target,targetContext,target
     { value.reason = 'shadowing-score-unavailable'; return value; }
     value.status = 'ready'; return value;
 }
+
+class RpgExpandedShadowingRoundResult: RpgExpandedResult
+    movement = nil
+    outcome = nil
+;
+/** B219 owned foot-shadowing round, with concurrent travel and retained awareness. */
+class RpgExpandedShadowingRound: object
+    id = nil
+    follower = nil
+    target = nil
+    followerContext = nil
+    targetContext = nil
+    occurrence = nil
+    previous = nil
+    initiallyAware = nil
+    movement = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    startedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.follower == nil || !self.follower.ofKind(RpgExpandedProfile)
+            || self.target == nil || !self.target.ofKind(RpgExpandedProfile) || self.target == self.follower
+            || self.followerContext == nil || !self.followerContext.ofKind(RpgLiteContext)
+            || self.targetContext == nil || !self.targetContext.ofKind(RpgLiteContext) || self.occurrence == nil
+            || self.movement == nil || !self.movement.ofKind(RpgExpandedMarchStepGroupReceipt)
+            || self.previous == self || (self.previous != nil && !self.previous.ofKind(RpgExpandedShadowingRound)))
+            rpgExpandedReject('shadowing-round-definition');
+        return [self.id,self.follower,self.target,self.followerContext,self.targetContext,self.occurrence,self.previous,
+            self.initiallyAware,self.movement,self.approved,self.evidence] + self.followerContext.shadowingContestFacts()
+            + self.targetContext.shadowingContestFacts() + self.movement.shadowingFacts();
+    }
+    aware() { return self.previous == nil ? self.initiallyAware : self.previous.result.outcome.targetAware; }
+    outcomeDefinition()
+    {
+        local facts = [self.startedAt,self.completedAt,self.result,self.result.status,self.result.reason,self.result.seconds,self.result.movement,self.result.outcome];
+        if (self.result.outcome != nil)
+        {
+            local o = self.result.outcome; local c = o.check;
+            facts = facts + [o.interval,o.victoryMargin,o.lost,o.seen,o.wrongTarget,o.targetBelievesEscape,o.targetAware,c,
+                c.score,c.roll,c.margin,c.critical,c.achieved,c.outcome,c.oppositionScore,c.oppositionRoll,c.oppositionMargin,c.oppositionCritical];
+        }
+        return facts;
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedShadowingRoundResult();
+        if (self.result != nil)
+        {
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()
+                || !holds(self.follower.shadowingRounds,self) || !holds(self.target.shadowingRounds,self)) rpgExpandedReject('shadowing-round-history');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('shadowing-round-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('shadowing-round-outcome');
+            for (local i = 1; i <= outcome.length(); i += 1)
+                if (outcome[i] != self.boundOutcome[i]) rpgExpandedReject('shadowing-round-outcome');
+            if (self.movement.shadowingOwner != self || self.movement.assess().status != 'reused' || self.movement.result != self.result.movement
+                || self.completedAt != self.startedAt+self.result.seconds || self.completedAt > rpgLedger.seconds)
+                rpgExpandedReject('shadowing-round-movement');
+            if (self.previous != nil && self.previous.assess().status != 'reused') rpgExpandedReject('shadowing-round-previous');
+            value.status = 'reused'; return value;
+        }
+        if (self.startedAt != nil || self.completedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('shadowing-round-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'shadowing-round-world-facts'; return value; }
+        if (self.previous != nil)
+        {
+            if (self.initiallyAware || self.previous.result == nil || self.previous.result.outcome == nil)
+            { value.reason = 'shadowing-round-previous-required'; return value; }
+            self.previous.assess();
+            if (self.previous.follower != self.follower || self.previous.target != self.target || self.previous.occurrence != self.occurrence)
+                rpgExpandedReject('shadowing-round-previous-scope');
+            if (self.previous.result.outcome.lost) { value.reason = 'shadowing-round-target-lost'; return value; }
+            if (self.previous.completedAt != rpgLedger.seconds) { value.reason = 'shadowing-round-not-continuous'; return value; }
+        }
+        foreach (local profile in [self.follower,self.target])
+            foreach (local prior in profile.shadowingRounds)
+                if (prior.id == self.id || (self.previous != nil && prior.previous == self.previous)
+                    || (self.previous == nil && prior.previous == nil && prior.occurrence == self.occurrence
+                        && prior.follower == self.follower && prior.target == self.target)) rpgExpandedReject('shadowing-round-duplicate');
+        local prepared = rpgExpandedPrepareShadowing(self.follower,self.followerContext,self.target,self.targetContext,self.aware());
+        if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        if (self.followerContext.mode != 'foot' || (prepared.targetRole == 'shadowing' && self.targetContext.mode != 'foot'))
+        { value.reason = 'shadowing-vehicle-movement-adapter-required'; return value; }
+        local profiles = self.movement.shadowingProfiles();
+        if (profiles.length() != 2 || !holds(profiles,self.follower) || !holds(profiles,self.target)) rpgExpandedReject('shadowing-round-movement-members');
+        if (self.movement.shadowingSeconds() != prepared.interval) { value.reason = 'shadowing-round-interval'; return value; }
+        if (self.movement.result != nil || self.movement.shadowingOwner != nil) rpgExpandedReject('shadowing-round-used-movement');
+        local travel = self.movement.assess(); if (travel.status != 'ready') { value.reason = travel.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds; local aware = self.aware();
+        value.movement = self.movement.apply(); if (value.movement.status != 'resolved') rpgExpandedReject('shadowing-round-movement-changed');
+        value.seconds = value.movement.seconds;
+        local current = self.definition();
+        if (current.length() != facts.length()) rpgExpandedReject('shadowing-round-changed');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (current[i] != facts[i]) rpgExpandedReject('shadowing-round-changed');
+        if (value.movement.allowed)
+        {
+            local prepared = rpgExpandedPrepareShadowing(self.follower,self.followerContext,self.target,self.targetContext,aware);
+            if (prepared.status != 'ready') rpgExpandedReject('shadowing-round-score-changed');
+            local ownRoll = rpgRandom.roll(); local otherRoll = rpgRandom.roll();
+            value.outcome = rpgExpandedAssessShadowing(prepared.followerScore,ownRoll,prepared.targetScore,otherRoll,aware);
+        }
+        else value.reason = value.movement.reason;
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = facts; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = self.outcomeDefinition(); self.movement.shadowingOwner = self;
+        self.follower.shadowingRounds = self.follower.shadowingRounds + [self]; self.target.shadowingRounds = self.target.shadowingRounds + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    shadowingRounds = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local round in self.shadowingRounds)
+        {
+            if (round == nil || !round.ofKind(RpgExpandedShadowingRound) || (round.follower != self && round.target != self)
+                || holds(ids,round.id) || round.assess().status != 'reused') rpgExpandedReject('shadowing-round-profile');
+            ids = ids + [round.id];
+        }
+        return nil;
+    }
+;

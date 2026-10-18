@@ -9566,6 +9566,8 @@ def test(build):
     test_stealth_context(Session,stealth_context)
     shadowing_assessment = build.build('expanded-shadowing-assessment',ROOT / 'tests/fixtures/expanded-shadowing-assessment.t')
     test_shadowing_assessment(Session,shadowing_assessment)
+    shadowing_round = build.build('expanded-shadowing-round',ROOT / 'tests/fixtures/expanded-shadowing-round.t')
+    test_shadowing_round(Session,shadowing_round,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27484,5 +27486,69 @@ def test_march_step_group(Session, bundle, out):
         s.action(1680,27009); s.action(1680,29500); s.action(1680,29500)
         row = state(s)
         assert row[:3] == [0,0,0] and row[4:] == [0,0,0,3]
+    finally:
+        s.close()
+
+
+def test_shadowing_round(Session, bundle, out):
+    """B219 timed foot contests own shared movement, outcomes and continuation; unrun."""
+    def state(s):
+        s.action(1680,29604)
+        return last(s,'test.shadow-round')
+    zero = [0,0,0,0,0,0,0,0]
+    first = [600,6,1,1,600,600,0,0]
+    path = out / 'shadowing-round.zsave'
+    s = Session(bundle)
+    try:
+        for _ in range(2):
+            s.action(1680,29605)
+            assert last(s,'test.shadow-round-preview') == ['ready',None]
+            assert state(s) == zero
+        for code in (29601,29612):
+            s.action(1680,code); assert state(s) == zero
+        s.action(1680,29600); s.command('undo'); assert state(s) == zero
+        s.action(1680,29600); s.action(1680,29600); s.action(1680,29611)
+        assert state(s) == first
+        s.action(1680,29609); assert last(s,'test.shadow-round-outcome') == [1,0,0,0,0,0]
+        s.action(1680,29610); assert state(s) == first
+        s.action(1680,29609); assert last(s,'test.shadow-round-outcome') == [1,0,0,0,0,0]
+        s.action(1680,29603); assert state(s) == first
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,29602); s.action(1680,29602)
+        assert state(s) == [1200,12,2,2,1200,1200,0,0]
+    finally:
+        s.close()
+    for setup,expected in (((29608,),[1,1,1,0,1,0]),((27004,),[1,1,0,1,0,0])):
+        s = Session(bundle)
+        try:
+            for code in setup:
+                s.action(1680,code)
+            s.action(1680,29600); s.action(1680,29609)
+            assert last(s,'test.shadow-round-outcome') == expected
+            s.action(1680,29606)
+            assert last(s,'test.shadow-round-preview') == ['blocked','shadowing-round-target-lost']
+            s.action(1680,29602); assert state(s) == first
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,29607); s.action(1680,29600); s.action(1680,29609)
+        assert last(s,'test.shadow-round-outcome') == [1,0,0,0,1,1]
+        assert state(s) == [300,6,1,1,300,300,0,0]
+        s.action(1680,29602); assert state(s) == [600,12,2,2,600,600,0,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,27009); s.action(1680,29600); s.action(1680,29600)
+        row = state(s)
+        assert row[:6] == [0,3,1,1,0,0] and row[7] == 0
+        s.action(1680,29609); assert last(s,'test.shadow-round-outcome') == [0]
+        s.action(1680,29606)
+        assert last(s,'test.shadow-round-preview') == ['blocked','shadowing-round-previous-required']
     finally:
         s.close()

@@ -2469,7 +2469,7 @@ authors must supply it in the encounter.
 The caller must supply the appropriate target score: Vision before discovery,
 Shadowing or Stealth afterward. This pure helper does not establish that context,
 select the target's skill, move participants, persist awareness or schedule
-checks. Those encounter integrations remain pending. `test_shadowing_outcome`
+checks. The owned round below supplies foot-travel integration. `test_shadowing_outcome`
 specifies five-versus-six-point boundaries, success/failure comparisons, ties,
 both-failure outcomes, awareness and critical failure. Fixtures remain unrun.
 
@@ -2492,7 +2492,47 @@ contains both scores, the input awareness interval, the target role and context
 facts for a future owned encounter to bind.
 
 This preparation does not grant movement permission or execute a timed contest.
-Shared participant travel, persistent awareness and target choice validation
-through player actions remain pending. `test_shadowing_assessment` specifies the
+The owned round below binds shared participant travel and persistent awareness.
+Target choice validation through player actions remains pending. `test_shadowing_assessment` specifies the
 three legal pairings, awareness mismatch rejection, unavailable sight/actors,
 observer-specific scent penalties and preview purity. Fixtures remain unrun.
+
+
+## Timed foot-shadowing rounds
+
+`RpgExpandedShadowingRound` owns one contest and its concurrent movement
+(full-2008 B219). Supply distinct `follower` and `target` profiles, their typed
+contexts, an encounter `occurrence`, a unique `id`, and approved world facts with
+`evidence`. Its `movement` is an unused `RpgExpandedMarchStepGroup` containing
+exactly one step for each participant. Both steps must last 600 seconds when the
+target is unaware, or 300 seconds when aware. Include the health library for
+this movement implementation.
+
+Use `initiallyAware` only on the first round. A subsequent round references
+`previous`, keeps the same participants and occurrence, and starts exactly when
+that round ended. It inherits awareness from the prior contest outcome. Authors
+provide the appropriate opposing context; the round does not silently replace
+Vision with a skill. Lost targets block continuation, and a previous round can
+have only one committed successor. Author a separate encounter after a new
+acquisition rather than rerolling the lost round.
+
+`assess()` is pure. `resolve()` applies the group's health permissions and shared
+travel once, then rolls each side once and retains `result.outcome`. Movement
+permission denial retains a result without a contest or elapsed travel. It cannot
+be used as a successful preceding round. Both profiles own the receipt in
+`shadowingRounds`. Repeating the round, group or individual movement steps reuses
+their existing results. Mutation of bound requests or contest outcomes is
+rejected. Use the engine transaction boundary for committed execution.
+
+The marching progress objects retain partial-hour travel and settle fatigue at
+their existing hourly boundary. A round cannot cross a marching boundary its
+steps cannot represent: assessment rejects that request before spending anything.
+Arbitrary boundary splitting, pauses, externally changed awareness, vehicle
+pursuit, selection of a mistaken target and parser/dialogue action adapters remain
+pending. These limits are explicit; this is not complete encounter coverage.
+
+`test_shadowing_round` specifies both intervals, one shared time increment,
+retained awareness and mistaken escape, loss and critical-failure termination,
+health denial, pure preview, replay, exception rollback, undo, outcome binding
+and cross-process save continuation. Fixtures are authored but unrun while checks
+remain paused.
