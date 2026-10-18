@@ -8898,6 +8898,8 @@ def test(build):
     test_radiation_prevention(Session, radiation_prevention, build.out)
     radiation_treatment = build.build('expanded-radiation-treatment', ROOT / 'tests/fixtures/expanded-radiation-treatment.t')
     test_radiation_treatment(Session, radiation_treatment, build.out)
+    fallout = build.build('expanded-fallout', ROOT / 'tests/fixtures/expanded-fallout.t')
+    test_fallout_treatment(Session, fallout, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10121,3 +10123,58 @@ def test_radiation_treatment(Session, bundle, out):
             assert last(s, 'test.radiation-treatment') == [2, 0, 10, 10, 0, 0]
         finally:
             s.close()
+
+
+def test_fallout_treatment(Session, bundle, out):
+    for advanced, elapsed, fraction, total in [
+            (False, 259199, [1, 1], 20), (False, 259200, [1, 2], 15),
+            (False, 604799, [1, 2], 15), (False, 604800, [0, 1], 10),
+            (True, 43199, [1, 1], 20), (True, 43200, [0, 1], 10)]:
+        s = Session(bundle)
+        try:
+            s.action(2291, 20, 0)
+            s.action(2291, 23, 0)
+            if advanced:
+                s.action(2291, 22, 0)
+            s.action(2291, 21, 0)
+            days, seconds = divmod(elapsed, 86400)
+            s.action(2291, 3, days)
+            s.action(2291, 30, seconds)
+            s.action(2291, 24, 0)
+            s.action(2291, 21, 0)  # Replayed treatment retains its original epoch.
+            s.action(2291, 24, 0)  # Release replay neither redoses nor erases.
+            s.action(2291, 31, 0)
+            assert last(s, 'test.fallout') == fraction + [total, 1, int(advanced), int(not advanced), 1, 2, elapsed, 0]
+        finally:
+            s.close()
+    path = out / 'expanded-fallout.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2291, 20, 0)
+        s.action(2291, 25, 0)
+        s.action(2291, 26, 0)
+        s.action(2291, 31, 0)
+        assert last(s, 'test.fallout') == [1, 1, 0, 1, 1, 1, 0, 0, 0, 0]
+        s.action(2291, 21, 0)
+        s.command('undo')
+        s.action(2291, 31, 0)
+        assert last(s, 'test.fallout') == [1, 1, 0, 1, 1, 1, 0, 0, 0, 0]
+        s.action(2291, 21, 0)
+        s.action(2291, 23, 0)
+        s.action(2291, 3, 3)
+        s.command(f':save {path}\n@2295')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2295')
+        s.action(2291, 24, 0)
+        s.action(2291, 31, 0)
+        assert last(s, 'test.fallout') == [1, 2, 15, 1, 0, 1, 1, 2, 259200, 0]
+        s.action(2291, 3, 4)
+        s.action(2291, 21, 0)
+        s.action(2291, 24, 0)
+        s.action(2291, 31, 0)
+        assert last(s, 'test.fallout') == [0, 1, 15, 1, 0, 1, 1, 2, 604800, 0]
+    finally:
+        s.close()

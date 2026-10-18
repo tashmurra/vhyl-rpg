@@ -302,9 +302,12 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Technology-seven chelation costs 500, halves ongoing exposure from ingested fallout after three days and eliminates it after a week; already absorbed dose remains.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fallout_treatment"
+      ],
+      "implementation": "Owned internal contamination and treatment records consume one appropriate inventory dose. Exact source fractions follow the three-day/seven-day basic schedule or twelve-hour advanced schedule. Authored instantaneous releases enter the shared received-dose ledger; zero releases retain receipts without adding doses. Existing absorbed dose is unchanged. Continuous exposure integration, repeated ingestion and repeat treatment remain unsupported. Boundary and persistence fixtures are authored and unrun."
     },
     {
       "id": "radiation-advanced-chelation",
@@ -312,9 +315,12 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Technology-eight chelation costs 500 and removes ingested fallout in twelve hours, retaining already absorbed dose.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fallout_treatment"
+      ],
+      "implementation": "Owned internal contamination and treatment records consume one appropriate inventory dose. Exact source fractions follow the three-day/seven-day basic schedule or twelve-hour advanced schedule. Authored instantaneous releases enter the shared received-dose ledger; zero releases retain receipts without adding doses. Existing absorbed dose is unchanged. Continuous exposure integration, repeated ingestion and repeat treatment remain unsupported. Boundary and persistence fixtures are authored and unrun."
     },
     {
       "id": "radiation-advanced-resistance",

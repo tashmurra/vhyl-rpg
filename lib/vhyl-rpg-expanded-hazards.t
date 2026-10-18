@@ -1841,3 +1841,184 @@ class RpgExpandedRadiationContext: RpgLiteContext
         return base == nil ? nil : base + profile.radiationTreatmentModifier();
     }
 ;
+
+/** B436 remaining internal-source exposure fraction after a single treatment. */
+rpgExpandedFalloutFraction(advanced, elapsedSeconds)
+{
+    rpgInteger(elapsedSeconds,0,2147483647);
+    if (advanced) return rpgExpandedRadQuantity(elapsedSeconds >= 43200 ? 0 : 1,1);
+    if (elapsedSeconds >= 604800) return rpgExpandedRadQuantity(0,1);
+    return rpgExpandedRadQuantity(1,elapsedSeconds >= 259200 ? 2 : 1);
+}
+
+modify RpgExpandedProfile
+    internalFallout = []
+    falloutTreatments = []
+;
+
+/** One authored internal fallout burden; new ingestion needs a new record. */
+class RpgExpandedInternalFallout: object
+    id = nil
+    profile = nil
+    approved = nil
+    evidence = nil
+    recordedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition() { return [self.id,self.profile,self.approved,self.evidence]; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || self.recordedAt == nil)
+            rpgExpandedReject('fallout-uncommitted');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('fallout-binding');
+        if (!holds(self.profile.internalFallout,self)) rpgExpandedReject('fallout-history');
+        rpgInteger(self.recordedAt,0,rpgLedger.seconds); return nil;
+    }
+    fraction()
+    {
+        self.validateReceipt(); local found = nil;
+        foreach (local treatment in self.profile.falloutTreatments)
+        {
+            if (treatment == nil || !treatment.ofKind(RpgExpandedFalloutTreatment)
+                || treatment.profile != self.profile) rpgExpandedReject('fallout-treatment-history');
+            treatment.validateReceipt();
+            if (treatment.contamination == self)
+            {
+                if (found != nil) rpgExpandedReject('fallout-treatment-overlap');
+                found = treatment;
+            }
+        }
+        return found == nil ? rpgExpandedRadQuantity(1,1)
+            : rpgExpandedFalloutFraction(found.advanced,rpgLedger.seconds - found.administeredAt);
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('fallout-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        rpgExpandedValidate(self.profile);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'fallout-evidence-required'; return value; }
+        foreach (local prior in self.profile.internalFallout)
+        {
+            if (prior.profile != self.profile) rpgExpandedReject('fallout-history');
+            prior.validateReceipt();
+            if (prior.id == self.id) rpgExpandedReject('fallout-duplicate');
+            if (prior.fraction().numerator != 0)
+            { value.reason = 'fallout-repeated-ingestion-unimplemented'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.profile.internalFallout = self.profile.internalFallout + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+/** Separate basic and advanced supplies prevent accidental use of a slower dose. */
+class RpgExpandedFalloutMedicine: RpgLiteItem
+    cost = 500
+    techLevel = 7
+;
+class RpgExpandedAdvancedFalloutMedicine: RpgExpandedFalloutMedicine
+    techLevel = 8
+;
+
+/** B436 removal of one internal burden, without changing absorbed dose history. */
+class RpgExpandedFalloutTreatment: RpgExpandedRadiationPrevention
+    contamination = nil
+    advanced = nil
+    medicineValid()
+    {
+        return self.advanced ? self.medicine.ofKind(RpgExpandedAdvancedFalloutMedicine)
+            : self.medicine.ofKind(RpgExpandedFalloutMedicine)
+                && !self.medicine.ofKind(RpgExpandedAdvancedFalloutMedicine);
+    }
+    minimumTechnology() { return self.advanced ? 8 : 7; }
+    history() { return self.profile.falloutTreatments; }
+    remember() { self.profile.falloutTreatments = self.profile.falloutTreatments + [self]; }
+    overlaps(prior) { return prior.contamination == self.contamination; }
+    definition() { return inherited() + [self.contamination,self.advanced]; }
+    assess()
+    {
+        if (self.contamination == nil || !self.contamination.ofKind(RpgExpandedInternalFallout)
+            || self.contamination.profile != self.profile) rpgExpandedReject('fallout-treatment-target');
+        self.contamination.validateReceipt();
+        return inherited();
+    }
+;
+
+modify RpgExpandedProfile
+    falloutReleases = []
+;
+class RpgExpandedFalloutReleaseResult: RpgExpandedResult
+    sourceFraction = nil
+    quantity = nil
+    dose = nil
+;
+
+/** An authored instantaneous release from internal fallout, assessed at this clock.
+ * The baseline is before chelation and personal protection, with no outer shield. */
+class RpgExpandedFalloutRelease: object
+    id = nil
+    contamination = nil
+    numerator = 0
+    denominator = 1
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.contamination,self.numerator,self.denominator,self.approved,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.contamination == nil
+            || !self.contamination.ofKind(RpgExpandedInternalFallout)) rpgExpandedReject('fallout-release-definition');
+        self.contamination.validateReceipt(); local profile = self.contamination.profile;
+        local value = new RpgExpandedFalloutReleaseResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('fallout-release-binding');
+            if (!holds(profile.falloutReleases,self) || self.result.dose != nil
+                && self.result.dose.assess().status != 'reused') rpgExpandedReject('fallout-release-history');
+            value.status = 'reused'; return value;
+        }
+        rpgExpandedValidate(profile);
+        rpgInteger(self.numerator,1,100000000); rpgInteger(self.denominator,1,20000000);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'fallout-release-evidence-required'; return value; }
+        foreach (local prior in profile.falloutReleases)
+            if (prior.id == self.id) rpgExpandedReject('fallout-release-duplicate');
+        value.sourceFraction = self.contamination.fraction();
+        value.quantity = rpgExpandedRadQuantity(0,1);
+        if (value.sourceFraction.numerator != 0)
+        {
+            value.quantity = rpgExpandedDivideRadiation(rpgExpandedRadQuantity(self.numerator,self.denominator),
+                value.sourceFraction.denominator);
+            value.quantity = rpgExpandedDivideRadiation(value.quantity,profile.radiationDivisor());
+            value.quantity = rpgExpandedDivideRadiation(value.quantity,profile.radiationPreventiveDivisor());
+            value.dose = new RpgExpandedRadiationDose(); value.dose.id = self.id;
+            value.dose.profile = profile; value.dose.source = self.contamination;
+            value.dose.rads = value.quantity.numerator; value.dose.radDenominator = value.quantity.denominator;
+            value.dose.approved = self.approved; value.dose.evidence = self.evidence;
+            local prepared = value.dose.assess();
+            if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (value.dose != nil && value.dose.apply().status != 'resolved') rpgExpandedReject('fallout-release-dose-changed');
+        self.boundDefinition = self.definition();
+        self.contamination.profile.falloutReleases = self.contamination.profile.falloutReleases + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

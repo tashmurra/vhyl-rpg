@@ -875,3 +875,56 @@ specify the +3 scope, both sides of expiry, repeat administration, insufficient
 technology, missing evidence, preview, rollback, undo and saved continuation.
 They are authored and unrun. The underlying preventive-treatment fixtures remain
 part of the required regression coverage after the shared-path refactor.
+
+
+### Removing internal fallout
+
+`RpgExpandedInternalFallout` records an internal source separately from absorbed
+radiation. Supply a unique `id`, `profile`, `approved` and evidence of the
+contamination, then apply inside a transaction. Its receipt is owned by
+`profile.internalFallout`. Recording contamination does not invent a dose rate or
+retroactively add received radiation. Further ingestion while a burden remains
+active is explicitly unsupported; a new burden can be recorded after removal.
+
+`RpgExpandedFalloutMedicine` costs 500 per dose at technology seven;
+`RpgExpandedAdvancedFalloutMedicine` costs 500 at technology eight. Use ordinary
+inventory acquisition and authored package weights. `RpgExpandedFalloutTreatment`
+uses the shared administration fields, plus `contamination` and `advanced`.
+The selected medicine class must match the requested treatment. Applying consumes
+one owned dose and records it in `profile.falloutTreatments`. A burden supports
+one treatment; repeated or replacement courses are explicitly unsupported.
+
+The source fraction follows `full-2008`, B436:
+
+| Treatment | Elapsed time | Remaining exposure fraction |
+| --- | --- | --- |
+| Basic | Less than three days | 1 |
+| Basic | Three days through just before seven days | 1/2 |
+| Basic | Seven days onward | 0 |
+| Advanced | Less than twelve hours | 1 |
+| Advanced | Twelve hours onward | 0 |
+
+`rpgExpandedFalloutFraction(advanced, elapsedSeconds)` is the pure schedule helper.
+`contamination.fraction()` derives the current fraction from its owned treatment
+receipt. Expiry requires no timer callback. Earlier received doses continue their
+independent recovery and permanent residue; removal never deletes them.
+
+`RpgExpandedFalloutRelease` records an authored instantaneous release from that
+source. Supply `id`, `contamination`, baseline dose `numerator` and `denominator`,
+`approved` and evidence. The baseline is before source removal and personal
+protection. Assessment applies the source fraction, radiation-resistance trait
+and preventive-medication factor using exact arithmetic. Outer shielding is not
+applied to an internal source. Applying commits one shared received dose, or a
+zero-release receipt after removal, in `profile.falloutReleases`. Replay retains
+the original outcome even after treatment progresses. Preview spends nothing;
+all mutations belong in an engine transaction.
+
+This release interface is for an exposure at the current clock. Do not use an
+endpoint fraction to reduce a dose accumulated across a treatment boundary.
+Continuous source-rate integration and automatic exposure scheduling remain
+pending. The source's rate and world facts must be supplied explicitly, and no
+source-check cadence or syndrome execution is implied by a received-dose record.
+
+`tests/fixtures/expanded-fallout.t` and `test_fallout_treatment` specify both sides
+of each treatment boundary, retained absorbed radiation, single-dose consumption,
+preview, rollback, undo, replay and saved continuation. They are authored and unrun.

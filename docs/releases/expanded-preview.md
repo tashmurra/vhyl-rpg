@@ -246,3 +246,10 @@ administration and receipt handling with preventive medication; overlapping
 courses are blocked and absorbed dose is unchanged. New expiry and persistence
 fixtures are authored and unrun. Automatic radiation syndrome procedures remain
 pending.
+
+
+Internal fallout now has owned contamination and treatment records. Basic and
+advanced medication consume existing inventory doses and reduce future authored
+instantaneous releases on their reference schedules, preserving absorbed dose.
+Continuous source-rate integration, repeated ingestion and repeated treatment
+remain unsupported. New boundary and persistence fixtures are authored and unrun.
