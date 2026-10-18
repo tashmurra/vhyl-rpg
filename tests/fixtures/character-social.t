@@ -155,5 +155,156 @@ act(verb,args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1118)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.dx = 12;
+        local basic = new RpgExpandedSkill(); basic.attribute = rpgDX;
+        basic.difficulty = 1; basic.defaultPenalty = 0;
+        local advanced = new RpgExpandedSkill();
+        local req = new RpgExpandedPrerequisite(); req.skill = basic; req.minimum = 12;
+        advanced.prerequisite = req;
+        local training = new RpgExpandedTraining(); training.skill = basic; training.points = 0;
+        p.skills = [training];
+        event('test.learning-requirements'); eventValue(p.skillLearningReason(advanced));
+        training.points = 1; eventValue(p.skillLearningReason(advanced));
+        training.points = 4; eventValue(p.skillLearningReason(advanced));
+        local traitReq = new RpgExpandedPrerequisite(); traitReq.kind = 'trait';
+        traitReq.traitId = 'learning-gift'; traitReq.traitLevel = 2;
+        local group = new RpgExpandedPrerequisite(); group.kind = 'all';
+        group.children = [req,traitReq]; advanced.prerequisite = group;
+        eventValue(p.skillLearningReason(advanced));
+        group.kind = 'any'; eventValue(p.skillLearningReason(advanced));
+        training.points = 0;
+        local gift = new RpgLiteTrait(); gift.id = 'learning-gift'; gift.level = 2;
+        gift.active = nil; p.traits = [gift]; eventValue(p.skillLearningReason(advanced));
+        group.children = [req,group];
+        try { p.skillLearningReason(advanced); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1134)
+    {
+        local rules = new RpgExpandedRules();
+        local skill = new RpgExpandedSkill(); skill.difficulty = 1;
+        local a = new RpgExpandedTemplate(); a.st = 12; a.ht = 12; a.hpAdjustment = 2;
+        a.pointBudget = 1000; a.skillRows = [[skill,16]]; a.traitRows = [['status',2,nil]];
+        local b = new RpgExpandedTemplate(); b.dx = 12; b.iq = 12; b.perceptionAdjustment = 1;
+        b.pointBudget = 1000; b.skillRows = [[skill,1]]; b.traitRows = [['status',1,nil]];
+        local p = rpgExpandedCombineTemplates(args[1] == 1 ? [a,b] : [b,a],rules,1000,50);
+        event('test.template-composition'); eventValue(p.st); eventValue(p.dx); eventValue(p.iq);
+        eventValue(p.ht); eventValue(p.maxHP); eventValue(p.perception);
+        eventValue(p.basicSpeedQuarters()); eventValue(p.basicMove());
+        eventValue(p.skills[1].points); eventValue(p.traits[1].level);
+        eventValue(rpgExpandedCharacterCost(p,nil));
+        p.skills[1].points = 100; p.traits[1].level = 3;
+        local fresh = rpgExpandedCombineTemplates([a,b],rules,1000,50);
+        eventValue(fresh.skills[1].points); eventValue(fresh.traits[1].level);
+        return nil;
+    }
+    if (verb == 1135)
+    {
+        local rules = new RpgExpandedRules();
+        local a = new RpgExpandedTemplate(); a.traitRows = [['status',2,nil]];
+        local b = new RpgExpandedTemplate(); b.traitRows = [['low-status',2,nil]];
+        event('test.template-conflicts');
+        try { rpgExpandedCombineTemplates([a,b],rules,1000,50); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { rpgExpandedCombineTemplates([],rules,1000,50); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        a.st = 8; a.traitRows = []; b.st = 9; b.traitRows = [];
+        local p = rpgExpandedCombineTemplates([a,b],rules,1000,50); eventValue(p.st);
+        return nil;
+    }
+    if (verb == 1136)
+    {
+        local rules = new RpgExpandedRules();
+        local skill = new RpgExpandedSkill(); skill.techLevel = 8;
+        local a = new RpgExpandedTemplate(); a.campaignTL = 8; a.skillRows = [[skill,1]];
+        local p = a.create(rules);
+        event('test.template-technology'); eventValue(p.campaignTL); eventValue(p.techLevel);
+        eventValue(rpgExpandedCharacterCost(p,nil));
+        a.campaignTL = 6; a.techLevel = 8; p = a.create(rules);
+        eventValue(rpgExpandedCharacterCost(p,nil));
+        local b = new RpgExpandedTemplate(); b.campaignTL = 6; b.techLevel = 8;
+        p = rpgExpandedCombineTemplates([a,b],rules,100,50);
+        eventValue(p.techLevel); eventValue(rpgExpandedCharacterCost(p,nil));
+        b.techLevel = nil;
+        try { rpgExpandedCombineTemplates([a,b],rules,100,50); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        a.techLevel = nil;
+        try { a.create(rules); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1137)
+    {
+        local rules = new RpgExpandedRules(); local skill = new RpgExpandedSkill();
+        local a = new RpgExpandedTemplateOption(); a.id = 'training'; a.skillRows = [[skill,4]];
+        local b = new RpgExpandedTemplateOption(); b.id = 'position'; b.traitRows = [['status',1,nil]];
+        local group = new RpgExpandedTemplateChoice(); group.id = 'focus'; group.options = [a,b];
+        group.minimumPoints = 4; group.maximumPoints = 4;
+        local template = new RpgExpandedTemplate(); template.choiceGroups = [group];
+        event('test.template-choice');
+        local p = template.createSelected(rules,[['focus',['training']]]);
+        eventValue(rpgExpandedCharacterCost(p,nil)); eventValue(p.skills[1].points);
+        eventValue(p.templateChoices[1][1]); eventValue(p.templateChoices[1][2]);
+        p.skills[1].points = 20;
+        p = template.createSelected(rules,[['focus',['training']]]); eventValue(p.skills[1].points);
+        try { template.create(rules); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { template.createSelected(rules,[]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { template.createSelected(rules,[['focus',['position']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        group.maximumChoices = 2;
+        try { template.createSelected(rules,[['focus',['training','training']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        a.eligible = nil;
+        try { template.createSelected(rules,[['focus',['training']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1138)
+    {
+        local rules = new RpgExpandedRules();
+        local option = new RpgExpandedTemplateOption(); option.id = 'limitation';
+        option.traitRows = [['low-status',1,nil]];
+        local group = new RpgExpandedTemplateChoice(); group.id = 'background'; group.options = [option];
+        group.minimumPoints = -5; group.maximumPoints = -5;
+        local template = new RpgExpandedTemplate(); template.choiceGroups = [group];
+        event('test.template-choice-conflicts');
+        local p = template.createSelected(rules,[['background',['limitation']]]);
+        eventValue(rpgExpandedCharacterCost(p,nil)); eventValue(p.traits.length());
+        template.traitRows = [['status',1,nil]];
+        try { template.createSelected(rules,[['background',['limitation']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        template.traitRows = [];
+        try { template.createSelected(rules,[['background',[]]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { template.createSelected(rules,[['unknown',['limitation']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1139)
+    {
+        local rules = new RpgExpandedRules();
+        local a = new RpgExpandedTemplateOption(); a.id = 'physical';
+        a.stChange = 1; a.hpChange = 1; a.speedQuarterChange = 1;
+        local b = new RpgExpandedTemplateOption(); b.id = 'focused';
+        b.iqChange = -1; b.willChange = 1; b.perceptionChange = 1;
+        local group = new RpgExpandedTemplateChoice(); group.id = 'scores'; group.options = [a,b];
+        group.minimumChoices = 2; group.maximumChoices = 2; group.minimumPoints = 7; group.maximumPoints = 7;
+        local template = new RpgExpandedTemplate(); template.choiceGroups = [group];
+        event('test.template-score-options'); eventValue(a.cost()); eventValue(b.cost());
+        local p = template.createSelected(rules,[['scores',['physical','focused']]]);
+        eventValue(p.st); eventValue(p.maxHP); eventValue(p.iq); eventValue(p.will);
+        eventValue(p.perception); eventValue(p.basicSpeedQuarters());
+        eventValue(rpgExpandedCharacterCost(p,nil)); eventValue(template.st); eventValue(template.iq);
+        group.minimumChoices = 1; group.maximumChoices = 1;
+        group.minimumPoints = nil; group.maximumPoints = nil; a.hpChange = 5;
+        try { template.createSelected(rules,[['scores',['physical']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }

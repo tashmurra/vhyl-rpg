@@ -163,6 +163,57 @@ def test_character_contracts(s):
     assert state(s) == initial
 
 
+def test_learning_requirements(s):
+    before = state(s)
+    # A default alone does not meet a prerequisite requiring purchased training.
+    s.action(1118)
+    assert last(s, 'test.learning-requirements') == [
+        'skill-prerequisite', 'skill-prerequisite', None,
+        'skill-prerequisite', None, None, 'cyclic-prerequisite']
+    assert state(s) == before
+
+
+def test_template_composition(s):
+    before = state(s)
+    # B259: maximum scores, not added adjustments, levels or source point totals.
+    for order in [0, 1]:
+        s.action(1134, order)
+        assert last(s, 'test.template-composition') == [
+            12, 12, 12, 12, 14, 13, 22, 5, 8, 2, 137, 8, 2]
+    s.action(1135)
+    assert last(s, 'test.template-conflicts') == ['exclusive-traits', 'empty-template-composition', 9]
+    assert state(s) == before, 'template composition changed live character state'
+
+
+def test_template_technology(s):
+    before = state(s)
+    s.action(1136)
+    assert last(s, 'test.template-technology') == [
+        8, 8, 1, 11, 8, 11, 'template-technology-conflict', 'technology-starting-access']
+    assert state(s) == before, 'template technology selection changed live state'
+
+
+def test_template_choices(s):
+    before = state(s)
+    s.action(1137)
+    assert last(s, 'test.template-choice') == [
+        4, 4, 'focus', 'training', 4, 'template-unresolved-choices',
+        'template-choice-groups', 'template-choice-points',
+        'template-choice-option', 'template-choice-ineligible']
+    s.action(1138)
+    assert last(s, 'test.template-choice-conflicts') == [
+        -5, 1, 'exclusive-traits', 'template-choice-count', 'template-choice-groups']
+    assert state(s) == before, 'choice resolution changed live state'
+
+
+def test_template_score_options(s):
+    before = state(s)
+    s.action(1139)
+    assert last(s, 'test.template-score-options') == [
+        17, -10, 11, 12, 9, 10, 10, 21, 7, 10, 10, 'secondary-limit']
+    assert state(s) == before, 'score option resolution mutated live state'
+
+
 def test_social_transactions(s):
     initial = state(s)
     assert initial == [0,0,10,0,0,0,0,0]
@@ -254,7 +305,9 @@ def test(build):
     fresh(Session, bundle, test_trade_modifiers)
     print("  expanded social source tables: passed", flush=True)
     combined = build.build('character-social', ROOT / 'tests/fixtures/character-social.t')
-    for case in [test_character_contracts, test_social_transactions, test_failed_recognition]:
+    for case in [test_character_contracts, test_learning_requirements,
+                 test_template_composition, test_template_technology, test_template_choices,
+                 test_template_score_options, test_social_transactions, test_failed_recognition]:
         fresh(Session, combined, case)
     test_social_save(Session, combined, build.out)
     print('  character/social validation, transactions and persistence: passed', flush=True)

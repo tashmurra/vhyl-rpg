@@ -28,7 +28,8 @@
       "pages": "B168-B175; B230-B233",
       "status": "partial",
       "tests": [
-        "tests/character_social.py::test_character_contracts"
+        "tests/character_social.py::test_character_contracts",
+        "tests/character_social.py::test_learning_requirements"
       ]
     },
     {
@@ -46,7 +47,11 @@
       "pages": "B258-B259",
       "status": "partial",
       "tests": [
-        "tests/character_social.py::test_character_contracts"
+        "tests/character_social.py::test_character_contracts",
+        "tests/character_social.py::test_template_composition",
+        "tests/character_social.py::test_template_technology",
+        "tests/character_social.py::test_template_choices",
+        "tests/character_social.py::test_template_score_options"
       ]
     },
     {
