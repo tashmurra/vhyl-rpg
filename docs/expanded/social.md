@@ -290,3 +290,40 @@ relevant world operation. Calendar and income equivalence remain authored facts.
 `tests/expanded.py::test_information_reactions` covers response modes, partial
 answers, follow-up requirements and modifier scales. All cases remain unrun while
 checks are paused; the module remains partial.
+
+
+## Knowledge-constrained delivery
+
+Assign each participating profile one `RpgExpandedKnowledge` through `knowledge`,
+with the matching `owner`. `beliefs` contains authored statement identifiers or
+objects the character believes; `fabrications` contains deliberate claims they
+know they are making up. The same statement cannot occupy both lists. World truth
+is separate and is never queried automatically by this module.
+
+`RpgExpandedInformationDelivery` identifies a response by `id`, `provider`,
+`recipient` and its `reaction`. Select `requested` statements from the provider's
+beliefs, a strict `partial` subset for incomplete answers, optional `related`
+beliefs and `lies` from fabrications. The authored selection must represent the
+question's known answer; a complete answer here means all selected known statements,
+not omniscient knowledge. An incomplete answer cannot select the entire nonempty
+requested list. Deliberate lying requires at least one authored fabrication.
+
+Set `available` only when the participants can communicate. `assess()` checks
+readiness and selection but returns no statements. `deliver()` returns the selected
+statements to the author and records `[id, provider, statements]` in the recipient's
+knowledge `received` list. It does not add them to the recipient's beliefs. Only
+render those statements through authored dialogue; do not expose the provider's
+private belief/fabrication classifications. `selectedStatements()` is an author-only
+query and must not be used for player previews.
+
+The recipient's receipt prevents duplicate deliveries even through another object
+with the same response ID. Claimed delivery objects cannot be retargeted. No time,
+money or randomness is charged by delivery; associated payment or speaking time
+must be committed once by the enclosing operation. An unanswered demand, refusal
+or claim of ignorance cannot be delivered as factual content. Research obligations
+and follow-up rolls remain separate requirements. Automatic payment integration,
+uncertain-knowledge checks and belief revision remain pending.
+
+`tests/expanded.py::test_information_delivery` covers bounded knowledge, incomplete
+selection, explicit lies, private previews, receipt reuse, exception rollback and
+undo. These authored cases remain unrun while checks are paused.

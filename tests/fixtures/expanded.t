@@ -52,6 +52,15 @@ reputationRecognition: RpgExpandedReputationRecognition reputation = publicReput
 reactionHero: RpgExpandedProfile rules = expandedRules reactionEncounters = [reactionEncounter];
 reactionEncounter: RpgExpandedReactionEncounter id = 'archive-request' subject = reactionHero audience = 'archivist';
 reactionAttempt: RpgExpandedReactionAttempt encounter = reactionEncounter approach = 'initial-request';
+informationProvider: RpgExpandedProfile rules = expandedRules knowledge = providerKnowledge;
+providerKnowledge: RpgExpandedKnowledge owner = informationProvider
+    beliefs = ['bridge-open','ferry-closed','river-rising'] fabrications = ['road-safe'];
+informationRecipient: RpgExpandedProfile rules = expandedRules knowledge = recipientKnowledge;
+recipientKnowledge: RpgExpandedKnowledge owner = informationRecipient;
+informationReaction: RpgExpandedInformationReaction band = 6;
+informationDelivery: RpgExpandedInformationDelivery id = 'crossing-advice' provider = informationProvider
+    recipient = informationRecipient reaction = informationReaction requested = ['bridge-open','ferry-closed']
+    partial = ['bridge-open'] related = ['river-rising'] lies = ['road-safe'] available = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -142,6 +151,12 @@ class ExpandedTestAction: Action
             reactionAttempt.nuisance = true;
             local value = reactionAttempt.resolve(); event('test.reaction');
             eventValue(value.status); eventValue(value.check); eventValue(value.total); eventValue(value.band);
+        }
+        if (code == 34 || code == 35)
+        {
+            local value = informationDelivery.deliver(); event('test.information-delivery');
+            eventValue(value.status); eventValue(value.statements.length());
+            if (code == 35) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -1061,6 +1076,38 @@ act(verb, args)
         encounter.predeterminedBand = nil; eventValue(attempt.assess().reason);
         attempt.approvedChange = true; encounter.fighting = true; eventValue(attempt.assess().reason);
         encounter.fighting = nil; eventValue(attempt.assess().status); return nil;
+    }
+    if (verb == 1185)
+    {
+        event('test.information-state'); eventValue(recipientKnowledge.received.length());
+        eventValue(recipientKnowledge.beliefs.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
+        if (recipientKnowledge.received.length() > 0)
+            foreach (local statement in recipientKnowledge.received[1][3]) eventValue(statement);
+        return nil;
+    }
+    if (verb == 1186)
+    {
+        local value = informationDelivery.assess(); event('test.information-preview');
+        eventValue(value.status); eventValue(value.statements.length()); return nil;
+    }
+    if (verb == 1187)
+    {
+        local delivery = new RpgExpandedInformationDelivery(); delivery.id = 'other-advice';
+        delivery.provider = informationProvider; delivery.recipient = informationRecipient; delivery.available = true;
+        local reaction = new RpgExpandedInformationReaction(); reaction.band = 4; reaction.complexity = 1;
+        delivery.reaction = reaction; delivery.requested = ['bridge-open','ferry-closed']; delivery.partial = ['bridge-open'];
+        event('test.information-selection'); eventValue(delivery.selectedStatements().length());
+        delivery.partial = delivery.requested;
+        try { delivery.assess(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        delivery.partial = ['bridge-open']; delivery.requested = ['unknown-secret'];
+        try { delivery.assess(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        delivery.requested = ['bridge-open']; delivery.partial = []; reaction.band = 1;
+        try { delivery.assess(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        delivery.lies = ['road-safe']; eventValue(delivery.selectedStatements()[1]);
+        reaction.band = 0; eventValue(delivery.assess().reason); return nil;
     }
     return vhylAct(verb,args);
 }

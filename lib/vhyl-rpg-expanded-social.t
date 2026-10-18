@@ -560,3 +560,121 @@ class RpgExpandedInformationModifiers: object
         value.status = 'ready'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    knowledge = nil
+;
+
+/** Owned epistemic state. Statements are authored identifiers/objects, not
+ * implicit world facts. Hearing a claim does not automatically mean believing it. */
+class RpgExpandedKnowledge: object
+    owner = nil
+    beliefs = []
+    fabrications = []
+    received = []
+    validate()
+    {
+        if (self.owner == nil || !self.owner.ofKind(RpgExpandedProfile) || self.owner.knowledge != self)
+            rpgExpandedReject('knowledge-owner');
+        foreach (local statement in self.beliefs)
+            if (statement == nil || holds(self.fabrications,statement)) rpgExpandedReject('knowledge-belief-conflict');
+        foreach (local statement in self.fabrications)
+            if (statement == nil) rpgExpandedReject('knowledge-fabrication');
+        return nil;
+    }
+;
+
+class RpgExpandedInformationDeliveryResult: RpgExpandedResult
+    statements = []
+;
+
+/** Deliver an authored response once. Lists select existing belief/fabrication
+ * records, so a favorable reaction cannot manufacture an answer. */
+class RpgExpandedInformationDelivery: object
+    id = nil
+    provider = nil
+    recipient = nil
+    reaction = nil
+    requested = []
+    partial = []
+    related = []
+    lies = []
+    available = nil
+    claimed = nil
+    boundProvider = nil
+    boundRecipient = nil
+    boundId = nil
+    validateSubset(selected, source)
+    {
+        local seen = [];
+        foreach (local statement in selected)
+        {
+            if (statement == nil || !holds(source,statement) || holds(seen,statement))
+                rpgExpandedReject('information-statement-selection');
+            seen = seen + [statement];
+        }
+        return nil;
+    }
+    selectedStatements()
+    {
+        if (self.reaction == nil || !self.reaction.ofKind(RpgExpandedInformationReaction))
+            rpgExpandedReject('information-delivery-reaction');
+        local response = self.reaction.assess();
+        if (response.status != 'ready') return nil;
+        self.validateSubset(self.requested,self.provider.knowledge.beliefs);
+        self.validateSubset(self.partial,self.requested);
+        self.validateSubset(self.related,self.provider.knowledge.beliefs);
+        self.validateSubset(self.lies,self.provider.knowledge.fabrications);
+        if (response.answer == 'malicious-lie')
+        {
+            if (self.lies.length() == 0) rpgExpandedReject('information-lie-required');
+            return self.lies;
+        }
+        if (response.answer == 'incomplete-belief')
+        {
+            if (self.requested.length() > 0 && self.partial.length() >= self.requested.length())
+                rpgExpandedReject('information-partial-is-complete');
+            return self.partial;
+        }
+        if (response.answer == 'requested-belief')
+        {
+            local result = self.requested;
+            if (response.related)
+                foreach (local statement in self.related)
+                    if (!holds(result,statement)) result = result + [statement];
+            return result;
+        }
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.provider == nil || !self.provider.ofKind(RpgExpandedProfile)
+            || self.recipient == nil || !self.recipient.ofKind(RpgExpandedProfile)
+            || self.provider.knowledge == nil || !self.provider.knowledge.ofKind(RpgExpandedKnowledge)
+            || self.recipient.knowledge == nil || !self.recipient.knowledge.ofKind(RpgExpandedKnowledge))
+            rpgExpandedReject('information-delivery-target');
+        if (self.claimed && (self.provider != self.boundProvider || self.recipient != self.boundRecipient || self.id != self.boundId))
+            rpgExpandedReject('information-delivery-retargeted');
+        self.provider.knowledge.validate(); self.recipient.knowledge.validate();
+        local value = new RpgExpandedInformationDeliveryResult();
+        foreach (local receipt in self.recipient.knowledge.received)
+            if (receipt[1] == self.id)
+            {
+                if (receipt[2] != self.provider) rpgExpandedReject('information-delivery-id-conflict');
+                value.status = 'reused'; return value;
+            }
+        if (!self.available) { value.reason = 'information-delivery-unavailable'; return value; }
+        local selected = self.selectedStatements();
+        if (selected == nil) { value.reason = 'information-no-delivery'; return value; }
+        value.status = 'ready'; return value;
+    }
+    deliver()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.statements = self.selectedStatements();
+        self.recipient.knowledge.received = self.recipient.knowledge.received
+            + [[self.id,self.provider,value.statements]];
+        self.claimed = true; self.boundProvider = self.provider; self.boundRecipient = self.recipient; self.boundId = self.id;
+        value.status = 'resolved'; return value;
+    }
+;

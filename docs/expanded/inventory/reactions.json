@@ -37,9 +37,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Information outcomes cannot reveal facts beyond the respondent\u2019s knowledge. Track truth as believed, actual truth, deliberate lies and incomplete answers separately. An uncertain knowledge check uses intelligence or the relevant skill.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_information_delivery"
+      ],
+      "implementation_note": "Owned belief/fabrication selection and received statements authored. Uncertain knowledge checks and research remain pending; checks unrun."
     },
     {
       "id": "reaction-detail-loyalty",
