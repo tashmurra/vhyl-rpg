@@ -1049,12 +1049,33 @@ holders in the shared transfer ledger, not an additional sale or currency charge
 accessibility and resulting load. `transfer()` moves the stack once, clears stored,
 worn and ready state through the existing transfer machinery, and records the same
 trade receipt used by other transfers. Repeated calls reuse that receipt. One
-packing attempt authorizes one transfer; multiple stacks need separately defined
-attempts until bundle loading is implemented. No extra roll or time is charged.
+packing attempt authorizes one transfer; multiple stacks can instead use the bundle operation below. No extra roll or time is charged.
 
 Loads above ten times Basic Lift explicitly reject as unsupported: they need the
 overload-fatigue procedure rather than ordinary travel treatment (full-2008 B353).
 The author remains responsible for animal body form, suitable equipment and load
 placement. `test_packing_transfer` specifies preview, failed/unresolved checks,
 access, capacity, duplicate prevention, rollback, undo and save continuation. These
-fixtures remain unrun. Bundle loading and overload-fatigue integration remain pending.
+fixtures remain unrun. Overload-fatigue integration remains pending.
+
+
+### Loading a bundle atomically
+
+`RpgExpandedPackingBundle` accepts an `id`, successful packing `attempt`,
+`approved`, `evidence` and a nonempty `transfers` list. Each entry is an owned
+`RpgExpandedPackingBundleEntry` with `bundle` pointing back to the operation and a
+unique trade `id`. Supply each entry's item, source `seller`, destination `buyer`,
+zero price, agreements, availability and permission as for single-stack loading.
+All entries must have the direction required by the same packing attempt.
+
+The bundle checks every stack and the combined destination load before moving any
+item. Calling an entry's `transfer()` routes through its whole bundle. Each stack
+uses the existing trade receipt machinery, while the packing attempt records one
+bundle completion. Reuse validates both the bundle definition and every owned
+transfer receipt. Failed commits must run inside the engine's normal action
+transaction, which rolls back all inventory and receipt changes together.
+
+`test_packing_bundle` specifies combined capacity (including a case where either
+stack alone fits), an inaccessible second stack, preview purity, rollback, undo,
+repeat calls and cross-process save continuation. Fixtures remain unrun. Above-limit
+loads still reject until overload fatigue is integrated.

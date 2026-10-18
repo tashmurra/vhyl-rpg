@@ -1866,3 +1866,99 @@ class RpgExpandedPackingTransfer: RpgExpandedTradeTransfer
         return value;
     }
 ;
+
+/** B212 bundle loading: preflight all existing transfer entries before committing any. */
+class RpgExpandedPackingBundle: object
+    id = nil
+    attempt = nil
+    transfers = []
+    approved = nil
+    evidence = nil
+    committing = nil
+    completed = nil
+    boundDefinition = nil
+    definition()
+    {
+        local facts = [self.id,self.attempt,self.approved,self.evidence,self.transfers.length()];
+        foreach (local entry in self.transfers)
+            facts = facts + [entry,entry.id,entry.buyer,entry.seller,entry.item,entry.price,
+                entry.buyerAgrees,entry.sellerAgrees,entry.available,entry.permitted];
+        return facts;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.id == nil || self.id == '' || self.attempt == nil || !self.attempt.ofKind(RpgExpandedPackingReceipt)
+            || self.transfers.length() == 0) rpgExpandedReject('packing-bundle-definition');
+        if (self.attempt.result == nil) { value.reason = 'packing-transfer-unresolved'; return value; }
+        self.attempt.validateReceipt();
+        if (!self.attempt.result.check.achieved) { value.reason = 'packing-transfer-failed'; return value; }
+        if (!holds(['load','unload'],self.attempt.task)) rpgExpandedReject('packing-transfer-task');
+        local buyer = self.attempt.task == 'load' ? self.attempt.animal : self.attempt.profile;
+        local seller = self.attempt.task == 'load' ? self.attempt.profile : self.attempt.animal;
+        local items = []; local ids = [];
+        foreach (local entry in self.transfers)
+        {
+            if (entry == nil || !entry.ofKind(RpgExpandedPackingBundleEntry) || entry.bundle != self
+                || entry.buyer != buyer || entry.seller != seller || entry.price != 0)
+                rpgExpandedReject('packing-bundle-entry');
+            if (holds(items,entry.item) || holds(ids,entry.id)) rpgExpandedReject('packing-bundle-duplicate');
+            items = items + [entry.item]; ids = ids + [entry.id];
+        }
+        if (self.completed)
+        {
+            if (self.attempt.inventoryTransfer != self || self.boundDefinition == nil) rpgExpandedReject('packing-bundle-history');
+            local facts = self.definition();
+            if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('packing-bundle-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('packing-bundle-binding');
+            foreach (local entry in self.transfers)
+                if (!entry.claimed || entry.assess().status != 'reused') rpgExpandedReject('packing-bundle-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.attempt.inventoryTransfer != nil) { value.reason = 'packing-transfer-already-recorded'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'packing-transfer-load-evidence'; return value; }
+        local weight = buyer.loadHundredths(); rpgInteger(weight,0,100000000);
+        foreach (local entry in self.transfers)
+        {
+            if (entry.claimed) rpgExpandedReject('packing-bundle-entry-used');
+            local ready = entry.assess();
+            if (ready.status == 'reused') rpgExpandedReject('packing-transfer-receipt-conflict');
+            if (ready.status != 'ready') { value.reason = ready.reason; return value; }
+            if (!entry.item.usableBy(seller)) { value.reason = 'packing-transfer-inaccessible'; return value; }
+            local amount = entry.item.weightHundredths(); rpgInteger(amount,0,100000000);
+            if (weight > 100000000 - amount) rpgExpandedReject('packing-bundle-weight-limit');
+            weight += amount;
+        }
+        local lift = buyer.basicLiftHundredths(); rpgInteger(lift,1,100000000);
+        if (weight > lift * 10) { value.reason = 'packing-transfer-overload-unsupported'; return value; }
+        value.status = 'ready'; return value;
+    }
+    transfer()
+    {
+        if (self.committing) rpgExpandedReject('packing-bundle-reentry');
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local facts = self.definition();
+        self.committing = true;
+        foreach (local entry in self.transfers)
+            if (entry.transfer().status != 'resolved') rpgExpandedReject('packing-bundle-interrupted');
+        self.committing = nil;
+        local current = self.definition();
+        if (current.length() != facts.length()) rpgExpandedReject('packing-bundle-interrupted');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (current[i] != facts[i]) rpgExpandedReject('packing-bundle-interrupted');
+        self.boundDefinition = facts; self.completed = true; self.attempt.inventoryTransfer = self;
+        value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedPackingBundleEntry: RpgExpandedTradeTransfer
+    bundle = nil
+    transfer()
+    {
+        if (self.bundle == nil || !self.bundle.ofKind(RpgExpandedPackingBundle) || !holds(self.bundle.transfers,self))
+            rpgExpandedReject('packing-bundle-entry');
+        if (!self.bundle.committing) return self.bundle.transfer();
+        return inherited();
+    }
+;

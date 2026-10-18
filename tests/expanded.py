@@ -9442,6 +9442,8 @@ def test(build):
     test_packing_actions(Session,packing_actions)
     packing_transfer = build.build("expanded-packing-transfer",ROOT / "tests/fixtures/expanded-packing-transfer.t")
     test_packing_transfer(Session,packing_transfer,build.out)
+    packing_bundle = build.build("expanded-packing-bundle",ROOT / "tests/fixtures/expanded-packing-bundle.t")
+    test_packing_bundle(Session,packing_bundle,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24729,5 +24731,53 @@ def test_packing_transfer(Session, bundle, out):
         for code in (22500,22900,22907,22907,22902):
             s.action(1680,code)
         assert last(s,'test.packing-inventory') == [1,0,1,6,0]
+    finally:
+        s.close()
+
+
+def test_packing_bundle(Session, bundle, out):
+    """Whole-load capacity and access precede any stack mutation; unrun."""
+    path = out / 'packing-bundle.zsave'
+    s = Session(bundle)
+    try:
+        for code in (22500,23002,23003):
+            s.action(1680,code)
+        assert last(s,'test.packing-bundle') == ['ready',None]
+        assert last(s,'test.bundle-inventory') == [2,0,0,3,0]
+        s.action(1680,23001); s.action(1680,23003)
+        assert last(s,'test.bundle-inventory') == [2,0,0,3,0]
+        s.action(1680,23000); s.command('undo'); s.action(1680,23003)
+        assert last(s,'test.bundle-inventory') == [2,0,0,3,0]
+        for code in (23000,23000,23003):
+            s.action(1680,code)
+        assert last(s,'test.bundle-inventory') == [0,2,2,3,0]
+        s.action(1680,22900)
+        assert last(s,'test.packing-transfer') == ['blocked','packing-transfer-already-recorded']
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,23000); s.action(1680,23003)
+        assert last(s,'test.bundle-inventory') == [0,2,2,3,0]
+        s.action(1680,23006)
+        assert last(s,'test.bundle-error') == ['packing-bundle-binding']
+    finally:
+        s.close()
+    for code, reason in ((23004,'packing-transfer-inaccessible'),(23005,'packing-transfer-overload-unsupported')):
+        s = Session(bundle)
+        try:
+            for step in (22500,code,23000,23003):
+                s.action(1680,step)
+            assert last(s,'test.packing-bundle') == ['blocked',reason]
+            assert last(s,'test.bundle-inventory') == [2,0,0,3,0]
+        finally:
+            s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (22500,23007,23000,23003):
+            s.action(1680,code)
+        assert last(s,'test.bundle-inventory') == [2,0,0,3,0]
     finally:
         s.close()

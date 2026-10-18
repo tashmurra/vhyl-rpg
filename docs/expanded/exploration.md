@@ -1846,7 +1846,7 @@ roll adds none; authored handling durations still use the common ledger.
 `test_packing_attempt` specifies blocked prerequisites, successful ordering,
 preview purity, rollback, undo, save continuation, replay and mismatched occurrence
 rejection. Fixtures remain unrun. Single-stack inventory movement is available through the equipment adapter below;
-bundle loading and journey execution integration remain pending.
+overload fatigue and journey execution integration remain pending.
 
 
 ### Packing evaluations and route recommendations
@@ -1898,5 +1898,5 @@ single-stack loading uses the equipment adapter; executing caravan travel remain
 After a successful `load` or `unload` attempt, use equipment's
 [`RpgExpandedPackingTransfer`](equipment.md#loading-and-unloading-pack-animals)
 for one stack. The transfer reuses the existing inventory ledger and does not reroll
-the packing check. Bundle loading, overload fatigue and journey integration remain
-incomplete.
+the packing check. Multiple stacks can use `RpgExpandedPackingBundle`; overload fatigue and journey
+integration remain incomplete.
