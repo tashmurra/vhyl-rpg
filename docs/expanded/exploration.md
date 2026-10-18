@@ -1354,3 +1354,34 @@ attempts, default use, equipment modifiers, unavailable resources, exact daily
 boundaries, rollback, undo and saved continuation. Its assertions are authored,
 unrun. Hunting ammunition and attempt integration, food inventory, preservation
 and dedicated foraging days remain pending.
+
+## Owned hunting attempts
+
+`RpgExpandedHuntingForageAttempt` shares `animalFoodForageAttempts` with fishing.
+Supply a carried, ready `RpgLiteWeapon`, one of its ranged attack modes, its
+matching DX skill, available hands, site, approval and evidence. Mode specialty
+and applicable technology level must match the skill. The selected hands must
+meet the mode's normal requirement; special reduced-hand operation is not
+implemented here. The ordinary minimum-strength shortfall modifies the skill,
+and the B427 hunting penalty of -4 is then applied once by the forage assessment.
+
+Set `ordinaryHunt` and `ammunitionEvidence` to establish an ordinary hunt without
+special projectile effects, and explicitly provide `ammunitionUsed`. B427 does
+not specify a shot count for its abstract hunt: this quantity is an author fact,
+not a published fixed expenditure. The request requires that quantity already
+loaded in `weapon.ammunition` and deducts it once on either success or failure.
+It neither performs a second combat attack nor reloads automatically. Replay
+returns the stored result even though the weapon now has less ammunition.
+
+Pure assessment rejects unavailable weapons, insufficient ammunition, missing
+facts and thrown modes before spending resources or rolling. Thrown hunting,
+retrieval, special projectile effects, and detailed target damage need their own
+integration and remain unsupported. The author establishes suitable ordinary
+small game; the request records two meals on success and zero on failure. It
+does not create a creature target or food inventory.
+
+`tests/fixtures/expanded-hunting-forage.t` demonstrates an authored two-bolt hunt,
+shared fishing/hunting limits in both orders, explicit ammunition debit, failure,
+rollback, undo and saved replay. Assertions in `test_hunting_forage` are authored,
+unrun. Dedicated-day scheduling, actual food stock and preservation remain
+pending alongside the unsupported weapon cases above.

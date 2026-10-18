@@ -1056,3 +1056,10 @@ separate animal-food allowance, Perception default and explicit equipment
 assessment. Plant and fishing requests can coexist on the same day. Exact daily
 boundary, default, equipment, rollback, undo and save-continuation assertions are
 authored, unrun. Hunting integration and food inventory remain pending.
+
+Ordinary loaded-weapon hunting now shares the daily animal-food allowance with
+fishing. Explicit authored ammunition expenditure uses the existing weapon
+ledger once on success or failure; preview and replay do not debit it. Hunting's
+printed penalty and ordinary strength shortfall affect the roll. Thrown weapons,
+special projectile effects and food inventory remain pending. Shared-limit,
+resource, rollback, undo and saved-replay fixtures are authored, unrun.

@@ -2267,9 +2267,10 @@
       "status": "partial",
       "acceptance": "In appropriate terrain, a missile-weapon skill success at -4 supplies two meals of small-game meat.",
       "tests": [
-        "tests/expanded.py::test_foraging_assessment"
+        "tests/expanded.py::test_foraging_assessment",
+        "tests/expanded.py::test_hunting_forage"
       ],
-      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
+      "validation_note": "Plant rolls and animal-food rolls have separate owned travel-day allowances; ordinary loaded-weapon hunting shares its allowance with fishing in both orders. Hunting applies -4, supports matching weapon skills and ordinary minimum-strength shortfall, and debits an explicitly authored ammunition expenditure once through the existing weapon state on success or failure. Expected values, preview, category limits, unsupported cases, rollback, undo and saved replay assertions are authored, unrun. Thrown weapons, special projectile effects, food inventory, preservation and dedicated-day scheduling remain pending. B427 does not specify an abstract hunt shot count; expenditure is explicitly authored rather than invented as a fixed rule."
     },
     {
       "id": "health-foraging-fishing",
@@ -2295,9 +2296,10 @@
       "acceptance": "During a travel day, each actor gets one plant attempt and one hunting-or-fishing attempt; creating new forage objects cannot reset the allowance.",
       "tests": [
         "tests/expanded.py::test_plant_forage",
-        "tests/expanded.py::test_fishing_forage"
+        "tests/expanded.py::test_fishing_forage",
+        "tests/expanded.py::test_hunting_forage"
       ],
-      "validation_note": "Owned plant and fishing rolls use separate per-character ledger-day allowances. Fishing supports Perception/Easy, its Perception-4 default, explicit suitable water and concrete equipment assessments through the shared context. Success records two meals. Fixtures cover category independence, exact day boundaries, default/equipment scores, unavailable resources, replay, rollback, undo and cross-process continuation; authored, unrun. Hunting ammunition/roll ownership, actual food inventory and dedicated-day scheduling remain pending."
+      "validation_note": "Plant rolls and animal-food rolls have separate owned travel-day allowances; ordinary loaded-weapon hunting shares its allowance with fishing in both orders. Hunting applies -4, supports matching weapon skills and ordinary minimum-strength shortfall, and debits an explicitly authored ammunition expenditure once through the existing weapon state on success or failure. Expected values, preview, category limits, unsupported cases, rollback, undo and saved replay assertions are authored, unrun. Thrown weapons, special projectile effects, food inventory, preservation and dedicated-day scheduling remain pending. B427 does not specify an abstract hunt shot count; expenditure is explicitly authored rather than invented as a fixed rule."
     },
     {
       "id": "health-foraging-dedicated-day",

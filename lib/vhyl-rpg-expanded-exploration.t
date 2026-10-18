@@ -2597,6 +2597,7 @@ class RpgExpandedForageSite: object
 ;
 
 class RpgExpandedTravelForageResult: RpgExpandedResult
+    resourceState = nil
     day = 0
     score = nil
     gate = nil
@@ -2625,6 +2626,8 @@ class RpgExpandedTravelForageAttempt: object
     history() { return self.profile.plantForageAttempts; }
     remember() { self.profile.plantForageAttempts = self.history() + [self]; }
     extraDefinition() { return []; }
+    captureResources() { return nil; }
+    commitResources(value) { return nil; }
     skillReason()
     {
         local naturalist = self.skill.id == 'naturalist';
@@ -2675,6 +2678,7 @@ class RpgExpandedTravelForageAttempt: object
         if (value.score == nil) { value.reason = self.reason('score-unavailable'); return value; }
         local preview = self.site.assess(self.forageMethod(),value.score,3);
         if (preview.status != 'ready') { value.reason = preview.reason; return value; }
+        value.resourceState = self.captureResources();
         value.siteFacts = self.siteFacts(); value.gate = self.profile.prepareForageGate(self.forageMethod() + '-' + self.id,self.evidence);
         if (value.gate == nil) { value.reason = self.reason('health-adapter-required'); return value; }
         local permission = value.gate.assess();
@@ -2697,6 +2701,7 @@ class RpgExpandedTravelForageAttempt: object
                 rpgExpandedReject(self.reason('context-changed'));
             value.forage = self.site.assess(self.forageMethod(),value.score,rpgRandom.roll());
             if (value.forage.status != 'ready') rpgExpandedReject(self.reason('outcome-changed'));
+            self.commitResources(value);
         }
         local current = self.definition();
         if (current.length() != definition.length()) rpgExpandedReject(self.reason('changed'));
@@ -2739,4 +2744,59 @@ class RpgExpandedFishingForageAttempt: RpgExpandedTravelForageAttempt
     }
     context()
     { local context = inherited(); return self.tools.configure(context); }
+;
+
+/** B427 abstract hunt: ammunition expenditure is an explicit author fact, not a rule-derived shot count. */
+class RpgExpandedHuntingForageAttempt: RpgExpandedTravelForageAttempt
+    weapon = nil
+    mode = nil
+    hands = 2
+    ammunitionUsed = nil
+    ammunitionEvidence = nil
+    ordinaryHunt = nil
+    forageMethod() { return 'hunting'; }
+    reason(suffix) { return 'hunting-forage-' + suffix; }
+    history() { return self.profile.animalFoodForageAttempts; }
+    remember() { self.profile.animalFoodForageAttempts = self.history() + [self]; }
+    extraDefinition()
+    {
+        if (self.weapon == nil || !self.weapon.ofKind(RpgLiteWeapon)
+            || self.mode == nil || !self.mode.ofKind(RpgLiteAttackMode)) rpgExpandedReject('hunting-forage-weapon-definition');
+        return [self.weapon,self.mode,self.weapon.id,self.weapon.techLevel,self.mode.skillId,self.mode.specialty,
+            self.mode.ranged,self.mode.thrown,self.mode.hands,self.mode.minimumST,self.hands,
+            self.ammunitionUsed,self.ammunitionEvidence,self.ordinaryHunt];
+    }
+    skillReason()
+    {
+        if (!self.ordinaryHunt || self.ammunitionEvidence == nil || self.ammunitionEvidence == '')
+            return 'hunting-forage-ammunition-facts';
+        rpgInteger(self.ammunitionUsed,1,1000); rpgInteger(self.hands,1,2);
+        if (!holds(self.weapon.modes,self.mode) || !self.mode.ranged) return 'hunting-forage-missile-mode-required';
+        if (self.mode.thrown) return 'hunting-forage-thrown-adapter-required';
+        if (!holds(self.profile.equipment,self.weapon) || self.weapon.quantity != 1 || !self.weapon.ready
+            || !self.weapon.attackUsableBy(self.profile)) return 'hunting-forage-weapon-unavailable';
+        rpgInteger(self.mode.hands,1,2); rpgInteger(self.mode.minimumST,0,1000);
+        if (self.weapon.attackHandCount(self.profile,self.hands) < self.mode.hands)
+            return 'hunting-forage-hands-unavailable';
+        local technological = holds(['guns','gunner','beam-weapons'],self.mode.skillId);
+        if (self.skill.id != self.mode.skillId || self.skill.specialty != self.mode.specialty
+            || self.skill.attribute != rpgDX || self.skill.techLevel != (technological ? self.weapon.techLevel : nil))
+            rpgExpandedReject('hunting-forage-skill-definition');
+        if (self.weapon.ammunition < self.ammunitionUsed) return 'hunting-forage-ammunition-unavailable';
+        return nil;
+    }
+    context()
+    {
+        local context = inherited(); context.kind = 'attack';
+        local strength = self.profile.fp() * 3 < self.profile.maxEnergy ? (self.profile.st + 1) / 2 : self.profile.st;
+        if (strength < self.mode.minimumST) context.modifier -= self.mode.minimumST - strength;
+        return context;
+    }
+    captureResources() { return self.weapon.ammunition; }
+    commitResources(value)
+    {
+        local reason = self.skillReason();
+        if (reason != nil || self.weapon.ammunition != value.resourceState) rpgExpandedReject('hunting-forage-resources-changed');
+        self.weapon.ammunition -= self.ammunitionUsed;
+    }
 ;
