@@ -1296,6 +1296,7 @@ class RpgExpandedCompany: object
     members = []
     approved = nil
     evidence = nil
+    definition() { return [self.subject,self.approved,self.evidence] + self.members; }
     penalty(profile)
     {
         if (self.subject != profile || !holds(self.members,profile)) rpgExpandedReject('company-subject');
@@ -1313,7 +1314,6 @@ class RpgExpandedCompany: object
     }
 ;
 modify RpgLiteContext
-    company = nil
     socialTraitModifier(profile)
     {
         local amount = inherited(profile);

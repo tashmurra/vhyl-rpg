@@ -996,3 +996,12 @@ also subtract it through `modifier`. The fact is bound to the question receipt,
 so changing it during elapsed time rejects the question and changing it after
 completion rejects replay. The integration fixture covers ordinary questioning,
 threats, torture, mitigation, interruption and save continuation; it is unrun.
+
+Interrogation questions and reaction preparation accept `company` facts for
+companionship penalties. They pass the same facts into contextual scoring and
+bind the full group membership, approval and evidence to their receipt. Supply
+a separate facts object for a later scene; changing the original object changes
+the completed request and rejects replay. Membership changes during elapsed time
+reject even when the replacement group has the same size and penalty. The two
+integration fixtures cover scoring, interruption rollback and replay; they are
+unrun while checks are paused.

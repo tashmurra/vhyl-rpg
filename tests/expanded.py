@@ -9092,6 +9092,9 @@ def test(build):
     test_sleep_interruption(Session, sleep_interruption)
     companionship = build.build('expanded-companionship',ROOT / 'tests/fixtures/expanded-companionship.t')
     test_companionship(Session, companionship)
+    company_question = build.build('expanded-company-interrogation',ROOT / 'tests/fixtures/expanded-company-interrogation.t')
+    company_preparation = build.build('expanded-company-preparation',ROOT / 'tests/fixtures/expanded-company-preparation.t')
+    test_company_social_operations(Session, company_question, company_preparation)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17478,5 +17481,32 @@ def test_companionship(Session, bundle):
         for code in (4907,4908):
             s.action(2285,code)
         assert last(s,'test.company-error') == ['company-context-required',0]
+    finally:
+        s.close()
+
+
+def test_company_social_operations(Session, question_bundle, preparation_bundle):
+    s = Session(question_bundle)
+    try:
+        s.action(2285,5000)
+        assert last(s,'test.company-question') == [9,0]
+        for code in (5001,523):
+            s.action(2285,code)
+        assert last(s,'test.interrogation') == [0,0,0,0,None,None,None]
+        for code in (521,521,523):
+            s.action(2285,code)
+        assert last(s,'test.interrogation')[:4] == [1,300,300,6]
+    finally:
+        s.close()
+    s = Session(preparation_bundle)
+    try:
+        s.action(2285,2502)
+        assert last(s,'test.reaction-preparation') == ['ready',None,9]
+        for code in (5010,2503):
+            s.action(2285,code)
+        assert last(s,'test.reaction-preparation-state')[:3] == [0,0,0]
+        for code in (30,2500,2500,2503):
+            s.action(2285,code)
+        assert last(s,'test.reaction-preparation-state')[:3] == [1,3,60]
     finally:
         s.close()

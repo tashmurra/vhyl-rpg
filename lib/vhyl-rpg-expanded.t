@@ -511,3 +511,7 @@ modify RpgLiteTrait
 modify RpgExpandedProfile
     companionshipLevel() { return 0; }
 ;
+
+modify RpgLiteContext
+    company = nil
+;

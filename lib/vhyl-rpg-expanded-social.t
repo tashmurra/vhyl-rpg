@@ -1302,6 +1302,7 @@ class RpgExpandedInterrogationQuestion: object
     evidence = nil
     loyaltyResists = nil
     pastVictim = nil
+    company = nil
     means = 'ordinary'
     modifier = 0
     startedAt = nil
@@ -1311,11 +1312,13 @@ class RpgExpandedInterrogationQuestion: object
     definition()
     {
         return [self.id,self.session,self.question,self.truthfulAnswer,self.falseAnswer,self.failureResponse,
-            self.approved,self.evidence,self.loyaltyResists,self.means,self.modifier,self.pastVictim] + self.session.definition();
+            self.approved,self.evidence,self.loyaltyResists,self.means,self.modifier,self.pastVictim,self.company] + self.session.definition()
+            + (self.company == nil ? [] : self.company.definition());
     }
     validateReceipt()
     {
         local current = self.definition();
+        if (current.length() != self.boundDefinition.length()) rpgExpandedReject('interrogation-question-binding');
         for (local index = 1; index <= current.length(); index += 1)
             if (current[index] != self.boundDefinition[index]) rpgExpandedReject('interrogation-question-binding');
         if (!holds(self.session.questions,self) || !holds(self.session.interrogator.interrogations,self.session)
@@ -1343,7 +1346,7 @@ class RpgExpandedInterrogationQuestion: object
             + (self.session.elapsed() + 300 > 7200 ? 2 : 0);
         if (self.pastVictim && actor.callousnessActive()) value.modifier -= 3;
         if (self.means != 'ordinary') value.modifier += (self.means == 'torture' ? 6 : 3) + (actor.level('callous') > 0 || actor.callousnessActive() ? 1 : 0);
-        local context = new RpgLiteContext(); context.skill = self.session.skill; context.kind = 'interrogation';
+        local context = new RpgLiteContext(); context.skill = self.session.skill; context.kind = 'interrogation'; context.company = self.company;
         context.modifier = value.modifier; value.actorScore = rpgLiteScore(actor,context);
         context = new RpgLiteContext(); context.attribute = rpgWill; context.kind = 'resistance';
         value.prisonerScore = rpgLiteScore(prisoner,context);
@@ -1384,6 +1387,7 @@ class RpgExpandedInterrogationQuestion: object
         local definition = self.definition(); local start = rpgLedger.seconds;
         rpgSpendTime(300);
         local current = self.definition();
+        if (current.length() != definition.length()) rpgExpandedReject('interrogation-interrupted');
         for (local index = 1; index <= current.length(); index += 1)
             if (current[index] != definition[index]) rpgExpandedReject('interrogation-interrupted');
         local after = self.prepare();
@@ -1604,6 +1608,7 @@ class RpgExpandedReactionPreparationResult: RpgExpandedResult
 /** B174/B183/B560 an owned contextual social task before the encounter's reactions. */
 class RpgExpandedReactionPreparation: object
     entertainment = nil
+    company = nil
     id = nil
     encounter = nil
     skill = nil
@@ -1618,11 +1623,12 @@ class RpgExpandedReactionPreparation: object
     definition()
     { return [self.id,self.encounter,self.encounter.subject,self.encounter.audience,self.skill,
         self.skill.id,self.skill.attribute,self.skill.difficulty,self.skill.defaultPenalty,self.reactionKind,
-        self.skillModifier,self.requiresMovement,self.seconds,self.approved,self.evidence,self.entertainment]
-        + (self.entertainment == nil ? [] : self.entertainment.definition()); }
+        self.skillModifier,self.requiresMovement,self.seconds,self.approved,self.evidence,self.entertainment,self.company]
+        + (self.entertainment == nil ? [] : self.entertainment.definition())
+        + (self.company == nil ? [] : self.company.definition()); }
     context()
     {
-        local context = new RpgLiteContext(); context.skill = self.skill; context.kind = self.skill.id;
+        local context = new RpgLiteContext(); context.skill = self.skill; context.kind = self.skill.id; context.company = self.company;
         context.modifier = self.skillModifier + (self.entertainment == nil ? 0 : self.entertainment.bonus); context.requiresMovement = self.requiresMovement; return context;
     }
     assess()

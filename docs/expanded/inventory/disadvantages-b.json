@@ -323,7 +323,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Companionship preference is -5, usually improving owner reactions to others by +2 and imposing intelligence-based skill -1 while alone. Strong dependence is -10, owner reactions +4, skill -2 alone or -1 in groups of four or fewer. Clarify whether the group count includes the owner; these are owner reactions, not others reactions toward them.",
-      "tests": ["tests/fixtures/expanded-companionship.t", "tests/expanded.py::test_companionship"]
+      "tests": ["tests/fixtures/expanded-companionship.t", "tests/expanded.py::test_companionship", "tests/fixtures/expanded-company-interrogation.t", "tests/fixtures/expanded-company-preparation.t", "tests/expanded.py::test_company_social_operations"]
     },
     {
       "id": "disadvantages-b-social-obliviousness",

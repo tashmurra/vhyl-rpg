@@ -1229,3 +1229,7 @@ expanded influence procedure remains partial.
 - Added companionship preference costs, authored group-size skill penalties and
   observer-owned reaction bonuses. Group counts explicitly include the subject.
   Added unrun boundary fixtures; automatic scene integration remains pending.
+
+- Connected companionship facts to interrogation and reaction preparation,
+  binding complete membership across elapsed time and replay. Added unrun
+  integration fixtures, including same-size membership changes.
