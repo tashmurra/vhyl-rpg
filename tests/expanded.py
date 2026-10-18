@@ -9090,6 +9090,8 @@ def test(build):
     test_pain_sleep(Session, pain_sleep, build.out)
     sleep_interruption = build.build('expanded-sleep-interruption',ROOT / 'tests/fixtures/expanded-sleep-interruption.t')
     test_sleep_interruption(Session, sleep_interruption)
+    companionship = build.build('expanded-companionship',ROOT / 'tests/fixtures/expanded-companionship.t')
+    test_companionship(Session, companionship)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17455,5 +17457,26 @@ def test_sleep_interruption(Session, bundle):
         s.action(2285,4801)
         s.action(2285,4802)
         assert last(s,'test.sleep-interruption') == [10,10,0,3]
+    finally:
+        s.close()
+
+
+def test_companionship(Session, bundle):
+    for setup,expected in (((),[-5,8,2,0]),((4902,),[-5,9,2,0]),
+                           ((4901,),[-10,7,4,0]),((4901,4902),[-10,8,4,0]),
+                           ((4901,4903),[-10,8,4,0]),((4901,4904),[-10,9,4,0]),
+                           ((4905,),[-5,8,0,0]),((4906,),[-5,9,0,0])):
+        s = Session(bundle)
+        try:
+            for code in setup+(4900,4900):
+                s.action(2285,code)
+            assert last(s,'test.company') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (4907,4908):
+            s.action(2285,code)
+        assert last(s,'test.company-error') == ['company-context-required',0]
     finally:
         s.close()

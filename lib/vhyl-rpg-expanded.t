@@ -507,3 +507,7 @@ modify RpgExpandedProfile
 modify RpgLiteTrait
     recurrentPainDefinition() { return nil; }
 ;
+
+modify RpgExpandedProfile
+    companionshipLevel() { return 0; }
+;

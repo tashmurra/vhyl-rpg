@@ -1264,3 +1264,62 @@ class RpgExpandedRecurrentPain: RpgExpandedDisadvantage
 modify RpgExpandedRecurrentPain
     recurrentPainDefinition() { return true; }
 ;
+
+/** B126 preference for company; reaction bonuses belong to the observer. */
+class RpgExpandedCompanionship: RpgExpandedDisadvantage
+    id = 'companionship'
+    points = -5
+    creationCost()
+    {
+        if (!self.approved || self.id != 'companionship' || !holds([1,2],self.level) || self.points != -5
+            || self.percentages.length() != 0 || self.controlled || self.selfControlRating != nil)
+            rpgExpandedReject('companionship-definition');
+        return -5 * self.level;
+    }
+;
+modify RpgExpandedProfile
+    companionshipLevel()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedCompanionship))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-companionship'); found = trait;
+            }
+        return found == nil || !found.active || found.mitigated ? 0 : found.level;
+    }
+    validateFeatures() { inherited(); self.companionshipLevel(); return nil; }
+;
+/** The authored group includes the subject; a one-person group is alone. */
+class RpgExpandedCompany: object
+    subject = nil
+    members = []
+    approved = nil
+    evidence = nil
+    penalty(profile)
+    {
+        if (self.subject != profile || !holds(self.members,profile)) rpgExpandedReject('company-subject');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('company-evidence');
+        local seen = [];
+        foreach (local member in self.members)
+        {
+            if (member == nil || !member.ofKind(RpgLiteProfile) || holds(seen,member)) rpgExpandedReject('company-members');
+            seen = seen + [member];
+        }
+        local level = profile.companionshipLevel();
+        if (level == 0) return 0;
+        if (self.members.length() == 1) return -level;
+        return level == 2 && self.members.length() <= 4 ? -1 : 0;
+    }
+;
+modify RpgLiteContext
+    company = nil
+    socialTraitModifier(profile)
+    {
+        local amount = inherited(profile);
+        if (!profile.ofKind(RpgExpandedProfile) || profile.companionshipLevel() == 0
+            || self.skill == nil || self.controllingAttribute() != rpgIQ) return amount;
+        if (self.company == nil || !self.company.ofKind(RpgExpandedCompany)) rpgExpandedReject('company-context-required');
+        return amount + self.company.penalty(profile);
+    }
+;

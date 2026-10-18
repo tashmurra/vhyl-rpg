@@ -1118,3 +1118,28 @@ Sleep episodes use the health library’s sleepless-rest adapter; overlapping-da
 handling remains pending. These definition
 methods alone do not modify character scores. The fixture independently lists all 48 prices and appearance boundaries;
 it remains unrun and all corresponding inventory entries remain partial.
+
+### Companionship preference (full-2008, B126)
+
+`RpgExpandedCompanionship` costs -5 at level 1 or -10 at level 2. For IQ-based
+skill checks, attach an approved `RpgExpandedCompany` to the context's `company`.
+Its distinct `members` include the subject: one member means alone; four means
+the subject and three companions. This is the interface's explicit convention
+for the printed group-size threshold. Evidence establishes who actually provides
+company, rather than counting all characters in a room automatically.
+
+Level 1 applies -1 while alone. Level 2 applies -2 alone, -1 in groups of two
+through four, and zero with five or more. IQ-based skill checks without company
+facts reject while the trait is active; attribute-only checks are unaffected.
+Inactive or mitigated traits retain their price but suspend their effects.
+
+`RpgExpandedCompanionshipReactionContext` in the social library names the subject
+and the reacting `observer`. With approved evidence and `usualReaction`, it adds
++2 or +4 for the observer's trait. It never adds this bonus merely because the
+subject has the trait. Unusual reactions are explicitly authored with that flag
+unset. Attach the context to the reaction attempt's `socialContext`.
+
+The fixture covers both levels, group-size boundaries, reaction ownership,
+exceptions and missing facts before randomness. It remains unrun. Automatic
+scene membership and integration with every specialized skill operation remain
+pending, so the inventory entry remains partial.

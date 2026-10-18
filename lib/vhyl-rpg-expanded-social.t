@@ -1927,3 +1927,26 @@ class RpgExpandedGestureExchange: RpgExpandedCommunicationReceipt
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B126 the observer likes company; this does not make the subject charismatic. */
+class RpgExpandedCompanionshipReactionContext: RpgLiteSocialContext
+    subject = nil
+    observer = nil
+    usualReaction = nil
+    approved = nil
+    evidence = nil
+    traitReactionModifier(profile)
+    {
+        if (profile != self.subject || self.subject == nil || !self.subject.ofKind(RpgLiteProfile)
+            || self.observer == nil || !self.observer.ofKind(RpgExpandedProfile) || self.observer == self.subject)
+            rpgExpandedReject('companionship-reaction-participants');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('companionship-reaction-evidence');
+        return inherited(profile) + (self.usualReaction ? 2 * self.observer.companionshipLevel() : 0);
+    }
+    validateParticipants(profile,target)
+    {
+        self.traitReactionModifier(profile);
+        if (target != self.observer) rpgExpandedReject('companionship-reaction-observer');
+        return nil;
+    }
+;

@@ -1225,3 +1225,7 @@ expanded influence procedure remains partial.
 - Recheck sleep recovery against its actual interval after elapsed-time hooks,
   preventing changed pain conditions from silently receiving sleep credit.
   Added an unrun interruption/ordinary-rest regression fixture.
+
+- Added companionship preference costs, authored group-size skill penalties and
+  observer-owned reaction bonuses. Group counts explicitly include the subject.
+  Added unrun boundary fixtures; automatic scene integration remains pending.
