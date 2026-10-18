@@ -9262,6 +9262,8 @@ def test(build):
     test_dependent_skill_growth(Session, dependent_skill_growth, build.out)
     dependent_groups = build.build('expanded-dependent-groups',ROOT / 'tests/fixtures/expanded-dependent-groups.t')
     test_dependent_groups(Session, dependent_groups, build.out)
+    dependent_loss = build.build('expanded-dependent-loss',ROOT / 'tests/fixtures/expanded-dependent-loss.t')
+    test_dependent_loss(Session, dependent_loss, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21470,3 +21472,50 @@ def test_dependent_groups(Session, bundle, out):
             assert last(s, 'test.dependent-group-reject') == [reason]
         finally:
             s.close()
+
+
+def test_dependent_loss(Session, bundle, out):
+    """B131 funded permanent-loss settlement preserves award history and bank; unrun."""
+    path = out / 'dependent-loss.zsave'
+    s = Session(bundle)
+    try:
+        for code in (14100, 14101, 14101, 14102, 14104, 14105):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-loss-preview') == ['ready', None, 20]
+        assert last(s, 'test.dependent-loss-state') == [1, 0, -20, 25, 25, 0, 0]
+        s.action(2285, 14103)
+        s.command('undo')
+        s.action(2285, 14105)
+        assert last(s, 'test.dependent-loss-state') == [1, 0, -20, 25, 25, 0, 0]
+        for code in (14103, 14103, 14105, 14107, 13507):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-loss-state') == [1, 1, 0, 25, 5, 1, 0]
+        assert last(s, 'test.dependent-loss-appearance') == ['dependent-unavailable']
+        assert last(s, 'test.dependent-session-award') == ['blocked', 'dependent-serious-harm-no-session-points']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (14101, 14103, 14105, 13507):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-loss-state') == [1, 1, 0, 25, 5, 1, 0]
+        assert last(s, 'test.dependent-session-award') == ['blocked', 'dependent-serious-harm-no-session-points']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (14100, 14101, 14106, 14102, 14103, 14105):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-loss-preview') == ['blocked', 'rpg.insufficient-points', 20]
+        assert last(s, 'test.dependent-loss-state') == [1, 0, -20, 25, 19, 0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (14100, 14108):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-loss-reject') == ['dependent-loss-group-still-present']
+    finally:
+        s.close()

@@ -1822,3 +1822,9 @@ Dependent group session records now bind explicit member rosters and individual
 incidents, validate aggregate rescue/harm judgments and enforce the shared award
 restrictions without population-based point credit. Automatic group membership
 transfers and permanent-loss handling remain pending. Fixtures remain unrun.
+
+
+Permanent dependent loss now supports an owned removal record and funded
+settlement from the existing unspent bank, retaining historical session records
+and retiring accounting credit once. Original-credit capture and replacement
+options remain pending; author evidence supplies historical cost. Fixtures unrun.

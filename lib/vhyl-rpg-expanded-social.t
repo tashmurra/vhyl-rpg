@@ -2258,7 +2258,7 @@ class RpgExpandedDependent: RpgExpandedContribution
             self.group,self.credited,self.constantAttachment,self.approved,self.evidence];
     }
     cost() { return rpgExpandedDependentCost(self.principalPoints,self.dependentPoints,self.importance,self.frequency,self.group); }
-    amounts(profile) { self.validate(profile); return [self.credited ? self.cost() : 0]; }
+    amounts(profile) { self.validate(profile); return [self.credited && self.retiredBy == nil ? self.cost() : 0]; }
     validate(profile)
     {
         if (self.owner != profile || self.id == nil || self.id == '' || self.dependent == nil || self.dependent == profile
@@ -2271,10 +2271,15 @@ class RpgExpandedDependent: RpgExpandedContribution
         foreach (local entry in profile.contributions)
             if (entry.ofKind(RpgExpandedDependent))
             {
-                if (entry != self && entry.dependent == self.dependent) rpgExpandedReject('dependent-duplicate-person');
-                if (entry.credited) slots += entry.group ? 2 : 1;
+                if (entry != self && entry.dependent == self.dependent && entry.retiredBy == nil && self.retiredBy == nil)
+                    rpgExpandedReject('dependent-duplicate-person');
+                if (entry.credited && entry.retiredBy == nil) slots += entry.group ? 2 : 1;
             }
         if (slots > 2) rpgExpandedReject('dependent-credit-slots');
+        if (self.loss != nil && (self.loss.relationship != self || self.loss.assess().status != 'reused'))
+            rpgExpandedReject('dependent-loss-receipt');
+        if (self.retiredBy != nil && (self.loss == nil || self.retiredBy.loss != self.loss
+            || self.retiredBy.assess().status != 'reused')) rpgExpandedReject('dependent-retirement-receipt');
         return nil;
     }
 ;
@@ -2318,6 +2323,7 @@ class RpgExpandedDependentAppearance: object
         if (profile == nil || !profile.ofKind(RpgExpandedProfile) || !holds(profile.contributions,self.relationship))
             rpgExpandedReject('dependent-appearance-ownership');
         rpgExpandedValidate(profile);
+        if (self.relationship.loss != nil) { value.reason = 'dependent-unavailable'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'dependent-adventure-start-required'; return value; }
         foreach (local prior in profile.dependentAppearances)
@@ -2383,7 +2389,7 @@ class RpgExpandedDependentSession: object
             seen = seen + [row[1]];
         }
         foreach (local relationship in self.profile.contributions)
-            if (relationship.ofKind(RpgExpandedDependent) && !holds(seen,relationship))
+            if (relationship.ofKind(RpgExpandedDependent) && relationship.retiredBy == nil && !holds(seen,relationship))
                 rpgExpandedReject('dependent-session-missing-relationship');
         foreach (local prior in self.profile.dependentSessions)
             if (prior.session == self.session) rpgExpandedReject('dependent-session-duplicate');
@@ -2416,7 +2422,11 @@ modify RpgExpandedProfile
         local reason = inherited(milestone); if (reason != nil) return reason;
         local required = nil;
         foreach (local relationship in self.contributions)
-            if (relationship.ofKind(RpgExpandedDependent)) required = true;
+            if (relationship.ofKind(RpgExpandedDependent) && relationship.retiredBy == nil) required = true;
+        if (self.dependentLosses.length() != 0 && milestone.awardSession == nil) return 'dependent-award-session-required';
+        foreach (local loss in self.dependentLosses)
+            if (loss.session == milestone.awardSession)
+            { loss.assess(); return 'dependent-serious-harm-no-session-points'; }
         foreach (local closure in self.dependentSessions)
             if (closure.session == milestone.awardSession) return closure.awardReason(milestone.bonusAward);
         return required ? 'dependent-session-closure-required' : nil;
@@ -2504,6 +2514,7 @@ class RpgExpandedDependentGrowth: object
         local profile = self.relationship.owner;
         rpgExpandedValidate(profile);
         if (!holds(profile.contributions,self.relationship)) rpgExpandedReject('dependent-growth-owner');
+        if (self.relationship.loss != nil) { value.reason = 'dependent-unavailable'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'dependent-growth-approval-required'; return value; }
         local latest = history.length() == 0 ? nil : history[history.length()];
@@ -2573,6 +2584,7 @@ class RpgExpandedDependentSkillGrowth: object
             value.status = 'reused'; return value;
         }
         if (self.boundDefinition != nil) rpgExpandedReject('dependent-skill-growth-uncommitted');
+        if (self.growth.relationship.loss != nil) { value.reason = 'dependent-unavailable'; return value; }
         rpgExpandedValidate(profile);
         foreach (local prior in profile.dependentSkillGrowthApplications)
             if (prior.growth == self.growth) rpgExpandedReject('dependent-skill-growth-duplicate');
@@ -2689,5 +2701,105 @@ class RpgExpandedDependentGroupSession: RpgExpandedDependentSession
         if (self.rosters.length() == 0 && self.memberOutcomes.length() != 0)
             rpgExpandedReject('dependent-group-member-outcome');
         return value;
+    }
+;
+
+
+modify RpgExpandedDependent
+    loss = nil
+    retiredBy = nil
+;
+modify RpgExpandedProfile
+    dependentLosses = []
+    dependentLossSettlements = []
+;
+/** B131 permanent removal and the historically awarded credit to replace. */
+class RpgExpandedDependentLoss: object
+    relationship = nil
+    session = nil
+    disposition = nil
+    entireGroupUnavailable = nil
+    originalBonus = nil
+    approved = nil
+    evidence = nil
+    bonusEvidence = nil
+    recorded = nil
+    boundDefinition = nil
+    definition()
+    {
+        return [self.relationship,self.session,self.disposition,self.entireGroupUnavailable,self.originalBonus,
+            self.approved,self.evidence,self.bonusEvidence] + self.relationship.definition();
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.relationship == nil || !self.relationship.ofKind(RpgExpandedDependent))
+            rpgExpandedReject('dependent-loss-relationship');
+        local profile = self.relationship.owner;
+        if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('dependent-loss-owner');
+        if (self.recorded)
+        {
+            if (self.relationship.loss != self || !holds(profile.dependentLosses,self)) rpgExpandedReject('dependent-loss-history');
+            local facts = self.definition();
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('dependent-loss-binding');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('dependent-loss-binding');
+            value.status = 'reused'; value.points = self.originalBonus; return value;
+        }
+        if (self.boundDefinition != nil || self.relationship.loss != nil || self.relationship.retiredBy != nil)
+            rpgExpandedReject('dependent-loss-duplicate');
+        rpgExpandedValidate(profile);
+        if (!holds(profile.contributions,self.relationship)) rpgExpandedReject('dependent-loss-owner');
+        rpgInteger(self.originalBonus,0,1000000);
+        if (!self.relationship.credited && self.originalBonus != 0) rpgExpandedReject('dependent-loss-uncredited-bonus');
+        if (self.session == nil) rpgExpandedReject('dependent-loss-session-required');
+        if (!holds(['dead','permanently-incapacitated'],self.disposition)) rpgExpandedReject('dependent-loss-disposition');
+        if (self.relationship.group && !self.entireGroupUnavailable) rpgExpandedReject('dependent-loss-group-still-present');
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.bonusEvidence == nil || self.bonusEvidence == '')
+        { value.reason = 'dependent-loss-adjudication-required'; return value; }
+        value.points = self.originalBonus; value.status = 'ready'; return value;
+    }
+    record()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.recorded = true; self.relationship.loss = self;
+        self.relationship.owner.dependentLosses = self.relationship.owner.dependentLosses + [self];
+        value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedDependentLossBuyoff: object
+    loss = nil
+    recorded = nil
+    boundLoss = nil
+    boundPoints = nil
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.loss == nil || !self.loss.ofKind(RpgExpandedDependentLoss) || self.loss.assess().status != 'reused')
+            rpgExpandedReject('dependent-loss-buyoff-record');
+        local relationship = self.loss.relationship; local profile = relationship.owner;
+        if (self.recorded)
+        {
+            if (self.boundLoss != self.loss || self.boundPoints != self.loss.originalBonus || relationship.retiredBy != self
+                || !holds(profile.dependentLossSettlements,self)) rpgExpandedReject('dependent-loss-buyoff-binding');
+            value.status = 'reused'; return value;
+        }
+        if (self.boundLoss != nil || self.boundPoints != nil || relationship.retiredBy != nil)
+            rpgExpandedReject('dependent-loss-buyoff-duplicate');
+        if (!holds(profile.contributions,relationship)) rpgExpandedReject('dependent-loss-buyoff-owner');
+        value.points = self.loss.originalBonus;
+        rpgInteger(profile.unspentPoints,0,1000000); rpgInteger(profile.developmentRevision,0,2147483646);
+        if (profile.unspentPoints < value.points) { value.reason = 'rpg.insufficient-points'; return value; }
+        value.reason = profile.developmentSpendingReason(); if (value.reason != nil) return value;
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local relationship = self.loss.relationship; local profile = relationship.owner;
+        self.boundLoss = self.loss; self.boundPoints = value.points; self.recorded = true;
+        profile.unspentPoints -= value.points; profile.developmentRevision += 1;
+        relationship.retiredBy = self; profile.dependentLossSettlements = profile.dependentLossSettlements + [self];
+        value.status = 'resolved'; return value;
     }
 ;

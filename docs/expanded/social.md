@@ -1341,3 +1341,36 @@ judgment when individual members are not modeled.
 `expanded-dependent-groups.t` and `test_dependent_groups` cover safe and harmful
 sessions, summary disagreement, omitted members, receipt binding, rollback, undo,
 replay and save continuation. Fixtures remain unrun while checks are paused.
+
+
+### Permanent loss and funded settlement
+
+`RpgExpandedDependentLoss` records an installed relationship's permanent removal
+(`full-2008`, B131). Supply the loss `session` identity, `disposition` (`dead` or `permanently-incapacitated`),
+`originalBonus`, approval, removal `evidence` and historical `bonusEvidence`.
+The author confirms the points originally awarded; the amount is not inferred
+from a possibly changed present-day price. An uncredited relationship must have
+zero original bonus. Group removal additionally requires explicit
+`entireGroupUnavailable`: losing one member does not remove a surviving group.
+
+`record()` binds one loss per relationship and prevents new appearances, growth
+records and unapplied skill-growth applications. Existing receipts remain
+replayable. The unresolved relationship retains its accounting credit until
+settlement. `RpgExpandedDependentLossBuyoff` takes the recorded `loss`; pure
+`assess()` checks available unspent points and the shared spending restriction.
+`apply()` spends the original bonus exactly once, increments development revision
+and marks the contribution retired. Earned points, time and randomness do not
+change. This is permanent-loss settlement and does not impose a downtime gate.
+
+Retired contributions remain in the profile for historical references but return
+zero point credit and consume no dependent slots. They no longer require outcomes
+in later sessions; an existing loss-session closure still prohibits that session's
+awards. Loss history independently blocks awards for its session even without a
+closure; subsequent milestones must identify their session. Do not remove
+historical contributions or edit their purchase definitions.
+Creation-time capture of original dependent credit, replacement disadvantages,
+replacement dependents and partial group-loss handling remain pending. The
+historical amount currently requires explicit author evidence.
+`expanded-dependent-loss.t` and `test_dependent_loss` specify funded/insufficient
+settlement, historical award restrictions, unavailable appearances, surviving
+groups, replay, rollback, undo and save continuation. Fixtures remain unrun.
