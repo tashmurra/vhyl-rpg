@@ -49,6 +49,7 @@ copies of the reference books.
 | `full-2008` | B264–B271, before melee table | [Equipment procedures](equipment-procedures.json) | Purchasing, living costs, legality and weapon fields enumerated; item catalogue and execution pending |
 | `full-2008` | B271–B272 tables; B274 notes | [Melee catalogue, first segment](melee-catalogue-a.json) | Item/mode data visually reviewed; shared notes and quality recorded; remaining rows and execution pending |
 | `full-2008` | B273–B274 melee tables | [Melee catalogue, second segment](melee-catalogue-b.json) | Remaining rows visually reviewed; shared item identities recorded; execution pending |
+| `full-2008` | B275–B276 | [Muscle-powered ranged catalogue](muscle-ranged-catalogue.json) | Rows and notes visually reviewed; materials and shared ammunition/item identity recorded; execution pending |
 | `full-2008` | B290–B296 | [Development and transformations](development.json) | Advancement, study, maintenance and transformation procedures enumerated; existing study mappings remain partial |
 | `full-2008` | B343–B349 | [Task resolution](task-resolution.json) | Roll procedures, equipment modifiers, timing, projects and contests enumerated |
 | `full-2008` | B349–B357 | [Physical activities](physical-activities.json) | Activity procedures, gravity, numeric tables and effort options enumerated |

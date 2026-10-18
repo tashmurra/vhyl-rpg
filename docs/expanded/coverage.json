@@ -351,6 +351,7 @@
     "inventory/magic-catalogue-c.json",
     "inventory/equipment-procedures.json",
     "inventory/melee-catalogue-a.json",
-    "inventory/melee-catalogue-b.json"
+    "inventory/melee-catalogue-b.json",
+    "inventory/muscle-ranged-catalogue.json"
   ]
 }

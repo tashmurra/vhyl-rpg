@@ -64,3 +64,15 @@ skills can produce different reach, damage, parry and minimum-strength values fo
 the same item. Mode selection must retain ownership, damage and readiness state.
 The melee tables now have a first enumeration pass, with independent fixtures and
 runtime integration still pending.
+
+
+The [muscle-powered ranged inventory](inventory/muscle-ranged-catalogue.json)
+records rated-strength bows, launchers, thrown modes, ammunition and entangling
+implements. A launcher and its projectile remain separate possessions; a thrown
+weapon remains the same item used in melee. Readying and attacking can have
+different hand requirements.
+
+Material rules change quality effects, breakage, penetration and sometimes lasting
+sharpness. Silver coating changes a target's matching vulnerability multiplier,
+not universal damage. All listed rows have been visually compared with the source;
+that does not establish runtime correctness or catalogue acceptance.
