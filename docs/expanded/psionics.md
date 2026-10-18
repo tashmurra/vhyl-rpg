@@ -120,7 +120,7 @@ returns `applicable`, `immune` and `modifier` without rolling. Set
 a direct target or caught in its area. An unresisted ability remains unresisted,
 even for a character with immunity. IQ and Will resistance are supported;
 other attributes return `psionic-resistance-attribute-unavailable` until their
-specific procedures are resolved. Inactive resistance contributes nothing.
+specific procedures are resolved. Resistance is always on under B34; voluntary deactivation is rejected.
 
 For a permitted resistance check, use `RpgExpandedPsionicResistanceContext`
 with the correct `attribute` and `resistanceAllowed = true`. Its ordinary Lite
@@ -134,7 +134,7 @@ attempting its contest. With no resistance allowed the context rejects with
 This context supplies the resistance side, not a universal attack contest or
 ability effect. The originating ability retains its own activation, resistance,
 resource and duration procedure. `test_psionic_resistance` specifies pricing,
-IQ/Will bonuses, immunity, unresisted effects, inactive traits and unsupported
+IQ/Will bonuses, immunity, unresisted effects, always-on validation and unsupported
 attributes through the real score/check path. Fixtures remain unrun.
 
 ## Absolute static protection
@@ -144,8 +144,8 @@ It costs thirty points, plus fifteen per `areaLevels` and thirty for
 `switchable`. The first area level covers one yard and subsequent levels double
 that radius; this implementation bounds area levels at twenty. Personal static
 has radius zero. Set `approved` and `evidence`; a non-switchable field cannot
-be inactive. This version does not implement the resistible limitation or the
-action needed to switch a field on or off.
+be inactive. The resistible limitation remains unsupported. The Ready adapter below executes
+voluntary switching.
 
 Use `RpgExpandedPsionicStaticContact` to assess one field's effect. Supply its
 `owner`, owned `field`, ability `source`, actual `target`, `approved` and
@@ -175,3 +175,30 @@ area and switchable pricing, inactive fields and the physical/counterpower
 exceptions. `test_psionic_warning` additionally specifies suppression inside an
 area, operation outside it, personal suppression and an inactive switchable
 field. All fixtures remain unrun.
+
+## Switching static in combat
+
+Use `RpgExpandedStaticReadyManeuver` with an owned `field` and `enable` set to
+the desired state. Pass it to `RpgLiteBattle.step` inside the normal action
+transaction. It requires the switchable enhancement, a Ready maneuver, and a
+state change. The field changes immediately when Ready executes; the battle
+advances its shared turn and clock, with no second time charge and no activation
+roll. Out-of-turn, stunned and otherwise unavailable actors cannot switch.
+
+An optional `healthAdapter` accepts the existing expanded Ready health adapter
+for actors whose injury or fatigue requires permission checks. Without it,
+nonpositive HP or FP blocks switching. This is not a concentration activity and
+has no separate interruption test. The underlying transaction still rolls back
+if an exception occurs.
+
+B34 defaults advantages to on while unconscious. Automatic unconscious/sleep
+state transitions are not wired yet: an inactive field with an unconscious
+owner returns `psionic-static-unconscious-reset-required` rather than silently
+allowing penetration. Authors must restore the default state as part of that
+transition until the health integration is implemented. This gap remains part
+of the module's incomplete coverage.
+
+The minimal `expanded-static-ready.t` fixture exercises the actual battle path.
+`test_static_ready` specifies immediate changes, shared round timing, ownership
+and enhancement guards, actor turn restrictions, exception rollback and undo.
+It remains unrun while checks are paused.

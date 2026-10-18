@@ -1664,6 +1664,31 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_static_ready(s):
+    def state():
+        s.action(2236)
+        return last(s,'test.static-ready-state')
+    initial=[1,1,0,0,6]
+    assert state() == initial
+    for code,reason in [(4,'static-already-selected'),(5,'psionic-static-not-switchable'),(6,'stunned')]:
+        s.action(2235,code)
+        assert last(s,'test.static-ready')[1] == reason
+        s.command('undo')
+        assert state() == initial
+    s.action(2235,2)
+    assert state() == initial
+    s.action(2235,0)
+    assert state() == [0,2,0,0,6]
+    s.action(2235,4)
+    assert last(s,'test.static-ready')[1] == 'not-your-turn'
+    s.action(2235,3)
+    assert state() == [0,1,1,1,6]
+    s.action(2235,4)
+    assert state() == [1,2,1,1,6]
+    s.command('undo')
+    assert state() == [0,1,1,1,6]
+
+
 def test_psionic_static(s):
     for args,cost,radius,blocked in [
             ((0,0,1,9,9,0,0,1),30,0,1),
@@ -1679,6 +1704,8 @@ def test_psionic_static(s):
             ((1,1,0,1,1,0,0,0),75,1,0)]:
         s.action(2234,*args)
         assert last(s,'test.psionic-static') == [cost,radius,'ready',None,blocked,0,0]
+    s.action(2233,8,0,1,'iq')
+    assert last(s,'test.psionic-resistance-reject') == ['psionic-resistance-always-on']
 
 
 def test_psionic_resistance(Session,bundle):
@@ -1688,7 +1715,6 @@ def test_psionic_resistance(Session,bundle):
             ('immune',1,1,'iq',30,'ready',0,1,None,'psionic-resistance-immune',0),
             ('immune',1,0,'will',30,'ready',0,0,None,'psionic-no-resistance-roll',0),
             (3,1,0,'iq',10,'ready',0,0,None,'psionic-no-resistance-roll',0),
-            (8,0,1,'iq',15,'ready',0,0,10,None,3),
             (3,1,1,'ht',10,'blocked',0,0,None,'psionic-resistance-attribute-unavailable',0)]:
         s=Session(bundle)
         try:
@@ -7854,6 +7880,8 @@ def test(build):
     test_psionic_warning(Session,psionics)
     test_psionic_resistance(Session,psionics)
     fresh(Session,psionics,test_psionic_static)
+    static_ready = build.build('expanded-static-ready',ROOT / 'tests/fixtures/expanded-static-ready.t')
+    fresh(Session,static_ready,test_static_ready)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
     swarms = build.build('expanded-swarms',ROOT / 'tests/fixtures/expanded-swarms.t')
     test_swarm_attacks(Session,swarms)

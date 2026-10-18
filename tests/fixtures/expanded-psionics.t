@@ -92,6 +92,12 @@ act(verb,args)
         profile.traits = [resistance];
         local context = new RpgExpandedPsionicResistanceContext(); context.resistanceAllowed = args[3] != 0;
         context.attribute = args[4] == 'will' ? rpgWill : args[4] == 'ht' ? rpgHT : rpgIQ;
+        if (!resistance.active)
+        {
+            try { resistance.validateResistance(); }
+            catch (RpgExpandedError error) { event('test.psionic-resistance-reject'); eventValue(error.reason); }
+            return nil;
+        }
         local assessment = rpgExpandedAssessPsionicResistance(profile,context.resistanceAllowed,context.attribute);
         local score = rpgLiteScore(profile,context); local checked = rpgLiteCheck(profile,context);
         event('test.psionic-resistance'); eventValue(resistance.creationCost()); eventValue(assessment.status);

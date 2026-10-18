@@ -208,6 +208,7 @@ class RpgExpandedPsionicResistance: RpgLiteTrait
     evidence = nil
     validateResistance()
     {
+        if (!self.active) rpgExpandedReject('psionic-resistance-always-on');
         if (!holds([3,8,'immune'],self.degree) || self.level != 1)
             rpgExpandedReject('psionic-resistance-degree');
         if (!self.approved || self.evidence == nil || self.evidence == '')
@@ -323,6 +324,8 @@ class RpgExpandedPsionicStaticContact: object
         { value.reason = 'psionic-static-contact-facts'; return value; }
         if (self.targetCarrier != nil && (!self.targetCarrier.ofKind(RpgExpandedProfile)
             || !holds(self.targetCarrier.equipment,self.target))) rpgExpandedReject('psionic-static-carried-target');
+        if (!self.field.active && self.owner.unconscious)
+        { value.reason = 'psionic-static-unconscious-reset-required'; return value; }
         if (!self.field.active || self.indirectPhysical || self.counterpower)
         { value.status = 'ready'; return value; }
         if (self.target == self.owner || self.targetCarrier == self.owner)
@@ -337,5 +340,46 @@ class RpgExpandedPsionicStaticContact: object
             value.suppressed = self.sourceDistance <= radius || self.targetDistance <= radius;
         }
         value.status = 'ready'; return value;
+    }
+;
+
+/** B34/B78: switch a purchased switchable field as one shared Ready maneuver. */
+class RpgExpandedStaticReadyManeuver: RpgLiteManeuver
+    kind = 'ready'
+    field = nil
+    enable = true
+    healthAdapter = nil
+    healthAvailable(fighter)
+    {
+        if (self.healthAdapter == self) rpgExpandedReject('static-ready-health-cycle');
+        if (self.healthAdapter != nil)
+        {
+            if (!self.healthAdapter.ofKind(RpgLiteManeuver) || !self.healthAdapter.expandedHealthPermission
+                || self.healthAdapter.kind != 'ready') rpgExpandedReject('static-ready-health-adapter');
+            return self.healthAdapter.healthAvailable(fighter);
+        }
+        if (fighter.profile.fp() <= 0 || fighter.profile.hp() <= 0) return 'static-ready-health-adapter-required';
+        return nil;
+    }
+    canAct(fighter)
+    {
+        if (self.healthAdapter != nil) return self.healthAdapter.canAct(fighter);
+        return inherited(fighter);
+    }
+    available(fighter) { return self.readyAvailable(fighter); }
+    readyAvailable(fighter)
+    {
+        if (self.kind != 'ready' || self.option != nil) return 'static-ready-maneuver';
+        if (self.field == nil || !self.field.ofKind(RpgExpandedPsionicStatic)
+            || !holds(fighter.profile.traits,self.field)) return 'static-ready-owned-field-required';
+        self.field.validateStatic();
+        if (!self.field.switchable) return 'psionic-static-not-switchable';
+        if (self.field.active == self.enable) return 'static-already-selected';
+        return nil;
+    }
+    performReady(fighter)
+    {
+        local reason = self.readyAvailable(fighter); if (reason != nil) rpgExpandedReject(reason);
+        self.field.active = self.enable; return nil;
     }
 ;

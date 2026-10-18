@@ -1080,6 +1080,19 @@
       "status": "pending",
       "acceptance": "Instant relocation with the -10% source modifier and ten-yard range limitation of -50% costs 40; its range restriction must operate during assessment and execution.",
       "tests": []
+    },
+    {
+      "id": "psionic-static-switching",
+      "source": "full-2008",
+      "pages": "B34; B78",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Purchased switchable static changes immediately with a one-second Ready maneuver. Reuse the combat clock; default to on during unconsciousness.",
+      "tests": [
+        "tests/expanded.py::test_static_ready"
+      ],
+      "validation_note": "Ready maneuver adapter authored; fixtures unrun. Automatic unconsciousness/sleep reset remains pending and is explicitly guarded."
     }
   ],
   "exclusions": [
