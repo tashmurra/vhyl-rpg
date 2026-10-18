@@ -763,3 +763,10 @@ repairs and other tool uses remain incomplete.
 - Connected shared-carry reservations to unarmed parry capacity, including mapped
   free arms and conservative handling of unmapped supports. Added direct defense
   query assertions; checks remain paused.
+
+Climbing failure assessment now distinguishes rope-limited falls, critical
+failures that bypass rope protection and earlier obstacles. Exploration also
+supplies the full printed falling-velocity table for whole-yard distances through
+112 yards. These pure calculations do not commit movement or injuries; owned
+falling, fractional distances and environmental velocity rules remain incomplete.
+Table and geometry fixtures are authored and unrun.

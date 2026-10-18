@@ -135,7 +135,9 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Moderate pain imposes -2 on dexterity, intelligence, skill and self-control rolls; high pain threshold halves and low threshold doubles the penalty.",
-      "tests": ["tests/expanded.py::test_pain"],
+      "tests": [
+        "tests/expanded.py::test_pain"
+      ],
       "validation_note": "Owned finite pain applies severity and high/low threshold adjustments once to affected attribute, skill and self-control checks. Defensive reactions and secondary statistics remain unchanged. Table, expiry, replay, rollback, undo and save-continuation assertions authored, unrun. Cause adapters and overlapping pain composition remain incomplete."
     },
     {
@@ -146,7 +148,9 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Severe pain uses the same affected rolls with base -4, modified by pain tolerance.",
-      "tests": ["tests/expanded.py::test_pain"],
+      "tests": [
+        "tests/expanded.py::test_pain"
+      ],
       "validation_note": "Owned finite pain applies severity and high/low threshold adjustments once to affected attribute, skill and self-control checks. Defensive reactions and secondary statistics remain unchanged. Table, expiry, replay, rollback, undo and save-continuation assertions authored, unrun. Cause adapters and overlapping pain composition remain incomplete."
     },
     {
@@ -157,7 +161,9 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Terrible pain uses base -6 with the same affected rolls and tolerance modifiers.",
-      "tests": ["tests/expanded.py::test_pain"],
+      "tests": [
+        "tests/expanded.py::test_pain"
+      ],
       "validation_note": "Owned finite pain applies severity and high/low threshold adjustments once to affected attribute, skill and self-control checks. Defensive reactions and secondary statistics remain unchanged. Table, expiry, replay, rollback, undo and save-continuation assertions authored, unrun. Cause adapters and overlapping pain composition remain incomplete."
     },
     {
@@ -178,7 +184,10 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Agony causes collapse from standing/sitting and costs one fatigue per minute or fraction; credible threatened recurrence gives +3 to interrogation and intimidation afterward.",
-      "tests": ["tests/expanded.py::test_agony", "tests/expanded.py::test_agony_social"],
+      "tests": [
+        "tests/expanded.py::test_agony",
+        "tests/expanded.py::test_agony_social"
+      ],
       "validation_note": "Owned finite onset, begun-minute fatigue receipts, low/high pain thresholds, action gating and explicit credible-recurrence bonus implemented. Boundary, replay, rollback, undo and save-continuation fixtures authored, unrun. A pure threat context now contributes the recurrence bonus to shared scoring and validates influence targets before rolling; its assertions are unrun. Full interrogation, other cause integrations and broader validation remain incomplete."
     },
     {
@@ -189,7 +198,10 @@
       "kind": "procedure",
       "status": "partial",
       "acceptance": "Low pain threshold doubles agony fatigue and the threatened-recurrence bonus; high pain threshold permits functioning at -3 dexterity and intelligence.",
-      "tests": ["tests/expanded.py::test_agony", "tests/expanded.py::test_agony_social"],
+      "tests": [
+        "tests/expanded.py::test_agony",
+        "tests/expanded.py::test_agony_social"
+      ],
       "validation_note": "Owned finite onset, begun-minute fatigue receipts, low/high pain thresholds, action gating and explicit credible-recurrence bonus implemented. Boundary, replay, rollback, undo and save-continuation fixtures authored, unrun. A pure threat context now contributes the recurrence bonus to shared scoring and validates influence targets before rolling; its assertions are unrun. Full interrogation, other cause integrations and broader validation remain incomplete."
     },
     {
@@ -293,7 +305,9 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "A seizure prevents action and clear speech/thought, causes a standing actor to fall and costs one die of fatigue when it ends.",
-      "tests": ["tests/expanded.py::test_seizure"],
+      "tests": [
+        "tests/expanded.py::test_seizure"
+      ],
       "validation_note": "Owned finite onset, physical and mental action restrictions, standing fall, exact end boundary and once-only fatigue roll implemented. Preview, replay, rollback, undo and saved-continuation assertions authored but unrun. Cause integration, falls from height and exhaustive cross-module checks remain incomplete."
     },
     {
@@ -1006,9 +1020,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use the printed falling-velocity table or the allowed square-root formula from local gravity and distance, rounding to nearest whole yards per second; retain which procedure is selected.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "collision-fall-armor",
@@ -1196,9 +1213,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 1 through 1 yards, velocity is 5 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-2",
@@ -1206,9 +1226,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 2 through 2 yards, velocity is 7 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-3",
@@ -1216,9 +1239,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 3 through 3 yards, velocity is 8 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-4",
@@ -1226,9 +1252,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 4 through 4 yards, velocity is 9 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-5",
@@ -1236,9 +1265,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 5 through 5 yards, velocity is 10 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-6",
@@ -1246,9 +1278,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 6 through 6 yards, velocity is 11 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-7",
@@ -1256,9 +1291,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 7 through 7 yards, velocity is 12 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-8",
@@ -1266,9 +1304,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 8 through 8 yards, velocity is 13 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-9",
@@ -1276,9 +1317,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 9 through 9 yards, velocity is 14 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-10",
@@ -1286,9 +1330,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 10 through 11 yards, velocity is 15 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-11",
@@ -1296,9 +1343,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 12 through 12 yards, velocity is 16 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-12",
@@ -1306,9 +1356,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 13 through 14 yards, velocity is 17 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-13",
@@ -1316,9 +1369,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 15 through 15 yards, velocity is 18 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-14",
@@ -1326,9 +1382,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 16 through 17 yards, velocity is 19 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-15",
@@ -1336,9 +1395,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 18 through 19 yards, velocity is 20 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-16",
@@ -1346,9 +1408,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 20 through 21 yards, velocity is 21 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-17",
@@ -1356,9 +1421,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 22 through 23 yards, velocity is 22 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-18",
@@ -1366,9 +1434,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 24 through 25 yards, velocity is 23 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-19",
@@ -1376,9 +1447,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 26 through 27 yards, velocity is 24 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-20",
@@ -1386,9 +1460,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 28 through 29 yards, velocity is 25 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-21",
@@ -1396,9 +1473,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 30 through 32 yards, velocity is 26 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-22",
@@ -1406,9 +1486,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 33 through 34 yards, velocity is 27 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-23",
@@ -1416,9 +1499,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 35 through 37 yards, velocity is 28 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-24",
@@ -1426,9 +1512,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 38 through 39 yards, velocity is 29 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-25",
@@ -1436,9 +1525,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 40 through 42 yards, velocity is 30 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-26",
@@ -1446,9 +1538,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 43 through 45 yards, velocity is 31 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-27",
@@ -1456,9 +1551,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 46 through 48 yards, velocity is 32 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-28",
@@ -1466,9 +1564,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 49 through 51 yards, velocity is 33 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-29",
@@ -1476,9 +1577,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 52 through 54 yards, velocity is 34 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-30",
@@ -1486,9 +1590,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 55 through 57 yards, velocity is 35 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-31",
@@ -1496,9 +1603,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 58 through 61 yards, velocity is 36 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-32",
@@ -1506,9 +1616,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 62 through 64 yards, velocity is 37 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-33",
@@ -1516,9 +1629,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 65 through 67 yards, velocity is 38 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-34",
@@ -1526,9 +1642,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 68 through 71 yards, velocity is 39 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-35",
@@ -1536,9 +1655,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 72 through 75 yards, velocity is 40 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-36",
@@ -1546,9 +1668,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 76 through 79 yards, velocity is 41 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-37",
@@ -1556,9 +1681,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 80 through 82 yards, velocity is 42 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-38",
@@ -1566,9 +1694,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 83 through 86 yards, velocity is 43 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-39",
@@ -1576,9 +1707,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 87 through 90 yards, velocity is 44 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-40",
@@ -1586,9 +1720,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 91 through 95 yards, velocity is 45 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-41",
@@ -1596,9 +1733,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 96 through 99 yards, velocity is 46 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-42",
@@ -1606,9 +1746,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 100 through 103 yards, velocity is 47 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-43",
@@ -1616,9 +1759,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 104 through 108 yards, velocity is 48 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "fall-velocity-row-44",
@@ -1626,9 +1772,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For printed fall distance 109 through 112 yards, velocity is 49 yards per second at standard gravity; validate both interval endpoints.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Full printed whole-yard table implemented in the exploration library for zero through 112 yards. Every whole-yard result has an authored, unrun assertion. Formula, fractional distances, terminal velocity, altered environments and owned falling remain incomplete."
     },
     {
       "id": "electricity-specific-override",

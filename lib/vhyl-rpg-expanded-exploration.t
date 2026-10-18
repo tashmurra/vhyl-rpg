@@ -1181,3 +1181,39 @@ rpgExpandedAssessClimb(surface,distance,encumbrance,combat,ordinaryFatigue)
     value.maneuver = combat ? 'move' : nil;
     value.status = 'ready'; return value;
 }
+
+class RpgExpandedClimbFallAssessment: RpgExpandedResult
+    falls = nil
+    ropeLimited = nil
+    distanceFeet = 0
+    impactRequired = nil
+;
+/** B349: a secured rope limits an ordinary failed climb, never a critical failure.
+ * Heights are authored distances to the first lower obstacle and to rope arrest. */
+rpgExpandedAssessClimbFall(score,roll,heightFeet,secured,ropeFallFeet)
+{
+    rpgInteger(score,3,1000); rpgInteger(roll,3,18); rpgInteger(heightFeet,0,1000000);
+    if (secured) rpgInteger(ropeFallFeet,0,1000000);
+    else if (ropeFallFeet != nil) rpgExpandedReject('climb-rope-without-security');
+    local value = new RpgExpandedClimbFallAssessment(); value.check = rpgCheck(score,roll);
+    value.status = 'ready';
+    if (value.check.achieved) return value;
+    value.falls = true; value.distanceFeet = heightFeet;
+    if (secured && value.check.critical != 'failure' && ropeFallFeet < heightFeet)
+    { value.distanceFeet = ropeFallFeet; value.ropeLimited = true; }
+    value.impactRequired = true; return value;
+}
+
+/** Exact printed B431 table at ordinary gravity/atmosphere. No long-fall extrapolation. */
+rpgExpandedFallVelocity(yards)
+{
+    rpgInteger(yards,0,112);
+    if (yards == 0) return 0;
+    local rows = [[1,5],[2,7],[3,8],[4,9],[5,10],[6,11],[7,12],[8,13],[9,14],
+        [11,15],[12,16],[14,17],[15,18],[17,19],[19,20],[21,21],[23,22],[25,23],
+        [27,24],[29,25],[32,26],[34,27],[37,28],[39,29],[42,30],[45,31],[48,32],
+        [51,33],[54,34],[57,35],[61,36],[64,37],[67,38],[71,39],[75,40],[79,41],
+        [82,42],[86,43],[90,44],[95,45],[99,46],[103,47],[108,48],[112,49]];
+    foreach (local row in rows) if (yards <= row[1]) return row[2];
+    rpgExpandedReject('fall-distance-unsupported');
+}

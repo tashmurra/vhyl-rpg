@@ -34,9 +34,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Any failed climb causes a fall; a secured rope limits the fall to its end except on critical failure. Use the shared falling and injury procedure.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Pure failed-check geometry now distinguishes success, ordinary/critical failure, rope arrest and earlier obstacles. Full printed whole-yard velocity table is available separately. Assertions authored, unrun; owned fall resolution, fractional distance and damage integration remain pending."
     },
     {
       "id": "activity-climb-combat",

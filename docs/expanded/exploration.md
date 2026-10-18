@@ -584,3 +584,31 @@ profile's activity behavior is unchanged. `test_climb_assessment` specifies all
 nine rows at both speeds, encumbrance, fractional rates, whole-second rounding,
 five-minute boundaries and combat fatigue. These assertions remain unrun while
 checks are paused. Source: `full-2008`, B349.
+
+### Failed climbs and falling velocity
+
+`rpgExpandedAssessClimbFall(score, roll, heightFeet, secured, ropeFallFeet)`
+classifies a supplied check without rolling again. Pass the effective score and
+actual roll, the distance to the first lower obstacle in feet, and (when secured)
+the distance before the rope arrests the fall. An ordinary failed check still
+means a fall: the rope limits its distance when it catches sooner than the obstacle.
+Critical failure ignores that limit. An earlier obstacle takes precedence over a
+longer rope. Success returns no fall. An unsecured request must pass `nil` for
+`ropeFallFeet`.
+
+A failed check returns `impactRequired` even when rope slack is zero. This means
+consequences remain to be adjudicated, not that damage is automatically inflicted.
+The assessment does not invent rope strength, anchor integrity, arrest injuries,
+landing surface or collision damage. Those facts must be resolved before treating
+a failed climb as a completed movement. Source: `full-2008`, B349.
+
+`rpgExpandedFallVelocity(yards)` supplies the full printed B431 velocity table for
+whole-yard falls from zero through 112 yards at ordinary gravity and atmosphere.
+Results are yards per second. Do not silently convert fractional feet to whole
+yards or extrapolate long falls using this function. Fractional distances,
+terminal velocity, altered gravity/pressure and fall damage remain pending; the
+abridged helper is unchanged and is not the full profile's fallback.
+
+`test_climb_fall_assessment` specifies success, ordinary and critical failure,
+secured and unsecured falls, obstacle precedence and zero slack, plus every
+whole-yard value in the full table. All assertions remain unrun.

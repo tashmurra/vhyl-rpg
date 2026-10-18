@@ -8984,6 +8984,7 @@ def test(build):
     test_load_distribution(Session, loads)
     climb_assessment = build.build('expanded-climb-assessment', ROOT / 'tests/fixtures/expanded-climb-assessment.t')
     test_climb_assessment(Session, climb_assessment)
+    test_climb_fall_assessment(Session, climb_assessment)
     equipment_lift = build.build('expanded-equipment-lift', ROOT / 'tests/fixtures/expanded-equipment-lift.t')
     test_equipment_lift(Session, equipment_lift, build.out)
     shared_carry = build.build('expanded-shared-carry', ROOT / 'tests/fixtures/expanded-shared-carry.t')
@@ -13605,5 +13606,39 @@ def test_climb_assessment(Session, bundle):
         assert last(s, 'test.climb-assessment') == ['rungs',180,60,1,None,0,1,'move',0,0]
         s.action(2292,9,13,0,0,0)
         assert last(s, 'test.climb-assessment') == ['feet',720,60,2,-1,1,0,None,0,0]
+    finally:
+        s.close()
+
+
+def test_climb_fall_assessment(Session, bundle):
+    s = Session(bundle)
+    try:
+        cases = [
+            ((12,10,30,1,6), [1,None,0,0,0,0,0,0]),
+            ((12,14,30,1,6), [0,None,1,1,6,1,0,0]),
+            ((12,18,30,1,6), [0,'failure',1,0,30,1,0,0]),
+            ((12,14,30,0,0), [0,None,1,0,30,1,0,0]),
+            ((12,14,3,1,6), [0,None,1,0,3,1,0,0]),
+            ((12,14,30,1,0), [0,None,1,1,0,1,0,0]),
+        ]
+        for args, expected in cases:
+            s.action(2293,*args)
+            assert last(s, 'test.climb-fall') == expected
+        # Printed B431 upper endpoints, grouped independently by table columns.
+        columns = [
+            [(1,5),(2,7),(3,8),(4,9),(5,10),(6,11),(7,12),(8,13),(9,14),(11,15),(12,16)],
+            [(14,17),(15,18),(17,19),(19,20),(21,21),(23,22),(25,23),(27,24),(29,25),(32,26),(34,27)],
+            [(37,28),(39,29),(42,30),(45,31),(48,32),(51,33),(54,34),(57,35),(61,36),(64,37),(67,38)],
+            [(71,39),(75,40),(79,41),(82,42),(86,43),(90,44),(95,45),(99,46),(103,47),(108,48),(112,49)],
+        ]
+        previous = 0
+        for column in columns:
+            for upper, velocity in column:
+                for yards in range(previous+1,upper+1):
+                    s.action(2294,yards)
+                    assert last(s, 'test.fall-velocity') == [velocity,0,0]
+                previous = upper
+        s.action(2294,0)
+        assert last(s, 'test.fall-velocity') == [0,0,0]
     finally:
         s.close()
