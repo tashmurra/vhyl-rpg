@@ -3732,3 +3732,110 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** B353: supported back loads above 10 BL lose one FP per elapsed second. */
+class RpgExpandedOverloadCarry: object
+    id = nil
+    profile = nil
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    endedAt = nil
+    lastProcessedAt = nil
+    chargedSeconds = 0
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.approved,self.evidence]; }
+    validateReceipt()
+    {
+        if (self.startedAt == nil || !holds(self.profile.overloadCarries,self) || self.boundDefinition == nil)
+            rpgExpandedReject('overload-history');
+        local facts = self.definition();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('overload-binding');
+        if (self.endedAt == nil && self.profile.overloadCarry != self) rpgExpandedReject('overload-owner');
+        rpgInteger(self.startedAt,0,rpgLedger.seconds); rpgInteger(self.chargedSeconds,0,rpgLedger.seconds - self.startedAt);
+        rpgInteger(self.lastProcessedAt,self.startedAt,rpgLedger.seconds);
+        if (self.endedAt != nil) rpgInteger(self.endedAt,self.startedAt,rpgLedger.seconds);
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('overload-definition');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'overload-support-required'; return value; }
+        if (self.profile.overloadCarry != nil) { value.reason = 'overload-already-active'; return value; }
+        foreach (local prior in self.profile.overloadCarries)
+            if (prior.id == self.id) rpgExpandedReject('overload-duplicate');
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'overload-carrier-unavailable'; return value; }
+        local load = self.profile.loadHundredths(); local lift = self.profile.basicLiftHundredths();
+        rpgInteger(load,0,100000000); rpgInteger(lift,1,100000000);
+        if (load <= lift * 10) { value.reason = 'overload-not-required'; return value; }
+        if (load > lift * 15) { value.reason = 'overload-capacity'; return value; }
+        value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.startedAt = rpgLedger.seconds; self.lastProcessedAt = self.startedAt;
+        self.profile.overloadCarries = self.profile.overloadCarries + [self]; self.profile.overloadCarry = self;
+        value.status = 'resolved'; return value;
+    }
+    charge(previousSeconds)
+    {
+        self.validateReceipt(); if (self.endedAt != nil || rpgLedger.seconds <= self.lastProcessedAt) return nil;
+        if (rpgLedger.seconds != self.lastProcessedAt + 1) rpgExpandedReject('overload-clock-gap');
+        self.lastProcessedAt = rpgLedger.seconds;
+        if (self.profile.loadHundredths() <= self.profile.basicLiftHundredths() * 10 || self.profile.dead || self.profile.unconscious)
+        { self.endedAt = rpgLedger.seconds; self.profile.overloadCarry = nil; return nil; }
+        self.profile.restClock = 0; rpgLiteFatigue(self.profile,1,'exertion'); self.chargedSeconds += 1;
+        if (self.profile.dead || self.profile.unconscious) { self.endedAt = rpgLedger.seconds; self.profile.overloadCarry = nil; }
+        return nil;
+    }
+;
+modify RpgExpandedProfile
+    overloadCarry = nil
+    overloadCarries = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local carry in self.overloadCarries)
+        {
+            if (carry == nil || !carry.ofKind(RpgExpandedOverloadCarry) || carry.profile != self || holds(ids,carry.id))
+                rpgExpandedReject('overload-history');
+            carry.validateReceipt(); ids = ids + [carry.id];
+        }
+        if (self.overloadCarry != nil && !holds(self.overloadCarries,self.overloadCarry)) rpgExpandedReject('overload-owner');
+        return nil;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local profile = firstObj(RpgExpandedProfile); profile != nil; profile = nextObj(profile,RpgExpandedProfile))
+            if (profile.overloadCarry != nil)
+            {
+                profile.overloadCarry.validateReceipt();
+                if (seconds > 1) rpgExpandedReject('overload-one-second-step-required');
+                if (profile.loadHundredths() > profile.basicLiftHundredths() * 15) rpgExpandedReject('overload-capacity');
+            }
+        return nil;
+    }
+    afterAdvance(previousSeconds)
+    {
+        inherited(previousSeconds);
+        for (local profile = firstObj(RpgExpandedProfile); profile != nil; profile = nextObj(profile,RpgExpandedProfile))
+            if (profile.overloadCarry != nil) profile.overloadCarry.charge(previousSeconds);
+        return nil;
+    }
+;
+modify RpgLiteJourney
+    advance(seconds)
+    {
+        if (self.kind == 'overload' && self.profile.ofKind(RpgExpandedProfile) && self.profile.overloadCarry != nil)
+            rpgExpandedReject('overload-duplicate-clock');
+        return inherited(seconds);
+    }
+;

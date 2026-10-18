@@ -9444,6 +9444,8 @@ def test(build):
     test_packing_transfer(Session,packing_transfer,build.out)
     packing_bundle = build.build("expanded-packing-bundle",ROOT / "tests/fixtures/expanded-packing-bundle.t")
     test_packing_bundle(Session,packing_bundle,build.out)
+    overload_carry = build.build("expanded-overload-carry",ROOT / "tests/fixtures/expanded-overload-carry.t")
+    test_overload_carry(Session,overload_carry,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24779,5 +24781,34 @@ def test_packing_bundle(Session, bundle, out):
         for code in (22500,23007,23000,23003):
             s.action(1680,code)
         assert last(s,'test.bundle-inventory') == [2,0,0,3,0]
+    finally:
+        s.close()
+
+
+def test_overload_carry(Session, bundle, out):
+    """B353 overload charges each shared-clock second exactly once; unrun."""
+    path = out / 'overload-carry.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,23100); s.action(1680,23102); s.action(1680,23103)
+        assert last(s,'test.overload-state') == [0,0,0,1,0]
+        s.action(1680,23101); s.command('undo'); s.action(1680,23103)
+        assert last(s,'test.overload-state') == [0,0,0,1,0]
+        for code in (23101,23107,23103):
+            s.action(1680,code)
+        assert last(s,'test.overload-state') == [1,1,1,1,0]
+        for code, reason in ((23105,'overload-one-second-step-required'),(23106,'overload-duplicate-clock')):
+            s.action(1680,code)
+            assert last(s,'test.overload-error') == [reason]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,23101); s.action(1680,23103)
+        assert last(s,'test.overload-state') == [2,2,2,1,0]
+        for code in (23104,23101,23103):
+            s.action(1680,code)
+        assert last(s,'test.overload-state') == [2,2,3,0,0]
     finally:
         s.close()

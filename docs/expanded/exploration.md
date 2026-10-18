@@ -1900,3 +1900,28 @@ After a successful `load` or `unload` attempt, use equipment's
 for one stack. The transfer reuses the existing inventory ledger and does not reroll
 the packing check. Multiple stacks can use `RpgExpandedPackingBundle`; overload fatigue and journey
 integration remain incomplete.
+
+
+## Clock-driven overload carry
+
+`RpgExpandedOverloadCarry` implements full-2008 B353 fatigue for an authored,
+supported back load above ten and no more than fifteen times Basic Lift. Supply
+`id`, `profile`, `approved` and `evidence` confirming suitable support and body
+form. `assess()` checks eligibility; `start()` records the owned state without
+spending time or fatigue. Only one may be active per character.
+
+Each elapsed shared-clock second charges one FP through the existing fatigue
+procedure. Repeated dispatch at the same timestamp cannot charge twice. Returning
+to ten times Basic Lift or less ends the state on the next clock dispatch without
+a further charge. Death or unconsciousness also ends it. The state does not remove
+inventory automatically. History remains in `profile.overloadCarries`.
+
+While active, time advances must be at most one second. Larger advances reject
+before changing the clock so fatigue/collapse boundaries cannot be skipped. The
+Lite overload journey also rejects while this clock-driven state is active,
+preventing duplicate charging. Other actions must honor the same time-step limit.
+
+`test_overload_carry` specifies shared-clock charges, duplicate dispatch, rollback,
+undo, save continuation, the ten-times boundary and conflicting time drivers.
+Fixtures remain unrun. Packing transfer authorization and travel integration with
+this overload state are still pending; transfers continue to reject overloads.
