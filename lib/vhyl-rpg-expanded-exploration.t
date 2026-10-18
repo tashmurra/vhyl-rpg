@@ -58,6 +58,8 @@ class RpgExpandedBreathReserve: object
     profile = nil
     activity = 'mild'
     prepared = true
+    preparation = nil
+    boundPreparation = nil
     ventilation = 'none'
     controlSucceeded = nil
     reserveLevels = 0
@@ -80,8 +82,17 @@ class RpgExpandedBreathReserve: object
         if (self.id != self.boundId || self.profile != self.boundProfile || self.activity != self.boundActivity
             || self.prepared != self.boundPrepared || self.ventilation != self.boundVentilation
             || self.controlSucceeded != self.boundControl || self.reserveLevels != self.boundLevels
+            || self.preparation != self.boundPreparation
             || self.evidence != self.boundEvidence || !holds(self.profile.breathHistory,self))
             rpgExpandedReject('breath-binding');
+        if (self.preparation != nil)
+        {
+            self.preparation.validateReceipt();
+            if (self.preparation.usedBy != self || self.preparation.profile != self.profile
+                || self.preparation.completedAt != self.startedAt
+                || self.controlSucceeded != (self.preparation.result.check != nil && self.preparation.result.check.achieved))
+                rpgExpandedReject('breath-preparation-reserve-binding');
+        }
         return nil;
     }
     start()
@@ -99,8 +110,21 @@ class RpgExpandedBreathReserve: object
         self.profile.validateBreathStart();
         foreach (local prior in self.profile.breathHistory)
             if (prior.id == self.id) rpgExpandedReject('breath-duplicate');
-        value = rpgExpandedBreathDuration(self.profile.ht,self.activity,self.prepared,self.ventilation,self.controlSucceeded,self.reserveLevels);
+        local control = self.controlSucceeded;
+        if (self.preparation != nil)
+        {
+            if (!self.preparation.ofKind(RpgExpandedBreathPreparation)) rpgExpandedReject('breath-preparation-definition');
+            if (self.preparation.result == nil) { value.reason = 'breath-preparation-not-completed'; return value; }
+            self.preparation.validateReceipt();
+            if (self.preparation.profile != self.profile || self.preparation.usedBy != nil
+                || self.preparation.completedAt != rpgLedger.seconds || !self.prepared || self.ventilation != 'none')
+            { value.reason = 'breath-preparation-not-applicable'; return value; }
+            control = self.preparation.result.check != nil && self.preparation.result.check.achieved;
+        }
+        value = rpgExpandedBreathDuration(self.profile.ht,self.activity,self.prepared,self.ventilation,control,self.reserveLevels);
         if (value.status != 'ready') return value;
+        self.controlSucceeded = control; self.boundPreparation = self.preparation;
+        if (self.preparation != nil) self.preparation.usedBy = self;
         self.boundId = self.id; self.boundProfile = self.profile; self.boundActivity = self.activity;
         self.boundPrepared = self.prepared; self.boundVentilation = self.ventilation; self.boundControl = self.controlSucceeded;
         self.boundLevels = self.reserveLevels; self.boundEvidence = self.evidence; self.startingHealth = self.profile.ht;
@@ -3173,6 +3197,93 @@ modify RpgExpandedProfile
     {
         inherited();
         foreach (local encounter in self.swimmingHistory) encounter.validateWillHistory();
+        return nil;
+    }
+;
+
+class RpgExpandedBreathPreparation: object
+    id = nil
+    profile = nil
+    controlSkill = nil
+    approved = nil
+    evidence = nil
+    combat = nil
+    completedAt = nil
+    boundCompletedAt = nil
+    boundSucceeded = nil
+    boundDefinition = nil
+    result = nil
+    usedBy = nil
+    definition() { return [self.id,self.profile,self.controlSkill,self.approved,self.evidence,self.combat]; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.completedAt == nil || self.completedAt != self.boundCompletedAt || self.completedAt > rpgLedger.seconds
+            || !holds(self.profile.breathPreparations,self)) rpgExpandedReject('breath-preparation-history');
+        if ((self.result.check != nil && self.result.check.achieved) != self.boundSucceeded)
+            rpgExpandedReject('breath-preparation-result-binding');
+        local facts = self.definition();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('breath-preparation-binding');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('breath-preparation-definition');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'breath-preparation-air-required'; return value; }
+        if (self.combat) { value.reason = 'breath-preparation-combat-adapter-required'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.stunned || self.profile.mentalStun
+            || self.profile.fp() <= 0) { value.reason = 'breath-preparation-incapacitated'; return value; }
+        if (self.profile.breathReserve != nil || self.profile.airClock != 0)
+        { value.reason = 'breath-existing-exposure'; return value; }
+        self.profile.validateBreathStart();
+        foreach (local prior in self.profile.breathPreparations)
+            if (prior.id == self.id) rpgExpandedReject('breath-preparation-duplicate');
+        if (self.controlSkill != nil)
+        {
+            if (!self.controlSkill.ofKind(RpgLiteSkill)) rpgExpandedReject('breath-control-skill-definition');
+            self.controlSkill.validateBreathControl();
+            local trained = nil;
+            foreach (local training in self.profile.skills)
+                if (training.skill == self.controlSkill && training.points > 0) trained = true;
+            if (!trained) { value.reason = 'breath-control-training-required'; return value; }
+            local context = new RpgLiteContext(); context.skill = self.controlSkill; context.kind = 'breath-control';
+            local score = rpgLiteScore(self.profile,context);
+            if (score == nil || score < 3) { value.reason = 'breath-control-score-unavailable'; return value; }
+        }
+        value.seconds = 1; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        rpgSpendTime(1);
+        if (self.controlSkill != nil)
+        {
+            local context = new RpgLiteContext(); context.skill = self.controlSkill; context.kind = 'breath-control';
+            value.check = rpgLiteCheck(self.profile,context);
+        }
+        self.completedAt = rpgLedger.seconds; self.boundCompletedAt = self.completedAt;
+        self.boundSucceeded = value.check != nil && value.check.achieved; self.boundDefinition = self.definition();
+        value.status = 'resolved'; self.result = value;
+        self.profile.breathPreparations = self.profile.breathPreparations + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    breathPreparations = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local preparation in self.breathPreparations)
+        {
+            if (preparation == nil || !preparation.ofKind(RpgExpandedBreathPreparation)
+                || preparation.profile != self || holds(ids,preparation.id)) rpgExpandedReject('breath-preparation-history');
+            preparation.validateReceipt(); ids = ids + [preparation.id];
+            if (preparation.usedBy != nil && (!holds(self.breathHistory,preparation.usedBy)
+                || preparation.usedBy.preparation != preparation)) rpgExpandedReject('breath-preparation-reserve-binding');
+        }
         return nil;
     }
 ;

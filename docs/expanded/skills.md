@@ -758,3 +758,14 @@ consequences still require integration with their actual world actions.
 `expanded-boating.t` / `test_boating` specify the full 16-pair default matrix,
 boarding requirements, ordinary hazard modifiers and the restricted Seamanship
 default. Fixtures remain unrun while checks are paused.
+
+
+## Breathing efficiency skill
+
+`RpgExpandedBreathControlSkill` supplies the fixed HT/Hard, no-default definition
+from full-2008 B182. Custom defaults, specialties, alternate attributes and
+technology levels reject. The exploration library's
+`RpgExpandedBreathPreparation` can execute its trained check and apply the
+breath-duration bonus through an owned receipt. That operation does not implement
+the skill's separate fatigue-recovery use. The `test_breath_preparation` fixture
+covers this integration and remains unrun.

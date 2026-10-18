@@ -739,3 +739,7 @@ modify RpgLiteContext
 modify RpgExpandedProfile
     prepareSwimmingWound(id,destination) { return nil; }
 ;
+
+modify RpgLiteSkill
+    validateBreathControl() { rpgExpandedReject('breath-control-expanded-skill-required'); }
+;

@@ -67,9 +67,10 @@ nothing. It does not perform the breathing-control check or grant a trait.
 `profile`, the assessment inputs and `evidence` recording the actual preparation,
 oxygen source, control-check outcome and eligible reserve levels. Prepared breath
 requires a previously completed one-second action; in combat that action must
-be concentration. The library does not charge that action again. It currently
-accepts these facts from the author and does not implement the action or catalogue
-eligibility checks. Record the source of each applicable fact in the evidence.
+be concentration. The reserve does not charge that action again. Without an owned preparation
+receipt, it accepts these facts from the author. The owned preparation interface
+below supplies a noncombat action and skill check; catalogue trait eligibility
+remains authored. Record the source of each applicable fact in the evidence.
 
 `start()` snapshots health and duration at the current shared time. Repeating it
 returns the original receipt. A second active reserve, or an existing nonzero
@@ -1593,3 +1594,29 @@ immediate entry, precondition rejection, single injury, rollback, undo, save
 continuation and altered-history rejection. Fixtures remain unrun. Recovery
 and renewed exhaustion within one uninterrupted encounter still need an explicit
 transition; unconscious drowning and rescue work remains outstanding.
+
+
+## Owned breath preparation
+
+`RpgExpandedBreathPreparation` records `id`, `profile`, `approved` and evidence
+of safe breathing access. Outside combat, `apply()` charges the shared clock
+one second (full-2008 B351–B352). Repeated application reuses that receipt.
+`assess()` spends neither time nor randomness. An optional `controlSkill` must
+be a purchased `RpgExpandedBreathControlSkill` from the skills module: HT/Hard,
+without defaults (B182). The committed skill roll supplies the 50% duration
+bonus on success; failure leaves the ordinary prepared duration.
+
+Set a reserve's `preparation` to that receipt. Start the reserve at the same
+shared-clock time as preparation completion, with `prepared = true` and
+`ventilation = 'none'`. Starting consumes the receipt once and derives
+`controlSucceeded` from its check, without another time charge or roll. A stale,
+foreign or previously consumed receipt rejects. Existing author-supplied
+preparation flags remain available when no receipt is selected.
+
+Combat preparation currently rejects with
+`breath-preparation-combat-adapter-required`; it requires integration with the
+concentration maneuver. Hyperventilation, oxygen supply and the skill's separate
+fatigue-recovery use are outside this preparation operation.
+`expanded-breath-preparation.t` / `test_breath_preparation` specify successful,
+failed and absent skill checks, unpaid-skill rejection, replay, rollback, undo
+and separate-process continuation. Fixtures remain unrun.
