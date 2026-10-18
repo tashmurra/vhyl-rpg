@@ -4377,3 +4377,143 @@ class RpgExpandedSenseObservationAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+/** B358 interpretation after noticing; ordinary and speech checks use IQ. */
+class RpgExpandedComprehensionContext: RpgLiteContext
+    attribute = rpgIQ
+    kind = 'comprehension'
+    someLight = nil
+    purpose = 'ordinary'
+    expertiseApproved = nil
+    evidence = nil
+    comprehensionFacts()
+    {
+        if (self.attribute != rpgIQ || self.kind != 'comprehension' || self.darkness != 0 || self.someLight
+            || !holds(['ordinary','expert','speech'],self.purpose) || self.understandsSpeech || self.written)
+            rpgExpandedReject('comprehension-context-definition');
+        if ((self.purpose == 'expert' && (self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || !self.expertiseApproved))
+            || (self.purpose != 'expert' && self.skill != nil)) rpgExpandedReject('comprehension-skill-definition');
+        if ((self.purpose == 'speech' && self.language == nil) || (self.purpose != 'speech' && self.language != nil))
+            rpgExpandedReject('comprehension-language-definition');
+        if (self.evidence == nil || self.evidence == '') rpgExpandedReject('comprehension-context-evidence');
+        return [self.purpose,self.skill,self.language,self.modifier,self.expertiseApproved,self.evidence] + self.culturalTaskFacts();
+    }
+    skillUseModifier(profile) { self.comprehensionFacts(); return 0; }
+;
+class RpgExpandedComprehensionResult: RpgExpandedResult
+    meaning = nil
+    score = nil
+    gate = nil
+    allowed = nil
+;
+class RpgExpandedSenseComprehension: object
+    id = nil
+    profile = nil
+    observation = nil
+    context = nil
+    meaning = nil
+    seconds = nil
+    applicable = nil
+    evidence = nil
+    result = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.observation == nil || (!self.observation.ofKind(RpgExpandedVisionObservation)
+                && !self.observation.ofKind(RpgExpandedHearingObservation))
+            || self.context == nil || !self.context.ofKind(RpgExpandedComprehensionContext))
+            rpgExpandedReject('sense-comprehension-definition');
+        rpgInteger(self.seconds,0,86400);
+        if (self.context.purpose == 'speech' && !self.observation.ofKind(RpgExpandedHearingObservation))
+            rpgExpandedReject('speech-comprehension-hearing-required');
+        return [self.id,self.profile,self.observation,self.context,self.meaning,self.seconds,self.applicable,self.evidence]
+            + self.context.comprehensionFacts();
+    }
+    outcomeDefinition()
+    {
+        local facts = [self.completedAt,self.result,self.result.meaning,self.result.seconds,self.result.allowed,self.result.gate,self.result.check];
+        if (self.result.check != nil) facts = facts + [self.result.check.score,self.result.check.roll,
+            self.result.check.margin,self.result.check.achieved,self.result.check.critical];
+        return facts;
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedComprehensionResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.senseComprehensions,self) || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('sense-comprehension-history');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sense-comprehension-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('sense-comprehension-outcome');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('sense-comprehension-outcome');
+            if (self.completedAt > rpgLedger.seconds || self.observation.assess().status != 'reused'
+                || self.result.gate.assess().status != 'reused') rpgExpandedReject('sense-comprehension-receipt');
+            value.status = 'reused'; return value;
+        }
+        if (self.completedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('sense-comprehension-uncommitted');
+        if (self.observation.profile != self.profile) { value.reason = 'sense-comprehension-observer'; return value; }
+        if (self.observation.result == nil) { value.reason = 'sense-comprehension-not-observed'; return value; }
+        self.observation.assess();
+        if (!self.observation.result.noticed) { value.reason = 'sense-comprehension-not-observed'; return value; }
+        if (!self.applicable || self.evidence == nil || self.evidence == '' || self.meaning == nil || self.meaning == '')
+        { value.reason = 'sense-comprehension-evidence-required'; return value; }
+        foreach (local prior in self.profile.senseComprehensions)
+            if (prior.id == self.id || prior.observation == self.observation) rpgExpandedReject('sense-comprehension-repeat');
+        value.reason = self.profile.nonTravelScheduleReason(rpgLedger.seconds,self.seconds); if (value.reason != nil) return value;
+        value.score = rpgLiteScore(self.profile,self.context);
+        if (value.score == nil || value.score < 3) { value.reason = 'sense-comprehension-score'; return value; }
+        value.gate = self.profile.prepareSocialGate(self.id,self.evidence,nil);
+        if (value.gate == nil) { value.reason = 'sense-comprehension-health-adapter-required'; return value; }
+        local permission = value.gate.assess();
+        if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds); rpgLedger.validateAdvance(self.seconds);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds; local permission = value.gate.resolve();
+        if (!holds(['resolved','reused'],permission.status)) rpgExpandedReject('sense-comprehension-gate-changed');
+        value.allowed = permission.allowed;
+        if (value.allowed)
+        {
+            rpgSpendTime(self.seconds); value.seconds = self.seconds;
+            if (rpgLedger.seconds != start+self.seconds || rpgLiteScore(self.profile,self.context) != value.score
+                || self.profile.nonTravelScheduleReason(start,self.seconds) != nil) rpgExpandedReject('sense-comprehension-interrupted');
+        }
+        local current = self.definition();
+        if (current.length() != facts.length()) rpgExpandedReject('sense-comprehension-changed');
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (current[index] != facts[index]) rpgExpandedReject('sense-comprehension-changed');
+        if (self.observation.assess().status != 'reused') rpgExpandedReject('sense-comprehension-receipt');
+        if (value.allowed)
+        {
+            value.check = rpgCheck(value.score,rpgRandom.roll()); if (value.check.achieved) value.meaning = self.meaning;
+        }
+        else value.reason = permission.reason;
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = facts; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = self.outcomeDefinition(); self.profile.senseComprehensions = self.profile.senseComprehensions + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    senseComprehensions = []
+    validateFeatures()
+    {
+        inherited(); local ids = []; local observations = [];
+        foreach (local attempt in self.senseComprehensions)
+        {
+            if (attempt == nil || !attempt.ofKind(RpgExpandedSenseComprehension) || attempt.profile != self
+                || holds(ids,attempt.id) || holds(observations,attempt.observation) || attempt.assess().status != 'reused')
+                rpgExpandedReject('sense-comprehension-history');
+            ids = ids + [attempt.id]; observations = observations + [attempt.observation];
+        }
+        return nil;
+    }
+;

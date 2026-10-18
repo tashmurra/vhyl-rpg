@@ -30,9 +30,10 @@
       "acceptance": "Noticing an event is distinct from understanding it; an authored follow-up uses intelligence for ordinary interpretation or the relevant specialist skill.",
       "tests": [
         "tests/expanded.py::test_vision",
-        "tests/expanded.py::test_terrain_observation"
+        "tests/expanded.py::test_terrain_observation",
+        "tests/expanded.py::test_sense_comprehension"
       ],
-      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun. Optional terrain comprehension consumes an already-successful owned visual observation for the same observer/site/occurrence, with explicit current-applicability evidence and no duplicate sense roll. Other comprehension integrations remain pending. Fixtures unrun."
+      "validation_note": "Owned comprehension follows successful observation by the same profile, using IQ for ordinary interpretation, an approved skill for expertise, or hearing plus existing language proficiency for speech. Shared time, health permission and bound replay outcomes implemented. Danger warnings, specialized context adapters, automatic disclosure and player actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-danger-warning",
@@ -198,9 +199,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Hearing speech does not ensure comprehension; resolve an appropriate intelligence and language-dependent interpretation when required.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_sense_comprehension"
+      ],
+      "validation_note": "Owned comprehension follows successful observation by the same profile, using IQ for ordinary interpretation, an approved skill for expertise, or hearing plus existing language proficiency for speech. Shared time, health permission and bound replay outcomes implemented. Danger warnings, specialized context adapters, automatic disclosure and player actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-chemical-modifiers",

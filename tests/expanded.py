@@ -9522,6 +9522,8 @@ def test(build):
     test_hearing_observation(Session,hearing_observation,build.out)
     sense_actions = build.build('expanded-sense-actions',ROOT / 'tests/fixtures/expanded-sense-actions.t')
     test_sense_actions(Session,sense_actions)
+    sense_comprehension = build.build('expanded-sense-comprehension',ROOT / 'tests/fixtures/expanded-sense-comprehension.t')
+    test_sense_comprehension(Session,sense_comprehension,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26576,3 +26578,51 @@ def test_sense_actions(Session, bundle):
                         assert state(s) == [0,None,0,0]
                 finally:
                     s.close()
+
+
+def test_sense_comprehension(Session, bundle, out):
+    """B358 noticing then IQ, language-qualified IQ or expert interpretation; unrun."""
+    def state(s):
+        s.action(1680,27603)
+        return last(s,'test.comprehension-state')
+    completed = [1,'The call warns of a blocked crossing',6,2]
+    s = Session(bundle)
+    path = out / 'sense-comprehension.zsave'
+    try:
+        s.action(1680,27602)
+        assert last(s,'test.comprehension-preview')[:2] == ['blocked','sense-comprehension-not-observed']
+        s.action(1680,27400); s.action(1680,27602)
+        assert last(s,'test.comprehension-preview') == ['ready',None,12]
+        assert state(s) == [0,None,3,0]
+        s.action(1680,27601); assert state(s) == [0,None,3,0]
+        s.action(1680,27600); s.command('undo'); assert state(s) == [0,None,3,0]
+        s.action(1680,27600); s.action(1680,27600); assert state(s) == completed
+        s.action(1680,27608); assert state(s) == completed
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,27600)
+        assert state(s) == completed
+    finally:
+        s.close()
+    for codes,score in (((27604,27605),9),((27606,),6),((27609,27120),12)):
+        s = Session(bundle)
+        try:
+            if 27609 not in codes:
+                s.action(1680,27400)
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,27602)
+            assert last(s,'test.comprehension-preview') == ['ready',None,score]
+            s.action(1680,27600); assert state(s) == completed
+        finally:
+            s.close()
+    for code,expected in ((27004,[1,None,6,2]),(27009,[1,None,6,0]),(27604,[0,None,3,0]),(27607,[0,None,3,0])):
+        s = Session(bundle)
+        try:
+            s.action(1680,27400); s.action(1680,code); s.action(1680,27600); s.action(1680,27600)
+            assert state(s) == expected
+        finally:
+            s.close()

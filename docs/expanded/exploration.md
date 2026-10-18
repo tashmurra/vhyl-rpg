@@ -2155,7 +2155,7 @@ this hearing context.
 `test_hearing` specifies all twelve independent reference rows, exact nearer
 fractions, ordinary conversation at eight yards (−3), acute/poor hearing, ambient
 conditions and unsupported frequency/capacity. Fixtures remain unrun. Discriminating hearing, special frequencies, stealth contests,
-speech comprehension and automatic auditory-capability integration remain pending.
+specialized speech interpretation and automatic auditory-capability integration remain pending.
 
 ### Owned hearing results and shared sense actions
 
@@ -2179,5 +2179,36 @@ the terrain search's visual-observation requirement.
 `test_hearing_observation` specifies preview, failure, unavailable senses,
 rollback, undo, replay and saved continuation. `test_sense_actions` specifies
 command, structured and dialogue parity for both senses and observer authority.
-Fixtures remain unrun while checks are paused. Speech comprehension, special
-senses, danger warnings and concealment/stealth contests remain pending.
+Fixtures remain unrun while checks are paused. Special senses, danger warnings and concealment/stealth contests remain pending.
+Owned comprehension is described below.
+
+## Comprehending a noticed event
+
+`RpgExpandedSenseComprehension` implements an authored second check under
+full-2008 B358. Supply a successful owned vision or hearing `observation`, the
+same `profile`, a unique `id`, a `RpgExpandedComprehensionContext`, the authored
+`meaning`, explicit `seconds`, `applicable` and concrete `evidence`. This does not
+make a second check mandatory for every noticed event. Authors invoke it only
+when interpretation is a separate task, and specify its duration.
+
+The context's `purpose` selects the procedure: `ordinary` uses IQ; `expert`
+requires an appropriate `skill`, `expertiseApproved` and evidence; `speech` uses
+IQ and requires a `language` plus a hearing observation. Shared language scoring
+handles unknown, limited and fluent proficiency. Speech detection itself grants
+no language knowledge. Skill contexts can also use the shared explicit cultural
+facts where appropriate. This initial adapter does not replace the specialized
+contexts required for procedures with additional domain-specific restrictions.
+
+`assess()` validates the observation, authored applicability, schedule, score and
+health gate without spending. `resolve()` spends the authored interval once and
+makes one interpretation check if health permits it. Success retains the supplied
+meaning; failure leaves it nil. Both failed and successful interpretations are
+owned in `profile.senseComprehensions`, with definitions and outcomes bound for
+replay. A second receipt cannot reroll the same observation. No reaction, command,
+new observation or automatic disclosure is produced.
+
+`test_sense_comprehension` specifies hearing/vision prerequisites, ordinary and
+expert scores, language proficiency, wrong observers, health denial, failure,
+rollback, undo and saved continuation. Fixtures remain unrun. Danger warnings,
+special-sense interpretation, domain-specific context adapters and shared player
+actions for comprehension remain pending.
