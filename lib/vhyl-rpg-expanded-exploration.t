@@ -2232,3 +2232,89 @@ class RpgExpandedJumpDistance: object
         return value;
     }
 ;
+
+modify RpgExpandedJumpDistance
+    maximumAssessment()
+    {
+        local request = new RpgExpandedJumpDistance(); request.profile = self.profile;
+        request.runYards = 1000; request.prepared = true;
+        request.encumbranceOption = self.encumbranceOption; request.strengthOption = self.strengthOption;
+        request.bodyWeightHundredths = self.bodyWeightHundredths; request.bodyWeightEvidence = self.bodyWeightEvidence;
+        local best = request.assess(); if (best.status != 'ready') return best;
+        foreach (local training in self.profile.skills)
+            if (training.points > 0 && training.skill.ofKind(RpgLiteSkill) && training.skill.id == 'jumping')
+            {
+                request.skill = training.skill; local candidate = request.assess();
+                if (candidate.status != 'ready') return candidate;
+                if (candidate.highInchTenths > best.highInchTenths) best = candidate;
+            }
+        return best;
+    }
+;
+modify RpgExpandedProfile
+    jumpFallProtections = []
+;
+/** B89 passive fall immunity, optionally using one already owned B431 acrobatics roll. */
+class RpgExpandedJumpFallProtection: RpgExpandedLandingReceipt
+    id = nil
+    profile = nil
+    fall = nil
+    distance = 1
+    jumping = nil
+    acrobatics = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.profile,self.fall,self.distance,self.jumping,self.acrobatics,
+        self.jumping.encumbranceOption,self.jumping.strengthOption,
+        self.jumping.bodyWeightHundredths,self.jumping.bodyWeightEvidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.fall == nil || dataType(self.fall) != TypeObject || self.jumping == nil
+            || !self.jumping.ofKind(RpgExpandedJumpDistance) || self.jumping.profile != self.profile)
+            rpgExpandedReject('jump-fall-definition');
+        local value = new RpgExpandedLandingAssessment();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('jump-fall-binding');
+            if (!holds(self.profile.jumpFallProtections,self)) rpgExpandedReject('jump-fall-history');
+            if (self.acrobatics != nil) self.acrobatics.impactFor(self.profile,self.fall);
+            value.status = 'reused'; return value;
+        }
+        foreach (local prior in self.profile.jumpFallProtections)
+            if (prior.id == self.id || prior.fall == self.fall) rpgExpandedReject('jump-fall-duplicate');
+        rpgInteger(self.distance,1,112);
+        if (self.profile.enhancedJumpLevels() == 0)
+        { value.reason = 'jump-fall-trait-required'; return value; }
+        local maximum = self.jumping.maximumAssessment();
+        if (maximum.status != 'ready') { value.reason = maximum.reason; return value; }
+        value.effectiveDistance = self.distance;
+        if (self.acrobatics != nil)
+        {
+            if (!self.acrobatics.ofKind(RpgExpandedLandingAttempt) || self.acrobatics.method != 'acrobatics'
+                || self.acrobatics.distance != self.distance) rpgExpandedReject('jump-fall-acrobatics');
+            local landing = self.acrobatics.impactFor(self.profile,self.fall);
+            value.effectiveDistance = landing.effectiveDistance; value.check = landing.check;
+        }
+        value.negatesDamage = value.effectiveDistance * 360 <= maximum.highInchTenths;
+        value.velocity = value.negatesDamage ? 0 : rpgExpandedFallVelocity(value.effectiveDistance);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.result = value;
+        self.profile.jumpFallProtections = self.profile.jumpFallProtections + [self];
+        value.status = 'resolved'; return value;
+    }
+    impactFor(profile,fall)
+    {
+        if (self.result == nil || self.profile != profile || self.fall != fall)
+            rpgExpandedReject('jump-fall-receipt-owner');
+        self.assess(); return self.result;
+    }
+;

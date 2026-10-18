@@ -9022,6 +9022,8 @@ def test(build):
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
     test_jump_profile(Session, jump_profile)
+    jump_fall = build.build('expanded-jump-fall',ROOT / 'tests/fixtures/expanded-jump-fall.t')
+    test_jump_fall(Session, jump_fall, build.out)
     throw_release = build.build('expanded-throw-release',ROOT / 'tests/fixtures/expanded-throw-release.t')
     test_throw_release(Session, throw_release, build.out)
     test_throw_ranged_failure(Session, throw_release)
@@ -15341,5 +15343,56 @@ def test_jump_profile(Session, bundle):
             s.action(2285,code)
         assert last(s,'test.jump-profile')[:2] == ['blocked','jump-distance-numeric-limit']
         assert last(s,'test.jump-profile')[-2:] == [0,0]
+    finally:
+        s.close()
+
+
+def test_jump_fall(Session, bundle, out):
+    path = out / 'expanded-jump-fall.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,1322)
+        assert last(s,'test.jump-protection') == ['ready',None,0,0]
+        s.action(2285,1321)
+        s.action(2285,1322)
+        assert last(s,'test.jump-protection') == ['ready',None,0,0]
+        s.action(2285,1320)
+        s.command('undo')
+        s.action(2285,1322)
+        assert last(s,'test.jump-protection') == ['ready',None,0,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1320,1320,901,901,903):
+            s.action(2285,code)
+        assert last(s,'test.impact-owned') == [0,1,1,1,0,0,0,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1320,901,903):
+            s.action(2285,code)
+        assert last(s,'test.impact-owned') == [0,1,1,1,0,0,0,0]
+    finally:
+        s.close()
+    for codes, expected in (((1323,),['reused',None,1,0,0,5]),
+                            ((30,1324,861),['reused',None,1,3,1,4])):
+        s = Session(bundle)
+        try:
+            for code in (*codes,1320,1322):
+                s.action(2285,code)
+            assert last(s,'test.jump-protection') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (1325,1322):
+            s.action(2285,code)
+        assert last(s,'test.jump-protection') == ['blocked','jump-fall-trait-required',0,0]
     finally:
         s.close()

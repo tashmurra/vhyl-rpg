@@ -873,3 +873,9 @@ Jump movement speed, jump attacks and the trait's fall-protection procedure
 remain pending, so the catalogue entry remains partial. Pure profile fixtures
 cover pricing, disabled benefits, running/preparation multipliers, optional
 strength boundaries and paid skill selection. Assertions are authored, unrun.
+
+Enhanced-jump fall protection now uses an owned exploration landing receipt:
+see [enhanced-jump fall protection](exploration.md#enhanced-jump-fall-protection).
+It compares the full prepared running high-jump maximum with the fall and can
+reuse one successful Acrobatics landing for the five-yard extension. Jump
+movement speed and jump attacks remain pending; the trait is still partial.

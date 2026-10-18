@@ -1098,3 +1098,34 @@ and running results. Calculations that exceed the integer representation return
 it neither grants permission to act nor records preparation, moves a character,
 spends time, rolls dice or resolves a landing. Trait-specific travel speed,
 jump attacks and fall protection remain pending.
+
+### Enhanced-jump fall protection
+
+`RpgExpandedJumpDistance.maximumAssessment()` computes prepared running maxima
+under its strength and encumbrance options. It compares the ordinary basis with
+every paid Jumping skill on the profile and retains the greatest height; the
+request's current run-up and preparation fields do not reduce this maximum.
+Enhanced ground-movement integration remains unsupported.
+
+`RpgExpandedJumpFallProtection` implements `RpgExpandedLandingReceipt`. Set
+`id`, `profile`, the distinct `fall` occurrence, original `distance` in yards and
+`jumping` to that profile's distance request. `assess()` previews the active
+trait's protection; `resolve()` owns the result once for the fall. Distance is
+currently limited to the existing ordinary-gravity fall table's 1–112 yards.
+The comparison retains fractional inches rather than rounding protection up.
+
+Optionally supply `acrobatics`, an already resolved `RpgExpandedLandingAttempt`
+for the same profile, occurrence and original distance using the Acrobatics
+method. Its successful five-yard reduction also extends the safe-fall threshold
+by five yards. Reusing that roll avoids charging a second landing check. Dive
+receipts are rejected. Outside the safe threshold, its ordinary effective fall
+distance and velocity continue to apply.
+
+Pass the resolved protection as `RpgExpandedFallInjury.landing`, with the same
+fall occurrence and the resulting velocity, then use `RpgExpandedFallImpact` as
+usual. Protected impacts spend no damage dice and resolve a zero-injury receipt.
+Replay retains the recorded protection and does not reevaluate a later trait
+change. Duplicate protection records for one fall are rejected. The fixture
+`expanded-jump-fall.t` covers threshold boundaries, Acrobatics composition,
+inactive traits, rollback, undo and cross-process save continuation. Assertions
+remain unrun while checks are paused.

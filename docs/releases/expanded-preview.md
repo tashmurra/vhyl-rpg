@@ -978,3 +978,8 @@ encumbrance, supports the explicit strength/body-weight option and consumes
 active enhanced-jump levels. Enhanced jumping has ten-point-per-level accounting.
 Movement, jump attacks and fall protection remain pending. New expected-value
 and boundary fixtures are authored, unrun while checks are paused.
+
+Enhanced jumping now supplies an owned safe-fall receipt connected to collision
+and injury resolution. Prepared maxima consider paid Jumping skill; optional
+Acrobatics reuses the prior landing roll. Protected impacts use no damage dice.
+Threshold, rollback, undo and saved-continuation fixtures are authored, unrun.
