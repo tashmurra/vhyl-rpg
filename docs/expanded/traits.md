@@ -404,3 +404,18 @@ drain. Tunneling increments instead price each movement point, and fear incremen
 price each added penalty point. The summary ledger stores these distinctions for
 future accounting tests. The detailed higher recovery tier still has its recorded
 source-wording discrepancy; mapping its summary does not resolve that behavior.
+
+The [first negative-trait summary segment](inventory/trait-summary-c.json) maps
+128 rows. Starred entries use the listed cost at self-control 12; ratings 6, 9
+and 15 apply multipliers of 2, 1.5 and 0.5 respectively. Discard fractional point
+magnitudes, so a −5 base at rating 9 is −7, not −8. These ratings are independent
+of Will. The ledger keeps this pricing separate from the eventual trigger and
+consequence contracts.
+
+One-point minor variants need their own concrete behavior and share the character's
+five-quirk credit allowance, including contributions from templates. They do not
+automatically inherit the full trait's penalties. The skill-incompetence variant
+is an explicit exception with specified mechanics: prohibit learning the selected
+skill and apply −4 to its defaults across all specialties. It must be relevant to
+the campaign. Companionship traits modify the owner's reactions toward others;
+those modifiers must not be applied in the opposite direction.

@@ -8,6 +8,40 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_negative_trait_summary_self_control_and_minor_variants(self):
+        """Source fixtures await runtime trigger and accounting coverage."""
+        base = ROOT / 'docs/expanded/inventory'
+        ledger = json.loads((base / 'trait-summary-c.json').read_text())
+        rows = [e['summary_data'] for e in ledger['entries']]
+        self.assertEqual(len(rows), 128)
+        self.assertEqual([r['row'] for r in rows], list(range(1, 129)))
+        for row in rows:
+            self.assertTrue(row['targets'])
+            for target in row['targets']:
+                detail = json.loads((base / target['file']).read_text())
+                self.assertIn(target['entry'], {e['id'] for e in detail['entries']})
+        by_key = {r['neutral_key']: r for r in rows}
+        for key, expected in [
+                ('curiosity', {'6': -10, '9': -7, '12': -5, '15': -2}),
+                ('temper', {'6': -20, '9': -15, '12': -10, '15': -5}),
+                ('greed', {'6': -30, '9': -22, '12': -15, '15': -7})]:
+            row = by_key[key]
+            self.assertTrue(row['self_control_required'])
+            self.assertEqual(row['summary_self_control_number'], 12)
+            self.assertEqual(row['expected_points_by_self_control'], expected)
+            self.assertFalse(row['self_control_pricing']['governed_by_will'])
+        minor = by_key['incompetence-quirk']['minor_variant']
+        self.assertEqual(minor['point_cost'], -1)
+        self.assertEqual(minor['shared_credit_limit'], 5)
+        self.assertFalse(minor['automatic_full_trait_effects'])
+        self.assertEqual(minor['specific_effect'], {
+            'learning_prohibited': True, 'default_modifier': -4,
+            'all_specialties_of_selected_skill': True,
+            'must_be_relevant_in_campaign': True,
+        })
+        self.assertEqual(by_key['company-preference']['variant_data']['reaction_direction'],
+                         'owner toward others')
+
     def test_second_trait_summary_bundles_and_price_origins(self):
         """Protect source distinctions before the full runtime catalogue exists."""
         base = ROOT / 'docs/expanded/inventory'

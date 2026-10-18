@@ -374,6 +374,7 @@
     "inventory/skill-summary-d.json",
     "inventory/modifier-summary.json",
     "inventory/trait-summary-a.json",
-    "inventory/trait-summary-b.json"
+    "inventory/trait-summary-b.json",
+    "inventory/trait-summary-c.json"
   ]
 }
