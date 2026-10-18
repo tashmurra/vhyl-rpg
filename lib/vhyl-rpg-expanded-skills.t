@@ -1414,3 +1414,68 @@ class RpgExpandedPhysiologySkill: RpgExpandedSkill
         return edges;
     }
 ;
+
+/** Full-2008 B213. Early scientific medicine requires a setting decision. */
+class RpgExpandedPhysicianSkill: RpgExpandedSkill
+    id = 'physician'
+    attribute = rpgIQ
+    difficulty = 2
+    defaultPenalty = -7
+    earlyMedicineApproved = nil
+    earlyMedicineEvidence = nil
+    validateDefinition()
+    {
+        if (self.id != 'physician' || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != -7
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil || self.specialty != nil
+            || self.techLevel == nil) rpgExpandedReject('physician-skill-definition');
+        rpgInteger(self.techLevel,0,12);
+        if (self.techLevel <= 4 && (!self.earlyMedicineApproved || self.earlyMedicineEvidence == nil || self.earlyMedicineEvidence == ''))
+            rpgExpandedReject('physician-early-medicine-evidence');
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill) || source.techLevel != self.techLevel) continue;
+            local penalty = source.id == 'first-aid' ? -11 : source.id == 'veterinary' ? -5 : nil;
+            if (penalty != nil) edges = edges + [[source,penalty]];
+        }
+        return edges;
+    }
+;
+
+/** Full-2008 B195. Traditional treatment is not technology-qualified (B192). */
+class RpgExpandedFirstAidSkill: RpgExpandedSkill
+    id = 'first-aid'
+    attribute = rpgIQ
+    difficulty = 0
+    defaultPenalty = -4
+    validateDefinition()
+    {
+        if (self.id != 'first-aid' || self.attribute != rpgIQ || self.difficulty != 0 || self.defaultPenalty != -4
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil || self.specialty != nil
+            || self.techLevel == nil) rpgExpandedReject('first-aid-skill-definition');
+        rpgInteger(self.techLevel,0,12); return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill)) continue;
+            if (source.id == 'traditional-treatment' && source.techLevel == nil) edges = edges + [[source,0]];
+            else if (source.techLevel == self.techLevel)
+            {
+                local penalty = source.id == 'physician' ? 0 : source.id == 'veterinary' ? -4 : nil;
+                if (penalty != nil) edges = edges + [[source,penalty]];
+            }
+        }
+        return edges;
+    }
+;

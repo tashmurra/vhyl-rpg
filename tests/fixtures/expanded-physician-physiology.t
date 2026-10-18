@@ -1,6 +1,6 @@
 #include "expanded-health-transactions.t"
 #include <vhyl-rpg-expanded-skills.t>
-crossMedicalSkill: RpgExpandedSkill id = 'physician' attribute = rpgIQ difficulty = 2 techLevel = 8;
+crossMedicalSkill: RpgExpandedPhysicianSkill techLevel = 8;
 crossMedicalTraining: RpgTraining skill = crossMedicalSkill points = 4;
 crossMedicalKnowledge: RpgExpandedPhysiologySkill techLevel = 8 specialty = 'river-folk';
 crossMedicalKnowledgeTraining: RpgTraining skill = crossMedicalKnowledge points = 4;

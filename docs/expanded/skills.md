@@ -794,3 +794,27 @@ explicitly authored skill objects remain supported. `test_physiology_skill`
 provides independent expectations for each printed default, mismatched technology,
 authored relationships, untrained sources and invalid definitions. These fixtures
 and the updated medical integration fixtures remain unrun while checks are paused.
+
+
+## Physician and first-aid catalogue skills
+
+`RpgExpandedPhysicianSkill` supplies IQ/Hard, IQ-7, same-technology first aid-11
+and veterinary-5 defaults (full-2008 B213). Set an explicit `techLevel`.
+At level 4 or below, set `earlyMedicineApproved` and provide concrete
+`earlyMedicineEvidence` explaining why scientific medicine exists in the setting.
+This setting decision does not grant equipment, qualifications or treatment access.
+
+`RpgExpandedFirstAidSkill` supplies IQ/Easy and IQ-4 (full-2008 B195). Purchased
+physician training at the same technology defaults without a penalty; veterinary
+defaults at -4. Purchased `traditional-treatment` training without a technology
+qualification also defaults without a penalty, retaining that source skill's
+attribute and rating. This reflects the non-technological skill in B192.
+The shared resolver requires purchased sources and prevents untrained default chains.
+
+Use these types with existing physician practice, periodic healing and first-aid
+operations. Existing authored skills remain compatible. These definitions do not
+provide drug identification or formulation, nor do they establish the diagnosis
+requirement for unusual first-aid problems. Those procedures remain incomplete.
+`test_medical_skills` specifies each default, incompatible technology and the
+low-technology author contract. Medical integration fixtures also use these types.
+All new fixtures remain unrun while checks are paused.

@@ -1,6 +1,6 @@
 #include "expanded-health-transactions.t"
 #include <vhyl-rpg-expanded-skills.t>
-crossAidSkill: RpgExpandedSkill id = 'first-aid' attribute = rpgIQ difficulty = 0 techLevel = 8;
+crossAidSkill: RpgExpandedFirstAidSkill techLevel = 8;
 crossAidTraining: RpgTraining skill = crossAidSkill points = 1;
 crossPhysiologySkill: RpgExpandedPhysiologySkill techLevel = 8 specialty = 'river-folk';
 crossPhysiologyTraining: RpgTraining skill = crossPhysiologySkill points = 4;

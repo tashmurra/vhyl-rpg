@@ -6903,9 +6903,10 @@
       "pages": "B195",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use full recovery procedures with equipment and physiology modifiers, requiring diagnosis for unusual problems; no treatment can duplicate an earlier benefit.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_medical_skills", "tests/expanded.py::test_first_aid_physiology"],
+      "validation_note": "Typed first-aid definition supplies printed defaults, including non-technological traditional treatment. Treatment supports physiology knowledge and shared healing accounting. Equipment and unusual-problem diagnosis integration remain pending. Fixtures authored but unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "easy",

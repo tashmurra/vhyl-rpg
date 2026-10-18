@@ -886,9 +886,10 @@
       "pages": "B213",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Integrate care and recovery with physiology modifiers and technology eligibility. Drug identification is distinct from formulation, with explicit facility and risky-sampling modifiers.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_medical_skills", "tests/expanded.py::test_physician_physiology"],
+      "validation_note": "Typed physician definition supplies printed defaults and explicit author approval/evidence for technology four and below. Periodic healing supports physiology knowledge. Patient-specific supervision and drug identification remain pending. Fixtures authored but unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",

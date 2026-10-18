@@ -9376,6 +9376,8 @@ def test(build):
     test_physician_physiology(Session, physician_physiology, build.out)
     physiology_skill = build.build("expanded-physiology-skill",ROOT / "tests/fixtures/expanded-physiology-skill.t")
     test_physiology_skill(Session, physiology_skill)
+    medical_skills = build.build("expanded-medical-skills",ROOT / "tests/fixtures/expanded-medical-skills.t")
+    test_medical_skills(Session, medical_skills)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23589,5 +23591,25 @@ def test_physiology_skill(Session, bundle):
         try:
             s.action(1680,code)
             assert last(s,'test.physiology-skill-error') == [reason]
+        finally:
+            s.close()
+
+
+def test_medical_skills(Session, bundle):
+    """Printed B195/B213 defaults and explicit B213 early-medicine decisions; unrun."""
+    for setup, expected in (((),[5,8]),((19701,),[11,12]),((19701,19702),[12,8]),
+                            ((19701,19703),[5,16]),((19701,19704),[5,16]),((19701,19705),[5,8])):
+        s = Session(bundle)
+        try:
+            for code in (*setup,19700):
+                s.action(1680,code)
+            assert last(s,'test.medical-scores') == expected + [0]
+        finally:
+            s.close()
+    for code, reason in ((19706,'physician-early-medicine-evidence'),(19707,'ready')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code)
+            assert last(s,'test.medical-definition') == [reason]
         finally:
             s.close()
