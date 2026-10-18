@@ -1375,12 +1375,75 @@ rpgExpandedMakeCatalogueTalent(id,level,approved)
     trait.creationCost(); return trait;
 }
 
+/** B90-B91 author-approved related skills, fixed for this owned purchase. */
+class RpgExpandedCustomTalent: RpgLiteTrait
+    templatePurchaseKind = 'expanded-custom-talent'
+    owner = nil
+    boundOwner = nil
+    boundId = nil
+    skillIds = []
+    boundSkillIds = []
+    approved = nil
+    evidence = nil
+    boundEvidence = nil
+    creationCost()
+    {
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('custom-talent-approval');
+        if (self.owner == nil || !self.owner.ofKind(RpgExpandedProfile) || self.owner != self.boundOwner)
+            rpgExpandedReject('custom-talent-owner');
+        if (self.id == nil || self.id == '' || self.id != self.boundId || self.labelId != self.id
+            || holds(rpgExpandedTalentCatalogue.ids,self.id)) rpgExpandedReject('custom-talent-id');
+        if (self.skillIds != self.boundSkillIds || self.evidence != self.boundEvidence)
+            rpgExpandedReject('custom-talent-binding');
+        if (self.scope != nil || self.controlled || self.skills.length() != 0)
+            rpgExpandedReject('custom-talent-definition');
+        local count = self.skillIds.length(); rpgInteger(count,1,1000); rpgInteger(self.level,1,4);
+        local seen = [];
+        foreach (local id in self.skillIds)
+        {
+            if (id == nil || id == '' || holds(seen,id)) rpgExpandedReject('custom-talent-skills');
+            seen = seen + [id];
+        }
+        local price = count <= 6 ? 5 : count <= 12 ? 10 : 15;
+        if (self.points != price) rpgExpandedReject('custom-talent-price');
+        return price * self.level;
+    }
+    validateOwner(profile)
+    {
+        self.creationCost();
+        if (self.owner != profile) rpgExpandedReject('custom-talent-owner');
+        for (local other = firstObj(RpgLiteProfile); other != nil; other = nextObj(other,RpgLiteProfile))
+            if (other != profile && holds(other.traits,self)) rpgExpandedReject('custom-talent-owner');
+        return nil;
+    }
+;
+rpgExpandedMakeCustomTalent(profile,id,skillIds,level,approved,evidence)
+{
+    local trait = new RpgExpandedCustomTalent();
+    trait.owner = profile; trait.boundOwner = profile; trait.id = id; trait.boundId = id; trait.labelId = id;
+    trait.skillIds = skillIds; trait.boundSkillIds = skillIds; trait.level = level;
+    trait.approved = approved; trait.evidence = evidence; trait.boundEvidence = evidence;
+    trait.points = skillIds.length() <= 6 ? 5 : skillIds.length() <= 12 ? 10 : 15;
+    trait.creationCost(); return trait;
+}
+
 /** B89-B91 shared talent membership for learning and demonstrated reactions. */
 modify RpgExpandedProfile
+    talentIds()
+    {
+        local ids = rpgExpandedTalentCatalogue.ids;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedCustomTalent))
+            {
+                trait.validateOwner(self);
+                if (!holds(ids,trait.id)) ids = ids + [trait.id];
+            }
+        return ids;
+    }
     validateFeatures()
     {
         inherited();
-        foreach (local talentId in rpgExpandedTalentCatalogue.ids)
+        foreach (local talentId in self.talentIds())
         {
             local count = 0;
             foreach (local trait in self.traits)
@@ -1414,6 +1477,9 @@ modify RpgExpandedProfile
         if (id == 'outdoorsman') return ['camouflage','fishing','mimicry','naturalist','navigation','survival','tracking'];
         if (id == 'smooth-operator') return ['acting','carousing','detect-lies','diplomacy','fast-talk','intimidation','leadership',
             'panhandling','politics','public-speaking','savoir-faire','sex-appeal','streetwise'];
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedCustomTalent) && trait.id == id)
+            { trait.validateOwner(self); return trait.skillIds; }
         return inherited(id);
     }
     catalogueTalentCheckModifier(skill)
@@ -1424,7 +1490,7 @@ modify RpgExpandedProfile
     {
         if (!skill.ofKind(RpgLiteSkill)) return 0;
         local id = skill.studyIdentity(); local bonus = 0;
-        foreach (local talentId in rpgExpandedTalentCatalogue.ids)
+        foreach (local talentId in self.talentIds())
             if (self.catalogueTalentApplies(talentId,skill))
             {
                 local count = 0;
@@ -1444,7 +1510,7 @@ modify RpgExpandedProfile
         local percent = inherited(skill);
         if (skill == nil || !skill.ofKind(RpgLiteSkill)) return percent;
         local id = skill.studyIdentity(); local level = 0;
-        foreach (local talentId in rpgExpandedTalentCatalogue.ids)
+        foreach (local talentId in self.talentIds())
             if (self.catalogueTalentApplies(talentId,skill))
             {
                 local count = 0;
@@ -1473,6 +1539,7 @@ modify rpgExpandedTemplateTraits
     }
     copy(trait)
     {
+        if (trait.ofKind(RpgExpandedCustomTalent)) rpgExpandedReject('custom-talent-template-unimplemented');
         if (!trait.ofKind(RpgExpandedCatalogueTalent)) return inherited(trait);
         trait.creationCost();
         if (trait.labelId != trait.id) rpgExpandedReject('template-trait-copy-definition');

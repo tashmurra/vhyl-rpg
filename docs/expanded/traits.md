@@ -1171,5 +1171,31 @@ Overlapping catalogue talents add skill bonuses, including totals above four.
 Study uses the greatest applicable level, so reductions do not stack. Reaction
 contexts still select one demonstrated talent and require authored audience facts;
 combining several talent reaction claims remains unsupported. The seven additional IDs support ordinary template rows and fresh reconstruction.
-Custom talent groups and
-source-skill default transfers remain pending. Fixtures are authored but unrun.
+Source-skill default transfers remain pending. Fixtures are authored but unrun.
+
+## Custom talent groups
+
+`rpgExpandedMakeCustomTalent(profile, id, skillIds, level, approved, evidence)`
+creates a fresh `RpgExpandedCustomTalent`; install it in that profile's `traits`
+list. The author must approve the group's related, believable innate aptitude
+and record the rationale in `evidence` (full-2008, B90–B91). This interface does
+not infer relatedness or authorize an arbitrary all-purpose weapon group.
+
+List distinct base skill IDs; specialties count once. One through six skills cost
+5 points per level, seven through twelve cost 10, and thirteen or more cost 15.
+Levels range from one to four. The implementation accepts up to 1,000 listed IDs.
+Exceptional author pricing is unsupported and rejected. The purchased skill list,
+ID, owner and approval rationale are bound; changing them requires a separately
+authored replacement procedure rather than mutating this purchase. Levels may
+change through the usual advancement accounting; no factory spends points.
+
+Raw and contextual skill benefits, prerequisites, study reductions and optional
+specialties use the existing talent paths. Overlapping skills add bonuses while
+study uses the strongest talent. `RpgExpandedTalentReactionContext` also accepts
+this purchase: the author supplies the appreciative audience and demonstrated
+skill. It still resolves only one talent reaction claim.
+
+A custom purchase cannot be shared by profiles or reconstructed by template
+composition. Template cloning, custom specialty-only groups, group amendments
+and exceptional prices remain unsupported. Price-boundary, ownership, binding,
+reaction, mitigation, undo and save-continuation fixtures are authored but unrun.

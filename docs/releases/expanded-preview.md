@@ -1390,3 +1390,9 @@ Additional catalogue talents now support ordinary template rows and fresh purcha
 reconstruction. Occupational composition takes the higher level; ancestry combines
 expanded talent levels up to four. Isolation, cap, undo and saved-continuation
 fixtures are authored but unrun.
+
+Owned custom talents now bind an approved related skill group, use standard
+size-based prices, and integrate with skill, study and demonstrated reactions.
+Changed membership, shared ownership and price tampering reject before checks.
+Template reconstruction and exceptional pricing remain unsupported. Boundary and
+lifecycle fixtures are authored but unrun.
