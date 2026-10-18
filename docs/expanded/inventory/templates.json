@@ -363,9 +363,12 @@
       "pages": "B452",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A single-skill ancestry bonus costs 2 per +1 up to +3, applies to its specialties and defaults, and does not itself grant training.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_skill_bonus"
+      ],
+      "validation_note": "Owned single-skill bonuses cost two points per level, combine to at most +3, and apply after paid/default resolution across specialties. They do not grant unavailable skills or change advancement investment costs. Groups, penalties, wildcard applications and bonus modifiers remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-single-skill-penalty",
@@ -403,9 +406,12 @@
       "pages": "B452",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Compute training and improvement costs without ancestry skill bonuses or penalties, then apply those modifiers to the final score; bonuses do not purchase investment levels.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_skill_bonus"
+      ],
+      "validation_note": "Owned single-skill bonuses cost two points per level, combine to at most +3, and apply after paid/default resolution across specialties. They do not grant unavailable skills or change advancement investment costs. Groups, penalties, wildcard applications and bonus modifiers remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-learned-skill",

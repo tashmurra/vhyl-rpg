@@ -595,3 +595,9 @@ A hook that changes the equipment type, recorded progress, eligibility or exact
 elapsed interval causes rejection before credit. Let that exception reach the
 engine transaction boundary so time and hook effects roll back together. This
 also prevents a hook from silently completing the same familiarity twice.
+
+Ancestry single-skill bonuses apply through `ancestrySkillModifier(skill)` after
+trained/default resolution. Paid skill calculations stay unmodified for default
+chains and advancement prices. See [ancestry bonuses](templates.md#single-skill-ancestry-bonuses)
+for ownership, specialty handling and current limitations. New assertions remain
+unrun while checks are paused.

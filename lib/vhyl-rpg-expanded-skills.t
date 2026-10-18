@@ -139,14 +139,15 @@ rpgExpandedSkillScore(profile, skill)
             local source = rpgExpandedPaidSkill(profile, pair[1], [skill]);
             if (source != nil && (score == nil || source + pair[2] > score)) score = source + pair[2];
         }
-    return score;
+    return score == nil ? nil : score + profile.ancestrySkillModifier(skill);
 }
 
 modify RpgExpandedProfile
     skillScore(skill)
     {
         if (skill.ofKind(RpgExpandedSkill)) return rpgExpandedSkillScore(self, skill);
-        return inherited(skill);
+        local score = inherited(skill);
+        return score == nil ? nil : score + self.ancestrySkillModifier(skill);
     }
 ;
 

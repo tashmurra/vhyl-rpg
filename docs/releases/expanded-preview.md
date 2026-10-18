@@ -1339,3 +1339,8 @@ with a recorded mandatory ancestry investment. Personal points combine once and
 levels use final attributes. Cross-ancestry training overlap, paid defaults and
 innate-spell exceptions remain unsupported. Printed-example, ownership, undo and
 save fixtures are authored but unrun.
+
+Single-skill ancestry bonuses now have owned two-points-per-level accounting,
+a combined +3 cap, and final-score application across specialties. Paid training
+and default-chain investments remain separate, and unavailable skills remain
+unavailable. Group bonuses and penalties remain unfinished. New fixtures are unrun.

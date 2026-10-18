@@ -637,10 +637,41 @@ ancestries, currently rejects as `ancestry-training-overlap-unresolved`. Paid
 skill-default combinations reject as `ancestry-training-default-unresolved`.
 These require further composition rules. Prerequisites and technology gates
 still apply; this interface does not grant the special prerequisite exemption
-for ancestry-innate spells. Ancestry skill bonuses and penalties are separate
-rules and remain unfinished.
+for ancestry-innate spells. Single-skill ancestry bonuses are described below; group bonuses and penalties
+remain separate unfinished rules.
 
 `test_ancestry_training` specifies the printed example, changed personal
 attributes, combined personal investment, ordinary improvements, mandatory and
 shared-slot rejection, overlap rejection, undo and cross-process save continuation.
 The assertions remain unrun while checks are paused.
+
+## Single-skill ancestry bonuses
+
+Ancestry definitions can set `skillBonusRows` to `[skill ID, bonus]` rows, where
+bonus is +1, +2 or +3. Each level costs two points (B452). Matching bonuses from
+different ancestries add, up to the same +3 maximum; repeated IDs inside one
+package reject. An owned contribution stores the combined rows and ancestry
+origins. It cannot be removed or edited without invalidating the ancestry record.
+
+The bonus applies after choosing the trained or legal default score. It does not
+grant a skill that has no available default, add training points, or change the
+price of later study. All required specialties sharing the skill ID receive the
+bonus. Optional specialties use their parent skill ID. Wildcard applications
+currently reject rather than assume a single-skill price for a broad wildcard.
+
+Paid skill values used in default chains and investment calculations remain
+unmodified; the target's own ancestry bonus applies once after resolution.
+Floating-attribute checks retain that final bonus through their relative-skill
+calculation. Shared Lite skill definitions on an expanded profile use the same
+bonus hook. Profiles without ancestry keep the zero-modifier default.
+
+For example, one point in an Average IQ skill normally yields IQ−1. A +1 ancestry
+bonus gives IQ, and buying one additional training point gives IQ+1. The personal
+improvement costs one point; the innate +1 remains its separate two-point
+purchase. Group talents, negative skill modifiers, and modifier-bearing bonus
+purchases remain unfinished.
+
+`test_ancestry_skill_bonus` specifies this example, untrained defaults, specialties,
+unavailable skills, default-chain separation, floating rolls, the combined cap,
+mandatory contribution ownership, undo and save continuation. The assertions are
+authored but unrun while checks remain paused.
