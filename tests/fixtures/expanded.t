@@ -305,6 +305,33 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1123)
+    {
+        event('test.technology-modifier');
+        eventValue(rpgExpandedTechnologyModifier(args[1],args[2],args[3] == 1)); return nil;
+    }
+    if (verb == 1124)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.iq = 12; p.dx = 12;
+        local skill = new RpgExpandedSkill(); skill.attribute = rpgDX;
+        skill.techLevel = 5; skill.difficulty = 1;
+        local training = new RpgExpandedTraining(); training.skill = skill; training.points = 4;
+        p.skills = [training];
+        local familiar = new RpgExpandedFamiliarity(); familiar.owner = p; familiar.skill = skill;
+        familiar.equipmentType = 'test-device'; p.familiarities = [familiar];
+        local context = new RpgExpandedSkillContext(); context.skill = skill;
+        context.familiarity = familiar; context.equipmentTL = 7;
+        event('test.technology-context'); eventValue(rpgLiteScore(p,context));
+        familiar.initial = true; eventValue(rpgLiteScore(p,context));
+        skill.attribute = rpgIQ; eventValue(rpgLiteScore(p,context));
+        familiar.initial = nil; eventValue(rpgLiteScore(p,context));
+        context.equipmentTL = 9; eventValue(rpgLiteScore(p,context));
+        eventValue(rpgLiteCheck(p,context).reason);
+        skill.techLevel = nil;
+        try { context.skillUseModifier(p); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

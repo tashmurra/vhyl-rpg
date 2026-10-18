@@ -165,6 +165,24 @@ def test_familiarity_persistence(Session, bundle, out):
         second.close()
 
 
+def test_technology_modifiers(s):
+    before = state(s)
+    # B168: independent table rows, including the impossible boundary.
+    for equipment, expected in [(0, -11), (1, -9), (2, -7), (3, -5),
+                                (4, -3), (5, -1), (6, 0), (7, -5),
+                                (8, -10), (9, -15), (10, None), (12, None)]:
+        s.action(1123, 6, equipment, 1)
+        assert last(s, 'test.technology-modifier') == [expected]
+    for equipment, expected in [(0, -6), (4, -2), (5, -1), (6, 0),
+                                (7, -1), (8, -2), (12, -6)]:
+        s.action(1123, 6, equipment, 0)
+        assert last(s, 'test.technology-modifier') == [expected]
+    s.action(1124)
+    assert last(s, 'test.technology-context') == [
+        9, 11, 3, 1, None, 'technology-too-advanced', 'technology-skill-required']
+    assert state(s) == before, 'technology assessment or impossible check consumed resources'
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -242,7 +260,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     test_familiarity_persistence(Session,bundle,build.out)

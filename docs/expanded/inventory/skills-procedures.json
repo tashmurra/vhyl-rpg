@@ -101,9 +101,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the cognitive technology penalty or impossibility for this equipment-to-skill technology difference.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "existing_feature": "skill-technology-modifiers",
+      "validation_note": "Runtime table and combined context authored; native validation paused, not verified."
     },
     {
       "id": "skill-cognitive-technology-plus-three",
@@ -111,9 +115,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the cognitive technology penalty or impossibility for this equipment-to-skill technology difference.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "existing_feature": "skill-technology-modifiers",
+      "validation_note": "Runtime table and combined context authored; native validation paused, not verified."
     },
     {
       "id": "skill-cognitive-technology-plus-two",
@@ -121,9 +129,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the cognitive technology penalty or impossibility for this equipment-to-skill technology difference.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "existing_feature": "skill-technology-modifiers",
+      "validation_note": "Runtime table and combined context authored; native validation paused, not verified."
     },
     {
       "id": "skill-cognitive-technology-plus-one",
@@ -131,9 +143,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the cognitive technology penalty or impossibility for this equipment-to-skill technology difference.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "existing_feature": "skill-technology-modifiers",
+      "validation_note": "Runtime table and combined context authored; native validation paused, not verified."
     },
     {
       "id": "skill-cognitive-technology-same",
@@ -141,9 +157,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the cognitive technology penalty or impossibility for this equipment-to-skill technology difference.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "existing_feature": "skill-technology-modifiers",
+      "validation_note": "Runtime table and combined context authored; native validation paused, not verified."
     },
     {
       "id": "skill-cognitive-technology-minus-one",
@@ -151,9 +171,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the cognitive technology penalty or impossibility for this equipment-to-skill technology difference.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "existing_feature": "skill-technology-modifiers",
+      "validation_note": "Runtime table and combined context authored; native validation paused, not verified."
     },
     {
       "id": "skill-cognitive-technology-minus-two",
@@ -161,9 +185,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the cognitive technology penalty or impossibility for this equipment-to-skill technology difference.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "existing_feature": "skill-technology-modifiers",
+      "validation_note": "Runtime table and combined context authored; native validation paused, not verified."
     },
     {
       "id": "skill-cognitive-technology-minus-three",
@@ -171,9 +199,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the cognitive technology penalty or impossibility for this equipment-to-skill technology difference.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "existing_feature": "skill-technology-modifiers",
+      "validation_note": "Runtime table and combined context authored; native validation paused, not verified."
     },
     {
       "id": "skill-cognitive-technology-minus-four",
@@ -181,9 +213,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the cognitive technology penalty or impossibility for this equipment-to-skill technology difference.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "existing_feature": "skill-technology-modifiers",
+      "validation_note": "Runtime table and combined context authored; native validation paused, not verified."
     },
     {
       "id": "skill-cognitive-technology-each-lower",
@@ -191,9 +227,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Verify the cognitive technology penalty or impossibility for this equipment-to-skill technology difference.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "existing_feature": "skill-technology-modifiers",
+      "validation_note": "Runtime table and combined context authored; native validation paused, not verified."
     },
     {
       "id": "skill-physical-technology",
@@ -201,9 +241,13 @@
       "pages": "B168",
       "module": "skills",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use the absolute technology difference for non-cognitive operation skills and combine it with applicable familiarity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "existing_feature": "skill-technology-modifiers",
+      "validation_note": "Runtime table and combined context authored; native validation paused, not verified."
     },
     {
       "id": "skill-prerequisite-investment",

@@ -245,3 +245,26 @@ rejection, context ownership, the final practice second, refusal of excess time,
 repeat prevention, exception rollback, undo and cross-process save continuation
 (`test_familiarity` and `test_familiarity_persistence` in `tests/expanded.py`).
 These checks have not run while validation is paused.
+
+## Technology-level use modifiers
+
+`rpgExpandedTechnologyModifier(skillTL, equipmentTL, cognitive)` implements the
+B168 use table. Set `cognitive` for IQ-based skills. Higher equipment levels give
+−5, −10 and −15 at differences of one, two and three; four or more returns `nil`
+(impossible). Lower equipment levels give −1, −3, −5, −7 and another −2 per
+further level. Other controlling attributes use −1 per level in either direction.
+Both technology levels must be in the supported range 0–12.
+
+Set `equipmentTL` on `RpgExpandedSkillContext` to apply this alongside familiarity.
+The selected skill must have an explicit `techLevel`. A missing equipment level
+leaves the technology modifier zero; authors must supply it for cross-level use.
+Familiarity removes only its own penalty. At an impossible technology difference,
+`rpgLiteScore` returns `nil` and `rpgLiteCheck` returns a result with reason
+`technology-too-advanced`, without consuming randomness. Untouched Lite contexts
+retain their existing unavailable reason and zero additional modifier.
+
+This covers use modifiers, not learning access. Teacher requirements for learning
+higher-level physical skills, cognitive learning restrictions, programmed
+capabilities and the exceptions for improved or obsolete familiar equipment still
+need implementation. Native expected-value table checks and combined-context cases
+are authored in `tests/expanded.py::test_technology_modifiers` but remain unrun.

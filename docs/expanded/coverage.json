@@ -332,6 +332,18 @@
         "tests/expanded.py::test_familiarity_persistence"
       ],
       "validation_note": "Owned practice, initial allowance and contextual penalty implemented; new checks unrun. Similarity recognition, technology exceptions and shared study/practice remain pending."
+    },
+    {
+      "id": "skill-technology-modifiers",
+      "module": "skills",
+      "pages": "B168",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedTechnologyModifier",
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "validation_note": "Use table and contextual combination implemented; native table checks authored but unrun. Learning restrictions and catalogue wiring remain pending."
     }
   ],
   "detailed_inventories": [

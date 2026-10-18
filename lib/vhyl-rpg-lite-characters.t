@@ -180,6 +180,7 @@ class RpgLiteContext: object
     written = nil
     resistedTrait = nil
     skillUseModifier(profile) { return 0; }
+    unavailableReason(profile) { return 'training-required'; }
     reroll(profile, result) { return nil; }
 ;
 
@@ -191,7 +192,9 @@ rpgLiteScore(profile, context)
     if (score == nil) return nil;
     local attribute = context.skill == nil ? context.attribute : context.skill.attribute;
     local skillId = context.skill != nil && context.skill.ofKind(RpgLiteSkill) ? context.skill.id : nil;
-    local adjustment = context.modifier + context.skillUseModifier(profile);
+    local useModifier = context.skillUseModifier(profile);
+    if (useModifier == nil) return nil;
+    local adjustment = context.modifier + useModifier;
     if (context.offHand && profile.level('ambidexterity') == 0 && skillId != 'karate') adjustment -= 4;
     local darkness = context.darkness;
     if (context.someLight) darkness -= profile.level('night-vision');
@@ -256,7 +259,7 @@ rpgLiteScore(profile, context)
 rpgLiteCheck(profile, context)
 {
     local score = rpgLiteScore(profile, context);
-    if (score == nil) { local result = new RpgResult(); result.reason = 'training-required'; return result; }
+    if (score == nil) { local result = new RpgResult(); result.reason = context.unavailableReason(profile); return result; }
     if (score < 3) return rpgCheck(score, 3);
     local result = rpgCheck(score, rpgRandom.roll());
     if (context.reroll(profile, result)) result = rpgCheck(score, rpgLiteReroll(profile, result.roll, 3, nil));

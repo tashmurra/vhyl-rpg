@@ -317,12 +317,41 @@ class RpgExpandedFamiliarity: object
  * once, alongside (rather than replacing) other contextual modifiers. */
 class RpgExpandedSkillContext: RpgLiteContext
     familiarity = nil
+    equipmentTL = nil
+    technologyModifier()
+    {
+        if (self.equipmentTL == nil) return 0;
+        if (self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || self.skill.techLevel == nil)
+            rpgExpandedReject('technology-skill-required');
+        return rpgExpandedTechnologyModifier(self.skill.techLevel, self.equipmentTL,
+            self.skill.attribute == rpgIQ);
+    }
+    unavailableReason(profile)
+    {
+        if (self.technologyModifier() == nil) return 'technology-too-advanced';
+        return inherited(profile);
+    }
     skillUseModifier(profile)
     {
-        if (self.familiarity == nil) return 0;
+        local technology = self.technologyModifier();
+        if (technology == nil) return nil;
+        if (self.familiarity == nil) return technology;
         if (!self.familiarity.ofKind(RpgExpandedFamiliarity)
             || self.familiarity.owner != profile || self.familiarity.skill != self.skill)
             rpgExpandedReject('familiarity-context');
-        return self.familiarity.modifier();
+        return technology + self.familiarity.modifier();
     }
 ;
+
+/** Equipment-to-skill technology difference, B168. nil means impossible,
+ * rather than an arbitrarily large numeric penalty. No familiarity is included. */
+rpgExpandedTechnologyModifier(skillTL, equipmentTL, cognitive)
+{
+    rpgInteger(skillTL, 0, 12); rpgInteger(equipmentTL, 0, 12);
+    local difference = equipmentTL - skillTL;
+    if (!cognitive) return difference < 0 ? difference : -difference;
+    if (difference >= 4) return nil;
+    if (difference > 0) return -5 * difference;
+    if (difference == 0) return 0;
+    return 2 * difference + 1;
+}
