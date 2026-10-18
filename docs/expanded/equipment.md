@@ -1024,3 +1024,13 @@ credit daily needs. Replay cannot recreate consumed portions or duplicate meals.
 preview, unpacking, consumption, weight, diet rejection, rollback, undo and saved
 replay. Fixtures remain unrun. Special dietary conversion, package waste and
 preparation requiring cooking remain outstanding.
+
+
+## Fossil laboratory access
+
+`RpgExpandedLaboratoryAssessment` specializes toolkit access for fossil study
+(full-2008 B212/B345). It retains purchased quality, task support, ownership and
+borrowed-tool permissions. The [exploration guide](exploration.md#live-laboratory-equipment)
+describes the context connection, age-only quality bonus and replay contract.
+The author establishes that the purchased facilities actually constitute a
+laboratory for the requested study; the engine verifies access and scoring.

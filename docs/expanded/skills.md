@@ -1043,7 +1043,7 @@ equipment technology level through its existing compatibility rules.
 
 This interface supplies scoring and eligibility, not a generated fossil age or
 scientific conclusion. Include exploration for owned specimen findings through
-`RpgExpandedPaleontologyAssessment`. Live equipment-access receipts remain
-incomplete. `test_paleontology_skill` specifies printed defaults,
+`RpgExpandedPaleontologyAssessment`. The exploration guide also describes
+`laboratoryEquipment` for live ownership and access checks. `test_paleontology_skill` specifies printed defaults,
 inter-specialty transfer, missing-laboratory rejection and age equipment scoring.
 Fixtures remain unrun while checks are paused.

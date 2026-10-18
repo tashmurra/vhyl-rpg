@@ -1958,6 +1958,7 @@ class RpgExpandedPaleontologySkill: RpgExpandedSkill
     }
 ;
 class RpgExpandedPaleontologyContext: RpgExpandedSkillContext
+    laboratoryEquipment = nil
     task = 'recognition'
     laboratory = nil
     equipmentModifier = 0
@@ -1972,18 +1973,40 @@ class RpgExpandedPaleontologyContext: RpgExpandedSkillContext
         if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('paleontology-evidence-required');
         rpgInteger(self.equipmentModifier,-100,100);
         if (self.task != 'age' && self.equipmentModifier != 0) rpgExpandedReject('paleontology-equipment-age-only');
+        if (self.laboratoryEquipment != nil)
+        {
+            if (self.equipmentModifier != 0 || self.equipmentTL != nil) rpgExpandedReject('paleontology-duplicate-equipment');
+            rpgExpandedPaleontologyEquipment.definition(self.laboratoryEquipment,self);
+        }
         return nil;
     }
     unavailableReason(profile)
     {
         self.validatePaleontology();
-        if (self.skill.specialty == 'microscopic' && !self.laboratory) return 'paleontology-laboratory-required';
+        if (self.laboratoryEquipment != nil)
+        {
+            local tools = rpgExpandedPaleontologyEquipment.assess(self.laboratoryEquipment,profile,self);
+            if (tools.status != 'ready') return tools.reason;
+        }
+        else if (self.skill.specialty == 'microscopic' && !self.laboratory) return 'paleontology-laboratory-required';
         return inherited(profile);
     }
     skillUseModifier(profile)
     {
         self.validatePaleontology(); local base = inherited(profile);
-        return base == nil ? nil : base + self.equipmentModifier;
+        if (base == nil) return nil;
+        if (self.laboratoryEquipment == nil) return base + self.equipmentModifier;
+        local tools = rpgExpandedPaleontologyEquipment.assess(self.laboratoryEquipment,profile,self);
+        return tools.status == 'ready' ? base + tools.modifier : nil;
+    }
+    technologyModifierFor(profile)
+    {
+        if (self.laboratoryEquipment == nil) return inherited(profile);
+        local tools = rpgExpandedPaleontologyEquipment.assess(self.laboratoryEquipment,profile,self);
+        if (tools.status != 'ready') return nil;
+        local level = self.technologySkillLevel(profile);
+        if (level == nil) return nil;
+        return rpgExpandedTechnologyModifier(level,tools.equipmentTL,true);
     }
 ;
 
@@ -1993,7 +2016,9 @@ modify RpgExpandedPaleontologyContext
     {
         self.validatePaleontology();
         if (self.familiarity != nil) rpgExpandedReject('paleontology-assessment-familiarity-unsupported');
-        return [self.skill,self.task,self.laboratory,self.equipmentModifier,self.approved,self.evidence,
-            self.modifier,self.equipmentTL,self.softwareTechnologyEnabled,self.skill.specialty,self.skill.techLevel];
+        local facts = [self.skill,self.task,self.laboratory,self.equipmentModifier,self.approved,self.evidence,
+            self.modifier,self.equipmentTL,self.softwareTechnologyEnabled,self.skill.specialty,self.skill.techLevel,self.laboratoryEquipment];
+        return self.laboratoryEquipment == nil ? facts
+            : facts + rpgExpandedPaleontologyEquipment.definition(self.laboratoryEquipment,self);
     }
 ;

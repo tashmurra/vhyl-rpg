@@ -1744,8 +1744,8 @@ The receipt binds the specimen, conclusion, approvals, task, specialty, technolo
 laboratory flag and scoring inputs. Changing those facts after resolution rejects
 rather than rerolling. Profile validation checks owned history. Familiarity contexts
 are explicitly unsupported for this receipt until their changing state can be
-bound. Laboratory access is currently an authored fact; live equipment receipts remain
-unfinished. Include social for the disclosure and action interfaces below.
+bound. Laboratory access may use an authored fact or the live equipment interface below.
+Include social for the disclosure and action interfaces below.
 
 `test_paleontology_assessment` specifies preview purity, successful and failed
 findings, duplicate rejection, exception rollback, undo, replay, cross-process save
@@ -1773,3 +1773,27 @@ The minimal disclosure and action fixtures demonstrate parser commands, structur
 verbs and dialogue choices sharing these objects. Their unrun tests cover missing
 or failed findings, owner mismatch, preview purity, repeat delivery, rollback,
 undo, save continuation, timestamp tampering and route parity.
+
+
+### Live laboratory equipment
+
+Set the study context's `laboratoryEquipment` to an
+`RpgExpandedLaboratoryAssessment` from equipment. This is a toolkit assessment:
+provide the laboratory `toolkit`, its matching `items`, `quality` and `techLevel`,
+the observer `profile`, the fossil `skill`, and approved evidence that the facility
+is a laboratory adequate for this specimen. Owned tools must be accessible;
+borrowed facilities use recorded `accessGrants` with the existing site, expiry and
+revocation checks. A valid assessment supplies the mandatory microscopic laboratory.
+
+The quality modifier applies to `age` tasks. Other tasks still check access and
+tool technology but receive no dating-quality bonus. Leave `equipmentModifier`,
+`equipmentTL` and the generic `equipmentAssessment` unset when using this interface;
+combining them rejects rather than counting equipment twice. No additional inventory
+or time ledger is created.
+
+Committed findings bind the equipment definition. Later loss or revocation of
+access does not erase an existing result or trigger another roll; a new study
+checks current access. Changing the bound adequacy, tool quality or technology
+rejects reuse. `test_paleontology_equipment` specifies owned and borrowed access,
+revocation, quality, technology differences, rollback, undo, save continuation and
+replay after losing access. Fixtures remain unrun.

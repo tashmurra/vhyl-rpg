@@ -1787,3 +1787,25 @@ modify rpgExpandedFirstAidEquipment
         value.equipmentTL = assessment.quality == 'none' ? nil : assessment.techLevel; return value;
     }
 ;
+
+/** Authored laboratory adequacy plus purchased quality and live tool access, B212/B345. */
+class RpgExpandedLaboratoryAssessment: RpgExpandedToolkitAssessment;
+modify rpgExpandedPaleontologyEquipment
+    definition(assessment,context)
+    {
+        if (assessment == nil || !assessment.ofKind(RpgExpandedLaboratoryAssessment))
+            rpgExpandedReject('paleontology-laboratory-assessment-required');
+        if (context.equipmentAssessment != nil) rpgExpandedReject('paleontology-duplicate-equipment');
+        return assessment.definition();
+    }
+    assess(assessment,profile,context)
+    {
+        self.definition(assessment,context);
+        if (assessment.techLevel == nil) rpgExpandedReject('paleontology-equipment-technology-required');
+        local tools = assessment.assessFor(profile,context.skill);
+        local value = new RpgExpandedDiagnosticEquipmentResult();
+        value.status = tools.status; value.reason = tools.reason;
+        value.modifier = context.task == 'age' ? tools.modifier : 0;
+        value.equipmentTL = assessment.techLevel; return value;
+    }
+;

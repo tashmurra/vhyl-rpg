@@ -818,3 +818,9 @@ class RpgExpandedPaleontologyReceipt: object
     validateReceipt() { rpgExpandedReject('paleontology-assessment-exploration-required'); }
     resolve() { rpgExpandedReject('paleontology-assessment-exploration-required'); }
 ;
+
+/** Laboratory access is optional; absent equipment modules fail explicitly. */
+rpgExpandedPaleontologyEquipment: object
+    definition(assessment,context) { rpgExpandedReject('paleontology-equipment-module-required'); }
+    assess(assessment,profile,context) { rpgExpandedReject('paleontology-equipment-module-required'); }
+;

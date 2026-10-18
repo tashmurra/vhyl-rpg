@@ -9426,6 +9426,8 @@ def test(build):
     test_paleontology_disclosure(Session,paleontology_disclosure,build.out)
     paleontology_actions = build.build("expanded-paleontology-actions",ROOT / "tests/fixtures/expanded-paleontology-actions.t")
     test_paleontology_actions(Session,paleontology_actions)
+    paleontology_equipment = build.build("expanded-paleontology-equipment",ROOT / "tests/fixtures/expanded-paleontology-equipment.t")
+    test_paleontology_equipment(Session,paleontology_equipment,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24368,3 +24370,50 @@ def test_paleontology_actions(Session, bundle):
             s.close()
 
 
+
+
+def test_paleontology_equipment(Session, bundle, out):
+    """B212/B345 laboratory quality, technology and live access; unrun."""
+    for setup, score, reason in (((),19,None),((22201,),14,None),
+                                 ((22202,),None,'technology-too-advanced'),
+                                 ((22203,),17,None),((22200,),None,'equipment-access-grant-required'),
+                                 ((22206,),None,'equipment-access-not-granted'),
+                                 ((22206,22207),19,None),
+                                 ((22206,22207,22208),None,'equipment-access-revoked')):
+        s = Session(bundle)
+        try:
+            for code in (*setup,21904,21902):
+                s.action(1680,code)
+            assert last(s,'test.paleontology-preview') == ['ready' if reason is None else 'blocked',score,None,reason]
+            assert last(s,'test.paleontology-history') == [0,0,0]
+        finally:
+            s.close()
+    path = out / 'paleontology-laboratory.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,21901); s.action(1680,21902)
+        assert last(s,'test.paleontology-history') == [0,0,0]
+        s.action(1680,21900); s.command('undo'); s.action(1680,21902)
+        assert last(s,'test.paleontology-history') == [0,0,0]
+        for code in (21900,22200,21900,21902):
+            s.action(1680,code)
+        assert last(s,'test.paleontology-finding') == ['reused','The fossil is approximately two million years old']
+        assert last(s,'test.paleontology-history') == [1,3,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681')
+        s.action(1680,21900); s.action(1680,21902)
+        assert last(s,'test.paleontology-history') == [1,3,0]
+        s.action(1680,22205)
+        assert last(s,'test.fossil-equipment-error') == ['paleontology-assessment-binding']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,22204)
+        assert last(s,'test.fossil-equipment-error') == ['paleontology-duplicate-equipment']
+    finally:
+        s.close()
