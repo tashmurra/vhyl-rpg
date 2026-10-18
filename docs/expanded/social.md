@@ -956,3 +956,9 @@ the source explicitly makes this ridicule or rejection rather than violence.
 The fixture covers notice, mitigation, penalty endpoints, private reaction
 replay and nonviolent response validation. Assertions are authored, unrun.
 Cross-context narrative consequences and modified trait variants remain pending.
+
+The traits module's [emotional obliviousness](traits.md#emotional-obliviousness)
+now modifies both acting skill and target resistance for the six ordinary
+influence skills. The new resistance hook defaults to zero, preserving existing
+behavior without the trait. Unsupported effective resistance below three is
+rejected before rolling rather than returned as a misleading ordinary outcome.

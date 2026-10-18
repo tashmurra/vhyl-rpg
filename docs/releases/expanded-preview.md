@@ -1140,3 +1140,9 @@ An explicit observer context applies the authored -1 to -3 reaction penalty when
 noticeable and exposes only nonviolent adverse responses. Reaction attempts can
 now consume an optional social context directly. Scope, replay and response
 fixtures are authored, unrun.
+
+Emotional obliviousness now applies its -1 to both use and resistance of the six
+ordinary influence skills. The resistance hook defaults to zero and composes
+with existing intimidation resistance. Actor/target, mitigation, low-score,
+rollback, undo and saved-continuation fixtures are authored, unrun; the broader
+expanded influence procedure remains partial.

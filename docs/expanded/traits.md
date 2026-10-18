@@ -958,3 +958,26 @@ consequences remain authored; modified variants and those broader authoring
 contracts remain pending. The pleasure-loss fixture covers all four skill
 categories, an unaffected skill and scoped reaction behavior; assertions are
 unrun.
+
+## Emotional obliviousness
+
+`RpgExpandedEmotionalObliviousness` implements B146 at -5 points. It applies -1
+to use and resist Diplomacy, Fast-Talk, Intimidation, Savoir-Faire, Sex Appeal and
+Streetwise. The public identifier `emotional-obliviousness` distinguishes this
+motivation-understanding trait from other social-awkwardness entries.
+
+The shared skill hook handles the acting character. A separate influence
+resistance hook handles the target and composes with the existing intimidation
+resistance modifier. With no active expansion effect, that hook returns zero and
+the existing Lite calculation and dice consumption are unchanged. Inactive or
+mitigated instances contribute neither penalty. Duplicate definitions and
+modified/self-control variants are rejected; the emotional-understanding deficit
+also rejects this trait as incompatible.
+
+Effective resistance below three is explicitly rejected before any influence
+dice are spent because the existing contest adapter does not resolve that case.
+This integration does not claim to complete all expanded influence exceptions or
+other traits' resistance rules. The fixture covers actor and target penalties
+separately and together, mitigation, the absent-effect path, low-resistance
+rejection, rollback, undo and cross-process continuation. Assertions are authored,
+unrun.

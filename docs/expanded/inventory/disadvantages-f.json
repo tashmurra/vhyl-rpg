@@ -91,9 +91,12 @@
       "pages": "B146",
       "module": "social",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Social obliviousness costs -5 and gives -1 both to use and resist the six influence skill categories: diplomacy, fast-talk, intimidation, etiquette, attraction and street contacts. It affects social motivation inference without removing emotions or all social understanding.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_emotional_obliviousness"
+      ],
+      "validation_note": "Neutral EmotionalObliviousness class implements fixed -5 cost, -1 contextual use and -1 target resistance for the six printed influence skills, active/mitigated effects, duplicate rejection and compatibility with emotional-understanding validation. A zero-default resistance hook preserves absent-effect Lite arithmetic and randomness, while unsupported effective resistance below three is rejected before rolling. Actor/target expected outcomes, mitigation, low-score rejection, rollback, undo and saved continuation assertions authored, unrun. Modified variants, broader influence exceptions and authored social-motivation contracts remain pending."
     },
     {
       "id": "disadvantages-f-obsession",

@@ -241,6 +241,7 @@ class RpgLiteContext: object
     equipmentUseModifier(profile) { return 0; }
     socialTraitModifier(profile) { return 0; }
     validateInfluenceTarget(target) { return nil; }
+    influenceResistanceModifier(target) { return 0; }
     unavailableReason(profile) { return 'training-required'; }
     reroll(profile, result) { return nil; }
 ;
@@ -540,6 +541,7 @@ rpgLiteInfluence(profile, target, context, social)
     local resistance = target.will;
     if (context.skill.id == 'intimidation')
     { resistance += target.level('fearlessness'); score -= target.level('fearlessness'); }
+    resistance += context.influenceResistanceModifier(target);
     local ownRoll = rpgRandom.roll();
     if (context.reroll(profile, rpgCheck(score, ownRoll))) ownRoll = rpgLiteReroll(profile, ownRoll, 3, nil);
     local otherRoll = rpgRandom.roll();

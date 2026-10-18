@@ -9054,6 +9054,8 @@ def test(build):
     test_emotional_understanding(Session, emotional_understanding)
     pleasure_loss = build.build('expanded-pleasure-loss',ROOT / 'tests/fixtures/expanded-pleasure-loss.t')
     test_pleasure_loss(Session, pleasure_loss)
+    emotional_obliviousness = build.build('expanded-emotional-obliviousness',ROOT / 'tests/fixtures/expanded-emotional-obliviousness.t')
+    test_emotional_obliviousness(Session, emotional_obliviousness, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16717,3 +16719,44 @@ def test_pleasure_loss(Session, bundle):
             assert last(s,'test.pleasure-response') == [response]
         finally:
             s.close()
+
+
+def test_emotional_obliviousness(Session, bundle, out):
+    for setup,own,other,outcome in (((),10,10,'tie'),((3101,),9,10,'setback'),
+                                   ((3102,),10,9,'success'),((3101,3102),9,9,'tie'),
+                                   ((3102,3105),10,10,'tie')):
+        s = Session(bundle)
+        try:
+            for code in (30,)+setup+(3100,3103):
+                s.action(2285,code)
+            assert last(s,'test.oblivious-preview') == [-5,own,other-10,0]
+            assert last(s,'test.oblivious-contest') == [own,other,outcome,6]
+        finally:
+            s.close()
+    path = out / 'expanded-emotional-obliviousness.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,3102,3104,3107):
+            s.action(2285,code)
+        assert last(s,'test.oblivious-state') == [0,0]
+        s.action(2285,3103)
+        s.command('undo')
+        s.action(2285,3107)
+        assert last(s,'test.oblivious-state') == [0,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,3103)
+        assert last(s,'test.oblivious-contest') == [10,9,'success',6]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (3102,3106):
+            s.action(2285,code)
+        assert last(s,'test.oblivious-low') == ['influence-low-resistance-adapter-required',0]
+    finally:
+        s.close()

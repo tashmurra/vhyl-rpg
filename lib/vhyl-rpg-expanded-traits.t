@@ -864,3 +864,54 @@ modify RpgLiteContext
         return amount;
     }
 ;
+
+/** B146 reduced understanding of social motivation, distinct from absent emotional understanding. */
+class RpgExpandedEmotionalObliviousness: RpgExpandedDisadvantage
+    id = 'emotional-obliviousness'
+    points = -5
+    creationCost()
+    {
+        if (!self.approved || self.id != 'emotional-obliviousness' || self.points != -5 || self.level != 1
+            || self.percentages.length() != 0 || self.selfControlRating != nil || self.controlled)
+            rpgExpandedReject('emotional-obliviousness-definition');
+        return -5;
+    }
+;
+rpgExpandedOrdinaryInfluenceSkill(skill)
+{
+    return skill != nil && skill.ofKind(RpgLiteSkill)
+        && holds(['diplomacy','fast-talk','intimidation','savoir-faire','sex-appeal','streetwise'],skill.id);
+}
+modify RpgExpandedProfile
+    emotionalObliviousnessActive()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedEmotionalObliviousness))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-emotional-obliviousness'); found = trait;
+            }
+        if (found != nil) self.emotionalUnderstandingPenalty();
+        return found != nil && found.active && !found.mitigated;
+    }
+    validateFeatures() { inherited(); self.emotionalObliviousnessActive(); return nil; }
+;
+modify RpgLiteContext
+    socialTraitModifier(profile)
+    {
+        local amount = inherited(profile);
+        if (profile.ofKind(RpgExpandedProfile) && rpgExpandedOrdinaryInfluenceSkill(self.skill)
+            && profile.emotionalObliviousnessActive()) amount -= 1;
+        return amount;
+    }
+    influenceResistanceModifier(target)
+    {
+        local amount = inherited(target);
+        if (!target.ofKind(RpgExpandedProfile) || !rpgExpandedOrdinaryInfluenceSkill(self.skill)
+            || !target.emotionalObliviousnessActive()) return amount;
+        target.emotionalUnderstandingPenalty();
+        local effective = target.will + amount - 1 + (self.skill.id == 'intimidation' ? target.level('fearlessness') : 0);
+        if (effective < 3) rpgExpandedReject('influence-low-resistance-adapter-required');
+        return amount - 1;
+    }
+;
