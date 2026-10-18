@@ -2208,3 +2208,130 @@ class RpgExpandedFixedBeliefObservation: RpgExpandedSocialObservation
         return self.noticed ? -level : 0;
     }
 ;
+
+/** B131 competence bracket; the nonpositive dependent-total row is absolute. */
+rpgExpandedDependentBase(principalPoints,dependentPoints)
+{
+    rpgInteger(principalPoints,-1000000,1000000); rpgInteger(dependentPoints,-1000000,1000000);
+    if (dependentPoints <= 0) return -15;
+    if (principalPoints <= 0) rpgExpandedReject('dependent-nonpositive-principal');
+    if (dependentPoints * 4 <= principalPoints) return -10;
+    if (dependentPoints * 2 <= principalPoints) return -5;
+    if (dependentPoints * 4 <= principalPoints * 3) return -2;
+    if (dependentPoints <= principalPoints) return -1;
+    rpgExpandedReject('dependent-above-principal');
+}
+/** B36 frequency fraction; zero denotes the restricted constant-presence option. */
+rpgExpandedAppearanceMultiplier(frequency)
+{
+    if (frequency == 0) return [4,1];
+    if (frequency == 15) return [3,1];
+    if (frequency == 12) return [2,1];
+    if (frequency == 9) return [1,1];
+    if (frequency == 6) return [1,2];
+    rpgExpandedReject('associated-appearance-frequency');
+}
+rpgExpandedDependentCost(principalPoints,dependentPoints,importance,frequency,group)
+{
+    local numerator = -rpgExpandedDependentBase(principalPoints,dependentPoints); local denominator = 1;
+    if (importance == 'acquaintance') denominator = 2;
+    else if (importance == 'loved-one') numerator *= 2;
+    else if (importance != 'friend') rpgExpandedReject('dependent-importance');
+    local appearance = rpgExpandedAppearanceMultiplier(frequency);
+    local memberCost = -((numerator * appearance[1]) / (denominator * appearance[2]));
+    return group ? memberCost * 2 : memberCost;
+}
+class RpgExpandedDependent: RpgExpandedContribution
+    dependent = nil
+    principalPoints = nil
+    dependentPoints = nil
+    importance = nil
+    frequency = 9
+    group = nil
+    credited = true
+    constantAttachment = nil
+    approved = nil
+    evidence = nil
+    definition()
+    {
+        return [self.id,self.owner,self.dependent,self.principalPoints,self.dependentPoints,self.importance,self.frequency,
+            self.group,self.credited,self.constantAttachment,self.approved,self.evidence];
+    }
+    cost() { return rpgExpandedDependentCost(self.principalPoints,self.dependentPoints,self.importance,self.frequency,self.group); }
+    amounts(profile) { self.validate(profile); return [self.credited ? self.cost() : 0]; }
+    validate(profile)
+    {
+        if (self.owner != profile || self.id == nil || self.id == '' || self.dependent == nil || self.dependent == profile
+            || !self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('dependent-definition');
+        self.cost();
+        if (self.frequency == 0 && !holds(['implanted','worn','supernatural'],self.constantAttachment))
+            rpgExpandedReject('dependent-constant-attachment-required');
+        if (self.frequency != 0 && self.constantAttachment != nil) rpgExpandedReject('dependent-unneeded-attachment');
+        local slots = 0;
+        foreach (local entry in profile.contributions)
+            if (entry.ofKind(RpgExpandedDependent))
+            {
+                if (entry != self && entry.dependent == self.dependent) rpgExpandedReject('dependent-duplicate-person');
+                if (entry.credited) slots += entry.group ? 2 : 1;
+            }
+        if (slots > 2) rpgExpandedReject('dependent-credit-slots');
+        return nil;
+    }
+;
+modify RpgExpandedProfile
+    dependentAppearances = []
+;
+class RpgExpandedDependentAppearanceResult: RpgExpandedResult
+    appeared = nil
+    roll = nil
+;
+/** One appearance check per relationship/adventure, separate from any helpful role. */
+class RpgExpandedDependentAppearance: object
+    relationship = nil
+    adventure = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition() { return [self.relationship,self.adventure,self.approved,self.evidence] + self.relationship.definition(); }
+    assess()
+    {
+        if (self.relationship == nil || !self.relationship.ofKind(RpgExpandedDependent) || self.adventure == nil)
+            rpgExpandedReject('dependent-appearance-definition');
+        local value = new RpgExpandedDependentAppearanceResult(); local profile = self.relationship.owner;
+        if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('dependent-appearance-ownership');
+        if (self.result != nil)
+        {
+            if (!holds(profile.dependentAppearances,self)) rpgExpandedReject('dependent-appearance-history');
+            local facts = self.definition();
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()
+                || self.boundOutcome == nil || self.boundOutcome.length() != 2)
+                rpgExpandedReject('dependent-appearance-binding');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('dependent-appearance-binding');
+            if (self.result.roll != self.boundOutcome[1] || self.result.appeared != self.boundOutcome[2])
+                rpgExpandedReject('dependent-appearance-outcome');
+            value.status = 'reused'; value.roll = self.result.roll; value.appeared = self.result.appeared; return value;
+        }
+        if (self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('dependent-appearance-uncommitted-state');
+        if (profile == nil || !profile.ofKind(RpgExpandedProfile) || !holds(profile.contributions,self.relationship))
+            rpgExpandedReject('dependent-appearance-ownership');
+        rpgExpandedValidate(profile);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'dependent-adventure-start-required'; return value; }
+        foreach (local prior in profile.dependentAppearances)
+            if (prior.relationship == self.relationship && prior.adventure == self.adventure)
+                rpgExpandedReject('dependent-appearance-duplicate-adventure');
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.roll = self.relationship.frequency == 0 ? nil : rpgRandom.roll();
+        value.appeared = self.relationship.frequency == 0 || value.roll <= self.relationship.frequency;
+        self.boundDefinition = self.definition(); self.boundOutcome = [value.roll,value.appeared];
+        self.relationship.owner.dependentAppearances = self.relationship.owner.dependentAppearances + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

@@ -338,3 +338,10 @@ Ordinary aging events can now bind exact campaign-calendar days for selective
 within-year rejuvenation. Undated events retain their existing behavior; source
 receipts are validated before restoring losses. Selective restoration, changed-date
 rejection and persistence fixtures are authored but unrun.
+
+
+Dependent relationships now contribute source-based competence, importance and
+appearance pricing to character accounting, with group doubling and credit-slot
+limits. Adventure appearances have owned replay-safe rolls. Rescue/session-award
+obligations, progression, permanent loss and combined roles remain pending.
+Accounting and persistence fixtures are authored but unrun.

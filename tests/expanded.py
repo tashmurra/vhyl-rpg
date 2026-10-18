@@ -9248,6 +9248,8 @@ def test(build):
     test_sustenance_rejuvenation(Session, sustenance_rejuvenation, build.out)
     dated_aging = build.build('expanded-dated-aging',ROOT / 'tests/fixtures/expanded-dated-aging.t')
     test_dated_aging(Session, dated_aging, build.out)
+    dependents = build.build('expanded-dependents',ROOT / 'tests/fixtures/expanded-dependents.t')
+    test_dependents(Session, dependents, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21186,3 +21188,34 @@ def test_dated_aging(Session, bundle, out):
         assert last(s, 'test.dated-aging-binding') == ['aging-event-binding']
     finally:
         s.close()
+
+
+def test_dependents(Session, bundle, out):
+    """B131 competence, importance/group pricing and B36 owned appearances; unrun."""
+    for setup, roll, appeared, draws, cost in [((30,), 10, 1, 3, -20), ((13406,), 13, 0, 3, -20), ((13407,), None, 1, 0, -40)]:
+        path = out / f'expanded-dependents-{draws}-{roll}.zsave'
+        s = Session(bundle)
+        try:
+            for code in (13400, 13401) + setup + (13402, 13404, 13405):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-prices') == [-15, -15, -10, -5, -5, -2, -2, -1, -1, -20, -40, -2, -2, -4]
+            assert last(s, 'test.dependent-preview') == ['ready', 0]
+            assert last(s, 'test.dependent-state') == [0, None, None, 0, cost]
+            s.action(2285, 13403)
+            s.command('undo')
+            s.action(2285, 13405)
+            assert last(s, 'test.dependent-state') == [0, None, None, 0, cost]
+            for code in (13403, 13403, 13405):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-state') == [1, roll, appeared, draws, cost]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (13403, 13405):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-state') == [1, roll, appeared, draws, cost]
+        finally:
+            s.close()

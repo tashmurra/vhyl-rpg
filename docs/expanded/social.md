@@ -1149,3 +1149,41 @@ observation kinds can compose normally. Automatic dialogue routing remains pendi
 and `test_belief_observation` specify all three modifiers, noticed versus unnoticed
 behavior, mitigation, duplicate-effect rejection, pure preview, replay, exception
 rollback, undo and cross-process save continuation. These fixtures remain unrun.
+
+
+## Dependent relationships
+
+`RpgExpandedDependent` is a character-accounting contribution (`full-2008`, B131).
+Supply `id`, `owner`, the authored `dependent` identity, `principalPoints`,
+`dependentPoints`, `importance`, approval and evidence. Those totals are approved
+build references, not a recursive query of the principal's cost including this
+relationship. Competence uses the strongest qualifying proportional bracket;
+nonpositive dependent totals use the absolute final row. Positive dependent totals
+with nonpositive principal totals or above the principal's total reject.
+
+Importance is `acquaintance`, `friend` or `loved-one`. Appearance frequency is
+6, 9, 12 or 15; zero represents restricted constant presence (B36) and requires
+`constantAttachment` of `implanted`, `worn` or `supernatural`. A member’s price fractions
+are combined before rounding toward positive infinity; group pricing then doubles
+that member value. Set `group = true`
+for an authored representative member's value doubled, consuming both credit
+slots. At most two slots may earn points. Further relationships can use
+`credited = nil`; they remain relationships but contribute zero accounting credit.
+Repeated person/group identities reject. Actual group membership is still pending.
+
+`RpgExpandedDependentAppearance` owns the adventure's appearance determination.
+Supply the installed `relationship`, an `adventure` identity, approval and evidence
+that the adventure is beginning. `assess()` is pure; `resolve()` rolls once against
+the selected frequency, or consumes no randomness for constant presence. Another
+receipt for the same relationship/adventure rejects; replay returns the saved
+outcome. Appearing means this relationship should cause authored trouble, not an
+automatic move, injury or kidnapping. The author supplies that concrete scene.
+
+Rescue obligations, session award restrictions, proportional advancement,
+permanent-loss replacement, combined helpful/troublesome roles, template copying
+and group incidents remain pending. Pricing and appearance alone do not mark the
+relationship fully implemented.
+[`expanded-dependents.t`](../../tests/fixtures/expanded-dependents.t) and
+`test_dependents` specify brackets, combined multipliers, character accounting,
+rolled/constant appearances, preview, replay, rollback, undo and save continuation.
+Fixtures remain unrun.

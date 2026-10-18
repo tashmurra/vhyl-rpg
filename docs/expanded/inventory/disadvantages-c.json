@@ -242,9 +242,12 @@
       "pages": "B131",
       "module": "social",
       "kind": "table",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A dependent with at most 100/75/50/25 percent of the principal character point total has base price -1/-2/-5/-10; an absolute total of zero or less is -15. Use the strongest qualifying bracket, preserve the absolute final row and explicitly reject unresolved proportional comparisons for a nonpositive principal total.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_dependents"
+      ],
+      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-c-dependent-importance",
@@ -252,9 +255,12 @@
       "pages": "B131",
       "module": "social",
       "kind": "table",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Dependent importance multiplies price by one half for an acquaintance/employer, one for a friend and two for a loved one. Author defines permitted risk: rational balancing, protection except overriding stakes, or safety taking precedence. Combine with the appearance multiplier from B36 and apply the general final-price rounding rule once.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_dependents"
+      ],
+      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-c-dependent-aid",
@@ -282,9 +288,12 @@
       "pages": "B131",
       "module": "characters",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At most two dependents earn negative points. A dependent group occupies both slots and is priced at twice a representative member value. Preserve membership and incident ownership without multiplying credit by group population.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_dependents"
+      ],
+      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-c-dependent-progression",
