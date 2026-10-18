@@ -635,3 +635,46 @@ scaling, conditions, protected injury, option-off behavior and preflight errors.
 `test_natural_recovery_transactions` and `test_natural_recovery_persistence`
 exercise the last second of a slow-healing interval, rollback, undo/replay and
 cross-process continuation. These fixtures are authored but unrun.
+
+
+## Physician supervision and capacity
+
+`rpgExpandedMedicalSchedule(techLevel)` returns B425's patient limit and base
+interval for additional physician healing checks. Level zero has no physician
+service. Levels one through three share the weekly row; later rows progress to
+five checks per day and 200 patients at level twelve or above. The result is a
+table assessment, not an automatic treatment scheduler. Patient-specific slow
+healing and the extra healing checks themselves remain to be integrated.
+
+`RpgExpandedMedicalPractice` owns one physician's active patient roster. Supply
+an `id`, `physician` and its technology-specific `physician` skill definition.
+`assess()` requires a skill rating of at least twelve for this competent-care
+interface. At technology six or higher, set `advancedEquipment` when the familiar
+gadgetry is available. Without it, clean surroundings permit the B425 level-six
+capacity and frequency fallback; otherwise assessment blocks. The actual skill
+rating is retained. The `available` fact means the provider is supplying the care
+for the authored recovery interval; a dead or unconscious provider is unavailable.
+
+Use `admit(patient)` and `release(patient)` in action transactions. The provider's
+`medicalPractice` and patient's `medicalSupervision` point back to the same roster.
+A physician cannot acquire a second roster to evade capacity, and a patient
+cannot acquire a second supervising practice to stack benefits. Admission checks
+capacity before changing either reference. Re-admitting the same patient is
+idempotent. Release permits leaving an unavailable practice and frees the
+physician's assignment when the roster becomes empty.
+
+With expanded natural recovery enabled, an assigned patient's recovery modifier
+includes the B424 bonus of one. Preflight verifies ownership, qualification,
+capacity and provider availability before spending recovery time or randomness.
+The bonus combines with a healing trait's separate bonus; multiple providers do
+not multiply it. Rest that does not attempt natural recovery does not require
+this bonus assessment. Authors must keep availability and roster membership
+consistent with the whole recovery interval: this interface does not yet track
+the physician's work schedule or certify continuous care from world events.
+
+`test_medical_schedule` enumerates every printed row, equipment fallback,
+qualification and capacity rejection. `test_medical_supervision_transactions`
+and `test_medical_supervision_persistence` cover assignment, release, duplicate
+providers, bonus application, unavailability, rollback, undo and cross-process
+ownership. These fixtures are authored but unrun. The separately scheduled
+physician healing roll and its failure consequences remain pending.

@@ -826,9 +826,14 @@
       "pages": "B424",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Care from a physician with skill at least twelve grants +1 to natural recovery checks; multiple physicians do not stack this benefit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_medical_schedule",
+        "tests/expanded.py::test_medical_supervision_transactions",
+        "tests/expanded.py::test_medical_supervision_persistence"
+      ],
+      "validation_note": "Medical-help table, clean-environment level-six fallback, skill-twelve supervision, shared provider roster/capacity and non-stacking natural-recovery bonus authored. Fixtures unrun. Additional physician healing checks, patient-specific schedules and continuous-care time integration remain incomplete."
     },
     {
       "id": "health-physician-heal-check",
@@ -846,9 +851,14 @@
       "pages": "B424-B425",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Enforce doctor patient limits and healing-check frequency by the physician's medical technology, sharing schedules across all patient treatment objects.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_medical_schedule",
+        "tests/expanded.py::test_medical_supervision_transactions",
+        "tests/expanded.py::test_medical_supervision_persistence"
+      ],
+      "validation_note": "Medical-help table, clean-environment level-six fallback, skill-twelve supervision, shared provider roster/capacity and non-stacking natural-recovery bonus authored. Fixtures unrun. Additional physician healing checks, patient-specific schedules and continuous-care time integration remain incomplete."
     },
     {
       "id": "health-physician-low-equipment",
@@ -856,9 +866,14 @@
       "pages": "B425",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A technology-six-or-higher physician lacking familiar gadgets operates as technology six when surroundings are clean; retain actual skill and equipment conditions.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_medical_schedule",
+        "tests/expanded.py::test_medical_supervision_transactions",
+        "tests/expanded.py::test_medical_supervision_persistence"
+      ],
+      "validation_note": "Medical-help table, clean-environment level-six fallback, skill-twelve supervision, shared provider roster/capacity and non-stacking natural-recovery bonus authored. Fixtures unrun. Additional physician healing checks, patient-specific schedules and continuous-care time integration remain incomplete."
     },
     {
       "id": "health-high-capacity-healing",

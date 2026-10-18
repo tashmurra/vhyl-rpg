@@ -408,6 +408,78 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def medical_roster(s):
+    s.action(1671)
+    return last(s, 'test.medical-roster')
+
+
+def test_medical_supervision_transactions(s):
+    initial = medical_roster(s)
+    assert initial == [0, 0, 0, 5, 9, 0, 0, 0]
+    s.action(1670, 5)
+    assert medical_roster(s) == initial
+    s.action(1670, 1)
+    assigned = medical_roster(s)
+    assert assigned == [1, 1, 1, 6, 9, 0, 0, 0]
+    for code in [1, 3, 4, 6]:
+        s.action(1670, code)
+        assert medical_roster(s) == assigned
+    s.action(1670, 7)
+    assert last(s, 'test.supervised-rest') == [18]
+    assert medical_roster(s) == [1, 1, 1, 6, 3, 0, 3, 172800]
+    s.command('undo')
+    assert medical_roster(s) == assigned
+    s.action(1670, 2)
+    assert medical_roster(s) == initial
+    s.command('undo')
+    assert medical_roster(s) == assigned
+
+
+def test_medical_supervision_persistence(Session, bundle, out):
+    for rested in [False, True]:
+        path = out / f'expanded-medical-supervision-{rested}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1670, 1)
+            if rested:
+                first.action(1670, 7)
+            saved = medical_roster(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1671')
+            assert medical_roster(second) == saved
+            second.action(1670, 1)
+            assert last(second, 'test.medical-admission') == ['reused']
+            assert medical_roster(second) == saved
+            second.action(1670, 2)
+            assert medical_roster(second)[:4] == [0, 0, 0, 5]
+        finally:
+            second.close()
+
+
+def test_medical_schedule(s):
+    rows = [(0,0,0), (1,10,604800), (2,10,604800), (3,10,604800),
+            (4,10,259200), (5,15,172800), (6,20,86400), (7,25,86400),
+            (8,50,86400), (9,50,43200), (10,50,28800), (11,100,21600),
+            (12,200,17280), (13,200,17280)]
+    for tl, capacity, interval in rows:
+        s.action(1620, tl)
+        assert last(s, 'test.medical-schedule') == [
+            'blocked' if tl == 0 else 'ready', 'medical-no-physicians' if tl == 0 else None,
+            capacity, interval]
+    for args, expected in [
+            ((3,0,0,12,11), ['ready',None,3,10,604800,12,'blocked',10,1,0,0]),
+            ((8,1,0,12,1), ['ready',None,8,50,86400,12,'resolved',1,1,0,0]),
+            ((9,0,1,12,1), ['ready',None,6,20,86400,12,'resolved',1,1,0,0]),
+            ((9,0,0,12,1), ['blocked','medical-equipment-fallback-unavailable',9,50,43200,0,None,0,0,0,0]),
+            ((3,0,0,11,1), ['blocked','medical-physician-not-qualified',3,10,604800,11,None,0,0,0,0])]:
+        s.action(1621, *args)
+        assert last(s, 'test.medical-practice') == expected
+
+
 def natural_state(s):
     s.action(1661)
     return last(s, 'test.natural-state')
@@ -2656,6 +2728,7 @@ def test(build):
     fresh(Session,health,test_crippling_months)
     fresh(Session,health,test_last_wounds_option)
     fresh(Session,health,test_expanded_natural_recovery)
+    fresh(Session,health,test_medical_schedule)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_limb_wound_transactions)
@@ -2666,6 +2739,8 @@ def test(build):
     fresh(Session,wounds,test_later_crippling_care)
     fresh(Session,wounds,test_later_care_calendar)
     fresh(Session,wounds,test_natural_recovery_transactions)
+    fresh(Session,wounds,test_medical_supervision_transactions)
+    test_medical_supervision_persistence(Session,wounds,build.out)
     test_natural_recovery_persistence(Session,wounds,build.out)
     test_later_care_persistence(Session,wounds,build.out)
     test_lasting_recovery_persistence(Session,wounds,build.out)

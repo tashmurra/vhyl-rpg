@@ -887,7 +887,16 @@ modify RpgExpandedProfile
         if (!self.rules.expandedNaturalRecovery) return inherited();
         rpgInteger(self.naturalRecoveryConditions,-100,100);
         rpgInteger(self.level('rapid-healing'),0,2); rpgInteger(self.level('very-rapid-healing'),0,1);
-        return self.naturalRecoveryConditions
+        local bonus = 0;
+        if (self.medicalSupervision != nil)
+        {
+            if (!self.medicalSupervision.ofKind(RpgExpandedMedicalPractice)
+                || !holds(self.medicalSupervision.patients,self)) rpgExpandedReject('medical-supervision-owner');
+            local care = self.medicalSupervision.assess();
+            if (care.status != 'ready') rpgExpandedReject(care.reason);
+            bonus = 1;
+        }
+        return self.naturalRecoveryConditions + bonus
             + (self.level('rapid-healing') > 0 || self.level('very-rapid-healing') > 0 ? 5 : 0);
     }
     naturalRecoveryAmount()
@@ -911,7 +920,7 @@ modify RpgExpandedProfile
         if (self.diseaseInjury + self.temperatureInjury > self.injury)
             rpgExpandedReject('natural-recovery-protected-injury');
         local interval = self.naturalRecoveryInterval(); self.naturalRecoveryAmount();
-        local modifier = self.naturalRecoveryModifier();
+        local modifier = food && allowed && self.naturalRecoveryNeeded() ? self.naturalRecoveryModifier() : 0;
         if (food && allowed && self.naturalRecoveryNeeded())
         {
             if (self.level('unhealing') > 0) rpgExpandedReject('natural-recovery-unhealing-context-required');
@@ -924,5 +933,125 @@ modify RpgExpandedProfile
             }
         }
         return nil;
+    }
+;
+
+
+/** B425 medical-help capacity and interval, before patient-specific slow healing. */
+class RpgExpandedMedicalSchedule: RpgExpandedResult
+    effectiveTL = 0
+    patientLimit = 0
+    intervalSeconds = 0
+    rating = 0
+;
+
+/** Pure table lookup. Level twelve and above share the final printed row. */
+rpgExpandedMedicalSchedule(techLevel)
+{
+    rpgInteger(techLevel,0,1000); local value = new RpgExpandedMedicalSchedule(); value.effectiveTL = techLevel;
+    if (techLevel == 0) { value.reason = 'medical-no-physicians'; return value; }
+    if (techLevel <= 3) { value.patientLimit = 10; value.intervalSeconds = 604800; }
+    else if (techLevel == 4) { value.patientLimit = 10; value.intervalSeconds = 259200; }
+    else if (techLevel == 5) { value.patientLimit = 15; value.intervalSeconds = 172800; }
+    else if (techLevel == 6) { value.patientLimit = 20; value.intervalSeconds = 86400; }
+    else if (techLevel == 7) { value.patientLimit = 25; value.intervalSeconds = 86400; }
+    else if (techLevel == 8) { value.patientLimit = 50; value.intervalSeconds = 86400; }
+    else if (techLevel == 9) { value.patientLimit = 50; value.intervalSeconds = 43200; }
+    else if (techLevel == 10) { value.patientLimit = 50; value.intervalSeconds = 28800; }
+    else if (techLevel == 11) { value.patientLimit = 100; value.intervalSeconds = 21600; }
+    else { value.patientLimit = 200; value.intervalSeconds = 17280; }
+    value.status = 'ready'; return value;
+}
+
+modify RpgLiteProfile
+    medicalPractice = nil
+;
+modify RpgExpandedProfile
+    medicalSupervision = nil
+    validateFeatures()
+    {
+        inherited();
+        if (self.medicalSupervision != nil)
+        {
+            local practice = self.medicalSupervision;
+            if (!practice.ofKind(RpgExpandedMedicalPractice) || !holds(practice.patients,self)
+                || practice.physician == nil || practice.physician != practice.boundPhysician
+                || practice.physician.medicalPractice != practice || practice.id != practice.boundId)
+                rpgExpandedReject('medical-supervision-owner');
+        }
+        return nil;
+    }
+;
+
+/** One physician's owned active roster. Admission selects supervision; it does
+ * not execute the additional periodic physician healing check. B424-B425. */
+class RpgExpandedMedicalPractice: object
+    id = nil
+    physician = nil
+    skill = nil
+    advancedEquipment = nil
+    clean = nil
+    available = true
+    patients = []
+    boundPhysician = nil
+    boundId = nil
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.physician == nil || !self.physician.ofKind(RpgLiteProfile)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || self.skill.id != 'physician'
+            || self.skill.techLevel == nil) rpgExpandedReject('medical-practice-definition');
+        if (self.boundPhysician != nil && (self.physician != self.boundPhysician || self.id != self.boundId))
+            rpgExpandedReject('medical-practice-retargeted');
+        if (self.physician.medicalPractice != nil && self.physician.medicalPractice != self)
+            rpgExpandedReject('medical-practice-physician-assigned');
+        rpgInteger(self.skill.techLevel,0,1000); local level = self.skill.techLevel;
+        local value = rpgExpandedMedicalSchedule(level);
+        if (value.status != 'ready') return value;
+        if (level >= 6 && !self.advancedEquipment)
+        {
+            if (!self.clean) { value.status = 'blocked'; value.reason = 'medical-equipment-fallback-unavailable'; return value; }
+            value = rpgExpandedMedicalSchedule(6);
+        }
+        if (!self.available || self.physician.dead || self.physician.unconscious)
+        { value.status = 'blocked'; value.reason = 'medical-physician-unavailable'; return value; }
+        value.rating = self.physician.skillScore(self.skill);
+        if (value.rating == nil || value.rating < 12)
+        { value.status = 'blocked'; value.reason = 'medical-physician-not-qualified'; return value; }
+        local seen = [];
+        foreach (local patient in self.patients)
+        {
+            if (patient == nil || !patient.ofKind(RpgExpandedProfile) || patient.medicalSupervision != self
+                || holds(seen,patient)) rpgExpandedReject('medical-practice-roster');
+            seen = seen + [patient];
+        }
+        if (self.patients.length() > 0 && self.physician.medicalPractice != self)
+            rpgExpandedReject('medical-practice-owner');
+        if (self.patients.length() > value.patientLimit)
+        { value.status = 'blocked'; value.reason = 'medical-practice-over-capacity'; }
+        return value;
+    }
+    admit(patient)
+    {
+        if (patient == nil || !patient.ofKind(RpgExpandedProfile)) rpgExpandedReject('medical-patient-profile');
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (patient.medicalSupervision == self && holds(self.patients,patient))
+        { value.status = 'reused'; return value; }
+        if (patient.medicalSupervision != nil) rpgExpandedReject('medical-patient-already-assigned');
+        if (self.patients.length() >= value.patientLimit)
+        { value.status = 'blocked'; value.reason = 'medical-practice-full'; return value; }
+        self.boundPhysician = self.physician; self.boundId = self.id;
+        self.physician.medicalPractice = self; self.patients = self.patients + [patient];
+        patient.medicalSupervision = self; value.status = 'resolved'; return value;
+    }
+    release(patient)
+    {
+        if (self.physician == nil || self.physician != self.boundPhysician || self.id != self.boundId
+            || self.physician.medicalPractice != self || patient == nil || patient.medicalSupervision != self
+            || !holds(self.patients,patient)) rpgExpandedReject('medical-release-owner');
+        local remaining = [];
+        foreach (local member in self.patients) if (member != patient) remaining = remaining + [member];
+        self.patients = remaining; patient.medicalSupervision = nil;
+        if (remaining.length() == 0) self.physician.medicalPractice = nil;
+        local value = new RpgExpandedResult(); value.status = 'resolved'; return value;
     }
 ;

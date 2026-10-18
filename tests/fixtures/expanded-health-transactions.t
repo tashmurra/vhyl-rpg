@@ -211,6 +211,44 @@ class NaturalFixtureAction: Action
 ;
 naturalAction: NaturalFixtureAction;
 naturalVerb: Verb code = 1660 action = naturalAction label = 'natural-fixture';
+medicalDoctor: RpgLiteProfile iq = 12 techLevel = 8;
+medicalClinic: RpgExpandedMedicalPractice id = 'medical-clinic' physician = medicalDoctor advancedEquipment = true clean = true;
+class MedicalFixtureAction: Action
+    exec(context)
+    {
+        if (medicalClinic.skill == nil)
+        {
+            medicalClinic.skill = rpgLiteMakeSkill('physician',8,nil);
+            local training = new RpgTraining(); training.skill = medicalClinic.skill; training.points = 4;
+            medicalDoctor.skills = [training];
+        }
+        if (healthInput.code == 2) { medicalClinic.release(naturalPatient); return nil; }
+        if (healthInput.code == 3)
+        {
+            local other = new RpgExpandedMedicalPractice(); other.id = 'duplicate-clinic'; other.physician = medicalDoctor;
+            other.skill = medicalClinic.skill; other.advancedEquipment = true; other.assess(); return nil;
+        }
+        if (healthInput.code == 4)
+        {
+            local doctor = new RpgLiteProfile(); doctor.iq = 12; doctor.techLevel = 8;
+            local training = new RpgTraining(); training.skill = medicalClinic.skill; training.points = 4; doctor.skills = [training];
+            local other = new RpgExpandedMedicalPractice(); other.id = 'other-clinic'; other.physician = doctor;
+            other.skill = medicalClinic.skill; other.advancedEquipment = true; other.admit(naturalPatient); return nil;
+        }
+        if (healthInput.code == 6) medicalClinic.available = nil;
+        if (healthInput.code == 6 || healthInput.code == 7)
+        {
+            rpgLiteRest(naturalPatient,86400,true,nil,nil,true);
+            local value = rpgLiteRest(naturalPatient,86400,true,nil,nil,true);
+            event('test.supervised-rest'); eventValue(value.check.score); return nil;
+        }
+        local value = medicalClinic.admit(naturalPatient); event('test.medical-admission'); eventValue(value.status);
+        if (healthInput.code == 5) throw new RpgError();
+        return nil;
+    }
+;
+medicalAction: MedicalFixtureAction;
+medicalVerb: Verb code = 1670 action = medicalAction label = 'medical-fixture';
 modify gameMain initialRoom = healthRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
@@ -307,6 +345,15 @@ act(verb,args)
     {
         event('test.natural-state'); eventValue(naturalPatient.injury); eventValue(naturalPatient.healingClock);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1670) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1671)
+    {
+        event('test.medical-roster'); eventValue(medicalClinic.patients.length());
+        eventValue(medicalDoctor.medicalPractice == medicalClinic ? 1 : 0);
+        eventValue(naturalPatient.medicalSupervision == medicalClinic ? 1 : 0);
+        eventValue(naturalPatient.naturalRecoveryModifier()); eventValue(naturalPatient.injury);
+        eventValue(naturalPatient.healingClock); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     return vhylAct(verb,args);
 }

@@ -115,9 +115,12 @@
         "tests/expanded.py::test_later_care_persistence",
         "tests/expanded.py::test_expanded_natural_recovery",
         "tests/expanded.py::test_natural_recovery_transactions",
-        "tests/expanded.py::test_natural_recovery_persistence"
+        "tests/expanded.py::test_natural_recovery_persistence",
+        "tests/expanded.py::test_medical_schedule",
+        "tests/expanded.py::test_medical_supervision_transactions",
+        "tests/expanded.py::test_medical_supervision_persistence"
       ],
-      "validation_note": "Partial injury/recovery includes opt-in natural healing traits and capacity scaling on the shared rest clock. Fixtures unrun. Accumulation, broader anatomy, full medical schedules/treatment, surgery and permanent-disability accounting remain incomplete."
+      "validation_note": "Partial recovery includes physician roster/capacity and qualified supervision bonus. Fixtures unrun. Periodic physician healing, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },
     {
       "id": "magic",

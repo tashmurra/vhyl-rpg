@@ -193,7 +193,8 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     if (profile.dead) { result.status = 'blocked'; return result; }
     profile.validateNaturalRecovery(seconds,food,healingAllowed);
     local healingInterval = profile.naturalRecoveryInterval();
-    local healingModifier = profile.naturalRecoveryModifier();
+    local healingModifier = food && healingAllowed && profile.naturalRecoveryNeeded()
+        ? profile.naturalRecoveryModifier() : 0;
     local healingAmount = profile.naturalRecoveryAmount();
     rpgSpendTime(seconds);
     for (local elapsed = 0; elapsed < seconds && (profile.stunned || profile.mentalStun)

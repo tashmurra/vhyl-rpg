@@ -254,5 +254,30 @@ act(verb,args)
         eventValue(p.injury); eventValue(p.healingClock); eventValue(rpgRandom.draws - draws);
         eventValue(rpgLedger.seconds - before); return nil;
     }
+    if (verb == 1620)
+    {
+        local value = rpgExpandedMedicalSchedule(args[1]); event('test.medical-schedule');
+        eventValue(value.status); eventValue(value.reason); eventValue(value.patientLimit); eventValue(value.intervalSeconds); return nil;
+    }
+    if (verb == 1621)
+    {
+        local doctor = new RpgLiteProfile(); doctor.iq = args[4]; doctor.techLevel = args[1];
+        local skill = rpgLiteMakeSkill('physician',args[1],nil); local training = new RpgTraining();
+        training.skill = skill; training.points = 4; doctor.skills = [training];
+        local practice = new RpgExpandedMedicalPractice(); practice.id = 'clinic'; practice.physician = doctor;
+        practice.skill = skill; practice.advancedEquipment = args[2] == 1; practice.clean = args[3] == 1;
+        local before = rpgRandom.draws; local time = rpgLedger.seconds; local value = practice.assess();
+        local admission = nil; local patient = nil;
+        if (value.status == 'ready')
+            for (local index = 0; index < args[5]; index += 1)
+            {
+                local next = new RpgExpandedProfile(); next.rules = new RpgExpandedRules(); next.rules.expandedNaturalRecovery = true;
+                admission = practice.admit(next).status; if (index == 0) patient = next;
+            }
+        event('test.medical-practice'); eventValue(value.status); eventValue(value.reason); eventValue(value.effectiveTL);
+        eventValue(value.patientLimit); eventValue(value.intervalSeconds); eventValue(value.rating); eventValue(admission);
+        eventValue(practice.patients.length()); eventValue(patient == nil ? 0 : patient.naturalRecoveryModifier());
+        eventValue(rpgRandom.draws - before); eventValue(rpgLedger.seconds - time); return nil;
+    }
     return vhylAct(verb,args);
 }
