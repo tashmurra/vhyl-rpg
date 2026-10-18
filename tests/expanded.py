@@ -9518,6 +9518,10 @@ def test(build):
     test_terrain_observation(Session,terrain_observation,build.out)
     hearing = build.build('expanded-hearing',ROOT / 'tests/fixtures/expanded-hearing.t')
     test_hearing(Session,hearing)
+    hearing_observation = build.build('expanded-hearing-observation',ROOT / 'tests/fixtures/expanded-hearing-observation.t')
+    test_hearing_observation(Session,hearing_observation,build.out)
+    sense_actions = build.build('expanded-sense-actions',ROOT / 'tests/fixtures/expanded-sense-actions.t')
+    test_sense_actions(Session,sense_actions)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26499,3 +26503,76 @@ def test_hearing(Session, bundle):
         assert last(s,'test.hearing-score') == [12,0]
     finally:
         s.close()
+
+
+def test_hearing_observation(Session, bundle, out):
+    """Owned hearing notice is distinct from speech comprehension; unrun."""
+    def state(s):
+        s.action(1680,27403)
+        return last(s,'test.hearing-state')
+    s = Session(bundle)
+    path = out / 'hearing-observation.zsave'
+    try:
+        s.action(1680,27402)
+        assert last(s,'test.hearing-preview') == ['ready',None]
+        assert state(s) == [0,None,0,0]
+        s.action(1680,27401); assert state(s) == [0,None,0,0]
+        s.action(1680,27400); s.command('undo'); assert state(s) == [0,None,0,0]
+        s.action(1680,27400); s.action(1680,27400); assert state(s) == [1,True,3,0]
+        s.action(1680,27404); assert state(s) == [1,True,3,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,27400)
+        assert state(s) == [1,True,3,0]
+    finally:
+        s.close()
+    for code,expected in ((27004,[1,None,3,0]),(27306,[0,None,0,0]),(27307,[0,None,0,0])):
+        s = Session(bundle)
+        try:
+            s.action(1680,code); s.action(1680,27400); s.action(1680,27400)
+            assert state(s) == expected
+        finally:
+            s.close()
+
+
+def test_sense_actions(Session, bundle):
+    """Shared vision/hearing native routes and observer authority; unrun."""
+    for sense in ('vision','hearing'):
+        for route in ('parser','structured','dialogue'):
+            def perform(s,operation):
+                if route == 'parser':
+                    s.command({'preview':'assess sense','resolve':'resolve sense','rollback':'rollback sense'}[operation])
+                elif route == 'structured':
+                    s.action({'preview':27510,'resolve':27511,'rollback':27512}[operation])
+                else:
+                    s.action(80,'sensory-observation'); s.select(operation)
+            def state(s):
+                s.action(1680,27122 if sense == 'vision' else 27403)
+                return last(s,'test.vision-state' if sense == 'vision' else 'test.hearing-state')
+            s = Session(bundle)
+            try:
+                if sense == 'vision':
+                    s.action(1680,27500)
+                perform(s,'preview')
+                assert last(s,'rpg.expanded.sense') == [sense,'preview','ready',None]
+                assert state(s) == [0,None,0,0]
+                perform(s,'rollback'); assert state(s) == [0,None,0,0]
+                perform(s,'resolve'); s.command('undo'); assert state(s) == [0,None,0,0]
+                perform(s,'resolve'); perform(s,'resolve'); assert state(s) == [1,True,3,0]
+            finally:
+                s.close()
+            for outsider in (27501,27502):
+                s = Session(bundle)
+                try:
+                    if sense == 'vision':
+                        s.action(1680,27500)
+                    s.action(1680,outsider)
+                    for operation in ('preview','resolve'):
+                        perform(s,operation)
+                        assert last(s,'rpg.expanded.sense') == [sense,operation,'blocked','sense-action-owner-required']
+                        assert state(s) == [0,None,0,0]
+                finally:
+                    s.close()

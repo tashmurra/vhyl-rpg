@@ -2093,7 +2093,7 @@ outcome are retained against mutation.
 `test_vision` specifies ordinary numeric modifiers, visual boundaries, scope,
 rollback, undo, repeated use and saved continuation. Fixtures remain unrun. The
 terrain-search observation adapter is described below; common player actions
-remain pending.
+are described under owned hearing results.
 
 ### Using a noticed scene for terrain interpretation
 
@@ -2116,8 +2116,8 @@ roll on every search.
 
 `test_terrain_observation` specifies two distinct checks, observer/site/encounter
 matching, failed noticing, applicability, pure preview, rollback, undo and saved
-continuation. Fixtures remain unrun. Automatic geometry, special senses and
-player actions remain pending.
+continuation. Fixtures remain unrun. Automatic geometry and special senses remain pending; shared sense actions are
+described below.
 
 ## Ordinary hearing distances
 
@@ -2154,6 +2154,30 @@ this hearing context.
 
 `test_hearing` specifies all twelve independent reference rows, exact nearer
 fractions, ordinary conversation at eight yards (−3), acute/poor hearing, ambient
-conditions and unsupported frequency/capacity. Fixtures remain unrun. Owned
-hearing receipts, discriminating hearing, special frequencies, stealth contests,
+conditions and unsupported frequency/capacity. Fixtures remain unrun. Discriminating hearing, special frequencies, stealth contests,
 speech comprehension and automatic auditory-capability integration remain pending.
+
+### Owned hearing results and shared sense actions
+
+`RpgExpandedHearingObservation` takes a unique `id`, expanded `profile`, ordinary
+hearing `context`, authored sound-source `target` and encounter `occurrence`.
+`assess()` previews without rolling; `resolve()` makes one hearing check and
+records `result.noticed`. The profile retains it in `hearingObservations`.
+Repeating the receipt returns the retained result, including failure. A different
+receipt cannot reroll the same target in the same occurrence. The check, result,
+context facts and timestamp are bound against mutation. Detection itself does
+not spend task time or grant language comprehension.
+
+`RpgExpandedSenseObservationAction` accepts either a vision or hearing
+`observation` and an `operation` of `preview` or `resolve`. Command execution
+uses `context.actor`; dialogue choices call `perform(context.asker)`. The actor's
+profile must match the observer. The `rpg.expanded.sense` event contains sense,
+operation, status and reason, without disclosing the target or interpreting its
+meaning. Vision remains distinct from hearing; a hearing receipt cannot satisfy
+the terrain search's visual-observation requirement.
+
+`test_hearing_observation` specifies preview, failure, unavailable senses,
+rollback, undo, replay and saved continuation. `test_sense_actions` specifies
+command, structured and dialogue parity for both senses and observer authority.
+Fixtures remain unrun while checks are paused. Speech comprehension, special
+senses, danger warnings and concealment/stealth contests remain pending.

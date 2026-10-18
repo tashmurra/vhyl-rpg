@@ -4280,3 +4280,100 @@ class RpgExpandedHearingContext: RpgLiteContext
         return rpgExpandedHearingDistance(self.sound,self.distanceSteps).modifier + self.ambientModifier;
     }
 ;
+
+class RpgExpandedHearingResult: RpgExpandedResult
+    noticed = nil
+    score = nil
+;
+/** Noticing is recorded independently from a subsequent comprehension skill. */
+class RpgExpandedHearingObservation: object
+    id = nil
+    profile = nil
+    context = nil
+    target = nil
+    occurrence = nil
+    result = nil
+    recordedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.context == nil || !self.context.ofKind(RpgExpandedHearingContext) || self.target == nil || self.occurrence == nil)
+            rpgExpandedReject('hearing-observation-definition');
+        return [self.id,self.profile,self.context,self.target,self.occurrence] + self.context.hearingFacts();
+    }
+    outcomeDefinition()
+    {
+        return [self.recordedAt,self.result,self.result.noticed,self.result.check,self.result.check.score,self.result.check.roll,
+            self.result.check.margin,self.result.check.achieved,self.result.check.critical];
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedHearingResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.hearingObservations,self) || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('hearing-observation-history');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('hearing-observation-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('hearing-observation-outcome');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('hearing-observation-outcome');
+            if (self.recordedAt > rpgLedger.seconds) rpgExpandedReject('hearing-observation-time');
+            value.status = 'reused'; return value;
+        }
+        if (self.recordedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('hearing-observation-uncommitted');
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'hearing-observer-unavailable'; return value; }
+        foreach (local prior in self.profile.hearingObservations)
+            if (prior.id == self.id || prior.target == self.target && prior.occurrence == self.occurrence)
+                rpgExpandedReject('hearing-observation-repeat');
+        value.reason = self.context.taskUnavailableReason(self.profile); if (value.reason != nil) return value;
+        value.score = rpgLiteScore(self.profile,self.context);
+        if (value.score == nil || value.score < 3) { value.reason = 'hearing-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); value.check = rpgCheck(value.score,rpgRandom.roll());
+        value.noticed = value.check.achieved; self.recordedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = self.outcomeDefinition(); self.profile.hearingObservations = self.profile.hearingObservations + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    hearingObservations = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local observation in self.hearingObservations)
+        {
+            if (observation == nil || !observation.ofKind(RpgExpandedHearingObservation) || observation.profile != self
+                || holds(ids,observation.id) || observation.assess().status != 'reused') rpgExpandedReject('hearing-observation-history');
+            ids = ids + [observation.id];
+        }
+        return nil;
+    }
+;
+
+
+/** Native action parity for ordinary vision/hearing receipts; meaning stays private. */
+class RpgExpandedSenseObservationAction: Action
+    observation = nil
+    operation = 'resolve'
+    perform(actor)
+    {
+        if (self.observation == nil || (!self.observation.ofKind(RpgExpandedVisionObservation)
+                && !self.observation.ofKind(RpgExpandedHearingObservation)) || !holds(['preview','resolve'],self.operation))
+            rpgExpandedReject('sense-action-definition');
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile == nil || actor.rpgProfile != self.observation.profile)
+            value.reason = 'sense-action-owner-required';
+        else value = self.operation == 'preview' ? self.observation.assess() : self.observation.resolve();
+        event('rpg.expanded.sense'); eventValue(self.observation.ofKind(RpgExpandedVisionObservation) ? 'vision' : 'hearing');
+        eventValue(self.operation); eventValue(value.status); eventValue(value.reason); return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;
