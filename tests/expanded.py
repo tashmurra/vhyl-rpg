@@ -9228,6 +9228,8 @@ def test(build):
     test_sustenance_timely_dose(Session, sustenance_timely_dose, build.out)
     sustenance_timely_contact = build.build('expanded-sustenance-timely-contact',ROOT / 'tests/fixtures/expanded-sustenance-timely-contact.t')
     test_sustenance_timely_contact(Session, sustenance_timely_contact, build.out)
+    sustenance_recurrence = build.build('expanded-sustenance-recurrence',ROOT / 'tests/fixtures/expanded-sustenance-recurrence.t')
+    test_sustenance_recurrence(Session, sustenance_recurrence, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20867,5 +20869,36 @@ def test_sustenance_timely_contact(Session, bundle, out):
         for code in (12305, 11701, 12307):
             s.action(2285, code)
         assert last(s, 'test.sustenance-timely-contact-state') == [1, 1, 0, 93600, 0]
+    finally:
+        s.close()
+
+
+def test_sustenance_recurrence(Session, bundle, out):
+    """Successive fulfilled periods retain one inventory and clock history; unrun."""
+    path = out / 'expanded-sustenance-recurrence.zsave'
+    s = Session(bundle)
+    try:
+        for code in (12400, 12000, 12002, 12102, 12406):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-recurrence-preview') == ['sustenance-deadline-previous-unfulfilled']
+        for code in (12104, 12202, 12402, 12405):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-recurrence') == [1, 1, None, 0, 1, 86400, 0]
+        s.action(2285, 12401)
+        s.command('undo')
+        s.action(2285, 12405)
+        assert last(s, 'test.sustenance-recurrence') == [1, 1, None, 0, 1, 86400, 0]
+        for code in (12401, 12401, 12405):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-recurrence') == [2, 1, 172800, 0, 1, 86400, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (12401, 12403, 12404, 12404, 12405):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-recurrence') == [2, 0, 172800, 1, 1, 172800, 0]
     finally:
         s.close()

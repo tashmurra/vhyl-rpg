@@ -2338,3 +2338,27 @@ world movement or changed conditions interrupted access.
 and `test_sustenance_timely_contact` specify the full duration, premature
 completion, replay, clock release, rollback, undo and save continuation. Fixtures
 remain unrun.
+
+
+### Successive fulfilled periods
+
+To continue after timely fulfillment, create another
+`RpgExpandedSustenanceDeadline` with the same restored `source` episode and set
+`previous` to the latest fulfilled deadline in that chain. Register it at the
+shared time of fulfillment. Fixed periods calculate the next due time from that
+instant; calendar periods retain `calendarId` and require a new `boundaryId` and
+an explicitly authored `calendarDueAt`. Both timely doses and timely contact can
+anchor the successor through their bound fulfillment receipts.
+
+Only the latest fulfilled period can be extended. Unfulfilled predecessors,
+branching from older periods, duplicate identities, changed calendars and delayed
+registration reject. A missed period instead leads to a fresh deprivation episode;
+after restoration, that episode starts its own deadline chain. Replays and saved
+successors preserve the original due time and do not consume more stock.
+
+Registration remains an explicit author action, normally in the same transaction
+as fulfillment. There is no automatic calendar generator or catch-up loop. Initial
+access without a prior deprivation, early access, and automatic setup remain
+pending. [`expanded-sustenance-recurrence.t`](../../tests/fixtures/expanded-sustenance-recurrence.t)
+and `test_sustenance_recurrence` specify successive daily periods, the unfulfilled
+predecessor gate, replay, rollback, undo and save continuation. Fixtures are unrun.
