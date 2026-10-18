@@ -8967,6 +8967,8 @@ def test(build):
     test_expanded_self_control(Session, self_control)
     curiosity = build.build('expanded-curiosity', ROOT / 'tests/fixtures/expanded-curiosity.t')
     test_curiosity(Session, curiosity, build.out)
+    danger_avoidance = build.build('expanded-danger-avoidance', ROOT / 'tests/fixtures/expanded-danger-avoidance.t')
+    test_danger_avoidance(Session, danger_avoidance, build.out)
     test_self_control_points(Session, self_control, build.out)
     truthfulness = build.build('expanded-truthfulness', ROOT / 'tests/fixtures/expanded-truthfulness.t')
     test_truthfulness(Session, truthfulness, build.out)
@@ -12923,3 +12925,66 @@ def test_curiosity(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_danger_avoidance(Session, bundle, out):
+    def state(s):
+        s.action(2285, 703)
+        return last(s, 'test.avoidance')
+    path = out / 'expanded-danger-avoidance.zsave'
+    clear = [0,0,0,None,0,0]
+    refused = [1,0,1,7,1,3]
+    s = Session(bundle)
+    try:
+        s.action(2285, 710)
+        assert last(s, 'test.avoidance-purchases') == [-20,-4,6,-15,-3,7,-10,-2,8,-5,-1,9]
+        for code in (30,704,702):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 701)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (701,701):
+            s.action(2285, code)
+        assert state(s) == refused
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 701)
+        assert state(s) == refused
+    finally:
+        s.close()
+    for setup, expected in [
+        ((), [0,1,1,12,1,3]),
+        ((704,705), [1,1,1,7,1,3]),
+        ((704,706), clear),
+    ]:
+        s = Session(bundle)
+        try:
+            for code in (30,) + setup + (701,):
+                s.action(2285, code)
+            assert state(s) == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 700)
+        assert last(s, 'test.avoidance-fear') == [-2,8,0]
+        for code in (708,700):
+            s.action(2285, code)
+        assert last(s, 'test.avoidance-fear') == [-2,8,0], 'penalty was charged twice'
+        for code in (709,711):
+            s.action(2285, code)
+        assert last(s, 'test.avoidance-conflict') == ['fear-cowardice-purchased-rating',0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (707,700):
+            s.action(2285, code)
+        assert last(s, 'test.avoidance-fear') == [0,10,0]
+    finally:
+        s.close()

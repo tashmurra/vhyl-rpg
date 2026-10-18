@@ -26,6 +26,7 @@ class RpgExpandedProfile: RpgLiteProfile
     /* Character module supplies creation-budget assessment for cash exchanges. */
     creationMoneyReason(points) { return 'creation-money-accounting-unavailable'; }
     validateFeatures() { return nil; }
+    physicalDangerFearPenalty() { return nil; }
     postCreationDisadvantageAllowance() { return 0; }
     /* Equipment module supplies concrete forced-drop handling when installed. */
     prepareKnockdownDrop(destination)

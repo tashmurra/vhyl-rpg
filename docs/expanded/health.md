@@ -2703,3 +2703,10 @@ composition rules are resolved. Causes must create the condition explicitly.
 `expanded-pain.t` specifies all three severities across normal/high/low thresholds,
 HT-based skills, self-control, defensive reactions, exact expiry, preview, replay,
 rollback, undo and saved continuation. Assertions are authored and unrun.
+
+Fear contexts now derive physical-danger avoidance penalties from an installed
+`RpgExpandedDangerAvoidance` purchase. `physicalRisk` controls applicability;
+matching explicit values are not charged twice and conflicting overrides reject.
+See the [trait contract](traits.md#physical-danger-avoidance). The legacy authored
+classification path remains available when no concrete purchase exists. New
+expected-value and integration assertions remain unrun. Source: full-2008, B129.

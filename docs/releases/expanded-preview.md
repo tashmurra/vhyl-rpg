@@ -680,3 +680,8 @@ repairs and other tool uses remain incomplete.
   one-time self-control and owned completion. Added a cabinet-action fixture
   covering normal time charging, rollback, undo and saved pending obligations.
   Explicit template purchases retain the concrete trait. Checks remain paused.
+
+- Added purchased physical-danger avoidance, death-risk self-control and explicit
+  greater-threat permissions. Fear contexts derive the rating penalty once and
+  reject inconsistent overrides. Template purchases and persistence fixtures are
+  included; checks remain paused and occupational reaction integration is pending.

@@ -521,9 +521,12 @@
       "pages": "B129",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Physical-danger avoidance is base -10 with self-control, at -5 for risking death. Failure refuses danger unless a greater threat compels it. Physical-danger fear checks take -4/-3/-2/-1 at ratings six/nine/twelve/fifteen; informed relevant occupational observers may react similarly.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_danger_avoidance"
+      ],
+      "validation_note": "Rated purchase, owned physical-risk trigger, death-risk modifier, explicit greater-threat permissions and fear-context penalty derivation implemented. Matrix, replay, rollback, undo and continuation assertions authored, unrun. Occupational reactions, dynamic threat changes and parser/dialogue integration remain incomplete."
     },
     {
       "id": "disadvantages-b-curiosity",

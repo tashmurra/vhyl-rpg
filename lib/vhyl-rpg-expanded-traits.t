@@ -606,3 +606,77 @@ modify rpgExpandedTemplateTraits
         trait.selfControlRating = rating; trait.creationCost(); return trait;
     }
 ;
+
+/** B129: purchased avoidance of physical danger. */
+class RpgExpandedDangerAvoidance: RpgExpandedDisadvantage
+    id = 'cowardice'
+    points = -10
+    controlled = true
+    templatePurchaseKind = 'expanded-danger-avoidance'
+    validateDefinition()
+    {
+        if (self.id != 'cowardice' || self.points != -10 || self.level != 1 || !self.controlled
+            || self.percentages.length() != 0) rpgExpandedReject('danger-avoidance-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+    fearPenalty() { return (18 - self.selfControlNumber()) / 3; }
+;
+modify RpgExpandedProfile
+    physicalDangerFearPenalty()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedDangerAvoidance))
+            {
+                if (found != nil) rpgExpandedReject('duplicate-danger-avoidance');
+                found = trait; trait.creationCost();
+            }
+        return found == nil ? inherited() : !found.active || found.mitigated ? 0 : found.fearPenalty();
+    }
+;
+/** One proposed risk. The author identifies risky actions and any greater threat. */
+class RpgExpandedDangerAvoidanceTrigger: RpgExpandedSelfControlTrigger
+    physicalDanger = nil
+    risksDeath = nil
+    riskyActions = []
+    greaterDanger = nil
+    greaterDangerEvidence = nil
+    definition()
+    { return inherited() + [self.physicalDanger,self.risksDeath,self.greaterDanger,self.greaterDangerEvidence,
+        self.riskyActions.length()] + self.riskyActions; }
+    effectiveModifier() { return inherited() - (self.risksDeath ? 5 : 0); }
+    assess()
+    {
+        local value = inherited(); if (value.status != 'ready') return value;
+        if (!self.trait.ofKind(RpgExpandedDangerAvoidance)) rpgExpandedReject('danger-avoidance-trigger-trait');
+        if (!self.physicalDanger || self.riskyActions.length() == 0)
+        { value.status = 'blocked'; value.reason = 'danger-avoidance-risk-definition'; return value; }
+        if (self.greaterDanger && (self.greaterDangerEvidence == nil || self.greaterDangerEvidence == ''))
+        { value.status = 'blocked'; value.reason = 'danger-avoidance-greater-threat'; return value; }
+        local seen = [];
+        foreach (local action in self.riskyActions)
+        {
+            if (action == nil || holds(seen,action)) rpgExpandedReject('danger-avoidance-risk-actions');
+            seen = seen + [action];
+        }
+        return value;
+    }
+    permits(action)
+    {
+        if (self.result == nil) return nil;
+        self.assess();
+        return !self.active || !holds(self.riskyActions,action) || self.greaterDanger;
+    }
+;
+modify rpgExpandedTemplateTraits
+    rated(id, level, scope, rating)
+    {
+        if (id != 'cowardice') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedDangerAvoidance(); trait.labelId = id;
+        trait.level = level; trait.scope = scope; trait.approved = true;
+        trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+;

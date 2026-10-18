@@ -2388,15 +2388,27 @@ class RpgExpandedFearContext: object
         if (self.body == 'none' && self.dependentVictim) rpgExpandedReject('fear-dependent-body-required');
         if (!self.monsters && (self.monsterPenalty != 0 || self.hordeBand != 0 || self.xenophiliaBonus != 0))
             rpgExpandedReject('fear-unused-monster-fields');
-        local coward = self.profile.level('cowardice') > 0 && self.physicalRisk;
-        if (coward != (self.cowardicePenalty > 0)) rpgExpandedReject('fear-cowardice-classification');
+        local ownedPenalty = self.profile.physicalDangerFearPenalty();
+        local cowardPenalty = self.cowardicePenalty;
+        if (ownedPenalty != nil)
+        {
+            local required = self.physicalRisk ? ownedPenalty : 0;
+            if (cowardPenalty != 0 && cowardPenalty != required)
+                rpgExpandedReject('fear-cowardice-purchased-rating');
+            cowardPenalty = required;
+        }
+        else
+        {
+            local coward = self.profile.level('cowardice') > 0 && self.physicalRisk;
+            if (coward != (cowardPenalty > 0)) rpgExpandedReject('fear-cowardice-classification');
+        }
         local interested = self.profile.level('xenophilia') > 0 && self.monsters;
         if (interested != (self.xenophiliaBonus > 0)) rpgExpandedReject('fear-xenophilia-classification');
         if (self.touching && (self.remote || self.distance != 0)) rpgExpandedReject('fear-contact-distance');
         local modifier = self.profile.level('fearlessness') - self.profile.level('fearfulness');
         if (self.profile.level('combat-reflexes') > 0) modifier += 2;
         if (self.profile.level('combat-paralysis') > 0) modifier -= 2;
-        modifier -= self.cowardicePenalty; modifier += self.xenophiliaBonus;
+        modifier -= cowardPenalty; modifier += self.xenophiliaBonus;
         if (self.charging && self.profile.level('daredevil') > 0) modifier += 1;
         if (self.purposeThreat && self.profile.level('higher-purpose') > 0) modifier += 1;
         if (self.body == 'prepared') modifier += 6;

@@ -804,3 +804,42 @@ obligations and rated purchases. All are unrun. Broader story-action integration
 parser/dialogue parity and general investigation mechanics remain incomplete;
 this entry remains partial rather than treating the author interface as complete
 catalogue coverage.
+
+## Physical-danger avoidance
+
+`RpgExpandedDangerAvoidance` is the full-2008 B129 base −10 self-control trait.
+It uses the shared `cowardice` catalogue key for compatibility. Set `approved`
+and the purchased rating; explicit template rows accept
+`['cowardice',1,scope,rating]`. The four ratings cost −20/−15/−10/−5 and supply
+physical-danger fear penalties of 4/3/2/1 respectively. Its definition requires
+one level and no unimplemented percentage modifiers.
+
+Use `RpgExpandedDangerAvoidanceTrigger` for one proposed physical risk, with the
+inherited owned occurrence fields, `physicalDanger = true`, and a nonempty unique
+`riskyActions` list of authored action identities. Set `risksDeath` when appropriate;
+it adds −5 to this self-control check. `resolve()` rolls once and retains the
+refusal obligation on failure. It does not execute an action or charge its costs.
+
+Gate the proposed actions with `permits(identity)`: an unresolved occurrence
+permits nothing, a successful check permits the risk, and a failed check rejects
+listed risky actions while allowing other actions such as retreat. Set
+`greaterDanger` and nonempty `greaterDangerEvidence` before resolving when another
+physical threat compels the risk. That explicit exception permits the risky action
+even after failed resistance. These facts are bound to the occurrence; changing
+them afterward rejects rather than allowing a reroll. Dynamic changes of threat
+require a separate authored occurrence and remain an integration responsibility.
+
+The health module derives the fear penalty through
+`profile.physicalDangerFearPenalty()`. It applies only when a fear context declares
+physical risk. A matching explicit penalty is not added again; a conflicting
+nonzero override rejects. Contexts using older authored trait records retain their
+existing explicit-classification path. Including traits alone does not install the
+health module or enable fear encounters.
+
+The fixture specifies all four prices and fear penalties, ordinary versus mortal
+risk, refusal versus retreat, the evidenced greater-threat exception, malformed
+facts, replay, rollback, undo and saved continuation. Assertions remain unrun.
+Social reactions from informed occupational observers, dynamic threat transitions,
+and parser/dialogue action gates remain incomplete; this catalogue entry remains
+partial. The author determines actual physical danger and greater threats, and
+must route all relevant action entry points through the permission contract.
