@@ -38,5 +38,19 @@ act(verb,args)
         local rank = new RpgExpandedRank(); rank.level = args[1]; rank.replacesStatus = args[2] == 1;
         event('test.rank-table'); eventValue(rank.amounts(nil)[1]); eventValue(rank.statusBonus()); return nil;
     }
+    if (verb == 1179)
+    {
+        local context = new RpgExpandedCombatReaction(); context.band = args[1]; context.inCombat = args[2] == 1;
+        context.outnumbered = args[3] == 1; context.hopeless = args[4] == 1;
+        context.escapePossible = args[5] == 1; context.visitorsRemain = args[6] == 1;
+        local value = context.assess(); event('test.combat-reaction'); eventValue(value.intent);
+        eventValue(value.aidModifier); eventValue(value.noQuarter ? 1 : 0); eventValue(value.leaveDemand ? 1 : 0);
+        return nil;
+    }
+    if (verb == 1180)
+    {
+        event('test.combat-reaction-modifier');
+        eventValue(rpgExpandedCombatReactionModifier(args[1],args[2] == 1,args[3] == 1)); return nil;
+    }
     return vhylAct(verb,args);
 }

@@ -186,3 +186,34 @@ remain pending. A favorable combat reaction must not be interpreted as friendshi
 `tests/expanded.py::test_reaction_encounter` covers band boundaries, private previews,
 predetermined attitudes, retry gates, nuisance accumulation, rollback and undo.
 All authored cases are unrun while checks are paused.
+
+
+## Potential combat and morale
+
+`RpgExpandedCombatReaction` interprets a known private reaction `band` using
+`inCombat`, `outnumbered`, `hopeless`, `escapePossible` and `visitorsRemain`.
+These are explicit encounter facts, including what the NPCs perceive; they are
+not inferred from hidden character statistics. `assess()` is pure and returns
+an `intent`, `noQuarter`, `leaveDemand` and `aidModifier`.
+
+Low bands can call for attack or continued fighting; the poor band demands that
+visitors leave before its out-of-combat attack/flight decision. Neutral standing
+means peaceful passage or an attempt to disengage from an existing fight.
+During combat the good band calls for flight, the next band for flight if possible
+and surrender otherwise, and the highest band for surrender. Flight is an intent:
+the tactical system must still determine and execute legal movement. It is not a
+teleport or a successful escape guarantee. Outside combat the top three bands
+permit aid/information follow-up rolls at +1, +3 and +5 respectively.
+
+`rpgExpandedCombatReactionModifier(perceivedStrength, commonLanguage, intruders)`
+combines the authored -5 through +5 relative-strength assessment with the -2
+language and -2 home-territory modifiers (full-2008 B561). Add this once when
+preparing the associated reaction attempt. Resolve an encounter result first,
+then pass its private band to this assessment. Do not expose hidden attitude
+through player-facing events.
+
+Combat AI execution, surrender acceptance, possible later ambushes and voluntary
+party membership remain pending. The current interface specifies the table's
+immediate decision, not its complete world consequences. The minimal social
+fixture and `tests/expanded.py::test_combat_reactions` cover the contextual branches
+and modifiers. These cases remain unrun while checks are paused.

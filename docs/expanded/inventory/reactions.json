@@ -11,9 +11,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Author selects predetermined attitude or a three-dice reaction procedure. Do not roll for a predetermined vital encounter; keep private attitude separate from player-visible dialogue. A reaction guides permitted authored behavior rather than controlling player decisions.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_reaction_encounter"
+      ],
+      "implementation_note": "Owned private roll/predetermined machinery authored; execution checks paused."
     },
     {
       "id": "reaction-detail-context",
@@ -21,9 +24,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Dispatch general attitude, possible combat, trade, aid, information and loyalty separately. Professional information sales use trade; interrogation uses its skill procedure. Existing combat does not become friendship from a favorable morale result.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_combat_reactions"
+      ],
+      "implementation_note": "Potential combat/morale decision assessment authored. Other context dispatch and world consequence execution remain pending; checks unrun."
     },
     {
       "id": "reaction-detail-knowledge",

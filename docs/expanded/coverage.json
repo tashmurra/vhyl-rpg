@@ -616,6 +616,18 @@
         "tests/expanded.py::test_reaction_encounter"
       ],
       "validation_note": "Owned reaction history, private previews, predetermined/bounded attitudes and authored retries implemented; checks unrun. Context-specific consequences and automatic modifier collection pending."
+    },
+    {
+      "id": "combat-reaction-decisions",
+      "module": "social",
+      "pages": "B560-B561",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedCombatReaction",
+      "tests": [
+        "tests/expanded.py::test_combat_reactions"
+      ],
+      "validation_note": "Immediate contextual decisions and combat reaction modifiers authored; cases unrun. Combat AI execution, surrender, ambush and party-membership consequences pending."
     }
   ],
   "detailed_inventories": [

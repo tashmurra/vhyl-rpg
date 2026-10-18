@@ -356,3 +356,57 @@ class RpgExpandedReactionAttempt: object
         value.status = 'resolved'; return value;
     }
 ;
+
+class RpgExpandedCombatReactionResult: RpgExpandedResult
+    intent = nil
+    aidModifier = 0
+    noQuarter = nil
+    leaveDemand = nil
+;
+
+/** Context-specific potential combat/morale interpretation, B560-B561.
+ * Intent describes the next decision; movement and attacks still use combat. */
+class RpgExpandedCombatReaction: object
+    band = nil
+    inCombat = nil
+    outnumbered = nil
+    hopeless = nil
+    escapePossible = nil
+    visitorsRemain = nil
+    assess()
+    {
+        rpgInteger(self.band,0,7);
+        local value = new RpgExpandedCombatReactionResult(); value.status = 'ready';
+        if (self.band == 0) { value.intent = 'attack'; value.noQuarter = true; }
+        if (self.band == 1) value.intent = self.hopeless ? 'flee' : 'attack';
+        if (self.band == 2) value.intent = self.inCombat ? 'continue-fighting' : self.outnumbered ? 'flee' : 'attack';
+        if (self.band == 3)
+        {
+            if (self.inCombat) value.intent = 'continue-fighting';
+            else
+            {
+                value.leaveDemand = true;
+                value.intent = !self.visitorsRemain ? 'demand-departure' : self.outnumbered ? 'flee' : 'attack';
+            }
+        }
+        if (self.band == 4) value.intent = self.inCombat ? 'disengage' : 'pass-peacefully';
+        if (self.band == 5)
+        { value.intent = self.inCombat ? 'flee' : 'allow-request'; if (!self.inCombat) value.aidModifier = 1; }
+        if (self.band == 6)
+        {
+            value.intent = self.inCombat ? self.escapePossible ? 'flee' : 'surrender' : 'allow-request';
+            if (!self.inCombat) value.aidModifier = 3;
+        }
+        if (self.band == 7)
+        { value.intent = self.inCombat ? 'surrender' : 'allow-request'; if (!self.inCombat) value.aidModifier = 5; }
+        return value;
+    }
+;
+
+/** Combat-specific modifiers are explicit perceived facts, not actual stat
+ * comparisons. The strength assessment ranges from -5 through +5, B561. */
+rpgExpandedCombatReactionModifier(perceivedStrength, commonLanguage, intruders)
+{
+    rpgInteger(perceivedStrength,-5,5);
+    return perceivedStrength - (commonLanguage ? 0 : 2) - (intruders ? 2 : 0);
+}

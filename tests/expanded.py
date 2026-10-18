@@ -655,6 +655,36 @@ def test_social_structure(s):
         'rank-replaces-purchased-status', 3, 30, 'rank-status-policy-mismatch']
 
 
+def test_combat_reactions(s):
+    # (band, fighting, outnumbered, hopeless, escape, remain), expected result.
+    cases = [
+        ((0, 0, 1, 1, 1, 0), ['attack', 0, 1, 0]),
+        ((1, 0, 0, 0, 1, 0), ['attack', 0, 0, 0]),
+        ((1, 1, 0, 1, 1, 0), ['flee', 0, 0, 0]),
+        ((2, 0, 1, 0, 1, 0), ['flee', 0, 0, 0]),
+        ((2, 1, 1, 0, 1, 0), ['continue-fighting', 0, 0, 0]),
+        ((3, 0, 0, 0, 1, 0), ['demand-departure', 0, 0, 1]),
+        ((3, 0, 0, 0, 1, 1), ['attack', 0, 0, 1]),
+        ((3, 0, 1, 0, 1, 1), ['flee', 0, 0, 1]),
+        ((3, 1, 1, 0, 1, 1), ['continue-fighting', 0, 0, 0]),
+        ((4, 0, 0, 0, 1, 0), ['pass-peacefully', 0, 0, 0]),
+        ((4, 1, 0, 0, 1, 0), ['disengage', 0, 0, 0]),
+        ((5, 1, 0, 0, 0, 0), ['flee', 0, 0, 0]),
+        ((6, 1, 0, 0, 1, 0), ['flee', 0, 0, 0]),
+        ((6, 1, 0, 0, 0, 0), ['surrender', 0, 0, 0]),
+        ((7, 1, 0, 0, 1, 0), ['surrender', 0, 0, 0]),
+        ((5, 0, 0, 0, 1, 0), ['allow-request', 1, 0, 0]),
+        ((6, 0, 0, 0, 1, 0), ['allow-request', 3, 0, 0]),
+        ((7, 0, 0, 0, 1, 0), ['allow-request', 5, 0, 0]),
+    ]
+    for args, expected in cases:
+        s.action(1179, *args)
+        assert last(s, 'test.combat-reaction') == expected
+    for strength, language, intruders, expected in [(5, 1, 0, 5), (-5, 0, 1, -9), (0, 0, 0, -2), (0, 1, 1, -2)]:
+        s.action(1180, strength, language, intruders)
+        assert last(s, 'test.combat-reaction-modifier') == [expected]
+
+
 def test_social_status(s):
     for level, bonus in [(0, 0), (1, 0), (2, 1), (4, 1), (5, 2), (7, 2), (8, 3), (9, 3)]:
         s.action(1170, level, 0)
@@ -840,6 +870,7 @@ def test(build):
         print(f'  expanded {check.__name__}: passed',flush=True)
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')
     fresh(Session,social,test_social_status)
+    fresh(Session,social,test_combat_reactions)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
     test_reputation_persistence(Session,bundle,build.out)
