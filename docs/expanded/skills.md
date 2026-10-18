@@ -628,3 +628,9 @@ purchased point is still mandatory. A better default, equipment, reaction or oth
 situational check modifier cannot qualify the character. Checking the prerequisite
 does not spend points or time or roll dice. Boundary and no-training fixtures are
 authored but unrun while checks are paused.
+
+Expanded profile validation rejects duplicate catalogue talent purchases even
+when the requested skill lies outside the talent's group. Each purchase remains
+limited to four levels, including inactive or mitigated purchases. Optional
+specialties inherit their parent skill's catalogue membership for both skill
+bonuses and study time. The corresponding fixtures are authored but unrun.

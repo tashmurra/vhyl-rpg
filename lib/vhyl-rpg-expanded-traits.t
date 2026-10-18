@@ -1344,6 +1344,22 @@ modify rpgExpandedTemplateTraits
 
 /** B89-B91 shared talent membership for learning and demonstrated reactions. */
 modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited();
+        foreach (local talentId in ['artificer','outdoorsman','smooth-operator'])
+        {
+            local count = 0;
+            foreach (local trait in self.traits)
+                if (trait.id == talentId)
+                {
+                    if (!trait.ofKind(RpgLiteTrait)) rpgExpandedReject('catalogue-talent-definition');
+                    rpgInteger(trait.level,1,4); count += 1;
+                }
+            if (count > 1) rpgExpandedReject('duplicate-check-talent');
+        }
+        return nil;
+    }
     catalogueTalentSkills(id)
     {
         if (id == 'artificer') return ['armoury','carpentry','electrician','electronics-repair','engineer','machinist','masonry','mechanic','smith'];

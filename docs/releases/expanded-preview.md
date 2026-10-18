@@ -1375,3 +1375,7 @@ remain unresolved; assertions are authored but unrun.
 Skill prerequisite thresholds now include persistent talent and ancestry bonuses
 on purchased training. An untrained default still cannot satisfy a prerequisite.
 Boundary and pure repeated-assessment fixtures are authored but unrun.
+
+Catalogue talent purchase validation now runs for the entire expanded profile,
+so an unrelated skill check cannot bypass duplicate-purchase rejection. Optional
+specialty skill and study-rate fixtures were added; checks remain paused.

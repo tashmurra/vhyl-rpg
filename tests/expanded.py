@@ -9141,6 +9141,7 @@ def test(build):
     test_talent_check(Session, talent_check)
     test_talent_scores(Session, talent_check)
     test_talent_prerequisite(Session, talent_check)
+    test_talent_specialty_validation(Session, talent_check)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -18507,3 +18508,22 @@ def test_ancestry_prerequisite(Session, bundle):
             assert last(s, 'test.ancestry-prerequisite') == [expected, 0, 0]
         finally:
             s.close()
+
+
+def test_talent_specialty_validation(Session, bundle):
+    for changes, expected in (([], [12, 12, 80, 0, 0]),
+                              ([6805], [10, 10, 100, 0, 0])):
+        s = Session(bundle)
+        try:
+            for code in changes + [7106]:
+                s.action(2285, code)
+            assert last(s, 'test.talent-specialty') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (7107, 7108):
+            s.action(2285, code)
+        assert last(s, 'test.talent-invalid') == ['duplicate-check-talent', 0, 0]
+    finally:
+        s.close()
