@@ -194,6 +194,23 @@ class LaterCareFixtureAction: Action
 ;
 laterCareAction: LaterCareFixtureAction;
 laterCareVerb: Verb code = 1650 action = laterCareAction label = 'later-care-fixture';
+naturalRules: RpgExpandedRules expandedNaturalRecovery = true;
+naturalSlow: RpgLiteTrait id = 'slow-healing' level = 1;
+naturalRapid: RpgLiteTrait id = 'rapid-healing' level = 2;
+naturalPatient: RpgExpandedProfile rules = naturalRules st = 30 ht = 12 injury = 9 diseaseInjury = 2
+    traits = [naturalSlow,naturalRapid];
+class NaturalFixtureAction: Action
+    exec(context)
+    {
+        local seconds = healthInput.code == 3 ? 86399 : healthInput.code == 4 ? 1 : 86400;
+        local value = rpgLiteRest(naturalPatient,seconds,true,nil,nil,true);
+        event('test.natural-session'); eventValue(value.healed);
+        if (healthInput.code == 2) throw new RpgError();
+        return nil;
+    }
+;
+naturalAction: NaturalFixtureAction;
+naturalVerb: Verb code = 1660 action = naturalAction label = 'natural-fixture';
 modify gameMain initialRoom = healthRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
@@ -284,6 +301,12 @@ act(verb,args)
         eventValue(limbDuration.result.months); eventValue(limbDuration.result.monthRoll); eventValue(limbPatient.injury);
         eventValue(limbArm.disabled ? 1 : 0); eventValue(limbDuration.result.recovered ? 1 : 0);
         eventValue(limbDuration.recoveryMonths.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1660) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1661)
+    {
+        event('test.natural-state'); eventValue(naturalPatient.injury); eventValue(naturalPatient.healingClock);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     return vhylAct(verb,args);
 }

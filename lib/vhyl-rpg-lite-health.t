@@ -191,6 +191,10 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     rpgInteger(seconds, 1, 86400);
     local result = new RpgLiteHealthResult(); result.seconds = seconds;
     if (profile.dead) { result.status = 'blocked'; return result; }
+    profile.validateNaturalRecovery(seconds,food,healingAllowed);
+    local healingInterval = profile.naturalRecoveryInterval();
+    local healingModifier = profile.naturalRecoveryModifier();
+    local healingAmount = profile.naturalRecoveryAmount();
     rpgSpendTime(seconds);
     for (local elapsed = 0; elapsed < seconds && (profile.stunned || profile.mentalStun)
         && !profile.unconscious && profile.fearSeconds == 0; elapsed += 1) rpgLiteRecoverStun(profile);
@@ -225,12 +229,18 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     if (food && healingAllowed)
     {
         profile.healingClock += seconds;
-        while (profile.healingClock >= 86400)
+        while (profile.healingClock >= healingInterval)
         {
-            profile.healingClock -= 86400;
-            result.check = rpgLiteAttributeCheck(profile, rpgHT, 'healing', 0);
-            if (result.check.achieved && profile.injury > profile.diseaseInjury + profile.temperatureInjury)
-                result.healed += rpgLiteHeal(profile, 1);
+            profile.healingClock -= healingInterval;
+            if (profile.naturalRecoveryNeeded())
+            {
+                result.check = rpgLiteAttributeCheck(profile, rpgHT, 'healing', healingModifier);
+                if (result.check.achieved && profile.injury > profile.diseaseInjury + profile.temperatureInjury)
+                {
+                    local available = profile.injury - profile.diseaseInjury - profile.temperatureInjury;
+                    result.healed += rpgLiteHeal(profile,healingAmount < available ? healingAmount : available);
+                }
+            }
         }
     }
     rpgLiteHealthTime(profile, seconds);

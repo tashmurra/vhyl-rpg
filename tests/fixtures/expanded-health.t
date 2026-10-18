@@ -219,5 +219,40 @@ act(verb,args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1617)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.rules.expandedNaturalRecovery = args[6] == 1;
+        p.st = args[1]; p.ht = 12; p.injury = args[2]; p.diseaseInjury = args[3]; p.naturalRecoveryConditions = args[8];
+        if (args[4] > 0) { local slow = new RpgLiteTrait(); slow.id = 'slow-healing'; slow.level = args[4]; p.traits = [slow]; }
+        if (args[5] > 0)
+        { local rapid = new RpgLiteTrait(); rapid.id = args[5] == 3 ? 'very-rapid-healing' : 'rapid-healing';
+          rapid.level = args[5] == 3 ? 1 : args[5]; p.traits = p.traits + [rapid]; }
+        rpgRandom.seed(1); local before = rpgLedger.seconds; local healed = 0; local score = 0;
+        for (local day = 0; day < args[7]; day += 1)
+        {
+            local value = rpgLiteRest(p,86400,true,nil,nil,true); healed += value.healed;
+            score = value.check == nil ? 0 : value.check.score;
+        }
+        event('test.natural-recovery'); eventValue(healed); eventValue(p.injury); eventValue(p.healingClock);
+        eventValue(rpgRandom.draws); eventValue(score); eventValue(rpgLedger.seconds - before); return nil;
+    }
+    if (verb == 1618)
+    {
+        event('test.healing-scale'); eventValue(rpgExpandedHealingAmount(args[1],args[2])); return nil;
+    }
+    if (verb == 1619)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.rules.expandedNaturalRecovery = true;
+        p.injury = 5; local before = rpgLedger.seconds; local draws = rpgRandom.draws;
+        if (args[1] == 1) { local trait = new RpgLiteTrait(); trait.id = 'unhealing'; p.traits = [trait]; }
+        if (args[1] == 2) p.naturalRecoveryConditions = -20;
+        if (args[1] == 3) { p.diseaseInjury = 4; p.temperatureInjury = 4; }
+        if (args[1] == 4) p.mortal = true;
+        event('test.natural-recovery-gate');
+        try { rpgLiteRest(p,86400,true,nil,nil,true); eventValue('unexpected'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        eventValue(p.injury); eventValue(p.healingClock); eventValue(rpgRandom.draws - draws);
+        eventValue(rpgLedger.seconds - before); return nil;
+    }
     return vhylAct(verb,args);
 }

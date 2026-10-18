@@ -22,7 +22,8 @@ arm/hand state, equipment and unarmed-parry restrictions, single- and multiple-g
 drops, disability duration, temporary full-health recovery and lasting recovery
 through authored calendar milestones. Later completed physician care can shorten
 recovery without stacking discounts. An explicit last-wounds option records
-ignored injuries without spending health or randomness. Other anatomy,
+ignored injuries without spending health or randomness. Optional expanded natural
+recovery adds healing traits and capacity scaling through the shared rest clock. Other anatomy,
 accumulated wounds, full medical procedures, surgery and permanent-disability
 accounting remain incomplete.
 

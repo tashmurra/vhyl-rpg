@@ -408,6 +408,81 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def natural_state(s):
+    s.action(1661)
+    return last(s, 'test.natural-state')
+
+
+def test_natural_recovery_transactions(s):
+    assert natural_state(s) == [9, 0, 0, 0]
+    s.action(1660, 1)
+    assert natural_state(s) == [9, 86400, 0, 86400]
+    s.action(1660, 2)
+    assert natural_state(s) == [9, 86400, 0, 86400]
+    s.action(1660, 3)
+    before = natural_state(s)
+    assert before == [9, 172799, 0, 172799]
+    s.action(1660, 4)
+    assert natural_state(s) == [3, 0, 3, 172800]
+    s.command('undo')
+    assert natural_state(s) == before
+    s.action(1660, 4)
+    assert natural_state(s) == [3, 0, 3, 172800]
+
+
+def test_natural_recovery_persistence(Session, bundle, out):
+    for completed in [False, True]:
+        path = out / f'expanded-natural-{completed}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1660, 1); first.action(1660, 3)
+            if completed:
+                first.action(1660, 4)
+            saved = natural_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1661')
+            assert natural_state(second) == saved
+            if not completed:
+                second.action(1660, 4)
+            assert natural_state(second) == [3, 0, 3, 172800]
+        finally:
+            second.close()
+
+
+def test_expanded_natural_recovery(s):
+    for args, expected in [
+            ((10, 2, 2, 0, 0, 1, 1, 0), [0, 2, 0, 0, 0, 86400]),
+            ((10, 0, 0, 0, 0, 1, 1, 0), [0, 0, 0, 0, 0, 86400]),
+            ((19, 5, 0, 0, 0, 1, 1, 0), [1, 4, 0, 3, 12, 86400]),
+            ((20, 5, 0, 0, 0, 1, 1, 0), [2, 3, 0, 3, 12, 86400]),
+            ((30, 9, 2, 0, 2, 1, 1, 0), [6, 3, 0, 3, 17, 86400]),
+            ((30, 5, 2, 0, 3, 1, 1, 0), [3, 2, 0, 3, 17, 86400]),
+            ((10, 5, 0, 1, 0, 1, 1, 0), [0, 5, 86400, 0, 0, 86400]),
+            ((10, 5, 0, 1, 0, 1, 2, 0), [1, 4, 0, 3, 12, 172800]),
+            ((10, 5, 0, 2, 0, 1, 3, 0), [0, 5, 259200, 0, 0, 259200]),
+            ((10, 5, 0, 2, 0, 1, 4, 0), [1, 4, 0, 3, 12, 345600]),
+            ((10, 5, 0, 3, 0, 1, 8, 0), [1, 4, 0, 3, 12, 691200]),
+            ((30, 9, 2, 1, 2, 0, 1, 0), [1, 8, 0, 3, 12, 86400]),
+            ((10, 5, 0, 0, 0, 1, 1, -2), [1, 4, 0, 3, 10, 86400]),
+            ((10, 5, 0, 0, 0, 1, 1, -3), [0, 5, 0, 3, 9, 86400])]:
+        s.action(1617, *args)
+        assert last(s, 'test.natural-recovery') == expected
+    for capacity, base, expected in [(1, 1, 1), (19, 3, 3), (20, 3, 6),
+                                      (29, 2, 4), (30, 2, 6), (99, 1, 9), (100, 0, 0)]:
+        s.action(1618, capacity, base)
+        assert last(s, 'test.healing-scale') == [expected]
+    for code, reason in [(1, 'natural-recovery-unhealing-context-required'),
+                         (2, 'natural-recovery-score-unavailable'),
+                         (3, 'natural-recovery-protected-injury'),
+                         (4, 'natural-recovery-mortal-regimen-unavailable')]:
+        s.action(1619, code)
+        assert last(s, 'test.natural-recovery-gate') == [reason, 5, 0, 0, 0]
+
+
 def later_care_state(s):
     s.action(1651)
     return last(s, 'test.later-care-state')
@@ -2580,6 +2655,7 @@ def test(build):
     fresh(Session,health,test_unarmed_limb_capacity)
     fresh(Session,health,test_crippling_months)
     fresh(Session,health,test_last_wounds_option)
+    fresh(Session,health,test_expanded_natural_recovery)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_limb_wound_transactions)
@@ -2589,6 +2665,8 @@ def test(build):
     fresh(Session,wounds,test_lasting_recovery)
     fresh(Session,wounds,test_later_crippling_care)
     fresh(Session,wounds,test_later_care_calendar)
+    fresh(Session,wounds,test_natural_recovery_transactions)
+    test_natural_recovery_persistence(Session,wounds,build.out)
     test_later_care_persistence(Session,wounds,build.out)
     test_lasting_recovery_persistence(Session,wounds,build.out)
     test_crippling_duration_persistence(Session,wounds,build.out)

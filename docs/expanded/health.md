@@ -589,3 +589,49 @@ leave a two-month requirement.
 initial-versus-later care, immediate and future calendar expiry, evidence and
 identity rejection, rollback, undo and cross-process replay. These fixtures are
 unrun. The full treatment, surgery and permanent-repair procedures remain pending.
+
+
+## Expanded natural recovery
+
+Set `rules.expandedNaturalRecovery = true` to use the expanded natural-recovery
+subset through `rpgLiteRest`. The option is off by default. The existing
+`healingClock`, global time-spending ledger and healing operation remain the only
+clock and balances involved; there is no parallel recovery counter.
+
+Full-2008 B424 gives a daily health check after eligible rest and food. The
+expanded hooks add the B79 rapid-healing bonus of five, once, and double base
+healing for the higher level. `rapid-healing` levels one/two or the separate
+`very-rapid-healing` ID supply these effects; authors still need valid trait
+purchases and prerequisites. B155 slow healing doubles the check interval for
+each of its three supported levels: two, four or eight days. These effect hooks
+do not supply the trait catalogue or all of those traits' interactions.
+
+`rpgExpandedHealingAmount(capacity, amount)` applies B424's high-capacity healing
+multiple. Natural recovery uses it after selecting the one- or two-point base
+amount. The committed healing is capped to injury eligible for natural recovery,
+so a larger result cannot consume protected disease or temperature injury.
+Fully healed patients, and patients with only that protected injury, consume no
+natural-recovery roll under this option. Other recovery sources do not yet
+receive the new multiple automatically.
+
+`naturalRecoveryConditions` is the author's numeric modifier for the good or bad
+conditions allowed by B424. It does not certify medical supervision or replace
+its separate qualification rules. The rest call's existing food and eligibility
+arguments still describe the authored interval. Rest-period interruption rules,
+physician supervision and medical treatment schedules remain incomplete; hosts
+must not count ineligible activity as recovery rest.
+
+The shared hooks are `naturalRecoveryInterval`, `naturalRecoveryModifier`,
+`naturalRecoveryAmount`, `naturalRecoveryNeeded` and `validateNaturalRecovery`.
+Their Lite defaults retain the former interval, check, amount and random draw
+behavior. Expanded preflight rejects inconsistent protected-injury balances and
+unavailable required checks before time or randomness is spent. Active unhealing
+with otherwise eligible injury requires an unimplemented exception context and
+rejects explicitly. Natural healing alongside a mortal-wound regimen also
+rejects pending chronological medical integration.
+
+`test_expanded_natural_recovery` covers source values, interval boundaries,
+scaling, conditions, protected injury, option-off behavior and preflight errors.
+`test_natural_recovery_transactions` and `test_natural_recovery_persistence`
+exercise the last second of a slow-healing interval, rollback, undo/replay and
+cross-process continuation. These fixtures are authored but unrun.

@@ -671,9 +671,14 @@
       "pages": "B424",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After a full day of rest and adequate food, a successful health check restores one health before capacity scaling; ineligible injury types do not heal naturally.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_natural_recovery",
+        "tests/expanded.py::test_natural_recovery_transactions",
+        "tests/expanded.py::test_natural_recovery_persistence"
+      ],
+      "validation_note": "Off-by-default expanded natural recovery integrates B79/B155 healing traits, B424 scaling, protected-injury caps and the shared rest clock. Fixtures unrun. Scaling of other healing sources, physician supervision, rest interruption and mortal/unhealing exceptions remain incomplete."
     },
     {
       "id": "health-bandage",
@@ -861,9 +866,14 @@
       "pages": "B424",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Scale healing by one below capacity twenty, two at twenty through twenty-nine, three at thirty through thirty-nine and so on, across natural, first-aid, magical and regeneration healing without double scaling.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_natural_recovery",
+        "tests/expanded.py::test_natural_recovery_transactions",
+        "tests/expanded.py::test_natural_recovery_persistence"
+      ],
+      "validation_note": "Off-by-default expanded natural recovery integrates B79/B155 healing traits, B424 scaling, protected-injury caps and the shared rest clock. Fixtures unrun. Scaling of other healing sources, physician supervision, rest interruption and mortal/unhealing exceptions remain incomplete."
     },
     {
       "id": "health-resuscitation-check",

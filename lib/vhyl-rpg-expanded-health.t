@@ -4,6 +4,7 @@
 modify RpgExpandedRules
     scaledInjuryShock = nil
     lastWounds = nil
+    expandedNaturalRecovery = nil
 ;
 
 /** Shock from one wound, before trait exceptions; high capacity scales the divisor. */
@@ -860,5 +861,68 @@ class RpgExpandedCripplingCare: object
             part.disablingWound = nil; self.duration.result.recovered = true;
         }
         return value;
+    }
+;
+
+
+/** Scale a base healing amount for full health capacity, full-2008 B424. */
+rpgExpandedHealingAmount(capacity, amount)
+{
+    rpgInteger(capacity,1,1000); rpgInteger(amount,0,100000);
+    return amount * (capacity < 20 ? 1 : capacity / 10);
+}
+
+modify RpgExpandedProfile
+    naturalRecoveryConditions = 0
+    naturalRecoveryInterval()
+    {
+        if (!self.rules.expandedNaturalRecovery) return inherited();
+        local level = self.level('slow-healing'); rpgInteger(level,0,3);
+        local interval = 86400;
+        for (local index = 0; index < level; index += 1) interval *= 2;
+        return interval;
+    }
+    naturalRecoveryModifier()
+    {
+        if (!self.rules.expandedNaturalRecovery) return inherited();
+        rpgInteger(self.naturalRecoveryConditions,-100,100);
+        rpgInteger(self.level('rapid-healing'),0,2); rpgInteger(self.level('very-rapid-healing'),0,1);
+        return self.naturalRecoveryConditions
+            + (self.level('rapid-healing') > 0 || self.level('very-rapid-healing') > 0 ? 5 : 0);
+    }
+    naturalRecoveryAmount()
+    {
+        if (!self.rules.expandedNaturalRecovery) return inherited();
+        local base = self.level('rapid-healing') == 2 || self.level('very-rapid-healing') > 0 ? 2 : 1;
+        return rpgExpandedHealingAmount(self.maxHP,base);
+    }
+    naturalRecoveryNeeded()
+    {
+        if (!self.rules.expandedNaturalRecovery) return inherited();
+        return self.injury > self.diseaseInjury + self.temperatureInjury;
+    }
+    validateNaturalRecovery(seconds, food, allowed)
+    {
+        inherited(seconds,food,allowed);
+        if (self.rules == nil || !self.rules.ofKind(RpgExpandedRules)) rpgExpandedReject('expanded-rules-required');
+        if (!self.rules.expandedNaturalRecovery) return nil;
+        rpgInteger(self.healingClock,0,2147483647 - seconds);
+        rpgInteger(self.diseaseInjury,0,self.injury); rpgInteger(self.temperatureInjury,0,self.injury);
+        if (self.diseaseInjury + self.temperatureInjury > self.injury)
+            rpgExpandedReject('natural-recovery-protected-injury');
+        local interval = self.naturalRecoveryInterval(); self.naturalRecoveryAmount();
+        local modifier = self.naturalRecoveryModifier();
+        if (food && allowed && self.naturalRecoveryNeeded())
+        {
+            if (self.level('unhealing') > 0) rpgExpandedReject('natural-recovery-unhealing-context-required');
+            if (self.mortal) rpgExpandedReject('natural-recovery-mortal-regimen-unavailable');
+            if (self.healingClock + seconds >= interval)
+            {
+                local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'healing';
+                context.modifier = modifier; local score = rpgLiteScore(self,context);
+                if (score == nil || score < 3) rpgExpandedReject('natural-recovery-score-unavailable');
+            }
+        }
+        return nil;
     }
 ;

@@ -48,6 +48,11 @@ class RpgLiteProfile: RpgProfile
     injury = 0
     fatigue = 0
     afterHealing() { return nil; }
+    naturalRecoveryInterval() { return 86400; }
+    naturalRecoveryModifier() { return 0; }
+    naturalRecoveryAmount() { return 1; }
+    naturalRecoveryNeeded() { return true; }
+    validateNaturalRecovery(seconds, food, allowed) { return nil; }
     shock = 0
     /* Pure injury extension; the default preserves the abridged penalty. */
     shockFromInjury(amount) { return amount; }
