@@ -318,11 +318,52 @@ class BandageFixtureAction: Action
 ;
 bandageAction: BandageFixtureAction;
 bandageVerb: Verb code = 1690 action = bandageAction label = 'bandage-fixture';
+aidPatient: RpgExpandedProfile rules = healthRules st = 30;
+aidHealer: RpgLiteProfile iq = 12 techLevel = 8;
+aidWound: RpgExpandedWound id = 'aid-injury' profile = aidPatient amount = 12;
+aidBandage: RpgExpandedBandage wound = aidWound healer = aidHealer
+    evidence = 'Observed pressure-treatable injury' eligibleInjury = 12;
+aidRequest: RpgExpandedFirstAid bandage = aidBandage healer = aidHealer
+    careEvidence = 'Warm, comfortable, calm and still throughout' comfortable = true;
+class AidFixtureAction: Action
+    exec(context)
+    {
+        if (healthInput.code == 0)
+        {
+            aidRequest.skill = rpgLiteMakeSkill('first-aid',8,nil);
+            local training = new RpgTraining(); training.skill = aidRequest.skill; training.points = 1;
+            aidHealer.skills = [training]; aidWound.apply(); aidBandage.apply(); return nil;
+        }
+        if (healthInput.code == 5) aidRequest.careEvidence = 'Changed evidence';
+        if (healthInput.code == 6 || healthInput.code == 7) rpgRandom.seed(5);
+        local request = aidRequest;
+        if (healthInput.code == 4)
+        {
+            request = new RpgExpandedFirstAid(); request.bandage = aidBandage; request.healer = aidHealer;
+            request.skill = aidRequest.skill; request.comfortable = true; request.careEvidence = aidRequest.careEvidence;
+        }
+        local value = healthInput.code == 3 ? request.assess() : request.apply();
+        event('test.aid-action'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.healed); eventValue(value.injury); eventValue(value.seconds);
+        if (healthInput.code == 2 || healthInput.code == 7) throw new RpgError();
+        return nil;
+    }
+;
+aidAction: AidFixtureAction;
+aidVerb: Verb code = 1700 action = aidAction label = 'aid-fixture';
 modify gameMain initialRoom = healthRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 1700) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1701)
+    {
+        event('test.aid-state'); eventValue(aidPatient.injury); eventValue(aidPatient.woundSerial);
+        eventValue(aidPatient.expandedWounds.length()); eventValue(aidPatient.aidUsed ? 1 : 0);
+        eventValue(aidBandage.treatment == aidRequest ? 1 : 0); eventValue(aidRequest.result == nil ? 0 : 1);
+        eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); eventValue(aidRequest.careEvidence); return nil;
+    }
     if (verb == 1690) { healthInput.code = args[1]; return vhylAct(verb,args); }
     if (verb == 1691)
     {

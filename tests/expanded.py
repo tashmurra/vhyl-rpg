@@ -408,6 +408,65 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def aid_state(s):
+    s.action(1701)
+    return last(s, 'test.aid-state')
+
+
+def test_aid_transactions(s):
+    s.action(1700, 0)
+    evidence = 'Warm, comfortable, calm and still throughout'
+    before = aid_state(s)
+    assert before == [9, 1, 1, 0, 0, 0, 60, 0, evidence]
+    s.action(1700, 3)
+    assert last(s, 'test.aid-action') == ['ready', None, 0, 0, 600]
+    assert aid_state(s) == before
+    for code in [2, 7]:
+        s.action(1700, code)
+        assert aid_state(s) == before
+    s.action(1700, 6)
+    assert aid_state(s) == [14, 2, 2, 1, 1, 1, 660, 3, evidence]
+    s.command('undo')
+    assert aid_state(s) == before
+    s.action(1700, 1)
+    committed = aid_state(s)
+    assert committed == [3, 1, 1, 1, 1, 1, 660, 4, evidence]
+    s.command('undo')
+    assert aid_state(s) == before
+    s.action(1700, 1)
+    assert aid_state(s) == committed
+    for code in [1, 4, 5]:
+        s.action(1700, code)
+        assert aid_state(s) == committed
+
+
+def test_aid_persistence(Session, bundle, out):
+    for completed in [0, 1, 6]:
+        path = out / f'expanded-aid-{completed}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1700, 0)
+            if completed:
+                first.action(1700, completed)
+            saved = aid_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1701')
+            assert aid_state(second) == saved
+            second.action(1700, 1)
+            assert last(second, 'test.aid-action')[0] == ('reused' if completed else 'resolved')
+            if completed:
+                assert aid_state(second) == saved
+            else:
+                assert aid_state(second) == [3, 1, 1, 1, 1, 1, 660, 4,
+                                             'Warm, comfortable, calm and still throughout']
+        finally:
+            second.close()
+
+
 def bandage_state(s):
     s.action(1691)
     return last(s, 'test.bandage-state')
@@ -2901,6 +2960,8 @@ def test(build):
     fresh(Session,health,test_bandage_rejections)
     fresh(Session,health,test_first_aid_treatment)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
+    fresh(Session,wounds,test_aid_transactions)
+    test_aid_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_bandage_transactions)
     test_bandage_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_owned_wound_transactions)

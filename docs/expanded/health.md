@@ -617,9 +617,9 @@ receive the new multiple automatically.
 `naturalRecoveryConditions` is the author's numeric modifier for the good or bad
 conditions allowed by B424. It does not certify medical supervision or replace
 its separate qualification rules. The rest call's existing food and eligibility
-arguments still describe the authored interval. Rest-period interruption rules,
-physician supervision and medical treatment schedules remain incomplete; hosts
-must not count ineligible activity as recovery rest.
+arguments still describe the authored interval. Physician supervision and scheduled
+healing checks are described below. Rest-period interruption and automatic care
+scheduling remain incomplete; hosts must not count ineligible activity as recovery rest.
 
 The shared hooks are `naturalRecoveryInterval`, `naturalRecoveryModifier`,
 `naturalRecoveryAmount`, `naturalRecoveryNeeded` and `validateNaturalRecovery`.
@@ -769,8 +769,9 @@ by the healing factor. This helper does not apply that injury or resolve its
 consequences.
 
 These are numerical interfaces, not a complete expanded treatment session.
-Wound ownership, duplicate-treatment prevention, interrupted care, bleeding,
-equipment and skill contexts, and committed time/resource use remain incomplete.
+The owned bandaging and post-bandaging interfaces below provide committed time,
+recovery and duplicate-treatment protection for their supported cases. Interrupted
+care, bleeding and complete equipment/skill contexts remain incomplete.
 Do not call a shared healing function directly with these allowances as a
 substitute for those eligibility checks. Existing Lite treatment remains unchanged.
 `test_expanded_first_aid_values` contains independent table-row and outcome
@@ -801,7 +802,8 @@ awakening check when healing an unconscious patient. Call the operation within
 an engine transaction, as with other committed actions.
 
 This atomic one-minute operation does not yet support interrupted treatment,
-bleeding checks, or the subsequent shock-treatment session. It relies on authored
+or bleeding checks. The subsequent treatment stage uses a separate owned request
+described below. Bandaging relies on authored
 eligibility evidence; it does not infer injury allocation from a generic callback.
 `test_expanded_bandage` covers preview purity, scaled recovery, repeated requests
 and shared time accounting. `test_bandage_rejections` asserts no spending for missing evidence, invalid
@@ -839,8 +841,12 @@ another treatment from spending resources again. Reusing the completed request
 returns its historical outcome with zero new seconds.
 
 This stage remains partial: earlier-wound allocation, interrupted care, bleeding,
-complete equipment/physiology/diagnosis contexts and treatment transaction/save
-fixtures remain incomplete. Authors supply the applicable contextual modifier;
+and complete equipment/physiology/diagnosis contexts remain incomplete. Authors supply the applicable contextual modifier;
 that input alone does not constitute implementation of every context rule.
 `test_first_aid_treatment` provides successful and critical-failure expectations,
-preview purity and repeated-request checks. It is authored but unrun.
+preview purity and repeated-request checks. `test_aid_transactions` covers both
+outcomes, rollback after mutation, undo, deterministic replay, duplicate requests
+and altered receipt evidence. `test_aid_persistence` restores the exact compiled
+game in another process before treatment and after success or critical failure;
+it checks continuation and historical receipt reuse. These fixtures are authored
+but unrun while checks are paused.

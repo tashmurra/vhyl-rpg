@@ -716,9 +716,11 @@
       "status": "partial",
       "acceptance": "After bandaging, the patient must remain warm, comfortable, calm and still for the listed treatment duration before the first-aid roll.",
       "tests": [
-        "tests/expanded.py::test_first_aid_treatment"
+        "tests/expanded.py::test_first_aid_treatment",
+        "tests/expanded.py::test_aid_transactions",
+        "tests/expanded.py::test_aid_persistence"
       ],
-      "validation_note": "Owned post-bandaging treatment implements an atomic authored care interval, source recovery outcomes, capped eligible healing and committed critical-failure injury. Fixtures unrun. Interrupted care, earlier wounds, bleeding, full context modifiers and treatment transaction/save fixtures remain incomplete."
+      "validation_note": "Owned post-bandaging treatment implements an atomic authored care interval, source outcomes, capped eligible healing and critical-failure injury. Source outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Interrupted care, earlier wounds, bleeding and full context modifiers remain incomplete."
     },
     {
       "id": "health-first-aid-healing",
@@ -730,9 +732,11 @@
       "acceptance": "Successful treatment rolls the technology-dependent recovery amount, minimum one; this total includes prior bandage recovery rather than adding it again.",
       "tests": [
         "tests/expanded.py::test_expanded_first_aid_values",
-        "tests/expanded.py::test_first_aid_treatment"
+        "tests/expanded.py::test_first_aid_treatment",
+        "tests/expanded.py::test_aid_transactions",
+        "tests/expanded.py::test_aid_persistence"
       ],
-      "validation_note": "Owned post-bandaging treatment implements an atomic authored care interval, source recovery outcomes, capped eligible healing and committed critical-failure injury. Fixtures unrun. Interrupted care, earlier wounds, bleeding, full context modifiers and treatment transaction/save fixtures remain incomplete."
+      "validation_note": "Owned post-bandaging treatment implements an atomic authored care interval, source outcomes, capped eligible healing and critical-failure injury. Source outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Interrupted care, earlier wounds, bleeding and full context modifiers remain incomplete."
     },
     {
       "id": "health-first-aid-critical",
@@ -744,9 +748,11 @@
       "acceptance": "Critical first-aid success restores the maximum listed amount; critical failure loses two health instead of recovering health. Preserve the treatment's prior bandaging in the total accounting.",
       "tests": [
         "tests/expanded.py::test_expanded_first_aid_values",
-        "tests/expanded.py::test_first_aid_treatment"
+        "tests/expanded.py::test_first_aid_treatment",
+        "tests/expanded.py::test_aid_transactions",
+        "tests/expanded.py::test_aid_persistence"
       ],
-      "validation_note": "Owned post-bandaging treatment implements an atomic authored care interval, source recovery outcomes, capped eligible healing and committed critical-failure injury. Fixtures unrun. Interrupted care, earlier wounds, bleeding, full context modifiers and treatment transaction/save fixtures remain incomplete."
+      "validation_note": "Owned post-bandaging treatment implements an atomic authored care interval, source outcomes, capped eligible healing and critical-failure injury. Source outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Interrupted care, earlier wounds, bleeding and full context modifiers remain incomplete."
     },
     {
       "id": "health-surgery-context",
