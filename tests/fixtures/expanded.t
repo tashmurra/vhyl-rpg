@@ -1638,6 +1638,35 @@ act(verb, args)
         event('test.hire-payroll-state'); eventValue(recruiterOne.money); eventValue(recruitCandidate.money);
         eventValue(recruitVacancy.hiredEmployment.months.length()); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
+    if (verb == 1457)
+    {
+        local skill = args[1] == 1 ? new RpgSkill() : args[1] == 2 ? new RpgLiteSkill() : new RpgExpandedSkill();
+        skill.difficulty = args[1] == 4 ? 4 : 3;
+        if (args[1] == 5) skill.attribute = nil;
+        if (args[1] == 6) skill.defaultPenalty = 1;
+        event('test.skill-definition');
+        try { rpgExpandedValidateSkill(skill); eventValue('accepted'); }
+        catch (RpgError error) { eventValue('rejected'); }
+        return nil;
+    }
+    if (verb == 1458)
+    {
+        local rules = new RpgExpandedRules(); rules.wildcardSkills = args[1] != 1;
+        local p = new RpgExpandedProfile(); p.rules = rules;
+        local skill = new RpgExpandedSkill(); skill.id = 'wildcard-fixture';
+        skill.wildcard = true; skill.difficulty = args[1] == 2 ? 2 : 3;
+        if (args[1] == 3) skill.defaultPenalty = -6;
+        if (args[1] == 4) skill.defaults = [[expandedSubject,-2]];
+        local training = new RpgExpandedTraining(); training.skill = skill; training.points = 3;
+        p.skills = [training]; event('test.wildcard-creation');
+        try
+        {
+            rpgExpandedValidateCharacter(p); eventValue('accepted');
+            eventValue(rpgExpandedCharacterCost(p,nil)); eventValue(p.skillScore(skill));
+        }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

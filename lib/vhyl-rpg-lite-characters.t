@@ -362,13 +362,9 @@ rpgLiteValidateTraits(profile)
     return true;
 }
 
-/** Validate the point budget, disadvantage limit, trait combinations, languages and technology. */
-rpgLiteValidateCharacter(profile)
+/** Validate unique languages and the single native-language entitlement. */
+rpgLiteValidateLanguages(profile)
 {
-    rpgInteger(profile.st, 1, 20); rpgInteger(profile.dx, 1, 100);
-    rpgInteger(profile.iq, 1, 100); rpgInteger(profile.ht, 1, 100);
-    rpgInteger(profile.techLevel, 0, 12); rpgInteger(profile.campaignTL, 0, 12);
-    rpgLiteValidateTraits(profile);
     local ids = []; local natives = 0;
     foreach (local language in profile.languages)
     {
@@ -377,6 +373,17 @@ rpgLiteValidateCharacter(profile)
         if (language.native) { natives += 1; if (language.spoken != 3) rpgLiteInvalidCharacter('native-language'); }
     }
     if (natives > 1) rpgLiteInvalidCharacter('multiple-native-languages');
+    return true;
+}
+
+/** Validate the point budget, disadvantage limit, trait combinations, languages and technology. */
+rpgLiteValidateCharacter(profile)
+{
+    rpgInteger(profile.st, 1, 20); rpgInteger(profile.dx, 1, 100);
+    rpgInteger(profile.iq, 1, 100); rpgInteger(profile.ht, 1, 100);
+    rpgInteger(profile.techLevel, 0, 12); rpgInteger(profile.campaignTL, 0, 12);
+    rpgLiteValidateTraits(profile);
+    rpgLiteValidateLanguages(profile);
     foreach (local training in profile.skills)
         if (training.points > 0 && training.skill.ofKind(RpgLiteSkill)
             && training.skill.techLevel != nil && training.skill.techLevel > profile.techLevel)

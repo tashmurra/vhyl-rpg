@@ -59,10 +59,13 @@ rpgExpandedValidateCharacter(profile)
             || profile.moveAdjustment < -3 || profile.moveAdjustment > 3)
             rpgExpandedReject('secondary-limit');
     }
+    try { rpgLiteValidateTraits(profile); rpgLiteValidateLanguages(profile); }
+    catch (RpgLiteCharacterError error) { rpgExpandedReject(error.reason); }
     local skills = [];
     foreach (local training in profile.skills)
     {
-        if (training.skill == nil || holds(skills, training.skill)) rpgExpandedReject('duplicate-training');
+        if (training == nil || !training.ofKind(RpgTraining) || training.skill == nil
+            || !training.skill.ofKind(RpgSkill) || holds(skills, training.skill)) rpgExpandedReject('duplicate-training');
         skills = skills + [training.skill]; rpgInteger(training.points, 0, 1000000);
         if (training.points > 0)
         {

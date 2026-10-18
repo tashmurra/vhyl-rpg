@@ -54,7 +54,7 @@ class RpgExpandedStatusEncounter: object
         {
             if (!self.structure.ofKind(RpgExpandedSocialStructure) || self.structure.culture != self.culture)
                 rpgExpandedReject('status-structure-culture');
-            return self.structure.standing(profile);
+            return self.structure.standingFor(profile);
         }
         rpgExpandedValidate(profile);
         foreach (local entry in profile.contributions)
@@ -114,7 +114,7 @@ class RpgExpandedSocialStructure: object
     wealthLinked = nil
     replacingInstitution = nil
     purchasedMaximum = 8
-    standing(profile)
+    standingFor(profile)
     {
         if (self.culture == nil || profile == nil || !profile.ofKind(RpgExpandedProfile))
             rpgExpandedReject('social-structure');
