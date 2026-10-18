@@ -1170,6 +1170,6 @@ the parent's required specialty through `studySpecialty()`.
 Overlapping catalogue talents add skill bonuses, including totals above four.
 Study uses the greatest applicable level, so reductions do not stack. Reaction
 contexts still select one demonstrated talent and require authored audience facts;
-combining several talent reaction claims remains unsupported. These purchases do
-not yet have template-row reconstruction support. Custom talent groups and
+combining several talent reaction claims remains unsupported. The seven additional IDs support ordinary template rows and fresh reconstruction.
+Custom talent groups and
 source-skill default transfers remain pending. Fixtures are authored but unrun.

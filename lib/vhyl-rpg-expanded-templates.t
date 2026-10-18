@@ -5,7 +5,7 @@
  * an explicit self-control purchase resolved by the installed trait module. */
 rpgExpandedTemplateTrait(row)
 {
-    if (row.length() == 3) return rpgLiteMakeTrait(row[1],row[2],row[3]);
+    if (row.length() == 3) return rpgExpandedTemplateTraits.plain(row[1],row[2],row[3]);
     if (row.length() == 4) return rpgExpandedTemplateTraits.rated(row[1],row[2],row[3],row[4]);
     rpgExpandedReject('template-trait');
 }
@@ -80,9 +80,7 @@ rpgExpandedCopyTemplateTrait(trait)
     if (trait == nil || !trait.ofKind(RpgLiteTrait) || trait.labelId == nil)
         rpgExpandedReject('template-trait-copy-definition');
     if (trait.nextCheck != 0) rpgExpandedReject('template-trait-runtime-state');
-    local copy = trait.templatePurchaseKind == 'shared-catalogue'
-        ? rpgLiteMakeTrait(trait.labelId,trait.level,trait.scope)
-        : rpgExpandedTemplateTraits.rated(trait.labelId,trait.level,trait.scope,trait.selfControlNumber());
+    local copy = rpgExpandedTemplateTraits.copy(trait);
     if (copy.templatePurchaseKind != trait.templatePurchaseKind || copy.id != trait.id
         || copy.controlled != trait.controlled || copy.creationCost() != trait.creationCost())
         rpgExpandedReject('template-trait-copy-purchase');
@@ -897,7 +895,13 @@ rpgExpandedMergeAncestryTrait(existing, incoming)
         rpgExpandedReject('ancestry-trait-conflict');
     for (local i = 1; i <= existing.skills.length(); i += 1)
         if (existing.skills[i] != incoming.skills[i]) rpgExpandedReject('ancestry-trait-conflict');
-    if (existing.templatePurchaseKind == 'shared-catalogue'
+    if (existing.templatePurchaseKind == 'expanded-catalogue-talent')
+    {
+        local level = existing.level + incoming.level;
+        if (level > 4) rpgExpandedReject('ancestry-trait-level-limit');
+        existing.level = level; existing.creationCost();
+    }
+    else if (existing.templatePurchaseKind == 'shared-catalogue'
         && holds(['acute-hearing','acute-vision','acute-touch','acute-taste-smell',
             'charisma','fearlessness','hard-to-kill','night-vision'],existing.id))
     {

@@ -1461,3 +1461,21 @@ modify RpgExpandedProfile
         return talentPercent < percent ? talentPercent : percent;
     }
 ;
+
+/** Template rows are authored purchase permission; copies preserve purchase kind. */
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (!holds(['animal-aptitude','commercial-aptitude','artistic-aptitude','plant-aptitude',
+            'medical-aptitude','numerical-aptitude','musical-aptitude'],id)) return inherited(id,level,scope);
+        if (scope != nil) rpgExpandedReject('catalogue-talent-definition');
+        return rpgExpandedMakeCatalogueTalent(id,level,true);
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedCatalogueTalent)) return inherited(trait);
+        trait.creationCost();
+        if (trait.labelId != trait.id) rpgExpandedReject('template-trait-copy-definition');
+        return rpgExpandedMakeCatalogueTalent(trait.id,trait.level,trait.approved);
+    }
+;

@@ -1385,3 +1385,8 @@ fixed prices and shared skill/study/reaction membership. Musical group performan
 is restricted to conducting. Overlap adds skill bonuses but uses only the strongest
 study reduction. Catalogue, reaction-preview, overlap and specialty assertions
 are authored but unrun; template reconstruction and custom groups remain pending.
+
+Additional catalogue talents now support ordinary template rows and fresh purchase
+reconstruction. Occupational composition takes the higher level; ancestry combines
+expanded talent levels up to four. Isolation, cap, undo and saved-continuation
+fixtures are authored but unrun.

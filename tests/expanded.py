@@ -9139,6 +9139,8 @@ def test(build):
     test_talent_reaction(Session, talent_reaction, build.out)
     talent_catalogue = build.build('expanded-talent-catalogue',ROOT / 'tests/fixtures/expanded-talent-catalogue.t')
     test_talent_catalogue(Session, talent_catalogue)
+    talent_templates = build.build('expanded-talent-templates',ROOT / 'tests/fixtures/expanded-talent-templates.t')
+    test_talent_templates(Session, talent_templates, build.out)
     talent_check = build.build('expanded-talent-check',ROOT / 'tests/fixtures/expanded-talent-check.t')
     test_talent_check(Session, talent_check)
     test_talent_scores(Session, talent_check)
@@ -18556,5 +18558,35 @@ def test_talent_catalogue(Session, bundle):
     try:
         s.action(2285, 7213)
         assert last(s, 'test.talent-catalogue-error') == ['unapproved-trait', 0, 0]
+    finally:
+        s.close()
+
+
+def test_talent_templates(Session, bundle, out):
+    path = out / 'expanded-talent-templates.zsave'
+    s = Session(bundle)
+    try:
+        for code in (7300, 7301):
+            s.action(2285, code)
+        assert last(s, 'test.talent-template') == [1, 1, 1, 2, 20]
+        s.action(2285, 7302)
+        s.command('undo')
+        s.action(2285, 7301)
+        assert last(s, 'test.talent-template') == [1, 1, 1, 2, 20]
+        for code in (7302, 7301):
+            s.action(2285, code)
+        assert last(s, 'test.talent-template') == [1, 3, 1, 2, 20]
+        s.action(2285, 7303)
+        assert last(s, 'test.talent-ancestry') == ['accepted', 40]
+        s.action(2285, 7304)
+        assert last(s, 'test.talent-ancestry') == ['ancestry-trait-level-limit']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 7301)
+        assert last(s, 'test.talent-template') == [1, 3, 1, 2, 20]
     finally:
         s.close()

@@ -172,6 +172,13 @@ rpgExpandedTechnologyModifier(skillTL, equipmentTL, cognitive)
 
 /** Optional trait module resolves explicit rated template purchases. */
 rpgExpandedTemplateTraits: object
+    plain(id,level,scope) { return rpgLiteMakeTrait(id,level,scope); }
+    copy(trait)
+    {
+        return trait.templatePurchaseKind == 'shared-catalogue'
+            ? self.plain(trait.labelId,trait.level,trait.scope)
+            : self.rated(trait.labelId,trait.level,trait.scope,trait.selfControlNumber());
+    }
     rated(id, level, scope, rating)
     { rpgExpandedReject('template-rated-trait-unavailable'); }
 ;

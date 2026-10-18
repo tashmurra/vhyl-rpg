@@ -704,3 +704,18 @@ this contribution remain unsupported.
 skills, forbidden training, unchanged resources, relevant-skill approval, the
 five-skill boundary, modifier conflicts, ownership, undo and save continuation.
 Assertions remain unrun while checks are paused.
+
+## Catalogue talent purchases
+
+The seven additional talent IDs accept ordinary three-field rows such as
+`['medical-aptitude', 2, nil]`. Including a row is the author's approval of that
+purchase. Each template application creates a distinct trait object; composition
+reconstructs the purchase and preserves active/mitigated state. Altered pricing,
+scope or skill membership is rejected instead of copied as a standard talent.
+
+Occupational composition keeps the highest repeated talent level. Ancestry
+composition adds levels of the expanded catalogue purchase kind, rejecting totals
+above four. Existing shared-catalogue purchase kinds retain their existing
+composition behavior. See [talent catalogue](traits.md#additional-catalogue-talents)
+for IDs, prices and remaining limitations. Isolation, level-cap, undo and saved
+continuation fixtures are authored but unrun while checks are paused.
