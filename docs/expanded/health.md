@@ -4022,3 +4022,29 @@ the clock boundary, and completed episodes do not impose new time restrictions.
 `test_bleeding_timeline` specifies state mutation rollback, minute history,
 three-clear-minute termination and save continuation. These fixtures remain
 unrun; the loss-basis and wound-aggregation gaps above remain open.
+
+
+## Incremental continuous marching
+
+`RpgExpandedMarchProgress` owns one `RpgExpandedMarchHourCost` as `cost`.
+`RpgExpandedMarchStep` supplies a unique `id`, that `progress`, and `seconds`
+from one to 3,600. Steps must be contiguous in world time, and cannot cross the
+remaining boundary of that hour. Each step checks movement and health permission
+and advances the shared clock once. It does not infer travel distance.
+
+Partial elapsed time and step receipts persist. Completing exactly 3,600 active
+seconds applies the existing hourly fatigue cost once; replay does not repeat
+time or fatigue. Encumbrance and authored cost conditions are bound across the
+hour. Changing them or inserting idle time blocks continuation rather than
+silently repricing mixed conditions. A competing cost for the same interval, or
+premature direct application of the owned cost, is rejected.
+
+This is the travel substrate for shorter tracking deadlines. Tracking encounters
+must still cap requested steps at their next required check and resolve it before
+continuing. That connection remains pending. Rest/resumption, mixed conditions,
+party step orchestration and combat interruption of a partial hour also remain
+pending; the existing whole-hour pathways are retained.
+
+`test_march_steps` specifies preview purity, partial progress, boundary rejection,
+premature cost rejection, elapsed-state tampering, rollback, undo, cross-process
+continuation and exactly one hourly fatigue charge. Fixtures remain unrun.

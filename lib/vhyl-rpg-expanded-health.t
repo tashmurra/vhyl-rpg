@@ -9108,3 +9108,173 @@ class RpgExpandedBleedingAidAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+/** An owned, continuous fixed-condition hour divided into authored travel steps. */
+class RpgExpandedMarchProgress: object
+    cost = nil
+    steps = []
+    elapsed = 0
+    boundCostDefinition = nil
+    boundEncumbrance = nil
+    settlingStep = nil
+    validate()
+    {
+        if (self.cost == nil || !self.cost.ofKind(RpgExpandedMarchHourCost) || self.cost.ofKind(RpgExpandedMarchHour)
+            || self.cost.basis != 'completed-hour') rpgExpandedReject('march-progress-cost');
+        local total = 0; local ids = []; local previous = nil;
+        foreach (local step in self.steps)
+        {
+            if (step == nil || !step.ofKind(RpgExpandedMarchStep) || step.progress != self || holds(ids,step.id))
+                rpgExpandedReject('march-progress-history');
+            step.validateReceipt();
+            if (previous != nil && step.startedAt != previous) rpgExpandedReject('march-progress-not-continuous');
+            previous = step.completedAt; total += step.result.seconds; ids = ids + [step.id];
+        }
+        if (total != self.elapsed || total > 3600) rpgExpandedReject('march-progress-elapsed');
+        if (self.steps.length() != 0)
+        {
+            if (self.boundEncumbrance != self.steps[1].encumbrance) rpgExpandedReject('march-progress-encumbrance-binding');
+            if (!holds(self.cost.profile.marchProgress,self)) rpgExpandedReject('march-progress-owner');
+            local facts = self.cost.definition();
+            if (self.boundCostDefinition == nil || facts.length() != self.boundCostDefinition.length()) rpgExpandedReject('march-progress-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundCostDefinition[i]) rpgExpandedReject('march-progress-binding');
+        }
+        if (total == 3600 && (self.cost.result == nil || self.cost.assess().status != 'reused'))
+            rpgExpandedReject('march-progress-missing-cost');
+        if (total < 3600 && self.cost.result != nil) rpgExpandedReject('march-progress-premature-cost');
+        return nil;
+    }
+;
+class RpgExpandedMarchStepResult: RpgExpandedResult
+    gate = nil
+    allowed = nil
+;
+class RpgExpandedMarchStep: object
+    id = nil
+    progress = nil
+    seconds = nil
+    result = nil
+    startedAt = nil
+    completedAt = nil
+    encumbrance = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition() { return [self.id,self.progress,self.seconds]; }
+    outcomeDefinition() { return [self.startedAt,self.completedAt,self.result,self.result.seconds,self.result.allowed,self.result.gate,self.encumbrance]; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || self.boundOutcome == nil) rpgExpandedReject('march-step-receipt');
+        local facts = self.definition(); local outcome = self.outcomeDefinition();
+        if (facts.length() != self.boundDefinition.length() || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('march-step-binding');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('march-step-binding');
+        for (local i = 1; i <= outcome.length(); i += 1)
+            if (outcome[i] != self.boundOutcome[i]) rpgExpandedReject('march-step-outcome');
+        if (self.completedAt != self.startedAt+self.result.seconds || self.completedAt > rpgLedger.seconds
+            || self.result.gate.assess().status != 'reused') rpgExpandedReject('march-step-history');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.progress == nil || !self.progress.ofKind(RpgExpandedMarchProgress))
+            rpgExpandedReject('march-step-definition');
+        rpgInteger(self.seconds,1,3600); self.progress.validate(); local value = new RpgExpandedMarchStepResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.progress.steps,self)) rpgExpandedReject('march-step-owner');
+            self.validateReceipt(); value.status = 'reused'; return value;
+        }
+        if (self.startedAt != nil || self.completedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil)
+            rpgExpandedReject('march-step-uncommitted');
+        if (self.progress.elapsed+self.seconds > 3600) { value.reason = 'march-step-hour-boundary'; return value; }
+        foreach (local prior in self.progress.steps)
+            if (prior.id == self.id) rpgExpandedReject('march-step-id-used');
+        if (self.progress.steps.length() != 0 && self.progress.steps[self.progress.steps.length()].completedAt != rpgLedger.seconds)
+        { value.reason = 'march-step-not-continuous'; return value; }
+        local cost = self.progress.cost; local profile = cost.profile;
+        if (self.progress.steps.length() != 0 && profile.encumbrance() != self.progress.boundEncumbrance)
+        { value.reason = 'march-step-encumbrance-changed'; return value; }
+        local prepared = cost.assess(); if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        foreach (local other in profile.marchProgress)
+            if (other != self.progress && (other.cost == cost || other.cost.interval == cost.interval)) rpgExpandedReject('march-progress-duplicate-interval');
+        value.reason = profile.travelScheduleReason(rpgLedger.seconds,self.seconds); if (value.reason != nil) return value;
+        if (profile.hp() <= 0 || profile.move() <= 0) { value.reason = 'march-step-continuous-movement-required'; return value; }
+        value.gate = new RpgExpandedActionGate(); value.gate.id = 'march-step-' + cost.id + '-' + self.id;
+        value.gate.profile = profile; value.gate.requiresMovement = true; value.gate.evidence = cost.evidence;
+        local permission = value.gate.assess();
+        if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds); rpgLedger.validateAdvance(self.seconds);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local cost = self.progress.cost; local profile = cost.profile; local costFacts = cost.definition(); local facts = self.definition();
+        local start = rpgLedger.seconds; local encumbrance = profile.encumbrance(); local before = cost.assess(); local movement = profile.move(); local hp = profile.hp(); local fp = profile.fp();
+        local permission = value.gate.apply(); if (permission.status != 'resolved') rpgExpandedReject('march-step-permission-changed');
+        value.allowed = permission.allowed; value.reason = permission.reason;
+        if (value.allowed)
+        {
+            profile.restClock = 0; rpgSpendTime(self.seconds); value.seconds = self.seconds;
+            local after = cost.assess();
+            if (rpgLedger.seconds != start+self.seconds || after.status != 'ready' || after.fatigueCost != before.fatigueCost
+                || profile.move() != movement || profile.hp() != hp || profile.fp() != fp || profile.unconscious || profile.dead
+                || profile.stunned || profile.mentalStun || profile.healthEffortReason('action',nil,nil,true) != nil)
+                rpgExpandedReject('march-step-conditions-changed');
+        }
+        local current = cost.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != costFacts[i]) rpgExpandedReject('march-step-cost-changed');
+        current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != facts[i]) rpgExpandedReject('march-step-changed');
+        if (self.progress.elapsed+value.seconds == 3600)
+        {
+            self.progress.settlingStep = self;
+            if (cost.apply().status != 'resolved') rpgExpandedReject('march-step-cost-unresolved');
+            self.progress.settlingStep = nil;
+        }
+        self.encumbrance = encumbrance; self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = facts; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = self.outcomeDefinition();
+        if (self.progress.steps.length() == 0)
+        { self.progress.boundCostDefinition = costFacts; self.progress.boundEncumbrance = encumbrance; profile.marchProgress = profile.marchProgress + [self.progress]; }
+        self.progress.elapsed += value.seconds; self.progress.steps = self.progress.steps + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    marchProgress = []
+    validateFeatures()
+    {
+        inherited(); local intervals = [];
+        foreach (local progress in self.marchProgress)
+        {
+            if (progress == nil || !progress.ofKind(RpgExpandedMarchProgress) || progress.cost.profile != self
+                || holds(intervals,progress.cost.interval)) rpgExpandedReject('march-progress-profile');
+            progress.validate(); intervals = intervals + [progress.cost.interval];
+        }
+        return nil;
+    }
+;
+
+modify RpgExpandedMarchHourCost
+    assess()
+    {
+        if (self.profile != nil && self.profile.ofKind(RpgExpandedProfile))
+            foreach (local progress in self.profile.marchProgress)
+                if (progress.cost != self && progress.cost.interval == self.interval)
+                    rpgExpandedReject('march-hour-owned-by-progress');
+        return inherited();
+    }
+    apply()
+    {
+        if (self.result == nil && self.profile != nil && self.profile.ofKind(RpgExpandedProfile))
+            foreach (local progress in self.profile.marchProgress)
+                if (progress.cost == self && (progress.settlingStep == nil
+                    || progress.settlingStep.progress != progress || progress.settlingStep.result != nil
+                    || progress.elapsed+progress.settlingStep.seconds != 3600))
+                    rpgExpandedReject('march-hour-progress-not-complete');
+        return inherited();
+    }
+;

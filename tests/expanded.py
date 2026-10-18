@@ -9546,6 +9546,8 @@ def test(build):
     test_tracking_acquisition(Session,tracking_acquisition,build.out)
     tracking_window = build.build('expanded-tracking-window',ROOT / 'tests/fixtures/expanded-tracking-window.t')
     test_tracking_window(Session,tracking_window)
+    march_steps = build.build('expanded-march-steps',ROOT / 'tests/fixtures/expanded-march-steps.t')
+    test_march_steps(Session,march_steps,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27128,5 +27130,39 @@ def test_tracking_window(Session, bundle):
         for code in (28607,28608):
             s.action(1680,code); s.action(1680,28600)
             assert last(s,'test.tracking-window') == ['ready',None,1,60,0,58,1,0,0]
+    finally:
+        s.close()
+
+
+def test_march_steps(Session, bundle, out):
+    """Continuous split travel charges the existing hourly cost exactly once; unrun."""
+    def state(s):
+        s.action(1680,28703)
+        return last(s,'test.march-steps')
+    s = Session(bundle)
+    path = out / 'march-steps.zsave'
+    try:
+        s.action(1680,28708)
+        assert last(s,'test.march-step-preview') == ['ready',None]
+        assert state(s) == [0,0,0,0,0,0]
+        s.action(1680,28701); assert state(s) == [0,0,0,0,0,0]
+        s.action(1680,28700); s.command('undo'); assert state(s) == [0,0,0,0,0,0]
+        s.action(1680,28700); s.action(1680,28700); assert state(s) == [60,1,60,0,0,0]
+        for code in (28704,28705,28706):
+            s.action(1680,code); assert state(s) == [60,1,60,0,0,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,28702); s.action(1680,28702)
+        assert state(s) == [3600,2,3600,1,1,0]
+        s.action(1680,28705); assert state(s) == [3600,2,3600,1,1,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,28700); s.action(1680,28707); s.action(1680,28702)
+        assert state(s) == [60,1,61,0,0,0]
     finally:
         s.close()
