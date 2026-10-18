@@ -44,6 +44,23 @@ ordinary ability ranges still originate at the body. Hidden impressions and
 failed viewpoint placement require specific author contracts without revealing
 private world facts through assessment. These effects remain unimplemented.
 
+The [third catalogue segment](inventory/traits-catalogue-c.json) adds mental
+compartments, contacts and protection modifiers. Mental compartments can act and
+receive influence independently, but share one body and its physical limits.
+Vehicle control stations likewise grant operator access without creating extra
+weapons or movement capacity.
+
+Contact availability belongs to the contact, including when several characters
+share that person. Question penalties, research delays, reliability and private
+information need persistent records. An abstract information score must not
+silently replace the contact's actual character skills.
+
+Protection layers retain fixed order, coverage, attack restrictions, depletion
+and recovery. Absorbed damage creates temporary capability investment rather
+than advancement points. Reflection applies to eligible direct hits only and
+must not combine with absorption. These effects need integrated damage tests;
+the existing trait-cost helper supplies none of this runtime behavior.
+
 **Status: partial.** Trait catalogues, modifiers, benefits and restrictions. Neutral source: `full-2008`, B32-B166.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)

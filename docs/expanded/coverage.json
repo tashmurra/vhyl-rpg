@@ -320,6 +320,7 @@
     "inventory/ranged-special.json",
     "inventory/guidance-area-cinematic.json",
     "inventory/traits-foundation.json",
-    "inventory/traits-catalogue-b.json"
+    "inventory/traits-catalogue-b.json",
+    "inventory/traits-catalogue-c.json"
   ]
 }

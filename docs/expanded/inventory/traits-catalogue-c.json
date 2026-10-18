@@ -1,0 +1,615 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B43-B47",
+  "review": "Natural-limb continuation, mental compartments, contacts and protection modifiers inventoried. Layer interactions, hidden-information contracts, modifier compatibility and independent validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-c-talons",
+      "source": "full-2008",
+      "pages": "B43",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Eight-point natural blades convert punch/kick to cutting or impaling chosen before attack. Eleven-point larger version also adds one per damage die. Reuse limb occupancy and attack profiles, preserving earlier variants.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-religious-office",
+      "source": "full-2008",
+      "pages": "B43",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Five-point recognized religious office grants ceremonial authority, reaction+1 from followers/respectful audience and institution rank zero. Higher rank purchased separately; office grants no supernatural power.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-cling",
+      "source": "full-2008",
+      "pages": "B43",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Twenty-point surface adhesion allows wall/ceiling travel at half basic movement and stationary attachment without climbing check on eligible surfaces. Falling catch needs reachable surface, dexterity contact then strength at -1 per five yards fallen, scaled for gravity. Failed arrest subtracts five fall yards; clarify missed-contact versus failed-strength consequence.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-cling-material",
+      "source": "full-2008",
+      "pages": "B43",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Specific-surface limitation costs -40% common, -60% uncommon, -80% exceptionally rare. Author defines actual material predicate before action; category does not imply all surfaces of similar appearance.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-reflex",
+      "source": "full-2008",
+      "pages": "B43",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fifteen-point reflex trait adds one active defense/quick draw, two fear resistance, six intelligence waking/surprise/mental-stun recovery and prevents freezing. Group initiative+1 or+2 if leader. Advanced time perception includes it; reject double purchase/bonus.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-prudence",
+      "source": "full-2008",
+      "pages": "B43",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ten-point judgment aid prompts hidden intelligence check when author identifies an ill-advised action. Success warns before commitment. Define warning timing and information without overriding player choice or revealing unrelated secrets.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-mental-compartments",
+      "source": "full-2008",
+      "pages": "B43",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fifty points per level adds one mental maneuver but no additional physical task. Compartments share underlying mental capabilities yet receive hypnosis/powers independently. Track ongoing concentration per compartment without duplicating whole-character resources.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-mental-control",
+      "source": "full-2008",
+      "pages": "B43",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "External influence over one compartment can contest will for body control; current controller+1. Compartments may use mental abilities on each other with actual intelligence/will/protection, retaining independent effects and common body.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-vehicle-controls",
+      "source": "full-2008",
+      "pages": "B43",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "General operator station costs25 per level, dedicated task station10. Operators use own maneuvers through vehicle capabilities, respecting ready weapons and physical limits. Intelligence-zero vehicle depends on operators; conflicting orders compare control skills.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-constrict",
+      "source": "full-2008",
+      "pages": "B43",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fifteen-point constriction needs prior grapple of victim no larger than self. On subsequent turns strength versus higher victim strength/health deals victory-margin damage; integrate damage type, armor and restraint rules from combat references.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-group",
+      "source": "full-2008",
+      "pages": "B44",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Contact group specifies one organization or one locality/social stratum and an appropriate knowledge category. Cost five times individually calculated contact cost; broader groups unsupported. Effective category check is abstract information access, not an interchangeable trained skill.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-scope",
+      "source": "full-2008",
+      "pages": "B44",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Contact grants knowledge within approved skill/background or minor favor meeting at least two of quick, inexpensive and nonhazardous. Author defines facts available, channels, requested favor and price; cannot invent knowledge outside scope.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-cost",
+      "source": "full-2008",
+      "pages": "B44",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Base effective skill12/15/18/21 costs1/2/3/4; supernatural information access adds one. Apply appearance then reliability modifiers and group multiplier with specified rounding. Effective information score differs from NPC actual skills.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-availability",
+      "source": "full-2008",
+      "pages": "B44",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Roll availability on attempted contact, not only adventure start: failure blocks that day, raw17/18 blocks whole adventure. Closed communication channel prevents attempt regardless of purchased frequency. Shared contact can be reached at most once per day across all player owners.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-questions",
+      "source": "full-2008",
+      "pages": "B44",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "On availability success, hidden effective-skill check per declared question/favor. First full skill, later cumulative -2 within that contact session; retain order and prevent reopening to reset penalties.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-trusted",
+      "source": "full-2008",
+      "pages": "B44",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fully reliable multiplier3: ordinary failure yields information after1d days, critical failure only ignorance. Own pending research/delivery so repeated requests cannot accelerate it.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-usual",
+      "source": "full-2008",
+      "pages": "B44",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Usually reliable multiplier2: critical failure lies; ordinary failure permits another skill check after1d days, whose failure ends research. Prevent unlimited retry chain.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-somewhat",
+      "source": "full-2008",
+      "pages": "B44",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Somewhat reliable multiplier1: ordinary failure cannot answer; critical failure lies, raw18 also alerts relevant opposition/authority. Persist fictional notification as world event, not external real messaging.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-unreliable",
+      "source": "full-2008",
+      "pages": "B44",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Unreliable multiplier one half rounded up, final price at least one; effective skill-2. Any failure lies and critical failure alerts opposition. Hidden knowledge must not leak via public outcome metadata.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-inducement",
+      "source": "full-2008",
+      "pages": "B44-B45",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Appropriate cash/favors raise reliability through usually reliable only; further increments raise effective skill. Indicative daily/weekly/monthly/annual income gives+1/+2/+3/+4. Resolve already-fully-reliable case explicitly. Actual favors require authored obligations/actions, not free bonuses.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-development",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "New justified contact can be purchased or awarded instead of advancement points. Use one event identity and do not both grant relationship value and duplicate award currency.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-culture-broad",
+      "source": "full-2008",
+      "pages": "B46",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cinematic cultural adaptation costs ten for own-species cultures, twenty for all world cultures; removes unfamiliarity-3 within scope. Does not teach languages or create social permissions.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-implants",
+      "source": "full-2008",
+      "pages": "B46",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cybernetic capability is purchased through its actual trait definitions. Electrical/maintenance temporary disadvantages can apply only to implant, not whole character. Preserve component fault scope during suppression and repair.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-body-armor",
+      "source": "full-2008",
+      "pages": "B46",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Natural protection costs five per level, after worn armor and before wound factor; excludes eyes/windows and mental attacks by default. Ordinary humans ineligible; ordinary natural armor capped1\u20135, other eligible beings author-approved. Track actual layer and location coverage.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-limited-protection",
+      "source": "full-2008",
+      "pages": "B46",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Damage-limited defense uses direct cause, not remote causal history: source-origin restriction protects direct component only. Author defines predicate and rarity before price; unsupported meaningless categories rejected.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-absorption",
+      "source": "full-2008",
+      "pages": "B46-B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Absorption stores one temporary character point per damage stopped up to armor-level capacity, continues stopping damage when full. Cannot absorb own strength/attack effects; may enhance nonskill traits with fixed allocation or heal. Stored/spent points decay one per second, unused first; preserve enhancement removal ordering.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-absorption-heal",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Two absorbed points restore one missing health; three restore one fatigue. Genuine restoration persists, temporary excess decays. Single designated trait or healing-only enhancement+80%; unrestricted trait enhancement+100%. These are not spendable advancement awards.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-field",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Projected protection+20% covers eyes and carried items, before worn armor. Touch effect requires carrier penetration. Reject combination with skin-limited protection; do not duplicate carried-item armor against the same hit.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-harden",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each +20% hardening level moves incoming armor divisor one step through ignore,100,10,5,3,2,1. Apply to the specific hardened layer, not every armor source.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-reflect",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reflection+100% returns stopped direct-hit damage; remaining damage affects defender. First reflected attack denies attacker active defense, later reflections permit ordinary defenses. Excludes area/blast/fragments/gas, incompatible with absorption. Define encounter/history scope and reflection-loop termination explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-ablative",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ablative -80% loses one armor per basic damage stopped, recovering at health-healing rate including regeneration. Keep armor recovery separate from health restoration and layer original capacity.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-semi-ablative",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Semi-ablative -20% loses one armor per full ten basic damage from a strike regardless penetration, recovers as ablative, and cannot combine with it. Resolve sub-ten carryover policy from exact wording; do not assume cumulative fractions.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-no-clothing",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Inability/unwillingness to wear body armor or clothing is -40%; enforce actual equipment eligibility rather than a price-only limitation.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-directional",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Front-only protection -20%, each other single side/back/top/underside -40%; humanoids restricted to front/back. Use actual attack direction including area exposure.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-flexible",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Flexible -20% allows blunt-trauma consequences. Skin-limited -40% includes flexibility and cannot buy both; scratch/contact effects bypass natural skin protection when carrier passes worn armor even at zero damage. Reject skin plus projected-field combination.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-partial",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Partial coverage discount ten percent per location attack-penalty magnitude, torso exception -10% including vitals. Limb-type coverage includes all matching limbs; single-limb doubles discount. For differing limb penalties use least severe. Validate anatomy and generic limitation floor.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-layer-order",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Declare protection layers outermost to innermost at creation and keep order fixed. Each layer may have separate modifiers, depletion and recovery. Do not flatten to a scalar when effects depend on ordering.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-danger-warning",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fifteen-point danger warning makes one secret perception check per hazard situation. Success warns enough to act, raw3/4 adds nature detail. Included in foresight trait, so reject duplicate purchase. Psychic-sensory membership limitation -10% adds actual interference.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-risk-luck",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fifteen-point risk affinity adds one to skills and permits critical-failure reroll during author-approved unnecessary risk. Declare risk context before result and preserve reroll use/selection rules.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-dark-sight",
+      "source": "full-2008",
+      "pages": "B47",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Twenty-five-point darkness sight removes darkness penalties regardless origin but no color information in darkness. Color extension+20% restores that channel; does not bypass solid cover or unrelated sensory limitations.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-limited-very-common",
+      "source": "full-2008",
+      "pages": "B46",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "very-common direct-damage category gives -20% restricted-defense price adjustment; actual authored predicate and examples must match source rarity scope.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-limited-common",
+      "source": "full-2008",
+      "pages": "B46",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "common direct-damage category gives -40% restricted-defense price adjustment; actual authored predicate and examples must match source rarity scope.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-limited-occasional",
+      "source": "full-2008",
+      "pages": "B46",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "occasional direct-damage category gives -60% restricted-defense price adjustment; actual authored predicate and examples must match source rarity scope.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-limited-rare",
+      "source": "full-2008",
+      "pages": "B46",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "rare direct-damage category gives -80% restricted-defense price adjustment; actual authored predicate and examples must match source rarity scope.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-business-12",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative business contact support worker uses effective information score 12; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-business-15",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative business contact executive assistant uses effective information score 15; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-business-18",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative business contact senior specialist uses effective information score 18; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-business-21",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative business contact organization head uses effective information score 21; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-military-12",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative military contact rank zero uses effective information score 12; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-military-15",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative military contact rank one or two uses effective information score 15; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-military-18",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative military contact rank three through five uses effective information score 18; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-military-21",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative military contact rank six or higher uses effective information score 21; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-law-enforcement-12",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative law-enforcement contact patrol/security uses effective information score 12; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-law-enforcement-15",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative law-enforcement contact investigator/records uses effective information score 15; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-law-enforcement-18",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative law-enforcement contact administrator uses effective information score 18; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-law-enforcement-21",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative law-enforcement contact senior leader uses effective information score 21; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-underworld-12",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative underworld contact unconnected uses effective information score 12; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-underworld-15",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative underworld contact connected uses effective information score 15; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-underworld-18",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative underworld contact senior operative uses effective information score 18; relevant skill/category and access still require author definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-c-contact-example-underworld-21",
+      "source": "full-2008",
+      "pages": "B45",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative underworld contact network leader uses effective information score 21; relevant skill/category and access still require author definition.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B43-B47",
+      "reason": "Named fictional religious examples and decorative prose excluded. Alias-only rank/cultural-familiarity entries refer to existing creation inventory."
+    }
+  ]
+}
