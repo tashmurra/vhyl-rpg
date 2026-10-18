@@ -408,6 +408,23 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def test_infection_assessments(s):
+    for matter, locale, penalty in [(0,0,0),(1,0,-2),(0,1,-3),(1,1,-5)]:
+        s.action(1800, 0, matter, locale, 0, 6, 0, 1)
+        assert last(s, 'test.infection-context') == ['ready',None,3+penalty,1,0,0,0,0,0,0]
+        for treated in [0, 1]:
+            s.action(1800, 1, matter, locale, treated, 6, 0, 1)
+            assert last(s, 'test.infection-context') == ['ready',None,penalty+3*treated,1,0,86400,1,1,0,0]
+    s.action(1800, 0, 1, 1, 1, 6, 0, 1)
+    assert last(s, 'test.infection-context') == ['ready',None,0,0,1,0,0,0,0,0]
+    for args, reason in [((0,0,0,1,5,0,1),'infection-antibiotics-technology'),
+                         ((1,0,0,1,5,0,1),'infection-antibiotics-technology'),
+                         ((0,0,0,1,6,1,1),'infection-critical-treatment-adjudication'),
+                         ((0,0,0,0,6,0,0),'infection-exposure-not-established')]:
+        s.action(1800, *args)
+        assert last(s, 'test.infection-context') == ['blocked',reason,0,0,0,0,0,0,0,0]
+
+
 def test_surgery_assessments(s):
     for tl, modifier in [(1,-6),(2,-5),(3,-5),(4,-4),(5,-2),(6,0),(7,1),(8,2),(12,6),(13,7)]:
         s.action(1628, tl, 1, 1, 'other', 1, 1, 0, 0)
@@ -2964,6 +2981,8 @@ def test(build):
     fresh(Session,social,test_information_reactions)
     fresh(Session,social,test_trade_reactions)
     fresh(Session,social,test_trade_modifiers)
+    hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
+    fresh(Session,hazards,test_infection_assessments)
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)

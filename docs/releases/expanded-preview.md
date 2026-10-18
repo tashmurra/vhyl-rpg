@@ -4,9 +4,9 @@ This branch implements an incomplete experimental suite. It is not a stable
 release and does not claim full-reference coverage. VERSION remains unchanged;
 no tag or release publication is part of this work.
 
-The expanded foundation and convenience umbrella currently include ten partial
+The expanded foundation and convenience umbrella currently include eleven partial
 feature modules: campaign, characters, development, equipment, exploration,
-health, skills, social, templates and traits. Combat, creatures, hazards, magic,
+hazards, health, skills, social, templates and traits. Combat, creatures, magic,
 psionics, tactical, technology and vehicles remain proposed modules with no
 standalone runtime library. Available include paths are distinguished from
 proposals in the [library catalogue](../libraries.md).
@@ -26,6 +26,10 @@ ignored injuries without spending health or randomness. Optional expanded natura
 recovery adds healing traits and capacity scaling through the shared rest clock. Other anatomy,
 accumulated wounds, full medical procedures, surgery and permanent-disability
 accounting remain incomplete.
+
+The hazards module begins with pure infection acquisition and progression
+assessments. Owned exposures, disease progression and environmental effects
+remain incomplete. The minimal hazard fixture is authored but unrun.
 
 New public expansion APIs use `RpgExpanded` / `rpgExpanded` prefixes. Shared Lite
 hooks default to the existing behavior; the latest compatibility and persistence

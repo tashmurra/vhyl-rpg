@@ -75,8 +75,11 @@
       "title": "Exposure, poison, disease and aging",
       "pages": "B428-B444; B540",
       "source": "full-2008",
-      "status": "pending",
-      "tests": []
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_infection_assessments"
+      ],
+      "validation_note": "Pure B444 infection acquisition/progression assessments and minimal fixture authored; checks paused. Owned exposure, progression, recovery restrictions and other hazard procedures remain incomplete."
     },
     {
       "id": "health",

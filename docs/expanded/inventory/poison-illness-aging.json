@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "full-2008",
   "pages": "B437-B444",
-  "review": "Poison delivery, abstract-dose catalogue, intoxication, dependency, disease, contagion, infection and aging text reviewed. All entries remain pending implementation and independent validation. Catalogue values are fictional game statistics, not real-world chemical or medical instructions; cross-references and precision boundaries remain open.",
+  "review": "Poison delivery, abstract-dose catalogue, intoxication, dependency, disease, contagion, infection and aging text reviewed. Entries remain pending or partial as recorded; independent runtime validation is paused. Catalogue values are fictional game statistics, not real-world chemical or medical instructions; cross-references and precision boundaries remain open.",
   "enumeration_complete": false,
   "entries": [
     {
@@ -1121,9 +1121,12 @@
       "pages": "B444",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An open wound treated with the specified technology-six-or-higher antibacterial care avoids infection except on critical failure of first aid or physician treatment.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_infection_assessments"
+      ],
+      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
     },
     {
       "id": "infection-initial-check",
@@ -1131,9 +1134,12 @@
       "pages": "B444",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An untreated wound exposed to authored unclean circumstances checks health+3 with cumulative contamination modifiers; these replace ordinary contagion contact categories.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_infection_assessments"
+      ],
+      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
     },
     {
       "id": "infection-progression",
@@ -1141,9 +1147,12 @@
       "pages": "B444",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A typical infection checks health daily with the stated contamination modifiers; failure loses one health and success ends it, ordinarily continuing until recovery or death.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_infection_assessments"
+      ],
+      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
     },
     {
       "id": "infection-treatment",
@@ -1151,9 +1160,12 @@
       "pages": "B444",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The specified antibacterial treatment grants +3 to infection recovery checks while applicable; do not also award unrelated immediate healing.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_infection_assessments"
+      ],
+      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
     },
     {
       "id": "infection-surgical-eligibility",
@@ -1181,9 +1193,12 @@
       "pages": "B444",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ordinary dirt adds zero to the initial health+3 baseline.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_infection_assessments"
+      ],
+      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
     },
     {
       "id": "infection-contamination-infected-matter",
@@ -1191,9 +1206,12 @@
       "pages": "B444",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Infected matter adds -2.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_infection_assessments"
+      ],
+      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
     },
     {
       "id": "infection-contamination-special-locale",
@@ -1201,9 +1219,12 @@
       "pages": "B444",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A locale carrying a special infection adds -3, cumulative with other applicable contamination.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_infection_assessments"
+      ],
+      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
     },
     {
       "id": "aging-eligibility",

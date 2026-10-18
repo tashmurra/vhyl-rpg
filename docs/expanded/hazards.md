@@ -1,10 +1,13 @@
 # Expanded hazards
 
-**Status: pending.** Exposure, poison, disease and aging. Neutral source: `full-2008`, B428-B444; B540.
+**Status: partial.** Exposure, poison, disease and aging. Neutral source: `full-2008`, B428-B444; B540.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
-This module has not been implemented. Its proposed filename is reserved in the catalogue only; do not include it in a game.
+Include `vhyl-rpg-expanded-hazards.t` after the expanded foundation. The initial
+implementation supplies pure infection assessments; it does not yet commit
+exposures or progression. The all-module umbrella includes these capabilities
+without activating any hazard.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
 
@@ -15,8 +18,8 @@ first text pass through B428–B437, excluding poison and the separately recorde
 [radiation procedures](inventory/radiation.json). The
 [poison, illness and aging inventory](inventory/poison-illness-aging.json) extends
 the first pass through B444, including infection and dependency. Enumeration
-audits, cross-references and independent numeric validation remain open. None of
-these inventories is evidence of implemented hazard behavior.
+audits, cross-references and independent numeric validation remain open. Only the explicitly linked partial entries below have runtime assessments;
+the inventories do not imply complete hazard behavior.
 
 Exposure records must identify the source, route, protection, elapsed intervals
 and resulting conditions. Air composition and pressure are independent; a sealed
@@ -84,3 +87,39 @@ what actually happened in the world. It must not undo purchases, wounds, movemen
 other committed events. Delivery, dose inventory, permissions and repeated exposure
 also need their own validation. This entry remains pending; it is not an implemented
 hazard or a real chemical specification.
+
+
+## Infection assessment
+
+`RpgExpandedInfectionContext` records the B444 contamination and treatment facts:
+`infectedMatter`, `specialLocale`, `antibiotics`, `medicalTL`,
+`criticalTreatmentFailure` and `untreatedDirtyWound`. The author establishes wound
+exposure; the context does not infer contamination from a room name or injury.
+
+`assessAcquisition()` returns `checkRequired` and an HT modifier of +3 plus
+contamination penalties for an established untreated dirty wound. Infected matter
+contributes -2 and a special-infection locale -3; ordinary dirt contributes zero.
+These replace general contagion modifiers. Qualifying antibacterial care at
+technology six or higher returns `prevented` without requiring a check.
+
+A critical treatment failure blocks with
+`infection-critical-treatment-adjudication`: the prevention exception needs an
+explicit treatment-outcome contract before committed exposure is supported.
+Lower-technology antibacterial care blocks. Unestablished exposure also blocks;
+this does not assert immunity or absence of infection.
+
+`assessTypicalProgression()` describes a typical existing infection: a daily
+86400-second interval, one injury on failed HT, and an end to infection on success.
+Its HT modifier includes contamination and +3 for qualifying antibiotic treatment.
+The acquisition check's initial +3 is not added to the daily HT check. Special
+infections may specify different procedures and are not represented by this
+method. The reported injury is not capacity-scaled healing.
+
+Both methods return `RpgExpandedInfectionAssessment` and consume no time or
+randomness. They do not establish infection, secretly roll acquisition, maintain
+an owned disease history, restrict recovery or apply injury. Those mechanisms
+remain incomplete. The minimal fixture
+[`expanded-hazards.t`](../../tests/fixtures/expanded-hazards.t) exercises the
+library independently; `test_infection_assessments` covers combined modifiers,
+prevention, daily treatment, unsupported cases and preview purity. Checks remain
+paused, so these fixtures are unrun.
