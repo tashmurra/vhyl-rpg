@@ -1354,8 +1354,8 @@ explanations of the character's experiences.
 Mandatory checks after relevant full fear results remain pending. Direct rolled
 self-control and abridged fear calls reject active phantom-voice combinations
 before randomness; owned self-control triggers integrate as described below.
-Sound masking, episode-induced fear, origin-aware treatment and buyoff remain
-incomplete. Command resistance is implemented through the interface below. This interface must not be presented
+Episode-induced fear, origin-aware treatment and buyoff remain incomplete.
+Command resistance and sound masking use the concrete interfaces below. This interface must not be presented
 as the complete disadvantage.
 
 [`expanded-phantom-voices.t`](../../tests/fixtures/expanded-phantom-voices.t)
@@ -1440,3 +1440,39 @@ and `test_voice_command` specify stress and intoxication eligibility, exact Will
 success and failure, duplicate rejection, inactive episodes, mitigation, preview,
 replay, rollback, undo and cross-process save continuation. Assertions remain
 unrun while checks are paused. Automatic command/action routing remains pending.
+
+
+### Sound masking
+
+For disruptive severity, `RpgExpandedVoiceSoundMask` records an author-confirmed
+interval in which the episode drowns out ordinary sound (`full-2008`, B148).
+Supply a unique `id`, the active severity-two `occurrence`, `approved = true`
+and original `evidence`. The current trait must still be active at severity two.
+`assess()` is pure; `begin()` records the shared clock without rolling or charging
+time, fatigue or points. Repeating the same interval reuses its receipt. Another
+interval within the same episode must wait until the earlier interval ends.
+
+The shared scoring path returns unavailable with
+`phantom-voices-sound-masked` for hearing and spoken-input tasks while a mask is
+active. The corresponding check returns a blocked result without random draws.
+`RpgLiteContext.auditoryInput` defaults to `auto`: hearing checks and
+`understandsSpeech` tasks require sound unless marked `written`. Set `required`
+for other tasks dependent on ordinary sound, or `none` when the authored task
+uses a non-auditory channel, such as reading visible signs. These fields describe
+the actual task channel; they do not confer alternative senses. Invalid channel
+values reject while masking applies. This does not remove the character's ability
+to speak or impose a general mental penalty.
+
+Call `end(true, evidence)` when the author confirms ordinary sound is audible
+again. No fixed duration is invented. Ending the episode also deactivates all of
+its masks; mitigation suppresses their effects while it applies. Histories remain
+available for replay and saves. Separate episodes can mask simultaneously, and
+ending one mask does not end another episode's effect. Commanding severity does
+not automatically inherit masking because that inheritance is not explicit in
+the supplied entry.
+
+[`expanded-voice-mask.t`](../../tests/fixtures/expanded-voice-mask.t) and
+`test_voice_mask` specify hearing, speech, writing, alternate channels, absence of
+extra dice/time, preview, replay, overlapping episodes, mitigation, rollback, undo
+and cross-process save continuation. These assertions remain unrun. Startling
+voices still require the pending full fear integration.

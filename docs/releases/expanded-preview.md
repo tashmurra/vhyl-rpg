@@ -1581,3 +1581,10 @@ stress or intoxication. Commands have distinct identities and persistent results
 replay adds no roll or charge, and failed resistance does not automatically execute
 the commanded action. Automatic action routing and treatment remain pending.
 The new eligibility and lifecycle fixtures are authored but unrun.
+
+
+Disruptive voice episodes now own sound-masking intervals. Shared scoring blocks
+ordinary hearing and spoken input before rolling, while written and explicitly
+non-auditory tasks remain available. Intervals have authored endings and respect
+episode boundaries, mitigation and overlapping episodes. Full fear integration
+remains pending; channel and lifecycle fixtures are authored but unrun.

@@ -301,9 +301,10 @@
       "status": "partial",
       "acceptance": "Phantom-voice severity disruptive costs -10. Apply the observer reaction and permit voices to mask ordinary sound or cause a source-appropriate fear check.",
       "tests": [
-        "tests/expanded.py::test_phantom_voices"
+        "tests/expanded.py::test_phantom_voices",
+        "tests/expanded.py::test_voice_mask"
       ],
-      "validation_note": "Severity two costs -10 and shares the witnessed-response observation. Sound masking and episode-induced fear integration remain pending; fixtures unrun."
+      "validation_note": "Severity two costs -10 and shares the witnessed-response observation. Owned author-confirmed masking intervals block ordinary hearing and spoken-input checks through shared scoring without rolls or charges, while written and explicit non-auditory input remain available. Ending one interval does not suppress other episodes. Episode-induced fear integration remains pending. Lifecycle fixtures authored, unrun."
     },
     {
       "id": "disadvantages-f-voices-commanding",

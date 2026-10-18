@@ -9186,6 +9186,8 @@ def test(build):
     test_voice_direct_guards(Session, voice_self_control)
     voice_command = build.build('expanded-voice-command',ROOT / 'tests/fixtures/expanded-voice-command.t')
     test_voice_command(Session, voice_command, build.out)
+    voice_mask = build.build('expanded-voice-mask',ROOT / 'tests/fixtures/expanded-voice-mask.t')
+    test_voice_mask(Session, voice_mask, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19994,3 +19996,49 @@ def test_voice_command(Session, bundle, out):
             assert last(s, 'test.voice-command-preview') == ['blocked', 'voice-command-active-severity', None, 3]
         finally:
             s.close()
+
+
+def test_voice_mask(Session, bundle, out):
+    """B148 ordinary sound masking through common scoring; lifecycle assertions unrun."""
+    path = out / 'expanded-voice-mask.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10300, 10301, 10303, 10304):
+            s.action(2285, code)
+        assert last(s, 'test.voice-mask-preview') == ['ready', 3]
+        assert last(s, 'test.voice-mask-state') == [0, 0, 0, 3]
+        s.action(2285, 10302)
+        s.command('undo')
+        s.action(2285, 10304)
+        assert last(s, 'test.voice-mask-state') == [0, 0, 0, 3]
+        for code in (10302, 10302, 10305, 10304):
+            s.action(2285, code)
+        assert last(s, 'test.voice-mask-scores') == [None, None, 10, 10, 'phantom-voices-sound-masked', 3]
+        assert last(s, 'test.voice-mask-state') == [1, 1, 0, 3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10305, 10306, 10306, 10304):
+            s.action(2285, code)
+        assert last(s, 'test.voice-mask-scores') == [None, None, 10, 10, 'phantom-voices-sound-masked', 3]
+        assert last(s, 'test.voice-mask-state') == [1, 0, 0, 3]
+    finally:
+        s.close()
+    for end in (10307, 10308):
+        s = Session(bundle)
+        try:
+            for code in (10300, 10302, end, 10304):
+                s.action(2285, code)
+            assert last(s, 'test.voice-mask-state') == [1, 0, 0, 3]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (10300, 10302, 10309, 10306, 10304):
+            s.action(2285, code)
+        assert last(s, 'test.voice-mask-state') == [1, 1, 0, 6]
+    finally:
+        s.close()

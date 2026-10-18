@@ -2147,3 +2147,93 @@ class RpgExpandedVoiceCommand: object
         self.result = value; self.occurrence.commands = self.occurrence.commands + [self]; return value;
     }
 ;
+
+modify RpgExpandedPhantomVoiceOccurrence
+    soundMasks = []
+;
+/** B148: a concrete authored interval in which ordinary sound is drowned out. */
+class RpgExpandedVoiceSoundMask: object
+    id = nil
+    occurrence = nil
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    endedAt = nil
+    endEvidence = nil
+    boundDefinition = nil
+    boundEnding = nil
+    definition() { return [self.id,self.occurrence,self.approved,self.evidence,self.startedAt]; }
+    validateReceipt()
+    {
+        self.occurrence.validateReceipt();
+        if (self.startedAt == nil || !holds(self.occurrence.soundMasks,self)) rpgExpandedReject('voice-mask-history');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('voice-mask-binding');
+        if (self.boundEnding == nil && (self.endedAt != nil || self.endEvidence != nil)
+            || self.boundEnding != nil && (self.endedAt != self.boundEnding[1] || self.endEvidence != self.boundEnding[2]))
+            rpgExpandedReject('voice-mask-ending-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.occurrence == nil
+            || !self.occurrence.ofKind(RpgExpandedPhantomVoiceOccurrence)) rpgExpandedReject('voice-mask-definition');
+        self.occurrence.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.endedAt != nil || self.endEvidence != nil || self.boundDefinition != nil || self.boundEnding != nil)
+            rpgExpandedReject('voice-mask-uncommitted-state');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'voice-mask-author-facts'; return value; }
+        if (!self.occurrence.active() || self.occurrence.result.severity != 2 || self.occurrence.profile.phantomVoiceSeverity() != 2)
+        { value.reason = 'voice-mask-active-severity'; return value; }
+        foreach (local prior in self.occurrence.soundMasks)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id) rpgExpandedReject('voice-mask-duplicate');
+            if (prior.active()) { value.reason = 'voice-mask-already-active'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    begin()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.startedAt = self.occurrence.profile.timeElapsed; self.boundDefinition = self.definition();
+        self.occurrence.soundMasks = self.occurrence.soundMasks + [self]; value.status = 'resolved'; return value;
+    }
+    active()
+    {
+        self.validateReceipt(); return self.endedAt == nil && self.occurrence.active()
+            && self.occurrence.profile.phantomVoiceSeverity() == 2;
+    }
+    end(confirmed,evidence)
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.endedAt != nil) { value.status = 'reused'; return value; }
+        if (!confirmed || evidence == nil || evidence == '') { value.reason = 'voice-mask-ending-facts'; return value; }
+        self.endedAt = self.occurrence.profile.timeElapsed; self.endEvidence = evidence;
+        self.boundEnding = [self.endedAt,evidence]; value.status = 'resolved'; return value;
+    }
+;
+modify RpgLiteContext
+    auditoryInput = 'auto'
+;
+modify RpgExpandedProfile
+    voiceSoundMasked()
+    {
+        foreach (local occurrence in self.phantomVoiceOccurrences)
+        {
+            occurrence.validateReceipt();
+            foreach (local mask in occurrence.soundMasks) if (mask.active()) return true;
+        }
+        return nil;
+    }
+    healthCheckReason(context)
+    {
+        local reason = inherited(context); if (reason != nil) return reason;
+        if (!self.voiceSoundMasked()) return nil;
+        if (!holds(['auto','required','none'],context.auditoryInput)) rpgExpandedReject('voice-mask-auditory-channel');
+        local required = context.auditoryInput == 'required' || context.auditoryInput == 'auto'
+            && (context.kind == 'hearing' || context.understandsSpeech && !context.written);
+        return required ? 'phantom-voices-sound-masked' : nil;
+    }
+;
