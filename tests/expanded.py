@@ -9352,6 +9352,8 @@ def test(build):
     test_breath_reserve_templates(Session, reserve_templates)
     lie_detection = build.build("expanded-lie-detection",ROOT / "tests/fixtures/expanded-lie-detection.t")
     test_lie_detection(Session, lie_detection, build.out)
+    lie_disclosure = build.build("expanded-lie-disclosure",ROOT / "tests/fixtures/expanded-lie-disclosure.t")
+    test_lie_disclosure(Session, lie_disclosure, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23145,5 +23147,47 @@ def test_lie_detection(Session, bundle, out):
             s.action(1100,code)
         assert last(s,'test.lie-assessment') == ['ready',15,10]
         assert last(s,'test.lie-state') == [0,0,0]
+    finally:
+        s.close()
+
+
+def test_lie_disclosure(Session, bundle, out):
+    """An impression can be misleading and never automatically becomes a belief; unrun."""
+    for misleading, text in ((False,'The alibi seems false'),(True,'The alibi seems credible')):
+        path = out / f'lie-disclosure-{misleading}.zsave'
+        s = Session(bundle)
+        try:
+            if misleading:
+                s.action(1100,18402); s.action(1100,18403)
+            for code in (18400,18503):
+                s.action(1100,code)
+            assert last(s,'test.lie-disclosure-preview') == ['ready',0]
+            for code in (18501,18502):
+                s.action(1100,code)
+            assert last(s,'test.lie-knowledge') == [0,0,6,0]
+            s.action(1100,18500)
+            s.command('undo')
+            s.action(1100,18502)
+            assert last(s,'test.lie-knowledge') == [0,0,6,0]
+            for code in (18500,18500,18502):
+                s.action(1100,code)
+            assert last(s,'test.lie-disclosure') == ['reused',[text]]
+            assert last(s,'test.lie-knowledge') == [0,1,6,0]
+            s.command(f':save {path}\n@1101')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@1101')
+            for code in (18500,18502):
+                s.action(1100,code)
+            assert last(s,'test.lie-disclosure') == ['reused',[text]]
+            assert last(s,'test.lie-knowledge') == [0,1,6,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1100,18400); s.action(1100,18504)
+        assert last(s,'test.lie-disclosure-error') == ['lie-detection-conclusion-binding']
     finally:
         s.close()

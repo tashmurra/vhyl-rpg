@@ -395,8 +395,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Resolve an opposed check against the selected intelligence, quick-persuasion or acting defense. Keep hidden truth separate from the reported result and apply empathy/readability/species modifiers.",
-      "tests": ["tests/expanded.py::test_lie_detection"],
-      "validation_note": "Fixed skill/default edges and owned opposed social assessment authored. Truth is separate from authored reported conclusion; modifier facts require explicit evidence. Automatic trait derivation, body-reading mode, delivery and broad verification remain pending. Fixtures unrun.",
+      "tests": ["tests/expanded.py::test_lie_detection", "tests/expanded.py::test_lie_disclosure"],
+      "validation_note": "Fixed skill/default edges and owned opposed social assessment authored. Truth is separate from authored reported conclusion; modifier facts require explicit evidence. Owned observer disclosure records the reported impression without establishing belief. Automatic trait derivation, body-reading mode and broad verification remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "perception",
         "difficulty": "hard",

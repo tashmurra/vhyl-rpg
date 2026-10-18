@@ -1506,7 +1506,27 @@ must establish applicable traits and species context. Automatic derivation from
 all trait catalogues remains incomplete. Repeated use of one receipt spends
 nothing; another receipt for the same subject and statement rejects until the
 author supplies a genuinely new observation. No fixed time is imposed by this
-procedure. Body-reading uses and delivery/knowledge integration remain pending.
+procedure. Body-reading uses remain pending; observer disclosure is described below.
 
 `test_lie_detection` specifies opposed success/failure, misleading reports,
 modifier arithmetic, preview purity, replay, rollback and undo. Fixtures are unrun.
+
+
+### Disclosing a lie-detection impression
+
+`RpgExpandedLieDetectionDisclosure` binds an assessment to its observer and that
+profile's `RpgExpandedKnowledge`. Supply a unique `id` and three authored
+statements: `lyingStatement`, `truthfulStatement` and `uncertainStatement`.
+`assess()` returns status without disclosing any statement. `deliver()` selects
+only from the assessment's reported conclusion and returns that one statement.
+
+Delivery records an impression in `knowledge.received`, attributed to the
+observer, with no payment or time cost. It does not change `beliefs` or
+`fabrications`. Thus a misleading failure can sound credible without becoming
+an established fact. Delivery to another character requires an explicit
+communication procedure. One assessment has one disclosure receipt; replay
+validates the original statement and history and consumes no randomness.
+
+`test_lie_disclosure` covers true and misleading impressions, preview privacy,
+replay, rollback, undo, separate-process continuation and altered-conclusion
+rejection. Fixtures remain unrun.

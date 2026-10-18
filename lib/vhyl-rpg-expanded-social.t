@@ -3011,20 +3011,29 @@ class RpgExpandedLieDetection: object
     evidence = nil
     boundDefinition = nil
     result = nil
+    boundConclusion = nil
+    disclosure = nil
     definition()
     {
         return [self.id,self.observer,self.subject,self.skill,self.defenseSkill,self.statement,self.truthKnown,
             self.subjectLying,self.failureConclusion,self.empathyModifier,self.easyToRead,self.speciesModifier,self.approved,self.evidence];
+    }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || !holds(self.observer.lieDetections,self))
+            rpgExpandedReject('lie-detection-history');
+        local facts = self.definition();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('lie-detection-binding');
+        if (self.result.conclusion != self.boundConclusion) rpgExpandedReject('lie-detection-conclusion-binding');
+        return nil;
     }
     assess()
     {
         local value = new RpgExpandedLieDetectionResult();
         if (self.result != nil)
         {
-            local facts = self.definition();
-            for (local i = 1; i <= facts.length(); i += 1)
-                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('lie-detection-binding');
-            if (!holds(self.observer.lieDetections,self)) rpgExpandedReject('lie-detection-history');
+            self.validateReceipt();
             value.status = 'reused'; return value;
         }
         if (self.id == nil || self.id == '' || self.observer == nil || !self.observer.ofKind(RpgExpandedProfile)
@@ -3061,10 +3070,74 @@ class RpgExpandedLieDetection: object
         local value = self.assess(); if (value.status != 'ready') return value;
         value.check = rpgEvaluate(value.observerScore,rpgRandom.roll(),value.subjectScore,rpgRandom.roll(),0);
         value.conclusion = value.check.achieved ? (self.subjectLying ? 'lying' : 'truthful') : self.failureConclusion;
-        self.boundDefinition = self.definition(); value.status = 'resolved'; self.result = value;
+        self.boundConclusion = value.conclusion; self.boundDefinition = self.definition(); value.status = 'resolved'; self.result = value;
         self.observer.lieDetections = self.observer.lieDetections + [self]; return value;
     }
 ;
 modify RpgExpandedProfile
     lieDetections = []
+;
+
+/** Disclose only the observer's impression, never establish its truth as belief. */
+class RpgExpandedLieDetectionDisclosure: object
+    id = nil
+    assessment = nil
+    recipient = nil
+    lyingStatement = nil
+    truthfulStatement = nil
+    uncertainStatement = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundKnowledge = nil
+    boundStatement = nil
+    definition()
+    { return [self.id,self.assessment,self.recipient,self.lyingStatement,self.truthfulStatement,self.uncertainStatement]; }
+    assess()
+    {
+        local value = new RpgExpandedInformationDeliveryResult();
+        if (self.id == nil || self.id == '' || self.assessment == nil || !self.assessment.ofKind(RpgExpandedLieDetection)
+            || self.recipient == nil || !self.recipient.ofKind(RpgExpandedProfile) || self.recipient.knowledge == nil
+            || !self.recipient.knowledge.ofKind(RpgExpandedKnowledge)) rpgExpandedReject('lie-disclosure-definition');
+        if (self.assessment.result == nil) { value.reason = 'lie-disclosure-unresolved'; return value; }
+        self.assessment.validateReceipt(); self.recipient.knowledge.validate();
+        if (self.recipient != self.assessment.observer) { value.reason = 'lie-disclosure-observer-required'; return value; }
+        if (self.completedAt != nil)
+        {
+            local facts = self.definition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('lie-disclosure-binding');
+            if (self.boundKnowledge != self.recipient.knowledge || self.assessment.disclosure != self)
+                rpgExpandedReject('lie-disclosure-binding');
+            local count = 0;
+            foreach (local row in self.boundKnowledge.received)
+                if (row[1] == self.id)
+                {
+                    if (row[2] != self.assessment.observer || row[3].length() != 1
+                        || row[3][1] != self.boundStatement || row[4] != 0) rpgExpandedReject('lie-disclosure-history');
+                    count += 1;
+                }
+            if (count != 1) rpgExpandedReject('lie-disclosure-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.assessment.disclosure != nil) { value.reason = 'lie-disclosure-already-recorded'; return value; }
+        if (self.lyingStatement == nil || self.truthfulStatement == nil || self.uncertainStatement == nil)
+        { value.reason = 'lie-disclosure-statements-required'; return value; }
+        foreach (local row in self.recipient.knowledge.received)
+            if (row[1] == self.id) rpgExpandedReject('lie-disclosure-duplicate');
+        value.status = 'ready'; return value;
+    }
+    deliver()
+    {
+        local value = self.assess();
+        if (value.status == 'reused') { value.statements = [self.boundStatement]; return value; }
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.boundKnowledge = self.recipient.knowledge;
+        local conclusion = self.assessment.result.conclusion;
+        self.boundStatement = conclusion == 'lying' ? self.lyingStatement
+            : conclusion == 'truthful' ? self.truthfulStatement : self.uncertainStatement;
+        value.statements = [self.boundStatement];
+        self.boundKnowledge.received = self.boundKnowledge.received + [[self.id,self.assessment.observer,value.statements,0]];
+        self.completedAt = rpgLedger.seconds; self.assessment.disclosure = self;
+        value.status = 'resolved'; return value;
+    }
 ;
