@@ -35,6 +35,7 @@ animalDailyCheck: RpgExpandedAnimalTrainingCheck course = animalCourse approved 
 animalOtherCheck: RpgExpandedAnimalTrainingCheck course = animalCourse approved = true evidence = 'Another daily check';
 animalTrainingFailure: RpgExpandedAnimalTrainingFailure attempt = animalDailyCheck classification = 'ordinary'
     approved = true evidence = 'Author classifies this as a day without learning';
+animalMilestone: RpgExpandedAnimalTrainingMilestone course = animalCourse approved = true evidence = 'Confirm the completed training objective';
 handlingInput: object code = 0;
 handlingClockFault: object enabled = nil;
 modify rpgLedger
@@ -48,6 +49,34 @@ class AnimalHandlingAction: Action
     exec(context)
     {
         local code = handlingInput.code;
+        if (code >= 80)
+        {
+            if (code == 80 || code == 84)
+            {
+                trainingAnimal.iq = 5; animalPlan.level = 2;
+                local days = 2;
+                if (code == 84) { animalPlan.kind = 'trick'; animalPlan.trick = 'retrieve-marked-object'; days = 14; }
+                for (local day = 1; day <= days; day += 1)
+                {
+                    if (day > 1) rpgSpendTime(72000);
+                    for (local part = 1; part <= 2; part += 1)
+                    {
+                        local session = new RpgExpandedAnimalTrainingSession(); session.id = day*2+part;
+                        session.course = animalCourse; session.approved = true; session.uninterrupted = true; session.evidence = 'Training session';
+                        session.apply();
+                    }
+                    local daily = new RpgExpandedAnimalTrainingCheck(); daily.course = animalCourse;
+                    daily.approved = true; daily.evidence = 'Completed training day'; rpgRandom.seed(1); daily.apply();
+                }
+                return nil;
+            }
+            if (code == 85) animalCourse.successfulDays += 1;
+            if (code == 86) animalMilestone.approved = nil;
+            if (code == 89) animalMilestone.evidence = 'Changed milestone';
+            local value = code == 83 ? animalMilestone.assess() : animalMilestone.apply();
+            event('test.animal-milestone'); eventValue(value.status); eventValue(value.reason); eventValue(value.level); eventValue(value.trick);
+            if (code == 82) throw new RpgError(); return nil;
+        }
         if (code >= 60)
         {
             if (code == 60) { animalSessionOne.apply(); animalSessionTwo.apply(); return nil; }
@@ -126,6 +155,13 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2211) { handlingInput.code = 80 + args[1]; return vhylAct(2203,args); }
+    if (verb == 2212)
+    {
+        event('test.animal-milestone-state'); eventValue(trainingAnimal.animalTrainingLevel);
+        eventValue(trainingAnimal.animalKnownTricks.length()); eventValue(trainingAnimal.animalTrainingMilestones.length());
+        eventValue(animalCourse.successfulDays); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2209) { handlingInput.code = 60 + args[1]; return vhylAct(2203,args); }
     if (verb == 2210)
     {

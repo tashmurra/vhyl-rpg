@@ -182,9 +182,10 @@
       "status": "partial",
       "acceptance": "The general training-level table and learning a single new trick are distinct operations; finishing one trick must not grant the whole level.",
       "tests": [
-        "tests/expanded.py::test_animal_training_plans"
+        "tests/expanded.py::test_animal_training_plans",
+        "tests/expanded.py::test_animal_milestones"
       ],
-      "validation_note": "Pure approved plan and schedule assessment authored; fixtures unrun. Daily execution and learned behavior remain pending."
+      "validation_note": "Verified owned course milestones distinguish general training levels from a single trick; fixtures unrun. Actual animal behavior and bad-failure attacks remain pending."
     },
     {
       "id": "creature-wild-training",

@@ -82,8 +82,7 @@ animal's authored mental package; the plan reports its -5 training modifier.
 
 `assess()` returns structured eligibility, days and the source schedule: four
 hours daily in two two-hour sessions. It neither rolls nor spends time, awards
-behavior or changes character points. Owned attendance and daily checks are described below. Attack execution and
-learned milestones remain pending. A plan
+behavior or changes character points. Owned attendance and daily checks are described below. Attack execution remains pending; learned metadata milestones are described below. A plan
 must not be treated as a completed course.
 
 ## Handling modifiers
@@ -187,8 +186,8 @@ time is silently credited to a trainer.
 After the second session, `dailyCheckRequired` is true, `course.pendingDay` records
 that day, and `animal.pendingAnimalTrainingCourse` identifies the course. Further
 sessions reject until the daily check is resolved. Do not clear these fields to
-simulate success: use the owned daily check below. Bad-failure attacks and learned
-milestones remain unimplemented. Attendance alone is not a training course.
+simulate success: use the owned daily check below. Bad-failure attacks remain unimplemented; learned milestones require the verified
+completion receipt below. Attendance alone is not a training course.
 
 `test_animal_sessions` and `test_animal_session_persistence` author two-session
 accounting, competing-course rejection, midnight rejection, pending-check gating,
@@ -208,8 +207,7 @@ A successful check adds exactly one to `successfulDays` and clears the pending
 day. A failed check adds none and sets `course.pendingFailure` to its owned
 receipt. Replaying the check never awards a second day. Another check cannot
 reroll the same day. Reaching `requiredDays` blocks further attendance pending the
-still-unimplemented learned-milestone procedure; points and behavior are not
-awarded by this counter.
+learned-milestone receipt below; points and behavior are not awarded by this counter.
 
 B175 says a badly failed training roll provokes an attack but does not give a
 numerical threshold here. `RpgExpandedAnimalTrainingFailure` therefore requires
@@ -229,3 +227,30 @@ for its current resolution state.
 preview, rollback, credit-once, no duplicate time charge, unavailable participants,
 retargeting, failed-day holds, ordinary classification, unsupported attacks, undo
 and replay. Fixtures remain unrun. Sources: `full-2008`, B175 and B458–B459.
+
+## Learned training milestones
+
+After the required successful days, create `RpgExpandedAnimalTrainingMilestone`
+with the `course`, approval and evidence. Assessment verifies the bound plan,
+exact successful-day total, unique daily-check dates and resolution of failed
+days. Pending sessions or failures prevent completion. Changing a counter without
+matching check receipts rejects before training metadata changes.
+
+`apply()` records one milestone on both the course and animal. General courses
+set `animalTrainingLevel`; single-trick courses append only their neutral trick ID
+to `animalKnownTricks`. Learning one trick never grants its corresponding general
+level. No skill points, attributes, inventory or additional time are changed.
+Training plans reject already-known objectives. Existing trained creatures may
+have their initial level/tricks authored separately; this does not fabricate a
+course history.
+
+Replay returns the historical milestone without regranting training or restoring
+metadata subsequently changed by authored play. Authors can inspect the level and
+trick list when confirming a handling task's `trainingEstablished` fact. Actual
+recall, tolerance, warning and combat behavior remain authored and are not claimed
+as implemented by these metadata fields. Training-attack execution remains pending.
+
+`test_animal_milestones` authors an entire two-day general course and fourteen-day
+single-trick course using attendance and daily checks, then verifies distinct
+awards, preview, rollback, inflated-counter rejection, approval, binding, undo and
+replay. Fixtures remain unrun. Sources: `full-2008`, B175 and B458–B459.

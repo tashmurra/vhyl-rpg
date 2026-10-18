@@ -80,6 +80,11 @@ class RpgExpandedAnimalTrainingPlan: object
             value.days = rpgExpandedAnimalTrickDays(self.animal.iq);
         }
         if (value.days == nil) { value.reason = 'animal-training-unattainable'; return value; }
+        rpgInteger(self.animal.animalTrainingLevel,0,5);
+        if (self.animal.animalTrainingLevel == 1) rpgExpandedReject('animal-training-level');
+        if (self.kind == 'general' && self.animal.animalTrainingLevel >= self.level
+            || self.kind == 'trick' && holds(self.animal.animalKnownTricks,self.trick))
+        { value.reason = 'animal-training-already-known'; return value; }
         value.modifier = self.wild ? -5 : 0; value.status = 'ready'; return value;
     }
 ;
@@ -507,6 +512,81 @@ class RpgExpandedAnimalTrainingFailure: object
         course.pendingFailure = nil; course.pendingDay = nil; course.plan.animal.pendingAnimalTrainingCourse = nil;
         self.attempt.failureResolution = self; self.boundAttempt = self.attempt;
         self.boundClassification = self.classification; self.boundEvidence = self.evidence;
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    animalTrainingLevel = 0
+    animalKnownTricks = []
+    animalTrainingMilestones = []
+;
+modify RpgExpandedAnimalCourse
+    milestone = nil
+;
+class RpgExpandedAnimalMilestoneResult: RpgExpandedResult
+    level = nil
+    trick = nil
+;
+
+/** Record the learned level or single trick after verified successful training days. */
+class RpgExpandedAnimalTrainingMilestone: object
+    course = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundCourse = nil
+    boundEvidence = nil
+    assess()
+    {
+        if (self.course == nil || !self.course.ofKind(RpgExpandedAnimalCourse)) rpgExpandedReject('animal-milestone-course');
+        local quote = self.course.assess(); local value = new RpgExpandedAnimalMilestoneResult();
+        local animal = self.course.plan.animal;
+        if (self.result != nil)
+        {
+            if (self.course != self.boundCourse || self.evidence != self.boundEvidence
+                || self.course.milestone != self || !holds(animal.animalTrainingMilestones,self))
+                rpgExpandedReject('animal-milestone-binding');
+            value.status = 'reused'; value.level = self.result.level; value.trick = self.result.trick; return value;
+        }
+        if (quote.status != 'ready') { value.reason = quote.reason; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'animal-milestone-author-facts'; return value; }
+        if (self.course.milestone != nil) { value.reason = 'animal-milestone-already-recorded'; return value; }
+        if (self.course.requiredDays == nil || self.course.successfulDays < self.course.requiredDays)
+        { value.reason = 'animal-milestone-training-incomplete'; return value; }
+        if (self.course.pendingDay != nil || self.course.pendingFailure != nil || animal.pendingAnimalTrainingCourse != nil)
+        { value.reason = 'animal-milestone-unresolved-training'; return value; }
+        local days = []; local credited = 0;
+        foreach (local attempt in self.course.checks)
+        {
+            if (attempt == nil || !attempt.ofKind(RpgExpandedAnimalTrainingCheck) || attempt.course != self.course || attempt.result == nil)
+                rpgExpandedReject('animal-milestone-check-history');
+            attempt.assess();
+            if (holds(days,attempt.result.day)) rpgExpandedReject('animal-milestone-duplicate-day');
+            days = days + [attempt.result.day];
+            if (attempt.result.check.achieved) credited += 1;
+            else
+            {
+                if (attempt.failureResolution == nil || attempt.failureResolution.result == nil)
+                { value.reason = 'animal-milestone-unresolved-training'; return value; }
+                attempt.failureResolution.assess();
+            }
+        }
+        if (credited != self.course.successfulDays || credited != self.course.requiredDays)
+            rpgExpandedReject('animal-milestone-credit-history');
+        value.level = self.course.plan.kind == 'general' ? self.course.plan.level : nil;
+        value.trick = self.course.plan.kind == 'trick' ? self.course.plan.trick : nil;
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local animal = self.course.plan.animal;
+        if (value.level != nil) animal.animalTrainingLevel = value.level;
+        if (value.trick != nil) animal.animalKnownTricks = animal.animalKnownTricks + [value.trick];
+        self.course.milestone = self; animal.animalTrainingMilestones = animal.animalTrainingMilestones + [self];
+        self.boundCourse = self.course; self.boundEvidence = self.evidence;
         value.status = 'resolved'; self.result = value; return value;
     }
 ;

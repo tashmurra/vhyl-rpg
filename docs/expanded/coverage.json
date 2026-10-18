@@ -68,7 +68,8 @@
         "tests/expanded.py::test_animal_sessions",
         "tests/expanded.py::test_animal_session_persistence",
         "tests/expanded.py::test_animal_daily",
-        "tests/expanded.py::test_animal_daily_failure"
+        "tests/expanded.py::test_animal_daily_failure",
+        "tests/expanded.py::test_animal_milestones"
       ]
     },
     {
