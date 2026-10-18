@@ -661,3 +661,39 @@ explicit bonus. It also records unchanged skill technology, learned score, time
 and randomness. These fixtures remain unrun. Automatic selection among several
 alternative programs, superior-software time savings and interrupted task execution
 remain incomplete.
+
+
+## Buying a host-bound software copy
+
+`RpgExpandedSoftwarePurchase` extends `RpgExpandedAcquisition`. Supply the paying
+`profile`, an `item` representing the supplied documentation/license package,
+the approved `copy` with its designated `host`, and `evidence` of the sale and
+host delivery. The existing acquisition fields supply price or quote,
+`available` and `permitted`. A digital documentation package may have zero weight;
+physical media must use its authored weight. Its inventory location does not
+control the already installed program's execution permission.
+
+`assess()` checks the copy identity, author facts, existing installations and
+ordinary money/ownership constraints without spending resources. `acquire()`
+uses the shared acquisition ledger to charge the payer and grant the package,
+then adds the copy to its designated host. Invoke it inside an action transaction.
+Starting additional program instances consumes processing capacity but no purchase
+price. A second copy for a different host is a separate authored sale.
+
+Replaying the receipt charges nothing. It does not reinstall a copy removed from
+the host later, and retargeting the copy, host, identifier, complexity, quote or
+sale evidence rejects. Runtime revocation of copy approval is separate from the
+historical purchase. A duplicate installed identifier blocks before payment.
+The sale can grant software that exceeds the host's processing capacity; the
+existing run assessment still rejects execution there.
+
+This operation models a sale with authorized delivery, with no implied download
+or installation duration. Use a separate authored installation procedure when
+that time matters. Starting-wealth pricing, license transfer, copied/pirated
+software, refunds and media-driven installations remain incomplete.
+
+[Purchase fixture](../../tests/fixtures/expanded-software-purchase.t) authors
+preview, insufficient funds, denied permission, duplicate copy, exception rollback,
+undo, replay, two instances for one price, removal and three cross-process save
+stages. `test_software_purchase` and `test_software_purchase_persistence` are
+unrun while checks remain paused.

@@ -973,6 +973,62 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def software_purchase_state(s):
+    s.action(2094)
+    return last(s,'test.software-purchase-state')
+
+
+def test_software_purchase(s):
+    initial = [1000,0,0,0,0,0,0]
+    for code in [2,1]:
+        s.action(2093,code)
+        assert software_purchase_state(s) == initial
+    for code,reason in [(3,'equipment-unaffordable'),(4,'equipment-permission'),(8,'software-copy-already-installed')]:
+        s.action(2093,code)
+        assert last(s,'test.software-purchase') == ['blocked',reason,0]
+        s.command('undo')
+        assert software_purchase_state(s) == initial
+    s.action(2093,0)
+    assert last(s,'test.software-purchase') == ['resolved',None,100]
+    purchased = [900,1,1,0,1,0,0]
+    assert software_purchase_state(s) == purchased
+    s.command('undo')
+    assert software_purchase_state(s) == initial
+    s.action(2093,0)
+    s.action(2093,7)
+    assert software_purchase_state(s) == purchased
+    s.action(2093,0)
+    assert last(s,'test.software-purchase') == ['reused',None,0]
+    s.action(2093,5)
+    assert software_purchase_state(s) == [900,1,1,2,1,0,0]
+    s.action(2093,6)
+    s.action(2093,0)
+    assert software_purchase_state(s) == [900,1,0,2,1,0,0]
+
+
+def test_software_purchase_persistence(Session,bundle,out):
+    for stage in range(3):
+        path = out / f'expanded-software-purchase-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            if stage >= 1: first.action(2093,0)
+            if stage >= 2: first.action(2093,6)
+            saved = software_purchase_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2094')
+            assert software_purchase_state(second) == saved
+            second.action(2093,0)
+            assert software_purchase_state(second) == [900,1,0 if stage == 2 else 1,0,1,0,0]
+            second.action(2093,0)
+            assert last(second,'test.software-purchase') == ['reused',None,0]
+        finally:
+            second.close()
+
+
 def test_software_task_support(Session,bundle):
     for code,score,reason in [(0,11,None),(1,11,None),(2,None,'task-software-not-running'),
                             (3,None,'task-software-scope'),(4,None,'task-software-unavailable'),
@@ -5875,6 +5931,9 @@ def test(build):
     fresh(Session,combat,test_critical_hit_assessments)
     fresh(Session,combat,test_weapon_miss_assessments)
     fresh(Session,combat,test_unarmed_miss_assessments)
+    purchase = build.build('expanded-software-purchase',ROOT / 'tests/fixtures/expanded-software-purchase.t')
+    fresh(Session,purchase,test_software_purchase)
+    test_software_purchase_persistence(Session,purchase,build.out)
     software = build.build('expanded-software',ROOT / 'tests/fixtures/expanded-software.t')
     test_software_task_support(Session,software)
     test_software_requirements(Session,software)

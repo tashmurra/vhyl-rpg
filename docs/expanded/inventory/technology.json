@@ -258,9 +258,11 @@
       "acceptance": "A purchased software copy belongs to a host and permits multiple simultaneous instances within processing capacity. Copying and legal permissions use campaign decisions; each instance does not incur a new purchase.",
       "tests": [
         "tests/expanded.py::test_computer_reservations",
-        "tests/expanded.py::test_computer_persistence"
+        "tests/expanded.py::test_computer_persistence",
+        "tests/expanded.py::test_software_purchase",
+        "tests/expanded.py::test_software_purchase_persistence"
       ],
-      "validation_note": "Owned mixed-workload processing reservations and host-bound copy authorization authored; fixtures unrun. Software purchasing, lifecycle effects, terminal/network access and storage remain incomplete."
+      "validation_note": "Host-bound purchases share the money/inventory ledger and permit multiple processing instances without repeated charges; fixtures unrun. License transfer, unauthorized copies, refunds, starting-wealth pricing and timed media installation remain incomplete."
     },
     {
       "id": "technology-invention-proposal",

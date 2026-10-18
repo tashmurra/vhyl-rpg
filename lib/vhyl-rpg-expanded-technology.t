@@ -1236,3 +1236,58 @@ modify RpgLiteContext
         return inherited(profile);
     }
 ;
+
+/** Purchase one host-bound copy through the shared money and inventory ledger.
+ * item is the authored documentation/license package; no per-instance charge. */
+class RpgExpandedSoftwarePurchase: RpgExpandedAcquisition
+    copy = nil
+    evidence = nil
+    boundCopy = nil
+    boundHost = nil
+    boundId = nil
+    boundComplexity = nil
+    boundEvidence = nil
+    boundQuote = nil
+    assess()
+    {
+        if (self.copy == nil || !self.copy.ofKind(RpgExpandedSoftwareCopy)
+            || self.copy.host == nil || !self.copy.host.ofKind(RpgExpandedComputer))
+            rpgExpandedReject('software-purchase-copy');
+        if (self.mode != 'purchase' || self.startingPurchase)
+            rpgExpandedReject('software-purchase-mode');
+        if (self.claimed)
+        {
+            if (self.copy != self.boundCopy || self.copy.host != self.boundHost
+                || self.copy.id != self.boundId || self.copy.complexity != self.boundComplexity
+                || self.evidence != self.boundEvidence || self.quote != self.boundQuote)
+                rpgExpandedReject('software-purchase-binding');
+            return inherited();
+        }
+        local value = new RpgExpandedAcquisitionResult(); value.item = self.item;
+        if (self.copy.id == nil || self.copy.id == '') rpgExpandedReject('software-purchase-id');
+        rpgInteger(self.copy.complexity,0,8);
+        if (self.evidence == nil || self.evidence == '' || !self.copy.approved
+            || self.copy.evidence == nil || self.copy.evidence == '')
+        { value.reason = 'software-purchase-author-facts'; return value; }
+        foreach (local installed in self.copy.host.copies)
+        {
+            if (installed == nil || !installed.ofKind(RpgExpandedSoftwareCopy))
+                rpgExpandedReject('software-purchase-host-copies');
+            if (installed == self.copy || installed.id == self.copy.id)
+            { value.reason = 'software-copy-already-installed'; return value; }
+        }
+        for (local host = firstObj(RpgExpandedComputer); host != nil; host = nextObj(host,RpgExpandedComputer))
+            if (host != self.copy.host && holds(host.copies,self.copy))
+                rpgExpandedReject('software-copy-multiple-hosts');
+        return inherited();
+    }
+    acquire()
+    {
+        local value = inherited();
+        if (value.status != 'resolved') return value;
+        self.copy.host.copies = self.copy.host.copies + [self.copy];
+        self.boundCopy = self.copy; self.boundHost = self.copy.host; self.boundId = self.copy.id;
+        self.boundComplexity = self.copy.complexity; self.boundEvidence = self.evidence;
+        self.boundQuote = self.quote; return value;
+    }
+;
