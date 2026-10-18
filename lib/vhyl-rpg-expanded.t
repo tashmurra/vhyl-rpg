@@ -327,3 +327,8 @@ class RpgExpandedJumpPreparationReceipt: object
     record(fighter) { rpgExpandedReject('jump-preparation-unavailable'); }
     readyFor(profile) { return nil; }
 ;
+
+class RpgExpandedJumpLaunchReceipt: object
+    assess() { local value = new RpgExpandedResult(); value.reason = 'jump-launch-unavailable'; return value; }
+    commit(value) { rpgExpandedReject('jump-launch-unavailable'); }
+;

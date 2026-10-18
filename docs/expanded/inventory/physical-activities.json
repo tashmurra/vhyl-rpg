@@ -311,9 +311,10 @@
       "acceptance": "Full combat jump distance requires two consecutive concentration maneuvers; an unprepared jump has half distance.",
       "tests": [
         "tests/expanded.py::test_jump_assessment",
-        "tests/expanded.py::test_jump_preparation"
+        "tests/expanded.py::test_jump_preparation",
+        "tests/expanded.py::test_jump_launch"
       ],
-      "validation_note": "Pure distance preparation halving now has a battle-owned concentration adapter. Two consecutive successful health-gated concentration turns establish readiness; fighter/battle binding, concentration count, round stamps and ledger progression detect interruption or unrelated work. The battle alone charges time. Combat assessment derives preparation from the receipt. Consecutive/interrupted turns, unrelated concentration, rollback, undo and save continuation assertions authored, unrun. Actual launch consumption, travel and position changes remain pending."
+      "validation_note": "Pure distance preparation halving now has a battle-owned concentration adapter. Two consecutive successful health-gated concentration turns establish readiness; fighter/battle binding, concentration count, round stamps and ledger progression detect interruption or unrelated work. The battle alone charges time. Combat assessment derives preparation from the receipt. Consecutive/interrupted turns, unrelated concentration, rollback, undo and save continuation assertions authored, unrun. Actual launch consumption, travel and position changes remain pending. Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending."
     },
     {
       "id": "activity-jump-combat-small",
@@ -331,9 +332,12 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Jumping a larger obstacle or onto a surface uses the whole movement turn; vertical and long horizontal jumps require a dexterity check when specified by the hazard.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_jump_launch"
+      ],
+      "validation_note": " Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending."
     },
     {
       "id": "activity-jump-failure",
@@ -341,9 +345,12 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A failed difficult jump leaves the actor fallen and requires two posture changes to stand; critical failure invokes falling damage from the actual height.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_jump_launch"
+      ],
+      "validation_note": " Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending."
     },
     {
       "id": "activity-jump-clamber",
@@ -365,9 +372,10 @@
       "acceptance": "Permit half jumping skill, rounded down, in place of basic movement for distance and jumping skill in place of dexterity for difficult jump checks.",
       "tests": [
         "tests/expanded.py::test_jump_assessment",
-        "tests/expanded.py::test_jump_profile"
+        "tests/expanded.py::test_jump_profile",
+        "tests/expanded.py::test_jump_launch"
       ],
-      "validation_note": "Profile-backed pure distance assessment validates paid DX/Easy Jumping with no default, applies the explicit strength basis only when lift strictly exceeds measured body weight, and consumes active approved enhanced-jump levels with ten-point-per-level trait accounting. Final distances double per level with overflow rejection. Pricing, strict boundary, disabled benefit, running/preparation and skill-selection assertions authored, unrun. Owned preparation, difficult-jump rolls, enhanced movement, actual movement, jump attacks and fall protection remain pending."
+      "validation_note": "Profile-backed pure distance assessment validates paid DX/Easy Jumping with no default, applies the explicit strength basis only when lift strictly exceeds measured body weight, and consumes active approved enhanced-jump levels with ten-point-per-level trait accounting. Final distances double per level with overflow rejection. Pricing, strict boundary, disabled benefit, running/preparation and skill-selection assertions authored, unrun. Owned preparation, difficult-jump rolls, enhanced movement, actual movement, jump attacks and fall protection remain pending. Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending."
     },
     {
       "id": "activity-jump-strength-option",

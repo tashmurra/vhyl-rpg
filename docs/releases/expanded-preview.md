@@ -993,3 +993,9 @@ Combat jump preparation now records consecutive concentration turns through the
 existing battle scheduler and health gates. Combat distance assessment derives
 preparation from that record. Interruption, unrelated concentration, ledger
 drift, rollback and saved continuation have authored coverage; checks remain paused.
+
+Whole-turn jump launches now preserve prepared distance across the Move
+maneuver's concentration reset and record required DX/Jumping accuracy once.
+Failed accuracy leaves the actor prone; critical failure marks pending fall
+consequences. Position changes and falling-damage settlement remain incomplete.
+Range, outcome, rollback, undo and saved-replay fixtures are authored, unrun.

@@ -2415,3 +2415,98 @@ modify RpgExpandedJumpDistance
         return request.assess();
     }
 ;
+
+class RpgExpandedJumpLaunchResult: RpgExpandedResult
+    launch = nil
+    definition = []
+    distance = nil
+    score = nil
+    succeeded = nil
+    fallRequired = nil
+;
+modify RpgExpandedProfile
+    jumpLaunches = []
+;
+/** B352 whole-turn jump outcome; route and fall consequences remain separate. */
+class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
+    id = nil
+    occurrence = nil
+    fighter = nil
+    battle = nil
+    jumping = nil
+    direction = 'horizontal'
+    requiredInchTenths = 0
+    difficult = nil
+    penalty = 0
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.occurrence,self.fighter,self.battle,self.jumping,self.direction,
+        self.requiredInchTenths,self.difficult,self.penalty,self.approved,self.evidence,
+        self.jumping.profile,self.jumping.skill,self.jumping.runYards,self.jumping.preparation,
+        self.jumping.strengthOption,self.jumping.bodyWeightHundredths,self.jumping.bodyWeightEvidence,
+        self.jumping.encumbranceOption]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.occurrence == nil || dataType(self.occurrence) != TypeObject
+            || self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter)
+            || self.battle == nil || !self.battle.ofKind(RpgLiteBattle)
+            || self.jumping == nil || !self.jumping.ofKind(RpgExpandedJumpDistance)
+            || self.jumping.profile != self.fighter.profile) rpgExpandedReject('jump-launch-definition');
+        local value = new RpgExpandedJumpLaunchResult(); value.launch = self; value.definition = self.definition();
+        if (self.result != nil)
+        {
+            for (local index = 1; index <= value.definition.length(); index += 1)
+                if (value.definition[index] != self.boundDefinition[index]) rpgExpandedReject('jump-launch-binding');
+            if (!holds(self.fighter.profile.jumpLaunches,self)) rpgExpandedReject('jump-launch-history');
+            value.status = 'reused'; return value;
+        }
+        foreach (local prior in self.fighter.profile.jumpLaunches)
+            if (prior.id == self.id || prior.occurrence == self.occurrence) rpgExpandedReject('jump-launch-duplicate');
+        if (!self.battle.active || self.battle.current() != self.fighter)
+        { value.reason = 'jump-launch-turn'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'jump-launch-author-facts'; return value; }
+        if (!holds(['horizontal','vertical'],self.direction)) rpgExpandedReject('jump-launch-direction');
+        rpgInteger(self.requiredInchTenths,1,2147483647); rpgInteger(self.penalty,-5,0);
+        if (!self.difficult && self.penalty != 0) rpgExpandedReject('jump-launch-penalty');
+        value.distance = self.jumping.combatAssessment();
+        if (value.distance.status != 'ready') { value.reason = value.distance.reason; return value; }
+        if (self.requiredInchTenths > (self.direction == 'vertical' ? value.distance.highInchTenths : value.distance.broadInchTenths))
+        { value.reason = 'jump-launch-range'; return value; }
+        if (self.difficult || self.direction == 'vertical')
+        {
+            local context = new RpgLiteContext(); context.attribute = rpgDX; context.kind = 'jumping';
+            context.requiresMovement = true; context.modifier = self.penalty;
+            value.score = rpgLiteScore(self.fighter.profile,context);
+            if (self.jumping.skill != nil)
+            {
+                context.skill = self.jumping.skill; local trained = rpgLiteScore(self.fighter.profile,context);
+                if (trained != nil && (value.score == nil || trained > value.score)) value.score = trained;
+            }
+            if (value.score == nil || value.score < 3) { value.reason = 'jump-launch-score'; return value; }
+            rpgInteger(value.score,3,1000);
+        }
+        value.status = 'ready'; return value;
+    }
+    commit(value)
+    {
+        if (self.result != nil) rpgExpandedReject('jump-launch-already-committed');
+        if (value == nil || !value.ofKind(RpgExpandedJumpLaunchResult) || value.launch != self || value.status != 'ready'
+            || self.battle.current() != self.fighter || self.fighter.maneuver != 'move')
+            rpgExpandedReject('jump-launch-commit');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != value.definition[index]) rpgExpandedReject('jump-launch-changed');
+        if (value.score != nil) value.check = rpgCheck(value.score,rpgRandom.roll());
+        value.succeeded = value.check == nil || value.check.achieved;
+        value.fallRequired = value.check != nil && value.check.critical == 'failure';
+        if (!value.succeeded)
+        { self.fighter.profile.posture = 'lying'; self.fighter.profile.onKnockdown(); }
+        self.boundDefinition = value.definition; self.result = value;
+        self.fighter.profile.jumpLaunches = self.fighter.profile.jumpLaunches + [self];
+        value.status = 'resolved'; return value;
+    }
+;

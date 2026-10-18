@@ -1177,3 +1177,35 @@ manual assessment remains available for authored situations outside this adapter
 The `expanded-jump-preparation.t` fixture covers consecutive turns, interruption,
 unrelated concentration, rollback, undo and saved continuation. Assertions remain
 unrun while checks are paused.
+
+### Recording the jump launch
+
+`RpgExpandedJumpLaunch` binds `id`, a distinct `occurrence`, `fighter`, `battle`
+and its `jumping` distance request. Supply `direction` (`horizontal` or
+`vertical`), `requiredInchTenths`, `approved` and `evidence` describing the route.
+Set `difficult` for a horizontal jump requiring an accuracy check; the author
+must identify long or deliberately hazardous jumps here. Vertical jumps always
+require a check. `penalty` permits the B352 difficulty range -5 through zero,
+and a nonzero penalty requires `difficult`.
+
+Health's `RpgExpandedJumpLaunchManeuver` takes the launch and a fresh `healthGate`.
+Use the existing battle's `step`. It consumes a whole Move turn; leave its
+ordinary `movement` field at zero to avoid charging separate walking movement.
+After health permission, it captures combat distance while concentration is still
+available. The scheduler then clears concentration as usual. Commit consumes that
+snapshot, so a prepared jump keeps its range without retaining preparation for
+another launch. The battle remains the sole owner of time advancement.
+
+An accuracy check uses contextual DX or the selected paid Jumping skill, whichever
+is higher. Ordinary failed checks leave the profile lying down. Critical failure
+also sets `fallRequired` on the result: actual falling damage must still be
+resolved from the authored height. The launch records a roll outcome, not a
+position change or complete travel/landing operation. `assess()` on a committed
+launch returns `reused`; a new occurrence is required for another jump. The
+health maneuver refuses to execute an already committed launch.
+
+The launch fixture covers range rejection before permission or randomness,
+prepared success, ordinary and critical failure, single consumption, exception
+rollback, undo and save continuation. All assertions remain unrun while checks
+are paused. Destination placement, travel interruption and critical-fall settlement
+are still explicit implementation gaps.

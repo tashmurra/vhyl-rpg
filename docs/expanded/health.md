@@ -3106,3 +3106,9 @@ a concrete preparation receipt. Give every use a fresh action gate and pass the
 maneuver to the existing battle scheduler. Failed health permission records no
 preparation; successful turns record concentration without an additional time
 charge. See [recording combat jump preparation](exploration.md#recording-combat-jump-preparation).
+
+`RpgExpandedJumpLaunchManeuver` similarly obtains health permission before
+capturing preparation for a jump. It then lets the normal Move maneuver clear
+concentration and commits the recorded launch assessment. It does not charge an
+extra second. See [recording the jump launch](exploration.md#recording-the-jump-launch)
+for the outcome interface and remaining landing limitations.

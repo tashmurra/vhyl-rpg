@@ -6690,3 +6690,30 @@ class RpgExpandedJumpPrepareManeuver: RpgExpandedHealthManeuver
         return nil;
     }
 ;
+
+class RpgExpandedJumpLaunchManeuver: RpgExpandedHealthManeuver
+    kind = 'move'
+    launch = nil
+    preparedLaunch = nil
+    available(fighter)
+    {
+        if (self.kind != 'move' || self.movement != 0 || self.launch == nil
+            || !self.launch.ofKind(RpgExpandedJumpLaunchReceipt) || self.launch.fighter != fighter)
+            rpgExpandedReject('jump-launch-maneuver-definition');
+        local reason = inherited(fighter); if (reason != nil) return reason;
+        local value = self.launch.assess();
+        if (value.status == 'reused') return 'jump-launch-already-committed';
+        return value.status == 'ready' ? nil : value.reason;
+    }
+    canAct(fighter)
+    {
+        if (!inherited(fighter)) return nil;
+        self.preparedLaunch = self.launch.assess();
+        if (self.preparedLaunch.status != 'ready') rpgExpandedReject('jump-launch-after-permission');
+        return true;
+    }
+    apply(fighter,result)
+    {
+        inherited(fighter,result); self.launch.commit(self.preparedLaunch); return nil;
+    }
+;

@@ -9025,6 +9025,8 @@ def test(build):
     test_jump_travel(Session, jump_profile)
     jump_preparation = build.build('expanded-jump-preparation',ROOT / 'tests/fixtures/expanded-jump-preparation.t')
     test_jump_preparation(Session, jump_preparation, build.out)
+    jump_launch = build.build('expanded-jump-launch',ROOT / 'tests/fixtures/expanded-jump-launch.t')
+    test_jump_launch(Session, jump_launch, build.out)
     jump_fall = build.build('expanded-jump-fall',ROOT / 'tests/fixtures/expanded-jump-fall.t')
     test_jump_fall(Session, jump_fall, build.out)
     throw_release = build.build('expanded-throw-release',ROOT / 'tests/fixtures/expanded-throw-release.t')
@@ -15467,5 +15469,63 @@ def test_jump_preparation(Session, bundle, out):
         for code in (1340,1341,1343,1346,1343,1341):
             s.action(2285,code)
         assert state(s) == [1,3,0,100,2,0]
+    finally:
+        s.close()
+
+
+def test_jump_launch(Session, bundle, out):
+    def state(s):
+        s.action(2285,1352)
+        return last(s,'test.jump-launch')
+    def prepare(s):
+        for code in (30,1340,1341,1343,1341,1343):
+            s.action(2285,code)
+    for choices, expected in (((),[1,3,2,'standing',0,1,0]),
+                               ((1353,),[1,3,2,'lying',0,0,0]),
+                               ((1354,),[1,3,2,'lying',0,0,1])):
+        s = Session(bundle)
+        try:
+            prepare(s)
+            for code in (*choices,1355,1350,1350):
+                s.action(2285,code)
+            assert last(s,'test.jump-launch-preview') == ['ready',None]
+            assert state(s) == expected
+        finally:
+            s.close()
+    path = out / 'expanded-jump-launch.zsave'
+    s = Session(bundle)
+    try:
+        prepare(s)
+        s.action(2285,1351)
+        assert state(s) == [0,0,2,'standing',2]
+        s.action(2285,1350)
+        s.command('undo')
+        assert state(s) == [0,0,2,'standing',2]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,1350)
+        assert state(s) == [1,3,2,'standing',0,1,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1355,1350):
+            s.action(2285,code)
+        assert last(s,'test.jump-launch-preview') == ['reused',None]
+        assert state(s) == [1,3,2,'standing',0,1,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (1340,1355,1350):
+            s.action(2285,code)
+        assert last(s,'test.jump-launch-preview') == ['blocked','jump-launch-range']
+        assert state(s) == [0,0,0,'standing',0]
     finally:
         s.close()
