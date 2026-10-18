@@ -9721,6 +9721,8 @@ def test(build):
     test_bleeding_receipts(Session, bleeding_receipts, build.out)
     bleeding_actions = build.build('expanded-bleeding-actions', ROOT / 'tests/fixtures/expanded-bleeding-actions.t')
     test_bleeding_actions(Session, bleeding_actions)
+    bleeding_timeline = build.build('expanded-bleeding-timeline', ROOT / 'tests/fixtures/expanded-bleeding-timeline.t')
+    test_bleeding_timeline(Session, bleeding_timeline, build.out)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
     fresh(Session,health,test_critical_major_wound)
@@ -26030,3 +26032,42 @@ def test_bleeding_actions(Session, bundle):
             assert state(s)[-2:] == [0,0]
         finally:
             s.close()
+
+
+def test_bleeding_timeline(Session, bundle, out):
+    """Clock entry validates episode state and retained minute outcomes; unrun."""
+    def state(s):
+        s.action(2285,90)
+        return last(s,'test.bleeding-timeline')
+    s = Session(bundle)
+    path = out / 'bleeding-timeline.zsave'
+    try:
+        s.action(2285,0); s.action(2285,1)
+        original = state(s)
+        for code in (91,92,93,94,95):
+            s.action(2285,code)
+            assert state(s) == original
+        s.action(2285,30); s.action(2285,4); s.action(2285,20)
+        original = state(s)
+        assert original[:5] == [0,120,None,1,1]
+        for code in range(91,100):
+            s.action(2285,code)
+            assert state(s) == original
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2287')
+        assert state(s) == original
+        s.action(2285,4); s.action(2285,23)
+        assert state(s)[:5] == [0,180,None,2,2]
+        s.action(2285,4); s.action(2285,24)
+        stopped = state(s)
+        assert stopped[:6] == [0,180,180,3,3,0]
+        s.action(2285,99)
+        assert state(s) == stopped
+        s.action(2285,5)
+        assert state(s)[-2] == 241
+    finally:
+        s.close()

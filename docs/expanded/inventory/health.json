@@ -274,9 +274,10 @@
         "tests/expanded.py::test_bleeding_bandage",
         "tests/expanded.py::test_bleeding_care_boundaries",
         "tests/expanded.py::test_bleeding_receipts",
-        "tests/expanded.py::test_bleeding_actions"
+        "tests/expanded.py::test_bleeding_actions",
+        "tests/expanded.py::test_bleeding_timeline"
       ],
-      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun."
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun. Episode timeline and ordered minute history are bound and checked at clock entry, including stopped episodes; minute outcomes retain exact check fields. Mutation and continuation fixtures remain unrun."
     },
     {
       "id": "health-bleeding-timing",
@@ -293,9 +294,10 @@
         "tests/expanded.py::test_bleeding_aid",
         "tests/expanded.py::test_bleeding_bandage",
         "tests/expanded.py::test_bleeding_receipts",
-        "tests/expanded.py::test_bleeding_actions"
+        "tests/expanded.py::test_bleeding_actions",
+        "tests/expanded.py::test_bleeding_timeline"
       ],
-      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun."
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun. Episode timeline and ordered minute history are bound and checked at clock entry, including stopped episodes; minute outcomes retain exact check fields. Mutation and continuation fixtures remain unrun."
     },
     {
       "id": "health-bleeding-outcomes",
@@ -312,9 +314,10 @@
         "tests/expanded.py::test_bleeding_bandage",
         "tests/expanded.py::test_bleeding_care_boundaries",
         "tests/expanded.py::test_bleeding_receipts",
-        "tests/expanded.py::test_bleeding_actions"
+        "tests/expanded.py::test_bleeding_actions",
+        "tests/expanded.py::test_bleeding_timeline"
       ],
-      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun."
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun. Episode timeline and ordered minute history are bound and checked at clock entry, including stopped episodes; minute outcomes retain exact check fields. Mutation and continuation fixtures remain unrun."
     },
     {
       "id": "health-bleeding-streak",
@@ -331,9 +334,10 @@
         "tests/expanded.py::test_bleeding_bandage",
         "tests/expanded.py::test_bleeding_care_boundaries",
         "tests/expanded.py::test_bleeding_receipts",
-        "tests/expanded.py::test_bleeding_actions"
+        "tests/expanded.py::test_bleeding_actions",
+        "tests/expanded.py::test_bleeding_timeline"
       ],
-      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun."
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun. Episode timeline and ordered minute history are bound and checked at clock entry, including stopped episodes; minute outcomes retain exact check fields. Mutation and continuation fixtures remain unrun."
     },
     {
       "id": "health-bleeding-wound-policy",
@@ -349,9 +353,10 @@
         "tests/expanded.py::test_bleeding_bandage",
         "tests/expanded.py::test_bleeding_care_boundaries",
         "tests/expanded.py::test_bleeding_receipts",
-        "tests/expanded.py::test_bleeding_actions"
+        "tests/expanded.py::test_bleeding_actions",
+        "tests/expanded.py::test_bleeding_timeline"
       ],
-      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun."
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun. Episode timeline and ordered minute history are bound and checked at clock entry, including stopped episodes; minute outcomes retain exact check fields. Mutation and continuation fixtures remain unrun."
     },
     {
       "id": "health-accumulation-option",

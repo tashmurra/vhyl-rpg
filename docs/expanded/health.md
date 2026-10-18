@@ -4011,3 +4011,14 @@ and dialogue parity, healer authority, pure previews, premature completion,
 shared time, one bandage credit, cancellation, rollback, undo and replay. They
 remain unrun while checks are paused. Neither this action adapter nor the care
 receipt supplies automatic movement, equipment consumption or wound aggregation.
+
+Bleeding episodes now bind onset, next deadline, termination, clear-minute streak
+and the ordered minute receipt list. Each resolved minute also binds its result,
+check fields, injury, wound identity and resolution time. Shared clock validation
+checks retained episodes before considering whether they have stopped; changing
+`stoppedAt` cannot bypass a pending check. Ordinary minute execution and successful
+care update this bound timeline within their transaction. Death still releases
+the clock boundary, and completed episodes do not impose new time restrictions.
+`test_bleeding_timeline` specifies state mutation rollback, minute history,
+three-clear-minute termination and save continuation. These fixtures remain
+unrun; the loss-basis and wound-aggregation gaps above remain open.

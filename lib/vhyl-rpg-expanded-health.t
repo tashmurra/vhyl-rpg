@@ -3556,6 +3556,25 @@ class RpgExpandedBleedingEpisode: object
     clearMinutes = 0
     minutes = []
     boundDefinition = nil
+    boundTimeline = nil
+    timeline()
+    {
+        return [self.startedAt,self.nextCheckAt,self.stoppedAt,self.clearMinutes,self.minutes.length()] + self.minutes;
+    }
+    validateTimeline()
+    {
+        local facts = self.timeline();
+        if (self.boundTimeline == nil || facts.length() != self.boundTimeline.length()) rpgExpandedReject('bleeding-episode-timeline');
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundTimeline[index]) rpgExpandedReject('bleeding-episode-timeline');
+        local profile = self.classification.wound.profile;
+        if ((self.stoppedAt == nil && !profile.dead && profile.bleedingEpisode != self)
+            || (self.stoppedAt != nil && profile.bleedingEpisode == self)) rpgExpandedReject('bleeding-episode-owner');
+        foreach (local minute in self.minutes)
+            if (minute == nil || !minute.ofKind(RpgExpandedBleedingMinute) || minute.episode != self
+                || minute.assess().status != 'reused') rpgExpandedReject('bleeding-minute-history');
+        return nil;
+    }
     definition()
     {
         local entry = self.classification;
@@ -3570,12 +3589,16 @@ class RpgExpandedBleedingEpisode: object
         local profile = self.classification.wound.profile; local value = new RpgExpandedResult();
         if (self.result != nil)
         {
+            self.validateTimeline();
             local current = self.definition();
             for (local index = 1; index <= current.length(); index += 1)
                 if (current[index] != self.boundDefinition[index]) rpgExpandedReject('bleeding-episode-binding');
             if (!holds(profile.bleedingHistory,self)) rpgExpandedReject('bleeding-episode-history');
             value.status = 'reused'; return value;
         }
+        if (self.startedAt != nil || self.nextCheckAt != nil || self.stoppedAt != nil || self.clearMinutes != 0
+            || self.minutes.length() != 0 || self.boundTimeline != nil || self.boundDefinition != nil)
+            rpgExpandedReject('bleeding-episode-uncommitted');
         if (eligible.status != 'ready') return eligible;
         rpgExpandedValidate(profile);
         if (profile.level('impaired-clotting') > 0)
@@ -3599,6 +3622,7 @@ class RpgExpandedBleedingEpisode: object
         self.boundDefinition = self.definition(); self.startedAt = rpgLedger.seconds;
         self.nextCheckAt = self.startedAt + 60; profile.bleedingEpisode = self;
         profile.bleedingHistory = profile.bleedingHistory + [self];
+        self.boundTimeline = self.timeline();
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
@@ -3610,10 +3634,11 @@ modify rpgLedger
         inherited(seconds);
         for (local episode = firstObj(RpgExpandedBleedingEpisode); episode != nil;
             episode = nextObj(episode,RpgExpandedBleedingEpisode))
-            if (episode.startedAt != nil && episode.stoppedAt == nil && !episode.classification.wound.profile.dead)
+            if (episode.result != nil || episode.boundTimeline != nil)
             {
                 episode.assess();
-                if (self.seconds + seconds > episode.nextCheckAt) rpgExpandedReject('bleeding-minute-boundary');
+                if (episode.stoppedAt == nil && !episode.classification.wound.profile.dead
+                    && self.seconds + seconds > episode.nextCheckAt) rpgExpandedReject('bleeding-minute-boundary');
             }
         return nil;
     }
@@ -3636,6 +3661,13 @@ class RpgExpandedBleedingMinute: object
     result = nil
     boundDefinition = nil
     resolvedAt = nil
+    boundOutcome = nil
+    outcomeDefinition()
+    {
+        return [self.resolvedAt,self.result,self.result.status,self.result.injury,self.result.clearMinutes,
+            self.result.stopped,self.result.wound,self.result.check,self.result.check.score,self.result.check.roll,
+            self.result.check.margin,self.result.check.achieved,self.result.check.critical];
+    }
     definition()
     {
         return [self.id,self.episode,self.lossBasis,self.basisEvidence,self.approved,self.dropDestination];
@@ -3650,9 +3682,14 @@ class RpgExpandedBleedingMinute: object
             local current = self.definition();
             for (local index = 1; index <= current.length(); index += 1)
                 if (current[index] != self.boundDefinition[index]) rpgExpandedReject('bleeding-minute-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('bleeding-minute-outcome');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('bleeding-minute-outcome');
             if (!holds(self.episode.minutes,self)) rpgExpandedReject('bleeding-minute-history');
             value.status = 'reused'; return value;
         }
+        if (self.resolvedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('bleeding-minute-uncommitted');
         if (self.episode.result == nil) { value.reason = 'bleeding-episode-not-started'; return value; }
         self.episode.assess();
         local profile = self.episode.classification.wound.profile;
@@ -3706,7 +3743,8 @@ class RpgExpandedBleedingMinute: object
         else self.episode.nextCheckAt += 60;
         self.boundDefinition = self.definition(); self.resolvedAt = rpgLedger.seconds;
         self.episode.minutes = self.episode.minutes + [self];
-        value.status = 'resolved'; self.result = value; return value;
+        value.status = 'resolved'; self.result = value; self.boundOutcome = self.outcomeDefinition();
+        self.episode.boundTimeline = self.episode.timeline(); return value;
     }
 ;
 
@@ -3853,6 +3891,7 @@ class RpgExpandedBleedingAid: object
         {
             self.episode.stoppedAt = rpgLedger.seconds;
             self.episode.classification.wound.profile.bleedingEpisode = nil;
+            self.episode.boundTimeline = self.episode.timeline();
         }
         self.completedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value;
         self.boundOutcome = self.outcomeDefinition();
