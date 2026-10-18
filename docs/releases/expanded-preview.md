@@ -1233,3 +1233,7 @@ expanded influence procedure remains partial.
 - Connected companionship facts to interrogation and reaction preparation,
   binding complete membership across elapsed time and replay. Added unrun
   integration fixtures, including same-size membership changes.
+
+- Unified expanded training ownership checks across character validation and
+  skill purchases. Direct learning now respects reserved advancement spending.
+  Added unrun direct/offer parity and resource-accounting fixtures.

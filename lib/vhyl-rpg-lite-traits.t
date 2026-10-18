@@ -142,6 +142,7 @@ rpgLiteLearn(profile, skill, points, teacher)
         && (skill.attribute == rpgIQ || !teacher)) return nil;
     local training = nil;
     foreach (local candidate in profile.skills) if (candidate.skill == skill) training = candidate;
+    if (profile.trainingPurchaseReason(skill,training) != nil || profile.developmentSpendingReason() != nil) return nil;
     local cost = points - (training == nil ? 0 : training.points);
     if (cost <= 0 || cost > profile.unspentPoints) return nil;
     if (training == nil)

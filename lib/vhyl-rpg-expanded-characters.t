@@ -67,6 +67,8 @@ rpgExpandedValidateCharacter(profile)
         if (training == nil || !training.ofKind(RpgTraining) || training.skill == nil
             || !training.skill.ofKind(RpgSkill) || holds(skills, training.skill)) rpgExpandedReject('duplicate-training');
         skills = skills + [training.skill]; rpgInteger(training.points, 0, 1000000);
+        local ownershipReason = profile.trainingPurchaseReason(training.skill,training);
+        if (ownershipReason != nil) rpgExpandedReject(ownershipReason);
         if (training.points > 0)
         {
             local reason = profile.skillLearningReason(training.skill);

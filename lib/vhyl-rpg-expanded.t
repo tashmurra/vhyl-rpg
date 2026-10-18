@@ -515,3 +515,29 @@ modify RpgExpandedProfile
 modify RpgLiteContext
     company = nil
 ;
+
+modify RpgExpandedProfile
+    /** Runtime ownership gate, shared by point purchases and character validation. */
+    trainingPurchaseReason(skill,training)
+    {
+        if (skill == nil || !skill.ofKind(RpgSkill)
+            || training != nil && (!training.ofKind(RpgTraining) || training.skill != skill))
+            return 'training-purchase-definition';
+        local slots = 0;
+        foreach (local owned in self.skills)
+        {
+            if (owned == nil || !owned.ofKind(RpgTraining)) return 'training-purchase-definition';
+            if (owned.skill == skill)
+            {
+                slots += 1;
+                if (owned != training) return 'training-purchase-duplicate';
+            }
+        }
+        if (training == nil) return slots == 0 ? nil : 'training-purchase-duplicate';
+        if (slots != 1) return 'training-purchase-ownership';
+        local owners = 0;
+        for (local profile = firstObj(RpgProfile); profile != nil; profile = nextObj(profile,RpgProfile))
+            foreach (local owned in profile.skills) if (owned == training) owners += 1;
+        return owners == 1 ? nil : 'training-purchase-shared';
+    }
+;

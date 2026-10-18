@@ -57,3 +57,10 @@ is 40. Source mapping: `full-2008` B14-B17, B23-B30 and B170.
 
 The prerelease record applies to the original subset. Checks for this merged
 expanded suite remain paused.
+
+Training slots must be exclusive to one profile. Character validation now uses
+`trainingPurchaseReason(skill, training)` to reject shared objects and duplicate
+slots for the same skill. The same gate runs during development offers and direct
+skill purchases, so runtime changes cannot bypass creation-time ownership checks.
+A nil training argument represents a genuinely new skill slot. The default hook
+on ordinary profiles leaves existing behavior unchanged.

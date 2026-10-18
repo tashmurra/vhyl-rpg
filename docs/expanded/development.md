@@ -103,3 +103,11 @@ This is checked at assessment and again after ordinary study advances time, so
 an elapsed-time hook cannot transfer or share the slot before credit is awarded.
 The ownership fixtures exercise both entry points and interruption rollback;
 they remain unrun while checks are paused.
+
+Direct `rpgLiteLearn` purchases now consult the same training-ownership and
+`developmentSpendingReason` gates used by advancement offers before changing
+points. For expanded profiles, a shared training object or duplicate skill slot
+blocks the purchase; the direct API retains its nil result for blocked requests.
+The owned-offer API returns a structured reason. Reservation hooks also apply to
+direct purchases. The authored fixture compares both paths and checks that
+blocked requests leave points untouched; it remains unrun.

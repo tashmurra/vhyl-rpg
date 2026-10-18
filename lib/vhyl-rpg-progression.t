@@ -12,6 +12,7 @@ modify RpgProfile
     skillLearningReason(skill) { return nil; }
     learningAcquisitionReason(kind) { return nil; }
     developmentOfferReason(offer) { return nil; }
+    trainingPurchaseReason(skill,training) { return nil; }
     skillLearningWithTeacherReason(skill, teacher)
     {
         local reason = self.learningAcquisitionReason('skill');
@@ -136,6 +137,8 @@ rpgAssessDevelopment(offer)
     if (value.reason != nil) return value;
     if (offer.kind == 'skill')
     {
+        value.reason = p.trainingPurchaseReason(offer.training.skill,offer.training);
+        if (value.reason != nil) return value;
         value.reason = p.skillLearningWithTeacherReason(offer.training.skill, offer.teacher);
         if (value.reason != nil) return value;
     }

@@ -9095,6 +9095,8 @@ def test(build):
     company_question = build.build('expanded-company-interrogation',ROOT / 'tests/fixtures/expanded-company-interrogation.t')
     company_preparation = build.build('expanded-company-preparation',ROOT / 'tests/fixtures/expanded-company-preparation.t')
     test_company_social_operations(Session, company_question, company_preparation)
+    learning_ownership = build.build('expanded-learning-ownership',ROOT / 'tests/fixtures/expanded-learning-ownership.t')
+    test_learning_ownership(Session, learning_ownership)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17508,5 +17510,26 @@ def test_company_social_operations(Session, question_bundle, preparation_bundle)
         for code in (30,2500,2500,2503):
             s.action(2285,code)
         assert last(s,'test.reaction-preparation-state')[:3] == [1,3,60]
+    finally:
+        s.close()
+
+
+def test_learning_ownership(Session, bundle):
+    for setup,reason in ((5100,'training-purchase-shared'),(5101,'training-purchase-duplicate'),
+                         (5102,'authored-reservation')):
+        s = Session(bundle)
+        try:
+            for code in (setup,5103,3304,3301):
+                s.action(2285,code)
+            assert last(s,'test.learning-direct') == [0,1,1,100,0]
+            assert last(s,'test.learning-offer') == ['blocked',reason,100,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285,5103)
+        assert last(s,'test.learning-direct') == [1,2,1,99,0]
+        s.action(2285,5103)
+        assert last(s,'test.learning-direct') == [0,2,1,99,0]
     finally:
         s.close()
