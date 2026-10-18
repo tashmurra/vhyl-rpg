@@ -20,6 +20,7 @@ copies of the reference books.
 | `full-2008` | B343–B349 | [Task resolution](task-resolution.json) | Roll procedures, equipment modifiers, timing, projects and contests enumerated |
 | `full-2008` | B349–B357 | [Physical activities](physical-activities.json) | Activity procedures, gravity, numeric tables and effort options enumerated |
 | `full-2008` | B358–B361 | [Senses, influence and fear](senses-influence-fear.json) | Hearing and fear tables enumerated by row; full fear dispatch remains pending |
+| `full-2008` | B362–B368 | [Combat turns and maneuvers](combat-turns.json) | Timing, defenses, interruption, maneuver variants and basic movement enumerated; detailed combat integration pending |
 | `full-2008` | B418–B427 | [Injury, recovery and fatigue](health.json) | Anatomy, wound options, treatment, drug design, resource recovery and foraging enumerated |
 | `full-2008` | B428–B437, excluding poison and radiation | [Conditions and environmental hazards](environmental-hazards.json) | Conditions, exposure, collisions, fire, electricity and pressure enumerated; falling formula conflict open |
 | `full-2008` | B435–B436 | [Radiation](radiation.json) | Dose histories, effects, shielding and treatment enumerated; overlapping printed boundary confirmed visually and unresolved |
@@ -41,6 +42,7 @@ copies of the reference books.
 | `full-2008` | B556–B557 | [Critical outcomes](critical-outcomes.json) | Four tables recorded by outcome; detailed exceptions and visual audit pending |
 | `full-2008` | B557–B559 | [Object durability and cover](object-durability.json) | Weight, structure and cover tables visually checked; erosion, rounding and damage integration pending |
 | `full-2008` | B559–B562 | [Reaction contexts and outcomes](reactions.json) | Eight bands across six contexts and modifier procedures enumerated; bargaining inconsistency confirmed visually |
+| `full-2008` | B563–B576 | [Appendix and back matter](appendix.json) | Glossary and form mechanics reviewed; exclusions recorded; index-to-inventory audit pending |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 

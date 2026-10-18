@@ -19,3 +19,10 @@ before spending movement. The detailed B384–B392 transition rules still need
 review. Summary rows alone do not establish legal paths, rounding or interruption
 behavior. Critical mishaps that move a combatant past an opponent need explicit
 handling of blocked destinations and changes of facing.
+
+The [basic combat movement inventory](inventory/combat-turns.json) now records
+B367–B368. Step distance rounds upward; a multi-yard step may surround an action,
+but a kneel/stand transition consumes the entire allowance. Evasion requires
+enough movement to pass the opponent, a physically possible route and no grapple
+restraint. An opponent who permits passage requires no contest. These rules still
+need reconciliation with the detailed hex movement chapter.

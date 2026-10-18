@@ -71,3 +71,9 @@ penalties. A single limb-damage counter cannot represent these consequences.
 Global injury, local crippling thresholds and excess injury limits must be
 resolved together without charging damage twice. Critical temporary incapacity
 must expire independently of lasting crippling from the same wound.
+
+The [appendix review](inventory/appendix.json) records a boundary discrepancy:
+B420 requires injury strictly greater than half capacity for an ordinary major
+wound, while B564 includes equality. Completion requires a documented precedence
+policy and an independent exact-half test; the inventory does not silently erase
+either wording.

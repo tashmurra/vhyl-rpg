@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B563-B576",
+  "review": "Glossary and form mechanics reviewed; nonmechanical back matter classified. Full index-to-inventory cross-reference audit remains open.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "appendix-major-wound-boundary",
+      "source": "full-2008",
+      "pages": "B564; B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The glossary includes injury equal to half capacity in its major-wound definition; B420 specifies strictly greater than half. Record a documented precedence policy and test the exact-half boundary before completeness. Do not silently treat the glossary as identical.",
+      "tests": []
+    },
+    {
+      "id": "appendix-prerequisite-investment",
+      "source": "full-2008",
+      "pages": "B565; B169",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A skill prerequisite requires at least one invested point; a default score alone is insufficient. Reconcile ability-specific exceptions and retain the original investment identity.",
+      "tests": []
+    },
+    {
+      "id": "appendix-weekly-time",
+      "source": "full-2008",
+      "pages": "B569",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Time planning uses 168 hours per week. Baseline sleep is 56 hours with seven-hour weekly adjustments per sleep-trait level; ordinary unspecified employment assumes 40 hours. These planning defaults do not override actual job or sleep rules.",
+      "tests": []
+    },
+    {
+      "id": "appendix-immersion",
+      "source": "full-2008",
+      "pages": "B569; B23",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Daily interaction in a foreign culture permits four hours toward both the local language and cultural familiarity. Track the shared eligible interval and distinct permitted credits; do not spend eight additional clock hours.",
+      "tests": []
+    },
+    {
+      "id": "appendix-work-study",
+      "source": "full-2008",
+      "pages": "B569; B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One quarter of qualifying work time becomes study credit, optionally divided between relevant skills. Splitting allocations must not multiply the total earned credit.",
+      "tests": []
+    },
+    {
+      "id": "appendix-study-conversion",
+      "source": "full-2008",
+      "pages": "B569; B292-B293",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Two hours self-study, one hour education or half an hour intensive training produce one effective hour. Keep exceptional magical/mechanical instruction credits separate and prevent double conversion.",
+      "tests": []
+    },
+    {
+      "id": "appendix-campaign-fields",
+      "source": "full-2008",
+      "pages": "B567",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Campaign configuration must expose allowed ancestry, languages, cultures, initial wealth/standing/technology ranges, point and negative-cost limits, required/forbidden traits, ability access, background costs, legal restrictions and optional rule selections. These fields connect to actual validation; a descriptive form alone is insufficient.",
+      "tests": []
+    },
+    {
+      "id": "appendix-regional-rules",
+      "source": "full-2008",
+      "pages": "B567",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "World configuration includes local exceptions to technology and control levels, multiple worlds, time rate, magical conditions and restricted spells/power families. Use location-specific contexts rather than changing one global setting on every actor.",
+      "tests": []
+    },
+    {
+      "id": "appendix-reporting-state",
+      "source": "full-2008",
+      "pages": "B568-B569",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Author-facing character reports distinguish base/current health, movement, defenses, armor by body region, reaction modifiers, required checks and special abilities. Derive values from shared state without creating duplicate mutable balances or reproducing the source form.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B563-B565",
+      "reason": "Glossary prose and aliases are not reproduced. Mechanical definitions refer to owning chapters; the major-wound boundary discrepancy and invested-prerequisite reminder are separately retained. Cross-reference audit remains open."
+    },
+    {
+      "pages": "B566; B576",
+      "reason": "Supplement listings and promotional material are outside the supplied-reference mechanical conversion."
+    },
+    {
+      "pages": "B567-B569",
+      "reason": "Form layouts, named sample character and illustrative equipment loadout are excluded. Configuration fields and time-accounting mechanics are retained as original requirements."
+    },
+    {
+      "pages": "B570-B575",
+      "reason": "Index is navigation rather than additional executable rules. It remains useful for the final heading and cross-reference completeness audit; this classification does not certify all referenced entries are inventoried."
+    }
+  ]
+}

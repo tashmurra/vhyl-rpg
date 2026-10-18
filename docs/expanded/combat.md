@@ -76,3 +76,19 @@ The [maneuver summary](inventory/maneuvers-postures.json),
 integration requirements. None of these inventories is an executable subsystem
 yet. Validation must independently cover every table result, conditional reroll,
 rounding direction and expiry boundary before coverage can be marked complete.
+
+The [detailed turn inventory](inventory/combat-turns.json) covers B362–B368.
+Encounter time advances once per participant cycle, while maneuver permissions
+last until the individual actor's next selection. Initiative ties are resolved at
+encounter creation and retained. Re-sorting after every temporary speed change
+would contradict the fixed ordering procedure.
+
+Wait actions need a declared trigger, response, expiry and suspended action to
+resume. Defending while waiting changes which response remains legal. Aim and
+concentration also react differently to defenses and injury; they cannot share
+one unconditional interruption flag. Feints retain actor-target ownership and
+their own margin calculation, while evaluation survives active defense.
+
+Full-turn maneuvers consume the whole second even for actors with additional
+maneuver capabilities. Shared time accounting must distinguish that constraint
+from extra attacks, free item release and ongoing ability maintenance.

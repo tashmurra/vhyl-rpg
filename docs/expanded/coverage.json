@@ -308,6 +308,8 @@
     "inventory/maneuvers-postures.json",
     "inventory/critical-outcomes.json",
     "inventory/object-durability.json",
-    "inventory/reactions.json"
+    "inventory/reactions.json",
+    "inventory/combat-turns.json",
+    "inventory/appendix.json"
   ]
 }
