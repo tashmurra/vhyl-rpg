@@ -9256,6 +9256,8 @@ def test(build):
     test_dependent_templates(Session, dependent_templates, build.out)
     dependent_choices = build.build('expanded-dependent-choices',ROOT / 'tests/fixtures/expanded-dependent-choices.t')
     test_dependent_choices(Session, dependent_choices, build.out)
+    dependent_growth = build.build('expanded-dependent-growth',ROOT / 'tests/fixtures/expanded-dependent-growth.t')
+    test_dependent_growth(Session, dependent_growth, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21333,5 +21335,46 @@ def test_dependent_choices(Session, bundle, out):
                 s.action(2285, code)
             assert last(s, 'test.dependent-choice-result') == [reason]
             assert last(s, 'test.dependent-choice-state') == [0, 0]
+        finally:
+            s.close()
+
+
+def test_dependent_growth(Session, bundle, out):
+    """B131 approved proportional build changes preserve purchase and bank; unrun."""
+    path = out / 'dependent-growth.zsave'
+    s = Session(bundle)
+    try:
+        for code in (13800, 13801, 13803, 13804):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-growth-total') == [60, 750000, 1000000]
+        assert last(s, 'test.dependent-growth-preview') == ['ready', 0]
+        assert last(s, 'test.dependent-growth-state') == [0, -20, 0, 0, 0, 200, 50]
+        s.action(2285, 13802)
+        s.command('undo')
+        s.action(2285, 13804)
+        assert last(s, 'test.dependent-growth-state') == [0, -20, 0, 0, 0, 200, 50]
+        for code in (13802, 13802, 13805, 13805, 13804):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-growth-state') == [2, -20, 0, 0, 0, 200, 50]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (13802, 13805, 13804, 13809):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-growth-state') == [2, -20, 0, 0, 0, 200, 50]
+        assert last(s, 'test.dependent-growth-reject') == ['dependent-growth-binding']
+    finally:
+        s.close()
+    for code, reason in [(13806, 'dependent-growth-fractional-total'),
+                         (13807, 'dependent-growth-proportion'), (13808, 'dependent-growth-improvement-accounting')]:
+        s = Session(bundle)
+        try:
+            for action in (13800, code, 13804):
+                s.action(2285, action)
+            assert last(s, 'test.dependent-growth-reject') == [reason]
+            assert last(s, 'test.dependent-growth-state') == [0, -20, 0, 0, 0, 200, 50]
         finally:
             s.close()

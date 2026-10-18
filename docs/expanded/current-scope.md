@@ -363,3 +363,9 @@ fixtures are authored but unrun while checks remain paused.
 Dependent purchases now participate in selectable template options, including
 signed choice prices and final combined credit-slot and disadvantage-budget
 validation. Fixtures are authored but unrun; package composition remains pending.
+
+
+Dependent growth receipts now account for approved whole-point proportional NPC
+build improvements while preserving original relationship costs and the principal
+point bank. Fractional/nonpositive-total growth and automatic NPC profile changes
+remain pending. The new fixtures are authored but unrun while checks are paused.

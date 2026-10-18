@@ -2447,3 +2447,93 @@ modify RpgExpandedDependent
         return purchase.credited ? purchase.cost() : 0;
     }
 ;
+
+/** Exact whole-point proportional build total, without overflowing cross-products. */
+rpgExpandedDependentGrowthTotal(principalPoints,dependentPoints,newPrincipalPoints)
+{
+    rpgInteger(principalPoints,1,1000000); rpgInteger(dependentPoints,1,principalPoints);
+    rpgInteger(newPrincipalPoints,principalPoints,1000000);
+    local a = principalPoints; local b = dependentPoints;
+    while (b != 0) { local remainder = a % b; a = b; b = remainder; }
+    local denominator = principalPoints / a; local numerator = dependentPoints / a;
+    if (newPrincipalPoints % denominator != 0) rpgExpandedReject('dependent-growth-fractional-total');
+    return (newPrincipalPoints / denominator) * numerator;
+}
+modify RpgExpandedDependent
+    growthHistory = []
+;
+/** B131 approved NPC build changes, not points granted to the principal. */
+class RpgExpandedDependentGrowth: object
+    id = nil
+    relationship = nil
+    previous = nil
+    newPrincipalPoints = nil
+    newDependentPoints = nil
+    approved = nil
+    evidence = nil
+    /* Authored build changes: [unique change ID, positive point cost, description]. */
+    improvements = []
+    recorded = nil
+    boundDefinition = nil
+    definition()
+    {
+        local facts = [self.id,self.relationship,self.previous,self.newPrincipalPoints,self.newDependentPoints,
+            self.approved,self.evidence,self.improvements.length()] + self.relationship.definition();
+        foreach (local row in self.improvements) facts = facts + row;
+        return facts;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.relationship == nil || !self.relationship.ofKind(RpgExpandedDependent)
+            || self.id == nil || self.id == '') rpgExpandedReject('dependent-growth-definition');
+        local history = self.relationship.growthHistory;
+        if (self.recorded)
+        {
+            if (!holds(history,self)) rpgExpandedReject('dependent-growth-history');
+            local facts = self.definition();
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('dependent-growth-binding');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('dependent-growth-binding');
+            if (self.previous != nil && self.previous.assess().status != 'reused')
+                rpgExpandedReject('dependent-growth-previous');
+            value.status = 'reused'; return value;
+        }
+        if (self.boundDefinition != nil) rpgExpandedReject('dependent-growth-uncommitted');
+        local profile = self.relationship.owner;
+        rpgExpandedValidate(profile);
+        if (!holds(profile.contributions,self.relationship)) rpgExpandedReject('dependent-growth-owner');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'dependent-growth-approval-required'; return value; }
+        local latest = history.length() == 0 ? nil : history[history.length()];
+        if (self.previous != latest) rpgExpandedReject('dependent-growth-previous');
+        local oldPrincipal = self.relationship.principalPoints; local oldDependent = self.relationship.dependentPoints;
+        if (latest != nil)
+        {
+            if (latest.assess().status != 'reused') rpgExpandedReject('dependent-growth-previous');
+            oldPrincipal = latest.newPrincipalPoints; oldDependent = latest.newDependentPoints;
+        }
+        foreach (local prior in history) if (prior.id == self.id) rpgExpandedReject('dependent-growth-duplicate');
+        rpgInteger(self.newPrincipalPoints,oldPrincipal + 1,1000000);
+        local expected = rpgExpandedDependentGrowthTotal(self.relationship.principalPoints,
+            self.relationship.dependentPoints,self.newPrincipalPoints);
+        if (self.newDependentPoints != expected) rpgExpandedReject('dependent-growth-proportion');
+        local total = 0; local ids = [];
+        foreach (local row in self.improvements)
+        {
+            if (row.length() != 3 || row[1] == nil || row[1] == '' || holds(ids,row[1])
+                || row[3] == nil || row[3] == '') rpgExpandedReject('dependent-growth-improvement');
+            rpgInteger(row[2],1,1000000 - total); total += row[2]; ids = ids + [row[1]];
+        }
+        if (total != self.newDependentPoints - oldDependent) rpgExpandedReject('dependent-growth-improvement-accounting');
+        value.status = 'ready'; return value;
+    }
+    record()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.recorded = true;
+        self.relationship.growthHistory = self.relationship.growthHistory + [self];
+        value.status = 'resolved'; return value;
+    }
+;

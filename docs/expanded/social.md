@@ -1179,7 +1179,7 @@ receipt for the same relationship/adventure rejects; replay returns the saved
 outcome. Appearing means this relationship should cause authored trouble, not an
 automatic move, injury or kidnapping. The author supplies that concrete scene.
 
-Live rescue routing, proportional advancement,
+Live rescue routing, fractional/nonpositive-total advancement,
 permanent-loss replacement, combined helpful/troublesome roles, combined-package copying
 and group incidents remain pending. Pricing and appearance alone do not mark the
 relationship fully implemented.
@@ -1258,3 +1258,34 @@ purchase objects and leave prototypes and gameplay ledgers unchanged.
 `expanded-dependent-choices.t` and `test_dependent_choices` specify signed bounds,
 combined credit slots, disadvantage limits, rollback, undo and saved continuation;
 the fixtures remain unrun.
+
+
+### Approved dependent growth
+
+`RpgExpandedDependentGrowth` records proportional NPC build advancement
+(`full-2008`, B131). Supply a unique `id`, installed `relationship`, `previous`
+(the latest growth receipt, or nil initially), approved new principal/dependent
+build totals, evidence and itemized `improvements`. Each improvement is
+`[unique ID, positive point cost, description]`; their costs must exactly equal
+the dependent's increase since the preceding record. The author approves concrete
+changes to the NPC build, rather than a generic permission to improve later.
+
+`rpgExpandedDependentGrowthTotal` reduces the original proportion before computing
+the new total, avoiding overflowing intermediate cross-products. Positive starting
+totals and exact whole-point results are supported. Fractional results reject;
+nonpositive starting totals and build changes involving refunds remain unsupported.
+No rounding or special treatment of the absolute nonpositive competence row is
+invented. The principal's approved total must increase; stale/branching predecessor
+records and duplicate IDs reject.
+
+Pure `assess()` and committed `record()` keep receipts in the relationship's
+`growthHistory`. Original purchase facts and cost remain unchanged, preserving
+appearance and session bindings. Replay validates the bound facts and predecessor
+chain. The latest receipt supplies the current approved NPC build totals.
+This is author-maintained NPC build accounting: it neither grants points to the
+principal nor automatically changes an NPC profile's training or characteristics.
+Automatic NPC profile application, fractional and nonpositive-total advancement
+remain pending, so the source inventory still marks progression partial.
+`expanded-dependent-growth.t` and `test_dependent_growth` specify exact proportions,
+itemized accounting, unchanged purchase/bank/RNG, chain replay, rollback, undo,
+save continuation and changed-fact rejection. Fixtures remain unrun.
