@@ -16,10 +16,12 @@ The [skill procedure inventory](inventory/skills-procedures.json) records indivi
 cost-table cells, default rules, familiarity requirements and technique definitions.
 Attribute-based techniques and technique-to-technique defaults remain unsupported.
 The catalogue inventory currently covers [B174–B185](inventory/skills-catalogue-a.json),
-[B186–B197](inventory/skills-catalogue-b.json) and
-[B198–B209](inventory/skills-catalogue-c.json). Later catalogue pages remain
-uninventoried. Definition metadata is not an executable catalogue and does not
-imply completed skill effects.
+[B186–B197](inventory/skills-catalogue-b.json),
+[B198–B209](inventory/skills-catalogue-c.json) and
+[B210–B228](inventory/skills-catalogue-d.json). This completes the first text pass
+through the main catalogue, but not its enumeration audit, cross-reference
+resolution or implementation. Definition metadata is not an executable catalogue
+and does not imply completed skill effects.
 
 The recorded procedures include persistent code-breaking attempts, combined
 impersonation checks, audience-specific storytelling effects, timed induction and
