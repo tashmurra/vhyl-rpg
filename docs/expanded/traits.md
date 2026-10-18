@@ -182,3 +182,11 @@ acquisition and natural appendages. Shrinking scales different quantities from
 stretching, and each full-value exception applies only to its selected quantity.
 Acquired items retain origin, expiry and retry-family records; transferred or
 consumed items must not evade their return rule. These effects remain pending.
+
+
+The [twelfth catalogue segment](inventory/traits-catalogue-l.json) records skill
+aptitude groups, communication channels, remote manipulation and environmental
+control. Remote hands perform one maneuver under concentration and retain grip,
+position and aim state. Throwing releases the object and uses different distances
+for physical range and accuracy. Communication likewise retains contacts, channel
+compatibility and interference rather than treating transmission as public speech.

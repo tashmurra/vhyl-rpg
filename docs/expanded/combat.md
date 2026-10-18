@@ -239,3 +239,11 @@ injury reduction and fatigue-funded defense conversion require atomic accounting
 across damage, advancement and skipped turns. Minor-opponent behavior, unlimited
 ammunition and altered knockback likewise need executable permissions and state;
 descriptive callbacks alone do not complete these options.
+
+
+[Additional trait interactions](inventory/traits-catalogue-l.json) include remote
+manipulation maneuvers, selected-result fortune, unusual survival thresholds and
+advanced martial training. Remote actions share the actor's concentration turn;
+physical injury still accumulates under unusual durability, with cause-specific
+fatal thresholds. Training reduces specified penalties but does not grant skills.
+These inventory requirements are not yet executable combat behavior.

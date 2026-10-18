@@ -29,3 +29,11 @@ suggestions, vehicle/equipment skill caps, and weapon-specific attack and defens
 rules. These need owning state and integration tests in addition to catalogue
 score definitions. Source text that leaves a boundary or consequence unspecified
 requires an explicit author contract; it must not acquire an invented numeric rule.
+
+
+[Skill aptitude requirements](inventory/traits-catalogue-l.json) include the ten
+printed skill groups, reaction audiences, default-use bonuses and reduced learning
+time. Specialties count once for pricing, but a specific specialty restriction still
+limits the actual bonus. Overlapping groups may exceed four for skill bonuses only;
+reaction and study overlap must not silently inherit that exception. These effects
+and their catalogue identifier mappings remain pending.
