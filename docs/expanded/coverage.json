@@ -446,6 +446,18 @@
         "tests/expanded.py::test_extended_measurements"
       ],
       "validation_note": "Exact fractional size rows, shape adjustment and explicit speed/range combination authored; new checks unrun, combat and sense integration pending."
+    },
+    {
+      "id": "task-equipment-quality",
+      "module": "equipment",
+      "pages": "B345",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedEquipmentAssessment",
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "validation_note": "Explicit adequacy/quality/condition assessment and contextual use authored. New tests unrun; inventory, quality purchasing and catalogue exceptions pending."
     }
   ],
   "detailed_inventories": [

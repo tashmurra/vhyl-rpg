@@ -461,9 +461,13 @@
       "pages": "B345",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply equipment modifier -10. No equipment for a technological skill, if the task is possible at all.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "existing_feature": "task-equipment-quality",
+      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
     },
     {
       "id": "task-equipment-none-other",
@@ -471,9 +475,13 @@
       "pages": "B345",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply equipment modifier -5. No equipment for a nontechnological skill, if use is possible.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "existing_feature": "task-equipment-quality",
+      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
     },
     {
       "id": "task-equipment-improvised-technical",
@@ -481,9 +489,13 @@
       "pages": "B345",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply equipment modifier -5. Improvised equipment for a technological skill.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "existing_feature": "task-equipment-quality",
+      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
     },
     {
       "id": "task-equipment-improvised-other",
@@ -491,9 +503,13 @@
       "pages": "B345",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply equipment modifier -2. Improvised equipment for a nontechnological skill.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "existing_feature": "task-equipment-quality",
+      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
     },
     {
       "id": "task-equipment-basic",
@@ -501,9 +517,13 @@
       "pages": "B345",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply equipment modifier 0. Appropriate basic equipment.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "existing_feature": "task-equipment-quality",
+      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
     },
     {
       "id": "task-equipment-good",
@@ -511,9 +531,13 @@
       "pages": "B345",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply equipment modifier 1. Good equipment, priced at approximately five times basic cost.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "existing_feature": "task-equipment-quality",
+      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
     },
     {
       "id": "task-equipment-fine",
@@ -521,9 +545,13 @@
       "pages": "B345",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply equipment modifier 2. Fine equipment, priced at approximately twenty times basic cost.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "existing_feature": "task-equipment-quality",
+      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
     },
     {
       "id": "task-equipment-best",
@@ -531,9 +559,13 @@
       "pages": "B345",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Best available equipment at a technology level gives floor(technology/2), with minimum +2; it is not automatically available for purchase.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "existing_feature": "task-equipment-quality",
+      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
     },
     {
       "id": "task-equipment-missing",
@@ -541,9 +573,13 @@
       "pages": "B345",
       "module": "equipment",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For basic or better equipment, apply -1 per important missing item in addition to quality.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "existing_feature": "task-equipment-quality",
+      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
     },
     {
       "id": "task-equipment-damaged",
@@ -551,9 +587,13 @@
       "pages": "B345",
       "module": "equipment",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For basic or better equipment, apply an authored -1 through -3 damage modifier in addition to quality; bind the condition to the actual equipment used.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "existing_feature": "task-equipment-quality",
+      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
     },
     {
       "id": "task-time-extra-1",

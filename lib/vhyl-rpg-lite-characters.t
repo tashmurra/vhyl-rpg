@@ -186,6 +186,7 @@ class RpgLiteContext: object
     }
     controllingAttribute() { return self.skill == nil ? self.attribute : self.skill.attribute; }
     skillUseModifier(profile) { return 0; }
+    equipmentUseModifier(profile) { return 0; }
     unavailableReason(profile) { return 'training-required'; }
     reroll(profile, result) { return nil; }
 ;
@@ -199,7 +200,9 @@ rpgLiteScore(profile, context)
     local skillId = context.skill != nil && context.skill.ofKind(RpgLiteSkill) ? context.skill.id : nil;
     local useModifier = context.skillUseModifier(profile);
     if (useModifier == nil) return nil;
-    local adjustment = context.modifier + useModifier;
+    local equipmentModifier = context.equipmentUseModifier(profile);
+    if (equipmentModifier == nil) return nil;
+    local adjustment = context.modifier + useModifier + equipmentModifier;
     if (context.offHand && profile.level('ambidexterity') == 0 && skillId != 'karate') adjustment -= 4;
     local darkness = context.darkness;
     if (context.someLight) darkness -= profile.level('night-vision');

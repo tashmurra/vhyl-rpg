@@ -14,7 +14,8 @@ The numeric interfaces below also cover size and combined speed/range. The full 
 The [task-resolution inventory](inventory/task-resolution.json) records equipment
 quality, missing-item and damage modifiers separately. These depend on actual
 tools and task eligibility: some tasks cannot be attempted without equipment at
-all. The existing numeric helpers do not implement this equipment assessment.
+all. The task-specific equipment assessment below now handles those numeric
+conditions; inventory-backed availability and item-quality purchasing remain pending.
 
 
 The [detailed size/range inventory](inventory/size-speed-range.json) now records all
@@ -181,3 +182,36 @@ no randomness and does not move the target or spend time.
 `tests/expanded.py::test_extended_measurements` contains the printed size boundaries,
 shape examples, speed/range examples and full-ten-point damage progression cases.
 These are authored but unrun while validation is paused.
+
+## Task equipment quality
+
+Attach an `RpgExpandedEquipmentAssessment` to a skill context's
+`equipmentAssessment` field. It describes the tools available for that operation.
+Its pure `assess(skill)` returns a structured ready/blocked result and modifier.
+No assessment on a context retains the previous zero equipment modifier.
+
+Set `quality` to `none`, `improvised`, `basic`, `good`, `fine` or `best` (B345).
+A missing set blocks the task unless `allowWithoutEquipment` is explicitly true;
+then it gives −10 for a technology-qualified skill or −5 otherwise. Improvised
+sets give −5 or −2 respectively. Basic, good and fine sets give 0, +1 and +2.
+Best equipment requires an explicit `techLevel` and gives half that level rounded
+down, with a minimum +2. Use the actual equipment level, consistently with any
+cross-technology context modifier.
+
+For basic-or-better sets, `missingItems` subtracts one per important missing item
+and `damagePenalty` subtracts an authored value from zero through three. Applying
+these condition modifiers to absent or improvised equipment is rejected, since the
+source only specifies them for basic-or-better sets. The author decides which
+items matter and how damage affects this particular task; item labels alone do
+not determine those judgments.
+
+`rpgLiteScore` and `rpgLiteCheck` combine this assessment with skill-use modifiers
+once. An impossible missing-equipment task returns `equipment-required` before
+rolling. The assessment neither spends consumables nor grants ownership of tools.
+Actual inventory availability, ongoing damage state, quality purchase prices and
+specific catalogue exceptions still need their owning equipment procedures.
+
+Authored cases in `tests/expanded.py::test_equipment_quality` cover each quality,
+technological versus other skills, rounding and minimum best-quality bonuses,
+missing/damaged items, combined contextual modifiers, blocked checks and purity.
+They have not run while validation is paused.

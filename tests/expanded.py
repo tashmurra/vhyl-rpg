@@ -355,6 +355,25 @@ def test_extended_measurements(s):
     assert state(s) == before, 'measurement queries mutated state'
 
 
+def test_equipment_quality(s):
+    before = state(s)
+    for technology, quality, missing, damage, tl, expected in [
+            (0, 'none', 0, 0, 8, -5), (1, 'none', 0, 0, 8, -10),
+            (0, 'improvised', 0, 0, 8, -2), (1, 'improvised', 0, 0, 8, -5),
+            (1, 'basic', 0, 0, 8, 0), (1, 'good', 0, 0, 8, 1),
+            (1, 'fine', 0, 0, 8, 2), (1, 'best', 0, 0, 0, 2),
+            (1, 'best', 0, 0, 5, 2), (1, 'best', 0, 0, 8, 4),
+            (1, 'best', 0, 0, 11, 5), (1, 'fine', 2, 3, 8, -3)]:
+        s.action(1142, quality, technology, missing, damage, tl, 1)
+        assert last(s, 'test.equipment-quality') == ['ready', None, expected]
+    s.action(1142, 'none', 1, 0, 0, 8, 0)
+    assert last(s, 'test.equipment-quality') == ['blocked', 'equipment-required', 0]
+    s.action(1143)
+    assert last(s, 'test.equipment-context') == [
+        5, 'equipment-required', 'equipment-condition-inapplicable']
+    assert state(s) == before, 'equipment assessment or blocked check consumed resources'
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -432,7 +451,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     test_recognition_persistence(Session,bundle,build.out)

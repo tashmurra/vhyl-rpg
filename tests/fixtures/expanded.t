@@ -629,6 +629,35 @@ act(verb, args)
         event('test.speed-range');
         eventValue(rpgExpandedSpeedRangeModifier(args[1],args[2],args[3] == 1)); return nil;
     }
+    if (verb == 1142)
+    {
+        local skill = new RpgExpandedSkill(); if (args[2] == 1) skill.techLevel = 8;
+        local equipment = new RpgExpandedEquipmentAssessment(); equipment.quality = args[1];
+        equipment.missingItems = args[3]; equipment.damagePenalty = args[4]; equipment.techLevel = args[5];
+        equipment.allowWithoutEquipment = args[6] == 1;
+        local value = equipment.assess(skill); event('test.equipment-quality');
+        eventValue(value.status); eventValue(value.reason); eventValue(value.modifier); return nil;
+    }
+    if (verb == 1143)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.iq = 12; p.techLevel = 8;
+        local skill = new RpgExpandedSkill(); skill.techLevel = 8;
+        local training = new RpgExpandedTraining(); training.skill = skill; training.points = 4;
+        p.skills = [training];
+        local familiar = new RpgExpandedFamiliarity(); familiar.owner = p; familiar.skill = skill;
+        familiar.equipmentType = 'tools'; p.familiarities = [familiar];
+        local equipment = new RpgExpandedEquipmentAssessment(); equipment.quality = 'good'; equipment.damagePenalty = 1;
+        local context = new RpgExpandedSkillContext(); context.skill = skill;
+        context.familiarity = familiar; context.equipmentTL = 9; context.modifier = -1;
+        context.equipmentAssessment = equipment;
+        event('test.equipment-context'); eventValue(rpgLiteScore(p,context));
+        equipment.quality = 'none'; equipment.damagePenalty = 0;
+        eventValue(rpgLiteCheck(p,context).reason);
+        equipment.quality = 'improvised'; equipment.damagePenalty = 1;
+        try { rpgLiteScore(p,context); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

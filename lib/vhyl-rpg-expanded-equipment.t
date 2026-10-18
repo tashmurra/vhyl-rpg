@@ -61,3 +61,66 @@ rpgExpandedSpeedRangeModifier(yards, yardsPerSecond, includeSpeed)
     if (yardsPerSecond > 100000000 - yards) rpgExpandedReject('speed-range-limit');
     return rpgExpandedRangeModifier(yards + yardsPerSecond);
 }
+
+/** Authored task-specific equipment adequacy, B345. It describes the tools
+ * actually available for this operation, not a permanent skill or item bonus. */
+class RpgExpandedEquipmentAssessment: object
+    quality = 'basic'
+    allowWithoutEquipment = nil
+    techLevel = nil
+    missingItems = 0
+    damagePenalty = 0
+    assess(skill)
+    {
+        if (skill == nil || !skill.ofKind(RpgSkill)) rpgExpandedReject('equipment-skill-required');
+        if (!holds(['none','improvised','basic','good','fine','best'], self.quality))
+            rpgExpandedReject('equipment-quality');
+        rpgInteger(self.missingItems, 0, 1000); rpgInteger(self.damagePenalty, 0, 3);
+        if (self.techLevel != nil) rpgInteger(self.techLevel, 0, 12);
+        local value = new RpgExpandedResult();
+        local technological = skill.ofKind(RpgLiteSkill) && skill.techLevel != nil;
+        if (self.quality == 'none' || self.quality == 'improvised')
+        {
+            if (self.missingItems != 0 || self.damagePenalty != 0)
+                rpgExpandedReject('equipment-condition-inapplicable');
+            if (self.quality == 'none' && !self.allowWithoutEquipment)
+            { value.reason = 'equipment-required'; return value; }
+            value.modifier = self.quality == 'none' ? (technological ? -10 : -5)
+                : (technological ? -5 : -2);
+        }
+        else
+        {
+            local bonus = self.quality == 'good' ? 1 : self.quality == 'fine' ? 2 : 0;
+            if (self.quality == 'best')
+            {
+                if (self.techLevel == nil) rpgExpandedReject('equipment-technology-required');
+                bonus = self.techLevel / 2; if (bonus < 2) bonus = 2;
+            }
+            value.modifier = bonus - self.missingItems - self.damagePenalty;
+        }
+        value.status = 'ready'; return value;
+    }
+;
+
+modify RpgLiteContext
+    equipmentAssessment = nil
+    equipmentUseModifier(profile)
+    {
+        if (self.equipmentAssessment == nil) return 0;
+        if (!self.equipmentAssessment.ofKind(RpgExpandedEquipmentAssessment))
+            rpgExpandedReject('equipment-assessment');
+        local value = self.equipmentAssessment.assess(self.skill);
+        return value.status == 'ready' ? value.modifier : nil;
+    }
+    unavailableReason(profile)
+    {
+        if (self.equipmentAssessment != nil)
+        {
+            if (!self.equipmentAssessment.ofKind(RpgExpandedEquipmentAssessment))
+                rpgExpandedReject('equipment-assessment');
+            local value = self.equipmentAssessment.assess(self.skill);
+            if (value.status != 'ready') return value.reason;
+        }
+        return inherited(profile);
+    }
+;
