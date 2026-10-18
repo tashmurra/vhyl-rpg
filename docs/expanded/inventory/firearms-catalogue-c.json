@@ -1,0 +1,1015 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B280-B281",
+  "review": "Eight beam and thirteen heavy-weapon profiles visually reviewed. Quality, ammunition, guidance, support, linked resistance and host-item semantics inventoried. Missing replenishment detail and authored geometry remain explicit; runtime and independent fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "firearms-electric-beam-pistol",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile with its linked notes, electronic package and separate sight bonus. Preserve backpack versus loaded cell mass. Linked resistance is part of the same committed attack, not a second ammunition charge. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "electric-beam-pistol",
+        "technology": 9,
+        "skill": "beam-pistol",
+        "damage": "1d-3 burn",
+        "accuracy": 4,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 40,
+          "maximum": 80
+        },
+        "weight_pounds": {
+          "loaded": 2.2,
+          "reload": 0.5
+        },
+        "rate_of_fire": 3,
+        "shots_notation": "180(3)",
+        "minimum_strength": 4,
+        "hand_rule": "one-handed",
+        "bulk": -2,
+        "recoil": 1,
+        "cost": 1800,
+        "legality_class": 4,
+        "electronic_package": true,
+        "notes": [
+          1,
+          2,
+          3
+        ],
+        "linked_affliction": {
+          "resistance": "health",
+          "modifier": -4,
+          "armor_divisor": 2,
+          "effect": "stun",
+          "requires_penetration": false
+        }
+      }
+    },
+    {
+      "id": "firearms-laser-pistol",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile with its linked notes, electronic package and separate sight bonus. Preserve backpack versus loaded cell mass. Linked resistance is part of the same committed attack, not a second ammunition charge. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "laser-pistol",
+        "technology": 10,
+        "skill": "beam-pistol",
+        "damage": "3d(2) burn",
+        "accuracy": 6,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 250,
+          "maximum": 750
+        },
+        "weight_pounds": {
+          "loaded": 3.3,
+          "reload": 0.5
+        },
+        "rate_of_fire": 10,
+        "shots_notation": "400(3)",
+        "minimum_strength": 6,
+        "hand_rule": "one-handed",
+        "bulk": -2,
+        "recoil": 1,
+        "cost": 2800,
+        "legality_class": 3,
+        "electronic_package": true,
+        "notes": [
+          3
+        ]
+      }
+    },
+    {
+      "id": "firearms-particle-pistol",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile with its linked notes, electronic package and separate sight bonus. Preserve backpack versus loaded cell mass. Linked resistance is part of the same committed attack, not a second ammunition charge. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "particle-pistol",
+        "technology": 11,
+        "skill": "beam-pistol",
+        "damage": "3d(5) burn",
+        "accuracy": 5,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 300,
+          "maximum": 900
+        },
+        "weight_pounds": {
+          "loaded": 1.6,
+          "reload": 0.5
+        },
+        "rate_of_fire": 3,
+        "shots_notation": "200(3)",
+        "minimum_strength": 4,
+        "hand_rule": "one-handed",
+        "bulk": -2,
+        "recoil": 1,
+        "cost": 2200,
+        "legality_class": 3,
+        "electronic_package": true,
+        "notes": [
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "firearms-electric-beam-carbine",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile with its linked notes, electronic package and separate sight bonus. Preserve backpack versus loaded cell mass. Linked resistance is part of the same committed attack, not a second ammunition charge. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "electric-beam-carbine",
+        "technology": 9,
+        "skill": "beam-rifle",
+        "damage": "1d-3 burn",
+        "accuracy": 8,
+        "sight_bonus": 1,
+        "range": {
+          "basis": "yards",
+          "half_damage": 160,
+          "maximum": 470
+        },
+        "weight_pounds": {
+          "loaded": 3.7,
+          "reload": 1.0
+        },
+        "rate_of_fire": 3,
+        "shots_notation": "360(3)",
+        "minimum_strength": 4,
+        "hand_rule": "two-handed",
+        "bulk": -4,
+        "recoil": 1,
+        "cost": 3900,
+        "legality_class": 3,
+        "electronic_package": true,
+        "notes": [
+          1,
+          2,
+          3
+        ],
+        "linked_affliction": {
+          "resistance": "health",
+          "modifier": -4,
+          "armor_divisor": 2,
+          "effect": "stun",
+          "requires_penetration": false
+        }
+      }
+    },
+    {
+      "id": "firearms-precision-laser-rifle",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile with its linked notes, electronic package and separate sight bonus. Preserve backpack versus loaded cell mass. Linked resistance is part of the same committed attack, not a second ammunition charge. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "precision-laser-rifle",
+        "technology": 9,
+        "skill": "beam-rifle",
+        "damage": "5d(2) burn",
+        "accuracy": 12,
+        "sight_bonus": 2,
+        "range": {
+          "basis": "yards",
+          "half_damage": 1100,
+          "maximum": 3300
+        },
+        "weight_pounds": {
+          "unloaded": 20.0,
+          "backpack": 4.0
+        },
+        "rate_of_fire": 3,
+        "shots_notation": "75(3)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "bulk": -8,
+        "recoil": 1,
+        "cost": 20000,
+        "legality_class": 1,
+        "electronic_package": true,
+        "notes": [
+          3
+        ]
+      }
+    },
+    {
+      "id": "firearms-laser-rifle",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile with its linked notes, electronic package and separate sight bonus. Preserve backpack versus loaded cell mass. Linked resistance is part of the same committed attack, not a second ammunition charge. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "laser-rifle",
+        "technology": 10,
+        "skill": "beam-rifle",
+        "damage": "5d(2) burn",
+        "accuracy": 12,
+        "sight_bonus": 2,
+        "range": {
+          "basis": "yards",
+          "half_damage": 700,
+          "maximum": 2100
+        },
+        "weight_pounds": {
+          "loaded": 10.0,
+          "reload": 2.0
+        },
+        "rate_of_fire": 10,
+        "shots_notation": "150(3)",
+        "minimum_strength": 7,
+        "hand_rule": "two-handed",
+        "bulk": -4,
+        "recoil": 1,
+        "cost": 10000,
+        "legality_class": 2,
+        "electronic_package": true,
+        "notes": [
+          3
+        ]
+      }
+    },
+    {
+      "id": "firearms-particle-rifle",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile with its linked notes, electronic package and separate sight bonus. Preserve backpack versus loaded cell mass. Linked resistance is part of the same committed attack, not a second ammunition charge. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "particle-rifle",
+        "technology": 11,
+        "skill": "beam-rifle",
+        "damage": "6d(5) burn",
+        "accuracy": 10,
+        "sight_bonus": 2,
+        "range": {
+          "basis": "yards",
+          "half_damage": 700,
+          "maximum": 2100
+        },
+        "weight_pounds": {
+          "loaded": 10.0,
+          "reload": 1.0
+        },
+        "rate_of_fire": 3,
+        "shots_notation": "50(3)",
+        "minimum_strength": 7,
+        "hand_rule": "two-handed",
+        "bulk": -4,
+        "recoil": 1,
+        "cost": 18000,
+        "legality_class": 2,
+        "electronic_package": true,
+        "notes": [
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "firearms-heavy-particle-gun",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile with its linked notes, electronic package and separate sight bonus. Preserve backpack versus loaded cell mass. Linked resistance is part of the same committed attack, not a second ammunition charge. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-particle-gun",
+        "technology": 11,
+        "skill": "beam-rifle",
+        "damage": "8d(5) burn",
+        "accuracy": 10,
+        "sight_bonus": 4,
+        "range": {
+          "basis": "yards",
+          "half_damage": 900,
+          "maximum": 2700
+        },
+        "weight_pounds": {
+          "unloaded": 20.0,
+          "backpack": 4.0
+        },
+        "rate_of_fire": 3,
+        "shots_notation": "90(5)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "bulk": -6,
+        "recoil": 1,
+        "cost": 23000,
+        "legality_class": 1,
+        "electronic_package": true,
+        "notes": [
+          4
+        ]
+      }
+    },
+    {
+      "id": "firearms-guided-missile-115mm",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "guided-missile-115mm",
+        "technology": 7,
+        "skill": "artillery-guided-missile",
+        "damage": "6dx10(10) cr ex",
+        "accuracy": 3,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "maximum": 2000,
+          "speed_yards_per_second": 200,
+          "minimum": 30
+        },
+        "weight_pounds": {
+          "unloaded": 37.0,
+          "reload": 26.0
+        },
+        "rate_of_fire": 1,
+        "automatic_only": false,
+        "shots_notation": "1(20)",
+        "minimum_strength": 11,
+        "hand_rule": "two-handed",
+        "support": "bipod",
+        "bulk": -10,
+        "recoil": 1,
+        "cost": 20000,
+        "legality_class": 1,
+        "notes": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "firearms-homing-missile-70mm",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "homing-missile-70mm",
+        "technology": 8,
+        "skill": "artillery-guided-missile",
+        "damage": "6dx3 cr ex [6d]",
+        "accuracy": 7,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "maximum": 8800,
+          "speed_yards_per_second": 1000,
+          "minimum": 200
+        },
+        "weight_pounds": {
+          "unloaded": 18.0,
+          "reload": 22.0
+        },
+        "rate_of_fire": 1,
+        "automatic_only": false,
+        "shots_notation": "1(20)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -8,
+        "recoil": 1,
+        "cost": 38000,
+        "legality_class": 1,
+        "notes": [
+          1,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "id": "firearms-bolt-artillery",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "bolt-artillery",
+        "technology": 2,
+        "skill": "gunner-catapult",
+        "damage": "5d imp",
+        "accuracy": 3,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "maximum": 520,
+          "half_damage": 415
+        },
+        "weight_pounds": {
+          "unloaded": 110.0,
+          "reload": 0.9
+        },
+        "rate_of_fire": 1,
+        "automatic_only": false,
+        "shots_notation": "1(30)",
+        "minimum_strength": 45,
+        "hand_rule": "two-handed",
+        "support": "mount",
+        "bulk": -10,
+        "recoil": null,
+        "cost": 5000,
+        "legality_class": 2,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-heavy-machine-gun-50",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-machine-gun-50",
+        "technology": 6,
+        "skill": "gunner-machine-gun",
+        "damage": "13d+1 pi+",
+        "accuracy": 6,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "maximum": 7400,
+          "half_damage": 1800
+        },
+        "weight_pounds": {
+          "loaded": 116.0,
+          "reload": 32.0
+        },
+        "rate_of_fire": 8,
+        "automatic_only": true,
+        "shots_notation": "100(5)",
+        "minimum_strength": 20,
+        "hand_rule": "two-handed",
+        "support": "mount",
+        "bulk": -8,
+        "recoil": 2,
+        "cost": 14000,
+        "legality_class": 1,
+        "notes": [
+          5
+        ]
+      }
+    },
+    {
+      "id": "firearms-underbarrel-launcher-40mm",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "underbarrel-launcher-40mm",
+        "technology": 7,
+        "skill": "guns-grenade-launcher",
+        "damage": "4d(10) cr ex [2d]",
+        "accuracy": 2,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "maximum": 440,
+          "half_damage": 150,
+          "minimum": 10
+        },
+        "weight_pounds": {
+          "added_to_host": 3.5,
+          "reload": 0.5,
+          "basis": "unloaded"
+        },
+        "rate_of_fire": 1,
+        "automatic_only": false,
+        "shots_notation": "1(3)",
+        "minimum_strength": 11,
+        "hand_rule": "host",
+        "support": null,
+        "bulk": "host",
+        "recoil": 2,
+        "cost": 500,
+        "legality_class": 1,
+        "notes": [
+          1,
+          6,
+          7
+        ]
+      }
+    },
+    {
+      "id": "firearms-integrated-launcher-25mm",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "integrated-launcher-25mm",
+        "technology": 9,
+        "skill": "guns-grenade-launcher",
+        "damage": "7d cr ex [3d]",
+        "accuracy": 4,
+        "sight_bonus": 2,
+        "range": {
+          "basis": "yards",
+          "maximum": 2200,
+          "half_damage": null
+        },
+        "weight_pounds": {
+          "included_in_host": true,
+          "reload": 1.6
+        },
+        "rate_of_fire": 1,
+        "automatic_only": false,
+        "shots_notation": "3(3)",
+        "minimum_strength": 10,
+        "hand_rule": "host",
+        "support": null,
+        "bulk": "host",
+        "recoil": 3,
+        "cost": "included-in-host",
+        "legality_class": "host",
+        "notes": [
+          8
+        ],
+        "physical_key": "combined-rifle-68mm"
+      }
+    },
+    {
+      "id": "firearms-rocket-launcher-60mm",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "rocket-launcher-60mm",
+        "technology": 7,
+        "skill": "guns-light-antitank",
+        "damage": "6dx2(10) cr ex",
+        "accuracy": 3,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "maximum": 650,
+          "half_damage": 100
+        },
+        "weight_pounds": {
+          "unloaded": 16.7,
+          "reload": 3.4
+        },
+        "rate_of_fire": 1,
+        "automatic_only": false,
+        "shots_notation": "1(4)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -6,
+        "recoil": 1,
+        "cost": 1000,
+        "legality_class": 1,
+        "notes": [
+          2,
+          7
+        ]
+      }
+    },
+    {
+      "id": "firearms-rocket-launcher-85mm",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "rocket-launcher-85mm",
+        "technology": 7,
+        "skill": "guns-light-antitank",
+        "damage": "6dx3(10) cr ex",
+        "accuracy": 3,
+        "sight_bonus": 1,
+        "range": {
+          "basis": "yards",
+          "maximum": 1000,
+          "half_damage": 300
+        },
+        "weight_pounds": {
+          "unloaded": 21.0,
+          "reload": 5.7
+        },
+        "rate_of_fire": 1,
+        "automatic_only": false,
+        "shots_notation": "1(5)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -6,
+        "recoil": 1,
+        "cost": 800,
+        "legality_class": 1,
+        "notes": [
+          2,
+          7
+        ]
+      }
+    },
+    {
+      "id": "firearms-disposable-launcher-84mm",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "disposable-launcher-84mm",
+        "technology": 8,
+        "skill": "guns-light-antitank",
+        "damage": "6dx6(10) cr ex",
+        "accuracy": 3,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "maximum": 2300,
+          "half_damage": 330
+        },
+        "weight_pounds": {
+          "listed": 14.7,
+          "basis": "sealed-disposable"
+        },
+        "rate_of_fire": 1,
+        "automatic_only": false,
+        "shots_notation": "1(-)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -5,
+        "recoil": 1,
+        "cost": 750,
+        "legality_class": 1,
+        "notes": [
+          2,
+          7
+        ]
+      }
+    },
+    {
+      "id": "firearms-support-rifle-762mm",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "support-rifle-762mm",
+        "technology": 6,
+        "skill": "guns-light-machine-gun",
+        "damage": "7d pi",
+        "accuracy": 5,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "maximum": 4200,
+          "half_damage": 1000
+        },
+        "weight_pounds": {
+          "loaded": 22.0,
+          "reload": 1.6
+        },
+        "rate_of_fire": 9,
+        "automatic_only": true,
+        "shots_notation": "20(3)",
+        "minimum_strength": 12,
+        "hand_rule": "two-handed",
+        "support": "bipod",
+        "bulk": -6,
+        "recoil": 3,
+        "cost": 6500,
+        "legality_class": 2,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-light-machine-gun-762mm",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "light-machine-gun-762mm",
+        "technology": 6,
+        "skill": "guns-light-machine-gun",
+        "damage": "7d pi",
+        "accuracy": 5,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "maximum": 4200,
+          "half_damage": 1000
+        },
+        "weight_pounds": {
+          "loaded": 30.0,
+          "reload": 6.0
+        },
+        "rate_of_fire": 15,
+        "automatic_only": true,
+        "shots_notation": "100(5)",
+        "minimum_strength": 13,
+        "hand_rule": "two-handed",
+        "support": "bipod",
+        "bulk": -6,
+        "recoil": 2,
+        "cost": 6600,
+        "legality_class": 1,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-squad-machine-gun-556mm",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "squad-machine-gun-556mm",
+        "technology": 7,
+        "skill": "guns-light-machine-gun",
+        "damage": "5d+1 pi",
+        "accuracy": 5,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "maximum": 3500,
+          "half_damage": 800
+        },
+        "weight_pounds": {
+          "loaded": 24.0,
+          "reload": 7.0
+        },
+        "rate_of_fire": 12,
+        "automatic_only": true,
+        "shots_notation": "200(5)",
+        "minimum_strength": 12,
+        "hand_rule": "two-handed",
+        "support": "bipod",
+        "bulk": -6,
+        "recoil": 2,
+        "cost": 4800,
+        "legality_class": 1,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-flame-projector",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the visually reviewed profile and page-specific note bindings. Interpret missile speed, blast/fragments, host fields, mounts, jets and disposable ammunition explicitly. Null statistics are absent, not zero bonuses or free actions. Executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "flame-projector",
+        "technology": 6,
+        "skill": "liquid-flame",
+        "damage": "3d burn",
+        "accuracy": null,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "maximum": 50,
+          "half_damage": null
+        },
+        "weight_pounds": {
+          "listed": 70.0,
+          "basis": "loaded"
+        },
+        "rate_of_fire": "jet",
+        "automatic_only": false,
+        "shots_notation": "10",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -8,
+        "recoil": null,
+        "cost": 1800,
+        "legality_class": 1,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-sabot-ammunition",
+      "source": "full-2008",
+      "pages": "B279-B280",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Discarding-sabot ammunition inherits hard-core penetration and caliber-dependent wound-size reduction, adds fifty percent to range and one damage per die, costs five times ordinary ammunition, and has legality class one. Availability: tanks at technology six/seven, machine guns at eight, small arms at nine. Validate the eligible weapon/ammunition combinations; the table does not make every explosive or beam weapon eligible.",
+      "tests": []
+    },
+    {
+      "id": "firearms-quality-and-reliability",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Fine firearm quality doubles price, adds one accuracy and one malfunction threshold. Very fine multiplies price by five, adds two accuracy and one malfunction threshold. A threshold at least nineteen prevents malfunctions until maintenance reduces it; retain ordinary critical-failure resolution independently. Presentation decoration further multiplies cost and resale value by an authored factor from two through twenty, without another accuracy or reliability increase.",
+      "tests": []
+    },
+    {
+      "id": "firearms-beam-defaults",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Beam pistol and rifle each default to dexterity minus four, other beam specialties minus four, or their matching conventional gun specialty minus four. Keep these directed defaults distinct from ordinary gun cross-specialty defaults; resolve actual skill ownership, technology and familiarity before assessment.",
+      "tests": []
+    },
+    {
+      "id": "firearms-beam-atmosphere",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 1 electric-beam profiles cannot operate in trace atmosphere or vacuum. Require an authored atmosphere category in the encounter context and reject a knowingly invalid firing request before ammunition or randomness consumption; do not silently downgrade to an ordinary laser.",
+      "tests": []
+    },
+    {
+      "id": "firearms-beam-linked-shock",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 2 adds electrical surge to burn damage and a linked health resistance check whether or not damage penetrates. Initial resistance is health minus four plus half struck-location armor resistance. Failure stuns; each subsequent turn permits health minus four recovery without the armor bonus. Preserve the same hit location and one attack resource cost; initial armor protection must not persist into recovery.",
+      "tests": []
+    },
+    {
+      "id": "firearms-beam-obscuration",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 3 grants additional target armor resistance equal to the magnitude of the applicable smoke, fog, rain or cloud visibility penalty along the shot. Example: minus one visibility per hundred yards across two thousand yards gives twenty additional resistance. Apply only marked profiles; record environmental resistance separately from physical armor and aiming visibility penalties.",
+      "tests": []
+    },
+    {
+      "id": "firearms-beam-surge",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 4 adds electrical surge to burn damage. Dispatch its effects through the susceptible target trait/object contract rather than adding universal extra injury. Note 2 already includes this effect; combining both hooks must not apply it twice.",
+      "tests": []
+    },
+    {
+      "id": "firearms-beam-optional-stun",
+      "source": "full-2008",
+      "pages": "B280",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An explicitly enabled speculative-physics campaign may buy the note-5 pistol/rifle variant for twice price. It adds a selectable stun mode: pistol health minus three with divisor three, rifle health minus six with divisor three; failure causes unconsciousness for failure-margin minutes. Preserve a single physical item, energy supply and mode selection. Heavy particle guns lack note 5 and do not gain this option automatically.",
+      "tests": []
+    },
+    {
+      "id": "firearms-heavy-defaults",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Guided artillery defaults to intelligence minus five. Catapult and machine-gun gunner specialties default to dexterity minus four or another gunner specialty minus four. Grenade-launcher and light-antitank gun specialties use dexterity minus four or most other gun specialties minus four; light-machine-gun uses dexterity minus four or most others minus two. Flame projection defaults to dexterity minus four or another liquid-projector specialty minus four. Resolve explicit graph eligibility and technology constraints.",
+      "tests": []
+    },
+    {
+      "id": "firearms-heavy-backblast",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 2 produces one die burning damage to each actor behind the firer within fifteen yards, or thirty yards for the 115mm guided launcher. Require explicit authored geometry for the rear region; do not invent a cone angle from this page. Preserve exposure identities so one firing action does not charge or damage the same actor twice through tactical and environmental hooks.",
+      "tests": []
+    },
+    {
+      "id": "firearms-heavy-guidance",
+      "source": "full-2008",
+      "pages": "B281; B412-B413",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The 115mm missile is guided using guided-artillery skill. The 70mm missile homes using broad-spectrum sensing and its own skill ten; the firer uses guided-artillery to aim and a successful aim grants missile accuracy. Their first range number is speed per second, not half-damage distance. Persist projectile position, target and guidance state until impact or expiry; require minimum distance thirty or two hundred yards respectively.",
+      "tests": []
+    },
+    {
+      "id": "firearms-heavy-mounts",
+      "source": "full-2008",
+      "pages": "B270-B271; B281",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The heavy machine gun detachable tripod adds forty-four pounds. Ignore listed strength and bulk when firing from a mount or tripod; listed strength applies without the mount. Removal or reattachment takes at least three one-second Ready maneuvers. Bipod support requires the specified posture and strength adjustment. Keep mount and weapon ownership explicit so detached support weight is not lost or double-counted.",
+      "tests": []
+    },
+    {
+      "id": "firearms-heavy-attachment",
+      "source": "full-2008",
+      "pages": "B279; B281",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The 40mm launcher attaches below a technology-seven-or-later rifle or carbine, adds its listed mass, and inherits host bulk. Its minimum firing distance is ten yards. The 25mm mode is already included in the combined 6.8mm rifle price/mass, inherits host bulk and includes electronics. Keep each mode ammunition separate while sharing one host inventory record; omitted host statistics are inherited rather than zero.",
+      "tests": []
+    },
+    {
+      "id": "firearms-heavy-ranged-penetration",
+      "source": "full-2008",
+      "pages": "B281",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For note-7 explosive launchers, do not halve damage at the printed half-damage boundary. Instead remove the ten armor divisor. Preserve blast and fragment components and distinguish this procedure from ordinary ranged damage and guided missile speed. Test immediately below and at the boundary in eventual fixtures.",
+      "tests": []
+    },
+    {
+      "id": "firearms-heavy-disposable-and-jet",
+      "source": "full-2008",
+      "pages": "B270; B281",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The sealed 84mm launcher fires once and has no listed reload operation; do not treat the dash as an instantaneous reload. The flame projector uses jet targeting with ten shots, not an ordinary rapid-fire attack; this page supplies no reload duration or separate fuel mass. Require source-backed details or a documented author contract for replenishment rather than inventing them.",
+      "tests": []
+    }
+  ]
+}

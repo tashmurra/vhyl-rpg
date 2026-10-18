@@ -355,6 +355,7 @@
     "inventory/muscle-ranged-catalogue.json",
     "inventory/grenades-and-ammunition.json",
     "inventory/firearms-catalogue-a.json",
-    "inventory/firearms-catalogue-b.json"
+    "inventory/firearms-catalogue-b.json",
+    "inventory/firearms-catalogue-c.json"
   ]
 }

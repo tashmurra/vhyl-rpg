@@ -86,7 +86,7 @@ to each affected actor and the continuing cloud.
 Ammunition variants alter armor penetration and wound category separately. Launcher
 quality changes range while projectile quality follows its own rules. Integrated
 weapon modes must share host price and mass but retain separate ammunition state.
-The remaining heavy and beam weapon profiles and executable integration remain pending.
+Firearm profiles are indexed below; executable integration remains pending.
 
 The [pistol and compact automatic catalogue](inventory/firearms-catalogue-a.json)
 separates base accuracy from sight bonuses, listed weapon mass from reload mass, and
@@ -102,3 +102,11 @@ changes legal bracing and, for a bipod, the strength requirement. Shell expendit
 and pellet hits are separate quantities. Single-shot weapons list unloaded mass;
 repeating weapons list loaded mass. Inventory changes must respect that distinction
 when tracking ammunition carried, chambered and spent.
+
+The [beam and heavy weapon catalogue](inventory/firearms-catalogue-c.json) records
+21 profiles and their page-specific notes. Guided missile speed is separate from
+half-damage range; some explosive launchers lose penetration rather than damage
+at range. Electrical beams combine damage and resistance within one attack.
+Backpack supplies, detachable mounts and host-mounted launchers need explicit
+ownership and mass accounting. Missing fuel-replenishment detail and backblast
+geometry remain documented author-contract requirements, not invented rules.
