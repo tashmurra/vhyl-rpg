@@ -8922,6 +8922,8 @@ def test(build):
     test_clotting_loss(Session, clotting_loss, build.out)
     clotting_care = build.build('expanded-clotting-care', ROOT / 'tests/fixtures/expanded-clotting-care.t')
     test_clotting_care(Session, clotting_care, build.out)
+    surgical_assessment = build.build('expanded-surgical-assessment', ROOT / 'tests/fixtures/expanded-surgical-assessment.t')
+    test_surgical_training_assessment(Session, surgical_assessment)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -10758,3 +10760,28 @@ def test_clotting_restoration(Session, bundle, out):
         assert state(s) == [5, 3, 1, 'untreated', 180, 5, 1, 120, 0]
     finally:
         s.close()
+
+
+def test_surgical_training_assessment(Session, bundle):
+    # B170: four points in a Very Hard skill gives IQ-1; B424: TL8 adds 2.
+    # B223: non-field surgery without Physician subtracts a further 5.
+    cases = [
+        ([], ['ready', None, 10, -5, 1, 0, 0]),
+        ([91], ['ready', None, 15, 0, 1, 0, 0]),
+        ([93], ['ready', None, 15, 0, 1, 0, 0]),
+        ([91, 97], ['ready', None, 12, 0, 1, 0, 0]),
+        ([92], ['blocked', 'surgical-assessment-prerequisite', None, 0, 1, 0, 0]),
+        ([94], ['blocked', 'surgical-assessment-technology-mismatch-unimplemented', None, 0, 1, 0, 0]),
+        ([95], ['blocked', 'surgical-assessment-default-unimplemented', None, 0, 1, 0, 0]),
+        ([96], ['blocked', 'surgical-assessment-incapacity', None, 0, 1, 0, 0]),
+    ]
+    for preparation, expected in cases:
+        s = Session(bundle)
+        try:
+            for code in preparation:
+                s.action(2285, code)
+            for _ in range(2):
+                s.action(2285, 90)
+                assert last(s, 'test.surgical-assessment') == expected
+        finally:
+            s.close()

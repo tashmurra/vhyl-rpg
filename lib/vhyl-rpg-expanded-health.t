@@ -1476,6 +1476,8 @@ class RpgExpandedFirstAid: object
 
 /** Surgical roll inputs from full-2008 B223/B424. No operation is committed. */
 class RpgExpandedSurgeryAssessment: RpgExpandedResult
+    context = nil
+    score = nil
     equipmentModifier = 0
     anestheticModifier = 0
     cleanlinessModifier = 0
@@ -1518,6 +1520,65 @@ class RpgExpandedSurgeryContext: object
             + value.siteModifier + value.diagnosisModifier + value.trainingModifier
             + self.equipmentQualityModifier + self.physiologyModifier + self.otherMissingEquipmentModifier;
         value.status = 'ready'; return value;
+    }
+;
+
+/** Pure surgeon eligibility and current score, full-2008 B223/B424.
+ * A ready assessment is not a completed operation or a healing grant. */
+class RpgExpandedSurgicalAssessment: object
+    surgeon = nil
+    skill = nil
+    conditions = nil
+    assess()
+    {
+        if (self.surgeon == nil || !self.surgeon.ofKind(RpgLiteProfile)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)
+            || self.skill.id != 'surgery' || self.skill.attribute != rpgIQ
+            || self.skill.difficulty != 3 || self.skill.techLevel == nil
+            || self.conditions == nil || !self.conditions.ofKind(RpgExpandedSurgeryContext))
+            rpgExpandedReject('surgical-assessment-definition');
+        local value = new RpgExpandedSurgeryAssessment();
+        if (self.surgeon.dead || self.surgeon.unconscious || self.surgeon.stunned
+            || self.surgeon.mentalStun || self.surgeon.mortal || self.surgeon.fp() <= 0)
+        { value.reason = 'surgical-assessment-incapacity'; return value; }
+        if (self.skill.techLevel != self.conditions.techLevel)
+        { value.reason = 'surgical-assessment-technology-mismatch-unimplemented'; return value; }
+        local trained = nil; local prerequisite = nil; local physician = nil;
+        foreach (local training in self.surgeon.skills)
+        {
+            if (training.points <= 0) continue;
+            if (training.skill == self.skill) trained = true;
+            if (training.skill.techLevel == self.skill.techLevel
+                && holds(['first-aid','physician'],training.skill.id))
+            {
+                prerequisite = true;
+                if (training.skill.id == 'physician') physician = true;
+            }
+        }
+        if (!trained) { value.reason = 'surgical-assessment-default-unimplemented'; return value; }
+        if (!prerequisite) { value.reason = 'surgical-assessment-prerequisite'; return value; }
+        /* Derive training from owned investments without modifying the author's
+         * conditions object or trusting its standalone physicianTrained flag. */
+        local prepared = new RpgExpandedSurgeryContext();
+        prepared.techLevel = self.conditions.techLevel;
+        prepared.anesthetic = self.conditions.anesthetic;
+        prepared.sterile = self.conditions.sterile;
+        prepared.site = self.conditions.site;
+        prepared.diagnosed = self.conditions.diagnosed;
+        prepared.physicianTrained = physician;
+        prepared.fieldExpedient = self.conditions.fieldExpedient;
+        prepared.equipmentQualityModifier = self.conditions.equipmentQualityModifier;
+        prepared.physiologyModifier = self.conditions.physiologyModifier;
+        prepared.otherMissingEquipmentModifier = self.conditions.otherMissingEquipmentModifier;
+        prepared.earlyAntisepsis = self.conditions.earlyAntisepsis;
+        value = prepared.assess();
+        if (value.status != 'ready') return value;
+        value.context = new RpgLiteContext(); value.context.skill = self.skill;
+        value.context.kind = 'surgery'; value.context.modifier = value.modifier;
+        value.score = rpgLiteScore(self.surgeon,value.context);
+        if (value.score == nil || value.score < 3)
+        { value.status = 'blocked'; value.reason = 'surgical-assessment-score-unavailable'; }
+        return value;
     }
 ;
 
