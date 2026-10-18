@@ -697,3 +697,59 @@ class RpgExpandedInformationDelivery: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedKnowledge
+    checks = []
+;
+
+class RpgExpandedKnowledgeResult: RpgExpandedResult
+    known = nil
+;
+
+/** Resolve uncertain prior knowledge once per statement, full-2008 B562.
+ * This establishes a belief; it does not perform research or prove world truth. */
+class RpgExpandedKnowledgeCheck: object
+    knowledge = nil
+    statement = nil
+    context = nil
+    plausible = nil
+    assess()
+    {
+        if (self.knowledge == nil || !self.knowledge.ofKind(RpgExpandedKnowledge) || self.statement == nil)
+            rpgExpandedReject('knowledge-check-target');
+        self.knowledge.validate();
+        local value = new RpgExpandedKnowledgeResult();
+        if (holds(self.knowledge.beliefs,self.statement)) { value.status = 'reused'; return value; }
+        foreach (local receipt in self.knowledge.checks)
+            if (receipt[1] == self.statement) { value.status = 'reused'; return value; }
+        if (holds(self.knowledge.fabrications,self.statement)) rpgExpandedReject('knowledge-check-fabrication');
+        if (self.context == nil || !self.context.ofKind(RpgLiteContext) || self.context.kind != 'knowledge'
+            || self.context.skill == nil && self.context.attribute != rpgIQ)
+            rpgExpandedReject('knowledge-check-context');
+        rpgExpandedValidate(self.knowledge.owner);
+        if (!self.plausible) { value.reason = 'knowledge-check-implausible'; return value; }
+        if (self.knowledge.owner.dead || self.knowledge.owner.unconscious)
+        { value.reason = 'knowledge-check-unavailable'; return value; }
+        local score = rpgLiteScore(self.knowledge.owner,self.context);
+        if (score == nil) { value.reason = self.context.unavailableReason(self.knowledge.owner); return value; }
+        rpgInteger(score,-1000,1000);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess();
+        if (value.status == 'reused')
+        {
+            value.known = holds(self.knowledge.beliefs,self.statement);
+            foreach (local receipt in self.knowledge.checks)
+                if (receipt[1] == self.statement) value.check = receipt[2];
+            return value;
+        }
+        if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.knowledge.owner,self.context);
+        value.known = value.check.achieved;
+        self.knowledge.checks = self.knowledge.checks + [[self.statement,value.check]];
+        if (value.known) self.knowledge.beliefs = self.knowledge.beliefs + [self.statement];
+        value.status = 'resolved'; return value;
+    }
+;

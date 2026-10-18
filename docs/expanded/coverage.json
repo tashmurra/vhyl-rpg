@@ -676,6 +676,19 @@
         "tests/expanded.py::test_paid_information"
       ],
       "validation_note": "Band-2 demanded payment and incomplete answer commit atomically against existing balances. Checks unrun; broader bribery and professional trade pending."
+    },
+    {
+      "id": "uncertain-prior-knowledge",
+      "module": "social",
+      "pages": "B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedKnowledgeCheck",
+      "tests": [
+        "tests/expanded.py::test_uncertain_knowledge",
+        "tests/expanded.py::test_unknown_fact"
+      ],
+      "validation_note": "Once-per-statement intelligence/skill checks and belief acquisition authored. Checks unrun; cross-process coverage and research procedures pending."
     }
   ],
   "detailed_inventories": [

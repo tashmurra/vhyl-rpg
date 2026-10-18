@@ -40,9 +40,11 @@
       "status": "partial",
       "acceptance": "Information outcomes cannot reveal facts beyond the respondent\u2019s knowledge. Track truth as believed, actual truth, deliberate lies and incomplete answers separately. An uncertain knowledge check uses intelligence or the relevant skill.",
       "tests": [
-        "tests/expanded.py::test_information_delivery"
+        "tests/expanded.py::test_information_delivery",
+        "tests/expanded.py::test_uncertain_knowledge",
+        "tests/expanded.py::test_unknown_fact"
       ],
-      "implementation_note": "Owned belief/fabrication selection and received statements authored. Uncertain knowledge checks and research remain pending; checks unrun."
+      "implementation_note": "Owned belief/fabrication delivery and once-per-statement uncertain knowledge checks authored. Research execution and complete validation remain pending; checks unrun."
     },
     {
       "id": "reaction-detail-loyalty",

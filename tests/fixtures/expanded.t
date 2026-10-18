@@ -61,6 +61,11 @@ informationReaction: RpgExpandedInformationReaction band = 6;
 informationDelivery: RpgExpandedInformationDelivery id = 'crossing-advice' provider = informationProvider
     recipient = informationRecipient reaction = informationReaction requested = ['bridge-open','ferry-closed']
     partial = ['bridge-open'] related = ['river-rising'] lies = ['road-safe'] available = true;
+uncertainHero: RpgExpandedProfile rules = expandedRules iq = 12 knowledge = uncertainKnowledge;
+uncertainKnowledge: RpgExpandedKnowledge owner = uncertainHero;
+uncertainContext: RpgLiteContext kind = 'knowledge' attribute = rpgIQ;
+uncertainCheck: RpgExpandedKnowledgeCheck knowledge = uncertainKnowledge statement = 'old-ford-location'
+    context = uncertainContext plausible = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -171,6 +176,14 @@ class ExpandedTestAction: Action
         {
             local value = informationDelivery.deliver(); event('test.information-paid');
             eventValue(value.status); eventValue(value.money); eventValue(value.statements.length());
+        }
+        if (code == 39 || code == 40 || code == 41)
+        {
+            if (code == 41) uncertainHero.iq = 3;
+            local value = uncertainCheck.resolve(); event('test.knowledge-check');
+            eventValue(value.status); eventValue(value.known ? 1 : 0);
+            eventValue(value.check == nil ? nil : value.check.roll);
+            if (code == 40) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -1137,6 +1150,16 @@ act(verb, args)
         offer.reaction = reaction; event('test.information-payment-gates'); eventValue(offer.assess().reason);
         offer.paymentApproved = true; eventValue(offer.assess().reason);
         return nil;
+    }
+    if (verb == 1190)
+    {
+        event('test.knowledge-state'); eventValue(uncertainKnowledge.beliefs.length());
+        eventValue(uncertainKnowledge.checks.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1191)
+    {
+        local value = uncertainCheck.assess(); event('test.knowledge-preview');
+        eventValue(value.status); eventValue(value.check); eventValue(value.known); return nil;
     }
     return vhylAct(verb,args);
 }

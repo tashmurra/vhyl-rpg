@@ -351,3 +351,33 @@ not return the earlier answer as new content. `assess()` can report the price bu
 still omits all answer statements. `tests/expanded.py::test_paid_information`
 contains approval/funds rejection, payment/answer accounting, rollback, undo and
 repeat-payment cases. These authored checks remain unrun.
+
+
+## Uncertain prior knowledge
+
+`RpgExpandedKnowledgeCheck` takes an owned `knowledge` record, an authored
+`statement`, `context` and explicit `plausible` world fact. Use a `RpgLiteContext`
+(or compatible expanded context) with `kind = 'knowledge'`, checking intelligence
+or a skill appropriate to the fact (full-2008 B562). A statement cannot also be a
+known fabrication. Dead or unconscious characters cannot perform this check.
+The context determines legitimate skill defaults and shared situational modifiers;
+unavailable training is rejected before randomness is consumed.
+
+`assess()` returns readiness without a score, result or known/unknown answer.
+`resolve()` uses the shared check procedure once, stores the result in
+`knowledge.checks`, and adds the statement to beliefs on success. Failure does not
+invent a lie. Another object or context for the same statement reuses the recorded
+result rather than rolling again. Existing beliefs need no roll. Later learning
+can add a belief through a distinct authored acquisition process; it does not
+rewrite the historical check.
+
+This procedure determines prior knowledge, not research progress or objective truth.
+The author must supply a plausible, specific statement and a relevant skill.
+Player dialogue should reveal only the character's resulting recollection, not
+private dice or the whole knowledge record. Standard transaction history includes
+the random state, last check, stored result and any new belief together.
+
+`tests/expanded.py::test_uncertain_knowledge` and `test_unknown_fact` cover private
+preview, deterministic success/failure, no reroll, rollback and undo. These cases
+remain unrun; cross-process knowledge continuation and research procedures still
+need implementation/validation coverage.
