@@ -599,6 +599,27 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1139)
+    {
+        local rules = new RpgExpandedRules();
+        local a = new RpgExpandedTemplateOption(); a.id = 'physical';
+        a.stChange = 1; a.hpChange = 1; a.speedQuarterChange = 1;
+        local b = new RpgExpandedTemplateOption(); b.id = 'focused';
+        b.iqChange = -1; b.willChange = 1; b.perceptionChange = 1;
+        local group = new RpgExpandedTemplateChoice(); group.id = 'scores'; group.options = [a,b];
+        group.minimumChoices = 2; group.maximumChoices = 2; group.minimumPoints = 7; group.maximumPoints = 7;
+        local template = new RpgExpandedTemplate(); template.choiceGroups = [group];
+        event('test.template-score-options'); eventValue(a.cost()); eventValue(b.cost());
+        local p = template.createSelected(rules,[['scores',['physical','focused']]]);
+        eventValue(p.st); eventValue(p.maxHP); eventValue(p.iq); eventValue(p.will);
+        eventValue(p.perception); eventValue(p.basicSpeedQuarters());
+        eventValue(rpgExpandedCharacterCost(p,nil)); eventValue(template.st); eventValue(template.iq);
+        group.minimumChoices = 1; group.maximumChoices = 1;
+        group.minimumPoints = nil; group.maximumPoints = nil; a.hpChange = 5;
+        try { template.createSelected(rules,[['scores',['physical']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

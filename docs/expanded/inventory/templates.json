@@ -24,10 +24,11 @@
       "status": "partial",
       "acceptance": "Resolve required choices and their budgets before creating or changing a profile; incomplete or ineligible selections cannot leave partial investments.",
       "tests": [
-        "tests/expanded.py::test_template_choices"
+        "tests/expanded.py::test_template_choices",
+        "tests/expanded.py::test_template_score_options"
       ],
       "existing_feature": "template-choice-groups",
-      "validation_note": "Choice identity, eligibility, count and signed budget gates precede fresh-profile construction. Native cases unrun; other component kinds pending."
+      "validation_note": "Choice identity, eligibility, count and signed budget gates include score changes before fresh-profile construction. Native cases unrun; extended components and exchange options pending."
     },
     {
       "id": "package-personal-customization",

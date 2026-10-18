@@ -428,9 +428,10 @@
       "status": "partial",
       "symbol": "RpgExpandedTemplateChoice",
       "tests": [
-        "tests/expanded.py::test_template_choices"
+        "tests/expanded.py::test_template_choices",
+        "tests/expanded.py::test_template_score_options"
       ],
-      "validation_note": "Concrete skill/Lite-trait options, counts, signed cost bounds and selection receipts authored. Checks unrun; attribute choices, exchanges and unresolved composition pending."
+      "validation_note": "Concrete skill/Lite-trait options, score changes, counts, signed cost bounds and selection receipts authored. Checks unrun; exchanges and unresolved composition pending."
     }
   ],
   "detailed_inventories": [

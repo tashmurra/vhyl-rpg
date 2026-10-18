@@ -120,8 +120,8 @@ an `id`, concrete `options`, `minimumChoices` and `maximumChoices` (both default
 to one), and optional signed `minimumPoints`/`maximumPoints` bounds. Each
 `RpgExpandedTemplateOption` has an `id`, an authored `eligible` flag, and the same
 `skillRows` and `traitRows` formats as the basic factory. This currently supports
-skill investments and Lite catalogue traits; attribute choices and extended trait
-specifications remain pending.
+skill investments, Lite catalogue traits and score changes as described below;
+extended trait specifications remain pending.
 
 Call `template.createSelected(rules, selections)` with one row per group:
 `[['focus', ['training']], ['background', ['limitation']]]`. Every group must be
@@ -142,8 +142,8 @@ the same selections creates new investments and traits. Calling ordinary
 
 Selected rows cannot duplicate a mandatory skill investment, and conflicting traits
 are rejected by the normal template validation. More elaborate exchange options,
-partial improvements to a mandatory purchase, attribute choices and composing
-unresolved choice-bearing templates still need explicit implementations. The
+partial improvements to a mandatory skill/trait purchase and composing unresolved
+choice-bearing templates still need explicit implementations. The
 current author interface offers concrete alternatives; it does not infer option
 eligibility from narrative labels.
 
@@ -151,3 +151,23 @@ eligibility from narrative labels.
 selection receipts, fresh ownership, unresolved and missing groups, duplicate and
 ineligible options, wrong counts and selected trait conflicts. The cases remain
 unrun while validation is paused.
+
+## Attribute options
+
+An option can specify `stChange`, `dxChange`, `iqChange`, `htChange`, `hpChange`,
+`fpChange`, `willChange`, `perceptionChange`, `speedQuarterChange` and `moveChange`.
+These are signed increments, defaulting to zero. The secondary fields change the
+purchased adjustment, not an absolute final score. Thus +1 Strength raises its
+derived health by one, while an additional `hpChange = 1` buys one further health
+point. `speedQuarterChange = 1` buys +0.25 Basic Speed.
+
+Option pricing uses the normal component prices and includes these increments in
+the group's signed point total. For example, +1 Strength, +1 purchased health and
++0.25 Basic Speed cost 17 points. −1 IQ with +1 Will and +1 Perception costs −10,
+keeping those two secondary scores unchanged. Selecting both costs seven points;
+there is no extra charge for either option label. Final character validation still
+checks secondary limits, prerequisites, total budget and the disadvantage limit.
+
+`tests/expanded.py::test_template_score_options` covers these independent cost
+examples, derived scores, source-template preservation and an invalid health
+adjustment. The cases remain unrun while checks are paused.

@@ -140,9 +140,29 @@ class RpgExpandedTemplateOption: object
     eligible = true
     skillRows = []
     traitRows = []
+    stChange = 0
+    dxChange = 0
+    iqChange = 0
+    htChange = 0
+    hpChange = 0
+    fpChange = 0
+    willChange = 0
+    perceptionChange = 0
+    speedQuarterChange = 0
+    moveChange = 0
+    changes()
+    {
+        local values = [self.stChange,self.dxChange,self.iqChange,self.htChange,
+            self.hpChange,self.fpChange,self.willChange,self.perceptionChange,
+            self.speedQuarterChange,self.moveChange];
+        foreach (local value in values) rpgInteger(value, -1000, 1000);
+        return values;
+    }
     cost()
     {
-        local total = 0;
+        local total = 0; local values = self.changes();
+        local prices = [10,20,20,10,2,3,5,5,5,5];
+        for (local index = 1; index <= 10; index += 1) total += values[index] * prices[index];
         foreach (local row in self.skillRows)
         {
             if (row.length() != 2 || row[1] == nil || !row[1].ofKind(RpgSkill))
@@ -186,7 +206,7 @@ modify RpgExpandedTemplate
             selectedGroups = selectedGroups + [row[1]];
         }
         local skillRows = self.skillRows; local traitRows = self.traitRows;
-        local ids = []; local receipt = [];
+        local ids = []; local receipt = []; local changes = [0,0,0,0,0,0,0,0,0,0];
         foreach (local group in self.choiceGroups)
         {
             if (!group.ofKind(RpgExpandedTemplateChoice) || group.id == nil || holds(ids,group.id))
@@ -222,6 +242,10 @@ modify RpgExpandedTemplate
                         if (!option.eligible) rpgExpandedReject('template-choice-ineligible');
                         total += option.cost(); skillRows = skillRows + option.skillRows;
                         traitRows = traitRows + option.traitRows;
+                        local values = option.changes(); local combined = [];
+                        for (local index = 1; index <= 10; index += 1)
+                            combined = combined + [changes[index] + values[index]];
+                        changes = combined;
                         receipt = receipt + [[group.id,option.id]];
                     }
             }
@@ -230,10 +254,14 @@ modify RpgExpandedTemplate
                 rpgExpandedReject('template-choice-points');
         }
         local resolved = new RpgExpandedTemplate();
-        resolved.st = self.st; resolved.dx = self.dx; resolved.iq = self.iq; resolved.ht = self.ht;
-        resolved.hpAdjustment = self.hpAdjustment; resolved.fpAdjustment = self.fpAdjustment;
-        resolved.willAdjustment = self.willAdjustment; resolved.perceptionAdjustment = self.perceptionAdjustment;
-        resolved.speedQuarterAdjustment = self.speedQuarterAdjustment; resolved.moveAdjustment = self.moveAdjustment;
+        resolved.st = self.st + changes[1]; resolved.dx = self.dx + changes[2];
+        resolved.iq = self.iq + changes[3]; resolved.ht = self.ht + changes[4];
+        resolved.hpAdjustment = self.hpAdjustment + changes[5];
+        resolved.fpAdjustment = self.fpAdjustment + changes[6];
+        resolved.willAdjustment = self.willAdjustment + changes[7];
+        resolved.perceptionAdjustment = self.perceptionAdjustment + changes[8];
+        resolved.speedQuarterAdjustment = self.speedQuarterAdjustment + changes[9];
+        resolved.moveAdjustment = self.moveAdjustment + changes[10];
         resolved.campaignTL = self.campaignTL; resolved.techLevel = self.techLevel;
         resolved.pointBudget = self.pointBudget; resolved.disadvantageLimit = self.disadvantageLimit;
         resolved.skillRows = skillRows; resolved.traitRows = traitRows;
