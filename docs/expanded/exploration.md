@@ -1534,3 +1534,22 @@ the result to its actual boarding/location action.
 successful defaulted entry, trained entry, rollback, undo and saved replay.
 Fixtures remain unrun. Docking, underway checks and their movement consequences
 remain outstanding.
+
+
+## Exhausted swimming consciousness
+
+A swimming balance or endurance check may now consume the last positive fatigue
+point. The encounter records that exhaustion boundary.
+`RpgExpandedSwimConsciousness` takes an `id` and the owned `encounter`; its
+`apply()` checks Will at exactly the next elapsed second, once per receipt.
+Failure causes unconsciousness with fatigue-collapse provenance. The clock
+cannot skip a required consciousness boundary. These checks do not spend
+additional fatigue: partial-air drowning does not use complete-airlessness
+fatigue costs (full-2008, B354 and B436–B437).
+
+Swimming checks already at zero or negative fatigue still reject pending the
+negative-fatigue injury integration. Unconscious submersion, air-loss timing and
+rescue/resuscitation transitions also remain incomplete; this is not a complete
+drowning implementation. `expanded-swim-exhaustion.t` / `test_swim_exhaustion`
+specify the zero boundary, successful/failed Will checks, no duplicate fatigue,
+rollback, undo and saved replay. Fixtures remain unrun.

@@ -358,7 +358,7 @@ class RpgExpandedSwimCheck: object
         { value.reason = 'swimming-incapacitated'; return value; }
         if (self.encounter.skill == nil && !self.encounter.defaultAvailable)
         { value.reason = 'swimming-default-unavailable'; return value; }
-        if (patient.fp() <= 1) { value.reason = 'swimming-exhaustion-unavailable'; return value; }
+        if (patient.fp() <= 0) { value.reason = 'swimming-exhaustion-unavailable'; return value; }
         if (rpgLedger.seconds != self.encounter.nextCheckAt)
         { value.reason = rpgLedger.seconds < self.encounter.nextCheckAt ? 'swimming-check-not-due' : 'swimming-missed-boundary'; return value; }
         if (rpgLedger.seconds > self.encounter.nextEnduranceAt)
@@ -381,6 +381,7 @@ class RpgExpandedSwimCheck: object
         local outcome = rpgExpandedSwimmingOutcome(self.encounter.stage,value.check.score,value.check.roll);
         value.nextStage = outcome.nextStage; value.seconds = outcome.seconds; value.inhaledWater = outcome.inhaledWater;
         if (outcome.fatigue > 0) value.fatigue = rpgLiteFatigueIncrement(self.encounter.profile,'swimming');
+        self.encounter.recordExhaustion();
         self.boundId = self.id; self.boundEncounter = self.encounter; self.stageBefore = self.encounter.stage;
         self.completedAt = rpgLedger.seconds; self.encounter.stage = value.nextStage;
         self.encounter.nextCheckAt = self.completedAt + value.seconds; self.encounter.checks = self.encounter.checks + [self];
@@ -535,7 +536,7 @@ class RpgExpandedSwimEndurance: object
         { value.reason = 'swimming-not-active'; return value; }
         if (patient.dead || patient.unconscious || patient.stunned || patient.mentalStun)
         { value.reason = 'swimming-incapacitated'; return value; }
-        if (patient.fp() <= 1) { value.reason = 'swimming-exhaustion-unavailable'; return value; }
+        if (patient.fp() <= 0) { value.reason = 'swimming-exhaustion-unavailable'; return value; }
         if (patient.heatExtra != 0) { value.reason = 'swimming-heat-endurance-unavailable'; return value; }
         if (patient.encumbrance() > 4) { value.reason = 'swimming-overloaded'; return value; }
         if (rpgLedger.seconds != self.encounter.nextEnduranceAt)
@@ -551,6 +552,7 @@ class RpgExpandedSwimEndurance: object
         local value = self.assess(); if (value.status != 'ready') return value;
         value.check = rpgLiteCheck(self.encounter.profile,value.context);
         if (!value.check.achieved) value.fatigue = rpgLiteFatigueIncrement(self.encounter.profile,'swimming');
+        self.encounter.recordExhaustion();
         self.boundId = self.id; self.boundEncounter = self.encounter; self.completedAt = rpgLedger.seconds;
         self.encounter.nextEnduranceAt = self.completedAt + (self.encounter.pace == 'top-speed' ? 60 : 1800);
         self.encounter.enduranceChecks = self.encounter.enduranceChecks + [self];
@@ -3013,5 +3015,75 @@ class RpgExpandedBoatEntry: object
         if (value.fellInWater && self.swimming.start().status != 'resolved') rpgExpandedReject('boat-entry-water-changed');
         self.boundDefinition = self.definition(); self.profile.boatEntries = self.profile.boatEntries + [self];
         self.result = value; value.status = 'resolved'; return value;
+    }
+;
+
+
+modify RpgExpandedSwimmingEncounter
+    exhaustedAt = nil
+    lastWillAt = nil
+    willChecks = []
+    recordExhaustion()
+    {
+        if (self.profile.fp() <= 0 && self.exhaustedAt == nil)
+        { self.exhaustedAt = rpgLedger.seconds; self.lastWillAt = self.exhaustedAt; }
+        return nil;
+    }
+;
+/** B354/B437 consciousness checks do not impose complete-airlessness fatigue. */
+class RpgExpandedSwimConsciousness: object
+    id = nil
+    encounter = nil
+    result = nil
+    completedAt = nil
+    boundId = nil
+    boundEncounter = nil
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.id == nil || self.id == '' || self.encounter == nil || !self.encounter.ofKind(RpgExpandedSwimmingEncounter))
+            rpgExpandedReject('swimming-will-definition');
+        self.encounter.validateBinding();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.encounter != self.boundEncounter || !holds(self.encounter.willChecks,self))
+                rpgExpandedReject('swimming-will-binding');
+            value.status = 'reused'; value.check = self.result.check; return value;
+        }
+        local p = self.encounter.profile;
+        if (self.encounter.endedAt != nil || p.swimmingEncounter != self.encounter || p.dead || p.unconscious
+            || p.fp() > 0 || self.encounter.exhaustedAt == nil)
+        { value.reason = 'swimming-will-not-active'; return value; }
+        if (rpgLedger.seconds != self.encounter.lastWillAt + 1)
+        { value.reason = 'swimming-will-not-due'; return value; }
+        foreach (local prior in self.encounter.willChecks)
+            if (prior.id == self.id) rpgExpandedReject('swimming-will-duplicate');
+        local c = new RpgLiteContext(); c.attribute = rpgWill; c.kind = 'air';
+        local score = rpgLiteScore(p,c);
+        if (score == nil || score < 3) { value.reason = 'swimming-will-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local p = self.encounter.profile;
+        value.check = rpgLiteAttributeCheck(p,rpgWill,'air',0);
+        if (!value.check.achieved) { p.becomeUnconscious(); p.fatigueCollapse = true; }
+        self.boundId = self.id; self.boundEncounter = self.encounter; self.completedAt = rpgLedger.seconds;
+        self.encounter.lastWillAt = self.completedAt; self.encounter.willChecks = self.encounter.willChecks + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local e = firstObj(RpgExpandedSwimmingEncounter); e != nil; e = nextObj(e,RpgExpandedSwimmingEncounter))
+            if (e.exhaustedAt != nil && e.endedAt == nil && e.profile.fp() <= 0 && !e.profile.dead && !e.profile.unconscious)
+            {
+                e.validateBinding();
+                if (self.seconds + seconds > e.lastWillAt + 1) rpgExpandedReject('swimming-will-boundary');
+            }
+        return nil;
     }
 ;

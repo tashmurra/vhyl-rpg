@@ -2462,9 +2462,12 @@
       "pages": "B436-B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Drowning with partial air access uses swimming checks every five seconds and fatigue on failure instead of also imposing complete-airlessness costs.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swim_exhaustion"
+      ],
+      "validation_note": "Swimming can consume the final positive FP. Owned per-second Will checks begin at that boundary without adding complete-airlessness fatigue costs; failure causes fatigue-collapse unconsciousness. Negative-FP swim injury, unconscious submersion and rescue/resuscitation transition remain pending. Fixtures authored, unrun."
     },
     {
       "id": "hazard-suffocation-death",

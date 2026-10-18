@@ -9322,6 +9322,8 @@ def test(build):
     test_boating(Session, boating)
     boat_entry = build.build("expanded-boat-entry",ROOT / "tests/fixtures/expanded-boat-entry.t")
     test_boat_entry(Session, boat_entry, build.out)
+    swim_exhaustion = build.build("expanded-swim-exhaustion",ROOT / "tests/fixtures/expanded-swim-exhaustion.t")
+    test_swim_exhaustion(Session, swim_exhaustion, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22579,3 +22581,31 @@ def test_boat_entry(Session, bundle, out):
             assert last(s, 'test.boat-entry') == [1,0,1,draws]
         finally:
             s.close()
+
+
+def test_swim_exhaustion(Session, bundle, out):
+    """Zero-FP swimming checks Will per second, without per-second fatigue; unrun."""
+    path = out / 'swim-exhaustion.zsave'
+    s = Session(bundle)
+    try:
+        for code in (17000,17002,17004):
+            s.action(1910,code)
+        assert last(s, 'test.swim-exhaustion') == [0,0,0,3,0]
+        s.action(1910,17001)
+        s.command('undo')
+        s.action(1910,17004)
+        assert last(s, 'test.swim-exhaustion') == [0,0,0,3,0]
+        for code in (17001,17005,17004):
+            s.action(1910,code)
+        assert last(s, 'test.swim-exhaustion') == [0,0,1,6,1]
+        s.command(f':save {path}\n@1911')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1911')
+        for code in (17005,17003,17004):
+            s.action(1910,code)
+        assert last(s, 'test.swim-exhaustion') == [0,1,2,9,2]
+    finally:
+        s.close()
