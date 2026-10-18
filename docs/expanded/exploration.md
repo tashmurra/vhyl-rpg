@@ -743,8 +743,36 @@ split-group bonus. Expired daily receipts cannot assess a later day's pace.
 The method remains a distance assessment, not a movement or time commit.
 
 Ordinary daily rolls do not spend travel time, fatigue or advancement points.
-Full-day occupation, interruptions, independent-roll parties, extra effort and
-movement execution remain incomplete. They must not be inferred from a saved
+Full-day occupation, interruptions, extra effort and movement execution remain
+incomplete. Independent-roll parties are described below. They must not be inferred from a saved
 bonus receipt. `tests/fixtures/expanded-hiking-attempt.t` contains solo/group
 integration fixtures for previews, success, failure, duplicate requests, leadership,
 rollback, undo, saved replay and next-day availability. Assertions remain unrun.
+
+## Parties using individual daily rolls
+
+`RpgExpandedHikingParty` implements the B200 ordinary party procedure alongside
+B351 shared pace. Set `attempts` to two or more resolved **solo**
+`RpgExpandedHikingAttempt` receipts, give the decision a unique `id`, and provide
+`evidence` that those travelers choose to stay together. Every receipt must be
+from the current ledger day and belong to a different traveler. Unresolved,
+expired or shared leadership-roll receipts cannot stand in for independent rolls.
+
+`assess()` inspects those existing rolls. `resolve()` records the party decision
+in every member's `hikingParties` history; it consumes no dice, time or resources.
+`result.bonusAchieved` is true only when every traveler succeeded. The party's
+`assessPace(conditions, enhancedPercents)` applies this common bonus and selects
+the slowest member, rather than applying each member's bonus independently.
+The multiplier order follows `attempts`; skills must match the route conditions.
+
+Independent-roll travelers may split and regroup. A new party decision uses
+existing receipts and recomputes the all-members-success condition; it never
+permits another daily skill attempt. Replaying the same decision preserves the
+stored outcome, while changing its membership or evidence is rejected. Historical
+results remain readable, but expired receipts cannot assess current travel pace.
+These records do not themselves move characters or reserve travel time.
+
+The fixture `tests/fixtures/expanded-hiking-party.t` covers a mixed-result party,
+an all-success party, regrouping, invalid receipts, exception rollback, undo and
+save continuation. These assertions are authored and unrun. Travel execution,
+fatigue, interruptions and full-day time occupation remain incomplete.

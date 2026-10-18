@@ -879,3 +879,9 @@ participant's history. Duplicate attempts cannot reroll by changing IDs or
 travel skills. Group assessment applies the leadership threshold, average skill
 and slowest-member pace. Replay and next-day handling have authored, unrun
 fixtures; a roll receipt still does not complete a journey or spend travel time.
+
+Independent-roll hiking parties now retain a shared decision over existing solo
+receipts. Their bonus requires every traveler to succeed, and their pace uses
+the slowest member. Splitting or regrouping cannot create new daily rolls;
+shared leadership receipts cannot be reused as independent rolls. Fixtures are
+authored but unrun, and full travel execution remains incomplete.

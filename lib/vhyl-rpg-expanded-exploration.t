@@ -1535,3 +1535,83 @@ class RpgExpandedHikingAttempt: object
         return result;
     }
 ;
+
+modify RpgExpandedProfile
+    hikingParties = []
+;
+class RpgExpandedHikingPartyResult: RpgExpandedResult
+    day = nil
+    profiles = []
+    bonusAchieved = nil
+;
+/** B200/B351 independent-roll party: every member must succeed. Unlike a
+ * shared leadership roll, these solo receipts can later support a split party;
+ * a new party decision still consumes the same rolls, never new attempts. */
+class RpgExpandedHikingParty: object
+    id = nil
+    attempts = []
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.evidence,self.attempts.length()] + self.attempts; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.attempts.length() < 2 || self.attempts.length() > 1000)
+            rpgExpandedReject('hiking-party-definition');
+        local value = new RpgExpandedHikingPartyResult();
+        foreach (local attempt in self.attempts)
+        {
+            if (attempt == nil || !attempt.ofKind(RpgExpandedHikingAttempt)) rpgExpandedReject('hiking-party-attempt');
+            if (attempt.result == nil) { value.reason = 'hiking-party-unresolved-member'; return value; }
+            if (attempt.assess().status != 'reused') rpgExpandedReject('hiking-party-receipt');
+            if (attempt.members.length() != 1) rpgExpandedReject('hiking-party-shared-roll');
+        }
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.boundDefinition.length()) rpgExpandedReject('hiking-party-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('hiking-party-binding');
+            foreach (local profile in self.result.profiles)
+                if (!holds(profile.hikingParties,self)) rpgExpandedReject('hiking-party-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.evidence == nil || self.evidence == '') { value.reason = 'hiking-party-choice-required'; return value; }
+        value.day = rpgLedger.seconds / 86400; value.bonusAchieved = true;
+        foreach (local attempt in self.attempts)
+        {
+            if (attempt.result.day != value.day) rpgExpandedReject('hiking-party-expired-member');
+            local profile = attempt.members[1][1];
+            if (holds(value.profiles,profile)) rpgExpandedReject('hiking-party-duplicate-member');
+            foreach (local prior in profile.hikingParties)
+                if (prior.id == self.id) rpgExpandedReject('hiking-party-duplicate-id');
+            value.profiles = value.profiles + [profile];
+            if (!attempt.result.check.achieved) value.bonusAchieved = nil;
+        }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.result = value; value.status = 'resolved';
+        foreach (local profile in value.profiles) profile.hikingParties = profile.hikingParties + [self];
+        return value;
+    }
+    assessPace(conditions, enhancedPercents)
+    {
+        if (self.assess().status != 'reused') rpgExpandedReject('hiking-party-unresolved');
+        if (self.result.day != rpgLedger.seconds / 86400) rpgExpandedReject('hiking-party-expired');
+        if (enhancedPercents.length() != self.attempts.length()) rpgExpandedReject('hiking-multiplier-members');
+        local result = nil;
+        for (local index = 1; index <= self.attempts.length(); index += 1)
+        {
+            local row = self.attempts[index].members[1];
+            local value = rpgExpandedAssessHiking(row[1].move(),enhancedPercents[index],self.result.bonusAchieved,conditions);
+            if (value.status != 'ready') return value;
+            if (row[2].id != value.travelSkill) rpgExpandedReject('hiking-travel-skill-mismatch');
+            if (result == nil || value.milesHundredths < result.milesHundredths) result = value;
+        }
+        return result;
+    }
+;

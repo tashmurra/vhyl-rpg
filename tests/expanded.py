@@ -9014,6 +9014,8 @@ def test(build):
     test_hiking_assessment(Session, hiking_assessment)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
     test_hiking_attempt(Session, hiking_attempt, build.out)
+    hiking_party = build.build('expanded-hiking-party',ROOT / 'tests/fixtures/expanded-hiking-party.t')
+    test_hiking_party(Session, hiking_party, build.out)
     test_climb_fall_assessment(Session, climb_assessment)
     test_landing_assessment(Session, climb_assessment)
     landing_attempt = build.build('expanded-landing-attempt',ROOT / 'tests/fixtures/expanded-landing-attempt.t')
@@ -14489,3 +14491,65 @@ def test_hiking_attempt(Session, bundle, out):
             assert state(s) == [0,0,0,0,None,0,None]
         finally:
             s.close()
+
+
+def test_hiking_party(Session, bundle, out):
+    def state(s):
+        s.action(2285,1124)
+        return last(s,'test.hiking-party-owned')
+    path = out / 'expanded-hiking-party.zsave'
+    for forced, success, miles in ((30,0,4000),(31,1,4800)):
+        s = Session(bundle)
+        try:
+            for code in (forced,1101,1121):
+                s.action(2285,code)
+            assert last(s,'test.hiking-party-preview') == ['blocked','hiking-party-unresolved-member',0,3]
+            for code in (1120,1121):
+                s.action(2285,code)
+            assert last(s,'test.hiking-party-preview') == ['ready',None,success,6]
+            s.action(2285,1123)
+            assert state(s) == [0,0,6,0,0]
+            s.action(2285,1122)
+            s.command('undo')
+            assert state(s) == [0,0,6,0,0]
+            for code in (1122,1122,1125):
+                s.action(2285,code)
+            assert state(s) == [1,1,6,0,success]
+            assert last(s,'test.hiking-party-pace') == [miles,6]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (1122,1125,1126):
+                s.action(2285,code)
+            assert state(s) == [2,2,6,0,success]
+            assert last(s,'test.hiking-party-pace') == [miles,6]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,1101,1127,1128):
+            s.action(2285,code)
+        assert last(s,'test.hiking-party-error') == ['hiking-party-duplicate-member']
+        assert state(s) == [0,0,3,0,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,1101,1120,1108,1128):
+            s.action(2285,code)
+        assert last(s,'test.hiking-party-error') == ['hiking-party-expired-member']
+        assert state(s) == [0,0,6,86400,0]
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (30,1105,1101,1128):
+            s.action(2285,code)
+        assert last(s,'test.hiking-party-error') == ['hiking-party-shared-roll']
+        assert state(s) == [0,0,3,0,0]
+    finally:
+        s.close()
