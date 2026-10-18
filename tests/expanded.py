@@ -760,6 +760,131 @@ def test_cold_persistence(Session, bundle, out):
             second.close()
 
 
+def air_state(s):
+    s.action(1901)
+    return last(s, 'test.air-state')
+
+
+def test_airless_transactions(s):
+    initial = air_state(s)
+    assert initial == [9,2,10,0,0,0,0,0,0,0,0]
+    s.action(1900, 1)
+    assert air_state(s) == initial
+    s.action(1900, 0)
+    started = air_state(s)
+    assert started == [9,2,10,0,1,0,0,0,0,0,0]
+    for code in [0,7,9,10,13]:
+        s.action(1900, code)
+        assert air_state(s) == started
+    s.action(1900, 2)
+    due = air_state(s)
+    for code in [5,4]:
+        s.action(1900, code)
+        assert air_state(s) == due
+    s.action(1900, 3)
+    harmed = air_state(s)
+    assert harmed == [10,2,10,1,1,1,0,3,1,1,0]
+    s.command('undo')
+    assert air_state(s) == due
+    s.action(1900, 3)
+    for code in [3,8,6,7]:
+        s.action(1900, code)
+        assert air_state(s) == harmed
+    s.action(1900, 5)
+    rescued = air_state(s)
+    assert rescued == [10,2,10,0,0,1,1,3,1,1,0]
+    s.command('undo')
+    assert air_state(s) == harmed
+    for code in [5,5,3,7]:
+        s.action(1900, code)
+        assert air_state(s) == rescued
+    s.action(1900, 13)
+    assert air_state(s) == [9,2,10,0,0,1,1,3,601,0,0]
+    s.action(1900, 10)
+    breathing = air_state(s)
+    assert breathing == [9,2,10,0,0,1,1,3,601,0,1]
+    for code in [0,5,7]:
+        s.action(1900, code)
+        assert air_state(s) == breathing
+
+
+def test_airless_brain_transactions(s):
+    for code in [11,0,12]:
+        s.action(1900, code)
+    deprived = air_state(s)
+    assert deprived == [121,2,10,121,1,121,0,0,121,0,0]
+    for code in [8,6,7]:
+        s.action(1900, code)
+        assert air_state(s) == deprived
+    s.action(1900, 5)
+    rescued = air_state(s)
+    assert rescued == [121,2,9,0,0,121,1,3,121,0,0]
+    s.command('undo')
+    assert air_state(s) == deprived
+    for code in [5,5,7]:
+        s.action(1900, code)
+        assert air_state(s) == rescued
+
+
+def test_airless_breath_conflict(s):
+    s.action(1900, 10)
+    before = air_state(s)
+    assert before == [9,2,10,0,0,0,0,0,0,0,1]
+    s.action(1900, 0)
+    assert air_state(s) == before
+    s.action(1900, 7)
+
+
+def test_airless_persistence(Session, bundle, out):
+    for stage in range(4):
+        path = out / f'expanded-airless-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1900, 0)
+            for code in [2,3,5][:stage]:
+                first.action(1900, code)
+            saved = air_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1901')
+            assert air_state(second) == saved
+            second.action(1900, 7)
+            for code in [2,3,5][stage:]:
+                second.action(1900, code)
+            assert air_state(second) == [10,2,10,0,0,1,1,3,1,1,0]
+            second.action(1900, 7)
+        finally:
+            second.close()
+
+
+def test_airless_brain_persistence(Session, bundle, out):
+    for rescued in [False,True]:
+        path = out / f'expanded-airless-brain-{int(rescued)}.zsave'
+        first = Session(bundle)
+        try:
+            for code in [11,0,12]:
+                first.action(1900, code)
+            if rescued:
+                first.action(1900, 5)
+            saved = air_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1901')
+            assert air_state(second) == saved
+            second.action(1900, 7)
+            for code in [5,5,7]:
+                second.action(1900, code)
+                assert air_state(second) == [121,2,9,0,0,121,1,3,121,0,0]
+        finally:
+            second.close()
+
+
 def test_airless_seconds(s):
     for fatigue, seed, injury, unconscious, draws in [(8,5,0,0,0),(9,5,0,1,3),
                                                     (9,1,0,0,3),(10,5,1,1,3),(20,5,1,1,0)]:
@@ -3718,6 +3843,12 @@ def test(build):
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_airless_duration)
     fresh(Session,hazards,test_airless_scheduler_conflict)
+    airless_transactions = build.build('expanded-airless-transactions',ROOT / 'tests/fixtures/expanded-airless-transactions.t')
+    fresh(Session,airless_transactions,test_airless_transactions)
+    fresh(Session,airless_transactions,test_airless_brain_transactions)
+    fresh(Session,airless_transactions,test_airless_breath_conflict)
+    test_airless_persistence(Session,airless_transactions,build.out)
+    test_airless_brain_persistence(Session,airless_transactions,build.out)
     fresh(Session,hazards,test_infection_acquisition)
     fresh(Session,hazards,test_specific_natural_immunity)
     fresh(Session,hazards,test_infection_supervision)

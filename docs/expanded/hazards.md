@@ -669,6 +669,17 @@ consciousness rolls, overflow injury, the fatigue floor and repeated operations.
 `test_airless_duration` records the 120/121-second brain-injury boundary and the
 239/240-second death boundary, using an enlarged fatigue capacity to isolate the
 time rule. `test_airless_scheduler_conflict` covers competing suffocation and rest
-operations. All fixtures are authored but unrun while checks are paused. Dedicated
-transaction, save-continuation, cross-module breathing and drowning fixtures remain
-outstanding; these partial mappings do not claim full suffocation coverage.
+operations. All fixtures are authored but unrun while checks are paused. The dedicated
+[`expanded-airless-transactions.t`](../../tests/fixtures/expanded-airless-transactions.t)
+adds rollback after exposure start, consciousness loss and rescue, plus undo and
+replay. It checks preview purity, changed bound evidence, rest rejection without
+air, normal fatigue recovery after rescue and breath ownership in both directions.
+Historical rescue calls must not clear a newly started breath reserve.
+
+`test_airless_persistence` saves at exposure start, a due second, after consciousness
+loss and after rescue. `test_airless_brain_persistence` saves before and after the
+permanent intelligence-loss check. Each route must preserve the original receipt,
+shared clock and random-draw count; resuming a completed rescue cannot repeat its
+IQ loss. These fixtures remain unrun. Drowning, breath-reserve handoff, exceptional
+physiology and broad cross-module verification remain outstanding; the partial
+mappings do not claim full suffocation coverage.

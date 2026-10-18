@@ -115,7 +115,12 @@
         "tests/expanded.py::test_immersion_persistence",
         "tests/expanded.py::test_airless_seconds",
         "tests/expanded.py::test_airless_duration",
-        "tests/expanded.py::test_airless_scheduler_conflict"
+        "tests/expanded.py::test_airless_scheduler_conflict",
+        "tests/expanded.py::test_airless_transactions",
+        "tests/expanded.py::test_airless_brain_transactions",
+        "tests/expanded.py::test_airless_breath_conflict",
+        "tests/expanded.py::test_airless_persistence",
+        "tests/expanded.py::test_airless_brain_persistence"
       ],
       "validation_note": "Owned infection progression integrates the qualified roster bonus with antibiotic modifiers and shared recovery restrictions. Fixtures authored but unrun. Automatic care scheduling, interruption, catch-up, broader disease treatment and verified cross-module behavior remain incomplete."
     },
