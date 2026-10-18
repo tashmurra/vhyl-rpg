@@ -1260,3 +1260,7 @@ class RpgExpandedRecurrentPain: RpgExpandedDisadvantage
         return roll <= self.frequency;
     }
 ;
+
+modify RpgExpandedRecurrentPain
+    recurrentPainDefinition() { return true; }
+;

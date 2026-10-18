@@ -503,3 +503,7 @@ class RpgExpandedCommunicationReceipt: object
 modify RpgExpandedProfile
     communicationStudyEligible() { return nil; }
 ;
+
+modify RpgLiteTrait
+    recurrentPainDefinition() { return nil; }
+;

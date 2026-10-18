@@ -1212,3 +1212,7 @@ expanded influence procedure remains partial.
 - Added recurrent-pain definitions and all severity/interval/frequency prices,
   with final-only rounding and explicit appearance thresholds. Added unrun table
   fixtures. Owned episodes, recovery and sleep integration remain pending (B126).
+
+- Added owned daily recurrent-pain appearance and waking episodes, contextual
+  penalties and interval recovery receipts. Added unrun onset, recovery and save
+  fixtures. Sleep, overlapping-day and derived-defense integration remain pending.

@@ -7066,3 +7066,140 @@ modify RpgExpandedProfile
         gate.evidence = evidence; gate.requiresMovement = movement; return gate;
     }
 ;
+
+class RpgExpandedRecurrentPainResult: RpgExpandedResult
+    occurs = nil
+    roll = nil
+;
+/** B126 one daily appearance check and an authored waking onset. */
+class RpgExpandedRecurrentPainDay: object
+    id = nil
+    profile = nil
+    trait = nil
+    onsetAt = nil
+    duringSleep = nil
+    approved = nil
+    evidence = nil
+    day = nil
+    dueAt = nil
+    endedAt = nil
+    recoveries = []
+    boundDefinition = nil
+    result = nil
+    definition()
+    {
+        return [self.id,self.profile,self.trait,self.onsetAt,self.duringSleep,self.approved,self.evidence,
+            self.trait.severity,self.trait.intervalHours,self.trait.frequency];
+    }
+    validateReceipt()
+    {
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('recurrent-pain-day-binding');
+        if (!holds(self.profile.recurrentPainDays,self)) rpgExpandedReject('recurrent-pain-day-history');
+        return nil;
+    }
+    active()
+    {
+        if (self.result == nil) return nil;
+        self.validateReceipt();
+        return self.result.occurs && self.endedAt == nil && rpgLedger.seconds >= self.onsetAt
+            && holds(self.profile.traits,self.trait) && self.trait.active && !self.trait.mitigated;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.trait == nil || !self.trait.ofKind(RpgLiteTrait) || !self.trait.recurrentPainDefinition())
+            rpgExpandedReject('recurrent-pain-day-definition');
+        local value = new RpgExpandedRecurrentPainResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        self.trait.creationCost();
+        if (!holds(self.profile.traits,self.trait) || !self.trait.active || self.trait.mitigated)
+        { value.reason = 'recurrent-pain-trait-unavailable'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'recurrent-pain-onset-required'; return value; }
+        if (self.duringSleep) { value.reason = 'recurrent-pain-sleep-adapter-required'; return value; }
+        local day = rpgLedger.seconds / 86400;
+        rpgInteger(self.onsetAt,rpgLedger.seconds,2147483647-self.trait.intervalSeconds());
+        if (self.onsetAt / 86400 != day) { value.reason = 'recurrent-pain-onset-day'; return value; }
+        foreach (local prior in self.profile.recurrentPainDays)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.trait == self.trait && prior.day == day)
+                rpgExpandedReject('recurrent-pain-day-duplicate');
+            if (prior.trait == self.trait && prior.result.occurs && prior.endedAt == nil)
+            { value.reason = 'recurrent-pain-overlapping-day-unresolved'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.day = rpgLedger.seconds / 86400;
+        value.roll = rpgRandom.roll(); value.occurs = self.trait.appears(value.roll);
+        self.dueAt = value.occurs ? self.onsetAt + self.trait.intervalSeconds() : nil;
+        self.profile.recurrentPainDays = self.profile.recurrentPainDays + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+/** A distinct receipt for each interval; replay never rolls again. */
+class RpgExpandedRecurrentPainRecovery: object
+    id = nil
+    episode = nil
+    expectedDue = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.episode,self.expectedDue]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedRecurrentPainDay))
+            rpgExpandedReject('recurrent-pain-recovery-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local i = 1; i <= current.length(); i += 1)
+                if (current[i] != self.boundDefinition[i]) rpgExpandedReject('recurrent-pain-recovery-binding');
+            self.episode.validateReceipt();
+            if (!holds(self.episode.recoveries,self)) rpgExpandedReject('recurrent-pain-recovery-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.episode.result == nil || !self.episode.active())
+        { value.reason = 'recurrent-pain-not-active'; return value; }
+        foreach (local prior in self.episode.recoveries)
+            if (prior.id == self.id) rpgExpandedReject('recurrent-pain-recovery-duplicate');
+        if (self.expectedDue != self.episode.dueAt || rpgLedger.seconds < self.expectedDue)
+        { value.reason = 'recurrent-pain-recovery-not-due'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647-self.episode.trait.intervalSeconds());
+        local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'recurrent-pain-recovery';
+        local score = rpgLiteScore(self.episode.profile,context);
+        if (score == nil || score < 3) { value.reason = 'recurrent-pain-recovery-unavailable'; return value; }
+        value.modifier = score; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        value.check = rpgCheck(value.modifier,rpgRandom.roll());
+        if (value.check.achieved) self.episode.endedAt = rpgLedger.seconds;
+        else self.episode.dueAt = rpgLedger.seconds + self.episode.trait.intervalSeconds();
+        self.boundDefinition = self.definition(); self.episode.recoveries = self.episode.recoveries + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+modify RpgExpandedProfile
+    recurrentPainDays = []
+    recurrentPainPenalty()
+    {
+        local amount = 0;
+        foreach (local episode in self.recurrentPainDays) if (episode.active()) amount += episode.trait.awakePenalty();
+        return amount;
+    }
+    healthAttributeModifier(context)
+    {
+        local amount = inherited(context);
+        return amount + (holds([rpgDX,rpgIQ],context.controllingAttribute()) ? self.recurrentPainPenalty() : 0);
+    }
+    healthSelfControlModifier(trait) { return inherited(trait) + self.recurrentPainPenalty(); }
+;

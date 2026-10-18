@@ -1112,7 +1112,8 @@ frequency table's explicit “or less” boundaries. It does not roll, schedule 
 apply an episode. The paragraph's informal “below” wording is interpreted using
 those explicit table boundaries.
 
-Daily occurrence ownership, episode timing, persistent recovery checks and sleep
-loss remain pending. These definition methods do not yet modify character
-scores. The fixture independently lists all 48 prices and appearance boundaries;
+The health library now supplies `RpgExpandedRecurrentPainDay` and
+`RpgExpandedRecurrentPainRecovery` for daily waking episodes and interval checks.
+Sleep loss and overlapping-day handling remain pending. These definition
+methods alone do not modify character scores. The fixture independently lists all 48 prices and appearance boundaries;
 it remains unrun and all corresponding inventory entries remain partial.

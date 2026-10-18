@@ -9084,6 +9084,8 @@ def test(build):
     test_low_motivation(Session, low_motivation, build.out)
     recurrent_pain = build.build('expanded-recurrent-pain',ROOT / 'tests/fixtures/expanded-recurrent-pain.t')
     test_recurrent_pain_definition(Session, recurrent_pain)
+    recurrent_episode = build.build('expanded-recurrent-pain-episode',ROOT / 'tests/fixtures/expanded-recurrent-pain-episode.t')
+    test_recurrent_pain_episode(Session, recurrent_episode, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17361,3 +17363,46 @@ def test_recurrent_pain_definition(Session, bundle):
             assert last(s,'test.recurrent-pain-invalid') == ['recurrent-pain-definition']
         finally:
             s.close()
+
+
+def test_recurrent_pain_episode(Session, bundle, out):
+    s = Session(bundle)
+    try:
+        for code in (30,4600,4600,4607):
+            s.action(2285,code)
+        assert last(s,'test.recurrent-episode') == [1,0,3610,0,0,3,10,10,10,0]
+        for code in (4602,4604,4607):
+            s.action(2285,code)
+        assert last(s,'test.recurrent-recovery') == ['blocked','recurrent-pain-recovery-not-due']
+        assert last(s,'test.recurrent-episode') == [1,1,3610,0,10,3,8,8,10,-2]
+        for code in (4603,4605,4604,4604,4607):
+            s.action(2285,code)
+        assert last(s,'test.recurrent-episode') == [1,1,7210,1,3610,6,8,8,10,-2]
+        for code in (4603,30,4606,4606,4607):
+            s.action(2285,code)
+        assert last(s,'test.recurrent-episode') == [1,0,7210,2,7210,9,10,10,10,0]
+    finally:
+        s.close()
+    path = out / 'expanded-recurrent-pain-episode.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,4601,4607):
+            s.action(2285,code)
+        assert last(s,'test.recurrent-episode') == [0,0,None,0,0,0,10,10,10,0]
+        s.action(2285,4600)
+        s.command('undo')
+        s.action(2285,4607)
+        assert last(s,'test.recurrent-episode') == [0,0,None,0,0,0,10,10,10,0]
+        for code in (4600,4602):
+            s.action(2285,code)
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (4600,4603,4604,4607):
+            s.action(2285,code)
+        assert last(s,'test.recurrent-episode') == [1,0,3610,1,3610,6,10,10,10,0]
+    finally:
+        s.close()

@@ -3239,3 +3239,28 @@ needs, guidance beyond ten dependents and other world facts require their own
 explicit integration. `tests/fixtures/expanded-wilderness-day.t` covers success,
 independent injuries, zero-injury floors, daily ownership, conditions, rollback,
 undo and saved continuation. Assertions are authored, unrun.
+
+### Recurrent waking pain (full-2008, B126)
+
+`RpgExpandedRecurrentPainDay` binds a profile, recurrent-pain trait, approved
+onset time and evidence. `resolve()` rolls appearance once for that trait and
+calendar day. Onset must be within the current day and no earlier than the
+assessment clock. No time is charged by the check; the episode becomes active
+when the shared clock reaches onset. Replaying it does not roll again.
+
+While active, its printed penalty affects contextual DX/IQ checks and the shared
+self-control modifier. It does not reduce HT or conflate the trait's strongest
+tier with incapacitating agony. Removing or mitigating the trait suppresses its
+effect. Derived defenses and other procedures that bypass contextual scoring
+still need separate integration.
+
+Create a distinct `RpgExpandedRecurrentPainRecovery` for each interval, binding
+`expectedDue` to the episode's due time. It permits a contextual HT check at or
+after that time. Success ends the episode; failure schedules another full
+interval from the actual check time. A repeated receipt never rerolls or charges
+time. The episode and recovery records persist through undo and saves.
+
+Sleep episodes and a new daily check while a prior day's episode remains open
+reject with explicit unresolved reasons. Their interaction rules remain pending.
+The fixtures cover onset, early recovery rejection, failed and successful
+intervals, replay, rollback, undo and save continuation; checks remain paused.
