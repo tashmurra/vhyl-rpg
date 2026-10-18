@@ -111,6 +111,8 @@ class RpgExpandedWound: object
     anatomy = 'standard-humanoid'
     dropDestination = nil
     droppedEquipment = nil
+    bandage = nil
+    committedSerial = nil
     boundProfile = nil
     boundId = nil
     boundAmount = 0
@@ -216,6 +218,7 @@ class RpgExpandedWound: object
         self.boundProfile = self.profile; self.boundId = self.id; self.boundAmount = self.amount;
         self.boundLocation = self.location; self.boundMaleGroin = self.maleGroin;
         self.boundDropDestination = self.dropDestination;
+        self.committedSerial = self.profile.woundSerial;
         self.profile.expandedWounds = self.profile.expandedWounds + [self];
         value.health = self.health; value.status = 'resolved'; return value;
     }
@@ -230,6 +233,16 @@ modify RpgExpandedProfile
             if (wound == nil || !wound.ofKind(RpgExpandedWound) || wound.profile != self
                 || wound.boundProfile != self || wound.health == nil || wound.id != wound.boundId
                 || holds(ids,wound.id)) rpgExpandedReject('expanded-wound-history');
+            if (wound.bandage != nil)
+            {
+                local bandage = wound.bandage;
+                if (!bandage.ofKind(RpgExpandedBandage) || bandage.wound != wound
+                    || bandage.boundWound != wound || bandage.result == nil
+                    || bandage.healer != bandage.boundHealer || bandage.evidence != bandage.boundEvidence
+                    || bandage.eligibleInjury != bandage.boundEligibleInjury
+                    || bandage.result.status != 'resolved' || bandage.result.seconds != 60)
+                    rpgExpandedReject('bandage-history');
+            }
             if (wound.durationRecord != nil && (!wound.durationRecord.ofKind(RpgExpandedCripplingDuration)
                 || wound.durationRecord.wound != wound || wound.durationRecord.boundWound != wound
                 || wound.durationRecord.result == nil
@@ -1236,3 +1249,74 @@ rpgExpandedFirstAidOutcome(capacity, techLevel, score, roll, healingRoll, bandag
     else if (value.check.critical == 'failure') value.injury = 2 + bandageCredit;
     value.status = 'ready'; return value;
 }
+
+
+/** Owned bandaging of the latest supported wound. Author evidence establishes
+ * that pressure or a tourniquet is appropriate for the eligible injury. B424. */
+class RpgExpandedBandageResult: RpgExpandedResult
+    healed = 0
+    seconds = 0
+;
+
+class RpgExpandedBandage: object
+    wound = nil
+    healer = nil
+    evidence = nil
+    eligibleInjury = 0
+    boundWound = nil
+    boundHealer = nil
+    boundEvidence = nil
+    boundEligibleInjury = 0
+    result = nil
+    assess()
+    {
+        local value = new RpgExpandedBandageResult();
+        if (self.wound == nil || !self.wound.ofKind(RpgExpandedWound))
+            rpgExpandedReject('bandage-wound');
+        if (self.result != nil)
+        {
+            if (self.wound != self.boundWound || self.healer != self.boundHealer
+                || self.evidence != self.boundEvidence || self.eligibleInjury != self.boundEligibleInjury
+                || self.wound.bandage != self) rpgExpandedReject('bandage-binding');
+            value.status = 'reused'; value.healed = self.result.healed;
+            return value;
+        }
+        if (self.wound.health == nil || self.wound.boundProfile != self.wound.profile
+            || !holds(self.wound.profile.expandedWounds,self.wound))
+            rpgExpandedReject('bandage-uncommitted-wound');
+        local patient = self.wound.profile;
+        if (self.wound.bandage != nil || patient.bandagedSerial == patient.woundSerial)
+        { value.reason = 'bandage-already-treated'; return value; }
+        if (self.wound.committedSerial == nil || self.wound.committedSerial != patient.woundSerial)
+        { value.reason = 'bandage-earlier-wound-unavailable'; return value; }
+        if (self.healer == nil || !self.healer.ofKind(RpgLiteProfile))
+            rpgExpandedReject('bandage-healer');
+        if (patient.dead || patient.mortal || self.healer.dead || self.healer.unconscious || self.healer.stunned)
+        { value.reason = 'bandage-condition'; return value; }
+        if (patient.diseaseInjury > 0 || patient.temperatureInjury > 0 || patient.level('unhealing') > 0)
+        { value.reason = 'bandage-injury-eligibility-unavailable'; return value; }
+        if (self.evidence == nil || self.evidence == '')
+        { value.reason = 'bandage-evidence'; return value; }
+        rpgInteger(self.eligibleInjury,0,100000);
+        if (self.eligibleInjury == 0 || self.eligibleInjury > patient.injury
+            || self.eligibleInjury > self.wound.health.injury)
+        { value.reason = 'bandage-eligible-injury'; return value; }
+        if (patient.unconscious && patient.fp() > 0 && patient.ht < 3)
+        { value.reason = 'bandage-wake-score-unavailable'; return value; }
+        value.healed = rpgExpandedHealingAmount(patient.maxHP,1);
+        if (value.healed > self.eligibleInjury) value.healed = self.eligibleInjury;
+        value.seconds = 60; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local patient = self.wound.profile;
+        rpgSpendTime(value.seconds);
+        value.healed = rpgLiteHeal(patient,value.healed);
+        patient.bandagedSerial = patient.woundSerial;
+        self.boundWound = self.wound; self.boundHealer = self.healer;
+        self.boundEvidence = self.evidence; self.boundEligibleInjury = self.eligibleInjury;
+        self.wound.bandage = self; value.status = 'resolved'; self.result = value;
+        return value;
+    }
+;

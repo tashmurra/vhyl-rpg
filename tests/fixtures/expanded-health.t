@@ -299,5 +299,25 @@ act(verb,args)
         event('test.first-aid-purity'); eventValue(rpgRandom.draws - draws);
         eventValue(rpgLedger.seconds - seconds); return nil;
     }
+    if (verb == 1625)
+    {
+        local p = new RpgExpandedProfile(); p.st = 30; p.rules = new RpgExpandedRules();
+        p.rules.scaledInjuryShock = true;
+        local wound = new RpgExpandedWound(); wound.id = 'bandage-target'; wound.profile = p; wound.amount = 4;
+        wound.apply(); local healer = new RpgLiteProfile();
+        local bandage = new RpgExpandedBandage(); bandage.wound = wound; bandage.healer = healer;
+        bandage.evidence = 'Observed bleeding wound suitable for pressure'; bandage.eligibleInjury = 4;
+        local before = rpgLedger.seconds; local draws = rpgRandom.draws;
+        local preview = bandage.assess();
+        event('test.bandage-preview'); eventValue(preview.status); eventValue(preview.healed);
+        eventValue(p.injury); eventValue(rpgLedger.seconds - before); eventValue(rpgRandom.draws - draws);
+        local value = bandage.apply(); local repeated = bandage.apply();
+        local duplicate = new RpgExpandedBandage(); duplicate.wound = wound; duplicate.healer = healer;
+        duplicate.evidence = bandage.evidence; duplicate.eligibleInjury = 1;
+        event('test.bandage-commit'); eventValue(value.status); eventValue(value.healed); eventValue(value.seconds);
+        eventValue(repeated.status); eventValue(repeated.seconds); eventValue(duplicate.apply().reason);
+        eventValue(p.injury); eventValue(rpgLedger.seconds - before); eventValue(rpgRandom.draws - draws);
+        return nil;
+    }
     return vhylAct(verb,args);
 }

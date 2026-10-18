@@ -408,6 +408,13 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def test_expanded_bandage(s):
+    s.action(1625)
+    assert last(s, 'test.bandage-preview') == ['ready', 3, 4, 0, 0]
+    assert last(s, 'test.bandage-commit') == [
+        'resolved', 3, 60, 'reused', 0, 'bandage-already-treated', 1, 60, 0]
+
+
 def test_expanded_first_aid_values(s):
     for tl, seconds, adjustment in [(0,1800,-4), (1,1800,-4), (2,1800,-3),
                                     (3,1800,-3), (4,1800,-2), (5,1200,-2),
@@ -2823,6 +2830,7 @@ def test(build):
     fresh(Session,health,test_medical_schedule)
     fresh(Session,health,test_physician_outcomes)
     fresh(Session,health,test_expanded_first_aid_values)
+    fresh(Session,health,test_expanded_bandage)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_limb_wound_transactions)

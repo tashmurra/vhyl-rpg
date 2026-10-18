@@ -776,3 +776,33 @@ substitute for those eligibility checks. Existing Lite treatment remains unchang
 `test_expanded_first_aid_values` contains independent table-row and outcome
 expectations, including capped bandage credit and critical outcomes. It is
 unrun while checks are paused.
+
+
+## Owned bandaging
+
+`RpgExpandedBandage` supplies the one-minute bandaging step for the latest
+supported committed `RpgExpandedWound`. Set `wound`, `healer`, `evidence` and
+`eligibleInjury`. The author must identify why pressure or a tourniquet is
+appropriate and how much of the current injury remains eligible. The amount
+cannot exceed either current injury or that wound's committed health loss.
+This explicit amount does not create another injury ledger.
+
+`assess()` returns the prospective scaled healing and 60-second cost without
+changing health, time or randomness. `apply()` spends that time once and heals
+through the shared health function. The wound owns the receipt; a repeated
+request returns `reused` with no additional time or recovery. A second request
+for the wound is blocked. The existing `bandagedSerial` marker also prevents
+repeating a bandage already performed through the Lite treatment path.
+
+The request rejects earlier wound serials, mortal patients, protected disease or
+temperature injury, and unsupported unhealing exceptions. These restrictions
+remain coverage gaps, not alternative rules. Bandaging can invoke the existing
+awakening check when healing an unconscious patient. Call the operation within
+an engine transaction, as with other committed actions.
+
+This atomic one-minute operation does not yet support interrupted treatment,
+bleeding checks, or the subsequent shock-treatment session. It relies on authored
+eligibility evidence; it does not infer injury allocation from a generic callback.
+`test_expanded_bandage` covers preview purity, scaled recovery, repeated requests
+and shared time accounting. Transaction, undo and save fixtures for bandaging
+remain to be added. All new fixtures remain unrun while checks are paused.
