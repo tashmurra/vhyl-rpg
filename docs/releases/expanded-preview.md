@@ -578,3 +578,11 @@ through shared skill scoring. Intimidation validates the actual target before
 rolling through a default no-op base hook. Added authored, unrun fixtures for
 ordinary/low-threshold bonuses, repeated previews and wrong-target rejection.
 The full owned interrogation procedure remains incomplete.
+
+
+Added owned continuous interrogation sessions and five-minute question receipts.
+The operation distinguishes truth, silence, falsehood and convincing falsehood,
+applies source-defined circumstances and trait modifiers, and owns the two-hour
+boundary. Responses are authored and previews disclose no answer. Added authored,
+unrun fixtures for outcomes, modifier values, timing, rollback, undo and saved
+continuation. Interrupted/repeated questioning and other integrations remain open.

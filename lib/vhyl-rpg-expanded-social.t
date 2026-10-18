@@ -1228,3 +1228,143 @@ class RpgExpandedLoyaltyPayChange: object
         value.status = 'resolved'; return value;
     }
 ;
+
+/** B202 interrogation. Answers are authored facts/claims, never generated knowledge. */
+class RpgExpandedInterrogation: object
+    id = nil
+    interrogator = nil
+    prisoner = nil
+    skill = nil
+    questions = []
+    definition() { return [self.id,self.interrogator,self.prisoner,self.skill]; }
+    validate()
+    {
+        if (self.id == nil || self.id == '' || self.interrogator == nil || self.prisoner == nil
+            || !self.interrogator.ofKind(RpgExpandedProfile) || !self.prisoner.ofKind(RpgLiteProfile)
+            || self.interrogator == self.prisoner || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)
+            || self.skill.id != 'interrogation' || self.skill.attribute != rpgIQ || self.skill.difficulty != 1)
+            rpgExpandedReject('interrogation-definition');
+        rpgInteger(self.questions.length(),0,10000);
+        return nil;
+    }
+    elapsed() { return self.questions.length() * 300; }
+;
+class RpgExpandedInterrogationResult: RpgExpandedResult
+    actorScore = nil
+    prisonerScore = nil
+    responseKind = nil
+    statement = nil
+    margin = nil
+;
+modify RpgExpandedProfile
+    interrogations = []
+;
+class RpgExpandedInterrogationQuestion: object
+    id = nil
+    session = nil
+    question = nil
+    truthfulAnswer = nil
+    falseAnswer = nil
+    failureResponse = 'silence'
+    approved = nil
+    evidence = nil
+    loyaltyResists = nil
+    means = 'ordinary'
+    modifier = 0
+    startedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition()
+    {
+        return [self.id,self.session,self.question,self.truthfulAnswer,self.falseAnswer,self.failureResponse,
+            self.approved,self.evidence,self.loyaltyResists,self.means,self.modifier] + self.session.definition();
+    }
+    validateReceipt()
+    {
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('interrogation-question-binding');
+        if (!holds(self.session.questions,self) || !holds(self.session.interrogator.interrogations,self.session)
+            || self.completedAt != self.startedAt + 300) rpgExpandedReject('interrogation-question-history');
+        return nil;
+    }
+    prepare()
+    {
+        local value = new RpgExpandedInterrogationResult();
+        local actor = self.session.interrogator; local prisoner = self.session.prisoner;
+        if (actor.dead || actor.unconscious || actor.mortal || actor.stunned || actor.mentalStun
+            || prisoner.dead || prisoner.unconscious || prisoner.mortal || prisoner.stunned || prisoner.mentalStun
+            || actor.healthEffortReason('talk',nil,true,nil) != nil || prisoner.healthEffortReason('talk',nil,true,nil) != nil)
+        { value.reason = 'interrogation-participant-unavailable'; return value; }
+        if (actor.fp() <= 0 || prisoner.fp() <= 0 || actor.hp() <= 0 || prisoner.hp() <= 0)
+        { value.reason = 'interrogation-exhaustion-adapter-required'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'interrogation-facts-required'; return value; }
+        if (self.question == nil || self.truthfulAnswer == nil || self.falseAnswer == nil)
+        { value.reason = 'interrogation-authored-responses-required'; return value; }
+        if (!holds(['silence','lie'],self.failureResponse) || !holds(['ordinary','severe-threat','torture'],self.means))
+            rpgExpandedReject('interrogation-response-mode');
+        rpgInteger(self.modifier,-100,100);
+        value.modifier = self.modifier - (self.loyaltyResists ? 5 : 0) - (actor.level('low-empathy') > 0 ? 3 : 0)
+            + (self.session.elapsed() + 300 > 7200 ? 2 : 0);
+        if (self.means != 'ordinary') value.modifier += (self.means == 'torture' ? 6 : 3) + (actor.level('callous') > 0 ? 1 : 0);
+        local context = new RpgLiteContext(); context.skill = self.session.skill; context.kind = 'interrogation';
+        context.modifier = value.modifier; value.actorScore = rpgLiteScore(actor,context);
+        context = new RpgLiteContext(); context.attribute = rpgWill; context.kind = 'resistance';
+        value.prisonerScore = rpgLiteScore(prisoner,context);
+        if (value.actorScore == nil || value.actorScore < 3 || value.prisonerScore == nil || value.prisonerScore < 3)
+        { value.reason = 'interrogation-score-unavailable'; return value; }
+        value.seconds = 300; value.status = 'ready'; return value;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.session == nil || !self.session.ofKind(RpgExpandedInterrogation))
+            rpgExpandedReject('interrogation-question-definition');
+        self.session.validate();
+        if (self.result != nil)
+        { self.validateReceipt(); local reused = new RpgExpandedInterrogationResult(); reused.status = 'reused'; return reused; }
+        foreach (local prior in self.session.questions)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.question == self.question) rpgExpandedReject('interrogation-repeat-question-unimplemented');
+        }
+        foreach (local other in self.session.interrogator.interrogations)
+            if (other != self.session && other.id == self.session.id) rpgExpandedReject('interrogation-session-duplicate');
+        if (self.session.questions.length() > 0
+            && self.session.questions[self.session.questions.length()].completedAt != rpgLedger.seconds)
+        {
+            local interrupted = new RpgExpandedInterrogationResult();
+            interrupted.reason = 'interrogation-interrupted-session-unimplemented'; return interrupted;
+        }
+        local value = self.prepare();
+        if (value.status == 'ready')
+        { rpgInteger(rpgLedger.seconds,0,2147483347); rpgLedger.validateAdvance(300); }
+        return value;
+    }
+    apply()
+    {
+        local value = self.assess();
+        if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local start = rpgLedger.seconds;
+        rpgSpendTime(300);
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('interrogation-interrupted');
+        local after = self.prepare();
+        if (rpgLedger.seconds != start + 300 || after.status != 'ready'
+            || after.actorScore != value.actorScore || after.prisonerScore != value.prisonerScore)
+            rpgExpandedReject('interrogation-conditions-changed');
+        value.check = rpgEvaluate(value.actorScore,rpgRandom.roll(),value.prisonerScore,rpgRandom.roll(),0);
+        value.margin = value.check.margin - value.check.oppositionMargin;
+        value.responseKind = value.check.achieved ? 'truth' : value.margin < -5 ? 'believable-lie' : self.failureResponse;
+        value.statement = value.responseKind == 'truth' ? self.truthfulAnswer
+            : value.responseKind == 'silence' ? nil : self.falseAnswer;
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = definition;
+        self.session.questions = self.session.questions + [self];
+        if (!holds(self.session.interrogator.interrogations,self.session))
+            self.session.interrogator.interrogations = self.session.interrogator.interrogations + [self.session];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

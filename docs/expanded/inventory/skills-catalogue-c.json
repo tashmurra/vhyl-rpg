@@ -1818,9 +1818,10 @@
       "pages": "B202",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Spend five minutes per question, secretly oppose will and distinguish truthful answers, silence/falsehood and convincing falsehood by margin. Apply declared duration, loyalty and social-trait modifiers.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_interrogation"],
+      "validation_note": "Owned continuous sessions and five-minute questions now resolve private opposed outcomes with explicit authored responses, loyalty/means/trait modifiers and the two-hour boundary. Fixtures authored, unrun. Repeated/interrupted questioning, teaching access, exhausted participants and knowledge delivery remain incomplete.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "average",

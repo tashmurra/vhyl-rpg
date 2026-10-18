@@ -695,3 +695,43 @@ rolling. Keep unrelated adjustments in `modifier`, without adding the recurrence
 bonus a second time. See the [health guide](health.md) for fields and limits.
 This adapter does not supply the full interrogation procedure or automatically
 transfer knowledge. Its fixture is authored and unrun while checks are paused.
+
+
+### Owned interrogation questions
+
+`RpgExpandedInterrogation` supplies the full-2008 B202 procedure for an authored,
+continuous questioning session. Set its `id`, expanded-profile `interrogator`,
+`prisoner` and IQ/Average `interrogation` skill. Each
+`RpgExpandedInterrogationQuestion` supplies a unique `id`, `session`, question
+identifier, `truthfulAnswer`, `falseAnswer`, `approved` and `evidence`. Responses
+are original authored identifiers or objects; the engine does not manufacture
+facts. Supply both possible answers even when ordinary failure uses silence.
+
+`assess()` is pure and reveals no selected statement. `apply()` spends five
+minutes and resolves a Quick Contest against Will. Victory selects the truthful
+answer; a tie or ordinary defeat selects `failureResponse` (`silence` or `lie`).
+Defeat by more than five selects `believable-lie`. The result records the contest,
+margin, response kind and statement. Keep these results and dice private to the
+author/GM; deliberately decide what narration the player receives. A returned lie
+does not automatically become a belief or an entry in the knowledge ledger.
+Replaying a committed question returns its stored result without time or rolls.
+
+Set `loyaltyResists` for the source's Very Good/Excellent loyalty condition.
+`means` is `ordinary`, `severe-threat` or `torture`; it describes established
+fiction, not an action that inflicts damage. The operation applies the source's
+−5 loyalty modifier, −3 low-empathy modifier, +3 severe-threat or +6 torture bonus,
+and +1 callousness bonus to either of the latter. After the session passes two
+hours, questions receive +2. These adjustments are applied once; put only other
+modifiers in `modifier`. Evidence must establish the declared circumstances.
+
+Questions own their five-minute intervals and receipts. Both participants must
+remain available, and their effective scores must be unchanged at completion.
+Shared-clock deadlines may reject an interval before time is spent. A subsequent
+question must start at the previous question's completion; interrupted sessions,
+repeat questions, exhausted/critical-health participants, institutional teaching
+access and automatic knowledge delivery remain explicit unfinished integrations.
+The separate recovered-agony threat context is not yet wired into this owned
+question operation; an author can assess its contribution and supply it once as
+an additional modifier. `expanded-interrogation.t` specifies outcomes, modifiers,
+preview purity, replay, rollback, undo, saved continuation and the two-hour
+boundary. Assertions remain unrun.

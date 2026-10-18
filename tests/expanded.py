@@ -8960,6 +8960,8 @@ def test(build):
     test_agony(Session, agony, build.out)
     agony_social = build.build('expanded-agony-social', ROOT / 'tests/fixtures/expanded-agony-social.t')
     test_agony_social(Session, agony_social)
+    interrogation = build.build('expanded-interrogation', ROOT / 'tests/fixtures/expanded-interrogation.t')
+    test_interrogation(Session, interrogation, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -12288,3 +12290,61 @@ def test_agony_social(Session, bundle):
             assert state(s) == [None, 2, fatigue, 60, 6]
         finally:
             s.close()
+
+
+def test_interrogation(Session, bundle, out):
+    def state(s):
+        s.action(2285, 523)
+        return last(s, 'test.interrogation')
+    clear = [0, 0, 0, 0, None, None, None]
+    path = out / 'expanded-interrogation.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 520)
+        assert last(s, 'test.interrogation-preview') == ['ready', 0, None]
+        s.action(2285, 522)
+        assert state(s) == clear
+        s.action(2285, 521)
+        s.command('undo')
+        assert state(s) == clear
+        s.action(2285, 521)
+        s.action(2285, 521)
+        assert state(s) == [1, 300, 300, 6, 'truth', 'original-true-answer', 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 521)
+        assert state(s) == [1, 300, 300, 6, 'truth', 'original-true-answer', 0]
+        for count in range(2, 26):
+            s.action(2285, 532)
+            s.action(2285, 521)
+            assert state(s) == [count, count*300, count*300, count*6, 'truth', 'original-true-answer', 2 if count == 25 else 0]
+    finally:
+        s.close()
+    for setup, kind, answer in [((524,), 'believable-lie', 'original-false-answer'), ((525,), 'silence', None), ((525,526), 'lie', 'original-false-answer')]:
+        s = Session(bundle)
+        try:
+            for code in setup + (521,):
+                s.action(2285, code)
+            assert state(s) == [1, 300, 300, 6, kind, answer, 0]
+        finally:
+            s.close()
+    for setup, modifier in [((527,),3), ((528,),6), ((527,531),4), ((528,531),7), ((529,),-5), ((530,),-3), ((528,531,529,530),-1)]:
+        s = Session(bundle)
+        try:
+            for code in setup + (520,):
+                s.action(2285, code)
+            assert last(s, 'test.interrogation-preview') == ['ready', modifier, None]
+            assert state(s) == clear
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (533,521):
+            s.action(2285, code)
+        assert state(s) == clear
+    finally:
+        s.close()
