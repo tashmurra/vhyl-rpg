@@ -8985,6 +8985,7 @@ def test(build):
     lifting_skill = build.build('expanded-lifting-skill', ROOT / 'tests/fixtures/expanded-lifting-skill.t')
     test_lifting_skill(Session, lifting_skill, build.out)
     test_skilled_pickup(Session, lifting_skill, build.out)
+    test_lift_attempt(Session, lifting_skill, build.out)
     digging_work = build.build('expanded-digging-work', ROOT / 'tests/fixtures/expanded-digging-work.t')
     test_digging_work(Session, digging_work, build.out)
     test_digging_material(Session, digging_work, build.out)
@@ -13212,5 +13213,57 @@ def test_skilled_pickup(Session, bundle, out):
         for code in (30,757,745,750):
             s.action(2285, code)
         assert state(s) == clear, 'invalid physical attempt consumed a skill roll'
+    finally:
+        s.close()
+
+
+def test_lift_attempt(Session, bundle, out):
+    def state(s):
+        s.action(2285, 743)
+        return last(s, 'test.lift-owned')
+    clear = [0,0,0,0,0,18000]
+    failed = [0,0,1,4,3,18000]
+    path = out / 'expanded-failed-lift.zsave'
+    s = Session(bundle)
+    try:
+        for code in (757,754,763,761):
+            s.action(2285, code)
+        assert last(s, 'test.lift-attempt-preview') == ['blocked','lifting-failure-timing-required']
+        assert state(s) == clear
+        for code in (760,763,762):
+            s.action(2285, code)
+        assert last(s, 'test.lift-attempt-preview') == ['ready',None]
+        assert state(s) == clear
+        s.action(2285, 761)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (761,761,764):
+            s.action(2285, code)
+        assert last(s, 'test.lift-attempt-result') == [None,'lifting-capacity']
+        assert state(s) == failed
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (761,741):
+            s.action(2285, code)
+        assert state(s) == failed
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,757,760,761,761,764):
+            s.action(2285, code)
+        assert last(s, 'test.lift-attempt-result') == [True,None]
+        assert state(s) == [1,18000,1,4,3,18000]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (754,757,760,746,761):
+            s.action(2285, code)
+        assert state(s) == clear, 'interruption retained the failed roll or elapsed time'
     finally:
         s.close()

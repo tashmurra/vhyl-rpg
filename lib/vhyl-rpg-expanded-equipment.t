@@ -415,6 +415,8 @@ class RpgExpandedEquipmentLift: RpgExpandedLiftIdentity
     sourceLocation = nil
     mode = 'two-hands'
     skillAttempt = nil
+    failedAttemptSeconds = nil
+    failureTimingEvidence = nil
     accessible = nil
     freeHands = 0
     hands = []
@@ -426,7 +428,7 @@ class RpgExpandedEquipmentLift: RpgExpandedLiftIdentity
     completedAt = nil
     definition()
     { return [self.id,self.profile,self.item,self.sourceLocation,self.mode,self.accessible,
-        self.freeHands,self.approved,self.evidence,self.skillAttempt,self.hands.length()] + self.hands; }
+        self.freeHands,self.approved,self.evidence,self.skillAttempt,self.failedAttemptSeconds,self.failureTimingEvidence,self.hands.length()] + self.hands; }
     liftingDefinition()
     { return self.definition() + [self.item.weightHundredths(),self.profile.basicLiftHundredths()]; }
     skillPreparationReason()
@@ -502,6 +504,50 @@ class RpgExpandedEquipmentLift: RpgExpandedLiftIdentity
         self.item.storageLocation = nil; self.item.ready = nil; self.item.worn = nil;
         self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = definition;
         self.profile.liftingReceipts = self.profile.liftingReceipts + [self];
+        value.pickedUp = true; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedEquipmentLift
+    /** Failure timing is explicit author adjudication; B353 does not specify it. */
+    assessAttempt()
+    {
+        local value = self.assess();
+        if (value.status == 'reused' || self.skillAttempt == nil) return value;
+        if (value.status != 'ready' && !holds(['lifting-skill-unresolved','lifting-capacity'],value.reason)) return value;
+        if (self.failedAttemptSeconds == nil || self.failureTimingEvidence == nil || self.failureTimingEvidence == '')
+        { local blocked = new RpgExpandedResult(); blocked.reason = 'lifting-failure-timing-required'; return blocked; }
+        rpgInteger(self.failedAttemptSeconds,1,86400);
+        local skillValue = self.skillAttempt.assess();
+        if (!holds(['ready','reused'],skillValue.status)) return skillValue;
+        local seconds = self.mode == 'one-hand' ? 2 : 4;
+        local maximum = seconds > self.failedAttemptSeconds ? seconds : self.failedAttemptSeconds;
+        rpgInteger(rpgLedger.seconds,0,2147483647-maximum);
+        rpgLedger.validateAdvance(seconds); rpgLedger.validateAdvance(self.failedAttemptSeconds);
+        local ready = new RpgExpandedResult(); ready.status = 'ready'; return ready;
+    }
+    attempt()
+    {
+        local preparation = self.assessAttempt();
+        if (preparation.status == 'reused') return self.result;
+        if (preparation.status != 'ready') return preparation;
+        if (self.skillAttempt == nil) return self.apply();
+        self.skillAttempt.resolve();
+        local value = self.assess();
+        if (value.status == 'ready') return self.apply();
+        if (value.reason != 'lifting-capacity') rpgExpandedReject('lifting-attempt-changed');
+        local definition = self.liftingDefinition(); local start = rpgLedger.seconds;
+        rpgSpendTime(self.failedAttemptSeconds);
+        local current = self.liftingDefinition();
+        if (current.length() != definition.length()) rpgExpandedReject('lifting-interrupted');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('lifting-interrupted');
+        local after = self.prepare();
+        if (after.reason != 'lifting-capacity' || rpgLedger.seconds != start + self.failedAttemptSeconds)
+            rpgExpandedReject('lifting-conditions-changed');
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.profile.liftingReceipts = self.profile.liftingReceipts + [self];
+        value.seconds = self.failedAttemptSeconds; value.pickedUp = nil;
         value.status = 'resolved'; self.result = value; return value;
     }
 ;

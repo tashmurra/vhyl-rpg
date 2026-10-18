@@ -29,6 +29,15 @@ modify BleedTestAction
         if (code == 758) { liftCrate.weight = 17000; return nil; }
         if (code == 759)
         { liftingAttempt.resolve(); liftOperation.apply(); throw new RpgError(); }
+        if (code == 760)
+        { liftOperation.failedAttemptSeconds = 4; liftOperation.failureTimingEvidence = 'This authored unsuccessful strain occupies four seconds'; return nil; }
+        if (code == 761 || code == 762)
+        { liftOperation.attempt(); if (code == 762) throw new RpgError(); return nil; }
+        if (code == 763)
+        { local value = liftOperation.assessAttempt(); event('test.lift-attempt-preview'); eventValue(value.status); eventValue(value.reason); return nil; }
+        if (code == 764)
+        { event('test.lift-attempt-result'); eventValue(liftOperation.result == nil ? nil : liftOperation.result.pickedUp);
+          eventValue(liftOperation.result == nil ? nil : liftOperation.result.reason); return nil; }
         return inherited(context);
     }
 ;

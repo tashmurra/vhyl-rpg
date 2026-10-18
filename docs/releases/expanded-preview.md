@@ -708,3 +708,8 @@ repairs and other tool uses remain incomplete.
   carrying limits and exact capacity comparisons. Request and weight binding prevents
   bonus reuse for a changed lift. Added joint rollback and between-stage save
   fixtures; checks remain paused and failed physical-attempt timing remains pending.
+
+- Added a combined lifting attempt that records successful pickup or failed
+  capacity once. Unsuccessful duration requires explicit author evidence because
+  the supplied reference does not specify it. Joint rollback and saved failure
+  continuation fixtures are authored; checks remain paused.

@@ -1054,3 +1054,7 @@ modify rpgExpandedLiftingRules
         value.status = 'ready'; return value;
     }
 ;
+
+modify RpgExpandedLoadAssessment
+    pickedUp = nil
+;

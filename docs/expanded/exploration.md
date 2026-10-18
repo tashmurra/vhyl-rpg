@@ -470,6 +470,7 @@ The roll and pickup may be committed in one surrounding action transaction, or
 saved between resolution and pickup. Replay never grants a second roll or repeats
 the pickup. The fixture covers both transaction rollback and saved continuation,
 including a 180-pound load above baseline two-hand capacity that a margin-four
-bonus can lift. These assertions remain unrun. Failed physical-lift time accounting,
-combat sequences, cooperation and broader action routing remain incomplete; a
-blocked capacity assessment must not be reported as a completed physical attempt.
+bonus can lift. These assertions remain unrun. The equipment module now offers a [combined attempt](equipment.md#committing-a-complete-skill-assisted-attempt)
+with explicit authored failure timing. Combat sequences, cooperation and broader
+action routing remain incomplete; a blocked capacity assessment alone must not
+be reported as a completed physical attempt.

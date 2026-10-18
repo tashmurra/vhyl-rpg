@@ -413,3 +413,32 @@ continuation. Assertions remain unrun. A resolved lifting-skill attempt can now 
 [trained capacity](exploration.md#applying-trained-capacity-to-a-pickup). Combat Ready
 sequences, failed-attempt timing, cooperative lifts, overload, sustained gripping and parser/dialogue routing remain
 incomplete. Source: full-2008, B353.
+
+### Committing a complete skill-assisted attempt
+
+Use `assessAttempt()` and `attempt()` when the action includes the lifting roll
+and its physical outcome. Before resolving the roll, supply `failedAttemptSeconds`
+and nonempty `failureTimingEvidence`. The supplied reference gives two-/four-second
+successful lifts but does not explicitly specify unsuccessful strain duration.
+Failure timing is therefore a required author adjudication, not a new fixed source
+rule. The cabinet/crate fixture uses an authored four-second failed attempt.
+
+Assessment checks physical eligibility, skill eligibility and both possible clock
+advances without rolling. Missing failure timing blocks with
+`lifting-failure-timing-required`. Execution resolves the owned skill once. If its
+capacity suffices, the ordinary pickup path spends the successful duration and
+transfers the item. Otherwise it spends the declared failure duration, leaves the
+item stored, and records a resolved result with `pickedUp = nil` and
+`reason = 'lifting-capacity'`. Success records `pickedUp = true`.
+
+Both outcomes own one lifting receipt. Calling either `attempt()` or `apply()`
+again reuses the recorded result; a failed attempt does not become a free retry.
+A genuinely new physical attempt requires a new lift and skill-attempt identity.
+A changed condition during the elapsed interval throws, rolling back time, the
+skill roll and all receipts when executed in the same transaction. Authors should
+use this combined operation for parser, structured and dialogue action paths.
+
+Fixtures cover missing timing before RNG, success, failure, joint rollback, undo,
+replay, an interruption during failure and saved failed-attempt continuation.
+Assertions remain unrun. Combat lifting, cooperative lifts, sustained gripping,
+overload and game-specific action routing remain incomplete.
