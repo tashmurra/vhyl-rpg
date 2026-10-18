@@ -8,16 +8,31 @@
 #include <vhyl-rpg-expanded.t>
 #include <vhyl-rpg-expanded-health.t>
 fearRoom: Room 'Echo Chamber';
-fearProfile: RpgExpandedProfile;
+fearRules: RpgExpandedRules scaledInjuryShock = true;
+fearProfile: RpgExpandedProfile rules = fearRules;
 fearContext: RpgExpandedFearContext profile = fearProfile approved = true evidence = 'An extraordinary apparition';
 fearEpisode: RpgExpandedFearStun id = 'apparition' context = fearContext approved = true evidence = 'Recorded table outcome';
 fearRecovery: RpgExpandedFearStunRecovery id = 'first-recovery' episode = fearEpisode;
 fearSecondRecovery: RpgExpandedFearStunRecovery id = 'second-recovery' episode = fearEpisode;
+fearFatigue: RpgExpandedFearFatigueLoss id = 'fear-cost' profile = fearProfile;
 fearInput: object code = 0 row = 4;
 class FearTestAction: Action
     exec(context)
     {
         local code = fearInput.code;
+        if (code >= 20)
+        {
+            if (code == 23) { fearProfile.fatigue = 9; return nil; }
+            if (code == 24) { fearProfile.fatigue = 10; return nil; }
+            if (code == 25) { fearProfile.fatigue = 19; return nil; }
+            if (code == 26) { fearProfile.fatigue = 20; fearProfile.becomeUnconscious(); return nil; }
+            if (code == 27) { fearRules.scaledInjuryShock = nil; return nil; }
+            fearFatigue.amount = fearInput.row;
+            local value = code == 21 ? fearFatigue.assess() : fearFatigue.apply();
+            event('test.fear-fatigue'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.fatigueAdded); eventValue(value.injuryAdded);
+            if (code == 22) throw new RpgError(); return nil;
+        }
         if (code <= 2)
         {
             fearEpisode.tableTotal = fearInput.row;
@@ -57,6 +72,12 @@ act(verb,args)
         event('test.fear-state'); eventValue(fearProfile.mentalStun ? 1 : 0); eventValue(fearEpisode.completed ? 1 : 0);
         eventValue(fearEpisode.initialEnd); eventValue(fearEpisode.recoveries.length());
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2263)
+    {
+        event('test.fear-fatigue-state'); eventValue(fearProfile.fatigue); eventValue(fearProfile.injury);
+        eventValue(fearProfile.unconscious ? 1 : 0); eventValue(fearProfile.expandedWounds.length());
+        eventValue(fearProfile.fearFatigueLosses.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     return nil;
 }

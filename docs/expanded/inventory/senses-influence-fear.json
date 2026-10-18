@@ -1032,9 +1032,12 @@
       "status": "partial",
       "acceptance": "Lose one die of fatigue and independently roll one die of initial stun seconds, followed by modified-will recovery.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_fatigue",
+        "tests/expanded.py::test_fear_fatigue_stun",
+        "tests/expanded.py::test_fear_stun"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned fatigue-plus-stun execution preflights maximum cost before rolling; individual fatigue injuries use owned wounds and shared collapse handling. Recovery reuses the row-ten policy. Transaction, cost boundary and save-continuation fixtures are authored and unrun."
     },
     {
       "id": "fear-outcome-16",

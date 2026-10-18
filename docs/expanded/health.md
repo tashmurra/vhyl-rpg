@@ -1316,7 +1316,7 @@ reaction dice. No generic callback is treated as implementing these outcomes.
 
 Row twenty's post-duration recovery is marked `source-followup-required` because
 the inspected paragraph specifies duration and fatigue without explicitly
-repeating a recovery roll. Do not silently select a recovery policy. Rows twelve and above
+repeating a recovery roll. Do not silently select a recovery policy. Several later rows
 still need owned execution, exact resource spending, recovery scheduling and
 where applicable author-selected trait or behavior consequences. Terrifying
 object-history readings therefore remain blocked.
@@ -1367,7 +1367,7 @@ combined modifiers. All new fixtures remain unrun.
 ## Owned short fear-stun episodes
 
 `RpgExpandedFearStun` executes an authored outcome from `full-2008`, B360,
-rows four through eleven. Supply a unique `id`, a ready `RpgExpandedFearContext`,
+rows four through eleven, fourteen and fifteen. Supply a unique `id`, a ready `RpgExpandedFearContext`,
 `tableTotal`, `approved` and `evidence` recording the selected outcome. This is
 an explicit outcome interface; it does not yet roll the initial fear check or
 select an outcome from the whole table. Unsupported rows are rejected before
@@ -1586,3 +1586,33 @@ implementations and are not represented by this class.
 non-stacking behavior, onset and expiry boundaries, combined meal/medicine
 revocation, preview, rollback, undo, replay and cross-process continuation.
 They remain unrun while checks are paused.
+
+
+### Fatigue-plus-stun outcomes
+
+Rows fourteen and fifteen use `RpgExpandedFearStun` with the same original
+modifier and recovery policy as row ten. The operation preflights the maximum
+six-point fatigue cost before randomness, rolls one die for fatigue and one for
+stun duration, then commits the owned cost and episode in the same action.
+Supply `dropDestination` if possible fatigue injury needs a forced-drop plan.
+An unsupported possible consequence rejects before either die is drawn.
+
+`RpgExpandedFearFatigueLoss` handles the prescribed one-through-six-point fear
+cost with a unique `id`, expanded `profile` and `amount`. It introduces no time
+charge. Points lost at nonpositive fatigue each create a separate one-point
+owned wound; they are not combined into a larger wound with different major-wound
+behavior. The fatigue ledger clamps at negative maximum while further costs
+still cause injury. Reaching that limit invokes the shared unconsciousness hook
+before further injury is resolved. Death terminates further expenditure.
+
+Assessment prepares all potential wounds, equipment drops and crossed survival
+thresholds. The resulting `RpgExpandedFearFatigueResult` reports actual
+`fatigueAdded`, `injuryAdded` and committed `wounds`. Replaying the loss returns
+zero new costs. The stun episode retains its `fatigueLoss` receipt, so repeated
+calls and saved-game continuation cannot spend the cost again. A fatal cost
+records the episode as completed instead of creating an active stun on a corpse.
+
+`test_fear_fatigue`, `test_fear_fatigue_stun` and the extended `test_fear_stun`
+specify positive, zero and negative fatigue, clamping, separate wounds, both
+randomized outcomes, preflight rejection, preview, rollback, undo, replay and
+cross-process recovery. They remain unrun.

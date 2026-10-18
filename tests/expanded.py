@@ -1664,11 +1664,86 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_fear_fatigue(Session,bundle):
+    def state(s):
+        s.action(2263)
+        return last(s,'test.fear-fatigue-state')
+    for setup,start in [(None,0),(23,9),(24,10),(25,19),(26,20)]:
+        for amount in [1,2,6]:
+            s = Session(bundle)
+            try:
+                if setup is not None: s.action(2250,setup,amount)
+                before = [start,0,int(start==20),0,0,0,0]
+                for operation in [21,22]:
+                    s.action(2250,operation,amount)
+                    assert state(s) == before
+                s.action(2250,20,amount)
+                injury = max(0,amount-max(0,10-start))
+                fatigue = min(start+amount,20)
+                expected = [fatigue,injury,int(fatigue==20),injury,1,0,0]
+                assert state(s) == expected
+                assert last(s,'test.fear-fatigue') == ['resolved',None,fatigue-start,injury]
+                s.command('undo')
+                assert state(s) == before
+                s.action(2250,20,amount)
+                s.action(2250,20,amount)
+                assert last(s,'test.fear-fatigue') == ['reused',None,0,0]
+                assert state(s) == expected
+            finally: s.close()
+    s = Session(bundle)
+    try:
+        for operation in [24,27,20]: s.action(2250,operation,6)
+        assert last(s,'test.fear-fatigue')[:2] == ['blocked','expanded-wound-shock-rule-required']
+        assert state(s) == [10,0,0,0,0,0,0]
+    finally: s.close()
+
+
+def test_fear_fatigue_stun(Session,bundle,out):
+    for setup,start,after,collapse in [(24,10,12,0),(25,19,20,1)]:
+        s = Session(bundle)
+        try:
+            s.action(2250,setup,14)
+            s.action(2250,2,14)
+            s.action(2263)
+            assert last(s,'test.fear-fatigue-state') == [start,0,0,0,0,0,0]
+            s.action(2250,0,14)
+            s.action(2263)
+            assert last(s,'test.fear-fatigue-state') == [after,2,collapse,2,1,2,0]
+            s.action(2250,0,14)
+            s.action(2263)
+            assert last(s,'test.fear-fatigue-state') == [after,2,collapse,2,1,2,0]
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        for operation in [24,27,0]: s.action(2250,operation,14)
+        assert last(s,'test.fear-start') == ['blocked','expanded-wound-shock-rule-required']
+        s.action(2263)
+        assert last(s,'test.fear-fatigue-state') == [10,0,0,0,0,0,0]
+    finally: s.close()
+    path = out / 'expanded-fatigue-stun.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2250,0,15)
+        first.command(f':save {path}\n@2263')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+    finally: first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2263')
+        second.action(2250,0,15)
+        second.action(2263)
+        assert last(second,'test.fear-fatigue-state') == [2,0,0,0,1,2,0]
+        for operation in [3,3,8,5]: second.action(2250,operation,15)
+        second.action(2251)
+        assert last(second,'test.fear-state') == [0,1,2,1,5,3]
+    finally: second.close()
+
+
 def test_fear_stun(Session,bundle):
     def state(s):
         s.action(2251)
         return last(s,'test.fear-state')
-    for row,duration,draws in [(4,1,0),(5,1,0),(6,1,0),(7,1,0),(8,1,0),(9,1,0),(10,2,1),(11,4,2)]:
+    for row,duration,draws in [(4,1,0),(5,1,0),(6,1,0),(7,1,0),(8,1,0),(9,1,0),(10,2,1),(11,4,2),(14,2,2),(15,2,2)]:
         s=Session(bundle)
         try:
             for code in [1,2]:
@@ -1676,6 +1751,9 @@ def test_fear_stun(Session,bundle):
                 assert state(s) == [0,0,None,0,0,0]
             s.action(2250,0,row)
             assert state(s) == [1,0,duration,0,draws,0]
+            if row >= 14:
+                s.action(2263)
+                assert last(s,'test.fear-fatigue-state') == [2,0,0,0,1,2,0]
             s.action(2250,4,row) # Lite recovery cannot consume dice or clear owned fear.
             assert state(s) == [1,0,duration,0,draws,0]
             if row >= 6:
@@ -8659,6 +8737,8 @@ def test(build):
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
     fear = build.build('expanded-fear',ROOT / 'tests/fixtures/expanded-fear.t')
     test_fear_stun(Session,fear)
+    test_fear_fatigue(Session,fear)
+    test_fear_fatigue_stun(Session,fear,build.out)
     test_fear_stun_modifiers(Session,fear)
     test_fear_stun_persistence(Session,fear,build.out)
     fear_combat = build.build('expanded-fear-combat',ROOT / 'tests/fixtures/expanded-fear-combat.t')

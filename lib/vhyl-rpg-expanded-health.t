@@ -2330,7 +2330,11 @@ modify RpgExpandedProfile
     stunRecoveryOwned() { return self.expandedFearStun != nil || inherited(); }
 ;
 
-/** Owned execution for the table's pure short-stun rows (4 through 11). */
+class RpgExpandedFearStunResult: RpgExpandedResult
+    fatigueLoss = nil
+;
+
+/** Owned execution for short stun, including the fatigue-plus-stun rows. */
 class RpgExpandedFearStun: object
     id = nil
     context = nil
@@ -2348,14 +2352,19 @@ class RpgExpandedFearStun: object
     boundEvidence = nil
     recoveries = []
     lastRecoveryStartedAt = nil
+    dropDestination = nil
+    boundDropDestination = nil
+    fatigueLoss = nil
     assess()
     {
         if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
             rpgExpandedReject('fear-stun-definition');
-        rpgInteger(self.tableTotal,4,11); local value = new RpgExpandedResult();
+        rpgInteger(self.tableTotal,4,15);
+        if (self.tableTotal == 12 || self.tableTotal == 13) rpgExpandedReject('fear-stun-row');
+        local value = new RpgExpandedFearStunResult();
         if (self.startedAt != nil)
         {
-            if (self.context != self.boundContext || self.evidence != self.boundEvidence
+            if (self.context != self.boundContext || self.evidence != self.boundEvidence || self.dropDestination != self.boundDropDestination
                 || self.context.profile != self.boundProfile || self.id != self.boundId || self.tableTotal != self.boundTotal
                 || !holds(self.boundProfile.fearStunEpisodes,self)) rpgExpandedReject('fear-stun-binding');
             value.status = 'reused'; return value;
@@ -2371,22 +2380,38 @@ class RpgExpandedFearStun: object
         if (profile.dead || profile.unconscious) { value.reason = 'fear-stun-observer-unavailable'; return value; }
         foreach (local prior in profile.fearStunEpisodes)
             if (prior.id == self.id) rpgExpandedReject('fear-stun-duplicate');
-        rpgInteger(rpgLedger.seconds,0,2147483647 - (self.tableTotal == 11 ? 12 : self.tableTotal == 10 ? 6 : 1));
+        rpgInteger(rpgLedger.seconds,0,2147483647 - (self.tableTotal == 11 ? 12 : self.tableTotal >= 10 ? 6 : 1));
+        if (self.tableTotal >= 14)
+        {
+            value.fatigueLoss = new RpgExpandedFearFatigueLoss(); value.fatigueLoss.id = 'stun-' + self.id;
+            value.fatigueLoss.profile = profile; value.fatigueLoss.amount = 6; value.fatigueLoss.dropDestination = self.dropDestination;
+            local fatigue = value.fatigueLoss.assess();
+            if (fatigue.status != 'ready') { value.reason = fatigue.reason; return value; }
+        }
         value.modifier = assessment.modifier; value.status = 'ready'; return value;
     }
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         local duration = 1;
+        if (value.fatigueLoss != nil) value.fatigueLoss.amount = rpgRandom.die();
         if (self.tableTotal >= 10)
         {
             duration = rpgRandom.die(); if (self.tableTotal == 11) duration += rpgRandom.die();
+        }
+        if (value.fatigueLoss != nil)
+        {
+            local fatigue = value.fatigueLoss.apply();
+            if (fatigue.status != 'resolved') rpgExpandedReject('fear-stun-fatigue-changed');
+            self.fatigueLoss = value.fatigueLoss;
         }
         self.startedAt = rpgLedger.seconds; self.initialEnd = self.startedAt + duration;
         self.recoveryModifier = self.tableTotal <= 7 ? 0 : value.modifier;
         self.boundProfile = self.context.profile; self.boundId = self.id; self.boundTotal = self.tableTotal;
         self.boundContext = self.context; self.boundEvidence = self.evidence;
-        self.boundProfile.mentalStun = true; self.boundProfile.expandedFearStun = self;
+        self.boundDropDestination = self.dropDestination;
+        if (self.boundProfile.dead) self.completed = true;
+        else { self.boundProfile.mentalStun = true; self.boundProfile.expandedFearStun = self; }
         self.boundProfile.fearStunEpisodes = self.boundProfile.fearStunEpisodes + [self];
         value.status = 'resolved'; return value;
     }
@@ -2902,3 +2927,87 @@ rpgExpandedNauseaTriggerModifier(profile,richMealWithinHour)
         if (dose.effective()) remedy = true;
     return (remedy ? 2 : 0) - (richMealWithinHour ? 2 : 0);
 }
+
+class RpgExpandedFearFatigueResult: RpgExpandedResult
+    fatigueAdded = 0
+    injuryAdded = 0
+    wounds = []
+;
+
+/** One source fear-table fatigue loss of one through six points, without a time charge. */
+class RpgExpandedFearFatigueLoss: object
+    id = nil
+    profile = nil
+    amount = 1
+    dropDestination = nil
+    result = nil
+    boundId = nil
+    boundProfile = nil
+    boundAmount = nil
+    boundDropDestination = nil
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('fear-fatigue-definition');
+        rpgInteger(self.amount,1,6); local value = new RpgExpandedFearFatigueResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.profile != self.boundProfile || self.amount != self.boundAmount
+                || self.dropDestination != self.boundDropDestination || !holds(self.profile.fearFatigueLosses,self))
+                rpgExpandedReject('fear-fatigue-binding');
+            value.status = 'reused'; return value;
+        }
+        rpgExpandedValidate(self.profile);
+        if (self.profile.dead) { value.reason = 'fear-fatigue-dead'; return value; }
+        rpgInteger(self.profile.maxEnergy,1,1000); rpgInteger(self.profile.fatigue,0,2 * self.profile.maxEnergy);
+        foreach (local prior in self.profile.fearFatigueLosses)
+            if (prior.id == self.id) rpgExpandedReject('fear-fatigue-duplicate');
+        local positive = self.profile.fp() > 0 ? self.profile.fp() : 0;
+        local injury = self.amount > positive ? self.amount - positive : 0;
+        local suffixes = ['one','two','three','four','five','six'];
+        for (local index = 1; index <= injury; index += 1)
+        {
+            local wound = new RpgExpandedWound(); wound.profile = self.profile; wound.amount = 1;
+            wound.id = 'fear-fatigue-' + self.id + '-' + suffixes[index]; wound.dropDestination = self.dropDestination;
+            local assessment = wound.assess();
+            if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
+            value.wounds = value.wounds + [wound];
+        }
+        for (local multiple = 1; multiple <= 4; multiple += 1)
+            if (self.profile.hp() > -multiple * self.profile.maxHP && self.profile.hp() - injury <= -multiple * self.profile.maxHP)
+            {
+                local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'death';
+                local score = rpgLiteScore(self.profile,context);
+                if (score == nil || score < 3) { value.reason = 'fear-fatigue-survival-score'; return value; }
+            }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local prepared = value.wounds; value.wounds = []; local woundIndex = 1;
+        for (local point = 1; point <= self.amount && !self.profile.dead; point += 1)
+        {
+            if (self.profile.fp() <= 0)
+            {
+                local wound = prepared[woundIndex]; local injury = wound.apply();
+                if (injury.status != 'resolved') rpgExpandedReject('fear-fatigue-injury-changed');
+                value.injuryAdded += injury.healthLoss; value.wounds = value.wounds + [wound]; woundIndex += 1;
+            }
+            value.fatigueAdded += rpgLiteFatigueIncrement(self.profile,'fear');
+            if (self.profile.fp() <= -self.profile.maxEnergy)
+            {
+                if (!self.profile.unconscious) self.profile.becomeUnconscious();
+                self.profile.fatigueCollapse = true;
+            }
+        }
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundAmount = self.amount;
+        self.boundDropDestination = self.dropDestination;
+        self.profile.fearFatigueLosses = self.profile.fearFatigueLosses + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    fearFatigueLosses = []
+;

@@ -114,3 +114,8 @@ remain explicitly unavailable. New persistence and transaction fixtures are unru
 
 The retching combat adapter uses the existing turn clock, preventing duplicate
 recovery attempts in the same second. Its transaction and clock fixtures are unrun.
+
+
+Fatigue-plus-stun fear outcomes now share owned one-point fatigue injuries,
+collapse handling and timed recovery. Their maximum possible cost is assessed
+before rolling. New boundary and continuation fixtures remain unrun.

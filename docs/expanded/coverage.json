@@ -255,6 +255,8 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_context",
         "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_fatigue",
+        "tests/expanded.py::test_fear_fatigue_stun",
         "tests/expanded.py::test_fear_stun_modifiers",
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat",
