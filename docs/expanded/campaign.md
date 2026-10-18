@@ -351,3 +351,34 @@ that same balance, which can fund ordinary equipment purchases.
 creation-budget accounting, duplicate opportunities, approval/funds rejection,
 preview purity, overflow, exception rollback and undo. The cases are authored and
 unrun while checks are paused.
+
+
+## Job qualifications and roll selection
+
+`RpgExpandedJob` defines an authored job `id`, `prerequisites`, `rollMode` and
+`rollModifier` (full-2008 B516). Each prerequisite row is
+`[skill, minimum, relative]`. False/nil `relative` means an absolute minimum;
+true means the minimum is relative to that skill's controlling attribute.
+Every required skill must have at least one purchased point. An available default
+alone cannot qualify, even if its rating meets the numeric minimum.
+
+Jobs with prerequisite skills choose `specific`, `best` or `worst` roll mode.
+`rollSkill` must identify a prerequisite for `specific`. Jobs without skill
+prerequisites instead use `fixed` with `fixedScore`, or `attribute` with
+`rollAttribute`. Inconsistent combinations are rejected. `assess(profile)` checks
+qualifications and returns the selected rating/skill with the job modifier; it
+does not roll, spend time or pay wages. Ratings below 3 cannot be attempted.
+
+Set `requirementsApproved` only when other job requirements have been satisfied,
+such as licences, guild membership, required traits or excluded traits. This is
+an explicit remaining author contract, not automatic execution of those requirements.
+Automatic trait prerequisites, job availability, hours, risk and monthly job rolls
+still require integration before employment is complete.
+
+`rpgExpandedTypicalJobPay(techLevel)` supplies the printed average-wealth monthly
+pay table for technology levels 0–12 (full-2008 B517). Actual job pay remains an
+authored economic fact; it belongs to the job's wealth tier, not the worker's.
+Wealth scaling, monthly settlement and earnings-driven wealth advancement remain
+pending. `tests/expanded.py::test_job_qualifications` contains expected table values,
+relative skill thresholds, purchased-skill gates, and fixed/attribute roll cases.
+These authored checks remain unrun while checks are paused.

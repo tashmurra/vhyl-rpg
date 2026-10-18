@@ -808,6 +808,18 @@
         "tests/expanded.py::test_loyalty_pay"
       ],
       "validation_note": "Separate higher-pay bonus, event receipts and authored month-end expiry implemented. Checks unrun; overlapping rate changes and salary processing remain pending."
+    },
+    {
+      "id": "job-qualifications-and-pay-table",
+      "module": "campaign",
+      "pages": "B516-B517",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedJob",
+      "tests": [
+        "tests/expanded.py::test_job_qualifications"
+      ],
+      "validation_note": "Purchased skill prerequisites, roll selection and typical pay table authored. Checks unrun; non-skill requirements and monthly job execution remain pending."
     }
   ],
   "detailed_inventories": [

@@ -469,3 +469,71 @@ modify RpgExpandedTradeTransfer
         return value.status == 'ready' ? nil : value.reason;
     }
 ;
+
+/** Typical average-wealth monthly wages, full-2008 B517. */
+rpgExpandedTypicalJobPay(techLevel)
+{
+    rpgInteger(techLevel,0,12);
+    local wages = [625,650,675,700,800,1100,1600,2100,2600,3600,5600,8100,10600];
+    return wages[techLevel + 1];
+}
+
+class RpgExpandedJobAssessment: RpgExpandedResult
+    score = nil
+    skill = nil
+;
+
+/** Job qualifications and roll selection, full-2008 B516. Prerequisite rows
+ * are [skill, minimum, relative-to-controlling-attribute]. Defaults do not qualify. */
+class RpgExpandedJob: object
+    id = nil
+    prerequisites = []
+    rollMode = 'fixed'
+    rollSkill = nil
+    rollAttribute = rpgIQ
+    fixedScore = 12
+    rollModifier = 0
+    requirementsApproved = nil
+    assess(profile)
+    {
+        if (self.id == nil || profile == nil || !profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('job-profile');
+        rpgExpandedValidate(profile);
+        if (!holds(['fixed','attribute','specific','best','worst'],self.rollMode))
+            rpgExpandedReject('job-roll-mode');
+        rpgInteger(self.rollModifier,-1000,1000);
+        local value = new RpgExpandedJobAssessment(); local seen = []; local ratings = [];
+        foreach (local row in self.prerequisites)
+        {
+            if (row.length() != 3 || row[1] == nil || !row[1].ofKind(RpgSkill) || holds(seen,row[1]))
+                rpgExpandedReject('job-prerequisite');
+            seen = seen + [row[1]]; rpgInteger(row[2],-1000,1000);
+            local paid = nil;
+            foreach (local training in profile.skills)
+                if (training.skill == row[1] && training.points >= 1) paid = true;
+            if (!paid) { value.reason = 'job-purchased-skill-required'; return value; }
+            local rating = profile.skillScore(row[1]);
+            local minimum = row[2] + (row[3] ? profile.attributeScore(row[1].attribute) : 0);
+            if (rating == nil || rating < minimum) { value.reason = 'job-skill-minimum'; return value; }
+            ratings = ratings + [[row[1],rating]];
+        }
+        if (ratings.length() > 0 && holds(['fixed','attribute'],self.rollMode))
+            rpgExpandedReject('job-prerequisite-roll-required');
+        if (ratings.length() == 0 && holds(['specific','best','worst'],self.rollMode))
+            rpgExpandedReject('job-roll-prerequisite-required');
+        if (!self.requirementsApproved) { value.reason = 'job-other-requirements'; return value; }
+        if (self.rollMode == 'fixed') { rpgInteger(self.fixedScore,3,1000); value.score = self.fixedScore; }
+        else if (self.rollMode == 'attribute') value.score = profile.attributeScore(self.rollAttribute);
+        else
+        {
+            foreach (local row in ratings)
+                if (self.rollMode == 'specific' ? row[1] == self.rollSkill
+                    : value.score == nil || (self.rollMode == 'best' ? row[2] > value.score : row[2] < value.score))
+                { value.skill = row[1]; value.score = row[2]; }
+            if (value.score == nil) rpgExpandedReject('job-selected-skill');
+        }
+        value.score += self.rollModifier; rpgInteger(value.score,-1000,1000);
+        if (value.score < 3) { value.reason = 'job-roll-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+;

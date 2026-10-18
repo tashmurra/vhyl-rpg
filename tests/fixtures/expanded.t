@@ -1338,6 +1338,24 @@ act(verb, args)
         eventValue(crewLoyalty.base); eventValue(crewLoyalty.payBonus); eventValue(crewLoyalty.payUntil);
         eventValue(crewLoyalty.payChanges.length()); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
+    if (verb == 1211)
+    {
+        event('test.typical-job-pay'); eventValue(rpgExpandedTypicalJobPay(args[1])); return nil;
+    }
+    if (verb == 1212)
+    {
+        local p = new RpgExpandedProfile(); p.rules = expandedRules;
+        local skill = new RpgExpandedSkill(); skill.id = 'records'; skill.attribute = rpgIQ; skill.difficulty = 0;
+        local training = new RpgExpandedTraining(); training.skill = skill; training.points = 4; p.skills = [training];
+        local job = new RpgExpandedJob(); job.id = 'records-clerk'; job.prerequisites = [[skill,2,true]];
+        job.rollMode = 'specific'; job.rollSkill = skill;
+        event('test.job-qualifications'); eventValue(job.assess(p).reason); job.requirementsApproved = true;
+        eventValue(job.assess(p).score); training.points = 2; eventValue(job.assess(p).reason);
+        training.points = 0; eventValue(job.assess(p).reason);
+        job.prerequisites = []; job.rollMode = 'fixed'; job.fixedScore = 12; eventValue(job.assess(p).score);
+        job.rollMode = 'attribute'; job.rollAttribute = rpgST; p.st = 14; job.rollModifier = -2;
+        eventValue(job.assess(p).score); return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;
