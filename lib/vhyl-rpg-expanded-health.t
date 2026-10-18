@@ -1167,6 +1167,36 @@ class RpgExpandedPhysicianCheck: object
     continuousCare = nil
     evidence = nil
     modifier = 0
+    physiology = 'authored'
+    speciesModifier = 0
+    subjectSpecies = nil
+    physiologyCheck = nil
+    boundPhysiology = nil
+    physiologyDefinition() { return [self.physiology,self.speciesModifier,self.subjectSpecies,self.physiologyCheck]; }
+    assessPhysiology()
+    {
+        local value = new RpgExpandedResult();
+        if (self.physiology == 'authored' && self.physiologyCheck == nil && self.speciesModifier == 0)
+        { value.status = 'ready'; return value; }
+        if (!holds(['same','similar','different','alien','machine'],self.physiology)) rpgExpandedReject('physician-physiology-category');
+        if (self.physiology == 'machine') { value.reason = 'physician-physiology-machine-inapplicable'; return value; }
+        rpgInteger(self.speciesModifier,-100,0);
+        if (self.physiology == 'same' && self.speciesModifier != 0
+            || self.physiology == 'similar' && !holds([-2,-3,-4],self.speciesModifier)
+            || self.physiology == 'different' && self.speciesModifier != -5
+            || self.physiology == 'alien' && self.speciesModifier > -6) rpgExpandedReject('physician-physiology-modifier');
+        value.modifier = self.speciesModifier;
+        if (self.physiologyCheck != nil)
+        {
+            local check = self.physiologyCheck;
+            if (!check.ofKind(RpgExpandedPhysiologyReceipt) || check.operation != self || check.profile != self.practice.physician
+                || check.subject != self.patient || self.subjectSpecies == nil || check.species != self.subjectSpecies)
+                rpgExpandedReject('physician-physiology-check-binding');
+            if (check.result == nil) { value.reason = 'physician-physiology-check-unresolved'; return value; }
+            check.validateReceipt(); if (check.result.check.achieved) value.modifier = 0;
+        }
+        value.status = 'ready'; return value;
+    }
     dropDestination = nil
     boundDropDestination = nil
     boundId = nil
@@ -1187,6 +1217,10 @@ class RpgExpandedPhysicianCheck: object
                 || self.practice != self.boundPractice || self.evidence != self.boundEvidence
                 || self.modifier != self.boundModifier || self.dropDestination != self.boundDropDestination || !self.continuousCare)
                 rpgExpandedReject('physician-check-retargeted');
+            local facts = self.physiologyDefinition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundPhysiology[i]) rpgExpandedReject('physician-physiology-binding');
+            if (self.physiologyCheck != nil) self.physiologyCheck.validateReceipt();
             value.status = 'reused'; value.check = self.result.check;
             value.healed = self.result.healed; value.injury = self.result.injury;
             value.failureWound = self.result.failureWound; return value;
@@ -1217,8 +1251,10 @@ class RpgExpandedPhysicianCheck: object
         { value.reason = 'physician-check-injury-eligibility-unavailable'; return value; }
         if (self.patient.injury <= 0) { value.reason = 'physician-check-no-injury'; return value; }
         rpgInteger(self.modifier,-100,100);
+        local physiology = self.assessPhysiology();
+        if (physiology.status != 'ready') { value.reason = physiology.reason; return value; }
         value.context = new RpgLiteContext(); value.context.skill = self.practice.skill;
-        value.context.kind = 'physician-care'; value.context.modifier = self.modifier;
+        value.context.kind = 'physician-care'; value.context.modifier = self.modifier + physiology.modifier;
         local score = rpgLiteScore(self.practice.physician,value.context);
         if (score == nil || score < 3) { value.reason = 'physician-check-score-unavailable'; return value; }
         value.failureWound = new RpgExpandedWound(); value.failureWound.id = 'physician-injury-' + self.id;
@@ -1239,6 +1275,7 @@ class RpgExpandedPhysicianCheck: object
             if (harm.status != 'resolved') rpgExpandedReject('physician-injury-commit-changed');
             value.failureWound = prepared.failureWound; value.injury = harm.health.injury;
         }
+        self.boundPhysiology = self.physiologyDefinition();
         self.boundPatient = self.patient; self.boundPractice = self.practice; self.boundId = self.id;
         self.boundEvidence = self.evidence; self.boundModifier = self.modifier; self.boundDropDestination = self.dropDestination;
         self.completedAt = rpgLedger.seconds; self.patient.medicalLastCheckAt = self.completedAt;

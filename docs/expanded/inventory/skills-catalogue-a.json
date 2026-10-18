@@ -2477,8 +2477,8 @@
       "kind": "procedure",
       "status": "partial",
       "acceptance": "Apply the source physiology categories to each named medical/body-reading skill, reject machines and permit the specified successful familiarity check to remove the penalty.",
-      "tests": ["tests/expanded.py::test_body_physiology", "tests/expanded.py::test_surgical_physiology", "tests/expanded.py::test_first_aid_physiology"],
-      "validation_note": "Owned operation-bound physiology or common-animal biology checks remove body-reading species penalties only on success; machine and visual gates remain. Surgical operations now validate the bound surgeon/patient/operation and prepare a penalty-free score on success without mutating authored conditions. First-aid treatment now binds the same knowledge receipt and preserves ordinary bandaging and the shared injury ledger. Other medical adapters and full skill catalogue integration remain pending. Fixtures unrun."
+      "tests": ["tests/expanded.py::test_body_physiology", "tests/expanded.py::test_surgical_physiology", "tests/expanded.py::test_first_aid_physiology", "tests/expanded.py::test_physician_physiology"],
+      "validation_note": "Owned operation-bound physiology or common-animal biology checks remove body-reading species penalties only on success; machine and visual gates remain. Surgical operations now validate the bound surgeon/patient/operation and prepare a penalty-free score on success without mutating authored conditions. First-aid treatment now binds the same knowledge receipt and preserves ordinary bandaging and the shared injury ledger. Periodic physician healing also binds the knowledge receipt without charging the elapsed care interval again. Patient-specific medical supervision qualification, other medical adapters and full skill catalogue integration remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-bow",

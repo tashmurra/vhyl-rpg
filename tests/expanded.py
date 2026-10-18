@@ -9372,6 +9372,8 @@ def test(build):
     test_diagnostic_technology(Session, diagnostic_technology)
     first_aid_physiology = build.build("expanded-first-aid-physiology",ROOT / "tests/fixtures/expanded-first-aid-physiology.t")
     test_first_aid_physiology(Session, first_aid_physiology)
+    physician_physiology = build.build("expanded-physician-physiology",ROOT / "tests/fixtures/expanded-physician-physiology.t")
+    test_physician_physiology(Session, physician_physiology, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23508,3 +23510,60 @@ def test_first_aid_physiology(Session, bundle):
             assert last(s,'test.aid-state')[:8] == [9,1,1,0,0,0,60,0]
         finally:
             s.close()
+
+
+def test_physician_physiology(Session, bundle, out):
+    """B181 adjusts the B424 periodic healing roll without another time charge; unrun."""
+    for setup, score, draws in ((None,9,0),(19501,12,3),(19502,9,3)):
+        s = Session(bundle)
+        try:
+            s.action(1680,19500)
+            if setup is not None:
+                s.action(1680,setup)
+            s.action(1680,19503)
+            assert last(s,'test.physician-physiology') == ['ready',None,score,draws]
+            s.action(1681)
+            before = last(s,'test.physician-state')
+            assert before == [9,0,0,None,draws,86400,0]
+            s.action(1680,19506)
+            s.action(1681)
+            assert last(s,'test.physician-state') == before
+            s.action(1680,19505)
+            s.command('undo')
+            s.action(1681)
+            assert last(s,'test.physician-state') == before
+            s.action(1680,19505)
+            s.action(1680,19505)
+            s.action(1681)
+            assert last(s,'test.physician-state') == [3,1,86400,86400,draws+3,86400,0]
+        finally:
+            s.close()
+    for setup, reason in ((19504,'physician-physiology-machine-inapplicable'),
+                          (19507,'physician-physiology-check-unresolved')):
+        s = Session(bundle)
+        try:
+            for code in (19500,setup,19503):
+                s.action(1680,code)
+            assert last(s,'test.physician-physiology') == ['blocked',reason,None,0]
+            s.action(1681)
+            assert last(s,'test.physician-state') == [9,0,0,None,0,86400,0]
+        finally:
+            s.close()
+    path = out / 'physician-physiology.zsave'
+    s = Session(bundle)
+    try:
+        for code in (19500,19501,19505):
+            s.action(1680,code)
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681')
+        s.action(1680,19505)
+        s.action(1681)
+        assert last(s,'test.physician-state') == [3,1,86400,86400,6,86400,0]
+        s.action(1680,19508)
+        assert last(s,'test.physician-physiology-error') == ['physician-physiology-binding']
+    finally:
+        s.close()

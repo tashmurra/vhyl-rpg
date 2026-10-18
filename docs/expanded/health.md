@@ -3827,3 +3827,30 @@ and the patient's warmth, comfort, calm and stillness.
 `test_first_aid_physiology` specifies penalty arithmetic, knowledge success and
 failure, pure previews, unresolved and machine rejection, transaction rollback,
 undo and duplicate execution. These fixtures remain unrun while checks are paused.
+
+
+## Physician healing across species
+
+The periodic `RpgExpandedPhysicianCheck` accepts `physiology`, `speciesModifier`,
+`subjectSpecies` and optional `physiologyCheck` (full-2008 B181, B424–B425).
+Use `same` with 0, `similar` with -2 through -4, `different` with -5, or `alien`
+with -6 or worse. `machine` blocks the roll. Default `authored` requests preserve
+existing behavior without an additional modifier or knowledge receipt.
+
+A selected knowledge receipt must target this exact physician check and patient,
+with the practice's physician as its owner and the same species identifier.
+Resolve the knowledge check first. Success removes the species penalty; failure
+retains it. An unresolved receipt blocks the healing roll. The existing practice
+roster, required care interval, one-check-per-patient schedule, protected injury
+restrictions and scaled healing continue to apply. Committing the periodic roll
+does not spend the elapsed care interval again. Replay binds the physiology
+selection and validates the original knowledge receipt.
+
+This adapter covers the additional healing roll. Patient-specific admission and
+qualification for the natural-recovery supervision bonus still need integration;
+this feature does not establish cross-species supervision eligibility by itself.
+
+`test_physician_physiology` specifies pure target previews, success/failure of
+knowledge, blocked machine and unresolved cases, shared healing accounting,
+rollback, undo, replay, changed-species rejection and cross-process save
+continuation. The fixture is authored and unrun while checks remain paused.
