@@ -2769,3 +2769,24 @@ The new fixture specifies ten HP lost from a ten-point hand injury (rather than
 the ordinary four-point cap), hand disability without disabling its parent arm,
 a sub-threshold injury, replay, rollback, undo and saved continuation. Assertions
 remain unrun. Random location selection and additional-limb commits remain pending.
+
+### Owned fall arm wounds
+
+`RpgExpandedFallLimbWound` retains full HP loss for the primary arm wound, then
+rolls the B431 extra die once when that arm is crippled. On 5–6 it applies a
+`RpgExpandedFallSecondaryWound` to every other functioning arm. Each secondary
+receipt has zero HP loss, links to the primary wound, and uses the existing
+anatomy disability, equipment-drop and support-loss procedures. Already disabled
+arms stay disabled without another wound. No extra injury or second knockdown
+roll is added by a zero-injury disability receipt.
+
+The primary assessment preflights possible secondary disabilities and their drop
+requirements before the extra die is consumed. All effects belong to the original
+action transaction; replay does not roll again. Secondary receipts have their own
+bound body parts so the ordinary anatomy history remains valid. The hazards
+operation selects this procedure for an evidenced `arm` location. Legs, feet,
+automatic random location selection and combined multi-arm equipment cases still
+require implementation or validation; this does not complete falling support.
+Fixtures specify both extra-die branches, no die below the crippling threshold,
+uncapped HP loss, zero extra HP loss, rollback, undo and saved continuation. All
+assertions remain unrun while checks are paused.

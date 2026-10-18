@@ -3946,8 +3946,8 @@ class RpgExpandedFallInjury: object
         }
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'fall-injury-author-facts'; return value; }
-        if (!holds(['torso','hand'],self.location)) { value.reason = 'fall-injury-location-unavailable'; return value; }
-        if (self.location == 'hand' && (self.bodyPart == nil || self.locationEvidence == nil || self.locationEvidence == ''))
+        if (!holds(['torso','hand','arm'],self.location)) { value.reason = 'fall-injury-location-unavailable'; return value; }
+        if (self.location != 'torso' && (self.bodyPart == nil || self.locationEvidence == nil || self.locationEvidence == ''))
         { value.reason = 'fall-injury-location-facts'; return value; }
         if (self.location == 'torso' && self.bodyPart != nil) rpgExpandedReject('fall-injury-body-part');
         foreach (local prior in self.profile.fallInjuries)
@@ -3962,7 +3962,8 @@ class RpgExpandedFallInjury: object
         { value.reason = 'fall-cushion-facts'; return value; }
         value.cushionedDamage = value.impactDamage > self.cushionDR ? value.impactDamage-self.cushionDR : 0;
         value.protection = rpgExpandedAssessFallProtection(value.cushionedDamage,self.resistance,self.protectionKind);
-        value.wound = self.location == 'hand' ? new RpgExpandedFallExtremityWound() : new RpgExpandedWound();
+        value.wound = self.location == 'hand' ? new RpgExpandedFallExtremityWound()
+            : self.location == 'arm' ? new RpgExpandedFallLimbWound() : new RpgExpandedWound();
         value.wound.id = self.id; value.wound.profile = self.profile;
         value.wound.location = self.location; value.wound.bodyPart = self.bodyPart;
         value.wound.amount = value.protection.penetratingDamage + value.protection.bluntInjury;

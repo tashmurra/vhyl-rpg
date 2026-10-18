@@ -823,3 +823,8 @@ Owned fall hand injuries now preserve full HP loss while using the existing
 anatomy, knockdown and drop machinery. Explicit evidence of a resolved location
 is required; automatic location rolls and additional-limb disability remain
 unfinished. Transaction and persistence fixtures are authored and unrun.
+
+Owned arm falls now roll once for additional arm crippling and record secondary
+disabilities with zero extra HP loss. Existing anatomy/drop hooks are reused.
+Both branches and transaction/save fixtures are authored and unrun; automatic
+locations, lower limbs and broader equipment combinations remain incomplete.

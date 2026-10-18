@@ -8903,6 +8903,8 @@ def test(build):
     test_fall_injury(Session, fall_injury, build.out)
     fall_hand = build.build('expanded-fall-hand',ROOT / 'tests/fixtures/expanded-fall-hand.t')
     test_fall_hand(Session, fall_hand, build.out)
+    fall_arm = build.build('expanded-fall-arm',ROOT / 'tests/fixtures/expanded-fall-arm.t')
+    test_fall_arm(Session, fall_arm, build.out)
     test_collision_cap(Session, collision, fall_injury)
     test_fall_cushion(Session, fall_injury)
     fresh(Session,hazards,test_infection_assessments)
@@ -13736,7 +13738,7 @@ def test_fall_injury(Session, bundle, out):
             assert state(s) == expected
             if setup == 834:
                 s.action(2285,830)
-                assert last(s,'test.fall-preview') == ['blocked','fall-injury-location-unavailable']
+                assert last(s,'test.fall-preview') == ['blocked','fall-injury-location-facts']
         finally:
             s.close()
 
@@ -13998,6 +14000,47 @@ def test_fall_hand(Session, bundle, out):
     finally:
         s.close()
     for setup, expected in ((921,clear),(922,[3,0,0,1,1,0,0])):
+        s = Session(bundle)
+        try:
+            for code in (30,setup,831):
+                s.action(2285,code)
+            assert state(s) == expected
+        finally:
+            s.close()
+
+
+def test_fall_arm(Session, bundle, out):
+    def state(s):
+        s.action(2285,930)
+        return last(s,'test.fall-arm')
+    clear = [0,0,0,0,0,0]
+    injured = [10,1,1,2,1,4,5]
+    path = out / 'expanded-fall-arm.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,830):
+            s.action(2285,code)
+        assert last(s,'test.fall-preview') == ['ready',None]
+        assert state(s) == clear
+        s.action(2285,832)
+        assert state(s) == clear
+        s.action(2285,831)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (831,831):
+            s.action(2285,code)
+        assert state(s) == injured
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,831)
+        assert state(s) == injured
+    finally:
+        s.close()
+    for setup, expected in ((931,[10,1,0,1,1,4,4]),(922,[3,0,0,1,1,0,None])):
         s = Session(bundle)
         try:
             for code in (30,setup,831):

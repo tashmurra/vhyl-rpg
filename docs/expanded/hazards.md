@@ -1800,3 +1800,10 @@ least harmful hand instead of supplying the actual resolved result. Unsupported
 locations remain rejected. Mixed protection, other limbs/extremities and the
 extra-limb disability roll remain incomplete. Hand-impact rollback, undo, replay
 and save assertions are authored and unrun.
+
+Arm impacts now use `RpgExpandedFallLimbWound` when `location = 'arm'`, with an owned
+arm `bodyPart` and evidence of the resolved random location. This preserves full
+HP loss and owns the additional-limb die. Other arms disabled by that die receive
+zero-injury disability receipts, not repeated impact damage. The same fields bind
+through direct injury and owned impact rolling. Lower-limb and automatic location
+support remain unfinished; see the health guide for the current arm procedure.

@@ -5939,3 +5939,80 @@ class RpgExpandedFallExtremityWound: RpgExpandedWound
         return rpgExpandedAssessFallCrippling(self.profile.maxHP,self.amount,'extremity',count,nil);
     }
 ;
+
+/** Secondary disability from one fall, with zero additional HP injury. */
+class RpgExpandedFallSecondaryWound: RpgExpandedWound
+    primary = nil
+    boundPrimary = nil
+    assess()
+    {
+        if (self.health != nil && (self.primary != self.boundPrimary
+            || !holds(self.primary.additionalWounds,self))) rpgExpandedReject('fall-secondary-binding');
+        return inherited();
+    }
+    assessPartInjury(count)
+    {
+        if (self.primary == nil || !self.primary.ofKind(RpgExpandedFallLimbWound)
+            || self.primary.profile != self.profile || self.bodyPart.kind != 'arm'
+            || self.primary.bodyPart == self.bodyPart || self.amount != 0 || self.severing)
+            rpgExpandedReject('fall-secondary-definition');
+        local value = rpgExpandedAssessCrippling(self.profile.maxHP,0,'limb',count,nil);
+        value.crippled = true; value.healthLoss = 0; return value;
+    }
+    apply()
+    {
+        if (self.primary == nil || self.primary.health == nil || self.primary.additionalRoll < 5
+            || !holds(self.primary.additionalWounds,self)) rpgExpandedReject('fall-secondary-unresolved');
+        local value = inherited();
+        if (value.status == 'resolved') self.boundPrimary = self.primary;
+        return value;
+    }
+;
+/** B431: uncapped arm injury plus the owned extra-limb die and disability receipts. */
+class RpgExpandedFallLimbWound: RpgExpandedWound
+    additionalRoll = nil
+    additionalWounds = []
+    assessPartInjury(count)
+    {
+        if (self.bodyPart.kind != 'arm' || self.severing) rpgExpandedReject('fall-limb-unavailable');
+        return rpgExpandedAssessFallCrippling(self.profile.maxHP,self.amount,'limb',count,nil);
+    }
+    secondary(part)
+    {
+        local wound = new RpgExpandedFallSecondaryWound(); wound.primary = self;
+        wound.id = self.id + '-fall-' + part.id; wound.profile = self.profile;
+        wound.bodyPart = part; wound.location = 'arm'; wound.dropDestination = self.dropDestination;
+        return wound;
+    }
+    assess()
+    {
+        local value = inherited();
+        if (value.status != 'ready' || value.crippling == nil || !value.crippling.crippled) return value;
+        foreach (local part in self.profile.bodyParts)
+            if (part.kind == 'arm' && part != self.bodyPart && part.functional())
+            {
+                local prepared = self.secondary(part).assess();
+                if (prepared.status != 'ready') { value.status = 'blocked'; value.reason = prepared.reason; return value; }
+            }
+        return value;
+    }
+    apply()
+    {
+        local prepared = self.assess(); if (prepared.status != 'ready') return prepared;
+        local value = inherited();
+        if (value.status != 'resolved') return value;
+        if (self.cripplingAssessment != nil && self.cripplingAssessment.crippled)
+        {
+            self.additionalRoll = rpgRandom.die();
+            if (self.additionalRoll >= 5)
+                foreach (local part in self.profile.bodyParts)
+                    if (part.kind == 'arm' && part != self.bodyPart && part.functional())
+                    {
+                        local wound = self.secondary(part);
+                        self.additionalWounds = self.additionalWounds + [wound];
+                        if (wound.apply().status != 'resolved') rpgExpandedReject('fall-secondary-interrupted');
+                    }
+        }
+        return value;
+    }
+;
