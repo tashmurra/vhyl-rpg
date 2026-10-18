@@ -261,6 +261,8 @@ modify RpgExpandedProfile
         local specialties = [];
         foreach (local training in self.skills)
         {
+            if (training == nil || !training.ofKind(RpgTraining) || training.skill == nil)
+                rpgExpandedReject('invalid-training');
             local skill = training.skill; rpgExpandedValidateSkill(skill);
             if (skill.ofKind(RpgExpandedSkill) && skill.optionalParent != nil)
             {

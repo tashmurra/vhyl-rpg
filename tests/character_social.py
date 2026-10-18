@@ -126,6 +126,100 @@ def test_trade_modifiers(s):
     assert last(s, 'test.trade-skill-modifier') == [2, 3, 4, 0]
 
 
+def state(s):
+    s.action(1450)
+    return last(s, 'test.character-social-state')
+
+
+def test_character_contracts(s):
+    initial = state(s)
+    s.action(1452)
+    assert last(s, 'test.character-cost') == [53,12,11]
+    for difficulty in range(4):
+        for points, offset in [(1,0),(2,1),(4,2),(8,3),(12,4)]:
+            s.action(1453,difficulty,points,0)
+            assert last(s, 'test.skill-table') == [12 + offset - difficulty]
+    for points, expected in [(2,None),(3,9),(6,10),(12,11),(24,12)]:
+        s.action(1453,3,points,1)
+        assert last(s, 'test.skill-table') == [expected]
+    s.action(1454)
+    assert last(s, 'test.skill-defaults') == [14,12,None,13]
+    for variant, reason in [(1,'secondary-limit'),(2,'duplicate-language'),(3,'native-language'),
+                            (4,'incompatible-traits'),(5,'point-budget')]:
+        s.action(1455,variant)
+        assert last(s, 'test.invalid-character') == [reason]
+    s.action(1456)
+    assert last(s, 'test.template-ownership') == [8,4,1]
+    assert state(s) == initial
+
+
+def test_social_transactions(s):
+    initial = state(s)
+    assert initial == [0,0,10,0,0,0,0,0]
+    s.action(1451)
+    assert last(s, 'test.private-preview') == ['ready',None,None,None]
+    s.action(1400,2)
+    assert state(s) == initial
+    s.action(1400,1)
+    assert last(s, 'test.private-reaction') == ['resolved',5]
+    after = state(s)
+    assert after == [1,1,10,0,0,0,6,0]
+    s.command('undo')
+    assert state(s) == initial
+    s.action(1400,1); s.action(1400,1)
+    assert last(s, 'test.private-reaction') == ['reused',5]
+    assert state(s) == after
+    s.action(1451)
+    assert last(s, 'test.private-preview') == ['reused',None,None,None]
+    s.action(1400,5)
+    assert state(s) == after
+    s.action(1400,4)
+    assert last(s, 'test.paid-answer') == ['resolved',5]
+    paid = state(s)
+    assert paid == [1,1,5,5,1,0,6,0]
+    s.command('undo')
+    assert state(s) == after
+    s.action(1400,4); s.action(1400,4)
+    assert last(s, 'test.paid-answer') == ['reused',0]
+    assert state(s) == paid
+    s.action(1400,7)
+    assert state(s) == paid
+    s.action(1400,6)
+    loyal = state(s)
+    assert loyal == [1,1,5,5,1,1,9,0]
+    s.action(1400,6)
+    assert state(s) == loyal
+
+
+def test_failed_recognition(s):
+    s.action(1400,3)
+    assert last(s, 'test.private-reaction') == ['resolved',4]
+    before = state(s)
+    s.action(1400,3)
+    assert last(s, 'test.private-reaction') == ['reused',4]
+    assert state(s) == before == [1,1,10,0,0,0,6,0]
+
+
+def test_social_save(Session,bundle,out):
+    path = out / 'character-social.zsave'
+    first = Session(bundle)
+    try:
+        first.action(1400,3); first.action(1400,4); first.action(1400,6)
+        saved = state(first)
+        first.command(f':save {path}\n@1450')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@1450')
+        assert state(second) == saved
+        second.action(1400,3); second.action(1400,4); second.action(1400,6)
+        assert state(second) == saved
+    finally:
+        second.close()
+
+
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build("expanded-social", ROOT / "tests/fixtures/expanded-social.t")
@@ -136,3 +230,8 @@ def test(build):
     fresh(Session, bundle, test_trade_reactions)
     fresh(Session, bundle, test_trade_modifiers)
     print("  expanded social source tables: passed", flush=True)
+    combined = build.build('character-social', ROOT / 'tests/fixtures/character-social.t')
+    for case in [test_character_contracts, test_social_transactions, test_failed_recognition]:
+        fresh(Session, combined, case)
+    test_social_save(Session, combined, build.out)
+    print('  character/social validation, transactions and persistence: passed', flush=True)
