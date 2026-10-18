@@ -3026,3 +3026,106 @@ class RpgExpandedRapidPurchase: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+rpgExpandedRapidScroungePenalty(category)
+{
+    if (category == 'simple') return 0;
+    if (category == 'average') return -2;
+    if (category == 'complex') return -6;
+    if (category == 'amazing') return -10;
+    rpgExpandedReject('rapid-scrounge-category');
+}
+
+modify RpgExpandedInventionProject
+    rapidSearches = []
+;
+
+class RpgExpandedRapidSearchResult: RpgExpandedResult
+    score = nil
+    projectCost = nil
+;
+
+/** B476-B477 discovery receipt; acquisition and construction are separate commitments. */
+class RpgExpandedRapidSearch: object
+    id = nil
+    project = nil
+    source = nil
+    sourceKind = 'limited'
+    skill = nil
+    approved = nil
+    available = nil
+    permitted = nil
+    uninterrupted = nil
+    seconds = 0
+    evidence = nil
+    result = nil
+    definitionSnapshot = nil
+    definition()
+    { return [self.id,self.project,self.source,self.sourceKind,self.skill,self.seconds,self.evidence]; }
+    context()
+    {
+        local value = new RpgLiteContext(); value.skill = self.skill;
+        value.modifier = rpgExpandedRapidScroungePenalty(self.project.proposal.assess().category); return value;
+    }
+    assess()
+    {
+        if (self.project == nil || !self.project.ofKind(RpgExpandedInventionProject)
+            || self.project.proposal == nil || !self.project.proposal.ofKind(RpgExpandedRapidProposal))
+            rpgExpandedReject('rapid-search-project');
+        self.project.validate(); local value = new RpgExpandedRapidSearchResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.definitionSnapshot == nil || current.length() != self.definitionSnapshot.length())
+                rpgExpandedReject('rapid-search-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('rapid-search-binding');
+            if (!holds(self.project.rapidSearches,self)) rpgExpandedReject('rapid-search-history');
+            value.status = 'reused'; value.check = self.result.check; value.score = self.result.score;
+            value.projectCost = self.result.projectCost; value.seconds = self.result.seconds; return value;
+        }
+        if (self.id == nil || self.id == '' || self.source == nil || !holds(['plentiful','limited'],self.sourceKind)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)) rpgExpandedReject('rapid-search-definition');
+        rpgInteger(self.seconds,0,86400);
+        if (!self.approved || !self.available || !self.permitted || !self.uninterrupted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'rapid-search-author-facts'; return value; }
+        if (self.sourceKind == 'plentiful' && self.skill.id != 'scrounging')
+        { value.reason = 'rapid-search-scrounging-required'; return value; }
+        if (!holds(['testable','flawed'],self.project.theory))
+        { value.reason = 'rapid-search-theory-required'; return value; }
+        foreach (local prior in self.project.rapidSearches)
+            if (prior.id == self.id) rpgExpandedReject('rapid-search-duplicate');
+        local quote = self.project.proposal.assess();
+        if (quote.status != 'ready') { value.reason = quote.reason; return value; }
+        local inventor = self.project.proposal.inventor;
+        if (inventor.dead || inventor.unconscious || inventor.stunned || inventor.hp() <= 0 || inventor.fp() <= 0)
+        { value.reason = 'rapid-search-inventor-unavailable'; return value; }
+        local context = self.context(); value.score = rpgLiteScore(inventor,context);
+        if (value.score == nil) { value.reason = context.unavailableReason(inventor); return value; }
+        if (value.score < 3) { value.reason = 'too-difficult'; return value; }
+        value.modifier = context.modifier; value.seconds = self.seconds; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local current = self.definition(); local design = self.project.proposal.definition(); local start = rpgLedger.seconds;
+        rpgSpendTime(value.seconds);
+        local changed = self.definition(); local changedDesign = self.project.proposal.definition();
+        if (changed.length() != current.length() || changedDesign.length() != design.length())
+            rpgExpandedReject('rapid-search-definition-changed');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != changed[index]) rpgExpandedReject('rapid-search-definition-changed');
+        for (local index = 1; index <= design.length(); index += 1)
+            if (design[index] != changedDesign[index]) rpgExpandedReject('rapid-search-definition-changed');
+        local refreshed = self.assess();
+        if (refreshed.status != 'ready' || rpgLedger.seconds != start + value.seconds)
+            rpgExpandedReject('rapid-search-interrupted');
+        value.score = refreshed.score; value.check = rpgLiteCheck(self.project.proposal.inventor,self.context());
+        if (value.check.status != 'resolved') rpgExpandedReject('rapid-search-check-changed');
+        if (value.check.achieved) value.projectCost = (rpgRandom.die()-1)*100;
+        self.definitionSnapshot = current;
+        if (self.project.definitionSnapshot == nil) self.project.definitionSnapshot = design;
+        self.project.rapidSearches = self.project.rapidSearches + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

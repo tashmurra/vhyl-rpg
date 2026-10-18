@@ -1408,3 +1408,33 @@ integration; rapid construction remains blocked. No separate inventory is added.
 once, spare parts, preview, rollback, replay, undo, duplicate IDs, retargeting,
 availability, insufficient funds and fractional rejection. Fixtures remain unrun.
 Source: `full-2008`, B477.
+
+## Finding rapid-construction components
+
+`RpgExpandedRapidSearch` resolves a search against an actual authored source.
+Supply the rapid invention `project`, unique `id`, `source` reference, `skill`,
+`sourceKind`, `seconds` and evidence. The author must affirm `approved`,
+`available`, `permitted` and `uninterrupted`. For `plentiful` sources the skill's
+neutral ID must be `scrounging`; for `limited` sources the author chooses and
+justifies the relevant technical skill in `evidence`. The reference does not
+specify search duration here, so `seconds` is an explicit scenario decision.
+
+The request applies the category penalty (0, -2, -6 or -10), resolves the current
+contextual skill score, and on success rolls `(one die - 1) * 100` as
+`projectCost`. Failure leaves `projectCost` unset and consumes no cost die.
+A zero cost is a successful discovery. Campaign and purchased-tier permission
+are still required. The search uses ordinary skill availability and modifiers;
+it grants no skill training.
+
+`assess()` is pure. Execute `apply()` within an action transaction: it spends the
+specified time, rechecks definition, source permissions and inventor state, then
+records the check and cost. Interrupted execution raises an error for transaction
+rollback. Replay and project history retain the original result without another
+roll or time charge. Searching does not itself charge currency, transfer inventory
+or consume the source. Applying the receipt to acquired components and prototype
+construction remains pending.
+
+`test_rapid_search` and `test_rapid_search_failure` author preview, rollback,
+interruption, skill-source mismatch, unavailable sources, capability gating,
+retargeting rejection, replay, elapsed time and success/failure cost-die behavior.
+Fixtures remain unrun. Source: `full-2008`, B476–B477.

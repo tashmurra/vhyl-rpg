@@ -717,9 +717,13 @@
       "pages": "B476-B477",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Rapid invention can scrounge from actual available sources, using scavenging with plentiful parts or an authored relevant technical skill with limited sources. Apply category penalties; success sets project cost to (one die minus one) times one hundred, possibly zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_rapid_search",
+        "tests/expanded.py::test_rapid_search_failure"
+      ],
+      "validation_note": "Owned source-approved skill searches apply category penalties and record rolled project cost with time, binding and replay; fixtures unrun. Receipt-to-component acquisition, source consumption and construction remain pending."
     },
     {
       "id": "technology-rapid-purchase",

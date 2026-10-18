@@ -360,7 +360,9 @@
         "tests/expanded.py::test_cinematic_prototype_persistence",
         "tests/expanded.py::test_rapid_concepts",
         "tests/expanded.py::test_rapid_concept_retry",
-        "tests/expanded.py::test_rapid_purchases"
+        "tests/expanded.py::test_rapid_purchases",
+        "tests/expanded.py::test_rapid_search",
+        "tests/expanded.py::test_rapid_search_failure"
       ],
       "validation_note": "Object assessments, fault repairs, computer processing/storage/link/transfer/recording and task equipment contributions and required-software technology fallback authored; fixtures unrun. Combined tools, interrupted recording, structural injury/repair and maintenance scheduling remain incomplete."
     },

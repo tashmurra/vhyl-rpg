@@ -87,11 +87,33 @@ rapidPurchase: RpgExpandedRapidPurchase id = 'first-parts' project = conceptProj
     approved = true available = true permitted = true evidence = 'Available optical components and workshop';
 rapidSparePurchase: RpgExpandedRapidPurchase id = 'spare-parts' project = conceptProject payer = conceptUser item = rapidSpareParts
     approved = true available = true permitted = true evidence = 'Additional matching components';
+rapidSearch: RpgExpandedRapidSearch id = 'optical-search' project = conceptProject source = inventionRoom
+    skill = conceptSkill approved = true available = true permitted = true uninterrupted = true seconds = 60
+    evidence = 'Author confirms optical salvage and engineering skill are suitable';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 300)
+        {
+            if (code == 300)
+            {
+                conceptProject.proposal = rapidProposal; conceptUser.campaignTL = 8;
+                conceptUser.traits = [cinematicCapability]; cinematicCapability.tier = 'rapid';
+                cinematicPermission.mode = 'rapid'; conceptRules.cinematicInvention = true; conceptRules.rapidInvention = true;
+                conceptBlueprint.apply(); return nil;
+            }
+            if (code == 304) rapidSearch.sourceKind = 'plentiful';
+            if (code == 305) conceptUser.iq = 6;
+            if (code == 306) prototypeClockFault.enabled = true;
+            if (code == 307) rapidSearch.available = nil;
+            if (code == 309) rapidSearch.evidence = 'Changed source';
+            if (code == 310) cinematicCapability.active = nil;
+            local value = code == 303 ? rapidSearch.assess() : rapidSearch.apply();
+            event('test.rapid-search'); eventValue(value.status); eventValue(value.reason); eventValue(value.score); eventValue(value.projectCost);
+            if (code == 302) throw new RpgError(); return nil;
+        }
         if (code >= 280)
         {
             if (code == 280 || code == 284 || code == 285)
@@ -488,6 +510,12 @@ act(verb,args)
         event('test.facilities-state'); eventValue(conceptUser.money); eventValue(conceptProject.facilityFunding.length());
         eventValue(conceptProject.facilities == nil ? nil : conceptProject.facilities.destroyed ? 'destroyed' : 'available');
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2132) { conceptInput.code = 300 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2133)
+    {
+        event('test.rapid-search-state'); eventValue(conceptUser.money); eventValue(conceptUser.equipment.length());
+        eventValue(conceptProject.rapidSearches.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     if (verb == 2130) { conceptInput.code = 280 + args[1]; return vhylAct(2097,args); }
     if (verb == 2131)

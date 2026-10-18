@@ -1177,6 +1177,41 @@ def test_rapid_purchases(Session,bundle):
         s.close()
 
 
+def rapid_search_state(s):
+    s.action(2133)
+    return last(s,'test.rapid-search-state')
+
+
+def test_rapid_search(s):
+    s.action(2132,0)
+    initial = [1000000,0,0,0,0]
+    for code in [3,2,6]:
+        s.action(2132,code)
+        assert rapid_search_state(s) == initial
+    for code,reason in [(4,'rapid-search-scrounging-required'),(7,'rapid-search-author-facts'),
+            (10,'invention-capability-required')]:
+        s.action(2132,code)
+        assert last(s,'test.rapid-search')[:2] == ['blocked',reason]
+        assert rapid_search_state(s) == initial
+        s.command('undo')
+    s.action(2132,1)
+    assert last(s,'test.rapid-search') == ['resolved',None,13,200]
+    completed = [1000000,0,1,4,60]
+    assert rapid_search_state(s) == completed
+    s.action(2132,9)
+    assert rapid_search_state(s) == completed
+    s.action(2132,1)
+    assert last(s,'test.rapid-search') == ['reused',None,13,200]
+    assert rapid_search_state(s) == completed
+
+
+def test_rapid_search_failure(s):
+    s.action(2132,0)
+    s.action(2132,5)
+    assert last(s,'test.rapid-search') == ['resolved',None,9,None]
+    assert rapid_search_state(s) == [1000000,0,1,3,60]
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -6988,6 +7023,8 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_rapid_search)
+    fresh(Session,invention,test_rapid_search_failure)
     test_rapid_purchases(Session,invention)
     fresh(Session,invention,test_rapid_concepts)
     fresh(Session,invention,test_rapid_concept_retry)
