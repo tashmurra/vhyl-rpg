@@ -235,3 +235,7 @@ class RpgExpandedLandingReceipt: object
 modify RpgLiteItem
     throwingHandsReason(profile, required) { return 'throwing-anatomy-required'; }
 ;
+
+modify RpgExpandedProfile
+    prepareThrowGate(id,evidence) { return nil; }
+;

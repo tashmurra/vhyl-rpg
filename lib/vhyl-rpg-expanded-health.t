@@ -6534,3 +6534,11 @@ modify RpgLiteItem
         return nil;
     }
 ;
+
+modify RpgExpandedProfile
+    prepareThrowGate(id,evidence)
+    {
+        local gate = new RpgExpandedActionGate(); gate.id = 'throw-' + id; gate.profile = self;
+        gate.requiresMovement = true; gate.evidence = evidence; return gate;
+    }
+;

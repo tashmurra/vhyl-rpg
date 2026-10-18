@@ -9016,6 +9016,8 @@ def test(build):
     test_throw_assessment(Session, throw_assessment)
     held_throw = build.build('expanded-held-throw',ROOT / 'tests/fixtures/expanded-held-throw.t')
     test_held_throw(Session, held_throw)
+    throw_attempt = build.build('expanded-throw-attempt',ROOT / 'tests/fixtures/expanded-throw-attempt.t')
+    test_throw_attempt(Session, throw_attempt, build.out)
     catch_assessment = build.build('expanded-catch-assessment',ROOT / 'tests/fixtures/expanded-catch-assessment.t')
     test_catch_assessment(Session, catch_assessment)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
@@ -14762,5 +14764,58 @@ def test_catch_assessment(Session, bundle):
         for roll,caught,critical in ((3,1,'success'),(18,0,'failure')):
             s.action(2292,12,1,10,10,1,roll)
             assert last(s,'test.catch-assessment') == ['ready',None,12,0,0,1,caught,critical,0,0]
+    finally:
+        s.close()
+
+
+def test_throw_attempt(Session, bundle, out):
+    def state(s):
+        s.action(2285,1173)
+        return last(s,'test.throw-owned')
+    path = out / 'expanded-throw-attempt.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,1170):
+            s.action(2285,code)
+        assert last(s,'test.throw-preview') == ['ready',None,0]
+        s.action(2285,1172)
+        assert state(s) == [0,0,0,0,None,None]
+        s.action(2285,1171)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,None,None]
+        for code in (1171,1171,1174,1175):
+            s.action(2285,code)
+        assert state(s) == [1,3,0,1,11,10]
+        assert last(s,'test.throw-duplicate') == ['throw-attempt-duplicate']
+        assert last(s,'test.recorded-catch') == ['ready',None,10,0,3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1153,1171,1175):
+            s.action(2285,code)
+        assert state(s) == [1,3,0,1,11,10]
+        assert last(s,'test.recorded-catch') == ['ready',None,10,0,3]
+        for code in (1178,1177):
+            s.action(2285,code)
+        assert last(s,'test.throw-binding') == ['throw-attempt-binding']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (1176,1171,1171,1175):
+            s.action(2285,code)
+        assert state(s) == [1,3,0,0,None,None]
+        assert last(s,'test.recorded-catch') == ['blocked','catch-throw-not-permitted',None,0,3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,1171)
+        assert state(s) == [1,3,0,0,None,None]
     finally:
         s.close()

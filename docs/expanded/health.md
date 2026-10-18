@@ -3029,3 +3029,8 @@ to validate bound functional hands, support reservations and competing grips.
 The thrown item itself does not count as a competing object. This integration
 is observational: injury, inventory and active mobility support are unchanged.
 See [held throwing](exploration.md#assessing-a-held-throw-from-character-state).
+
+Throw-roll stages obtain an owned `RpgExpandedActionGate` through
+`profile.prepareThrowGate(id, evidence)`. Permission denial is retained by the
+throw attempt without generating a throw roll. This is an action permission
+integration, not a physical release, defense or injury operation.

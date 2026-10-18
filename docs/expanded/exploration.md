@@ -888,3 +888,36 @@ must also settle critical consequences. These integrations remain incomplete;
 `countsAsParry` is an execution obligation, not an already consumed defense.
 `tests/fixtures/expanded-catch-assessment.t` supplies unrun boundary, independent
 outcome, critical-result and preview-purity assertions.
+
+## Owned throw-roll stage
+
+`RpgExpandedThrowAttempt` records the roll stage for one distinct authored
+`occurrence`. Supply an `id` and a `request` of type `RpgExpandedHeldThrow`.
+For a deliberate pass, set `recipient` to the intended expanded profile and use
+an area target. A specific-target attack cannot be declared a pass. The request
+retains the authored targeting and equipment facts.
+
+`assess()` preflights the held-object request and the health permission gate.
+`resolve()` applies that gate and, if permitted, records one throw roll. Failed
+permission is retained without a throw roll; neither kind of result can reroll
+on replay. Another ID for the same occurrence and thrower is rejected. The
+profile owns the record in `throwAttempts`. The result exposes `assessment`,
+`gate`, `allowed` and `check`, and the attempt stores `committedAt`.
+
+Declared request fields and skill definitions are bound on resolution. Historical
+replay uses the recorded result even after readiness changes, but cannot retarget
+the request. `assessCatch(recipient, score, waiting)` validates the intended
+recipient and feeds the **recorded** throw score and roll into the pure catch
+assessment. Denied permission or an unsuccessful lob cannot qualify as a pass.
+This method does not roll the catcher or transfer the object.
+
+The foundation's `prepareThrowGate` hook rejects unavailable permission support;
+the health module supplies the concrete action/consciousness gate. This owned
+stage does not release the object, charge maneuver time, resolve defenses or
+critical consequences, or apply impact injury. A future complete throw action
+must compose those stages in the same engine transaction. Do not treat this
+record alone as an object in flight or a completed attack.
+
+`tests/fixtures/expanded-throw-attempt.t` contains unrun assertions for pure
+preview, rollback, undo, duplicate occurrences, saved replay after readiness
+changes, declared-field retargeting and a denied consciousness check.

@@ -1792,3 +1792,96 @@ rpgExpandedResolveCatch(score, waiting, throwScore, throwRoll, deliberate, catch
     rpgInteger(catchRoll,3,18); value.check = rpgCheck(value.score,catchRoll);
     value.caught = value.check.achieved; return value;
 }
+
+modify RpgExpandedHeldThrow
+    definition()
+    {
+        local values = [self.profile,self.item,self.skill,self.target,self.palmSized,self.modifier,
+            self.offHand,self.approved,self.evidence];
+        if (self.skill != nil) values = values + [self.skill.id,self.skill.attribute,self.skill.difficulty,self.skill.defaultPenalty];
+        return values;
+    }
+;
+modify RpgExpandedProfile
+    throwAttempts = []
+;
+class RpgExpandedThrowAttemptResult: RpgExpandedResult
+    assessment = nil
+    gate = nil
+    allowed = nil
+;
+/** Owned roll stage for one authored throw occurrence. It does not release the
+ * object, charge maneuver time, resolve critical consequences or apply damage. */
+class RpgExpandedThrowAttempt: object
+    id = nil
+    request = nil
+    occurrence = nil
+    recipient = nil
+    result = nil
+    boundDefinition = nil
+    committedAt = nil
+    definition()
+    { return [self.id,self.request,self.occurrence,self.recipient] + self.request.definition(); }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.request == nil || !self.request.ofKind(RpgExpandedHeldThrow)
+            || self.occurrence == nil || dataType(self.occurrence) != TypeObject)
+            rpgExpandedReject('throw-attempt-definition');
+        local value = new RpgExpandedThrowAttemptResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.boundDefinition.length()) rpgExpandedReject('throw-attempt-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('throw-attempt-binding');
+            if (!holds(self.request.profile.throwAttempts,self) || self.result.gate.assess().status != 'reused')
+                rpgExpandedReject('throw-attempt-history');
+            value.status = 'reused'; return value;
+        }
+        value.assessment = self.request.assess();
+        if (value.assessment.status != 'ready') { value.reason = value.assessment.reason; return value; }
+        if (self.recipient != nil && (!self.recipient.ofKind(RpgExpandedProfile)
+            || self.recipient == self.request.profile || self.request.target != 'area'))
+            rpgExpandedReject('throw-pass-recipient');
+        foreach (local prior in self.request.profile.throwAttempts)
+            if (prior.id == self.id || prior.occurrence == self.occurrence) rpgExpandedReject('throw-attempt-duplicate');
+        value.gate = self.request.profile.prepareThrowGate(self.id,self.request.evidence);
+        if (value.gate == nil) { value.reason = 'throw-permission-adapter-required'; return value; }
+        local permission = value.gate.assess();
+        if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local permission = value.gate.apply();
+        if (permission.status != 'resolved') rpgExpandedReject('throw-permission-changed');
+        local current = self.definition();
+        if (current.length() != definition.length()) rpgExpandedReject('throw-attempt-interrupted');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('throw-attempt-interrupted');
+        value.allowed = permission.allowed; value.reason = permission.reason;
+        if (value.allowed)
+        {
+            local after = self.request.assess();
+            if (after.status != 'ready' || after.score != value.assessment.score
+                || after.distanceHundredths != value.assessment.distanceHundredths
+                || after.damageDice != value.assessment.damageDice || after.damageAdds != value.assessment.damageAdds)
+                rpgExpandedReject('throw-assessment-changed');
+            value.check = rpgCheck(after.score,rpgRandom.roll());
+        }
+        self.boundDefinition = definition; self.committedAt = rpgLedger.seconds; self.result = value;
+        self.request.profile.throwAttempts = self.request.profile.throwAttempts + [self];
+        value.status = 'resolved'; return value;
+    }
+    assessCatch(recipient, score, waiting)
+    {
+        local prepared = self.assess();
+        if (prepared.status != 'reused') rpgExpandedReject('catch-throw-unresolved');
+        if (self.recipient == nil || self.recipient != recipient) rpgExpandedReject('catch-throw-recipient');
+        if (!self.result.allowed || self.result.check == nil)
+        { local value = new RpgExpandedCatchAssessment(); value.reason = 'catch-throw-not-permitted'; return value; }
+        return rpgExpandedAssessCatch(score,waiting,self.result.check.score,self.result.check.roll,true);
+    }
+;

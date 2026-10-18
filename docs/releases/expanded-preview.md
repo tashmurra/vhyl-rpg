@@ -913,3 +913,9 @@ Deliberate-pass catching now has a pure source-grounded assessment for successfu
 lobs, Wait penalties and throw-margin bonuses, with independent catcher results.
 Unsuccessful lobs and thrown attacks cannot use this procedure. Fixtures are
 unrun; owned hand/parry consumption, catches and interception remain incomplete.
+
+Throw attempts now retain the owned permission gate and one throw roll per
+occurrence. Recorded deliberate passes can feed catch assessments without
+rerolling; denied permission remains denied on replay. Persistence fixtures
+are authored but unrun. Inventory release, maneuver time and impact remain
+unfinished parts of the complete throw action.
