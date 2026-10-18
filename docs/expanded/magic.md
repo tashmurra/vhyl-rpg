@@ -13,9 +13,10 @@ learning, ambient energy, rituals, critical outcomes, maintenance and ceremonial
 casting. The [spell-class inventory](inventory/magic-procedures-b.json) adds
 targeting, charged attacks, defensive casting, information, resistance and optional
 magic systems. The [first catalogue segment](inventory/magic-catalogue-a.json)
-and [second segment](inventory/magic-catalogue-b.json) record fifty-two of the
-ninety-three spells, with costs, classes, prerequisites and effect requirements.
-The remaining spell catalogue still needs its inventory.
+and [second](inventory/magic-catalogue-b.json) and
+[final segments](inventory/magic-catalogue-c.json) record the ninety-three printed
+spell entries with costs, classes, prerequisites and effect requirements. This is
+a first inventory pass; cross-reference and numeric audits remain open.
 The enchantment chapter now has a first text pass covering creation,
 level-cost tables, the item catalogue, use and market procedures. Underlying spell
 and trait references, numeric audits and validating tests remain pending.
@@ -144,3 +145,15 @@ Healing needs distinct attempt histories for each limited spell and patient.
 Temporary health contributions expire, ordinary recovery uses shared clocks, and
 full restoration has a patient-wide daily restriction across casters. Physician
 mitigation and self-healing penalties are separate from the amount restored.
+
+
+The final catalogue segment adds private knowledge, mind effects, movement, undead
+construction, planar banishment, protection and water effects. Information access
+must respect observation history and spell familiarity. Suppressing a known spell
+changes availability rather than deleting the purchase or its dependent skills.
+
+Banishment has a source-specific unknown-cost risk that needs an explicit payment
+contract before execution; ordinary casting affordability rules alone cannot express
+it. Return travel also distinguishes original possessions from later acquisitions.
+Water and fog effects depend on actual volumes, paths and geometry. Catalogue
+enumeration is now recorded, but no spell execution or validation is claimed.

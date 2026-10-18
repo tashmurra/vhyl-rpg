@@ -1,0 +1,1459 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B249, knowledge spells, through B253",
+  "review": "Final forty-one printed spell entries enumerated with neutral keys and source metadata. The three segments cover the stated ninety-three-entry catalogue at first-pass level; cross-reference audit, numeric verification, execution and validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "magic-catalogue-c-magic-detect",
+      "source": "full-2008",
+      "pages": "B249",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "First success detects whether one object is magical; a second identifies temporary versus permanent magic. Critical success on either fully identifies the effect as magical analysis does. Preserve observation stage and scope across attempts. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "magic-detect",
+        "groups": [
+          "knowledge"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 5,
+        "energy": {
+          "fixed": 2
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {
+          "aptitude": 1
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-aura-read",
+      "source": "full-2008",
+      "pages": "B249",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reveal personality insight by margin, approximate magical aptitude, possession/control and strong emotions. Critical success reveals concealed supernatural traits. Living actors have auras, ordinary inanimate objects and created/illusory beings do not; undead use specified retained/faint patterns. Author provides actual aura semantics without exposing arbitrary private sheet fields. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "aura-read",
+        "groups": [
+          "knowledge"
+        ],
+        "classes": [
+          "information"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 3,
+          "ignore_subject_size": true
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {
+          "spells_all": [
+            "magic-detect"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-individual-seek",
+      "source": "full-2008",
+      "pages": "B249",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Locate a known individual or manufactured object through a vision, or lead to it within one mile. A person needs known name or sufficiently familiar visualization; unknown role descriptions cannot identify a target. Use long-distance penalties, -5 without an associated item, +1 if personally familiar with the target item. One attempt per week; define attempt scope explicitly. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "individual-seek",
+        "groups": [
+          "knowledge"
+        ],
+        "classes": [
+          "information"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {
+          "aptitude": 1,
+          "intelligence_minimum": 12,
+          "tag_count": {
+            "tag": "seek",
+            "minimum": 2
+          }
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-location-trace",
+      "source": "full-2008",
+      "pages": "B249",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Initial subject must be present or successfully found with individual-seek; use long-distance modifiers when absent. A second of concentration reveals current location while active. One attempt per day, requiring an explicit per-subject/caster policy. Store subject identity rather than a static location. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "location-trace",
+        "groups": [
+          "knowledge"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 60,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": 1,
+        "duration": "one hour",
+        "prerequisites": {
+          "spells_all": [
+            "individual-seek"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-recent-magic-identify",
+      "source": "full-2008",
+      "pages": "B249",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Identify all spells cast on/by the subject in the last five seconds or currently being cast, excluding permanent item enchantments. Unknown spell concepts yield only a broad category; learned and merely heard-of spells differ. Use timestamped events and authored familiarity. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "recent-magic-identify",
+        "groups": [
+          "knowledge"
+        ],
+        "classes": [
+          "information"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 2
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {
+          "spells_all": [
+            "magic-detect"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-magic-analyze",
+      "source": "full-2008",
+      "pages": "B249",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Identify lowest-energy spell on the subject and disclose that more remain; repeated analyses reveal the next. Concealing spells resist. Unheard-of effects yield limited descriptions. Define equal-cost ordering, progression history and the interaction with ordinary information retry limits. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "magic-analyze",
+        "groups": [
+          "knowledge"
+        ],
+        "classes": [
+          "information",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 3600,
+        "energy": {
+          "fixed": 8
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {
+          "spells_all": [
+            "recent-magic-identify"
+          ]
+        },
+        "resistance": "concealing spell"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-light-mote",
+      "source": "full-2008",
+      "pages": "B249",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Create a candle-sized light that remains stationary without concentration; with concentration move it at movement five. Retain actual location and spectrum-dependent illumination. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "light-mote",
+        "groups": [
+          "light"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 1
+        },
+        "maintenance": 1,
+        "duration": "sixty seconds",
+        "prerequisites": {}
+      }
+    },
+    {
+      "id": "magic-catalogue-c-lasting-light",
+      "source": "full-2008",
+      "pages": "B249",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Illuminate an object up to fist-sized or one pound, or a small part of a larger object. Brightness tiers are dim, fire-like or painfully glaring. Roll duration once; this effect does not count as an active spell for casting penalties. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "lasting-light",
+        "groups": [
+          "light"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "dim": 2,
+          "bright": 4,
+          "glare": 6
+        },
+        "maintenance": null,
+        "duration": "two dice days",
+        "prerequisites": {
+          "spells_all": [
+            "light-mote"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-darkness-field",
+      "source": "full-2008",
+      "pages": "B250",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Inside observers can see outside normally but nothing else inside; outside observers see darkness within. Darkness-sight pierces the field, ordinary night/infrared vision does not. Use directional visibility for attacks into/out of the field. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "darkness-field",
+        "groups": [
+          "light"
+        ],
+        "classes": [
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base": 2
+        },
+        "maintenance": {
+          "base": 1
+        },
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "lasting-light"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-visual-blur",
+      "source": "full-2008",
+      "pages": "B250",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduce effective skill of attacks on the subject by one per effect energy, at most five under ordinary effect limits. Keep this as attack-target visibility modifier rather than changing attacker base skill globally. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "visual-blur",
+        "groups": [
+          "light"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 2,
+        "energy": {
+          "minimum": 1,
+          "maximum": 5
+        },
+        "maintenance": "same as selected casting effect energy",
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "darkness-field"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-spell-counter",
+      "source": "full-2008",
+      "pages": "B250",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cancel one ongoing spell, not a permanent world change or permanent item enchantment; item-cast temporary spells remain eligible. Target either spell subject or original caster. Must know the target spell and roll at lower of counter skill and that spell skill. Win quick contest against target spell; area effects may be canceled piecemeal. Resolve fractional cost and piece geometry explicitly. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "spell-counter",
+        "groups": [
+          "meta"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 5,
+        "energy": {
+          "formula": "half target spell cost before original high-skill discount"
+        },
+        "maintenance": null,
+        "duration": "permanent cancellation",
+        "prerequisites": {
+          "aptitude": 1
+        },
+        "resistance": "target spell"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-magic-dispel",
+      "source": "full-2008",
+      "pages": "B250",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Attempt to remove every spell in the selected area, each resisting separately, without selecting only favorable targets or requiring knowledge of each spell. Item enchantments are excluded. Casting time is one second per energy spent; resolve whether discounted payment or gross effect energy controls that time. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "magic-dispel",
+        "groups": [
+          "meta"
+        ],
+        "classes": [
+          "area",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "one second per energy spent",
+        "energy": {
+          "base": 3
+        },
+        "maintenance": null,
+        "duration": "permanent cancellation",
+        "prerequisites": {
+          "spells_all": [
+            "spell-counter"
+          ],
+          "other_spell_count": 12
+        },
+        "resistance": "each target spell"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-intelligence-drain",
+      "source": "full-2008",
+      "pages": "B250",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduce intelligence and intelligence-based skills including spells by one per effect energy; do not subtract twice from derived skills. Author may require intelligence to recall complicated facts. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "intelligence-drain",
+        "groups": [
+          "mind"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "minimum": 1,
+          "maximum": 5
+        },
+        "maintenance": "ceil(casting effect energy / 2)",
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "intelligence_minimum": 12
+        },
+        "resistance": "will"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-memory-suppress",
+      "source": "full-2008",
+      "pages": "B250",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Temporarily suppress one fact, skill or spell. A forgotten spell remains a prerequisite for already learned dependent spells, but those operate at -2. Restore access on expiry without repurchasing or deleting learned levels. Author selects will or skill resistance according to target content. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "memory-suppress",
+        "groups": [
+          "mind"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 10,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": 3,
+        "duration": "one hour",
+        "prerequisites": {
+          "spells_all": [
+            "intelligence-drain"
+          ],
+          "aptitude": 1
+        },
+        "resistance": "will or target skill"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-awareness-daze",
+      "source": "full-2008",
+      "pages": "B250-B251",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Subject appears ordinary but notices and remembers no surrounding events. Any injury or successful resistance to another spell ends the daze. Gate perception/memory outputs while preserving actual world events. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "awareness-daze",
+        "groups": [
+          "mind"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 2,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": 2,
+        "duration": "sixty seconds or until disrupted",
+        "prerequisites": {
+          "spells_all": [
+            "intelligence-drain"
+          ]
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-group-daze",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Apply awareness-daze separately to each affected subject, including injury/resistance termination. Minimum radius two yards. Casting time is one second per energy spent with explicit discount-order policy. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "group-daze",
+        "groups": [
+          "mind"
+        ],
+        "classes": [
+          "area",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "one second per energy spent",
+        "energy": {
+          "base": 2,
+          "minimum_radius_yards": 2
+        },
+        "maintenance": {
+          "base": 1
+        },
+        "duration": "sixty seconds or individual disruption",
+        "prerequisites": {
+          "spells_all": [
+            "awareness-daze"
+          ],
+          "intelligence_minimum": 13
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-sleep-induce",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Put subject to sleep; falling from standing does not itself wake them. A blow/noise can wake them with mental stun; awaken-alert wakes instantly. Ordinary uninterrupted sleep ends normally. Author specifies approximate sleep-duration scheduling. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "sleep-induce",
+        "groups": [
+          "mind"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 3,
+        "energy": {
+          "fixed": 4
+        },
+        "maintenance": null,
+        "duration": "about eight hours unless awakened",
+        "prerequisites": {
+          "spells_all": [
+            "awareness-daze"
+          ]
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-group-sleep",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Apply sleep-induce independently across the selected area, minimum radius two. Preserve individual waking events and ordinary injury consequences. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "group-sleep",
+        "groups": [
+          "mind"
+        ],
+        "classes": [
+          "area",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "one second per energy spent",
+        "energy": {
+          "base": 3,
+          "minimum_radius_yards": 2
+        },
+        "maintenance": null,
+        "duration": "about eight hours unless awakened",
+        "prerequisites": {
+          "spells_all": [
+            "sleep-induce"
+          ],
+          "intelligence_minimum": 13
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-immediate-command",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Issue one word plus gesture or at most two words. Command must be possible immediately or on the subject next turn, otherwise no effect. Author resolves a concrete allowed action such as dropping an item, looking or waiting; do not create arbitrary long-term control. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "immediate-command",
+        "groups": [
+          "mind"
+        ],
+        "classes": [
+          "blocking",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 2
+        },
+        "maintenance": null,
+        "duration": "immediate or next-turn action",
+        "prerequisites": {
+          "spells_all": [
+            "memory-suppress"
+          ],
+          "aptitude": 2
+        },
+        "resistance": "will"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-movement-haste",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Increase both movement and dodge by selected level. Reuse ordinary movement/defense calculations and avoid applying the level twice through any derived characteristic. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "movement-haste",
+        "groups": [
+          "movement"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 2,
+        "energy": {
+          "per_level": 2,
+          "maximum_levels": 3
+        },
+        "maintenance": {
+          "per_level": 1
+        },
+        "duration": "sixty seconds",
+        "prerequisites": {}
+      }
+    },
+    {
+      "id": "magic-catalogue-c-personal-time-boost",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Grant one level of accelerated personal time. On expiry subject loses five fatigue unless also the caster. Own expiry and delayed payment, and integrate turn scheduling without duplicating world-time hazards or ledger ticks. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "personal-time-boost",
+        "groups": [
+          "movement"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "very-hard",
+        "casting_seconds": 3,
+        "energy": {
+          "fixed": 5
+        },
+        "maintenance": null,
+        "duration": "ten seconds; not maintainable",
+        "prerequisites": {
+          "spells_all": [
+            "movement-haste"
+          ],
+          "aptitude": 1,
+          "intelligence_minimum": 12
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-object-levitate",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Levitate physical subject at movement one, too slowly for impact damage. Living subjects resist will; inanimate subjects do not. Specify rounding for partial additional weight bands and ongoing concentration from the control rules. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "object-levitate",
+        "groups": [
+          "movement"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "weight_pounds_upper_bounds": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              50,
+              3
+            ],
+            [
+              200,
+              4
+            ]
+          ],
+          "beyond_200": "additional four energy per additional hundred pounds"
+        },
+        "maintenance": "same as casting effect energy",
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "aptitude": 1
+        },
+        "resistance": "will for living subjects"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-lock-open",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Open a lock using ordinary lockpicking difficulty modifiers. A magical locking effect resists; ordinary mechanical locks do not gain an invented resistance roll. Preserve open/closed and magical seal state. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "lock-open",
+        "groups": [
+          "movement"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 10,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": null,
+        "duration": "lock stays open until closed",
+        "prerequisites": {
+          "spells_all": [
+            "object-levitate"
+          ],
+          "aptitude": 2
+        },
+        "resistance": "magic-seal"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-projectile-deflect",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Deflect one incoming projectile including magical projectiles, counting as a parry. Another protected subject uses ordinary range penalty. Deflected attack may continue to a target beyond; resolve trajectory rather than automatically destroying it. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "projectile-deflect",
+        "groups": [
+          "movement"
+        ],
+        "classes": [
+          "blocking"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 1
+        },
+        "maintenance": null,
+        "duration": "instantaneous defense",
+        "prerequisites": {
+          "spells_all": [
+            "object-levitate"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-mortality-vision",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Deliver an authored possible-death vision, not guaranteed future truth. Subject becomes mentally stunned and uses intelligence recovery checks. The vision may incidentally identify a possible hazard without guaranteeing knowledge of hidden future events. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "mortality-vision",
+        "groups": [
+          "death"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 3,
+        "energy": {
+          "fixed": 2
+        },
+        "maintenance": null,
+        "duration": "one-second vision; stun until recovery",
+        "prerequisites": {
+          "aptitude": 1
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-spirit-sense",
+      "source": "full-2008",
+      "pages": "B252",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Detect ghosts, spirits, undead or similar entities; a favorable margin gives general kind. Include/exclude a type only as declared before casting. Apply area minimum energy and information visibility rules. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "spirit-sense",
+        "groups": [
+          "death"
+        ],
+        "classes": [
+          "information",
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base_fraction": [
+            1,
+            2
+          ]
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {
+          "spells_all": [
+            "mortality-vision"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-departed-contact",
+      "source": "full-2008",
+      "pages": "B252",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Contact a dead person spirit, resistance at -5 if a friend. Answer one question on arrival and another per continued minute using only knowledge at death. Failure bars that caster/group contacting that spirit for one year; critical failure summons a deceptive hostile spirit. Casting -5 without full name and elapsed-death penalties -1 beyond week, -2 month, -3 year, -4 ten years, -5 fifty years, -6 five hundred years. Use highest elapsed bracket. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "departed-contact",
+        "groups": [
+          "death"
+        ],
+        "classes": [
+          "information",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 300,
+        "energy": {
+          "fixed": 20,
+          "death_site_or_corpse_multiplier": [
+            1,
+            2
+          ]
+        },
+        "maintenance": 10,
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "mortality-vision"
+          ],
+          "aptitude": 2
+        },
+        "resistance": "spirit will"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-corpse-animate",
+      "source": "full-2008",
+      "pages": "B252",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Requires a relatively complete corpse; freshness/skeleton/dry condition selects the authored undead body form. Preserve source physical attributes, physical advantages and dexterity-based skills as appropriate; exclude soul, memories, mental traits and intelligence-based skills. Author provides concrete servant capabilities/control. Apply size scaling once. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "corpse-animate",
+        "groups": [
+          "death"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 60,
+        "energy": {
+          "fixed": 8,
+          "positive_size_multiplier": "one plus size modifier"
+        },
+        "maintenance": null,
+        "duration": "until destroyed",
+        "prerequisites": {
+          "spells_all": [
+            "departed-contact",
+            "temporary-vitality"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-animated-repel",
+      "source": "full-2008",
+      "pages": "B252",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Affect only bodies animated by corpse-animate. Inflict one die injury ignoring armor, then roll one die per affected undead; a one forces flight and caster avoidance for one day. Store individual outcomes, source eligibility and expiry. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "animated-repel",
+        "groups": [
+          "death"
+        ],
+        "classes": [
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 4,
+        "energy": {
+          "base": 2
+        },
+        "maintenance": null,
+        "duration": "instant injury; flight lasts one day",
+        "prerequisites": {
+          "spells_all": [
+            "corpse-animate"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-hostile-planar-summon",
+      "source": "full-2008",
+      "pages": "B252",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use planar-summon control procedure for an inherently hostile entity. Failed control always causes an attack on caster; controlled entities obey literal commands while exploiting omissions and causing incidental mischief unless prohibited. Author defines executable command interpretation and entity abilities. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "hostile-planar-summon",
+        "groups": [
+          "death"
+        ],
+        "classes": [
+          "special"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 300,
+        "energy": {
+          "per_character_points": {
+            "energy": 1,
+            "points": 10
+          },
+          "minimum": 20
+        },
+        "maintenance": null,
+        "duration": "command completion or one hour",
+        "prerequisites": {
+          "aptitude": 1,
+          "distinct_group_count": 10
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-visitor-banish",
+      "source": "full-2008",
+      "pages": "B252",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Caster must be in their home dimension; target must be away from its own. Win contest against will to return it home, with +4 for true name, -5 for unknown origin and another -1 for incorrect believed origin. Only possessions brought on arrival depart with it; later acquisitions remain. Some authored entities resist or are immune. Actual hidden energy may exhaust or injure caster; reconcile this specific unpredictable-cost exception with preflight through an explicit authorized payment-risk contract. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "visitor-banish",
+        "groups": [
+          "death"
+        ],
+        "classes": [
+          "special",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 5,
+        "energy": {
+          "per_character_points": {
+            "energy": 1,
+            "points": 10
+          },
+          "minimum": 10,
+          "actual_cost_private": true
+        },
+        "maintenance": null,
+        "duration": "relocation plus one-month return prohibition",
+        "prerequisites": {
+          "aptitude": 1,
+          "distinct_group_count": 10
+        },
+        "resistance": "will"
+      }
+    },
+    {
+      "id": "magic-catalogue-c-frontal-guard",
+      "source": "full-2008",
+      "pages": "B252-B253",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Add frontal defense bonus cumulative with a physical shield. Does not grant block to someone lacking a shield. Determine frontal eligibility from current facing and incoming attack. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "frontal-guard",
+        "groups": [
+          "protection"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "per_defense_bonus": 2,
+          "maximum_defense_bonus": 4
+        },
+        "maintenance": "half casting effect energy",
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "aptitude": 2
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-armor-ward",
+      "source": "full-2008",
+      "pages": "B253",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Add armor-like damage resistance to a living subject, cumulative with physical armor. Preserve armor treatment for penetrators and spell-specific bypass rather than treating it as unconditional injury reduction. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "armor-ward",
+        "groups": [
+          "protection"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "per_protection": 2,
+          "maximum_protection": 5
+        },
+        "maintenance": "half casting effect energy",
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "frontal-guard"
+          ],
+          "aptitude": 2
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-magic-seal",
+      "source": "full-2008",
+      "pages": "B253",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Keep a door locked until the spell is removed or the door destroyed. Countering and lock-open can remove it, with the latter resisted by original spell skill. Define target door and actual destruction state. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "magic-seal",
+        "groups": [
+          "protection"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 4,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": 2,
+        "duration": "six hours",
+        "prerequisites": {
+          "aptitude": 1
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-water-seek",
+      "source": "full-2008",
+      "pages": "B253",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Locate direction, distance and general nature of nearest significant water source using long-distance penalties. Exclude declared known sources before casting; forked-stick absence gives -3. The tool penalty is specific, not a categorical ban without the item. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "water-seek",
+        "groups": [
+          "water"
+        ],
+        "classes": [
+          "information"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 2
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {}
+      }
+    },
+    {
+      "id": "magic-catalogue-c-water-cleanse",
+      "source": "full-2008",
+      "pages": "B253",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Pour water through a ring/hoop or fingers into a container; one skill roll suffices while flow is uninterrupted. Normally five to ten seconds per gallon, with author-defined larger apparatus rates. Track processed volume and continuous-session payment, and do not bill all gallons repeatedly. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "water-cleanse",
+        "groups": [
+          "water"
+        ],
+        "classes": [
+          "special"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "five to ten per gallon unless apparatus changes rate",
+        "energy": {
+          "per_gallon": 1
+        },
+        "maintenance": null,
+        "duration": "permanent purification",
+        "prerequisites": {
+          "spells_all": [
+            "water-seek"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-water-create",
+      "source": "full-2008",
+      "pages": "B253",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Create pure water in a container, a falling globe or dense mist; one gallon of mist extinguishes fires in a one-yard radius. Cannot create water inside living foes. Own actual volume and resulting movement/containment. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "water-create",
+        "groups": [
+          "water"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "per_gallon": 2
+        },
+        "maintenance": null,
+        "duration": "permanent water",
+        "prerequisites": {
+          "spells_all": [
+            "water-cleanse"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-water-destroy",
+      "source": "full-2008",
+      "pages": "B253",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Remove water in any phase, leaving vacuum and dry impurities; surrounding water can flow back. In deep water affected height/depth is two yards, not the default four. Cannot dehydrate a living target. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "water-destroy",
+        "groups": [
+          "water"
+        ],
+        "classes": [
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base": 3
+        },
+        "maintenance": null,
+        "duration": "permanent removal",
+        "prerequisites": {
+          "spells_all": [
+            "water-create"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-water-shape",
+      "source": "full-2008",
+      "pages": "B253",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Shape liquid, ice or steam and move at movement three. Fixed shape persists without concentration. Twenty gallons can form a two-yard-high, one-yard-wide wall stopping ordinary flame and flame-projectile. Define controlled movement and wall geometry without granting universal projectile immunity. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "water-shape",
+        "groups": [
+          "water"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 2,
+        "energy": {
+          "per_twenty_gallons": 1
+        },
+        "maintenance": "same as casting effect energy",
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "water-create"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-fog-field",
+      "source": "full-2008",
+      "pages": "B253",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "One yard of fog blocks vision. Flaming weapon/projectile added power is suppressed; flame-projectile loses one damage per yard traversed, while each fog yard counts as two blast-distance yards for flame-explosion victims. Fog itself extinguishes no fire. Track traversed path and nonnegative final damage. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "fog-field",
+        "groups": [
+          "water"
+        ],
+        "classes": [
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base": 2
+        },
+        "maintenance": {
+          "base": 1
+        },
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "water-shape"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-freezing-weapon",
+      "source": "full-2008",
+      "pages": "B253",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A weapon becomes cold without harming wielder/host. If the attack penetrates armor, add two to final injury, not basic damage; ordinary cutting/piercing multipliers do not scale this bonus, but cold/ice vulnerability does. Apply only to qualifying targets. Apply recorded spell-class exceptions and shared transaction/ledger rules. Metadata is source inventory, not completed execution.",
+      "tests": [],
+      "spell_data": {
+        "key": "freezing-weapon",
+        "groups": [
+          "water"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 3,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": 1,
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "water-create"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-c-knowledge-default",
+      "source": "full-2008",
+      "pages": "B249",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Knowledge-group spells are instantaneous information unless explicitly given another duration; procedural class still controls roll privacy and payment.",
+      "tests": []
+    },
+    {
+      "id": "magic-catalogue-c-light-spectrum",
+      "source": "full-2008",
+      "pages": "B249-B250",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Light/darkness spells affect visible, infrared and ultraviolet channels. Explicit darkness-sight exceptions take precedence over general spectrum blocking.",
+      "tests": []
+    },
+    {
+      "id": "magic-catalogue-c-mind-eligibility",
+      "source": "full-2008",
+      "pages": "B250",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mind-group spells do not affect intelligence-zero or free-will-lacking targets; inspect actual actor properties rather than species labels.",
+      "tests": []
+    },
+    {
+      "id": "magic-catalogue-c-movement-alias",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Movement-drain is the same cross-listed body spell from B244, not a second purchase or catalogue entry.",
+      "tests": []
+    },
+    {
+      "id": "magic-catalogue-c-death-eligibility",
+      "source": "full-2008",
+      "pages": "B251",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Death-group effects apply across ancestries unless a specific ancestry definition overrides eligibility.",
+      "tests": []
+    },
+    {
+      "id": "magic-catalogue-c-water-eligibility",
+      "source": "full-2008",
+      "pages": "B253",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Water spells normally cannot affect water inside living beings. Water-breathing is the same cross-listed air spell at B243, not another definition.",
+      "tests": []
+    },
+    {
+      "id": "magic-catalogue-c-catalogue-count",
+      "source": "full-2008",
+      "pages": "B242-B253",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The three catalogue segments enumerate ninety-three unique printed spell entries; cross-listed references are not additional entries. Distinct destination versions and the separately listed hostile summoning variant require appropriate identity handling. This count is an inventory target, not proof of implemented completeness.",
+      "tests": []
+    }
+  ]
+}
