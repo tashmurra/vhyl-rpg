@@ -3731,6 +3731,34 @@ class RpgExpandedBleedingAid: object
     completedAt = nil
     boundDefinition = nil
     result = nil
+    boundStart = nil
+    boundOutcome = nil
+    outcomeDefinition()
+    {
+        local facts = [self.completedAt,self.result,self.result.status,self.result.reason,
+            self.result.stopped,self.result.healed,self.result.check];
+        if (self.result.check != nil)
+            facts = facts + [self.result.check.score,self.result.check.roll,self.result.check.margin,
+                self.result.check.achieved,self.result.check.critical];
+        return facts;
+    }
+    validateReceipt()
+    {
+        if (self.boundStart == nil || self.startedAt != self.boundStart || self.completesAt != self.boundStart + 60
+            || self.startedAt > rpgLedger.seconds) rpgExpandedReject('bleeding-aid-timeline');
+        if (self.result == nil)
+        {
+            if (self.completedAt != nil || self.boundOutcome != nil) rpgExpandedReject('bleeding-aid-uncommitted-outcome');
+            return nil;
+        }
+        if (self.completedAt == nil || self.completedAt < self.startedAt || self.completedAt > rpgLedger.seconds)
+            rpgExpandedReject('bleeding-aid-timeline');
+        local facts = self.outcomeDefinition();
+        if (self.boundOutcome == nil || facts.length() != self.boundOutcome.length()) rpgExpandedReject('bleeding-aid-outcome');
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundOutcome[index]) rpgExpandedReject('bleeding-aid-outcome');
+        return nil;
+    }
     definition()
     {
         return [self.id,self.episode,self.healer,self.skill,self.modifier,self.approved,self.careEvidence,self.bandage];
@@ -3746,12 +3774,16 @@ class RpgExpandedBleedingAid: object
         local value = new RpgExpandedBleedingResult();
         if (self.startedAt != nil)
         {
+            self.validateReceipt();
             local current = self.definition();
             for (local index = 1; index <= current.length(); index += 1)
                 if (current[index] != self.boundDefinition[index]) rpgExpandedReject('bleeding-aid-binding');
             if (!holds(self.episode.aidAttempts,self)) rpgExpandedReject('bleeding-aid-history');
             if (self.result != nil) { value.status = 'reused'; return value; }
         }
+        if (self.startedAt == nil && (self.boundStart != nil || self.completesAt != nil || self.completedAt != nil
+            || self.boundOutcome != nil || self.boundDefinition != nil || self.result != nil))
+            rpgExpandedReject('bleeding-aid-uncommitted-state');
         if (self.episode.result == nil) { value.reason = 'bleeding-episode-not-started'; return value; }
         self.episode.assess();
         local patient = self.episode.classification.wound.profile;
@@ -3789,7 +3821,7 @@ class RpgExpandedBleedingAid: object
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         if (self.startedAt != nil) { value.status = 'reused'; return value; }
-        self.startedAt = rpgLedger.seconds; self.completesAt = self.startedAt + 60;
+        self.startedAt = rpgLedger.seconds; self.boundStart = self.startedAt; self.completesAt = self.startedAt + 60;
         self.boundDefinition = self.definition(); self.episode.aidAttempts = self.episode.aidAttempts + [self];
         value.status = 'resolved'; return value;
     }
@@ -3811,7 +3843,7 @@ class RpgExpandedBleedingAid: object
         self.assess();
         if (self.result != nil) { value.status = 'reused'; return value; }
         value.reason = 'bleeding-aid-interrupted'; value.status = 'resolved';
-        self.completedAt = rpgLedger.seconds; self.result = value; return value;
+        self.completedAt = rpgLedger.seconds; self.result = value; self.boundOutcome = self.outcomeDefinition(); return value;
     }
     complete()
     {
@@ -3823,12 +3855,14 @@ class RpgExpandedBleedingAid: object
             self.episode.classification.wound.profile.bleedingEpisode = nil;
         }
         self.completedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = self.outcomeDefinition();
         if (value.stopped && self.bandage != nil)
         {
             local credit = self.bandage.applyAfterBleedingCare(self);
             if (credit.status != 'resolved') rpgExpandedReject('bleeding-aid-bandage-changed');
             value.healed = credit.healed;
         }
+        self.boundOutcome = self.outcomeDefinition();
         return value;
     }
 ;

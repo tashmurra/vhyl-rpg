@@ -269,9 +269,13 @@
       "status": "partial",
       "acceptance": "Bleeding is disabled unless selected by campaign configuration; qualifying injuries create persistent bleeding state tied to their actual wounds.",
       "tests": [
-        "tests/expanded.py::test_bleeding_onset"
+        "tests/expanded.py::test_bleeding_onset",
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_bleeding_receipts"
       ],
-      "validation_note": "Owned opted-in onset, concrete wound classification, timestamp and first-minute clock boundary authored. Minute execution, aggregation, loss-basis reconciliation and first-aid termination pending. Fixtures unrun."
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "health-bleeding-timing",
@@ -284,9 +288,12 @@
       "tests": [
         "tests/expanded.py::test_bleeding_onset",
         "tests/expanded.py::test_bleeding_minutes",
-        "tests/expanded.py::test_bleeding_care_boundaries"
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_receipts"
       ],
-      "validation_note": "Owned minute execution, shared injury records, replay, deadline progression and natural cessation authored. First-aid termination, multi-wound aggregation, loss-basis reconciliation and special injury policies pending. Fixtures unrun."
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "health-bleeding-outcomes",
@@ -298,9 +305,13 @@
       "acceptance": "Ordinary bleeding failure loses one health, critical failure loses three, critical success ends bleeding, and ordinary success prevents that minute's loss.",
       "tests": [
         "tests/expanded.py::test_bleeding_outcomes",
-        "tests/expanded.py::test_bleeding_minutes"
+        "tests/expanded.py::test_bleeding_minutes",
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_bleeding_receipts"
       ],
-      "validation_note": "Owned minute execution, shared injury records, replay, deadline progression and natural cessation authored. First-aid termination, multi-wound aggregation, loss-basis reconciliation and special injury policies pending. Fixtures unrun."
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "health-bleeding-streak",
@@ -312,9 +323,13 @@
       "acceptance": "Three consecutive minutes without bleeding end the episode; a bleeding minute resets the streak and successful first aid can stop further losses.",
       "tests": [
         "tests/expanded.py::test_bleeding_outcomes",
-        "tests/expanded.py::test_bleeding_minutes"
+        "tests/expanded.py::test_bleeding_minutes",
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_bleeding_receipts"
       ],
-      "validation_note": "Owned minute execution, shared injury records, replay, deadline progression and natural cessation authored. First-aid termination, multi-wound aggregation, loss-basis reconciliation and special injury policies pending. Fixtures unrun."
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "health-bleeding-wound-policy",
@@ -325,9 +340,13 @@
       "status": "partial",
       "acceptance": "Author which wounds bleed, normally cutting/impaling/piercing; minor burn/corrosion does not bleed significantly but a major such wound does. Preserve exceptions explicitly.",
       "tests": [
-        "tests/expanded.py::test_bleeding_onset"
+        "tests/expanded.py::test_bleeding_onset",
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_bleeding_receipts"
       ],
-      "validation_note": "Owned opted-in onset, concrete wound classification, timestamp and first-minute clock boundary authored. Minute execution, aggregation, loss-basis reconciliation and first-aid termination pending. Fixtures unrun."
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "health-accumulation-option",

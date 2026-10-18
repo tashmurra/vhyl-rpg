@@ -1791,7 +1791,7 @@ wound configurations propagate their normal preflight blocker.
 `test_bleeding_minutes` specifies exact due times, retained failed/successful
 minutes, injury amounts, reset/termination of the streak, replay, preview,
 rollback, undo, saved continuation and release of the clock after termination.
-These fixtures remain unrun. First-aid termination, automatic wound enrollment,
+These fixtures remain unrun. Automatic wound enrollment,
 multiple-wound aggregation and a fully reconciled loss basis still prevent a
 complete bleeding-system claim.
 
@@ -3976,3 +3976,14 @@ specifies wholly uncharged, partially charged and already charged parties, block
 author facts, preview, rollback, undo and cross-process reuse. Fixtures remain unrun.
 This operation settles marching fatigue only; encounter setup and interrupted
 movement distances still require author integration.
+
+Bleeding aid binds the initial timestamp and its one-minute deadline separately
+from mutable world facts. Completed and cancelled receipts bind the completion
+time, outcome, healing credit and individual check fields. Rewriting these fields
+is rejected before replay or another care decision. The linked bandage adapter
+validates the provisional successful receipt before crediting healing, then the
+care operation binds the final credit in the same transaction.
+`test_bleeding_receipts` specifies deadline and outcome mutation rollback and
+saved continuation for successful, cancelled and bandage-linked care. Fixtures
+remain unrun. This closes receipt integrity gaps; automatic wound enrollment,
+multiple-wound aggregation and loss-basis reconciliation remain incomplete.

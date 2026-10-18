@@ -9717,6 +9717,8 @@ def test(build):
     test_bleeding_aid(Session, bleeding, build.out)
     test_bleeding_bandage(Session, bleeding, build.out)
     test_bleeding_care_boundaries(Session, bleeding, build.out)
+    bleeding_receipts = build.build('expanded-bleeding-receipts', ROOT / 'tests/fixtures/expanded-bleeding-receipts.t')
+    test_bleeding_receipts(Session, bleeding_receipts, build.out)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
     fresh(Session,health,test_critical_major_wound)
@@ -25922,5 +25924,45 @@ def test_makeup_materials(Session, bundle, out):
         try:
             s.action(1680,code); s.action(1680,25600); s.action(1680,25600); s.action(1680,26000)
             assert last(s,'test.makeup-materials') == expected
+        finally:
+            s.close()
+
+
+def test_bleeding_receipts(Session, bundle, out):
+    """Treatment deadlines and completed outcomes reject rewrites; unrun."""
+    for mode in ('success','cancel','bandage'):
+        s = Session(bundle)
+        path = out / f'bleeding-receipt-{mode}.zsave'
+        try:
+            for code in (0,1):
+                s.action(2285,code)
+            if mode == 'bandage':
+                s.action(2285,47)
+            s.action(2285,40)
+            s.action(2285,77); original = last(s,'test.bleeding-receipt')
+            for code in (70,71):
+                s.action(2285,code)
+                s.action(2285,77)
+                assert last(s,'test.bleeding-receipt') == original
+                s.action(2285,41)
+                assert last(s,'test.bleeding-aid')[:2] == ['blocked','bleeding-aid-not-due']
+            s.action(2285,30); s.action(2285,4)
+            s.action(2285,46 if mode == 'cancel' else 42)
+            s.action(2285,77); original = last(s,'test.bleeding-receipt')
+            for code in (70,71,72,75,76) + (() if mode == 'cancel' else (73,74)):
+                s.action(2285,code)
+                s.action(2285,77)
+                assert last(s,'test.bleeding-receipt') == original
+                s.action(2285,42)
+                assert last(s,'test.bleeding-aid') == ['reused',None,0]
+            s.action(2288)
+            assert last(s,'test.bleeding-bandage-state')[2] == (1 if mode == 'bandage' else 0)
+            s.command(f':save {path}')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2287'); s.action(2285,42)
+            assert last(s,'test.bleeding-aid') == ['reused',None,0]
         finally:
             s.close()
