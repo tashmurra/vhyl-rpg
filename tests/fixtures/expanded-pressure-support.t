@@ -23,6 +23,15 @@ modify BleedTestAction
             catch (RpgExpandedError error) { eventValue(error.reason); }
             eventValue(rpgRandom.draws); return nil;
         }
+        if (code == 8115) { pressureExposure.end(); return nil; }
+        if (code == 8116)
+        {
+            local value = pressureExposure.assessReturnToNative(true);
+            event('test.pressure-historical'); eventValue(pressureExposure.resolvedNativePressure());
+            eventValue(pressureExposure.resolvedSupport()); eventValue(value.safeReturn ? 1 : 0);
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 8117) { pressureExposure.entrySupport = 3; return nil; }
         if (code == 8114)
         {
             local original = rpgExpandedTemplateTraits.plain('pressure-support',2,nil);

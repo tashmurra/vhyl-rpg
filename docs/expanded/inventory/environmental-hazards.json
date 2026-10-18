@@ -2286,9 +2286,10 @@
       "acceptance": "Above ten times native pressure check health at entry and every minute, using +3 minus one per ten-times-native increment; failure injury equals margin, multiplied by size modifier if at least +2.",
       "tests": [
         "tests/expanded.py::test_pressure",
-        "tests/expanded.py::test_pressure_clock"
+        "tests/expanded.py::test_pressure_clock",
+        "tests/expanded.py::test_pressure_history"
       ],
-      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun. Shared clock validation now prevents crossing unresolved entry/minute deadlines and binds deadlines to ordered completed checks. Immune and ended exposures do not block time. Boundary and mutation assertions authored, unrun."
+      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun. Shared clock validation now prevents crossing unresolved entry/minute deadlines and binds deadlines to ordered completed checks. Immune and ended exposures do not block time. Boundary and mutation assertions authored, unrun. Entry native pressure/protection now remain historical after closure; later character changes do not invalidate completed intervals. Active changes and stored-entry tampering still reject. Saved-history assertions authored, unrun."
     },
     {
       "id": "hazard-pressure-support-two",
@@ -2300,9 +2301,10 @@
       "acceptance": "Second-level pressure support changes crushing threshold and penalty increments from ten to one hundred times native pressure.",
       "tests": [
         "tests/expanded.py::test_pressure",
-        "tests/expanded.py::test_pressure_support"
+        "tests/expanded.py::test_pressure_support",
+        "tests/expanded.py::test_pressure_history"
       ],
-      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun. Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun."
+      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun. Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun. Entry native pressure/protection now remain historical after closure; later character changes do not invalidate completed intervals. Active changes and stored-entry tampering still reject. Saved-history assertions authored, unrun."
     },
     {
       "id": "hazard-pressure-support-three",
@@ -2314,9 +2316,10 @@
       "acceptance": "Third-level pressure support grants pressure immunity; do not schedule crushing checks for immune actors.",
       "tests": [
         "tests/expanded.py::test_pressure",
-        "tests/expanded.py::test_pressure_support"
+        "tests/expanded.py::test_pressure_support",
+        "tests/expanded.py::test_pressure_history"
       ],
-      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun. Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun."
+      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun. Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun. Entry native pressure/protection now remain historical after closure; later character changes do not invalidate completed intervals. Active changes and stored-entry tampering still reject. Saved-history assertions authored, unrun."
     },
     {
       "id": "hazard-bends-trigger",

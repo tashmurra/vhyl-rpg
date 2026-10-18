@@ -9149,6 +9149,7 @@ def test(build):
     test_decompression_assessment(Session, decompression_assessment)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
+    test_pressure_history(Session, pressure_support, build.out)
     native_pressure_template = build.build('expanded-native-pressure-template',ROOT / 'tests/fixtures/expanded-native-pressure-template.t')
     test_native_pressure_template(Session, native_pressure_template, build.out)
     ancestry_pressure = build.build('expanded-ancestry-pressure',ROOT / 'tests/fixtures/expanded-ancestry-pressure.t')
@@ -19067,5 +19068,28 @@ def test_decompression_assessment(Session, bundle):
             assert last(s, 'test.decompression-assessment') == expected + [0, 0]
         s.action(2285, 8411)
         assert last(s, 'test.decompression-exposure') == [1, 4800, 0]
+    finally:
+        s.close()
+
+
+def test_pressure_history(Session, bundle, out):
+    path = out / 'expanded-pressure-history.zsave'
+    s = Session(bundle)
+    try:
+        for code in (8101, 8000, 8115, 8111, 8112, 8010, 8116):
+            s.action(2285, code)
+        assert last(s, 'test.pressure-clock') == ['accepted', 61, 0]
+        assert last(s, 'test.pressure-historical') == [100, 2, 1, 61, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 8116)
+        assert last(s, 'test.pressure-historical') == [100, 2, 1, 61, 0]
+        for code in (8117, 8010):
+            s.action(2285, code)
+        assert last(s, 'test.pressure-clock') == ['pressure-binding', 61, 0]
     finally:
         s.close()

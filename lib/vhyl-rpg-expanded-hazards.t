@@ -4156,13 +4156,17 @@ class RpgExpandedPressureExposure: object
     boundEndedAt = nil
     checks = []
     boundDefinition = nil
-    resolvedNativePressure() { return self.nativePressure == nil ? self.profile.nativePressureHundredths : self.nativePressure; }
-    resolvedSupport()
+    entryNativePressure = nil
+    entrySupport = nil
+    currentNativePressure() { return self.nativePressure == nil ? self.profile.nativePressureHundredths : self.nativePressure; }
+    currentSupport()
     {
         rpgInteger(self.support,0,3);
         local innate = self.profile.pressureSupportLevel();
         return innate > self.support ? innate : self.support;
     }
+    resolvedNativePressure() { return self.startedAt == nil ? self.currentNativePressure() : self.entryNativePressure; }
+    resolvedSupport() { return self.startedAt == nil ? self.currentSupport() : self.entrySupport; }
     definition() { return [self.id,self.profile,self.pressure,self.nativePressure,self.support,self.sizeModifier,
         self.approved,self.evidence,self.resolvedNativePressure(),self.resolvedSupport(),self.startedAt]; }
     validateBinding()
@@ -4171,6 +4175,8 @@ class RpgExpandedPressureExposure: object
         local current = self.definition();
         for (local i = 1; i <= current.length(); i += 1)
             if (current[i] != self.boundDefinition[i]) rpgExpandedReject('pressure-binding');
+        if (self.endedAt == nil && (self.currentNativePressure() != self.entryNativePressure
+            || self.currentSupport() != self.entrySupport)) rpgExpandedReject('pressure-binding');
         if (self.endedAt != self.boundEndedAt || self.dueAt != self.startedAt + self.checks.length() * 60)
             rpgExpandedReject('pressure-schedule-binding');
         for (local i = 1; i <= self.checks.length(); i += 1)
@@ -4203,6 +4209,7 @@ class RpgExpandedPressureExposure: object
     begin()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
+        self.entryNativePressure = self.currentNativePressure(); self.entrySupport = self.currentSupport();
         self.startedAt = rpgLedger.seconds; self.dueAt = self.startedAt;
         self.boundDefinition = self.definition(); self.profile.pressureExposures = self.profile.pressureExposures + [self];
         value.status = 'resolved'; return value;

@@ -1454,3 +1454,8 @@ Decompression assessment now exposes the printed safe-duration examples and
 support exemptions, using owned constant-exposure duration when available.
 Approximate and unspecified cases require author judgment; no schedule is
 interpolated. Boundary fixtures are authored but unrun.
+
+Completed pressure exposures now retain historical protection/native pressure
+without blocking later character changes. Active intervals still validate live
+conditions, and stored-entry tampering rejects. History and saved-continuation
+fixtures are authored but unrun.

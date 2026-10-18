@@ -1895,3 +1895,12 @@ a decompression schedule, rolls for illness or moves the character.
 elapsed duration, or its recorded end time after closure. It is a pure assessment
 and does not end an interval or clear a due crushing check. Boundary, support,
 unknown-environment and recorded-duration fixtures are authored but unrun.
+
+Exposure records snapshot `entryNativePressure` and `entrySupport` at entry.
+Active intervals compare these with the live character and external protection;
+completed intervals retain the historical values without consulting later trait
+changes. Consequently, subsequent mitigation or native-pressure changes do not
+block time because of an old exposure. Historical return assessment uses that
+completed interval's end time and protection, not eligibility for a later new
+return. Editing the stored entry facts still rejects. Closed-history and saved
+continuation fixtures are authored but unrun.
