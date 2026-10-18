@@ -313,3 +313,15 @@ Violence constraints depend on authored intent, perceived targets and consequenc
 Limb and sensory restrictions require task-specific permissions and information
 filtering. These are pending integration requirements, including the unresolved
 relationship between single-eye ranged and general coordination penalties.
+
+
+The [seventh disadvantage segment](inventory/disadvantages-g.json) includes
+visually reviewed lifespan and sleep-fraction tables. Calendar units and legal age
+remain distinct: biological maturity does not automatically grant adult social
+permissions. Recovery and meal-time restrictions use the shared clocks rather
+than separate deductions for the same elapsed time.
+
+Secrets require a transactional replacement when disclosed, while social stigmas
+need concrete, campaign-specific restrictions and observer knowledge. Merely
+storing their names or reaction penalties would leave their applicable procedures
+unimplemented. These entries and their validating fixtures remain pending.

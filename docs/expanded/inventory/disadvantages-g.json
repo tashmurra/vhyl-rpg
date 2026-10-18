@@ -1,0 +1,529 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B150, programmable obedience, through B156, before alternate personalities",
+  "review": "Food restrictions, secrets, aging/sleep tables, commitment, recovery and social-status catalogue enumerated. B154 numeric tables visually inspected; executable contracts and independent fixtures remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "disadvantages-g-programmable-obedience",
+      "source": "full-2008",
+      "pages": "B150-B151",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Programmable obedience costs -10 and binds the actor to a designated controller. With dependent initiative, obey the literal command; without it, either letter or spirit can guide interpretation. Intelligence-zero actors have no independent goals. Programming takes precedence over conflicting external duty. Author defines programming changes, valid controllers and commands; campaign may forbid this player-character trait.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-negative-reputation",
+      "source": "full-2008",
+      "pages": "B151",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Negative reputation is a disadvantage using the B26 reputation procedure, included in character accounting once. Do not introduce a second reputation pricing system in this catalogue.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-restricted-diet",
+      "source": "full-2008",
+      "pages": "B151",
+      "module": "traits",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Restricted food/fuel costs -40/-30/-20/-10 for rare/occasional/common/very-common sources. Missing it follows ordinary starvation or fuel exhaustion, not immediate life-sustaining-requirement injury. Author defines actual compatible consumables and availability in the campaign.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-diet-substitute",
+      "source": "full-2008",
+      "pages": "B151",
+      "module": "health",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "The -50% substitute-consumption limitation permits a similar food/fuel to sustain the actor, with health check after each meal/refuel. Failure reduces health attribute by one until appropriate treatment; critical failure causes authored incapacity. Without the limitation, an attempted substitute provides no sustenance and maps success to ordinary failure, failure to critical failure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-vision-periphery",
+      "source": "full-2008",
+      "pages": "B151",
+      "module": "tactical",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "No peripheral vision costs -15 and limits view to the front 120-degree wedge. Side hexes become rear for defense, leaving three rear hexes with no defense against attacks from them. Align the wedge with tactical facing and distinguish awareness from permitted defense.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-vision-tunnel",
+      "source": "full-2008",
+      "pages": "B151",
+      "module": "tactical",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Tunnel vision costs -30 and limits view to the front 60-degree wedge. Only straight ahead is front; adjacent forward diagonals count as side, with defense -2 and only wild-swing attacks into them. All remaining directions count as rear with no defense. Use source diagrams/procedures to resolve nonadjacent geometry.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-substance-revulsion",
+      "source": "full-2008",
+      "pages": "B151",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical substance revulsion costs -5/-10/-15 for occasional/common/very-common substances. Touch or inhalation prompts immediate health; failure gives -5 skills/attributes for ten minutes. Ingestion gives -5 attributes and -10 skills/senses for ten minutes without the touch/inhalation resistance check. Keep route, exposure event and expiry; do not double subtract an attribute penalty already represented in the specified skill penalty.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-cruelty-compulsion",
+      "source": "full-2008",
+      "pages": "B152",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cruelty compulsion is base -15 with self-control when an opportunity conflicts with restraint. Informed observers react -3 except in an authored culture accepting such conduct. It can coexist with bullying, and campaign approval may disallow it. Author supplies actual decisions and consequences rather than automatically injuring a target.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-secret-prices",
+      "source": "full-2008",
+      "pages": "B152",
+      "module": "social",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "A consequential secret costs -5 for serious embarrassment, -10 for rejection/major life disruption, -20 for imprisonment/exile or -30 for possible death. Define the concealed fact, knowledge holders and actual exposure consequences at creation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-secret-appearance",
+      "source": "full-2008",
+      "pages": "B152",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A secret normally threatens exposure on three dice six or less for the session/adventure cadence described by the source; author may introduce it explicitly as well. Appearance is a threat with an opportunity to prevent disclosure, not automatic publication. Record the event and temporary resolution, with source cadence ambiguity resolved as an explicit campaign policy.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-secret-revelation",
+      "source": "full-2008",
+      "pages": "B152-B153",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Public disclosure replaces the secret with new disadvantages and/or lost advantages totaling twice its original negative credit. Apply immediate authored consequences and the permanent replacement in one transaction. A twenty-point secret requires forty points of consequences; removing the old secret leaves net character value twenty lower, not forty lower.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-secret-buyoff",
+      "source": "full-2008",
+      "pages": "B152",
+      "module": "social",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Earned-point buyoff can end recurring secret exposure obligations. Author must define what changed in the fiction and knowledge model; temporary suppression of one appearance does not remove the trait.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-concealed-identity",
+      "source": "full-2008",
+      "pages": "B153",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A concealed alternate identity uses the secret procedure and price based on disclosure consequences. At status three or higher it earns another -10 but appears on seven or less instead of six. Track the same person across personas, what observers know and the added cost in revelation replacement; no duplicate inventory or advancement ledger.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-age-collapse",
+      "source": "full-2008",
+      "pages": "B153",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Accelerated late-life collapse costs -10. From the actor aging threshold, run aging checks daily at health -3. It cannot earn points together with terminal illness; imminent collapse uses that trait instead. Use actual ancestry-adjusted thresholds, not always age fifty.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-status-sensitivity",
+      "source": "full-2008",
+      "pages": "B153",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Status sensitivity is base -5 with self-control after a clear social slight. Failure produces a volatile-temper response, typically giving the offended target -3 reactions. Nonplayer reactions to perceived slights are -5/-4/-3/-2 at self-control six/nine/twelve/fifteen. Preserve who reacts to whom.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-self-sacrifice",
+      "source": "full-2008",
+      "pages": "B153",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Self-sacrifice is base -5 and requires self-control to put personal needs, including survival, before another person. Author identifies the competing needs and available actions; it does not automatically transfer possessions or authorize impossible rescue.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-semi-upright",
+      "source": "full-2008",
+      "pages": "B153",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Semi-upright posture costs -5: upright movement is reduced forty percent, with all limbs needed for full-speed running. Upright forelimbs can manipulate/attack; dexterity twelve or higher permits carrying small objects while walking. Author specifies small-object capacity and movement rounding.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-voluntary-duty-price",
+      "source": "full-2008",
+      "pages": "B153",
+      "module": "social",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Voluntary protective commitment costs -2 for an individual, -5 for a small group, -10 for a large group, -15 for an entire people/species or -20 for every living being. It forbids betrayal, abandonment and avoidable deprivation of the protected group. Do not add credit for bonds already included in ally, dependent or patron prices.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-voluntary-duty-trust",
+      "source": "full-2008",
+      "pages": "B153",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Known protective commitment gives +2 when observers assess trust in a dangerous situation. Violations require authored advancement adjudication, not a universal numeric penalty. Party-wide commitment includes sharing equipment, aid and following majority decisions, and may be a campaign requirement.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-permanent-shadow",
+      "source": "full-2008",
+      "pages": "B153",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permanently active planar shadow form costs -20 and uses the B83 form procedure without a voluntary off switch. Cross-reference its movement, interaction and vulnerability mechanics rather than creating a cosmetic flag.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-short-attention",
+      "source": "full-2008",
+      "pages": "B153",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Short attention is base -10. Prolonged focus or offered distraction prompts self-control; failure automatically fails the current task. Author may grant a small bonus when concentration is crucial. Identify the task and already committed progress/costs without charging an additional attempt or undoing unrelated completed work.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-short-life-rule",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Short lifespan costs -10 per level, maximum four, halving and rounding down maturity age, aging thresholds and check intervals each level. Use the printed table as the authoritative human-baseline values, with explicit calendar units; it can coexist with late-life collapse.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-short-life-0",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Printed lifespan table, level 0: maturity at 18 years; from age 50, aging checks every one year; from age 70, aging checks every six months; from age 90, aging checks every three months. Values visually verified against the printed table; boundary and calendar fixtures remain pending.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-short-life-1",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Printed lifespan table, level 1: maturity at 9 years; from age 25, aging checks every six months; from age 35, aging checks every three months; from age 45, aging checks every forty-five days. Values visually verified against the printed table; boundary and calendar fixtures remain pending.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-short-life-2",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Printed lifespan table, level 2: maturity at 4 years; from age 12, aging checks every three months; from age 17, aging checks every forty-five days; from age 22, aging checks every twenty-two days. Values visually verified against the printed table; boundary and calendar fixtures remain pending.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-short-life-3",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Printed lifespan table, level 3: maturity at 2 years; from age 6, aging checks every forty-five days; from age 8, aging checks every twenty-two days; from age 11, aging checks every eleven days. Values visually verified against the printed table; boundary and calendar fixtures remain pending.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-short-life-4",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Printed lifespan table, level 4: maturity at 1 years; from age 3, aging checks every twenty-two days; from age 4, aging checks every eleven days; from age 5, aging checks every five days. Values visually verified against the printed table; boundary and calendar fixtures remain pending.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-shyness-scope",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Shyness applies to interpersonal skills including acting, revelry, diplomacy, fast-talk, intimidation, leadership, merchant, begging, performance, politics, public speaking, etiquette, attraction, street contacts and teaching. Mild costs -5 with -1, severe -10 with -2; greatest severity -20 prohibits learning those skills and gives -4 defaults. Levels may be bought off individually.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-dependent-initiative",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Dependent initiative costs -40: actions outside direct orders or established routine require intelligence -8. Will to assert self or resist social influence fails automatically unless the author explicitly permits a check at -6. Ordinary fear checks remain unaffected. Define orders/routines and exceptions as concrete authored permissions; campaign may forbid this for player characters.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-sleepwalking",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Sleepwalking is base -5. Where consequential, check self-control at sleep onset; failure schedules an episode during that sleep, ending after one die minutes walking or external waking. Dexterity checks on hazardous surfaces can cause a fall and waking mental stun. Own sleep/episode timing and movement through ordinary geometry.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-sleepwalking-powers",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sleepwalking uses the hypnagogic susceptibility rules for telepathic influence and may involve existing supernatural movement/abilities. Resolve source-specific resistance and author-selected behavior; do not grant a power, bypass costs or copy dream-only actions into ordinary world state.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-sleep-fraction-8",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ancestry sleep requirement of one half total time costs -8. Author supplies a concrete schedule, including possible long sleep cycles/hibernation; measure actual time over that cycle without assuming daily sleep. Printed fraction/price table visually verified.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-sleep-fraction-16",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ancestry sleep requirement of two thirds total time costs -16. Author supplies a concrete schedule, including possible long sleep cycles/hibernation; measure actual time over that cycle without assuming daily sleep. Printed fraction/price table visually verified.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-sleep-fraction-20",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ancestry sleep requirement of three quarters total time costs -20. Author supplies a concrete schedule, including possible long sleep cycles/hibernation; measure actual time over that cycle without assuming daily sleep. Printed fraction/price table visually verified.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-sleep-fraction-26",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ancestry sleep requirement of seven eighths total time costs -26. Author supplies a concrete schedule, including possible long sleep cycles/hibernation; measure actual time over that cycle without assuming daily sleep. Printed fraction/price table visually verified.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-slow-eating",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "exploration",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Slow eating costs -10: a meal takes about two hours instead of half an hour, reducing available daily task/travel time by four and a half hours for three meals. Charge actual meal time in the shared ledger; do not also deduct an additional abstract four-and-a-half-hour penalty.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-slow-healing",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Slow healing costs -5 per level, maximum three, or one for ordinary humans. Natural recovery check intervals are two/four/eight days; each level also doubles the allowed interval between physician checks. More severe restriction uses absent healing. Persist next recovery time and treatment cadence without duplicating restored health.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-slow-waking",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Slow waking costs -5. After sleep strictly longer than one hour, the next hour gives -2 self-control and -1 intelligence/intelligence-based skills. Missed-sleep attribute penalties gain another -1. Exactly one-hour naps do not trigger the waking interval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-social-infection",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Socially stigmatized infection costs -5 and uses authored close unprotected contact transmission. Informed observers react -1 and automatically resist seduction. Symptoms and transmission procedure require explicit author definitions; the source does not supply a universal infection probability or immediate fatal outcome.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-eligibility",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "social",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Social stigma requires a culturally enforced disadvantage that is visible, readily discoverable in an information-access society, or publicly attributed. General costs are -5 through -20 with reaction restrictions or lost social permissions. Validate actual campaign restrictions rather than deriving stigma mechanically from identity alone.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-criminal",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A serious criminal record costs -5, with authored legal restrictions on items, work, clearances or travel. Informed ordinary observers react -1, enforcement-minded observers -2. An active pursuit is a separately priced opponent, not included automatically.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-disowned",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Disinheritance in a society where family ties matter costs -5 with -1 reactions; complete public family rejection costs -10 with -2. Voluntary separation alone does not qualify. Track inheritance/family permissions and observer knowledge.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-excluded-faith",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Exclusion from a powerful socially important faith costs -5 and gives -3 reactions from adherents. If a supernatural aura reveals exclusion despite disguise to relevant observers, cost is -10. Specify affected observers and detection channel rather than universal public disclosure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-missing-skill",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Lacking culturally mandatory adult skills costs -5 and gives -1 reactions per absent skill, maximum four skills. Absence means no purchased points, not merely low effective skill. Only qualifying interdependent/structured cultures permit this credit; learning a required skill updates the restriction/accounting.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-minor",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Underage status costs -5, with -2 reactions when claiming adult standing and authored age-based permissions. Buy it off at the culture legal age, not necessarily eighteen. Distinguish legal age from biological maturity or shortened-lifespan thresholds.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-minority",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A culturally marginalized minority status costs -10 with -2 reactions from the dominant culture rather than the actor own group. In contexts where that group is particularly rare, fellow group members react +2. Apply only in the authored discriminatory social context.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-feared-creature",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Feared creature status costs -15 with -3 reactions and possible persecution irrespective of actual appearance/disposition. It gives intimidation +3 when the actor holds the advantage in the situation. Author determines local stigma and that situational advantage.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-reduced-rights",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduced citizenship costs -5 with -1 reactions except from peers in the same group, plus actual diminished rights. Author enumerates the permissions restricted by that society.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-subjugated",
+      "source": "full-2008",
+      "pages": "B155",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Subjugated status costs -20 and combines reduced citizenship with property-like legal restrictions in the controlling society. Escape to freedom replaces the situation with that power as an opponent; author defines the resulting opponent and accounting, rather than granting both full credits by default.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-uneducated",
+      "source": "full-2008",
+      "pages": "B156",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Excluded education costs -5 with -1 reactions when lack of schooling is evident to relevant observers, and no initial book-learned skills as defined by the author. Sufficient access to education/social experience permits buyoff; do not bar later learning permanently without a separate rule.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-stigma-property",
+      "source": "full-2008",
+      "pages": "B156",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Legal property status costs -10 and primarily restricts freedom, ownership or recognition as a person rather than applying a universal reaction penalty. Author enumerates enforceable restrictions. Multiple stigmas are permitted only when their effects do not substantially overlap.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-g-freefall-sickness",
+      "source": "full-2008",
+      "pages": "B156",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Freefall sickness costs -10 only in regular-space-travel campaigns. It prohibits learning freefall skill, allowing defaults only, gives -4 to initial adaptation health and, if that first check fails, requires return to normal gravity for recovery. Integrate B434 adaptation and keep episode identity across subsequent checks.",
+      "tests": []
+    }
+  ]
+}
