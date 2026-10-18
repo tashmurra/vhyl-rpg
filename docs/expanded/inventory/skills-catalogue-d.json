@@ -1018,11 +1018,75 @@
             -2
           ],
           [
-            "other-piloting",
+            "piloting-autogyro",
+            -4
+          ],
+          [
+            "piloting-levitation",
+            -4
+          ],
+          [
+            "piloting-flight-pack",
+            -4
+          ],
+          [
+            "piloting-glider",
+            -4
+          ],
+          [
+            "piloting-heavy-airplane",
+            -4
+          ],
+          [
+            "piloting-helicopter",
+            -4
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -4
+          ],
+          [
+            "piloting-light-airplane",
+            -4
+          ],
+          [
+            "piloting-lighter-than-air",
+            -4
+          ],
+          [
+            "piloting-lightsail",
+            -4
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -4
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -4
+          ],
+          [
+            "piloting-ultralight",
+            -4
+          ],
+          [
+            "piloting-thrust-lift",
             -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1052,11 +1116,88 @@
             -4
           ],
           [
-            "other-piloting",
+            "piloting-aerospace",
+            -5
+          ],
+          [
+            "piloting-levitation",
+            -5
+          ],
+          [
+            "piloting-flight-pack",
+            -5
+          ],
+          [
+            "piloting-glider",
+            -5
+          ],
+          [
+            "piloting-heavy-airplane",
+            -5
+          ],
+          [
+            "piloting-fast-airplane",
+            -5
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-light-airplane",
+            -5
+          ],
+          [
+            "piloting-lighter-than-air",
+            -5
+          ],
+          [
+            "piloting-lightsail",
+            -5
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -5
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-ultralight",
+            -5
+          ],
+          [
+            "piloting-thrust-lift",
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_selector_requirements": {
+          "piloting-airplane-any": {
+            "known_members": [
+              "piloting-heavy-airplane",
+              "piloting-light-airplane",
+              "piloting-fast-airplane"
+            ],
+            "unresolved_membership": [
+              "piloting-ultralight"
+            ],
+            "selection_rule": "Use the best eligible direct default; a generic fallback does not override a better category default. Resolve the category boundary before declaring the catalogue complete."
+          }
+        },
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1082,11 +1223,75 @@
             -3
           ],
           [
-            "other-piloting",
+            "piloting-aerospace",
+            -5
+          ],
+          [
+            "piloting-autogyro",
+            -5
+          ],
+          [
+            "piloting-flight-pack",
+            -5
+          ],
+          [
+            "piloting-glider",
+            -5
+          ],
+          [
+            "piloting-heavy-airplane",
+            -5
+          ],
+          [
+            "piloting-helicopter",
+            -5
+          ],
+          [
+            "piloting-fast-airplane",
+            -5
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-light-airplane",
+            -5
+          ],
+          [
+            "piloting-lighter-than-air",
+            -5
+          ],
+          [
+            "piloting-lightsail",
+            -5
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -5
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-ultralight",
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1112,11 +1317,75 @@
             -4
           ],
           [
-            "other-piloting",
+            "piloting-aerospace",
+            -5
+          ],
+          [
+            "piloting-autogyro",
+            -5
+          ],
+          [
+            "piloting-levitation",
+            -5
+          ],
+          [
+            "piloting-glider",
+            -5
+          ],
+          [
+            "piloting-heavy-airplane",
+            -5
+          ],
+          [
+            "piloting-helicopter",
+            -5
+          ],
+          [
+            "piloting-fast-airplane",
+            -5
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-light-airplane",
+            -5
+          ],
+          [
+            "piloting-lighter-than-air",
+            -5
+          ],
+          [
+            "piloting-lightsail",
+            -5
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -5
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-ultralight",
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1146,11 +1415,71 @@
             -2
           ],
           [
-            "other-piloting",
+            "piloting-aerospace",
+            -4
+          ],
+          [
+            "piloting-autogyro",
+            -4
+          ],
+          [
+            "piloting-levitation",
+            -4
+          ],
+          [
+            "piloting-flight-pack",
+            -4
+          ],
+          [
+            "piloting-heavy-airplane",
+            -4
+          ],
+          [
+            "piloting-helicopter",
+            -4
+          ],
+          [
+            "piloting-fast-airplane",
+            -4
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -4
+          ],
+          [
+            "piloting-lighter-than-air",
+            -4
+          ],
+          [
+            "piloting-lightsail",
+            -4
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -4
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -4
+          ],
+          [
+            "piloting-thrust-lift",
             -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1180,11 +1509,71 @@
             -2
           ],
           [
-            "other-piloting",
+            "piloting-aerospace",
+            -4
+          ],
+          [
+            "piloting-autogyro",
+            -4
+          ],
+          [
+            "piloting-levitation",
+            -4
+          ],
+          [
+            "piloting-flight-pack",
+            -4
+          ],
+          [
+            "piloting-glider",
+            -4
+          ],
+          [
+            "piloting-helicopter",
+            -4
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -4
+          ],
+          [
+            "piloting-lighter-than-air",
+            -4
+          ],
+          [
+            "piloting-lightsail",
+            -4
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -4
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -4
+          ],
+          [
+            "piloting-ultralight",
+            -4
+          ],
+          [
+            "piloting-thrust-lift",
             -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1214,11 +1603,71 @@
             -4
           ],
           [
-            "other-piloting",
+            "piloting-aerospace",
+            -5
+          ],
+          [
+            "piloting-levitation",
+            -5
+          ],
+          [
+            "piloting-flight-pack",
+            -5
+          ],
+          [
+            "piloting-glider",
+            -5
+          ],
+          [
+            "piloting-heavy-airplane",
+            -5
+          ],
+          [
+            "piloting-fast-airplane",
+            -5
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-light-airplane",
+            -5
+          ],
+          [
+            "piloting-lighter-than-air",
+            -5
+          ],
+          [
+            "piloting-lightsail",
+            -5
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -5
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-ultralight",
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1252,11 +1701,67 @@
             -2
           ],
           [
-            "other-piloting",
+            "piloting-autogyro",
+            -4
+          ],
+          [
+            "piloting-levitation",
+            -4
+          ],
+          [
+            "piloting-flight-pack",
+            -4
+          ],
+          [
+            "piloting-glider",
+            -4
+          ],
+          [
+            "piloting-helicopter",
+            -4
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -4
+          ],
+          [
+            "piloting-lighter-than-air",
+            -4
+          ],
+          [
+            "piloting-lightsail",
+            -4
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -4
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -4
+          ],
+          [
+            "piloting-ultralight",
+            -4
+          ],
+          [
+            "piloting-thrust-lift",
             -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1286,7 +1791,19 @@
             -2
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1324,11 +1841,63 @@
             -2
           ],
           [
-            "other-piloting",
+            "piloting-aerospace",
+            -4
+          ],
+          [
+            "piloting-autogyro",
+            -4
+          ],
+          [
+            "piloting-levitation",
+            -4
+          ],
+          [
+            "piloting-flight-pack",
+            -4
+          ],
+          [
+            "piloting-helicopter",
+            -4
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -4
+          ],
+          [
+            "piloting-lighter-than-air",
+            -4
+          ],
+          [
+            "piloting-lightsail",
+            -4
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -4
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -4
+          ],
+          [
+            "piloting-thrust-lift",
             -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1350,11 +1919,79 @@
             -6
           ],
           [
-            "other-piloting",
+            "piloting-aerospace",
+            -5
+          ],
+          [
+            "piloting-autogyro",
+            -5
+          ],
+          [
+            "piloting-levitation",
+            -5
+          ],
+          [
+            "piloting-flight-pack",
+            -5
+          ],
+          [
+            "piloting-glider",
+            -5
+          ],
+          [
+            "piloting-heavy-airplane",
+            -5
+          ],
+          [
+            "piloting-helicopter",
+            -5
+          ],
+          [
+            "piloting-fast-airplane",
+            -5
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-light-airplane",
+            -5
+          ],
+          [
+            "piloting-lightsail",
+            -5
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -5
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-ultralight",
+            -5
+          ],
+          [
+            "piloting-thrust-lift",
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1380,7 +2017,19 @@
             -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1406,7 +2055,19 @@
             -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1436,7 +2097,19 @@
             -2
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1470,11 +2143,84 @@
             -4
           ],
           [
-            "other-piloting",
+            "piloting-aerospace",
+            -5
+          ],
+          [
+            "piloting-autogyro",
+            -5
+          ],
+          [
+            "piloting-levitation",
+            -5
+          ],
+          [
+            "piloting-flight-pack",
+            -5
+          ],
+          [
+            "piloting-heavy-airplane",
+            -5
+          ],
+          [
+            "piloting-helicopter",
+            -5
+          ],
+          [
+            "piloting-fast-airplane",
+            -5
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-lighter-than-air",
+            -5
+          ],
+          [
+            "piloting-lightsail",
+            -5
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -5
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-thrust-lift",
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_selector_requirements": {
+          "piloting-airplane-any": {
+            "known_members": [
+              "piloting-heavy-airplane",
+              "piloting-light-airplane",
+              "piloting-fast-airplane"
+            ],
+            "unresolved_membership": [
+              "piloting-ultralight"
+            ],
+            "selection_rule": "Use the best eligible direct default; a generic fallback does not override a better category default. Resolve the category boundary before declaring the catalogue complete."
+          }
+        },
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -1504,11 +2250,71 @@
             -4
           ],
           [
-            "other-piloting",
+            "piloting-aerospace",
+            -5
+          ],
+          [
+            "piloting-autogyro",
+            -5
+          ],
+          [
+            "piloting-flight-pack",
+            -5
+          ],
+          [
+            "piloting-glider",
+            -5
+          ],
+          [
+            "piloting-heavy-airplane",
+            -5
+          ],
+          [
+            "piloting-fast-airplane",
+            -5
+          ],
+          [
+            "piloting-high-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-light-airplane",
+            -5
+          ],
+          [
+            "piloting-lighter-than-air",
+            -5
+          ],
+          [
+            "piloting-lightsail",
+            -5
+          ],
+          [
+            "piloting-low-gravity-wings",
+            -5
+          ],
+          [
+            "piloting-low-thrust-spacecraft",
+            -5
+          ],
+          [
+            "piloting-ultralight",
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "operating_outcomes": {
+          "failure_by_one": "rough operation",
+          "failure_by_more_than_one": "vehicle damage",
+          "critical_failure": "crash",
+          "critical_failure_confirmation_minimum_skill": 15,
+          "confirmation_required_outcome_for_mishap": "failure",
+          "confirmation_success": "near miss; no crash"
+        },
+        "remote_control_rules": {
+          "telepresence": "use piloting",
+          "other_remote_operation": "Dexterity-based task skill; no automatic piloting substitution"
+        }
       }
     },
     {
@@ -2430,6 +3236,14 @@
           [
             "dx",
             -4
+          ],
+          [
+            "shield-buckler",
+            -2
+          ],
+          [
+            "shield-energy",
+            -2
           ]
         ],
         "prerequisites": []
@@ -2452,6 +3266,14 @@
           [
             "dx",
             -4
+          ],
+          [
+            "shield-strapped",
+            -2
+          ],
+          [
+            "shield-energy",
+            -2
           ]
         ],
         "prerequisites": []
@@ -2474,6 +3296,14 @@
           [
             "dx",
             -4
+          ],
+          [
+            "shield-strapped",
+            -2
+          ],
+          [
+            "shield-buckler",
+            -2
           ]
         ],
         "prerequisites": []
@@ -2510,7 +3340,12 @@
           "airship-crew",
           "leadership",
           "navigation-air"
-        ]
+        ],
+        "watch_guidance": {
+          "recommended_while_underway": true,
+          "qualification": "trained above default",
+          "enforcement": "author defines consequences or operating policy; do not invent automatic failure or illegality"
+        }
       }
     },
     {
@@ -2548,7 +3383,12 @@
           "surface-crew",
           "leadership",
           "navigation-sea"
-        ]
+        ],
+        "watch_guidance": {
+          "recommended_while_underway": true,
+          "qualification": "trained above default",
+          "enforcement": "author defines consequences or operating policy; do not invent automatic failure or illegality"
+        }
       }
     },
     {
@@ -2582,7 +3422,25 @@
           "space-crew",
           "leadership",
           "navigation-space"
-        ]
+        ],
+        "default_selector_requirements": {
+          "piloting-spacecraft-any": {
+            "known_members": [
+              "piloting-high-thrust-spacecraft",
+              "piloting-low-thrust-spacecraft",
+              "piloting-lightsail"
+            ],
+            "unresolved_membership": [
+              "piloting-aerospace"
+            ],
+            "selection_rule": "Resolve spacecraft category membership explicitly; do not expand to every piloting specialty."
+          }
+        },
+        "watch_guidance": {
+          "recommended_while_underway": true,
+          "qualification": "trained above default",
+          "enforcement": "author defines consequences or operating policy; do not invent automatic failure or illegality"
+        }
       }
     },
     {
@@ -2616,7 +3474,25 @@
           "space-crew",
           "leadership",
           "navigation-transit-space"
-        ]
+        ],
+        "default_selector_requirements": {
+          "piloting-spacecraft-any": {
+            "known_members": [
+              "piloting-high-thrust-spacecraft",
+              "piloting-low-thrust-spacecraft",
+              "piloting-lightsail"
+            ],
+            "unresolved_membership": [
+              "piloting-aerospace"
+            ],
+            "selection_rule": "Resolve spacecraft category membership explicitly; do not expand to every piloting specialty."
+          }
+        },
+        "watch_guidance": {
+          "recommended_while_underway": true,
+          "qualification": "trained above default",
+          "enforcement": "author defines consequences or operating policy; do not invent automatic failure or illegality"
+        }
       }
     },
     {
@@ -2650,7 +3526,12 @@
           "submarine-crew",
           "leadership",
           "navigation-sea"
-        ]
+        ],
+        "watch_guidance": {
+          "recommended_while_underway": true,
+          "qualification": "trained above default",
+          "enforcement": "author defines consequences or operating policy; do not invent automatic failure or illegality"
+        }
       }
     },
     {

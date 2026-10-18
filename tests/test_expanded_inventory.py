@@ -8,6 +8,35 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_piloting_directional_defaults_and_confirmation(self):
+        path = ROOT / 'docs/expanded/inventory/skills-catalogue-d.json'
+        entries = {e['id'].removeprefix('catalogue-skill-'): e['reference_data']
+                   for e in json.loads(path.read_text())['entries'] if 'reference_data' in e}
+        for target, source, modifier in [
+                ('piloting-autogyro', 'piloting-helicopter', -3),
+                ('piloting-helicopter', 'piloting-autogyro', -2),
+                ('piloting-aerospace', 'piloting-fast-airplane', -2),
+                ('piloting-aerospace', 'piloting-flight-pack', -4),
+                ('piloting-lightsail', 'piloting-low-thrust-spacecraft', -4),
+                ('piloting-low-gravity-wings', 'piloting-glider', -4),
+                ('submarine-open', 'submarine-large', -5),
+                ('submarine-open', 'submarine-small', -4),
+                ('shield-energy', 'shield-buckler', -2)]:
+            self.assertEqual(dict(entries[target]['defaults'])[source], modifier)
+        self.assertNotIn('piloting-fast-airplane', dict(entries['piloting-lightsail']['defaults']))
+        self.assertNotIn('piloting-helicopter', dict(entries['piloting-low-gravity-wings']['defaults']))
+        outcomes = entries['piloting-aerospace']['operating_outcomes']
+        self.assertEqual(outcomes['critical_failure_confirmation_minimum_skill'], 15)
+        self.assertEqual(outcomes['confirmation_required_outcome_for_mishap'], 'failure')
+        self.assertEqual(entries['submarine-open']['prerequisites'], ['any:diving-suit,scuba'])
+        self.assertEqual(entries['ship-command-space']['prerequisites'],
+                         ['space-crew', 'leadership', 'navigation-space'])
+        self.assertEqual(entries['ship-command-interstellar']['prerequisites'],
+                         ['space-crew', 'leadership', 'navigation-transit-space'])
+        self.assertTrue(entries['ship-command-space']['watch_guidance']['recommended_while_underway'])
+        self.assertTrue(entries['ship-command-space']['default_selector_requirements']
+                        ['piloting-spacecraft-any']['unresolved_membership'])
+
     def test_technical_skill_defaults_preserve_roles_and_prerequisites(self):
         base = ROOT / 'docs/expanded/inventory'
         entries = {

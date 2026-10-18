@@ -136,3 +136,17 @@ requires applied mathematics from technology level five onward, plus its special
 prerequisites. Vehicle-category definitions must bind a concrete category; they
 are not wildcard skills covering every vehicle. Source metadata preserves these
 conditions, but runtime prerequisite and context resolution are still pending.
+
+Piloting fallback edges are now explicit and directional: an autogyro uses
+helicopter experience at −3, while helicopter operation uses autogyro experience
+at −2. Specialties with only specific defaults, such as lightsails and
+low-gravity wings, do not gain a general fallback. The broader airplane and
+spacecraft selectors retain explicitly unresolved category boundaries; expanding
+them to every flying vehicle would grant unsupported defaults.
+
+Piloting also records its skill-15 critical-failure confirmation and the distinction
+between cockpit-like telepresence and other remote operation. The source recommends
+a watchkeeper trained above default while underway. The author must define any
+consequences or operating restriction; the recommendation alone does not establish
+automatic failure or forbid all emergency operation. These are procedure requirements awaiting
+vehicle-state integration, not behavior supplied by catalogue metadata alone.
