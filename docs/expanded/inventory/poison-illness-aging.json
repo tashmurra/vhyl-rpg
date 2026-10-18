@@ -21,9 +21,12 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A blood agent requires a mucous membrane or open wound; a directed spray must hit the relevant exposed location.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
     },
     {
       "id": "poison-blood-area-protection",
@@ -31,9 +34,12 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Area blood agents are defeated by sealing, or by both appropriate respiratory protection and appropriate eye protection; one protected route alone is insufficient.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
     },
     {
       "id": "poison-skin-contact",
@@ -41,9 +47,12 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A contact agent requires inhalation or skin contact; a coated melee weapon must reach an unarmored, unclothed location and an area agent affects unsealed targets.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
     },
     {
       "id": "poison-digestive",
@@ -51,9 +60,12 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A digestive agent requires actual swallowing; an authored detectable flavor permits taste or perception-based poison knowledge at base -2, with detection modifiers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
     },
     {
       "id": "poison-forced-swallow",
@@ -61,9 +73,12 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Forcing ingestion requires a head/neck grapple held for ten seconds; a successful attack alone does not prove the substance was swallowed.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
     },
     {
       "id": "poison-follow-up",
@@ -71,9 +86,12 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An eligible piercing/impaling injection attack delivers its follow-up only after penetrating armor and causing damage; payload availability and consumed dose belong to the weapon record.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
     },
     {
       "id": "poison-respiratory",
@@ -81,9 +99,12 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A respiratory agent requires inhalation; no-breathing or filtering can protect, while timely sense detection can allow breath holding. Stunned or unconscious actors inhale automatically.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
     },
     {
       "id": "poison-improvised-mask",
@@ -91,9 +112,12 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An improvised respiratory barrier grants +1 resistance rather than full immunity; verify the route and actual barrier.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
     },
     {
       "id": "poison-sense-based",
@@ -101,9 +125,12 @@
       "pages": "B438",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A sense-based agent requires the targeted sense and is prevented by the corresponding protection; lack of sight or protected eyes does not protect an unrelated breathing route.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
     },
     {
       "id": "poison-size-delay",

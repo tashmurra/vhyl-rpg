@@ -391,3 +391,8 @@ with authored duration and no HP grant. Successful care suppresses the relevant
 -3 modifier in live infection acquisition/progression for that ledger day. Same-day
 retries and combat/blood-agent integration remain incomplete. New persistence and
 boundary fixtures are authored and unrun.
+
+Poison entry now has source-backed assessments for blood, contact, digestive,
+follow-up, respiratory and sense-based delivery, including persistent wounds and
+paired area protection. These do not consume payloads or resolve poison effects;
+the exposure lifecycle remains incomplete. Route fixtures are authored and unrun.

@@ -8942,6 +8942,8 @@ def test(build):
     test_recovery_wound(Session, recovery_wound, build.out)
     persistent_dressing = build.build('expanded-persistent-dressing', ROOT / 'tests/fixtures/expanded-persistent-dressing.t')
     test_persistent_dressing(Session, persistent_dressing, build.out)
+    poison_entry = build.build('expanded-poison-entry', ROOT / 'tests/fixtures/expanded-poison-entry.t')
+    test_poison_entry(Session, poison_entry)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -11281,3 +11283,21 @@ def test_persistent_dressing(Session, bundle, out):
         assert state(s) == [0, -3, 0, 2, 1, 60, 3]
     finally:
         s.close()
+
+
+def test_poison_entry(Session, bundle):
+    # Source B437 route boundaries and B162's existing open-wound entry.
+    cases = [(240, 0, 0, 0), (241, 1, 1, 0), (242, 0, 0, 0), (243, 1, 1, 0),
+             (244, 0, 0, 0), (245, 1, 0, 0), (246, 0, 0, 0),
+             (247, 0, 0, 0), (248, 1, 0, 0), (249, 0, 0, 0), (250, 1, 0, 0),
+             (251, 0, 0, 0), (252, 1, 0, 1), (253, 0, 0, 0),
+             (254, 0, 0, 0), (255, 0, 0, 0), (256, 1, 0, 0), (257, 1, 0, 0), (258, 1, 0, 0)]
+    for code, exposed, persistent, modifier in cases:
+        s = Session(bundle)
+        try:
+            s.action(2285, 0)
+            for _ in range(2):
+                s.action(2285, code)
+                assert last(s, 'test.poison-entry') == ['ready', exposed, persistent, modifier, 2, 0, 0]
+        finally:
+            s.close()

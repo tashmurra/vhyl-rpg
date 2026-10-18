@@ -2496,3 +2496,102 @@ modify rpgLedger
         return nil;
     }
 ;
+
+class RpgExpandedPoisonEntryResult: RpgExpandedResult
+    exposed = nil
+    viaPersistentWound = nil
+    resistanceModifier = 0
+;
+/** B437 delivery boundary. Approved fields describe actual contact and protection;
+ * this does not invent a poison's dose, delay, resistance or effects. */
+class RpgExpandedPoisonEntry: object
+    patient = nil
+    route = nil
+    method = 'direct'
+    approved = nil
+    evidence = nil
+    inArea = nil
+    mucousContact = nil
+    openWoundContact = nil
+    persistentWoundReached = nil
+    vulnerableAreaHit = nil
+    skinContact = nil
+    unarmored = nil
+    unclad = nil
+    swallowed = nil
+    forcedSwallow = nil
+    headOrNeckHeldSeconds = 0
+    wound = nil
+    penetrationKind = nil
+    inhaled = nil
+    holdingBreath = nil
+    improvisedMask = nil
+    sealed = nil
+    noBreathing = nil
+    filteredLungs = nil
+    eyeMembrane = nil
+    protectedVision = nil
+    sensePresent = true
+    senseProtected = nil
+    assess()
+    {
+        if (self.patient == nil || !self.patient.ofKind(RpgExpandedProfile)
+            || !holds(['blood','contact','digestive','follow-up','respiratory','sense'],self.route)
+            || !holds(['direct','spray','area','weapon'],self.method)) rpgExpandedReject('poison-entry-definition');
+        local value = new RpgExpandedPoisonEntryResult();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'poison-entry-facts-required'; return value; }
+        if (self.patient.dead) { value.reason = 'poison-entry-patient-dead'; return value; }
+        if (self.persistentWoundReached && self.patient.level('persistent-wound') == 0)
+            rpgExpandedReject('poison-entry-persistent-wound-missing');
+        if (self.route == 'blood')
+        {
+            if (self.method == 'area')
+                value.exposed = self.inArea && !self.sealed
+                    && !((self.noBreathing || self.filteredLungs) && (self.eyeMembrane || self.protectedVision));
+            else if (self.method == 'weapon')
+            { value.reason = 'poison-entry-use-follow-up'; return value; }
+            else
+            {
+                value.exposed = (self.mucousContact || self.openWoundContact || self.persistentWoundReached)
+                    && (self.method != 'spray' || self.vulnerableAreaHit);
+                value.viaPersistentWound = value.exposed && self.persistentWoundReached;
+            }
+        }
+        else if (self.route == 'contact')
+        {
+            if (self.method == 'area') value.exposed = self.inArea && !self.sealed;
+            else if (self.method == 'weapon') value.exposed = self.skinContact && self.unarmored && self.unclad;
+            else value.exposed = self.skinContact || self.inhaled;
+        }
+        else if (self.route == 'digestive')
+        {
+            if (self.method != 'direct') { value.reason = 'poison-entry-delivery-combination'; return value; }
+            rpgInteger(self.headOrNeckHeldSeconds,0,2147483647);
+            value.exposed = self.swallowed && (!self.forcedSwallow || self.headOrNeckHeldSeconds >= 10);
+        }
+        else if (self.route == 'follow-up')
+        {
+            if (self.method != 'weapon' || !holds(['piercing','impaling','hypodermic'],self.penetrationKind))
+            { value.reason = 'poison-entry-follow-up-combination'; return value; }
+            if (self.wound == nil || !self.wound.ofKind(RpgExpandedWound) || self.wound.profile != self.patient
+                || self.wound.assess().status != 'reused') rpgExpandedReject('poison-entry-follow-up-wound');
+            value.exposed = self.wound.health.injury > 0;
+        }
+        else if (self.route == 'respiratory')
+        {
+            if (self.method == 'weapon') { value.reason = 'poison-entry-delivery-combination'; return value; }
+            local breath = self.patient.unconscious || self.patient.stunned || self.patient.mentalStun
+                ? true : self.inhaled && !self.holdingBreath;
+            value.exposed = breath && !self.noBreathing && !self.filteredLungs
+                && (self.method != 'area' || self.inArea);
+            value.resistanceModifier = value.exposed && self.improvisedMask ? 1 : 0;
+        }
+        else
+        {
+            if (self.method == 'weapon') { value.reason = 'poison-entry-delivery-combination'; return value; }
+            value.exposed = self.sensePresent && !self.senseProtected && (self.method != 'area' || self.inArea);
+        }
+        value.status = 'ready'; return value;
+    }
+;

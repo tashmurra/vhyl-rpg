@@ -1090,3 +1090,50 @@ surroundings activate the persistent wound's separate -3 when it is not dressed.
 Both apply when both facts are established. A successful dressing removes only
 the persistent-wound penalty, not the pathogen modifier. Acquisition and daily
 progression still share the original resistance and disease-injury pipelines.
+
+### Poison entry assessment
+
+`RpgExpandedPoisonEntry` assesses the delivery boundary in `full-2008`, B437–B438.
+Supply `patient`, `route`, `method`, `approved` and evidence establishing actual
+contact, exposure and protection. The result distinguishes a valid assessment
+(`status == 'ready'`) from actual entry (`exposed`). It consumes no dose, time or
+randomness and applies no poison injury. Poison definition, delay, resistance,
+cycles and treatment remain unfinished runtime work.
+
+The routes use these explicit facts:
+
+- `blood`: direct contact requires `mucousContact`, `openWoundContact` or
+  `persistentWoundReached`. The latter requires the active persistent-wound trait
+  and exposes `viaPersistentWound`; it does not create another injury. A `spray`
+  also requires `vulnerableAreaHit`. For `area`, establish `inArea`; `sealed`
+  protection blocks entry, as does the combination of `noBreathing` or
+  `filteredLungs` with `eyeMembrane` or `protectedVision`.
+- `contact`: direct contact requires `skinContact` or actual `inhaled` exposure.
+  A `weapon` additionally requires `unarmored` and `unclad`; an `area` requires
+  `inArea` and no sealing.
+- `digestive`: direct delivery requires `swallowed`. For `forcedSwallow`, the
+  author must also establish at least ten `headOrNeckHeldSeconds`. This checks
+  resolved grapple facts; it does not execute or prolong a grapple.
+- `follow-up`: a `weapon` needs a committed, patient-owned `wound` with positive
+  injury and an eligible `penetrationKind` (`piercing`, `impaling` or `hypodermic`).
+  Payload ownership/consumption and the separately specified cutting-edge coating
+  procedure remain unfinished; they cannot be inferred from this assessment.
+- `respiratory`: actual inhalation is required, with `holdingBreath` preventing
+  entry. Stunned or unconscious patients inhale automatically. `noBreathing` or
+  `filteredLungs` prevents entry; an `improvisedMask` instead grants the returned
+  +1 `resistanceModifier`. Area delivery also requires presence in the area.
+- `sense`: `sensePresent` and no `senseProtected` protection are required. Those
+  fields refer specifically to the poison's targeted sense; no protection carries
+  over to another route. Area delivery requires `inArea`.
+
+Protection fields represent verified innate or equipment capabilities; this
+adapter does not claim to implement the corresponding trait/equipment catalogues.
+For direct delivery, evidence must establish that the substance reaches the target;
+an unobserved attack or speculative presence is insufficient. Breath-holding and
+sense-detection procedures remain the responsibility of their actual systems.
+Unsupported delivery combinations return explicit reasons.
+
+`expanded-poison-entry.t` and `test_poison_entry` specify all six routes, the
+persistent-wound entry, paired area protections, exposed/clothed skin, nine/ten
+second forced swallowing, unconscious/stunned respiration, mask benefit and an
+owned follow-up wound. They are authored and unrun.
