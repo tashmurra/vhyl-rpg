@@ -121,3 +121,18 @@ grant environmental knowledge, and unpowered, unsealed armor needs no suit skill
 The life, geological, weather and physical-geography skills also retain the
 planet-type default network, distinct from the planet-specific survival and
 natural-history restrictions. These source definitions still await runtime use.
+
+Electronics operation, electronics repair, engineering and mechanics now carry
+their within-family −4 defaults; mathematics specialties carry −5 defaults.
+Engineering and electronics-operation defaults retain the campaign's option to
+exclude exotic/ordinary crossings. Mechanics defaults retain specific author
+adjustments for unusually close or distant specialties. These are separate from
+technology-level penalties and equipment familiarity.
+
+The design/repair/operation links remain directional: ordinary electronics
+operation defaults to matching repair at −5, while repair defaults to matching
+operation at −3. Computer repair instead uses computer operation at −5. Engineering
+requires applied mathematics from technology level five onward, plus its specialty
+prerequisites. Vehicle-category definitions must bind a concrete category; they
+are not wildcard skills covering every vehicle. Source metadata preserves these
+conditions, but runtime prerequisite and context resolution are still pending.

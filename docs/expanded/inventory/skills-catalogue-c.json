@@ -2606,6 +2606,26 @@
           [
             "physics",
             -5
+          ],
+          [
+            "mathematics-computer-science",
+            -5
+          ],
+          [
+            "mathematics-cryptology",
+            -5
+          ],
+          [
+            "mathematics-pure",
+            -5
+          ],
+          [
+            "mathematics-statistics",
+            -5
+          ],
+          [
+            "mathematics-surveying",
+            -5
           ]
         ],
         "prerequisites": []
@@ -2631,6 +2651,26 @@
           ],
           [
             "programming",
+            -5
+          ],
+          [
+            "mathematics-applied",
+            -5
+          ],
+          [
+            "mathematics-cryptology",
+            -5
+          ],
+          [
+            "mathematics-pure",
+            -5
+          ],
+          [
+            "mathematics-statistics",
+            -5
+          ],
+          [
+            "mathematics-surveying",
             -5
           ]
         ],
@@ -2658,6 +2698,26 @@
           [
             "cryptography",
             -5
+          ],
+          [
+            "mathematics-applied",
+            -5
+          ],
+          [
+            "mathematics-computer-science",
+            -5
+          ],
+          [
+            "mathematics-pure",
+            -5
+          ],
+          [
+            "mathematics-statistics",
+            -5
+          ],
+          [
+            "mathematics-surveying",
+            -5
           ]
         ],
         "prerequisites": []
@@ -2680,6 +2740,26 @@
           [
             "iq",
             -6
+          ],
+          [
+            "mathematics-applied",
+            -5
+          ],
+          [
+            "mathematics-computer-science",
+            -5
+          ],
+          [
+            "mathematics-cryptology",
+            -5
+          ],
+          [
+            "mathematics-statistics",
+            -5
+          ],
+          [
+            "mathematics-surveying",
+            -5
           ]
         ],
         "prerequisites": []
@@ -2702,6 +2782,26 @@
           [
             "iq",
             -6
+          ],
+          [
+            "mathematics-applied",
+            -5
+          ],
+          [
+            "mathematics-computer-science",
+            -5
+          ],
+          [
+            "mathematics-cryptology",
+            -5
+          ],
+          [
+            "mathematics-pure",
+            -5
+          ],
+          [
+            "mathematics-surveying",
+            -5
           ]
         ],
         "prerequisites": []
@@ -2732,6 +2832,26 @@
           [
             "navigation-any",
             -4
+          ],
+          [
+            "mathematics-applied",
+            -5
+          ],
+          [
+            "mathematics-computer-science",
+            -5
+          ],
+          [
+            "mathematics-cryptology",
+            -5
+          ],
+          [
+            "mathematics-pure",
+            -5
+          ],
+          [
+            "mathematics-statistics",
+            -5
           ]
         ],
         "prerequisites": []
@@ -2762,9 +2882,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -2792,9 +2999,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -2822,9 +3116,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -2852,9 +3233,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -2882,9 +3350,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -2912,9 +3467,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -2942,9 +3584,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -2972,9 +3701,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -3002,9 +3818,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -3032,9 +3935,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -3062,9 +4052,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -3092,9 +4169,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -3122,9 +4286,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -3152,9 +4403,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -3182,9 +4520,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -3212,9 +4637,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -3242,9 +4754,96 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-vehicle-category",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-vehicle-category": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        }
       }
     },
     {
@@ -3272,9 +4871,103 @@
           [
             "machining",
             -5
+          ],
+          [
+            "mechanics-micromachines",
+            -4
+          ],
+          [
+            "mechanics-nanomachines",
+            -4
+          ],
+          [
+            "mechanics-robotics",
+            -4
+          ],
+          [
+            "mechanics-legged",
+            -4
+          ],
+          [
+            "mechanics-tracked",
+            -4
+          ],
+          [
+            "mechanics-wheeled",
+            -4
+          ],
+          [
+            "mechanics-rockets",
+            -4
+          ],
+          [
+            "mechanics-reactionless",
+            -4
+          ],
+          [
+            "mechanics-clockwork",
+            -4
+          ],
+          [
+            "mechanics-steam",
+            -4
+          ],
+          [
+            "mechanics-gasoline",
+            -4
+          ],
+          [
+            "mechanics-diesel",
+            -4
+          ],
+          [
+            "mechanics-gas-turbine",
+            -4
+          ],
+          [
+            "mechanics-fuel-cell",
+            -4
+          ],
+          [
+            "mechanics-fission",
+            -4
+          ],
+          [
+            "mechanics-fusion",
+            -4
+          ],
+          [
+            "mechanics-antimatter",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "mechanics-micromachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-nanomachines": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-robotics": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-legged": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-tracked": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-wheeled": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-rockets": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-reactionless": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-clockwork": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-steam": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gasoline": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-diesel": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-gas-turbine": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fuel-cell": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fission": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-fusion": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities.",
+          "mechanics-antimatter": "Author may adjust the default for specifically close or distant specialties; resolve concrete machine, propulsion, power-plant or vehicle identities."
+        },
+        "definition_parameters": {
+          "vehicle_category": {
+            "required": true,
+            "scope": "one concrete category, not every vehicle"
+          }
+        },
+        "same_definition_different_parameter_default": -4
       }
     },
     {

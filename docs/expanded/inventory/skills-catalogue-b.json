@@ -1181,9 +1181,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1211,6 +1278,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1241,9 +1364,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1271,6 +1461,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1301,9 +1547,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1331,6 +1644,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1361,9 +1730,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1391,6 +1827,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1421,9 +1913,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1451,6 +2010,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1481,9 +2096,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1511,6 +2193,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1541,9 +2279,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1571,6 +2376,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1601,9 +2462,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1631,6 +2559,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1661,9 +2645,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1691,6 +2742,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1721,9 +2828,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1751,6 +2925,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1781,9 +3011,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1811,6 +3108,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1841,9 +3194,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1871,6 +3291,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1901,9 +3377,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-time-transfer",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1931,6 +3474,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1961,9 +3560,76 @@
           [
             "engineering-electronics",
             -5
+          ],
+          [
+            "electronics-operation-communications",
+            -4
+          ],
+          [
+            "electronics-operation-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-operation-force-barriers",
+            -4
+          ],
+          [
+            "electronics-operation-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-media",
+            -4
+          ],
+          [
+            "electronics-operation-medical",
+            -4
+          ],
+          [
+            "electronics-operation-world-transfer",
+            -4
+          ],
+          [
+            "electronics-operation-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-operation-scientific",
+            -4
+          ],
+          [
+            "electronics-operation-security",
+            -4
+          ],
+          [
+            "electronics-operation-sensors",
+            -4
+          ],
+          [
+            "electronics-operation-sonar",
+            -4
+          ],
+          [
+            "electronics-operation-surveillance",
+            -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "default_conditions": {
+          "electronics-operation-communications": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-electronic-warfare": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-force-barriers": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-matter-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-media": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-medical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-scientific": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-security": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sensors": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-sonar": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "electronics-operation-surveillance": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        }
       }
     },
     {
@@ -1991,6 +3657,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-computers",
+            -4
           ]
         ],
         "prerequisites": []
@@ -2081,6 +3803,62 @@
           [
             "engineering-electronics",
             -3
+          ],
+          [
+            "electronics-repair-communications",
+            -4
+          ],
+          [
+            "electronics-repair-electronic-warfare",
+            -4
+          ],
+          [
+            "electronics-repair-force-barriers",
+            -4
+          ],
+          [
+            "electronics-repair-matter-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-media",
+            -4
+          ],
+          [
+            "electronics-repair-medical",
+            -4
+          ],
+          [
+            "electronics-repair-world-transfer",
+            -4
+          ],
+          [
+            "electronics-repair-psychic-devices",
+            -4
+          ],
+          [
+            "electronics-repair-scientific",
+            -4
+          ],
+          [
+            "electronics-repair-security",
+            -4
+          ],
+          [
+            "electronics-repair-sensors",
+            -4
+          ],
+          [
+            "electronics-repair-sonar",
+            -4
+          ],
+          [
+            "electronics-repair-surveillance",
+            -4
+          ],
+          [
+            "electronics-repair-time-transfer",
+            -4
           ]
         ],
         "prerequisites": []
@@ -2103,10 +3881,93 @@
           [
             "arms-maintenance-heavy-weapons",
             -6
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2127,10 +3988,93 @@
           [
             "architecture",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2151,10 +4095,93 @@
           [
             "mechanics-clockwork",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2175,10 +4202,93 @@
           [
             "explosives-demolition",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2199,10 +4309,93 @@
           [
             "electrical-work",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2223,10 +4416,93 @@
           [
             "electronics-repair-any",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2251,11 +4527,94 @@
           [
             "metallurgy",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+",
           "any:chemistry,metallurgy"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2276,10 +4635,93 @@
           [
             "mechanics-micromachines",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2304,10 +4746,93 @@
           [
             "geology-any",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2328,10 +4853,93 @@
           [
             "mechanics-nanomachines",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2352,12 +4960,96 @@
           [
             "conditional:electronics-operation-world-transfer:societal-access",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+",
           "physics"
-        ]
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
+        ],
+        "source_access_constraint": "Retain the society/background predicate on the electronics-operation default; cross-specialty campaign permissions are a separate decision."
       }
     },
     {
@@ -2377,11 +5069,95 @@
           [
             "conditional:electronics-operation-psychic-devices:societal-access",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
-        ]
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
+        ],
+        "source_access_constraint": "Retain the society/background predicate on the electronics-operation default; cross-specialty campaign permissions are a separate decision."
       }
     },
     {
@@ -2401,10 +5177,93 @@
           [
             "mechanics-robotics",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2425,10 +5284,93 @@
           [
             "arms-maintenance-small-arms",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },
@@ -2449,12 +5391,96 @@
           [
             "conditional:electronics-operation-time-transfer:societal-access",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-vehicle-category",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+",
           "physics"
-        ]
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-vehicle-category": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
+        ],
+        "source_access_constraint": "Retain the society/background predicate on the electronics-operation default; cross-specialty campaign permissions are a separate decision."
       }
     },
     {
@@ -2474,10 +5500,100 @@
           [
             "mechanics-matching-vehicle",
             -6
+          ],
+          [
+            "engineering-artillery",
+            -4
+          ],
+          [
+            "engineering-civil",
+            -4
+          ],
+          [
+            "engineering-clockwork",
+            -4
+          ],
+          [
+            "engineering-combat",
+            -4
+          ],
+          [
+            "engineering-electrical",
+            -4
+          ],
+          [
+            "engineering-electronics",
+            -4
+          ],
+          [
+            "engineering-materials",
+            -4
+          ],
+          [
+            "engineering-micromachines",
+            -4
+          ],
+          [
+            "engineering-mining",
+            -4
+          ],
+          [
+            "engineering-nanomachines",
+            -4
+          ],
+          [
+            "engineering-world-transfer",
+            -4
+          ],
+          [
+            "engineering-psychic-devices",
+            -4
+          ],
+          [
+            "engineering-robotics",
+            -4
+          ],
+          [
+            "engineering-small-arms",
+            -4
+          ],
+          [
+            "engineering-time-transfer",
+            -4
           ]
         ],
         "prerequisites": [
           "conditional:mathematics-applied:tl5+"
+        ],
+        "default_conditions": {
+          "engineering-artillery": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-civil": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-clockwork": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-combat": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electrical": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-electronics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-materials": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-micromachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-mining": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-nanomachines": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-world-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-psychic-devices": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-robotics": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-small-arms": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use.",
+          "engineering-time-transfer": "Campaign may disable exotic-to-ordinary and ordinary-to-exotic specialty defaults; resolve its classification and permission before use."
+        },
+        "definition_parameters": {
+          "vehicle_category": {
+            "required": true,
+            "scope": "one concrete category, not every vehicle"
+          }
+        },
+        "same_definition_different_parameter_default": -4,
+        "conditional_prerequisite_rules": [
+          {
+            "minimum_technology_level": 5,
+            "required_skill": "mathematics-applied"
+          }
         ]
       }
     },

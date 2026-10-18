@@ -8,6 +8,37 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_technical_skill_defaults_preserve_roles_and_prerequisites(self):
+        base = ROOT / 'docs/expanded/inventory'
+        entries = {
+            e['id'].removeprefix('catalogue-skill-'): e['reference_data']
+            for path in base.glob('skills-catalogue-*.json')
+            for e in json.loads(path.read_text())['entries']
+            if 'reference_data' in e
+        }
+        for target, source, modifier in [
+                ('electronics-operation-media', 'electronics-operation-security', -4),
+                ('electronics-repair-computers', 'electronics-repair-media', -4),
+                ('engineering-civil', 'engineering-mining', -4),
+                ('mathematics-applied', 'mathematics-pure', -5),
+                ('mechanics-clockwork', 'mechanics-fusion', -4),
+                ('electronics-operation-communications', 'electronics-repair-communications', -5),
+                ('electronics-repair-communications', 'electronics-operation-communications', -3),
+                ('electronics-repair-computers', 'computer-operation', -5),
+                ('electronics-repair-computers', 'engineering-electronics', -3)]:
+            self.assertEqual(dict(entries[target]['defaults'])[source], modifier)
+        for key in ('engineering-civil', 'engineering-materials', 'engineering-world-transfer'):
+            self.assertEqual(entries[key]['conditional_prerequisite_rules'], [
+                {'minimum_technology_level': 5, 'required_skill': 'mathematics-applied'}])
+        self.assertIn('physics', entries['engineering-world-transfer']['prerequisites'])
+        self.assertIn('any:chemistry,metallurgy', entries['engineering-materials']['prerequisites'])
+        self.assertTrue(entries['engineering-civil']['default_conditions']['engineering-world-transfer'])
+        self.assertTrue(entries['electronics-operation-media']['default_conditions']['electronics-operation-world-transfer'])
+        self.assertTrue(entries['engineering-world-transfer']['source_access_constraint'])
+        for key in ('engineering-vehicle-category', 'mechanics-vehicle-category'):
+            self.assertTrue(entries[key]['definition_parameters']['vehicle_category']['required'])
+            self.assertEqual(entries[key]['same_definition_different_parameter_default'], -4)
+
     def test_transport_defaults_keep_direction_and_suit_scope(self):
         base = ROOT / 'docs/expanded/inventory'
         entries = {
