@@ -9210,6 +9210,8 @@ def test(build):
     test_belief_observation(Session, belief_observation, build.out)
     belief_revelation = build.build('expanded-belief-revelation',ROOT / 'tests/fixtures/expanded-belief-revelation.t')
     test_belief_revelation(Session, belief_revelation, build.out)
+    belief_credit = build.build('expanded-belief-credit',ROOT / 'tests/fixtures/expanded-belief-credit.t')
+    test_belief_credit(Session, belief_credit, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20534,5 +20536,42 @@ def test_belief_revelation(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.belief-revelation-preview') == ['blocked', 'rpg.insufficient-points', 10, 0]
         assert last(s, 'test.belief-revelation-state') == [1, 15, 9, 2, 0, 0]
+    finally:
+        s.close()
+
+
+def test_belief_credit(Session, bundle, out):
+    """B130 capped credit with uncapped owned severity; fixtures unrun."""
+    path = out / 'expanded-belief-credit.zsave'
+    s = Session(bundle)
+    try:
+        for code in (11500, 11501, 11506, 11503, 11504):
+            s.action(2285, code)
+        assert last(s, 'test.belief-credit') == [-40, -40, 0, 1, 0]
+        assert last(s, 'test.belief-credit-copy') == [0, 1, 0]
+        assert last(s, 'test.belief-credit-basis') == [0, None]
+        s.action(2285, 11502)
+        s.command('undo')
+        s.action(2285, 11504)
+        assert last(s, 'test.belief-credit-basis') == [0, None]
+        for code in (11502, 11502, 11504):
+            s.action(2285, code)
+        assert last(s, 'test.belief-credit-basis') == [4, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (11502, 11504):
+            s.action(2285, code)
+        assert last(s, 'test.belief-credit-basis') == [4, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (11500, 11505, 11208):
+            s.action(2285, code)
+        assert last(s, 'test.belief-limit') == ['fixed-belief-credit-allocation']
     finally:
         s.close()

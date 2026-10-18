@@ -162,7 +162,7 @@ class RpgExpandedCharacterFinalization: object
         foreach (local trait in self.profile.traits)
         {
             local cost = trait.creationCost();
-            if (cost < 0)
+            if (cost < 0 || cost == 0 && trait.points < 0)
             {
                 local basis = new RpgExpandedBuyoffBasis(); basis.owner = self.profile; basis.trait = trait;
                 basis.originalBonus = -cost; basis.creationReceipt = self;

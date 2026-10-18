@@ -1531,10 +1531,23 @@ the belief alone. The one-point harmless form remains a separate quirk.
 
 Expanded character validation permits distinct scoped purchases of this type
 under the common neutral ID. It rejects repeated scopes, invalid definitions and
-a combined value over forty points. `traitMayRepeat(trait)` defaults to the
+combined credit over forty points. `traitMayRepeat(trait)` defaults to the
 existing quirk-only exception for ordinary profiles. Mixing these purchases with
 the older `delusions` identifier rejects until composition is implemented.
-Above-cap ownership without further credit is also not yet represented.
+For ownership above forty nominal points, set `creditedPoints` explicitly on
+one or more purchases. Each allocation is between zero and its nominal severity
+cost. Before creation closes, allocations must total the smaller of forty and
+the nominal total. Leaving the field unset uses full severity credit; there is
+no implicit list-order allocation. This is an author-selected accounting
+allocation, not an additional source rule about which belief receives credit.
+
+Severity, reactions and behavior remain unchanged by reduced credit. Character
+costs, negative-component limits and template copying use the allocated credit.
+Creation finalization records original buyoff bases even for zero-credit negative
+purchases. After creation, historical allocations are retained rather than
+redistributed when a purchase is removed. Buyoff still requires explicit approval
+of that historical basis. Fear acquisition checks nominal severity separately
+from its credited value and never creates spendable points.
 
 Template copying creates a fresh purchase with the same severity, scope and
 author text. Plain shorthand rejects with
@@ -1546,7 +1559,7 @@ copied to the new purchase.
 twenty-two and thirty-four (B361). Set unique `id` and `eventId`, `profile`, an
 unowned authored `trait`, `tableTotal = 22` or `34`, `approved = true` and
 `evidence` connecting the purchase to that selected outcome. It requires a
-completed creation profile and exactly the row's -10 or -15 value.
+completed creation profile and exactly the row's nominal -10 or -15 severity.
 
 `assess()` is pure. `apply()` installs the purchase once, records the event and
 increments the development revision. It does not award earned or unspent points.
@@ -1596,3 +1609,9 @@ Unfunded mandatory buyoff and outside-downtime resolution remain pending.
 [`expanded-belief-revelation.t`](../../tests/fixtures/expanded-belief-revelation.t)
 and `test_belief_revelation` specify private-state result parity, recognition,
 affordability, replay, rollback, undo and save continuation. They remain unrun.
+
+
+[`expanded-belief-credit.t`](../../tests/fixtures/expanded-belief-credit.t) and
+`test_belief_credit` specify forty-five nominal points with forty credited,
+unchanged severity, template copying, zero-credit original bases, allocation
+rejection, replay, rollback, undo and save continuation. Fixtures remain unrun.

@@ -223,3 +223,9 @@ Fixed-belief knowledge now separates private truth, character awareness and
 player recognition through owned receipts. Funded revelation buyoff uses the
 shared point ledger once; unfunded and outside-downtime cases remain pending.
 Preview, rollback, undo and save-continuation fixtures are authored but unrun.
+
+
+Fixed beliefs now support ownership above forty nominal points through explicit
+author credit allocations capped at forty. Character accounting, copied purchases
+and original buyoff receipts preserve those allocations, including zero-credit
+purchases. Severity and reactions remain unchanged. Fixtures are authored, unrun.

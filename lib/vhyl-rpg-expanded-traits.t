@@ -2350,13 +2350,15 @@ class RpgExpandedFixedBelief: RpgLiteTrait
     behaviorText = nil
     fearAcquisition = nil
     templatePurchaseKind = 'expanded-fixed-belief'
+    creditedPoints = nil
     creationCost()
     {
         rpgInteger(self.level,1,3);
         if (!self.approved || self.id != 'fixed-belief' || self.points != -5 || self.scope == nil || self.scope == '' || self.scope == 'quirk'
             || self.beliefText == nil || self.beliefText == '' || self.behaviorText == nil || self.behaviorText == ''
             || self.controlled || self.skills.length() != 0) rpgExpandedReject('fixed-belief-definition');
-        return -5 * self.level;
+        if (self.creditedPoints == nil) return -5 * self.level;
+        rpgInteger(self.creditedPoints,0,5 * self.level); return -self.creditedPoints;
     }
 ;
 modify RpgExpandedProfile
@@ -2365,16 +2367,17 @@ modify RpgExpandedProfile
     validateFixedBeliefs(extra)
     {
         local beliefs = self.traits; if (extra != nil) beliefs = beliefs + [extra];
-        local scopes = []; local total = 0;
+        local scopes = []; local total = 0; local nominal = 0;
         foreach (local trait in beliefs)
             if (trait.id == 'fixed-belief')
             {
                 if (!trait.ofKind(RpgExpandedFixedBelief)) rpgExpandedReject('fixed-belief-type');
-                total -= trait.creationCost();
+                total -= trait.creationCost(); nominal += 5 * trait.level;
                 if (holds(scopes,trait.scope)) rpgExpandedReject('fixed-belief-duplicate-scope');
                 scopes = scopes + [trait.scope];
             }
         if (total > 40) rpgExpandedReject('fixed-belief-point-limit');
+        if (!self.creationComplete && total != (nominal > 40 ? 40 : nominal)) rpgExpandedReject('fixed-belief-credit-allocation');
         if (total > 0 && self.trait('delusions') != nil) rpgExpandedReject('fixed-belief-legacy-combination');
         return nil;
     }
@@ -2402,7 +2405,7 @@ class RpgExpandedFixedBeliefAcquisition: object
     definition()
     {
         return [self.id,self.eventId,self.profile,self.trait,self.tableTotal,self.approved,self.evidence,
-            self.trait.scope,self.trait.level,self.trait.beliefText,self.trait.behaviorText];
+            self.trait.scope,self.trait.level,self.trait.beliefText,self.trait.behaviorText,self.trait.creditedPoints];
     }
     assess()
     {
@@ -2428,7 +2431,7 @@ class RpgExpandedFixedBeliefAcquisition: object
         for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
             if (holds(owner.traits,self.trait)) rpgExpandedReject('fixed-belief-foreign-owner');
         value.points = self.trait.creationCost();
-        if (value.points != (self.tableTotal == 22 ? -10 : -15)) rpgExpandedReject('fixed-belief-fear-severity');
+        if (-5 * self.trait.level != (self.tableTotal == 22 ? -10 : -15)) rpgExpandedReject('fixed-belief-fear-severity');
         rpgExpandedValidate(self.profile); self.profile.validateFixedBeliefs(self.trait);
         foreach (local prior in self.profile.fixedBeliefAcquisitions)
             if (prior.id == self.id || prior.eventId == self.eventId) rpgExpandedReject('fixed-belief-event-duplicate');
@@ -2454,7 +2457,7 @@ modify rpgExpandedTemplateTraits
     {
         if (!trait.ofKind(RpgExpandedFixedBelief)) return inherited(trait);
         trait.creationCost(); local copy = new RpgExpandedFixedBelief(); copy.level = trait.level; copy.scope = trait.scope;
-        copy.beliefText = trait.beliefText; copy.behaviorText = trait.behaviorText; copy.approved = true;
+        copy.beliefText = trait.beliefText; copy.behaviorText = trait.behaviorText; copy.approved = true; copy.creditedPoints = trait.creditedPoints;
         copy.creationCost(); return copy;
     }
 ;
@@ -2488,7 +2491,7 @@ class RpgExpandedFixedBeliefPortrayal: object
     definition()
     {
         return [self.id,self.profile,self.belief,self.situation,self.decision,self.observedBehavior,self.approved,self.recordedAt,
-            self.belief.scope,self.belief.level,self.belief.beliefText,self.belief.behaviorText];
+            self.belief.scope,self.belief.level,self.belief.beliefText,self.belief.behaviorText,self.belief.creditedPoints];
     }
     validateReceipt()
     {
@@ -2547,7 +2550,7 @@ class RpgExpandedFixedBeliefKnowledge: object
     {
         return [self.id,self.profile,self.belief,self.previous,self.truthConfirmed,self.characterAware,
             self.playersRecognize,self.approved,self.evidence,self.recordedAt,
-            self.belief.scope,self.belief.level,self.belief.beliefText,self.belief.behaviorText];
+            self.belief.scope,self.belief.level,self.belief.beliefText,self.belief.behaviorText,self.belief.creditedPoints];
     }
     validateReceipt()
     {
