@@ -217,3 +217,36 @@ party membership remain pending. The current interface specifies the table's
 immediate decision, not its complete world consequences. The minimal social
 fixture and `tests/expanded.py::test_combat_reactions` cover the contextual branches
 and modifiers. These cases remain unrun while checks are paused.
+
+
+## Requests for aid
+
+`RpgExpandedAidReaction` takes the resolved private `band`, whether the request is
+`simple`, and an authored `reasonableness`: `reasonable`, `silly` or
+`totally-unreasonable`. Pure `assess()` reports willingness and follow-up mechanics
+from full-2008 B560–B562. Bands 0–3 deny help; the first two require a potential-combat
+reaction (at -4 for band 0, or capped at neutral for band 1). Band 3 permits a retry
+at -2. At neutral, simple requests are granted and complex requests may be retried
+at -2. Good reactions grant reasonable requests and offer advice when denying
+unreasonable ones. Very good reactions grant anything short of totally unreasonable
+requests and volunteer useful information. The highest band offers additional help
+within the provider's capability.
+
+The result distinguishes `granted`, `extent`, `advice`, `volunteerInformation`,
+`combatFollowup`, `followupModifier`, `followupBestBand`, `retry` and `retryModifier`.
+Do not treat `granted` as completed assistance. A provider still needs the time,
+resources and abilities for the requested task. Follow-up combat rolls and changed
+approaches must use persistent encounter/attempt records; they are not performed
+by this pure assessment. If a hostile follow-up cannot produce combat, its other
+hostile world consequences remain an authored requirement.
+
+`RpgExpandedAidModifiers` supplies the context-specific total: +1 for `verySimple`,
+an authored nonpositive `complexity`, -1 for `inconvenience`, optional `standingRisk`
+of -2 or worse, and optional `physicalRisk` of -1 or worse. Nil risk means absent.
+Risk magnitude and courage are world judgments; the implementation does not guess
+them from unrelated traits. Add this total once to the reaction attempt.
+
+`tests/expanded.py::test_aid_reactions` covers each band, complexity/reasonableness
+branches, escalation caps and modifiers. Cases remain unrun. Provider task execution,
+resource transfer, advice content and follow-up encounter orchestration are still
+pending, so these entries remain partial in the coverage ledger.

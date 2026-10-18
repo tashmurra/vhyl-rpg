@@ -655,6 +655,28 @@ def test_social_structure(s):
         'rank-replaces-purchased-status', 3, 30, 'rank-status-policy-mismatch']
 
 
+def test_aid_reactions(s):
+    # grant, extent, advice, volunteered information, combat roll, modifier, cap, retry, modifier
+    cases = [
+        ((0, 1, 'reasonable'), [0, 'none', 0, 0, 1, -4, 7, 0, 0]),
+        ((1, 1, 'reasonable'), [0, 'none', 0, 0, 1, 0, 4, 0, 0]),
+        ((2, 1, 'reasonable'), [0, 'none', 0, 0, 0, 0, 7, 0, 0]),
+        ((3, 1, 'reasonable'), [0, 'none', 0, 0, 0, 0, 7, 1, -2]),
+        ((4, 1, 'reasonable'), [1, 'requested', 0, 0, 0, 0, 7, 0, 0]),
+        ((4, 0, 'reasonable'), [0, 'none', 0, 0, 0, 0, 7, 1, -2]),
+        ((5, 0, 'reasonable'), [1, 'requested', 0, 0, 0, 0, 7, 0, 0]),
+        ((5, 1, 'silly'), [0, 'none', 1, 0, 0, 0, 7, 0, 0]),
+        ((6, 0, 'silly'), [1, 'requested', 0, 1, 0, 0, 7, 0, 0]),
+        ((6, 1, 'totally-unreasonable'), [0, 'none', 0, 1, 0, 0, 7, 0, 0]),
+        ((7, 0, 'totally-unreasonable'), [1, 'extra-within-capability', 0, 0, 0, 0, 7, 0, 0]),
+    ]
+    for args, expected in cases:
+        s.action(1181, *args)
+        assert last(s, 'test.aid-reaction') == expected
+    s.action(1182)
+    assert last(s, 'test.aid-modifiers') == [0, 1, -7]
+
+
 def test_combat_reactions(s):
     # (band, fighting, outnumbered, hopeless, escape, remain), expected result.
     cases = [
@@ -871,6 +893,7 @@ def test(build):
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')
     fresh(Session,social,test_social_status)
     fresh(Session,social,test_combat_reactions)
+    fresh(Session,social,test_aid_reactions)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
     test_reputation_persistence(Session,bundle,build.out)

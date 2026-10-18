@@ -410,3 +410,66 @@ rpgExpandedCombatReactionModifier(perceivedStrength, commonLanguage, intruders)
     rpgInteger(perceivedStrength,-5,5);
     return perceivedStrength - (commonLanguage ? 0 : 2) - (intruders ? 2 : 0);
 }
+
+class RpgExpandedAidResult: RpgExpandedResult
+    granted = nil
+    extent = 'none'
+    advice = nil
+    volunteerInformation = nil
+    combatFollowup = nil
+    followupModifier = 0
+    followupBestBand = 7
+    retry = nil
+    retryModifier = 0
+;
+
+/** Aid decisions, full-2008 B560-B562. A grant expresses willingness; it does
+ * not create resources or let the provider perform an impossible task. */
+class RpgExpandedAidReaction: object
+    band = nil
+    simple = nil
+    reasonableness = 'reasonable'
+    assess()
+    {
+        rpgInteger(self.band,0,7);
+        if (!holds(['reasonable','silly','totally-unreasonable'],self.reasonableness))
+            rpgExpandedReject('aid-reasonableness');
+        local value = new RpgExpandedAidResult(); value.status = 'ready';
+        if (self.band == 0) { value.combatFollowup = true; value.followupModifier = -4; }
+        if (self.band == 1) { value.combatFollowup = true; value.followupBestBand = 4; }
+        if (self.band == 3) { value.retry = true; value.retryModifier = -2; }
+        if (self.band == 4)
+        {
+            value.granted = self.simple;
+            if (!self.simple) { value.retry = true; value.retryModifier = -2; }
+        }
+        if (self.band == 5)
+        { value.granted = self.reasonableness == 'reasonable'; value.advice = !value.granted; }
+        if (self.band == 6)
+        { value.granted = self.reasonableness != 'totally-unreasonable'; value.volunteerInformation = true; }
+        if (self.band == 7) { value.granted = true; value.extent = 'extra-within-capability'; }
+        else if (value.granted) value.extent = 'requested';
+        return value;
+    }
+;
+
+/** B562 aid modifiers. Variable risk penalties are explicit authored judgments.
+ * A nil risk means absent; a supplied job/status risk must be at least -2. */
+class RpgExpandedAidModifiers: object
+    verySimple = nil
+    complexity = 0
+    inconvenience = nil
+    standingRisk = nil
+    physicalRisk = nil
+    assess()
+    {
+        rpgInteger(self.complexity,-100,0);
+        if (self.standingRisk != nil) rpgInteger(self.standingRisk,-100,-2);
+        if (self.physicalRisk != nil) rpgInteger(self.physicalRisk,-100,-1);
+        local value = new RpgExpandedResult(); value.status = 'ready';
+        value.modifier = (self.verySimple ? 1 : 0) + self.complexity - (self.inconvenience ? 1 : 0)
+            + (self.standingRisk == nil ? 0 : self.standingRisk)
+            + (self.physicalRisk == nil ? 0 : self.physicalRisk);
+        return value;
+    }
+;

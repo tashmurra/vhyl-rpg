@@ -628,6 +628,18 @@
         "tests/expanded.py::test_combat_reactions"
       ],
       "validation_note": "Immediate contextual decisions and combat reaction modifiers authored; cases unrun. Combat AI execution, surrender, ambush and party-membership consequences pending."
+    },
+    {
+      "id": "aid-reaction-decisions",
+      "module": "social",
+      "pages": "B560-B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedAidReaction",
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "validation_note": "Willingness, extent, advice, retry/escalation requirements and context modifiers authored. Checks unrun; provider execution and follow-up orchestration pending."
     }
   ],
   "detailed_inventories": [

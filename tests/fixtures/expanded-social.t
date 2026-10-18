@@ -52,5 +52,22 @@ act(verb,args)
         event('test.combat-reaction-modifier');
         eventValue(rpgExpandedCombatReactionModifier(args[1],args[2] == 1,args[3] == 1)); return nil;
     }
+    if (verb == 1181)
+    {
+        local request = new RpgExpandedAidReaction(); request.band = args[1]; request.simple = args[2] == 1;
+        request.reasonableness = args[3]; local value = request.assess();
+        event('test.aid-reaction'); eventValue(value.granted ? 1 : 0); eventValue(value.extent);
+        eventValue(value.advice ? 1 : 0); eventValue(value.volunteerInformation ? 1 : 0);
+        eventValue(value.combatFollowup ? 1 : 0); eventValue(value.followupModifier); eventValue(value.followupBestBand);
+        eventValue(value.retry ? 1 : 0); eventValue(value.retryModifier); return nil;
+    }
+    if (verb == 1182)
+    {
+        local context = new RpgExpandedAidModifiers(); event('test.aid-modifiers');
+        eventValue(context.assess().modifier); context.verySimple = true; eventValue(context.assess().modifier);
+        context.verySimple = nil; context.complexity = -3; context.inconvenience = true;
+        context.standingRisk = -2; context.physicalRisk = -1; eventValue(context.assess().modifier);
+        return nil;
+    }
     return vhylAct(verb,args);
 }

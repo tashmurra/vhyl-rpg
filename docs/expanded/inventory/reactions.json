@@ -177,9 +177,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Very simple assistance contributes +1.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "implementation_note": "Pure decision and modifier assessment authored; world assistance and follow-up orchestration pending. Checks unrun."
     },
     {
       "id": "reaction-detail-aid-complex",
@@ -187,9 +190,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Complex or unreasonable assistance contributes -1 to -3 or worse through a recorded author decision.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "implementation_note": "Pure decision and modifier assessment authored; world assistance and follow-up orchestration pending. Checks unrun."
     },
     {
       "id": "reaction-detail-aid-cost",
@@ -197,9 +203,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Inconvenience or monetary cost contributes -1.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "implementation_note": "Pure decision and modifier assessment authored; world assistance and follow-up orchestration pending. Checks unrun."
     },
     {
       "id": "reaction-detail-aid-standing",
@@ -207,9 +216,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Risk to employment or standing contributes -2 or worse.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "implementation_note": "Pure decision and modifier assessment authored; world assistance and follow-up orchestration pending. Checks unrun."
     },
     {
       "id": "reaction-detail-aid-danger",
@@ -217,9 +229,12 @@
       "pages": "B559-B562",
       "module": "social",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Physical danger contributes -1 or worse according to risk and courage.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "implementation_note": "Pure decision and modifier assessment authored; world assistance and follow-up orchestration pending. Checks unrun."
     },
     {
       "id": "reaction-detail-information-complexity",
