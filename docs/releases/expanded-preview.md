@@ -1117,3 +1117,8 @@ payer/provider money balances. Its +1 to +3 bonus modifies the skill check once;
 payment persists on failure and is not repeated on replay. Affordability,
 conservation, rollback, undo and saved-continuation fixtures are authored, unrun.
 Intoxication and venue-specific dangers remain pending.
+
+Social preparation now rejects changed encounter state and definitions after
+time advancement before it pays or rolls. This closes an intervening-reaction
+gap and handles changed definition lengths explicitly. Audience, price, payment
+capacity and intervening-reaction rollback/retry fixtures are authored, unrun.

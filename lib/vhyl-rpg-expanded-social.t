@@ -1662,16 +1662,31 @@ class RpgExpandedReactionPreparation: object
         rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds); rpgLedger.validateAdvance(self.seconds);
         value.status = 'ready'; return value;
     }
+    validateCommit(definition, historyCount)
+    {
+        local current = self.definition();
+        if (current.length() != definition.length()) rpgExpandedReject('reaction-preparation-changed');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('reaction-preparation-changed');
+        self.encounter.validate();
+        if (self.encounter.history.length() != 0 || self.encounter.predeterminedBand != nil
+            || self.encounter.skillPreparation != nil || self.encounter.preparationHistory.length() != historyCount)
+            rpgExpandedReject('reaction-preparation-encounter-changed');
+        return nil;
+    }
     resolve()
     {
         local value = self.assess(); if (value.status == 'reused') return self.result;
         if (value.status != 'ready') return value;
-        local definition = self.definition(); local start = rpgLedger.seconds; local permission = value.gate.apply();
+        local definition = self.definition(); local start = rpgLedger.seconds;
+        local historyCount = self.encounter.preparationHistory.length(); local permission = value.gate.apply();
         if (permission.status != 'resolved') rpgExpandedReject('reaction-preparation-permission-changed');
+        self.validateCommit(definition,historyCount);
         value.allowed = permission.allowed;
         if (value.allowed)
         {
             rpgSpendTime(self.seconds);
+            self.validateCommit(definition,historyCount);
             if (rpgLedger.seconds != start+self.seconds || rpgLiteScore(self.encounter.subject,self.context()) != value.score)
                 rpgExpandedReject('reaction-preparation-context-changed');
             if (self.entertainment != nil)
@@ -1682,9 +1697,7 @@ class RpgExpandedReactionPreparation: object
             value.check = rpgCheck(value.score,rpgRandom.roll());
             value.modifier = value.check.achieved ? 2 : self.skill.id == 'carousing' ? -2 : 0;
         }
-        local current = self.definition();
-        for (local index = 1; index <= current.length(); index += 1)
-            if (current[index] != definition[index]) rpgExpandedReject('reaction-preparation-changed');
+        self.validateCommit(definition,historyCount);
         self.boundDefinition = definition; self.result = value;
         self.encounter.preparationHistory = self.encounter.preparationHistory + [self];
         if (value.check != nil) self.encounter.skillPreparation = self;

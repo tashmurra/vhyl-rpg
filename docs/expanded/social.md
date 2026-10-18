@@ -906,3 +906,19 @@ and special venue dangers remain separate pending integrations. The fixture
 `tests/fixtures/expanded-carousing-entertainment.t` covers affordability, service
 availability, +1/+3 score effects, money conservation, replay, rollback, undo and
 saved continuation; assertions are authored, unrun.
+
+### Changes during preparation
+
+Preparation rechecks its bound definition and encounter after health permission,
+after elapsed time, and before recording the result. A changed audience, changed
+price or removed payment object invalidates the operation. A reaction that runs
+during the preparation interval also invalidates it; the earlier preflight is
+not sufficient to attach a later bonus to an already-resolved encounter.
+
+These failures propagate to the enclosing action transaction so time, payment,
+random draws, encounter changes and receipts roll back together. Do not catch
+and suppress the failure inside an action that then commits partial changes.
+The `expanded-social-interruption.t` fixture injects audience, encounter, price,
+definition-length and provider-capacity changes during time advancement, then
+checks rollback and successful retry after cross-process restore. Assertions are
+authored, unrun while checks remain paused.

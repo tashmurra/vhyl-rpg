@@ -9044,6 +9044,8 @@ def test(build):
     test_reaction_preparation(Session, reaction_preparation, build.out)
     carousing_entertainment = build.build('expanded-carousing-entertainment',ROOT / 'tests/fixtures/expanded-carousing-entertainment.t')
     test_carousing_entertainment(Session, carousing_entertainment, build.out)
+    social_interruption = build.build('expanded-social-interruption',ROOT / 'tests/fixtures/expanded-social-interruption.t')
+    test_social_interruption(Session, social_interruption, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16590,3 +16592,26 @@ def test_carousing_entertainment(Session, bundle, out):
         assert state(s) == [40,10,1,3,60]
     finally:
         s.close()
+
+
+def test_social_interruption(Session, bundle, out):
+    path = out / 'expanded-social-interruption.zsave'
+    for interruption in range(2700,2705):
+        s = Session(bundle)
+        try:
+            for code in (2410,2502,interruption,2600,2705):
+                s.action(2285,code)
+            assert last(s,'test.reaction-preparation') == ['ready',None,13]
+            assert last(s,'test.entertainment') == [50,0,0,0,0]
+            assert last(s,'test.social-interruption') == [1,1,10,0,0]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (2500,2500,2600):
+                s.action(2285,code)
+            assert last(s,'test.entertainment') == [40,10,1,3,60]
+        finally:
+            s.close()
