@@ -11447,3 +11447,49 @@ def test_poison_exposure(Session, bundle, out):
         assert last(s, 'test.poison-antidote') == [1, 0, 0, 0, 0, 0, 0]
     finally:
         s.close()
+
+    # B439 treatment times, bonuses and technology cap, with transaction replay.
+    for setup, duration, bonus, advance in [(None, 60, 2, None), (293, 10, 2, 298), (294, 20, 4, 300)]:
+        s = Session(bundle)
+        try:
+            if setup is not None:
+                s.action(2285, setup)
+            for code in (287, 260, 290, 292, 296):
+                s.action(2285, code)
+            assert last(s, 'test.poison-treatment') == [0, 0, 0, 0, 0]
+            s.action(2285, 291)
+            s.command('undo')
+            s.action(2285, 296)
+            assert last(s, 'test.poison-treatment') == [0, 0, 0, 0, 0]
+            for code in (291, 291, 296):
+                s.action(2285, code)
+            assert last(s, 'test.poison-treatment') == [1, bonus, 0, duration, 3]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            s.action(2285, 291)
+            if advance is not None:
+                s.action(2285, advance)
+            for code in (262, 296):
+                s.action(2285, code)
+            assert last(s, 'test.poison-treatment') == [1, bonus, 0, 60, 6]
+        finally:
+            s.close()
+    for setup in [(295,), (294, 297), (267,)]:
+        s = Session(bundle)
+        try:
+            for code in setup + (260, 291, 296):
+                s.action(2285, code)
+            assert last(s, 'test.poison-treatment') == [0, 0, 0, 0, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (265, 260, 291, 291, 296):
+            s.action(2285, code)
+        assert last(s, 'test.poison-treatment') == [1, 0, 0, 60, 3]
+    finally:
+        s.close()

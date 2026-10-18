@@ -356,9 +356,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The listed one-minute first-aid/physician wound treatment is at -2 and, when appropriate and successful, grants +2 to later resistance; bind it to the actual exposure.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned timed treatment checks explicit identification/suitability, spends one shared duration, rolls the appropriate skill and applies a future resistance bonus. Wound and digestive durations/modifiers are fixed; physician duration/bonus are authored with the source technology cap. Fixtures unrun. Harmful exceptions, automatic identification, repeats and combined treatments remain incomplete."
     },
     {
       "id": "poison-digestive-treatment",
@@ -366,9 +369,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The listed ten-second digestive treatment uses first aid or physician and grants +2 only when appropriate; its suitability and harmful exceptions must be part of the identified agent definition.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned timed treatment checks explicit identification/suitability, spends one shared duration, rolls the appropriate skill and applies a future resistance bonus. Wound and digestive durations/modifiers are fixed; physician duration/bonus are authored with the source technology cap. Fixtures unrun. Harmful exceptions, automatic identification, repeats and combined treatments remain incomplete."
     },
     {
       "id": "poison-antidote",
@@ -389,9 +395,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Suitable physician treatment can grant a resistance bonus no larger than ceil(medical technology/2), minimum one; a successful skill roll cannot create an undefined treatment effect.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned timed treatment checks explicit identification/suitability, spends one shared duration, rolls the appropriate skill and applies a future resistance bonus. Wound and digestive durations/modifiers are fixed; physician duration/bonus are authored with the source technology cap. Fixtures unrun. Harmful exceptions, automatic identification, repeats and combined treatments remain incomplete."
     },
     {
       "id": "poison-cyclic-treatment",

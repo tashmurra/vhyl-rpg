@@ -424,3 +424,11 @@ healing existing injury. Wrong agents and combined remedies are rejected.
 Identification and administration require explicit authored evidence; their
 action integrations and general treatment remain incomplete. Replay, rollback,
 undo and save-continuation fixtures are authored but unrun.
+
+
+Timed poison care now owns one first-aid/physician attempt, charges the shared
+clock once and grants its resistance bonus only after a successful skill roll.
+Wound and digestive care use their specified durations/modifiers; general
+physician care enforces the medical technology cap. Unsuitable care, skipped
+poison deadlines and undefined combinations are rejected. Added authored,
+unrun fixtures; identification actions and harmful exceptions remain unfinished.

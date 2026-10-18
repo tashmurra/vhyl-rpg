@@ -2738,7 +2738,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         if (self.hazard.resistible)
         {
             value.context = new RpgLiteContext(); value.context.attribute = rpgHT; value.context.kind = 'poison';
-            value.context.modifier = self.hazard.resistanceModifier + value.entryModifier + dose.resistanceModifier + self.antidoteBonus();
+            value.context.modifier = self.hazard.resistanceModifier + value.entryModifier + dose.resistanceModifier + self.antidoteBonus() + self.treatmentBonus();
             local score = rpgLiteScore(self.profile,value.context);
             if (score == nil || score < 3) { value.reason = 'poison-resistance-score'; return value; }
         }
@@ -2933,6 +2933,9 @@ class RpgExpandedAntidoteAdministration: object
         { value.reason = 'antidote-effect-definition'; return value; }
         if (!self.medicine.endsExposure && !e.hazard.resistible)
         { value.reason = 'antidote-resistance-unavailable'; return value; }
+        foreach (local treatment in patient.poisonTreatments)
+            if (treatment.exposure == e)
+            { value.reason = 'antidote-combined-treatment-unimplemented'; return value; }
         foreach (local prior in patient.poisonAntidotes)
         {
             prior.validateReceipt();
@@ -2982,6 +2985,134 @@ modify RpgExpandedPoisonExposure
         {
             care.validateReceipt();
             if (care.exposure == self && !care.medicine.endsExposure) bonus += care.medicine.resistanceBonus;
+        }
+        return bonus;
+    }
+;
+
+
+class RpgExpandedPoisonTreatmentResult: RpgExpandedResult
+    context = nil
+    resistanceBonus = 0
+;
+/** full-2008 B439. Suitability is an explicit fact about the identified agent;
+ * harmful exceptions require their own effect and are not treated as safe care. */
+class RpgExpandedPoisonTreatment: object
+    id = nil
+    exposure = nil
+    healer = nil
+    skill = nil
+    kind = 'wound'
+    suitable = nil
+    approved = nil
+    identificationEvidence = nil
+    suitabilityEvidence = nil
+    medicalSeconds = nil
+    medicalBonus = nil
+    medicalTechnology = nil
+    completedAt = nil
+    boundDefinition = nil
+    result = nil
+    duration() { return self.kind == 'wound' ? 60 : self.kind == 'digestive' ? 10 : self.medicalSeconds; }
+    definition()
+    {
+        return [self.id,self.exposure,self.healer,self.skill,self.skill.techLevel,self.kind,self.suitable,
+            self.approved,self.identificationEvidence,self.suitabilityEvidence,self.medicalSeconds,
+            self.medicalBonus,self.medicalTechnology];
+    }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.exposure.profile.poisonTreatments,self))
+            rpgExpandedReject('poison-treatment-history');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('poison-treatment-binding');
+        self.exposure.validateReceipt(); return nil;
+    }
+    prepare()
+    {
+        local value = new RpgExpandedPoisonTreatmentResult(); local e = self.exposure;
+        if (!e.started || e.finished || e.profile.dead || !e.hazard.resistible)
+        { value.reason = 'poison-treatment-active-resistible-exposure'; return value; }
+        e.validateReceipt();
+        if (!self.approved || !self.suitable || self.identificationEvidence == nil || self.identificationEvidence == ''
+            || self.suitabilityEvidence == nil || self.suitabilityEvidence == '')
+        { value.reason = 'poison-treatment-suitability-required'; return value; }
+        if ((self.kind == 'wound' && !holds(['blood','follow-up'],e.entry.route))
+            || (self.kind == 'digestive' && e.entry.route != 'digestive'))
+        { value.reason = 'poison-treatment-route'; return value; }
+        if (self.healer.dead || self.healer.unconscious || self.healer.mortal || self.healer.stunned || self.healer.mentalStun)
+        { value.reason = 'poison-treatment-healer-condition'; return value; }
+        foreach (local prior in e.profile.poisonTreatments)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id) rpgExpandedReject('poison-treatment-duplicate');
+            if (prior.exposure == e) { value.reason = 'poison-treatment-repeat-unimplemented'; return value; }
+        }
+        foreach (local antidote in e.profile.poisonAntidotes)
+            if (antidote.exposure == e) { value.reason = 'poison-treatment-combination-unimplemented'; return value; }
+        value.context = new RpgLiteContext(); value.context.skill = self.skill; value.context.kind = 'poison-treatment';
+        value.context.modifier = self.kind == 'wound' ? -2 : 0;
+        if (self.kind == 'medical')
+        {
+            local technology = rpgExpandedTechnologyModifier(self.skill.techLevel,self.medicalTechnology,true);
+            if (technology == nil) { value.reason = 'poison-treatment-technology'; return value; }
+            value.context.modifier += technology;
+        }
+        local score = rpgLiteScore(self.healer,value.context);
+        if (score == nil || score < 3) { value.reason = 'poison-treatment-score'; return value; }
+        value.resistanceBonus = self.kind == 'medical' ? self.medicalBonus : 2;
+        value.seconds = self.duration(); value.status = 'ready'; return value;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.exposure == nil || !self.exposure.ofKind(RpgExpandedPoisonExposure)
+            || self.healer == nil || !self.healer.ofKind(RpgLiteProfile) || self.skill == nil
+            || !self.skill.ofKind(RpgLiteSkill) || self.skill.techLevel == nil
+            || !holds(['wound','digestive','medical'],self.kind)
+            || !holds(['first-aid','physician'],self.skill.id)
+            || (self.kind == 'medical' && self.skill.id != 'physician')) rpgExpandedReject('poison-treatment-definition');
+        if (self.result != nil)
+        {
+            self.validateReceipt(); local reused = new RpgExpandedPoisonTreatmentResult(); reused.status = 'reused';
+            reused.check = self.result.check; reused.resistanceBonus = self.result.resistanceBonus; return reused;
+        }
+        if (self.kind == 'medical')
+        {
+            rpgInteger(self.medicalTechnology,0,12); local maximum = (self.medicalTechnology + 1) / 2;
+            rpgInteger(self.medicalBonus,1,maximum > 0 ? maximum : 1);
+        }
+        rpgInteger(self.duration(),1,86400); rpgInteger(rpgLedger.seconds,0,2147483647 - self.duration());
+        local value = self.prepare(); if (value.status == 'ready') rpgLedger.validateAdvance(self.duration());
+        return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local definition = self.definition(); local started = rpgLedger.seconds;
+        rpgSpendTime(self.duration()); local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('poison-treatment-interrupted');
+        if (rpgLedger.seconds != started + self.duration()) rpgExpandedReject('poison-treatment-clock');
+        value = self.prepare(); if (value.status != 'ready') rpgExpandedReject(value.reason);
+        value.check = rpgLiteCheck(self.healer,value.context);
+        if (!value.check.achieved) value.resistanceBonus = 0;
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.exposure.profile.poisonTreatments = self.exposure.profile.poisonTreatments + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+modify RpgExpandedProfile
+    poisonTreatments = []
+;
+modify RpgExpandedPoisonExposure
+    treatmentBonus()
+    {
+        local bonus = 0;
+        foreach (local treatment in self.profile.poisonTreatments)
+        {
+            treatment.validateReceipt();
+            if (treatment.exposure == self) bonus += treatment.result.resistanceBonus;
         }
         return bonus;
     }

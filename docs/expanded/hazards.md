@@ -1240,3 +1240,36 @@ remedy, automatic identification rolls, administration action durations and othe
 medical procedures remain separate unfinished integrations. Fixture scenarios
 cover inventory consumption, mismatched agents, future resistance, termination,
 replay, rollback, undo and saved continuation. They are authored and unrun.
+
+
+### Timed poison treatment
+
+`RpgExpandedPoisonTreatment` owns one attempt against an admitted exposure
+(full-2008 B439). Supply `id`, `exposure`, `healer`, a technology-qualified
+first-aid or physician `skill`, `approved`, `suitable`, `identificationEvidence`
+and `suitabilityEvidence`. These facts must identify the actual agent and explain
+why this procedure is appropriate. Harmful vomiting exceptions are not silently
+accepted as safe treatment: their effects still require a separate implementation.
+
+Choose `kind = 'wound'` for the one-minute procedure at skill −2, or `digestive`
+for the ten-second procedure at unmodified skill. Success grants +2 to subsequent
+resistance against that exposure. Wound treatment requires blood/follow-up entry;
+digestive treatment requires swallowed entry. `kind = 'medical'` requires
+physician, authored `medicalSeconds`, `medicalTechnology` and `medicalBonus`.
+The positive bonus cannot exceed half the medical technology rounded up, with a
+minimum cap of one. A difference between skill and medical technology uses the
+shared cognitive-skill technology modifier.
+
+`assess()` checks suitability, skill, duplicate attempts and whether the duration
+can fit before the next poison deadline. `apply()` spends that time once,
+rechecks conditions, makes one skill roll and records the attempt in the patient's
+`poisonTreatments`. Success changes future poison checks; failure grants no bonus.
+It does not heal injury or retroactively change a resolved cycle. Replaying the
+receipt spends no additional time or randomness. A later retry or combination
+with an antidote is explicitly unsupported until its interaction is defined.
+
+The fixture specifies all three procedures, the medical bonus cap, unsuitable
+care, a deadline too soon to finish, failed care, preview purity, replay, rollback,
+undo and cross-process continuation. Checks remain paused; these scenarios have
+not run. Automatic identification actions, harmful exceptions and combinations
+remain unfinished.

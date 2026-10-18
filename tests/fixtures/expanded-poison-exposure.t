@@ -13,6 +13,10 @@ poisonCare: RpgExpandedAntidoteAdministration id = 'fictional-care' exposure = p
 poisonCareRepeat: RpgExpandedAntidoteAdministration id = 'fictional-repeat' exposure = poisonExposure medicine = poisonAntidote
     approved = true identificationEvidence = 'Same identified fictional agent'
     administrationEvidence = 'A proposed repeat administration';
+poisonTreatment: RpgExpandedPoisonTreatment id = 'fictional-treatment' exposure = poisonExposure
+    healer = surgicalHealer skill = surgicalAid approved = true suitable = true
+    identificationEvidence = 'The original fictional agent is identified'
+    suitabilityEvidence = 'The fictional agent permits this treatment without a harmful exception';
 modify BleedTestAction
     exec(context)
     {
@@ -70,6 +74,27 @@ modify BleedTestAction
         }
         if (code == 287) { bleedInput.forcedRoll = 10; return nil; }
         if (code == 288) { poisonCareRepeat.apply(); return nil; }
+        if (code == 290) { poisonTreatment.assess(); return nil; }
+        if (code == 291 || code == 292)
+        { poisonTreatment.apply(); if (code == 292) throw new RpgError(); return nil; }
+        if (code == 293)
+        { poisonTreatment.kind = 'digestive'; poisonDelivery.route = 'digestive'; poisonDelivery.swallowed = true; return nil; }
+        if (code == 294)
+        {
+            poisonTreatment.kind = 'medical'; poisonTreatment.skill = surgicalPhysician;
+            surgicalHealer.skills = [surgicalPhysicianTraining]; poisonTreatment.medicalTechnology = 8;
+            poisonTreatment.medicalSeconds = 20; poisonTreatment.medicalBonus = 4; return nil;
+        }
+        if (code == 295) { poisonTreatment.suitable = nil; return nil; }
+        if (code == 296)
+        {
+            event('test.poison-treatment'); eventValue(bleedProfile.poisonTreatments.length());
+            eventValue(poisonExposure.treatmentBonus()); eventValue(bleedProfile.injury);
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 297) { poisonTreatment.medicalBonus = 5; return nil; }
+        if (code == 298) { rpgSpendTime(50); return nil; }
+        if (code == 300) { rpgSpendTime(40); return nil; }
         return inherited(context);
     }
 ;
