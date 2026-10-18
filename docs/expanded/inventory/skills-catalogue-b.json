@@ -589,7 +589,31 @@
             -2
           ],
           [
-            "other-driving",
+            "driving-construction",
+            -4
+          ],
+          [
+            "driving-halftrack",
+            -4
+          ],
+          [
+            "driving-hovercraft",
+            -4
+          ],
+          [
+            "driving-rail",
+            -4
+          ],
+          [
+            "driving-articulated",
+            -4
+          ],
+          [
+            "driving-motorcycle",
+            -4
+          ],
+          [
+            "driving-tracked",
             -4
           ]
         ],
@@ -619,7 +643,35 @@
             -5
           ],
           [
-            "other-driving",
+            "driving-automobile",
+            -5
+          ],
+          [
+            "driving-halftrack",
+            -5
+          ],
+          [
+            "driving-heavy-wheeled",
+            -5
+          ],
+          [
+            "driving-hovercraft",
+            -5
+          ],
+          [
+            "driving-rail",
+            -5
+          ],
+          [
+            "driving-articulated",
+            -5
+          ],
+          [
+            "driving-motorcycle",
+            -5
+          ],
+          [
+            "driving-tracked",
             -5
           ]
         ],
@@ -653,7 +705,31 @@
             -2
           ],
           [
-            "other-driving",
+            "driving-automobile",
+            -4
+          ],
+          [
+            "driving-construction",
+            -4
+          ],
+          [
+            "driving-heavy-wheeled",
+            -4
+          ],
+          [
+            "driving-hovercraft",
+            -4
+          ],
+          [
+            "driving-rail",
+            -4
+          ],
+          [
+            "driving-articulated",
+            -4
+          ],
+          [
+            "driving-motorcycle",
             -4
           ]
         ],
@@ -687,7 +763,31 @@
             -2
           ],
           [
-            "other-driving",
+            "driving-construction",
+            -4
+          ],
+          [
+            "driving-halftrack",
+            -4
+          ],
+          [
+            "driving-hovercraft",
+            -4
+          ],
+          [
+            "driving-rail",
+            -4
+          ],
+          [
+            "driving-articulated",
+            -4
+          ],
+          [
+            "driving-motorcycle",
+            -4
+          ],
+          [
+            "driving-tracked",
             -4
           ]
         ],
@@ -717,7 +817,35 @@
             -5
           ],
           [
-            "other-driving",
+            "driving-automobile",
+            -5
+          ],
+          [
+            "driving-construction",
+            -5
+          ],
+          [
+            "driving-halftrack",
+            -5
+          ],
+          [
+            "driving-heavy-wheeled",
+            -5
+          ],
+          [
+            "driving-rail",
+            -5
+          ],
+          [
+            "driving-articulated",
+            -5
+          ],
+          [
+            "driving-motorcycle",
+            -5
+          ],
+          [
+            "driving-tracked",
             -5
           ]
         ],
@@ -747,7 +875,35 @@
             -5
           ],
           [
-            "other-driving",
+            "driving-automobile",
+            -5
+          ],
+          [
+            "driving-construction",
+            -5
+          ],
+          [
+            "driving-halftrack",
+            -5
+          ],
+          [
+            "driving-heavy-wheeled",
+            -5
+          ],
+          [
+            "driving-hovercraft",
+            -5
+          ],
+          [
+            "driving-articulated",
+            -5
+          ],
+          [
+            "driving-motorcycle",
+            -5
+          ],
+          [
+            "driving-tracked",
             -5
           ]
         ],
@@ -781,7 +937,35 @@
             -3
           ],
           [
-            "other-driving",
+            "driving-automobile",
+            -5
+          ],
+          [
+            "driving-construction",
+            -5
+          ],
+          [
+            "driving-halftrack",
+            -5
+          ],
+          [
+            "driving-heavy-wheeled",
+            -5
+          ],
+          [
+            "driving-hovercraft",
+            -5
+          ],
+          [
+            "driving-rail",
+            -5
+          ],
+          [
+            "driving-motorcycle",
+            -5
+          ],
+          [
+            "driving-tracked",
             -5
           ]
         ],
@@ -845,7 +1029,31 @@
             -2
           ],
           [
-            "other-driving",
+            "driving-automobile",
+            -4
+          ],
+          [
+            "driving-construction",
+            -4
+          ],
+          [
+            "driving-heavy-wheeled",
+            -4
+          ],
+          [
+            "driving-hovercraft",
+            -4
+          ],
+          [
+            "driving-rail",
+            -4
+          ],
+          [
+            "driving-articulated",
+            -4
+          ],
+          [
+            "driving-motorcycle",
             -4
           ]
         ],
@@ -2447,7 +2655,22 @@
             -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "suit_operation_rules": {
+          "cap_dexterity_checks_and_dexterity_skill_checks": true,
+          "unwieldy_suit_penalty_additional": true,
+          "author_may_define_uncapped_suit": true,
+          "intelligence_based_tasks": [
+            "operate-subsystem",
+            "assess-condition"
+          ],
+          "quick_don_or_remove_time_on_success": [
+            1,
+            2
+          ],
+          "grants_environment_knowledge": false,
+          "unpowered_unsealed_armor_requires_suit_skill": false
+        }
       }
     },
     {
@@ -2473,11 +2696,34 @@
             -2
           ],
           [
-            "other-environment-suit",
+            "powered-suit",
+            -4
+          ],
+          [
+            "protective-suit",
+            -4
+          ],
+          [
+            "vacuum-suit",
             -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "suit_operation_rules": {
+          "cap_dexterity_checks_and_dexterity_skill_checks": true,
+          "unwieldy_suit_penalty_additional": true,
+          "author_may_define_uncapped_suit": true,
+          "intelligence_based_tasks": [
+            "operate-subsystem",
+            "assess-condition"
+          ],
+          "quick_don_or_remove_time_on_success": [
+            1,
+            2
+          ],
+          "grants_environment_knowledge": false,
+          "unpowered_unsealed_armor_requires_suit_skill": false
+        }
       }
     },
     {
@@ -2511,7 +2757,22 @@
             -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "suit_operation_rules": {
+          "cap_dexterity_checks_and_dexterity_skill_checks": true,
+          "unwieldy_suit_penalty_additional": true,
+          "author_may_define_uncapped_suit": true,
+          "intelligence_based_tasks": [
+            "operate-subsystem",
+            "assess-condition"
+          ],
+          "quick_don_or_remove_time_on_success": [
+            1,
+            2
+          ],
+          "grants_environment_knowledge": false,
+          "unpowered_unsealed_armor_requires_suit_skill": false
+        }
       }
     },
     {
@@ -2545,7 +2806,22 @@
             -4
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "suit_operation_rules": {
+          "cap_dexterity_checks_and_dexterity_skill_checks": true,
+          "unwieldy_suit_penalty_additional": true,
+          "author_may_define_uncapped_suit": true,
+          "intelligence_based_tasks": [
+            "operate-subsystem",
+            "assess-condition"
+          ],
+          "quick_don_or_remove_time_on_success": [
+            1,
+            2
+          ],
+          "grants_environment_knowledge": false,
+          "unpowered_unsealed_armor_requires_suit_skill": false
+        }
       }
     },
     {

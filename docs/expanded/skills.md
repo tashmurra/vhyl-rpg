@@ -106,3 +106,18 @@ A different planet adds −4 only when both planets share a type; it cannot crea
 a missing terrain edge. Natural-history defaults likewise require the same planet
 type. These conditions are recorded separately from familiarity and attribute
 defaults, awaiting runtime eligibility and composition fixtures.
+
+Ground-vehicle defaults are directional. Each target specialty uses its own
+printed fallback, with the automobile/heavy-wheeled and halftrack/tracked pairs
+retaining their better defaults. Motorcycle operation has its cycling default;
+other driving specialties do not automatically supply a reverse edge. Boat
+defaults now use complete catalogue identifiers, and diving-suit defaults name
+each other protective-suit skill explicitly.
+
+A protective suit can cap Dexterity and Dexterity-based checks without changing
+the character's purchased attribute. Its own clumsiness penalty can apply in
+addition; an authored suit may explicitly omit the cap. Operating a suit does not
+grant environmental knowledge, and unpowered, unsealed armor needs no suit skill.
+The life, geological, weather and physical-geography skills also retain the
+planet-type default network, distinct from the planet-specific survival and
+natural-history restrictions. These source definitions still await runtime use.

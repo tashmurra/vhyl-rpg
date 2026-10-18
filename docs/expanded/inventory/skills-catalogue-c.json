@@ -8,7 +8,7 @@
     {
       "id": "catalogue-skill-geography-physical",
       "source": "full-2008",
-      "pages": "B198",
+      "pages": "B198; B180",
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
@@ -40,7 +40,20 @@
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "planet_type_specialization_defaults": {
+          "types": [
+            "habitable",
+            "gas-giant",
+            "hostile-terrestrial",
+            "icy-small-body",
+            "ice-covered",
+            "rocky"
+          ],
+          "unspecified_type": "native planet type",
+          "different_type_modifier": -4,
+          "source_pages": "B180"
+        }
       }
     },
     {
@@ -114,7 +127,7 @@
     {
       "id": "catalogue-skill-geology",
       "source": "full-2008",
-      "pages": "B198",
+      "pages": "B198; B180",
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
@@ -138,7 +151,20 @@
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "planet_type_specialization_defaults": {
+          "types": [
+            "habitable",
+            "gas-giant",
+            "hostile-terrestrial",
+            "icy-small-body",
+            "ice-covered",
+            "rocky"
+          ],
+          "unspecified_type": "native planet type",
+          "different_type_modifier": -4,
+          "source_pages": "B180"
+        }
       }
     },
     {
@@ -4273,7 +4299,7 @@
     {
       "id": "catalogue-skill-meteorology",
       "source": "full-2008",
-      "pages": "B209",
+      "pages": "B209; B180",
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
@@ -4298,7 +4324,20 @@
             "key": "weather-sense",
             "maximum_technology_level": 4
           }
-        ]
+        ],
+        "planet_type_specialization_defaults": {
+          "types": [
+            "habitable",
+            "gas-giant",
+            "hostile-terrestrial",
+            "icy-small-body",
+            "ice-covered",
+            "rocky"
+          ],
+          "unspecified_type": "native planet type",
+          "different_type_modifier": -4,
+          "source_pages": "B180"
+        }
       }
     },
     {

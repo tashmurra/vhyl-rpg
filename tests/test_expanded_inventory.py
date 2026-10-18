@@ -8,6 +8,43 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_transport_defaults_keep_direction_and_suit_scope(self):
+        base = ROOT / 'docs/expanded/inventory'
+        entries = {
+            e['id'].removeprefix('catalogue-skill-'): e['reference_data']
+            for path in base.glob('skills-catalogue-*.json')
+            for e in json.loads(path.read_text())['entries']
+            if 'reference_data' in e
+        }
+        for target, source, modifier in [
+                ('driving-automobile', 'driving-heavy-wheeled', -2),
+                ('driving-automobile', 'driving-construction', -4),
+                ('driving-construction', 'driving-automobile', -5),
+                ('driving-halftrack', 'driving-tracked', -2),
+                ('driving-articulated', 'powered-suit', -3),
+                ('driving-automobile', 'driving-motorcycle', -4),
+                ('driving-motorcycle', 'cycling', -4),
+                ('boating-open-powerboat', 'boating-cabin-powerboat', -2),
+                ('boating-sailboat', 'boating-muscle-boat', -3),
+                ('boating-cabin-powerboat', 'surface-crew', -4),
+                ('diving-suit', 'powered-suit', -4),
+                ('diving-suit', 'scuba', -2),
+                ('bioengineering-cloning', 'bioengineering-tissue-engineering', -4)]:
+            self.assertEqual(dict(entries[target]['defaults'])[source], modifier)
+        self.assertNotIn('driving-automobile', dict(entries['driving-motorcycle']['defaults']))
+        self.assertNotIn('surface-crew', dict(entries['boating-open-powerboat']['defaults']))
+        for key in ('powered-suit', 'diving-suit', 'protective-suit', 'vacuum-suit'):
+            rules = entries[key]['suit_operation_rules']
+            self.assertTrue(rules['cap_dexterity_checks_and_dexterity_skill_checks'])
+            self.assertTrue(rules['unwieldy_suit_penalty_additional'])
+            self.assertFalse(rules['grants_environment_knowledge'])
+            self.assertFalse(rules['unpowered_unsealed_armor_requires_suit_skill'])
+        for key in ('biology', 'geology', 'geography-physical', 'meteorology'):
+            rules = entries[key]['planet_type_specialization_defaults']
+            self.assertEqual(len(rules['types']), 6)
+            self.assertEqual(rules['different_type_modifier'], -4)
+        self.assertIn(['conditional:iq:native-world-type', -6], entries['biology']['defaults'])
+
     def test_specialty_default_network_exceptions(self):
         """Independent source examples for cross-specialty relationships."""
         base = ROOT / 'docs/expanded/inventory'

@@ -1943,6 +1943,14 @@
           [
             "biology",
             -5
+          ],
+          [
+            "bioengineering-genetic-engineering",
+            -4
+          ],
+          [
+            "bioengineering-tissue-engineering",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1965,6 +1973,14 @@
           [
             "biology",
             -5
+          ],
+          [
+            "bioengineering-cloning",
+            -4
+          ],
+          [
+            "bioengineering-tissue-engineering",
+            -4
           ]
         ],
         "prerequisites": []
@@ -1987,6 +2003,14 @@
           [
             "biology",
             -5
+          ],
+          [
+            "bioengineering-cloning",
+            -4
+          ],
+          [
+            "bioengineering-genetic-engineering",
+            -4
           ]
         ],
         "prerequisites": []
@@ -2015,7 +2039,20 @@
             -6
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "planet_type_specialization_defaults": {
+          "types": [
+            "habitable",
+            "gas-giant",
+            "hostile-terrestrial",
+            "icy-small-body",
+            "ice-covered",
+            "rocky"
+          ],
+          "unspecified_type": "native planet type",
+          "different_type_modifier": -4,
+          "source_pages": "B180"
+        }
       }
     },
     {
@@ -2162,15 +2199,15 @@
             -5
           ],
           [
-            "open-powerboat",
+            "boating-open-powerboat",
             -2
           ],
           [
-            "sailboat",
+            "boating-sailboat",
             -4
           ],
           [
-            "muscle-boat",
+            "boating-muscle-boat",
             -4
           ],
           [
@@ -2204,15 +2241,15 @@
             -5
           ],
           [
-            "cabin-powerboat",
+            "boating-cabin-powerboat",
             -2
           ],
           [
-            "sailboat",
+            "boating-sailboat",
             -3
           ],
           [
-            "muscle-boat",
+            "boating-muscle-boat",
             -3
           ]
         ],
@@ -2242,15 +2279,15 @@
             -5
           ],
           [
-            "cabin-powerboat",
+            "boating-cabin-powerboat",
             -4
           ],
           [
-            "open-powerboat",
+            "boating-open-powerboat",
             -3
           ],
           [
-            "muscle-boat",
+            "boating-muscle-boat",
             -3
           ]
         ],
@@ -2280,15 +2317,15 @@
             -5
           ],
           [
-            "cabin-powerboat",
+            "boating-cabin-powerboat",
             -4
           ],
           [
-            "open-powerboat",
+            "boating-open-powerboat",
             -3
           ],
           [
-            "sailboat",
+            "boating-sailboat",
             -3
           ]
         ],
