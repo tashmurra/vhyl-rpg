@@ -12,7 +12,9 @@ game. The [first casting inventory](inventory/magic-procedures-a.json) covers
 learning, ambient energy, rituals, critical outcomes, maintenance and ceremonial
 casting. The [spell-class inventory](inventory/magic-procedures-b.json) adds
 targeting, charged attacks, defensive casting, information, resistance and optional
-magic systems. The ninety-three-spell catalogue still needs its detailed inventory.
+magic systems. The [first catalogue segment](inventory/magic-catalogue-a.json)
+records twenty-seven of the ninety-three spells, with costs, classes, prerequisites
+and effect requirements. The remaining spell catalogue still needs its inventory.
 The enchantment chapter now has a first text pass covering creation,
 level-cost tables, the item catalogue, use and market procedures. Underlying spell
 and trait references, numeric audits and validating tests remain pending.
@@ -123,3 +125,10 @@ per-target resistance and outcomes.
 Granted and path-based magic are explicit campaign variants with different learning
 and prerequisite rules. Path defaults cannot count aptitude repeatedly through the
 same derivation chain. None of these inventories establishes executable coverage.
+
+
+The first catalogue segment distinguishes permanent changes from maintained effects,
+per-target exposure clocks from cloud lifetime, and charging from contact delivery.
+Surface-thought reading also overrides ordinary resistance notification. The neutral
+spell definitions record these exceptions and prerequisite links; they are source
+inventory data, not a runtime spell library.
