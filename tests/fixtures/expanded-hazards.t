@@ -155,5 +155,38 @@ act(verb,args)
         eventValue(patient.unspentPoints); eventValue(patient.earnedPoints); eventValue(rpgRandom.draws);
         eventValue(rpgLedger.seconds - time); eventValue(aging.result == nil ? 0 : aging.result.pointLoss); return nil;
     }
+    if (verb == 1809)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.unspentPoints = 20; patient.earnedPoints = 20;
+        local aging = new RpgExpandedAgingEvent(); aging.profile = patient; aging.calendarId = 'civil';
+        aging.boundaryId = 'first-fifty'; aging.ageYears = 50; aging.ordinal = 1; aging.reached = true;
+        aging.evidence = 'Aging anniversary'; rpgRandom.seed(1); aging.apply();
+        local purchase = new RpgDevelopment(); purchase.id = 'later-dexterity'; purchase.profile = patient;
+        purchase.kind = 'attribute'; purchase.attribute = rpgDX; purchase.target = 10; purchase.unlocked = true;
+        purchase.requiresDowntime = nil; rpgDevelop(purchase);
+        local youth = new RpgExpandedRejuvenation(); youth.id = 'first-youth'; youth.profile = patient;
+        youth.calendarId = 'civil'; youth.oldAgeYears = 51; youth.newAgeYears = args[1] == 1 ? 50 : 49;
+        youth.effectEvidence = 'Completed authored youth-restoring effect';
+        local draws = rpgRandom.draws; local time = rpgLedger.seconds; local preview = youth.assess();
+        event('test.youth-preview'); eventValue(preview.status); eventValue(preview.reason);
+        eventValue(patient.dx); eventValue(rpgRandom.draws - draws); eventValue(rpgLedger.seconds - time);
+        local value = youth.apply(); local repeat = youth.apply(); patient.validateFeatures();
+        event('test.youth-result'); eventValue(value.status); eventValue(repeat.status); eventValue(value.pointGain);
+        eventValue(patient.dx); eventValue(patient.unspentPoints); eventValue(patient.earnedPoints);
+        eventValue(patient.rejuvenations.length()); eventValue(aging.restoredBy == youth ? 1 : 0);
+        eventValue(rpgRandom.draws - draws); eventValue(rpgLedger.seconds - time);
+        if (args[1] == 0)
+        {
+            local later = new RpgExpandedAgingEvent(); later.profile = patient; later.calendarId = 'civil';
+            later.boundaryId = 'second-fifty'; later.ageYears = 50; later.ordinal = 2; later.reached = true;
+            later.evidence = 'New aging anniversary after restored youth'; rpgRandom.seed(1); later.apply();
+            local again = new RpgExpandedRejuvenation(); again.id = 'second-youth'; again.profile = patient;
+            again.calendarId = 'civil'; again.oldAgeYears = 51; again.newAgeYears = 49;
+            again.effectEvidence = 'Another completed youth-restoring effect'; local restored = again.apply();
+            patient.validateFeatures(); event('test.youth-cycle'); eventValue(later.era); eventValue(restored.pointGain);
+            eventValue(patient.dx); eventValue(patient.agingHistory.length()); eventValue(patient.rejuvenations.length());
+        }
+        return nil;
+    }
     return vhylAct(verb,args);
 }

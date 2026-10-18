@@ -361,3 +361,40 @@ and natural death in a separate process. It continues or reuses the same event a
 checks attributes, character cost, death state, history, randomness and shared
 time. These fixtures use the exact compiled game and remain unrun while checks
 are paused; they are not a verified compatibility claim.
+
+
+## Restoring recorded youth
+
+`RpgExpandedRejuvenation` applies the attribute-restoration consequence of an
+already established youth-restoring effect (`full-2008`, B444). Supply unique `id`,
+`profile`, `calendarId`, `oldAgeYears`, `newAgeYears` and `effectEvidence`. The
+source of the effect, its costs and the character's actual calendar age remain
+world facts managed by the host. This request neither casts a spell nor operates
+a device, and does not charge their resources again.
+
+Assessment selects all unrestored aging events strictly between the new whole-year
+age and the supplied old age. A same-year boundary blocks with
+`rejuvenation-partial-year-unavailable`: current records do not distinguish the
+within-year timing needed for a partial restoration. An unexplained earlier age,
+calendar mismatch, missing effect evidence, duplicate identity or dead patient
+also rejects or blocks. Resurrection is not implied by age restoration.
+
+Execution adds each selected event's actual recorded losses to the current base
+attributes. It therefore preserves later purchased improvements instead of
+resetting scores to an old snapshot. Each event records `restoredBy`; a later
+request cannot restore it again. The receipt reports `gains`, `pointGain` and
+`restoredEvents`. Character value rises through the changed bases, with no refund
+or charge to earned or unspent points and no random roll or time expenditure.
+
+`profile.rejuvenations` owns the receipts. Subsequent aging events record a new
+`era` and may begin again at a lower age; calendar boundary identities and global
+aging ordinals still cannot be reused. Old aging results stay immutable. Their
+restoration links preserve the distinction between historical loss and current
+character state.
+
+This whole-year implementation does not restore trait substitutions or support
+partial-year cutoffs, automatic age tracking or rejuvenation-specific transaction
+and save validation. `test_rejuvenation` covers a real attribute advancement
+purchase between aging and rejuvenation, retained point spending, preview purity,
+repeated requests, a second aging/restoration cycle and the ambiguous-year gate.
+The fixture is authored but unrun while checks are paused.

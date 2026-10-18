@@ -443,10 +443,14 @@ rpgExpandedAgingSequence(profile, medicalTL, fitness, longevity, rolls)
 
 modify RpgExpandedProfile
     agingHistory = []
+    rejuvenations = []
 ;
 
 /** An authored calendar boundary, with four owned rolls and retained losses. */
 class RpgExpandedAgingEvent: object
+    era = 0
+    boundEra = 0
+    restoredBy = nil
     profile = nil
     calendarId = nil
     boundaryId = nil
@@ -478,7 +482,7 @@ class RpgExpandedAgingEvent: object
         if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('aging-profile');
         if (self.result != nil)
         {
-            if (self.profile != self.boundProfile || self.calendarId != self.boundCalendar
+            if (self.era != self.boundEra || self.profile != self.boundProfile || self.calendarId != self.boundCalendar
                 || self.boundaryId != self.boundBoundary || self.ageYears != self.boundAge
                 || self.ordinal != self.boundOrdinal || self.evidence != self.boundEvidence
                 || self.medicalTL != self.boundMedicalTL || !self.reached || !holds(self.profile.agingHistory,self))
@@ -494,7 +498,7 @@ class RpgExpandedAgingEvent: object
         foreach (local prior in self.profile.agingHistory)
         {
             if (prior.calendarId != self.calendarId || prior.boundaryId == self.boundaryId
-                || prior.ageYears > self.ageYears) rpgExpandedReject('aging-calendar-history');
+                || prior.era == self.profile.rejuvenations.length() && prior.ageYears > self.ageYears) rpgExpandedReject('aging-calendar-history');
         }
         if (self.profile.level('unaging') > 0) { value.reason = 'aging-exempt'; return value; }
         local schedule = rpgExpandedAgingSchedule(self.profile.level('short-lifespan'),self.profile.level('extended-lifespan'));
@@ -522,6 +526,7 @@ class RpgExpandedAgingEvent: object
         self.profile.st = value.scoresAfter[1]; self.profile.dx = value.scoresAfter[2];
         self.profile.iq = value.scoresAfter[3]; self.profile.ht = value.scoresAfter[4];
         if (value.naturalDeath) self.profile.dead = true;
+        self.era = self.profile.rejuvenations.length(); self.boundEra = self.era;
         self.boundProfile = self.profile; self.boundCalendar = self.calendarId; self.boundBoundary = self.boundaryId;
         self.boundAge = self.ageYears; self.boundOrdinal = self.ordinal; self.boundEvidence = self.evidence;
         self.boundMedicalTL = self.medicalTL; self.completedAt = rpgLedger.seconds;
@@ -533,17 +538,120 @@ class RpgExpandedAgingEvent: object
 modify RpgExpandedProfile
     validateFeatures()
     {
-        inherited(); local ordinal = 0; local boundaries = []; local calendar = nil; local age = 0;
+        inherited(); local ordinal = 0; local boundaries = []; local calendar = nil; local age = 0; local era = 0;
         foreach (local entry in self.agingHistory)
         {
             ordinal += 1;
             if (entry == nil || !entry.ofKind(RpgExpandedAgingEvent) || entry.profile != self
                 || entry.result == nil || entry.ordinal != ordinal || entry.completedAt == nil
-                || entry.completedAt > rpgLedger.seconds || entry.ageYears < age
+                || entry.completedAt > rpgLedger.seconds || entry.era < era || entry.era > self.rejuvenations.length()
+                || entry.era == era && entry.ageYears < age
                 || holds(boundaries,entry.boundaryId) || calendar != nil && calendar != entry.calendarId
                 || entry.assess().status != 'reused') rpgExpandedReject('aging-event-history');
-            boundaries = boundaries + [entry.boundaryId]; calendar = entry.calendarId; age = entry.ageYears;
+            boundaries = boundaries + [entry.boundaryId]; calendar = entry.calendarId; age = entry.ageYears; era = entry.era;
         }
+        return nil;
+    }
+;
+
+
+class RpgExpandedRejuvenationResult: RpgExpandedResult
+    restoredEvents = []
+    gains = [0,0,0,0]
+    pointGain = 0
+;
+
+/** Restore recorded aging losses after an authored youth-restoring effect. B444. */
+class RpgExpandedRejuvenation: object
+    id = nil
+    profile = nil
+    calendarId = nil
+    oldAgeYears = 0
+    newAgeYears = 0
+    effectEvidence = nil
+    boundId = nil
+    boundProfile = nil
+    boundCalendar = nil
+    boundOldAge = 0
+    boundNewAge = 0
+    boundEvidence = nil
+    completedAt = nil
+    result = nil
+    assess()
+    {
+        local value = new RpgExpandedRejuvenationResult();
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('rejuvenation-profile');
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.profile != self.boundProfile || self.calendarId != self.boundCalendar
+                || self.oldAgeYears != self.boundOldAge || self.newAgeYears != self.boundNewAge
+                || self.effectEvidence != self.boundEvidence || !holds(self.profile.rejuvenations,self))
+                rpgExpandedReject('rejuvenation-binding');
+            foreach (local entry in self.result.restoredEvents)
+                if (entry.restoredBy != self) rpgExpandedReject('rejuvenation-receipt-owner');
+            value.status = 'reused'; value.gains = self.result.gains; value.pointGain = self.result.pointGain;
+            value.restoredEvents = self.result.restoredEvents; return value;
+        }
+        if (self.id == nil || self.id == '' || self.calendarId == nil || self.calendarId == '')
+            rpgExpandedReject('rejuvenation-definition');
+        foreach (local prior in self.profile.rejuvenations)
+            if (prior.id == self.id) rpgExpandedReject('rejuvenation-duplicate');
+        rpgInteger(self.oldAgeYears,0,1000000); rpgInteger(self.newAgeYears,0,1000000);
+        if (self.newAgeYears >= self.oldAgeYears) rpgExpandedReject('rejuvenation-age-range');
+        if (self.profile.dead) { value.reason = 'rejuvenation-resurrection-unavailable'; return value; }
+        if (self.effectEvidence == nil || self.effectEvidence == '')
+        { value.reason = 'rejuvenation-effect-evidence'; return value; }
+        local gains = [0,0,0,0];
+        foreach (local entry in self.profile.agingHistory)
+        {
+            if (entry.calendarId != self.calendarId || entry.result == nil) rpgExpandedReject('rejuvenation-calendar');
+            if (entry.restoredBy == nil)
+            {
+                if (entry.ageYears > self.oldAgeYears) rpgExpandedReject('rejuvenation-unaccounted-age');
+                if (entry.ageYears == self.newAgeYears)
+                { value.reason = 'rejuvenation-partial-year-unavailable'; return value; }
+                if (entry.ageYears > self.newAgeYears)
+                {
+                    value.restoredEvents = value.restoredEvents + [entry];
+                    gains = [gains[1] + entry.result.losses[1],gains[2] + entry.result.losses[2],
+                        gains[3] + entry.result.losses[3],gains[4] + entry.result.losses[4]];
+                    value.pointGain += entry.result.pointLoss;
+                }
+            }
+        }
+        foreach (local score in [self.profile.st + gains[1],self.profile.dx + gains[2],
+            self.profile.iq + gains[3],self.profile.ht + gains[4]]) rpgInteger(score,1,1000);
+        value.gains = gains; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.profile.st += value.gains[1]; self.profile.dx += value.gains[2];
+        self.profile.iq += value.gains[3]; self.profile.ht += value.gains[4];
+        foreach (local entry in value.restoredEvents) entry.restoredBy = self;
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundCalendar = self.calendarId;
+        self.boundOldAge = self.oldAgeYears; self.boundNewAge = self.newAgeYears; self.boundEvidence = self.effectEvidence;
+        self.completedAt = rpgLedger.seconds; self.profile.rejuvenations = self.profile.rejuvenations + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local request in self.rejuvenations)
+        {
+            if (request == nil || !request.ofKind(RpgExpandedRejuvenation) || request.profile != self
+                || request.result == nil || holds(ids,request.id) || request.completedAt == nil
+                || request.completedAt > rpgLedger.seconds || request.assess().status != 'reused')
+                rpgExpandedReject('rejuvenation-history');
+            ids = ids + [request.id];
+        }
+        foreach (local entry in self.agingHistory)
+            if (entry.restoredBy != nil && (!holds(self.rejuvenations,entry.restoredBy)
+                || !holds(entry.restoredBy.result.restoredEvents,entry)))
+                rpgExpandedReject('rejuvenation-loss-owner');
         return nil;
     }
 ;

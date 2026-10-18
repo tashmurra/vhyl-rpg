@@ -613,6 +613,16 @@ def test_aging_persistence(Session, bundle, out):
                 second.close()
 
 
+def test_rejuvenation(s):
+    s.action(1809, 0)
+    assert last(s, 'test.youth-preview') == ['ready',None,10,0,0]
+    assert last(s, 'test.youth-result') == ['resolved','reused',20,11,0,20,1,1,0,0]
+    assert last(s, 'test.youth-cycle') == [1,20,11,2,2]
+    s.action(1809, 1)
+    assert last(s, 'test.youth-preview') == ['blocked','rejuvenation-partial-year-unavailable',10,0,0]
+    assert last(s, 'test.youth-result') == ['blocked','blocked',0,10,0,20,0,0,0,0]
+
+
 def test_aging_events(s):
     for code, preview, expected in [
             (0,['ready',None,0],['resolved','reused',10,9,10,10,0,1,7,7,12,0,20]),
@@ -3268,6 +3278,7 @@ def test(build):
     fresh(Session,hazards,test_aging_assessments)
     fresh(Session,hazards,test_aging_sequence)
     fresh(Session,hazards,test_aging_events)
+    fresh(Session,hazards,test_rejuvenation)
     aging_transactions = build.build('expanded-aging-transactions',ROOT / 'tests/fixtures/expanded-aging-transactions.t')
     fresh(Session,aging_transactions,test_aging_transactions)
     fresh(Session,aging_transactions,test_aging_death_transactions)
