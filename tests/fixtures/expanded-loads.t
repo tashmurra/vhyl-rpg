@@ -25,5 +25,12 @@ act(verb,args)
         eventValue(value.effectiveNumerator); eventValue(value.effectiveDenominator);
         eventValue(value.encumbranceLevel); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
+    if (verb == 2297)
+    {
+        local profile = new RpgExpandedProfile(); profile.st = args[1];
+        local value = rpgExpandedAssessLift(profile.basicLiftHundredths(),args[2],'one-hand',nil,nil,nil);
+        event('test.load-strength'); eventValue(profile.basicLiftHundredths());
+        eventValue(value.seconds); eventValue(value.status); return nil;
+    }
     return vhylAct(verb,args);
 }

@@ -394,7 +394,7 @@ bindings and occupation by carried ready/worn gear. With no defined anatomy,
 `freeHands` and the authored evidence establish hand availability. Physical
 incapacity and exhausted actors block before time is spent.
 
-`assess()` is pure. `apply()` spends two or four seconds, then rechecks the request,
+`assess()` is pure. `apply()` spends one, two or four seconds according to the load, then rechecks the request,
 ownership, location, health, hands, weight and lifting capacity. A changed condition
 throws so the surrounding transaction rolls back the elapsed time. Success clears
 `storageLocation`, leaves the item unready and unworn, and records the lift in

@@ -12675,7 +12675,7 @@ def test_digging_work(Session, bundle, out):
     for setup, expected in [((615,),[2000,100,1,1,2,3600,0]),
                             ((616,),[6000,500,1,1,3,3600,0]),
                             ((617,),[4000,200,1,1,1,3600,0]),
-                            ((620,),[4840,100,1,1,1,3600,0]),
+                            ((620,),[4800,100,1,1,1,3600,0]),
                             ((618,),clear),((619,),[0,None,0,0,9,0,0])]:
         s = Session(bundle)
         try:
@@ -13037,7 +13037,7 @@ def test_danger_reaction(Session, bundle):
 def test_load_assessments(Session, bundle):
     s = Session(bundle)
     try:
-        # B353 at BL 24.2 lb: preserve the fraction rather than rounding BL.
+        # Synthetic fractional capacity tests the B353 arithmetic; character BL is rounded at B15.
         for mode, maximum, seconds in [(1,4840,2),(2,19360,4),(3,29040,None),
                                         (4,36300,None),(5,121000,None)]:
             s.action(2292,2420,maximum,mode,0,0,1)
@@ -13045,9 +13045,16 @@ def test_load_assessments(Session, bundle):
             assert last(s, 'test.lift') == ['ready',None,maximum,seconds,None,fatigue,0,0]
             s.action(2292,2420,maximum+1,mode,0,0,1)
             assert last(s, 'test.lift')[:2] == ['blocked','lifting-capacity']
-        for weight, mode, seconds in [(2420,1,1),(2420,2,1),(2421,1,2),(2421,2,4)]:
-            s.action(2292,2420,weight,mode,1,0,0)
-            assert last(s, 'test.lift')[3:5] == [seconds,'ready']
+        for combat in (0,1):
+            for weight, mode, seconds in [(2420,1,1),(2420,2,1),(2421,1,2),(2421,2,4)]:
+                s.action(2292,2420,weight,mode,combat,0,0)
+                assert last(s, 'test.lift')[3:5] == [seconds,'ready' if combat else None]
+        # B15: retain fractions below ten pounds, round higher base values to whole pounds.
+        for strength, expected in [(1,20),(7,980),(8,1300),(9,1600),(10,2000),(11,2400)]:
+            s.action(2297,strength,expected)
+            assert last(s, 'test.load-strength') == [expected,1,'ready']
+            s.action(2297,strength,expected+1)
+            assert last(s, 'test.load-strength') == [expected,2,'ready']
         s.action(2292,2420,58080,3,1,1,0)
         assert last(s, 'test.lift') == ['ready',None,58080,1,'move',0,0,0]
         s.action(2292,2420,121000,5,0,0,0)
@@ -13124,6 +13131,15 @@ def test_equipment_lift(Session, bundle, out):
         for code in (748,741):
             s.action(2285, code)
         assert state(s) == [1,3000,1,2,0,3000]
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (749,740,741,741):
+            s.action(2285, code)
+        assert last(s, 'test.lift-preview') == ['ready',None,1]
+        assert state(s) == [1,2000,1,1,0,2000]
     finally:
         s.close()
 
@@ -13213,6 +13229,14 @@ def test_skilled_pickup(Session, bundle, out):
         for code in (30,757,745,750):
             s.action(2285, code)
         assert state(s) == clear, 'invalid physical attempt consumed a skill roll'
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (30,757,770,750,741):
+            s.action(2285, code)
+        assert state(s) == [1,2300,1,1,3,2300]
     finally:
         s.close()
 

@@ -38,6 +38,7 @@ modify BleedTestAction
         if (code == 764)
         { event('test.lift-attempt-result'); eventValue(liftOperation.result == nil ? nil : liftOperation.result.pickedUp);
           eventValue(liftOperation.result == nil ? nil : liftOperation.result.reason); return nil; }
+        if (code == 770) { liftCrate.weight = 2300; return nil; }
         return inherited(context);
     }
 ;

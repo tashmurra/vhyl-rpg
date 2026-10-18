@@ -520,7 +520,8 @@ modify RpgExpandedEquipmentLift
         rpgInteger(self.failedAttemptSeconds,1,86400);
         local skillValue = self.skillAttempt.assess();
         if (!holds(['ready','reused'],skillValue.status)) return skillValue;
-        local seconds = self.mode == 'one-hand' ? 2 : 4;
+        local seconds = self.item.weightHundredths() <= self.profile.basicLiftHundredths()
+            ? 1 : self.mode == 'one-hand' ? 2 : 4;
         local maximum = seconds > self.failedAttemptSeconds ? seconds : self.failedAttemptSeconds;
         rpgInteger(rpgLedger.seconds,0,2147483647-maximum);
         rpgLedger.validateAdvance(seconds); rpgLedger.validateAdvance(self.failedAttemptSeconds);

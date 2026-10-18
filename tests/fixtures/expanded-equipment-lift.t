@@ -38,6 +38,7 @@ modify BleedTestAction
         { bleedProfile.bodyParts = [liftArm,liftHand]; liftOperation.mode = 'one-hand'; liftCrate.weight = 3000;
           liftOperation.hands = [liftHand]; liftHand.disabled = true; return nil; }
         if (code == 748) { liftHand.disabled = nil; return nil; }
+        if (code == 749) { liftCrate.weight = 2000; return nil; }
         return inherited(context);
     }
 ;

@@ -713,3 +713,8 @@ repairs and other tool uses remain incomplete.
   capacity once. Unsuccessful duration requires explicit author evidence because
   the supplied reference does not specify it. Joint rollback and saved failure
   continuation fixtures are authored; checks remain paused.
+
+- Corrected B15 pickup timing: a load within Basic Lift takes one second outside
+  combat as well. Added strength-rounding and skill-adjusted duration assertions;
+  corrected the strength-11 digging expectation to the existing rounded base.
+  No Lite rounding change was needed. Checks remain paused.

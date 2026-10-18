@@ -369,7 +369,7 @@
       "tests": [
         "tests/expanded.py::test_load_assessments"
       ],
-      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending. B15 cross-reference now supplies one-second pickup within Basic Lift in and out of combat. Strength-rounding and skill-adjusted threshold assertions authored, unrun; existing profile rounding is preserved."
     },
     {
       "id": "activity-lift-unwilling",
@@ -1071,7 +1071,7 @@
         "tests/expanded.py::test_load_assessments",
         "tests/expanded.py::test_equipment_lift"
       ],
-      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending. Owned noncombat pickups now charge the lift duration once and transfer stored gear into the existing carried inventory after health, hand and capacity revalidation. Transaction/undo/save assertions authored, unrun; combat and cooperative execution remain pending."
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending. Owned noncombat pickups now charge the lift duration once and transfer stored gear into the existing carried inventory after health, hand and capacity revalidation. Transaction/undo/save assertions authored, unrun; combat and cooperative execution remain pending. B15 cross-reference now supplies one-second pickup within Basic Lift in and out of combat. Strength-rounding and skill-adjusted threshold assertions authored, unrun; existing profile rounding is preserved."
     },
     {
       "id": "lifting-capacity-two-hands",
@@ -1085,7 +1085,7 @@
         "tests/expanded.py::test_load_assessments",
         "tests/expanded.py::test_equipment_lift"
       ],
-      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending. Owned noncombat pickups now charge the lift duration once and transfer stored gear into the existing carried inventory after health, hand and capacity revalidation. Transaction/undo/save assertions authored, unrun; combat and cooperative execution remain pending."
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending. Owned noncombat pickups now charge the lift duration once and transfer stored gear into the existing carried inventory after health, hand and capacity revalidation. Transaction/undo/save assertions authored, unrun; combat and cooperative execution remain pending. B15 cross-reference now supplies one-second pickup within Basic Lift in and out of combat. Strength-rounding and skill-adjusted threshold assertions authored, unrun; existing profile rounding is preserved."
     },
     {
       "id": "lifting-capacity-shove",

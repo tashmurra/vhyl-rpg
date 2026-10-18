@@ -900,7 +900,7 @@ rpgExpandedAssessLift(lift,weight,mode,combat,runningStart,braced)
     if (mode == 'one-hand' || mode == 'two-hands')
     {
         value.capacityHundredths = lift * (mode == 'one-hand' ? 2 : 8);
-        value.seconds = combat && weight <= lift ? 1 : mode == 'one-hand' ? 2 : 4;
+        value.seconds = weight <= lift ? 1 : mode == 'one-hand' ? 2 : 4;
         value.maneuver = combat ? 'ready' : nil;
     }
     if (mode == 'shove')
@@ -1048,8 +1048,8 @@ modify rpgExpandedLiftingRules
         rpgInteger(result.liftNumerator,1,2147483647 / multiple);
         value.capacityNumerator = result.liftNumerator * multiple;
         value.capacityHundredths = value.capacityNumerator % 100 == 0 ? value.capacityNumerator / 100 : nil;
-        value.seconds = operation.mode == 'one-hand' ? 2 : 4;
         local weight = operation.item.weightHundredths(); rpgInteger(weight,1,2147483647 / 100);
+        value.seconds = weight * 100 <= result.liftNumerator ? 1 : operation.mode == 'one-hand' ? 2 : 4;
         if (weight * 100 > value.capacityNumerator) { value.reason = 'lifting-capacity'; return value; }
         value.status = 'ready'; return value;
     }

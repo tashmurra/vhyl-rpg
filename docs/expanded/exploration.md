@@ -386,8 +386,8 @@ footing and bracing. These facts do not grant permission to move an unwilling
 character or bypass grappling.
 
 The result reports capacity, readiness, duration when specified, and combat
-maneuver. One- and two-hand lifts take two and four seconds, except a combat
-Ready can pick up a load at or below basic lift in one second. Combat shoves use
+maneuver. Loads at or below basic lift take one second (B15). Heavier one- and
+two-hand lifts take two and four seconds respectively. Combat pickup uses Ready. Combat shoves use
 Attack, or Move with a running start. Back carrying reports one fatigue per second
 strictly above ten times basic lift. A nil duration means the source has not
 specified a duration for this assessment; do not interpret it as free execution.
@@ -460,7 +460,7 @@ it never rolls implicitly. Physical ownership, reach, hands and carrying-limit
 failures block the skill roll as well.
 
 After resolution, `pickup.apply()` compares the weight with the exact multiplied
-capacity and charges its normal two/four seconds on success. The character's
+capacity and charges one, two or four seconds on success, according to the load and hands. The character's
 carrying limit still uses ordinary Basic Lift. The result reports
 `capacityNumerator / capacityDenominator`; `capacityHundredths` is nil if that
 capacity cannot be represented as a whole hundredth. No rounding can make an
@@ -474,3 +474,18 @@ bonus can lift. These assertions remain unrun. The equipment module now offers a
 with explicit authored failure timing. Combat sequences, cooperation and broader
 action routing remain incomplete; a blocked capacity assessment alone must not
 be reported as a completed physical attempt.
+
+Basic Lift derived from character strength follows B15: retain the fractional pound
+below ten pounds, but round values of ten pounds or more to the nearest whole
+pound. For example, strength 7 gives 9.8 pounds, strength 8 gives 13 pounds and
+strength 11 gives 24 pounds. The existing profile method already implements this;
+no change to its rounding or Lite behavior is required. Exact dragging ratios and
+skill bonuses are applied after that base calculation. Synthetic fractional inputs
+in the arithmetic fixtures test the helpers independently, not a different rule
+for deriving a character's Basic Lift.
+
+New assertions cover this rounding boundary, one-second pickups outside combat,
+and the one-second threshold with a skill-adjusted lifting capacity. The owned
+digging fixture now expects 48 cubic feet per hour at strength 11, using the
+rounded 24-pound base. These corrections come from source/code inspection; all
+assertions remain unrun while checks are paused.
