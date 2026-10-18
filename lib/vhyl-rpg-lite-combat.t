@@ -60,8 +60,23 @@ class RpgLiteManeuver: object
     secondDefense = 'parry'
     available(fighter) { return nil; }
     /* Optional health adapters assess before any permission roll. */
+    expandedHealthPermission = nil
     healthAvailable(fighter) { return nil; }
     canAct(fighter) { return rpgLiteCanAct(fighter.profile, self.kind == 'nothing'); }
+    /* Optional Ready adapters preserve the default weapon/reload behavior. */
+    readyAvailable(fighter)
+    {
+        if (fighter.weapon == nil) return 'no-weapon';
+        if (self.option == 'reload'
+            && rpgLiteReloadSeconds(fighter.profile, fighter.weapon, fighter.mode()) == nil)
+            return 'cannot-reload';
+        return nil;
+    }
+    performReady(fighter)
+    {
+        if (self.option == 'reload') return rpgLiteReload(fighter.profile, fighter.weapon, fighter.mode());
+        fighter.weapon.ready = true; return nil;
+    }
     apply(fighter, result) { return nil; }
     reroll(profile, kind, roll) { return nil; }
 ;
@@ -417,11 +432,11 @@ class RpgLiteBattle: object
             throw new RpgError();
         if (request.kind == 'aim' && (fighter.weapon == nil || !fighter.weapon.ready || !fighter.mode().ranged || !request.visible))
         { result.reason = 'cannot-aim'; return result; }
-        if (request.kind == 'ready' && fighter.weapon == nil)
-        { result.reason = 'no-weapon'; return result; }
-        if (request.kind == 'ready' && request.option == 'reload'
-            && rpgLiteReloadSeconds(fighter.profile, fighter.weapon, fighter.mode()) == nil)
-        { result.reason = 'cannot-reload'; return result; }
+        if (request.kind == 'ready')
+        {
+            result.reason = request.readyAvailable(fighter);
+            if (result.reason != nil) return result;
+        }
         if (holds(['attack','all-out-attack','move-attack'], request.kind))
         {
             request.preflight = true; result = rpgLiteStrike(fighter, request.target, request); request.preflight = nil;
@@ -460,11 +475,7 @@ class RpgLiteBattle: object
             else fighter.aimSeconds = 0;
             if (request.kind == 'posture') fighter.profile.posture = request.posture;
             if (request.kind == 'concentrate') fighter.concentration += 1;
-            if (request.kind == 'ready')
-            {
-                if (request.option == 'reload') rpgLiteReload(fighter.profile, fighter.weapon, fighter.mode());
-                else fighter.weapon.ready = true;
-            }
+            if (request.kind == 'ready') request.performReady(fighter);
             if (request.kind == 'nothing' && fighter.profile.fearSeconds == 0 && (fighter.profile.stunned || fighter.profile.mentalStun))
                 rpgLiteRecoverStun(fighter.profile);
         }

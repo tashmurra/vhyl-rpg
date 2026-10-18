@@ -517,11 +517,40 @@ dice or time and records the result in `profile.criticalDefenseFailures`.
 Historical replay cannot undo standing up or restoring shield readiness. Request
 binding survives saves; changing the recorded actor, evidence or roll is rejected.
 The caller still owns the later Ready or posture maneuver and its time cost.
-Automatic attack dispatch and general shield Ready maneuver selection remain
-unfinished; this API does not silently substitute a weapon Ready action.
+Automatic attack dispatch remains unfinished. Shield-grip recovery uses the
+Ready adapter below; broader item retrieval and shield donning remain separate.
 
 `test_critical_defense_failures` covers supplied-roll rejection, unsupported
 mobility, already-prone behavior, defense-bonus changes, previews, rollback, undo
 and historical replay. `test_critical_readiness_persistence` covers weapon
 readiness and both defense branches across separate processes, including replay
 after readiness/posture restoration. All these fixtures are authored and unrun.
+
+
+## Readying a shield after losing grip
+
+`RpgExpandedShieldReadyManeuver` recovers a shield after an owned critical Block
+failure. Set `failure` to that receipt and pass the maneuver to the existing
+battle's `step()`. The fighter must still carry and use the same shield. A missing
+receipt, changed shield, unavailable item, or already-ready shield blocks before
+permission rolls or time. The actor need not have a weapon.
+
+The battle owns turn advancement and the shared clock. The adapter restores the
+shield's existing readiness flag and does not separately spend a second. It does
+not move stored equipment, don a new shield, reload, or restore unrelated weapon
+readiness. Historical replay of the critical failure cannot undo this recovery.
+
+For characters requiring expanded exertion or consciousness checks, supply a
+`healthAdapter` using `RpgExpandedHealthManeuver`, with `kind = 'ready'` and a fresh
+owned action gate. Its permission check is called through the normal battle hook;
+the adapter is not executed as another turn. Without an expanded permission
+adapter, nonpositive fatigue or HP explicitly blocks. Ordinary healthy characters
+retain the existing no-roll permission path. The readiness and permission changes
+belong to the same enclosing action transaction.
+
+The core maneuver's `readyAvailable()` and `performReady()` hooks preserve its
+existing weapon and reload defaults. The expanded adapter overrides those hooks
+only for shield recovery. The [shield fixture](../../tests/fixtures/expanded-shield-ready.t)
+and `test_shield_ready` / `test_shield_ready_health` cover weaponless recovery,
+blocked repeated actions, rollback, undo, one shared battle second, historical
+failure replay and expanded fatigue permission. Fixtures are authored and unrun.

@@ -43,7 +43,9 @@
         "tests/expanded.py::test_critical_drop_transactions",
         "tests/expanded.py::test_critical_drop_persistence",
         "tests/expanded.py::test_critical_defense_failures",
-        "tests/expanded.py::test_critical_readiness_persistence"
+        "tests/expanded.py::test_critical_readiness_persistence",
+        "tests/expanded.py::test_shield_ready",
+        "tests/expanded.py::test_shield_ready_health"
       ],
       "validation_note": "Rapid-fire and critical-outcome assessments, explicit critical major-wound integration, owned drops, weapon readiness and ground Dodge/Block consequences authored; fixtures unrun. Complete attack execution, ammunition, other critical/malfunction consequences and multi-hit injury remain incomplete."
     },

@@ -664,3 +664,52 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** One ordinary Ready turn to recover the shield grip lost by a recorded critical Block. */
+class RpgExpandedShieldReadyManeuver: RpgLiteManeuver
+    kind = 'ready'
+    failure = nil
+    healthAdapter = nil
+    healthAvailable(fighter)
+    {
+        if (self.healthAdapter == self) rpgExpandedReject('shield-ready-health-cycle');
+        if (self.healthAdapter != nil)
+        {
+            if (!self.healthAdapter.ofKind(RpgLiteManeuver) || !self.healthAdapter.expandedHealthPermission
+                || self.healthAdapter.kind != 'ready')
+                rpgExpandedReject('shield-ready-health-adapter');
+            return self.healthAdapter.healthAvailable(fighter);
+        }
+        if (fighter.profile.fp() <= 0 || fighter.profile.hp() <= 0)
+            return 'shield-ready-health-adapter-required';
+        return nil;
+    }
+    canAct(fighter)
+    {
+        if (self.healthAdapter != nil) return self.healthAdapter.canAct(fighter);
+        return inherited(fighter);
+    }
+    available(fighter)
+    {
+        if (self.kind != 'ready' || self.option != nil) return 'shield-ready-maneuver';
+        return self.readyAvailable(fighter);
+    }
+    readyAvailable(fighter)
+    {
+        if (self.failure == nil || !self.failure.ofKind(RpgExpandedDefenseFailure)
+            || self.failure.result == nil || self.failure.kind != 'block'
+            || self.failure.fighter != fighter) return 'shield-ready-failure-required';
+        self.failure.assess();
+        local shield = self.failure.result.shield;
+        if (shield == nil || fighter.shield != shield || !holds(fighter.profile.equipment,shield)
+            || !shield.blockUsableBy(fighter.profile)) return 'shield-ready-unavailable';
+        if (shield.ready) return 'shield-already-ready';
+        return nil;
+    }
+    performReady(fighter)
+    {
+        local reason = self.readyAvailable(fighter);
+        if (reason != nil) rpgExpandedReject(reason);
+        self.failure.result.shield.ready = true; return nil;
+    }
+;

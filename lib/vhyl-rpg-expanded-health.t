@@ -2014,6 +2014,7 @@ class RpgExpandedActionGate: RpgExpandedEffort
 
 /** Opt-in maneuver adapter; each authored turn owns one fresh action gate. */
 class RpgExpandedHealthManeuver: RpgLiteManeuver
+    expandedHealthPermission = true
     healthGate = nil
     healthAvailable(fighter)
     {

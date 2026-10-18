@@ -973,6 +973,47 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def shield_ready_state(s):
+    s.action(2041)
+    return last(s,'test.shield-ready-state')
+
+
+def test_shield_ready(s):
+    initial = [1,1,0,0,0,0,0]
+    assert shield_ready_state(s) == initial
+    s.action(2040,1)
+    assert last(s,'test.shield-ready-operation') == ['blocked','shield-ready-failure-required',None]
+    assert shield_ready_state(s) == initial
+    s.action(2040,0)
+    lost = [0,1,0,0,0,1,0]
+    assert shield_ready_state(s) == lost
+    s.action(2040,2)
+    assert shield_ready_state(s) == lost
+    s.action(2040,1)
+    assert shield_ready_state(s) == [1,2,0,0,0,1,0]
+    s.command('undo')
+    assert shield_ready_state(s) == lost
+    s.action(2040,1); s.action(2040,3)
+    restored = [1,1,1,1,0,1,0]
+    assert shield_ready_state(s) == restored
+    s.action(2040,4)
+    assert shield_ready_state(s) == restored
+    s.action(2040,1)
+    assert last(s,'test.shield-ready-operation') == ['blocked','shield-already-ready',None]
+    assert shield_ready_state(s) == restored
+
+
+def test_shield_ready_health(s):
+    s.action(2040,0); s.action(2040,5)
+    s.action(2040,1)
+    assert last(s,'test.shield-ready-operation') == ['blocked','shield-ready-health-adapter-required',None]
+    assert shield_ready_state(s) == [0,1,0,0,0,1,0]
+    s.action(2040,6)
+    assert shield_ready_state(s) == [1,2,0,0,3,1,1]
+    s.command('undo')
+    assert shield_ready_state(s) == [0,1,0,0,0,1,0]
+
+
 def critical_readiness_state(s):
     s.action(2032)
     return last(s,'test.critical-readiness-state')
@@ -4922,6 +4963,9 @@ def test(build):
     fresh(Session,combat,test_critical_hit_assessments)
     fresh(Session,combat,test_weapon_miss_assessments)
     fresh(Session,combat,test_unarmed_miss_assessments)
+    shield_ready = build.build('expanded-shield-ready',ROOT / 'tests/fixtures/expanded-shield-ready.t')
+    fresh(Session,shield_ready,test_shield_ready)
+    fresh(Session,shield_ready,test_shield_ready_health)
     combat_drop = build.build('expanded-combat-drop',ROOT / 'tests/fixtures/expanded-combat-drop.t')
     fresh(Session,combat_drop,test_critical_drop_transactions)
     fresh(Session,combat_drop,test_critical_readiness)

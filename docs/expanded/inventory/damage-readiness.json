@@ -242,9 +242,11 @@
       "acceptance": "Critical block failure loses shield grip and requires one ready turn before blocking again. Track actual shield readiness and its effect on other uses.",
       "tests": [
         "tests/expanded.py::test_critical_defense_failures",
-        "tests/expanded.py::test_critical_readiness_persistence"
+        "tests/expanded.py::test_critical_readiness_persistence",
+        "tests/expanded.py::test_shield_ready",
+        "tests/expanded.py::test_shield_ready_health"
       ],
-      "validation_note": "Owned supplied-roll consequence authored; fixtures unrun. Automatic attack dispatch remains pending. Dodge supports ground movement only; Block reuses readiness and B374 defense-bonus gating."
+      "validation_note": "Owned failure and battle Ready recovery authored, including shared time and expanded health permission. Fixtures unrun; automatic attack dispatch remains pending."
     },
     {
       "id": "damage-readiness-malfunction-priority",
