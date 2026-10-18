@@ -1555,8 +1555,9 @@ class RpgExpandedSurgicalAssessment: object
                 if (training.skill.id == 'physician') physician = true;
             }
         }
-        if (!trained) { value.reason = 'surgical-assessment-default-unimplemented'; return value; }
-        if (!prerequisite) { value.reason = 'surgical-assessment-prerequisite'; return value; }
+        /* B169 prerequisites govern learning. B173 permits use of a published
+         * default without purchasing the advanced skill or its prerequisites. */
+        if (trained && !prerequisite) { value.reason = 'surgical-assessment-prerequisite'; return value; }
         /* Derive training from owned investments without modifying the author's
          * conditions object or trusting its standalone physicianTrained flag. */
         local prepared = new RpgExpandedSurgeryContext();

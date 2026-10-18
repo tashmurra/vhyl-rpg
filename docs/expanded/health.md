@@ -2205,9 +2205,10 @@ continuation. They are authored and unrun.
 `conditions` (`RpgExpandedSurgeryContext`) without performing an operation. The
 Surgery skill must use IQ, Very Hard difficulty and an explicit technology level.
 Include the skills library for its expanded Very Hard skill type and scoring.
-The current adapter requires purchased Surgery and purchased First Aid or
-Physician at the operation's technology level. Unpurchased defaults and mixed
-technology return explicit unsupported reasons.
+Purchased Surgery requires purchased First Aid or Physician at the operation's
+technology level. Untrained Surgery can instead use a published default through
+`RpgExpandedSurgerySkill`; learning prerequisites do not block default use. Mixed
+technology still returns an explicit unsupported reason.
 
 The assessment derives Physician training from the surgeon's owned investments;
 it does not trust or change `conditions.physicianTrained`. Non-field surgery

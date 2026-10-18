@@ -10772,7 +10772,16 @@ def test_surgical_training_assessment(Session, bundle):
         ([91, 97], ['ready', None, 12, 0, 1, 0, 0]),
         ([92], ['blocked', 'surgical-assessment-prerequisite', None, 0, 1, 0, 0]),
         ([94], ['blocked', 'surgical-assessment-technology-mismatch-unimplemented', None, 0, 1, 0, 0]),
-        ([95], ['blocked', 'surgical-assessment-default-unimplemented', None, 0, 1, 0, 0]),
+        ([95], ['blocked', 'surgical-assessment-score-unavailable', -1, -5, 1, 0, 0]),
+        ([95, 93], ['ready', None, 4, 0, 1, 0, 0]),
+        ([101], ['ready', None, 9, 0, 1, 0, 0]),
+        ([98], ['ready', None, 6, -5, 1, 0, 0]),
+        ([100], ['ready', None, 6, -5, 1, 0, 0]),
+        ([100, 102], ['blocked', 'surgical-assessment-score-unavailable', None, -5, 1, 0, 0]),
+        ([101, 103], ['blocked', 'surgical-assessment-score-unavailable', None, -5, 1, 0, 0]),
+        ([101, 104], ['blocked', 'surgical-assessment-score-unavailable', None, 0, 1, 0, 0]),
+        ([105], ['ready', None, 19, 0, 1, 0, 0]),
+        ([105, 106], ['ready', None, 20, 0, 1, 0, 0]),
         ([96], ['blocked', 'surgical-assessment-incapacity', None, 0, 1, 0, 0]),
     ]
     for preparation, expected in cases:
@@ -10783,5 +10792,15 @@ def test_surgical_training_assessment(Session, bundle):
             for _ in range(2):
                 s.action(2285, 90)
                 assert last(s, 'test.surgical-assessment') == expected
+        finally:
+            s.close()
+
+    # B169 prerequisites constrain purchase, not use through a B173 default.
+    for code, expected in [(98, 'skill-prerequisite'), (100, 'skill-prerequisite'), (101, None)]:
+        s = Session(bundle)
+        try:
+            s.action(2285, code)
+            s.action(2285, 99)
+            assert last(s, 'test.surgical-learning') == [expected]
         finally:
             s.close()

@@ -332,6 +332,7 @@ shared healing and replay-safe receipts. Surgical execution remains pending;
 new partial-restoration and persistence fixtures are authored and unrun.
 
 Surgical assessment now derives prerequisite and Physician training from owned
-skill investments and returns the shared current skill score. It rejects
-unsupported defaults and mixed technology before any roll or cost. Timed surgery
+skill investments and returns the shared current skill score. The medical
+skill supplies all four published default paths and distinguishes learning
+prerequisites from default use; mixed technology remains explicitly unsupported. Timed surgery
 and its consequences remain incomplete; the new fixture is authored and unrun.

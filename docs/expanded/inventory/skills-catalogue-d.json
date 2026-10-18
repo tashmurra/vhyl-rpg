@@ -4170,9 +4170,12 @@
       "pages": "B223",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require first-aid or physician investment, check once per operation and apply failure injury by procedure type. Include diagnosis, sanitation, body-area, physiology and physician-absence penalties.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_surgical_training_assessment",
+        "tests/expanded.py::test_surgery_assessments"
+      ],
       "reference_data": {
         "attribute": "iq",
         "difficulty": "very-hard",
@@ -4198,7 +4201,8 @@
         "prerequisites": [
           "any:first-aid,physician"
         ]
-      }
+      },
+      "validation_note": "Source default edges and learning prerequisites authored, with shared paid/default scoring and pure surgical context assessment. Fixtures unrun. Committed operations, infection and operation-specific consequences remain incomplete."
     },
     {
       "id": "catalogue-skill-survival-arctic",

@@ -9,6 +9,40 @@ class RpgExpandedSkill: RpgLiteSkill
     optionalParent = nil
     optionalApproved = nil
     maximumDifficulty() { return 3; }
+    defaultEdges(profile) { return self.defaults; }
+    learningPrerequisiteReason(profile)
+    {
+        return self.optionalParent == nil ? nil : self.optionalParent.learningPrerequisiteReason(profile);
+    }
+;
+
+/** B223 medical skill defaults. Sources must be purchased, at the same TL;
+ * the shared resolver handles paid improvements and rejects double defaults. */
+class RpgExpandedSurgerySkill: RpgExpandedSkill
+    id = 'surgery'
+    attribute = rpgIQ
+    difficulty = 3
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (!source.ofKind(RpgLiteSkill) || source.techLevel != self.techLevel) continue;
+            local penalty = source.id == 'first-aid' ? -12 : source.id == 'physician' ? -5
+                : source.id == 'physiology' ? -8 : source.id == 'veterinary' ? -5 : nil;
+            if (penalty != nil && source != self) edges = edges + [[source,penalty]];
+        }
+        return edges;
+    }
+    learningPrerequisiteReason(profile)
+    {
+        foreach (local training in profile.skills)
+            if (training.points > 0 && training.skill.ofKind(RpgLiteSkill)
+                && training.skill.techLevel == self.techLevel
+                && holds(['first-aid','physician'],training.skill.id)) return nil;
+        return 'skill-prerequisite';
+    }
 ;
 
 /** Owned investment. defaultFrom explicitly selects a paid-up default basis. */
@@ -235,7 +269,10 @@ modify RpgExpandedProfile
                 if (skill.attribute == rpgIQ) return 'technology-personal-level';
             }
         }
-        if (!skill.ofKind(RpgExpandedSkill) || skill.prerequisite == nil) return nil;
+        if (!skill.ofKind(RpgExpandedSkill)) return nil;
+        local prerequisiteReason = skill.learningPrerequisiteReason(self);
+        if (prerequisiteReason != nil) return prerequisiteReason;
+        if (skill.prerequisite == nil) return nil;
         if (!skill.prerequisite.ofKind(RpgExpandedPrerequisite))
             rpgExpandedReject('invalid-prerequisite');
         return skill.prerequisite.satisfied(self, []) ? nil : 'skill-prerequisite';
@@ -482,7 +519,8 @@ rpgExpandedValidateSkill(skill)
  * untrained defaults: each generated edge still requires purchased training. */
 rpgExpandedDefaultEdges(profile, skill)
 {
-    local edges = skill.defaults;
+    local baseEdges = skill.defaultEdges(profile);
+    local edges = baseEdges;
     foreach (local pair in edges)
     {
         if (pair.length() != 2 || pair[1] == skill) rpgExpandedReject('invalid-skill-default');
@@ -495,7 +533,7 @@ rpgExpandedDefaultEdges(profile, skill)
         if (candidate.ofKind(RpgExpandedSkill) && candidate.optionalParent != nil && candidate != skill)
         {
             if (candidate.optionalParent == skill) edges = edges + [[candidate,-2]];
-            foreach (local pair in skill.defaults)
+            foreach (local pair in baseEdges)
                 if (pair[1] == candidate.optionalParent) edges = edges + [[candidate,pair[2]-2]];
         }
     }

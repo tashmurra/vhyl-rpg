@@ -434,3 +434,29 @@ The Town Registry's two skills are original integration examples. Source mapping
 
 The prerelease record applies to the original subset. Checks for this merged
 expanded suite remain paused.
+
+### Surgical training and defaults
+
+`RpgExpandedSurgerySkill` supplies the IQ/Very Hard medical skill from `full-2008`,
+B223. Set its `techLevel`. Its generated default edges use same-technology
+purchased First Aid (-12), Physician (-5), Physiology (-8) or Veterinary (-5),
+identified by the neutral skill IDs. The shared resolver selects the best legal
+paid or default level, respects familiarity and personal technology restrictions,
+and does not allow an untrained default to become another default's source.
+Explicit authored `defaults` remain available in addition to these source edges.
+
+Learning requires a purchased First Aid or Physician skill at the same technology
+level. The class supplies this through `learningPrerequisiteReason`, alongside
+any authored prerequisite tree. Under B169/B173 this learning requirement does
+not prevent using the unpurchased skill through a legal default. The health
+library's `RpgExpandedSurgicalAssessment` composes that skill score with surgical
+conditions and the Physician-absence penalty. Medical defaults do not themselves
+count as Physician training.
+
+`defaultEdges(profile)` is an extension point for generated skill-to-skill edges;
+its default implementation returns the existing authored `defaults` unchanged.
+`learningPrerequisiteReason(profile)` defaults to no additional constraint. Neither
+hook may mutate state or consume randomness. The surgical fixture specifies all
+four source defaults, learning versus use, double-default rejection and unfamiliar
+skills. It remains unrun. Operation execution and mixed-technology surgery remain
+incomplete, so this catalogue entry is still partial.
