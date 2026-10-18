@@ -1742,3 +1742,10 @@ A pure sustenance-aging assessment now enumerates the aging boundaries crossed
 by two added years using the shared lifespan schedule. Ordinary aging immunity
 does not suppress the assessment; day-based calendar ambiguity rejects. Pricing,
 causal ownership and execution remain pending. Fixtures are authored but unrun.
+
+
+The sustenance aging modifier now owns each injury's two-year increment and
+executes supported boundaries in the shared aging history, including for ordinarily
+ageless characters. Time guards prevent skipping pending checks. Day calendars,
+negative derived adjustments and unsupported low-score sequences remain explicit
+limitations. Pricing, rollback, undo and persistence fixtures are authored, unrun.

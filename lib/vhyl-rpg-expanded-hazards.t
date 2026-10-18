@@ -462,6 +462,7 @@ modify RpgExpandedProfile
 
 /** An authored calendar boundary, with four owned rolls and retained losses. */
 class RpgExpandedAgingEvent: object
+    exemptFromAging() { return self.profile.level('unaging') > 0; }
     era = 0
     boundEra = 0
     restoredBy = nil
@@ -514,7 +515,7 @@ class RpgExpandedAgingEvent: object
             if (prior.calendarId != self.calendarId || prior.boundaryId == self.boundaryId
                 || prior.era == self.profile.rejuvenations.length() && prior.ageYears > self.ageYears) rpgExpandedReject('aging-calendar-history');
         }
-        if (self.profile.level('unaging') > 0) { value.reason = 'aging-exempt'; return value; }
+        if (self.exemptFromAging()) { value.reason = 'aging-exempt'; return value; }
         local schedule = rpgExpandedAgingSchedule(self.profile.level('short-lifespan'),self.profile.level('extended-lifespan'));
         if (schedule.status != 'ready') { value.reason = schedule.reason; return value; }
         if (self.ageYears < schedule.bands[1][1]) { value.reason = 'aging-before-onset'; return value; }
@@ -5340,8 +5341,9 @@ class RpgExpandedSustenanceInjury: object
     episode = nil
     recordedAt = nil
     wound = nil
+    agingAdvance = nil
     boundDefinition = nil
-    definition() { return [self.id,self.episode,self.recordedAt,self.wound]; }
+    definition() { return [self.id,self.episode,self.recordedAt,self.wound,self.agingAdvance]; }
     validateReceipt()
     {
         if (self.recordedAt == nil || self.wound == nil || self.boundDefinition == nil || !holds(self.episode.ticks,self))
@@ -5349,7 +5351,7 @@ class RpgExpandedSustenanceInjury: object
         local facts = self.definition();
         for (local index = 1; index <= facts.length(); index += 1)
             if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sustenance-injury-binding');
-        self.wound.assess(); return nil;
+        self.wound.assess(); if (self.agingAdvance != nil) self.agingAdvance.validateReceipt(); return nil;
     }
     makeWound()
     {
@@ -5370,6 +5372,13 @@ class RpgExpandedSustenanceInjury: object
         foreach (local tick in self.episode.ticks) if (tick.id == self.id) rpgExpandedReject('sustenance-injury-duplicate');
         rpgInteger(rpgLedger.seconds,0,2147483647 - self.episode.intervalSeconds);
         local injury = self.makeWound().assess(); if (injury.status != 'ready') return injury;
+        if (self.episode.profile.sustenanceAgingRequired(self.episode.requirement))
+        {
+            if (self.agingAdvance == nil || !self.agingAdvance.ofKind(RpgExpandedSustenanceAgingAdvance) || self.agingAdvance.tick != self)
+                rpgExpandedReject('sustenance-aging-advance-required');
+            local aging = self.agingAdvance.assess(); if (aging.status != 'ready') return aging;
+        }
+        else if (self.agingAdvance != nil) rpgExpandedReject('sustenance-aging-modifier-required');
         value.status = 'ready'; return value;
     }
     apply()
@@ -5377,6 +5386,7 @@ class RpgExpandedSustenanceInjury: object
         local value = self.assess(); if (value.status != 'ready') return value;
         self.wound = self.makeWound(); self.wound.apply(); self.recordedAt = rpgLedger.seconds;
         self.boundDefinition = self.definition(); self.episode.ticks = self.episode.ticks + [self];
+        if (self.agingAdvance != nil) self.agingAdvance.commit();
         value.status = 'resolved'; return value;
     }
 ;
@@ -6072,3 +6082,144 @@ rpgExpandedSustenanceAgingPlan(profile,oldAgeMonths)
     }
     value.status = 'ready'; return value;
 }
+
+modify RpgExpandedProfile
+    sustenanceAgingAdvances = []
+;
+/** Two years caused by exactly one owned deprivation wound, not a second age counter. */
+class RpgExpandedSustenanceAgingAdvance: object
+    id = nil
+    tick = nil
+    oldAgeMonths = nil
+    calendarId = nil
+    approved = nil
+    evidence = nil
+    medicalTL = 3
+    recordedAt = nil
+    era = nil
+    plan = nil
+    boundPlan = nil
+    boundaries = []
+    boundDefinition = nil
+    profile() { return self.tick.episode.profile; }
+    definition() { return [self.id,self.tick,self.oldAgeMonths,self.calendarId,self.approved,self.evidence,self.medicalTL,self.recordedAt,self.era]; }
+    validateBinding()
+    {
+        if (self.recordedAt == nil || self.boundDefinition == nil || self.tick.agingAdvance != self
+            || self.tick.recordedAt != self.recordedAt || !holds(self.profile().sustenanceAgingAdvances,self))
+            rpgExpandedReject('sustenance-aging-history');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sustenance-aging-binding');
+        local planFacts = [self.plan.oldAgeMonths,self.plan.newAgeMonths,self.plan.addedYears] + self.plan.boundaryAgeMonths;
+        if (self.boundPlan == nil || planFacts.length() != self.boundPlan.length()) rpgExpandedReject('sustenance-aging-plan-binding');
+        for (local index = 1; index <= planFacts.length(); index += 1)
+            if (planFacts[index] != self.boundPlan[index]) rpgExpandedReject('sustenance-aging-plan-binding');
+        return nil;
+    }
+    validateReceipt()
+    {
+        self.validateBinding(); local index = 0;
+        foreach (local boundary in self.boundaries)
+        {
+            index += 1;
+            if (boundary.advance != self || boundary.boundaryIndex != index || boundary.result == nil)
+                rpgExpandedReject('sustenance-aging-boundary-history');
+            boundary.assess();
+        }
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.tick == nil || !self.tick.ofKind(RpgExpandedSustenanceInjury)
+            || self.tick.episode == nil || self.calendarId == nil || self.calendarId == '') rpgExpandedReject('sustenance-aging-definition');
+        local value = new RpgExpandedResult();
+        if (self.recordedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundDefinition != nil || self.plan != nil || self.boundPlan != nil || self.era != nil || self.boundaries.length() != 0)
+            rpgExpandedReject('sustenance-aging-uncommitted-state');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'sustenance-aging-author-age'; return value; }
+        local profile = self.profile(); rpgInteger(self.medicalTL,0,1000);
+        local plan = rpgExpandedSustenanceAgingPlan(profile,self.oldAgeMonths); if (plan.status != 'ready') return plan;
+        foreach (local prior in profile.sustenanceAgingAdvances)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.tick == self.tick || prior.calendarId != self.calendarId)
+                rpgExpandedReject('sustenance-aging-duplicate');
+            if (prior.era == profile.rejuvenations.length() && prior.oldAgeMonths + 24 > self.oldAgeMonths)
+                rpgExpandedReject('sustenance-aging-age-overlap');
+            if (!profile.dead && prior.boundaries.length() != prior.plan.boundaryAgeMonths.length())
+                rpgExpandedReject('sustenance-aging-unsettled');
+        }
+        foreach (local prior in profile.agingHistory)
+            if (prior.calendarId != self.calendarId || prior.era == profile.rejuvenations.length() && prior.ageYears * 12 > self.oldAgeMonths)
+                rpgExpandedReject('sustenance-aging-calendar-history');
+        if (plan.boundaryAgeMonths.length() > 0 && profile.level('longevity') == 0)
+        {
+            local probe = new RpgExpandedAgingEvent(); probe.profile = profile;
+            local lowestHealth = profile.ht - 2 * (plan.boundaryAgeMonths.length() - 1); if (lowestHealth < 1) lowestHealth = 1;
+            if (lowestHealth + rpgExpandedAgingModifier(self.medicalTL,probe.fitnessModifier()) < 3)
+            { value.reason = 'sustenance-aging-low-score-sequence-unavailable'; return value; }
+        }
+        // Any negative adjustment could become invalid during sequential attribute loss.
+        if (plan.boundaryAgeMonths.length() > 0 && (profile.hpAdjustment < 0 || profile.fpAdjustment < 0
+            || profile.willAdjustment < 0 || profile.perceptionAdjustment < 0 || profile.speedQuarterAdjustment < 0 || profile.moveAdjustment < 0))
+        { value.reason = 'sustenance-aging-derived-adjustments-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    commit()
+    {
+        if (self.recordedAt != nil) { self.validateReceipt(); return nil; }
+        if (self.tick.recordedAt == nil || self.tick.wound == nil || !holds(self.tick.episode.ticks,self.tick))
+            rpgExpandedReject('sustenance-aging-injury-required');
+        local prepared = self.assess(); if (prepared.status != 'ready') rpgExpandedReject('sustenance-aging-assessment-changed');
+        self.plan = rpgExpandedSustenanceAgingPlan(self.profile(),self.oldAgeMonths);
+        if (self.plan.status != 'ready') rpgExpandedReject('sustenance-aging-plan-changed');
+        self.boundPlan = [self.plan.oldAgeMonths,self.plan.newAgeMonths,self.plan.addedYears] + self.plan.boundaryAgeMonths;
+        self.recordedAt = self.tick.recordedAt; self.era = self.profile().rejuvenations.length(); self.boundDefinition = self.definition();
+        local profile = self.profile(); profile.sustenanceAgingAdvances = profile.sustenanceAgingAdvances + [self]; return nil;
+    }
+    applyNextBoundary()
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult(); local profile = self.profile();
+        if (profile.dead || self.boundaries.length() == self.plan.boundaryAgeMonths.length()) { value.status = 'complete'; return value; }
+        local index = self.boundaries.length() + 1; local event = new RpgExpandedSustenanceAgingBoundary();
+        event.advance = self; event.boundaryIndex = index; event.profile = profile; event.calendarId = self.calendarId;
+        local names = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24'];
+        event.boundaryId = 'sustenance-aging:' + self.id + ':' + names[index];
+        event.ageYears = self.plan.boundaryAgeMonths[index] / 12; event.ordinal = profile.agingHistory.length() + 1;
+        event.reached = true; event.evidence = self.evidence; event.medicalTL = self.medicalTL;
+        value = event.apply(); if (value.status == 'resolved') self.boundaries = self.boundaries + [event]; return value;
+    }
+;
+class RpgExpandedSustenanceAgingBoundary: RpgExpandedAgingEvent
+    advance = nil
+    boundaryIndex = nil
+    exemptFromAging() { return nil; }
+    assess()
+    {
+        if (self.advance == nil || !self.advance.ofKind(RpgExpandedSustenanceAgingAdvance)) rpgExpandedReject('sustenance-aging-boundary-cause');
+        self.advance.validateBinding(); rpgInteger(self.boundaryIndex,1,self.advance.plan.boundaryAgeMonths.length());
+        if (self.profile != self.advance.profile() || self.calendarId != self.advance.calendarId
+            || self.ageYears != self.advance.plan.boundaryAgeMonths[self.boundaryIndex] / 12 || self.medicalTL != self.advance.medicalTL)
+            rpgExpandedReject('sustenance-aging-boundary-definition');
+        if (self.result == nil && self.boundaryIndex != self.advance.boundaries.length() + 1)
+            rpgExpandedReject('sustenance-aging-boundary-order');
+        if (self.result != nil && !holds(self.advance.boundaries,self)) rpgExpandedReject('sustenance-aging-boundary-history');
+        return inherited();
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local advance = firstObj(RpgExpandedSustenanceAgingAdvance); advance != nil; advance = nextObj(advance,RpgExpandedSustenanceAgingAdvance))
+            if (advance.recordedAt != nil)
+            {
+                advance.validateReceipt();
+                if (seconds > 0 && !advance.profile().dead && advance.boundaries.length() < advance.plan.boundaryAgeMonths.length())
+                    rpgExpandedReject('sustenance-aging-unsettled');
+            }
+        return nil;
+    }
+;

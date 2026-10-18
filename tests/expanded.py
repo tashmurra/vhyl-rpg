@@ -9236,6 +9236,8 @@ def test(build):
     test_sustenance_continuous(Session, sustenance_continuous, build.out)
     sustenance_aging_plan = build.build('expanded-sustenance-aging-plan',ROOT / 'tests/fixtures/expanded-sustenance-aging-plan.t')
     test_sustenance_aging_plan(Session, sustenance_aging_plan)
+    sustenance_aging = build.build('expanded-sustenance-aging',ROOT / 'tests/fixtures/expanded-sustenance-aging.t')
+    test_sustenance_aging(Session, sustenance_aging, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20992,5 +20994,44 @@ def test_sustenance_aging_plan(Session, bundle):
         for code, expected in cases:
             s.action(2285, code)
             assert last(s, 'test.sustenance-aging-plan') == expected
+    finally:
+        s.close()
+
+
+def test_sustenance_aging(Session, bundle, out):
+    """B130 causal two-year increment and shared aging checks despite immunity; unrun."""
+    path = out / 'expanded-sustenance-aging.zsave'
+    s = Session(bundle)
+    try:
+        for code in (12800, 12801, 30, 11701, 11704, 12803):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-aging-price') == [-39, -39]
+        assert last(s, 'test.sustenance-aging-state') == [None, 0, 0, 0, 0]
+        s.action(2285, 11703)
+        s.command('undo')
+        s.action(2285, 12803)
+        assert last(s, 'test.sustenance-aging-state') == [None, 0, 0, 0, 0]
+        for code in (11703, 11703, 11706, 12803):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-boundary') == ['sustenance-aging-unsettled']
+        assert last(s, 'test.sustenance-aging-state') == [612, 0, 0, 1, 0]
+        s.action(2285, 12802)
+        s.command('undo')
+        s.action(2285, 12803)
+        assert last(s, 'test.sustenance-aging-state') == [612, 0, 0, 1, 0]
+        for code in (12802, 12802, 12802, 11706, 12803):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-aging-boundary') == ['complete']
+        assert last(s, 'test.sustenance-boundary') == ['accepted']
+        assert last(s, 'test.sustenance-aging-state') == [612, 2, 2, 1, 24]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (11703, 12802, 12803):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-aging-state') == [612, 2, 2, 1, 24]
     finally:
         s.close()

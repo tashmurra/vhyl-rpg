@@ -1646,3 +1646,10 @@ author callback is counted as their implementation.
 [`expanded-sustenance.t`](../../tests/fixtures/expanded-sustenance.t) and
 `test_sustenance` tabulate all 56 ordinary/legal-price combinations, seven
 schedules, contact durations and template copying. Fixtures remain unrun.
+
+
+Sustenance purchases also accept `acceleratedAging = true` (+30%, B130).
+The hazards module requires an owned aging advance on every associated injury
+and executes supported crossed boundaries through the shared aging history.
+See [deprivation-related aging](hazards.md#applying-deprivation-related-aging)
+for age evidence, calendar requirements and explicit unsupported combinations.

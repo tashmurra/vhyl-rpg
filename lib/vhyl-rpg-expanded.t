@@ -668,3 +668,7 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     validateContinuousSustenance(trait) { rpgExpandedReject('sustenance-traits-module-required'); }
 ;
+
+modify RpgExpandedProfile
+    sustenanceAgingRequired(trait) { rpgExpandedReject('sustenance-traits-module-required'); }
+;

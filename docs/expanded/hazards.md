@@ -2429,13 +2429,46 @@ month-based shortened-lifespan bands use the shared schedule. Crossing a day-bas
 band returns `sustenance-aging-day-calendar-required` and no partial boundary
 list, because exact campaign day/month relationships are needed.
 
-This is assessment coverage only. The sustenance modifier's price, causal link
-to each injury, committed age advancement and forced boundary execution remain
-pending. The helper does not change age, attributes, time or randomness and does
-not by itself implement the modifier. It will support preflight of the owned
+The helper is assessment coverage; owned execution is described below. The helper does not change age, attributes, time or randomness and does
+not by itself execute the modifier. It will support preflight of the owned
 aging operation rather than introduce a second age ledger.
 
 [`expanded-sustenance-aging-plan.t`](../../tests/fixtures/expanded-sustenance-aging-plan.t)
 and `test_sustenance_aging_plan` specify young ages, the three ordinary frequency
 bands, ageless characters, extended and shortened lifespan, and explicit rejection
 of unresolved day calendars. Fixtures remain unrun.
+
+
+### Applying deprivation-related aging
+
+Set `acceleratedAging = true` on a sustenance purchase to apply its +30% modifier
+through the shared signed-price arithmetic (`full-2008`, B130). Template copies
+preserve it. Each deprivation injury then requires its own
+`RpgExpandedSustenanceAgingAdvance` in `tick.agingAdvance`. Supply a unique `id`,
+that `tick`, exact `oldAgeMonths`, `calendarId`, approval, age evidence and
+`medicalTL`. A missing or mismatched advance rejects before injury or randomness.
+
+The injury transaction records one two-year increment and its bound boundary
+plan. Replaying the injury neither adds years nor duplicates its wound. The
+receipt is causal age history, not an independent ticking age counter. Successive
+increments in the same rejuvenation era must not overlap, and their calendar
+must agree with ordinary aging history. Authors account for natural elapsed age
+when supplying the next exact age.
+
+Call `applyNextBoundary()` until complete. Each required boundary executes the
+existing four-roll aging procedure and records its losses in `agingHistory`,
+including for otherwise ageless characters. Rejuvenation can therefore use the
+same loss records. Ordinary aging retains its normal exemption. Completed checks
+are not rerolled; time cannot advance with unsettled checks while the character
+is alive. Death ends further checks. No extra adventure time is charged.
+
+Day-based shortened-lifespan calendars, negative derived-stat adjustments during
+sequential loss, and sequences that could enter the shared procedure's unsupported
+low-score range reject before injury. Day-level age inputs remain unsupported.
+These limits keep the modifier partial; they are not substitute rules. The
+existing optional equivalent-trait-loss adjudication is also outside this path.
+
+[`expanded-sustenance-aging.t`](../../tests/fixtures/expanded-sustenance-aging.t)
+and `test_sustenance_aging` specify modifier pricing/copying, one injury's two-year
+increment, checks despite ordinary immunity, pending-check time guards, replay,
+rollback, undo and save continuation. Fixtures remain unrun.

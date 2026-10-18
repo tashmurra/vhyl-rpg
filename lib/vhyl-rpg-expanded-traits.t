@@ -2670,6 +2670,7 @@ class RpgExpandedSustenanceRequirement: RpgLiteTrait
     points = -1
     rarity = nil
     illegal = nil
+    acceleratedAging = nil
     frequency = nil
     requirementKind = nil
     requirementText = nil
@@ -2683,11 +2684,12 @@ class RpgExpandedSustenanceRequirement: RpgLiteTrait
             || !self.approved || self.evidence == nil || self.evidence == ''
             || self.requirementText == nil || self.requirementText == '') rpgExpandedReject('sustenance-definition');
         if (!holds(['substance','object','environment'],self.requirementKind)) rpgExpandedReject('sustenance-kind');
-        return rpgExpandedSustenanceCost(self.rarity,self.illegal,self.frequency);
+        local cost = rpgExpandedSustenanceCost(self.rarity,self.illegal,self.frequency);
+        return self.acceleratedAging ? rpgExpandedSignedModifiedCost(cost,[30]) : cost;
     }
     templatePurchaseOptions()
     {
-        return [self.rarity,self.illegal,self.frequency,self.requirementKind,self.requirementText,self.approved,self.evidence];
+        return [self.rarity,self.illegal,self.frequency,self.requirementKind,self.requirementText,self.approved,self.evidence,self.acceleratedAging];
     }
     requiredContactSeconds()
     {
@@ -2723,7 +2725,7 @@ modify rpgExpandedTemplateTraits
     {
         if (!trait.ofKind(RpgExpandedSustenanceRequirement)) return inherited(trait);
         trait.creationCost(); local copy = new RpgExpandedSustenanceRequirement();
-        copy.scope = trait.scope; copy.rarity = trait.rarity; copy.illegal = trait.illegal; copy.frequency = trait.frequency;
+        copy.acceleratedAging = trait.acceleratedAging; copy.scope = trait.scope; copy.rarity = trait.rarity; copy.illegal = trait.illegal; copy.frequency = trait.frequency;
         copy.requirementKind = trait.requirementKind; copy.requirementText = trait.requirementText;
         copy.approved = trait.approved; copy.evidence = trait.evidence; copy.creationCost(); return copy;
     }
@@ -2774,4 +2776,9 @@ modify RpgExpandedProfile
             rpgExpandedReject('sustenance-continuous-contact-required');
         return nil;
     }
+;
+
+modify RpgExpandedProfile
+    sustenanceAgingRequired(trait)
+    { self.sustenanceInjuryInterval(trait); return trait.acceleratedAging; }
 ;
