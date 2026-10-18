@@ -33,6 +33,8 @@ copies of the reference books.
 | `full-2008` | B514–B519 | [Economics and employment](economy-employment.json) | Pay, recruiting, loyalty and market procedures enumerated; numeric and integration audits pending |
 | `full-2008` | B529–B534; B544–B546 | [World-transit operations and accidents](world-transit.json) | Hardware, windows, accident/disaster rows, detectors, portals and shifts enumerated; reroll semantics and living duplication unresolved |
 | `full-2008` | B523–B529; B535–B543 | [Mechanics embedded in setting material](setting-mechanics.json) | Remaining setting pages inspected; transit exceptions and fictional agent retained, setting fiction excluded, incomplete capability descriptions flagged |
+| `full-2008` | B547–B549 | [Combat modifier summaries](combat-modifiers.json) | Individual conditions, bands and moving-platform categories transcribed; detailed combat reconciliation pending |
+| `full-2008` | B550 | [Size, speed and range](size-speed-range.json) | Printed rows visually checked; fractional size and conditional-speed integration remain pending |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 

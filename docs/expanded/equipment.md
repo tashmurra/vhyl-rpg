@@ -15,3 +15,11 @@ The [task-resolution inventory](inventory/task-resolution.json) records equipmen
 quality, missing-item and damage modifiers separately. These depend on actual
 tools and task eligibility: some tasks cannot be attempted without equipment at
 all. The existing numeric helpers do not implement this equipment assessment.
+
+
+The [detailed size/range inventory](inventory/size-speed-range.json) now records all
+printed B550 rows, including fractional dimensions and shape rules. The rows have
+been visually compared with the reference page; this is source verification, not
+a runtime test. `rpgExpandedRangeModifier` still handles only whole-yard lookup,
+not size calculation, fractional units, target-speed selection or sensing rules.
+Those integrations and independent boundary tests remain pending.

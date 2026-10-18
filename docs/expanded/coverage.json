@@ -300,6 +300,8 @@
     "inventory/economy-employment.json",
     "inventory/worlds-law-technology.json",
     "inventory/world-transit.json",
-    "inventory/setting-mechanics.json"
+    "inventory/setting-mechanics.json",
+    "inventory/combat-modifiers.json",
+    "inventory/size-speed-range.json"
   ]
 }

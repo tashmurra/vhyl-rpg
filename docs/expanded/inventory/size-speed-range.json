@@ -1,0 +1,896 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B550",
+  "review": "Every printed size/range row transcribed and visually compared with the rendered B550 page, retaining exact yard fractions. Existing whole-yard helper is only partial integration. Lower-bound policy, detailed combat/sense contracts and independent tests remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "size-range-shared-table",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Size and speed/range use the same linear progression with opposite modifier signs. The selected size and movement inputs remain separate until their modifiers are combined.",
+      "tests": []
+    },
+    {
+      "id": "size-range-listed-size",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use an explicitly supplied character, creature or vehicle size modifier rather than recalculating it from a rough descriptive height. Human baseline size is zero.",
+      "tests": []
+    },
+    {
+      "id": "size-range-dimension",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For an unspecified size modifier, use longest dimension and round up to the next printed threshold; for an object much smaller in two dimensions, use its smallest dimension instead.",
+      "tests": []
+    },
+    {
+      "id": "size-range-shape",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Box-like, spherical or amorphous bodies add two to the dimensional size modifier; elongated boxes add one. Shape is explicit authored geometry, not inferred from an object name.",
+      "tests": []
+    },
+    {
+      "id": "size-range-range-rounding",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Range inputs between thresholds round upward. No range bonus applies within two yards; the range modifier remains zero even for smaller distances.",
+      "tests": []
+    },
+    {
+      "id": "size-range-slow-target",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary on-foot combat and stationary objects normally ignore target speed. When the author determines fast motion matters, add speed in yards per second to range in yards before lookup.",
+      "tests": []
+    },
+    {
+      "id": "size-range-relative-speed",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Moving-platform attacks use the detailed apparent relative-speed rule; adding the target's absolute world velocity unconditionally would conflict with B469.",
+      "tests": []
+    },
+    {
+      "id": "size-range-progression",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Beyond the printed range, multiplying linear distance by ten changes size by +6 or range penalty by -6. Define the supported numeric range and reject overflow before multiplication.",
+      "tests": []
+    },
+    {
+      "id": "size-range-units",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use exact inch/foot/yard conversion for small sizes. The table's parenthetical mile labels are approximate; its yard thresholds are the lookup values and must not be silently replaced with exact statutory-mile distances.",
+      "tests": []
+    },
+    {
+      "id": "size-range-sense-context",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The table may also apply to sensing or other authored tasks when size/speed/range is relevant, but does not automatically replace each sensory trait's distinct range rules.",
+      "tests": []
+    },
+    {
+      "id": "size-range-lower-bound",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The printed smallest row is one-fifth inch. Before supporting smaller dimensions, establish the applicable extrapolation policy rather than silently clamping every tiny object to the same size.",
+      "tests": []
+    },
+    {
+      "id": "size-range-example-rounding",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Eight yards rounds to ten and yields range -4; forty yards plus thirty yards/second yields -9; five yards plus one thousand yards/second rounds to fifteen hundred and yields -17.",
+      "tests": []
+    },
+    {
+      "id": "size-range-example-shape",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A four-yard longest dimension gives size +2 for the stated humanoid example, +3 for an elongated vehicle and +4 for a box-like building.",
+      "tests": []
+    },
+    {
+      "id": "size-range-example-combined",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A six-yard-long target at forty yards moving fifteen yards/second has size +3 and speed/range -9, yielding a combined -6 before other attack modifiers.",
+      "tests": []
+    },
+    {
+      "id": "size-range-row-small-0",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the one-fifth inch upper threshold, size modifier is -15 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1,
+        "yards_denominator": 180,
+        "size_modifier": -15,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-1",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the one-third inch upper threshold, size modifier is -14 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1,
+        "yards_denominator": 108,
+        "size_modifier": -14,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-2",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the one-half inch upper threshold, size modifier is -13 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1,
+        "yards_denominator": 72,
+        "size_modifier": -13,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-3",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the two-thirds inch upper threshold, size modifier is -12 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1,
+        "yards_denominator": 54,
+        "size_modifier": -12,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-4",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the one inch upper threshold, size modifier is -11 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1,
+        "yards_denominator": 36,
+        "size_modifier": -11,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-5",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the one-and-a-half inches upper threshold, size modifier is -10 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1,
+        "yards_denominator": 24,
+        "size_modifier": -10,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-6",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the two inches upper threshold, size modifier is -9 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1,
+        "yards_denominator": 18,
+        "size_modifier": -9,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-7",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the three inches upper threshold, size modifier is -8 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1,
+        "yards_denominator": 12,
+        "size_modifier": -8,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-8",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the five inches upper threshold, size modifier is -7 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 5,
+        "yards_denominator": 36,
+        "size_modifier": -7,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-9",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the eight inches upper threshold, size modifier is -6 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 2,
+        "yards_denominator": 9,
+        "size_modifier": -6,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-10",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the one foot upper threshold, size modifier is -5 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1,
+        "yards_denominator": 3,
+        "size_modifier": -5,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-11",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the one-and-a-half feet upper threshold, size modifier is -4 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1,
+        "yards_denominator": 2,
+        "size_modifier": -4,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-12",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the two feet upper threshold, size modifier is -3 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 2,
+        "yards_denominator": 3,
+        "size_modifier": -3,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-13",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the one yard upper threshold, size modifier is -2 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1,
+        "yards_denominator": 1,
+        "size_modifier": -2,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-14",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the one-and-a-half yards upper threshold, size modifier is -1 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 3,
+        "yards_denominator": 2,
+        "size_modifier": -1,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-small-15",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the two yards upper threshold, size modifier is +0 and speed/range modifier is zero. Preserve exact fractional units.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 2,
+        "yards_denominator": 1,
+        "size_modifier": 0,
+        "range_modifier": 0
+      }
+    },
+    {
+      "id": "size-range-row-3",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 3-yard upper threshold, size modifier is +1 and speed/range modifier is -1; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 3,
+        "yards_denominator": 1,
+        "size_modifier": 1,
+        "range_modifier": -1
+      }
+    },
+    {
+      "id": "size-range-row-5",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 5-yard upper threshold, size modifier is +2 and speed/range modifier is -2; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 5,
+        "yards_denominator": 1,
+        "size_modifier": 2,
+        "range_modifier": -2
+      }
+    },
+    {
+      "id": "size-range-row-7",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 7-yard upper threshold, size modifier is +3 and speed/range modifier is -3; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 7,
+        "yards_denominator": 1,
+        "size_modifier": 3,
+        "range_modifier": -3
+      }
+    },
+    {
+      "id": "size-range-row-10",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 10-yard upper threshold, size modifier is +4 and speed/range modifier is -4; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 10,
+        "yards_denominator": 1,
+        "size_modifier": 4,
+        "range_modifier": -4
+      }
+    },
+    {
+      "id": "size-range-row-15",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 15-yard upper threshold, size modifier is +5 and speed/range modifier is -5; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 15,
+        "yards_denominator": 1,
+        "size_modifier": 5,
+        "range_modifier": -5
+      }
+    },
+    {
+      "id": "size-range-row-20",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 20-yard upper threshold, size modifier is +6 and speed/range modifier is -6; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 20,
+        "yards_denominator": 1,
+        "size_modifier": 6,
+        "range_modifier": -6
+      }
+    },
+    {
+      "id": "size-range-row-30",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 30-yard upper threshold, size modifier is +7 and speed/range modifier is -7; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 30,
+        "yards_denominator": 1,
+        "size_modifier": 7,
+        "range_modifier": -7
+      }
+    },
+    {
+      "id": "size-range-row-50",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 50-yard upper threshold, size modifier is +8 and speed/range modifier is -8; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 50,
+        "yards_denominator": 1,
+        "size_modifier": 8,
+        "range_modifier": -8
+      }
+    },
+    {
+      "id": "size-range-row-70",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 70-yard upper threshold, size modifier is +9 and speed/range modifier is -9; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 70,
+        "yards_denominator": 1,
+        "size_modifier": 9,
+        "range_modifier": -9
+      }
+    },
+    {
+      "id": "size-range-row-100",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 100-yard upper threshold, size modifier is +10 and speed/range modifier is -10; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 100,
+        "yards_denominator": 1,
+        "size_modifier": 10,
+        "range_modifier": -10
+      }
+    },
+    {
+      "id": "size-range-row-150",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 150-yard upper threshold, size modifier is +11 and speed/range modifier is -11; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 150,
+        "yards_denominator": 1,
+        "size_modifier": 11,
+        "range_modifier": -11
+      }
+    },
+    {
+      "id": "size-range-row-200",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 200-yard upper threshold, size modifier is +12 and speed/range modifier is -12; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 200,
+        "yards_denominator": 1,
+        "size_modifier": 12,
+        "range_modifier": -12
+      }
+    },
+    {
+      "id": "size-range-row-300",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 300-yard upper threshold, size modifier is +13 and speed/range modifier is -13; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 300,
+        "yards_denominator": 1,
+        "size_modifier": 13,
+        "range_modifier": -13
+      }
+    },
+    {
+      "id": "size-range-row-500",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 500-yard upper threshold, size modifier is +14 and speed/range modifier is -14; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 500,
+        "yards_denominator": 1,
+        "size_modifier": 14,
+        "range_modifier": -14
+      }
+    },
+    {
+      "id": "size-range-row-700",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 700-yard upper threshold, size modifier is +15 and speed/range modifier is -15; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 700,
+        "yards_denominator": 1,
+        "size_modifier": 15,
+        "range_modifier": -15
+      }
+    },
+    {
+      "id": "size-range-row-1000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 1000-yard upper threshold, size modifier is +16 and speed/range modifier is -16; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1000,
+        "yards_denominator": 1,
+        "size_modifier": 16,
+        "range_modifier": -16
+      }
+    },
+    {
+      "id": "size-range-row-1500",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 1500-yard upper threshold, size modifier is +17 and speed/range modifier is -17; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 1500,
+        "yards_denominator": 1,
+        "size_modifier": 17,
+        "range_modifier": -17
+      }
+    },
+    {
+      "id": "size-range-row-2000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 2000-yard upper threshold, size modifier is +18 and speed/range modifier is -18; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 2000,
+        "yards_denominator": 1,
+        "size_modifier": 18,
+        "range_modifier": -18
+      }
+    },
+    {
+      "id": "size-range-row-3000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 3000-yard upper threshold, size modifier is +19 and speed/range modifier is -19; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 3000,
+        "yards_denominator": 1,
+        "size_modifier": 19,
+        "range_modifier": -19
+      }
+    },
+    {
+      "id": "size-range-row-5000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 5000-yard upper threshold, size modifier is +20 and speed/range modifier is -20; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 5000,
+        "yards_denominator": 1,
+        "size_modifier": 20,
+        "range_modifier": -20
+      }
+    },
+    {
+      "id": "size-range-row-7000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 7000-yard upper threshold, size modifier is +21 and speed/range modifier is -21; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 7000,
+        "yards_denominator": 1,
+        "size_modifier": 21,
+        "range_modifier": -21
+      }
+    },
+    {
+      "id": "size-range-row-10000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 10000-yard upper threshold, size modifier is +22 and speed/range modifier is -22; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 10000,
+        "yards_denominator": 1,
+        "size_modifier": 22,
+        "range_modifier": -22
+      }
+    },
+    {
+      "id": "size-range-row-15000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 15000-yard upper threshold, size modifier is +23 and speed/range modifier is -23; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 15000,
+        "yards_denominator": 1,
+        "size_modifier": 23,
+        "range_modifier": -23
+      }
+    },
+    {
+      "id": "size-range-row-20000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 20000-yard upper threshold, size modifier is +24 and speed/range modifier is -24; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 20000,
+        "yards_denominator": 1,
+        "size_modifier": 24,
+        "range_modifier": -24
+      }
+    },
+    {
+      "id": "size-range-row-30000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 30000-yard upper threshold, size modifier is +25 and speed/range modifier is -25; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 30000,
+        "yards_denominator": 1,
+        "size_modifier": 25,
+        "range_modifier": -25
+      }
+    },
+    {
+      "id": "size-range-row-50000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 50000-yard upper threshold, size modifier is +26 and speed/range modifier is -26; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 50000,
+        "yards_denominator": 1,
+        "size_modifier": 26,
+        "range_modifier": -26
+      }
+    },
+    {
+      "id": "size-range-row-70000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 70000-yard upper threshold, size modifier is +27 and speed/range modifier is -27; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 70000,
+        "yards_denominator": 1,
+        "size_modifier": 27,
+        "range_modifier": -27
+      }
+    },
+    {
+      "id": "size-range-row-100000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 100000-yard upper threshold, size modifier is +28 and speed/range modifier is -28; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 100000,
+        "yards_denominator": 1,
+        "size_modifier": 28,
+        "range_modifier": -28
+      }
+    },
+    {
+      "id": "size-range-row-150000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 150000-yard upper threshold, size modifier is +29 and speed/range modifier is -29; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 150000,
+        "yards_denominator": 1,
+        "size_modifier": 29,
+        "range_modifier": -29
+      }
+    },
+    {
+      "id": "size-range-row-200000",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At the 200000-yard upper threshold, size modifier is +30 and speed/range modifier is -30; inputs above the preceding threshold and through this threshold use this row.",
+      "tests": [],
+      "measurement": {
+        "yards_numerator": 200000,
+        "yards_denominator": 1,
+        "size_modifier": 30,
+        "range_modifier": -30
+      }
+    },
+    {
+      "id": "size-range-existing-helper",
+      "source": "full-2008",
+      "pages": "B550",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "The existing rpgExpandedRangeModifier supports nonnegative whole-yard inputs through one hundred million, but supplies no size, shape, fractional-unit or conditional-speed integration. Verify independent row and boundary cases before extending its coverage claim.",
+      "tests": [],
+      "existing_feature": "extended-range"
+    }
+  ]
+}
