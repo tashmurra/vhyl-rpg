@@ -55,3 +55,82 @@ rpgExpandedAssessKnockdown(capacity, injury, location, maleGroin)
     }
     value.status = 'ready'; return value;
 }
+
+
+modify RpgExpandedProfile
+    expandedWounds = []
+;
+
+/** Preflight and receipt envelope for an explicitly selected expanded wound. */
+class RpgExpandedWoundResult: RpgExpandedResult
+    assessment = nil
+    health = nil
+;
+
+/** Owned standard-anatomy wound. Amount is final injury, not raw attack damage.
+ * Unsupported anatomy, held-item dropping and low-target checks reject before
+ * commit. Run apply() inside the existing action transaction. */
+class RpgExpandedWound: object
+    id = nil
+    profile = nil
+    amount = 0
+    location = 'torso'
+    maleGroin = nil
+    anatomy = 'standard-humanoid'
+    boundProfile = nil
+    boundId = nil
+    boundAmount = 0
+    boundLocation = nil
+    boundMaleGroin = nil
+    health = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.id == nil || self.id == '')
+            rpgExpandedReject('expanded-wound-owner');
+        local value = new RpgExpandedWoundResult();
+        if (self.health != nil)
+        {
+            if (self.profile != self.boundProfile || self.id != self.boundId || self.amount != self.boundAmount
+                || self.location != self.boundLocation || self.maleGroin != self.boundMaleGroin
+                || self.anatomy != 'standard-humanoid') rpgExpandedReject('expanded-wound-retargeted');
+            value.status = 'reused'; value.health = self.health; return value;
+        }
+        rpgExpandedValidate(self.profile);
+        foreach (local wound in self.profile.expandedWounds)
+            if (wound.id == self.id) rpgExpandedReject('expanded-wound-duplicate');
+        if (!self.profile.rules.scaledInjuryShock)
+        { value.reason = 'expanded-wound-shock-rule-required'; return value; }
+        if (self.anatomy != 'standard-humanoid')
+        { value.reason = 'expanded-wound-anatomy-unavailable'; return value; }
+        foreach (local traitId in ['no-brain','no-vitals','homogenous','diffuse','low-pain-threshold'])
+            if (self.profile.level(traitId) > 0)
+            { value.reason = 'expanded-wound-trait-unavailable'; return value; }
+        if (self.profile.dead) { value.reason = 'expanded-wound-dead'; return value; }
+        value.assessment = rpgExpandedAssessKnockdown(self.profile.maxHP,self.amount,self.location,self.maleGroin);
+        if (value.assessment.required && !self.profile.unconscious)
+        {
+            foreach (local item in self.profile.equipment)
+                if (item.ready && !item.worn)
+                { value.reason = 'expanded-wound-drop-unavailable'; return value; }
+            local context = new RpgLiteContext(); context.attribute = rpgHT;
+            context.kind = 'major-wound'; context.modifier = value.assessment.modifier;
+            local score = rpgLiteScore(self.profile,context);
+            if (score == nil || score < 3)
+            { value.reason = 'expanded-knockdown-score-unavailable'; return value; }
+        }
+        if (self.profile.ht < 3 && self.profile.hp() - self.amount <= -self.profile.maxHP)
+        { value.reason = 'expanded-survival-score-unavailable'; return value; }
+        self.profile.shockFromInjury(self.amount);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.health = rpgLiteWoundWithKnockdown(self.profile,self.amount,
+            value.assessment.required,value.assessment.modifier);
+        self.boundProfile = self.profile; self.boundId = self.id; self.boundAmount = self.amount;
+        self.boundLocation = self.location; self.boundMaleGroin = self.maleGroin;
+        self.profile.expandedWounds = self.profile.expandedWounds + [self];
+        value.health = self.health; value.status = 'resolved'; return value;
+    }
+;

@@ -63,5 +63,29 @@ act(verb,args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1606)
+    {
+        local rules = new RpgExpandedRules(); rules.scaledInjuryShock = true;
+        local p = new RpgExpandedProfile(); p.rules = rules; p.ht = args[3];
+        local wound = new RpgExpandedWound(); wound.id = 'impact'; wound.profile = p;
+        wound.amount = args[1]; wound.location = args[2];
+        rpgRandom.seed(1); event('test.wound-commit'); local preview = wound.assess();
+        eventValue(preview.status); eventValue(preview.reason); eventValue(p.injury); eventValue(rpgRandom.draws);
+        local result = wound.apply(); eventValue(result.status); eventValue(p.injury); eventValue(p.shock);
+        eventValue(p.stunned ? 1 : 0); eventValue(p.unconscious ? 1 : 0);
+        eventValue(result.health == nil ? 0 : result.health.checks.length()); eventValue(rpgRandom.draws);
+        eventValue(wound.apply().status); eventValue(p.expandedWounds.length()); return nil;
+    }
+    if (verb == 1607)
+    {
+        local rules = new RpgExpandedRules(); rules.scaledInjuryShock = true;
+        local p = new RpgExpandedProfile(); p.rules = rules;
+        local wound = new RpgExpandedWound(); wound.id = 'impact'; wound.profile = p; wound.amount = 6;
+        local item = new RpgLiteItem(); item.ready = true; p.equipment = [item];
+        local before = rpgRandom.draws; event('test.wound-gates'); eventValue(wound.apply().reason);
+        item.ready = nil; wound.anatomy = 'other'; eventValue(wound.apply().reason);
+        wound.anatomy = 'standard-humanoid'; rules.scaledInjuryShock = nil; eventValue(wound.apply().reason);
+        eventValue(p.injury); eventValue(p.expandedWounds.length()); eventValue(rpgRandom.draws - before); return nil;
+    }
     return vhylAct(verb,args);
 }

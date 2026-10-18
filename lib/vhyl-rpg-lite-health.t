@@ -13,6 +13,14 @@ class RpgLiteHealthResult: object
 rpgLiteWound(profile, amount)
 {
     rpgInteger(amount, 0, 100000);
+    return rpgLiteWoundWithKnockdown(profile,amount,amount * 2 > profile.maxHP,0);
+}
+
+/** Shared injury commit with an explicitly assessed knockdown trigger/modifier.
+ * Ordinary callers use rpgLiteWound; expanded requests preflight their context. */
+rpgLiteWoundWithKnockdown(profile, amount, knockdown, modifier)
+{
+    rpgInteger(amount, 0, 100000); rpgInteger(modifier,-1000,1000);
     local result = new RpgLiteHealthResult();
     if (profile.dead || amount == 0) return result;
     local shock = profile.shockFromInjury(amount);
@@ -21,9 +29,9 @@ rpgLiteWound(profile, amount)
     profile.aidUsed = nil;
     if (profile.level('high-pain-threshold') == 0)
     { profile.shock += shock; if (profile.shock > 4) profile.shock = 4; }
-    if (amount * 2 > profile.maxHP && !profile.unconscious)
+    if (knockdown && !profile.unconscious)
     {
-        result.check = rpgLiteAttributeCheck(profile, rpgHT, 'major-wound', 0);
+        result.check = rpgLiteAttributeCheck(profile, rpgHT, 'major-wound', modifier);
         result.checks = result.checks + [result.check];
         if (!result.check.achieved)
         {

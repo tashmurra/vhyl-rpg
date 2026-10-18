@@ -5,8 +5,8 @@
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
 Include `vhyl-rpg-expanded-health.t` after the expanded foundation. The current
-implementation supplies only the B419 high-capacity shock calculation and its
-integration with the existing wound ledger. Set `rules.scaledInjuryShock = true`
+implementation supplies the B419 high-capacity shock calculation, standard-location
+knockdown assessment and a limited committed wound request using the shared ledger. Set `rules.scaledInjuryShock = true`
 to select that difference; inclusion alone preserves the existing calculation.
 `rpgExpandedInjuryShock(capacity, injury)` is a pure calculation for one wound:
 capacity below 20 uses each injury point, while larger capacities use complete
@@ -24,8 +24,8 @@ and integrated repeated-wound/resistance cases.
 scaling and rejection before injury or randomness is spent. These cases have not
 run while checks are paused.
 
-Detailed injury, knockdown/location effects, medical care, recovery and fear
-remain pending. This option does not enable a complete expanded injury profile;
+Broader detailed injury, anatomy exceptions, item dropping, medical care, recovery
+and fear remain pending. This option does not enable a complete expanded injury profile;
 other wound behavior remains the explicitly selected existing foundation behavior.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
@@ -158,9 +158,40 @@ This helper is restricted to standard anatomy; it cannot represent absent brains
 or vitals, diffuse bodies or other injury-tolerance exceptions.
 
 `test_knockdown_assessment` enumerates threshold, location and high-capacity
-expectations. It remains unrun. A committed location-aware wound operation is
-still pending: do not call the ordinary wound function and then add another
-knockdown check, which would double-check major wounds. Modified targets below
+expectations. It remains unrun. Use the supported committed request below; do not call the
+ordinary wound function and then add another knockdown check, which would
+double-check major wounds. Modified targets below
 three also need explicit resolution before commit integration, since B345 bars
 ordinary success attempts below three and the knockdown consequences depend on a
 failure margin. This assessment does not invent that margin.
+
+
+## Committing a supported wound
+
+Create one owned `RpgExpandedWound` with an opportunity `id`, `profile`, final
+injury `amount`, supported `location` and the applicable `maleGroin` fact. The
+profile must explicitly select `scaledInjuryShock`. `assess()` performs no injury,
+roll or time charge; `apply()` uses the shared wound commit and stores the original
+health result in both the request and `profile.expandedWounds`. Run `apply()` in
+an action transaction. A repeated request returns `reused`; its `health` is the
+original receipt, not newly applied damage. A different request with the same ID
+rejects, as does retargeting a committed request.
+
+The request supplies one location-specific knockdown trigger and modifier instead
+of adding a second major-wound check. Existing pain resistance, stun/prone state,
+unconsciousness and mortality processing remain in the shared commit. There is
+no second injury ledger. Raw attack damage, armour and damage multipliers must be
+resolved before creating this request.
+
+The supported subset requires standard humanoid anatomy, excludes eye/limb
+crippling and the listed injury-tolerance/pain-sensitivity traits, and blocks a
+required check with an unavailable score. If a knockdown check could require
+held equipment to be dropped, the request also blocks until item-drop integration
+is supplied; unreadying an item is not presented as a complete drop. These are
+explicit limitations, not full health coverage.
+
+`test_expanded_wound_commit` covers exact-half/no-check, minor face injury,
+location penalties, failure-by-five unconsciousness, one-time application and
+preflight rejection without injury or random draws. It is authored but unrun.
+Transaction rollback, undo and save continuation for the new request remain to
+be added before the operation can be considered validated.

@@ -229,6 +229,27 @@ def test_knockdown_assessment(s):
         'expanded-knockdown-location-unavailable', 'expanded-knockdown-groin-context']
 
 
+def test_expanded_wound_commit(s):
+    for injury, location, ht, shock, stunned, unconscious, checks in [
+            (5, 'torso', 10, 4, 0, 0, 0),
+            (6, 'torso', 10, 4, 0, 0, 1),
+            (1, 'face', 10, 1, 0, 0, 1),
+            (6, 'face', 10, 4, 1, 1, 1),
+            (6, 'skull', 20, 4, 0, 0, 1)]:
+        s.action(1606, injury, location, ht)
+        assert last(s, 'test.wound-commit') == [
+            'ready', None, 0, 0, 'resolved', injury, shock, stunned, unconscious,
+            checks, 3 * checks, 'reused', 1]
+    s.action(1606, 6, 'skull', 10)
+    assert last(s, 'test.wound-commit') == [
+        'blocked', 'expanded-knockdown-score-unavailable', 0, 0,
+        'blocked', 0, 0, 0, 0, 0, 0, 'blocked', 0]
+    s.action(1607)
+    assert last(s, 'test.wound-gates') == [
+        'expanded-wound-drop-unavailable', 'expanded-wound-anatomy-unavailable',
+        'expanded-wound-shock-rule-required', 0, 0, 0]
+
+
 def test_numbers(s):
     before = state(s)
     # Full-2008 B170. Enumerated offsets rather than the implementation formula.
@@ -1977,6 +1998,7 @@ def test(build):
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)
     fresh(Session,health,test_knockdown_assessment)
+    fresh(Session,health,test_expanded_wound_commit)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
     fresh(Session,minimal,test_job_earnings)
