@@ -20,13 +20,30 @@ add [injury, treatment and bounded conflicts](docs/resilience.md), plus
 The opt-in [Lite rules layer](docs/lite.md) implements character creation,
 the advantage/disadvantage and skill catalogues, equipment, second-by-second
 combat, social checks, travel, injury, fatigue, recovery and hazards from
-**GURPS Lite Fourth Edition (August 2004, Rev. 07/12/04)**. Jumper is included;
+**abridged fourth-generation rules (August 2004, Rev. 07/12/04)**. Jumper is included;
 magic systems from other books are not. The guide distinguishes executable
 mechanics from GM-authored setting and narrative decisions.
 
 The optional [reporting extension](docs/reporting.md) adds exact success odds,
 ability/modifier explanations and recorded individual dice. Author disclosure
 settings and player preferences control which details a CRPG host receives.
+
+## Choose libraries
+
+The [complete library catalogue](docs/libraries.md) groups core/essential and
+optional libraries, with dependencies and availability for each. The
+[abridged/full comparison](docs/rules-comparison.md) explains why expanded rules
+need separate opt-in behavior.
+
+An [experimental expanded layer](docs/expanded/index.md) adds purchased secondary
+characteristics, authored skill defaults and techniques, trait pricing, extended
+numeric tables, task timing, character packages and study. This is an **incomplete
+conversion**: most planned systems and the full catalogues remain unimplemented.
+The [coverage ledger](docs/expanded/coverage.json) records these gaps explicitly.
+Try the [signal workshop](examples/expanded/main.t) with the corresponding
+[host](examples/expanded/host.py); it accepts `study`, `decode`, `rest day`,
+`status`, `undo` and `:plan` choices. Build it like the other examples, selecting
+`examples/expanded/main.t` and a new output directory.
 
 ## Dependencies
 

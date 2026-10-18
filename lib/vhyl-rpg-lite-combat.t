@@ -74,7 +74,7 @@ class RpgLiteCombatResult: object
     counterInjury = 0
 ;
 
-/** Look up the printed Lite range table through 100 yards; no missing Basic Set rows are inferred. */
+/** Look up the printed Lite range table through 100 yards; no missing full rules reference rows are inferred. */
 rpgLiteRangeModifier(yards)
 {
     rpgInteger(yards, 0, 100);

@@ -1,0 +1,277 @@
+{
+  "schema": 1,
+  "inventory_complete": false,
+  "scope": "Chapter-level work inventory; catalogue entry enumeration remains pending. No full-conversion claim.",
+  "modules": [
+    {
+      "id": "campaign",
+      "title": "Economics, laws, jobs, hirelings and world travel",
+      "pages": "B486-B522; B529-B534; B544-B546",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    },
+    {
+      "id": "characters",
+      "title": "Character accounting and secondary characteristics",
+      "pages": "B10-B31",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "combat",
+      "title": "Maneuvers, attacks, defenses and special combat",
+      "pages": "B362-B383; B393-B417; B547-B558",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    },
+    {
+      "id": "creatures",
+      "title": "Animals, body forms, mounts and swarms",
+      "pages": "B455-B461",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    },
+    {
+      "id": "development",
+      "title": "Study, teaching and transformations",
+      "pages": "B290-B296",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_study"
+      ]
+    },
+    {
+      "id": "equipment",
+      "title": "Weapons, armour, equipment and extended numeric tables",
+      "pages": "B16; B264-B289; B550",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "exploration",
+      "title": "Tasks, physical feats, senses and travel",
+      "pages": "B343-B361",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "hazards",
+      "title": "Exposure, poison, disease and aging",
+      "pages": "B428-B444",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    },
+    {
+      "id": "health",
+      "title": "Injury, treatment, recovery and fatigue",
+      "pages": "B418-B427",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    },
+    {
+      "id": "magic",
+      "title": "Spell procedures, catalogue and enchantment",
+      "pages": "B234-B253; B480-B482",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    },
+    {
+      "id": "psionics",
+      "title": "Ability-based powers and interference",
+      "pages": "B254-B257",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    },
+    {
+      "id": "skills",
+      "title": "Skill catalogues, defaults, prerequisites and techniques",
+      "pages": "B167-B233",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "social",
+      "title": "Reactions, influence and social permissions",
+      "pages": "B359; B494-B495; B559-B562",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    },
+    {
+      "id": "tactical",
+      "title": "Hex movement, facing and close combat",
+      "pages": "B384-B392",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    },
+    {
+      "id": "technology",
+      "title": "Electronics, inventions, artifacts and object damage",
+      "pages": "B471-B479; B483-B485",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    },
+    {
+      "id": "templates",
+      "title": "Character and ancestry packages",
+      "pages": "B258-B263; B445-B454",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "traits",
+      "title": "Trait catalogues, modifiers, benefits and restrictions",
+      "pages": "B32-B166",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "vehicles",
+      "title": "Vehicle operation and combat",
+      "pages": "B462-B470",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    }
+  ],
+  "features": [
+    {
+      "id": "secondary-purchases",
+      "module": "characters",
+      "pages": "B16-B17",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "rpgExpandedValidateCharacter",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "skill-costs",
+      "module": "skills",
+      "pages": "B170; B175",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "rpgExpandedSkillLevel",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "paid-defaults",
+      "module": "skills",
+      "pages": "B173",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "rpgExpandedSkillScore",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "technique-investment",
+      "module": "skills",
+      "pages": "B230",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "RpgExpandedTechnique",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "positive-trait-pricing",
+      "module": "traits",
+      "pages": "B101",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "rpgExpandedModifiedCost",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "extended-range",
+      "module": "equipment",
+      "pages": "B550",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "rpgExpandedRangeModifier",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "extended-damage-rows",
+      "module": "equipment",
+      "pages": "B16",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "rpgExpandedDamageDice",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "task-time",
+      "module": "exploration",
+      "pages": "B346",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "RpgExpandedTaskTime",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "character-packages",
+      "module": "templates",
+      "pages": "B258-B259",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "RpgExpandedTemplate",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "study",
+      "module": "development",
+      "pages": "B292-B293",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "RpgExpandedStudy",
+      "tests": [
+        "tests/expanded.py::test_study"
+      ]
+    }
+  ]
+}

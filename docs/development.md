@@ -4,7 +4,7 @@ This is the **Lite conversion release, v1.0.0**. Development is
 integrated through pull requests into `main`; version tags identify packaged
 snapshots. API names, event contracts and save compatibility may change before a
 stable release. Injury, recovery, bounded conflicts and advancement are optional
-modules. Supernatural abilities remain a future module.
+modules. The expanded suite is experimental and incomplete; see the [library catalogue](libraries.md).
 
 ## Pinned dependencies
 

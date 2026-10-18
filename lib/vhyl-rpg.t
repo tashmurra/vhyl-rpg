@@ -19,6 +19,8 @@ class RpgSkill: object
     labelId = nil
     attribute = rpgIQ
     difficulty = 1
+    /* A specialized skill may opt into a wider validated difficulty range. */
+    maximumDifficulty() { return 2; }
     defaultPenalty = nil
 ;
 
@@ -586,7 +588,7 @@ rpgValidation: InitObject
     {
         for (local skill = firstObj(RpgSkill); skill != nil; skill = nextObj(skill, RpgSkill))
         {
-            rpgInteger(skill.difficulty, 0, 2);
+            rpgInteger(skill.difficulty, 0, skill.maximumDifficulty());
             rpgValidateAttribute(skill.attribute);
             if (skill.defaultPenalty != nil) rpgInteger(skill.defaultPenalty, -100, 0);
         }

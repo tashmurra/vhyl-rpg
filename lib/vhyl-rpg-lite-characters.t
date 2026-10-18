@@ -10,6 +10,8 @@ class RpgLiteTrait: RpgTrait
     mitigated = nil
     nextCheck = 0
     modifierFor(context) { return 0; }
+    /* Expanded cost hook; Lite callers retain their existing cost function. */
+    creationCost() { return rpgLiteTraitCost(self); }
 ;
 
 /** Independent spoken and written comprehension (0–3); native language receives a six-point allowance. */
