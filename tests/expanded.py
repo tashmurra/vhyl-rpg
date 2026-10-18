@@ -9534,6 +9534,8 @@ def test(build):
     test_chemical_actions(Session,chemical_actions)
     sensory_recognition = build.build('expanded-sensory-recognition',ROOT / 'tests/fixtures/expanded-sensory-recognition.t')
     test_sensory_recognition(Session,sensory_recognition,build.out)
+    sensory_memory = build.build('expanded-sensory-memory',ROOT / 'tests/fixtures/expanded-sensory-memory.t')
+    test_sensory_memory(Session,sensory_memory,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26854,5 +26856,63 @@ def test_sensory_recognition(Session, bundle, out):
     try:
         s.command(f':restore {path}\n@1681')
         assert scores(s) == [16,16,15,15,10,0,0]
+    finally:
+        s.close()
+
+
+def test_sensory_memory(Session, bundle, out):
+    """B49 one-minute exposure, IQ memory and full-day retry boundary; unrun."""
+    def state(s):
+        s.action(1680,28102)
+        return last(s,'test.sensory-memory')
+    for sense in ('hearing','smell'):
+        s = Session(bundle)
+        try:
+            if sense == 'smell':
+                s.action(1680,28110)
+            s.action(1680,28103)
+            assert last(s,'test.memory-preview') == ['ready',None,12]
+            assert state(s) == [0,None,None,0,0]
+            s.action(1680,28101); assert state(s) == [0,None,None,0,0]
+            s.action(1680,28100); s.command('undo'); assert state(s) == [0,None,None,0,0]
+            s.action(1680,28100); s.action(1680,28100); assert state(s) == [1,True,None,60,3]
+            s.action(1680,28113); assert last(s,'test.memory-known') == [True]
+            s.action(1680,28105)
+            assert last(s,'test.memory-retry') == ['blocked','sensory-memory-already-known',None]
+        finally:
+            s.close()
+    path = out / 'sensory-memory.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,27004); s.action(1680,28100); s.action(1680,28100)
+        assert state(s) == [1,None,86460,60,3]
+        s.action(1680,28112); assert state(s) == [1,None,86460,60,3]
+        s.action(1680,28104); assert state(s) == [1,None,86460,60,3]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,28106); s.action(1680,28105)
+        assert last(s,'test.memory-retry') == ['blocked','sensory-memory-retry-delay',86460]
+        s.action(1680,28107); s.action(1680,28105)
+        assert last(s,'test.memory-retry') == ['ready',None,None]
+        s.action(1680,27706); s.action(1680,28104)
+        assert state(s) == [2,None,86460,86520,6]
+    finally:
+        s.close()
+    for code in (28108,28109,28111):
+        s = Session(bundle)
+        try:
+            s.action(1680,code); s.action(1680,28100)
+            assert state(s) == [0,None,None,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,27009); s.action(1680,28100)
+        assert state(s) == [1,None,None,0,3]
+        s.action(1680,28105)
+        assert last(s,'test.memory-retry')[1] != 'sensory-memory-retry-delay'
     finally:
         s.close()

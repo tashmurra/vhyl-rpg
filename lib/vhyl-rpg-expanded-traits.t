@@ -3379,3 +3379,144 @@ modify rpgExpandedTemplateTraits
         trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
     }
 ;
+
+class RpgExpandedSensoryMemoryResult: RpgExpandedResult
+    memorized = nil
+    retryAt = nil
+    score = nil
+    gate = nil
+    allowed = nil
+;
+/** B49 one exposure and IQ attempt; failed attempts share a full-day retry barrier. */
+class RpgExpandedSensoryMemoryAttempt: object
+    id = nil
+    profile = nil
+    sense = nil
+    signature = nil
+    seconds = 60
+    sourceAvailable = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || !holds(['hearing','smell'],self.sense) || self.signature == nil)
+            rpgExpandedReject('sensory-memory-definition');
+        rpgInteger(self.seconds,60,86400);
+        return [self.id,self.profile,self.sense,self.signature,self.seconds,self.sourceAvailable,self.approved,self.evidence];
+    }
+    outcomeDefinition()
+    {
+        local facts = [self.completedAt,self.result,self.result.memorized,self.result.retryAt,self.result.seconds,
+            self.result.allowed,self.result.gate,self.result.check];
+        if (self.result.check != nil) facts = facts + [self.result.check.score,self.result.check.roll,
+            self.result.check.margin,self.result.check.achieved,self.result.check.critical];
+        return facts;
+    }
+    score()
+    {
+        local context = new RpgLiteContext(); context.attribute = rpgIQ; context.kind = 'sensory-memory'; context.someLight = nil;
+        return rpgLiteScore(self.profile,context);
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedSensoryMemoryResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.sensoryMemoryAttempts,self) || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('sensory-memory-history');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sensory-memory-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('sensory-memory-outcome');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('sensory-memory-outcome');
+            if (self.completedAt > rpgLedger.seconds || self.result.gate.assess().status != 'reused')
+                rpgExpandedReject('sensory-memory-receipt');
+            value.status = 'reused'; return value;
+        }
+        if (self.completedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil)
+            rpgExpandedReject('sensory-memory-uncommitted');
+        if (self.profile.sensoryRecognitionBonus(self.sense) == 0)
+        { value.reason = 'sensory-memory-trait-required'; return value; }
+        if (!self.sourceAvailable || !self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'sensory-memory-exposure-required'; return value; }
+        foreach (local prior in self.profile.sensoryMemoryAttempts)
+        {
+            if (prior.id == self.id) rpgExpandedReject('sensory-memory-id-used');
+            prior.assess();
+            if (prior.sense == self.sense && prior.signature == self.signature)
+            {
+                if (prior.result.memorized) { value.reason = 'sensory-memory-already-known'; return value; }
+                if (prior.result.retryAt != nil && rpgLedger.seconds < prior.result.retryAt)
+                { value.reason = 'sensory-memory-retry-delay'; value.retryAt = prior.result.retryAt; return value; }
+            }
+        }
+        value.reason = self.profile.nonTravelScheduleReason(rpgLedger.seconds,self.seconds); if (value.reason != nil) return value;
+        value.score = self.score();
+        if (value.score == nil || value.score < 3) { value.reason = 'sensory-memory-score'; return value; }
+        value.gate = self.profile.prepareSocialGate(self.id,self.evidence,nil);
+        if (value.gate == nil) { value.reason = 'sensory-memory-health-adapter-required'; return value; }
+        local permission = value.gate.assess();
+        if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds-86400); rpgLedger.validateAdvance(self.seconds);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds; local permission = value.gate.resolve();
+        if (!holds(['resolved','reused'],permission.status)) rpgExpandedReject('sensory-memory-gate-changed');
+        value.allowed = permission.allowed;
+        if (value.allowed)
+        {
+            rpgSpendTime(self.seconds); value.seconds = self.seconds;
+            if (rpgLedger.seconds != start+self.seconds || self.score() != value.score
+                || self.profile.sensoryRecognitionBonus(self.sense) == 0
+                || self.profile.nonTravelScheduleReason(start,self.seconds) != nil)
+                rpgExpandedReject('sensory-memory-interrupted');
+        }
+        local current = self.definition();
+        if (current.length() != facts.length()) rpgExpandedReject('sensory-memory-changed');
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (current[index] != facts[index]) rpgExpandedReject('sensory-memory-changed');
+        if (value.allowed)
+        {
+            value.check = rpgCheck(value.score,rpgRandom.roll()); value.memorized = value.check.achieved;
+            if (!value.memorized) value.retryAt = rpgLedger.seconds+86400;
+        }
+        else value.reason = permission.reason;
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = facts; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = self.outcomeDefinition(); self.profile.sensoryMemoryAttempts = self.profile.sensoryMemoryAttempts + [self];
+        return value;
+    }
+;
+modify RpgExpandedProfile
+    sensoryMemoryAttempts = []
+    knowsSensorySignature(sense,signature)
+    {
+        if (!holds(['hearing','smell'],sense) || signature == nil) rpgExpandedReject('sensory-memory-query');
+        foreach (local attempt in self.sensoryMemoryAttempts)
+        {
+            attempt.assess();
+            if (attempt.sense == sense && attempt.signature == signature && attempt.result.memorized) return true;
+        }
+        return nil;
+    }
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local attempt in self.sensoryMemoryAttempts)
+        {
+            if (attempt == nil || !attempt.ofKind(RpgExpandedSensoryMemoryAttempt) || attempt.profile != self
+                || holds(ids,attempt.id) || attempt.assess().status != 'reused') rpgExpandedReject('sensory-memory-history');
+            ids = ids + [attempt.id];
+        }
+        return nil;
+    }
+;

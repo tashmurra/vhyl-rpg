@@ -2311,8 +2311,8 @@ when the expansion is absent. Other authored skill contexts can override
 `sensoryRecognitionMode()` to name a justified sensory channel, but this does
 not supply missing prerequisites or special task procedures.
 
-This increment implements purchase accounting and scoring only. Individual
-recognition, memorization with its minimum time and retry restriction, taste
+Purchase accounting and scoring are implemented here. Sound and scent
+memorization is documented in the traits guide. Individual recognition, taste
 sampling/analysis, tracking and noisy-target following integration, and special
 modifiers remain pending. Purchasing the trait alone must not be presented as
 implementing those procedures. `test_sensory_recognition` specifies prices,

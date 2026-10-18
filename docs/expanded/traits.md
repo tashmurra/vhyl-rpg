@@ -1870,10 +1870,42 @@ when the expansion is absent. Other authored skill contexts can override
 `sensoryRecognitionMode()` to name a justified sensory channel, but this does
 not supply missing prerequisites or special task procedures.
 
-This increment implements purchase accounting and scoring only. Individual
-recognition, memorization with its minimum time and retry restriction, taste
+Purchase accounting and scoring are implemented here. Sound and scent
+memorization is documented in the traits guide. Individual recognition, taste
 sampling/analysis, tracking and noisy-target following integration, and special
 modifiers remain pending. Purchasing the trait alone must not be presented as
 implementing those procedures. `test_sensory_recognition` specifies prices,
 stacking, suppression, invalid modifiers, duplicate rejection, template copying,
 undo and saved continuation. Fixtures remain unrun.
+
+
+## Sound and scent memory
+
+`RpgExpandedSensoryMemoryAttempt` implements the B49 memorization procedure for
+`hearing` or `smell`. Supply `id`, `profile`, an authoritative `signature` object,
+`sourceAvailable`, `approved` and concrete `evidence` that exposure lasts for the
+whole interval. `seconds` defaults to 60 and cannot be less. Use the same
+signature object for later attempts at the same sound or odor; a display name
+or a newly allocated request must not bypass the retry restriction.
+
+An active matching fine-sense purchase is required. `assess()` previews the
+shared health permission, schedule, clock capacity and Intelligence score.
+`resolve()` spends the exposure interval once, then makes the Intelligence
+check. The learning check is distinct from detecting the stimulus and does not
+add the detection bonus. Invalid requests spend nothing. Health denial records
+an outcome with no exposure time or memory roll and imposes no retry delay.
+
+Success retains the signature. Failure sets `retryAt` to completion plus 86,400
+seconds; another attempt is blocked until that exact boundary, including after
+save continuation. Repeating the same request returns its original result.
+`profile.knowsSensorySignature(sense, signature)` queries the retained knowledge
+without performing a detection or recognition check. Bound request and outcome
+fields prevent rewriting a completed attempt or its deadline.
+
+Author evidence is required for uninterrupted exposure; automated moving-source
+availability and interruption events remain pending. Taste sampling, matching a
+new stimulus against known signatures, and player-facing memory actions are
+separate unfinished integrations. `test_sensory_memory` specifies both senses,
+minimum duration, trait suppression, health denial, replay, rollback, undo,
+failed-attempt tampering and saved retry-boundary continuation. Fixtures are
+unrun while checks are paused.
