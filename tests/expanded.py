@@ -8992,6 +8992,7 @@ def test(build):
     climb_assessment = build.build('expanded-climb-assessment', ROOT / 'tests/fixtures/expanded-climb-assessment.t')
     test_climb_assessment(Session, climb_assessment)
     test_climb_fall_assessment(Session, climb_assessment)
+    test_landing_assessment(Session, climb_assessment)
     equipment_lift = build.build('expanded-equipment-lift', ROOT / 'tests/fixtures/expanded-equipment-lift.t')
     test_equipment_lift(Session, equipment_lift, build.out)
     shared_carry = build.build('expanded-shared-carry', ROOT / 'tests/fixtures/expanded-shared-carry.t')
@@ -13786,3 +13787,24 @@ def test_fall_cushion(Session, bundle):
             assert last(s,'test.fall-owned') == [0,0,0,0,0]
         finally:
             s.close()
+
+
+def test_landing_assessment(Session, bundle):
+    cases = [
+        ((17,1,0,1,12,10), ['ready',None,12,16,0,0,0,0]),
+        ((5,1,1,1,12,10), ['ready',None,0,0,0,0,0,0]),
+        ((17,1,1,1,12,14), ['ready',None,17,19,0,0,0,0]),
+        ((2,2,1,1,15,12), ['ready',None,2,7,-3,1,0,0]),
+        ((17,2,1,1,15,10), ['ready',None,17,19,-6,0,0,0]),
+        ((17,2,1,1,15,9), ['ready',None,17,19,-6,1,0,0]),
+        ((17,2,0,1,15,9), ['blocked','landing-fluid-required',17,19,0,0,0,0]),
+        ((17,1,1,0,15,9), ['blocked','landing-movement-required',17,19,0,0,0,0]),
+        ((17,2,1,1,8,3), ['blocked','landing-score',17,19,-6,0,0,0]),
+    ]
+    s = Session(bundle)
+    try:
+        for args, expected in cases:
+            s.action(2295,*args)
+            assert last(s,'test.landing') == expected
+    finally:
+        s.close()

@@ -793,3 +793,8 @@ damage and subsequent impacts remain unfinished; new fixtures are unrun.
 Owned torso falls now support evidenced elastic landing protection before armor,
 including its effect on blunt trauma. Fixtures cover partial/complete cushioning,
 cap ordering, replay and rollback, but remain unrun while checks are paused.
+
+Controlled-landing assessment now distinguishes acrobatic distance reduction from
+successful fluid dives that negate damage. Dive speed penalties reuse the full
+range helper, moved unchanged into the expanded foundation. Owned landing attempts
+and injury linkage remain pending; new assessment fixtures are authored and unrun.

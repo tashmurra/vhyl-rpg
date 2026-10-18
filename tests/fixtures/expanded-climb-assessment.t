@@ -10,6 +10,13 @@ modify gameMain initialRoom = climbRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2295)
+    {
+        local value = rpgExpandedAssessLanding(args[1],args[2] == 1 ? 'acrobatics' : 'dive',args[3] == 1,args[4] == 1,args[5],args[6]);
+        event('test.landing'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.effectiveDistance); eventValue(value.velocity); eventValue(value.modifier);
+        eventValue(value.negatesDamage ? 1 : 0); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
     if (verb == 2293)
     {
         local value = rpgExpandedAssessClimbFall(args[1],args[2],args[3],args[4] == 1,args[4] == 1 ? args[5] : nil);

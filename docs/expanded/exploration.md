@@ -612,3 +612,27 @@ abridged helper is unchanged and is not the full profile's fallback.
 `test_climb_fall_assessment` specifies success, ordinary and critical failure,
 secured and unsecured falls, obstacle precedence and zero slack, plus every
 whole-yard value in the full table. All assertions remain unrun.
+
+### Controlled landing assessment
+
+`rpgExpandedAssessLanding(distance, method, fluid, freeToMove, score, roll)`
+assesses a single chosen `acrobatics` landing or `dive` into water/a similar fluid.
+Distance is whole yards from 1 through 112. Supply the applicable skill score with
+ordinary modifiers, but without a dive speed penalty; the function adds that
+penalty using the full speed/range table. It consumes no randomness or time.
+
+A successful acrobatic landing subtracts five yards (minimum zero) before looking
+up impact velocity. A successful dive sets `negatesDamage`; failed checks leave
+distance and velocity unchanged. One call accepts one method, never both. Missing
+movement freedom, a dive without fluid, or an effective score below three blocks
+the assessment. The method must be chosen before the roll.
+
+The caller must own the attempt and its roll: this pure helper does not prevent
+rerolls or commit a landing, damage or world position. Skill selection, owned
+attempts and connection to fall injury remain pending. The fixture includes the
+seven-yards-per-second penalty row, success/failure, eligibility and short falls.
+Assertions remain unrun. Source: `full-2008`, B431 and B550.
+
+The existing `rpgExpandedRangeModifier` is now defined in the expanded foundation
+so equipment and exploration share the full table without a circular dependency.
+Its signature and equipment behavior are unchanged.

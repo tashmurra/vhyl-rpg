@@ -1026,9 +1026,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A clean dive into fluid negates damage on a swimming check, or vehicle-control check for ditching, with the speed-table penalty applied.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_landing_assessment"
+      ],
+      "validation_note": "Pure exclusive landing-choice assessment applies the full speed penalty for fluid dives or reduces distance before velocity on acrobatic success. Eligibility, expected-value and purity assertions authored, unrun. Owned skill attempts, damage integration and broader landing execution remain incomplete."
     },
     {
       "id": "collision-fall-velocity",
@@ -1063,9 +1066,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A freely moving actor may use acrobatics to reduce effective fall distance by five yards; for water entry choose this or a proper dive before rolling, not both afterward.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_landing_assessment"
+      ],
+      "validation_note": "Pure exclusive landing-choice assessment applies the full speed penalty for fluid dives or reduces distance before velocity on acrobatic success. Eligibility, expected-value and purity assertions authored, unrun. Owned skill attempts, damage integration and broader landing execution remain incomplete."
     },
     {
       "id": "collision-terminal-body",

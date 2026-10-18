@@ -1,24 +1,5 @@
 /* Include after the expanded foundation. Source: full-2008, B15-B16 and B550. */
 
-/** Extended whole-yard speed/range lookup, rounding up to the next row.
- * Numeric support is bounded to 100 million yards to prevent integer overflow. */
-rpgExpandedRangeModifier(yards)
-{
-    rpgInteger(yards, 0, 100000000);
-    if (yards <= 2) return 0;
-    local row = 0; local factor = 1;
-    while (factor <= 100000000)
-    {
-        foreach (local limit in [3, 5, 7, 10, 15, 20])
-        {
-            row += 1;
-            if (yards <= limit * factor) return -row;
-        }
-        factor *= 10;
-    }
-    throw new RpgError();
-}
-
 /** B550 size modifier. Measure the relevant dimension in thirtieths of an inch
  * to preserve every printed fractional-inch boundary without floating point.
  * shape is 0 for ordinary, 1 elongated box, or 2 box/sphere/blob. */

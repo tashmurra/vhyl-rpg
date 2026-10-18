@@ -206,3 +206,23 @@ rpgExpandedSharedCarryRules: object
     assess(carry)
     { local value = new RpgExpandedResult(); value.reason = 'shared-carry-exploration-required'; return value; }
 ;
+
+/** Extended whole-yard speed/range lookup, rounding up to the next row.
+ * Numeric support is bounded to 100 million yards to prevent integer overflow. */
+rpgExpandedRangeModifier(yards)
+{
+    rpgInteger(yards, 0, 100000000);
+    if (yards <= 2) return 0;
+    local row = 0; local factor = 1;
+    while (factor <= 100000000)
+    {
+        foreach (local limit in [3, 5, 7, 10, 15, 20])
+        {
+            row += 1;
+            if (yards <= limit * factor) return -row;
+        }
+        factor *= 10;
+    }
+    throw new RpgError();
+}
+

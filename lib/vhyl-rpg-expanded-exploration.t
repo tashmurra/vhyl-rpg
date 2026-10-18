@@ -1217,3 +1217,33 @@ rpgExpandedFallVelocity(yards)
     foreach (local row in rows) if (yards <= row[1]) return row[2];
     rpgExpandedReject('fall-distance-unsupported');
 }
+
+class RpgExpandedLandingAssessment: RpgExpandedResult
+    effectiveDistance = 0
+    velocity = 0
+    negatesDamage = nil
+;
+/** Pure B431 landing choice. score includes ordinary skill modifiers, not dive speed.
+ * The caller supplies one actual roll and must own the attempt to prevent retries. */
+rpgExpandedAssessLanding(distance,method,fluid,freeToMove,score,roll)
+{
+    rpgInteger(distance,1,112); rpgInteger(score,-1000,1000); rpgInteger(roll,3,18);
+    if (!holds(['acrobatics','dive'],method)) rpgExpandedReject('landing-method');
+    local value = new RpgExpandedLandingAssessment(); value.effectiveDistance = distance;
+    value.velocity = rpgExpandedFallVelocity(distance);
+    if (!freeToMove) { value.reason = 'landing-movement-required'; return value; }
+    if (method == 'dive' && !fluid) { value.reason = 'landing-fluid-required'; return value; }
+    value.modifier = method == 'dive' ? rpgExpandedRangeModifier(value.velocity) : 0;
+    if (score + value.modifier < 3) { value.reason = 'landing-score'; return value; }
+    value.check = rpgCheck(score + value.modifier,roll);
+    if (value.check.achieved)
+    {
+        if (method == 'dive') value.negatesDamage = true;
+        else
+        {
+            value.effectiveDistance = distance > 5 ? distance-5 : 0;
+            value.velocity = rpgExpandedFallVelocity(value.effectiveDistance);
+        }
+    }
+    value.status = 'ready'; return value;
+}
