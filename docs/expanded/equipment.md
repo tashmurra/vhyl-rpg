@@ -1083,20 +1083,27 @@ loads require an approved overload state.
 
 ### Authorizing an overloaded back load
 
-For a single transfer or bundle, set `overload` to a fresh
+For a single transfer or bundle, set `overload` to a fresh or active
 `RpgExpandedOverloadCarry` belonging to the receiving profile. Its approval and
 evidence must establish appropriate body form, harness and load support. Preflight
 uses the projected combined load: above ten and at most fifteen times Basic Lift.
-Missing approval, excessive load or an already-started state rejects before any
+Missing approval, excessive load or an ended state rejects before any
 inventory mutation. Ordinary loads do not require this field.
 
 The transfer starts the state after moving the inventory, in the same action
 transaction. Failure rolls back both. Transfer replay preserves the existing state
 and never starts or charges it again. Subsequent time uses the exploration
 [overload clock](exploration.md#clock-driven-overload-carry), including its mandatory
-one-second steps. Increasing a load under an already-active state is not yet
-supported; unload and end that state before defining a new supported load.
+one-second steps. Further transfers may reference the same active state with new packing attempts
+and evidence for their additional cargo. The combined load is checked again;
+start time, processed time and accumulated fatigue remain unchanged. Ended states
+cannot authorize new transfers.
 
 `test_packing_overload` specifies projected-capacity checks, approvals, pure preview,
 atomic commit/rollback/undo, single-stack and bundle loading, repeat transfer and
 cross-process fatigue continuation. Fixtures remain unrun.
+
+
+`test_packing_active_overload` specifies adding cargo under an active state without
+resetting fatigue, projected combined-capacity rejection, preview purity, rollback,
+undo and cross-process continuation. These fixtures also remain unrun.

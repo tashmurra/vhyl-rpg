@@ -3857,11 +3857,24 @@ modify rpgExpandedPackingOverload
     {
         self.definition(carry);
         if (carry.profile != profile) rpgExpandedReject('packing-overload-owner');
-        return carry.assessProjected(load);
+        if (carry.startedAt == nil) return carry.assessProjected(load);
+        carry.validateReceipt(); local value = new RpgExpandedResult();
+        if (carry.endedAt != nil || profile.overloadCarry != carry) { value.reason = 'overload-ended'; return value; }
+        if (profile.dead || profile.unconscious) { value.reason = 'overload-carrier-unavailable'; return value; }
+        local lift = profile.basicLiftHundredths(); rpgInteger(lift,1,100000000); rpgInteger(load,0,100000000);
+        if (load <= lift * 10) { value.reason = 'overload-not-required'; return value; }
+        if (load > lift * 15) { value.reason = 'overload-capacity'; return value; }
+        value.status = 'ready'; return value;
     }
     start(carry)
     {
         self.definition(carry);
+        if (carry.startedAt != nil)
+        {
+            if (self.assess(carry,carry.profile,carry.profile.loadHundredths()).status != 'ready')
+                rpgExpandedReject('packing-overload-interrupted');
+            return nil;
+        }
         if (carry.start().status != 'resolved') rpgExpandedReject('packing-overload-interrupted');
         return nil;
     }

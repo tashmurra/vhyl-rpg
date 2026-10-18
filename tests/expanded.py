@@ -9448,6 +9448,8 @@ def test(build):
     test_overload_carry(Session,overload_carry,build.out)
     packing_overload = build.build("expanded-packing-overload",ROOT / "tests/fixtures/expanded-packing-overload.t")
     test_packing_overload(Session,packing_overload,build.out)
+    packing_active_overload = build.build("expanded-packing-active-overload",ROOT / "tests/fixtures/expanded-packing-active-overload.t")
+    test_packing_active_overload(Session,packing_active_overload,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24857,5 +24859,40 @@ def test_packing_overload(Session, bundle, out):
         for code in (22500,23205,22900,22900,23201,23202):
             s.action(1680,code)
         assert last(s,'test.packed-overload') == [1,1,1,1]
+    finally:
+        s.close()
+
+
+def test_packing_active_overload(Session, bundle, out):
+    """Adding supported cargo preserves an existing overload clock; unrun."""
+    path = out / 'packing-active-overload.zsave'
+    s = Session(bundle)
+    try:
+        for code in (22500,23005,23200,23000,23201,23300,23303,23304):
+            s.action(1680,code)
+        assert last(s,'test.active-load') == ['ready',None]
+        assert last(s,'test.active-load-state') == [0,0,1,1,1]
+        s.action(1680,23302); s.action(1680,23304)
+        assert last(s,'test.active-load-state') == [0,0,1,1,1]
+        s.action(1680,23301); s.command('undo'); s.action(1680,23304)
+        assert last(s,'test.active-load-state') == [0,0,1,1,1]
+        for code in (23301,23301,23201,23304):
+            s.action(1680,code)
+        assert last(s,'test.active-load-state') == [1,0,2,1,2]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,23301); s.action(1680,23201); s.action(1680,23304)
+        assert last(s,'test.active-load-state') == [1,0,3,1,3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (22500,23005,23200,23000,23201,23300,23305,23301,23304):
+            s.action(1680,code)
+        assert last(s,'test.active-load') == ['blocked','overload-capacity']
+        assert last(s,'test.active-load-state') == [0,0,1,1,1]
     finally:
         s.close()
