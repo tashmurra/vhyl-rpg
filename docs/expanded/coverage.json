@@ -78,7 +78,7 @@
     {
       "id": "health",
       "title": "Injury, treatment, recovery and fatigue",
-      "pages": "B360-B361; B418-B429",
+      "pages": "B360-B361; B418-B429; B552-B553",
       "source": "full-2008",
       "status": "pending",
       "tests": []
@@ -156,7 +156,7 @@
     {
       "id": "vehicles",
       "title": "Vehicle operation and combat",
-      "pages": "B462-B470",
+      "pages": "B462-B470; B554-B555",
       "source": "full-2008",
       "status": "pending",
       "tests": []
@@ -302,6 +302,10 @@
     "inventory/world-transit.json",
     "inventory/setting-mechanics.json",
     "inventory/combat-modifiers.json",
-    "inventory/size-speed-range.json"
+    "inventory/size-speed-range.json",
+    "inventory/anatomy-locations.json",
+    "inventory/vehicle-locations.json",
+    "inventory/maneuvers-postures.json",
+    "inventory/critical-outcomes.json"
   ]
 }

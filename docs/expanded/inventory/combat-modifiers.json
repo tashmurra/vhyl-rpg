@@ -432,7 +432,7 @@
       "module": "combat",
       "kind": "table-row",
       "status": "pending",
-      "acceptance": "Targeting vitals uses -3. The summary permits impaling/piercing attacks; reconcile detailed damage-type eligibility. Actual anatomy, exposure and damage rules must be validated.",
+      "acceptance": "Targeting vitals uses -3. B552 additionally permits tight-beam burning damage beyond the summary's impaling/piercing types; use the detailed eligibility and wound factors. Actual anatomy, exposure and damage rules must be validated.",
       "tests": []
     },
     {
@@ -442,7 +442,7 @@
       "module": "combat",
       "kind": "table-row",
       "status": "pending",
-      "acceptance": "Targeting eye uses -9. The summary permits impaling/piercing attacks; reconcile detailed damage-type eligibility. Actual anatomy, exposure and damage rules must be validated.",
+      "acceptance": "Targeting an ordinary humanoid eye uses -9. B552 additionally permits tight-beam burning damage beyond the summary's impaling/piercing types and restricts attacks to front or side. Actual anatomy, exposure, body-form exceptions and damage rules must be validated.",
       "tests": []
     },
     {

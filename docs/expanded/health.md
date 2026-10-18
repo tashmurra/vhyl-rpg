@@ -1,6 +1,6 @@
 # Expanded health
 
-**Status: pending.** Injury, treatment, recovery, fear consequences and fatigue. Neutral source: `full-2008`, B360-B361; B418-B429.
+**Status: pending.** Injury, treatment, recovery, fear consequences and fatigue. Neutral source: `full-2008`, B360-B361; B418-B429; B552-B553.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
@@ -58,3 +58,16 @@ arrest have different action permissions, resistance and recovery rules. They
 cannot all be implemented by setting the existing stun flag. Each cause needs
 owned duration and consequence records so resolving one condition does not erase
 another.
+
+The [anatomy inventory](inventory/anatomy-locations.json) adds the B552–B553
+location tables and damage exceptions. Random targeting must use the actual body
+form. A missing random location falls back to the torso; deliberately selecting a
+nonexistent or inaccessible part must be rejected. Eyes and vital organs also
+restrict eligible damage types and angles.
+
+Location records need separate identities for individual limbs, wings, fins and
+tails. Crippling can disable flight or impose specific movement and dexterity
+penalties. A single limb-damage counter cannot represent these consequences.
+Global injury, local crippling thresholds and excess injury limits must be
+resolved together without charging damage twice. Critical temporary incapacity
+must expire independently of lasting crippling from the same wound.

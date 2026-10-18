@@ -54,3 +54,25 @@ for it. The existing whole-yard range helper supplies only part of this calculat
 Independent tests must cover row boundaries, fractional dimensions, final skill
 caps, defense rejection, repeated modifiers, platform categories and multi-hit
 resolution. No new tests or builds have been run while checks are suspended.
+
+## Critical outcomes and anatomy
+
+The [critical-outcome inventory](inventory/critical-outcomes.json) records each
+row of the ordinary-hit, head-hit, weapon-miss and unarmed-miss tables. Selection
+depends on the action and struck location. Critical damage multipliers act on
+basic damage; armor and injury conversion remain separate stages. The two hit
+tables round reduced armor differently, so they cannot share an unconditional
+halving operation.
+
+Weapon construction, quality and attack type determine whether a miss requires
+a confirmation or replacement roll. Unarmed outcomes have separate rules for
+natural weapons, creatures that cannot fall, and flight or swimming. Temporary
+incapacity, dropped equipment, altered facing, lost actions and lasting wounds
+must use the same persistent state as ordinary actions.
+
+The [maneuver summary](inventory/maneuvers-postures.json),
+[anatomy tables](inventory/anatomy-locations.json) and
+[vehicle location tables](inventory/vehicle-locations.json) supply additional
+integration requirements. None of these inventories is an executable subsystem
+yet. Validation must independently cover every table result, conditional reroll,
+rounding direction and expiry boundary before coverage can be marked complete.

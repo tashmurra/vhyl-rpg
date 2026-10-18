@@ -1,0 +1,259 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B551",
+  "review": "Maneuver and posture summary rows and range/sense continuation transcribed. Detailed combat, tactical transitions, movement rounding and interruption contracts remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "maneuver-summary-turn",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A combatant selects one maneuver per turn. Extra attacks or defenses modify that maneuver's legal effects; they do not implicitly grant another full turn.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-aim",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "aim: defense eligibility any, with possible loss of aim; movement step. Accumulate ranged accuracy under actual weapon/target conditions.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-all-out-attack",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "all-out-attack: defense eligibility none; movement half movement. Use the selected bonus or multiple-attack option; forfeit active defense.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-all-out-defense",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "all-out-defense: defense eligibility any; movement option-dependent. Select +2 to one defense type or two defenses against each attack; retain detailed compatibility rules.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-attack",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "attack: defense eligibility any; movement step. Make an eligible unarmed or weapon attack.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-posture",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "posture: defense eligibility any; movement none. Change posture through its specific transition rules.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-concentrate",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "concentrate: defense eligibility any, with possible disruption; movement step. Advance an actual mental task and check interruption when appropriate.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-idle",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "idle: defense eligibility any, at -4 while stunned; movement none. Take no action and perform the eligible stun-recovery procedure.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-evaluate",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "evaluate: defense eligibility any; movement step. Evaluate a specific melee opponent.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-feint",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "feint: defense eligibility any; movement step. Resolve a feint against a specific opponent without treating it as ordinary injury.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-move-attack",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "move-attack: defense eligibility dodge or block, no parry under summary; movement full movement. Combine legal movement and the penalized attack, retaining detailed restrictions.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-move",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "move: defense eligibility any; movement full movement. Move without an independent attack or ready action.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-ready",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "ready: defense eligibility any; movement step. Perform a specific item preparation or manipulation.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-wait",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wait: defense eligibility any; movement trigger-dependent. Reserve a declared response for an actual trigger; do not execute both the wait and a second unrestricted maneuver.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-posture-standing",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "standing: melee attack +0, active defense +0, ranged torso/groin/leg targeting +0; normal, with sprint eligibility. Posture does not itself penalize ranged attack skill. Apply detailed visibility and anatomy restrictions.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-posture-crouching",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "crouching: melee attack -2, active defense +0, ranged torso/groin/leg targeting -2; two-thirds normal movement, adding one-half movement point per hex. Posture does not itself penalize ranged attack skill. Apply detailed visibility and anatomy restrictions.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-posture-kneeling",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "kneeling: melee attack -2, active defense -2, ranged torso/groin/leg targeting -2; one-third movement, adding two movement points per hex. Posture does not itself penalize ranged attack skill. Apply detailed visibility and anatomy restrictions.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-posture-crawling",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "crawling: melee attack -4, active defense -3, ranged torso/groin/leg targeting -2; one-third movement, adding two movement points per hex; only close-reach melee attacks. Posture does not itself penalize ranged attack skill. Apply detailed visibility and anatomy restrictions.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-posture-sitting",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "sitting: melee attack -2, active defense -2, ranged torso/groin/leg targeting -2; no movement. Posture does not itself penalize ranged attack skill. Apply detailed visibility and anatomy restrictions.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-posture-lying",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "lying: melee attack -4, active defense -3, ranged torso/groin/leg targeting -2; one yard per second. Posture does not itself penalize ranged attack skill. Apply detailed visibility and anatomy restrictions.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-footprint",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A crawling or lying human occupies two tactical hexes. Posture changes must validate actual occupied spaces; the human footprint does not override every creature body form.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-low-target",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Against a crawling/lying target, an attacker at equal or lower elevation farther away than the attacker's own height sees only half the torso (-2) and cannot target groin, legs or feet. If the target also lowers its head, neck, eyes and face are unavailable. Do not stack a second identical torso-exposure penalty.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-upward-range",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For each yard the target is above the shooter, add one yard to effective range before lookup; retain actual height and ground-distance measurements.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-downward-range",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For each two yards the shooter is above the target, subtract one yard from effective range, but not below half the ground distance. Apply the detailed arithmetic precision policy.",
+      "tests": []
+    },
+    {
+      "id": "maneuver-summary-sense-motion",
+      "source": "full-2008",
+      "pages": "B551",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For sense or sensor-operation checks using this table, subtract speed from range with a minimum of zero, rather than adding speed as in fast-target shooting. Sensor-specific exceptions remain applicable.",
+      "tests": []
+    }
+  ]
+}

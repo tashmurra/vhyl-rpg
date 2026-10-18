@@ -7,3 +7,15 @@
 This module has not been implemented. Its proposed filename is reserved in the catalogue only; do not include it in a game.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
+
+The [maneuver and posture inventory](inventory/maneuvers-postures.json) records
+the B551 summary. Posture changes attack and defense modifiers, legal reach,
+movement allowance and occupied hexes. Ranged target modifiers apply only to the
+listed body regions; they are not blanket concealment bonuses. Low attackers also
+have restricted access to parts of a standing target.
+
+Assessment must resolve posture, facing, footprint and maneuver permissions
+before spending movement. The detailed B384–B392 transition rules still need
+review. Summary rows alone do not establish legal paths, rounding or interruption
+behavior. Critical mishaps that move a combatant past an opponent need explicit
+handling of blocked destinations and changes of facing.

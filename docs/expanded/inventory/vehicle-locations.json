@@ -1,0 +1,1844 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B554-B555",
+  "review": "Vehicle location procedures and every occupant-table cell transcribed. B555 occupant rows and component notes visually checked against the rendered page. Detailed damage rounding, wheel/arm integration and table extension remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "vehicle-location-rule-selection",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Every vehicle has a body; other locations come from its actual component model. Deliberate location penalties combine with vehicle size, except deliberately targeting a draft creature uses that creature's size.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-fallback",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A random location that does not exist, is retracted or cannot be struck from that angle becomes body. If several valid alternatives match a random row, the attacker chooses among them; do not silently randomize that decision.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-body",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A powered vehicle taking a major body wound checks reliability; failure damages power or propulsion and halves movement.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-track",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Injury exceeding half maximum vehicle health cripples a track and sets ground movement to zero; discard excess injury using the detailed component cap.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-draft",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A draft-animal result attacks the animal instead of the vehicle. Vehicle armor does not protect it and the vehicle takes no damage from this replacement hit.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-exposed",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An exposed-rider or open-cabin result attacks the actual occupant instead of the vehicle without vehicle armor. If unoccupied, resolve as body.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-weapon-mount",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Injury above one-fifth maximum vehicle health cripples an exposed weapon/sensor mount; discard excess injury.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-wing",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Injury above half maximum vehicle health cripples a wing; an airborne vehicle loses control and crashes, with excess component injury discarded.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-rotor",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Injury above one-third maximum vehicle health cripples a rotor; an airborne vehicle loses control and crashes, with excess component injury discarded.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-window",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A glass-location hit checks the occupant table. On an occupant hit, replace the vehicle hit with that occupant; a closed window supplies ceil(vehicle resistance/2). Distinguish this replacement from post-penetration debris injury.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-large-superstructure",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A major wound to a large superstructure checks reliability; failure disables a specific authored important system within it.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-main-turret",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A major wound to a main turret checks reliability; failure disables a specific major turret system or jams its rotation, as authored.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-mast",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Injury above maximum health divided by twice total mast count cripples one mast, discarding excess. Lost sailing movement is one fraction per mast with the stated rounding; reconcile how rounding applies to current movement versus the loss before implementation.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-runner",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Injury above one-third maximum health cripples a runner/skid, stops ground movement and topples a parked vehicle; excess injury is discarded.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-small-structure",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Injury above one-third maximum health cripples a small superstructure or independent turret and disables contained equipment; excess is discarded.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-vital",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A powered vehicle's vitals take double tight-beam burning or triple impaling/piercing wounding. Unpowered vehicles normally convert vitals to body; actual exceptional anatomy must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-wheel",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Injury above maximum health divided by twice wheel count cripples a wheel; movement follows losing one leg from a creature with that many legs. Excess is discarded. Any tire injury also checks reliability; failure causes a disabling flat until changed.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-construction",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply actual nonliving/homogeneous injury and combustible, flammable or explosive traits, rather than a universal vehicle injury multiplier.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-area",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Large-area injury affects the body and exposed occupants through the area-damage procedure; a random internal occupant check is not a substitute.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-debris-trigger",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At least five penetrating damage to an occupied component prompts an occupant-hit check. On a hit, deal one die cutting per full five penetrating points, at a random personal location with personal armor. Vehicle damage remains separate.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-debris-split",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If debris damage exceeds four dice, the author may distribute it among multiple occupants in packets of at most four dice; preserve total dice and selected recipients.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-occupant-target",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The occupant table uses the relevant vehicle/structure size and actual occupant count. Roll three dice at or below its number; this is not an ordinary skill check. Choose the struck person by a declared random or authored method.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-occupant-boundary",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The printed occupant grid spans size +1 through +11 and counts through five hundred, then says to continue. Resolve a tested extension rule and treatment of smaller sizes or empty compartments before supporting them; do not silently clamp.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-arm-gap",
+      "source": "full-2008",
+      "pages": "B554-B555",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Vehicle arms appear in random rows but have no separate injury paragraph on B554-B555. Resolve their threshold and effects through the detailed vehicle/object-anatomy rules before enabling arm damage.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-random-3-4",
+      "source": "full-2008",
+      "pages": "B554",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice 3-4 selects small-window/exposed-mount; deliberate targeting modifier -7 before size and special draft-creature handling. Validate actual component and angle.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-random-5",
+      "source": "full-2008",
+      "pages": "B554",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice 5 selects small-superstructure/independent-turret; deliberate targeting modifier -5 before size and special draft-creature handling. Validate actual component and angle.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-random-6-7",
+      "source": "full-2008",
+      "pages": "B554",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice 6-7 selects track/draft-creature/rotor/mast/wing; deliberate targeting modifier -2 before size and special draft-creature handling. Validate actual component and angle.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-random-8",
+      "source": "full-2008",
+      "pages": "B554",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice 8 selects arm/large-superstructure/main-turret; deliberate targeting modifier -2 before size and special draft-creature handling. Validate actual component and angle.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-random-9",
+      "source": "full-2008",
+      "pages": "B554",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice 9 selects body/exposed-rider; deliberate targeting modifier +0 before size and special draft-creature handling. Validate actual component and angle.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-random-10",
+      "source": "full-2008",
+      "pages": "B554",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice 10 selects body; deliberate targeting modifier +0 before size and special draft-creature handling. Validate actual component and angle.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-random-11",
+      "source": "full-2008",
+      "pages": "B554",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice 11 selects large-window/open-cabin; deliberate targeting modifier -3 before size and special draft-creature handling. Validate actual component and angle.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-random-12",
+      "source": "full-2008",
+      "pages": "B554",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice 12 selects arm/large-superstructure/main-turret; deliberate targeting modifier -2 before size and special draft-creature handling. Validate actual component and angle.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-random-13-14",
+      "source": "full-2008",
+      "pages": "B554",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice 13-14 selects track/draft-creature/rotor/mast/wing; deliberate targeting modifier -2 before size and special draft-creature handling. Validate actual component and angle.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-random-15-16",
+      "source": "full-2008",
+      "pages": "B554",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice 15-16 selects runner/skid/wheel; deliberate targeting modifier -4 before size and special draft-creature handling. Validate actual component and angle.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-random-17-18",
+      "source": "full-2008",
+      "pages": "B554",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice 17-18 selects vital; deliberate targeting modifier -3 before size and special draft-creature handling. Validate actual component and angle.",
+      "tests": []
+    },
+    {
+      "id": "vehicle-location-rule-occupants-1-size-1",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 1 occupants and size +1, an occupant is hit on three dice at most 10.",
+      "tests": [],
+      "occupant_data": {
+        "count": "1",
+        "size": 1,
+        "threshold": 10
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-1-size-2",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 1 occupants and size +2, an occupant is hit on three dice at most 9.",
+      "tests": [],
+      "occupant_data": {
+        "count": "1",
+        "size": 2,
+        "threshold": 9
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-1-size-3",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 1 occupants and size +3, an occupant is hit on three dice at most 8.",
+      "tests": [],
+      "occupant_data": {
+        "count": "1",
+        "size": 3,
+        "threshold": 8
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-1-size-4",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 1 occupants and size +4, an occupant is hit on three dice at most 7.",
+      "tests": [],
+      "occupant_data": {
+        "count": "1",
+        "size": 4,
+        "threshold": 7
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-1-size-5",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 1 occupants and size +5, an occupant is hit on three dice at most 6.",
+      "tests": [],
+      "occupant_data": {
+        "count": "1",
+        "size": 5,
+        "threshold": 6
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-1-size-6",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 1 occupants and size +6, an occupant is hit on three dice at most 5.",
+      "tests": [],
+      "occupant_data": {
+        "count": "1",
+        "size": 6,
+        "threshold": 5
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-1-size-7",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 1 occupants and size +7, an occupant is hit on three dice at most 4.",
+      "tests": [],
+      "occupant_data": {
+        "count": "1",
+        "size": 7,
+        "threshold": 4
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-1-size-8",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 1 occupants and size +8, an occupant is hit on three dice at most 3.",
+      "tests": [],
+      "occupant_data": {
+        "count": "1",
+        "size": 8,
+        "threshold": 3
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-1-size-9",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 1 occupants and size +9, an occupant is hit on three dice at most 3.",
+      "tests": [],
+      "occupant_data": {
+        "count": "1",
+        "size": 9,
+        "threshold": 3
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-1-size-10",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 1 occupants and size +10, an occupant is hit on three dice at most 3.",
+      "tests": [],
+      "occupant_data": {
+        "count": "1",
+        "size": 10,
+        "threshold": 3
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-1-size-11",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 1 occupants and size +11, an occupant is hit on three dice at most 3.",
+      "tests": [],
+      "occupant_data": {
+        "count": "1",
+        "size": 11,
+        "threshold": 3
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-2-size-1",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 2 occupants and size +1, an occupant is hit on three dice at most 12.",
+      "tests": [],
+      "occupant_data": {
+        "count": "2",
+        "size": 1,
+        "threshold": 12
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-2-size-2",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 2 occupants and size +2, an occupant is hit on three dice at most 10.",
+      "tests": [],
+      "occupant_data": {
+        "count": "2",
+        "size": 2,
+        "threshold": 10
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-2-size-3",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 2 occupants and size +3, an occupant is hit on three dice at most 9.",
+      "tests": [],
+      "occupant_data": {
+        "count": "2",
+        "size": 3,
+        "threshold": 9
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-2-size-4",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 2 occupants and size +4, an occupant is hit on three dice at most 8.",
+      "tests": [],
+      "occupant_data": {
+        "count": "2",
+        "size": 4,
+        "threshold": 8
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-2-size-5",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 2 occupants and size +5, an occupant is hit on three dice at most 7.",
+      "tests": [],
+      "occupant_data": {
+        "count": "2",
+        "size": 5,
+        "threshold": 7
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-2-size-6",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 2 occupants and size +6, an occupant is hit on three dice at most 6.",
+      "tests": [],
+      "occupant_data": {
+        "count": "2",
+        "size": 6,
+        "threshold": 6
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-2-size-7",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 2 occupants and size +7, an occupant is hit on three dice at most 5.",
+      "tests": [],
+      "occupant_data": {
+        "count": "2",
+        "size": 7,
+        "threshold": 5
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-2-size-8",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 2 occupants and size +8, an occupant is hit on three dice at most 4.",
+      "tests": [],
+      "occupant_data": {
+        "count": "2",
+        "size": 8,
+        "threshold": 4
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-2-size-9",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 2 occupants and size +9, an occupant is hit on three dice at most 3.",
+      "tests": [],
+      "occupant_data": {
+        "count": "2",
+        "size": 9,
+        "threshold": 3
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-2-size-10",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 2 occupants and size +10, an occupant is hit on three dice at most 3.",
+      "tests": [],
+      "occupant_data": {
+        "count": "2",
+        "size": 10,
+        "threshold": 3
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-2-size-11",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 2 occupants and size +11, an occupant is hit on three dice at most 3.",
+      "tests": [],
+      "occupant_data": {
+        "count": "2",
+        "size": 11,
+        "threshold": 3
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-3-5-size-1",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 3-5 occupants and size +1, an occupant is hit on three dice at most 14.",
+      "tests": [],
+      "occupant_data": {
+        "count": "3-5",
+        "size": 1,
+        "threshold": 14
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-3-5-size-2",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 3-5 occupants and size +2, an occupant is hit on three dice at most 12.",
+      "tests": [],
+      "occupant_data": {
+        "count": "3-5",
+        "size": 2,
+        "threshold": 12
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-3-5-size-3",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 3-5 occupants and size +3, an occupant is hit on three dice at most 10.",
+      "tests": [],
+      "occupant_data": {
+        "count": "3-5",
+        "size": 3,
+        "threshold": 10
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-3-5-size-4",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 3-5 occupants and size +4, an occupant is hit on three dice at most 9.",
+      "tests": [],
+      "occupant_data": {
+        "count": "3-5",
+        "size": 4,
+        "threshold": 9
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-3-5-size-5",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 3-5 occupants and size +5, an occupant is hit on three dice at most 8.",
+      "tests": [],
+      "occupant_data": {
+        "count": "3-5",
+        "size": 5,
+        "threshold": 8
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-3-5-size-6",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 3-5 occupants and size +6, an occupant is hit on three dice at most 7.",
+      "tests": [],
+      "occupant_data": {
+        "count": "3-5",
+        "size": 6,
+        "threshold": 7
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-3-5-size-7",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 3-5 occupants and size +7, an occupant is hit on three dice at most 6.",
+      "tests": [],
+      "occupant_data": {
+        "count": "3-5",
+        "size": 7,
+        "threshold": 6
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-3-5-size-8",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 3-5 occupants and size +8, an occupant is hit on three dice at most 5.",
+      "tests": [],
+      "occupant_data": {
+        "count": "3-5",
+        "size": 8,
+        "threshold": 5
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-3-5-size-9",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 3-5 occupants and size +9, an occupant is hit on three dice at most 4.",
+      "tests": [],
+      "occupant_data": {
+        "count": "3-5",
+        "size": 9,
+        "threshold": 4
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-3-5-size-10",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 3-5 occupants and size +10, an occupant is hit on three dice at most 3.",
+      "tests": [],
+      "occupant_data": {
+        "count": "3-5",
+        "size": 10,
+        "threshold": 3
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-3-5-size-11",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 3-5 occupants and size +11, an occupant is hit on three dice at most 3.",
+      "tests": [],
+      "occupant_data": {
+        "count": "3-5",
+        "size": 11,
+        "threshold": 3
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-6-10-size-1",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 6-10 occupants and size +1, an occupant is hit on three dice at most 16.",
+      "tests": [],
+      "occupant_data": {
+        "count": "6-10",
+        "size": 1,
+        "threshold": 16
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-6-10-size-2",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 6-10 occupants and size +2, an occupant is hit on three dice at most 14.",
+      "tests": [],
+      "occupant_data": {
+        "count": "6-10",
+        "size": 2,
+        "threshold": 14
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-6-10-size-3",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 6-10 occupants and size +3, an occupant is hit on three dice at most 12.",
+      "tests": [],
+      "occupant_data": {
+        "count": "6-10",
+        "size": 3,
+        "threshold": 12
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-6-10-size-4",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 6-10 occupants and size +4, an occupant is hit on three dice at most 10.",
+      "tests": [],
+      "occupant_data": {
+        "count": "6-10",
+        "size": 4,
+        "threshold": 10
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-6-10-size-5",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 6-10 occupants and size +5, an occupant is hit on three dice at most 9.",
+      "tests": [],
+      "occupant_data": {
+        "count": "6-10",
+        "size": 5,
+        "threshold": 9
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-6-10-size-6",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 6-10 occupants and size +6, an occupant is hit on three dice at most 8.",
+      "tests": [],
+      "occupant_data": {
+        "count": "6-10",
+        "size": 6,
+        "threshold": 8
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-6-10-size-7",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 6-10 occupants and size +7, an occupant is hit on three dice at most 7.",
+      "tests": [],
+      "occupant_data": {
+        "count": "6-10",
+        "size": 7,
+        "threshold": 7
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-6-10-size-8",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 6-10 occupants and size +8, an occupant is hit on three dice at most 6.",
+      "tests": [],
+      "occupant_data": {
+        "count": "6-10",
+        "size": 8,
+        "threshold": 6
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-6-10-size-9",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 6-10 occupants and size +9, an occupant is hit on three dice at most 5.",
+      "tests": [],
+      "occupant_data": {
+        "count": "6-10",
+        "size": 9,
+        "threshold": 5
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-6-10-size-10",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 6-10 occupants and size +10, an occupant is hit on three dice at most 4.",
+      "tests": [],
+      "occupant_data": {
+        "count": "6-10",
+        "size": 10,
+        "threshold": 4
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-6-10-size-11",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 6-10 occupants and size +11, an occupant is hit on three dice at most 3.",
+      "tests": [],
+      "occupant_data": {
+        "count": "6-10",
+        "size": 11,
+        "threshold": 3
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-11-20-size-1",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 11-20 occupants and size +1, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "11-20",
+        "size": 1,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-11-20-size-2",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 11-20 occupants and size +2, an occupant is hit on three dice at most 16.",
+      "tests": [],
+      "occupant_data": {
+        "count": "11-20",
+        "size": 2,
+        "threshold": 16
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-11-20-size-3",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 11-20 occupants and size +3, an occupant is hit on three dice at most 14.",
+      "tests": [],
+      "occupant_data": {
+        "count": "11-20",
+        "size": 3,
+        "threshold": 14
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-11-20-size-4",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 11-20 occupants and size +4, an occupant is hit on three dice at most 12.",
+      "tests": [],
+      "occupant_data": {
+        "count": "11-20",
+        "size": 4,
+        "threshold": 12
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-11-20-size-5",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 11-20 occupants and size +5, an occupant is hit on three dice at most 10.",
+      "tests": [],
+      "occupant_data": {
+        "count": "11-20",
+        "size": 5,
+        "threshold": 10
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-11-20-size-6",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 11-20 occupants and size +6, an occupant is hit on three dice at most 9.",
+      "tests": [],
+      "occupant_data": {
+        "count": "11-20",
+        "size": 6,
+        "threshold": 9
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-11-20-size-7",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 11-20 occupants and size +7, an occupant is hit on three dice at most 8.",
+      "tests": [],
+      "occupant_data": {
+        "count": "11-20",
+        "size": 7,
+        "threshold": 8
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-11-20-size-8",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 11-20 occupants and size +8, an occupant is hit on three dice at most 7.",
+      "tests": [],
+      "occupant_data": {
+        "count": "11-20",
+        "size": 8,
+        "threshold": 7
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-11-20-size-9",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 11-20 occupants and size +9, an occupant is hit on three dice at most 6.",
+      "tests": [],
+      "occupant_data": {
+        "count": "11-20",
+        "size": 9,
+        "threshold": 6
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-11-20-size-10",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 11-20 occupants and size +10, an occupant is hit on three dice at most 5.",
+      "tests": [],
+      "occupant_data": {
+        "count": "11-20",
+        "size": 10,
+        "threshold": 5
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-11-20-size-11",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 11-20 occupants and size +11, an occupant is hit on three dice at most 4.",
+      "tests": [],
+      "occupant_data": {
+        "count": "11-20",
+        "size": 11,
+        "threshold": 4
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-21-50-size-1",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 21-50 occupants and size +1, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "21-50",
+        "size": 1,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-21-50-size-2",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 21-50 occupants and size +2, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "21-50",
+        "size": 2,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-21-50-size-3",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 21-50 occupants and size +3, an occupant is hit on three dice at most 16.",
+      "tests": [],
+      "occupant_data": {
+        "count": "21-50",
+        "size": 3,
+        "threshold": 16
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-21-50-size-4",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 21-50 occupants and size +4, an occupant is hit on three dice at most 14.",
+      "tests": [],
+      "occupant_data": {
+        "count": "21-50",
+        "size": 4,
+        "threshold": 14
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-21-50-size-5",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 21-50 occupants and size +5, an occupant is hit on three dice at most 12.",
+      "tests": [],
+      "occupant_data": {
+        "count": "21-50",
+        "size": 5,
+        "threshold": 12
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-21-50-size-6",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 21-50 occupants and size +6, an occupant is hit on three dice at most 10.",
+      "tests": [],
+      "occupant_data": {
+        "count": "21-50",
+        "size": 6,
+        "threshold": 10
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-21-50-size-7",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 21-50 occupants and size +7, an occupant is hit on three dice at most 9.",
+      "tests": [],
+      "occupant_data": {
+        "count": "21-50",
+        "size": 7,
+        "threshold": 9
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-21-50-size-8",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 21-50 occupants and size +8, an occupant is hit on three dice at most 8.",
+      "tests": [],
+      "occupant_data": {
+        "count": "21-50",
+        "size": 8,
+        "threshold": 8
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-21-50-size-9",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 21-50 occupants and size +9, an occupant is hit on three dice at most 7.",
+      "tests": [],
+      "occupant_data": {
+        "count": "21-50",
+        "size": 9,
+        "threshold": 7
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-21-50-size-10",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 21-50 occupants and size +10, an occupant is hit on three dice at most 6.",
+      "tests": [],
+      "occupant_data": {
+        "count": "21-50",
+        "size": 10,
+        "threshold": 6
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-21-50-size-11",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 21-50 occupants and size +11, an occupant is hit on three dice at most 5.",
+      "tests": [],
+      "occupant_data": {
+        "count": "21-50",
+        "size": 11,
+        "threshold": 5
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-51-100-size-1",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 51-100 occupants and size +1, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "51-100",
+        "size": 1,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-51-100-size-2",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 51-100 occupants and size +2, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "51-100",
+        "size": 2,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-51-100-size-3",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 51-100 occupants and size +3, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "51-100",
+        "size": 3,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-51-100-size-4",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 51-100 occupants and size +4, an occupant is hit on three dice at most 16.",
+      "tests": [],
+      "occupant_data": {
+        "count": "51-100",
+        "size": 4,
+        "threshold": 16
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-51-100-size-5",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 51-100 occupants and size +5, an occupant is hit on three dice at most 14.",
+      "tests": [],
+      "occupant_data": {
+        "count": "51-100",
+        "size": 5,
+        "threshold": 14
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-51-100-size-6",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 51-100 occupants and size +6, an occupant is hit on three dice at most 12.",
+      "tests": [],
+      "occupant_data": {
+        "count": "51-100",
+        "size": 6,
+        "threshold": 12
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-51-100-size-7",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 51-100 occupants and size +7, an occupant is hit on three dice at most 10.",
+      "tests": [],
+      "occupant_data": {
+        "count": "51-100",
+        "size": 7,
+        "threshold": 10
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-51-100-size-8",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 51-100 occupants and size +8, an occupant is hit on three dice at most 9.",
+      "tests": [],
+      "occupant_data": {
+        "count": "51-100",
+        "size": 8,
+        "threshold": 9
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-51-100-size-9",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 51-100 occupants and size +9, an occupant is hit on three dice at most 8.",
+      "tests": [],
+      "occupant_data": {
+        "count": "51-100",
+        "size": 9,
+        "threshold": 8
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-51-100-size-10",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 51-100 occupants and size +10, an occupant is hit on three dice at most 7.",
+      "tests": [],
+      "occupant_data": {
+        "count": "51-100",
+        "size": 10,
+        "threshold": 7
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-51-100-size-11",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 51-100 occupants and size +11, an occupant is hit on three dice at most 6.",
+      "tests": [],
+      "occupant_data": {
+        "count": "51-100",
+        "size": 11,
+        "threshold": 6
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-101-200-size-1",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 101-200 occupants and size +1, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "101-200",
+        "size": 1,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-101-200-size-2",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 101-200 occupants and size +2, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "101-200",
+        "size": 2,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-101-200-size-3",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 101-200 occupants and size +3, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "101-200",
+        "size": 3,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-101-200-size-4",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 101-200 occupants and size +4, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "101-200",
+        "size": 4,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-101-200-size-5",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 101-200 occupants and size +5, an occupant is hit on three dice at most 16.",
+      "tests": [],
+      "occupant_data": {
+        "count": "101-200",
+        "size": 5,
+        "threshold": 16
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-101-200-size-6",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 101-200 occupants and size +6, an occupant is hit on three dice at most 14.",
+      "tests": [],
+      "occupant_data": {
+        "count": "101-200",
+        "size": 6,
+        "threshold": 14
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-101-200-size-7",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 101-200 occupants and size +7, an occupant is hit on three dice at most 12.",
+      "tests": [],
+      "occupant_data": {
+        "count": "101-200",
+        "size": 7,
+        "threshold": 12
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-101-200-size-8",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 101-200 occupants and size +8, an occupant is hit on three dice at most 10.",
+      "tests": [],
+      "occupant_data": {
+        "count": "101-200",
+        "size": 8,
+        "threshold": 10
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-101-200-size-9",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 101-200 occupants and size +9, an occupant is hit on three dice at most 9.",
+      "tests": [],
+      "occupant_data": {
+        "count": "101-200",
+        "size": 9,
+        "threshold": 9
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-101-200-size-10",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 101-200 occupants and size +10, an occupant is hit on three dice at most 8.",
+      "tests": [],
+      "occupant_data": {
+        "count": "101-200",
+        "size": 10,
+        "threshold": 8
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-101-200-size-11",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 101-200 occupants and size +11, an occupant is hit on three dice at most 7.",
+      "tests": [],
+      "occupant_data": {
+        "count": "101-200",
+        "size": 11,
+        "threshold": 7
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-201-500-size-1",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 201-500 occupants and size +1, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "201-500",
+        "size": 1,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-201-500-size-2",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 201-500 occupants and size +2, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "201-500",
+        "size": 2,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-201-500-size-3",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 201-500 occupants and size +3, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "201-500",
+        "size": 3,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-201-500-size-4",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 201-500 occupants and size +4, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "201-500",
+        "size": 4,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-201-500-size-5",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 201-500 occupants and size +5, an occupant is hit on three dice at most 17.",
+      "tests": [],
+      "occupant_data": {
+        "count": "201-500",
+        "size": 5,
+        "threshold": 17
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-201-500-size-6",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 201-500 occupants and size +6, an occupant is hit on three dice at most 16.",
+      "tests": [],
+      "occupant_data": {
+        "count": "201-500",
+        "size": 6,
+        "threshold": 16
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-201-500-size-7",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 201-500 occupants and size +7, an occupant is hit on three dice at most 14.",
+      "tests": [],
+      "occupant_data": {
+        "count": "201-500",
+        "size": 7,
+        "threshold": 14
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-201-500-size-8",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 201-500 occupants and size +8, an occupant is hit on three dice at most 12.",
+      "tests": [],
+      "occupant_data": {
+        "count": "201-500",
+        "size": 8,
+        "threshold": 12
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-201-500-size-9",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 201-500 occupants and size +9, an occupant is hit on three dice at most 10.",
+      "tests": [],
+      "occupant_data": {
+        "count": "201-500",
+        "size": 9,
+        "threshold": 10
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-201-500-size-10",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 201-500 occupants and size +10, an occupant is hit on three dice at most 9.",
+      "tests": [],
+      "occupant_data": {
+        "count": "201-500",
+        "size": 10,
+        "threshold": 9
+      }
+    },
+    {
+      "id": "vehicle-location-rule-occupants-201-500-size-11",
+      "source": "full-2008",
+      "pages": "B555",
+      "module": "vehicles",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With 201-500 occupants and size +11, an occupant is hit on three dice at most 8.",
+      "tests": [],
+      "occupant_data": {
+        "count": "201-500",
+        "size": 11,
+        "threshold": 8
+      }
+    }
+  ]
+}

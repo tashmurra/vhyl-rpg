@@ -90,3 +90,17 @@ pressure loss, tactical footprints and sustained journeys. Preview purity,
 rejected operations, deterministic replay, rollback, undo and save continuation
 must cover these ongoing states. No vehicle-specific tests have been run; build
 checks remain suspended while implementation continues.
+
+The [location inventory](inventory/vehicle-locations.json) records the B554–B555
+component and occupant tables. Direct hits on exposed people or draft creatures
+replace the vehicle hit. A hit through glass can likewise transfer to an occupant,
+using the specified window protection. These are distinct from fragments caused
+by penetration of an occupied compartment: the latter can injure occupants in
+addition to damaging the vehicle.
+
+Occupant selection needs compartment population and size, not the vehicle's
+total passenger count. The table uses a direct three-dice threshold, without the
+ordinary automatic-success rules. Component destruction needs the actual count
+of wheels, legs or masts, with capped component injury and persistent movement
+consequences. Values outside the printed occupant matrix remain unresolved;
+an implementation must not silently extrapolate them.
