@@ -55,7 +55,8 @@ class RpgLiteProfile: RpgProfile
     onKnockdown() { return nil; }
     onSleep() { return nil; }
     stunRecoveryOwned() { return nil; }
-    unconsciousRecoveryOwned() { return nil; }
+    unconsciousRecoveryOwned() { return self.unconsciousRecoveryApartFrom(nil); }
+    unconsciousRecoveryApartFrom(owner) { return nil; }
     becomeUnconscious() { self.unconscious = true; self.onUnconscious(); return nil; }
 
     campaignTL = 3

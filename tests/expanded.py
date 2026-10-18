@@ -9200,6 +9200,8 @@ def test(build):
     test_panic_history(Session, panic_history)
     fear_seizure = build.build('expanded-fear-seizure',ROOT / 'tests/fixtures/expanded-fear-seizure.t')
     test_fear_seizure(Session, fear_seizure, build.out)
+    fear_coma = build.build('expanded-fear-coma',ROOT / 'tests/fixtures/expanded-fear-coma.t')
+    test_fear_coma(Session, fear_coma, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20302,5 +20304,53 @@ def test_fear_seizure(Session, bundle, out):
         for code in (10909, 10901):
             s.action(2285, code)
         assert last(s, 'test.fear-fit-preview') == ['blocked', 'knockdown-drop-destination-required', 0]
+    finally:
+        s.close()
+
+
+def test_fear_coma(Session, bundle, out):
+    """B361 rows 28/29 schedule, recovery ownership and six-hour penalty; unrun."""
+    for variant, interval, start_draws, failed_draws in (((), 1800, 0, 3), ((11001,), 3600, 1, 5)):
+        path = out / f'expanded-fear-coma-{interval}.zsave'
+        s = Session(bundle)
+        try:
+            for code in (11000,) + variant + (11012, 11003, 11008):
+                s.action(2285, code)
+            assert last(s, 'test.coma-preview') == ['ready', 0]
+            assert last(s, 'test.coma-state')[:6] == [0, 0, None, None, 0, 0]
+            s.action(2285, 11002)
+            s.command('undo')
+            s.action(2285, 11008)
+            assert last(s, 'test.coma-state')[:6] == [0, 0, None, None, 0, 0]
+            for code in (11002, 11002, 11008):
+                s.action(2285, code)
+            assert last(s, 'test.coma-state')[:6] == [1, 1, interval, None, 0, start_draws]
+            for code in (11005, 11004, 11004, 11008):
+                s.action(2285, code)
+            assert last(s, 'test.coma-recovery') == ['reused', None, 11]
+            assert last(s, 'test.coma-state')[:6] == [1, 1, interval * 2, None, interval, failed_draws]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (11005, 11006, 11007, 11007, 11008):
+                s.action(2285, code)
+            assert last(s, 'test.coma-state') == [1, 0, interval * 2, interval * 2, interval * 2, failed_draws + 3, 8]
+            for code in (11009, 11008):
+                s.action(2285, code)
+            assert last(s, 'test.coma-state')[-1] == 8
+            for code in (11010, 11008):
+                s.action(2285, code)
+            assert last(s, 'test.coma-state')[-1] == 10
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (11002, 11005, 11011, 11004, 11008):
+            s.action(2285, code)
+        assert last(s, 'test.coma-recovery') == ['blocked', 'fear-coma-independent-incapacity-unimplemented', None]
+        assert last(s, 'test.coma-state')[:6] == [1, 1, 1800, None, 1800, 0]
     finally:
         s.close()

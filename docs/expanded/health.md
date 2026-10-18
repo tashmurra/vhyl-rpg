@@ -3554,3 +3554,48 @@ processing under the existing condition contract.
 without repeated charges, episode timing, the single fatigue payment, missing
 drop-destination preflight, preview, replay, rollback, undo and cross-process save
 continuation. Assertions remain unrun; full fear orchestration is still pending.
+
+
+## Fear coma and its aftereffect
+
+`RpgExpandedFearComa` executes selected rows twenty-eight and twenty-nine
+(`full-2008`, B361). Supply a unique `id`, a ready `RpgExpandedFearContext`,
+`tableTotal = 28` or `29`, `approved = true` and original `evidence` of the table
+outcome. Held equipment needs `dropDestination` and the equipment module.
+`assess()` is pure; `apply()` records unconsciousness, lying posture and the held
+item drop without charging time. Row twenty-eight schedules its first HT check
+in 1,800 seconds; row twenty-nine rolls one die and schedules it that many hours
+later. The profile owns the current `fearComa` and keeps `fearComaHistory`.
+
+At the exact deadline, use a fresh `RpgExpandedFearComaRecovery` with an `id`
+and `episode`. `apply()` makes the shared HT check. Failure schedules another
+half hour for row twenty-eight or rolls a new one-die-hour delay for row
+twenty-nine. Success clears owned unconsciousness and starts the aftereffect.
+The clock rejects advances beyond a pending check. Recovery charges no extra
+time: the shared clock already paid for the interval. Replaying a receipt does
+not roll or schedule again. The episode validates deadlines and completion
+against its bound recovery history.
+
+For exactly 21,600 seconds after successful recovery, the shared attribute/skill
+scoring path applies -2. At the endpoint the modifier ceases. No attribute is
+permanently reduced and no extra fatigue is charged. An overlapping coma or
+aftereffect is rejected until stacking rules are supported. Higher coma rows
+with additional trait acquisition are not accepted by this executor.
+
+The public `unconsciousRecoveryOwned()` query retains its boolean contract.
+Its default now delegates to `unconsciousRecoveryApartFrom(owner)`, which lets
+an owner check for other causes without temporarily changing state. Built-in
+fainting, suspended mortal recovery, decompression illness, acceleration blackout
+and coma owners implement this query. Custom unconsciousness owners participating
+in coma integrations must implement it too and chain to `inherited(owner)`.
+
+Starting with another incapacity is blocked. If a separate incapacity arises
+before recovery, the recovery request returns
+`fear-coma-independent-incapacity-unimplemented` rather than waking the actor
+through it or inventing an aftereffect start time. This combination and automatic
+full fear selection remain unfinished.
+
+[`expanded-fear-coma.t`](../../tests/fixtures/expanded-fear-coma.t) and
+`test_fear_coma` specify both schedules, failures and successful recovery, ownership,
+aftereffect expiry, pure preview, single draws, replay, rollback, undo and
+cross-process save continuation. Assertions remain unrun while checks are paused.

@@ -195,3 +195,10 @@ shared-ledger injury and permanent HT loss on critical failure. The generic
 seizure finisher owns its single fatigue payment. Collapse/drop handling is
 deduplicated. Full fear selection and the minimum-HT edge remain pending; new
 conditional-outcome and lifecycle fixtures are authored but unrun.
+
+
+Fear coma rows twenty-eight and twenty-nine now have owned recovery schedules and
+a six-hour shared-scoring aftereffect. Recovery ownership can exclude the current
+episode while detecting independent causes. Timelines bind their roll receipts.
+Overlapping effects, independent-incapacity recovery and higher trait-bearing coma
+rows remain pending; schedule and persistence fixtures are authored but unrun.

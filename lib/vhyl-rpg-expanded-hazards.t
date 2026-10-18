@@ -4524,11 +4524,11 @@ class RpgExpandedDecompressionIllnessResult: RpgExpandedResult
 ;
 modify RpgExpandedProfile
     decompressionIllnesses = []
-    unconsciousRecoveryOwned()
+    unconsciousRecoveryApartFrom(owner)
     {
         foreach (local episode in self.decompressionIllnesses)
-        { episode.validateReceipt(); if (episode.phase == 'unconscious') return true; }
-        return inherited();
+        { episode.validateReceipt(); if (episode != owner && episode.phase == 'unconscious') return true; }
+        return inherited(owner);
     }
 ;
 class RpgExpandedDecompressionIllness: object
@@ -4877,14 +4877,14 @@ rpgExpandedAssessAcceleration(acceleration,homeGravity,orientation)
 modify RpgExpandedProfile
     accelerations = []
     accelerationFatigueLosses = []
-    unconsciousRecoveryOwned()
+    unconsciousRecoveryApartFrom(owner)
     {
         foreach (local episode in self.accelerations)
         {
             episode.validateReceipt();
-            if (episode.result.blackoutSeconds > 0 && episode.recoveredAt == nil) return true;
+            if (episode != owner && episode.result.blackoutSeconds > 0 && episode.recoveredAt == nil) return true;
         }
-        return inherited();
+        return inherited(owner);
     }
 ;
 class RpgExpandedAccelerationFatigueLoss: RpgExpandedFearFatigueLoss

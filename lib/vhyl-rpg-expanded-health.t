@@ -3177,7 +3177,7 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     fearFaint = nil
     fearFaints = []
-    unconsciousRecoveryOwned() { return self.fearFaint != nil || inherited(); }
+    unconsciousRecoveryApartFrom(owner) { return self.fearFaint != nil && self.fearFaint != owner || inherited(owner); }
 ;
 
 class RpgExpandedFearFaintResult: RpgExpandedResult
@@ -5115,7 +5115,7 @@ modify RpgExpandedProfile
             || !self.unconscious && !self.dead) rpgExpandedReject('mortal-suspension-state');
         return true;
     }
-    unconsciousRecoveryOwned() { return self.mortalSuspension != nil || inherited(); }
+    unconsciousRecoveryApartFrom(owner) { return self.mortalSuspension != nil && self.mortalSuspension != owner || inherited(owner); }
 ;
 modify RpgExpandedSurgicalOperation
     assess()
@@ -7985,5 +7985,175 @@ class RpgExpandedFearSeizure: object
         self.boundOutcome = [value.seizure,value.wound,value.check,value.check.roll,value.check.score,value.check.achieved,
             value.check.critical,value.healthBefore,value.healthAfter,value.healthLost];
         profile.fearSeizureOutcomes = profile.fearSeizureOutcomes + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    fearComa = nil
+    fearComaHistory = []
+    unconsciousRecoveryApartFrom(owner) { return self.fearComa != nil && self.fearComa != owner || inherited(owner); }
+    healthAttributeModifier(context)
+    {
+        local amount = inherited(context);
+        foreach (local episode in self.fearComaHistory)
+        {
+            episode.assess();
+            if (episode.recoveredAt != nil && rpgLedger.seconds < episode.recoveredAt + 21600) amount -= 2;
+        }
+        return amount;
+    }
+;
+/** B361 rows 28/29. Higher trait-bearing rows require their own composition. */
+class RpgExpandedFearComa: object
+    id = nil
+    context = nil
+    tableTotal = 28
+    approved = nil
+    evidence = nil
+    dropDestination = nil
+    startedAt = nil
+    nextCheckAt = nil
+    recoveredAt = nil
+    initialSeconds = nil
+    boundDefinition = nil
+    recoveries = []
+    definition() { return [self.id,self.context,self.context.profile,self.tableTotal,self.approved,self.evidence,
+        self.dropDestination,self.startedAt,self.initialSeconds]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
+            rpgExpandedReject('fear-coma-definition');
+        local value = new RpgExpandedFearFaintResult(); local profile = self.context.profile;
+        if (self.startedAt != nil)
+        {
+            if (!holds(profile.fearComaHistory,self)) rpgExpandedReject('fear-coma-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('fear-coma-binding');
+            local due = self.startedAt + self.initialSeconds; local ended = nil; local ids = [];
+            foreach (local recovery in self.recoveries)
+            {
+                if (recovery == nil || !recovery.ofKind(RpgExpandedFearComaRecovery) || recovery.episode != self)
+                    rpgExpandedReject('fear-coma-recovery-owner');
+                recovery.validateReceipt();
+                if (ended != nil || recovery.recordedAt != due || holds(ids,recovery.id)) rpgExpandedReject('fear-coma-timeline');
+                ids = ids + [recovery.id];
+                if (recovery.result.check.achieved) ended = due;
+                else due += recovery.delaySeconds;
+            }
+            if (self.nextCheckAt != due || self.recoveredAt != ended) rpgExpandedReject('fear-coma-timeline');
+            if (ended == nil && profile.fearComa != self || ended != nil && profile.fearComa == self) rpgExpandedReject('fear-coma-owner');
+            value.status = 'reused'; return value;
+        }
+        if (!holds([28,29],self.tableTotal)) rpgExpandedReject('fear-coma-row');
+        if (self.nextCheckAt != nil || self.recoveredAt != nil || self.initialSeconds != nil || self.boundDefinition != nil
+            || self.recoveries.length() != 0) rpgExpandedReject('fear-coma-uncommitted-state');
+        local scene = self.context.assess();
+        if (scene.status != 'ready') { value.reason = scene.reason; return value; }
+        if (scene.immune) { value.reason = 'fear-coma-immune'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'fear-coma-evidence'; return value; }
+        if (profile.dead || profile.unconscious || profile.mortal || profile.hp() <= 0 || profile.fp() <= 0
+            || profile.unconsciousRecoveryOwned() || profile.fearSeconds > 0)
+        { value.reason = 'fear-coma-existing-condition'; return value; }
+        foreach (local prior in profile.fearComaHistory)
+        {
+            prior.assess(); if (prior.id == self.id) rpgExpandedReject('fear-coma-duplicate');
+            if (prior.recoveredAt == nil || rpgLedger.seconds < prior.recoveredAt + 21600)
+            { value.reason = 'fear-coma-overlap-unimplemented'; return value; }
+        }
+        value.dropPlan = profile.prepareKnockdownDrop(self.dropDestination);
+        if (value.dropPlan != nil && value.dropPlan.status != 'ready') { value.reason = value.dropPlan.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147462047); value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.initialSeconds = self.tableTotal == 28 ? 1800 : rpgRandom.die() * 3600;
+        self.startedAt = rpgLedger.seconds; self.nextCheckAt = self.startedAt + self.initialSeconds;
+        self.boundDefinition = self.definition(); local profile = self.context.profile;
+        if (value.dropPlan != nil) value.dropPlan.commit();
+        profile.fearComa = self; profile.fearComaHistory = profile.fearComaHistory + [self];
+        profile.posture = 'lying'; profile.onKnockdown(); profile.becomeUnconscious();
+        value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedFearComaRecovery: object
+    id = nil
+    episode = nil
+    result = nil
+    recordedAt = nil
+    delaySeconds = nil
+    boundDefinition = nil
+    boundCheck = nil
+    definition() { return [self.id,self.episode,self.recordedAt,self.delaySeconds]; }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.episode.recoveries,self)) rpgExpandedReject('fear-coma-recovery-history');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('fear-coma-recovery-binding');
+        local check = self.result.check;
+        if (check == nil || check != self.boundCheck[1] || check.score != self.boundCheck[2] || check.roll != self.boundCheck[3]
+            || check.achieved != self.boundCheck[4] || check.margin != self.boundCheck[5] || check.critical != self.boundCheck[6])
+            rpgExpandedReject('fear-coma-recovery-check-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedFearComa))
+            rpgExpandedReject('fear-coma-recovery-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            self.validateReceipt();
+            self.episode.assess(); value.status = 'reused'; value.check = self.result.check; return value;
+        }
+        if (self.recordedAt != nil || self.delaySeconds != nil || self.boundDefinition != nil || self.boundCheck != nil)
+            rpgExpandedReject('fear-coma-recovery-uncommitted-state');
+        if (self.episode.startedAt == nil) { value.reason = 'fear-coma-episode-required'; return value; }
+        self.episode.assess(); local profile = self.episode.context.profile;
+        if (self.episode.recoveredAt != nil) { value.reason = 'fear-coma-ended'; return value; }
+        if (profile.dead || profile.mortal || profile.hp() <= 0 || profile.fp() <= 0 || profile.cardiacArrest != nil
+            || profile.unconsciousRecoveryApartFrom(self.episode) || profile.fearSeconds > 0 || profile.apparentDeath || profile.needsMedicalHelp)
+        { value.reason = 'fear-coma-independent-incapacity-unimplemented'; return value; }
+        if (!profile.unconscious || profile.fearComa != self.episode) rpgExpandedReject('fear-coma-recovery-owner');
+        if (rpgLedger.seconds != self.episode.nextCheckAt) { value.reason = 'fear-coma-recovery-not-due'; return value; }
+        foreach (local prior in self.episode.recoveries)
+            if (prior.id == self.id) rpgExpandedReject('fear-coma-recovery-duplicate');
+        local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'fear-coma-recovery';
+        local score = rpgLiteScore(profile,context);
+        if (score == nil || score < 3) { value.reason = 'fear-coma-recovery-score'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147462047); value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local profile = self.episode.context.profile;
+        local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'fear-coma-recovery';
+        value.check = rpgLiteCheck(profile,context); self.recordedAt = rpgLedger.seconds;
+        self.delaySeconds = value.check.achieved ? 0 : self.episode.tableTotal == 28 ? 1800 : rpgRandom.die() * 3600;
+        if (value.check.achieved)
+        {
+            profile.fearComa = nil; self.episode.recoveredAt = self.recordedAt;
+            profile.unconscious = nil; profile.unconsciousClock = 0;
+        }
+        else self.episode.nextCheckAt = self.recordedAt + self.delaySeconds;
+        self.boundCheck = [value.check,value.check.score,value.check.roll,value.check.achieved,value.check.margin,value.check.critical];
+        self.boundDefinition = self.definition(); self.episode.recoveries = self.episode.recoveries + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local episode = firstObj(RpgExpandedFearComa); episode != nil; episode = nextObj(episode,RpgExpandedFearComa))
+            if (episode.startedAt != nil)
+            {
+                episode.assess();
+                if (episode.recoveredAt == nil && !episode.context.profile.dead && self.seconds + seconds > episode.nextCheckAt)
+                    rpgExpandedReject('fear-coma-recovery-boundary');
+            }
+        return nil;
     }
 ;
