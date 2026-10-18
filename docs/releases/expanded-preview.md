@@ -873,3 +873,9 @@ Daily hiking now has a pure full-reference terrain and weather assessment,
 including roads, clearance, deep snow, skis and skates. Distance arithmetic
 retains fractions until final rounding. Table and boundary fixtures are
 unrun; daily travel execution and group procedures remain incomplete.
+
+Ordinary daily hiking attempts now retain solo or shared-group rolls in every
+participant's history. Duplicate attempts cannot reroll by changing IDs or
+travel skills. Group assessment applies the leadership threshold, average skill
+and slowest-member pace. Replay and next-day handling have authored, unrun
+fixtures; a roll receipt still does not complete a journey or spend travel time.

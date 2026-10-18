@@ -97,7 +97,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "activity-hike-skill",
@@ -105,9 +105,12 @@
       "pages": "B351",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "One daily hiking success increases distance by twenty percent; failure grants no bonus and does not create free repeated attempts.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hiking_attempt"
+      ],
+      "validation_note": "Owned ordinary daily solo/group attempts share participant histories, prevent alternate-ID and alternate-skill retries, bind definitions, preserve the single roll and select the slowest current member for shared pace. Group leadership threshold and average skill/default arithmetic use B200/B204/B220-B221/B351. Ledger-day boundaries are explicit. Pure preview, failed/successful rolls, rollback, undo, saved replay and next-day assertions authored, unrun. Independent-roll party coordination, extra effort, full-day occupation, interruptions, fatigue and movement execution remain incomplete."
     },
     {
       "id": "activity-hike-group",
@@ -115,9 +118,12 @@
       "pages": "B351",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A leader with leadership at least twelve permits a single roll against average group hiking, using health-5 defaults for untrained members; the bonus applies to everyone or no one.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hiking_attempt"
+      ],
+      "validation_note": "Owned ordinary daily solo/group attempts share participant histories, prevent alternate-ID and alternate-skill retries, bind definitions, preserve the single roll and select the slowest current member for shared pace. Group leadership threshold and average skill/default arithmetic use B200/B204/B220-B221/B351. Ledger-day boundaries are explicit. Pure preview, failed/successful rolls, rollback, undo, saved replay and next-day assertions authored, unrun. Independent-roll party coordination, extra effort, full-day occupation, interruptions, fatigue and movement execution remain incomplete."
     },
     {
       "id": "activity-hike-group-pace",
@@ -125,9 +131,12 @@
       "pages": "B351",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A group travels at its slowest member's rate unless it splits; choosing the shared hiking roll commits it to staying together for that assessment.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hiking_attempt"
+      ],
+      "validation_note": "Owned ordinary daily solo/group attempts share participant histories, prevent alternate-ID and alternate-skill retries, bind definitions, preserve the single roll and select the slowest current member for shared pace. Group leadership threshold and average skill/default arithmetic use B200/B204/B220-B221/B351. Ledger-day boundaries are explicit. Pure preview, failed/successful rolls, rollback, undo, saved replay and next-day assertions authored, unrun. Independent-roll party coordination, extra effort, full-day occupation, interruptions, fatigue and movement execution remain incomplete."
     },
     {
       "id": "activity-hike-schedule",
@@ -927,7 +936,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-terrain-bad",
@@ -940,7 +949,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-terrain-average",
@@ -953,7 +962,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-terrain-good",
@@ -966,7 +975,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-weather-rain",
@@ -979,7 +988,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-weather-shallow-snow",
@@ -992,7 +1001,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-weather-deep-snow",
@@ -1005,7 +1014,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-weather-skis",
@@ -1018,7 +1027,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-weather-ice-coating",
@@ -1031,7 +1040,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-weather-solid-ice",
@@ -1044,7 +1053,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-weather-dry-road",
@@ -1057,7 +1066,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-weather-wet-poor-road",
@@ -1070,7 +1079,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-weather-wet-good-road",
@@ -1083,7 +1092,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "hiking-weather-snowy-road",
@@ -1096,7 +1105,7 @@
       "tests": [
         "tests/expanded.py::test_hiking_assessment"
       ],
-      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned daily skill attempts, trait-derived multipliers, group decisions, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Trait-derived multipliers, independent-roll party coordination, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
     },
     {
       "id": "breath-exertion-none",

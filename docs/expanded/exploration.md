@@ -704,7 +704,47 @@ mile. Inputs that exceed safe integer arithmetic are explicitly rejected.
 This assessment consumes no time or randomness and does not authorize a
 completed journey. The caller must still own the daily skill attempt,
 validate equipment and trait applicability, and occupy the full travel day
-including preparation and rest. Group decisions, daily attempt receipts,
-interruptions, fatigue, mixed routes and world movement remain incomplete.
+including preparation and rest. Daily attempt receipts and shared-roll group pace are described below.
+Interruptions, fatigue, mixed routes and world movement remain incomplete.
 The minimal fixture is `tests/fixtures/expanded-hiking-assessment.t`;
 its expected-value and purity assertions have been authored but not run.
+
+## Owned daily hiking attempts
+
+`RpgExpandedHikingAttempt` resolves the ordinary daily bonus from `full-2008`
+B200 and B351. Give it a unique `id`, `approved = true`, route/preparation
+`evidence`, and `members` rows of `[profile, skill, modifier, modifierEvidence]`.
+A solo attempt has one member and no leader. Skills must be the source-defined
+HT-based `hiking` (Average, HT-5), `skiing` or `skating` (Hard, HT-6; B220-B221).
+Each nonzero modifier requires an author explanation; B200 permits appropriate
+maps or footwear bonuses, but terrain affects distance, not this skill roll.
+Authors must establish actual equipment and movement eligibility before rolling.
+
+For a shared group roll, include every participant in `members`, set `leader`
+to one of them and supply the IQ/Average `leadershipSkill` (IQ-5 default, B204).
+The leader needs skill 12 or better. The assessment averages the members'
+effective travel skills, including defaults, rounding down. Resolution uses one
+3d6 roll for the whole group, and each participant owns the same receipt.
+Success grants the shared twenty-percent bonus; failure grants none.
+
+`assess()` is pure. `resolve()` validates before randomness, records the result
+and returns that result on replay. A second attempt with any ID or travel skill
+is rejected for a participant who already has a receipt that day. Calendar days
+are the shared ledger's 86400-second intervals starting at zero; integrations
+using another day boundary need an explicit calendar adapter. Changing members,
+leader, skill definitions or declared modifiers after resolution is rejected.
+Replaying a historical result remains possible without consuming time or dice.
+
+`assessPace(conditions, enhancedPercents)` evaluates current member movement
+with one authorized ground multiplier per member, then returns the lowest daily
+mileage. The conditions' travel skill must match each member's selected skill.
+Shared-roll groups commit to staying together; this interface provides no
+split-group bonus. Expired daily receipts cannot assess a later day's pace.
+The method remains a distance assessment, not a movement or time commit.
+
+Ordinary daily rolls do not spend travel time, fatigue or advancement points.
+Full-day occupation, interruptions, independent-roll parties, extra effort and
+movement execution remain incomplete. They must not be inferred from a saved
+bonus receipt. `tests/fixtures/expanded-hiking-attempt.t` contains solo/group
+integration fixtures for previews, success, failure, duplicate requests, leadership,
+rollback, undo, saved replay and next-day availability. Assertions remain unrun.

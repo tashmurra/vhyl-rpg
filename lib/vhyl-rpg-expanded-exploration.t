@@ -1413,3 +1413,125 @@ rpgExpandedAssessHiking(move, enhancedPercent, succeeded, conditions)
     value.milesHundredths = numerator / (50 * value.weatherDivisor);
     return value;
 }
+
+modify RpgExpandedProfile
+    hikingAttempts = []
+;
+class RpgExpandedHikingRollResult: RpgExpandedResult
+    score = nil
+    memberScores = []
+    day = nil
+    staysTogether = nil
+;
+/** B200/B351/B220-B221: one ordinary daily travel roll per participant.
+ * Calendar days use the shared ledger's 86400-second boundaries. Member rows
+ * are [profile, skill, authored modifier, modifier evidence]. */
+class RpgExpandedHikingAttempt: object
+    id = nil
+    members = []
+    leader = nil
+    leadershipSkill = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    committedAt = nil
+    definition()
+    {
+        local values = [self.id,self.leader,self.leadershipSkill,self.approved,self.evidence,self.members.length()];
+        foreach (local row in self.members)
+            values = values + row + [row[2].id,row[2].attribute,row[2].difficulty,row[2].defaultPenalty];
+        if (self.leadershipSkill != nil)
+            values = values + [self.leadershipSkill.id,self.leadershipSkill.attribute,
+                self.leadershipSkill.difficulty,self.leadershipSkill.defaultPenalty];
+        return values;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.members.length() == 0 || self.members.length() > 1000)
+            rpgExpandedReject('hiking-attempt-definition');
+        foreach (local row in self.members)
+            if (row.length() != 4 || row[1] == nil || !row[1].ofKind(RpgExpandedProfile)
+                || row[2] == nil || !row[2].ofKind(RpgLiteSkill)) rpgExpandedReject('hiking-attempt-member');
+        local value = new RpgExpandedHikingRollResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.boundDefinition.length()) rpgExpandedReject('hiking-attempt-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('hiking-attempt-binding');
+            foreach (local row in self.members)
+                if (!holds(row[1].hikingAttempts,self)) rpgExpandedReject('hiking-attempt-history');
+            value.status = 'reused'; return value;
+        }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'hiking-attempt-author-facts'; return value; }
+        value.day = rpgLedger.seconds / 86400;
+        local profiles = []; local total = 0;
+        foreach (local row in self.members)
+        {
+            local profile = row[1]; local skill = row[2];
+            if (holds(profiles,profile)) rpgExpandedReject('hiking-attempt-duplicate-member');
+            profiles = profiles + [profile];
+            foreach (local prior in profile.hikingAttempts)
+                if (prior.id == self.id || prior.result.day == value.day) rpgExpandedReject('hiking-attempt-duplicate');
+            if (!holds(['hiking','skiing','skating'],skill.id) || skill.attribute != rpgHT
+                || skill.difficulty != (skill.id == 'hiking' ? 1 : 2)
+                || skill.defaultPenalty != (skill.id == 'hiking' ? -5 : -6))
+                rpgExpandedReject('hiking-skill-definition');
+            rpgInteger(row[3],-1000,1000);
+            if (row[3] != 0 && (row[4] == nil || row[4] == ''))
+            { value.reason = 'hiking-modifier-evidence'; return value; }
+            if (profile.dead || profile.unconscious || profile.stunned || profile.mentalStun
+                || profile.voluntaryMovementUnavailable() || profile.healthEffortReason('action',nil,nil,true) != nil)
+            { value.reason = 'hiking-actor-unavailable'; return value; }
+            local context = new RpgLiteContext(); context.skill = skill; context.kind = 'hiking';
+            context.requiresMovement = true; context.modifier = row[3];
+            local score = rpgLiteScore(profile,context);
+            if (score == nil) { value.reason = 'hiking-score-unavailable'; return value; }
+            rpgInteger(score,-1000,1000); value.memberScores = value.memberScores + [score]; total += score;
+        }
+        value.staysTogether = self.members.length() > 1;
+        if (value.staysTogether)
+        {
+            if (self.leader == nil || !holds(profiles,self.leader) || self.leadershipSkill == nil
+                || !self.leadershipSkill.ofKind(RpgLiteSkill) || self.leadershipSkill.id != 'leadership'
+                || self.leadershipSkill.attribute != rpgIQ || self.leadershipSkill.difficulty != 1
+                || self.leadershipSkill.defaultPenalty != -5) rpgExpandedReject('hiking-leader-definition');
+            local leadership = self.leader.skillScore(self.leadershipSkill);
+            if (leadership == nil || leadership < 12) { value.reason = 'hiking-leadership-required'; return value; }
+        }
+        else if (self.leader != nil || self.leadershipSkill != nil) rpgExpandedReject('hiking-solo-leader');
+        value.score = total / self.members.length();
+        if (value.score < 3) { value.reason = 'hiking-score-too-low'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        value.check = rpgCheck(value.score,rpgRandom.roll()); value.status = 'resolved';
+        self.boundDefinition = self.definition(); self.committedAt = rpgLedger.seconds; self.result = value;
+        foreach (local row in self.members) row[1].hikingAttempts = row[1].hikingAttempts + [self];
+        return value;
+    }
+    /** Current shared route assessment, never a completed journey receipt.
+     * Multipliers correspond to member order and require authored trait facts. */
+    assessPace(conditions, enhancedPercents)
+    {
+        local prepared = self.assess();
+        if (prepared.status != 'reused') rpgExpandedReject('hiking-attempt-unresolved');
+        if (self.result.day != rpgLedger.seconds / 86400) rpgExpandedReject('hiking-attempt-expired');
+        if (enhancedPercents.length() != self.members.length()) rpgExpandedReject('hiking-multiplier-members');
+        local result = nil;
+        for (local index = 1; index <= self.members.length(); index += 1)
+        {
+            local row = self.members[index];
+            local value = rpgExpandedAssessHiking(row[1].move(),enhancedPercents[index],self.result.check.achieved,conditions);
+            if (value.status != 'ready') return value;
+            if (row[2].id != value.travelSkill) rpgExpandedReject('hiking-travel-skill-mismatch');
+            if (result == nil || value.milesHundredths < result.milesHundredths) result = value;
+        }
+        return result;
+    }
+;

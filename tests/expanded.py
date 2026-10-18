@@ -9012,6 +9012,8 @@ def test(build):
     test_climb_assessment(Session, climb_assessment)
     hiking_assessment = build.build('expanded-hiking-assessment',ROOT / 'tests/fixtures/expanded-hiking-assessment.t')
     test_hiking_assessment(Session, hiking_assessment)
+    hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
+    test_hiking_attempt(Session, hiking_attempt, build.out)
     test_climb_fall_assessment(Session, climb_assessment)
     test_landing_assessment(Session, climb_assessment)
     landing_attempt = build.build('expanded-landing-attempt',ROOT / 'tests/fixtures/expanded-landing-attempt.t')
@@ -14411,3 +14413,79 @@ def test_hiking_assessment(Session, bundle):
         assert assess(terrain=4,weather=4,divisor=7,evidence=1,move=3,enhanced=150,succeeded=1)[5:] == [964,0,0]
     finally:
         s.close()
+
+
+def test_hiking_attempt(Session, bundle, out):
+    def state(s):
+        s.action(2285,1103)
+        return last(s,'test.hiking-owned')
+    path = out / 'expanded-hiking-attempt.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,1100):
+            s.action(2285,code)
+        assert last(s,'test.hiking-preview') == ['ready',None,11,0]
+        s.action(2285,1102)
+        assert state(s) == [0,0,0,0,None,0,None]
+        s.action(2285,1101)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,None,0,None]
+        for code in (1101,1101,1107,1104,1109,1104):
+            s.action(2285,code)
+        assert state(s) == [1,0,3,0,11,1,0]
+        assert last(s,'test.hiking-pace') == [6000,3]
+        assert last(s,'test.hiking-second') == ['hiking-attempt-duplicate']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,1101)
+        assert state(s) == [1,0,3,0,11,1,0]
+        for code in (1108,1113,1104):
+            s.action(2285,code)
+        assert last(s,'test.hiking-pace-error') == ['hiking-attempt-expired']
+        assert last(s,'test.hiking-second') == ['resolved']
+        assert state(s) == [2,0,6,86400,11,1,0]
+    finally:
+        s.close()
+    for forced, success, miles in ((30,0,4000),(31,1,4800)):
+        s = Session(bundle)
+        try:
+            for code in (forced,1105,1100):
+                s.action(2285,code)
+            # Average of trained 11 and untrained HT-5 = 5, rounded down.
+            assert last(s,'test.hiking-preview') == ['ready',None,8,0]
+            s.action(2285,1102)
+            assert state(s) == [0,0,0,0,None,0,None]
+            s.action(2285,1101)
+            s.command('undo')
+            assert state(s) == [0,0,0,0,None,0,None]
+            for code in (1101,1101,1107,1112,1104):
+                s.action(2285,code)
+            assert state(s) == [1,1,3,0,8,success,0]
+            assert last(s,'test.hiking-pace') == [miles,3]
+            assert last(s,'test.hiking-second') == ['hiking-attempt-duplicate']
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (1101,1107,1104):
+                s.action(2285,code)
+            assert state(s) == [1,1,3,0,8,success,0]
+            assert last(s,'test.hiking-pace') == [miles,3]
+            assert last(s,'test.hiking-second') == ['hiking-attempt-duplicate']
+        finally:
+            s.close()
+    for changes, reason in (((1105,1106),'hiking-leadership-required'),((1110,),'hiking-modifier-evidence')):
+        s = Session(bundle)
+        try:
+            for code in (*changes,1100,1101):
+                s.action(2285,code)
+            assert last(s,'test.hiking-preview')[1] == reason
+            assert state(s) == [0,0,0,0,None,0,None]
+        finally:
+            s.close()
