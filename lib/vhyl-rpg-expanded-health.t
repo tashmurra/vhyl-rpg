@@ -6756,3 +6756,19 @@ class RpgExpandedPathMoveManeuver: RpgExpandedPhysicalManeuver
 
 /** Each of the two clamber turns owns a fresh physical health gate. */
 class RpgExpandedClamberManeuver: RpgExpandedPathMoveManeuver;
+
+class RpgExpandedForagePoisonAssessment: RpgExpandedResult
+    injury = 0
+    damageDieRequired = nil
+;
+/** B427 direct injury, not damage reduced by armor. Supplied dice only. */
+rpgExpandedAssessForagePoison(healthScore,healthRoll,injuryDie)
+{
+    rpgInteger(healthScore,-1000,1000); rpgInteger(healthRoll,3,18);
+    local value = new RpgExpandedForagePoisonAssessment();
+    if (healthScore < 3) { value.reason = 'forage-poison-health-score'; return value; }
+    value.check = rpgCheck(healthScore,healthRoll); value.damageDieRequired = !value.check.achieved;
+    if (value.damageDieRequired) { rpgInteger(injuryDie,1,6); value.injury = injuryDie; }
+    else value.injury = 1;
+    value.status = 'ready'; return value;
+}

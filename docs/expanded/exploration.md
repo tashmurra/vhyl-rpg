@@ -1265,3 +1265,28 @@ For the two-consecutive-Move alternative in B352, use the tactical
 progress and places an existing figure on an authored reachable adjacent upper
 surface after the second turn, without a jump accuracy roll. Both turns still
 require normal physical health permission.
+
+## Assessing foraging outcomes
+
+`rpgExpandedAssessForage(method, score, roll)` implements the B427 results for
+`plants`, `hunting` and `fishing` using supplied dice. A plant success provides
+one meal; hunting or fishing success provides two. Hunting applies its -4
+penalty internally, so the supplied score must exclude that penalty. Plants
+share one attempt category; hunting and fishing share the other.
+
+Plant rolls of natural 17 and 18 return `poisonScope = 'forager'` and `'party'`
+respectively, including at high skill. They provide no successful meal yield.
+The same rolls for hunting/fishing do not invoke the plant-poisoning rule.
+`RpgExpandedForageSite` adds explicit resource availability and authored scarcity
+and repeated-use penalties. Supply its ID and concrete evidence. The printed
+scarcity examples are -3 for snow and -6 for desert; these are authored choices,
+not automatically imposed climate labels. Local depletion likewise requires an
+authored penalty, not an invented universal depletion rate.
+
+These pure assessments do not create food, consume ammunition, spend time,
+reserve daily attempts or injure anyone. Health supplies the matching pure
+[plant-poison assessment](health.md#foraged-plant-poisoning). Owned daily scheduling,
+skill/weapon eligibility, party exposure, food inventory and preservation remain
+pending. `test_foraging_assessment` covers yields, natural-roll complications,
+scarcity, unavailable resources, hunting penalties and supplied poison dice;
+assertions are authored, unrun while checks remain paused.

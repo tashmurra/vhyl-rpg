@@ -2209,9 +2209,12 @@
       "pages": "B427",
       "module": "exploration",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Foraging requires suitable plant, animal or aquatic resources; an authored terrain model specifies availability and any cumulative local depletion.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment"
+      ],
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
     },
     {
       "id": "health-foraging-plants",
@@ -2219,9 +2222,12 @@
       "pages": "B427",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A successful survival or naturalist roll gathers one meal of edible plants; choosing a second applicable skill does not grant another attempt.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment"
+      ],
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
     },
     {
       "id": "health-foraging-plant-seventeen",
@@ -2229,9 +2235,12 @@
       "pages": "B427",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A natural seventeen on plant foraging poisons the forager; a health success limits injury to one and failure causes one die of injury.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment"
+      ],
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
     },
     {
       "id": "health-foraging-plant-eighteen",
@@ -2239,9 +2248,12 @@
       "pages": "B427",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A natural eighteen poisons the whole party through the shared food; each affected character makes an independent health check and damage resolution.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment"
+      ],
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
     },
     {
       "id": "health-foraging-hunting",
@@ -2249,9 +2261,12 @@
       "pages": "B427",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "In appropriate terrain, a missile-weapon skill success at -4 supplies two meals of small-game meat.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment"
+      ],
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
     },
     {
       "id": "health-foraging-fishing",
@@ -2259,9 +2274,12 @@
       "pages": "B427",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Near suitable water, a successful fishing roll supplies two meals instead of using the missile-hunting attempt.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment"
+      ],
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
     },
     {
       "id": "health-foraging-travel-limits",
@@ -2299,9 +2317,12 @@
       "pages": "B427",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply authored scarcity penalties, including the examples -3 for snow and -6 for desert, plus any recorded repeated-use penalty for the area.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment"
+      ],
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
     },
     {
       "id": "health-healing-condition-contract",

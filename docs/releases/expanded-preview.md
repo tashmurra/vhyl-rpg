@@ -1032,3 +1032,9 @@ The two-Move clamber alternative now records consecutive progress and places the
 existing figure on an authored reachable adjacent upper surface without an
 accuracy roll. Health permission remains per-turn. Occupancy, skipped turns,
 rollback, undo and saved-continuation assertions are authored, unrun.
+
+Foraging now has pure printed-result assessments for plant, hunting and fishing
+yields, hunting's penalty, authored scarcity and natural-17/18 plant poisoning.
+The companion health assessment distinguishes direct poison injury from damage.
+Daily ownership, food inventory and party injury commitment remain pending.
+Expected-value assertions are authored, unrun while checks remain paused.

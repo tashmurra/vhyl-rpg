@@ -9018,6 +9018,8 @@ def test(build):
     test_held_throw(Session, held_throw)
     throw_attempt = build.build('expanded-throw-attempt',ROOT / 'tests/fixtures/expanded-throw-attempt.t')
     test_throw_attempt(Session, throw_attempt, build.out)
+    foraging = build.build('expanded-foraging-assessment',ROOT / 'tests/fixtures/expanded-foraging-assessment.t')
+    test_foraging_assessment(Session, foraging)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -15866,5 +15868,35 @@ def test_clamber(Session, bundle, out):
         for code in (70,100,73,140):
             s.action(2278,code)
         assert state(s) == [0,0,0,0,0,0]
+    finally:
+        s.close()
+
+
+def test_foraging_assessment(Session, bundle):
+    s = Session(bundle)
+    try:
+        cases = [((1,12,12,1,0,0),[1,None,12,'plants']),
+                 ((1,12,13,1,0,0),[0,None,12,'plants']),
+                 ((1,20,17,1,0,0),[0,'forager',20,'plants']),
+                 ((1,20,18,1,0,0),[0,'party',20,'plants']),
+                 ((2,14,10,1,0,0),[2,None,10,'animal-food']),
+                 ((2,14,11,1,0,0),[0,None,10,'animal-food']),
+                 ((3,14,14,1,0,0),[2,None,14,'animal-food']),
+                 ((3,20,18,1,0,0),[0,None,20,'animal-food']),
+                 ((1,14,11,1,-3,0),[1,None,11,'plants']),
+                 ((1,14,8,1,-6,0),[1,None,8,'plants']),
+                 ((3,14,10,1,-3,-1),[2,None,10,'animal-food'])]
+        for args, expected in cases:
+            s.action(2292,*args)
+            assert last(s,'test.forage') == ['ready',None,*expected,0,0]
+        s.action(2292,1,12,10,0,0,0)
+        assert last(s,'test.forage')[:2] == ['blocked','forage-resources-unavailable']
+        s.action(2292,2,6,3,1,0,0)
+        assert last(s,'test.forage')[:2] == ['blocked','forage-score']
+        for die in range(1,7):
+            s.action(2293,10,11,die)
+            assert last(s,'test.forage-poison') == ['ready',None,die,1,0,0]
+            s.action(2293,10,10,die)
+            assert last(s,'test.forage-poison') == ['ready',None,1,0,0,0]
     finally:
         s.close()

@@ -3141,3 +3141,16 @@ Assertions remain unrun while checks are paused.
 `RpgExpandedClamberManeuver` uses the same physical permission contract for each
 of the two clamber turns. Automatic clamber success does not bypass exhausted
 effort or other health restrictions. Each turn requires its own gate.
+
+## Foraged-plant poisoning
+
+`rpgExpandedAssessForagePoison(healthScore, healthRoll, injuryDie)` implements the
+B427 injury assessment after a plant-foraging poisoning result. A successful
+health check gives one point of direct injury; failure uses the supplied one-die
+injury result. This is injury, so armor must not be subtracted from it. The
+assessment consumes no randomness and does not modify health. Scores below
+three remain explicitly unsupported by this helper.
+
+A party-wide natural-18 outcome requires separate checks and injury for each
+exposed party member; callers must not reuse one assessment for everyone.
+Owned exposure, wound commitment and shared-food handling remain pending.

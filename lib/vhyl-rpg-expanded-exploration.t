@@ -2548,3 +2548,50 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
         value.status = 'resolved'; return value;
     }
 ;
+
+class RpgExpandedForageResult: RpgExpandedResult
+    meals = 0
+    poisonScope = nil
+    group = nil
+    score = nil
+;
+/** B427 one supplied forage roll; hunting includes its printed -4 here. */
+rpgExpandedAssessForage(method, score, roll)
+{
+    if (!holds(['plants','hunting','fishing'],method)) rpgExpandedReject('forage-method');
+    rpgInteger(score,-1000,1000); rpgInteger(roll,3,18);
+    local value = new RpgExpandedForageResult();
+    value.group = method == 'plants' ? 'plants' : 'animal-food';
+    value.modifier = method == 'hunting' ? -4 : 0; value.score = score + value.modifier;
+    if (value.score < 3) { value.reason = 'forage-score'; return value; }
+    value.check = method == 'hunting' ? rpgExpandedCombatCheck('ranged',value.score,roll) : rpgCheck(value.score,roll);
+    if (method == 'plants' && (roll == 17 || roll == 18))
+        value.poisonScope = roll == 17 ? 'forager' : 'party';
+    else if (value.check.achieved) value.meals = method == 'plants' ? 1 : 2;
+    value.status = 'ready'; return value;
+}
+
+/** Author owns resource availability and scarcity, including cumulative local depletion. */
+class RpgExpandedForageSite: object
+    id = nil
+    plantsAvailable = nil
+    gameAvailable = nil
+    waterAvailable = nil
+    scarcityPenalty = 0
+    repeatedUsePenalty = 0
+    evidence = nil
+    assess(method,score,roll)
+    {
+        if (self.id == nil || self.id == '' || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('forage-site-facts');
+        if (!holds(['plants','hunting','fishing'],method)) rpgExpandedReject('forage-method');
+        rpgInteger(self.scarcityPenalty,-1000,0); rpgInteger(self.repeatedUsePenalty,-1000,0);
+        rpgInteger(score,-1000,1000); rpgInteger(roll,3,18);
+        if (!(method == 'plants' ? self.plantsAvailable : method == 'hunting' ? self.gameAvailable : self.waterAvailable))
+        { local value = new RpgExpandedForageResult(); value.reason = 'forage-resources-unavailable'; return value; }
+        local adjusted = score + self.scarcityPenalty + self.repeatedUsePenalty;
+        if (adjusted < -1000)
+        { local value = new RpgExpandedForageResult(); value.reason = 'forage-score-range'; return value; }
+        return rpgExpandedAssessForage(method,adjusted,roll);
+    }
+;
