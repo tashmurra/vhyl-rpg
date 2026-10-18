@@ -1568,3 +1568,9 @@ append one phantom-voice check after a failed stress-related roll. Both results
 persist without suppressing the original obligation. Successful rolls, unrelated
 checks, mitigation, surrender and purchased success do not add that roll.
 Mandatory fear and direct low-level integration remain pending; fixtures are unrun.
+
+
+Direct self-control and abridged fear now reject unsupported active phantom-voice
+combinations before randomness. Owned self-control retains its integrated
+follow-up; surrender, absent traits and mitigation preserve ordinary behavior.
+Full fear resolution remains pending, and the guard fixtures are unrun.

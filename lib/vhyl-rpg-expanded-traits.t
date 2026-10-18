@@ -450,7 +450,7 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
             value.check = new RpgResult(); value.check.status = 'resolved';
             value.check.achieved = true; value.check.outcome = 'automatic';
         }
-        else value.check = rpgLiteSelfControl(self.profile,self.trait,self.effectiveModifier(),self.giveIn);
+        else value.check = rpgLiteSelfControlCore(self.profile,self.trait,self.effectiveModifier(),self.giveIn);
         if (value.check.status != 'resolved') rpgExpandedReject('self-control-trigger-changed');
         self.check = value.check; self.active = !self.check.achieved;
         self.boundDefinition = self.definition(); self.profile.selfControlTriggers = self.profile.selfControlTriggers + [self];
@@ -2052,5 +2052,19 @@ modify RpgExpandedProfile
         if (occurrence == nil || !occurrence.ofKind(RpgExpandedPhantomVoiceOccurrence) || occurrence.profile != self)
             rpgExpandedReject('phantom-voices-observation-owner');
         return occurrence.validateReceipt();
+    }
+;
+
+/* The owned trigger supplies stress classification and the follow-up receipt. */
+modify RpgExpandedProfile
+    validateDirectSelfControl(giveIn)
+    {
+        if (!giveIn && self.phantomVoiceSeverity() > 0) rpgExpandedReject('phantom-voices-owned-self-control-required');
+        return inherited(giveIn);
+    }
+    validateDirectFright()
+    {
+        if (self.phantomVoiceSeverity() > 0) rpgExpandedReject('phantom-voices-full-fear-integration-required');
+        return inherited();
     }
 ;

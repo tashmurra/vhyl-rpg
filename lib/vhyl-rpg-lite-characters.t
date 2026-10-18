@@ -374,6 +374,13 @@ rpgLiteRead(profile, languageId)
 /** Resolve against the trait rating (Lite defaults to 12), or yield without rolling. */
 rpgLiteSelfControl(profile, trait, modifier, giveIn)
 {
+    profile.validateDirectSelfControl(giveIn);
+    return rpgLiteSelfControlCore(profile,trait,modifier,giveIn);
+}
+
+/* Shared arithmetic for an already preflighted, owned resolution. Internal use. */
+rpgLiteSelfControlCore(profile, trait, modifier, giveIn)
+{
     if (!holds(profile.traits, trait) || !trait.controlled || !trait.active) throw new RpgError();
     local base = trait.selfControlNumber();
     if (giveIn)
@@ -619,4 +626,8 @@ modify RpgLiteSocialContext
     traitReactionComponents(profile) { return [['traits',self.traitReactionModifier(profile)]]; }
     adjustReactionComponent(profile,id,amount) { return amount; }
     observerReactionModifier(profile) { return 0; }
+;
+
+modify RpgLiteProfile
+    validateDirectSelfControl(giveIn) { return nil; }
 ;

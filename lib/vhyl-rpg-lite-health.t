@@ -310,6 +310,7 @@ rpgLiteHealthTime(profile, seconds)
 /** Resolve fear and set the Lite stun or fainting duration on failure. */
 rpgLiteFright(profile, modifier)
 {
+    profile.validateDirectFright();
     local result = rpgLiteAttributeCheck(profile, rpgWill, 'fright', modifier);
     if (!result.achieved)
     {
@@ -612,4 +613,8 @@ modify RpgLiteProfile
 modify RpgLiteProfile
     /* Expanded opt-in retains damage after death; Lite keeps its early return. */
     postmortemInjury(amount) { return new RpgLiteHealthResult(); }
+;
+
+modify RpgLiteProfile
+    validateDirectFright() { return nil; }
 ;

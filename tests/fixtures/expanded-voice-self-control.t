@@ -52,6 +52,19 @@ modify BleedTestAction
             bleedRules.pointFundedSelfControl = true; bleedProfile.earnedPoints = 1; bleedProfile.unspentPoints = 1;
             voiceControlTrigger.buySuccess = true; return nil;
         }
+        if (code == 10112 || code == 10113 || code == 10114)
+        {
+            event('test.voice-direct');
+            try
+            {
+                local value = code == 10114 ? rpgLiteFright(bleedProfile,0)
+                    : rpgLiteSelfControl(bleedProfile,voiceControlTrait,0,code == 10113);
+                eventValue(value.status);
+            }
+            catch (RpgExpandedError error) { eventValue(error.reason); }
+            eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 10115) { bleedProfile.traits = [voiceControlTrait]; return nil; }
         return inherited(context);
     }
 ;

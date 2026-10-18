@@ -1351,8 +1351,9 @@ end another. Existing fear, injury and other consequences are not replaced.
 These records contain private author information, not automatically player-visible
 explanations of the character's experiences.
 
-Mandatory checks after relevant fear results and low-level direct self-control
-calls are still pending. Owned self-control triggers integrate as described below.
+Mandatory checks after relevant full fear results remain pending. Direct rolled
+self-control and abridged fear calls reject active phantom-voice combinations
+before randomness; owned self-control triggers integrate as described below.
 Sound masking, episode-induced fear, commands and will resistance, origin-aware
 treatment and buyoff also remain incomplete. This interface must not be presented
 as the complete disadvantage.
@@ -1385,9 +1386,23 @@ linked occurrence and returns both saved results without rolling. Engine
 transactions restore both histories and randomness together on exception or undo.
 
 Use the owned trigger interface for this combination. Direct low-level
-`rpgLiteSelfControl` calls do not yet dispatch the additional check; mandatory
-fear checks also remain pending. This does not complete the full trigger entry.
+`rpgLiteSelfControl` calls reject rolled attempts with active phantom voices using
+`phantom-voices-owned-self-control-required`; voluntary surrender remains
+available without a roll. `rpgLiteFright` rejects the active-trait combination
+with `phantom-voices-full-fear-integration-required`, because abridged fear cannot
+supply the required full procedure. Mitigated or absent phantom voices preserve
+existing behavior. These guards do not complete the pending full fear procedure.
+
+The shared `rpgLiteSelfControlCore` function is internal arithmetic used after
+owned-trigger preflight. Author integrations must use the public direct function
+or the owned trigger, rather than calling the core and bypassing policy.
 [`expanded-voice-self-control.t`](../../tests/fixtures/expanded-voice-self-control.t)
 specifies classification, success/failure boundaries, unrelated rolls, mitigation,
 surrender, purchased success, preview, replay, rollback, undo and save continuation.
 Its assertions remain unrun while checks are paused.
+
+
+`test_voice_direct_guards` adds unrun fixtures for rejection before randomness,
+voluntary surrender, mitigation and unchanged direct behavior without the trait.
+Both guards throw a structured expanded error so callers cannot mistake an
+unsupported request for a failed resistance roll.

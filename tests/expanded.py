@@ -9183,6 +9183,7 @@ def test(build):
     test_phantom_voices(Session, phantom_voices, build.out)
     voice_self_control = build.build('expanded-voice-self-control',ROOT / 'tests/fixtures/expanded-voice-self-control.t')
     test_voice_self_control(Session, voice_self_control, build.out)
+    test_voice_direct_guards(Session, voice_self_control)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19917,3 +19918,28 @@ def test_voice_self_control(Session, bundle, out):
             assert last(s, 'test.voice-control-state') == expected
         finally:
             s.close()
+
+
+def test_voice_direct_guards(Session, bundle):
+    """Unsupported direct calls reject before dice; absent traits preserve behavior. Unrun."""
+    s = Session(bundle)
+    try:
+        for code in (10100, 10112):
+            s.action(2285, code)
+        assert last(s, 'test.voice-direct') == ['phantom-voices-owned-self-control-required', 0]
+        s.action(2285, 10114)
+        assert last(s, 'test.voice-direct') == ['phantom-voices-full-fear-integration-required', 0]
+        s.action(2285, 10113)
+        assert last(s, 'test.voice-direct') == ['resolved', 0]
+        for code in (10109, 10112):
+            s.action(2285, code)
+        assert last(s, 'test.voice-direct') == ['resolved', 3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (10100, 10115, 10112, 10114):
+            s.action(2285, code)
+        assert last(s, 'test.voice-direct') == ['resolved', 6]
+    finally:
+        s.close()
