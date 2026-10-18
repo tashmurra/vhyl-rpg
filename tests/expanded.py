@@ -9500,6 +9500,8 @@ def test(build):
     test_culture_templates(Session,culture_templates,build.out)
     cultural_adaptation = build.build('expanded-cultural-adaptation',ROOT / 'tests/fixtures/expanded-cultural-adaptation.t')
     test_cultural_adaptation(Session,cultural_adaptation,build.out)
+    gesture_attempt = build.build('expanded-gesture-attempt',ROOT / 'tests/fixtures/expanded-gesture-attempt.t')
+    test_gesture_attempt(Session,gesture_attempt,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26171,3 +26173,47 @@ def test_cultural_adaptation(Session, bundle, out):
         assert last(s,'test.cultural-adaptation') == [8,20,0,0]
     finally:
         s.close()
+
+
+def test_gesture_attempt(Session, bundle, out):
+    """One simple idea, shared time, health permission and retained resolution; unrun."""
+    def state(s):
+        s.action(1680,26503)
+        return last(s,'test.gesture-attempt')
+    initial = [0,0,None,0,0]
+    completed = [1,1,'Wait beside the doorway',2,3]
+    s = Session(bundle)
+    path = out / 'gesture-attempt.zsave'
+    try:
+        s.action(1680,26502)
+        assert last(s,'test.gesture-preview') == ['ready',None]
+        assert state(s) == initial
+        s.action(1680,26501); assert state(s) == initial
+        s.action(1680,26500); s.command('undo'); assert state(s) == initial
+        s.action(1680,26500); s.action(1680,26500); assert state(s) == completed
+        s.action(1680,26507); assert state(s) == completed
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,26500)
+        assert state(s) == completed
+    finally:
+        s.close()
+    for code,expected in ((26504,[1,1,None,2,3]),(26505,[1,1,None,0,3]),(26207,completed)):
+        s = Session(bundle)
+        try:
+            s.action(1680,code); s.action(1680,26500); s.action(1680,26500)
+            assert state(s) == expected
+        finally:
+            s.close()
+    for code,reason in ((26205,'gesture-simple-idea-required'),(26206,'gesture-not-observed'),
+                         (26506,'gesture-counterpart-unavailable')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code); s.action(1680,26502); s.action(1680,26500)
+            assert last(s,'test.gesture-preview') == ['blocked',reason]
+            assert state(s) == initial
+        finally:
+            s.close()

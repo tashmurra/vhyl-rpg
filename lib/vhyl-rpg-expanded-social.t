@@ -4078,3 +4078,129 @@ class RpgExpandedMakeupAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+class RpgExpandedGestureAttemptResult: RpgExpandedResult
+    score = nil
+    gate = nil
+    allowed = nil
+    meaning = nil
+;
+/** B198 one skill use for one authored simple idea. No automatic persuasion. */
+class RpgExpandedGestureAttempt: object
+    id = nil
+    profile = nil
+    counterpart = nil
+    context = nil
+    seconds = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    startedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.counterpart == nil || !self.counterpart.ofKind(RpgExpandedProfile) || self.profile == self.counterpart
+            || self.context == nil || !self.context.ofKind(RpgLiteContext)) rpgExpandedReject('gesture-attempt-definition');
+        rpgInteger(self.seconds,0,86400);
+        return [self.id,self.profile,self.counterpart,self.context,self.seconds,self.approved,self.evidence] + self.context.gestureAttemptFacts();
+    }
+    outcomeDefinition()
+    {
+        local facts = [self.startedAt,self.completedAt,self.result,self.result.allowed,self.result.meaning,
+            self.result.seconds,self.result.reason,self.result.gate,self.result.check];
+        if (self.result.check != nil) facts = facts + [self.result.check.score,self.result.check.roll,
+            self.result.check.margin,self.result.check.achieved,self.result.check.critical];
+        return facts;
+    }
+    conditionsReason()
+    {
+        if (self.counterpart.dead || self.counterpart.unconscious) return 'gesture-counterpart-unavailable';
+        local reason = self.context.gestureAttemptReason(self.profile); if (reason != nil) return reason;
+        foreach (local person in [self.profile,self.counterpart])
+        {
+            reason = person.nonTravelScheduleReason(rpgLedger.seconds,self.seconds); if (reason != nil) return reason;
+        }
+        return nil;
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedGestureAttemptResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.gestureAttempts,self) || !holds(self.counterpart.gestureAttempts,self)
+                || self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('gesture-attempt-history');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('gesture-attempt-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('gesture-attempt-outcome');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('gesture-attempt-outcome');
+            if (self.completedAt > rpgLedger.seconds || self.result.gate.assess().status != 'reused') rpgExpandedReject('gesture-attempt-gate');
+            value.status = 'reused'; return value;
+        }
+        if (self.startedAt != nil || self.completedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil)
+            rpgExpandedReject('gesture-attempt-uncommitted');
+        foreach (local person in [self.profile,self.counterpart])
+            foreach (local prior in person.gestureAttempts) if (prior.id == self.id) rpgExpandedReject('gesture-attempt-duplicate');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'gesture-attempt-evidence-required'; return value; }
+        value.reason = self.conditionsReason(); if (value.reason != nil) return value;
+        value.score = rpgLiteScore(self.profile,self.context);
+        if (value.score == nil || value.score < 3) { value.reason = 'gesture-attempt-score'; return value; }
+        value.gate = self.profile.prepareSocialGate(self.id,self.evidence,self.context.operation == 'convey');
+        if (value.gate == nil) { value.reason = 'gesture-health-adapter-required'; return value; }
+        local permission = value.gate.assess();
+        if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds); rpgLedger.validateAdvance(self.seconds);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds;
+        local permission = value.gate.resolve();
+        if (!holds(['resolved','reused'],permission.status)) rpgExpandedReject('gesture-attempt-gate-changed');
+        value.allowed = permission.allowed;
+        if (value.allowed)
+        {
+            rpgSpendTime(self.seconds); value.seconds = self.seconds;
+            if (self.counterpart.dead || self.counterpart.unconscious || self.context.gestureAttemptReason(self.profile) != nil
+                || rpgLiteScore(self.profile,self.context) != value.score || rpgLedger.seconds != start+self.seconds)
+                rpgExpandedReject('gesture-attempt-interrupted');
+            foreach (local person in [self.profile,self.counterpart])
+                if (person.nonTravelScheduleReason(start,self.seconds) != nil) rpgExpandedReject('gesture-attempt-schedule-changed');
+        }
+        local current = self.definition();
+        if (current.length() != facts.length()) rpgExpandedReject('gesture-attempt-changed');
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (current[index] != facts[index]) rpgExpandedReject('gesture-attempt-changed');
+        if (value.allowed)
+        {
+            value.check = rpgCheck(value.score,rpgRandom.roll());
+            if (value.check.achieved) value.meaning = self.context.idea;
+        }
+        else value.reason = permission.reason;
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = facts;
+        value.status = 'resolved'; self.result = value; self.boundOutcome = self.outcomeDefinition();
+        self.profile.gestureAttempts = self.profile.gestureAttempts + [self];
+        self.counterpart.gestureAttempts = self.counterpart.gestureAttempts + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    gestureAttempts = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local attempt in self.gestureAttempts)
+        {
+            if (attempt == nil || !attempt.ofKind(RpgExpandedGestureAttempt) || holds(ids,attempt.id)
+                || self != attempt.profile && self != attempt.counterpart || attempt.assess().status != 'reused')
+                rpgExpandedReject('gesture-attempt-history');
+            ids = ids + [attempt.id];
+        }
+        return nil;
+    }
+;

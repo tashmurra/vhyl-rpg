@@ -1783,3 +1783,28 @@ author attestation. The equipment guide describes owned stock and authored units
 An allowed attempt spends materials once, whether its roll succeeds or fails;
 health denial spends none. This does not add a material consumption rate to the
 printed rule. Existing attestation-only applications retain their behavior.
+
+## Resolving one simple hand signal
+
+`RpgExpandedGestureAttempt` owns one full-2008 B198 skill use. Supply a unique
+`id`, acting `profile`, distinct `counterpart`, `RpgExpandedGestureContext`,
+explicit `seconds`, `approved` and concrete `evidence`. With `operation = 'convey'`
+the actor conveys the idea; with `understand` the actor interprets the observed
+signal. The source sets no fixed duration, so seconds are authored facts.
+
+`assess()` previews scope, cultural score, both participants' schedules, observation
+and the actor's health permission. `resolve()` checks permission, spends the
+interval once and makes one skill roll. Success retains `result.meaning`; failure
+leaves it nil and does not invent a mistaken message. Health denial records its
+reason without a skill roll or elapsed task time. Both participants retain the
+same attempt in `gestureAttempts`; replay returns its original result. Definitions,
+completion fields and check outcomes are bound against later rewriting.
+
+This represents mechanical communication of a simple idea, not persuasion or an
+instruction to act on it. Use the existing player-authored `RpgExpandedGestureExchange`
+when the participants' actual interpretation is supplied by players. An attempt
+does not create a second exchange, grant language comprehension or award study
+credit automatically. `test_gesture_attempt` specifies scope, both skill directions,
+health denial, failure, pure preview, rollback, undo, replay and save continuation.
+Fixtures remain unrun. Native player actions and automatic observational/sensory
+integration remain pending.

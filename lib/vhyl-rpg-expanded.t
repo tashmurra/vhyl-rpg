@@ -1034,3 +1034,8 @@ modify RpgExpandedProfile
     culturalSpecies = nil
     culturalAdaptationCovers(culture) { return nil; }
 ;
+
+modify RpgLiteContext
+    gestureAttemptFacts() { rpgExpandedReject('gesture-context-required'); }
+    gestureAttemptReason(profile) { return 'gesture-context-required'; }
+;

@@ -2509,3 +2509,12 @@ class RpgExpandedGestureContext: RpgExpandedCulturalSkillContext
         return self.gestureReason(profile) == nil ? inherited(profile) : nil;
     }
 ;
+
+modify RpgExpandedGestureContext
+    gestureAttemptFacts()
+    {
+        return [self.skill,self.operation,self.simpleIdea,self.idea,self.observed,self.culture,
+            self.culturallySignificant,self.cultureEvidence,self.modifier,self.familiarity,self.equipmentTL];
+    }
+    gestureAttemptReason(profile) { return self.gestureReason(profile); }
+;
