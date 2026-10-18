@@ -1851,3 +1851,29 @@ Trait copies remain independent. `test_cultural_adaptation` specifies costs,
 scope, campaign rejection, suppression, template isolation, undo and save replay.
 Fixtures remain unrun. Ancestry transformations and automatic cultural-context
 selection across all skills remain pending.
+
+
+## Fine sensory purchases and detection bonuses
+
+`RpgExpandedSensoryRecognition` represents the unmodified purchases in
+full-2008 B49. Set `approved = true`, level one, and matching `id`/`sense`:
+`fine-hearing`/`hearing` costs 15, `fine-smell`/`smell` costs 15, and
+`fine-taste`/`taste` costs 10. Each sense may be purchased once. Inactive or
+mitigated purchases give no bonus. Unsupported percentages, scopes and levels
+are rejected. Plain template rows use those IDs; copying creates an independent
+purchase in the existing character cost ledger.
+
+The shared scoring hook adds four once to hearing contexts and to the matching
+mode of `RpgExpandedChemicalContext`, in addition to its acute-sense bonus.
+It does not bypass missing capacity or stimulus. The default hook returns zero
+when the expansion is absent. Other authored skill contexts can override
+`sensoryRecognitionMode()` to name a justified sensory channel, but this does
+not supply missing prerequisites or special task procedures.
+
+This increment implements purchase accounting and scoring only. Individual
+recognition, memorization with its minimum time and retry restriction, taste
+sampling/analysis, tracking and noisy-target following integration, and special
+modifiers remain pending. Purchasing the trait alone must not be presented as
+implementing those procedures. `test_sensory_recognition` specifies prices,
+stacking, suppression, invalid modifiers, duplicate rejection, template copying,
+undo and saved continuation. Fixtures remain unrun.

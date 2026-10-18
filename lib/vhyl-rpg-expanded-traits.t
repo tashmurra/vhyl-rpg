@@ -3308,3 +3308,74 @@ modify rpgExpandedTemplateTraits
         return self.configured(trait.id,trait.level,trait.scope,trait.templatePurchaseOptions());
     }
 ;
+
+/** B49 unmodified fine sensory recognition purchases; identity/memory uses separate procedures. */
+class RpgExpandedSensoryRecognition: RpgExpandedTrait
+    sense = nil
+    templatePurchaseKind = 'expanded-sensory-recognition'
+    templatePurchaseOptions() { return []; }
+    creationCost()
+    {
+        if (!holds(['hearing','smell','taste'],self.sense) || self.id != 'fine-' + self.sense
+            || !self.approved || self.level != 1 || self.scope != nil || self.controlled || self.percentages.length() != 0)
+            rpgExpandedReject('sensory-recognition-definition');
+        return self.sense == 'taste' ? 10 : 15;
+    }
+;
+modify RpgExpandedProfile
+    sensoryRecognitionTrait(sense)
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedSensoryRecognition))
+            {
+                trait.creationCost();
+                if (trait.sense == sense)
+                {
+                    if (found != nil) rpgExpandedReject('duplicate-sensory-recognition');
+                    found = trait;
+                }
+            }
+        return found;
+    }
+    sensoryRecognitionBonus(sense)
+    {
+        if (sense == nil) return 0;
+        local trait = self.sensoryRecognitionTrait(sense);
+        return trait != nil && trait.active && !trait.mitigated ? 4 : 0;
+    }
+    validateFeatures()
+    {
+        inherited();
+        foreach (local sense in ['hearing','smell','taste']) self.sensoryRecognitionTrait(sense);
+        return nil;
+    }
+;
+modify RpgLiteContext
+    sensoryUseModifier(profile)
+    {
+        if (!profile.ofKind(RpgExpandedProfile)) return inherited(profile);
+        return profile.sensoryRecognitionBonus(self.sensoryRecognitionMode());
+    }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (!holds(['fine-hearing','fine-smell','fine-taste'],id)) return inherited(id,level,scope);
+        if (level != 1 || scope != nil) rpgExpandedReject('sensory-recognition-template');
+        local trait = new RpgExpandedSensoryRecognition(); trait.approved = true; trait.id = id; trait.labelId = id;
+        trait.sense = id == 'fine-hearing' ? 'hearing' : id == 'fine-smell' ? 'smell' : 'taste';
+        trait.creationCost(); return trait;
+    }
+    configured(id,level,scope,options)
+    {
+        if (!holds(['fine-hearing','fine-smell','fine-taste'],id)) return inherited(id,level,scope,options);
+        if (options.length() != 0) rpgExpandedReject('sensory-recognition-template-options');
+        return self.plain(id,level,scope);
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedSensoryRecognition)) return inherited(trait);
+        trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
+    }
+;

@@ -1067,3 +1067,7 @@ modify RpgLiteContext
 modify RpgLiteContext
     terrainSearchFacts() { rpgExpandedReject('terrain-search-skills-module-required'); }
 ;
+
+modify RpgLiteContext
+    sensoryRecognitionMode() { return self.kind == 'hearing' ? 'hearing' : nil; }
+;

@@ -220,9 +220,10 @@
       "acceptance": "Taste and smell share their acute-sense trait, with +4 from the applicable discriminating sense; author intensity and disguise adjustments separately.",
       "tests": [
         "tests/expanded.py::test_chemical",
-        "tests/expanded.py::test_chemical_actions"
+        "tests/expanded.py::test_chemical_actions",
+        "tests/expanded.py::test_sensory_recognition"
       ],
-      "validation_note": "Ordinary taste/smell contexts share the acute bonus with separate authored intensity and disguise modifiers. Authored capacity and stimulus gates, owned observations, comprehension and danger-warning integration, and shared native actions implemented. Specialist discriminating bonuses, recognition/memory, automatic trait capacity integration and sampling consequences remain pending. Fixtures authored, unrun."
+      "validation_note": "Ordinary taste/smell contexts share the acute bonus with separate authored intensity and disguise modifiers. Authored capacity and stimulus gates, owned observations, comprehension and danger-warning integration, and shared native actions implemented. Typed fine-sense purchases now supply the applicable +4 through shared scoring. Recognition/memory, automatic trait capacity integration and sampling consequences remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-chemical-detail",
@@ -234,9 +235,10 @@
       "acceptance": "Discriminating taste or smell can identify detailed people, places or objects according to evidence; no taste/smell prevents both forms of ordinary detection.",
       "tests": [
         "tests/expanded.py::test_chemical",
-        "tests/expanded.py::test_chemical_actions"
+        "tests/expanded.py::test_chemical_actions",
+        "tests/expanded.py::test_sensory_recognition"
       ],
-      "validation_note": "Ordinary taste/smell contexts share the acute bonus with separate authored intensity and disguise modifiers. Authored capacity and stimulus gates, owned observations, comprehension and danger-warning integration, and shared native actions implemented. Specialist discriminating bonuses, recognition/memory, automatic trait capacity integration and sampling consequences remain pending. Fixtures authored, unrun."
+      "validation_note": "Ordinary taste/smell contexts share the acute bonus with separate authored intensity and disguise modifiers. Authored capacity and stimulus gates, owned observations, comprehension and danger-warning integration, and shared native actions implemented. Typed fine-sense purchases now supply the applicable +4 through shared scoring. Recognition/memory, automatic trait capacity integration and sampling consequences remain pending. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-rustling",

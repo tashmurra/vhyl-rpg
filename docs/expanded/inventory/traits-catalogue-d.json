@@ -121,9 +121,12 @@
       "pages": "B49",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Fine sound recognition costs 15. Recognize individual voices and machine sound signatures. Memorizing a new sound requires at least one minute and intelligence success; failure prohibits retry for one full day. Retain attempt identity and deadline across save/undo and repeated action objects.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_sensory_recognition"
+      ],
+      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "traits-d-sound-bonuses",
@@ -131,9 +134,12 @@
       "pages": "B49",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Fine sound recognition adds 4 to hearing-based tasks on top of acute hearing, and 4 to shadowing a noisy target. Apply once per check, including when the skill task also uses hearing. An underwater-only accessibility limitation is -30%.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_sensory_recognition"
+      ],
+      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "traits-d-scent-recognition",
@@ -141,9 +147,12 @@
       "pages": "B49",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Fine scent recognition costs 15 and permits individual recognition by odor. Memorizing a new scent takes at least one minute and intelligence success, with a full-day retry restriction after failure. Add 4 to smell tasks and tracking, cumulative with acute taste/smell but not duplicated for a single task.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_sensory_recognition"
+      ],
+      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "traits-d-scent-revulsion",
@@ -171,9 +180,12 @@
       "pages": "B49",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Fine taste recognition costs 10. Require ingestion of a small sample, including bodily fluid for a living subject. Intelligence identifies taste or edibility; detailed composition uses a suitable authored analysis skill. Add 4 to taste tasks with acute taste/smell cumulative. It cannot track targets. Preserve applicable scent-like recognition and memory procedures where relevant.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_sensory_recognition"
+      ],
+      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "traits-d-breath-independent",

@@ -4640,6 +4640,7 @@ class RpgExpandedSenseComprehensionAction: Action
 
 /** B358 ordinary flavor/scent detection; specialist recognition needs its own adapter. */
 class RpgExpandedChemicalContext: RpgLiteContext
+    sensoryRecognitionMode() { return self.sense; }
     attribute = rpgPerception
     kind = 'taste-smell'
     someLight = nil

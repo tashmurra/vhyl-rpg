@@ -9532,6 +9532,8 @@ def test(build):
     test_chemical(Session,chemical,build.out)
     chemical_actions = build.build('expanded-chemical-actions',ROOT / 'tests/fixtures/expanded-chemical-actions.t')
     test_chemical_actions(Session,chemical_actions)
+    sensory_recognition = build.build('expanded-sensory-recognition',ROOT / 'tests/fixtures/expanded-sensory-recognition.t')
+    test_sensory_recognition(Session,sensory_recognition,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26818,3 +26820,39 @@ def test_chemical_actions(Session, bundle):
                         assert state(s) == [0,None,0,0]
                 finally:
                     s.close()
+
+
+def test_sensory_recognition(Session, bundle, out):
+    """B49 fixed prices, active sensory bonus, acute stacking and template copies; unrun."""
+    def scores(s):
+        s.action(1680,28001)
+        return last(s,'test.fine-senses')
+    for codes,hearing,chemical in (((),12,12),((28000,),16,16),((28000,27904),16,16),
+                                  ((28000,27906),16,18),((27304,28000),18,16),
+                                  ((28000,28002),16,12),((28000,27904,28003),16,12),
+                                  ((28000,27907),16,None)):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            assert scores(s) == [hearing,chemical,15,15,10,0,0]
+        finally:
+            s.close()
+    path = out / 'sensory-recognition.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,28000); s.command('undo'); assert scores(s) == [12,12,15,15,10,0,0]
+        s.action(1680,28000)
+        for code in (28004,28005):
+            s.action(1680,code); assert scores(s) == [16,16,15,15,10,0,0]
+        s.action(1680,28006)
+        assert last(s,'test.fine-template') == [15,15,True,None,True]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681')
+        assert scores(s) == [16,16,15,15,10,0,0]
+    finally:
+        s.close()
