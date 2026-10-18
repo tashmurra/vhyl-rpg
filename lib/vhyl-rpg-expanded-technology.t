@@ -1337,6 +1337,11 @@ class RpgExpandedInventionProposal: object
     finalizeAssessment(value) { return value; }
     noveltyModifier(campaignNew) { return campaignNew ? -5 : 0; }
     prototypeExecutionReason() { return nil; }
+    prototypeBugDiceCount(check, flawed)
+    { return flawed || !check.achieved || check.critical == 'success' ? 0 : check.margin >= 3 ? 1 : 2; }
+    prototypeOutcome(score, roll, flawed, dice)
+    { return rpgExpandedPrototypeOutcome(score,roll,flawed,dice); }
+    productionPrice() { return self.retailPrice; }
     paidScore(subject)
     {
         if (subject == nil || !subject.ofKind(RpgSkill)) rpgExpandedReject('invention-skill');
@@ -1840,6 +1845,8 @@ modify RpgExpandedPrototypeStart
     {
         if (self.result == nil) return 'prototype-not-started';
         self.assess();
+        local permission = self.project.proposal.prototypeExecutionReason();
+        if (permission != nil) return permission;
         if (self.project.activePrototype != self) return 'prototype-not-active';
         if (self.facilities == nil || self.project.facilities != self.facilities || self.facilities.destroyed)
             return 'prototype-facilities-required';
@@ -2024,6 +2031,7 @@ modify RpgExpandedPrototypeStart
 ;
 
 class RpgExpandedPrototypeCompletionResult: RpgExpandedResult
+    productionPrice = nil
     score = nil
     outcome = nil
     delivery = nil
@@ -2062,6 +2070,7 @@ class RpgExpandedPrototypeCompletion: object
                 if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('prototype-completion-binding');
             if (self.attempt.completion != self) rpgExpandedReject('prototype-completion-history');
             value.status = 'reused'; value.score = self.result.score; value.modifier = self.result.modifier;
+            value.productionPrice = self.result.productionPrice;
             value.outcome = self.result.outcome; value.delivery = self.result.delivery;
             value.delivered = self.result.delivered; value.pendingDefects = self.result.pendingDefects; return value;
         }
@@ -2078,6 +2087,8 @@ class RpgExpandedPrototypeCompletion: object
         rpgInteger(self.variantBonus,0,5);
         local assessment = proposal.assess();
         if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
+        value.productionPrice = proposal.productionPrice();
+        rpgInteger(value.productionPrice,0,100000000);
         local base = nil;
         foreach (local subject in [proposal.skill] + proposal.relatedSkills)
         {
@@ -2110,12 +2121,11 @@ class RpgExpandedPrototypeCompletion: object
         local value = self.assess(); if (value.status != 'ready') return value;
         local check = rpgCheck(value.score,rpgRandom.roll()); local bugs = [];
         local flawed = self.attempt.project.theory == 'flawed';
-        if (!flawed && check.achieved && check.critical != 'success')
-        {
-            bugs = [rpgRandom.die()];
-            if (check.margin < 3) bugs = bugs + [rpgRandom.die()];
-        }
-        value.outcome = rpgExpandedPrototypeOutcome(value.score,check.roll,flawed,bugs);
+        local proposal = self.attempt.project.proposal;
+        local count = proposal.prototypeBugDiceCount(check,flawed);
+        rpgInteger(count,0,2);
+        for (local index = 1; index <= count; index += 1) bugs = bugs + [rpgRandom.die()];
+        value.outcome = proposal.prototypeOutcome(value.score,check.roll,flawed,bugs);
         if (value.outcome.accident)
         {
             self.accident.outcome = value.outcome;
@@ -2539,7 +2549,7 @@ class RpgExpandedProductionLine: object
         if (self.result != nil)
         {
             if (self.id != self.boundId || self.project != self.boundProject || self.payer != self.boundPayer
-                || self.evidence != self.boundEvidence || self.retailPrice != self.project.proposal.retailPrice
+                || self.evidence != self.boundEvidence || self.retailPrice != self.project.workingPrototype.result.productionPrice
                 || !holds(self.project.productionLines,self))
                 rpgExpandedReject('production-line-binding');
             value.status = 'reused'; return value;
@@ -2555,8 +2565,8 @@ class RpgExpandedProductionLine: object
         foreach (local line in self.project.productionLines)
             if (line.id == self.id) rpgExpandedReject('production-line-duplicate');
         rpgExpandedValidate(self.payer); rpgInteger(self.payer.money,0,2147483647);
-        rpgInteger(self.project.proposal.retailPrice,0,100000000);
-        local cost = self.project.proposal.retailPrice * 20;
+        rpgInteger(prototype.result.productionPrice,0,100000000);
+        local cost = prototype.result.productionPrice * 20;
         if (cost > self.payer.money) { value.reason = 'production-line-funds'; return value; }
         value.money = cost; value.status = 'ready'; return value;
     }
@@ -2564,7 +2574,7 @@ class RpgExpandedProductionLine: object
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         self.payer.money -= value.money;
-        self.retailPrice = self.project.proposal.retailPrice;
+        self.retailPrice = self.project.workingPrototype.result.productionPrice;
         self.boundId = self.id; self.boundProject = self.project; self.boundPayer = self.payer; self.boundEvidence = self.evidence;
         self.project.productionLines = self.project.productionLines + [self];
         value.status = 'resolved'; self.result = value; return value;
@@ -2655,7 +2665,7 @@ class RpgExpandedProductionOrder: object
         for (local prior = firstObj(RpgExpandedProductionOrder); prior != nil; prior = nextObj(prior,RpgExpandedProductionOrder))
             if (prior != self && prior.result != nil && !prior.delivered && prior.item == self.item)
             { value.reason = 'production-item-reserved'; return value; }
-        local quote = rpgExpandedAssessProduction(self.project.proposal.retailPrice,prototype.attempt.result.seconds,self.line != nil,self.paidLabor);
+        local quote = rpgExpandedAssessProduction(prototype.result.productionPrice,prototype.attempt.result.seconds,self.line != nil,self.paidLabor);
         if (quote.moneyDenominator != 1 || quote.secondsDenominator != 1)
         { value.reason = 'production-fractional-ledger-unavailable'; return value; }
         rpgExpandedValidate(self.payer); rpgInteger(self.payer.money,0,2147483647);
@@ -2818,7 +2828,22 @@ class RpgExpandedCinematicProposal: RpgExpandedInventionProposal
         value.facilitiesCost = costs.facilities; value.attemptCost = costs.adjustedRetail; return value;
     }
     noveltyModifier(campaignNew) { return 0; }
-    prototypeExecutionReason() { return 'cinematic-prototype-execution-unavailable'; }
+    prototypeExecutionReason()
+    {
+        local reason = self.technologyPermissionReason();
+        if (reason != nil) return reason;
+        return self.techLevel > self.inventor.techLevel ? 'cinematic-advanced-defects-unavailable' : nil;
+    }
+    prototypeBugDiceCount(check, flawed)
+    { return flawed || !check.achieved || check.critical == 'success' || check.margin >= 3 ? 0 : 1; }
+    prototypeOutcome(score, roll, flawed, dice)
+    { return rpgExpandedCinematicPrototypeOutcome(score,roll,flawed,dice); }
+    productionPrice()
+    {
+        local value = self.assess();
+        if (value.status != 'ready') rpgExpandedReject(value.reason);
+        return value.attemptCost;
+    }
     definition()
     {
         if (self.permission == nil || !self.permission.ofKind(RpgExpandedInventionPermission))
@@ -2827,3 +2852,18 @@ class RpgExpandedCinematicProposal: RpgExpandedInventionProposal
             self.permission.violatesOrdinaryPhysics,self.permission.designApproved,self.permission.evidence];
     }
 ;
+
+/** Full-2008 B476: cinematic success has only minor defects. */
+rpgExpandedCinematicPrototypeOutcome(score, roll, flawed, bugDice)
+{
+    local check = rpgCheck(score,roll);
+    if (!check.achieved || flawed || check.critical == 'success')
+        return rpgExpandedPrototypeOutcome(score,roll,flawed,bugDice);
+    local count = check.margin >= 3 ? 0 : 1;
+    if (bugDice.length() != count) rpgExpandedReject('prototype-bug-dice');
+    foreach (local die in bugDice) rpgInteger(die,1,6);
+    local value = new RpgExpandedPrototypeOutcome();
+    value.status = 'resolved'; value.check = check; value.working = true;
+    if (count == 1) value.minorBugs = bugDice[1] / 2;
+    return value;
+}

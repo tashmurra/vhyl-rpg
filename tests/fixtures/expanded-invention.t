@@ -79,6 +79,27 @@ class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 240)
+        {
+            if (code == 240 || code == 244)
+            {
+                conceptProject.proposal = cinematicProposal; conceptUser.campaignTL = 8;
+                conceptUser.traits = [cinematicCapability]; conceptRules.cinematicInvention = true;
+                if (code == 244) { conceptUser.techLevel = 10; cinematicProposal.techLevel = 10; }
+                conceptBlueprint.apply(); conceptFacilities.fund(); prototypeStart.begin();
+                for (local day = 1; day <= 4; day += 1)
+                {
+                    local work = new RpgExpandedPrototypeWork(); work.id = day; work.attempt = prototypeStart;
+                    work.seconds = 86400; work.approved = true; work.uninterrupted = true; work.evidence = 'Complete day'; work.apply();
+                }
+                rpgRandom.seed(1); return nil;
+            }
+            if (code == 245) conceptUser.iq = 9;
+            if (code == 246) conceptRules.cinematicInvention = nil;
+            local value = code == 243 ? prototypeCompletion.assess() : prototypeCompletion.apply();
+            event('test.cinematic-prototype'); eventValue(value.status); eventValue(value.reason); eventValue(value.productionPrice);
+            if (code == 242) throw new RpgError(); return nil;
+        }
         if (code >= 220)
         {
             if (code == 220)
@@ -92,6 +113,7 @@ class InventionConceptAction: Action
             if (code == 226) cinematicProposal.techLevel = 10;
             if (code == 228) cinematicPermission.mode = 'rapid';
             if (code == 230) cinematicPermission.violatesOrdinaryPhysics = true;
+            if (code == 229) { cinematicProposal.techLevel = 9; conceptAttempt.knowledge = 'model'; }
             local value = code == 223 ? conceptAttempt.assess() : conceptAttempt.apply();
             event('test.cinematic-concept'); eventValue(value.status); eventValue(value.reason); eventValue(value.score);
             if (code == 229)
@@ -401,6 +423,7 @@ act(verb,args)
         eventValue(conceptProject.facilities == nil ? nil : conceptProject.facilities.destroyed ? 'destroyed' : 'available');
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
+    if (verb == 2128) { conceptInput.code = 240 + args[1]; return vhylAct(2097,args); }
     if (verb == 2097) { conceptInput.code = args[1]; return vhylAct(verb,args); }
     if (verb == 2098)
     {

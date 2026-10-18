@@ -992,7 +992,7 @@ def test_cinematic_concepts(s):
         s.command('undo')
     s.action(2126,9)
     assert last(s,'test.cinematic-concept') == ['resolved',None,13]
-    assert last(s,'test.cinematic-funding') == ['blocked','cinematic-prototype-execution-unavailable']
+    assert last(s,'test.cinematic-funding') == ['blocked','cinematic-advanced-defects-unavailable']
     completed = [1,'testable',3,0,1000000]
     assert cinematic_state(s) == completed
     s.command('undo')
@@ -1000,6 +1000,41 @@ def test_cinematic_concepts(s):
     s.action(2126,1)
     s.action(2126,1)
     assert cinematic_state(s) == completed
+
+
+def test_cinematic_prototypes(Session,bundle):
+    for setup,complete,price,money,bugs,draws in [
+            (0,1,1000,899000,0,3),(0,5,1000,899000,1,4),(4,1,7000,393000,0,3)]:
+        s = Session(bundle)
+        try:
+            s.action(2128,setup)
+            for preview in [3,2]:
+                s.action(2128,preview)
+                s.action(2110)
+                assert last(s,'test.prototype-completion-state') == [1,'testable',0,None,None,0,0,0,345600]
+            s.action(2128,6)
+            assert last(s,'test.cinematic-prototype')[:2] == ['blocked','invention-campaign-option']
+            s.command('undo')
+            s.action(2128,complete)
+            assert last(s,'test.cinematic-prototype') == ['resolved',None,price]
+            s.action(2110)
+            expected = [0,'testable',0 if bugs else 1,0,bugs,0,0,draws,345600]
+            assert last(s,'test.prototype-completion-state') == expected
+            s.action(2128,1)
+            assert last(s,'test.cinematic-prototype') == ['reused',None,price]
+            s.action(2110)
+            assert last(s,'test.prototype-completion-state') == expected
+            s.action(2119)
+            assert last(s,'test.production-line-state')[0] == money
+            if not bugs:
+                s.action(2118,1)
+                s.action(2119)
+                assert last(s,'test.production-line-state')[0] == money - price * 20
+                s.action(2120,1)
+                s.action(2121)
+                assert last(s,'test.production-order-state') == [money - price * 20 - price // 5,1,1,0,draws,345600,0]
+        finally:
+            s.close()
 
 
 def test_cinematic_advanced_concept(s):
@@ -6813,6 +6848,7 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    test_cinematic_prototypes(Session,invention)
     fresh(Session,invention,test_cinematic_concepts)
     fresh(Session,invention,test_cinematic_advanced_concept)
     test_cinematic_concept_persistence(Session,invention,build.out)

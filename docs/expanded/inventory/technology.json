@@ -600,7 +600,7 @@
       "tests": [
         "tests/expanded.py::test_inventor_permission"
       ],
-      "validation_note": "Purchased alternative tier pricing and explicit campaign/world/design gates authored; fixtures unrun. Owned cinematic dispatch, advancement and full consequences remain pending."
+      "validation_note": "Purchased tier pricing and explicit campaign/world/design gates feed owned concepts and supported physical prototypes; fixtures unrun. Advancement and full consequences remain pending."
     },
     {
       "id": "technology-cinematic-concept",
@@ -616,7 +616,7 @@
         "tests/expanded.py::test_cinematic_advanced_concept",
         "tests/expanded.py::test_cinematic_concept_persistence"
       ],
-      "validation_note": "Owned gated cinematic proposal/concept path applies personal-level penalties and ignores campaign novelty; fixtures unrun. Prototype and rapid execution remain explicitly blocked before funding."
+      "validation_note": "Owned gated cinematic proposal/concept path applies personal-level penalties and ignores campaign novelty; fixtures unrun. Above-personal technology prototype funding and rapid execution reject explicitly."
     },
     {
       "id": "technology-cinematic-tools",
@@ -644,9 +644,12 @@
       "pages": "B475",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Facilities use the difficulty's base plus one increment per level above campaign technology; divide by ten only for existing suitable facilities of at least equal difficulty and technology.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cinematic_prototypes"
+      ],
+      "validation_note": "Owned cinematic physical prototype funding, outcomes and recorded production pricing authored at/below personal technology; fixtures unrun. Above-personal technology special defects, rapid execution and broader production restrictions remain unresolved."
     },
     {
       "id": "technology-cinematic-prototype-cost",
@@ -657,9 +660,10 @@
       "status": "partial",
       "acceptance": "For each level above campaign technology, double native retail and accumulate every term including the base. A native price of four thousand advanced three levels costs sixty thousand per attempt, not thirty-two thousand.",
       "tests": [
-        "tests/expanded.py::test_cinematic_invention_assessments"
+        "tests/expanded.py::test_cinematic_invention_assessments",
+        "tests/expanded.py::test_cinematic_prototypes"
       ],
-      "validation_note": "Pure cinematic cost/modifier and rapid-duration assessments authored; fixtures unrun. Purchased-capability and campaign gates, committed execution and cinematic consequences remain pending."
+      "validation_note": "Owned cinematic physical prototype funding, outcomes and recorded production pricing authored at/below personal technology; fixtures unrun. Above-personal technology special defects, rapid execution and broader production restrictions remain unresolved."
     },
     {
       "id": "technology-cinematic-bugs",
@@ -667,9 +671,12 @@
       "pages": "B476",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Cinematic success by at least three has no bugs; lesser success has half a die minor bugs and no major bugs. For technology above the inventor, each minor bug invokes the special defect table.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cinematic_prototypes"
+      ],
+      "validation_note": "Owned cinematic physical prototype funding, outcomes and recorded production pricing authored at/below personal technology; fixtures unrun. Above-personal technology special defects, rapid execution and broader production restrictions remain unresolved."
     },
     {
       "id": "technology-cinematic-production",
@@ -677,9 +684,12 @@
       "pages": "B476",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use the accumulated technology-adjusted prototype price as retail in cinematic production calculations.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cinematic_prototypes"
+      ],
+      "validation_note": "Owned cinematic physical prototype funding, outcomes and recorded production pricing authored at/below personal technology; fixtures unrun. Above-personal technology special defects, rapid execution and broader production restrictions remain unresolved."
     },
     {
       "id": "technology-rapid-concept",

@@ -1306,12 +1306,26 @@ Permission is checked before a new attempt; old receipts remain historical.
 The bound proposal also retains the permission's design and mode fields so those
 cannot be retargeted after execution.
 
-Ordinary proposals use unchanged default hooks and formulas. Cinematic facilities
-funding and prototype start currently return
-`cinematic-prototype-execution-unavailable` before charging anything. This gate
-prevents the concept path from entering an ordinary prototype outcome pipeline.
-The remaining cinematic prototype, advanced defect, extended-shift and rapid
-execution procedures still need integration.
+Ordinary proposals retain their existing outcome formulas and random draw counts.
+Cinematic physical prototypes at or below the inventor's personal technology
+level now share the owned funding, work, accident and delivery pipeline. A success
+margin of at least three needs no defect dice; a lesser success rolls one die and
+halves it, rounding down, for minor defects only. Critical successes remain free
+of defects. Permission is rechecked before work and completion, while completed
+receipts remain historical.
+
+Completion records `productionPrice`. Production-line setup and one-copy orders
+use that recorded price, including the accumulated campaign-relative adjustment.
+This keeps subsequent production from reverting to the native retail price.
+
+Funding and start reject `cinematic-advanced-defects-unavailable` when the design
+exceeds personal technology. The special defect table, extended shifts, software
+prototype delivery and rapid execution remain pending. Passing this gate does not
+make those other procedures available.
+
+`test_cinematic_prototypes` authors margin-three and lesser-success outcomes,
+preview purity, rollback, permission withdrawal, replay and adjusted line costs.
+These fixtures remain unrun. Source: `full-2008`, B475–B476.
 
 `test_cinematic_concepts`, `test_cinematic_advanced_concept` and
 `test_cinematic_concept_persistence` author campaign/capability/physics gates,
