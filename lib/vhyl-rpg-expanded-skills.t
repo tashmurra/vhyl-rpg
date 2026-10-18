@@ -1078,3 +1078,78 @@ rpgExpandedPracticeDriving(profile,skill,records,seconds)
     }
     value.seconds = seconds; value.status = 'resolved'; return value;
 }
+
+/** B180-B181 small-watercraft specialties; crewed-bridge ships are excluded. */
+class RpgExpandedBoatingSkill: RpgExpandedSkill
+    id = 'boating'
+    attribute = rpgDX
+    difficulty = 1
+    defaultPenalty = -5
+    attributeDefaults = [[rpgIQ,-5]]
+    validateDefinition()
+    {
+        if (self.id != 'boating' || self.attribute != rpgDX || self.difficulty != 1 || self.defaultPenalty != -5
+            || self.defaultAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 1 || self.attributeDefaults[1].length() != 2
+            || self.attributeDefaults[1][1] != rpgIQ || self.attributeDefaults[1][2] != -5
+            || self.techLevel == nil || self.wildcard || self.optionalParent != nil
+            || !holds(['large-powerboat','motorboat','sailboat','unpowered'],self.specialty))
+            rpgExpandedReject('boating-skill-definition');
+        rpgInteger(self.techLevel,0,12); return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (source == self || training.points <= 0 || !source.ofKind(RpgLiteSkill) || source.techLevel != self.techLevel) continue;
+            if (self.specialty == 'large-powerboat' && source.studyIdentity() == 'seamanship')
+                edges = edges + [[source,-4]];
+            if (source.id != 'boating') continue;
+            if (!source.ofKind(RpgExpandedBoatingSkill)) rpgExpandedReject('boating-expanded-source-required');
+            source.validateDefinition(); if (source.specialty == self.specialty) continue;
+            local penalty = self.specialty == 'large-powerboat' || source.specialty == 'large-powerboat' ? -4 : -3;
+            if (self.specialty == 'large-powerboat' && source.specialty == 'motorboat'
+                || self.specialty == 'motorboat' && source.specialty == 'large-powerboat') penalty = -2;
+            edges = edges + [[source,penalty]];
+        }
+        return edges;
+    }
+;
+class RpgExpandedBoatingContext: RpgExpandedSkillContext
+    eventKind = 'hazard'
+    conditionsPenalty = 0
+    evidence = nil
+    validateBoating()
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedBoatingSkill)
+            || !holds(['enter','get-underway','dock','hazard','routine'],self.eventKind)
+            || self.fixedBase != nil || self.rollAttribute != nil)
+            rpgExpandedReject('boating-context-definition');
+        self.skill.validateDefinition(); rpgInteger(self.conditionsPenalty,-100,0);
+        if (self.conditionsPenalty < 0 && self.conditionsPenalty > -3)
+            rpgExpandedReject('boating-context-minimum-penalty');
+        if (self.conditionsPenalty != 0 && (self.evidence == nil || self.evidence == ''))
+            rpgExpandedReject('boating-context-evidence');
+        if (self.familiarity != nil && self.familiarity.penalty != -2)
+            rpgExpandedReject('boating-familiarity-penalty');
+        return nil;
+    }
+    checkRequired(profile)
+    {
+        self.validateBoating();
+        if (self.eventKind == 'routine') return nil;
+        return self.eventKind != 'enter' || rpgExpandedPaidSkill(profile,self.skill,[]) == nil;
+    }
+    unavailableReason(profile)
+    {
+        if (!self.checkRequired(profile)) return 'boating-check-not-required';
+        return inherited(profile);
+    }
+    skillUseModifier(profile)
+    {
+        self.validateBoating(); local base = inherited(profile);
+        return base == nil ? nil : base + self.conditionsPenalty;
+    }
+;

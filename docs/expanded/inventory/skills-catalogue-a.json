@@ -2182,9 +2182,11 @@
       "pages": "B180-B181",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_boating"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -2216,7 +2218,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending."
     },
     {
       "id": "catalogue-skill-boating-open-powerboat",
@@ -2224,9 +2227,11 @@
       "pages": "B180-B181",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_boating"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -2254,7 +2259,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending."
     },
     {
       "id": "catalogue-skill-boating-sailboat",
@@ -2262,9 +2268,11 @@
       "pages": "B180-B181",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_boating"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -2292,7 +2300,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending."
     },
     {
       "id": "catalogue-skill-boating-muscle-boat",
@@ -2300,9 +2309,11 @@
       "pages": "B180-B181",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Check departure, docking and hazards; untrained users also check on entry. Apply vessel unfamiliarity and authored weather/navigation penalties.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_boating"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -2330,7 +2341,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B180-B181 specialties provide DX/IQ defaults, directed same-technology purchased-source defaults and large-powerboat-only Seamanship default. Context identifies defaulted boarding checks and underway/docking/hazard checks, foul-weather and owned familiarity modifiers. Full matrix fixtures authored, unrun. Actual boarding falls, movement and failure consequences remain pending."
     },
     {
       "id": "catalogue-skill-bodily-control",

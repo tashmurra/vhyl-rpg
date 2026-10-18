@@ -9318,6 +9318,8 @@ def test(build):
     test_driving_matrix(Session, driving_matrix)
     driving_familiarity = build.build("expanded-driving-familiarity",ROOT / "tests/fixtures/expanded-driving-familiarity.t")
     test_driving_familiarity(Session, driving_familiarity, build.out)
+    boating = build.build("expanded-boating",ROOT / "tests/fixtures/expanded-boating.t")
+    test_boating(Session, boating)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22523,5 +22525,18 @@ def test_driving_familiarity(Session, bundle, out):
             s.action(1100, code)
         assert last(s, 'test.driving-familiarity') == [14,28800,28800,28800,0]
         assert last(s, 'test.driving-familiarity-reject') == ['driving-familiarity-double-charge']
+    finally:
+        s.close()
+
+
+def test_boating(Session, bundle):
+    """B180-B181 defaults, entry checks and foul-weather modifiers; unrun."""
+    s = Session(bundle)
+    try:
+        for code in (16800, 16801, 16802):
+            s.action(1100, code)
+        assert last(s, 'test.boating-matrix') == [20,18,16,16,18,20,17,17,16,17,20,17,16,17,17,20]
+        assert last(s, 'test.boating-checks') == [1,9,0,'boating-check-not-required',1,11,0,0]
+        assert last(s, 'test.boating-crew-default') == [13,9]
     finally:
         s.close()

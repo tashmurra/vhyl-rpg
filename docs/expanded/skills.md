@@ -732,3 +732,29 @@ penalties, one eight-hour time charge, penalty removal, rollback, undo, saved
 continuation and conflicting manual input. Fixtures remain unrun. The author
 still establishes vehicle availability; this is not automatic native vehicle
 interaction or control-loss resolution.
+
+
+## Small-watercraft operation
+
+`RpgExpandedBoatingSkill` covers `large-powerboat`, `motorboat`, `sailboat` and
+`unpowered` at an explicit `techLevel` (full-2008, B180–B181). It is DX/Average
+with DX−5 and IQ−5 defaults. Typed same-technology specialties supply their
+directed defaults through purchased source training. Only large powerboat also
+receives Seamanship−4. Legacy boating sources are rejected where expanded
+specialty semantics are required. Crewed-bridge ships require other skills.
+
+`RpgExpandedBoatingContext.eventKind` is `enter`, `get-underway`, `dock`, `hazard`
+or `routine`. `checkRequired(profile)` requires a boarding check when the target
+skill is used at default, and checks for getting underway, docking and hazards.
+Routine operation does not create an additional check. Calling the shared check
+interface for an unneeded check reports `boating-check-not-required`.
+
+Set `conditionsPenalty` to zero or −3 or worse, with evidence for adverse
+conditions. The inherited owned familiarity record supplies the separate −2
+unfamiliar-boat penalty and existing practice behavior. These are modifiers and
+check requirements; falling into water, docking, movement and control-loss
+consequences still require integration with their actual world actions.
+
+`expanded-boating.t` / `test_boating` specify the full 16-pair default matrix,
+boarding requirements, ordinary hazard modifiers and the restricted Seamanship
+default. Fixtures remain unrun while checks are paused.
