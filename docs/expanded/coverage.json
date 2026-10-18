@@ -352,6 +352,9 @@
     "inventory/equipment-procedures.json",
     "inventory/melee-catalogue-a.json",
     "inventory/melee-catalogue-b.json",
-    "inventory/muscle-ranged-catalogue.json"
+    "inventory/muscle-ranged-catalogue.json",
+    "inventory/grenades-and-ammunition.json",
+    "inventory/firearms-catalogue-a.json",
+    "inventory/firearms-catalogue-b.json"
   ]
 }

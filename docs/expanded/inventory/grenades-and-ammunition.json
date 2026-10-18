@@ -1,0 +1,426 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B277; B278-B279 equipment sidebars and notes",
+  "review": "Thrown explosive/incendiary rows visually reviewed; preparation and cloud rules, quality, electronic packages, ammunition variants and optional malfunctions enumerated. Firearm profiles are indexed in separate ledgers; executable integration remains pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "grenades-powder-grenade",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this item with its recorded preparation, fuse, attack components and notes. Throw range uses B355 strength/mass rules; after arming, the owned item continues its fuse regardless of later throw success or possession. Printed row visually reviewed; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "powder-grenade",
+        "technology": 5,
+        "skill": "throwing",
+        "damage": {
+          "blast": "3d cr",
+          "fragments": "1d cut"
+        },
+        "weight_pounds": 1,
+        "fuse_seconds": [
+          3,
+          5
+        ],
+        "cost": 5,
+        "legality_class": 2,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "grenades-concussion-early",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this item with its recorded preparation, fuse, attack components and notes. Throw range uses B355 strength/mass rules; after arming, the owned item continues its fuse regardless of later throw success or possession. Printed row visually reviewed; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "concussion-early",
+        "technology": 6,
+        "skill": "throwing",
+        "damage": {
+          "blast": "6d cr"
+        },
+        "weight_pounds": 1,
+        "fuse_seconds": 4,
+        "cost": 15,
+        "legality_class": 2,
+        "notes": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "grenades-fragmentation-early",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this item with its recorded preparation, fuse, attack components and notes. Throw range uses B355 strength/mass rules; after arming, the owned item continues its fuse regardless of later throw success or possession. Printed row visually reviewed; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fragmentation-early",
+        "technology": 6,
+        "skill": "throwing",
+        "damage": {
+          "blast": "4d cr",
+          "fragments": "2d cut"
+        },
+        "weight_pounds": 1,
+        "fuse_seconds": 4,
+        "cost": 10,
+        "legality_class": 2,
+        "notes": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "grenades-incendiary-bottle",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this item with its recorded preparation, fuse, attack components and notes. Throw range uses B355 strength/mass rules; after arming, the owned item continues its fuse regardless of later throw success or possession. Printed row visually reviewed; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "incendiary-bottle",
+        "technology": 6,
+        "skill": "throwing",
+        "damage": {
+          "special": "burning fuel",
+          "radius_yards": 1
+        },
+        "weight_pounds": 1,
+        "fuse_seconds": "impact",
+        "cost": 2,
+        "legality_class": 3,
+        "notes": [
+          1,
+          3
+        ]
+      }
+    },
+    {
+      "id": "grenades-chemical-grenade",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this item with its recorded preparation, fuse, attack components and notes. Throw range uses B355 strength/mass rules; after arming, the owned item continues its fuse regardless of later throw success or possession. Printed row visually reviewed; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "chemical-grenade",
+        "technology": 7,
+        "skill": "throwing",
+        "damage": {
+          "special": "selected chemical",
+          "radius_yards": 2
+        },
+        "weight_pounds": 1,
+        "fuse_seconds": 2,
+        "cost": 10,
+        "legality_class": 3,
+        "notes": [
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "id": "grenades-concussion-modern",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this item with its recorded preparation, fuse, attack components and notes. Throw range uses B355 strength/mass rules; after arming, the owned item continues its fuse regardless of later throw success or possession. Printed row visually reviewed; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "concussion-modern",
+        "technology": 7,
+        "skill": "throwing",
+        "damage": {
+          "blast": "5d times 2 cr"
+        },
+        "weight_pounds": 1,
+        "fuse_seconds": 4,
+        "cost": 40,
+        "legality_class": 2,
+        "notes": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "grenades-fragmentation-modern",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this item with its recorded preparation, fuse, attack components and notes. Throw range uses B355 strength/mass rules; after arming, the owned item continues its fuse regardless of later throw success or possession. Printed row visually reviewed; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fragmentation-modern",
+        "technology": 7,
+        "skill": "throwing",
+        "damage": {
+          "blast": "8d cr",
+          "fragments": "3d cut"
+        },
+        "weight_pounds": 1,
+        "fuse_seconds": 4,
+        "cost": 40,
+        "legality_class": 2,
+        "notes": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "grenades-sensory-stun-grenade",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this item with its recorded preparation, fuse, attack components and notes. Throw range uses B355 strength/mass rules; after arming, the owned item continues its fuse regardless of later throw success or possession. Printed row visually reviewed; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "sensory-stun-grenade",
+        "technology": 8,
+        "skill": "throwing",
+        "damage": {
+          "affliction": "HT-5",
+          "radius_yards": 10
+        },
+        "weight_pounds": 1,
+        "fuse_seconds": 2,
+        "cost": 40,
+        "legality_class": 2,
+        "notes": [
+          2,
+          5
+        ]
+      }
+    },
+    {
+      "id": "grenades-plasma-grenade",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this item with its recorded preparation, fuse, attack components and notes. Throw range uses B355 strength/mass rules; after arming, the owned item continues its fuse regardless of later throw success or possession. Printed row visually reviewed; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "plasma-grenade",
+        "technology": "speculative",
+        "skill": "throwing",
+        "damage": {
+          "blast": "6d times 4 burn"
+        },
+        "weight_pounds": 1,
+        "fuse_seconds": 2,
+        "cost": 100,
+        "legality_class": 1,
+        "notes": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "grenades-throwing-default",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hand-thrown devices use throwing, default dexterity minus three or dropping minus four. Do not use thrown-weapon skill defaults merely because an explosive is a weapon.",
+      "tests": []
+    },
+    {
+      "id": "grenades-lit-fuse",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Lighting a prepared fuse takes one ready action, or five if the fuse must first be inserted. Rain or other unsuitable conditions can prevent lighting. Powder fuse length determines three-to-five-second delay; incendiary bottles break on impact. Define exact arming timestamp and selected fuse duration before commitment.",
+      "tests": []
+    },
+    {
+      "id": "grenades-pin-preparation",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Pin-type grenades require one ready action to draw and another to pull the pin, then detonate after the item specified two/four-second delay. Own the armed item and expiry independently of the actor action queue, including transfer/drop, rollback and save continuation.",
+      "tests": []
+    },
+    {
+      "id": "grenades-incendiary",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The incendiary bottle uses B411 fuel-fire and breaking-container rules, not an invented blast damage roll. Commit fuel ignition, broken container, actual impact and persistent burning once.",
+      "tests": []
+    },
+    {
+      "id": "grenades-chemical-cloud",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Chemical grenade produces a two-yard-radius cloud lasting about eighty seconds under ordinary conditions. Author defines chemical and environmental dispersal; special agents can change price/legality. Reuse actual poison exposure rules and per-subject clocks; the generic catalogue entry alone is not a completed substance effect.",
+      "tests": []
+    },
+    {
+      "id": "grenades-sensory-stun",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sensory grenade is both vision/hearing-based within ten yards. Protected hearing and protected vision each add five to health resistance. Failure stuns, with health-minus-five recovery checks every turn; it also creates smoke. Integrate sense-channel blocking and smoke geometry rather than applying an unconditional radius stun.",
+      "tests": []
+    },
+    {
+      "id": "grenades-ranged-quality",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Fine blowpipes/bows/crossbows cost four times list and increase half-damage and maximum ranges by twenty percent. Thrown items and arrows/bolts use melee quality rules. Distinguish projectile quality damage from launcher quality range; do not apply both bonuses to both fields.",
+      "tests": []
+    },
+    {
+      "id": "grenades-piercing-points",
+      "source": "full-2008",
+      "pages": "B277",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "At technology three-plus, armor-piercing arrow/bolt tips replace impaling with ordinary piercing and add armor divisor two, without price/mass change. Validate compatibility and combine material/quality effects explicitly rather than retaining impaling wound multiplication.",
+      "tests": []
+    },
+    {
+      "id": "grenades-powered-definition",
+      "source": "full-2008",
+      "pages": "B278",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Powered firearms include projectile, rocket and beam weapons independent of muscle strength. Campaign technology sets availability; this does not erase minimum-strength handling, speculative-physics permissions or specific item technology.",
+      "tests": []
+    },
+    {
+      "id": "grenades-electronic-package",
+      "source": "full-2008",
+      "pages": "B278",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Integrated electronic weapon package is optional at technology eight for five hundred extra, standard at nine-plus without surcharge. Includes a laser aiming aid, +1 repair/malfunction-fix skill, and authorized-user access control. Built-in optical sights can link to a worn head-up display using B548 targeting rules. Keep each component availability and operation distinct.",
+      "tests": []
+    },
+    {
+      "id": "grenades-authorization",
+      "source": "full-2008",
+      "pages": "B278",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Unauthorized users cannot fire a weapon with active electronic access restrictions. Author defines individual/unit authorization and configuration actions. This is an in-world equipment permission, not real account authentication; it must persist with the item and be checked before resource/randomness commitment.",
+      "tests": []
+    },
+    {
+      "id": "grenades-pistol-table-notes",
+      "source": "full-2008",
+      "pages": "B278",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Table-marked rocket handgun damage is divided by three at one-to-two yards and two at three-to-ten yards because of acceleration. Marked civilian conversions set rate three, reduce cost twenty-five percent and increase legality class by one. Apply only to eligible profiles, preserving other statistics.",
+      "tests": []
+    },
+    {
+      "id": "grenades-ammunition-price",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A full ordinary ammunition reload costs twenty times its listed mass in pounds. One-pound reload costs twenty. Single-shot weapon weight semantics remain distinct from loaded multi-shot items; charge actual purchased ammunition rather than a free reload per weapon action.",
+      "tests": []
+    },
+    {
+      "id": "grenades-expanding-ammunition",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Expanding ammunition at technology six-plus advances piercing size one step (small to ordinary, ordinary to large, large to huge) and adds armor divisor one half. Not available for already-huge piercing; cost and legality unchanged. Listed application excludes shotguns, electromagnetic guns and dart rifles.",
+      "tests": []
+    },
+    {
+      "id": "grenades-hard-core-ammunition",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Hard-core ammunition at technology seven-plus adds armor divisor two. Below twenty-millimeter caliber, reduce piercing size one step down to small; small remains small. Costs double ordinary and legality class is two. Exactly twenty millimeters does not take the below-caliber reduction. Excluded weapon classes remain ineligible.",
+      "tests": []
+    },
+    {
+      "id": "grenades-dart-followup",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A dart firearm injects the selected substance only after penetration. Listed sedative follow-up is health minus three, failure unconscious for minutes equal to failure margin. This is a game substance effect tied to a specific item mode, not an automatic effect for every dart.",
+      "tests": []
+    },
+    {
+      "id": "grenades-integral-launcher",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Combined rifle/launcher has a separately specified twenty-five-millimeter launch mode at B281. Share one physical host and included mass/price while retaining independent ammunition, readiness and attack modes. Do not count the integrated launcher as a second full purchase.",
+      "tests": []
+    },
+    {
+      "id": "grenades-optional-malfunction",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "combat",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Optional malfunction rule triggers when raw attack roll is at least the weapon malfunction threshold. Baselines by technology: three gives twelve, four fourteen, five sixteen, six-plus seventeen. Item reliability, quality and maintenance can alter it. Campaign must explicitly enable this rule; route results through B407 rather than silently replacing ordinary critical outcomes.",
+      "tests": []
+    }
+  ]
+}

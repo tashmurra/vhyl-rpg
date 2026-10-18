@@ -76,3 +76,29 @@ Material rules change quality effects, breakage, penetration and sometimes lasti
 sharpness. Silver coating changes a target's matching vulnerability multiplier,
 not universal damage. All listed rows have been visually compared with the source;
 that does not establish runtime correctness or catalogue acceptance.
+
+The [grenade and ammunition inventory](inventory/grenades-and-ammunition.json)
+records visually reviewed thrown-device profiles, fuse preparation, cloud effects,
+electronic access restrictions and optional malfunction thresholds. Fuse expiry
+belongs to the armed item even after it changes hands; chemical exposure belongs
+to each affected actor and the continuing cloud.
+
+Ammunition variants alter armor penetration and wound category separately. Launcher
+quality changes range while projectile quality follows its own rules. Integrated
+weapon modes must share host price and mass but retain separate ammunition state.
+The remaining heavy and beam weapon profiles and executable integration remain pending.
+
+The [pistol and compact automatic catalogue](inventory/firearms-catalogue-a.json)
+separates base accuracy from sight bonuses, listed weapon mass from reload mass, and
+magazine capacity from chamber capacity. Automatic-only weapons and individual
+loading require different action validation. Civilian variants apply only to rows
+that explicitly allow them; electronics and short-range rocket adjustments bind
+to the corresponding table notes. These 22 profiles remain inventory data pending
+executable integration and independent fixtures.
+
+The [long-gun catalogue](inventory/firearms-catalogue-b.json) adds 20 profiles,
+including integrated launchers and shotgun pellets. A rest or deployed bipod
+changes legal bracing and, for a bipod, the strength requirement. Shell expenditure
+and pellet hits are separate quantities. Single-shot weapons list unloaded mass;
+repeating weapons list loaded mass. Inventory changes must respect that distinction
+when tracking ammunition carried, chambered and spent.

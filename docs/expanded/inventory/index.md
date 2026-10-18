@@ -50,6 +50,9 @@ copies of the reference books.
 | `full-2008` | B271–B272 tables; B274 notes | [Melee catalogue, first segment](melee-catalogue-a.json) | Item/mode data visually reviewed; shared notes and quality recorded; remaining rows and execution pending |
 | `full-2008` | B273–B274 melee tables | [Melee catalogue, second segment](melee-catalogue-b.json) | Remaining rows visually reviewed; shared item identities recorded; execution pending |
 | `full-2008` | B275–B276 | [Muscle-powered ranged catalogue](muscle-ranged-catalogue.json) | Rows and notes visually reviewed; materials and shared ammunition/item identity recorded; execution pending |
+| `full-2008` | B277; B278–B279 sidebars | [Grenades and ammunition procedures](grenades-and-ammunition.json) | Grenade rows visually reviewed; fuse, electronics, ammunition and reliability rules recorded; execution pending |
+| `full-2008` | B278 | [Pistols and compact automatic weapons](firearms-catalogue-a.json) | All 22 profiles visually reviewed; chamber, reload, sight and variant distinctions recorded; execution pending |
+| `full-2008` | B279 | [Muskets, rifles and shotguns](firearms-catalogue-b.json) | All 20 profiles visually reviewed; support, pellet and loading distinctions recorded; execution pending |
 | `full-2008` | B290–B296 | [Development and transformations](development.json) | Advancement, study, maintenance and transformation procedures enumerated; existing study mappings remain partial |
 | `full-2008` | B343–B349 | [Task resolution](task-resolution.json) | Roll procedures, equipment modifiers, timing, projects and contests enumerated |
 | `full-2008` | B349–B357 | [Physical activities](physical-activities.json) | Activity procedures, gravity, numeric tables and effort options enumerated |
