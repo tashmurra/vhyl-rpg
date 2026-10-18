@@ -139,9 +139,11 @@
       "acceptance": "A single injury strictly greater than half health capacity is a major wound; a crippling injury is also major even when its recorded health loss is smaller.",
       "tests": [
         "tests/expanded.py::test_knockdown_assessment",
-        "tests/expanded.py::test_expanded_wound_commit"
+        "tests/expanded.py::test_expanded_wound_commit",
+        "tests/expanded.py::test_owned_wound_transactions",
+        "tests/expanded.py::test_owned_wound_persistence"
       ],
-      "validation_note": "Owned standard-location wound commit reuses injury and survival state with one knockdown check. Unsupported held-item drops, anatomy, crippling and low-target checks reject before injury. Cases unrun; transaction/save coverage pending."
+      "validation_note": "Owned standard-location wound execution and receipt ownership validation authored. Pure preview, transaction and cross-process continuation cases unrun. Unsupported held-item drops, anatomy, crippling and low-target checks remain explicit."
     },
     {
       "id": "health-knockdown-trigger",
@@ -153,9 +155,11 @@
       "acceptance": "A major wound or a shock-producing injury to skull, face, eye or vitals triggers an immediate knockdown/stun health check unless an applicable anatomy trait changes the trigger.",
       "tests": [
         "tests/expanded.py::test_knockdown_assessment",
-        "tests/expanded.py::test_expanded_wound_commit"
+        "tests/expanded.py::test_expanded_wound_commit",
+        "tests/expanded.py::test_owned_wound_transactions",
+        "tests/expanded.py::test_owned_wound_persistence"
       ],
-      "validation_note": "Owned standard-location wound commit reuses injury and survival state with one knockdown check. Unsupported held-item drops, anatomy, crippling and low-target checks reject before injury. Cases unrun; transaction/save coverage pending."
+      "validation_note": "Owned standard-location wound execution and receipt ownership validation authored. Pure preview, transaction and cross-process continuation cases unrun. Unsupported held-item drops, anatomy, crippling and low-target checks remain explicit."
     },
     {
       "id": "health-knockdown-failure",
@@ -166,9 +170,11 @@
       "status": "partial",
       "acceptance": "Ordinary knockdown failure stuns, puts the actor prone and drops held items; distinguish this from displacement by knockback.",
       "tests": [
-        "tests/expanded.py::test_expanded_wound_commit"
+        "tests/expanded.py::test_expanded_wound_commit",
+        "tests/expanded.py::test_owned_wound_transactions",
+        "tests/expanded.py::test_owned_wound_persistence"
       ],
-      "validation_note": "Owned standard-location wound commit reuses injury and survival state with one knockdown check. Unsupported held-item drops, anatomy, crippling and low-target checks reject before injury. Cases unrun; transaction/save coverage pending."
+      "validation_note": "Owned standard-location wound execution and receipt ownership validation authored. Pure preview, transaction and cross-process continuation cases unrun. Unsupported held-item drops, anatomy, crippling and low-target checks remain explicit."
     },
     {
       "id": "health-knockdown-unconscious",

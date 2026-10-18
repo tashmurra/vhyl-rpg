@@ -90,6 +90,7 @@ class RpgExpandedWound: object
         local value = new RpgExpandedWoundResult();
         if (self.health != nil)
         {
+            if (!holds(self.profile.expandedWounds,self)) rpgExpandedReject('expanded-wound-history');
             if (self.profile != self.boundProfile || self.id != self.boundId || self.amount != self.boundAmount
                 || self.location != self.boundLocation || self.maleGroin != self.boundMaleGroin
                 || self.anatomy != 'standard-humanoid') rpgExpandedReject('expanded-wound-retargeted');
@@ -132,5 +133,20 @@ class RpgExpandedWound: object
         self.boundLocation = self.location; self.boundMaleGroin = self.maleGroin;
         self.profile.expandedWounds = self.profile.expandedWounds + [self];
         value.health = self.health; value.status = 'resolved'; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local wound in self.expandedWounds)
+        {
+            if (wound == nil || !wound.ofKind(RpgExpandedWound) || wound.profile != self
+                || wound.boundProfile != self || wound.health == nil || wound.id != wound.boundId
+                || holds(ids,wound.id)) rpgExpandedReject('expanded-wound-history');
+            ids = ids + [wound.id];
+        }
+        return nil;
     }
 ;

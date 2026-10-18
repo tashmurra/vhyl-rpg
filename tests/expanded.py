@@ -250,6 +250,59 @@ def test_expanded_wound_commit(s):
         'expanded-wound-shock-rule-required', 0, 0, 0]
 
 
+def owned_wound_state(s):
+    s.action(1611)
+    return last(s, 'test.wound-state')
+
+
+def test_owned_wound_transactions(s):
+    initial = owned_wound_state(s)
+    assert initial == [0, 0, 0, 0, 'standing', 0, 0, 6, 0, 0, 0]
+    s.action(1612)
+    assert last(s, 'test.wound-preview') == ['ready', 1]
+    assert owned_wound_state(s) == initial
+    s.action(1610, 2)
+    assert owned_wound_state(s) == initial
+    s.action(1610, 1)
+    wounded = owned_wound_state(s)
+    assert wounded == [6, 4, 1, 1, 'lying', 1, 1, 6, 10, 3, 0]
+    s.command('undo')
+    assert owned_wound_state(s) == initial
+    s.action(1610, 1)
+    assert owned_wound_state(s) == wounded
+    for code in [1, 3, 4]:
+        s.action(1610, code)
+        assert owned_wound_state(s) == wounded
+    s.action(1610, 1)
+    assert last(s, 'test.owned-wound') == ['reused']
+
+
+def test_owned_wound_persistence(Session, bundle, out):
+    for wounded in [False, True]:
+        path = out / f'expanded-owned-wound-{wounded}.zsave'
+        first = Session(bundle)
+        try:
+            if wounded:
+                first.action(1610, 1)
+            saved = owned_wound_state(first)
+            first.command(f':save {path}\n@1611')
+            assert any('[save ok code=0]' in line for line in first.raw_lines)
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1611')
+            assert owned_wound_state(second) == saved
+            second.action(1610, 1)
+            assert last(second, 'test.owned-wound') == ['reused' if wounded else 'resolved']
+            assert owned_wound_state(second) == [6, 4, 1, 1, 'lying', 1, 1, 6, 10, 3, 0]
+            second.action(1610, 1)
+            assert last(second, 'test.owned-wound') == ['reused']
+            assert owned_wound_state(second)[-2:] == [3, 0]
+        finally:
+            second.close()
+
+
 def test_numbers(s):
     before = state(s)
     # Full-2008 B170. Enumerated offsets rather than the implementation formula.
@@ -1999,6 +2052,9 @@ def test(build):
     fresh(Session,health,test_scaled_shock_turn_boundary)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
+    wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
+    fresh(Session,wounds,test_owned_wound_transactions)
+    test_owned_wound_persistence(Session,wounds,build.out)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
     fresh(Session,minimal,test_job_earnings)

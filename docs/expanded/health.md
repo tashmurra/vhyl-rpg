@@ -193,5 +193,9 @@ explicit limitations, not full health coverage.
 `test_expanded_wound_commit` covers exact-half/no-check, minor face injury,
 location penalties, failure-by-five unconsciousness, one-time application and
 preflight rejection without injury or random draws. It is authored but unrun.
-Transaction rollback, undo and save continuation for the new request remain to
-be added before the operation can be considered validated.
+`test_owned_wound_transactions` covers rollback after the roll, undo/replay,
+repeat protection and rejected duplicate/retargeted requests.
+`test_owned_wound_persistence` restores both unapplied requests and committed
+receipts in separate processes. Wound history validates receipt ownership and
+identity. These cases are authored but unrun; their presence is not runtime
+validation.
