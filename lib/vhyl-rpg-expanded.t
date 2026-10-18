@@ -664,3 +664,7 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     sustenancePeriod(trait) { rpgExpandedReject('sustenance-traits-module-required'); }
 ;
+
+modify RpgExpandedProfile
+    validateContinuousSustenance(trait) { rpgExpandedReject('sustenance-traits-module-required'); }
+;

@@ -5297,6 +5297,11 @@ class RpgExpandedSustenanceDeprivation: object
                 if (self.restoration.episode != self || self.contact != nil) rpgExpandedReject('sustenance-restoration-history');
                 self.restoration.validateReceipt();
             }
+            else if (self.restoration.ofKind(RpgExpandedContinuousSustenanceAccess))
+            {
+                if (self.restoration.episode != self || self.contact != nil) rpgExpandedReject('sustenance-restoration-history');
+                self.restoration.validateReceipt();
+            }
             else rpgExpandedReject('sustenance-restoration-type');
         }
         return nil;
@@ -5326,6 +5331,7 @@ class RpgExpandedSustenanceDeprivation: object
         local value = self.assess(); if (value.status != 'ready') return value;
         self.intervalSeconds = self.profile.sustenanceInjuryInterval(self.requirement); self.startedAt = rpgLedger.seconds;
         self.boundDefinition = self.definition(); self.profile.sustenanceDeprivations = self.profile.sustenanceDeprivations + [self];
+        self.profile.recordContinuousSustenanceLoss(self);
         value.status = 'resolved'; return value;
     }
 ;
@@ -5910,5 +5916,129 @@ class RpgExpandedSustenanceInitialAccess: object
         local value = self.assess(); if (value.status != 'ready') return value;
         self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
         self.profile.sustenanceInitialAccess = self.profile.sustenanceInitialAccess + [self]; value.status = 'resolved'; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    continuousSustenanceAccess = []
+;
+/** Continuous object/environment access is an authored world fact, not a periodic dose. */
+class RpgExpandedContinuousSustenanceAccess: object
+    id = nil
+    profile = nil
+    requirement = nil
+    episode = nil
+    approved = nil
+    evidence = nil
+    boundaryOrder = nil
+    completedAt = nil
+    boundDefinition = nil
+    endedAt = nil
+    lostEpisode = nil
+    boundLoss = nil
+    definition()
+    {
+        return [self.id,self.profile,self.requirement,self.episode,self.approved,self.evidence,self.boundaryOrder,
+            self.completedAt,self.requirement.scope] + self.requirement.templatePurchaseOptions();
+    }
+    validateReceipt()
+    {
+        if (self.completedAt == nil || self.boundDefinition == nil || !holds(self.profile.continuousSustenanceAccess,self))
+            rpgExpandedReject('sustenance-continuous-history');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sustenance-continuous-binding');
+        if (self.episode != nil && self.episode.restoration != self) rpgExpandedReject('sustenance-continuous-restoration');
+        if (self.endedAt != nil)
+        {
+            if (self.boundLoss == nil || self.endedAt != self.boundLoss[1] || self.lostEpisode != self.boundLoss[2]
+                || self.lostEpisode == nil || self.lostEpisode.startedAt != self.endedAt
+                || self.lostEpisode.profile != self.profile || self.lostEpisode.requirement != self.requirement
+                || self.endedAt < self.completedAt || self.endedAt > rpgLedger.seconds)
+                rpgExpandedReject('sustenance-continuous-loss-binding');
+        }
+        else if (self.lostEpisode != nil || self.boundLoss != nil) rpgExpandedReject('sustenance-continuous-loss-state');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.requirement == nil)
+            rpgExpandedReject('sustenance-continuous-definition');
+        local value = new RpgExpandedResult();
+        if (self.completedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundDefinition != nil || self.endedAt != nil || self.lostEpisode != nil || self.boundLoss != nil)
+            rpgExpandedReject('sustenance-continuous-uncommitted-state');
+        self.profile.validateContinuousSustenance(self.requirement);
+        if (self.profile.dead) { value.reason = 'sustenance-dead'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'sustenance-continuous-world-facts'; return value; }
+        if (!holds(['access-first','injury-first'],self.boundaryOrder)) rpgExpandedReject('sustenance-contact-boundary-ruling');
+        foreach (local prior in self.profile.continuousSustenanceAccess)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.requirement == self.requirement && prior.endedAt == nil)
+                rpgExpandedReject('sustenance-continuous-duplicate');
+        }
+        local pending = nil;
+        foreach (local prior in self.profile.sustenanceDeprivations)
+        {
+            prior.validateReceipt();
+            if (prior.requirement == self.requirement && prior.restoration == nil)
+            {
+                if (pending != nil) rpgExpandedReject('sustenance-continuous-multiple-deprivations');
+                pending = prior;
+            }
+        }
+        if (pending != self.episode) rpgExpandedReject('sustenance-continuous-episode');
+        if (self.episode != nil)
+        {
+            if (self.episode.profile != self.profile || self.episode.requirement != self.requirement)
+                rpgExpandedReject('sustenance-continuous-episode');
+            if (self.episode.nextTickAt() < rpgLedger.seconds
+                || self.boundaryOrder == 'injury-first' && self.episode.nextTickAt() == rpgLedger.seconds)
+            { value.reason = 'sustenance-contact-injury-due'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    begin()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.profile.continuousSustenanceAccess = self.profile.continuousSustenanceAccess + [self];
+        if (self.episode != nil) self.episode.restoration = self;
+        value.status = 'resolved'; return value;
+    }
+    assessLoss(episode)
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.endedAt != nil)
+        {
+            if (episode != self.lostEpisode) rpgExpandedReject('sustenance-continuous-loss-replacement');
+            episode.validateReceipt(); value.status = 'reused'; return value;
+        }
+        if (episode == nil || !episode.ofKind(RpgExpandedSustenanceDeprivation) || episode.startedAt != nil
+            || episode.profile != self.profile || episode.requirement != self.requirement)
+            rpgExpandedReject('sustenance-continuous-loss-episode');
+        return episode.assess();
+    }
+    lose(episode)
+    {
+        local value = self.assessLoss(episode); if (value.status != 'ready') return value;
+        episode.begin(); self.endedAt = rpgLedger.seconds; self.lostEpisode = episode; self.boundLoss = [self.endedAt,self.lostEpisode];
+        value.status = 'resolved'; return value;
+    }
+;
+
+
+modify RpgExpandedProfile
+    recordContinuousSustenanceLoss(episode)
+    {
+        foreach (local access in self.continuousSustenanceAccess)
+            if (access.requirement == episode.requirement && access.endedAt == nil)
+            {
+                access.validateReceipt(); access.endedAt = episode.startedAt;
+                access.lostEpisode = episode; access.boundLoss = [access.endedAt,episode];
+            }
+        return nil;
     }
 ;

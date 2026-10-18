@@ -2383,3 +2383,31 @@ unsupported initialization case.
 and `test_sustenance_initial` specify no initial resource charge or fictional
 injury, duplicate rejection, rollback, undo, save continuation and later inventory
 consumption. Fixtures remain unrun.
+
+
+### Continuous object and environmental access
+
+`RpgExpandedContinuousSustenanceAccess` records actual continuous access with
+unique `id`, `profile`, owned `requirement`, approval and world-fact evidence.
+The requirement must be continuous and use an object or environment. Select
+`boundaryOrder` explicitly for restoration coinciding with a due injury, as with
+other access operations. `begin()` records initial access without a periodic
+contact duration; periodic deadline APIs continue to reject this frequency.
+
+When access ends, pass a fresh matching deprivation episode with loss evidence
+to pure `assessLoss(episode)` and then `lose(episode)`. Loss records the current
+clock and starts the existing one-injury-per-minute schedule once. Beginning a matching deprivation also closes its active continuous-access
+receipt through the same loss binding, so direct episode integration cannot leave
+an overlapping satisfied state. At actual restoration, create a fresh continuous-access
+receipt naming that `episode`; `begin()` stops future deprivation ticks while
+retaining existing injury. Simultaneous tick ordering follows the selected ruling.
+
+Access and loss receipts retain identity and timestamps. Concurrent active access
+for the same requirement rejects; replay does not restart the injury clock.
+These are concrete author-confirmed world transitions. Automatic location changes,
+continuous substance ingestion, finite supply-device consumption and aging remain
+pending; this interface does not manufacture or consume an environmental supply.
+
+[`expanded-sustenance-continuous.t`](../../tests/fixtures/expanded-sustenance-continuous.t)
+and `test_sustenance_continuous` specify minute injury, loss/restoration replay,
+rollback, undo and cross-process save continuation. Fixtures remain unrun.

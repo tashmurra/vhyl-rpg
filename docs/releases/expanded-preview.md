@@ -1730,3 +1730,9 @@ Periodic sustenance tracking can now start from an authored satisfied-access
 receipt without fictional deprivation or an extra inventory charge. Duplicate
 or post-history initialization rejects. Continuous initialization and automatic
 setup remain pending; rollback, undo and save-continuation fixtures are unrun.
+
+
+Continuous object/environment access now owns initial, lost and restored states.
+Loss starts minute injury; restoration stops further ticks without healing prior
+wounds. Automatic movement and finite supply consumption remain pending; replay,
+rollback, undo and save-continuation fixtures are authored but unrun.

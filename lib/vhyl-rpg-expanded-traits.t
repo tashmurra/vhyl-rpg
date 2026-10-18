@@ -2765,3 +2765,13 @@ modify RpgExpandedProfile
         return [row[4],row[5]];
     }
 ;
+
+modify RpgExpandedProfile
+    validateContinuousSustenance(trait)
+    {
+        self.sustenanceInjuryInterval(trait);
+        if (trait.frequency != 'continuous' || !holds(['object','environment'],trait.requirementKind))
+            rpgExpandedReject('sustenance-continuous-contact-required');
+        return nil;
+    }
+;

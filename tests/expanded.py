@@ -9232,6 +9232,8 @@ def test(build):
     test_sustenance_recurrence(Session, sustenance_recurrence, build.out)
     sustenance_initial = build.build('expanded-sustenance-initial',ROOT / 'tests/fixtures/expanded-sustenance-initial.t')
     test_sustenance_initial(Session, sustenance_initial, build.out)
+    sustenance_continuous = build.build('expanded-sustenance-continuous',ROOT / 'tests/fixtures/expanded-sustenance-continuous.t')
+    test_sustenance_continuous(Session, sustenance_continuous, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20931,5 +20933,41 @@ def test_sustenance_initial(Session, bundle, out):
         for code in (12501, 12104, 12202, 12202, 12503):
             s.action(2285, code)
         assert last(s, 'test.sustenance-initial-state') == [1, 0, 0, 86400, 0]
+    finally:
+        s.close()
+
+
+def test_sustenance_continuous(Session, bundle, out):
+    """Continuous environment loss, minute injury and restoration; unrun."""
+    path = out / 'expanded-sustenance-continuous.zsave'
+    s = Session(bundle)
+    try:
+        for code in (12600, 12602, 12606):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-continuous') == [1, 0, None, 0, 0, 0, 0]
+        s.action(2285, 12601)
+        s.command('undo')
+        s.action(2285, 12606)
+        assert last(s, 'test.sustenance-continuous') == [1, 0, None, 0, 0, 0, 0]
+        for code in (12601, 12601, 12603, 11706, 11703, 12605, 12606):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-boundary') == ['sustenance-injury-boundary']
+        assert last(s, 'test.sustenance-continuous') == [1, 1, 0, 0, 1, 60, 0]
+        s.action(2285, 12604)
+        s.command('undo')
+        s.action(2285, 12606)
+        assert last(s, 'test.sustenance-continuous') == [1, 1, 0, 0, 1, 60, 0]
+        for code in (12604, 12604, 12603, 12606):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-continuous') == [2, 1, 0, 1, 1, 120, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (12601, 12604, 12603, 12606):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-continuous') == [2, 1, 0, 1, 1, 180, 0]
     finally:
         s.close()
