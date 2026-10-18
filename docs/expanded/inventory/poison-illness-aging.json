@@ -189,7 +189,7 @@
       "tests": [
         "tests/expanded.py::test_poison_exposure"
       ],
-      "validation_note": "Owned toxic HP exposures support exact onset and cycle deadlines, repeated resistance, early termination, shared wounds and protected injury until termination. Fixtures cover replay, rollback, undo and saved continuation but remain unrun. Fatigue effects, symptoms, treatments and continuing environmental exposure remain incomplete."
+      "validation_note": "Owned toxic and fatigue exposures now apply shared HP/FP losses, with pointwise expanded overflow wounds and cyclic recovery locks. Rest protects cyclic FP while recovering unrelated loss; termination releases locks without refunding loss. Fixtures cover fixed effects, overflow, replay, rollback, undo and saved continuation but remain unrun. Other symptom/condition effects and persistent environmental repetition remain incomplete."
     },
     {
       "id": "poison-cyclic-healing",
@@ -202,7 +202,7 @@
       "tests": [
         "tests/expanded.py::test_poison_exposure"
       ],
-      "validation_note": "Owned toxic HP exposures support exact onset and cycle deadlines, repeated resistance, early termination, shared wounds and protected injury until termination. Fixtures cover replay, rollback, undo and saved continuation but remain unrun. Fatigue effects, symptoms, treatments and continuing environmental exposure remain incomplete."
+      "validation_note": "Owned toxic and fatigue exposures now apply shared HP/FP losses, with pointwise expanded overflow wounds and cyclic recovery locks. Rest protects cyclic FP while recovering unrelated loss; termination releases locks without refunding loss. Fixtures cover fixed effects, overflow, replay, rollback, undo and saved continuation but remain unrun. Other symptom/condition effects and persistent environmental repetition remain incomplete."
     },
     {
       "id": "poison-cycle-resistance",

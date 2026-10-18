@@ -55,6 +55,7 @@ class RpgLiteProfile: RpgProfile
     injury = 0
     fatigue = 0
     afterHealing() { return nil; }
+    additionalRecoveryLockedFatigue() { return 0; }
     validateHealing(amount) { return nil; }
     /* Contextual health adjustments must not alter purchased attributes. */
     healthAttributeModifier(context) { return 0; }

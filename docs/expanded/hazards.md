@@ -1144,10 +1144,10 @@ owned follow-up wound. They are authored and unrun.
 base, but owns its admitted delivery and absolute onset deadline. Supply a unique
 `id`, expanded `profile`, `hazard`, approved `RpgExpandedPoisonEntry`, factual
 `sizeModifier`, `approved` and `effectEvidence` identifying the poison's supported
-effects. The hazard supports single or repeated cycles of toxic HP injury,
+effects. The hazard supports single or repeated cycles of toxic HP injury or fatigue loss,
 with zero to one hundred dice and nonnegative additions. Zero dice requires a
-positive fixed addition; it applies that fixed damage without drawing damage dice. Fatigue,
-other symptoms/conditions and negative additions remain unsupported.
+positive fixed addition; it applies that fixed damage without drawing damage dice.
+Other symptoms/conditions and negative additions remain unsupported.
 The original fictional fixture agent is not a claim of source-catalogue coverage.
 
 `assess()` verifies entry, resistance availability and every possible failure
@@ -1385,3 +1385,33 @@ combined-attribution procedure. Other symptom forms remain unfinished.
 Fixtures specify nonintegral threshold boundaries, staged DX loss, unchanged
 secondary/defense values, antidote termination followed by healing, later
 unrelated injury, undo and saved continuation. They remain unrun.
+
+
+### Fatigue-damage poison
+
+Set an authored hazard's `fatigueDamage = true` to apply its fixed or rolled
+amount to FP instead of direct toxic HP. `RpgExpandedPoisonFatigueLoss` reuses
+the existing owned point-by-point fatigue procedure, including overflow HP loss,
+FP floor and unconscious collapse. It records receipts in `poisonFatigueLosses`
+and creates uniquely identified expanded wounds for overflow injury. The existing
+fear fatigue API retains its six-point limit and history; poison loss supports
+up to 10000 points in one assessed effect.
+
+`RpgExpandedPoisonResult.fatigue` reports actual added fatigue;
+`fatigueLoss` links its owned receipt, and `injury` reports overflow HP loss.
+Each cycle preflights before its resistance or damage draws. Resistance success
+skips both FP and HP loss. Fixed effects draw no damage dice.
+
+Active cyclic exposures retain `lockedFatigue` and any overflow `lockedInjury`.
+The default-zero `additionalRecoveryLockedFatigue()` profile hook extends the
+existing rest protection without charging another clock or maintaining another
+FP total. Rest can recover unrelated fatigue, but cannot recover the exposure's
+protected loss. A final cycle, successful resistance or terminating antidote
+releases both restrictions without granting any recovery. Other hunger, thirst,
+sleep and temperature restrictions remain separate.
+
+The fixture uses an original fixed four-point agent to specify ordinary fatigue,
+overflow injury, recovery of unrelated FP, protected rest, final release, replay,
+rollback, undo and saved continuation. These fixtures are unrun. The remaining
+condition-based catalogue agents and persistent environmental repetition are
+still incomplete.

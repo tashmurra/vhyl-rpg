@@ -11623,3 +11623,38 @@ def test_poison_exposure(Session, bundle, out):
         assert last(s, 'test.poison-symptom') == [13, 0, 0, 0, 20, 19]
     finally:
         s.close()
+
+    # B438 cyclic fatigue protection; ordinary FP arithmetic and overflow share
+    # the existing health ledger. Fixed four-point effects draw only resistance.
+    for overflow in (False, True):
+        s = Session(bundle)
+        try:
+            if overflow:
+                s.action(2285, 353)
+            for code in (350, 265, 260, 263, 352):
+                s.action(2285, code)
+            assert last(s, 'test.poison-fatigue') == [9 if overflow else 0, 0, 0, 0, 0, 0, 0]
+            s.action(2285, 262)
+            s.command('undo')
+            s.action(2285, 352)
+            assert last(s, 'test.poison-fatigue') == [9 if overflow else 0, 0, 0, 0, 0, 0, 0]
+            for code in (262, 262, 352):
+                s.action(2285, code)
+            assert last(s, 'test.poison-fatigue') == [13 if overflow else 4, 3 if overflow else 0, 4, 3 if overflow else 0, 1, 0, 3]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (351, 352):
+                s.action(2285, code)
+            assert last(s, 'test.poison-fatigue') == [12 if overflow else 4, 3 if overflow else 0, 4, 3 if overflow else 0, 1, 600, 3]
+            for code in (354, 272, 272, 352):
+                s.action(2285, code)
+            assert last(s, 'test.poison-fatigue') == [16 if overflow else 8, 7 if overflow else 0, 0, 0, 2, 1200, 6]
+            for code in (351, 352):
+                s.action(2285, code)
+            assert last(s, 'test.poison-fatigue') == [15 if overflow else 7, 7 if overflow else 0, 0, 0, 2, 1800, 6]
+        finally:
+            s.close()

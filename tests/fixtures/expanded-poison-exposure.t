@@ -198,6 +198,21 @@ modify BleedTestAction
             event('test.poison-thresholds');
             foreach (local injury in [3,4,5,6,7]) eventValue(rpgExpandedVenomDexterityPenalty(10,injury)); return nil;
         }
+        if (code == 350)
+        {
+            poisonDefinition.fatigueDamage = true; poisonDefinition.dice = 0; poisonDefinition.adds = 4;
+            poisonDefinition.delay = 0; poisonDefinition.cycles = 2; poisonDefinition.interval = 1200; return nil;
+        }
+        if (code == 351) { rpgLiteRest(bleedProfile,600,nil,nil,nil,nil); return nil; }
+        if (code == 352)
+        {
+            event('test.poison-fatigue'); eventValue(bleedProfile.fatigue); eventValue(bleedProfile.injury);
+            eventValue(poisonExposure.lockedFatigue); eventValue(poisonExposure.lockedInjury);
+            eventValue(bleedProfile.poisonFatigueLosses.length()); eventValue(rpgLedger.seconds);
+            eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 353) { bleedProfile.fatigue = 9; return nil; }
+        if (code == 354) { rpgSpendTime(600); return nil; }
         return inherited(context);
     }
 ;

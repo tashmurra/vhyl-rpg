@@ -205,6 +205,7 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     if (profile.dead) { result.status = 'blocked'; return result; }
     if (profile.mortal && !profile.mortalSurvivalSuspended()) profile.validateMortalRecovery();
     profile.validateNaturalRecovery(seconds,food,healingAllowed);
+    profile.additionalRecoveryLockedFatigue();
     local healingInterval = profile.naturalRecoveryInterval();
     local healingModifier = food && healingAllowed && profile.naturalRecoveryNeeded()
         ? profile.naturalRecoveryModifier() : 0;
@@ -234,7 +235,8 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     }
     else { profile.sleepClock = 0; profile.sleepRecovered = nil; }
     profile.restClock += seconds;
-    local locked = profile.hunger + profile.thirst + profile.sleepDebt + profile.temperatureFatigue;
+    local locked = profile.hunger + profile.thirst + profile.sleepDebt + profile.temperatureFatigue
+        + profile.additionalRecoveryLockedFatigue();
     while (profile.restClock >= 600)
     {
         profile.restClock -= 600;

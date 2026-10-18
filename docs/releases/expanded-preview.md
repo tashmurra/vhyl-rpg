@@ -461,3 +461,10 @@ checks and skills while preserving secondary characteristics and defensive
 reactions. Healing clears severity without later unrelated wounds restoring it.
 Fixtures are authored and unrun; other symptom forms and combined symptomatic
 exposures remain incomplete.
+
+
+Fatigue-damage poison now uses owned FP-loss receipts and expanded overflow
+wounds. Active cyclic FP and HP losses remain protected from rest/healing until
+termination, while unrelated fatigue may recover. A default-zero Lite recovery
+hook preserves the existing behavior when no expansion lock is present. Added
+authored, unrun overflow and persistence fixtures; validation remains paused.

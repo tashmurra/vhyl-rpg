@@ -2638,6 +2638,8 @@ rpgExpandedPoisonDose(doublings, delay, interval)
     value.status = 'ready'; return value;
 }
 class RpgExpandedPoisonResult: RpgExpandedResult
+    fatigue = 0
+    fatigueLoss = nil
     context = nil
     entryModifier = 0
     injury = 0
@@ -2661,6 +2663,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
     result = nil
     cycleHistory = []
     symptomInjury = 0
+    lockedFatigue = 0
     hasDexteritySymptoms() { return self.hazard.ofKind(RpgExpandedCataloguePoison) && self.hazard.dexteritySymptoms; }
     dexteritySymptomPenalty()
     {
@@ -2702,6 +2705,11 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         if (!holds(self.profile.poisonExposures,self)) rpgExpandedReject('poison-exposure-history');
         return nil;
     }
+    failureFatigue(amount)
+    {
+        local loss = new RpgExpandedPoisonFatigueLoss(); loss.profile = self.profile;
+        loss.id = 'poison-preview-' + self.id; loss.amount = amount; loss.dropDestination = self.dropDestination; return loss;
+    }
     failureWound(amount)
     {
         local wound = new RpgExpandedWound(); wound.profile = self.profile; wound.id = 'poison-preview-' + self.id;
@@ -2730,14 +2738,13 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             if (self.finished && self.result != nil)
             {
                 value.status = 'reused'; value.check = self.result.check; value.injury = self.result.injury;
-                value.wound = self.result.wound; value.resisted = self.result.resisted; return value;
+                value.wound = self.result.wound; value.resisted = self.result.resisted;
+                value.fatigue = self.result.fatigue; value.fatigueLoss = self.result.fatigueLoss; return value;
             }
             value.entryModifier = self.entryModifier;
         }
         if (!self.approved || self.effectEvidence == nil || self.effectEvidence == '')
         { value.reason = 'poison-exposure-effect-evidence'; return value; }
-        if (self.hazard.fatigueDamage)
-        { value.reason = 'poison-effect-form-unimplemented'; return value; }
         rpgInteger(self.hazard.cycles,1,10000); rpgInteger(self.hazard.interval,1,86400);
         rpgInteger(self.hazard.dice,0,100); rpgInteger(self.hazard.adds,self.hazard.dice == 0 ? 1 : 0,1000);
         rpgInteger(self.hazard.resistanceModifier,-100,100);
@@ -2770,7 +2777,8 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         }
         for (local amount = self.hazard.dice + self.hazard.adds; amount <= 6 * self.hazard.dice + self.hazard.adds; amount += 1)
         {
-            local harm = self.failureWound(amount * dose.damageMultiplier).assess();
+            local harm = self.hazard.fatigueDamage ? self.failureFatigue(amount * dose.damageMultiplier).assess()
+                : self.failureWound(amount * dose.damageMultiplier).assess();
             if (harm.status != 'ready') { value.reason = harm.reason; return value; }
         }
         value.status = 'ready'; return value;
@@ -2816,7 +2824,8 @@ class RpgExpandedPoisonCycle: object
             self.exposure.validateReceipt();
             local reused = new RpgExpandedPoisonResult(); reused.status = 'reused';
             reused.check = self.result.check; reused.injury = self.result.injury;
-            reused.wound = self.result.wound; reused.resisted = self.result.resisted; return reused;
+            reused.wound = self.result.wound; reused.resisted = self.result.resisted;
+            reused.fatigue = self.result.fatigue; reused.fatigueLoss = self.result.fatigueLoss; return reused;
         }
         if (self.id == nil || self.id == '' || self.exposure == nil
             || !self.exposure.ofKind(RpgExpandedPoisonExposure)) rpgExpandedReject('poison-cycle-definition');
@@ -2828,6 +2837,14 @@ class RpgExpandedPoisonCycle: object
             foreach (local wound in self.exposure.profile.expandedWounds)
                 if (wound.id == 'poison-' + self.exposure.id + '-' + self.id)
                     rpgExpandedReject('poison-cycle-wound-duplicate');
+        if (value.status == 'ready' && self.exposure.hazard.fatigueDamage)
+        {
+            local e = self.exposure;
+            local loss = e.failureFatigue((6 * e.hazard.dice + e.hazard.adds) * e.doseAssessment().damageMultiplier);
+            loss.id = 'poison-' + e.id + '-' + self.id;
+            local assessed = loss.assess();
+            if (assessed.status != 'ready') { value.status = 'blocked'; value.reason = assessed.reason; }
+        }
         return value;
     }
     apply()
@@ -2840,10 +2857,20 @@ class RpgExpandedPoisonCycle: object
         {
             local baseDamage = e.hazard.dice == 0 ? e.hazard.adds : rpgLiteRollDamage(e.hazard.dice,e.hazard.adds,'tox',nil);
             local amount = baseDamage * e.doseAssessment().damageMultiplier;
-            value.wound = e.failureWound(amount); value.wound.id = 'poison-' + e.id + '-' + self.id;
-            local harm = value.wound.apply();
-            if (harm.status != 'resolved') rpgExpandedReject('poison-injury-changed');
-            value.injury = harm.healthLoss;
+            if (e.hazard.fatigueDamage)
+            {
+                value.fatigueLoss = e.failureFatigue(amount); value.fatigueLoss.id = 'poison-' + e.id + '-' + self.id;
+                local harm = value.fatigueLoss.apply();
+                if (harm.status != 'resolved') rpgExpandedReject('poison-fatigue-changed');
+                value.injury = harm.injuryAdded; value.fatigue = harm.fatigueAdded;
+            }
+            else
+            {
+                value.wound = e.failureWound(amount); value.wound.id = 'poison-' + e.id + '-' + self.id;
+                local harm = value.wound.apply();
+                if (harm.status != 'resolved') rpgExpandedReject('poison-injury-changed');
+                value.injury = harm.healthLoss;
+            }
             if (e.hasDexteritySymptoms()) e.symptomInjury += value.injury;
         }
         self.completedAt = rpgLedger.seconds; self.boundId = self.id; self.boundExposure = e;
@@ -2852,9 +2879,9 @@ class RpgExpandedPoisonCycle: object
         if (value.resisted || e.remaining == 0 || e.profile.dead)
         {
             e.completedAt = rpgLedger.seconds; e.remaining = 0; e.finished = true;
-            e.lockedInjury = 0; e.result = value;
+            e.lockedInjury = 0; e.lockedFatigue = 0; e.result = value;
         }
-        else { e.lockedInjury += value.injury; e.dueAt += e.doseAssessment().intervalSeconds; }
+        else { e.lockedInjury += value.injury; e.lockedFatigue += value.fatigue; e.dueAt += e.doseAssessment().intervalSeconds; }
         return value;
     }
 ;
@@ -2996,7 +3023,7 @@ class RpgExpandedAntidoteAdministration: object
         patient.poisonAntidotes = patient.poisonAntidotes + [self];
         if (self.medicine.endsExposure)
         {
-            e.finished = true; e.remaining = 0; e.lockedInjury = 0; e.completedAt = rpgLedger.seconds;
+            e.finished = true; e.remaining = 0; e.lockedInjury = 0; e.lockedFatigue = 0; e.completedAt = rpgLedger.seconds;
             e.result = new RpgExpandedPoisonResult(); e.result.status = 'resolved';
         }
         return value;
@@ -3377,5 +3404,34 @@ modify RpgExpandedProfile
             if (exposure.symptomInjury > self.injury) exposure.symptomInjury = self.injury;
         }
         return nil;
+    }
+;
+
+
+/** Reuse the owned fatigue/overflow procedure, retaining separate poison history. */
+class RpgExpandedPoisonFatigueLoss: RpgExpandedFearFatigueLoss
+    maximumAmount() { return 10000; }
+    fatigueCause() { return 'poison'; }
+    history() { return self.profile.poisonFatigueLosses; }
+    remember() { self.profile.poisonFatigueLosses = self.profile.poisonFatigueLosses + [self]; }
+    woundId(index)
+    {
+        local digits = ['0','1','2','3','4','5','6','7','8','9']; local suffix = '';
+        while (index > 0) { suffix = digits[index % 10 + 1] + suffix; index /= 10; }
+        return 'poison-fatigue-' + self.id + '-' + suffix;
+    }
+;
+modify RpgExpandedProfile
+    poisonFatigueLosses = []
+    additionalRecoveryLockedFatigue()
+    {
+        local total = inherited();
+        foreach (local exposure in self.poisonExposures)
+        {
+            exposure.validateReceipt(); rpgInteger(exposure.lockedFatigue,0,self.fatigue - total);
+            total += exposure.lockedFatigue;
+        }
+        rpgInteger(total,0,self.fatigue - self.hunger - self.thirst - self.sleepDebt - self.temperatureFatigue);
+        return total;
     }
 ;
