@@ -751,3 +751,7 @@ modify RpgExpandedProfile
 modify RpgLiteSkill
     validateLieDetection() { rpgExpandedReject('lie-detection-expanded-skill-required'); }
 ;
+
+modify RpgLiteSkill
+    validateBodyReading() { rpgExpandedReject('body-reading-expanded-skill-required'); }
+;

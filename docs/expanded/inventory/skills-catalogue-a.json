@@ -2405,9 +2405,10 @@
       "pages": "B181",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Observe only one visible subject, apply vision/physiology/obstruction modifiers, and distinguish noncombat inference from ordinary combat feints.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_body_reading"],
+      "validation_note": "Typed skill/defaults and owned visual lie inference authored, including visibility, mask/body exclusion, concealment, physiology categories and combat rejection. Emotion/intention modes, physiology familiarity, combined concealment and complete trait integration remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",

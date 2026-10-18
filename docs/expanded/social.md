@@ -1530,3 +1530,27 @@ validates the original statement and history and consumes no randomness.
 `test_lie_disclosure` covers true and misleading impressions, preview privacy,
 replay, rollback, undo, separate-process continuation and altered-conclusion
 rejection. Fixtures remain unrun.
+
+
+## Visual body-reading lie inference
+
+`RpgExpandedBodyReadingLieDetection` reuses the owned lie assessment and private
+disclosure with a `RpgExpandedBodyReadingSkill` (Per/Average; full-2008 B181).
+It reads one `subject`. Set `visible` and `visualEvidence`; supply the applicable
+`visionModifier`. `concealment` is `none`, `baggy` (-1), `shield` or `cloak`
+(`coverPenalty` from -2 to -4), or `mask` (-5). A mask with `bodyVisible = nil`
+blocks the assessment. Multiple simultaneous concealment sources require an
+authored choice of the applicable category; they are not automatically stacked.
+
+`physiology` accepts `same` (zero penalty), `similar` (-2 through -4), `different`
+(-5), `alien` (-6 or worse), or `machine` (no roll). The chosen `speciesModifier`
+must match. A successful physiology-familiarity check is not yet integrated.
+Readable-subject +4 remains available. Empathy modifiers for this route reject
+pending source-specific integration. `combat = true` rejects and directs the
+author to combat feints.
+
+The typed skill has no attribute default. Purchased lie detection or psychology
+provides a -4 default; purchased body reading provides lie detection's -4 default.
+`test_body_reading` specifies those edges, concealment modifiers, combined visual
+and physiology penalties, blocked conditions, opposed execution and replay.
+Fixtures remain unrun. General emotion and ally-intention readings remain pending.

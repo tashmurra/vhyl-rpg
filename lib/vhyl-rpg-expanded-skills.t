@@ -1220,3 +1220,29 @@ class RpgExpandedLieDetectionSkill: RpgExpandedSkill
         return edges;
     }
 ;
+
+/** Full-2008 B181 visual body reading; no attribute default. */
+class RpgExpandedBodyReadingSkill: RpgExpandedSkill
+    id = 'body-reading'
+    attribute = rpgPerception
+    difficulty = 1
+    validateDefinition()
+    {
+        if (self.id != 'body-reading' || self.attribute != rpgPerception || self.difficulty != 1
+            || self.defaultPenalty != nil || self.defaultAttribute != nil || self.alternateAttribute != nil
+            || self.defaults.length() != 0 || self.attributeDefaults.length() != 0 || self.wildcard
+            || self.optionalParent != nil || self.specialty != nil || self.techLevel != nil)
+            rpgExpandedReject('body-reading-skill-definition');
+        return nil;
+    }
+    validateBodyReading() { return self.validateDefinition(); }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+            if (training.points > 0 && training.skill != self && training.skill.ofKind(RpgLiteSkill)
+                && holds(['lie-detection','psychology'],training.skill.studyIdentity()))
+                edges = edges + [[training.skill,-4]];
+        return edges;
+    }
+;

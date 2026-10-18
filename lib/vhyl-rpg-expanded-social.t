@@ -3028,6 +3028,11 @@ class RpgExpandedLieDetection: object
         if (self.result.conclusion != self.boundConclusion) rpgExpandedReject('lie-detection-conclusion-binding');
         return nil;
     }
+    validateReadingSkill() { return self.skill.validateLieDetection(); }
+    readingConditions()
+    {
+        local value = new RpgExpandedResult(); value.status = 'ready'; return value;
+    }
     assess()
     {
         local value = new RpgExpandedLieDetectionResult();
@@ -3039,7 +3044,7 @@ class RpgExpandedLieDetection: object
         if (self.id == nil || self.id == '' || self.observer == nil || !self.observer.ofKind(RpgExpandedProfile)
             || self.subject == nil || !self.subject.ofKind(RpgLiteProfile) || self.observer == self.subject
             || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)) rpgExpandedReject('lie-detection-definition');
-        self.skill.validateLieDetection();
+        self.validateReadingSkill();
         if (!self.approved || !self.truthKnown || self.statement == nil || self.statement == '' || self.evidence == nil || self.evidence == '')
         { value.reason = 'lie-detection-authored-facts-required'; return value; }
         if (self.observer.dead || self.subject.dead || self.observer.unconscious || self.subject.unconscious)
@@ -3050,8 +3055,10 @@ class RpgExpandedLieDetection: object
         foreach (local prior in self.observer.lieDetections)
             if (prior.id == self.id || prior.subject == self.subject && prior.statement == self.statement)
                 rpgExpandedReject('lie-detection-repeat-statement');
+        local conditions = self.readingConditions();
+        if (conditions.status != 'ready') { value.reason = conditions.reason; return value; }
         local reading = new RpgLiteContext(); reading.skill = self.skill; reading.kind = 'lie-detection';
-        reading.modifier = self.empathyModifier + (self.easyToRead ? 4 : 0) + self.speciesModifier;
+        reading.modifier = self.empathyModifier + (self.easyToRead ? 4 : 0) + self.speciesModifier + conditions.modifier;
         local defense = new RpgLiteContext(); defense.attribute = rpgIQ; defense.kind = 'lie-detection-defense';
         if (self.defenseSkill != nil)
         {
@@ -3139,5 +3146,46 @@ class RpgExpandedLieDetectionDisclosure: object
         self.boundKnowledge.received = self.boundKnowledge.received + [[self.id,self.assessment.observer,value.statements,0]];
         self.completedAt = rpgLedger.seconds; self.assessment.disclosure = self;
         value.status = 'resolved'; return value;
+    }
+;
+
+/** B181 visual lie inference. Combat feints and emotion inference are distinct. */
+class RpgExpandedBodyReadingLieDetection: RpgExpandedLieDetection
+    visible = nil
+    bodyVisible = true
+    concealment = 'none'
+    coverPenalty = -2
+    visionModifier = 0
+    physiology = 'same'
+    combat = nil
+    visualEvidence = nil
+    validateReadingSkill() { return self.skill.validateBodyReading(); }
+    definition()
+    {
+        return inherited() + [self.visible,self.bodyVisible,self.concealment,self.coverPenalty,
+            self.visionModifier,self.physiology,self.combat,self.visualEvidence];
+    }
+    readingConditions()
+    {
+        local value = new RpgExpandedResult();
+        if (self.combat) { value.reason = 'body-reading-use-combat-feint'; return value; }
+        if (!self.visible || self.visualEvidence == nil || self.visualEvidence == '')
+        { value.reason = 'body-reading-visible-subject-required'; return value; }
+        if (!holds(['none','baggy','shield','cloak','mask'],self.concealment)
+            || !holds(['same','similar','different','alien','machine'],self.physiology))
+            rpgExpandedReject('body-reading-conditions');
+        if (self.physiology == 'machine') { value.reason = 'body-reading-machine-inapplicable'; return value; }
+        if (self.physiology == 'same' && self.speciesModifier != 0
+            || self.physiology == 'similar' && !holds([-2,-3,-4],self.speciesModifier)
+            || self.physiology == 'different' && self.speciesModifier != -5
+            || self.physiology == 'alien' && self.speciesModifier > -6)
+            rpgExpandedReject('body-reading-physiology');
+        if (self.empathyModifier != 0) rpgExpandedReject('body-reading-empathy-modifier-unsupported');
+        if (self.concealment == 'mask' && !self.bodyVisible)
+        { value.reason = 'body-reading-mask-no-body'; return value; }
+        rpgInteger(self.visionModifier,-100,100); rpgInteger(self.coverPenalty,-4,-2);
+        value.modifier = self.visionModifier + (self.concealment == 'baggy' ? -1 : self.concealment == 'mask' ? -5
+            : holds(['shield','cloak'],self.concealment) ? self.coverPenalty : 0);
+        value.status = 'ready'; return value;
     }
 ;

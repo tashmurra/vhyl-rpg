@@ -9354,6 +9354,8 @@ def test(build):
     test_lie_detection(Session, lie_detection, build.out)
     lie_disclosure = build.build("expanded-lie-disclosure",ROOT / "tests/fixtures/expanded-lie-disclosure.t")
     test_lie_disclosure(Session, lie_disclosure, build.out)
+    body_reading = build.build("expanded-body-reading",ROOT / "tests/fixtures/expanded-body-reading.t")
+    test_body_reading(Session, body_reading)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23189,5 +23191,35 @@ def test_lie_disclosure(Session, bundle, out):
     try:
         s.action(1100,18400); s.action(1100,18504)
         assert last(s,'test.lie-disclosure-error') == ['lie-detection-conclusion-binding']
+    finally:
+        s.close()
+
+
+def test_body_reading(Session, bundle):
+    """B181 visual inference has concrete visibility/obstruction gates; unrun."""
+    for code, event_id, expected in ((18600,'test.body-reading-scores',[[15,14,13,13,10]]),
+                                     (18606,'test.body-reading-modified',[14]),
+                                     (18607,'test.body-reading-default',[11]),
+                                     (18608,'test.body-reading-default',[6])):
+        s = Session(bundle)
+        try:
+            s.action(1100,code)
+            assert last(s,event_id) == expected
+        finally:
+            s.close()
+    for code, reason in ((18601,'body-reading-visible-subject-required'),(18602,'body-reading-mask-no-body'),
+                         (18603,'body-reading-machine-inapplicable'),(18604,'body-reading-use-combat-feint')):
+        s = Session(bundle)
+        try:
+            s.action(1100,code); s.action(1100,18605)
+            assert last(s,'test.body-reading-result') == ['blocked',reason,None,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1100,18605)
+        assert last(s,'test.body-reading-result') == ['resolved',None,'lying',6]
+        s.action(1100,18605)
+        assert last(s,'test.body-reading-result') == ['reused',None,None,6]
     finally:
         s.close()
