@@ -21,7 +21,10 @@ entries remain unresolved.
 Alternatively, include `vhyl-rpg-expanded.t` and individual available modules
 once, in dependency order. Development additionally requires expanded skills;
 hazards requires expanded health and skills. Character-cost queries additionally require
-expanded characters.
+expanded characters. Technology requires equipment; its effective-software
+technology context also uses skills, while committed prototype accidents and
+completion require health's supported wound adapter. See the
+[technology lifecycle table](technology.md) for operation-specific limits.
 The all umbrella includes only available modules; it is not a promise of complete
 coverage. Existing Lite APIs retain their abridged behavior.
 

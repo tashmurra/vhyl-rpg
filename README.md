@@ -50,8 +50,11 @@ checks are paused.
 The partial [technology module](docs/expanded/technology.md) assesses disabled and
 destroyed weapon outcomes, including surviving forms and their combat overrides.
 It also includes environmental-fault repair and owned computer processing, storage,
-links, transfers and uninterrupted recordings. Structural object damage, transformed
-inventory pieces and the broader technology procedures remain incomplete.
+links, transfers, uninterrupted recordings and task software. Its owned invention
+workflow includes funding, work, secret completion, supported defect effects,
+whole-week testing and bug-free one-copy production. These are partial interfaces
+with explicit limits and unrun fixtures. Structural object damage, transformed
+inventory pieces and broader technology procedures remain incomplete.
 
 The partial [combat module](docs/expanded/combat.md) adds pure ordinary rapid-fire
 assessments; ammunition and per-hit injury integration remain incomplete.

@@ -10,8 +10,34 @@ maintenance and repair. Neutral source: `full-2008`, B471–B479; B483–B485; B
 Include `vhyl-rpg-expanded-technology.t` after the expanded foundation and equipment. The current
 runtime provides pure object assessments, owned environmental faults and their
 repairs, computer processing, storage, links, terminals, transfers, recordings and
-task-scoped software equipment contributions. Object damage, actual weapon-piece
-creation, maintenance scheduling, structural repair and invention projects remain pending.
+task-scoped software equipment contributions. Owned invention stages now cover
+proposals, concepts, blueprint entry, funding, work, secret completion, concrete
+fault effects, whole-week testing and supported one-copy production. Object damage,
+actual weapon-piece creation, maintenance scheduling, structural repair and broader
+invention options remain incomplete. All recent fixtures are authored and unrun.
+
+For invention projects, use the stages below rather than charging the proposal's
+assessment values yourself. Every mutation belongs in an engine action transaction.
+
+| Stage | Interface | Committed ledger effects | Important current limit |
+| --- | --- | --- | --- |
+| Proposal | `RpgExpandedInventionProposal.assess()` | None | Ordinary invention; historical software unresolved |
+| Theory | `RpgExpandedInventionConcept.apply()` or `RpgExpandedInventionBlueprint.apply()` | Concept randomness and daily receipt, or blueprint receipt | Secret result; cinematic procedures pending |
+| Facilities | `RpgExpandedInventionFacilities.fund()` | Shared money, owned facilities receipt | Alternate funding pending |
+| Attempt | `RpgExpandedPrototypeStart.begin()` | Per-attempt money and duration dice | Explicit month intervals; fixed team |
+| Work | `RpgExpandedPrototypeWork.apply()` | Shared clock and work credit | Whole approved intervals; no partial interruption credit |
+| Completion | `RpgExpandedPrototypeCompletion.apply()` | Secret roll, conditional bug dice, injury/facilities or inventory | Physical prototypes; concrete accident contract required |
+| Defect assignment | `RpgExpandedPrototypeDefectSet.apply()` | Pending inventory delivery | Penalty/block effects only |
+| Operation | `RpgExpandedPrototypeOperation.apply()` | Time, check, qualifying fault activation | Explicit item/skill context |
+| Testing | `RpgExpandedPrototypeTest.apply()` | One week, check, discovery/activation/belief receipt | Whole week; false-confidence critical policy |
+| Production line | `RpgExpandedProductionLine.establish()` | Capital cost once | Recorded working prototype required |
+| Production copy | `RpgExpandedProductionOrder.begin()` then `finish()` | Per-copy money, later time and inventory | Bug-free physical design; whole ledger units |
+
+Technology's basic dependency remains foundation plus equipment. Software effective
+technology contexts additionally use skills. Accident execution and prototype
+completion require health's concrete wound adapter and its supported rules; merely
+including technology does not activate expanded health. The pure assessments and
+computer interfaces remain available without health.
 
 ## Object capacity and injury thresholds
 
@@ -722,10 +748,9 @@ complexity project and divides facilities cost by ten. Prices use B474 fixed
 currency amounts rather than automatic technology/wealth scaling.
 
 This assessment consumes no money, time or randomness. It is not a completed
-invention project or a complete roll context: model access, novelty, variant
-modifiers, historical research, daily concept attempts, secret flawed theories,
-prototype duration, assistants, accidents, defects, testing and production are
-pending. Do not charge the returned costs merely for submitting a proposal.
+invention project or a complete roll context. The owned stages below add model
+access, novelty, variant modifiers, historical research, attempts and consequences.
+Do not charge the returned costs merely for submitting a proposal.
 
 `test_invention_proposals` authors category boundaries, related-skill selection,
 technology limits, historical reduction, facilities reuse, software complexity,
@@ -772,8 +797,8 @@ Use the existing action transaction for rollback, undo and saves.
 `test_invention_concept_persistence` author ordinary failure, testable and flawed
 theories, previews, rollback, replay, proposal retargeting, global daily limits,
 clock boundaries, undo and cross-process continuation. These fixtures are unrun.
-Blueprint entry, prototype construction, discovering flawed theories, calendar
-variants and cinematic invention remain incomplete.
+Blueprint entry, physical prototype construction and flaw discovery have separate
+interfaces below. Calendar variants and cinematic invention remain incomplete.
 
 
 ## Prototype duration and secret outcomes
@@ -805,8 +830,9 @@ rounding convention in B9. Irrelevant or missing dice reject. The result carries
 counts only; concrete defect descriptions, discovery and consequences remain to
 be authored in the owned prototype stage.
 
-All three helpers are pure assessments. Funding, work reservations, elapsed time,
-prototype creation, actual accident injuries and defect lifecycle remain pending.
+All three helpers are pure assessments. Use the owned funding, work, completion
+and accident interfaces below for mutations. Future work reservations, broader
+accident effects and the remaining defect lifecycle remain incomplete.
 `test_prototype_assessments` authors duration boundaries, team qualification,
 margin boundaries, odd half-dice, flawed theories and accidents; it is unrun while
 checks remain paused. Neutral source: `full-2008`, B9 and B474.
@@ -832,12 +858,11 @@ restore a destroyed installation or charge again. A second request against an
 intact installation blocks. Project, payer and funding-evidence retargeting also
 rejects after payment.
 
-`destroyed` is currently an explicit author-state input. The prototype accident
-assessment specifies when it applies, but committed accident injuries and automatic
-facility destruction are not yet integrated. The receipt does not claim that a
-laboratory has been built in elapsed game time or supplied with every special
-material. Work scheduling, prototype attempt funding, gradual professional
-funding and external investors remain pending.
+The owned prototype accident interface marks these facilities `destroyed` after
+applying its supported wounds. The funding receipt does not claim that a laboratory
+has been built in elapsed game time or supplied with every special material.
+Future scheduling, gradual professional funding and external investors remain
+pending; attempt funding and work intervals have separate interfaces below.
 
 `test_invention_facilities` and `test_invention_facilities_persistence` author
 previews, funds and approval gates, rollback, undo, replay, intact-installation
@@ -1000,10 +1025,10 @@ a new concept attempt; it never creates a working object.
 A working prototype with no bugs is issued through the existing inventory
 acquisition ledger without charging its retail cost again. A prototype with bugs
 is retained in the completion receipt with `pendingDefects`; it is **not delivered**
-as usable equipment. Executable defect assignment, subsequent testing and delivery
-remain pending. `project.workingPrototype` retains either successful result and
-blocks treating a second attempt as ordinary prototype construction; later copies
-need the production procedure, which is still incomplete.
+as usable equipment until the supported executable defect set is assigned.
+`project.workingPrototype` retains either successful result and blocks treating a
+second attempt as ordinary prototype construction. Later bug-free physical copies
+use the production-order interface below; defect propagation remains incomplete.
 
 The result stays private and emits no player-facing event. Narrative disclosure
 must not reveal secret bug counts or flawed-theory state merely because an author
@@ -1044,9 +1069,8 @@ Do not assume this opt-in context automatically intercepts every weapon attack,
 vehicle maneuver or electronics operation; those dispatch integrations remain
 incomplete.
 
-The `active` and `discovered` state will be managed by the testing and operation
-failure lifecycle. At this stage it is explicit author state: installation alone
-does not activate faults. Automatic activation, weekly testing, repair, additional
+The operation and testing interfaces below manage `active` and `discovered`
+separately; installation alone does not activate faults. Repairs, additional
 fault effects and cross-module dispatch remain pending. The concrete penalty and
 blocking contracts are implemented; arbitrary narrative callbacks are not counted
 as executable defects.
@@ -1163,9 +1187,9 @@ establish the available installation rather than implying a universal setup time
 `test_production_assessments`, `test_production_line` and
 `test_production_line_persistence` author price/time fractions, branch boundaries,
 large values, working-prototype and funds gates, previews, rollback, undo, replay
-and save continuation. Fixtures remain unrun. Per-copy execution, fractional
-currency handling, production without a locally built prototype, defect propagation
-and production scheduling remain incomplete. Source: `full-2008`, B474.
+and save continuation. Fixtures remain unrun. The one-copy interface below executes
+supported whole-unit orders. Fractional currency, production without a locally built
+prototype, defect propagation and partial production scheduling remain incomplete. Source: `full-2008`, B474.
 
 
 ## Funded one-copy production orders

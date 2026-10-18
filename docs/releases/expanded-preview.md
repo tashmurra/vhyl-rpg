@@ -16,10 +16,11 @@ Task-scoped software can contribute an equipment modifier through a running copy
 and live terminal. Required software can select an explicitly approved lower
 technology for the task without changing learned skill. Host-bound software sales
 share the acquisition ledger, with no repeated charge for program instances. Object damage, inventory transformation, maintenance scheduling,
-structural repair and invention prototypes remain unfinished. Invention proposals
-and secret daily concept attempts now retain testable or flawed theory state;
-prototype construction, testing and production remain pending. New fixtures are authored and
-unrun while checks are paused.
+structural repair and broader invention options remain unfinished. Supported owned
+invention stages cover theories, facilities, funded work, secret physical-prototype
+completion, concrete defects, whole-week testing and bug-free one-copy production.
+Cinematic invention, software prototypes, partial testing and defect propagation
+remain incomplete. New fixtures are authored and unrun while checks are paused.
 
 The implemented subsets include secondary purchases and character accounting,
 trait pricing, richer skill/default/technique procedures, template composition,
@@ -85,5 +86,6 @@ entry, facilities and attempt funding, work intervals, secret completion and
 accident consequences through the shared health ledger. Supported executable
 prototype defects can be assigned, surfaced by operation failures and discovered
 through complete-week testing. Exact production fractions and line capital funding
-are available. Per-copy production, broader defect effects and interrupted testing
-remain incomplete. All newly authored fixtures remain unrun while checks are paused.
+are available. Supported whole-unit production orders fund and deliver bug-free
+physical copies. Fractional ledger amounts, broader defect effects and interrupted
+testing remain incomplete. All newly authored fixtures remain unrun while checks are paused.
