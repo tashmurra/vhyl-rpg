@@ -408,6 +408,29 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def test_surgery_assessments(s):
+    for tl, modifier in [(1,-6),(2,-5),(3,-5),(4,-4),(5,-2),(6,0),(7,1),(8,2),(12,6),(13,7)]:
+        s.action(1628, tl, 1, 1, 'other', 1, 1, 0, 0)
+        assert last(s, 'test.surgery-context') == ['ready',None,modifier,int(tl < 5),0,0]
+    for args, expected in [
+            ((0,1,1,'other',1,1,0,0), ['blocked','surgery-technology-unavailable',0,0,0,0]),
+            ((5,0,1,'other',1,1,0,1), ['ready',None,-4,1,0,0]),
+            ((4,0,1,'other',1,1,0,0), ['ready',None,-4,1,0,0]),
+            ((8,0,0,'head',0,0,0,0), ['ready',None,-16,0,0,0]),
+            ((8,1,1,'chest',1,0,1,0), ['ready',None,-1,0,0,0]),
+            ((8,1,1,'other',1,0,0,0), ['ready',None,-3,0,0,0])]:
+        s.action(1628, *args)
+        assert last(s, 'test.surgery-context') == expected
+    for args, expected in [
+            ((12,10,0,1,2,3),[1,None,0,0]),
+            ((12,3,0,1,2,3),[1,'success',0,0]),
+            ((12,13,1,2,6,0),[0,None,2,8]),
+            ((12,13,0,2,3,6),[0,None,3,11]),
+            ((12,18,0,6,6,6),[0,'failure',3,18])]:
+        s.action(1629, *args)
+        assert last(s, 'test.surgery-outcome') == expected
+
+
 def aid_state(s):
     s.action(1701)
     return last(s, 'test.aid-state')
@@ -2959,6 +2982,7 @@ def test(build):
     fresh(Session,health,test_expanded_bandage)
     fresh(Session,health,test_bandage_rejections)
     fresh(Session,health,test_first_aid_treatment)
+    fresh(Session,health,test_surgery_assessments)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_aid_transactions)
     test_aid_persistence(Session,wounds,build.out)

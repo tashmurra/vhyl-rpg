@@ -1432,3 +1432,70 @@ class RpgExpandedFirstAid: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** Surgical roll inputs from full-2008 B223/B424. No operation is committed. */
+class RpgExpandedSurgeryAssessment: RpgExpandedResult
+    equipmentModifier = 0
+    anestheticModifier = 0
+    cleanlinessModifier = 0
+    siteModifier = 0
+    diagnosisModifier = 0
+    trainingModifier = 0
+    infectionCheckRequired = nil
+;
+
+class RpgExpandedSurgeryContext: object
+    techLevel = 8
+    anesthetic = true
+    sterile = true
+    site = 'other'
+    diagnosed = true
+    physicianTrained = true
+    fieldExpedient = nil
+    equipmentQualityModifier = 0
+    physiologyModifier = 0
+    otherMissingEquipmentModifier = 0
+    earlyAntisepsis = nil
+    assess()
+    {
+        rpgInteger(self.techLevel,0,1000);
+        rpgInteger(self.equipmentQualityModifier,-100,100);
+        rpgInteger(self.physiologyModifier,-100,100);
+        rpgInteger(self.otherMissingEquipmentModifier,-100,0);
+        if (!holds(['head','chest','other'],self.site)) rpgExpandedReject('surgery-site');
+        local value = new RpgExpandedSurgeryAssessment();
+        if (self.techLevel == 0) { value.reason = 'surgery-technology-unavailable'; return value; }
+        value.equipmentModifier = self.techLevel == 1 ? -6 : self.techLevel <= 3 ? -5
+            : self.techLevel == 4 ? -4 : self.techLevel == 5 ? -2 : self.techLevel - 6;
+        value.anestheticModifier = self.techLevel >= 5 && !self.anesthetic ? -2 : 0;
+        value.cleanlinessModifier = self.sterile ? 0 : -3;
+        value.siteModifier = self.site == 'other' ? 0 : -3;
+        value.diagnosisModifier = self.diagnosed ? 0 : -5;
+        value.trainingModifier = self.physicianTrained || self.fieldExpedient ? 0 : -5;
+        value.infectionCheckRequired = self.techLevel < 5 || self.techLevel == 5 && self.earlyAntisepsis;
+        value.modifier = value.equipmentModifier + value.anestheticModifier + value.cleanlinessModifier
+            + value.siteModifier + value.diagnosisModifier + value.trainingModifier
+            + self.equipmentQualityModifier + self.physiologyModifier + self.otherMissingEquipmentModifier;
+        value.status = 'ready'; return value;
+    }
+;
+
+/** Source failure damage only; operation-specific consequences remain separate. */
+class RpgExpandedSurgeryOutcome: RpgExpandedResult
+    damageDice = 0
+    damage = 0
+;
+
+rpgExpandedSurgeryOutcome(score, roll, simpleAmputation, damageRolls)
+{
+    rpgInteger(score,3,1000);
+    local value = new RpgExpandedSurgeryOutcome(); value.check = rpgCheck(score,roll);
+    if (!value.check.achieved)
+    {
+        value.damageDice = simpleAmputation ? 2 : 3;
+        if (damageRolls == nil || damageRolls.length() != value.damageDice)
+            rpgExpandedReject('surgery-damage-dice');
+        foreach (local die in damageRolls) { rpgInteger(die,1,6); value.damage += die; }
+    }
+    value.status = 'ready'; return value;
+}

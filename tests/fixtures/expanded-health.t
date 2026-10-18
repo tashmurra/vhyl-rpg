@@ -357,5 +357,23 @@ act(verb,args)
         eventValue(p.injury); eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws);
         eventValue(repeat.status); eventValue(repeat.seconds); eventValue(p.aidUsed ? 1 : 0); return nil;
     }
+    if (verb == 1628)
+    {
+        local context = new RpgExpandedSurgeryContext(); context.techLevel = args[1];
+        context.anesthetic = args[2] == 1; context.sterile = args[3] == 1; context.site = args[4];
+        context.diagnosed = args[5] == 1; context.physicianTrained = args[6] == 1;
+        context.fieldExpedient = args[7] == 1; context.earlyAntisepsis = args[8] == 1;
+        local time = rpgLedger.seconds; local draws = rpgRandom.draws; local value = context.assess();
+        event('test.surgery-context'); eventValue(value.status); eventValue(value.reason); eventValue(value.modifier);
+        eventValue(value.infectionCheckRequired ? 1 : 0); eventValue(rpgLedger.seconds - time);
+        eventValue(rpgRandom.draws - draws); return nil;
+    }
+    if (verb == 1629)
+    {
+        local dice = args[3] == 1 ? [args[4],args[5]] : [args[4],args[5],args[6]];
+        local value = rpgExpandedSurgeryOutcome(args[1],args[2],args[3] == 1,dice);
+        event('test.surgery-outcome'); eventValue(value.check.achieved ? 1 : 0);
+        eventValue(value.check.critical); eventValue(value.damageDice); eventValue(value.damage); return nil;
+    }
     return vhylAct(verb,args);
 }

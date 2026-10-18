@@ -757,12 +757,15 @@
     {
       "id": "health-surgery-context",
       "source": "full-2008",
-      "pages": "B424",
+      "pages": "B223; B424",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use the surgery skill's general modifiers and failure effects in addition to operation-specific rules; an equipment bonus alone is not a complete surgical procedure.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
     },
     {
       "id": "health-surgery-anesthetic",
@@ -770,9 +773,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Technology-five-or-higher equipment modifiers assume anesthetic; without it impose -2 instead of the ordinary -1 missing-item penalty.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
     },
     {
       "id": "health-surgery-infection",
@@ -780,9 +786,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Check post-surgical infection before technology five and during technology five when the campaign selects that poor-antisepsis condition.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
     },
     {
       "id": "health-stabilization-duration",
@@ -1239,7 +1248,7 @@
       "tests": [
         "tests/expanded.py::test_expanded_first_aid_values"
       ],
-      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
     },
     {
       "id": "health-first-aid-row-2-3",
@@ -1252,7 +1261,7 @@
       "tests": [
         "tests/expanded.py::test_expanded_first_aid_values"
       ],
-      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
     },
     {
       "id": "health-first-aid-row-4",
@@ -1265,7 +1274,7 @@
       "tests": [
         "tests/expanded.py::test_expanded_first_aid_values"
       ],
-      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
     },
     {
       "id": "health-first-aid-row-5",
@@ -1278,7 +1287,7 @@
       "tests": [
         "tests/expanded.py::test_expanded_first_aid_values"
       ],
-      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
     },
     {
       "id": "health-first-aid-row-6-7",
@@ -1291,7 +1300,7 @@
       "tests": [
         "tests/expanded.py::test_expanded_first_aid_values"
       ],
-      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
     },
     {
       "id": "health-first-aid-row-8",
@@ -1304,7 +1313,7 @@
       "tests": [
         "tests/expanded.py::test_expanded_first_aid_values"
       ],
-      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
     },
     {
       "id": "health-first-aid-row-9-plus",
@@ -1317,7 +1326,7 @@
       "tests": [
         "tests/expanded.py::test_expanded_first_aid_values"
       ],
-      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
     },
     {
       "id": "health-surgery-equipment-1",
@@ -1325,9 +1334,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Basic surgical equipment at technology 1 gives -6 to the operation roll before quality and procedure modifiers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
     },
     {
       "id": "health-surgery-equipment-2-3",
@@ -1335,9 +1347,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Basic surgical equipment at technology 2-3 gives -5 to the operation roll before quality and procedure modifiers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
     },
     {
       "id": "health-surgery-equipment-4",
@@ -1345,9 +1360,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Basic surgical equipment at technology 4 gives -4 to the operation roll before quality and procedure modifiers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
     },
     {
       "id": "health-surgery-equipment-5",
@@ -1355,9 +1373,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Basic surgical equipment at technology 5 gives -2 to the operation roll before quality and procedure modifiers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
     },
     {
       "id": "health-surgery-equipment-six-plus",
@@ -1365,9 +1386,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At technology six and higher, basic surgical equipment gives technology minus six to the operation roll before quality and other modifiers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
     },
     {
       "id": "health-medical-capacity-0",
@@ -2158,6 +2182,71 @@
       "status": "pending",
       "acceptance": "A permanent-injury restoration definition names the part, resources, achievable function, technology and operation penalty; successful partial restoration updates functional restrictions and point accounting consistently.",
       "tests": []
+    },
+    {
+      "id": "health-surgery-cleanliness",
+      "source": "full-2008",
+      "pages": "B223",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An unsterilizable area or equipment imposes -3.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure assessment authored; fixtures unrun. Surgeon qualification, world-fact validation and committed operation consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-site",
+      "source": "full-2008",
+      "pages": "B223",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Head or chest surgery imposes -3, applied once.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure assessment authored; fixtures unrun. Surgeon qualification, world-fact validation and committed operation consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-diagnosis",
+      "source": "full-2008",
+      "pages": "B223",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An undiagnosed problem imposes -5.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure assessment authored; fixtures unrun. Surgeon qualification, world-fact validation and committed operation consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-training",
+      "source": "full-2008",
+      "pages": "B223",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Without physician training, non-field-expedient surgery suffers -5; field-expedient surgery avoids this penalty.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure assessment authored; fixtures unrun. Surgeon qualification, world-fact validation and committed operation consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-failure-damage",
+      "source": "full-2008",
+      "pages": "B223",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A failed operation causes two dice of damage for simple amputation, three dice for other procedures; integrate separate operation-specific consequences.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure assessment authored; fixtures unrun. Surgeon qualification, world-fact validation and committed operation consequences remain incomplete."
     }
   ],
   "exclusions": [

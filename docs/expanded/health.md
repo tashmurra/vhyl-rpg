@@ -850,3 +850,40 @@ and altered receipt evidence. `test_aid_persistence` restores the exact compiled
 game in another process before treatment and after success or critical failure;
 it checks continuation and historical receipt reuse. These fixtures are authored
 but unrun while checks are paused.
+
+
+## Surgical assessment
+
+`RpgExpandedSurgeryContext.assess()` calculates surgical modifiers from
+`full-2008`, B223 and B424 without performing an operation. Its explicit inputs
+are `techLevel`, `anesthetic`, `sterile`, `site` (`head`, `chest` or `other`),
+`diagnosed`, `physicianTrained` and `fieldExpedient`. These describe established
+world facts, not inferred skill ownership. A future committed operation must
+verify them against its surgeon, patient, diagnosis and available equipment.
+
+The result separates `equipmentModifier`, `anestheticModifier`,
+`cleanlinessModifier`, `siteModifier`, `diagnosisModifier` and `trainingModifier`.
+Its total `modifier` also includes authored `equipmentQualityModifier`,
+`physiologyModifier` and `otherMissingEquipmentModifier`. The last input must
+exclude missing anesthetic: the dedicated penalty replaces that item's ordinary
+missing-equipment penalty. Quality and physiology values remain authored inputs;
+the context does not implement their full rule families.
+
+`earlyAntisepsis` selects the technology-five poor-antisepsis campaign condition.
+`infectionCheckRequired` is true at lower technologies and at technology five
+when that choice is selected. This flag does not resolve infection. Technology
+zero is explicitly unsupported because the surgical equipment table begins at
+one. Higher technologies use the table's continuing formula.
+
+`rpgExpandedSurgeryOutcome(score, roll, simpleAmputation, damageRolls)` assesses
+supplied dice for the general B223 result. Failure requires exactly two damage
+dice for a simple amputation and three for other operations; each die must be
+one through six. Success requires no damage roll. The result reports `check`,
+`damageDice` and `damage`. A critical failure still needs its operation-specific
+consequences in addition to this general failure result.
+
+These interfaces do not commit damage, time, skill prerequisites, infection,
+stabilization or disability repair. Those inventory entries remain partial or
+pending. `test_surgery_assessments` records expected technology rows, combined
+penalties, field-expedient exceptions, infection triggers and failure damage.
+The fixtures remain unrun while checks are paused.
