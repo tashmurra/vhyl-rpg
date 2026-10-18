@@ -473,3 +473,90 @@ class RpgExpandedAidModifiers: object
         return value;
     }
 ;
+
+class RpgExpandedInformationResult: RpgExpandedResult
+    answer = 'none'
+    related = nil
+    research = nil
+    combatFollowup = nil
+    followupModifier = 0
+    retry = nil
+    aidFollowup = nil
+    aidModifier = 0
+    aidWorstBand = 0
+;
+
+/** Information-request decision, B560-B562. Truth means the respondent's
+ * belief, not privileged access to world truth. Answer content is separate. */
+class RpgExpandedInformationReaction: object
+    band = nil
+    complexity = 0
+    mode = 'enquiry'
+    adverseChoice = nil
+    paymentReceived = nil
+    bribeOffered = nil
+    knowledgeIncomplete = nil
+    offersHelp = nil
+    assess()
+    {
+        rpgInteger(self.band,0,7); rpgInteger(self.complexity,0,2);
+        local value = new RpgExpandedInformationResult();
+        if (self.mode == 'professional') { value.reason = 'information-use-trade'; return value; }
+        if (self.mode == 'interrogation') { value.reason = 'information-use-interrogation'; return value; }
+        if (self.mode != 'enquiry') rpgExpandedReject('information-mode');
+        if (self.band == 0) { value.combatFollowup = true; value.followupModifier = -2; }
+        if (self.band == 1) value.answer = 'malicious-lie';
+        if (self.band == 2)
+        {
+            if (!holds(['lie','payment'],self.adverseChoice))
+            { value.reason = 'information-adverse-choice-required'; return value; }
+            value.answer = self.adverseChoice == 'lie' ? 'malicious-lie'
+                : self.paymentReceived ? 'incomplete-belief' : 'demand-payment';
+        }
+        if (self.band == 3)
+        {
+            if (!holds(['unknown','partial'],self.adverseChoice))
+            { value.reason = 'information-adverse-choice-required'; return value; }
+            value.answer = self.adverseChoice == 'unknown' ? 'claims-ignorance' : 'incomplete-belief';
+            value.retry = self.bribeOffered;
+        }
+        if (self.band == 4) value.answer = self.complexity == 0 ? 'requested-belief' : 'incomplete-belief';
+        if (self.band >= 5) value.answer = 'requested-belief';
+        if (self.band == 6) value.related = true;
+        if (self.band == 7)
+        {
+            value.research = self.knowledgeIncomplete;
+            if (self.offersHelp) { value.aidFollowup = true; value.aidModifier = 2; value.aidWorstBand = 3; }
+        }
+        value.status = 'ready'; return value;
+    }
+;
+
+/** Information-specific modifiers, B562 and B44-B45. Bribe magnitude uses an
+ * authored income-equivalent interval; no universal calendar is assumed. */
+class RpgExpandedInformationModifiers: object
+    complexity = 0
+    intrusive = nil
+    danger = nil
+    knowledgeProfessionBonus = 0
+    bribeScale = 'none'
+    discreet = nil
+    appropriate = nil
+    assess()
+    {
+        rpgInteger(self.complexity,0,2);
+        if (self.danger != nil) rpgInteger(self.danger,-100,-3);
+        if (self.knowledgeProfessionBonus != 0)
+            rpgInteger(self.knowledgeProfessionBonus,2,4);
+        local scales = ['none','day','week','month','year']; local bonus = nil;
+        for (local index = 1; index <= scales.length(); index += 1)
+            if (scales[index] == self.bribeScale) bonus = index - 1;
+        if (bonus == nil) rpgExpandedReject('information-bribe-scale');
+        local value = new RpgExpandedResult();
+        if (bonus > 0 && (!self.discreet || !self.appropriate))
+        { value.reason = 'information-bribe-inappropriate'; return value; }
+        value.modifier = -self.complexity - (self.intrusive ? 3 : 0)
+            + (self.danger == nil ? 0 : self.danger) + self.knowledgeProfessionBonus + bonus;
+        value.status = 'ready'; return value;
+    }
+;

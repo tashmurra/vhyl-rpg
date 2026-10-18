@@ -69,5 +69,24 @@ act(verb,args)
         context.standingRisk = -2; context.physicalRisk = -1; eventValue(context.assess().modifier);
         return nil;
     }
+    if (verb == 1183)
+    {
+        local query = new RpgExpandedInformationReaction(); query.band = args[1]; query.complexity = args[2];
+        query.adverseChoice = args[3]; query.paymentReceived = args[4] == 1; query.bribeOffered = args[5] == 1;
+        query.knowledgeIncomplete = true; query.offersHelp = true;
+        local value = query.assess(); event('test.information-reaction'); eventValue(value.status);
+        eventValue(value.reason); eventValue(value.answer); eventValue(value.related ? 1 : 0);
+        eventValue(value.research ? 1 : 0); eventValue(value.combatFollowup ? 1 : 0);
+        eventValue(value.followupModifier); eventValue(value.retry ? 1 : 0);
+        eventValue(value.aidFollowup ? 1 : 0); eventValue(value.aidModifier); eventValue(value.aidWorstBand); return nil;
+    }
+    if (verb == 1184)
+    {
+        local context = new RpgExpandedInformationModifiers(); context.bribeScale = args[1];
+        context.discreet = true; context.appropriate = true;
+        event('test.information-modifiers'); eventValue(context.assess().modifier);
+        context.complexity = 2; context.intrusive = true; context.danger = -3; context.knowledgeProfessionBonus = 2;
+        eventValue(context.assess().modifier); context.discreet = nil; eventValue(context.assess().reason); return nil;
+    }
     return vhylAct(verb,args);
 }

@@ -640,6 +640,18 @@
         "tests/expanded.py::test_aid_reactions"
       ],
       "validation_note": "Willingness, extent, advice, retry/escalation requirements and context modifiers authored. Checks unrun; provider execution and follow-up orchestration pending."
+    },
+    {
+      "id": "information-reaction-decisions",
+      "module": "social",
+      "pages": "B44-B45; B560-B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedInformationReaction",
+      "tests": [
+        "tests/expanded.py::test_information_reactions"
+      ],
+      "validation_note": "Answer modes, research/follow-up requirements and context modifiers authored. Checks unrun; knowledge delivery, bribery commitment and research execution pending."
     }
   ],
   "detailed_inventories": [

@@ -250,3 +250,43 @@ them from unrelated traits. Add this total once to the reaction attempt.
 branches, escalation caps and modifiers. Cases remain unrun. Provider task execution,
 resource transfer, advice content and follow-up encounter orchestration are still
 pending, so these entries remain partial in the coverage ledger.
+
+
+## Information requests
+
+`RpgExpandedInformationReaction` uses a resolved private `band` and `complexity`
+(0 simple, 1 complex, 2 very complex). Ordinary enquiries use `mode = 'enquiry'`.
+Professional information sales return `information-use-trade`; interrogation
+returns `information-use-interrogation`, preventing silent use of the wrong
+procedure. Both corresponding procedures remain separate implementation work.
+
+At bad reactions, authors select `adverseChoice = 'lie'` or `'payment'`. The latter
+returns a demand until `paymentReceived` is true, then an incomplete answer. Poor
+reactions require `'unknown'` or `'partial'`; an offered bribe permits another
+reaction attempt. The lowest band calls for a combat reaction at -2; the next band
+calls for a malicious lie. Neutral replies are complete only for simple questions.
+Good replies answer the question, very good replies add related knowledge, and
+excellent replies add a research obligation when `knowledgeIncomplete`. If an
+excellent respondent `offersHelp`, a subsequent aid roll receives +2 and cannot be
+worse than band 3. These follow-ups are returned requirements, not extra hidden rolls.
+
+The result's answer modes distinguish `malicious-lie`, `claims-ignorance`,
+`demand-payment`, `incomplete-belief` and `requested-belief`. Belief is what the
+respondent thinks true, which can differ from the world. This assessment does not
+supply text or knowledge: authoring and delivery must constrain answers to the
+respondent's known facts, and deliberate lies require explicit false claims.
+Knowledge storage, research execution, paid delivery and follow-up orchestration
+remain pending. Do not count a response mode as completed information transfer.
+
+`RpgExpandedInformationModifiers` combines -1/-2 complexity, -3 for `intrusive`,
+an optional `danger` penalty of -3 or worse, and an authored
+`knowledgeProfessionBonus` of 2–4 (zero if absent). `bribeScale` is `none`, `day`,
+`week`, `month` or `year`, referring to the respondent's income-equivalent value;
+the resulting bonus is 0–4 (full-2008 B44–B45 and B562). Nonzero bribes require
+`discreet` and `appropriate`. This only assesses the bonus: it neither deducts
+money nor executes a promised favor. Those must be committed once through the
+relevant world operation. Calendar and income equivalence remain authored facts.
+
+`tests/expanded.py::test_information_reactions` covers response modes, partial
+answers, follow-up requirements and modifier scales. All cases remain unrun while
+checks are paused; the module remains partial.
