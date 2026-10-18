@@ -9282,6 +9282,8 @@ def test(build):
     test_copper(Session, copper, build.out)
     starting_purchases = build.build('expanded-starting-purchases',ROOT / 'tests/fixtures/expanded-starting-purchases.t')
     test_starting_purchases(Session, starting_purchases, build.out)
+    owned_tools = build.build('expanded-owned-tools',ROOT / 'tests/fixtures/expanded-owned-tools.t')
+    test_owned_tools(Session, owned_tools, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21933,3 +21935,44 @@ def test_starting_purchases(Session, bundle, out):
             assert last(s, 'test.starting-binding') == [reason]
         finally:
             s.close()
+
+
+def test_owned_tools(Session, bundle, out):
+    """B345 owned available tools use shared quality and condition arithmetic; unrun."""
+    path = out / 'owned-tools.zsave'
+    s = Session(bundle)
+    try:
+        for code in (15100, 15101):
+            s.action(2285, code)
+        assert last(s, 'test.owned-tool-preview') == [2, None, 0]
+        for code in (15106, 15101):
+            s.action(2285, code)
+        assert last(s, 'test.owned-tool-preview') == [0, None, 0]
+        for code in (15107, 15101):
+            s.action(2285, code)
+        assert last(s, 'test.owned-tool-preview') == [2, None, 0]
+        s.action(2285, 15102)
+        s.command('undo')
+        s.action(2285, 15101)
+        assert last(s, 'test.owned-tool-preview') == [2, None, 0]
+        for code in (15102, 15103):
+            s.action(2285, code)
+        assert last(s, 'test.owned-tool-check') == ['blocked', 'owned-equipment-inaccessible', 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 15103)
+        assert last(s, 'test.owned-tool-check') == ['blocked', 'owned-equipment-inaccessible', 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (15100, 15105, 15104, 15103):
+            s.action(2285, code)
+        assert last(s, 'test.owned-tool-reject') == ['owned-equipment-context-owner']
+        assert last(s, 'test.owned-tool-check') == ['blocked', 'owned-equipment-not-owned', 0]
+    finally:
+        s.close()

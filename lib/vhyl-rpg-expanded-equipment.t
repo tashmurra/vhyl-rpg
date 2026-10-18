@@ -25,6 +25,7 @@ rpgExpandedSpeedRangeModifier(yards, yardsPerSecond, includeSpeed)
 /** Authored task-specific equipment adequacy, B345. It describes the tools
  * actually available for this operation, not a permanent skill or item bonus. */
 class RpgExpandedEquipmentAssessment: object
+    assessFor(profile,skill) { return self.assess(skill); }
     quality = 'basic'
     allowWithoutEquipment = nil
     techLevel = nil
@@ -69,7 +70,7 @@ modify RpgLiteContext
         if (self.equipmentAssessment == nil) return 0;
         if (!self.equipmentAssessment.ofKind(RpgExpandedEquipmentAssessment))
             rpgExpandedReject('equipment-assessment');
-        local value = self.equipmentAssessment.assess(self.skill);
+        local value = self.equipmentAssessment.assessFor(profile,self.skill);
         return value.status == 'ready' ? value.modifier : nil;
     }
     unavailableReason(profile)
@@ -78,7 +79,7 @@ modify RpgLiteContext
         {
             if (!self.equipmentAssessment.ofKind(RpgExpandedEquipmentAssessment))
                 rpgExpandedReject('equipment-assessment');
-            local value = self.equipmentAssessment.assess(self.skill);
+            local value = self.equipmentAssessment.assessFor(profile,self.skill);
             if (value.status != 'ready') return value.reason;
         }
         return inherited(profile);
@@ -1530,5 +1531,46 @@ class RpgExpandedCoinTender: object
             }
         }
         self.recorded = true; return nil;
+    }
+;
+
+
+/** B345 adequacy bound to one owner's actual available task equipment. */
+class RpgExpandedOwnedEquipmentAssessment: RpgExpandedEquipmentAssessment
+    profile = nil
+    skill = nil
+    items = []
+    approved = nil
+    evidence = nil
+    assessFor(profile,skill)
+    {
+        if (profile != self.profile) rpgExpandedReject('owned-equipment-context-owner');
+        return self.assess(skill);
+    }
+    assess(skill)
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.skill != skill)
+            rpgExpandedReject('owned-equipment-task');
+        local value = inherited(skill); if (value.status != 'ready') return value;
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.status = 'blocked'; value.reason = 'owned-equipment-adequacy-required'; return value; }
+        if (self.quality == 'none' ? self.items.length() != 0 : self.items.length() == 0)
+            rpgExpandedReject('owned-equipment-item-set');
+        local seen = [];
+        foreach (local item in self.items)
+        {
+            if (item == nil || !item.ofKind(RpgLiteItem) || holds(seen,item)) rpgExpandedReject('owned-equipment-item');
+            if (!holds(self.profile.equipment,item))
+            { value.status = 'blocked'; value.reason = 'owned-equipment-not-owned'; return value; }
+            local owners = 0;
+            for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+                foreach (local owned in owner.equipment) if (owned == item) owners += 1;
+            if (owners != 1) rpgExpandedReject('owned-equipment-shared-item');
+            rpgInteger(item.quantity,1,1000000);
+            if (!item.usableBy(self.profile) || item.thrownFlight != nil || item.sharedCarry != nil)
+            { value.status = 'blocked'; value.reason = 'owned-equipment-inaccessible'; return value; }
+            seen = seen + [item];
+        }
+        return value;
     }
 ;

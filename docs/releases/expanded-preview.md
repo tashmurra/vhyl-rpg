@@ -1880,3 +1880,9 @@ Starting-wealth receipts now bind the approved allocation and original outcomes.
 An integration fixture covers allocation, starting gear prices and issued items
 through one purse, including replay after later wealth changes. Fixtures remain
 unrun while checks are paused.
+
+
+Inventory-backed equipment assessments now connect task-specific quality to
+actual owned, accessible tools through shared skill contexts. Unavailable tools
+block before rolling; numeric authored assessments keep their existing behavior.
+Consumption and borrowed/workshop access remain pending. Fixtures unrun.

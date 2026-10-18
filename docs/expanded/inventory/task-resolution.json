@@ -467,7 +467,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
+      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-none-other",
@@ -481,7 +481,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
+      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-improvised-technical",
@@ -495,7 +495,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
+      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-improvised-other",
@@ -509,7 +509,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
+      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-basic",
@@ -523,7 +523,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
+      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-good",
@@ -537,7 +537,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
+      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-fine",
@@ -548,10 +548,11 @@
       "status": "partial",
       "acceptance": "Apply equipment modifier 2. Fine equipment, priced at approximately twenty times basic cost.",
       "tests": [
-        "tests/expanded.py::test_equipment_quality"
+        "tests/expanded.py::test_equipment_quality",
+        "tests/expanded.py::test_owned_tools"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
+      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-best",
@@ -562,10 +563,11 @@
       "status": "partial",
       "acceptance": "Best available equipment at a technology level gives floor(technology/2), with minimum +2; it is not automatically available for purchase.",
       "tests": [
-        "tests/expanded.py::test_equipment_quality"
+        "tests/expanded.py::test_equipment_quality",
+        "tests/expanded.py::test_owned_tools"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
+      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-missing",
@@ -576,10 +578,11 @@
       "status": "partial",
       "acceptance": "For basic or better equipment, apply -1 per important missing item in addition to quality.",
       "tests": [
-        "tests/expanded.py::test_equipment_quality"
+        "tests/expanded.py::test_equipment_quality",
+        "tests/expanded.py::test_owned_tools"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
+      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-damaged",
@@ -590,10 +593,11 @@
       "status": "partial",
       "acceptance": "For basic or better equipment, apply an authored -1 through -3 damage modifier in addition to quality; bind the condition to the actual equipment used.",
       "tests": [
-        "tests/expanded.py::test_equipment_quality"
+        "tests/expanded.py::test_equipment_quality",
+        "tests/expanded.py::test_owned_tools"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored; checks unrun. Inventory-backed availability, purchase multipliers and catalogue-specific exceptions pending."
+      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-time-extra-1",

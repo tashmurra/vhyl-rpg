@@ -830,3 +830,28 @@ purchases in the normal engine transaction when they must succeed together.
 `expanded-starting-purchases.t` / `test_starting_purchases` specify the shared
 balance, higher-TL charge, unaffordable purchase, issued gear, unchanged allocation
 after wealth changes, rollback, undo and saved replay. Fixtures remain unrun.
+
+
+## Inventory-backed task equipment
+
+`RpgExpandedOwnedEquipmentAssessment` extends the B345 quality assessment with
+`profile`, exact `skill`, `items`, approval and evidence explaining why that set
+is adequate for the task. The author still classifies quality, missing components
+and damage: ownership alone does not establish that a toolkit can perform surgery,
+repair a vehicle or support a different specialty.
+
+The assessment requires unique, owned, nonempty item stacks accessible to that
+profile. Stored, thrown and jointly carried items block. Duplicate item references
+and shared ownership reject. No-equipment assessments require an empty item list;
+other quality classes require at least one actual item. The inherited no-equipment
+and improvised restrictions, quality bonuses and condition penalties still apply.
+
+Shared skill contexts call `assessFor(profile,skill)`, preventing an assessment for
+one character from supplying another character's bonus. Ordinary authored
+assessments delegate to their existing `assess(skill)` implementation, preserving
+prior behavior. Availability is reassessed at use time and consumes no items,
+time or randomness. Consumable supplies, borrowed/workshop access and purchasing
+quality-specific kits remain pending.
+`expanded-owned-tools.t` / `test_owned_tools` specify quality/condition arithmetic,
+storage and ownership rejection before rolls, wrong-character rejection, undo and
+saved continuation. Fixtures remain unrun while checks are paused.
