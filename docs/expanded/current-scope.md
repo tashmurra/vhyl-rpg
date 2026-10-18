@@ -40,6 +40,10 @@ dependencies; these recent changes do not narrow the completion target.
 
 The unsafe-return hazard now has owned onset and hourly recovery for its
 unconsciousness branch, integrated with agony's minute fatigue payments. Its
-fixtures remain unrun. Recompression, paralysis and emergency ascent from an
-active decompression plan remain outstanding; this increment does not complete
+fixtures remain unrun. Recompression and emergency ascent from an active decompression plan remain
+outstanding; this increment does not complete
 the pressure catalogue or hazards module.
+
+The paralysis alternative now uses an owned conscious condition and explicit onset
+balance evidence. Both paralysis and agony remain active at the hourly recovery
+boundary. Its integration and persistence fixtures are authored but unrun.

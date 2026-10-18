@@ -4508,7 +4508,7 @@ modify rpgLedger
     }
 ;
 
-/** B435 unsafe return: ordinary unconsciousness branch and hourly recovery. */
+/** B435 unsafe return: authored failure branch and hourly recovery. */
 class RpgExpandedDecompressionIllnessResult: RpgExpandedResult
     phase = nil
     injury = 0
@@ -4528,6 +4528,9 @@ class RpgExpandedDecompressionIllness: object
     humanExamples = nil
     unsafeReturn = nil
     failureMode = 'unconscious'
+    positionAssessed = nil
+    balanced = nil
+    paralysis = nil
     approved = nil
     evidence = nil
     dropDestination = nil
@@ -4539,7 +4542,7 @@ class RpgExpandedDecompressionIllness: object
     result = nil
     boundDefinition = nil
     profile() { return self.source.profile; }
-    definition() { return [self.id,self.source,self.humanExamples,self.unsafeReturn,self.failureMode,self.approved,self.evidence,self.dropDestination,self.startedAt]; }
+    definition() { return [self.id,self.source,self.humanExamples,self.unsafeReturn,self.failureMode,self.approved,self.evidence,self.dropDestination,self.startedAt,self.positionAssessed,self.balanced]; }
     validateReceipt()
     {
         self.source.validateBinding();
@@ -4559,9 +4562,18 @@ class RpgExpandedDecompressionIllness: object
     }
     painEpisode(ordinal)
     {
-        local pain = new RpgExpandedAgony(); pain.id = self.id + ':pain:' + ordinal;
+        local pain = new RpgExpandedDecompressionAgony(); pain.episode = self; pain.id = self.id + ':pain:' + ordinal;
         pain.profile = self.profile(); pain.durationSeconds = 3600; pain.approved = true;
         pain.evidence = self.evidence; pain.dropDestination = self.dropDestination; return pain;
+    }
+    paralysisEpisode()
+    {
+        local condition = new RpgExpandedDecompressionParalysis();
+        condition.id = self.id + ':paralysis'; condition.profile = self.profile();
+        condition.episode = self; condition.durationSeconds = 3600;
+        condition.approved = true; condition.evidence = self.evidence;
+        condition.positionAssessed = self.positionAssessed; condition.balanced = self.balanced;
+        return condition;
     }
     assess()
     {
@@ -4572,7 +4584,9 @@ class RpgExpandedDecompressionIllness: object
         self.source.validateBinding();
         if (!self.approved || !self.unsafeReturn || self.evidence == nil || self.evidence == '')
         { value.reason = 'decompression-unsafe-return-evidence'; return value; }
-        if (self.failureMode != 'unconscious') rpgExpandedReject('decompression-paralysis-unimplemented');
+        if (!holds(['unconscious','paralysis'],self.failureMode)) rpgExpandedReject('decompression-failure-mode');
+        if (self.failureMode == 'paralysis' && self.paralysisEpisode().assess().status != 'ready')
+        { value.reason = 'decompression-paralysis-unavailable'; return value; }
         if (self.source.endedAt != rpgLedger.seconds) { value.reason = 'decompression-return-not-current'; return value; }
         if (self.source.assessReturnToNative(self.humanExamples).safeReturn)
         { value.reason = 'decompression-return-not-at-risk'; return value; }
@@ -4582,7 +4596,7 @@ class RpgExpandedDecompressionIllness: object
         foreach (local prior in self.profile().decompressionIllnesses)
         {
             prior.validateReceipt();
-            if (prior.id == self.id || prior.source == self.source || holds(['agony','unconscious'],prior.phase))
+            if (prior.id == self.id || prior.source == self.source || holds(['agony','unconscious','paralysis'],prior.phase))
                 rpgExpandedReject('decompression-illness-overlap');
         }
         if (self.painEpisode(0).assess().status != 'ready') { value.reason = 'decompression-agony-unavailable'; return value; }
@@ -4595,13 +4609,15 @@ class RpgExpandedDecompressionIllness: object
         if (value.status != 'ready') return value;
         value.check = rpgLiteAttributeCheck(self.profile(),rpgHT,'resistance',0);
         value.phase = value.check.critical == 'success' ? 'recovered' : value.check.critical == 'failure' ? 'dead'
-            : value.check.achieved ? 'agony' : 'unconscious';
+            : value.check.achieved ? 'agony' : self.failureMode;
         self.startedAt = rpgLedger.seconds; self.dueAt = self.startedAt + 3600;
         self.phase = value.phase; self.boundDefinition = self.definition();
         value.status = 'resolved'; self.result = value;
         self.profile().decompressionIllnesses = self.profile().decompressionIllnesses + [self];
         if (self.phase == 'agony')
         { self.agony = self.painEpisode(0); if (self.agony.apply().status != 'resolved') rpgExpandedReject('decompression-agony-changed'); }
+        if (self.phase == 'paralysis')
+        { self.paralysis = self.paralysisEpisode(); if (self.paralysis.apply().status != 'resolved') rpgExpandedReject('decompression-paralysis-changed'); }
         if (self.phase == 'dead') self.profile().dead = true;
         if (holds(['dead','unconscious'],self.phase)) self.profile().becomeUnconscious();
         self.validateReceipt(); return value;
@@ -4620,7 +4636,7 @@ class RpgExpandedDecompressionRecovery: object
             if (self.episode != self.boundEpisode || !holds(self.episode.recoveries,self)) rpgExpandedReject('decompression-recovery-owner');
             value.status = 'reused'; return value;
         }
-        if (!holds(['agony','unconscious'],self.episode.phase) || self.episode.profile().dead)
+        if (!holds(['agony','unconscious','paralysis'],self.episode.phase) || self.episode.profile().dead)
         { value.reason = 'decompression-recovery-inactive'; return value; }
         if (rpgLedger.seconds != self.episode.dueAt) { value.reason = 'decompression-recovery-time'; return value; }
         if (self.episode.painEpisode(self.episode.recoveries.length()+1).assess().status != 'ready') { value.reason = 'decompression-agony-unavailable'; return value; }
@@ -4635,7 +4651,7 @@ class RpgExpandedDecompressionRecovery: object
         value.phase = value.check.achieved ? (oldPhase == 'agony' ? 'recovered' : 'agony') : oldPhase;
         self.boundEpisode = e; value.status = 'resolved'; self.result = value;
         e.recoveries = e.recoveries + [self]; e.phase = value.phase; e.dueAt += 3600;
-        if (oldPhase == 'unconscious' && !value.check.achieved)
+        if (holds(['unconscious','paralysis'],oldPhase) && !value.check.achieved)
         { value.injury = rpgRandom.die(); rpgLiteWound(e.profile(),value.injury); }
         if (value.phase == 'agony')
         {
@@ -4655,9 +4671,41 @@ modify rpgLedger
             if (episode.result != nil && !episode.profile().dead)
             {
                 episode.validateReceipt();
-                if (holds(['agony','unconscious'],episode.phase) && self.seconds + seconds > episode.dueAt)
+                if (holds(['agony','unconscious','paralysis'],episode.phase) && self.seconds + seconds > episode.dueAt)
                     rpgExpandedReject('decompression-recovery-boundary');
             }
         return nil;
+    }
+;
+
+/** The illness, rather than a guessed fixed duration, owns this paralysis. */
+class RpgExpandedDecompressionParalysis: RpgExpandedParalysis
+    episode = nil
+    definition() { return inherited() + [self.episode]; }
+    active()
+    {
+        self.validateReceipt();
+        if (self.episode == nil || self.episode.paralysis != self || self.episode.profile() != self.profile)
+            rpgExpandedReject('decompression-paralysis-owner');
+        self.episode.validateReceipt();
+        return !self.profile.dead && self.episode.phase == 'paralysis';
+    }
+;
+
+/** Keep pain active at the hourly boundary until its recovery is committed. */
+class RpgExpandedDecompressionAgony: RpgExpandedAgony
+    episode = nil
+    definition() { return inherited() + [self.episode]; }
+    active()
+    {
+        self.validateReceipt(); self.episode.validateReceipt();
+        if (self.profile != self.episode.profile()) rpgExpandedReject('decompression-agony-owner');
+        return !self.profile.dead && self.episode.phase == 'agony' && self.episode.agony == self;
+    }
+    overlaps(prior)
+    {
+        if (prior.ofKind(RpgExpandedDecompressionAgony) && prior.episode == self.episode
+            && rpgLedger.seconds == prior.expiresAt) return nil;
+        return inherited(prior);
     }
 ;

@@ -1475,3 +1475,10 @@ branch, critical onset outcomes, hourly recovery and failed-recovery injury.
 Hourly agony reuses the existing minute fatigue receipts. New lifecycle fixtures
 are authored but unrun; checks remain paused. Recompression treatment, paralysis
 and emergency ascent remain unsupported, and the hazards module remains partial.
+
+
+Unsafe-return illness also supports authored conscious paralysis, including onset
+balance, defenses, hourly injury and transition to agony. Illness-owned pain and
+paralysis remain active until recovery commits, closing the exact-boundary gap.
+The additional fixtures remain unrun. Recompression and emergency ascent remain
+outstanding.

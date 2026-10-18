@@ -9153,6 +9153,8 @@ def test(build):
     decompression_illness = build.build('expanded-decompression-illness',ROOT / 'tests/fixtures/expanded-decompression-illness.t')
     test_decompression_illness(Session, decompression_illness, build.out)
     test_decompression_illness_outcomes(Session, decompression_illness)
+    decompression_paralysis = build.build('expanded-decompression-paralysis',ROOT / 'tests/fixtures/expanded-decompression-paralysis.t')
+    test_decompression_paralysis(Session, decompression_paralysis, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19183,8 +19185,12 @@ def test_decompression_illness(Session, bundle, out):
     s = Session(bundle)
     try:
         s.command(f':restore {path}\n@2286')
-        for code in (8605, 8606, 8606, 8604):
+        for code in (8605, 8611):
             s.action(2285, code)
+        assert last(s, 'test.decompression-pain') == [1, 1]
+        for code in (8606, 8606, 8604, 8611):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-pain') == [0, 0]
         assert last(s, 'test.decompression-illness') == ['recovered', 1, 60, 0, 0, 0, 3600, 6]
     finally:
         s.close()
@@ -19228,5 +19234,50 @@ def test_decompression_illness_outcomes(Session, bundle):
         for code in (8606, 8604):
             s.action(2285, code)
         assert last(s, 'test.decompression-illness') == ['agony', 1, 61, 0, 0, 0, 3600, 6]
+    finally:
+        s.close()
+
+
+def test_decompression_paralysis(Session, bundle, out):
+    """B435 failure alternative and B429 conscious paralysis; authored, unrun."""
+    path = out / 'expanded-decompression-paralysis.zsave'
+    s = Session(bundle)
+    try:
+        for code in (8608, 8600, 8700, 8701, 8601):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-illness-result')[:2] == ['blocked', 'decompression-paralysis-unavailable']
+        for code in (8700, 8601, 8603, 8702):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-paralysis') == [0, 0, 0, 'standing', 0, 0, 0]
+        s.action(2285, 8602)
+        s.command('undo')
+        s.action(2285, 8702)
+        assert last(s, 'test.decompression-paralysis') == [0, 0, 0, 'standing', 0, 0, 0]
+        for code in (8602, 8602, 8702):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-paralysis') == [1, 1, 1, 'lying', 0, 1, 3]
+        s.action(2285, 8605)
+        s.action(2285, 8702)
+        # Paralysis still applies at the recovery boundary, before its check.
+        assert last(s, 'test.decompression-paralysis') == [1, 1, 1, 'lying', 0, 1, 3]
+        s.action(2285, 8606)
+        s.action(2285, 8604)
+        state = last(s, 'test.decompression-illness')
+        assert state[:3] == ['paralysis', 1, 0]
+        assert 1 <= state[3] <= 6
+        assert state[4:7] == [0, 0, 3600]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (30, 8605, 8702):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-paralysis')[:6] == [1, 1, 1, 'lying', 0, 1]
+        for code in (8607, 8607, 8702, 8604):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-paralysis')[:6] == [0, 1, 0, 'lying', 0, 1]
+        assert last(s, 'test.decompression-illness')[:3] == ['agony', 2, 1]
     finally:
         s.close()

@@ -44,6 +44,11 @@ modify BleedTestAction
             event('test.decompression-recovery'); eventValue(value.status); eventValue(value.reason);
             eventValue(value.phase); eventValue(value.injury); return nil;
         }
+        if (code == 8611)
+        {
+            event('test.decompression-pain'); eventValue(bleedProfile.agonized() ? 1 : 0);
+            eventValue(bleedProfile.voluntaryMovementUnavailable() ? 1 : 0); return nil;
+        }
         if (code == 8608) { bleedInput.forcedRoll = 11; return nil; }
         if (code == 8609) { bleedInput.forcedRoll = 18; return nil; }
         if (code == 8610)

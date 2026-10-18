@@ -1947,7 +1947,7 @@ or randomness; they remain unrun.
 
 ## Unsafe-return illness and hourly recovery
 
-`RpgExpandedDecompressionIllness` implements the ordinary unconsciousness branch
+`RpgExpandedDecompressionIllness` implements the unsafe-return outcomes
 of `full-2008`, B435. Supply an owned, completed pressure `source`, a unique `id`,
 `unsafeReturn = true`, `approved = true` and original `evidence` explaining why
 the return was too rapid. Set `humanExamples` only when the printed human examples
@@ -1959,13 +1959,17 @@ does not infer a decompression schedule.
 `assess()` previews eligibility. `apply()` commits one health check: critical
 success ends without symptoms, ordinary success starts agony, ordinary failure
 causes unconsciousness, and critical failure causes death. The default
-`failureMode = 'unconscious'` is currently the only supported branch; choosing
-paralysis rejects before a roll. Repeating `apply()` returns its stored result.
+`failureMode = 'unconscious'` selects the unconsciousness branch. Alternatively,
+set `failureMode = 'paralysis'`, `positionAssessed = true` and `balanced` to the
+authored onset position. This keeps the patient conscious but applies the shared
+paralysis restrictions, including loss of active defenses and speech or movement.
+An unbalanced patient falls prone. Missing position assessment blocks before a roll. Repeating `apply()` returns its stored result.
 
 Create a fresh `RpgExpandedDecompressionRecovery` with `episode` pointing to the
 illness for each hourly check. It must execute exactly at `episode.dueAt`.
 Successful recovery from agony ends the illness. Success from unconsciousness
-starts agony; failure while unconscious applies one die of injury through the
+starts agony; the paralysis alternative follows the same hourly progression.
+Failure in either initial failure branch applies one die of injury through the
 shared wound procedure. Other causes of unconsciousness still prevent waking.
 A failed agony recovery continues the pain for the next hour.
 
@@ -1976,9 +1980,21 @@ to skip either an agony payment or an illness recovery boundary. No separate
 injury, fatigue or time balance is introduced. Run commits inside normal engine
 actions and let exceptions propagate so transaction rollback restores all effects.
 
-Recompression treatment, painful paralysis, emergency ascent from an active plan
+Recompression treatment and emergency ascent from an active plan
 and simultaneous explosive decompression remain pending. This procedure does not
 claim those combinations. The minimal integration fixture is
 [`expanded-decompression-illness.t`](../../tests/fixtures/expanded-decompression-illness.t).
 Its onset, recovery, preview, replay, rollback, undo and cross-process continuation
 fixtures are authored but unrun while checks remain paused.
+
+
+Illness-owned paralysis persists through the exact hourly boundary until recovery
+changes its phase. Illness-owned agony also remains active at that boundary until
+the hourly check commits; a zero-time action cannot exploit expired pain before
+that check. Continuing agony installs a fresh minute-payment record without a
+second payment for a repeated recovery request. The ordinary finite-duration
+paralysis and agony records retain their existing behavior.
+
+[`expanded-decompression-paralysis.t`](../../tests/fixtures/expanded-decompression-paralysis.t)
+covers missing position evidence, conscious immobility, failed hourly recovery,
+transition to agony, rollback, undo and save continuation. These fixtures are unrun.

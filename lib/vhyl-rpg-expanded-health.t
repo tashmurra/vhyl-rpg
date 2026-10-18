@@ -5427,6 +5427,7 @@ class RpgExpandedCoughing: object
     }
     active()
     { self.validateReceipt(); return !self.profile.dead && rpgLedger.seconds >= self.startedAt && rpgLedger.seconds < self.expiresAt; }
+    overlaps(prior) { return prior.active(); }
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
@@ -5442,7 +5443,7 @@ class RpgExpandedCoughing: object
         {
             prior.validateReceipt();
             if (prior.id == self.id) rpgExpandedReject(self.receiptKind() + '-duplicate');
-            if (prior.active()) { value.reason = self.receiptKind() + '-overlap-unimplemented'; return value; }
+            if (self.overlaps(prior)) { value.reason = self.receiptKind() + '-overlap-unimplemented'; return value; }
         }
         value.status = 'ready'; return value;
     }
