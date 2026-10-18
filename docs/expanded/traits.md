@@ -1024,8 +1024,9 @@ than guessing. Buying off the disadvantage uses the existing removal path.
 
 `learningAcquisitionReason(kind)` distinguishes acquisition from creation
 validation. Custom technique acquisition must consult it with `technique` before
-spending resources. A shared technique purchase procedure and temporary modular
-ability integration remain pending; a callback alone does not complete either.
+spending resources. `RpgExpandedTechniquePurchase` now enforces this gate for
+shared point purchases. Temporary modular ability integration remains pending;
+a callback alone does not complete it.
 Direct assignments to character fields are author operations and must not be
 used to bypass advancement assessment. The fixture covers rejection without
 spending, allowed purchases, mitigation, replay, rollback, undo and save

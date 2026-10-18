@@ -508,3 +508,35 @@ using the expanded Survival definition. It enforces the ten-dependent limit and
 commits independent failure injuries. This partially addresses the earlier daily
 wilderness-procedure gap; trapping, route-finding, full catalogue adaptation and
 special body/terrain rules remain pending.
+
+### Buying technique improvements (full-2008, B229-B230)
+
+Set `rules.techniques = true` explicitly before using technique scores or
+purchases. Merely including the skills library leaves this option disabled.
+Existing integrations that call `RpgExpandedTechnique.score()` must opt in.
+
+An owned `RpgExpandedTechniquePurchase` names a profile, a technique already in
+its `contributions`, and the desired total `targetPoints`. Supply a unique id,
+`approved`, `evidence`, `practicedAction` and `distinctFromCoreAction`. The author
+approves a specific action, its difficulty, default and cap; a technique cannot
+replace buying the parent skill's core action. Optional additional requirements
+use the technique's `purchasePrerequisite`, a `RpgExpandedPrerequisite` tree.
+The existing default-chain validation requires paid parent skills and rejects
+cycles and invalid ownership before purchase.
+
+`assess()` is pure. `apply()` spends the difference from the current investment,
+increments the shared development revision, and saves one owned receipt in
+`profile.techniquePurchases`. It requires downtime by default and respects both
+learning restrictions and reserved advancement spending. Average techniques
+start improving at one point; Hard techniques require two points for their first
+improvement, then one point per further level. A parent skill increase still
+raises the technique without a separate charge. Caps are relative to the parent;
+`maximumAboveSkill = nil` remains explicitly uncapped.
+
+Replay returns the original receipt without spending again, including after a
+later purchase. Changing a completed request's bound definition is rejected.
+The fixture covers costs, caps, opt-in, author approval, learning restrictions,
+insufficient funds, parent improvement, rollback, undo and save continuation.
+These fixtures remain unrun. The broader technique catalogue, shared contextual
+execution and temporary modular acquisition remain incomplete; this purchase
+interface does not supply those procedures.

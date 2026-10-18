@@ -516,7 +516,7 @@ act(verb, args)
     }
     if (verb == 1107)
     {
-        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.dx = 12;
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.rules.techniques = true; p.dx = 12;
         local a = new RpgExpandedSkill(); a.id = 'a'; a.attribute = rpgDX; a.difficulty = 1; a.defaultPenalty = -5;
         local b = new RpgExpandedSkill(); b.id = 'b'; b.attribute = rpgDX; b.difficulty = 1;
         b.defaults = [[a,-2]];
@@ -621,7 +621,7 @@ act(verb, args)
     }
     if (verb == 1116)
     {
-        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.dx = 12;
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.rules.techniques = true; p.dx = 12;
         local a = new RpgExpandedSkill(); a.attribute = rpgDX; a.difficulty = 1;
         local training = new RpgExpandedTraining(); training.skill = a; training.points = 4;
         p.skills = [training];
@@ -638,7 +638,7 @@ act(verb, args)
     }
     if (verb == 1117)
     {
-        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.st = 12;
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.rules.techniques = true; p.st = 12;
         local t = new RpgExpandedTechnique(); t.owner = p; t.attribute = rpgST;
         t.hard = true; t.penalty = -4; t.maximumAboveSkill = 3; t.points = 8;
         event('test.technique-bases'); eventValue(t.score());

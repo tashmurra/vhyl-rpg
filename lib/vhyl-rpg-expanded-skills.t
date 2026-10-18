@@ -193,6 +193,7 @@ class RpgExpandedTechnique: RpgExpandedContribution
     {
         rpgExpandedValidate(self.owner);
         self.validate(self.owner);
+        if (!self.owner.rules.techniques) rpgExpandedReject('techniques-disabled');
         return self.resolvedScore();
     }
     /* Internal recursion after the complete default graph has been validated. */
@@ -704,5 +705,93 @@ class RpgExpandedSurvivalSkill: RpgExpandedSkill
             if (penalty != nil) edges = edges + [[source,penalty]];
         }
         return edges;
+    }
+;
+
+modify RpgExpandedRules
+    techniques = nil
+;
+modify RpgExpandedProfile
+    techniquePurchases = []
+;
+modify RpgExpandedTechnique
+    /** Additional published prerequisites or an approved authored requirement. */
+    purchasePrerequisite = nil
+;
+
+/** B229-B230 incremental investment, using the existing advancement bank. */
+class RpgExpandedTechniquePurchase: object
+    id = nil
+    profile = nil
+    technique = nil
+    targetPoints = 0
+    approved = nil
+    evidence = nil
+    practicedAction = nil
+    distinctFromCoreAction = nil
+    requiresDowntime = true
+    boundDefinition = nil
+    result = nil
+    definition()
+    {
+        return [self.id,self.profile,self.technique,self.targetPoints,self.approved,self.evidence,
+            self.practicedAction,self.distinctFromCoreAction,self.requiresDowntime,
+            self.technique.skill,self.technique.attribute,self.technique.parentTechnique,
+            self.technique.penalty,self.technique.maximumAboveSkill,self.technique.hard,
+            self.technique.purchasePrerequisite];
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.technique == nil || !self.technique.ofKind(RpgExpandedTechnique)
+            || self.technique.owner != self.profile || !holds(self.profile.contributions,self.technique))
+            rpgExpandedReject('technique-purchase-ownership');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('technique-purchase-binding');
+            if (!holds(self.profile.techniquePurchases,self)) rpgExpandedReject('technique-purchase-history');
+            value.status = 'reused'; return value;
+        }
+        rpgExpandedValidate(self.profile); self.technique.validate(self.profile);
+        foreach (local prior in self.profile.techniquePurchases)
+            if (prior.id == self.id) rpgExpandedReject('technique-purchase-duplicate');
+        if (!self.profile.rules.techniques) { value.reason = 'techniques-disabled'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == ''
+            || self.practicedAction == nil || self.practicedAction == '' || !self.distinctFromCoreAction)
+        { value.reason = 'technique-definition-approval-required'; return value; }
+        if (self.requiresDowntime && !self.profile.developmentOpen)
+        { value.reason = 'rpg.downtime-required'; return value; }
+        value.reason = self.profile.learningAcquisitionReason('technique'); if (value.reason != nil) return value;
+        if (self.technique.purchasePrerequisite != nil)
+        {
+            if (!self.technique.purchasePrerequisite.ofKind(RpgExpandedPrerequisite)) rpgExpandedReject('invalid-prerequisite');
+            if (!self.technique.purchasePrerequisite.satisfied(self.profile,[]))
+            { value.reason = 'technique-prerequisite'; return value; }
+        }
+        rpgInteger(self.targetPoints,1,1000000);
+        if (self.technique.hard && self.targetPoints == 1)
+        { value.reason = 'technique-hard-first-improvement'; return value; }
+        if (self.technique.maximumAboveSkill != nil && self.targetPoints
+            > self.technique.maximumAboveSkill - self.technique.penalty + (self.technique.hard ? 1 : 0))
+        { value.reason = 'technique-cap'; return value; }
+        value.points = self.targetPoints - self.technique.points;
+        if (value.points <= 0) { value.reason = 'technique-no-improvement'; return value; }
+        if (value.points > self.profile.unspentPoints) { value.reason = 'rpg.insufficient-points'; return value; }
+        value.reason = self.profile.developmentSpendingReason(); if (value.reason != nil) return value;
+        rpgInteger(self.profile.developmentRevision,0,2147483646);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition();
+        self.profile.unspentPoints -= value.points; self.technique.points = self.targetPoints;
+        self.profile.developmentRevision += 1;
+        self.profile.techniquePurchases = self.profile.techniquePurchases + [self];
+        value.status = 'resolved'; self.result = value; return value;
     }
 ;

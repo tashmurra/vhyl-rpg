@@ -9060,6 +9060,8 @@ def test(build):
     test_callousness(Session, callousness)
     learning_bar = build.build('expanded-learning-bar',ROOT / 'tests/fixtures/expanded-learning-bar.t')
     test_learning_bar(Session, learning_bar, build.out)
+    technique_purchase = build.build('expanded-technique-purchase',ROOT / 'tests/fixtures/expanded-technique-purchase.t')
+    test_technique_purchase(Session, technique_purchase, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16843,5 +16845,69 @@ def test_learning_bar(Session, bundle, out):
         s.action(2285,3301)
         s.action(2285,3310)
         assert last(s,'test.learning-state') == [90,1,0,0,0,0,11,1]
+    finally:
+        s.close()
+
+
+def test_technique_purchase(Session, bundle, out):
+    for code,reason in ((3405,'technique-hard-first-improvement'),(3406,'technique-cap'),
+                        (3407,'technique-definition-approval-required'),(3408,'learning-bar-acquisition'),
+                        (3409,'techniques-disabled'),(3412,'rpg.insufficient-points')):
+        s = Session(bundle)
+        try:
+            s.action(2285,code)
+            s.action(2285,3401)
+            assert last(s,'test.technique-purchase')[:2] == ['blocked',reason]
+            if code == 3409:
+                s.action(2285,3413)
+                assert last(s,'test.technique-disabled-score') == ['techniques-disabled']
+            else:
+                s.action(2285,3404)
+                assert last(s,'test.technique-purchase-state') == [0,1 if code == 3412 else 100,0,0,6,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285,3400)
+        assert last(s,'test.technique-purchase') == ['ready',None,2]
+        s.action(2285,3404)
+        assert last(s,'test.technique-purchase-state') == [0,100,0,0,6,0,0]
+        for code in (3401,3401,3404):
+            s.action(2285,code)
+        assert last(s,'test.technique-purchase-state') == [2,98,1,1,7,0,0]
+        s.action(2285,3403)
+        assert last(s,'test.technique-purchase') == ['resolved',None,1]
+        s.action(2285,3411)
+        s.action(2285,3404)
+        assert last(s,'test.technique-purchase-state') == [3,97,2,2,9,0,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (3410,3401,3404):
+            s.action(2285,code)
+        assert last(s,'test.technique-purchase-state') == [1,99,1,1,7,0,0]
+    finally:
+        s.close()
+    path = out / 'expanded-technique-purchase.zsave'
+    s = Session(bundle)
+    try:
+        for code in (3402,3404):
+            s.action(2285,code)
+        assert last(s,'test.technique-purchase-state') == [0,100,0,0,6,0,0]
+        s.action(2285,3401)
+        s.command('undo')
+        s.action(2285,3404)
+        assert last(s,'test.technique-purchase-state') == [0,100,0,0,6,0,0]
+        s.action(2285,3401)
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (3401,3403,3404):
+            s.action(2285,code)
+        assert last(s,'test.technique-purchase-state') == [3,97,2,2,8,0,0]
     finally:
         s.close()

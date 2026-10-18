@@ -1121,9 +1121,9 @@
       "pages": "B229",
       "module": "skills",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require explicit use of optional technique rules before technique purchase and execution.",
-      "tests": []
+      "tests": ["tests/fixtures/expanded-technique-purchase.t", "tests/expanded.py::test_technique_purchase"]
     },
     {
       "id": "technique-definition-approval",
@@ -1131,9 +1131,9 @@
       "pages": "B229",
       "module": "skills",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require a specific practiced action distinct from the parent skill core action, approved difficulty, default and cap.",
-      "tests": []
+      "tests": ["tests/fixtures/expanded-technique-purchase.t", "tests/expanded.py::test_technique_purchase"]
     },
     {
       "id": "technique-prerequisites",
@@ -1141,9 +1141,9 @@
       "pages": "B229",
       "module": "skills",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require the invested parent and all additional declared skill and trait prerequisites before improvement.",
-      "tests": []
+      "tests": ["tests/fixtures/expanded-technique-purchase.t", "tests/expanded.py::test_technique_purchase"]
     },
     {
       "id": "technique-default-specialization",

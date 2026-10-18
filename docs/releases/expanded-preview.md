@@ -1157,3 +1157,8 @@ expanded influence procedure remains partial.
   approved physical advancement remains available. Technique purchases and
   modular ability integration remain pending. Added unrun persistence and
   resource-accounting fixtures (full-2008 B125).
+
+- Added owned incremental technique purchases using the shared advancement bank,
+  learning restrictions, authored approval and prerequisite trees. Technique
+  scores and purchases now require explicit campaign opt-in. Authored cost,
+  rollback, undo and save fixtures remain unrun (full-2008 B229-B230).
