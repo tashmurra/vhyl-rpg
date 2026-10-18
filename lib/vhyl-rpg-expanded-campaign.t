@@ -559,6 +559,7 @@ rpgExpandedJobPercent(amount, percent)
 }
 
 class RpgExpandedJobEarnings: RpgExpandedResult
+    wealthObligation = nil
     money = 0
     nextPay = 0
     consequenceRequired = nil
@@ -651,6 +652,7 @@ class RpgExpandedJobFailure: object
  * and worked-month fact; settlement never adds a second month to the clock. */
 class RpgExpandedJobMonth: object
     employment = nil
+    wealthReview = nil
     month = 1
     dueAt = nil
     fullMonthWorked = nil
@@ -680,6 +682,10 @@ class RpgExpandedJobMonth: object
                 rpgExpandedReject('employment-payroll-payer');
             rpgExpandedValidate(employment.payer); rpgInteger(employment.payer.money,0,2147483647);
         }
+        if (employment.job.wealthLevel != nil && self.wealthReview == nil)
+        { value.reason = 'employment-wealth-review-required'; return value; }
+        if (self.wealthReview != nil && (!self.wealthReview.ofKind(RpgExpandedEmploymentWealthReview)
+            || self.wealthReview.employment != employment)) rpgExpandedReject('employment-wealth-owner');
         for (local roll = 3; roll <= 18; roll += 1)
         {
             local outcome = rpgExpandedJobEarnings(employment.monthlyPay,employment.variable,qualification.score,roll,employment.raiseTiming);
@@ -687,6 +693,14 @@ class RpgExpandedJobMonth: object
             if (outcome.money > 2147483647 - employment.owner.money) rpgExpandedReject('job-month-money-limit');
             if (employment.payer != nil && outcome.money > employment.payer.money)
             { value.reason = 'employment-payroll-funds'; return value; }
+            if (self.wealthReview != nil)
+            {
+                local balance = employment.owner.money + outcome.money
+                    - (outcome.consequenceRequired ? employment.failurePolicy.lostSavings : 0);
+                local review = self.wealthReview.assessMoney(balance);
+                if (review.status == 'blocked' && review.reason != 'wealth-advancement-money')
+                { value.reason = review.reason; return value; }
+            }
         }
         value.status = 'ready'; return value;
     }
@@ -707,6 +721,7 @@ class RpgExpandedJobMonth: object
         employment.owner.money += value.money - loss; employment.monthlyPay = value.nextPay;
         employment.months = employment.months + [[self.month,self.dueAt,value.check,value.money,value.nextPay,loss,employment.active]];
         employment.lastMonth = self.month; employment.lastMonthAt = self.dueAt;
+        if (self.wealthReview != nil) value.wealthObligation = self.wealthReview.record().obligation;
         value.status = 'resolved'; return value;
     }
 ;
@@ -1423,7 +1438,9 @@ class RpgExpandedEmploymentWealthReview: object
     wealth = nil
     obligationsSettled = nil
     evidence = nil
-    assess()
+    assess() { return self.assessMoney(nil); }
+    /** Project a wage outcome without changing the character money ledger. */
+    assessMoney(balance)
     {
         if (self.employment == nil || !self.employment.ofKind(RpgExpandedEmployment))
             rpgExpandedReject('employment-wealth-owner');
@@ -1461,9 +1478,14 @@ class RpgExpandedEmploymentWealthReview: object
         if (!profile.creationComplete) { value.reason = 'wealth-advancement-after-creation'; return value; }
         if (!self.obligationsSettled || self.evidence == nil || self.evidence == '')
         { value.reason = 'wealth-advancement-obligations'; return value; }
-        rpgInteger(profile.money,0,2147483647);
-        if (profile.money < value.requiredMoney)
+        if (balance == nil) balance = profile.money;
+        rpgInteger(balance,0,2147483647);
+        if (balance < value.requiredMoney)
         { value.reason = 'wealth-advancement-money'; return value; }
+        local existing = profile.pendingWealthObligation(nil);
+        if (existing != nil && (existing.wealth != self.wealth || existing.targetLevel != value.targetLevel
+            || existing.targetExtraLevels != value.targetExtraLevels))
+            rpgExpandedReject('employment-wealth-obligation-conflict');
         value.status = 'required'; return value;
     }
     record()

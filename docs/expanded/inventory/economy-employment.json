@@ -227,9 +227,10 @@
         "tests/expanded.py::test_employment_wealth_requirements",
         "tests/expanded.py::test_employment_wealth_priority",
         "tests/expanded.py::test_employment_wealth_transactions",
-        "tests/expanded.py::test_employment_wealth_persistence"
+        "tests/expanded.py::test_employment_wealth_persistence",
+        "tests/expanded.py::test_employment_wealth_payroll"
       ],
-      "implementation_note": "Explicit next-level reviews, shared obligations and spending priority authored. Transaction and cross-process continuation cases authored but unrun. Automatic wage-review dispatch pending."
+      "implementation_note": "Next-level shared obligations, spending priority and explicit-category wage settlement integration authored. Wage preflight projects all outcomes before rolling. All new transaction, payroll and continuation cases remain unrun; successive-level review after payment remains authored."
     },
     {
       "id": "economy-job-search",

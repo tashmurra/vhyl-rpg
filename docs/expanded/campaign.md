@@ -789,7 +789,7 @@ opportunity ID is rejected, as is retargeting a committed receipt.
 The current threshold uses the existing money balance. Non-cash property does not
 automatically qualify as money, and this API does not sell assets or decide taxes.
 The explicit employment review below records compulsory next-level obligations;
-automatic wage integration remains separate work. `test_wealth_advancement` covers the threshold, point cost, rejection
+monthly settlement integrates the review as described below. `test_wealth_advancement` covers the threshold, point cost, rejection
 paths, preview purity, rollback, undo and repeat protection.
 `test_wealth_advancement_sequence` covers buying off a negative wealth level,
 successive point differences, duplicate IDs, retargeting and reuse of an earlier
@@ -808,8 +808,10 @@ After relevant income and payments settle, supply `obligationsSettled` and
 `evidence`, then call `assess()`. A higher-category job makes the next personal
 wealth level `required` once money reaches that level's starting threshold.
 `record()` creates one owned `RpgExpandedWealthAdvancement` in
-`employment.wealthObligations`. Run it inside the income/obligation transaction;
-this explicit review is not automatically invoked by monthly wage settlement.
+`employment.wealthObligations`. For direct reviews, run it inside the income/obligation transaction. Monthly
+wage settlement invokes it when supplied as `month.wealthReview`. A job with an
+explicit wealth category requires that field; omission blocks with
+`employment-wealth-review-required`.
 An unspecified job category returns `employment-wealth-unspecified`.
 
 The returned `obligation` spends points only when its `advance()` succeeds.
@@ -833,5 +835,20 @@ unchanged resources and reopening purchases after payment. Both remain unrun.
 obligations through action transactions, including milestone funding, exception
 rollback, undo and replay. `test_employment_wealth_persistence` restores pending
 and paid shared receipts in separate processes and checks that awards and costs
-are not duplicated. These cases are authored but unrun. Automatic wage-review
-dispatch remains integration work.
+are not duplicated. These cases are authored but unrun.
+
+
+For monthly settlement, `assessMoney(balance)` projects each possible wage outcome
+without changing money or rolling. Missing payment-clearance evidence blocks
+before the roll. Confirm obligations are settled for the income being delivered;
+this attestation does not implement a tax system. A month that remains below the
+threshold can still settle normally. After wages and critical-failure consequences
+commit, settlement records the review and returns its `wealthObligation` in the
+result. Both records roll back together; repeated months cannot create another
+obligation. An unspecified job category keeps the existing author-defined wage
+behavior and is not a claim of complete expanded employment conversion.
+
+`test_employment_wealth_payroll` covers preflight rejection, a wage crossing the
+threshold, exception rollback, undo, deterministic replay and repeated settlement.
+It remains unrun. Review successive levels after each mandatory purchase, before
+making discretionary spending available.

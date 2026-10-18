@@ -18,7 +18,8 @@ obligationHero: RpgExpandedProfile rules = expandedRules campaignTL = 3 creation
     money = 2000 unspentPoints = 5 developmentOpen = true contributions = [obligationWealth]
     employments = [obligationJobA,obligationJobB] skills = [obligationTraining];
 obligationWealth: RpgExpandedWealth owner = obligationHero;
-obligationJob: RpgExpandedJob id = 'comfortable-job' wealthLevel = 'comfortable';
+obligationJob: RpgExpandedJob id = 'comfortable-job' wealthLevel = 'comfortable' requirementsApproved = true;
+obligationFailure: RpgExpandedJobFailure kind = 'unpaid' evidence = 'no-wages';
 obligationJobA: RpgExpandedEmployment id = 'a' owner = obligationHero job = obligationJob;
 obligationJobB: RpgExpandedEmployment id = 'b' owner = obligationHero job = obligationJob;
 obligationReviewA: RpgExpandedEmploymentWealthReview employment = obligationJobA wealth = obligationWealth
@@ -445,6 +446,24 @@ class ExpandedTestAction: Action
         {
             local value = rpgDevelop(obligationLearning); event('test.obligation-learning');
             eventValue(value.status); eventValue(value.reason);
+        }
+        if (code == 106)
+        {
+            obligationHero.money = 1900; obligationJobA.monthlyPay = 100;
+            obligationJobA.raiseTiming = 'next-month'; obligationJobA.failurePolicy = obligationFailure;
+            rpgSpendTime(100); rpgRandom.seed(1);
+        }
+        if (code == 107 || code == 108 || code == 109 || code == 110)
+        {
+            local month = new RpgExpandedJobMonth(); month.employment = obligationJobA;
+            month.dueAt = 100; month.fullMonthWorked = true;
+            if (code != 108) month.wealthReview = obligationReviewA;
+            if (code == 110) obligationReviewA.obligationsSettled = nil;
+            local value = month.settle(); event('test.obligation-payroll');
+            eventValue(value.status); eventValue(value.reason); eventValue(value.money);
+            eventValue(value.wealthObligation != nil ? 1 : 0);
+            if (code == 110) obligationReviewA.obligationsSettled = true;
+            if (code == 109) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
