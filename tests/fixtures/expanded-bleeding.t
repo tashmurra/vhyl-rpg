@@ -27,6 +27,8 @@ bleedAidTraining: RpgTraining skill = bleedAidSkill points = 1;
 bleedHealer: RpgLiteProfile skills = [bleedAidTraining];
 bleedAid: RpgExpandedBleedingAid id = 'pressure' episode = bleedEpisode healer = bleedHealer skill = bleedAidSkill
     approved = true careEvidence = 'Direct pressure maintained for a full minute' uninterrupted = true;
+bleedBandage: RpgExpandedBandage wound = bleedWound healer = bleedHealer eligibleInjury = 2
+    evidence = 'Two points from the untreated cut';
 bleedInput: object code = 0 forcedRoll = 0;
 modify rpgRandom
     roll()
@@ -41,6 +43,9 @@ class BleedTestAction: Action
         local code = bleedInput.code;
         if (code >= 40)
         {
+            if (code == 47) { bleedAid.bandage = bleedBandage; return nil; }
+            if (code == 48) { bleedBandage.apply(); return nil; }
+            if (code == 49) { bleedBandage.eligibleInjury = 3; return nil; }
             if (code == 45) { bleedAid.uninterrupted = nil; return nil; }
             local value = code == 40 ? bleedAid.start() : code == 41 ? bleedAid.assessCompletion()
                 : code == 46 ? bleedAid.cancel() : bleedAid.complete();
@@ -93,6 +98,15 @@ act(verb,args)
         eventValue(bleedProfile.expandedWounds.length()); eventValue(bleedEpisode.minutes.length());
         eventValue(bleedEpisode.clearMinutes); eventValue(bleedEpisode.stoppedAt);
         eventValue(bleedEpisode.nextCheckAt); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 2288)
+    {
+        event('test.bleeding-bandage-state'); eventValue(bleedProfile.injury);
+        eventValue(bleedBandage.result == nil ? nil : bleedBandage.result.healed);
+        eventValue(bleedAid.result == nil ? nil : bleedAid.result.healed);
+        eventValue(bleedWound.bandage == bleedBandage ? 1 : 0);
+        eventValue(bleedProfile.bandagedSerial); eventValue(bleedProfile.woundSerial);
+        eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
     return vhylAct(verb,args);
 }

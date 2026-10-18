@@ -8988,6 +8988,7 @@ def test(build):
     test_bleeding_onset(Session, bleeding, build.out)
     test_bleeding_minutes(Session, bleeding, build.out)
     test_bleeding_aid(Session, bleeding, build.out)
+    test_bleeding_bandage(Session, bleeding, build.out)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
     fresh(Session,health,test_critical_major_wound)
@@ -9672,5 +9673,63 @@ def test_bleeding_aid(Session, bundle, out):
             s.action(2285, 30)
             s.action(2285, 20)
             assert state(s)[5] == 120
+        finally:
+            s.close()
+
+
+def test_bleeding_bandage(Session, bundle, out):
+    def state(s):
+        s.action(2288)
+        return last(s, 'test.bleeding-bandage-state')
+    s = Session(bundle)
+    path = out / 'expanded-bleeding-bandage.zsave'
+    try:
+        for code in (0, 1, 47, 40, 4):
+            s.action(2285, code)
+        before = state(s)
+        s.action(2285, 41)
+        assert last(s, 'test.bleeding-aid') == ['ready', None, 0]
+        assert state(s) == before
+        s.action(2285, 43)
+        assert state(s) == before
+        s.action(2285, 42)
+        assert last(s, 'test.bleeding-aid') == ['resolved', None, 1]
+        after = state(s)
+        assert after == [1, 1, 1, 1, 1, 1, 60, 3]
+        s.command('undo')
+        assert state(s) == before
+        s.action(2285, 42)
+        s.action(2285, 42)
+        assert state(s) == after
+        s.action(2285, 48)
+        assert state(s) == after  # Ordinary bandaging cannot charge or heal twice.
+        s.command(f':save {path}\n@2288')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2288')
+        assert state(s) == after
+        s.action(2285, 48)
+        assert state(s) == after
+    finally:
+        s.close()
+    for invalid in (False, True):
+        s = Session(bundle)
+        try:
+            for code in (0, 1, 47, 40, 4):
+                s.action(2285, code)
+            if invalid:
+                s.action(2285, 49)
+                before = state(s)
+                s.action(2285, 42)
+                assert last(s, 'test.bleeding-aid')[:2] == ['blocked', 'bandage-eligible-injury']
+                assert state(s) == before
+            else:
+                s.action(2285, 26)
+                s.action(2285, 42)
+                assert last(s, 'test.bleeding-aid') == ['resolved', None, 0]
+                assert state(s)[0:4] == [2, None, 0, 0]
+                assert state(s)[-2:] == [60, 3]
         finally:
             s.close()

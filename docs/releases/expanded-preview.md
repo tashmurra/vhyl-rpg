@@ -201,3 +201,8 @@ Owned one-minute First Aid care now stops future bleeding on success, preserves
 earlier blood loss, and records failures/cancellation without duplicate rolls.
 Bandage healing-credit composition remains pending. The new treatment timing,
 transaction and save fixtures are authored and unrun.
+
+Successful bleeding-control care can now commit a linked bandage credit in the
+same minute and transaction. Existing wound/serial markers prevent duplicate
+healing. Earlier-wound allocation after further blood loss remains restricted;
+combined healing, rollback and save fixtures are authored and unrun.

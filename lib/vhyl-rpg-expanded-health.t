@@ -1340,8 +1340,23 @@ class RpgExpandedBandage: object
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        local patient = self.wound.profile;
         rpgSpendTime(value.seconds);
+        return self.commitHealing(value);
+    }
+    applyAfterBleedingCare(care)
+    {
+        if (care == nil || !care.ofKind(RpgExpandedBleedingAid) || care.bandage != self
+            || care.episode.classification.wound != self.wound || care.healer != self.healer
+            || care.result == nil || !care.result.stopped || care.completedAt != care.completesAt
+            || !holds(care.episode.aidAttempts,care)) rpgExpandedReject('bandage-bleeding-care');
+        care.assess();
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (rpgLedger.seconds != care.completedAt) { value.reason = 'bandage-care-completion-time'; return value; }
+        value.seconds = 0; return self.commitHealing(value);
+    }
+    commitHealing(value)
+    {
+        local patient = self.wound.profile;
         value.healed = rpgLiteHeal(patient,value.healed);
         patient.bandagedSerial = patient.woundSerial;
         self.boundWound = self.wound; self.boundHealer = self.healer;
@@ -3431,6 +3446,7 @@ class RpgExpandedBleedingAid: object
     id = nil
     episode = nil
     healer = nil
+    bandage = nil
     skill = nil
     modifier = 0
     approved = nil
@@ -3443,7 +3459,7 @@ class RpgExpandedBleedingAid: object
     result = nil
     definition()
     {
-        return [self.id,self.episode,self.healer,self.skill,self.modifier,self.approved,self.careEvidence];
+        return [self.id,self.episode,self.healer,self.skill,self.modifier,self.approved,self.careEvidence,self.bandage];
     }
     assess()
     {
@@ -3480,6 +3496,14 @@ class RpgExpandedBleedingAid: object
                 if (prior.result == nil) { value.reason = 'bleeding-aid-overlap-unimplemented'; return value; }
             }
             rpgInteger(rpgLedger.seconds,0,2147483587);
+        }
+        if (self.bandage != nil)
+        {
+            if (!self.bandage.ofKind(RpgExpandedBandage) || self.bandage.wound != self.episode.classification.wound
+                || self.bandage.healer != self.healer) rpgExpandedReject('bleeding-aid-bandage');
+            local credit = self.bandage.assess();
+            if (credit.status != 'ready')
+            { value.reason = credit.status == 'reused' ? 'bleeding-aid-bandage-used' : credit.reason; return value; }
         }
         value.context = new RpgLiteContext(); value.context.skill = self.skill;
         value.context.kind = 'first-aid'; value.context.modifier = self.modifier;
@@ -3524,6 +3548,17 @@ class RpgExpandedBleedingAid: object
             self.episode.stoppedAt = rpgLedger.seconds;
             self.episode.classification.wound.profile.bleedingEpisode = nil;
         }
-        self.completedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value; return value;
+        self.completedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value;
+        if (value.stopped && self.bandage != nil)
+        {
+            local credit = self.bandage.applyAfterBleedingCare(self);
+            if (credit.status != 'resolved') rpgExpandedReject('bleeding-aid-bandage-changed');
+            value.healed = credit.healed;
+        }
+        return value;
     }
+;
+
+modify RpgExpandedBleedingResult
+    healed = 0
 ;

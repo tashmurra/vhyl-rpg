@@ -736,9 +736,10 @@
       "status": "partial",
       "acceptance": "A successful first-aid check within a minute of injury prevents bleeding loss; a later success stops future loss but does not undo previously committed bleeding injury.",
       "tests": [
-        "tests/expanded.py::test_bleeding_aid"
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage"
       ],
-      "validation_note": "Owned one-minute care and First Aid termination, failure and cancellation authored. Bandage healing credit, multi-wound care and broader treatment composition pending. Fixtures unrun."
+      "validation_note": "Owned one-minute care, termination and atomic same-interval bandage credit authored. Earlier-wound healing allocation, multi-wound care and broader treatment composition pending. Fixtures unrun."
     },
     {
       "id": "health-first-aid-shock",

@@ -1820,10 +1820,9 @@ can be resolved before that check, preventing initial blood loss. Later success
 stops future loss without undoing prior wounds. It also leaves the normal wound
 healing accounting intact. Earlier loss does not disappear from injury history.
 
-This operation currently implements bleeding control only. The one-HP bandaging
-credit and its once-per-injury markers still need composition with this same care
-interval; do not call the existing timed bandage operation as though it were a
-free second benefit. Concurrent aid attempts, changing healers, lost supplies and
+Without a `bandage` this operation implements bleeding control only. Supply the
+linked bandage described below to apply the healing credit in the same interval;
+do not separately execute another timed bandage operation for that benefit. Concurrent aid attempts, changing healers, lost supplies and
 multi-wound care also need explicit integration. Failed-care retries use a fresh
 owned attempt and a new full minute; broader attempt modifiers remain authored.
 
@@ -1831,3 +1830,38 @@ owned attempt and a new full minute; broader attempt modifiers remain authored.
 loss, exact due times, failed/interrupted care, cancellation, no duplicate clock
 charge, preview, rollback, undo, replay and saved continuation. These fixtures
 are authored and unrun while checks remain paused.
+
+
+### Bandage credit in the same care interval
+
+Optionally set `RpgExpandedBleedingAid.bandage` to an owned
+`RpgExpandedBandage` for the classified wound and the same healer. Supply its
+normal `eligibleInjury` and evidence. Both starting care and completing it preflight
+that credit, including protected injury and once-only restrictions, before rolling.
+If First Aid succeeds, the aid operation stops bleeding and calls
+`bandage.applyAfterBleedingCare(care)` within the same transaction. This commits
+the ordinary scaled, capped healing credit with zero additional seconds.
+
+The linked bandage retains its normal wound pointer, result and character serial
+marker. Its receipt is also usable by the existing subsequent shock-treatment
+interface, subject to that interface's limits. The care result reports `healed`.
+Replaying either treatment or ordinary bandaging cannot grant a second credit.
+Failed or cancelled bleeding care leaves the linked credit uncommitted.
+
+The specialized commit requires a retained successful care receipt, matching
+wound/healer, completed full interval and the current completion time. It cannot
+be used to manufacture untimed treatment. The ordinary `bandage.apply()` still
+charges its existing minute. Shared healing/marker mutation is factored into the
+internal `commitHealing` method; integrations should use the assessed public
+operations rather than call that internal commit directly.
+
+Earlier-wound allocation remains restricted. If subsequent blood-loss injury
+has changed the patient's latest-wound serial, the original wound's linked
+bandage is rejected before the care roll. Bleeding-control-only care can still
+stop further loss. Broader wound-specific healing allocation needs its own
+reconciliation rather than bypassing the existing serial protection.
+
+`test_bleeding_bandage` specifies one total care minute, one healing credit,
+preview purity, failure without healing, invalid-eligibility rejection, rollback,
+undo, replay and cross-process preservation of treatment markers. All fixtures
+remain unrun while checks are paused.
