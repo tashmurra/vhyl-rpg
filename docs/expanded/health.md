@@ -83,3 +83,12 @@ low-health formulas. B380 halves basic speed and movement, while B419 halves
 movement and dodge. These are numerically different because dodge includes a
 constant bonus and encumbrance. The expanded profile needs a documented
 precedence choice and boundary cases; Lite behavior must remain unchanged.
+
+
+Trait integration requirements at [B58–B59](inventory/traits-catalogue-f.json)
+include apparent death when a survival bonus is decisive, scoped knockout/pain
+resistance and restorative touch. The latter needs wound-specific crippling
+history, one-attempt-per-healer/limb restrictions and dated successful treatments.
+Ordinary injury restoration, disease cure and limb repair have different costs
+and eligibility. Source ambiguity about repetition across healers and types is
+recorded explicitly; no full healing implementation is claimed.

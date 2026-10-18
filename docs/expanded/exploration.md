@@ -42,3 +42,11 @@ because that is where the source presents them, but exploration owns their
 execution. Daily attempt allowances differ between travel and a dedicated
 foraging day. Gathered meals, poisoned food and preserved rations must update the
 same inventory consumed by health's food and water procedures.
+
+
+[Flight and growth traits](inventory/traits-catalogue-f.json) add movement
+requirements beyond the chapter procedures. Gliding retains fractional velocity,
+altitude and level-flight deceleration; updraft searches have a one-minute retry
+boundary. Winged movement checks clearance and individual wing injury. Space
+travel can consume a velocity-change reserve while continuing to coast. These
+requirements remain pending, and the task-time helper does not implement them.

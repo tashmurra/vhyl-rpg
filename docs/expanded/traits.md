@@ -113,3 +113,17 @@ power costs must retain their provenance within one fatigue ledger, including
 when both occur between rest periods. Fractional loss rates cannot be rounded
 independently for every newly constructed action. These capabilities remain
 inventory requirements and are not provided by the current trait pricing helper.
+
+
+The [sixth catalogue segment](inventory/traits-catalogue-f.json) records flexibility,
+flight variants, contingency equipment, growth, restorative touch and scoped
+bonuses. Flight mode is part of the capability definition: powered flight,
+gliding and reaction-mass space travel use different movement and reserve rules.
+Neither flight nor greater size automatically supplies environmental protection,
+strength or resized equipment. These definitions remain pending implementation.
+
+Contingency equipment requires a session allowance and explicit item eligibility.
+An existing owned item must retain its identity when revealed. Improvised devices
+also need materials, skill resolution and a committed failed-use cost. Growth
+requires separate supporting strength and checks against actual surrounding
+space, with timed barrier penetration when eligible.

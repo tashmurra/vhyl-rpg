@@ -1,0 +1,479 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B56-B59",
+  "review": "Flight modes, flexibility, invention permissions, contingency items, growth, restoration and scoped bonuses enumerated from text. Movement and treatment interactions, source ambiguities, author contracts and independent tests remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-f-flexibility",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Bodily flexibility costs 5 for +3 to climbing, restraint escape, intimate-performance skill and close-combat escape; it cancels up to three points of cramped-work penalties. The 15-point tier substitutes +5 and cancellation of five. The higher tier permits exceptional joint bending but no stretching or abnormal compression. Apply the cramped-space cancellation only to the relevant penalty component.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-base",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Powered flight costs 40. Default air movement is twice basic speed with fractions dropped; adjustment costs two points per yard/second. It permits hovering but requires significant atmosphere, excluding trace atmosphere and vacuum. Thin-air and cold survival remain separate.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-water",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Default flight also permits underwater movement at half speed unless controlled gliding, gliding, buoyant flight, small wings, space-only flight or winged flight applies. Resolve fractional water movement through the shared movement representation, without granting amphibious respiration.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-skills",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Flight grants neither acrobatic maneuver skill nor automatic tight turns. Aerial acrobatics governs complex maneuvers and the flight skill governs endurance. Higher air top speed uses the separate movement enhancement.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-space",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Space-flight enhancement costs +50%, adds space/vacuum movement at twice basic speed, and can combine with enhanced space movement for per-turn acceleration/deceleration equal to space movement up to enhanced top speed. It is incompatible with other flight special modifiers except space-only flight. Do not silently combine incompatible wing or glide definitions.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-reaction-mass",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Reaction-mass space flight costs +25% and follows space flight except that space movement, or enhanced space speed, measures total available velocity change. Every velocity change consumes this reserve; refueling is needed before further changes once exhausted. Coasting retains velocity and destination braking must be funded separately. Clarify interaction with the separate enhanced-movement reaction-mass limitation to avoid double-discounting the same restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-no-hover",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "No-hover limitation is -15% and requires movement of at least one quarter top airspeed rounded up. Reject combination with either gliding variant. Validate movement choices against the minimum speed and their turning requirements.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-glide",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Gliding limitation is -50%. A running launch begins at basic movement; unassisted top speed is four times basic movement, with towing permitted to exceed it. No ascent is available. Per-turn velocity change is bounded by ten yards/second times local gravity in G. Acceleration requires one yard descent per yard/second added; deceleration requires level flight. A turn with less than one yard descent automatically loses one yard/second.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-glide-turns",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Gliding uses ten times local gravity as basic air movement for turn-radius calculation. Each full enhanced-air-movement level is assigned at purchase either to doubling top speed or halving level-flight deceleration. Retain fractional velocities and assignments. Half-level effects, the relation of deliberate and automatic deceleration, and zero-gravity eligibility need explicit supported decisions.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-updraft",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Controlled gliding costs -45% and permits ascent through available updrafts, typically one yard/second. Locating a present updraft uses intelligence or meteorology, at most one attempt per minute. Author supplies actual thermal presence, ascent rate and extent; persist the search deadline across action replacement.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-buoyant",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Buoyant flight is -10%. Wind contributes one yard/second in its direction per five miles/hour. Favorable wind increases progress and opposing wind reduces it. Define crosswind vector treatment in the spatial model instead of applying the same speed adjustment in every direction.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-ceiling-30",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A 30-foot flight ceiling costs -10%. It does not itself reduce speed; author may require aerial-acrobatics checks for nearby obstacles. Define the local surface used for altitude measurement and enforce the ceiling during movement.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-ceiling-10",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A 10-foot flight ceiling costs -20%. It does not itself reduce speed; author may require aerial-acrobatics checks for nearby obstacles. Define the local surface used for altitude measurement and enforce the ceiling during movement.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-ceiling-5",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A 5-foot flight ceiling costs -25%. It does not itself reduce speed; author may require aerial-acrobatics checks for nearby obstacles. Define the local surface used for altitude measurement and enforce the ceiling during movement.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-wings",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Winged flight is -25% and requires wingspan at least twice body height. Takeoff, landing and maneuvering require clear radius equal to wingspan. Bound wings or one crippled wing prevent flight for a two-wing body; with more wings, more than one third crippled prevents it. Use arm targeting/crippling rules. Striking or manipulating with wings requires additional purchases.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-small-wings",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Small-wing flight is -10%, with wingspan no more than half body height. Wings steer and stabilize rather than supply lift. Crippling them during flight calls for aerial acrobatics or its default to land safely. Apply the inherited wing requirements with this replacement failure procedure.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-flight-space-only",
+      "source": "full-2008",
+      "pages": "B56",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Space-only limitation is -75% and requires a space-flight enhancement. Atmospheric air movement is zero; atmospheric planets require an external boost to space and atmospheric reentry is unavailable. Do not infer survival protection or a free landing capability.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-inventor-tiers",
+      "source": "full-2008",
+      "pages": "B56-B57",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Exceptional invention costs 25 for the cinematic procedure taking days/months and substantial funds/equipment, or 50 for the rapid procedure taking minutes/hours with improvised parts. Dispatch to the detailed invention procedures at B475 rather than substituting an arbitrary time multiplier. Both need explicit campaign permission.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-gravity-experience",
+      "source": "full-2008",
+      "pages": "B57",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Gravity experience costs one point per specified gravitational field or ten for all fields. In covered fields halve the ordinary differing-gravity dexterity penalty. When low gravity helps a task, use full dexterity plus the ordinary bonus and one extra. Define field matching and fractional-penalty treatment explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-contingency-item",
+      "source": "full-2008",
+      "pages": "B57",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A contingency item purchase costs five per session allowance, at most three. Each use reveals one item small enough for an ordinary coat pocket. Before revelation it is undefined and cannot be found, stolen, lost or damaged. Persist session identity and spent allowances; ordinary elapsed time does not refresh them. Require cinematic campaign permission.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-contingency-eligibility",
+      "source": "full-2008",
+      "pages": "B57",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Revealed items must be already owned but unlisted as carried, plausibly owned minor items fitting the character, or inexpensive devices widely available at the character technology level. Author supplies the eligibility decision and actual item definition. Reuse an existing owned item identity instead of duplicating it; new-item accounting and its location transition must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-contingency-invention",
+      "source": "full-2008",
+      "pages": "B58",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An exceptional inventor may reveal a small invention or build it immediately using a contingency allowance. Required materials and skills must still exist. Author secretly checks the relevant skill at -2 or worse; failure consumes the allowance and produces a nonworking device, while critical failure has an authored severe malfunction. Record materials, allowance and result in one transaction.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-growth",
+      "source": "full-2008",
+      "pages": "B58",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Growth costs ten per size increment. It changes size by one increment per second in either direction, uses the size table for height, and affects limb reach and obstacles. Equipment retains its size. Growth does not itself buy strength.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-growth-strength",
+      "source": "full-2008",
+      "pages": "B58",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Required supporting strength is five times final height in yards and must be purchased separately. Growth-only additional strength may use the size limitation based on maximum size. At intermediate sizes, multiply purchased extra strength by current height divided by maximum height, round down and add base strength. Do not interpolate by size increments or discount unrelated strength.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-growth-enclosure",
+      "source": "full-2008",
+      "pages": "B58",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Growth normally stops at insufficient surrounding space. If maximum thrust damage at current strength exceeds the obstructing wall/ceiling protection, it can break through, taking one second per protection point. Strict inequality is required. Resolve multiple barriers, interruption and zero-protection timing explicitly in the object-damage integration.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-growth-two-forms",
+      "source": "full-2008",
+      "pages": "B58",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Normal-or-maximum-only growth is a zero-percent modifier. Either transition takes one second and intermediate sizes cannot be selected. Preserve space and supporting-strength eligibility instead of bypassing them because the transition is faster.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-unaimed-accuracy",
+      "source": "full-2008",
+      "pages": "B58",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cinematic projectile accuracy costs 25 and covers beam, mounted-gun, firearm and liquid-projector skills. One-handed single shots with firing rate one through three receive full weapon accuracy without aiming. Two-handed weapons or automatic fire receive half accuracy rounded up. Actual aiming grants full accuracy plus normal bracing, optics and additional-time benefits, not a second copy of the unaimed bonus.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-unaimed-accuracy-scope",
+      "source": "full-2008",
+      "pages": "B58",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Muscle-powered missiles are excluded from the printed projectile-accuracy trait. Author may define a low-technology variant as a separate campaign choice with explicit weapon coverage; do not silently extend the default purchase to bows or thrown weapons.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-death-resistance",
+      "source": "full-2008",
+      "pages": "B58-B59",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Death resistance costs two per level. Add level to health checks for survival at negative health-capacity thresholds and other health checks whose failure means immediate death. If the bonus alone turns failure into success, collapse in apparent death or disability and recover through normal unconsciousness rules. Keep the original roll for this comparison.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-death-resistance-discovery",
+      "source": "full-2008",
+      "pages": "B58-B59",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Apparent death from the resistance trait can be distinguished with successful diagnosis, or mechanics for a machine. Author defines observer access and disclosed evidence without publishing the hidden survival result. A realistic campaign may restrict levels to one or two; this is a campaign choice, not a universal cap.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-unconsciousness-resistance",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Unconsciousness resistance costs two per level and adds level to health checks against knockout from injury, drugs or technological weapons, and resistance to supernatural knockout effects. A realistic one/two-level limit is optional. Do not apply to unrelated health checks.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-activation",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Restorative touch costs 30, requires physical contact and one second of concentration, then intelligence activation at -2 for an unconscious subject. Default eligible subjects are the healer ancestry and similar ancestries defined by the author. It heals others; do not infer self-healing permission.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-injury",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "On successful injury restoration, heal the selected health amount at one fatigue per two restored health rounded up. Failure costs 1d fatigue and permits retry; critical failure additionally harms the recipient for 1d. Even one restored health stops bleeding. Determine requested amount and lawful payment behavior before activation; retain actual healed amount and cost separately.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-limb",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Repairing a crippled but still present limb takes intelligence-6 and requires healing all health lost to the crippling injury. Each healer has only one attempt per limb. Lost limbs and death cannot be reversed. Persist wound-specific outstanding injury and healer/limb attempt history rather than resetting eligibility after an ordinary heal.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-disease",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Disease restoration uses an authored intelligence modifier in the printed range +1 to -15. Cost is twice the penalty magnitude with a minimum of one fatigue, so a bonus does not create a refund. Link the modifier to the actual disease episode and cure consequences. The injury paragraph specifies failed-attempt costs; disease failure behavior requires an explicit source interpretation rather than assumed reuse.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-repetition",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Repeated restorative touch on a subject takes cumulative -3 for each prior successful use of the same type, with injury and disease counted separately. The penalty persists until a full day after the most recent healing. Record successful timestamps and type; clarify whether different healers share the history and whether cross-type success extends expiry. Do not refresh eligibility by constructing a new treatment.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-spiritual",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Spiritual restorative touch is +20% and permits any subject deemed worthy by authored spiritual criteria regardless of ancestry, subject to healer and possibly recipient conduct. Reject combination with own-ancestry-only or broadened-life-domain modifiers. Eligibility is an explicit authored decision with reasons, not an unrestricted callback claiming full implementation.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-domain-mammals",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Broadened restorative domain all mammals costs +20% in the printed human-baseline examples. Define subject eligibility independently of appearance and validate the originating ancestry assumptions.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-domain-terrestrial",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Broadened restorative domain all terrestrial life costs +40% in the printed human-baseline examples. Define subject eligibility independently of appearance and validate the originating ancestry assumptions.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-domain-carbon",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Broadened restorative domain all carbon-based life costs +60% in the printed human-baseline examples. Define subject eligibility independently of appearance and validate the originating ancestry assumptions.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-domain-living",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Broadened restorative domain all living beings costs +80% in the printed human-baseline examples. Define subject eligibility independently of appearance and validate the originating ancestry assumptions.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-domain-animate",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Broadened restorative domain all animate beings including otherwise nonliving animated bodies costs +100% in the printed human-baseline examples. Define subject eligibility independently of appearance and validate the originating ancestry assumptions.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-healing-restrictions",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Disease-only restoration is -40%; injury-only is -20%. Own-ancestry-only is -20% and available only when multiple sapient ancestries exist. Psionic restorative touch is -10% and follows the separately defined psionic healing power. Reject mutually exclusive procedure restrictions and unsupported combinations.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-sex-form",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mutable reproductive form costs five and switches among functional neutral, male and female forms in ten seconds. Preparation, extra transition time and recharge are separately purchased limitations, not default restrictions. Track the selected form without changing unrelated characteristics or identity.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-fine-motor",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fine motor control costs five per level, maximum four, adding level to dexterity-based delicate tasks. Covered skills include art, jewelry, knot tying, leatherwork, lockpicking, pickpocketing, sewing, sleight of hand and surgery; fine machinist/mechanic work also qualifies. Exclude intelligence-based work, large-scale work and every combat roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-pain-resistance",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Pain resistance costs ten, removes injury shock penalties, adds three to health checks against knockdown/stun and to resisting physical torture. Author may allow will+3 to ignore pain in other cases. It does not prevent injury. A separately defined supernatural-durability trait includes it, so reject duplicate purchase/benefit.",
+      "tests": []
+    },
+    {
+      "id": "traits-f-higher-purpose",
+      "source": "full-2008",
+      "pages": "B59",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A specific demanding purpose costs five and grants +1 to rolls directly serving it while the author judges unwavering adherence. Define a concrete risky/inconvenient purpose, qualifying actions and suspension on deviation. Broad or merely pragmatic purposes are ineligible. Consequences for abandoning it are authored, with no automatic point transfer inferred.",
+      "tests": []
+    }
+  ]
+}
