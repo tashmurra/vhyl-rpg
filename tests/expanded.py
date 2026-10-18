@@ -17853,6 +17853,24 @@ def test_template_taboo(Session, bundle, out):
 
 def test_ancestry_scores(Session, bundle, out):
     path = out / 'expanded-ancestry-scores.zsave'
+    for setup in (5915, 5916, 5917):
+        s = Session(bundle)
+        try:
+            s.action(2285, setup)
+            assert last(s, 'test.ancestry-score-error') == ['secondary-limit']
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (5914, 5905):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-score-error') == ['accepted']
+        assert last(s, 'test.ancestry-scores') == [130, 0, 0, 10, 10, 10, 10, 20, 32, 1, 0, 0]
+        for code in (5918, 5907):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-score-error') == ['ancestry-score-binding']
+    finally:
+        s.close()
     expected = {
         5900: [82, 0, 0, 17, 10, 10, 10, 23, 20, 1, 0, 0],
         5901: [115, -15, 15, 10, 14, 10, 13, 10, 28, 1, 0, 0],
@@ -17874,7 +17892,9 @@ def test_ancestry_scores(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.ancestry-score-error') == ['ancestry-score-binding']
         s.action(2285, 5910)
-        assert last(s, 'test.ancestry-score-error') == ['ancestry-score-limits-unresolved']
+        assert last(s, 'test.ancestry-score-error') == ['accepted']
+        s.action(2285, 5905)
+        assert last(s, 'test.ancestry-scores') == expected[5911]
         s.action(2285, 5902)
         s.action(2285, 5909)
         s.command('undo')

@@ -93,3 +93,9 @@ ancestry negative components from the personal cap; the ordinary negative-cost
 query still reports both sources. Profiles without ancestry retain their
 existing accounting. See [ancestry score composition](templates.md#ancestry-score-composition)
 for current limits and the unrun validation cases.
+
+`physicalCharacteristicLimitsExempt()` distinguishes the printed nonhuman
+exemptions for HP, FP, Basic Speed and Basic Move from the separate permissions
+for Will and Perception. The ancestry module supplies this hook from an approved,
+owned nonhuman classification. Ordinary profiles retain all previous limits;
+`exceptionalCharacteristics` retains its explicit campaign-wide override.

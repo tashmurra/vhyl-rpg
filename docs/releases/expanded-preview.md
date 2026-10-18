@@ -1292,3 +1292,9 @@ remain separate, with only ancestry components exempt from the personal cap.
 Ordinary characteristic limits and ancestry trait/skill composition remain
 unsupported. Printed-example arithmetic, personal advancement, undo and save
 fixtures are authored but unrun.
+
+Ancestry score composition now works with ordinary characteristic-limit rules.
+Approved nonhuman packages waive only the printed physical adjustment limits;
+Will and Perception retain their separate permission requirements. Personal
+purchases must still validate before the ancestry is applied. Classification
+binding and physical/mental limit fixtures are authored but unrun.

@@ -11,6 +11,7 @@ modify RpgExpandedProfile
             self.speedQuarterAdjustment * 5, self.moveAdjustment * 5];
     }
     creationDisadvantageExemption() { return 0; }
+    physicalCharacteristicLimitsExempt() { return nil; }
 ;
 
 /** Individual point components; negative entries count separately toward limits. */
@@ -57,14 +58,15 @@ rpgExpandedValidateCharacter(profile)
     rpgInteger(profile.disadvantageLimit, 0, 1000000);
     if (!profile.rules.exceptionalCharacteristics)
     {
-        if (profile.hpAdjustment * 10 > profile.st * 3
-            || profile.hpAdjustment * 10 < -profile.st * 3
-            || profile.fpAdjustment * 10 > profile.ht * 3
-            || profile.fpAdjustment * 10 < -profile.ht * 3
+        if ((!profile.physicalCharacteristicLimitsExempt()
+            && (profile.hpAdjustment * 10 > profile.st * 3
+                || profile.hpAdjustment * 10 < -profile.st * 3
+                || profile.fpAdjustment * 10 > profile.ht * 3
+                || profile.fpAdjustment * 10 < -profile.ht * 3
+                || profile.speedQuarterAdjustment < -8 || profile.speedQuarterAdjustment > 8
+                || profile.moveAdjustment < -3 || profile.moveAdjustment > 3))
             || profile.will > 20 || profile.willAdjustment < -4
-            || profile.perception > 20 || profile.perceptionAdjustment < -4
-            || profile.speedQuarterAdjustment < -8 || profile.speedQuarterAdjustment > 8
-            || profile.moveAdjustment < -3 || profile.moveAdjustment > 3)
+            || profile.perception > 20 || profile.perceptionAdjustment < -4)
             rpgExpandedReject('secondary-limit');
     }
     try { rpgLiteValidateTraits(profile); rpgLiteValidateLanguages(profile); }

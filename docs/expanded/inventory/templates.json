@@ -165,7 +165,7 @@
       "tests": [
         "tests/expanded.py::test_ancestry_scores"
       ],
-      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The personal template still validates before ancestry, so personal purchases needing nonhuman exemptions remain unsupported. Ancestry trait/skill components remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-derived-order",
@@ -178,7 +178,7 @@
       "tests": [
         "tests/expanded.py::test_ancestry_scores"
       ],
-      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The personal template still validates before ancestry, so personal purchases needing nonhuman exemptions remain unsupported. Ancestry trait/skill components remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-derived-health-example",
@@ -191,7 +191,7 @@
       "tests": [
         "tests/expanded.py::test_ancestry_scores"
       ],
-      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The personal template still validates before ancestry, so personal purchases needing nonhuman exemptions remain unsupported. Ancestry trait/skill components remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-derived-speed-example",
@@ -204,7 +204,7 @@
       "tests": [
         "tests/expanded.py::test_ancestry_scores"
       ],
-      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The personal template still validates before ancestry, so personal purchases needing nonhuman exemptions remain unsupported. Ancestry trait/skill components remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-occupational-composition",
@@ -227,7 +227,7 @@
       "tests": [
         "tests/expanded.py::test_ancestry_scores"
       ],
-      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The personal template still validates before ancestry, so personal purchases needing nonhuman exemptions remain unsupported. Ancestry trait/skill components remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-composition-conflicts",
@@ -280,7 +280,7 @@
       "tests": [
         "tests/expanded.py::test_ancestry_scores"
       ],
-      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Requires exceptional-characteristic rules; ancestry trait/skill components and ordinary personal-versus-ancestry limits remain unfinished. Assertions authored, unrun."
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The personal template still validates before ancestry, so personal purchases needing nonhuman exemptions remain unsupported. Ancestry trait/skill components remain unfinished. Assertions authored, unrun."
     },
     {
       "id": "ancestry-quirk-exemption",

@@ -489,6 +489,7 @@ modify RpgExpandedProfile
 
 /** Ancestry score modifiers only; traits and skills require their own origin rules. */
 class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
+    nonhuman = nil
     approved = nil
     evidence = nil
     validate()
@@ -503,6 +504,8 @@ class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
 /** Owned immutable ancestry score origins; later personal advancement changes totals. */
 class RpgExpandedAncestryScores: object
     owner = nil
+    nonhuman = nil
+    boundNonhuman = nil
     origins = []
     changes = []
     boundOrigins = []
@@ -512,6 +515,7 @@ class RpgExpandedAncestryScores: object
         if (self.owner != profile || profile.ancestryScores != self || self.changes.length() != 10
             || self.boundChanges.length() != 10 || self.origins.length() != self.boundOrigins.length())
             rpgExpandedReject('ancestry-score-ownership');
+        if (self.nonhuman != self.boundNonhuman) rpgExpandedReject('ancestry-score-binding');
         for (local i = 1; i <= 10; i += 1)
             if (self.changes[i] != self.boundChanges[i]) rpgExpandedReject('ancestry-score-binding');
         for (local i = 1; i <= self.origins.length(); i += 1)
@@ -527,6 +531,12 @@ class RpgExpandedAncestryScores: object
 ;
 modify RpgExpandedProfile
     ancestryScores = nil
+    physicalCharacteristicLimitsExempt()
+    {
+        if (self.ancestryScores == nil) return inherited();
+        self.ancestryScores.validate(self);
+        return self.ancestryScores.nonhuman || inherited();
+    }
     validateFeatures()
     {
         inherited(); if (self.ancestryScores != nil) self.ancestryScores.validate(self); return nil;
@@ -557,14 +567,14 @@ rpgExpandedCreateAncestryCharacter(personal, ancestries, rules)
     if (personal == nil || !personal.ofKind(RpgExpandedTemplate)
         && !personal.ofKind(RpgExpandedTemplateSelection) && !personal.ofKind(RpgExpandedTemplateCustomization))
         rpgExpandedReject('ancestry-personal-template');
-    if (rules == nil || !rules.ofKind(RpgExpandedRules) || !rules.exceptionalCharacteristics)
-        rpgExpandedReject('ancestry-score-limits-unresolved');
-    local changes = [0,0,0,0,0,0,0,0,0,0]; local origins = [];
+    if (rules == nil || !rules.ofKind(RpgExpandedRules)) rpgExpandedReject('profile-or-rules');
+    local changes = [0,0,0,0,0,0,0,0,0,0]; local origins = []; local nonhuman = nil;
     foreach (local ancestry in ancestries)
     {
         if (ancestry == nil || !ancestry.ofKind(RpgExpandedAncestryScoreTemplate))
             rpgExpandedReject('ancestry-score-definition');
-        ancestry.validate(); if (holds(origins,ancestry.id)) rpgExpandedReject('duplicate-ancestry-score');
+        ancestry.validate(); if (ancestry.nonhuman) nonhuman = true;
+        if (holds(origins,ancestry.id)) rpgExpandedReject('duplicate-ancestry-score');
         origins = origins + [ancestry.id]; local values = ancestry.changes(); local combined = [];
         for (local i = 1; i <= 10; i += 1)
         {
@@ -575,6 +585,7 @@ rpgExpandedCreateAncestryCharacter(personal, ancestries, rules)
     local p = personal.create(rules);
     if (p.ancestryScores != nil || p.creationComplete) rpgExpandedReject('ancestry-existing-character');
     local receipt = new RpgExpandedAncestryScores(); receipt.owner = p;
+    receipt.nonhuman = nonhuman; receipt.boundNonhuman = nonhuman;
     receipt.origins = origins; receipt.boundOrigins = origins;
     receipt.changes = changes; receipt.boundChanges = changes; p.ancestryScores = receipt;
     p.st += changes[1]; p.dx += changes[2]; p.iq += changes[3]; p.ht += changes[4];

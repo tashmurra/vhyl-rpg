@@ -407,12 +407,19 @@ while retaining the original ancestry deltas. Changing the owned origins or
 deltas causes a binding rejection; changing ancestry requires a future explicit
 transformation interface.
 
-This first score implementation requires `rules.exceptionalCharacteristics`.
-It rejects ordinary characteristic-limit campaigns as
-`ancestry-score-limits-unresolved` until personal-versus-ancestry limits have a
-complete implementation. The personal template must also validate on its own
-before ancestry is applied; use an appropriate author-approved budget. The final
-profile is validated again at the resulting budget. Traits, ancestry skills,
+An ancestry score template can explicitly declare `nonhuman = true`. An approved
+nonhuman package exempts the completed character from the ordinary HP/FP, Basic
+Speed and Basic Move adjustment limits (B16-B17). It does not exempt Will or
+Perception from their limits. Those still require the campaign's explicit
+`exceptionalCharacteristics` permission. Human packages and the empty baseline
+retain ordinary limits. The owned ancestry receipt binds this classification
+alongside its score origins.
+
+The personal template must still validate on its own before ancestry is applied;
+use an appropriate author-approved budget and permitted personal purchases. A
+personal template that only becomes legal through nonhuman physical exemptions
+cannot yet be constructed through this factory. The final profile is validated
+again at the resulting budget. Traits, ancestry skills,
 size-based pricing modifiers, mandatory components, omissions and transformations
 remain unfinished. Occupational composition rejects ancestry-bearing profiles
 rather than losing their origin accounting.
@@ -422,3 +429,9 @@ printed secondary-score examples, separate personal/ancestry negative costs,
 additive packages, zero baseline, a negative package with zero personal negative
 allowance, personal advancement, binding rejection, undo and save continuation.
 These assertions remain unrun while checks are paused.
+
+The ancestry fixture additionally specifies nonhuman physical exemptions under
+ordinary campaign rules, rejection of the same human package, retained Will and
+Perception limits, and rejection of edited receipt classification. Assertions
+remain unrun. This is a character-rule distinction, not an automatic inference
+from size, appearance or a package's name.

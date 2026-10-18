@@ -11,6 +11,9 @@ ancestrySplit: RpgExpandedAncestryScoreTemplate
     id = 'large-body' stChange = 10 iqChange = -1 approved = true evidence = 'Approved score package';
 ancestrySmall: RpgExpandedAncestryScoreTemplate
     id = 'small-body' stChange = -1 approved = true evidence = 'Approved score package';
+ancestryPhysical: RpgExpandedAncestryScoreTemplate
+    id = 'nonhuman-body' hpChange = 10 fpChange = 10 speedQuarterChange = 12 moveChange = 4
+    nonhuman = true approved = true evidence = 'Approved nonhuman physiology';
 ancestryPlain: RpgExpandedTemplate pointBudget = 1000 disadvantageLimit = 0;
 ancestryState: object profile = nil;
 ancestryOffer: RpgDevelopment
@@ -58,10 +61,21 @@ modify BleedTestAction
             local value = rpgDevelop(ancestryOffer); event('test.ancestry-growth');
             eventValue(value.status); eventValue(value.points); eventValue(p.unspentPoints); return nil;
         }
+        if (code >= 5914 && code <= 5917)
+        {
+            bleedRules.exceptionalCharacteristics = nil;
+            if (code == 5915) ancestryPhysical.nonhuman = nil;
+            if (code == 5916) ancestryPhysical.willChange = 11;
+            if (code == 5917) ancestryPhysical.perceptionChange = -5;
+            event('test.ancestry-score-error');
+            try { ancestryState.profile = rpgExpandedCreateAncestryCharacter(ancestryPlain,[ancestryPhysical],bleedRules); eventValue('accepted'); }
+            catch (RpgExpandedError error) { eventValue(error.reason); } return nil;
+        }
+        if (code == 5918) { ancestryState.profile.ancestryScores.nonhuman = nil; return nil; }
         if (code == 5910)
         {
             bleedRules.exceptionalCharacteristics = nil; event('test.ancestry-score-error');
-            try { rpgExpandedCreateAncestryCharacter(ancestryPlain,[ancestrySmall],bleedRules); eventValue('accepted'); }
+            try { ancestryState.profile = rpgExpandedCreateAncestryCharacter(ancestryPlain,[ancestrySmall],bleedRules); eventValue('accepted'); }
             catch (RpgExpandedError error) { eventValue(error.reason); } return nil;
         }
         return inherited(context);
