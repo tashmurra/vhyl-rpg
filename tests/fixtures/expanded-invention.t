@@ -98,11 +98,30 @@ rapidStart: RpgExpandedRapidPrototypeStart id = 'rapid-build' project = conceptP
     components = rapidPurchase approved = true evidence = 'Build from acquired components';
 rapidWork: RpgExpandedPrototypeWork id = 'rapid-work' attempt = rapidStart seconds = 1800
     approved = true uninterrupted = true evidence = 'Uninterrupted rapid construction';
+rapidMaterials: RpgExpandedRapidMaterialSettlement attempt = rapidStart;
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 360)
+        {
+            if (code == 360 || code == 364 || code == 365 || code == 366)
+            {
+                conceptProject.proposal = rapidProposal; conceptUser.campaignTL = 8;
+                conceptUser.traits = [cinematicCapability]; cinematicCapability.tier = 'rapid';
+                cinematicPermission.mode = 'rapid'; conceptRules.cinematicInvention = true; conceptRules.rapidInvention = true;
+                conceptBlueprint.apply(); rapidPurchase.acquire(); rapidStart.begin();
+                if (code != 366) rapidWork.apply();
+                rapidMaterials.outcome = rpgExpandedCinematicPrototypeOutcome(13,code == 364 ? 17 : code == 365 ? 14 : 10,nil,[]);
+                return nil;
+            }
+            if (code == 367) rapidParts.storageLocation = 'store';
+            if (code == 369) rapidMaterials.outcome.working = nil;
+            local value = code == 363 ? rapidMaterials.assess() : rapidMaterials.apply();
+            event('test.rapid-materials'); eventValue(value.status); eventValue(value.reason); eventValue(value.disposition);
+            if (code == 362) throw new RpgError(); return nil;
+        }
         if (code >= 340)
         {
             if (code == 340 || code == 345)
@@ -567,6 +586,13 @@ act(verb,args)
         event('test.facilities-state'); eventValue(conceptUser.money); eventValue(conceptProject.facilityFunding.length());
         eventValue(conceptProject.facilities == nil ? nil : conceptProject.facilities.destroyed ? 'destroyed' : 'available');
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2138) { conceptInput.code = 360 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2139)
+    {
+        event('test.rapid-material-state'); eventValue(conceptUser.money); eventValue(conceptUser.equipment.length());
+        eventValue(rapidParts.rapidComponentSpent); eventValue(rapidParts.rapidPrototypeReservation == nil ? 0 : 1);
+        eventValue(rapidStart.materialSettlement == nil ? 0 : 1); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     if (verb == 2136) { conceptInput.code = 340 + args[1]; return vhylAct(2097,args); }
     if (verb == 2137)

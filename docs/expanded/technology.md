@@ -1497,3 +1497,31 @@ and critical-failure destruction are the next integration step.
 reservation conflicts, access withdrawal, permission changes, replay, retargeting,
 work interruption and elapsed construction time. Fixtures remain unrun.
 Source: `full-2008`, B476.
+
+## Settling rapid prototype materials
+
+`RpgExpandedRapidMaterialSettlement` applies the material consequence of a supplied
+secret prototype `outcome` to a fully worked `RpgExpandedRapidPrototypeStart`.
+It requires the original acquired bundle to remain owned, accessible and reserved.
+A working result incorporates the bundle into the prototype; a critical failure
+ruins it; an ordinary failure retains it for further work. Incorporation is the
+inventory accounting representation of turning those components into the device.
+
+Execute settlement within the completion action's transaction. Incorporation and
+ruin remove the bundle from the shared inventory and mark `rapidComponentSpent`;
+retention leaves it there. Each path releases the reservation and records one
+`materialSettlement` on the attempt. Replay does not remove or release anything
+again. A spent bundle cannot be reserved for another rapid start even if authored
+code later puts the object back into inventory. No currency or randomness is
+consumed by settlement itself.
+
+This is a material subprocedure, not automatic completion. It does not grant a
+finished device, close the attempt, or resolve injuries. B477 explicitly specifies
+part loss on a rapid critical failure; the available navigation record does not
+clarify whether the ordinary accident consequences of B474 also apply. That
+interaction remains unresolved and must not be silently inferred from this
+material receipt. Automatic rapid completion remains blocked.
+
+`test_rapid_materials` authors incorporation, ruin, retention, incomplete-work
+rejection, unavailable components, preview, rollback, undo and replay. Fixtures
+remain unrun. Sources: `full-2008`, B474 and B476–B477.

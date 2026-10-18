@@ -3236,6 +3236,7 @@ class RpgExpandedRapidPrototypeStart: RpgExpandedPrototypeStart
             rpgExpandedReject('rapid-prototype-components');
         self.components.assess();
         local item = self.components.item;
+        if (item.rapidComponentSpent != nil) return 'rapid-prototype-components-spent';
         if (!holds(self.payer.equipment,item) || !item.usableBy(self.payer)) return 'rapid-prototype-components-unavailable';
         if (item.rapidPrototypeReservation != nil && item.rapidPrototypeReservation != self)
             return 'rapid-prototype-components-reserved';
@@ -3303,5 +3304,70 @@ class RpgExpandedRapidPrototypeStart: RpgExpandedPrototypeStart
         if (self.components.item.rapidPrototypeReservation != self) return 'rapid-prototype-reservation-lost';
         reason = self.participantReason(); if (reason != nil) return reason;
         local quote = self.project.proposal.assess(); return quote.status == 'ready' ? nil : quote.reason;
+    }
+;
+
+modify RpgLiteItem
+    rapidComponentSpent = nil
+;
+modify RpgExpandedRapidPrototypeStart
+    materialSettlement = nil
+;
+class RpgExpandedRapidMaterialResult: RpgExpandedResult
+    disposition = nil
+    item = nil
+;
+
+/** Settle the confirmed material consequence of a supplied secret prototype result. */
+class RpgExpandedRapidMaterialSettlement: object
+    attempt = nil
+    outcome = nil
+    result = nil
+    definitionSnapshot = nil
+    definition()
+    {
+        return [self.attempt,self.outcome,self.outcome.working,self.outcome.check.roll,
+            self.outcome.check.critical,self.outcome.check.achieved];
+    }
+    assess()
+    {
+        if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedRapidPrototypeStart)
+            || self.attempt.result == nil || self.outcome == nil || !self.outcome.ofKind(RpgExpandedPrototypeOutcome)
+            || self.outcome.check == nil || self.outcome.check.status != 'resolved')
+            rpgExpandedReject('rapid-material-definition');
+        self.attempt.assess(); local value = new RpgExpandedRapidMaterialResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.definitionSnapshot == nil || current.length() != self.definitionSnapshot.length())
+                rpgExpandedReject('rapid-material-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('rapid-material-binding');
+            if (self.attempt.materialSettlement != self) rpgExpandedReject('rapid-material-history');
+            value.status = 'reused'; value.disposition = self.result.disposition; value.item = self.result.item; return value;
+        }
+        if (self.attempt.materialSettlement != nil) { value.reason = 'rapid-material-already-settled'; return value; }
+        value.reason = self.attempt.workReason(); if (value.reason != nil) return value;
+        if (self.attempt.workedSeconds != self.attempt.result.seconds)
+        { value.reason = 'prototype-work-incomplete'; return value; }
+        if (self.outcome.working && !self.outcome.check.achieved) rpgExpandedReject('rapid-material-outcome');
+        value.item = self.attempt.components.item;
+        value.disposition = self.outcome.check.critical == 'failure' ? 'ruined' : self.outcome.working ? 'incorporated' : 'retained';
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (value.disposition != 'retained')
+        {
+            local inventory = [];
+            foreach (local item in self.attempt.payer.equipment)
+                if (item != value.item) inventory = inventory + [item];
+            self.attempt.payer.equipment = inventory;
+            value.item.rapidComponentSpent = value.disposition; value.item.ready = nil; value.item.worn = nil;
+        }
+        value.item.rapidPrototypeReservation = nil;
+        self.attempt.materialSettlement = self; self.definitionSnapshot = self.definition();
+        value.status = 'resolved'; self.result = value; return value;
     }
 ;

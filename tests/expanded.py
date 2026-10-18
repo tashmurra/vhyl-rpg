@@ -1292,6 +1292,45 @@ def test_rapid_starts(Session,bundle):
             s.close()
 
 
+def rapid_material_state(s):
+    s.action(2139)
+    return last(s,'test.rapid-material-state')
+
+
+def test_rapid_materials(Session,bundle):
+    for setup,disposition,remaining in [(0,'incorporated',0),(4,'ruined',0),(5,'retained',1)]:
+        s = Session(bundle)
+        try:
+            s.action(2138,setup)
+            initial = [998990,1,None,1,0,1,1800]
+            for code in [3,2]:
+                s.action(2138,code)
+                assert rapid_material_state(s) == initial
+            s.action(2138,7)
+            assert last(s,'test.rapid-materials')[:2] == ['blocked','rapid-prototype-components-unavailable']
+            s.command('undo')
+            s.action(2138,1)
+            assert last(s,'test.rapid-materials') == ['resolved',None,disposition]
+            settled = [998990,remaining,None if remaining else disposition,0,1,1,1800]
+            assert rapid_material_state(s) == settled
+            s.command('undo')
+            assert rapid_material_state(s) == initial
+            s.action(2138,1)
+            s.action(2138,1)
+            assert last(s,'test.rapid-materials') == ['reused',None,disposition]
+            assert rapid_material_state(s) == settled
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2138,6)
+        s.action(2138,1)
+        assert last(s,'test.rapid-materials')[:2] == ['blocked','prototype-work-incomplete']
+        assert rapid_material_state(s) == [998990,1,None,1,0,1,0]
+    finally:
+        s.close()
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -7103,6 +7142,7 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    test_rapid_materials(Session,invention)
     test_rapid_starts(Session,invention)
     fresh(Session,invention,test_rapid_salvage)
     fresh(Session,invention,test_rapid_salvage_failed_search)

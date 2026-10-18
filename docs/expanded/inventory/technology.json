@@ -736,9 +736,10 @@
       "status": "partial",
       "acceptance": "When parts must be bought, calculate cinematic facility and prototype costs then divide by one hundred. Critical prototype failure ruins parts and requires replacement before resuming.",
       "tests": [
-        "tests/expanded.py::test_rapid_purchases"
+        "tests/expanded.py::test_rapid_purchases",
+        "tests/expanded.py::test_rapid_materials"
       ],
-      "validation_note": "Owned purchases use shared inventory/currency with one setup payment, divided cinematic prices, binding and replay; fixtures unrun. Construction consumption, critical-failure destruction and fractional currency remain unresolved."
+      "validation_note": "Owned purchases and confirmed material settlement authored with shared inventory/currency. Fixtures unrun. Automatic completion, fractional currency and interaction of rapid part loss with ordinary accident consequences remain unresolved."
     },
     {
       "id": "technology-analyze-device",
@@ -1645,7 +1646,7 @@
         "tests/expanded.py::test_cinematic_invention_assessments",
         "tests/expanded.py::test_rapid_starts"
       ],
-      "validation_note": "Owned rapid starts reserve purchased or salvaged inventory bundles; common work receipts advance the rolled duration. Fixtures unrun. Completion, part consumption, destruction and team timing remain pending."
+      "validation_note": "Owned rapid starts and work receipts use acquired inventory bundles. Material settlement exists separately; fixtures unrun. Automatic completion, accident-policy interaction and team timing remain pending."
     }
   ]
 }
