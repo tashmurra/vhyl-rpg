@@ -1926,3 +1926,24 @@ undo, save continuation, the ten-times boundary and conflicting time drivers.
 Fixtures remain unrun. Packing transfers can authorize this state through their `overload` field; see
 [overloaded back loads](equipment.md#authorizing-an-overloaded-back-load). Travel
 integration remains pending.
+
+
+## Caravan pace in hiking assessments
+
+Set `RpgExpandedHikingConditions.packTrain` to an approved
+`RpgExpandedPackTrain` to apply full-2008 B212's expertise modifier to the existing
+B351 hiking pace. The result exposes `packingPercent`: 100 with an available
+packer at skill 15 or above, otherwise 80. The percentage combines with terrain,
+weather, enhanced movement and daily hiking success before the final rounding to
+hundredths of a mile. An absent pack train preserves the existing calculation.
+
+Both shared-roll and independent-roll daily hiking parties call this calculation.
+Pace assessment reuses their daily roll and spends no further time or fatigue.
+The roster and route suitability remain authored facts; include animals' limiting
+pace when establishing the caravan's normal pace. This adapter does not assign
+animals a hiking skill or create a separate daily-roll entitlement.
+
+`test_packing_pace` specifies the skill 14/15 threshold, ordinary and successful
+hiking, a weather case sensitive to rounding order, missing participation facts
+and daily receipt reuse. Fixtures remain unrun. Committed caravan movement,
+fatigue across all participants and encounter boundaries remain pending.

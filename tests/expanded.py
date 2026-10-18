@@ -9450,6 +9450,8 @@ def test(build):
     test_packing_overload(Session,packing_overload,build.out)
     packing_active_overload = build.build("expanded-packing-active-overload",ROOT / "tests/fixtures/expanded-packing-active-overload.t")
     test_packing_active_overload(Session,packing_active_overload,build.out)
+    packing_pace = build.build("expanded-packing-pace",ROOT / "tests/fixtures/expanded-packing-pace.t")
+    test_packing_pace(Session,packing_pace)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24894,5 +24896,36 @@ def test_packing_active_overload(Session, bundle, out):
             s.action(1680,code)
         assert last(s,'test.active-load') == ['blocked','overload-capacity']
         assert last(s,'test.active-load-state') == [0,0,1,1,1]
+    finally:
+        s.close()
+
+
+def test_packing_pace(Session, bundle):
+    """B212 caravan percentage combines with B351 before rounding; unrun."""
+    for setup, percent, miles in (((),80,4000),((23401,),100,5000),((22401,),100,5000),
+                                  ((22401,22402),80,4000),((23402,),80,4800),
+                                  ((23403,),80,23)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,23400):
+                s.action(1680,code)
+            assert last(s,'test.pack-pace') == ['ready',None,percent,miles,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,23404); s.action(1680,23400)
+        assert last(s,'test.pack-pace') == ['blocked','pack-train-participation-required',100,0,0,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,23405); s.action(1680,23406)
+        packed = last(s,'test.pack-daily')
+        s.action(1680,23401); s.action(1680,23406)
+        ordinary = last(s,'test.pack-daily')
+        assert packed[0] == 80 and ordinary[0] == 100
+        assert packed[1] * 5 == ordinary[1] * 4
+        assert packed[2:] == ordinary[2:] == [3,0]
     finally:
         s.close()

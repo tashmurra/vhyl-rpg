@@ -1421,6 +1421,7 @@ class RpgExpandedLandingAttempt: RpgExpandedLandingReceipt
 /** B351 daily marching conditions. A homogeneous route segment is an authored
  * fact. Assessment does not advance a character or grant time for other work. */
 class RpgExpandedHikingAssessment: RpgExpandedResult
+    packingPercent = 100
     effectiveTerrain = nil
     terrainPercent = 100
     weatherDivisor = 1
@@ -1429,6 +1430,7 @@ class RpgExpandedHikingAssessment: RpgExpandedResult
 ;
 
 class RpgExpandedHikingConditions: object
+    packTrain = nil
     terrain = 'average'
     weather = 'dry'
     road = 'none'
@@ -1475,6 +1477,13 @@ class RpgExpandedHikingConditions: object
         }
         value.terrainPercent = value.effectiveTerrain == 'very-bad' ? 20 : value.effectiveTerrain == 'bad' ? 50
             : value.effectiveTerrain == 'good' ? 125 : 100;
+        if (self.packTrain != nil)
+        {
+            if (!self.packTrain.ofKind(RpgExpandedPackTrain)) rpgExpandedReject('hiking-pack-train');
+            local packing = self.packTrain.assess();
+            if (packing.status != 'ready') { value.reason = packing.reason; return value; }
+            value.packingPercent = packing.speedPercent;
+        }
         value.status = 'ready'; return value;
     }
 ;
@@ -1495,7 +1504,12 @@ rpgExpandedAssessHiking(move, enhancedPercent, succeeded, conditions)
         if (numerator > 2147483647 / factor) rpgExpandedReject('hiking-distance-limit');
         numerator *= factor;
     }
-    value.milesHundredths = numerator / (50 * value.weatherDivisor);
+    if (value.packingPercent == 80)
+    {
+        if (numerator > 2147483647 / 4) rpgExpandedReject('hiking-distance-limit');
+        value.milesHundredths = numerator * 4 / (250 * value.weatherDivisor);
+    }
+    else value.milesHundredths = numerator / (50 * value.weatherDivisor);
     return value;
 }
 
