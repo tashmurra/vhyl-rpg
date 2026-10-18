@@ -4215,3 +4215,68 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+class RpgExpandedHearingDistanceResult: RpgExpandedResult
+    quarterYardsNumerator = nil
+    quarterYardsDenominator = 1
+;
+/** B358 exact table steps; rational quarter-yard distances avoid fractional truncation. */
+rpgExpandedHearingDistance(sound,steps)
+{
+    local sounds = ['rustling','quiet-speech','ordinary-speech','light-traffic','loud-speech','busy-office',
+        'ordinary-traffic','moderate-amplified-music','heavy-traffic','jet-departure',
+        'very-loud-amplified-music','extreme-amplified-sound'];
+    local base = 1; local found = nil;
+    foreach (local name in sounds)
+    {
+        if (sound == name) { found = true; break; }
+        base *= 2;
+    }
+    if (!found) rpgExpandedReject('hearing-sound-category');
+    rpgInteger(steps,-20,19);
+    local value = new RpgExpandedHearingDistanceResult(); value.quarterYardsNumerator = base;
+    if (steps >= 0)
+        for (local index = 0; index < steps; index += 1) value.quarterYardsNumerator *= 2;
+    else
+        for (local index = 0; index < -steps; index += 1) value.quarterYardsDenominator *= 2;
+    value.modifier = -steps; value.status = 'ready'; return value;
+}
+/** Ordinary audible sound detection; not language comprehension or a stealth contest. */
+class RpgExpandedHearingContext: RpgLiteContext
+    attribute = rpgPerception
+    kind = 'hearing'
+    someLight = nil
+    sound = nil
+    distanceSteps = 0
+    ambientModifier = 0
+    ordinaryHearingAvailable = nil
+    ordinaryFrequency = nil
+    approved = nil
+    evidence = nil
+    hearingFacts()
+    {
+        if (self.attribute != rpgPerception || self.kind != 'hearing' || self.skill != nil || self.language != nil
+            || self.understandsSpeech || self.darkness != 0 || self.someLight)
+            rpgExpandedReject('hearing-context-definition');
+        rpgExpandedHearingDistance(self.sound,self.distanceSteps); rpgInteger(self.ambientModifier,-100,100);
+        return [self.sound,self.distanceSteps,self.ambientModifier,self.ordinaryHearingAvailable,
+            self.ordinaryFrequency,self.approved,self.evidence,self.modifier];
+    }
+    taskUnavailableReason(profile)
+    {
+        self.hearingFacts();
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'hearing-world-facts-required';
+        if (!self.ordinaryHearingAvailable) return 'hearing-ordinary-sense-unavailable';
+        if (!self.ordinaryFrequency) return 'hearing-special-frequency-required';
+        return nil;
+    }
+    unavailableReason(profile)
+    {
+        local reason = self.taskUnavailableReason(profile); return reason == nil ? inherited(profile) : reason;
+    }
+    skillUseModifier(profile)
+    {
+        if (self.taskUnavailableReason(profile) != nil) return nil;
+        return rpgExpandedHearingDistance(self.sound,self.distanceSteps).modifier + self.ambientModifier;
+    }
+;

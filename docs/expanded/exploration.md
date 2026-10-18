@@ -2118,3 +2118,42 @@ roll on every search.
 matching, failed noticing, applicability, pure preview, rollback, undo and saved
 continuation. Fixtures remain unrun. Automatic geometry, special senses and
 player actions remain pending.
+
+## Ordinary hearing distances
+
+`rpgExpandedHearingDistance(sound, steps)` implements the full-2008 B358 table.
+Zero steps selects the category's zero-penalty distance; each positive step doubles
+that distance and applies −1, while each negative step halves it and grants +1.
+The result retains exact distance as `quarterYardsNumerator /
+quarterYardsDenominator` quarter-yards, with no fractional truncation. Accepted
+steps range from −20 through 19. Intermediate distances require an authored step
+selection; this helper does not invent an interpolation or rounding rule.
+
+| Sound category | Zero-penalty yards |
+| --- | ---: |
+| `rustling` | 0.25 |
+| `quiet-speech` | 0.5 |
+| `ordinary-speech` | 1 |
+| `light-traffic` | 2 |
+| `loud-speech` | 4 |
+| `busy-office` | 8 |
+| `ordinary-traffic` | 16 |
+| `moderate-amplified-music` | 32 |
+| `heavy-traffic` | 64 |
+| `jet-departure` | 128 |
+| `very-loud-amplified-music` | 256 |
+| `extreme-amplified-sound` | 512 |
+
+`RpgExpandedHearingContext` uses Perception with the existing acute-hearing and
+poor-hearing modifiers. Supply `sound`, `distanceSteps`, `ambientModifier`,
+`approved` and concrete `evidence` for distance and ambient conditions. Confirm
+`ordinaryHearingAvailable` and `ordinaryFrequency`; otherwise ordinary detection
+is unavailable. The context rejects speech-comprehension and language fields:
+noticing conversation does not imply understanding it. Darkness does not modify
+this hearing context.
+
+`test_hearing` specifies all twelve independent reference rows, exact nearer
+fractions, ordinary conversation at eight yards (−3), acute/poor hearing, ambient
+conditions and unsupported frequency/capacity. Fixtures remain unrun. Owned
+hearing receipts, discriminating hearing, special frequencies, stealth contests,
+speech comprehension and automatic auditory-capability integration remain pending.

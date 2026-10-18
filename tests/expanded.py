@@ -9516,6 +9516,8 @@ def test(build):
     test_vision(Session,vision,build.out)
     terrain_observation = build.build('expanded-terrain-observation',ROOT / 'tests/fixtures/expanded-terrain-observation.t')
     test_terrain_observation(Session,terrain_observation,build.out)
+    hearing = build.build('expanded-hearing',ROOT / 'tests/fixtures/expanded-hearing.t')
+    test_hearing(Session,hearing)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26466,3 +26468,34 @@ def test_terrain_observation(Session, bundle, out):
             assert state(s) == [0,None,0,3]
         finally:
             s.close()
+
+
+def test_hearing(Session, bundle):
+    """Independent B358 distance rows and ordinary detection modifiers; unrun."""
+    s = Session(bundle)
+    try:
+        for code,quarters in zip(range(27310,27322),(1,2,4,8,16,32,64,128,256,512,1024,2048)):
+            s.action(1680,code)
+            assert last(s,'test.hearing-distance') == [quarters,1,0]
+        s.action(1680,27301); s.action(1680,27312)
+        assert last(s,'test.hearing-distance') == [32,1,-3]  # Eight yards, ordinary speech.
+        s.action(1680,27302); s.action(1680,27310)
+        assert last(s,'test.hearing-distance') == [1,4,2]  # One sixteenth of a yard.
+    finally:
+        s.close()
+    for codes,score in (((),12),((27301,),9),((27302,),14),((27303,),10),
+                        ((27301,27304),11),((27305,),8),((27306,),None),((27307,),None)):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,27300)
+            assert last(s,'test.hearing-score') == [score,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,27308); s.action(1680,27300)
+        assert last(s,'test.hearing-score') == [12,0]
+    finally:
+        s.close()

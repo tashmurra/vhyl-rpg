@@ -146,9 +146,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Hearing includes the acute bonus, +4 discriminating hearing and -4 poor hearing, with authored ambient-noise and source-loudness adjustments.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "senses-hearing-distance",
@@ -156,9 +159,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Each doubling step beyond a sound's listed zero-penalty range imposes -1 and each nearer step grants +1; ordinary conversation at eight yards is -3.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "senses-hearing-stealth",
@@ -216,9 +222,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The rustling sound category has zero range penalty at 0.25 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-quiet-speech",
@@ -226,9 +235,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The quiet-speech sound category has zero range penalty at 0.5 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-ordinary-speech",
@@ -236,9 +248,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The ordinary-speech sound category has zero range penalty at 1 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-light-traffic",
@@ -246,9 +261,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The light-traffic sound category has zero range penalty at 2 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-loud-speech",
@@ -256,9 +274,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The loud-speech sound category has zero range penalty at 4 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-busy-office",
@@ -266,9 +287,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The busy-office sound category has zero range penalty at 8 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-ordinary-traffic",
@@ -276,9 +300,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The ordinary-traffic sound category has zero range penalty at 16 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-moderate-amplified-music",
@@ -286,9 +313,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The moderate-amplified-music sound category has zero range penalty at 32 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-heavy-traffic",
@@ -296,9 +326,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The heavy-traffic sound category has zero range penalty at 64 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-jet-departure",
@@ -306,9 +339,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The jet-departure sound category has zero range penalty at 128 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-very-loud-amplified-music",
@@ -316,9 +352,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The very-loud-amplified-music sound category has zero range penalty at 256 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "hearing-range-extreme-amplified-sound",
@@ -326,9 +365,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The extreme-amplified-sound sound category has zero range penalty at 512 yards; apply doubling-step hearing modifiers around that reference distance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, owned receipts, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "influence-substitution",
