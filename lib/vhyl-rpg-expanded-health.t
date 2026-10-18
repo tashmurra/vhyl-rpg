@@ -2321,6 +2321,7 @@ class RpgExpandedFearStun: object
     boundContext = nil
     boundEvidence = nil
     recoveries = []
+    lastRecoveryStartedAt = nil
     assess()
     {
         if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
@@ -2344,6 +2345,7 @@ class RpgExpandedFearStun: object
         if (profile.dead || profile.unconscious) { value.reason = 'fear-stun-observer-unavailable'; return value; }
         foreach (local prior in profile.fearStunEpisodes)
             if (prior.id == self.id) rpgExpandedReject('fear-stun-duplicate');
+        rpgInteger(rpgLedger.seconds,0,2147483647 - (self.tableTotal == 11 ? 12 : self.tableTotal == 10 ? 6 : 1));
         value.modifier = assessment.modifier; value.status = 'ready'; return value;
     }
     apply()
@@ -2388,6 +2390,8 @@ class RpgExpandedFearStunRecovery: object
     result = nil
     boundId = nil
     boundEpisode = nil
+    startedAt = nil
+    completedAt = nil
     assess()
     {
         if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedFearStun))
@@ -2406,10 +2410,13 @@ class RpgExpandedFearStunRecovery: object
         if (profile.expandedFearStun != self.episode || !profile.mentalStun) rpgExpandedReject('fear-recovery-owner');
         if (profile.dead || profile.unconscious) { value.reason = 'fear-recovery-observer-unavailable'; return value; }
         if (rpgLedger.seconds < self.episode.initialEnd) { value.reason = 'fear-recovery-initial-duration'; return value; }
+        if (self.episode.lastRecoveryStartedAt != nil && rpgLedger.seconds <= self.episode.lastRecoveryStartedAt)
+        { value.reason = 'fear-recovery-already-attempted'; return value; }
         foreach (local prior in self.episode.recoveries)
             if (prior.id == self.id) rpgExpandedReject('fear-recovery-duplicate');
         local score = profile.attributeScore(rpgWill) + self.episode.recoveryModifier;
         if (score < 3 || score > 1000) { value.reason = 'fear-recovery-score-unavailable'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483646);
         value.seconds = 1; value.status = 'ready'; return value;
     }
     apply()
@@ -2418,10 +2425,48 @@ class RpgExpandedFearStunRecovery: object
         local originalId = self.id; local originalEpisode = self.episode;
         local start = rpgLedger.seconds; rpgSpendTime(1);
         if (self.id != originalId || self.episode != originalEpisode || rpgLedger.seconds != start + 1 || self.assess().status != 'ready') rpgExpandedReject('fear-recovery-interrupted');
+        return self.resolve(value,start);
+    }
+    /* The battle scheduler owns the time charge for this explicit turn route. */
+    applyInTurn(battle,fighter)
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (battle == nil || !battle.ofKind(RpgLiteBattle) || battle.current() != fighter
+            || fighter.profile != self.episode.boundProfile || fighter.maneuver != 'nothing')
+            rpgExpandedReject('fear-recovery-turn');
+        value.seconds = 0; return self.resolve(value,rpgLedger.seconds);
+    }
+    resolve(value,start)
+    {
         local profile = self.episode.boundProfile;
         value.check = rpgCheck(profile.attributeScore(rpgWill) + self.episode.recoveryModifier,rpgRandom.roll());
         if (value.check.achieved) self.episode.finish();
         self.boundId = self.id; self.boundEpisode = self.episode;
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.episode.lastRecoveryStartedAt = start;
         self.episode.recoveries = self.episode.recoveries + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+/** One authored Do Nothing turn, using the shared health gate and battle clock. */
+class RpgExpandedFearRecoveryManeuver: RpgExpandedHealthManeuver
+    battle = nil
+    recovery = nil
+    available(fighter)
+    {
+        if (self.kind != 'nothing' || self.movement != 0 || self.battle == nil
+            || !self.battle.ofKind(RpgLiteBattle) || self.battle.current() != fighter
+            || self.recovery == nil || !self.recovery.ofKind(RpgExpandedFearStunRecovery))
+            rpgExpandedReject('fear-recovery-maneuver');
+        if (self.recovery.result != nil) return 'fear-recovery-maneuver-used';
+        local value = self.recovery.assess();
+        if (value.status != 'ready') return value.reason;
+        if (self.recovery.episode.boundProfile != fighter.profile) rpgExpandedReject('fear-recovery-profile');
+        return nil;
+    }
+    apply(fighter,result)
+    {
+        local value = self.recovery.applyInTurn(self.battle,fighter);
+        if (value.status != 'resolved') rpgExpandedReject('fear-recovery-turn-changed');
+        return nil;
     }
 ;

@@ -1750,6 +1750,44 @@ def test_fear_stun_persistence(Session,bundle,out):
     finally: second.close()
 
 
+def test_fear_combat(Session,bundle):
+    def state(s):
+        s.action(2253)
+        return last(s,'test.fear-combat-state')
+    for failed in [False,True]:
+        s = Session(bundle)
+        try:
+            s.action(2252,0)
+            assert state(s) == [1,0,1,0,0,0]
+            s.action(2252,3)
+            assert last(s,'test.fear-combat') == ['blocked','fear-recovery-initial-duration']
+            assert state(s) == [1,0,1,0,0,0]
+            s.action(2252,1)
+            s.action(2252,2)
+            assert state(s) == [1,0,1,1,1,0]
+            if failed: s.action(2252,7)
+            s.action(2252,4)
+            s.action(2252,5)
+            assert state(s) == [1,0,1,1,1,0]
+            s.action(2252,3)
+            expected = [int(failed),1,2,1,1,3]
+            assert state(s) == expected
+            s.command('undo')
+            assert state(s) == [1,0,1,1,1,0]
+            s.action(2252,3)
+            assert state(s) == expected
+            if failed:
+                s.action(2252,8)
+                assert last(s,'test.fear-extra') == ['blocked','fear-recovery-already-attempted']
+                assert state(s) == expected
+            s.action(2252,2)
+            assert state(s) == [int(failed),1,1,2,2,3]
+            s.action(2252,3)
+            assert last(s,'test.fear-combat') == ['blocked','fear-recovery-maneuver-used']
+            assert state(s) == [int(failed),1,1,2,2,3]
+        finally: s.close()
+
+
 def test_fear_context(s):
     for code,a,b,modifier,score in [
             (0,0,0,0,10),(1,0,0,6,13),(2,0,0,2,12),(3,0,0,0,10),
@@ -8325,6 +8363,8 @@ def test(build):
     test_fear_stun(Session,fear)
     test_fear_stun_modifiers(Session,fear)
     test_fear_stun_persistence(Session,fear,build.out)
+    fear_combat = build.build('expanded-fear-combat',ROOT / 'tests/fixtures/expanded-fear-combat.t')
+    test_fear_combat(Session,fear_combat)
     fresh(Session,health,test_fear_assessments)
     fresh(Session,health,test_fear_context)
     fresh(Session,health,test_scaled_injury_shock)

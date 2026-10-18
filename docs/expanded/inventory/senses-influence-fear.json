@@ -535,9 +535,10 @@
       "tests": [
         "tests/expanded.py::test_fear_stun",
         "tests/expanded.py::test_fear_stun_modifiers",
-        "tests/expanded.py::test_fear_stun_persistence"
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
     },
     {
       "id": "fear-modifier-fear-traits",
@@ -915,9 +916,10 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_stun",
         "tests/expanded.py::test_fear_stun_modifiers",
-        "tests/expanded.py::test_fear_stun_persistence"
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
     },
     {
       "id": "fear-outcome-6-7",
@@ -931,9 +933,10 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_stun",
         "tests/expanded.py::test_fear_stun_modifiers",
-        "tests/expanded.py::test_fear_stun_persistence"
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
     },
     {
       "id": "fear-outcome-8-9",
@@ -947,9 +950,10 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_stun",
         "tests/expanded.py::test_fear_stun_modifiers",
-        "tests/expanded.py::test_fear_stun_persistence"
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
     },
     {
       "id": "fear-outcome-10",
@@ -963,9 +967,10 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_stun",
         "tests/expanded.py::test_fear_stun_modifiers",
-        "tests/expanded.py::test_fear_stun_persistence"
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
     },
     {
       "id": "fear-outcome-11",
@@ -979,9 +984,10 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_stun",
         "tests/expanded.py::test_fear_stun_modifiers",
-        "tests/expanded.py::test_fear_stun_persistence"
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11 and timed Will recovery authored, including automatic deadlines, original modifiers and replay receipts. Fixtures cover rollback, undo and cross-process continuation but remain unrun. Full-table event selection, remaining outcomes and combat-turn recovery integration are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
     },
     {
       "id": "fear-outcome-12",

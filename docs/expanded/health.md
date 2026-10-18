@@ -1390,8 +1390,8 @@ attempt returns its receipt without another time charge or roll.
 
 The Lite recovery hook defers while an expanded fear episode owns recovery.
 Completion clears mental stun without clearing an independently acquired
-physical stun. This standalone timed interface still needs a combat-turn
-adapter: do not call it inside an already charged combat turn. Episodes and
+physical stun. Use the combat adapter below inside battle turns instead of
+calling the standalone timed route. Episodes and
 receipts use ordinary persistent game objects and the engine's transaction,
 undo and exact-compiled-game save mechanisms.
 
@@ -1401,3 +1401,26 @@ rollback, original modifier retention, uncapped recovery, undo, failed-attempt
 receipts and cross-process continuation. These fixtures remain unrun while
 checks are paused. Full-table execution, encounter history and fear-triggered
 supernatural reading integration remain incomplete.
+
+
+### Combat recovery
+
+Use `RpgExpandedFearRecoveryManeuver` for a Do Nothing turn after the initial
+stun duration. Bind its `battle`, a fresh `recovery` request for the actor's
+owned episode, and a fresh `RpgExpandedActionGate` as `healthGate`. The gate's
+purpose must be `do-nothing`. Keep movement zero. The battle must have this
+fighter as its current participant; mismatched ownership and reused requests
+are rejected before spending resources.
+
+The maneuver performs the recovery check at the end of that actor's turn.
+`applyInTurn` is the adapter's internal execution route: its receipt has zero
+additional seconds because the battle scheduler advances the shared clock.
+The standalone `apply()` still spends its own second. Both routes record the
+attempt's starting time and prevent another attempt within that same second.
+A fresh request is needed after a failed roll; reusing the old maneuver cannot
+obtain another recovery check or another free turn. During the initial stun
+period use an ordinary Do Nothing maneuver; no recovery roll is yet eligible.
+
+`test_fear_combat` specifies initial-duration rejection, health-gate integration,
+no duplicate time charge, successful and failed recovery, same-second rejection,
+preview purity, exception rollback, undo and replay rejection. It remains unrun.

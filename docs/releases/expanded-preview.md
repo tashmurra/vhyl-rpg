@@ -99,5 +99,6 @@ profiles, mounts and swarms remain incomplete.
 Fear support includes pure full-table consequence specifications and scene
 modifiers, plus owned execution of the short-stun outcomes on B360. Automatic
 recovery and subsequent Will attempts share the time ledger; replay does not
-charge twice. Complete fear-event execution and combat-turn integration remain
-unfinished. Persistence, rollback and recovery fixtures are authored and unrun.
+charge twice. A Do Nothing combat adapter uses the existing battle clock and
+shared health gate. Complete fear-event execution remains unfinished. Persistence,
+rollback and recovery fixtures are authored and unrun.
