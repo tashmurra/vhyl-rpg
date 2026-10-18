@@ -953,8 +953,8 @@ used by lie detection and body reading, and an untrained applied intermediary
 cannot create a default chain. Existing authored skill definitions retain their
 previous behavior.
 
-Behavior prediction still needs an owned result operation; situational modifiers
-use the context below. `test_psychology_skill` specifies the one-way
+Individual inference uses the owned assessment documented in the social guide;
+situational modifiers use the context below. `test_psychology_skill` specifies the one-way
 discipline default, attribute fallback, social-inference default eligibility and
 campaign-approval rejection. Fixtures remain unrun while checks are paused.
 
@@ -977,7 +977,6 @@ Callousness is read from the profile, so authors should not repeat that penalty
 in `modifier`. Keep other justified situational adjustments there.
 
 The context computes and rolls competence through existing skill interfaces.
-It does not choose a character's behavior, grant knowledge or resolve treatment. An owned prediction operation and authored fictional
-findings remain separate work. `test_psychology_context` covers each printed
+It does not choose a character's behavior, grant knowledge or resolve treatment. The social library supplies the owned assessment operation for authored findings. `test_psychology_context` covers each printed
 modifier, combinations, active callousness, its exception and inapplicable empathy
 or discipline rejection. Fixtures remain unrun while checks are paused.

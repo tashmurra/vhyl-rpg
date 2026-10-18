@@ -9402,6 +9402,8 @@ def test(build):
     test_psychology_skill(Session, psychology_skill)
     psychology_context = build.build("expanded-psychology-context",ROOT / "tests/fixtures/expanded-psychology-context.t")
     test_psychology_context(Session, psychology_context)
+    psychology_assessment = build.build("expanded-psychology-assessment",ROOT / "tests/fixtures/expanded-psychology-assessment.t")
+    test_psychology_assessment(Session, psychology_assessment, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23969,5 +23971,38 @@ def test_psychology_context(Session, bundle):
             for code in (*setup,20900):
                 s.action(1680,code)
             assert last(s,'test.psychology-context-error') == [reason]
+        finally:
+            s.close()
+
+
+def test_psychology_assessment(Session, bundle, out):
+    """B216 bounded authored inference preserves outcome and context; unrun."""
+    for failure in (False,True):
+        path = out / f'psychology-assessment-{failure}.zsave'
+        s = Session(bundle)
+        try:
+            if failure:
+                s.action(1680,21003)
+            s.action(1680,21004)
+            assert last(s,'test.psychology-preview') == ['ready',17,None]
+            s.action(1680,21001); s.action(1680,21002)
+            assert last(s,'test.psychology-history') == [0,0,0]
+            s.action(1680,21000)
+            assert last(s,'test.psychology-finding') == ['resolved',None if failure else 'The traveler is likely to leave when the crowd arrives']
+            s.command('undo'); s.action(1680,21002)
+            assert last(s,'test.psychology-history') == [0,0,0]
+            for code in (21000,21000,21002):
+                s.action(1680,code)
+            assert last(s,'test.psychology-history') == [1,3,0]
+            s.command(f':save {path}')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@1681')
+            s.action(1680,21000); s.action(1680,21002)
+            assert last(s,'test.psychology-history') == [1,3,0]
+            s.action(1680,21005)
+            assert last(s,'test.psychology-binding') == ['psychology-assessment-binding']
         finally:
             s.close()

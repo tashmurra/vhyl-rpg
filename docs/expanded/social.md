@@ -1575,3 +1575,30 @@ library depends only on the foundation's receipt contract.
 `test_body_physiology` covers success/failure, the biology alternative, operation
 binding, replay, rollback, undo and separate-process continuation. Fixtures
 remain unrun. Surgical operations also accept this receipt interface; other medical adapters remain pending.
+
+
+## Owned psychology assessments
+
+`RpgExpandedPsychologyAssessment` resolves one authored inference for an individual
+in a particular situation (full-2008 B216). Supply a unique `id`, observer
+`profile`, a `RpgExpandedPsychologyContext`, a stable `situation` object, `approved`,
+concrete `evidence`, and the bounded `finding` a successful roll can reveal.
+The context records the subject, species, purpose and applicable modifiers.
+Include skills for that context and its typed psychology definition.
+
+`assess()` is pure and does not disclose the finding. `resolve()` checks the
+observer's skill once, returns the finding on success and no conclusion on failure,
+and retains the outcome in `profile.psychologyAssessments`. Replay binds the
+original facts and result. Another request cannot reroll the same subject,
+situation and purpose for that observer. New circumstances require a new authored
+situation. Profile validation checks history ownership and duplicate attempts.
+
+The author decides what prediction or finding the available evidence supports.
+A success is not mind-reading and does not force the subject to act as predicted.
+The operation neither broadcasts the result nor alters another character's beliefs,
+health or decisions. It has no automatic time charge; authors account for any
+interview, observation or travel separately. Small-group prediction and explicit
+knowledge delivery still need their own integration.
+
+`test_psychology_assessment` covers success/failure, pure preview, changed context,
+rollback, undo, replay and cross-process save continuation. Fixtures remain unrun.

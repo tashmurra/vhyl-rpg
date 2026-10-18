@@ -3262,3 +3262,83 @@ class RpgExpandedNatureDisclosure: object
     }
 ;
 
+
+/** B216 authored inference for one subject in one situation. */
+class RpgExpandedPsychologyResult: RpgExpandedResult
+    finding = nil
+    score = nil
+;
+class RpgExpandedPsychologyAssessment: object
+    id = nil
+    profile = nil
+    context = nil
+    situation = nil
+    finding = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    boundFinding = nil
+    boundSucceeded = nil
+    definition()
+    { return [self.id,self.profile,self.context,self.situation,self.finding,self.approved,self.evidence] + self.context.psychologyFacts(); }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || !holds(self.profile.psychologyAssessments,self))
+            rpgExpandedReject('psychology-assessment-history');
+        local facts = self.definition();
+        if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('psychology-assessment-binding');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('psychology-assessment-binding');
+        if (self.result.finding != self.boundFinding || self.result.check == nil || self.result.check.achieved != self.boundSucceeded)
+            rpgExpandedReject('psychology-assessment-result-binding');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedPsychologyResult();
+        if (self.result != nil)
+        { self.validateReceipt(); value.status = 'reused'; value.check = self.result.check; value.finding = self.result.finding; return value; }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.context == nil || !self.context.ofKind(RpgLiteContext) || self.situation == nil)
+            rpgExpandedReject('psychology-assessment-definition');
+        self.context.psychologyFacts();
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.finding == nil || self.finding == '')
+        { value.reason = 'psychology-assessment-finding-required'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.stunned)
+        { value.reason = 'psychology-assessment-observer-unavailable'; return value; }
+        foreach (local prior in self.profile.psychologyAssessments)
+            if (prior.id == self.id || prior.situation == self.situation && prior.context.subject == self.context.subject
+                && prior.context.purpose == self.context.purpose) rpgExpandedReject('psychology-assessment-repeat');
+        local reason = self.context.unavailableReason(self.profile);
+        if (reason != nil) { value.reason = reason; return value; }
+        value.score = rpgLiteScore(self.profile,self.context);
+        if (value.score == nil || value.score < 3) { value.reason = 'psychology-assessment-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.profile,self.context);
+        if (value.check.achieved) value.finding = self.finding;
+        self.boundDefinition = self.definition(); self.boundFinding = value.finding; self.boundSucceeded = value.check.achieved;
+        self.result = value; value.status = 'resolved'; self.profile.psychologyAssessments = self.profile.psychologyAssessments + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    psychologyAssessments = []
+    validateFeatures()
+    {
+        inherited(); local seen = [];
+        foreach (local assessment in self.psychologyAssessments)
+        {
+            if (assessment == nil || !assessment.ofKind(RpgExpandedPsychologyAssessment) || assessment.profile != self)
+                rpgExpandedReject('psychology-assessment-history');
+            foreach (local prior in seen)
+                if (prior.id == assessment.id || prior.situation == assessment.situation && prior.context.subject == assessment.context.subject
+                    && prior.context.purpose == assessment.context.purpose) rpgExpandedReject('psychology-assessment-history');
+            assessment.validateReceipt(); seen = seen + [assessment];
+        }
+        return nil;
+    }
+;

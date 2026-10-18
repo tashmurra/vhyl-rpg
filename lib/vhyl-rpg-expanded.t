@@ -803,3 +803,7 @@ class RpgExpandedNatureReceipt: object
     disclosure = nil
     validateReceipt() { rpgExpandedReject('nature-observation-exploration-required'); }
 ;
+
+modify RpgLiteContext
+    psychologyFacts() { rpgExpandedReject('psychology-assessment-skills-required'); }
+;

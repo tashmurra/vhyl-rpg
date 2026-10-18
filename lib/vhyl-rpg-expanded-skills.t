@@ -1779,3 +1779,13 @@ class RpgExpandedPsychologyContext: RpgExpandedSkillContext
             - (profile.callousnessActive() && self.purpose != 'exploit-weakness' ? 3 : 0);
     }
 ;
+
+modify RpgExpandedPsychologyContext
+    psychologyFacts()
+    {
+        self.validatePsychology();
+        return [self.skill,self.subject,self.subjectSpecies,self.purpose,self.knownWell,self.knownPersonalityType,
+            self.subjectPresent,self.empathyModifier,self.approved,self.evidence,self.modifier,
+            self.skill.specialty,self.skill.discipline,self.skill.splitApproved,self.skill.splitEvidence];
+    }
+;
