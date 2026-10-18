@@ -9364,6 +9364,8 @@ def test(build):
     test_diagnosis(Session, diagnosis)
     diagnosis_equipment = build.build("expanded-diagnosis-equipment",ROOT / "tests/fixtures/expanded-diagnosis-equipment.t")
     test_diagnosis_equipment(Session, diagnosis_equipment, build.out)
+    diagnosis_surgery = build.build("expanded-diagnosis-surgery",ROOT / "tests/fixtures/expanded-diagnosis-surgery.t")
+    test_diagnosis_surgery(Session, diagnosis_surgery)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23380,3 +23382,26 @@ def test_diagnosis_equipment(Session, bundle, out):
         assert last(s,'test.diagnosis-state') == [0,0,0,0]
     finally:
         s.close()
+
+
+def test_diagnosis_surgery(Session, bundle):
+    """B223 uses a completed same-case diagnosis, without upgrading a hint; unrun."""
+    for setup, score in (((),5),((19100,),10),((19100,18905),5)):
+        s = Session(bundle)
+        try:
+            s.action(2285,19101)
+            assert last(s,'test.diagnosis-surgery') == ['blocked','surgical-diagnosis-unresolved',None,0,0]
+            for code in setup:
+                s.action(2285,code)
+            for code in (18901,19101):
+                s.action(2285,code)
+            assert last(s,'test.diagnosis-surgery') == ['ready',None,score,0,3]
+        finally:
+            s.close()
+    for mutation, reason in ((19102,'surgical-diagnosis-case-binding'),(19103,'diagnosis-history')):
+        s = Session(bundle)
+        try:
+            s.action(2285,18901); s.action(2285,mutation)
+            assert last(s,'test.diagnosis-surgery-error') == [reason]
+        finally:
+            s.close()

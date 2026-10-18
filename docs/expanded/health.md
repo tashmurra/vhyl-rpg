@@ -3732,8 +3732,8 @@ to this exact case, examiner, patient and `subjectSpecies`. Machines reject.
 `assess()` does not reveal the finding or roll. `apply()` records a result once;
 another request for the same patient and case rejects. No healing, treatment or
 fixed duration is implied. Authors must establish examination access, equipment
-and the technology-limited finding; diagnosis-to-surgery handoff remains incomplete. Live equipment assessment is
-available through the adapter below. `test_diagnosis` specifies obvious and rolled findings,
+and the technology-limited finding; live equipment and same-examiner diagnosis-to-surgery handoffs are available
+through the adapters below. `test_diagnosis` specifies obvious and rolled findings,
 failed checks, postmortem use, modifier arithmetic, replay, rollback and undo.
 Fixtures remain unrun.
 
@@ -3754,3 +3754,19 @@ selected assessment rejects explicitly through the foundation adapter.
 `test_diagnosis_equipment` covers fine-kit scoring, missing/stored tools,
 duplicate modifiers, replay after tool loss, rollback, undo and saved continuation.
 Fixtures remain unrun. Examinations still need authored access and findings.
+
+
+### Carrying a diagnosis into surgery
+
+Set a surgical operation's `diagnosis` to a completed `RpgExpandedDiagnosis`
+and its `diagnosisCaseId` to the same authored clinical case. The patient must
+match and the surgeon must be that case's examiner. A completed finding with
+`findingKind = 'diagnosis'` supplies the diagnosed state; a hint or failed check
+retains the -5 undiagnosed penalty (full-2008 B223). Unresolved cases block.
+
+This derives the prepared score without rewriting `conditions.diagnosed`.
+Operation histories bind the selected case and validate its finding and kind.
+Another examiner's finding requires a consultation adapter and currently blocks;
+a successful hint is never silently promoted to a complete diagnosis.
+`test_diagnosis_surgery` specifies successful, incomplete and failed findings,
+case mismatch and altered-result rejection. Fixtures remain unrun.
