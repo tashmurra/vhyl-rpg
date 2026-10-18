@@ -9016,6 +9016,8 @@ def test(build):
     test_throw_assessment(Session, throw_assessment)
     held_throw = build.build('expanded-held-throw',ROOT / 'tests/fixtures/expanded-held-throw.t')
     test_held_throw(Session, held_throw)
+    catch_assessment = build.build('expanded-catch-assessment',ROOT / 'tests/fixtures/expanded-catch-assessment.t')
+    test_catch_assessment(Session, catch_assessment)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
     test_hiking_attempt(Session, hiking_attempt, build.out)
     hiking_party = build.build('expanded-hiking-party',ROOT / 'tests/fixtures/expanded-hiking-party.t')
@@ -14732,3 +14734,33 @@ def test_held_throw(Session, bundle):
             assert last(s,'test.held-throw') == expected
         finally:
             s.close()
+
+
+def test_catch_assessment(Session, bundle):
+    s = Session(bundle)
+    try:
+        for margin, bonus in ((0,0),(1,0),(2,1),(3,1),(4,2),(5,2),(6,3),(7,3)):
+            for waiting, penalty in ((0,-4),(1,0)):
+                s.action(2292,12,waiting,10+margin,10,1,8)
+                assert last(s,'test.catch-assessment') == ['ready',None,12+penalty+bonus,bonus,penalty,1,1,None,0,0]
+        # The throw succeeded, but the catch can fail independently.
+        s.action(2292,10,0,12,10,1,10)
+        assert last(s,'test.catch-assessment') == ['ready',None,7,1,-4,1,0,None,0,0]
+        # Automatic success at score 3/roll 4 has no positive success margin.
+        s.action(2292,10,1,3,4,1,10)
+        assert last(s,'test.catch-assessment') == ['ready',None,10,0,0,1,1,None,0,0]
+        s.action(2292,10,1,10,11,1,3)
+        assert last(s,'test.catch-assessment') == ['blocked','catch-lob-not-successful',None,0,0,0,0,None,0,0]
+        s.action(2292,10,1,20,17,1,3)
+        assert last(s,'test.catch-assessment')[1] == 'catch-lob-not-successful'
+        s.action(2292,10,1,2,3,1,3)
+        assert last(s,'test.catch-assessment')[1] == 'catch-lob-not-successful'
+        s.action(2292,10,1,12,10,0,3)
+        assert last(s,'test.catch-assessment') == ['blocked','catch-defense-procedure-required',None,0,0,0,0,None,0,0]
+        s.action(2292,6,0,10,10,1,3)
+        assert last(s,'test.catch-assessment') == ['blocked','catch-score-too-low',2,0,-4,0,0,None,0,0]
+        for roll,caught,critical in ((3,1,'success'),(18,0,'failure')):
+            s.action(2292,12,1,10,10,1,roll)
+            assert last(s,'test.catch-assessment') == ['ready',None,12,0,0,1,caught,critical,0,0]
+    finally:
+        s.close()

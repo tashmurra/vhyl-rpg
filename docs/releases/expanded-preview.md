@@ -908,3 +908,8 @@ character training, and validates readiness and owned hand bindings. Temporary
 attack penalties do not incorrectly reduce training-based range bonuses.
 Fixtures are authored but unrun; attack commitment and cinematic prerequisite
 integration remain incomplete.
+
+Deliberate-pass catching now has a pure source-grounded assessment for successful
+lobs, Wait penalties and throw-margin bonuses, with independent catcher results.
+Unsuccessful lobs and thrown attacks cannot use this procedure. Fixtures are
+unrun; owned hand/parry consumption, catches and interception remain incomplete.

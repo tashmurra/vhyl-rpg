@@ -1756,3 +1756,39 @@ class RpgExpandedHeldThrow: object
         return value;
     }
 ;
+
+class RpgExpandedCatchAssessment: RpgExpandedResult
+    throwCheck = nil
+    score = nil
+    throwBonus = 0
+    waitPenalty = 0
+    countsAsParry = nil
+    caught = nil
+;
+/** B355 deliberate pass only. score is DX or the authored suitable sports
+ * score, before the waiting penalty and the thrower's success-margin bonus. */
+rpgExpandedAssessCatch(score, waiting, throwScore, throwRoll, deliberate)
+{
+    rpgInteger(score,-1000,1000); rpgInteger(throwScore,-1000,1000); rpgInteger(throwRoll,3,18);
+    local value = new RpgExpandedCatchAssessment();
+    if (!deliberate) { value.reason = 'catch-defense-procedure-required'; return value; }
+    value.throwCheck = rpgCheck(throwScore,throwRoll);
+    if (!value.throwCheck.achieved) { value.reason = 'catch-lob-not-successful'; return value; }
+    /* An automatic low-roll success with a negative margin supplies no bonus. */
+    value.throwBonus = value.throwCheck.margin > 0 ? value.throwCheck.margin / 2 : 0;
+    value.waitPenalty = waiting ? 0 : -4;
+    value.modifier = value.throwBonus + value.waitPenalty; value.score = score + value.modifier;
+    rpgInteger(value.score,-1000,1000);
+    if (value.score < 3) { value.reason = 'catch-score-too-low'; return value; }
+    value.countsAsParry = true; value.status = 'ready'; return value;
+}
+
+/** Pure interpretation of a supplied catcher roll, not a second thrower roll.
+ * Inventory transfer and parry consumption belong to the owned catch action. */
+rpgExpandedResolveCatch(score, waiting, throwScore, throwRoll, deliberate, catchRoll)
+{
+    local value = rpgExpandedAssessCatch(score,waiting,throwScore,throwRoll,deliberate);
+    if (value.status != 'ready') return value;
+    rpgInteger(catchRoll,3,18); value.check = rpgCheck(value.score,catchRoll);
+    value.caught = value.check.achieved; return value;
+}

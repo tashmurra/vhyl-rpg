@@ -1544,9 +1544,12 @@
       "pages": "B355",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An intentional successful area lob may be caught using dexterity or suitable sport skill, at -4 without waiting and +1 per two full points of thrower success margin; it counts as a parry with the catching hand.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_catch_assessment"
+      ],
+      "validation_note": "Pure deliberate-pass assessment validates the thrower success, applies -4 without Wait and +1 per two full positive margin points, marks the catch as a hand parry, and interprets a separate supplied catcher roll. Automatic throw successes with negative margins do not gain a bonus. Boundary, unsuccessful/hostile lob, independent failure, critical and purity assertions authored, unrun. Owned lob/catch receipts, suitable-sports validation, hand/parry consumption, equipment transfer and critical consequences remain incomplete. Interception remains a distinct thrown-weapon defense procedure."
     },
     {
       "id": "throwing-intercept",

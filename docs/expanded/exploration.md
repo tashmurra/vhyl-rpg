@@ -862,3 +862,29 @@ prerequisites, exhausted-strength throwing, the attack/defense exchange, impact
 and catching remain incomplete. `tests/fixtures/expanded-held-throw.t` contains
 unrun assertions for training/defaults, range bonuses, injury and hand legality,
 readiness, shock, off-hand penalties and repeated preview purity.
+
+## Deliberate-pass catching assessment
+
+`rpgExpandedAssessCatch(score, waiting, throwScore, throwRoll, deliberate)`
+implements the B355 catch calculation for an object intentionally lobbed to the
+catcher. Supply DX or an authored suitable sports score before the waiting and
+throw-margin adjustments. The prior throw must actually succeed. Not taking a
+Wait maneuver applies -4; each two full positive points of thrower success
+margin grants +1. An automatic successful low roll with a negative margin grants
+no bonus. The result exposes `throwCheck`, `throwBonus`, `waitPenalty`, adjusted
+`score`, and `countsAsParry` for the catching hand.
+
+`rpgExpandedResolveCatch(...)` accepts one additional `catchRoll` and returns
+its separate `check` and `caught` result. Both functions are pure: neither rolls
+dice, spends time, consumes a parry nor transfers equipment. A successful lob
+does not guarantee a catch. Failed lobs and non-deliberate throws return blocked
+outcomes before interpreting a catcher roll. Hostile throws require an active
+defense; intercepting a pass intended for someone else requires the distinct
+thrown-weapon parry procedure.
+
+An owned catch action must still validate the prior lob receipt, the selected
+hand, any sports specialization, available parries and ownership transfer. It
+must also settle critical consequences. These integrations remain incomplete;
+`countsAsParry` is an execution obligation, not an already consumed defense.
+`tests/fixtures/expanded-catch-assessment.t` supplies unrun boundary, independent
+outcome, critical-result and preview-purity assertions.
