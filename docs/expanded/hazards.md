@@ -2629,8 +2629,25 @@ skip the next boundary. Set `endEvidence` and call `end()` when the trip ends.
 Ending clears the journey penalty; an already-started retching episode retains
 its own recovery procedure. Replaying a recorded day spends no randomness.
 
-The journey penalty is recorded but is not yet applied to action scores. Live
-boarding/disembarking hooks, partial-day travel interruption and score integration
-remain outstanding. `expanded-motion-journey.t` / `test_motion_journey` specify
+Journey penalties apply through the shared score interface. Live boarding and
+disembarking hooks and partial-day travel interruption remain outstanding. `expanded-motion-journey.t` / `test_motion_journey` specify
 pure assessment, daily replacement, actual vomiting, rollback, undo and saved
 continuation. Fixtures remain unrun.
+
+
+### Motion penalties in checks
+
+Active journeys now contribute `currentPenalty` to DX, IQ and all skill checks,
+including skills based on other attributes. Unrelated raw attribute checks and
+active-defense contexts do not acquire this skill/attribute modifier. Existing
+retching still supplies its own concentration and defense restrictions. When
+the active retching episode belongs to this journey, its existing −5 attribute
+modifier also satisfies the journey's −5 for that same check; it is not charged
+twice. Other independent conditions retain their existing effects.
+
+Ending a journey removes its continuing penalty. Retching that has not finished
+continues under its ordinary recovery procedure. Journey receipts validate the
+current penalty against the latest owned daily result, rejecting edited penalty
+state. `expanded-motion-scores.t` / `test_motion_scores` specify affected and
+unaffected scores, same-cause overlap, journey-end behavior, saved continuation
+and changed-penalty rejection. Fixtures remain unrun while checks are paused.

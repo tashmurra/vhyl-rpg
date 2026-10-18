@@ -6488,6 +6488,12 @@ class RpgExpandedMotionJourney: object
         local facts = self.definition();
         for (local i = 1; i <= facts.length(); i += 1)
             if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('motion-journey-binding');
+        if (self.days.length() == 0) rpgExpandedReject('motion-journey-day-history');
+        local last = self.days[self.days.length()];
+        if (last == nil || !last.ofKind(RpgExpandedMotionDay) || last.journey != self
+            || last.result == nil || last.result.penalty != last.boundPenalty
+            || self.currentPenalty != (self.endedAt == nil ? last.boundPenalty : 0))
+            rpgExpandedReject('motion-journey-penalty-binding');
         if (self.endedAt != nil && self.endEvidence != self.boundEndEvidence)
             rpgExpandedReject('motion-journey-end-binding');
         return nil;
@@ -6507,6 +6513,7 @@ class RpgExpandedMotionDayResult: RpgExpandedSeasicknessResult
 ;
 /** Owns one actual check and its vomiting consequences; preparation is pure. */
 class RpgExpandedMotionDay: object
+    boundPenalty = nil
     journey = nil
     day = 1
     episode = nil
@@ -6588,7 +6595,8 @@ class RpgExpandedMotionDay: object
             j.profile.motionJourneys = j.profile.motionJourneys + [j];
         }
         j.nextCheckAt = rpgLedger.seconds + 86400; j.days = j.days + [self]; j.currentPenalty = value.penalty;
-        self.boundDefinition = self.definition(); self.result = value; value.status = 'resolved'; return value;
+        self.boundDefinition = self.definition(); self.boundPenalty = value.penalty;
+        self.result = value; value.status = 'resolved'; return value;
     }
 ;
 modify rpgLedger
@@ -6602,5 +6610,39 @@ modify rpgLedger
                 if (self.seconds + seconds > j.nextCheckAt) rpgExpandedReject('motion-journey-day-boundary');
             }
         return nil;
+    }
+;
+
+
+modify RpgExpandedProfile
+    activeMotionJourney()
+    {
+        local active = nil;
+        foreach (local journey in self.motionJourneys)
+        {
+            if (journey == nil || !journey.ofKind(RpgExpandedMotionJourney) || journey.profile != self)
+                rpgExpandedReject('motion-journey-profile-history');
+            journey.validateReceipt();
+            if (journey.endedAt == nil)
+            {
+                if (active != nil) rpgExpandedReject('motion-journey-overlapping-history');
+                active = journey;
+            }
+        }
+        return active;
+    }
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context); local journey = self.activeMotionJourney();
+        if (journey == nil || context.kind == 'defense') return value;
+        local attribute = context.controllingAttribute();
+        if (context.skill == nil && !holds([rpgDX,rpgIQ],attribute)) return value;
+        local penalty = journey.currentPenalty;
+        /* The same vomiting cause already imposes -5 through retching on these
+         * attributes. Preserve unrelated condition penalties from inherited(). */
+        if (penalty == -5 && self.retchingEpisode != nil && holds([rpgDX,rpgIQ,rpgPerception],attribute))
+            foreach (local day in journey.days)
+                if (day.result != nil && day.result.retching == self.retchingEpisode) return value;
+        return value + penalty;
     }
 ;

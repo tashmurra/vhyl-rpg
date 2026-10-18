@@ -9308,6 +9308,8 @@ def test(build):
     test_motion_trait(Session, motion_trait)
     motion_journey = build.build("expanded-motion-journey",ROOT / "tests/fixtures/expanded-motion-journey.t")
     test_motion_journey(Session, motion_journey, build.out)
+    motion_scores = build.build("expanded-motion-scores",ROOT / "tests/fixtures/expanded-motion-scores.t")
+    test_motion_scores(Session, motion_scores, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22387,5 +22389,47 @@ def test_motion_journey(Session, bundle, out):
         for code in (16204, 16200, 16200, 16202):
             s.action(1100, code)
         assert last(s, 'test.motion-journey') == [1, -5, 3, 1, 0]
+    finally:
+        s.close()
+
+
+def test_motion_scores(Session, bundle, out):
+    """Journey penalties affect DX/IQ and every skill, without doubling their own retching; unrun."""
+    path = out / 'motion-scores.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1100, 16300)
+        assert last(s, 'test.motion-scores') == [10, 10, 10, 10, 10, 0]
+        for code in (16200, 16300):
+            s.action(1100, code)
+        assert last(s, 'test.motion-scores') == [8, 8, 10, 10, 8, 3]
+        s.command(f':save {path}\n@1101')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1101')
+        s.action(1100, 16300)
+        assert last(s, 'test.motion-scores') == [8, 8, 10, 10, 8, 3]
+        for code in (16205, 16300):
+            s.action(1100, code)
+        assert last(s, 'test.motion-scores') == [10, 10, 10, 10, 10, 3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (16204, 16200, 16300):
+            s.action(1100, code)
+        assert last(s, 'test.motion-scores') == [5, 5, 10, 5, 5, 3]
+        for code in (16205, 16300):
+            s.action(1100, code)
+        assert last(s, 'test.motion-scores') == [5, 5, 10, 5, 10, 3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (16200, 16301):
+            s.action(1100, code)
+        assert last(s, 'test.motion-score-binding') == ['motion-journey-penalty-binding']
     finally:
         s.close()
