@@ -2,7 +2,7 @@
   "schema": 1,
   "scope": "Character/social interim milestone; neither full-reference nor complete per-module coverage is claimed.",
   "inventory_complete": false,
-  "validation": "In progress; authored tests are not evidence of passing execution.",
+  "validation": "Checks paused at user request; current fixes and newly authored cases await execution.",
   "modules": [
     {
       "id": "foundation",
@@ -36,7 +36,9 @@
       "source": "full-2008",
       "pages": "B101-B121",
       "status": "partial",
-      "tests": []
+      "tests": [
+        "tests/character_social.py::test_trait_prices"
+      ]
     },
     {
       "id": "templates",

@@ -137,5 +137,23 @@ act(verb,args)
         catch (RpgError error) { eventValue('rejected'); }
         return nil;
     }
+    if (verb == 1458)
+    {
+        local rules = new RpgExpandedRules(); rules.wildcardSkills = args[1] != 1;
+        local p = new RpgExpandedProfile(); p.rules = rules;
+        local skill = new RpgExpandedSkill(); skill.id = 'wildcard-fixture';
+        skill.wildcard = true; skill.difficulty = args[1] == 2 ? 2 : 3;
+        if (args[1] == 3) skill.defaultPenalty = -6;
+        if (args[1] == 4) skill.defaults = [[fixtureSkill,-2]];
+        local training = new RpgExpandedTraining(); training.skill = skill; training.points = 3;
+        p.skills = [training]; event('test.wildcard-creation');
+        try
+        {
+            rpgExpandedValidateCharacter(p); eventValue('accepted');
+            eventValue(rpgExpandedCharacterCost(p,nil)); eventValue(p.skillScore(skill));
+        }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }

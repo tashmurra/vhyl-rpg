@@ -154,6 +154,12 @@ def test_character_contracts(s):
     for variant in range(1, 7):
         s.action(1457, variant)
         assert last(s, 'test.skill-definition') == ['accepted' if variant == 3 else 'rejected']
+    for variant, expected in [
+            (1, ['wildcard-disabled']), (2, ['wildcard-difficulty']),
+            (3, ['wildcard-default']), (4, ['wildcard-default']),
+            (5, ['accepted', 3, 7])]:
+        s.action(1458, variant)
+        assert last(s, 'test.wildcard-creation') == expected
     assert state(s) == initial
 
 

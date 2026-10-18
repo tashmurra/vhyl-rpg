@@ -223,6 +223,8 @@ modify RpgExpandedProfile
     skillLearningReason(skill)
     {
         rpgExpandedValidateSkill(skill);
+        if (skill.ofKind(RpgExpandedSkill) && skill.wildcard && !self.rules.wildcardSkills)
+            return 'wildcard-disabled';
         if (skill.ofKind(RpgLiteSkill) && skill.techLevel != nil)
         {
             rpgInteger(skill.techLevel, 0, 12); rpgInteger(self.techLevel, 0, 12);
@@ -443,6 +445,12 @@ rpgExpandedValidateSkill(skill)
     rpgInteger(skill.difficulty, 0, skill.maximumDifficulty());
     rpgValidateAttribute(skill.attribute);
     if (skill.defaultPenalty != nil) rpgInteger(skill.defaultPenalty, -100, 0);
+    if (skill.ofKind(RpgExpandedSkill) && skill.wildcard)
+    {
+        if (skill.difficulty != 3) rpgExpandedReject('wildcard-difficulty');
+        if (skill.defaultPenalty != nil || skill.defaults.length() != 0)
+            rpgExpandedReject('wildcard-default');
+    }
     if (!skill.ofKind(RpgExpandedSkill) || skill.optionalParent == nil) return nil;
     local parent = skill.optionalParent;
     if (!parent.ofKind(RpgExpandedSkill) || parent.optionalParent != nil || parent.wildcard)

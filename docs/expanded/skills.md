@@ -10,7 +10,10 @@ rejects cycles and does not treat an unpaid default chain as training.
 `rpgExpandedSkillLevel` and `rpgExpandedSkillCost` expose the point table.
 `profile.skillScore(skill)` combines legal trained and default scores. Optional
 wildcards require `rules.wildcardSkills`; they use the very-hard difficulty and
-triple cost. Wildcard default combinations outside the supported contract reject.
+triple cost. Character validation and learning reject purchased wildcard skills
+when the campaign option is disabled. Definition validation rejects a wildcard
+with any other difficulty or with attribute/skill defaults, including before a
+score is requested.
 
 `RpgExpandedPrerequisite` supports skill, trait, all and any requirements with
 explicit definitions. The learning hooks also reject unsupported technology-level
