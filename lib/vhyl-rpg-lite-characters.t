@@ -10,6 +10,8 @@ class RpgLiteTrait: RpgTrait
     mitigated = nil
     nextCheck = 0
     modifierFor(context) { return 0; }
+    /* Expanded cost hook; Lite callers retain their existing cost function. */
+    creationCost() { return rpgLiteTraitCost(self); }
 ;
 
 /** Independent spoken and written comprehension (0–3); native language receives a six-point allowance. */
@@ -177,18 +179,30 @@ class RpgLiteContext: object
     language = nil
     written = nil
     resistedTrait = nil
+    scoreFor(profile)
+    {
+        return self.skill == nil ? profile.attributeScore(self.attribute)
+            : profile.skillScore(self.skill);
+    }
+    controllingAttribute() { return self.skill == nil ? self.attribute : self.skill.attribute; }
+    skillUseModifier(profile) { return 0; }
+    equipmentUseModifier(profile) { return 0; }
+    unavailableReason(profile) { return 'training-required'; }
     reroll(profile, result) { return nil; }
 ;
 
 /** Calculate effective skill or attribute without consuming randomness; nil means no legal default. */
 rpgLiteScore(profile, context)
 {
-    local score = context.skill == nil ? profile.attributeScore(context.attribute)
-        : profile.skillScore(context.skill);
+    local score = context.scoreFor(profile);
     if (score == nil) return nil;
-    local attribute = context.skill == nil ? context.attribute : context.skill.attribute;
+    local attribute = context.controllingAttribute();
     local skillId = context.skill != nil && context.skill.ofKind(RpgLiteSkill) ? context.skill.id : nil;
-    local adjustment = context.modifier;
+    local useModifier = context.skillUseModifier(profile);
+    if (useModifier == nil) return nil;
+    local equipmentModifier = context.equipmentUseModifier(profile);
+    if (equipmentModifier == nil) return nil;
+    local adjustment = context.modifier + useModifier + equipmentModifier;
     if (context.offHand && profile.level('ambidexterity') == 0 && skillId != 'karate') adjustment -= 4;
     local darkness = context.darkness;
     if (context.someLight) darkness -= profile.level('night-vision');
@@ -253,7 +267,7 @@ rpgLiteScore(profile, context)
 rpgLiteCheck(profile, context)
 {
     local score = rpgLiteScore(profile, context);
-    if (score == nil) { local result = new RpgResult(); result.reason = 'training-required'; return result; }
+    if (score == nil) { local result = new RpgResult(); result.reason = context.unavailableReason(profile); return result; }
     if (score < 3) return rpgCheck(score, 3);
     local result = rpgCheck(score, rpgRandom.roll());
     if (context.reroll(profile, result)) result = rpgCheck(score, rpgLiteReroll(profile, result.roll, 3, nil));
@@ -320,13 +334,10 @@ rpgLiteInvalidCharacter(reason)
     local error = new RpgLiteCharacterError(); error.reason = reason; throw error;
 }
 
-/** Validate the point budget, disadvantage limit, trait combinations, languages and technology. */
-rpgLiteValidateCharacter(profile)
+/** Validate Lite trait identities and mutually exclusive catalogue choices. */
+rpgLiteValidateTraits(profile)
 {
-    rpgInteger(profile.st, 1, 20); rpgInteger(profile.dx, 1, 100);
-    rpgInteger(profile.iq, 1, 100); rpgInteger(profile.ht, 1, 100);
-    rpgInteger(profile.techLevel, 0, 12); rpgInteger(profile.campaignTL, 0, 12);
-    local ids = []; local quirks = 0; local natives = 0;
+    local ids = []; local quirks = 0;
     foreach (local trait in profile.traits)
     {
         if (!trait.ofKind(RpgLiteTrait) || trait.id == nil || holds(ids, trait.id) && trait.id != 'quirk') rpgLiteInvalidCharacter('duplicate-or-invalid-trait');
@@ -347,7 +358,13 @@ rpgLiteValidateCharacter(profile)
         foreach (local id in group) if (holds(ids, id)) count += 1;
         if (count > 1) rpgLiteInvalidCharacter('exclusive-traits');
     }
-    ids = [];
+    return true;
+}
+
+/** Validate language identities, comprehension and the native-language allowance. */
+rpgLiteValidateLanguages(profile)
+{
+    local ids = []; local natives = 0;
     foreach (local language in profile.languages)
     {
         if (language.id == nil || holds(ids, language.id)) rpgLiteInvalidCharacter('duplicate-language');
@@ -355,6 +372,17 @@ rpgLiteValidateCharacter(profile)
         if (language.native) { natives += 1; if (language.spoken != 3) rpgLiteInvalidCharacter('native-language'); }
     }
     if (natives > 1) rpgLiteInvalidCharacter('multiple-native-languages');
+    return true;
+}
+
+/** Validate the point budget, disadvantage limit, trait combinations, languages and technology. */
+rpgLiteValidateCharacter(profile)
+{
+    rpgInteger(profile.st, 1, 20); rpgInteger(profile.dx, 1, 100);
+    rpgInteger(profile.iq, 1, 100); rpgInteger(profile.ht, 1, 100);
+    rpgInteger(profile.techLevel, 0, 12); rpgInteger(profile.campaignTL, 0, 12);
+    rpgLiteValidateTraits(profile);
+    rpgLiteValidateLanguages(profile);
     foreach (local training in profile.skills)
         if (training.points > 0 && training.skill.ofKind(RpgLiteSkill)
             && training.skill.techLevel != nil && training.skill.techLevel > profile.techLevel)

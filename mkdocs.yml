@@ -22,13 +22,23 @@ nav:
   - Playable resilience: docs/resilience.md
   - Progression: docs/progression.md
   - Lite rules: docs/lite.md
+  - Library selection: docs/libraries.md
+  - Rules comparison: docs/rules-comparison.md
+  - Character/social integration: docs/expanded/index.md
+  - Expanded characters: docs/expanded/characters.md
+  - Expanded skills: docs/expanded/skills.md
+  - Trait pricing: docs/expanded/traits.md
+  - Occupational templates: docs/expanded/templates.md
+  - Reputation and social play: docs/expanded/social.md
+  - Interim release notes: docs/releases/character-social-preview.md
   - Library reference: reference/index.md
   - Classes and objects: reference/types.md
   - Functions: reference/functions.md
   - Alphabetical symbols: reference/symbols.md
   - Alphabetical members: reference/members.md
   - Development and releases: docs/development.md
-  - Current release: docs/releases/v1.0.0.md
+  - Current prerelease: docs/releases/v1.1.0-alpha.1.md
+  - Lite release: docs/releases/v1.0.0.md
   - Resilience prototype: docs/releases/v0.2.0-alpha.1.md
   - First prototype: docs/releases/v0.1.0-alpha.1.md
   - Provenance: docs/provenance.md

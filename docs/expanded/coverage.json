@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "scope": "Character/social interim milestone; neither full-reference nor complete per-module coverage is claimed.",
+  "inventory_complete": false,
+  "validation": "See docs/releases/v1.1.0-alpha.1.md for the release validation record; partial coverage remains explicit.",
+  "modules": [
+    {
+      "id": "foundation",
+      "source": "full-2008",
+      "pages": "B14-B17",
+      "status": "partial",
+      "tests": [
+        "tests/character_social.py::test_character_contracts"
+      ]
+    },
+    {
+      "id": "characters",
+      "source": "full-2008",
+      "pages": "B14-B17; B23-B30",
+      "status": "partial",
+      "tests": [
+        "tests/character_social.py::test_character_contracts"
+      ]
+    },
+    {
+      "id": "skills",
+      "source": "full-2008",
+      "pages": "B168-B175; B230-B233",
+      "status": "partial",
+      "tests": [
+        "tests/character_social.py::test_character_contracts",
+        "tests/character_social.py::test_learning_requirements"
+      ]
+    },
+    {
+      "id": "traits",
+      "source": "full-2008",
+      "pages": "B101-B121",
+      "status": "partial",
+      "tests": [
+        "tests/character_social.py::test_trait_prices"
+      ]
+    },
+    {
+      "id": "templates",
+      "source": "full-2008",
+      "pages": "B258-B259",
+      "status": "partial",
+      "tests": [
+        "tests/character_social.py::test_character_contracts",
+        "tests/character_social.py::test_template_composition",
+        "tests/character_social.py::test_template_technology",
+        "tests/character_social.py::test_template_choices",
+        "tests/character_social.py::test_template_score_options"
+      ]
+    },
+    {
+      "id": "social",
+      "source": "full-2008",
+      "pages": "B27-B30; B494-B495; B518-B519; B560-B562",
+      "status": "partial",
+      "tests": [
+        "tests/character_social.py::test_social_status",
+        "tests/character_social.py::test_combat_reactions",
+        "tests/character_social.py::test_aid_reactions",
+        "tests/character_social.py::test_information_reactions",
+        "tests/character_social.py::test_trade_reactions",
+        "tests/character_social.py::test_trade_modifiers",
+        "tests/character_social.py::test_social_transactions",
+        "tests/character_social.py::test_failed_recognition",
+        "tests/character_social.py::test_social_save"
+      ]
+    }
+  ]
+}
