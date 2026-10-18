@@ -7,6 +7,7 @@ ancestrySecondBonus: RpgExpandedAncestryTemplate
     id = 'second-aptitude' approved = true evidence = 'Approved innate aptitude'
     skillBonusRows = [['test-learning',3]]
 ;
+bonusRequirement: RpgExpandedPrerequisite skill = learningSkill minimum = 10;
 bonusPersonal: RpgExpandedTemplate skillRows = [[learningSkill,1]];
 bonusSpecialty: RpgExpandedSkill id = 'test-learning' specialty = 'other' attribute = rpgIQ difficulty = 1 defaultPenalty = -5;
 bonusNoDefault: RpgExpandedSkill id = 'test-learning' attribute = rpgIQ difficulty = 1 defaultPenalty = nil;
@@ -33,6 +34,12 @@ modify BleedTestAction
             local p = ancestryState.profile; event('test.ancestry-skill-bonus'); eventValue(rpgExpandedCharacterCost(p,nil));
             eventValue(p.skillScore(learningSkill)); eventValue(p.skillScore(bonusSpecialty)); eventValue(p.skillScore(bonusNoDefault));
             eventValue(p.skillScore(bonusOther)); eventValue(p.skillScore(bonusLite)); eventValue(bonusContext.scoreFor(p));
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 6610)
+        {
+            event('test.ancestry-prerequisite');
+            eventValue(bonusRequirement.satisfied(ancestryState.profile,[]) ? 1 : 0);
             eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
         }
         if (code == 6604) { ancestryState.profile.contributions = []; return nil; }

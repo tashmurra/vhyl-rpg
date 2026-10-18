@@ -9128,6 +9128,7 @@ def test(build):
     test_ancestry_training(Session, ancestry_training, build.out)
     ancestry_bonus = build.build('expanded-ancestry-skill-bonus',ROOT / 'tests/fixtures/expanded-ancestry-skill-bonus.t')
     test_ancestry_skill_bonus(Session, ancestry_bonus, build.out)
+    test_ancestry_prerequisite(Session, ancestry_bonus)
     ancestry_incompetence = build.build('expanded-ancestry-incompetence',ROOT / 'tests/fixtures/expanded-ancestry-incompetence.t')
     test_ancestry_incompetence(Session, ancestry_incompetence, build.out)
     talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
@@ -9139,6 +9140,7 @@ def test(build):
     talent_check = build.build('expanded-talent-check',ROOT / 'tests/fixtures/expanded-talent-check.t')
     test_talent_check(Session, talent_check)
     test_talent_scores(Session, talent_check)
+    test_talent_prerequisite(Session, talent_check)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -18476,5 +18478,32 @@ def test_talent_scores(Session, bundle):
             for code in changes + [7102, 7102]:
                 s.action(2285, code)
             assert last(s, 'test.talent-scores') == expected
+        finally:
+            s.close()
+
+
+def test_talent_prerequisite(Session, bundle):
+    # One point buys IQ-1; aptitude 2 raises the purchased level to 11.
+    for changes, qualifies, points in (([], True, 1), ([7104], False, 1),
+                                       ([6805], False, 1),
+                                       ([7101, 7105], False, 0)):
+        s = Session(bundle)
+        try:
+            for code in changes + [7103, 7103]:
+                s.action(2285, code)
+            assert last(s, 'test.talent-prerequisite') == [
+                int(qualifies), None if qualifies else 'skill-prerequisite',
+                points, 100, 0, 0]
+        finally:
+            s.close()
+
+
+def test_ancestry_prerequisite(Session, bundle):
+    for creation, expected in ((6600, 1), (6601, 0)):
+        s = Session(bundle)
+        try:
+            for code in (creation, 6610, 6610):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-prerequisite') == [expected, 0, 0]
         finally:
             s.close()

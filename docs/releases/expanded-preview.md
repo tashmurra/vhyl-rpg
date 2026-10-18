@@ -1371,3 +1371,7 @@ Catalogue talent bonuses now enter available raw skill scores, floating/fixed-ba
 checks and skill-based technique checks exactly once. Paid investment calculations
 stay separate. Source-skill default transfer and prerequisite threshold integration
 remain unresolved; assertions are authored but unrun.
+
+Skill prerequisite thresholds now include persistent talent and ancestry bonuses
+on purchased training. An untrained default still cannot satisfy a prerequisite.
+Boundary and pure repeated-assessment fixtures are authored but unrun.

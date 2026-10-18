@@ -214,7 +214,8 @@ class RpgExpandedTechnique: RpgExpandedContribution
 ;
 
 /** Declarative learning requirement, B169. A skill leaf requires purchased
- * training; its optional minimum is a paid level, never an untrained default.
+ * training; its optional minimum is a purchased level with persistent aptitude bonuses,
+ * never a better untrained default or a situational check modifier.
  * Trait leaves describe possession, not whether a power is currently active. */
 class RpgExpandedPrerequisite: object
     kind = 'skill'
@@ -247,7 +248,9 @@ class RpgExpandedPrerequisite: object
             if (training == nil || training.points < 1) return nil;
             if (self.minimum == nil) return true;
             local score = rpgExpandedPaidSkill(profile, self.skill, []);
-            return score != nil && score >= self.minimum;
+            if (score == nil) return nil;
+            score += profile.ancestrySkillModifier(self.skill) + profile.catalogueTalentSkillModifier(self.skill);
+            return score >= self.minimum;
         }
         if (self.kind == 'trait')
         {

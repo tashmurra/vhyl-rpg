@@ -618,6 +618,13 @@ contextual bonus path.
 
 `rpgExpandedPaidSkill` remains the investment-only calculation, keeping talent
 levels out of point prices. Transfer of source-skill talents through paid default
-chains, prerequisite thresholds and custom skill groups still needs dedicated
+chains and custom skill groups still needs dedicated
 source verification and implementation. The raw, contextual, fixed-base and
 technique assertions are authored but unrun.
+
+Minimum-level skill prerequisites use purchased training plus persistent catalogue
+talent and ancestry skill modifiers (full-2008, B89, B169, B452). At least one
+purchased point is still mandatory. A better default, equipment, reaction or other
+situational check modifier cannot qualify the character. Checking the prerequisite
+does not spend points or time or roll dice. Boundary and no-training fixtures are
+authored but unrun while checks are paused.
