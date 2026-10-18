@@ -6106,9 +6106,10 @@
       "pages": "B228",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Care for an animal with trust and unfamiliar-type modifiers; optional animal specialization must remain compatible with treatment and recovery ownership.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_veterinary_skill"],
+      "validation_note": "Typed no-IQ-default veterinary skill implements paid animal-handling and same-TL medical defaults. Explicit animal context applies trust and unfamiliarity modifiers, and accepts matching approved optional specialties. Animal treatment/recovery ownership integration remains pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",

@@ -1571,3 +1571,64 @@ modify RpgExpandedNaturalistSkill
         return nil;
     }
 ;
+
+/** Full-2008 B228 veterinary defaults; no attribute default. */
+class RpgExpandedVeterinarySkill: RpgExpandedSkill
+    id = 'veterinary'
+    attribute = rpgIQ
+    difficulty = 2
+    defaultPenalty = nil
+    validateDefinition()
+    {
+        if (self.id != 'veterinary' || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != nil
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil || self.specialty != nil
+            || self.techLevel == nil) rpgExpandedReject('veterinary-skill-definition');
+        rpgInteger(self.techLevel,0,12); return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill)) continue;
+            if (source.id == 'animal-handling' && source.techLevel == nil) edges = edges + [[source,-6]];
+            else if (source.techLevel == self.techLevel && holds(['physician','surgery'],source.id)) edges = edges + [[source,-5]];
+        }
+        return edges;
+    }
+;
+
+/** B228 situational modifiers, distinct from treatment execution. */
+class RpgExpandedVeterinaryContext: RpgExpandedSkillContext
+    animal = nil
+    animalType = nil
+    knowsAndTrusts = nil
+    unfamiliarPenalty = 0
+    approved = nil
+    evidence = nil
+    validateVeterinary()
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedSkill) || self.animal == nil
+            || !self.animal.ofKind(RpgLiteProfile) || self.animalType == nil || self.animalType == ''
+            || self.fixedBase != nil || self.rollAttribute != nil || self.familiarity != nil)
+            rpgExpandedReject('veterinary-context-definition');
+        rpgExpandedValidateSkill(self.skill);
+        local parent = self.skill.optionalParent;
+        if (parent == nil)
+        { if (!self.skill.ofKind(RpgExpandedVeterinarySkill)) rpgExpandedReject('veterinary-context-skill'); }
+        else if (!parent.ofKind(RpgExpandedVeterinarySkill) || self.skill.specialty != self.animalType)
+            rpgExpandedReject('veterinary-context-specialty');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('veterinary-context-evidence');
+        rpgInteger(self.unfamiliarPenalty,-100,0);
+        if (self.unfamiliarPenalty == -1) rpgExpandedReject('veterinary-unfamiliar-minimum');
+        return nil;
+    }
+    unavailableReason(profile) { self.validateVeterinary(); return inherited(profile); }
+    skillUseModifier(profile)
+    {
+        self.validateVeterinary(); local base = inherited(profile);
+        return base == nil ? nil : base + self.unfamiliarPenalty + (self.knowsAndTrusts ? 5 : 0);
+    }
+;

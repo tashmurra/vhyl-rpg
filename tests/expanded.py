@@ -9394,6 +9394,8 @@ def test(build):
     test_nature_disclosure(Session, nature_disclosure, build.out)
     nature_actions = build.build("expanded-nature-actions",ROOT / "tests/fixtures/expanded-nature-actions.t")
     test_nature_actions(Session, nature_actions)
+    veterinary_skill = build.build("expanded-veterinary-skill",ROOT / "tests/fixtures/expanded-veterinary-skill.t")
+    test_veterinary_skill(Session, veterinary_skill)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23881,3 +23883,23 @@ def test_nature_actions(Session, bundle):
         finally:
             s.close()
     assert outcomes == [[1,3,0,0]] * 3
+
+
+def test_veterinary_skill(Session, bundle):
+    """B228 defaults and animal trust/unfamiliarity modifiers; unrun."""
+    for setup, expected in (((),None),((20601,),11),((20602,),10),((20603,),10),
+                            ((20604,),12),((20604,20605),17),((20604,20606),10),
+                            ((20604,20605,20606),15),((20607,),13)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,20600):
+                s.action(1680,code)
+            assert last(s,'test.veterinary-score') == [expected,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,20608)
+        assert last(s,'test.veterinary-error') == ['veterinary-unfamiliar-minimum']
+    finally:
+        s.close()

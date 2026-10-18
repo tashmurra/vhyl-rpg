@@ -886,3 +886,27 @@ operations, including plant foraging, without a separate time or food ledger.
 Authored site availability, daily attempt limits and poisoning consequences still
 apply. `test_biology_foraging` covers scoring, preview, rollback, undo and replay
 through the owned forage operation. These fixtures remain unrun.
+
+
+## Veterinary skill and animal-care context
+
+`RpgExpandedVeterinarySkill` provides IQ/Hard veterinary skill at an explicit
+`techLevel`, without an IQ default (full-2008 B228). Purchased animal handling
+of any specialty defaults at -6; purchased physician or surgery at the same
+technology defaults at -5. Optional animal-type specialties can use
+`rpgExpandedOptionalSpecialty` with author approval and separate training.
+
+`RpgExpandedVeterinaryContext` adds the printed +5 when the animal knows and
+trusts the caregiver, and `unfamiliarPenalty` of -2 or worse for an unfamiliar
+type. Supply the `animal` profile, `animalType`, `approved` and concrete `evidence`
+for those facts. Leave the penalty at zero for a familiar type. The context
+rejects a -1 unfamiliarity penalty and a second familiarity receipt. An optional
+specialty must match the animal type; otherwise use its general veterinary parent
+and the normal -2 default. Use through `rpgLiteScore` or `rpgLiteCheck`.
+
+This context assesses and rolls competence; it does not heal, prescribe, operate
+or advance care time. Animal treatment must still be connected to owned health
+procedures and their shared ledgers before that part of the catalogue is complete.
+`test_veterinary_skill` specifies each default, absent IQ default, trust,
+unfamiliarity, combined modifiers and optional-specialty scoring. Fixtures remain
+unrun while checks are paused.
