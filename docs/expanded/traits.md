@@ -211,3 +211,16 @@ attacks retain their selected trigger or deadline and neutralization method.
 Follow-up attacks depend on a carrier's hit and penetration result and inherit
 only the specified modifier subset for pricing. These behaviors are pending;
 the existing positive-price helper does not validate or execute them.
+
+
+The [second modifier segment](inventory/traits-modifiers-b.json) records guidance,
+linked actions, persistent areas, sensory delivery, symptoms and walls. Linked
+attacks share one hit roll only when their listed combat statistics match; they
+retain separate damage and protection resolution. Mobile areas and projectiles
+also need persistent identities, positions and control dependencies.
+
+Symptoms follow damage caused by their particular attack and end through healing
+that damage. Side effects instead use resistance, duration and sometimes sequential
+phases. Ranged conversion bars reuse while any prior effect remains, except where
+a specific trait overrides that rule. These lifecycle requirements remain pending
+and are not implemented by the existing modifier arithmetic.
