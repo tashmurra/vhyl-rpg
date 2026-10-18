@@ -3129,3 +3129,74 @@ class RpgExpandedRapidSearch: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedRapidSearch
+    claimedBy = nil
+;
+
+modify RpgExpandedInventionProject
+    rapidSalvages = []
+;
+
+/** One successful search authorizes one acquisition at its recorded total cost. */
+class RpgExpandedRapidSalvage: object
+    search = nil
+    payer = nil
+    item = nil
+    approved = nil
+    available = nil
+    permitted = nil
+    evidence = nil
+    result = nil
+    definitionSnapshot = nil
+    definition() { return [self.search,self.payer,self.item,self.evidence]; }
+    assess()
+    {
+        if (self.search == nil || !self.search.ofKind(RpgExpandedRapidSearch)
+            || self.search.result == nil || self.payer == nil || !self.payer.ofKind(RpgExpandedProfile)
+            || self.item == nil || !self.item.ofKind(RpgLiteItem)) rpgExpandedReject('rapid-salvage-definition');
+        self.search.assess(); local project = self.search.project;
+        local value = new RpgExpandedRapidPurchaseResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.definitionSnapshot == nil || current.length() != self.definitionSnapshot.length())
+                rpgExpandedReject('rapid-salvage-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('rapid-salvage-binding');
+            if (self.search.claimedBy != self || !holds(project.rapidSalvages,self)
+                || self.result.acquisition.profile != self.payer || self.result.acquisition.item != self.item
+                || !self.result.acquisition.claimed) rpgExpandedReject('rapid-salvage-history');
+            value.status = 'reused'; value.partsMoney = self.result.partsMoney;
+            value.acquisition = self.result.acquisition; return value;
+        }
+        if (!self.search.result.check.achieved || self.search.result.projectCost == nil)
+        { value.reason = 'rapid-salvage-success-required'; return value; }
+        if (self.search.claimedBy != nil) { value.reason = 'rapid-salvage-already-claimed'; return value; }
+        if (!self.approved || !self.available || !self.permitted || self.evidence == nil || self.evidence == ''
+            || !self.search.available || !self.search.permitted || !self.search.approved)
+        { value.reason = 'rapid-salvage-author-facts'; return value; }
+        local quote = project.proposal.assess();
+        if (quote.status != 'ready') { value.reason = quote.reason; return value; }
+        if (project.proposal.techLevel > project.proposal.inventor.techLevel)
+        { value.reason = 'cinematic-advanced-defects-unavailable'; return value; }
+        if (!holds(['testable','flawed'],project.theory))
+        { value.reason = 'rapid-salvage-theory-required'; return value; }
+        rpgInteger(self.search.result.projectCost,0,500);
+        value.money = self.search.result.projectCost; value.partsMoney = value.money;
+        value.acquisition = new RpgExpandedAcquisition(); value.acquisition.profile = self.payer;
+        value.acquisition.item = self.item; value.acquisition.mode = 'purchase'; value.acquisition.quote = value.money;
+        value.acquisition.available = true; value.acquisition.permitted = true;
+        local access = value.acquisition.assess();
+        if (access.status != 'ready') { value.reason = access.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    acquire()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (value.acquisition.acquire().status != 'resolved') rpgExpandedReject('rapid-salvage-changed');
+        self.search.claimedBy = self;
+        self.search.project.rapidSalvages = self.search.project.rapidSalvages + [self];
+        self.definitionSnapshot = self.definition(); value.status = 'resolved'; self.result = value; return value;
+    }
+;

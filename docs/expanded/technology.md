@@ -1431,10 +1431,37 @@ specified time, rechecks definition, source permissions and inventor state, then
 records the check and cost. Interrupted execution raises an error for transaction
 rollback. Replay and project history retain the original result without another
 roll or time charge. Searching does not itself charge currency, transfer inventory
-or consume the source. Applying the receipt to acquired components and prototype
-construction remains pending.
+or consume the source. Use `RpgExpandedRapidSalvage` to acquire components from this receipt.
+Prototype construction and source depletion remain pending.
 
 `test_rapid_search` and `test_rapid_search_failure` author preview, rollback,
 interruption, skill-source mismatch, unavailable sources, capability gating,
 retargeting rejection, replay, elapsed time and success/failure cost-die behavior.
 Fixtures remain unrun. Source: `full-2008`, B476–B477.
+
+## Claiming discovered components
+
+A successful `RpgExpandedRapidSearch` supports one `RpgExpandedRapidSalvage`.
+Set its `search`, `payer`, component `item`, evidence and explicit approval,
+availability and permission. Search-source availability and permission must still
+hold when claiming. The request also checks the project's current capability and
+campaign permission. Failed searches cannot be claimed.
+
+`acquire()` pays the recorded total project cost and grants the bundle through the
+existing equipment acquisition API. This cost is not divided by 100 again and no
+additional facilities charge is added. A recorded zero-cost success remains
+claimable. Execute within an action transaction so payment, inventory transfer and
+`search.claimedBy` change together. Each search can authorize only one claim;
+replay of that claim returns `reused` and zero new expenditure, without restoring
+an item subsequently moved or consumed.
+
+The claim binds search, payer, item and evidence. Changing those fields after
+execution rejects the request. An unavailable source or insufficient funds leaves
+the successful search unclaimed so the author can retry after circumstances
+change. This interface does not remove arbitrary objects from the source: the
+author remains responsible for modelling depletion of a room, wreck or stockpile.
+Prototype construction and destruction of consumed parts remain pending.
+
+`test_rapid_salvage` and `test_rapid_salvage_failed_search` author preview, rollback,
+affordability, source withdrawal, single claiming, replay, retargeting and failed
+search rejection. Fixtures remain unrun. Source: `full-2008`, B476–B477.

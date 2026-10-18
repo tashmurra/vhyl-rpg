@@ -1212,6 +1212,43 @@ def test_rapid_search_failure(s):
     assert rapid_search_state(s) == [1000000,0,1,3,60]
 
 
+def rapid_salvage_state(s):
+    s.action(2135)
+    return last(s,'test.rapid-salvage-state')
+
+
+def test_rapid_salvage(s):
+    s.action(2134,0)
+    initial = [1000000,0,0,0,4,60]
+    for code in [3,2]:
+        s.action(2134,code)
+        assert rapid_salvage_state(s) == initial
+    for code,reason in [(4,'equipment-unaffordable'),(6,'rapid-salvage-author-facts')]:
+        s.action(2134,code)
+        assert last(s,'test.rapid-salvage')[:2] == ['blocked',reason]
+        s.command('undo')
+        assert rapid_salvage_state(s) == initial
+    s.action(2134,1)
+    assert last(s,'test.rapid-salvage') == ['resolved',None,200]
+    claimed = [999800,1,1,1,4,60]
+    assert rapid_salvage_state(s) == claimed
+    s.action(2134,8)
+    assert last(s,'test.rapid-salvage')[:2] == ['blocked','rapid-salvage-already-claimed']
+    assert rapid_salvage_state(s) == claimed
+    s.action(2134,9)
+    assert rapid_salvage_state(s) == claimed
+    s.action(2134,1)
+    assert last(s,'test.rapid-salvage') == ['reused',None,0]
+    assert rapid_salvage_state(s) == claimed
+
+
+def test_rapid_salvage_failed_search(s):
+    s.action(2134,5)
+    s.action(2134,1)
+    assert last(s,'test.rapid-salvage')[:2] == ['blocked','rapid-salvage-success-required']
+    assert rapid_salvage_state(s) == [1000000,0,0,0,3,60]
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -7023,6 +7060,8 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_rapid_salvage)
+    fresh(Session,invention,test_rapid_salvage_failed_search)
     fresh(Session,invention,test_rapid_search)
     fresh(Session,invention,test_rapid_search_failure)
     test_rapid_purchases(Session,invention)
