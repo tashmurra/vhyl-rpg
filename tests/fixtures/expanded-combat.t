@@ -59,6 +59,19 @@ act(verb,args)
         eventValue(rpgExpandedCriticalArmor(value,5));
         eventValue(rpgExpandedCriticalShock(value,args[3],args[4] == 1));
     }
+    else if (verb == 2019)
+    {
+        local context = new RpgExpandedWeaponMissContext(); context.kind = args[1]; context.damageType = args[2];
+        context.breakResistant = args[3] == 1; context.cheap = args[4] == 1;
+        local rolls = [args[5]]; if (args[6] != 0) rolls = rolls + [args[6]];
+        if (args[7] != 0) rolls = rolls + [args[7]];
+        local value = rpgExpandedWeaponMiss(context,rolls);
+        event('test.weapon-miss'); eventValue(value.status); eventValue(value.reason); eventValue(value.outcome);
+        eventValue(value.rollsUsed); eventValue(value.selfDamageDivisor); eventValue(value.defenseModifier);
+        eventValue(value.readyActions); eventValue(value.disabilitySeconds);
+        eventValue(value.forbidsFurtherActions ? 1 : 0); eventValue(value.randomLimb ? 1 : 0);
+        eventValue(value.randomDisplacement ? 1 : 0);
+    }
     else return vhylAct(verb,args);
     event('test.burst-purity'); eventValue(rpgRandom.draws - draws); eventValue(rpgLedger.seconds - clock); return nil;
 }

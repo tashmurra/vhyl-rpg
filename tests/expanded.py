@@ -908,6 +908,36 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_weapon_miss_assessments(s):
+    outcomes = {3:'break-weapon',4:'break-weapon',5:'self-hit',6:'self-hit',
+                7:'off-balance',8:'weapon-unready',9:'drop-weapon',10:'drop-weapon',
+                11:'drop-weapon',12:'weapon-unready',13:'off-balance',14:'flung-weapon',
+                15:'strained-weapon-arm',16:'fall',17:'break-weapon',18:'break-weapon'}
+    for roll, outcome in outcomes.items():
+        s.action(2019, 'swing', 'cr', 0, 0, roll, 0, 0)
+        assert last(s, 'test.weapon-miss') == ['ready',None,outcome,1,2 if roll == 6 else 1,
+            -2 if roll in [7,13] else 0,1 if roll in [8,12] else 0,
+            1800 if roll == 15 else 0,int(roll in [7,13]),int(roll in [5,6]),int(roll == 14)]
+        assert last(s, 'test.burst-purity') == [0,0]
+    for kind, damage, resistant, cheap, rolls, expected in [
+            ('ranged','pi',0,0,[5,0,0],['needs-roll','self-hit-confirmation',None,1,1,0,0,0,0,0,0]),
+            ('thrust','imp',0,0,[5,6,0],['ready',None,'self-hit',2,2,0,0,0,0,1,0]),
+            ('ranged','pi',0,0,[6,5,0],['ready',None,'self-hit',2,1,0,0,0,0,1,0]),
+            ('ranged','pi',0,0,[5,8,0],['ready',None,'weapon-unready',2,1,0,1,0,0,0,0]),
+            ('swing','cr',1,0,[3,0,0],['needs-roll','breakage-confirmation',None,1,1,0,0,0,0,0,0]),
+            ('swing','cr',1,0,[3,18,0],['ready',None,'break-weapon',2,1,0,0,0,0,0,0]),
+            ('swing','cr',1,0,[3,5,0],['ready',None,'drop-weapon',2,1,0,0,0,0,0,0]),
+            ('ranged','pi',1,0,[5,3,0],['needs-roll','breakage-confirmation',None,2,1,0,0,0,0,0,0]),
+            ('ranged','pi',1,0,[5,3,4],['ready',None,'break-weapon',3,1,0,0,0,0,0,0]),
+            ('swing','cr',0,1,[9,0,0],['ready',None,'break-weapon',1,1,0,0,0,0,0,0]),
+            ('ranged','pi',0,0,[16,0,0],['ready',None,'off-balance',1,1,-2,0,0,1,0,0]),
+            ('parry','imp',0,0,[5,0,0],['ready',None,'self-hit',1,1,0,0,0,0,1,0]),
+            ('thrust','imp',0,0,[14,0,0],['ready',None,'drop-weapon',1,1,0,0,0,0,0,0])]:
+        s.action(2019, kind, damage, resistant, cheap, *rolls)
+        assert last(s, 'test.weapon-miss') == expected
+        assert last(s, 'test.burst-purity') == [0,0]
+
+
 def test_critical_hit_assessments(s):
     # Fields after location: multiplier, maximum, ignore DR, halve DR, round up,
     # major, double shock, temporary cripple, drop held, drop weapon, idle, deaf, scar, DR.
@@ -4639,6 +4669,7 @@ def test(build):
     fresh(Session,combat,test_rapid_fire_assessments)
     fresh(Session,combat,test_combat_check_classification)
     fresh(Session,combat,test_critical_hit_assessments)
+    fresh(Session,combat,test_weapon_miss_assessments)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_airless_seconds)

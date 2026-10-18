@@ -126,8 +126,43 @@ persistent consequences or grant normal defenses against a critical hit.
 `test_critical_hit_assessments` records every general and head table roll,
 eye-redirection fallback, damage-type scarring, armor rounding, maximum and
 multiplied basic damage, penetration-dependent shock, and duration boundaries.
-All cases are authored but unrun. Critical-miss tables, multi-hit critical routing
+All cases are authored but unrun. Unarmed critical-miss assessment, multi-hit critical routing
 and owned injury/equipment/condition integration remain incomplete.
+
+## Weapon critical-miss assessment
+
+Create `RpgExpandedWeaponMissContext` with `kind` (`swing`, `thrust`, `ranged` or
+`parry`), `damageType`, and the actual weapon's `breakResistant` and `cheap` facts.
+Break resistance must come from the B556 construction, quality and weapon-category
+rules; the helper does not infer it from an item name. Weapon-specific overrides
+must be resolved before this ordinary-table assessment.
+
+`rpgExpandedWeaponMiss(context, rolls)` receives the initial table roll and any
+required confirmation rolls in order. Its `rollsUsed` and `needs-roll` status make
+conditional dice explicit. Protected breakage needs another table result: another
+breakage breaks the weapon, while any other result drops it. A cheap weapon's
+ordinary drop result counts as breakage under that row's reference to the breakage
+procedure. Ranged or impaling/piercing melee self-hit results require confirmation;
+a different second result replaces the self-hit. If that replacement is protected
+breakage, a third table roll is required. Supplied but unused dice are rejected.
+
+Ready assessments distinguish breakage, dropping, self-hit, imbalance, unreadiness,
+weapon displacement, arm strain and falling. A self-hit requests a random arm/leg
+selection and indicates full or half damage. A swinging attack can fling its
+weapon and requires separate distance/direction dice and actual destination
+occupancy; thrusts, ranged attacks and parries simply drop it on that row.
+Ranged falling results instead use imbalance. Arm strain has a 1,800-second
+restriction without forcing a weapon drop. Imbalance records -2 defenses and
+forbids further actions until the next turn. Unreadiness requires one Ready action.
+
+These are assessment receipts. Actual item breakage, inventory transfers, self-hit
+protection/injury, occupied-hex checks, posture and timed conditions are not yet
+committed. The routine never rolls dice or spends time. It does not implement the
+unarmed table or category-specific overrides.
+
+`test_weapon_miss_assessments` records all sixteen ordinary rows, attack/parry
+exceptions, cheap breakage, both confirmation branches and a three-roll chain.
+Fixtures are authored but unrun while checks remain paused.
 
 ## Modifier-table requirements
 

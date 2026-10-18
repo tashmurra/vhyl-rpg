@@ -598,13 +598,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply weapon-breakage procedure with its resistant-weapon confirmation roll.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 3
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-4",
@@ -612,13 +615,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply weapon-breakage procedure with its resistant-weapon confirmation roll.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 4
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-5",
@@ -626,13 +632,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Self-hit arm or leg with equal chance at full damage, subject to the attack-type reroll exception.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 5
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-6",
@@ -640,13 +649,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Self-hit arm or leg with equal chance at half damage, subject to the attack-type reroll exception.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 6
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-7",
@@ -654,13 +666,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Forbid further actions, including free actions, until the next turn and apply -2 to active defenses for that interval.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 7
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-8",
@@ -668,13 +683,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require an additional ready action before this weapon can be used.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 8
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-9",
@@ -682,13 +700,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Drop the weapon; cheap weapons instead invoke breakage handling.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 9
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-10",
@@ -696,13 +717,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Drop the weapon; cheap weapons instead invoke breakage handling.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 10
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-11",
@@ -710,13 +734,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Drop the weapon; cheap weapons instead invoke breakage handling.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 11
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-12",
@@ -724,13 +751,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require an additional ready action before this weapon can be used.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 12
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-13",
@@ -738,13 +768,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Forbid further actions, including free actions, until the next turn and apply -2 to active defenses for that interval.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 13
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-14",
@@ -752,13 +785,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A swinging melee weapon travels 1d yards forward or backward with equal chance; a person at its destination checks dexterity or suffers half weapon damage. Thrusting, ranged and parrying actions simply drop it.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 14
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-15",
@@ -766,13 +802,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Disable the weapon arm for thirty minutes without forcing release of its weapon.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 15
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-16",
@@ -780,13 +819,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Fall down on a melee action; ranged actions use outcome 7 instead.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 16
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-17",
@@ -794,13 +836,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply weapon-breakage procedure with its resistant-weapon confirmation roll.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 17
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-weapon-miss-18",
@@ -808,13 +853,16 @@
       "pages": "B556-B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply weapon-breakage procedure with its resistant-weapon confirmation roll.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
       "outcome_data": {
         "table": "weapon-miss",
         "roll": 18
-      }
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-3",

@@ -1,4 +1,4 @@
-/* Include after expanded foundation. Sources: full-2008, B373-B375, B381-B382, B407, B556.
+/* Include after expanded foundation. Sources: full-2008, B373-B375, B381-B382, B407, B556-B557.
  * Partial rapid-fire assessments; no automatic attack or injury dispatch. */
 
 /** Ordinary one-target burst assessment and supplied-roll Dodge result. */
@@ -201,4 +201,79 @@ rpgExpandedCriticalShock(effect, normalShock, penetrated)
     rpgInteger(normalShock,0,1000);
     if (!effect.doubleShockOnPenetration || !penetrated) return normalShock;
     local shock = normalShock * 2; return shock > 8 ? 8 : shock;
+}
+
+/** Authored attack and weapon facts used by the B556-B557 weapon-miss table. */
+class RpgExpandedWeaponMissContext: object
+    kind = 'swing'
+    damageType = 'cr'
+    breakResistant = nil
+    cheap = nil
+;
+
+/** Pending dice are explicit; no table, damage or displacement dice are drawn here. */
+class RpgExpandedWeaponMissResult: RpgExpandedResult
+    outcome = nil
+    rollsUsed = 0
+    selfDamageDivisor = 1
+    defenseModifier = 0
+    readyActions = 0
+    disabilitySeconds = 0
+    forbidsFurtherActions = nil
+    randomLimb = nil
+    randomDisplacement = nil
+;
+
+rpgExpandedWeaponBreakResult(roll, cheap)
+{
+    return holds([3,4,17,18],roll) || cheap && holds([9,10,11],roll);
+}
+
+/** Assess supplied critical-miss table rolls, including conditional confirmations. */
+rpgExpandedWeaponMiss(context, rolls)
+{
+    if (context == nil || !context.ofKind(RpgExpandedWeaponMissContext)) rpgExpandedReject('weapon-miss-context');
+    if (!holds(['swing','thrust','ranged','parry'],context.kind)) rpgExpandedReject('weapon-miss-kind');
+    if (!holds(['cr','cut','imp','pi-','pi','pi+','pi++','burn','cor','tox','fat'],context.damageType))
+        rpgExpandedReject('weapon-miss-damage-type');
+    if (rolls.length() < 1 || rolls.length() > 3) rpgExpandedReject('weapon-miss-roll-count');
+    foreach (local roll in rolls) rpgInteger(roll,3,18);
+    local value = new RpgExpandedWeaponMissResult(); value.rollsUsed = 1;
+    local selected = rolls[1];
+    local confirmSelf = context.kind == 'ranged' || context.kind != 'parry'
+        && holds(['imp','pi-','pi','pi+','pi++'],context.damageType);
+    if (holds([5,6],selected) && confirmSelf)
+    {
+        if (rolls.length() == value.rollsUsed)
+        { value.status = 'needs-roll'; value.reason = 'self-hit-confirmation'; return value; }
+        value.rollsUsed += 1; selected = rolls[value.rollsUsed];
+    }
+    if (rpgExpandedWeaponBreakResult(selected,context.cheap))
+    {
+        if (context.breakResistant)
+        {
+            if (rolls.length() == value.rollsUsed)
+            { value.status = 'needs-roll'; value.reason = 'breakage-confirmation'; return value; }
+            value.rollsUsed += 1;
+            value.outcome = rpgExpandedWeaponBreakResult(rolls[value.rollsUsed],context.cheap) ? 'break-weapon' : 'drop-weapon';
+        }
+        else value.outcome = 'break-weapon';
+    }
+    else if (selected == 5 || selected == 6)
+    { value.outcome = 'self-hit'; value.randomLimb = true; value.selfDamageDivisor = selected == 6 ? 2 : 1; }
+    else if (selected == 7 || selected == 13 || selected == 16 && context.kind == 'ranged')
+    { value.outcome = 'off-balance'; value.defenseModifier = -2; value.forbidsFurtherActions = true; }
+    else if (selected == 8 || selected == 12)
+    { value.outcome = 'weapon-unready'; value.readyActions = 1; }
+    else if (holds([9,10,11],selected)) value.outcome = 'drop-weapon';
+    else if (selected == 14)
+    {
+        value.outcome = context.kind == 'swing' ? 'flung-weapon' : 'drop-weapon';
+        value.randomDisplacement = context.kind == 'swing';
+    }
+    else if (selected == 15)
+    { value.outcome = 'strained-weapon-arm'; value.disabilitySeconds = 1800; }
+    else if (selected == 16) value.outcome = 'fall';
+    if (rolls.length() != value.rollsUsed) rpgExpandedReject('weapon-miss-unused-rolls');
+    value.status = 'ready'; return value;
 }
