@@ -12,11 +12,11 @@ and tactical modules. A hit to the mount can require a rider check; rider stun o
 knockback can cause a fall without injuring the mount. These procedures remain
 pending implementation and validation.
 
-**Status: partial; fixtures unrun.** Training assessments and handling modifiers are available. Animals, body forms, mounts and swarms remain incomplete. Neutral source: `full-2008`, B175 and B455–B461.
+**Status: partial; fixtures unrun.** Training assessments, handling modifiers and owned handling checks are available. Animals, body forms, mounts and swarms remain incomplete. Neutral source: `full-2008`, B175 and B455–B461.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
-Include `vhyl-rpg-expanded-creatures.t` after the expanded foundation. It currently provides pure assessments; it does not yet execute training days or creature combat. The convenience umbrella includes it without activating any rules.
+Include `vhyl-rpg-expanded-creatures.t` after the expanded foundation. It provides training assessments and owned task/calming checks; it does not yet execute training days or creature combat. The convenience umbrella includes it without activating any rules.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
 
@@ -102,3 +102,37 @@ foundation and this module. `test_animal_training_tables` authors all table cell
 trick times and modifier boundaries. `test_animal_training_plans` authors training
 eligibility, specialty, wild modifier and preview purity. Fixtures are unrun while
 checks are paused. Sources: `full-2008`, B175 and B458–B459.
+
+## Owned task and calming checks
+
+Create `RpgExpandedAnimalHandlingAttempt` with an expanded `animal` and `handler`,
+the relevant `animal-handling` skill and a unique ID for that animal. Confirm
+`appropriateSpecialty`, `approved`, `available` and `uninterrupted`, and explain
+the circumstances in `evidence`. `seconds` is an authored scenario duration; the
+source does not prescribe a universal time for these tasks.
+
+For `mode = 'task'`, supply a neutral `taskId`, confirm `trainingEstablished`, and
+set familiarity, stress and complexity facts. For `mode = 'calm'`, omit task
+fields and select the animal's wild, frightened and dangerous-history facts.
+`speciesModifier` accepts a separately sourced nonpositive modifier. These facts
+are author assertions; this interface does not infer training from intelligence
+or replace a creature's mental package. Requests marked `performance` reject until
+the separate performance check is integrated.
+
+`assess()` is pure. Execute `apply()` within an action transaction: it spends time,
+rechecks request identity and participant availability, and resolves the shared
+skill check. The receipt records `score`, `check`, `succeeded`, costs and the
+animal's `animalHandlingAttempts` history. Replay returns the historical result
+without spending time or rolling again. Retargeting a committed receipt rejects.
+
+Every resolved receipt has `authorResolutionRequired = true`. `succeeded` means
+the handling check succeeded; it does not teleport an animal, fetch an item,
+launch an attack, clear fear or award training. The author uses the check and
+margin to resolve the creature's behavior within the game. Executable behavior
+responses and daily training consequences remain separate unfinished work; these
+check receipts are not counted as complete creature behavior implementation.
+
+`test_animal_handling` and `test_animal_handling_modifiers` author contextual
+modifiers, failed checks, preview, interruption rollback, undo, replay, request
+binding, participant availability and rejection of unsupported performance.
+Fixtures remain unrun. Source: `full-2008`, B175.

@@ -2240,9 +2240,11 @@
       "status": "partial",
       "acceptance": "Unfamiliar handlers and stressful circumstances each impose -5; complex tasks impose an authored penalty of at least -3.",
       "tests": [
-        "tests/expanded.py::test_animal_training_tables"
+        "tests/expanded.py::test_animal_training_tables",
+        "tests/expanded.py::test_animal_handling",
+        "tests/expanded.py::test_animal_handling_modifiers"
       ],
-      "validation_note": "Pure modifier assessment authored; fixtures unrun. Task and combat integration remain pending."
+      "validation_note": "Owned shared-skill task/calming checks with time, revalidation and replay authored; fixtures unrun. Actual animal behavior responses, training and performance remain pending."
     },
     {
       "id": "creature-handling-calming",
@@ -2253,9 +2255,11 @@
       "status": "partial",
       "acceptance": "Wild or very frightened animals impose -5; man-killers impose -10. Do not stack mutually selected categories.",
       "tests": [
-        "tests/expanded.py::test_animal_training_tables"
+        "tests/expanded.py::test_animal_training_tables",
+        "tests/expanded.py::test_animal_handling",
+        "tests/expanded.py::test_animal_handling_modifiers"
       ],
-      "validation_note": "Pure modifier assessment authored; fixtures unrun. Task and combat integration remain pending."
+      "validation_note": "Owned shared-skill task/calming checks with time, revalidation and replay authored; fixtures unrun. Actual animal behavior responses, training and performance remain pending."
     },
     {
       "id": "creature-handling-combat-prediction",

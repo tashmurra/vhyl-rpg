@@ -1407,6 +1407,47 @@ def test_animal_training_plans(Session,bundle):
             s.close()
 
 
+def animal_handling_state(s):
+    s.action(2204)
+    return last(s,'test.animal-handling-state')
+
+
+def test_animal_handling(s):
+    initial = [0,0,0,0,0]
+    for code in [3,2,6]:
+        s.action(2203,code)
+        assert animal_handling_state(s) == initial
+    for code,reason in [(7,'animal-handling-training-required'),(8,'animal-performance-check-required'),
+            (10,'animal-handling-participant-unavailable')]:
+        s.action(2203,code)
+        assert last(s,'test.animal-handling')[:2] == ['blocked',reason]
+        s.command('undo')
+        assert animal_handling_state(s) == initial
+    s.action(2203,1)
+    assert last(s,'test.animal-handling') == ['resolved',None,11,1,1]
+    completed = [1,0,0,3,30]
+    assert animal_handling_state(s) == completed
+    s.command('undo')
+    assert animal_handling_state(s) == initial
+    s.action(2203,1)
+    s.action(2203,9)
+    assert animal_handling_state(s) == completed
+    s.action(2203,1)
+    assert last(s,'test.animal-handling') == ['reused',None,11,1,1]
+    assert animal_handling_state(s) == completed
+
+
+def test_animal_handling_modifiers(Session,bundle):
+    for code,score in [(4,6),(5,6),(11,3)]:
+        s = Session(bundle)
+        try:
+            s.action(2203,code)
+            assert last(s,'test.animal-handling') == ['resolved',None,score,0,1]
+            assert animal_handling_state(s) == [1,0,0,3,30]
+        finally:
+            s.close()
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -7267,6 +7308,8 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
+    fresh(Session,creatures,test_animal_handling)
+    test_animal_handling_modifiers(Session,creatures)
     fresh(Session,creatures,test_animal_training_tables)
     test_animal_training_plans(Session,creatures)
     technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')
