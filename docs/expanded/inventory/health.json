@@ -1,0 +1,1979 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B418-B427",
+  "review": "Injury, anatomy, recovery, treatment, drug-design, fatigue and foraging text reviewed. Existing Lite injury, fatigue, consciousness and first-aid helpers inspected to identify integration boundaries. All detailed entries remain pending independent mappings and validation; underlying trait, surgery, infection and mortal-condition references still require resolution.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "health-injury-versus-damage",
+      "source": "full-2008",
+      "pages": "B418",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Distinguish penetrating attack damage from direct injury caused by illness, exertion or other effects; armor is not subtracted twice or applied to injury that bypasses damage.",
+      "tests": []
+    },
+    {
+      "id": "health-injury-shared-state",
+      "source": "full-2008",
+      "pages": "B418-B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Commit injury to the existing character injury ledger; expanded wounds and Lite interactions must not maintain independent health totals.",
+      "tests": []
+    },
+    {
+      "id": "health-low-health-movement",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Below one-third full health capacity, halve movement and dodge, rounding up; test the strict threshold and combination with low fatigue.",
+      "tests": []
+    },
+    {
+      "id": "health-zero-health-check",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At zero or lower health, check health at the next turn start and on subsequent active turns, at -1 per full multiple of health capacity below zero.",
+      "tests": []
+    },
+    {
+      "id": "health-zero-health-rest",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Doing nothing without an active defense avoids the consciousness roll; a defense or other maneuver triggers it even if no attack is attempted.",
+      "tests": []
+    },
+    {
+      "id": "health-zero-health-failure",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Failed consciousness checking incapacitates the actor, or stops a nonliving actor from functioning, and starts the appropriate recovery state.",
+      "tests": []
+    },
+    {
+      "id": "health-death-thresholds",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Crossing each new negative multiple of full health capacity from -1 through -4 requires a death check, including multiple crossings from one injury; do not repeat a previously processed threshold on a no-injury action.",
+      "tests": []
+    },
+    {
+      "id": "health-automatic-death",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At negative five times health capacity death is immediate, without granting another survival check.",
+      "tests": []
+    },
+    {
+      "id": "health-body-destruction",
+      "source": "full-2008",
+      "pages": "B419; B423",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "At negative ten times capacity, author whether the injury source actually destroys the body; ordinary punctures and incineration need not leave equivalent remains.",
+      "tests": []
+    },
+    {
+      "id": "health-shock",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shock reduces dexterity and intelligence on the next turn only, by injury-derived magnitude up to four; preserve multiple injuries within the same relevant turn and expire the penalty once.",
+      "tests": []
+    },
+    {
+      "id": "health-shock-high-capacity",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At full health capacity twenty or more, use one shock penalty per floor(capacity/10) injury, rounding down the resulting penalty and capping it at four.",
+      "tests": []
+    },
+    {
+      "id": "health-shock-defensive-exemption",
+      "source": "full-2008",
+      "pages": "B419; B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shock affects appropriate attribute-based skills but not active defenses or other no-maneuver defensive reactions.",
+      "tests": []
+    },
+    {
+      "id": "health-major-wound",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A single injury strictly greater than half health capacity is a major wound; a crippling injury is also major even when its recorded health loss is smaller.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-trigger",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A major wound or a shock-producing injury to skull, face, eye or vitals triggers an immediate knockdown/stun health check unless an applicable anatomy trait changes the trigger.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-failure",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary knockdown failure stuns, puts the actor prone and drops held items; distinguish this from displacement by knockback.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-unconscious",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Failure by at least five or any critical knockdown failure causes unconsciousness and the appropriate recovery procedure.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-no-brain",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Without a brain, skull, face and eye hits cause knockdown/stun only when major and have no special location penalty.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-no-vitals",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Without vitals, vitals and groin hits cause knockdown/stun only when major and have no special location penalty; homogeneous and diffuse anatomy include both this and the brain exception.",
+      "tests": []
+    },
+    {
+      "id": "health-stun-actions",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A stunned actor must do nothing on the next turn, may defend at -4 and cannot retreat.",
+      "tests": []
+    },
+    {
+      "id": "health-stun-recovery",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At each stunned turn end, roll health for physical stun; success permits normal actions only on subsequent turns.",
+      "tests": []
+    },
+    {
+      "id": "health-mental-stun",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mental stun uses the corresponding intelligence recovery check rather than health, with its own surprise-related modifiers and cause retained.",
+      "tests": []
+    },
+    {
+      "id": "health-bleeding-option",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Bleeding is disabled unless selected by campaign configuration; qualifying injuries create persistent bleeding state tied to their actual wounds.",
+      "tests": []
+    },
+    {
+      "id": "health-bleeding-timing",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At each minute after injury, roll health with -1 per five health lost; record the source-backed wound-loss basis and avoid reprocessing elapsed boundaries.",
+      "tests": []
+    },
+    {
+      "id": "health-bleeding-outcomes",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary bleeding failure loses one health, critical failure loses three, critical success ends bleeding, and ordinary success prevents that minute's loss.",
+      "tests": []
+    },
+    {
+      "id": "health-bleeding-streak",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Three consecutive minutes without bleeding end the episode; a bleeding minute resets the streak and successful first aid can stop further losses.",
+      "tests": []
+    },
+    {
+      "id": "health-bleeding-wound-policy",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author which wounds bleed, normally cutting/impaling/piercing; minor burn/corrosion does not bleed significantly but a major such wound does. Preserve exceptions explicitly.",
+      "tests": []
+    },
+    {
+      "id": "health-accumulation-option",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The accumulated-wound option tracks injury separately by location and cripples when the location total crosses its threshold; it must be explicitly enabled.",
+      "tests": []
+    },
+    {
+      "id": "health-accumulation-cap",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After a limb or extremity reaches its crippling loss cap, further hits do not drain global health through that location, though raw injury still matters for destruction.",
+      "tests": []
+    },
+    {
+      "id": "health-last-wounds-option",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With the last-wounds option enabled and health below one-third capacity, ignore a limb/extremity wound unless critical, crippling, or at least one-third capacity in that single injury.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-threshold",
+      "source": "full-2008",
+      "pages": "B420-B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use a strict greater-than threshold for ordinary crippling, while supporting a critical outcome that cripples with less or no injury.",
+      "tests": []
+    },
+    {
+      "id": "health-limb-injury-cap",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Limit health loss from a limb or extremity hit to the smallest integer injury that cripples it; no corresponding cap applies to eyes.",
+      "tests": []
+    },
+    {
+      "id": "health-dismemberment",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Before capping global injury, compare raw injury with twice the minimum crippling amount; qualifying damage destroys the part, with cutting/explosion severing and other types using their appropriate destruction.",
+      "tests": []
+    },
+    {
+      "id": "health-extra-limb-threshold",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With more than two limbs of a kind, crippling requires injury greater than capacity divided by that kind's count; four arms use capacity/4.",
+      "tests": []
+    },
+    {
+      "id": "health-extra-extremity-threshold",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With more than two extremities of a kind, use capacity divided by 1.5 times their count; four feet use capacity/6.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-major-check",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Every crippling injury invokes major-wound knockdown/stun handling without duplicating a check already required for the same wound.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-duration-check",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Determine crippling duration with a health check, at combat end for battlefield injuries: success temporary, ordinary failure lasting and critical failure permanent. Destruction is automatically permanent and consumes no duration roll.",
+      "tests": []
+    },
+    {
+      "id": "health-temporary-crippling",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Temporary crippling persists until full health is restored, then removes only the associated temporary functional penalties.",
+      "tests": []
+    },
+    {
+      "id": "health-lasting-crippling",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Lasting crippling lasts one die of months, reduced by qualifying medical treatment but never below one month; use the campaign calendar rather than an unexplained fixed seconds-per-month constant.",
+      "tests": []
+    },
+    {
+      "id": "health-permanent-crippling",
+      "source": "full-2008",
+      "pages": "B422-B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Permanent loss grants the appropriate negative trait and lowers character value without crediting spendable points; later restoration uses the applicable repair or treatment procedure.",
+      "tests": []
+    },
+    {
+      "id": "health-temporary-strength",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Temporary strength penalties alter muscle-powered damage but ordinarily do not reduce health capacity or other derived characteristics.",
+      "tests": []
+    },
+    {
+      "id": "health-temporary-intelligence",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Temporary intelligence penalties also lower will and perception for affected nondefensive checks and their skills.",
+      "tests": []
+    },
+    {
+      "id": "health-temporary-secondary-exemption",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Temporary strength, dexterity and health reductions do not ordinarily recalculate health, speed, movement or fatigue capacity; explicit exceptions such as gravity must remain separately stated.",
+      "tests": []
+    },
+    {
+      "id": "health-temporary-skill-propagation",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Propagate temporary penalties to skills governed by the affected attribute, including will/perception skills affected through intelligence.",
+      "tests": []
+    },
+    {
+      "id": "health-temporary-defense-exemption",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "No-maneuver defensive reactions, including defenses, resistance and fear checks, ignore temporary attribute reductions unless a specific rule overrides this.",
+      "tests": []
+    },
+    {
+      "id": "health-permanent-score-loss",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Permanent attribute loss recalculates all dependent secondary scores and skills; do not reuse the temporary-penalty exemption.",
+      "tests": []
+    },
+    {
+      "id": "health-mortal-entry",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A death-check failure by one or two creates a mortal wound and immediate incapacitation rather than death; the author may choose whether the patient remains conscious.",
+      "tests": []
+    },
+    {
+      "id": "health-mortal-new-death-check",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "While already mortally wounded, any failed subsequent death check from further injury kills the patient rather than renewing mortal status.",
+      "tests": []
+    },
+    {
+      "id": "health-mortal-clock",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Check health every half-hour while mortally wounded: failure kills, ordinary success delays death and critical success stabilizes the mortal condition while leaving incapacitation.",
+      "tests": []
+    },
+    {
+      "id": "health-mortal-trauma-maintenance",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At medical technology six or higher, trauma maintenance replaces half-hour checks with hourly checks against the higher of patient health or caregiver physician skill.",
+      "tests": []
+    },
+    {
+      "id": "health-mortal-life-support",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Suitable mechanical life support extends the maintenance check interval to one day; magical or advanced suspended animation suppresses these checks entirely while active.",
+      "tests": []
+    },
+    {
+      "id": "health-mortal-recovery-cost",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After recovery from a mortal wound, make one health check; failure permanently loses one health and critical failure may also produce an explicitly authored lasting consequence.",
+      "tests": []
+    },
+    {
+      "id": "health-postmortem-injury",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Retain postmortem damage and body integrity where revival depends on them; a dead-state early return must not erase damage relevant to body destruction.",
+      "tests": []
+    },
+    {
+      "id": "health-instant-death",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An authored obviously lethal attack on a helpless or unconscious victim can set health to negative five times capacity without damage rolls; merely unaware targets do not qualify.",
+      "tests": []
+    },
+    {
+      "id": "health-dying-action",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A permitted final action for a significant dying character has an explicit scope and duration, normally at most one combat turn for an attack; it must not reopen unlimited normal action.",
+      "tests": []
+    },
+    {
+      "id": "health-unconscious-positive",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With at least one health remaining, ordinary injury unconsciousness ends automatically after fifteen minutes, subject to a more specific ongoing cause.",
+      "tests": []
+    },
+    {
+      "id": "health-unconscious-zero-band",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At zero or below but above negative full capacity, check health hourly to wake; after success do not demand turn-by-turn consciousness checks until new injury.",
+      "tests": []
+    },
+    {
+      "id": "health-unconscious-negative-band",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At or below negative full capacity, allow one wake check after twelve hours; failure requires medical stabilization and subsequent twelve-hour checks are survival checks, not additional wake attempts.",
+      "tests": []
+    },
+    {
+      "id": "health-natural-recovery",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After a full day of rest and adequate food, a successful health check restores one health before capacity scaling; ineligible injury types do not heal naturally.",
+      "tests": []
+    },
+    {
+      "id": "health-bandage",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One minute applying pressure or a tourniquet restores one health before scaling; bind treatment to eligible injury so repeated new sessions cannot farm the same bandage benefit.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-bleeding",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A successful first-aid check within a minute of injury prevents bleeding loss; a later success stops future loss but does not undo previously committed bleeding injury.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-shock",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After bandaging, the patient must remain warm, comfortable, calm and still for the listed treatment duration before the first-aid roll.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-healing",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Successful treatment rolls the technology-dependent recovery amount, minimum one; this total includes prior bandage recovery rather than adding it again.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-critical",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Critical first-aid success restores the maximum listed amount; critical failure loses two health instead of recovering health. Preserve the treatment's prior bandaging in the total accounting.",
+      "tests": []
+    },
+    {
+      "id": "health-surgery-context",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use the surgery skill's general modifiers and failure effects in addition to operation-specific rules; an equipment bonus alone is not a complete surgical procedure.",
+      "tests": []
+    },
+    {
+      "id": "health-surgery-anesthetic",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Technology-five-or-higher equipment modifiers assume anesthetic; without it impose -2 instead of the ordinary -1 missing-item penalty.",
+      "tests": []
+    },
+    {
+      "id": "health-surgery-infection",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Check post-surgical infection before technology five and during technology five when the campaign selects that poor-antisepsis condition.",
+      "tests": []
+    },
+    {
+      "id": "health-stabilization-duration",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each mortal-wound stabilization attempt takes one hour; coordinate survival checks and care over that same interval without spending the time twice.",
+      "tests": []
+    },
+    {
+      "id": "health-stabilization-penalty",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Stabilization suffers -2 at negative three times capacity or worse and -4 at negative four times capacity or worse; use the applicable band, not both cumulatively.",
+      "tests": []
+    },
+    {
+      "id": "health-stabilization-retries",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Repeated failed stabilization attempts are allowed at an additional cumulative -2 each attempt; retain history on the patient and procedure, not just a newly created session.",
+      "tests": []
+    },
+    {
+      "id": "health-lasting-repair",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Surgery for lasting crippling takes two hours; success changes remaining recovery from months to weeks, while critical failure makes the injury permanent.",
+      "tests": []
+    },
+    {
+      "id": "health-permanent-repair",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "At technology seven or higher, a specific authorized repair may restore a permanent injury with required prosthetic/transplant resources, at -3 or worse to skill and possibly only partial function.",
+      "tests": []
+    },
+    {
+      "id": "health-permanent-repair-failure",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A failed permanent-injury repair imposes one die of months of recovery before another attempt; creating another treatment object cannot bypass that delay.",
+      "tests": []
+    },
+    {
+      "id": "health-physician-rest-bonus",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Care from a physician with skill at least twelve grants +1 to natural recovery checks; multiple physicians do not stack this benefit.",
+      "tests": []
+    },
+    {
+      "id": "health-physician-heal-check",
+      "source": "full-2008",
+      "pages": "B424-B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only one physician may make the scheduled additional healing check for a patient; success restores one health, critical success two, and critical failure causes one injury.",
+      "tests": []
+    },
+    {
+      "id": "health-physician-capacity",
+      "source": "full-2008",
+      "pages": "B424-B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Enforce doctor patient limits and healing-check frequency by the physician's medical technology, sharing schedules across all patient treatment objects.",
+      "tests": []
+    },
+    {
+      "id": "health-physician-low-equipment",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A technology-six-or-higher physician lacking familiar gadgets operates as technology six when surroundings are clean; retain actual skill and equipment conditions.",
+      "tests": []
+    },
+    {
+      "id": "health-high-capacity-healing",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Scale healing by one below capacity twenty, two at twenty through twenty-nine, three at thirty through thirty-nine and so on, across natural, first-aid, magical and regeneration healing without double scaling.",
+      "tests": []
+    },
+    {
+      "id": "health-resuscitation-check",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each resuscitation attempt takes one minute and uses physician at technology seven or higher, or first aid at that technology with -4; preserve the cause-specific revival deadline.",
+      "tests": []
+    },
+    {
+      "id": "health-resuscitation-trained-aid",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Trained first aid for drowning or asphyxiation uses -2 instead of -4 with the specified modern rescue technique; default rolls do not receive that improvement.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-modifier-face-vitals",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Major wounds to face or vitals impose -5.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-modifier-groin",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Major groin wounds on a humanoid male impose -5.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-modifier-skull-eye",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Major skull or eye wounds impose -10.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-modifier-pain-resistant",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "High pain threshold grants +3.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-modifier-pain-sensitive",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Low pain threshold imposes -4.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-threshold-limb",
+      "source": "full-2008",
+      "pages": "B420-B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "An ordinary arm, leg, wing, striker or prehensile tail is crippled by injury strictly over half full health capacity.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-threshold-extremity",
+      "source": "full-2008",
+      "pages": "B420-B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "An ordinary hand, foot, tail, fin or extraneous head is crippled by injury strictly over one-third full capacity.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-threshold-eye",
+      "source": "full-2008",
+      "pages": "B420-B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "An eye is crippled by injury strictly over one-tenth full capacity.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-hand",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Drop single-handed held items; a multiply held item allows dexterity to retain it. The hand cannot hold or attack, but a shield on the arm can still block.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-arm",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The arm cannot carry anything. An attached shield stays unless severed but cannot block and its passive defense bonus is reduced by one.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-foot",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Fall and require a crutch or support to stand or walk; braced, sitting or kneeling combat remains subject to the appropriate posture restrictions.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-leg",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Fall and use sitting or lying posture to fight, with the corresponding missing-leg functional restriction.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-eye",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Lose sight through that eye; losing all eyes causes blindness unless an alternate sensing capability applies.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-extra-arms",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With three or more arms, reduce usable limb/hand count; apply ordinary one-arm/hand disadvantage only when fewer than two functional equivalents remain.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-extra-head",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A crippled extra head loses the benefits supplied by that specific head.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-extra-legs",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Resolve crippled feet/legs with the extra-leg trait's actual support and mobility rules rather than automatically applying biped collapse.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-striker",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A crippled striker cannot attack; a striker that is also a tail or wing loses those functions too.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-tail",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Disable tail-granted abilities and impose -1 dexterity except close manual work; swimmers and winged flyers instead have -2 and half water/air movement, including enhanced top speed.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-wing",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Wing-dependent flight becomes impossible and an airborne actor falls; a wing striker cannot attack.",
+      "tests": []
+    },
+    {
+      "id": "health-lasting-care-technology-five",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Qualifying physician care at technology five subtracts one month from the duration die, minimum one month.",
+      "tests": []
+    },
+    {
+      "id": "health-lasting-care-technology-six",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Qualifying technology-six care subtracts two months, minimum one.",
+      "tests": []
+    },
+    {
+      "id": "health-lasting-care-technology-seven-plus",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Qualifying technology-seven-or-higher care subtracts three months, minimum one.",
+      "tests": []
+    },
+    {
+      "id": "health-patient-status-good",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A conscious patient at half or more full health is in the good category.",
+      "tests": []
+    },
+    {
+      "id": "health-patient-status-fair",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A conscious patient with at least one health but less than half capacity is in the fair category.",
+      "tests": []
+    },
+    {
+      "id": "health-patient-status-serious",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At zero health or below but above negative full capacity, use the serious category.",
+      "tests": []
+    },
+    {
+      "id": "health-patient-status-critical",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At negative full capacity or below, use the critical category; do not confuse this display label with a critical die result.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-row-0-1",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At technology 0-1, post-bandaging treatment takes 30 minutes and recovery is one die with modifier -4, minimum one, including bandaging.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-row-2-3",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At technology 2-3, post-bandaging treatment takes 30 minutes and recovery is one die with modifier -3, minimum one, including bandaging.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-row-4",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At technology 4, post-bandaging treatment takes 30 minutes and recovery is one die with modifier -2, minimum one, including bandaging.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-row-5",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At technology 5, post-bandaging treatment takes 20 minutes and recovery is one die with modifier -2, minimum one, including bandaging.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-row-6-7",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At technology 6-7, post-bandaging treatment takes 20 minutes and recovery is one die with modifier -1, minimum one, including bandaging.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-row-8",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At technology 8, post-bandaging treatment takes 10 minutes and recovery is one die with modifier 0, minimum one, including bandaging.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-row-9-plus",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At technology 9-plus, post-bandaging treatment takes 10 minutes and recovery is one die with modifier 1, minimum one, including bandaging.",
+      "tests": []
+    },
+    {
+      "id": "health-surgery-equipment-1",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Basic surgical equipment at technology 1 gives -6 to the operation roll before quality and procedure modifiers.",
+      "tests": []
+    },
+    {
+      "id": "health-surgery-equipment-2-3",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Basic surgical equipment at technology 2-3 gives -5 to the operation roll before quality and procedure modifiers.",
+      "tests": []
+    },
+    {
+      "id": "health-surgery-equipment-4",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Basic surgical equipment at technology 4 gives -4 to the operation roll before quality and procedure modifiers.",
+      "tests": []
+    },
+    {
+      "id": "health-surgery-equipment-5",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Basic surgical equipment at technology 5 gives -2 to the operation roll before quality and procedure modifiers.",
+      "tests": []
+    },
+    {
+      "id": "health-surgery-equipment-six-plus",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At technology six and higher, basic surgical equipment gives technology minus six to the operation roll before quality and other modifiers.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-0",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 0, additional physician recovery checks are unavailable, with a limit of 0 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-1-3",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 1-3, additional physician recovery checks are weekly, with a limit of 10 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-4",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 4, additional physician recovery checks are every three days, with a limit of 10 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-5",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 5, additional physician recovery checks are every two days, with a limit of 15 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-6",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 6, additional physician recovery checks are daily, with a limit of 20 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-7",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 7, additional physician recovery checks are daily, with a limit of 25 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-8",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 8, additional physician recovery checks are daily, with a limit of 50 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-9",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 9, additional physician recovery checks are twice daily, with a limit of 50 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-10",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 10, additional physician recovery checks are three times daily, with a limit of 50 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-11",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 11, additional physician recovery checks are four times daily, with a limit of 100 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-12-plus",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 12-plus, additional physician recovery checks are five times daily, with a limit of 200 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-design",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An authored technology-nine-or-higher drug defines effects, adverse effects, duration, potency, delivery form, onset, dose and legal class; incomplete definitions cannot silently become unrestricted healing.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-effects",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Drug effects may change attributes, grant traits, suppress disadvantages or restore health/fatigue; retain the underlying trait identities and restore only the suppressed effects on expiry.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-repeat-dose",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Repeated doses normally extend duration rather than stack effect strength; retain dose timing and source-specific exceptions.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-resistance",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Negative drug effects allow a health resistance check modified by potency; each dosage doubling imposes an additional -1.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-trait-cost-basis",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sum absolute values of all traits added or removed for the drug price basis, so benefits and adverse effects do not cancel their cost.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-healing-price-basis",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Healing uses the point price of health or fatigue as appropriate, and permanent healing uses the long-duration price category.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-potency-price",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each -1 to resistance doubles price; combine with duration and delivery multipliers exactly once.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-legal-class",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The campaign specifies drug legality; medical use commonly has class three while harmful or restricted use may have class two or one. Legality is not inferred solely from price.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-worked-price",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A short-duration injection imposing will -4 on a failed health-3 check has basis twenty, duration factor two and potency multiplier eight, for a price of 320 per dose.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-duration-short",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Short effects last twenty-five minus health minutes and use price multiplier two.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-duration-medium",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Medium effects last (twenty-five minus health)/4 hours and use price multiplier ten.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-duration-long",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Long effects last one day and use price multiplier fifty.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-duration-very-long",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Very-long effects last an authored interval up to one week and use price multiplier 250.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-delivery-pill",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Pills normally require at least thirty minutes to act and may be dissolved in drinks; no extra form multiplier applies.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-delivery-injection",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Injection onset is nearly immediate and has no extra form multiplier.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-delivery-aerosol",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Aerosol onset is nearly immediate and doubles final price.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-delivery-contact",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Contact agents require at least five minutes to act and double final price.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-delivery-aerosol-contact",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Aerosol contact delivery multiplies final price by ten; resolve contact and exposure requirements explicitly.",
+      "tests": []
+    },
+    {
+      "id": "health-fatigue-ledger",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "All activity, spell and trait costs use one fatigue ledger with cause-specific recovery restrictions; do not create separate physical and supernatural balances.",
+      "tests": []
+    },
+    {
+      "id": "health-fatigue-low",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Below one-third fatigue capacity, halve movement, dodge and strength rounding up; this strength reduction does not change strength-based quantities such as health or damage.",
+      "tests": []
+    },
+    {
+      "id": "health-fatigue-overflow",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At zero or less fatigue, each additional fatigue lost also causes one injury; at negative full fatigue capacity, further costs affect health alone without lowering fatigue further.",
+      "tests": []
+    },
+    {
+      "id": "health-fatigue-action-check",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At zero or lower fatigue, anything except talk or rest requires a will check; in combat check before maneuvers other than doing nothing.",
+      "tests": []
+    },
+    {
+      "id": "health-fatigue-action-failure",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An ordinary failed effort check incapacitates until fatigue becomes positive; critical failure requires an immediate health check and failure causes a heart attack.",
+      "tests": []
+    },
+    {
+      "id": "health-fatigue-unconscious",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At negative full fatigue capacity, the actor becomes unconscious, rests at the normal recovery rate and awakens at positive fatigue, subject to other unresolved causes.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-fatigue",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After a battle longer than ten seconds, assess the encumbrance-based cost once for actors who made attack or defense rolls; spell costs and other activity costs remain separate.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-hot",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hot conditions add one fatigue, or two for insulating clothing or plate; suitable cooling, including climate-controlled full armor at technology nine or higher, negates the heat addition.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-extended",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A campaign may assess extra cost for unusually long battles, generally lasting two or three minutes or more; do not charge the normal battle cost every ten seconds.",
+      "tests": []
+    },
+    {
+      "id": "health-march-fatigue",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply battle-equivalent encumbrance and heat costs per road-marching hour; entering combat normally assumes one hour since the last stop unless actual events specify otherwise.",
+      "tests": []
+    },
+    {
+      "id": "health-overload-fatigue",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Overloaded carrying or very heavy pushing/pulling costs one fatigue per second, with effort costs handled separately when applicable.",
+      "tests": []
+    },
+    {
+      "id": "health-exercise-fatigue",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use the detailed running/swimming interval checks and their allowed skill substitutions; the summary health check must not duplicate the exploration module's cost.",
+      "tests": []
+    },
+    {
+      "id": "health-ability-fatigue",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Pay specified spell, cinematic skill, advantage or fatigue-limitation costs through the same assessment/commit path as ordinary effort.",
+      "tests": []
+    },
+    {
+      "id": "health-food-tracking-option",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Food and water tracking can be disabled by campaign choice; enabling it requires actual consumption histories and must not invent missed meals retrospectively.",
+      "tests": []
+    },
+    {
+      "id": "health-starvation",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The ordinary human baseline is three meals daily, with one fatigue per missed meal; nonhuman requirements come from their actual traits.",
+      "tests": []
+    },
+    {
+      "id": "health-starvation-recovery",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only a day of rest without fighting or travel and with three full meals recovers starvation fatigue, compensating for three missed meals.",
+      "tests": []
+    },
+    {
+      "id": "health-dehydration-shortfall",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Insufficient daily water causes one fatigue every eight hours; track the applicable climate requirement and intake rather than repeatedly charging a full daily deficit.",
+      "tests": []
+    },
+    {
+      "id": "health-dehydration-severe",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Less than one quart daily adds one fatigue and one injury per day to the ordinary shortfall effects.",
+      "tests": []
+    },
+    {
+      "id": "health-dehydration-recovery",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A day resting with ample water restores all dehydration fatigue; related injury heals by its ordinary eligible route.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-baseline",
+      "source": "full-2008",
+      "pages": "B426-B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary humans have a sixteen-hour waking day and eight-hour sleep period; sleep traits change these requirements and no-sleep actors are exempt.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-quality",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Interruptions, noise and relevant traits alter credited sleep time, possibly to zero; track actual and effective rest separately.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-late",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At the end of the normal waking day without sleep, lose one fatigue, then one each further quarter of the normal waking day.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-half-loss",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After losing at least half fatigue capacity to missed sleep, check will every two inactive hours; failure starts sleep and success imposes -2 dexterity, intelligence and self-control, with another -1 for slow rising.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-critical-loss",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Below one-third remaining fatigue due to sleep deprivation, check every thirty inactive minutes or two active hours rather than retaining the ordinary inactive interval.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-early-wake",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shorten the next waking day by twice the missed sleep hours; sleeping six instead of eight hours gives twelve waking hours instead of sixteen.",
+      "tests": []
+    },
+    {
+      "id": "health-rest-recovery",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Quiet rest restores one ordinary fatigue per ten minutes; reading, talking and thinking qualify but walking or strenuous activity does not.",
+      "tests": []
+    },
+    {
+      "id": "health-rest-meal",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored adequate meal during rest may restore one additional ordinary fatigue once; do not let repeated assessments reuse the same meal.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-recovery",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sleep fatigue recovers one point only after a full sleep period, then one per additional uninterrupted hour; ordinary quiet rest cannot erase it.",
+      "tests": []
+    },
+    {
+      "id": "health-recovery-cause-restrictions",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Food, water and sleep restrictions persist even when ordinary rest or other recovery is applied; each recovery operation identifies which causes it can restore.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-fatigue-row-none",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The base fatigue cost is 1 for none encumbrance, before applicable heat or unusually long battle adjustments.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-fatigue-row-light",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The base fatigue cost is 2 for light encumbrance, before applicable heat or unusually long battle adjustments.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-fatigue-row-medium",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The base fatigue cost is 3 for medium encumbrance, before applicable heat or unusually long battle adjustments.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-fatigue-row-heavy",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The base fatigue cost is 4 for heavy encumbrance, before applicable heat or unusually long battle adjustments.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-fatigue-row-extra-heavy",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The base fatigue cost is 5 for extra-heavy encumbrance, before applicable heat or unusually long battle adjustments.",
+      "tests": []
+    },
+    {
+      "id": "health-water-requirement-temperate",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The ordinary daily water requirement is two quarts in temperate conditions.",
+      "tests": []
+    },
+    {
+      "id": "health-water-requirement-hot",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The ordinary daily water requirement is three quarts in a hot climate.",
+      "tests": []
+    },
+    {
+      "id": "health-water-requirement-desert",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The ordinary daily water requirement is five quarts in desert heat.",
+      "tests": []
+    },
+    {
+      "id": "health-foraging-availability",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Foraging requires suitable plant, animal or aquatic resources; an authored terrain model specifies availability and any cumulative local depletion.",
+      "tests": []
+    },
+    {
+      "id": "health-foraging-plants",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A successful survival or naturalist roll gathers one meal of edible plants; choosing a second applicable skill does not grant another attempt.",
+      "tests": []
+    },
+    {
+      "id": "health-foraging-plant-seventeen",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A natural seventeen on plant foraging poisons the forager; a health success limits injury to one and failure causes one die of injury.",
+      "tests": []
+    },
+    {
+      "id": "health-foraging-plant-eighteen",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A natural eighteen poisons the whole party through the shared food; each affected character makes an independent health check and damage resolution.",
+      "tests": []
+    },
+    {
+      "id": "health-foraging-hunting",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "In appropriate terrain, a missile-weapon skill success at -4 supplies two meals of small-game meat.",
+      "tests": []
+    },
+    {
+      "id": "health-foraging-fishing",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Near suitable water, a successful fishing roll supplies two meals instead of using the missile-hunting attempt.",
+      "tests": []
+    },
+    {
+      "id": "health-foraging-travel-limits",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "During a travel day, each actor gets one plant attempt and one hunting-or-fishing attempt; creating new forage objects cannot reset the allowance.",
+      "tests": []
+    },
+    {
+      "id": "health-foraging-dedicated-day",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A day devoted to foraging instead of travel permits five plant and five hunting-or-fishing attempts per actor, consuming the shared day schedule.",
+      "tests": []
+    },
+    {
+      "id": "health-foraging-preservation",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Meat and fish may be preserved over a fire and added to rations; require the actual food and fire and conserve inventory quantity.",
+      "tests": []
+    },
+    {
+      "id": "health-foraging-terrain-penalties",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply authored scarcity penalties, including the examples -3 for snow and -6 for desert, plus any recorded repeated-use penalty for the area.",
+      "tests": []
+    },
+    {
+      "id": "health-healing-condition-contract",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A rest assessment identifies food, environment, eligible injury causes and any authored poor/good-condition modifier; a generic permission flag cannot validate all natural healing conditions.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-duration-boundaries",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Resolve nonpositive health-derived drug durations from the supplied rules and a documented specific campaign contract before implementing those parameter combinations; do not invent a minimum duration silently.",
+      "tests": []
+    },
+    {
+      "id": "health-lasting-injury-restoration",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A permanent-injury restoration definition names the part, resources, achievable function, technology and operation penalty; successful partial restoration updates functional restrictions and point accounting consistently.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B418-B427",
+      "reason": "Exclude named fictional characters, quotations, artwork and source prose. Retain mechanical examples and tables as neutral requirements."
+    },
+    {
+      "pages": "B421",
+      "reason": "Patient condition labels are inventoried as reporting categories, not real-world medical diagnosis or an additional injury mechanic."
+    }
+  ]
+}

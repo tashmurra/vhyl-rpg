@@ -60,7 +60,7 @@
     {
       "id": "exploration",
       "title": "Tasks, physical feats, senses and travel",
-      "pages": "B343-B361",
+      "pages": "B343-B361; B427",
       "source": "full-2008",
       "status": "partial",
       "tests": [
@@ -286,6 +286,7 @@
     "inventory/development.json",
     "inventory/task-resolution.json",
     "inventory/physical-activities.json",
-    "inventory/senses-influence-fear.json"
+    "inventory/senses-influence-fear.json",
+    "inventory/health.json"
   ]
 }

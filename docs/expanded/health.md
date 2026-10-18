@@ -20,3 +20,33 @@ permanent attribute loss. An owned episode must retain those details across
 time advancement, rollback, undo and save continuation. Lasting traits require a
 specific event-related author decision and alter character value without granting
 spendable points. None of this expanded fear behavior is implemented yet.
+
+The [injury and recovery inventory](inventory/health.json) covers the first text
+pass through B418–B427. It records location-specific crippling, optional bleeding
+and accumulated wounds, survival and waking checks, treatment tables, advanced
+drug design, fatigue causes and restricted recovery. All detailed entries remain
+pending; shared Lite helpers are integration starting points, not proof of full
+coverage.
+
+Expanded health must retain one global injury and fatigue balance while also
+recording wound locations, uncapped injury relevant to destruction, disabled body
+parts and recovery deadlines. Optional location accumulation and bleeding must
+remain disabled unless explicitly selected. Extra limbs and nonhuman anatomy
+change both thresholds and consequences.
+
+Temporary attribute penalties generally leave derived capacities unchanged and
+exclude defensive reactions. Permanent changes require recalculation. These
+paths cannot share an unconditional attribute setter without preserving their
+different effects.
+
+Medical procedures need owned sessions and patient-level eligibility. The source
+specifies caregiver qualifications, technology-dependent capacity and frequency,
+retry penalties, equipment requirements and treatment consequences. Healing must
+also scale with unusually high health capacity without being scaled twice by
+both the treatment and its caller.
+
+Fatigue recovery remains specific to its cause: quiet rest, adequate meals, water
+and uninterrupted sleep have different requirements. Successful recovery of one
+cause must not erase another cause's restrictions. Drug effects likewise need
+onset, resistance, dose history and expiry, with suppressed traits restored only
+when that suppression ends.

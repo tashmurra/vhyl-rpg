@@ -20,6 +20,7 @@ copies of the reference books.
 | `full-2008` | B343–B349 | [Task resolution](task-resolution.json) | Roll procedures, equipment modifiers, timing, projects and contests enumerated |
 | `full-2008` | B349–B357 | [Physical activities](physical-activities.json) | Activity procedures, gravity, numeric tables and effort options enumerated |
 | `full-2008` | B358–B361 | [Senses, influence and fear](senses-influence-fear.json) | Hearing and fear tables enumerated by row; full fear dispatch remains pending |
+| `full-2008` | B418–B427 | [Injury, recovery and fatigue](health.json) | Anatomy, wound options, treatment, drug design, resource recovery and foraging enumerated |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 
@@ -118,6 +119,12 @@ health-managed fear effects. The detailed entries identify those owners rather
 than placing every operation in exploration. In particular, full fear resolution
 cannot reuse the Lite duration formula: it needs a separate table, recovery
 checks and lasting consequences, while preserving Lite's existing execution path.
+
+The injury pass distinguishes temporary penalties from permanent score changes,
+and global injury from body-part damage. Treatment needs records for individual
+wounds, recovery restrictions, caregiver capacity and retry history. A new
+treatment object must not reset a patient's eligibility or grant another healing
+allowance. The same applies to foraging attempts, meals and sleep recovery.
 
 The implementation remains incomplete and the PR remains draft. Build checks are
 currently suspended at the user's request. Newly authored inventory checks have

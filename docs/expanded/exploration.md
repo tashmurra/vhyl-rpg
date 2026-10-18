@@ -1,6 +1,6 @@
 # Expanded exploration
 
-**Status: partial.** Tasks, physical feats, senses and travel. Neutral source: `full-2008`, B343-B361.
+**Status: partial.** Tasks, physical feats, senses and travel. Neutral source: `full-2008`, B343-B361; B427.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
@@ -36,3 +36,9 @@ Some chapter procedures belong elsewhere: equipment quality to equipment,
 influence to social, fear consequences to health, combat effort to combat and
 optional point-funded outcome changes to campaign. Their dependencies must share
 one action result and resource ledger.
+
+Foraging requirements are recorded in the [health-chapter inventory](inventory/health.json)
+because that is where the source presents them, but exploration owns their
+execution. Daily attempt allowances differ between travel and a dedicated
+foraging day. Gathered meals, poisoned food and preserved rations must update the
+same inventory consumed by health's food and water procedures.
