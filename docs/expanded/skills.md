@@ -1306,3 +1306,41 @@ explicit `planet`, `planetType` and requested `feature`. Geology searches suppor
 rejects mismatched world qualifications. It is used by the exploration library's
 owned `RpgExpandedTerrainSearch`. Geological specimen interpretation, catalogue
 coverage for Prospecting and societal default eligibility remain pending.
+
+
+## Tracking scores and terrain intervals
+
+`RpgExpandedTrackingSkill` supplies the Perception/Average tracking definition
+(full-2008 B226), defaulting to Perception minus five or a purchased
+`natural-history` skill minus five. It rejects custom specialties, technology
+levels, wildcard forms and replacement default definitions.
+
+`RpgExpandedTrackingContext` requires this skill, `terrain`, `trailAvailable`,
+`approved` and concrete `evidence`. Use `subjectCategory` values `animal`,
+`human-single` or `human-group` for adjustments zero, +3 or +6 respectively.
+`trailAgeSeconds` applies no age penalty through 86,400 seconds, -5 above that
+through 604,800, and -10 above 604,800. Environmental facts and access to the
+trail remain authored; the context does not infer that a trail survives weather.
+
+`rpgExpandedTrackingTerrain(terrain)` returns the source interval and modifier:
+
+| Terrain | Interval in seconds | Modifier |
+| --- | ---: | ---: |
+| jungle, plains, woodland | 1800 | 0 |
+| arctic, desert, coast, mountain | 900 | -2 |
+| swamp | 300 | -4 |
+| urban | 60 | -6 |
+
+Set `visualBonusApplicable` for the acute-vision bonus, and
+`scentBonusApplicable` for the fine-smell bonus, with the justification included
+in `evidence`. Fine smell passes through the shared sensory hook once. Acute
+taste/smell is not independently added to this tracking check. The context does
+not grant a sensory capability merely because it is relevant.
+
+`concealedTrail` blocks ordinary scoring: hidden tracks require an invested
+tracker and a contest adapter, which remains pending. Acquisition, continuation
+scheduling, terrain changes, movement/time ledger integration and concealment
+are not implemented by returning an interval. Do not count the terrain table as
+a complete tracking encounter. `test_tracking_context` specifies every terrain,
+age boundaries, group modifiers, sensory stacking/suppression, purchased
+default and unavailable trails. Fixtures remain unrun.

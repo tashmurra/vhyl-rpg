@@ -9540,6 +9540,8 @@ def test(build):
     test_sensory_memory_actions(Session,sensory_memory_actions,build.out)
     signature_recognition = build.build('expanded-signature-recognition',ROOT / 'tests/fixtures/expanded-signature-recognition.t')
     test_signature_recognition(Session,signature_recognition,build.out)
+    tracking_context = build.build('expanded-tracking-context',ROOT / 'tests/fixtures/expanded-tracking-context.t')
+    test_tracking_context(Session,tracking_context)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27036,3 +27038,27 @@ def test_signature_recognition(Session, bundle, out):
         assert state(s) == [0,None,0,0,3]
     finally:
         s.close()
+
+
+def test_tracking_context(Session, bundle):
+    """B226 terrain table, strict age boundaries, source default and sensory bonuses; unrun."""
+    rows = [(1800,0)] * 3 + [(900,-2)] * 4 + [(300,-4),(60,-6)]
+    for index,(interval,modifier) in enumerate(rows):
+        s = Session(bundle)
+        try:
+            s.action(1680,28420+index); s.action(1680,28400)
+            assert last(s,'test.tracking-context') == [7+modifier,interval,modifier,0,0]
+        finally:
+            s.close()
+    for codes,score in (((),7),((28404,),7),((28405,),2),((28406,),2),((28407,),-3),
+                        ((28408,),10),((28409,),13),((28410,),7),((28000,28410),11),
+                        ((28000,28410,28411),13),((28000,28410,28002),7),
+                        ((28000,28410,27906),11),((28412,),None),((28413,),None),((28414,),12)):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,28400)
+            assert last(s,'test.tracking-context') == [score,1800,0,0,0]
+        finally:
+            s.close()

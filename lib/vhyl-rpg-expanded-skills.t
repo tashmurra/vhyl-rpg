@@ -2680,3 +2680,87 @@ class RpgExpandedTerrainSearchContext: RpgExpandedSkillContext
         return self.taskUnavailableReason(profile) == nil ? inherited(profile) : nil;
     }
 ;
+
+/** B226 fixed tracking catalogue definition and purchased natural-history default. */
+class RpgExpandedTrackingSkill: RpgExpandedSkill
+    id = 'tracking'
+    attribute = rpgPerception
+    difficulty = 1
+    defaultPenalty = -5
+    validateDefinition()
+    {
+        if (self.id != 'tracking' || self.attribute != rpgPerception || self.difficulty != 1 || self.defaultPenalty != -5
+            || self.techLevel != nil || self.specialty != nil || self.defaultAttribute != nil || self.alternateAttribute != nil
+            || self.defaults.length() != 0 || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil)
+            rpgExpandedReject('tracking-skill-definition');
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points > 0 && source != self && source.ofKind(RpgExpandedSkill)
+                && source.id == 'natural-history' && source.techLevel == nil && source.optionalParent == nil)
+                edges = edges + [[source,-5]];
+        }
+        return edges;
+    }
+;
+class RpgExpandedTrackingTerrainResult: RpgExpandedResult
+    interval = nil
+;
+rpgExpandedTrackingTerrain(terrain)
+{
+    local value = new RpgExpandedTrackingTerrainResult();
+    if (holds(['jungle','plains','woodland'],terrain)) { value.interval = 1800; value.modifier = 0; }
+    else if (holds(['arctic','desert','coast','mountain'],terrain)) { value.interval = 900; value.modifier = -2; }
+    else if (terrain == 'swamp') { value.interval = 300; value.modifier = -4; }
+    else if (terrain == 'urban') { value.interval = 60; value.modifier = -6; }
+    else rpgExpandedReject('tracking-terrain');
+    value.status = 'ready'; return value;
+}
+/** Ordinary visible/scent trail scoring. Hidden trails require a contested adapter. */
+class RpgExpandedTrackingContext: RpgExpandedSkillContext
+    kind = 'tracking'
+    someLight = nil
+    terrain = nil
+    trailAgeSeconds = 0
+    subjectCategory = 'animal'
+    visualBonusApplicable = nil
+    scentBonusApplicable = nil
+    trailAvailable = nil
+    concealedTrail = nil
+    approved = nil
+    evidence = nil
+    sensoryRecognitionMode() { return self.scentBonusApplicable ? 'smell' : nil; }
+    trackingFacts()
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedTrackingSkill) || self.kind != 'tracking'
+            || self.fixedBase != nil || self.rollAttribute != nil || self.darkness != 0 || self.someLight
+            || !holds(['animal','human-single','human-group'],self.subjectCategory)) rpgExpandedReject('tracking-context');
+        self.skill.validateDefinition(); rpgInteger(self.trailAgeSeconds,0,2147483647); rpgExpandedTrackingTerrain(self.terrain);
+        return [self.skill,self.terrain,self.trailAgeSeconds,self.subjectCategory,self.visualBonusApplicable,self.scentBonusApplicable,
+            self.trailAvailable,self.concealedTrail,self.approved,self.evidence,self.modifier,self.equipmentTL,self.familiarity]
+            + self.culturalTaskFacts();
+    }
+    taskUnavailableReason(profile)
+    {
+        self.trackingFacts();
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'tracking-world-facts-required';
+        if (!self.trailAvailable) return 'tracking-trail-unavailable';
+        if (self.concealedTrail) return 'tracking-contest-adapter-required';
+        return inherited(profile);
+    }
+    skillUseModifier(profile)
+    {
+        if (self.taskUnavailableReason(profile) != nil) return nil;
+        local value = inherited(profile); if (value == nil) return nil;
+        value += rpgExpandedTrackingTerrain(self.terrain).modifier;
+        value += self.trailAgeSeconds > 604800 ? -10 : self.trailAgeSeconds > 86400 ? -5 : 0;
+        value += self.subjectCategory == 'human-group' ? 6 : self.subjectCategory == 'human-single' ? 3 : 0;
+        if (self.visualBonusApplicable) value += profile.level('acute-vision');
+        return value;
+    }
+;
