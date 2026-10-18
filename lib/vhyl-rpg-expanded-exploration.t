@@ -1700,6 +1700,10 @@ modify RpgExpandedThrowAssessment
 /** Pure request for an ordinary object already held. Training, readiness and
  * hand legality come from owned state; execution remains a separate operation. */
 class RpgExpandedHeldThrow: object
+    hitLocation = 'torso'
+    locationPart = nil
+    locationEvidence = nil
+    shieldAtLocation = nil
     targetEntity = nil
     profile = nil
     item = nil
@@ -1719,6 +1723,19 @@ class RpgExpandedHeldThrow: object
         local value = new RpgExpandedThrowAssessment();
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'held-throw-author-facts'; return value; }
+        if (!holds(['torso','arm','hand','leg','foot'],self.hitLocation))
+        { value.reason = 'throw-location-adapter-required'; return value; }
+        if (self.hitLocation == 'torso' && (self.locationPart != nil || self.shieldAtLocation))
+            rpgExpandedReject('throw-torso-location-facts');
+        if (self.hitLocation != 'torso')
+        {
+            if (self.target != 'specific' || self.targetEntity == nil || !self.targetEntity.ofKind(RpgExpandedProfile)
+                || self.locationEvidence == nil || self.locationEvidence == '')
+            { value.reason = 'throw-location-facts-required'; return value; }
+            if (self.shieldAtLocation && !holds(['arm','hand'],self.hitLocation)) rpgExpandedReject('throw-shield-location');
+            value.reason = self.targetEntity.throwLocationReason(self.locationPart,self.hitLocation);
+            if (value.reason != nil) return value;
+        }
         if (self.item.ofKind(RpgLiteWeapon)) { value.reason = 'throw-weapon-procedure-required'; return value; }
         if (!holds(self.profile.equipment,self.item) || !self.item.usableBy(self.profile)
             || !self.item.ready || self.item.worn) { value.reason = 'throw-item-not-held'; return value; }
@@ -1751,6 +1768,8 @@ class RpgExpandedHeldThrow: object
         if (value.reason != nil) { value.status = 'blocked'; return value; }
         local context = new RpgLiteContext(); context.kind = 'throwing'; context.attribute = rpgDX;
         context.requiresMovement = true; context.offHand = self.offHand; context.modifier = self.modifier;
+        if (self.hitLocation != 'torso') context.modifier -= holds(['arm','leg'],self.hitLocation)
+            ? (self.shieldAtLocation ? 4 : 2) : (self.shieldAtLocation ? 8 : 4);
         if (self.skill != nil && (trained || self.target == 'specific')) context.skill = self.skill;
         else if (self.target == 'specific') context.modifier -= 3;
         value.score = rpgLiteScore(self.profile,context);
@@ -1799,7 +1818,7 @@ modify RpgExpandedHeldThrow
     definition()
     {
         local values = [self.profile,self.item,self.skill,self.target,self.palmSized,self.modifier,
-            self.offHand,self.approved,self.evidence,self.targetEntity];
+            self.offHand,self.approved,self.evidence,self.targetEntity,self.hitLocation,self.locationPart,self.locationEvidence,self.shieldAtLocation];
         if (self.skill != nil) values = values + [self.skill.id,self.skill.attribute,self.skill.difficulty,self.skill.defaultPenalty];
         return values;
     }
@@ -2003,6 +2022,8 @@ modify RpgExpandedThrownDamage
         value.profile = side == 'target' ? self.attempt.request.targetEntity : self.objectProfile;
         if (value.profile == nil || !value.profile.ofKind(RpgExpandedProfile))
         { value.reason = 'thrown-injury-profile-required'; return value; }
+        if (side == 'target')
+        { value.location = self.attempt.request.hitLocation; value.bodyPart = self.attempt.request.locationPart; }
         value.damage = side == 'target' ? self.result.targetDamage : self.result.objectDamage;
         value.damageType = self.damageType; value.status = 'ready'; return value;
     }

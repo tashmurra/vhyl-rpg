@@ -3049,8 +3049,9 @@ has no wound multiplier. This function is pure.
 `RpgExpandedThrownDamageReceipt` to the receipt's actual character profile.
 Supply `id`, `receipt`, `side = 'target'` or `'object'`, the two DR values,
 `approved`, protection `evidence` and any required `dropDestination`.
-`location` currently must be `torso`. Other locations, anatomy and layer orders
-need their own procedure and must not be represented by these fields.
+`location` must match the location bound to the throw. Torso is the default;
+selected living limbs are supported as described below. Other anatomy and layer
+orders need their own procedure and must not be represented by these fields.
 
 The exploration damage record supplies target identity from its bound throw
 request. For the independent thrown-character side, set its `objectProfile`
@@ -3070,3 +3071,30 @@ protection, penetration, blunt injury, zero injury, both character targets,
 major-wound rolls, duplicate applications, rollback, undo and saved continuation.
 Assertions remain unrun. Full timed action composition, critical effects,
 non-torso locations, other anatomy and material-object impact remain incomplete.
+
+## Selected thrown limb injuries
+
+Ordinary thrown attacks can now bind a living target's `arm`, `hand`, `leg` or
+`foot` before the attack roll (B399). The health `throwLocationReason` hook
+validates the actual owned part, its kind and its functional state. Already
+disabled parts and unliving targets require a separate adapter.
+
+`RpgExpandedThrownInjury.location` must match that recorded selection; the body
+part comes from the damage receipt and cannot be chosen after seeing damage.
+For these locations, impaling penetration has a unit injury multiplier against
+the supported living target. Cutting keeps its ordinary multiplier. Blunt injury
+remains separate from penetration and receives no multiplier.
+
+The resulting owned wound applies the existing B421 limb/extremity caps,
+crippling threshold, destruction and cutting severance. Existing procedures
+handle held-item drops, lost support and lower-limb knockdown. The receipt's
+protection assessment reports injury before the limb cap; its owned wound
+reports the committed health loss. A replay does not re-disable a part, repeat
+its health check or drop recovered equipment again.
+
+This extension covers the attacked target's selected limb. The represented
+thrown-character side still uses its declared ordinary torso impact. Other
+locations and anatomy, critical hits and complete timed attack composition
+remain incomplete. `tests/fixtures/expanded-thrown-limbs.t` contains unrun
+assertions for all four locations, shield accuracy penalties, cutting severance,
+impaling damage, drops, knockdown, rollback, undo and saved continuation.

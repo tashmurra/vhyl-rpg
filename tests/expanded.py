@@ -9024,6 +9024,8 @@ def test(build):
     test_thrown_damage(Session, thrown_damage, build.out)
     thrown_injury = build.build('expanded-thrown-injury',ROOT / 'tests/fixtures/expanded-thrown-injury.t')
     test_thrown_injury(Session, thrown_injury, build.out)
+    thrown_limbs = build.build('expanded-thrown-limbs',ROOT / 'tests/fixtures/expanded-thrown-limbs.t')
+    test_thrown_limbs(Session, thrown_limbs, build.out)
     catch_assessment = build.build('expanded-catch-assessment',ROOT / 'tests/fixtures/expanded-catch-assessment.t')
     test_catch_assessment(Session, catch_assessment)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
@@ -15006,5 +15008,59 @@ def test_thrown_injury(Session, bundle, out):
             s.action(2285,code)
         assert last(s,'test.thrown-injury-preview') == ['blocked','thrown-injury-location-adapter-required',5]
         assert state(s) == [0,0,0,0,5,0]
+    finally:
+        s.close()
+
+
+def test_thrown_limbs(Session, bundle, out):
+    def state(s):
+        s.action(2285,1258)
+        return last(s,'test.thrown-limb')
+    cases = [((),[6,1,0,0,0,0,1,12,'standing']),
+             ((1251,),[4,0,1,0,0,0,1,12,'standing']),
+             ((1253,),[6,0,0,1,0,0,0,12,'lying']),
+             ((1254,),[4,0,0,0,1,0,0,12,'lying']),
+             ((1256,),[6,1,0,0,0,1,1,12,'standing'])]
+    for choices, expected in cases:
+        s = Session(bundle)
+        try:
+            for code in (1250,1190,*choices,1171,1181,1231,1231):
+                s.action(2285,code)
+            assert state(s) == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (1250,1255,1171,1181,1231):
+            s.action(2285,code)
+        assert state(s) == [2,0,0,0,0,0,0,5,'standing']
+    finally:
+        s.close()
+    for choices, score in (((),9),((1251,),7),((1257,),7),((1251,1257),3)):
+        s = Session(bundle)
+        try:
+            for code in (*choices,1150):
+                s.action(2285,code)
+            assert last(s,'test.held-throw')[2] == score
+        finally:
+            s.close()
+    path = out / 'expanded-thrown-limbs.zsave'
+    s = Session(bundle)
+    try:
+        for code in (1250,1190,1171,1181,1232):
+            s.action(2285,code)
+        assert state(s) == [0,0,0,0,0,0,0,9,'standing']
+        s.action(2285,1231)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,0,0,0,9,'standing']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1231,1231):
+            s.action(2285,code)
+        assert state(s) == cases[0][1]
     finally:
         s.close()

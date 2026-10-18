@@ -6606,9 +6606,20 @@ class RpgExpandedThrownInjury: object
                 rpgExpandedReject('thrown-injury-duplicate');
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'thrown-injury-protection-facts'; return value; }
-        if (self.location != 'torso') { value.reason = 'thrown-injury-location-adapter-required'; return value; }
+        if (!holds(['torso','arm','hand','leg','foot'],self.location))
+        { value.reason = 'thrown-injury-location-adapter-required'; return value; }
+        if (self.location != facts.location) rpgExpandedReject('thrown-injury-location-mismatch');
+        if (self.location != 'torso')
+        {
+            value.reason = facts.profile.throwLocationReason(facts.bodyPart,self.location);
+            if (value.reason != nil) return value;
+        }
         value.protection = rpgExpandedAssessThrownProtection(facts.damage,facts.damageType,self.outerDR,self.flexibleDR);
+        if (self.location != 'torso' && facts.damageType == 'imp')
+            value.protection.healthLoss = value.protection.penetratingDamage + value.protection.bluntInjury;
         value.wound = new RpgExpandedWound(); value.wound.id = 'thrown-' + self.id + '-' + self.side;
+        value.wound.location = self.location; value.wound.bodyPart = facts.bodyPart;
+        value.wound.severing = self.location != 'torso' && facts.damageType == 'cut';
         value.wound.profile = facts.profile; value.wound.amount = value.protection.healthLoss;
         value.wound.dropDestination = self.dropDestination;
         local prepared = value.wound.assess();
@@ -6623,5 +6634,17 @@ class RpgExpandedThrownInjury: object
         self.boundDefinition = self.definition(); self.result = value;
         value.wound.profile.thrownInjuries = value.wound.profile.thrownInjuries + [self];
         value.status = 'resolved'; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    throwLocationReason(part,location)
+    {
+        self.validateBodyParts();
+        if (part == nil || !part.ofKind(RpgExpandedBodyPart) || part.profile != self
+            || !holds(self.bodyParts,part) || part.kind != location) return 'throw-location-body-part';
+        if (!part.functional()) return 'throw-location-disabled-part-adapter-required';
+        if (self.level('unliving') > 0) return 'throw-location-living-anatomy-required';
+        return nil;
     }
 ;

@@ -937,3 +937,9 @@ and a represented thrown character. Supported protection applies outer DR before
 flexible armour, separates blunt injury from penetration and prevents duplicate
 receipt-side injury. Fixtures remain unrun; other locations, anatomy, material
 objects and complete action composition remain unfinished.
+
+Thrown limb selection now binds arms, hands, legs or feet before the attack roll
+and applies their location penalties. Recorded injury uses the same part,
+including living-limb impaling adjustments, caps, severance, equipment drops and
+lower-limb knockdown. Fixtures are authored but unrun; other locations, anatomy
+and complete timed attack composition remain unfinished.

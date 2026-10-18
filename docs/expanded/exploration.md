@@ -968,3 +968,22 @@ uses `objectProfile`, declared before damage resolution. Health's
 `RpgExpandedThrownInjury` consumes either side once with ordinary torso
 protection. See [applying thrown injury](health.md#applying-ordinary-thrown-torso-injury).
 This does not complete material-object damage or full throw action composition.
+
+## Selecting a limb before throwing
+
+A specific-target `RpgExpandedHeldThrow` may select `hitLocation = 'arm'`,
+`'hand'`, `'leg'` or `'foot'`. Supply the corresponding owned `locationPart`,
+`targetEntity` and `locationEvidence`. These become part of the bound attempt
+definition. Area lobs cannot select a limb, and an injury consumer cannot change
+the selected location after the roll.
+
+The B399 location penalty is added automatically: -2 for an arm or leg and -4
+for a hand or foot. The authored `shieldAtLocation` fact selects the special -4
+penalty for a shield-bearing arm or -8 for a shield-holding hand; it is invalid
+for other locations. Other supplied attack modifiers must exclude this location
+penalty to avoid charging it twice. The health hook validates anatomy and rejects
+unsupported or already disabled parts before randomness.
+
+The damage receipt carries the selected part into the owned wound pipeline.
+See [selected thrown limb injuries](health.md#selected-thrown-limb-injuries).
+This does not implement other hit locations or random location selection.

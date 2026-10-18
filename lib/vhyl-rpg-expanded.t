@@ -257,3 +257,11 @@ class RpgExpandedThrownInjuryFacts: RpgExpandedResult
 class RpgExpandedThrownDamageReceipt: object
     injuryAssessment(side) { local value = new RpgExpandedThrownInjuryFacts(); value.reason = 'thrown-injury-receipt-unavailable'; return value; }
 ;
+
+modify RpgExpandedProfile
+    throwLocationReason(part,location) { return 'throw-location-anatomy-required'; }
+;
+modify RpgExpandedThrownInjuryFacts
+    location = 'torso'
+    bodyPart = nil
+;
