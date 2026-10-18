@@ -9551,6 +9551,8 @@ def test(build):
     test_march_partial_exclusion(Session,march_steps,build.out)
     partial_march_interruption = build.build('expanded-partial-march-interruption',ROOT / 'tests/fixtures/expanded-partial-march-interruption.t')
     test_partial_march_interruption(Session,partial_march_interruption,build.out)
+    march_step_group = build.build('expanded-march-step-group',ROOT / 'tests/fixtures/expanded-march-step-group.t')
+    test_march_step_group(Session,march_step_group,build.out)
     tracking_encounter = build.build('expanded-tracking-encounter',ROOT / 'tests/fixtures/expanded-tracking-encounter.t')
     test_tracking_encounter(Session,tracking_encounter,build.out)
     test_tracking_marching_boundaries(Session,tracking_encounter,build.out)
@@ -27448,3 +27450,39 @@ def test_shadowing_assessment(Session, bundle):
             s.action(1680,29400); assert last(s,'test.shadowing-assessment') == expected+[0,0]
         finally:
             s.close()
+
+
+def test_march_step_group(Session, bundle, out):
+    """Concurrent partial travel advances time once and charges each hourly ledger once; unrun."""
+    def state(s):
+        s.action(1680,29504)
+        return last(s,'test.march-step-group')
+    path = out / 'march-step-group.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,29505)
+        assert last(s,'test.step-group-preview') == ['ready',None]
+        assert state(s) == [0,0,0,0,0,0,0,0]
+        for code in (29506,29507,29501):
+            s.action(1680,code); assert state(s) == [0,0,0,0,0,0,0,0]
+        s.action(1680,29500); s.command('undo'); assert state(s) == [0,0,0,0,0,0,0,0]
+        s.action(1680,29500); s.action(1680,29500); s.action(1680,29509)
+        assert state(s) == [60,60,60,0,0,0,0,0]
+        s.action(1680,29508); assert state(s) == [60,60,60,0,0,0,0,0]
+        s.action(1680,29503); assert state(s) == [60,60,60,0,0,0,0,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,29502); s.action(1680,29502)
+        assert state(s) == [3600,3600,3600,1,1,1,1,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,27009); s.action(1680,29500); s.action(1680,29500)
+        row = state(s)
+        assert row[:3] == [0,0,0] and row[4:] == [0,0,0,3]
+    finally:
+        s.close()

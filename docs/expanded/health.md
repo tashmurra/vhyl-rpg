@@ -4085,3 +4085,26 @@ and explicit event-based exceptions to the full-hour assumption remain pending.
 `test_partial_march_interruption` specifies approval gates, no-time settlement,
 no double charging, blocked old-hour continuation, later interval eligibility,
 rollback, undo, tamper rejection and saved replay. Fixtures remain unrun.
+
+
+## Concurrent incremental marching
+
+`RpgExpandedMarchStepGroup` names an `id` and `steps`, each an unused
+`RpgExpandedMarchStep` for a different profile. Every member must request the
+same positive duration and fit its remaining hourly boundary. `assess()` checks
+all members before execution. `apply()` obtains their health permissions and
+advances the shared clock once if everyone is permitted.
+
+Each member retains its own step receipt, partial-hour progress and hourly cost.
+A group that completes an hour charges each relevant profile once. Replaying the
+group or an individual member does not repeat time or fatigue. If any member is
+denied, all members record zero movement time; health-permission outcomes remain
+owned. Invalid duration or duplicate-profile configurations fail before spending
+resources. Individual fatigue and injury remain in their existing ledgers.
+
+This supplies concurrent movement for timed interactions. It does not implement
+shadowing contests, decide route compatibility, or combine participants' travel
+distances. Authors must provide compatible simultaneous movement; the shadowing
+encounter integration remains pending. `test_march_step_group` specifies shared
+time, individual fatigue, member replay, denial, invalid grouping, tamper
+rejection, rollback, undo and cross-process continuation. Fixtures remain unrun.

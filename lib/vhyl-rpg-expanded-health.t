@@ -9388,3 +9388,143 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+class RpgExpandedMarchStepGroupResult: RpgExpandedMarchStepResult
+    members = []
+;
+/** Concurrent incremental marching advances the shared world clock once. */
+class RpgExpandedMarchStepGroup: object
+    id = nil
+    steps = []
+    result = nil
+    startedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        local facts = [self.id,self.steps.length()];
+        foreach (local step in self.steps) facts = facts + [step] + step.trackingDefinition();
+        return facts;
+    }
+    outcomeDefinition()
+    { return [self.startedAt,self.completedAt,self.result,self.result.allowed,self.result.seconds] + self.result.members; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.steps.length() == 0) rpgExpandedReject('march-step-group-definition');
+        local profiles = []; local duration = nil; local value = new RpgExpandedMarchStepGroupResult();
+        foreach (local step in self.steps)
+        {
+            if (step == nil || !step.ofKind(RpgExpandedMarchStep) || step.progress == nil || step.progress.cost == nil)
+                rpgExpandedReject('march-step-group-member');
+            local profile = step.trackingProfile();
+            if (holds(profiles,profile) || (duration != nil && duration != step.seconds)) rpgExpandedReject('march-step-group-scope');
+            profiles = profiles + [profile]; duration = step.seconds;
+        }
+        local facts = self.definition();
+        if (self.result != nil)
+        {
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('march-step-group-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('march-step-group-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('march-step-group-outcome');
+            for (local i = 1; i <= outcome.length(); i += 1)
+                if (outcome[i] != self.boundOutcome[i]) rpgExpandedReject('march-step-group-outcome');
+            for (local i = 1; i <= self.steps.length(); i += 1)
+                if (!holds(profiles[i].marchStepGroups,self) || self.steps[i].assess().status != 'reused'
+                    || self.steps[i].result != self.result.members[i] || self.steps[i].startedAt != self.startedAt
+                    || self.steps[i].completedAt != self.completedAt || self.steps[i].result.seconds != self.result.seconds
+                    || self.steps[i].result.allowed != self.result.allowed) rpgExpandedReject('march-step-group-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.startedAt != nil || self.completedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil)
+            rpgExpandedReject('march-step-group-uncommitted');
+        foreach (local profile in profiles)
+            foreach (local prior in profile.marchStepGroups)
+                if (prior.id == self.id) rpgExpandedReject('march-step-group-id-used');
+        foreach (local step in self.steps)
+        {
+            if (step.result != nil || step.trackingOwner != nil) rpgExpandedReject('march-step-group-used-member');
+            local prepared = step.assess();
+            if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+            value.members = value.members + [prepared];
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds; local states = []; value.allowed = true;
+        foreach (local prepared in value.members)
+        {
+            local permission = prepared.gate.apply();
+            if (permission.status != 'resolved') rpgExpandedReject('march-step-group-permission-changed');
+            if (!permission.allowed) { value.allowed = nil; value.reason = 'march-step-group-member-denied'; }
+        }
+        foreach (local step in self.steps)
+        {
+            local profile = step.trackingProfile(); local fatigueCost = 0;
+            if (value.allowed)
+            {
+                local cost = step.progress.cost.assess();
+                if (cost.status != 'ready') rpgExpandedReject('march-step-group-cost-changed');
+                fatigueCost = cost.fatigueCost;
+            }
+            states = states + [[profile.move(),profile.hp(),profile.fp(),fatigueCost,profile.encumbrance()]];
+        }
+        if (value.allowed)
+        {
+            foreach (local step in self.steps) { local profile = step.trackingProfile(); profile.restClock = 0; }
+            value.seconds = self.steps[1].seconds; rpgSpendTime(value.seconds);
+            for (local i = 1; i <= self.steps.length(); i += 1)
+            {
+                local step = self.steps[i]; local profile = step.trackingProfile(); local cost = step.progress.cost.assess();
+                if (rpgLedger.seconds != start+value.seconds || cost.status != 'ready' || cost.fatigueCost != states[i][4]
+                    || profile.move() != states[i][1] || profile.hp() != states[i][2] || profile.fp() != states[i][3]
+                    || profile.unconscious || profile.dead || profile.stunned || profile.mentalStun
+                    || profile.healthEffortReason('action',nil,nil,true) != nil) rpgExpandedReject('march-step-group-conditions-changed');
+            }
+        }
+        local current = self.definition();
+        if (current.length() != facts.length()) rpgExpandedReject('march-step-group-changed');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (current[i] != facts[i]) rpgExpandedReject('march-step-group-changed');
+        for (local i = 1; i <= self.steps.length(); i += 1)
+        {
+            local step = self.steps[i]; local progress = step.progress; local cost = progress.cost; local profile = step.trackingProfile();
+            if (progress.elapsed+value.seconds == 3600)
+            {
+                progress.settlingStep = step;
+                if (cost.apply().status != 'resolved') rpgExpandedReject('march-step-group-cost-unresolved');
+                progress.settlingStep = nil;
+            }
+            local member = value.members[i]; member.allowed = value.allowed; member.reason = value.reason;
+            member.seconds = value.seconds; member.status = 'resolved'; step.result = member;
+            step.encumbrance = states[i][5]; step.startedAt = start; step.completedAt = rpgLedger.seconds;
+            step.boundDefinition = step.definition(); step.boundOutcome = step.outcomeDefinition();
+            if (progress.steps.length() == 0)
+            { progress.boundCostDefinition = cost.definition(); progress.boundEncumbrance = step.encumbrance; profile.marchProgress = profile.marchProgress + [progress]; }
+            progress.elapsed += value.seconds; progress.steps = progress.steps + [step]; profile.marchStepGroups = profile.marchStepGroups + [self];
+        }
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = facts;
+        value.status = 'resolved'; self.result = value; self.boundOutcome = self.outcomeDefinition(); return value;
+    }
+;
+modify RpgExpandedProfile
+    marchStepGroups = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local group in self.marchStepGroups)
+        {
+            if (group == nil || !group.ofKind(RpgExpandedMarchStepGroup) || holds(ids,group.id) || group.assess().status != 'reused')
+                rpgExpandedReject('march-step-group-profile');
+            local found = nil;
+            foreach (local step in group.steps) if (step.trackingProfile() == self) found = true;
+            if (!found) rpgExpandedReject('march-step-group-profile'); ids = ids + [group.id];
+        }
+        return nil;
+    }
+;
