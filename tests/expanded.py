@@ -9244,6 +9244,8 @@ def test(build):
     test_sustenance_aging_calendar(Session, sustenance_aging_calendar, build.out)
     sustenance_aging_dates = build.build('expanded-sustenance-aging-dates',ROOT / 'tests/fixtures/expanded-sustenance-aging-dates.t')
     test_sustenance_aging_dates(Session, sustenance_aging_dates, build.out)
+    sustenance_rejuvenation = build.build('expanded-sustenance-rejuvenation',ROOT / 'tests/fixtures/expanded-sustenance-rejuvenation.t')
+    test_sustenance_rejuvenation(Session, sustenance_rejuvenation, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21115,5 +21117,34 @@ def test_sustenance_aging_dates(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.sustenance-aging-dates') == [15855, 16575, 12, 15930, 16560, 144]
         assert last(s, 'test.sustenance-aging-state') == [552, 12, 12, 1, 144]
+    finally:
+        s.close()
+
+
+def test_sustenance_rejuvenation(Session, bundle, out):
+    """B444 restores only losses after the exact target date from shared history; unrun."""
+    path = out / 'expanded-sustenance-rejuvenation.zsave'
+    s = Session(bundle)
+    try:
+        for code in (13000, 13100, 13200, 11701, 11703, 13002, 13201, 13203, 13204):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-rejuvenation-preview') == ['ready', 480, 4, 144]
+        assert last(s, 'test.sustenance-rejuvenation-state') == [6, 6, 0, 0, 0, 144]
+        s.action(2285, 13202)
+        s.command('undo')
+        s.action(2285, 13204)
+        assert last(s, 'test.sustenance-rejuvenation-state') == [6, 6, 0, 0, 0, 144]
+        for code in (13202, 13202, 13204):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-rejuvenation-state') == [14, 14, 1, 0, 0, 144]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (13202, 13204):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-rejuvenation-state') == [14, 14, 1, 0, 0, 144]
     finally:
         s.close()

@@ -2510,7 +2510,7 @@ checks. No day/month ratio is inferred. The shared aging history still records
 whole-year age labels; exact offsets remain in the causal advance.
 
 Starting ages between month boundaries use the explicit endpoint extension
-below. Day-precise rejuvenation remains pending. Missing or inconsistent calendar facts reject before injury rather than
+below. Day-precise rejuvenation uses the shared-history operation below. Missing or inconsistent calendar facts reject before injury rather than
 using a partial plan. Ordinary month-based advances can still omit the calendar.
 [`expanded-sustenance-aging-calendar.t`](../../tests/fixtures/expanded-sustenance-aging-calendar.t)
 and `test_sustenance_aging_calendar` specify a calendar-specific transition to
@@ -2539,4 +2539,32 @@ retain their existing 25-row form when both endpoint fields are omitted.
 [`expanded-sustenance-aging-dates.t`](../../tests/fixtures/expanded-sustenance-aging-dates.t)
 and `test_sustenance_aging_dates` specify a between-month anniversary, the checks
 it crosses, owned execution, replay and cross-process save continuation. Fixtures
-remain unrun. Sub-day age precision and day-precise rejuvenation remain pending.
+remain unrun. Sub-day age precision remains pending; dated rejuvenation is described below.
+
+
+### Rejuvenation to an exact age date
+
+`RpgExpandedDatedRejuvenation` extends the existing rejuvenation operation
+(`full-2008`, B444). Supply its usual ID, profile, calendar, effect evidence and
+year labels, plus `oldAgeCalendarDay` and `newAgeCalendarDay` in that same authored
+age calendar. The new date must precede the old date; both can lie within the same
+year. Evidence establishes the effect and the correspondence between dates and
+year labels. This does not cast a spell or manufacture a rejuvenating treatment.
+
+The operation restores recorded losses strictly after the target date through
+the former date. A loss at the target date remains. Exact dates come from the
+owned sustenance-aging boundary plan. Ordinary aging entries without exact dates
+can be classified only when their year lies wholly inside or outside the range;
+ambiguous endpoint-year records reject. No dates are guessed for them.
+
+Application uses the existing restoration ledger, marks each restored aging event,
+and restores its characteristic losses once. It adds character value without
+awarding earned or spendable points. The recorded new rejuvenation era permits
+later aging from the younger age. Pending sustenance aging checks must be settled
+before rejuvenation; otherwise their ownership would straddle the age change.
+Replay binds the exact target dates and cannot restore the same losses twice.
+
+[`expanded-sustenance-rejuvenation.t`](../../tests/fixtures/expanded-sustenance-rejuvenation.t)
+and `test_sustenance_rejuvenation` specify selective same-year losses, unchanged
+point balances and randomness, rollback, undo and cross-process save continuation.
+Fixtures remain unrun. Sub-day age precision remains unsupported.

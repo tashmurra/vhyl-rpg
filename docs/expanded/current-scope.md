@@ -326,3 +326,9 @@ Sustenance-aging increments may now begin within a month using explicit authored
 anniversary dates. The receipt binds exact endpoints and rejects backward overlap
 with prior increments. Sub-day precision and day-precise rejuvenation remain
 pending. Execution and save-continuation fixtures are authored but unrun.
+
+
+Exact-date rejuvenation now restores the appropriate causal aging losses through
+the shared ledger, including distinctions within a year. Ambiguous ordinary
+records reject; pending aging checks prevent an era change. Point balances stay
+unchanged. Selective restoration and persistence fixtures are authored but unrun.

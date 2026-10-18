@@ -462,6 +462,7 @@ modify RpgExpandedProfile
 
 /** An authored calendar boundary, with four owned rolls and retained losses. */
 class RpgExpandedAgingEvent: object
+    ageCalendarDay() { return nil; }
     exemptFromAging() { return self.profile.level('unaging') > 0; }
     era = 0
     boundEra = 0
@@ -592,6 +593,19 @@ class RpgExpandedRejuvenation: object
     boundEvidence = nil
     completedAt = nil
     result = nil
+    boundExtraDefinition = nil
+    extraDefinition() { return []; }
+    validateAgeRange()
+    {
+        rpgInteger(self.oldAgeYears,0,1000000); rpgInteger(self.newAgeYears,0,1000000);
+        if (self.newAgeYears >= self.oldAgeYears) rpgExpandedReject('rejuvenation-age-range');
+    }
+    entryPosition(entry)
+    {
+        if (entry.ageYears > self.oldAgeYears) return 'future';
+        if (entry.ageYears == self.newAgeYears) return 'ambiguous';
+        return entry.ageYears > self.newAgeYears ? 'restore' : 'keep';
+    }
     assess()
     {
         local value = new RpgExpandedRejuvenationResult();
@@ -602,6 +616,10 @@ class RpgExpandedRejuvenation: object
                 || self.oldAgeYears != self.boundOldAge || self.newAgeYears != self.boundNewAge
                 || self.effectEvidence != self.boundEvidence || !holds(self.profile.rejuvenations,self))
                 rpgExpandedReject('rejuvenation-binding');
+            local extra = self.extraDefinition();
+            if (self.boundExtraDefinition == nil || extra.length() != self.boundExtraDefinition.length()) rpgExpandedReject('rejuvenation-extra-binding');
+            for (local index = 1; index <= extra.length(); index += 1)
+                if (extra[index] != self.boundExtraDefinition[index]) rpgExpandedReject('rejuvenation-extra-binding');
             foreach (local entry in self.result.restoredEvents)
                 if (entry.restoredBy != self) rpgExpandedReject('rejuvenation-receipt-owner');
             value.status = 'reused'; value.gains = self.result.gains; value.pointGain = self.result.pointGain;
@@ -611,8 +629,13 @@ class RpgExpandedRejuvenation: object
             rpgExpandedReject('rejuvenation-definition');
         foreach (local prior in self.profile.rejuvenations)
             if (prior.id == self.id) rpgExpandedReject('rejuvenation-duplicate');
-        rpgInteger(self.oldAgeYears,0,1000000); rpgInteger(self.newAgeYears,0,1000000);
-        if (self.newAgeYears >= self.oldAgeYears) rpgExpandedReject('rejuvenation-age-range');
+        self.validateAgeRange();
+        foreach (local advance in self.profile.sustenanceAgingAdvances)
+        {
+            advance.validateReceipt();
+            if (!self.profile.dead && advance.boundaries.length() < advance.plan.boundaryAgeMonths.length())
+            { value.reason = 'rejuvenation-aging-unsettled'; return value; }
+        }
         if (self.profile.dead) { value.reason = 'rejuvenation-resurrection-unavailable'; return value; }
         if (self.effectEvidence == nil || self.effectEvidence == '')
         { value.reason = 'rejuvenation-effect-evidence'; return value; }
@@ -622,10 +645,11 @@ class RpgExpandedRejuvenation: object
             if (entry.calendarId != self.calendarId || entry.result == nil) rpgExpandedReject('rejuvenation-calendar');
             if (entry.restoredBy == nil)
             {
-                if (entry.ageYears > self.oldAgeYears) rpgExpandedReject('rejuvenation-unaccounted-age');
-                if (entry.ageYears == self.newAgeYears)
+                local position = self.entryPosition(entry);
+                if (position == 'future') rpgExpandedReject('rejuvenation-unaccounted-age');
+                if (position == 'ambiguous')
                 { value.reason = 'rejuvenation-partial-year-unavailable'; return value; }
-                if (entry.ageYears > self.newAgeYears)
+                if (position == 'restore')
                 {
                     value.restoredEvents = value.restoredEvents + [entry];
                     gains = [gains[1] + entry.result.losses[1],gains[2] + entry.result.losses[2],
@@ -644,6 +668,7 @@ class RpgExpandedRejuvenation: object
         self.profile.st += value.gains[1]; self.profile.dx += value.gains[2];
         self.profile.iq += value.gains[3]; self.profile.ht += value.gains[4];
         foreach (local entry in value.restoredEvents) entry.restoredBy = self;
+        self.boundExtraDefinition = self.extraDefinition();
         self.boundId = self.id; self.boundProfile = self.profile; self.boundCalendar = self.calendarId;
         self.boundOldAge = self.oldAgeYears; self.boundNewAge = self.newAgeYears; self.boundEvidence = self.effectEvidence;
         self.completedAt = rpgLedger.seconds; self.profile.rejuvenations = self.profile.rejuvenations + [self];
@@ -6365,4 +6390,36 @@ rpgExpandedSustenanceCalendarAgingPlan(profile,oldAgeMonths,calendar)
 class RpgExpandedSustenanceAgingBoundaryIdentity: object
     advance = nil
     index = nil
+;
+
+modify RpgExpandedSustenanceAgingBoundary
+    ageCalendarDay()
+    {
+        self.advance.validateBinding();
+        if (self.advance.plan.boundaryCalendarDays.length() == 0) return nil;
+        return self.advance.plan.boundaryCalendarDays[self.boundaryIndex];
+    }
+;
+/** B444 restoration using exact authored age dates and the existing loss ledger. */
+class RpgExpandedDatedRejuvenation: RpgExpandedRejuvenation
+    oldAgeCalendarDay = nil
+    newAgeCalendarDay = nil
+    extraDefinition() { return [self.oldAgeCalendarDay,self.newAgeCalendarDay]; }
+    validateAgeRange()
+    {
+        rpgInteger(self.oldAgeYears,0,1000000); rpgInteger(self.newAgeYears,0,self.oldAgeYears);
+        rpgInteger(self.oldAgeCalendarDay,1,2147483646); rpgInteger(self.newAgeCalendarDay,0,self.oldAgeCalendarDay - 1);
+    }
+    entryPosition(entry)
+    {
+        local day = entry.ageCalendarDay();
+        if (day == nil)
+        {
+            if (entry.ageYears > self.oldAgeYears) return 'future';
+            if (entry.ageYears == self.oldAgeYears || entry.ageYears == self.newAgeYears) return 'ambiguous';
+            return entry.ageYears > self.newAgeYears ? 'restore' : 'keep';
+        }
+        if (day > self.oldAgeCalendarDay) return 'future';
+        return day > self.newAgeCalendarDay ? 'restore' : 'keep';
+    }
 ;
