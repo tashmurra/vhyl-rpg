@@ -1448,7 +1448,7 @@ revoke them, change defense scores, or create a recovery episode.
 
 `test_fear_retching` contains independent duration, attribute, concentration and
 resource expectations. The fixture remains unrun. Owned execution is described below. Oral-benefit revocation
-and combat-turn recovery remain pending; row twelve remains partial.
+remains pending; row twelve remains partial.
 
 
 ### Owned retching episodes
@@ -1482,8 +1482,8 @@ the wound procedure could require dropping equipment. Reaching negative maximum
 fatigue invokes the shared unconsciousness hook and records fatigue collapse.
 A changed oral review or affected benefit also blocks before time or dice.
 Replaying a committed request does not charge fatigue, time or dice again.
-Use this standalone recovery outside an already charged combat turn; a combat
-recovery adapter is still pending.
+Use this standalone recovery outside an already charged combat turn. Within
+a battle use the adapter below.
 
 `test_owned_retching` and `test_retching_persistence` specify contextual penalties,
 concentration rejection, duration boundaries, final fatigue, pure preview,
@@ -1501,3 +1501,24 @@ ledgers, elapsed time and random stream together.
 `test_retching_fatigue` specifies positive, zero and near-collapse fatigue;
 success and failure; preflight rejection without the required wound rule;
 preview, rollback, undo and replay. It remains unrun with the other new fixtures.
+
+
+### Retching recovery in combat
+
+`RpgExpandedRetchingRecoveryManeuver` binds a `battle`, a fresh `recovery` and a
+fresh `healthGate` whose purpose is `do-nothing`. The request's kind must remain
+`nothing` and movement must be zero. The actor must be the battle's current
+participant and own the recovery episode. Initial-duration and oral-review
+requirements are checked before the health gate or any random roll.
+
+The adapter calls the recovery's `applyInTurn` route. It uses the same injury
+preflight and final fatigue charge as standalone recovery, but reports zero
+additional seconds: the battle scheduler owns elapsed time. Both recovery routes
+record their starting time and reject a new attempt in that same second. A
+completed request cannot be reused as a fresh combat maneuver; after a failed
+check, author a new recovery and health gate for the next eligible turn.
+
+`test_retching_combat` specifies positive and zero fatigue, failed and successful
+checks, concentration rejection before turn consumption, pure preview, exception
+rollback, undo, same-second rejection, no duplicate resource spending and the
+single battle-clock advance. These fixtures remain unrun.

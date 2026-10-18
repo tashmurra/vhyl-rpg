@@ -1874,6 +1874,46 @@ def test_retching_fatigue(Session,bundle):
     finally: s.close()
 
 
+def test_retching_combat(Session,bundle):
+    for low_fatigue in [False,True]:
+        for failed in [False,True]:
+            s = Session(bundle)
+            try:
+                for code in [0,3,20]: s.action(2255,code)
+                if low_fatigue: s.action(2255,7)
+                if failed: s.action(2255,15)
+                s.action(2255,27)
+                assert last(s,'test.retch-turn') == ['blocked','retching-concentration-failure']
+                for code in [25,24]:
+                    s.action(2255,code)
+                    s.action(2259)
+                    assert last(s,'test.retch-clock') == [1,0,15,0]
+                    s.action(2258)
+                    assert last(s,'test.retch-costs') == [0,0,0,0,0]
+                s.action(2255,23)
+                s.action(2259)
+                assert last(s,'test.retch-clock') == [2,0,15,3]
+                s.action(2258)
+                injury = int(low_fatigue)
+                expected = [0,0,0,0,0] if failed else [injury,injury,0,1,injury]
+                assert last(s,'test.retch-costs') == expected
+                s.command('undo')
+                s.action(2259)
+                assert last(s,'test.retch-clock') == [1,0,15,0]
+                s.action(2255,23)
+                if failed:
+                    s.action(2255,26)
+                    assert last(s,'test.retch-extra') == ['blocked','retching-recovery-already-attempted']
+                    s.action(2259)
+                    assert last(s,'test.retch-clock') == [2,0,15,3]
+                s.action(2255,22)
+                s.action(2255,23)
+                assert last(s,'test.retch-turn') == ['blocked','retching-recovery-maneuver-used']
+                s.action(2259)
+                assert last(s,'test.retch-clock') == [1,1,16,3]
+            finally: s.close()
+
+
 def test_retching_persistence(Session,bundle,out):
     path = out / 'expanded-retching.zsave'
     first = Session(bundle)
@@ -8491,6 +8531,7 @@ def test(build):
     retching = build.build('expanded-retching',ROOT / 'tests/fixtures/expanded-retching.t')
     test_owned_retching(Session,retching)
     test_retching_fatigue(Session,retching)
+    test_retching_combat(Session,retching)
     test_retching_persistence(Session,retching,build.out)
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)

@@ -1002,9 +1002,10 @@
         "tests/expanded.py::test_fear_retching",
         "tests/expanded.py::test_owned_retching",
         "tests/expanded.py::test_retching_persistence",
-        "tests/expanded.py::test_retching_fatigue"
+        "tests/expanded.py::test_retching_fatigue",
+        "tests/expanded.py::test_retching_combat"
       ],
-      "validation_note": "Owned fear-induced retching, attribute penalties, concentration rejection, effective-stun defense and standalone health recovery are authored. Final fatigue at nonpositive FP uses the owned wound path and shared collapse hook. Oral review must establish no affected benefits. Oral revocation, exceptional duration and combat recovery remain unavailable. All new fixtures are unrun."
+      "validation_note": "Owned fear-induced retching, contextual restrictions, shared defense effects and standalone/combat health recovery are authored. Final fatigue uses owned wounds at nonpositive FP. Both routes reject same-second duplicate attempts. Oral revocation and exceptional duration remain unavailable. New fixtures are unrun."
     },
     {
       "id": "fear-outcome-13",

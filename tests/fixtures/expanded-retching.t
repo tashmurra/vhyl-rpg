@@ -13,11 +13,36 @@ retchProfile: RpgExpandedProfile rules = retchRules;
 retchContext: RpgExpandedFearContext profile = retchProfile approved = true evidence = 'Extraordinary scene';
 retchEpisode: RpgExpandedFearRetching id = 'fear-retching' context = retchContext approved = true evidence = 'Row twelve' oralEffectsReviewed = true;
 retchRecovery: RpgExpandedRetchingRecovery id = 'first-recovery' episode = retchEpisode;
+retchSecondRecovery: RpgExpandedRetchingRecovery id = 'second-recovery' episode = retchEpisode;
+retchOtherProfile: RpgLiteProfile dx = 9;
+retchFighter: RpgLiteFighter profile = retchProfile;
+retchOther: RpgLiteFighter profile = retchOtherProfile;
+retchBattle: RpgLiteBattle fighters = [retchFighter,retchOther];
+retchGate: RpgExpandedActionGate id = 'recover-turn' profile = retchProfile purpose = 'do-nothing' evidence = 'Recover from retching';
+retchManeuver: RpgExpandedRetchingRecoveryManeuver battle = retchBattle recovery = retchRecovery healthGate = retchGate;
+retchIdle: RpgLiteManeuver;
+retchConcentrate: RpgLiteManeuver kind = 'concentrate';
 retchInput: object code = 0;
 class RetchTestAction: Action
     exec(context)
     {
         local code = retchInput.code;
+        if (code >= 20)
+        {
+            if (code == 20) { retchBattle.begin(); rpgRandom.seed(1); return nil; }
+            if (code == 25) { retchManeuver.available(retchFighter); return nil; }
+            if (code == 26)
+            {
+                local extra = retchSecondRecovery.apply();
+                event('test.retch-extra'); eventValue(extra.status); eventValue(extra.reason); return nil;
+            }
+            local value = code == 21 ? retchBattle.step(retchFighter,retchIdle)
+                : code == 22 ? retchBattle.step(retchOther,retchIdle)
+                : code == 27 ? retchBattle.step(retchFighter,retchConcentrate)
+                : retchBattle.step(retchFighter,retchManeuver);
+            event('test.retch-turn'); eventValue(value.status); eventValue(value.reason);
+            if (code == 24) throw new RpgError(); return nil;
+        }
         if (code <= 2)
         {
             local value = code == 1 ? retchEpisode.assess() : retchEpisode.apply();
@@ -73,6 +98,11 @@ act(verb,args)
         eventValue(retchProfile.unconscious ? 1 : 0);
         eventValue(retchRecovery.result == nil ? 0 : retchRecovery.result.fatigueAdded);
         eventValue(retchRecovery.result == nil ? 0 : retchRecovery.result.injuryAdded); return nil;
+    }
+    if (verb == 2259)
+    {
+        event('test.retch-clock'); eventValue(retchBattle.index); eventValue(retchBattle.seconds);
+        eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
     return nil;
 }

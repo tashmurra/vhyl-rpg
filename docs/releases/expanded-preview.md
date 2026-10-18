@@ -105,7 +105,10 @@ rollback and recovery fixtures are authored and unrun.
 
 
 Owned fear-induced retching supplies contextual penalties, concentration
-restrictions and shared defense effects. Standalone health recovery charges its
+restrictions and shared defense effects. Standalone and combat health recovery charge their
 final fatigue once and uses owned wounds for injury at nonpositive fatigue. The
 author must establish that no oral benefits need revocation. Unsupported recovery combinations
 remain explicitly unavailable. New persistence and transaction fixtures are unrun.
+
+The retching combat adapter uses the existing turn clock, preventing duplicate
+recovery attempts in the same second. Its transaction and clock fixtures are unrun.

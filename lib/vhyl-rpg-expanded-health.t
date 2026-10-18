@@ -2539,6 +2539,7 @@ class RpgExpandedFearRetching: object
     boundEvidence = nil
     completedAt = nil
     recoveries = []
+    lastRecoveryStartedAt = nil
     assess()
     {
         if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
@@ -2596,6 +2597,8 @@ class RpgExpandedRetchingRecovery: object
     boundEpisode = nil
     dropDestination = nil
     boundDropDestination = nil
+    startedAt = nil
+    completedAt = nil
     assess()
     {
         if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedFearRetching))
@@ -2614,6 +2617,8 @@ class RpgExpandedRetchingRecovery: object
         if (profile.retchingEpisode != self.episode) rpgExpandedReject('retching-ownership');
         if (profile.dead || profile.unconscious) { value.reason = 'retching-observer-unavailable'; return value; }
         if (rpgLedger.seconds < self.episode.initialEnd) { value.reason = 'retching-initial-duration'; return value; }
+        if (self.episode.lastRecoveryStartedAt != nil && rpgLedger.seconds <= self.episode.lastRecoveryStartedAt)
+        { value.reason = 'retching-recovery-already-attempted'; return value; }
         if (!self.episode.oralEffectsReviewed || self.episode.affectedOralBenefits.length() > 0)
         { value.reason = 'retching-oral-revocation-unavailable'; return value; }
         rpgInteger(profile.maxEnergy,1,1000); rpgInteger(profile.fatigue,0,2 * profile.maxEnergy);
@@ -2642,6 +2647,18 @@ class RpgExpandedRetchingRecovery: object
             || rpgLedger.seconds != start + 1) rpgExpandedReject('retching-recovery-interrupted');
         value = self.assess();
         if (value.status != 'ready') rpgExpandedReject('retching-recovery-interrupted');
+        return self.resolve(value,start);
+    }
+    applyInTurn(battle,fighter)
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (battle == nil || !battle.ofKind(RpgLiteBattle) || battle.current() != fighter
+            || fighter.profile != self.episode.boundProfile || fighter.maneuver != 'nothing')
+            rpgExpandedReject('retching-recovery-turn');
+        value.seconds = 0; return self.resolve(value,rpgLedger.seconds);
+    }
+    resolve(value,start)
+    {
         local profile = self.episode.boundProfile;
         value.check = rpgCheck(profile.ht,rpgRandom.roll());
         if (value.check.achieved)
@@ -2659,6 +2676,30 @@ class RpgExpandedRetchingRecovery: object
         else value.wound = nil;
         self.boundId = self.id; self.boundEpisode = self.episode;
         self.boundDropDestination = self.dropDestination;
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.episode.lastRecoveryStartedAt = start;
         self.episode.recoveries = self.episode.recoveries + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+/** Do Nothing recovery using the battle's time charge and a fresh health gate. */
+class RpgExpandedRetchingRecoveryManeuver: RpgExpandedHealthManeuver
+    battle = nil
+    recovery = nil
+    available(fighter)
+    {
+        if (self.kind != 'nothing' || self.movement != 0 || self.battle == nil
+            || !self.battle.ofKind(RpgLiteBattle) || self.battle.current() != fighter
+            || self.recovery == nil || !self.recovery.ofKind(RpgExpandedRetchingRecovery))
+            rpgExpandedReject('retching-recovery-maneuver');
+        if (self.recovery.result != nil) return 'retching-recovery-maneuver-used';
+        local value = self.recovery.assess(); if (value.status != 'ready') return value.reason;
+        if (self.recovery.episode.boundProfile != fighter.profile) rpgExpandedReject('retching-recovery-profile');
+        return nil;
+    }
+    apply(fighter,result)
+    {
+        local value = self.recovery.applyInTurn(self.battle,fighter);
+        if (value.status != 'resolved') rpgExpandedReject('retching-recovery-turn-changed');
+        return nil;
     }
 ;
