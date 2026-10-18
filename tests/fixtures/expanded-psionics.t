@@ -37,6 +37,18 @@ class WarningTestAction: Action
         if (code == 7) warningInput.forcedRoll = 4;
         if (code == 8) warningInput.forcedRoll = 3;
         if (code == 9) warningRequest.warningText = 'Changed warning';
+        if (code >= 11 && code <= 14)
+        {
+            local owner = new RpgExpandedProfile(); local field = new RpgExpandedPsionicStatic();
+            field.areaLevels = 1; field.approved = true; field.evidence = 'Known static field'; owner.traits = [field];
+            local contact = new RpgExpandedPsionicStaticContact(); contact.owner = owner; contact.field = field;
+            contact.source = warningObserver; contact.target = warningObserver; contact.approved = true;
+            contact.evidence = 'Measured relative positions'; contact.sourceDistance = code == 12 ? 2 : 1;
+            contact.targetDistance = contact.sourceDistance;
+            if (code == 13) { contact.owner = warningObserver; warningObserver.traits = warningObserver.traits + [field]; field.areaLevels = 0; }
+            if (code == 14) { field.switchable = true; field.active = nil; }
+            warningRequest.staticContacts = [contact];
+        }
         local request = warningRequest;
         if (code == 10)
         {
@@ -55,6 +67,23 @@ warningVerb: Verb code = 2231 action = warningAction label = 'sense danger';
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2234)
+    {
+        local owner = new RpgExpandedProfile(); local source = new RpgExpandedProfile();
+        local target = new RpgExpandedProfile(); local item = new RpgLiteItem();
+        local field = new RpgExpandedPsionicStatic(); field.areaLevels = args[1]; field.switchable = args[2] != 0;
+        field.active = args[3] != 0; field.approved = true; field.evidence = 'Paid static'; owner.traits = [field];
+        local contact = new RpgExpandedPsionicStaticContact(); contact.owner = owner; contact.field = field;
+        contact.source = source; contact.target = target; contact.sourceDistance = args[4]; contact.targetDistance = args[5];
+        contact.indirectPhysical = args[6] != 0; contact.counterpower = args[7] != 0;
+        contact.approved = true; contact.evidence = 'Measured field and direct target';
+        if (args[8] == 1) contact.target = owner;
+        if (args[8] == 2) { owner.equipment = [item]; contact.target = item; contact.targetCarrier = owner; }
+        local value = contact.assess();
+        event('test.psionic-static'); eventValue(field.creationCost()); eventValue(field.radius());
+        eventValue(value.status); eventValue(value.reason); eventValue(value.suppressed ? 1 : 0);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2233)
     {
         local profile = new RpgExpandedProfile();

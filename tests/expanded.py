@@ -1664,6 +1664,23 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_psionic_static(s):
+    for args,cost,radius,blocked in [
+            ((0,0,1,9,9,0,0,1),30,0,1),
+            ((0,0,1,9,9,0,0,2),30,0,1),
+            ((0,0,1,0,0,0,0,0),30,0,0),
+            ((1,0,1,1,2,0,0,0),45,1,1),
+            ((1,0,1,2,1,0,0,0),45,1,1),
+            ((1,0,1,2,2,0,0,0),45,1,0),
+            ((3,0,1,4,5,0,0,0),75,4,1),
+            ((3,0,1,5,5,0,0,0),75,4,0),
+            ((0,0,1,9,9,1,0,1),30,0,0),
+            ((0,0,1,9,9,0,1,1),30,0,0),
+            ((1,1,0,1,1,0,0,0),75,1,0)]:
+        s.action(2234,*args)
+        assert last(s,'test.psionic-static') == [cost,radius,'ready',None,blocked,0,0]
+
+
 def test_psionic_resistance(Session,bundle):
     for degree,active,allowed,attribute,cost,status,modifier,immune,score,reason,draws in [
             (3,1,1,'iq',10,'ready',3,0,13,None,3),
@@ -1706,7 +1723,11 @@ def test_psionic_warning(Session,bundle):
             (5,'resolved',None,None,3),
             (6,'resolved',None,'Pause: something is wrong.',3),
             (7,'resolved',None,'Loose masonry above the doorway is about to fall.',3),
-            (8,'resolved',None,'Loose masonry above the doorway is about to fall.',3)]:
+            (8,'resolved',None,'Loose masonry above the doorway is about to fall.',3),
+            (11,'blocked','psionic-power-suppressed',None,0),
+            (12,'resolved',None,'Pause: something is wrong.',3),
+            (13,'blocked','psionic-power-suppressed',None,0),
+            (14,'resolved',None,'Pause: something is wrong.',3)]:
         s=Session(bundle)
         try:
             s.action(2231,code)
@@ -7832,6 +7853,7 @@ def test(build):
     fresh(Session,psionics,test_psionic_talents)
     test_psionic_warning(Session,psionics)
     test_psionic_resistance(Session,psionics)
+    fresh(Session,psionics,test_psionic_static)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
     swarms = build.build('expanded-swarms',ROOT / 'tests/fixtures/expanded-swarms.t')
     test_swarm_attacks(Session,swarms)

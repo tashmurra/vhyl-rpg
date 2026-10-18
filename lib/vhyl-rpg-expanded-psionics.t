@@ -130,9 +130,19 @@ class RpgExpandedDangerWarning: object
     evidence = nil
     result = nil
     secretCheck = nil
+    staticContacts = []
     snapshot = nil
     definition()
-    { return [self.id,self.profile,self.ability,self.ability.power,self.warningText,self.detailText,self.evidence]; }
+    {
+        local value = [self.id,self.profile,self.ability,self.ability.power,self.warningText,self.detailText,self.evidence];
+        foreach (local contact in self.staticContacts)
+        {
+            if (contact == nil || !contact.ofKind(RpgExpandedPsionicStaticContact)) rpgExpandedReject('psionic-danger-static-contact');
+            value = value + [contact,contact.owner,contact.field,contact.source,contact.target,contact.targetCarrier,
+                contact.sourceDistance,contact.targetDistance,contact.indirectPhysical,contact.counterpower,contact.evidence];
+        }
+        return value;
+    }
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
@@ -160,6 +170,16 @@ class RpgExpandedDangerWarning: object
             || self.warningText == nil || self.warningText == '' || self.detailText == nil || self.detailText == '')
         { value.reason = 'psionic-danger-situation-required'; return value; }
         if (self.suppressed) { value.reason = 'psionic-power-suppressed'; return value; }
+        foreach (local contact in self.staticContacts)
+        {
+            if (contact == nil || !contact.ofKind(RpgExpandedPsionicStaticContact)
+                || contact.source != self.profile || contact.target != self.profile
+                || contact.targetCarrier != nil || contact.indirectPhysical || contact.counterpower)
+                rpgExpandedReject('psionic-danger-static-contact');
+            local staticResult = contact.assess();
+            if (staticResult.status != 'ready') { value.reason = staticResult.reason; return value; }
+            if (staticResult.suppressed) { value.reason = 'psionic-power-suppressed'; return value; }
+        }
         if (self.profile.dead || self.profile.unconscious)
         { value.reason = 'psionic-danger-observer-unavailable'; return value; }
         foreach (local prior in self.profile.psionicDangerWarnings)
@@ -247,5 +267,75 @@ class RpgExpandedPsionicResistanceContext: RpgLiteContext
         if (!value.applicable) return 'psionic-no-resistance-roll';
         if (value.immune) return 'psionic-resistance-immune';
         return inherited(profile);
+    }
+;
+
+/** B78 absolute static, optionally switchable or extended to an area. */
+class RpgExpandedPsionicStatic: RpgLiteTrait
+    id = 'psionic-static'
+    areaLevels = 0
+    switchable = nil
+    approved = nil
+    evidence = nil
+    validateStatic()
+    {
+        rpgInteger(self.areaLevels,0,20);
+        if (self.level != 1 || !self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('psionic-static-author-facts');
+        if (!self.active && !self.switchable) rpgExpandedReject('psionic-static-not-switchable');
+        return true;
+    }
+    radius()
+    {
+        self.validateStatic(); if (self.areaLevels == 0) return 0;
+        local yards = 1;
+        for (local index = 1; index < self.areaLevels; index += 1) yards *= 2;
+        return yards;
+    }
+    creationCost() { self.validateStatic(); return 30 + 15 * self.areaLevels + (self.switchable ? 30 : 0); }
+;
+
+class RpgExpandedPsionicStaticResult: RpgExpandedResult
+    suppressed = nil
+;
+
+/** Authored spatial/contact facts for one absolute static field and one effect. */
+class RpgExpandedPsionicStaticContact: object
+    owner = nil
+    field = nil
+    source = nil
+    target = nil
+    targetCarrier = nil
+    sourceDistance = nil
+    targetDistance = nil
+    indirectPhysical = nil
+    counterpower = nil
+    approved = nil
+    evidence = nil
+    assess()
+    {
+        if (self.owner == nil || !self.owner.ofKind(RpgExpandedProfile) || self.field == nil
+            || !self.field.ofKind(RpgExpandedPsionicStatic) || !holds(self.owner.traits,self.field)
+            || self.source == nil || !self.source.ofKind(RpgExpandedProfile) || self.target == nil)
+            rpgExpandedReject('psionic-static-contact-definition');
+        self.field.validateStatic(); local value = new RpgExpandedPsionicStaticResult();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'psionic-static-contact-facts'; return value; }
+        if (self.targetCarrier != nil && (!self.targetCarrier.ofKind(RpgExpandedProfile)
+            || !holds(self.targetCarrier.equipment,self.target))) rpgExpandedReject('psionic-static-carried-target');
+        if (!self.field.active || self.indirectPhysical || self.counterpower)
+        { value.status = 'ready'; return value; }
+        if (self.target == self.owner || self.targetCarrier == self.owner)
+        { value.suppressed = true; value.status = 'ready'; return value; }
+        local radius = self.field.radius();
+        if (radius > 0)
+        {
+            if (self.sourceDistance == nil || self.targetDistance == nil)
+            { value.reason = 'psionic-static-distances-required'; return value; }
+            rpgInteger(self.sourceDistance,0,100000000); rpgInteger(self.targetDistance,0,100000000);
+            if (self.source == self.owner && self.sourceDistance != 0) rpgExpandedReject('psionic-static-source-distance');
+            value.suppressed = self.sourceDistance <= radius || self.targetDistance <= radius;
+        }
+        value.status = 'ready'; return value;
     }
 ;

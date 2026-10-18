@@ -272,9 +272,10 @@
       "tests": [
         "tests/expanded.py::test_psionic_talents",
         "tests/expanded.py::test_psionic_warning",
-        "tests/expanded.py::test_psionic_resistance"
+        "tests/expanded.py::test_psionic_resistance",
+        "tests/expanded.py::test_psionic_static"
       ],
-      "validation_note": "Owned resistance pricing and IQ/Will check contexts authored, including immunity/no-resistance suppression of rolls; fixtures unrun. Full ability contest and countermeasure integration remain pending."
+      "validation_note": "Absolute personal/area static assessment, pricing and danger-warning suppression authored; fixtures unrun. Resistible static, switching actions and other ability integrations remain pending."
     },
     {
       "id": "skills",

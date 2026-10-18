@@ -435,10 +435,13 @@
       "pages": "B255",
       "module": "psionics",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Permit mental-static as an ability of the counterpower family under its stated restrictions. Execute the underlying trait procedure from B78, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
-      "tests": [],
-      "trait_pages": "B78"
+      "tests": [
+        "tests/expanded.py::test_psionic_static"
+      ],
+      "trait_pages": "B78",
+      "validation_note": "Absolute personal/area static assessment, pricing and danger-warning suppression authored; fixtures unrun. Resistible static, switching actions and other ability integrations remain pending."
     },
     {
       "id": "psionic-membership-counterpower-mental-resistance",

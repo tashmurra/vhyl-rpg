@@ -136,3 +136,42 @@ ability effect. The originating ability retains its own activation, resistance,
 resource and duration procedure. `test_psionic_resistance` specifies pricing,
 IQ/Will bonuses, immunity, unresisted effects, inactive traits and unsupported
 attributes through the real score/check path. Fixtures remain unrun.
+
+## Absolute static protection
+
+`RpgExpandedPsionicStatic` implements the absolute B78 protection definition.
+It costs thirty points, plus fifteen per `areaLevels` and thirty for
+`switchable`. The first area level covers one yard and subsequent levels double
+that radius; this implementation bounds area levels at twenty. Personal static
+has radius zero. Set `approved` and `evidence`; a non-switchable field cannot
+be inactive. This version does not implement the resistible limitation or the
+action needed to switch a field on or off.
+
+Use `RpgExpandedPsionicStaticContact` to assess one field's effect. Supply its
+`owner`, owned `field`, ability `source`, actual `target`, `approved` and
+`evidence`. Personal static protects its owner and owned carried or worn items;
+for an item target supply `targetCarrier`, whose inventory must contain it.
+Area static also blocks operation within its radius and effects targeting that
+radius. Supply whole-yard `sourceDistance` and `targetDistance` from the field
+owner; boundaries are inclusive. These are explicit world facts, not a tactical
+position calculation.
+
+An indirect physical consequence, such as a thrown rock, sets
+`indirectPhysical` and bypasses this protection. A verified counterpower effect
+sets `counterpower`, since that family cannot itself be blocked by psionic
+interference. These facts belong to the ability executor; neither flag grants
+a different ability or changes its origin. `assess()` returns `suppressed`,
+uses no randomness and does not mutate state.
+
+A danger-warning request accepts `staticContacts` for known fields. Each must
+identify the observer as both source and target, with neither bypass flag set.
+Every field is assessed before the secret roll; a blocking field prevents the
+roll. The warning receipt binds its contact evidence, so replay cannot retarget
+it. `interferenceKnown` is still required: a supplied list is not proof that no
+other countermeasure exists. Other interference mechanisms remain pending.
+
+`test_psionic_static` specifies personal/item protection, exact radius bounds,
+area and switchable pricing, inactive fields and the physical/counterpower
+exceptions. `test_psionic_warning` additionally specifies suppression inside an
+area, operation outside it, personal suppression and an inactive switchable
+field. All fixtures remain unrun.
