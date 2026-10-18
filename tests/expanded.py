@@ -1664,6 +1664,46 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_swarm_counterattacks(Session,bundle):
+    def state(s):
+        s.action(2223)
+        return last(s,'test.swarm-counter-state')
+    for setup,amount,threshold in [(3,2,12),(4,1,6)]:
+        s=Session(bundle)
+        try:
+            s.action(2222,setup)
+            assert last(s,'test.swarm-counter') == ['resolved',None,amount,0]
+            assert state(s) == [amount,0,1,1,0,0]
+            s.action(2222,0)
+            assert last(s,'test.swarm-counter')[:2] == ['reused',None]
+            s.action(2222,7)
+            assert last(s,'test.swarm-counter')[:2] == ['blocked','swarm-counterattack-turn-used']
+            for turn in range(1,threshold//amount):
+                s.action(2222,6)
+                dispersed=int((turn+1)*amount == threshold)
+                assert state(s) == [(turn+1)*amount,dispersed,turn+1,turn+1,0,turn]
+            s.action(2222,6)
+            assert last(s,'test.swarm-counter')[:2] == ['blocked','swarm-dispersed']
+            s.command('undo')
+            assert state(s) == [threshold,1,threshold//amount,threshold//amount,0,threshold//amount-1]
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        for dtype,cap in [('imp',1),('pi-',1),('pi',1),('pi+',1),('pi++',1),('cut',2),('cr',2),('burn',2)]:
+            for injury,area,expected in [(0,0,0),(1,0,1),(9,0,cap),(9,1,9)]:
+                s.action(2224,injury,dtype,area)
+                assert last(s,'test.diffuse') == [expected,0,0]
+        s.action(2222,0)
+        assert last(s,'test.swarm-counter')[:2] == ['blocked','swarm-stomp-ground-required']
+        assert state(s) == [0,0,0,0,0,0]
+        s.action(2222,8)
+        assert last(s,'test.swarm-counter')[:2] == ['ready',None]
+        assert state(s) == [0,0,0,0,0,0]
+        s.action(2222,9)
+        assert state(s) == [0,0,0,0,0,0]
+    finally: s.close()
+
+
 def test_swarm_attacks(Session,bundle):
     def state(s):
         s.action(2221)
@@ -7664,6 +7704,7 @@ def test(build):
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
     swarms = build.build('expanded-swarms',ROOT / 'tests/fixtures/expanded-swarms.t')
     test_swarm_attacks(Session,swarms)
+    test_swarm_counterattacks(Session,swarms)
     test_swarm_protection(Session,creatures)
     fresh(Session,creatures,test_animal_strength_damage)
     fresh(Session,creatures,test_animal_natural_damage)

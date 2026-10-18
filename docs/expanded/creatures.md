@@ -408,8 +408,8 @@ exact boundaries, repeated start, preview and exception rollback; it is unrun.
 Include the health module to commit injury. `RpgExpandedSwarm` owns the contact
 attack history; its `kind` selects `stinging-insects`, `flying-biters` or
 `ground-biters`. These neutral identifiers select the B461 sample damage
-procedures. Movement, population, dispersal damage and map occupancy are not yet
-implemented by this class. An author may mark a swarm `dispersed`; attacks then
+procedures. Movement, population and map occupancy are not yet implemented by this class.
+The counterattack interface below supplies owned injury and dispersal. An author may mark a swarm `dispersed`; attacks then
 block.
 
 Give each `RpgExpandedSwarmAttack` a unique `id`, a started `exposure`,
@@ -438,6 +438,35 @@ No scheduler or tactical occupancy verification is implied by these flags.
 
 The combined fixture `expanded-swarms.t` and `test_swarm_attacks` cover direct
 sting injury, cutting damage, immunity, pursuit distance, duplicate intervals,
-receipt replay, exception rollback and undo. They remain unrun. Incoming attacks
-against the swarm, automatic dispersal, target relocation, exposure renewal and
+receipt replay, exception rollback and undo. They remain unrun. Weapon attacks
+against the swarm, target relocation, exposure renewal and
 cross-process attack continuation remain unfinished.
+
+## Swarm counterattacks and dispersal
+
+`RpgExpandedSwarmCounterattack` executes the B461 supplemental `shield` or
+`stomp` action. Set its unique `id`, `swarm`, expanded `actor`, `kind`,
+`approved`, `inReach` and `evidence`. A shield attack requires an owned, ready,
+usable shield item with a defense bonus and a flying swarm. Stomping requires
+a ground swarm, no shield field, and author-confirmed `ableToStomp` based on the
+actor's body and posture. Neither action rolls an attack, defense or damage.
+
+A shield strike adds two injury; a stomp adds one. The swarm's owned injury
+ledger disperses stinging insects at twelve, flying biters at eight and ground
+biters at six. Dispersed swarms cannot make further contact attacks or receive
+these counterattacks. Receipts are retained by both swarm and actor. Replaying
+a receipt does not add injury; each actor has at most one supplemental
+counterattack per ledger second, even when changing swarms. The operation does
+not advance time. These special actions leave the ordinary weapon attack slot
+available, but integration with the weapon action budget remains pending.
+
+`rpgExpandedDiffuseInjury(normalInjury, damageType, areaEffect)` applies the B380
+cap to an already calculated ordinary injury: impaling and all piercing sizes
+cap at one, other supported types at two. Set `areaEffect` only for a verified
+area, cone or explosion attack, which bypasses this cap. This pure function
+does not calculate penetration, consume ammunition or commit a weapon hit.
+Direct weapon attacks against swarms still require that integration.
+
+`test_swarm_counterattacks` specifies exact injury thresholds, repeated-receipt
+behavior, per-second limits, invalid flying stomps, pure assessment, rollback,
+undo and diffuse caps. The fixture is authored and unrun while checks are paused.

@@ -931,3 +931,108 @@ class RpgExpandedSwarmAttack: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B380 diffuse cap after the ordinary wound calculation, not before it. */
+rpgExpandedDiffuseInjury(normalInjury, damageType, areaEffect)
+{
+    rpgInteger(normalInjury,0,1000000);
+    if (!holds(['cr','cut','imp','burn','cor','tox','fat','pi-','pi','pi+','pi++'],damageType))
+        rpgExpandedReject('diffuse-damage-type');
+    if (areaEffect) return normalInjury;
+    local cap = holds(['imp','pi-','pi','pi+','pi++'],damageType) ? 1 : 2;
+    return normalInjury > cap ? cap : normalInjury;
+}
+
+modify RpgExpandedSwarm
+    injury = 0
+    counterattacks = []
+    dispersalThreshold()
+    {
+        if (self.kind == 'stinging-insects') return 12;
+        if (self.kind == 'flying-biters') return 8;
+        if (self.kind == 'ground-biters') return 6;
+        rpgExpandedReject('swarm-kind'); return nil;
+    }
+    flying() { return self.kind != 'ground-biters'; }
+;
+
+modify RpgExpandedProfile
+    swarmCounterattacks = []
+;
+
+class RpgExpandedSwarmCounterattackResult: RpgExpandedResult
+    injury = 0
+    dispersed = nil
+;
+
+/** B461 shield/stomp bonus action; one such action per actor per combat second. */
+class RpgExpandedSwarmCounterattack: object
+    id = nil
+    swarm = nil
+    actor = nil
+    kind = 'stomp'
+    shield = nil
+    approved = nil
+    inReach = nil
+    ableToStomp = nil
+    evidence = nil
+    result = nil
+    snapshot = nil
+    resolvedAt = nil
+    definition() { return [self.id,self.swarm,self.swarm.kind,self.actor,self.kind,self.shield,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.swarm == nil || !self.swarm.ofKind(RpgExpandedSwarm)
+            || self.actor == nil || !self.actor.ofKind(RpgExpandedProfile) || !holds(['shield','stomp'],self.kind))
+            rpgExpandedReject('swarm-counterattack-definition');
+        local value = new RpgExpandedSwarmCounterattackResult(); self.swarm.dispersalThreshold();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.snapshot == nil || self.snapshot.length() != current.length()) rpgExpandedReject('swarm-counterattack-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.snapshot[index]) rpgExpandedReject('swarm-counterattack-binding');
+            if (!holds(self.actor.swarmCounterattacks,self) || !holds(self.swarm.counterattacks,self))
+                rpgExpandedReject('swarm-counterattack-history');
+            value.status = 'reused'; value.injury = self.result.injury; value.dispersed = self.result.dispersed; return value;
+        }
+        if (!self.approved || !self.inReach || self.evidence == nil || self.evidence == '')
+        { value.reason = 'swarm-counterattack-author-facts'; return value; }
+        if (self.swarm.dispersed) { value.reason = 'swarm-dispersed'; return value; }
+        if (self.actor.dead || self.actor.unconscious || self.actor.stunned || self.actor.hp() <= 0 || self.actor.fp() <= 0)
+        { value.reason = 'swarm-counterattack-actor-unavailable'; return value; }
+        foreach (local prior in self.actor.swarmCounterattacks)
+        {
+            if (prior.id == self.id) rpgExpandedReject('swarm-counterattack-duplicate');
+            if (prior.resolvedAt == rpgLedger.seconds)
+            { value.reason = 'swarm-counterattack-turn-used'; return value; }
+        }
+        if (self.kind == 'shield')
+        {
+            if (!self.swarm.flying()) { value.reason = 'swarm-shield-flying-required'; return value; }
+            if (self.shield == nil || !self.shield.ofKind(RpgLiteItem) || self.shield.db <= 0
+                || !holds(self.actor.equipment,self.shield) || !self.shield.ready || !self.shield.attackUsableBy(self.actor))
+            { value.reason = 'swarm-ready-shield-required'; return value; }
+            value.injury = 2;
+        }
+        else
+        {
+            if (self.shield != nil) rpgExpandedReject('swarm-stomp-unused-shield');
+            if (self.swarm.flying()) { value.reason = 'swarm-stomp-ground-required'; return value; }
+            if (!self.ableToStomp) { value.reason = 'swarm-stomp-ability-required'; return value; }
+            value.injury = 1;
+        }
+        rpgInteger(self.swarm.injury,0,1000000);
+        value.dispersed = self.swarm.injury + value.injury >= self.swarm.dispersalThreshold();
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.swarm.injury += value.injury; self.swarm.dispersed = value.dispersed;
+        self.swarm.counterattacks = self.swarm.counterattacks + [self];
+        self.actor.swarmCounterattacks = self.actor.swarmCounterattacks + [self];
+        self.snapshot = self.definition(); self.resolvedAt = rpgLedger.seconds;
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

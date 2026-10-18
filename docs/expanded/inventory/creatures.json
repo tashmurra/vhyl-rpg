@@ -2248,9 +2248,12 @@
       "pages": "B461",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Attacks against a swarm hit automatically and allow no defense roll; calculate injury using diffuse-target rules, including their damage-type limitations.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swarm_counterattacks"
+      ],
+      "validation_note": "Owned shield/stomp injury and dispersal, actor turn limits and pure diffuse caps authored; fixtures unrun. Ordinary weapon attack execution and shared weapon action budgets remain pending."
     },
     {
       "id": "creature-swarm-shield-attack",
@@ -2258,9 +2261,12 @@
       "pages": "B461",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A shield can damage a flying swarm for two health per turn while a weapon attacks in the same turn; track the permitted paired actions without enabling unlimited repetitions.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swarm_counterattacks"
+      ],
+      "validation_note": "Owned shield/stomp injury and dispersal, actor turn limits and pure diffuse caps authored; fixtures unrun. Ordinary weapon attack execution and shared weapon action budgets remain pending."
     },
     {
       "id": "creature-swarm-stomp",
@@ -2268,9 +2274,12 @@
       "pages": "B461",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Stomping nonflying vermin causes one health per turn and can accompany a weapon attack; reject it against airborne swarms.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swarm_counterattacks"
+      ],
+      "validation_note": "Owned shield/stomp injury and dispersal, actor turn limits and pure diffuse caps authored; fixtures unrun. Ordinary weapon attack execution and shared weapon action budgets remain pending."
     },
     {
       "id": "creature-swarm-catalogue-flying-biters",
