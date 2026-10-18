@@ -9484,6 +9484,8 @@ def test(build):
     animal_disguise = build.build('expanded-animal-disguise',ROOT / 'tests/fixtures/expanded-animal-disguise.t')
     test_animal_disguise(Session,animal_disguise,build.out)
     test_animal_habits_health(Session,animal_disguise,build.out)
+    makeup = build.build('expanded-makeup',ROOT / 'tests/fixtures/expanded-makeup.t')
+    test_makeup(Session,makeup,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25712,5 +25714,52 @@ def test_animal_habits_health(Session, bundle, out):
         assert last(s,'test.animal-disguise') == [None,'animal-disguise-study-denied',3,1]
         s.action(1680,25510)
         assert last(s,'test.animal-habits-error') == ['animal-habits-outcome']
+    finally:
+        s.close()
+
+
+def test_makeup(Session, bundle, out):
+    """B206 owned cosmetic work respects height/TL limits and uses one shared duration; unrun."""
+    path = out / 'makeup.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,25602)
+        assert last(s,'test.makeup-preview') == ['ready',None]
+        s.action(1680,25601); s.action(1680,25603)
+        assert last(s,'test.makeup-state') == [0,0,0,0]
+        s.action(1680,25600); s.command('undo'); s.action(1680,25603)
+        assert last(s,'test.makeup-state') == [0,0,0,0]
+        for code in (25600,25600,25603):
+            s.action(1680,code)
+        assert last(s,'test.makeup-state') == [1,1,600,3]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,25600); s.action(1680,25603)
+        assert last(s,'test.makeup-state') == [1,1,600,3]
+    finally:
+        s.close()
+    for setup, reason in ((25604,'makeup-height-change-impossible'),(25605,'makeup-prosthetics-technology')):
+        s = Session(bundle)
+        try:
+            for code in (setup,25602,25600,25603):
+                s.action(1680,code)
+            assert last(s,'test.makeup-preview') == ['blocked',reason]
+            assert last(s,'test.makeup-state') == [0,0,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (25606,25600,25603):
+            s.action(1680,code)
+        assert last(s,'test.makeup-state') == [0,1,600,3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,25607)
+        assert last(s,'test.makeup-default') == [11]
     finally:
         s.close()

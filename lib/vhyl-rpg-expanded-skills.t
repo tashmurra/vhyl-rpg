@@ -2369,3 +2369,58 @@ class RpgExpandedAnimalDisguiseContext: RpgExpandedSkillContext
             - (self.herd ? self.animalCount / 10 : self.animalCount-1);
     }
 ;
+
+/** B206 theatrical makeup, distinct from a disguise's observer contest. */
+class RpgExpandedMakeupSkill: RpgExpandedSkill
+    id = 'makeup'
+    attribute = rpgIQ
+    difficulty = 0
+    defaultPenalty = -4
+    validateDefinition()
+    {
+        if (self.id != 'makeup' || self.attribute != rpgIQ || self.difficulty != 0 || self.defaultPenalty != -4
+            || self.techLevel == nil || self.specialty != nil || self.defaultAttribute != nil || self.alternateAttribute != nil
+            || self.defaults.length() != 0 || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil)
+            rpgExpandedReject('makeup-skill-definition');
+        rpgInteger(self.techLevel,0,12); return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill)) continue;
+            local general = source.ofKind(RpgExpandedSkill) && source.optionalParent != nil ? source.optionalParent : source;
+            if (general.id == 'disguise' && general.techLevel == self.techLevel) edges = edges + [[general,-2]];
+        }
+        return edges;
+    }
+;
+class RpgExpandedMakeupContext: RpgExpandedSkillContext
+    subject = nil
+    presentation = nil
+    prosthetics = nil
+    heightChange = 0
+    approved = nil
+    evidence = nil
+    makeupFacts()
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedMakeupSkill) || self.subject == nil
+            || !self.subject.ofKind(RpgExpandedProfile) || self.fixedBase != nil || self.rollAttribute != nil)
+            rpgExpandedReject('makeup-context-definition');
+        self.skill.validateDefinition(); rpgInteger(self.heightChange,-1000,1000);
+        if (!self.approved || self.presentation == nil || self.presentation == '' || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('makeup-context-evidence');
+        return [self.skill,self.skill.techLevel,self.subject,self.presentation,self.prosthetics,self.heightChange,
+            self.approved,self.evidence,self.modifier,self.equipmentTL,self.familiarity];
+    }
+    unavailableReason(profile)
+    {
+        self.makeupFacts();
+        if (self.heightChange != 0) return 'makeup-height-change-impossible';
+        local technology = self.equipmentTL == nil ? self.skill.techLevel : self.equipmentTL;
+        if (self.prosthetics && technology < 6) return 'makeup-prosthetics-technology';
+        return inherited(profile);
+    }
+;

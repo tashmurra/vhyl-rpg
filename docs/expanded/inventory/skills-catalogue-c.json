@@ -2518,9 +2518,10 @@
       "pages": "B206",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Alter authored theatrical appearance within technology limits; cannot change actual stature.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_makeup"],
+      "validation_note": "Typed defaults, cosmetic context restrictions and owned health-gated application use shared time and preserve presentation without changing physical traits. Material inventory, removal/expiry, observer contests and native action routes remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "easy",

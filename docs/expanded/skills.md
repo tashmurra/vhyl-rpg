@@ -1170,3 +1170,29 @@ into a free reroll; a genuinely new authored encounter needs a new study. Replay
 validates the owned gate and bound outcome. `test_animal_habits_health` specifies
 exhausted denial, no extra skill draw, rollback, undo, save continuation and
 rejection of a changed permission flag. Fixtures remain unrun.
+
+### Theatrical makeup
+
+`RpgExpandedMakeupSkill` implements full-2008 B206's technology-qualified IQ/Easy
+skill, with IQ−4 and purchased same-technology disguise−2 defaults. The ordinary
+resolver prevents chained defaults from supplying unpurchased source skills.
+`RpgExpandedMakeupContext` names the subject and a concrete cosmetic
+`presentation`, with approval and evidence. `heightChange` must be zero.
+`prosthetics` requires effective equipment technology 6 or higher; without an
+explicit `equipmentTL`, the skill's technology level is used.
+
+The social library's `RpgExpandedMakeupApplication` owns the work. Supply an ID,
+performer's profile, context, an authored `seconds` duration, material availability
+and permission. The source gives no fixed makeup duration; the fixture's ten
+minutes is an authored scene choice. Assessment validates restrictions and the
+health gate before spending time. An allowed application advances the shared
+ledger once and rolls once. Success installs the application as the subject's
+`makeupPresentation`; failure preserves any prior presentation. A repeat call
+returns the stored result without charging time or rolling again.
+
+Cosmetic presentation does not change physical characteristics, purchased
+appearance or identity knowledge, and it does not establish that an observer is
+fooled. Material inventory, removal/expiry, observer contests and native action
+routes remain pending. `test_makeup` specifies the disguise default, height and
+technology restrictions, success/failure, rollback, undo and save continuation.
+Fixtures remain unrun.

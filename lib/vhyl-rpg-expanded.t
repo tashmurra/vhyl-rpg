@@ -1002,3 +1002,7 @@ modify RpgLiteItem
 modify RpgLiteProfile
     distinctiveFeatureLevels() { return 0; }
 ;
+
+modify RpgLiteContext
+    makeupFacts() { rpgExpandedReject('makeup-context-required'); }
+;
