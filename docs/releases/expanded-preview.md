@@ -1111,3 +1111,9 @@ reactions without duplicate rolls or time charges. Carousing failure retains its
 precedes the check; predetermined reactions bypass preparation. Persistence and
 failure-effect fixtures are authored, unrun; other skills and special failure
 consequences remain pending.
+
+Carousing preparation can now purchase authored entertainment through existing
+payer/provider money balances. Its +1 to +3 bonus modifies the skill check once;
+payment persists on failure and is not repeated on replay. Affordability,
+conservation, rollback, undo and saved-continuation fixtures are authored, unrun.
+Intoxication and venue-specific dangers remain pending.

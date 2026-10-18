@@ -9042,6 +9042,8 @@ def test(build):
     test_reaction_mastery(Session, reaction_mastery, build.out)
     reaction_preparation = build.build('expanded-reaction-preparation',ROOT / 'tests/fixtures/expanded-reaction-preparation.t')
     test_reaction_preparation(Session, reaction_preparation, build.out)
+    carousing_entertainment = build.build('expanded-carousing-entertainment',ROOT / 'tests/fixtures/expanded-carousing-entertainment.t')
+    test_carousing_entertainment(Session, carousing_entertainment, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16532,5 +16534,59 @@ def test_reaction_preparation(Session, bundle, out):
             s.action(2285,code)
         assert last(s,'test.reaction-preparation') == ['blocked','reaction-preparation-kind',None]
         assert state(s) == [0,0,0,None]
+    finally:
+        s.close()
+
+
+def test_carousing_entertainment(Session, bundle, out):
+    def state(s):
+        s.action(2285,2600)
+        return last(s,'test.entertainment')
+    path = out / 'expanded-carousing-entertainment.zsave'
+    s = Session(bundle)
+    try:
+        for code in (2410,2502,2501):
+            s.action(2285,code)
+        assert last(s,'test.reaction-preparation') == ['ready',None,13]
+        assert state(s) == [50,0,0,0,0]
+        s.action(2285,2500)
+        s.command('undo')
+        assert state(s) == [50,0,0,0,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (2500,2500,2403,2403,2405):
+            s.action(2285,code)
+        assert state(s) == [40,10,1,6,60]
+        assert last(s,'test.reaction-mastery-state') == [1,0,6,14]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,2500)
+        assert state(s) == [40,10,1,6,60]
+    finally:
+        s.close()
+    for setup,reason,money in ((2601,'entertainment-unaffordable',5),(2603,'entertainment-service-facts',50)):
+        s = Session(bundle)
+        try:
+            for code in (setup,2502,2500):
+                s.action(2285,code)
+            assert last(s,'test.reaction-preparation') == ['blocked',reason,None]
+            assert state(s) == [money,0,0,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (2410,2602,2502,2500,2503):
+            s.action(2285,code)
+        assert last(s,'test.reaction-preparation') == ['ready',None,11]
+        assert last(s,'test.reaction-preparation-state') == [1,3,60,-2]
+        assert state(s) == [40,10,1,3,60]
     finally:
         s.close()

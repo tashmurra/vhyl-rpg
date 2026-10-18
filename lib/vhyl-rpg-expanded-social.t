@@ -1592,6 +1592,7 @@ class RpgExpandedReactionPreparationResult: RpgExpandedResult
 ;
 /** B174/B183/B560 an owned contextual social task before the encounter's reactions. */
 class RpgExpandedReactionPreparation: object
+    entertainment = nil
     id = nil
     encounter = nil
     skill = nil
@@ -1606,25 +1607,31 @@ class RpgExpandedReactionPreparation: object
     definition()
     { return [self.id,self.encounter,self.encounter.subject,self.encounter.audience,self.skill,
         self.skill.id,self.skill.attribute,self.skill.difficulty,self.skill.defaultPenalty,self.reactionKind,
-        self.skillModifier,self.requiresMovement,self.seconds,self.approved,self.evidence]; }
+        self.skillModifier,self.requiresMovement,self.seconds,self.approved,self.evidence,self.entertainment]
+        + (self.entertainment == nil ? [] : self.entertainment.definition()); }
     context()
     {
         local context = new RpgLiteContext(); context.skill = self.skill; context.kind = self.skill.id;
-        context.modifier = self.skillModifier; context.requiresMovement = self.requiresMovement; return context;
+        context.modifier = self.skillModifier + (self.entertainment == nil ? 0 : self.entertainment.bonus); context.requiresMovement = self.requiresMovement; return context;
     }
     assess()
     {
         if (self.id == nil || self.id == '' || self.encounter == nil || !self.encounter.ofKind(RpgExpandedReactionEncounter)
             || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)) rpgExpandedReject('reaction-preparation-definition');
+        if (self.entertainment != nil && (!self.entertainment.ofKind(RpgExpandedCarousingEntertainment)
+            || self.entertainment.preparation != self)) rpgExpandedReject('reaction-entertainment-owner');
         self.encounter.validate(); local value = new RpgExpandedReactionPreparationResult();
         if (self.result != nil)
         {
             local current = self.definition();
+            if (current.length() != self.boundDefinition.length()) rpgExpandedReject('reaction-preparation-binding');
             for (local index = 1; index <= current.length(); index += 1)
                 if (current[index] != self.boundDefinition[index]) rpgExpandedReject('reaction-preparation-binding');
             if (!holds(self.encounter.preparationHistory,self) || self.result.check != nil && self.encounter.skillPreparation != self
                 || self.result.gate.assess().status != 'reused')
                 rpgExpandedReject('reaction-preparation-history');
+            if (self.entertainment != nil && self.result.check != nil && self.entertainment.assess().status != 'reused')
+                rpgExpandedReject('reaction-entertainment-history');
             value.status = 'reused'; return value;
         }
         if (self.encounter.skillPreparation != nil) rpgExpandedReject('reaction-preparation-duplicate');
@@ -1640,6 +1647,12 @@ class RpgExpandedReactionPreparation: object
             rpgExpandedReject('reaction-preparation-skill');
         if (administrative ? self.reactionKind != 'bureaucracy' : !holds(['general','aid','information'],self.reactionKind))
         { value.reason = 'reaction-preparation-kind'; return value; }
+        if (self.entertainment != nil)
+        {
+            if (administrative) rpgExpandedReject('reaction-entertainment-skill');
+            local entertainment = self.entertainment.assess();
+            if (!holds(['ready','reused'],entertainment.status)) { value.reason = entertainment.reason; return value; }
+        }
         rpgInteger(self.skillModifier,-1000,1000); rpgInteger(self.seconds,0,86400);
         value.score = rpgLiteScore(self.encounter.subject,self.context());
         if (value.score == nil || value.score < 3) { value.reason = 'reaction-preparation-score'; return value; }
@@ -1661,6 +1674,11 @@ class RpgExpandedReactionPreparation: object
             rpgSpendTime(self.seconds);
             if (rpgLedger.seconds != start+self.seconds || rpgLiteScore(self.encounter.subject,self.context()) != value.score)
                 rpgExpandedReject('reaction-preparation-context-changed');
+            if (self.entertainment != nil)
+            {
+                local paid = self.entertainment.purchase();
+                if (!holds(['resolved','reused'],paid.status)) rpgExpandedReject('reaction-entertainment-unpaid');
+            }
             value.check = rpgCheck(value.score,rpgRandom.roll());
             value.modifier = value.check.achieved ? 2 : self.skill.id == 'carousing' ? -2 : 0;
         }
@@ -1671,5 +1689,54 @@ class RpgExpandedReactionPreparation: object
         self.encounter.preparationHistory = self.encounter.preparationHistory + [self];
         if (value.check != nil) self.encounter.skillPreparation = self;
         value.status = 'resolved'; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    entertainmentPurchases = []
+;
+/** B183 author-priced drinks/entertainment for one Carousing encounter. */
+class RpgExpandedCarousingEntertainment: object
+    id = nil
+    preparation = nil
+    payer = nil
+    provider = nil
+    price = 0
+    bonus = 0
+    available = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.preparation,self.payer,self.provider,self.price,self.bonus,self.available,self.approved,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.preparation == nil || !self.preparation.ofKind(RpgExpandedReactionPreparation)
+            || self.payer == nil || !self.payer.ofKind(RpgExpandedProfile) || self.provider == nil || !self.provider.ofKind(RpgLiteProfile)
+            || self.provider == self.payer || self.preparation.entertainment != self || self.preparation.encounter.subject != self.payer
+            || self.preparation.skill.id != 'carousing') rpgExpandedReject('entertainment-definition');
+        local value = new RpgExpandedResult(); local definition = self.definition();
+        if (self.result != nil)
+        {
+            for (local index = 1; index <= definition.length(); index += 1)
+                if (definition[index] != self.boundDefinition[index]) rpgExpandedReject('entertainment-binding');
+            if (!holds(self.payer.entertainmentPurchases,self)) rpgExpandedReject('entertainment-history');
+            value.status = 'reused'; return value;
+        }
+        rpgInteger(self.price,1,2147483647); rpgInteger(self.bonus,1,3);
+        rpgInteger(self.payer.money,0,2147483647); rpgInteger(self.provider.money,0,2147483647-self.price);
+        foreach (local prior in self.payer.entertainmentPurchases)
+            if (prior.id == self.id || prior.preparation == self.preparation) rpgExpandedReject('entertainment-duplicate');
+        if (!self.available || !self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'entertainment-service-facts'; return value; }
+        if (self.payer.money < self.price) { value.reason = 'entertainment-unaffordable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    purchase()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.payer.money -= self.price; self.provider.money += self.price;
+        self.boundDefinition = self.definition(); self.result = value;
+        self.payer.entertainmentPurchases = self.payer.entertainmentPurchases + [self]; value.status = 'resolved'; return value;
     }
 ;

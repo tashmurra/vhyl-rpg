@@ -882,3 +882,27 @@ skills, entertainment purchasing, special failure dangers and broader carry-over
 between separately authored encounters remain pending. The preparation fixture
 covers success, distinct failure effects, persistent modifiers, time charged
 once, rollback, undo and saved continuation; assertions are authored, unrun.
+
+## Paid Carousing entertainment
+
+Attach `RpgExpandedCarousingEntertainment` to a contextual preparation's
+`entertainment` field. Set its reciprocal `preparation`, payer, provider, price,
+bonus, availability, approval and evidence. The payer must be the encounter's
+subject; the provider is a distinct profile with an existing money balance.
+The author sets the local price and an appropriate skill bonus of +1 through +3
+(full-2008, B183). There is no invented fixed conversion from money to bonus.
+
+Preparation preview verifies affordability, service facts and the bonus before
+health permission, time or dice. On commitment, the existing money balances
+transfer the price once before the Carousing roll. The receipt is bound to this
+preparation; another preparation cannot borrow it. Replay and saved continuation
+retain the payment. Failure still pays for entertainment already provided and
+retains Carousing's -2 reaction consequence.
+
+The bonus applies to the Carousing skill check, not directly to the reaction
+roll. Do not add it again to `skillModifier`. Health permission denial makes no
+purchase. Entertainment inventory, individual drink consumption, intoxication
+and special venue dangers remain separate pending integrations. The fixture
+`tests/fixtures/expanded-carousing-entertainment.t` covers affordability, service
+availability, +1/+3 score effects, money conservation, replay, rollback, undo and
+saved continuation; assertions are authored, unrun.
