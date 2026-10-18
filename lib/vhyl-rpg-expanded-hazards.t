@@ -238,7 +238,7 @@ class RpgExpandedInfectionDay: object
                 || self.medicalTL != self.boundMedicalTL || self.careEvidence != self.boundEvidence
                 || self.dropDestination != self.boundDestination || !holds(self.exposure.days,self))
                 rpgExpandedReject('infection-day-binding');
-            value.status = 'reused'; value.check = self.result.check; value.injury = self.result.injury;
+            value.status = 'reused'; value.check = self.result.check; value.injury = self.result.injury; value.immune = self.result.immune;
             value.physicianBonus = self.result.physicianBonus;
             value.ended = self.result.ended; value.failureWound = self.result.failureWound; return value;
         }
@@ -2638,6 +2638,7 @@ rpgExpandedPoisonDose(doublings, delay, interval)
     value.status = 'ready'; return value;
 }
 class RpgExpandedPoisonResult: RpgExpandedResult
+    immune = nil
     fatigue = 0
     fatigueLoss = nil
     context = nil
@@ -2671,6 +2672,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         return self.hasDexteritySymptoms() ? rpgExpandedVenomDexterityPenalty(self.profile.maxHP,self.symptomInjury) : 0;
     }
     doseDoublings = 0
+    susceptibility = nil
     preparedForAgent = nil
     preparationEvidence = nil
     doseAssessment()
@@ -2695,7 +2697,8 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             e.improvisedMask,e.sealed,e.noBreathing,e.filteredLungs,e.eyeMembrane,e.protectedVision,
             e.sensePresent,e.senseProtected,
             h.ofKind(RpgExpandedCataloguePoison) ? h.catalogueId : nil,
-            h.ofKind(RpgExpandedCataloguePoison) ? h.route : nil];
+            h.ofKind(RpgExpandedCataloguePoison) ? h.route : nil,self.susceptibility]
+            + (self.susceptibility == nil ? [nil,nil,nil,nil,nil,nil,nil] : self.susceptibility.signature());
     }
     validateReceipt()
     {
@@ -2749,6 +2752,13 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         rpgInteger(self.hazard.dice,0,100); rpgInteger(self.hazard.adds,self.hazard.dice == 0 ? 1 : 0,1000);
         rpgInteger(self.hazard.resistanceModifier,-100,100);
         if (self.profile.dead) { value.reason = 'poison-exposure-dead'; return value; }
+        local susceptibility = new RpgExpandedPoisonSusceptibilityResult(); susceptibility.status = 'ready';
+        if (self.susceptibility != nil)
+        {
+            if (!self.susceptibility.ofKind(RpgExpandedPoisonSusceptibility)) rpgExpandedReject('poison-susceptibility-type');
+            susceptibility = self.susceptibility.assess(self.profile,self.hazard);
+            if (susceptibility.status != 'ready') { value.reason = susceptibility.reason; return value; }
+        }
         local dose = self.doseAssessment();
         if (dose.status != 'ready') { value.reason = dose.reason; return value; }
         if (!self.started)
@@ -2763,6 +2773,8 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             if (entry.status != 'ready' || !entry.exposed)
             { value.reason = entry.status == 'ready' ? 'poison-not-delivered' : entry.reason; return value; }
             value.entryModifier = entry.resistanceModifier;
+            if (susceptibility.immune)
+            { value.immune = true; value.seconds = 0; value.status = 'ready'; return value; }
             local delay = dose.delaySeconds;
             rpgInteger(rpgLedger.seconds,0,2147483647 - delay); value.seconds = delay;
             if (self.hazard.cycles > 1)
@@ -2771,7 +2783,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         if (self.hazard.resistible)
         {
             value.context = new RpgLiteContext(); value.context.attribute = rpgHT; value.context.kind = 'poison';
-            value.context.modifier = self.hazard.resistanceModifier + value.entryModifier + dose.resistanceModifier + self.antidoteBonus() + self.treatmentBonus();
+            value.context.modifier = self.hazard.resistanceModifier + value.entryModifier + dose.resistanceModifier + susceptibility.modifier + self.antidoteBonus() + self.treatmentBonus();
             local score = rpgLiteScore(self.profile,value.context);
             if (score == nil || score < 3) { value.reason = 'poison-resistance-score'; return value; }
         }
@@ -2790,6 +2802,11 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         self.started = true; self.startedAt = rpgLedger.seconds; self.dueAt = self.startedAt + value.seconds;
         self.remaining = self.hazard.cycles; self.entryModifier = value.entryModifier; self.boundDefinition = self.definition();
         self.profile.poisonExposures = self.profile.poisonExposures + [self];
+        if (value.immune)
+        {
+            self.finished = true; self.remaining = 0; self.completedAt = rpgLedger.seconds;
+            self.result = value;
+        }
         value.status = 'resolved'; return value;
     }
     assessResolution()
@@ -2801,6 +2818,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
     }
     resolve()
     {
+        if (self.started && self.finished && self.result != nil && self.result.immune) return self.assess();
         if (self.cycleHistory.length() > 0) return self.cycleHistory[1].apply();
         local cycle = new RpgExpandedPoisonCycle(); cycle.id = 'onset'; cycle.exposure = self;
         return cycle.apply();
@@ -3590,6 +3608,7 @@ class RpgExpandedEnvironmentalPoisonExposure: RpgExpandedPoisonExposure
     }
     resolve()
     {
+        if (self.started && self.finished && self.result != nil && self.result.immune) return self.assess();
         if (self.cycleHistory.length() > 0) return self.cycleHistory[1].apply();
         local cycle = new RpgExpandedEnvironmentalPoisonCycle(); cycle.id = 'onset'; cycle.exposure = self;
         return cycle.apply();
@@ -3640,5 +3659,34 @@ class RpgExpandedEnvironmentalPoisonCycle: RpgExpandedPoisonCycle
             e.remaining = e.hazard.cycles; e.dueAt = rpgLedger.seconds + e.retrySeconds();
         }
         return value;
+    }
+;
+
+
+class RpgExpandedPoisonSusceptibilityResult: RpgExpandedResult
+    immune = nil
+;
+/** B438 author decision for a specific physiology and agent, not a label lookup. */
+class RpgExpandedPoisonSusceptibility: object
+    profile = nil
+    hazard = nil
+    physiology = nil
+    approved = nil
+    evidence = nil
+    immune = nil
+    resistanceModifier = 0
+    signature() { return [self.profile,self.hazard,self.physiology,self.approved,self.evidence,self.immune,self.resistanceModifier]; }
+    assess(patient, agent)
+    {
+        local value = new RpgExpandedPoisonSusceptibilityResult();
+        if (self.profile != patient || self.hazard != agent)
+        { value.reason = 'poison-susceptibility-target'; return value; }
+        if (!self.approved || self.physiology == nil || self.physiology == '' || self.evidence == nil || self.evidence == '')
+        { value.reason = 'poison-susceptibility-evidence'; return value; }
+        rpgInteger(self.resistanceModifier,-100,100);
+        if (self.immune && self.resistanceModifier != 0 || !agent.resistible && self.resistanceModifier != 0)
+        { value.reason = 'poison-susceptibility-combination'; return value; }
+        value.immune = self.immune; value.modifier = self.resistanceModifier;
+        value.status = 'ready'; return value;
     }
 ;

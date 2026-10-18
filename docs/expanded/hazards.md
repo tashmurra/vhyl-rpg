@@ -1502,3 +1502,31 @@ Fixtures specify immediate and delayed retries, retry receipt reuse, first
 failure, acquired cycles after departure, cancellation before acquisition,
 rejection of a wrong cycle type, rollback, undo and saved continuation. They are
 authored and unrun.
+
+
+### Physiology-specific susceptibility
+
+The source leaves species-specific immunity and resistance differences to the
+author (full-2008 B438). `RpgExpandedPoisonSusceptibility` makes that decision
+explicit for a `profile` and exact `hazard`: supply `physiology`, `approved`,
+`evidence`, and either `immune = true` or a signed `resistanceModifier`.
+Set the exposure's `susceptibility` to that decision before admission. No ancestry
+name, creature label or free-text physiology string grants immunity by itself.
+
+The assessment validates the target and evidence. Combining immunity with a
+nonzero modifier is rejected, as is modifying resistance for an unresistible
+agent. Valid immunity records the admitted exposure as finished at the current
+instant, without spending time, rolling resistance, taking damage or scheduling
+environmental retries. It does not consume or refund a delivering system's
+payload. Ordinary dose, route and catalogue constraints still apply.
+
+A nonimmune modifier applies to every actual poison resistance check alongside
+the entry, dose and treatment modifiers. The complete decision is bound into the
+exposure receipt. Altering its target, rationale or effect after admission
+invalidates continuation; it does not retroactively rewrite an acquired poison.
+Transformations that change physiology during exposure need a separate explicit
+procedure and remain unsupported.
+
+Fixtures specify immune replay and saved continuation, ordinary resistance
+adjustment, immunity to an unresistible agent, wrong targets, invalid combinations,
+post-admission mutation and immune environmental contact. They remain unrun.

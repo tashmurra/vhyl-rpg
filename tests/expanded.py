@@ -11795,3 +11795,46 @@ def test_poison_exposure(Session, bundle, out):
         assert last(s, 'test.poison-environment') == [1, 1, 0, 0, 1, 0, 0, 60, 3]
     finally:
         s.close()
+
+    # B438 physiology-specific policy: explicit target, no inferred ancestry immunity.
+    s = Session(bundle)
+    try:
+        for code in (400, 261, 260, 260, 262, 404):
+            s.action(2285, code)
+        assert last(s, 'test.poison-susceptibility') == [1, 1, 1, 0, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (4, 262, 404):
+            s.action(2285, code)
+        assert last(s, 'test.poison-susceptibility') == [1, 1, 1, 0, 60, 0]
+    finally:
+        s.close()
+    for setup, expected in [((400, 401, 287), [1, 0, 1, 0, 60, 3]),
+                            ((400, 270), [1, 1, 1, 0, 60, 0]),
+                            ((400, 402), [0, 0, 0, 0, 60, 0]),
+                            ((400, 401, 270), [0, 0, 0, 0, 60, 0])]:
+        s = Session(bundle)
+        try:
+            for code in setup + (260, 4, 262, 404):
+                s.action(2285, code)
+            assert last(s, 'test.poison-susceptibility') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (400, 401, 260, 403, 4, 262, 404):
+            s.action(2285, code)
+        assert last(s, 'test.poison-susceptibility') == [1, 0, 0, 0, 0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (380, 406, 383, 384, 390, 387):
+            s.action(2285, code)
+        assert last(s, 'test.poison-environment') == [0, 1, 0, None, 0, 0, 0, 60, 0]
+    finally:
+        s.close()

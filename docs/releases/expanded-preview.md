@@ -491,3 +491,10 @@ failure starts ordinary damaging cycles. Leaving before acquisition cancels the
 pending effect, while leaving afterward preserves acquired poison. Added authored,
 unrun transaction and persistence fixtures. Cloud lifecycle and re-entry remain
 incomplete.
+
+
+Poison susceptibility now has a concrete author contract for a specific
+physiology, character and agent. Explicit immunity resolves without effects or
+environmental retries; an authored modifier changes resistance. The decision is
+bound at admission and never inferred from ancestry labels. Fixtures are authored
+and unrun; changing physiology during exposure remains unsupported.

@@ -177,9 +177,12 @@
       "pages": "B438",
       "module": "hazards",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A specific authored susceptibility policy identifies immune or differently resistant physiologies; a character label alone must not imply a universal resistance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Concrete approved susceptibility decisions bind an exact profile, hazard, physiology rationale and immunity or resistance modifier. Immunity resolves admission without effects or environmental retries; modifiers affect later resistance. Invalid targets/combinations and later mutation are rejected. Fixtures authored, unrun. Physiology transformations during an acquired exposure remain unsupported."
     },
     {
       "id": "poison-damage",

@@ -42,6 +42,9 @@ environmentExposure: RpgExpandedEnvironmentalPoisonExposure id = 'environmental-
     environmentEvidence = 'Continued contact in the same fictional cloud until explicitly leaving';
 environmentSecond: RpgExpandedEnvironmentalPoisonCycle id = 'retry-one' exposure = environmentExposure;
 environmentThird: RpgExpandedEnvironmentalPoisonCycle id = 'retry-two' exposure = environmentExposure;
+poisonSusceptibility: RpgExpandedPoisonSusceptibility profile = bleedProfile hazard = poisonDefinition
+    physiology = 'original-fictional-physiology' approved = true immune = true
+    evidence = 'Authored susceptibility decision for this physiology and this exact agent';
 modify BleedTestAction
     exec(context)
     {
@@ -274,6 +277,18 @@ modify BleedTestAction
         if (code == 390) { rpgSpendTime(60); return nil; }
         if (code == 391)
         { local cycle = new RpgExpandedPoisonCycle(); cycle.id = 'wrong-kind'; cycle.exposure = environmentExposure; cycle.apply(); return nil; }
+        if (code == 400) { poisonExposure.susceptibility = poisonSusceptibility; return nil; }
+        if (code == 401) { poisonSusceptibility.immune = nil; poisonSusceptibility.resistanceModifier = 2; return nil; }
+        if (code == 402) { poisonSusceptibility.profile = surgicalHealer; return nil; }
+        if (code == 403) { poisonSusceptibility.evidence = 'A changed physiology decision'; return nil; }
+        if (code == 404)
+        {
+            event('test.poison-susceptibility'); eventValue(bleedProfile.poisonExposures.length());
+            eventValue(poisonExposure.result != nil && poisonExposure.result.immune ? 1 : 0);
+            eventValue(poisonExposure.finished ? 1 : 0); eventValue(bleedProfile.injury);
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 406) { environmentExposure.susceptibility = poisonSusceptibility; return nil; }
         return inherited(context);
     }
 ;
