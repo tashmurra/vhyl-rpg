@@ -3332,7 +3332,28 @@ occurs. The enclosing action owns time and transaction rollback.
 
 This tracks injury relevant to remains and revival, but does not declare a body
 destroyed merely because health reaches negative ten times capacity. Source-based
-body-destruction adjudication and revival remain separate unfinished integrations.
+body-destruction adjudication is described below; revival remains unfinished.
 Higher-level attack procedures which reject dead targets still need their own
 adapters. Preview, Lite compatibility, disabled-option, replay, rollback, undo and
 saved-continuation fixtures are authored but unrun.
+
+## Body integrity decisions
+
+At or below negative ten times health capacity, use `RpgExpandedBodyAssessment`
+to record whether the damage source leaves recognizable remains or destroys the
+body (full-2008, B419; B423). Supply `id`, `profile`, `approved`, source-based
+`evidence`, and `disposition` of `recognizable` or `destroyed`. `assess()` is pure;
+`apply()` binds the decision to the current injury and capacity, without changing
+injury, time or randomness. Dead victims below the threshold are required.
+
+`profile.bodyIntegrity()` returns `not-dead`, `below-threshold`, `unassessed`,
+`recognizable` or `destroyed`. A recognizable judgment applies only to its recorded
+injury/capacity; further injury requires a new assessment. A destroyed judgment
+persists through later injury. Existing judgments cannot be overwritten by a new
+contradictory judgment without new injury, and edited receipt fields reject.
+Neither recognition nor a below-threshold result grants eligibility for revival:
+medical or supernatural restoration needs its own rules and authored facts.
+
+Apply inside an action transaction. Preview, threshold, conflicting-decision,
+staleness, replay, rollback, undo and saved-continuation fixtures are authored but
+unrun while checks are paused.

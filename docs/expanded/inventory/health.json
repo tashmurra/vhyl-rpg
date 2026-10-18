@@ -103,9 +103,12 @@
       "pages": "B419; B423",
       "module": "health",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At negative ten times capacity, author whether the injury source actually destroys the body; ordinary punctures and incineration need not leave equivalent remains.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_body_assessment"
+      ],
+      "validation_note": "Owned source-based remains adjudication at negative ten times capacity records recognizable or destroyed body state without automatic inference from injury. Further injury invalidates recognizable assessments; destroyed state persists. Revival is separate and unfinished. Boundary, lifecycle and binding fixtures authored, unrun."
     },
     {
       "id": "health-shock",

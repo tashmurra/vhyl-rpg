@@ -1405,3 +1405,8 @@ An explicit postmortem-injury option now retains final injury in the shared ledg
 through owned receipts and the shared wound interface. Lite defaults remain
 unchanged. Body destruction and revival adapters remain pending; compatibility,
 preview, replay and lifecycle fixtures are authored but unrun.
+
+Body integrity now has explicit source-based judgments at the destruction
+threshold, bound to injury and capacity. Additional injury invalidates recognizable
+assessments; destruction persists. No revival eligibility is inferred. Boundary,
+conflict, replay and lifecycle fixtures are authored but unrun.

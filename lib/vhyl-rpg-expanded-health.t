@@ -7424,3 +7424,78 @@ class RpgExpandedPostmortemInjury: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B419/B423 body condition is a source-based decision, not an injury multiplier. */
+class RpgExpandedBodyResult: RpgExpandedResult
+    disposition = nil
+;
+modify RpgExpandedProfile
+    bodyAssessments = []
+    bodyIntegrity()
+    {
+        local current = nil;
+        foreach (local receipt in self.bodyAssessments)
+        {
+            if (!receipt.ofKind(RpgExpandedBodyAssessment) || receipt.profile != self)
+                rpgExpandedReject('body-assessment-owner');
+            receipt.validateBinding();
+            if (receipt.disposition == 'destroyed') return 'destroyed';
+            if (receipt.injuryBasis == self.injury && receipt.capacityBasis == self.maxHP)
+                current = receipt.disposition;
+        }
+        if (!self.dead) return 'not-dead';
+        if (self.hp() > -10 * self.maxHP) return 'below-threshold';
+        return current == nil ? 'unassessed' : current;
+    }
+;
+class RpgExpandedBodyAssessment: object
+    id = nil
+    profile = nil
+    disposition = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    injuryBasis = nil
+    capacityBasis = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.profile,self.disposition,self.approved,self.evidence,self.injuryBasis,self.capacityBasis]; }
+    validateBinding()
+    {
+        if (self.result == nil || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || !holds(self.profile.bodyAssessments,self)) rpgExpandedReject('body-assessment-owner');
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('body-assessment-binding');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedBodyResult();
+        if (self.result != nil)
+        {
+            self.validateBinding(); value.status = 'reused'; value.disposition = self.disposition; return value;
+        }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('body-assessment-definition');
+        rpgExpandedValidate(self.profile); rpgInteger(self.profile.maxHP,1,1000);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'body-assessment-approval'; return value; }
+        if (!holds(['recognizable','destroyed'],self.disposition)) rpgExpandedReject('body-assessment-disposition');
+        if (!self.profile.dead) { value.reason = 'body-assessment-not-dead'; return value; }
+        if (self.profile.hp() > -10 * self.profile.maxHP) { value.reason = 'body-assessment-threshold'; return value; }
+        foreach (local prior in self.profile.bodyAssessments)
+            if (prior.id == self.id) rpgExpandedReject('body-assessment-duplicate');
+        if (self.profile.bodyIntegrity() != 'unassessed') { value.reason = 'body-state-already-assessed'; return value; }
+        value.disposition = self.disposition; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess();
+        if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.injuryBasis = self.profile.injury; self.capacityBasis = self.profile.maxHP;
+        self.boundDefinition = self.definition(); self.profile.bodyAssessments = self.profile.bodyAssessments + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

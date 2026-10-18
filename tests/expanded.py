@@ -9135,6 +9135,8 @@ def test(build):
     test_instant_death(Session, instant_death, build.out)
     postmortem = build.build('expanded-postmortem',ROOT / 'tests/fixtures/expanded-postmortem.t')
     test_postmortem(Session, postmortem, build.out)
+    body_assessment = build.build('expanded-body-assessment',ROOT / 'tests/fixtures/expanded-body-assessment.t')
+    test_body_assessment(Session, body_assessment, build.out)
     talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
     test_talent_study(Session, talent_study, build.out)
     talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
@@ -18728,5 +18730,51 @@ def test_postmortem(Session, bundle, out):
         for code in (7602, 7604, 7603):
             s.action(2285, code)
         assert last(s, 'test.postmortem-state') == [-105, 1, 2, 0, 0, 0]
+    finally:
+        s.close()
+
+
+def test_body_assessment(Session, bundle, out):
+    path = out / 'expanded-body-assessment.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 7701)
+        assert last(s, 'test.body-assessment') == ['blocked', 'body-assessment-not-dead', None]
+        for code in (7600, 7701):
+            s.action(2285, code)
+        assert last(s, 'test.body-assessment') == ['blocked', 'body-assessment-threshold', None]
+        for code in (7602, 7700, 7703):
+            s.action(2285, code)
+        assert last(s, 'test.body-assessment') == ['ready', None, 'recognizable']
+        assert last(s, 'test.body-state') == ['unassessed', -100, 0, 0, 0]
+        for code in (7704, 7703):
+            s.action(2285, code)
+        assert last(s, 'test.body-state') == ['unassessed', -100, 0, 0, 0]
+        s.action(2285, 7701)
+        s.command('undo')
+        s.action(2285, 7703)
+        assert last(s, 'test.body-state') == ['unassessed', -100, 0, 0, 0]
+        for code in (7701, 7701, 7702, 7703):
+            s.action(2285, code)
+        assert last(s, 'test.body-assessment') == ['blocked', 'body-state-already-assessed', None]
+        assert last(s, 'test.body-state') == ['recognizable', -100, 1, 0, 0]
+        for code in (7604, 7703):
+            s.action(2285, code)
+        assert last(s, 'test.body-state') == ['unassessed', -105, 1, 0, 0]
+        for code in (7702, 7703):
+            s.action(2285, code)
+        assert last(s, 'test.body-state') == ['destroyed', -105, 2, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (7702, 7604, 7703):
+            s.action(2285, code)
+        assert last(s, 'test.body-state') == ['destroyed', -110, 2, 0, 0]
+        for code in (7705, 7706):
+            s.action(2285, code)
+        assert last(s, 'test.body-error') == ['body-assessment-binding']
     finally:
         s.close()
