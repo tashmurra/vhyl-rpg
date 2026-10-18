@@ -634,9 +634,10 @@
       "acceptance": "Suitable mechanical life support extends the maintenance check interval to one day; magical or advanced suspended animation suppresses these checks entirely while active.",
       "tests": [
         "tests/expanded.py::test_trauma_maintenance",
-        "tests/expanded.py::test_mortal_stabilization"
+        "tests/expanded.py::test_mortal_stabilization",
+        "tests/expanded.py::test_mortal_suspension"
       ],
-      "validation_note": "Owned trauma maintenance supplies hourly/daily checks against the higher current patient/caregiver score; shared ledger dispatch also advances owned mortal care and prevents duplicate rest clocks. Fixtures authored and unrun. Mid-interval transitions and suspended animation remain incomplete."
+      "validation_note": "Owned trauma maintenance supplies hourly/daily checks against the higher current patient/caregiver score; shared ledger dispatch also advances owned mortal care and prevents duplicate rest clocks. Fixtures authored and unrun. Mid-interval transitions and suspended animation remain incomplete. Concrete receipt for an established suspension effect now suppresses mortal checks while retaining the partial interval and unconsciousness. Fixture authored and unrun. Effect acquisition and wider physiological interactions remain incomplete."
     },
     {
       "id": "health-mortal-recovery-cost",

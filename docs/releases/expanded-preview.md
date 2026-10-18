@@ -368,3 +368,9 @@ higher patient/caregiver score. Ledger dispatch advances owned mortal care durin
 other activities; resting skips duplicate mortal-clock processing. Default Lite
 dispatch remains unchanged. Fixtures are authored and unrun. Mid-interval support
 transitions and suspended animation remain incomplete.
+
+An owned suspended-animation receipt now suppresses mortal survival checks while
+preserving the partial interval and preventing ordinary awakening. It requires an
+already resolved external effect; acquisition and other physiological interactions
+remain unfinished. Persistence and healing-interaction fixtures are authored and
+unrun.

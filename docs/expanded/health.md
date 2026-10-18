@@ -2385,3 +2385,35 @@ checks. Profiles without owned care retain their previous dispatch behavior.
 boundaries, the higher caregiver score, coexistence with stabilization, stopping,
 preview, rollback, undo, save continuation and prevention of duplicate rest rolls.
 They remain authored and unrun.
+
+### Suspended animation and mortal checks
+
+`RpgExpandedMortalSuspension` supplies B423's no-survival-roll exception for an
+already established supernatural or advanced-technology suspension effect. Set
+`kind` to `supernatural` or `advanced-technology`, identify the effect in
+`effectEvidence`, and provide `approved`, a unique `id` and the expanded `patient`.
+The patient must already be unconscious, alive, mortal and enrolled in owned
+mortal care. The source effect remains responsible for its activation, equipment,
+energy, broader physiology and eventual release; this receipt supplies the
+specific mortal-survival consequence rather than inventing those mechanics.
+
+`assess()` is pure. `start()` records the current partial `mortalClock` without
+resetting it. While active, ledger advancement and resting neither accumulate
+mortal time nor roll survival checks. Ordinary unconscious recovery cannot wake
+the patient, even if healing resolves the mortal condition. `end()` releases the
+exception without a roll, HP grant or automatic awakening. If the patient remains
+mortal, owned care must still be available to resume the preserved partial clock.
+Replay cannot reset that clock or end a later effect.
+
+Overlapping trauma support and surgery are rejected; interrupt or finish them
+before applying suspension. Changed effect facts and attempts to wake the patient
+while the receipt remains active invalidate clock advancement. The host must end
+this receipt in the same transaction that terminates the actual suspension.
+Other hazards, metabolism, aging and sources of suspended animation remain outside
+this narrow adapter and must not be represented as fully implemented by it.
+
+`mortalSurvivalSuspended()` defaults to false, preserving the abridged clock.
+`expanded-mortal-suspension.t` and `test_mortal_suspension` specify a partial interval
+held across a day, resumption, surgery rejection, retained unconsciousness after
+healing, preview, rollback, undo, replay and cross-process continuation. They are
+authored and unrun.

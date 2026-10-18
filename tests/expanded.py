@@ -8934,6 +8934,8 @@ def test(build):
     test_mortal_stabilization(Session, mortal_stabilization, build.out)
     trauma_maintenance = build.build('expanded-trauma-maintenance', ROOT / 'tests/fixtures/expanded-trauma-maintenance.t')
     test_trauma_maintenance(Session, trauma_maintenance, build.out)
+    mortal_suspension = build.build('expanded-mortal-suspension', ROOT / 'tests/fixtures/expanded-mortal-suspension.t')
+    test_mortal_suspension(Session, mortal_suspension, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -11125,5 +11127,45 @@ def test_trauma_maintenance(Session, bundle, out):
         for code in (170, 190, 199):
             s.action(2285, code)
         assert state(s) == [0, 1, 0, 1, 3600, 3, None]
+    finally:
+        s.close()
+
+
+def test_mortal_suspension(Session, bundle, out):
+    def state(s):
+        s.action(2285, 206)
+        return last(s, 'test.mortal-suspension')
+    path = out / 'expanded-mortal-suspension.zsave'
+    s = Session(bundle)
+    try:
+        for code in (170, 200, 201, 203):
+            s.action(2285, code)
+        assert state(s) == [None, None, 600, 0, 1, 1, 600, 0]
+        s.action(2285, 202)
+        s.command('undo')
+        assert state(s) == [None, None, 600, 0, 1, 1, 600, 0]
+        s.action(2285, 202)
+        s.action(2285, 202)
+        s.action(2285, 171)  # surgery cannot bypass established suspension
+        s.action(2285, 193)
+        assert state(s) == [600, None, 600, 1, 1, 1, 87000, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 204)
+        s.action(2285, 204)
+        s.action(2285, 205)
+        assert state(s) == [600, 87000, 0, 1, 1, 1, 88200, 3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (170, 200, 202, 208, 199):
+            s.action(2285, code)
+        # Healing can end mortality, but does not terminate suspension or wake.
+        assert state(s) == [600, None, 600, 1, 0, 1, 4200, 6]
     finally:
         s.close()

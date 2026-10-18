@@ -556,6 +556,7 @@ class RpgLiteFire: object
 /** Default mortal survival dispatch preserves the abridged interval and roll. */
 modify RpgLiteProfile
     mortalClockOwned() { return nil; }
+    mortalSurvivalSuspended() { return nil; }
     mortalSurvivalInterval() { return 1800; }
     mortalSurvivalCheck() { return rpgLiteAttributeCheck(self,rpgHT,'mortal-wound',0); }
 ;
@@ -564,6 +565,7 @@ modify RpgLiteProfile
 rpgLiteMortalTime(profile, seconds)
 {
     if (profile.dead) return nil;
+    if (profile.mortalSurvivalSuspended()) return nil;
     if (profile.mortal)
     {
         local mortalInterval = profile.mortalSurvivalInterval();

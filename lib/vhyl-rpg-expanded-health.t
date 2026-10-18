@@ -4994,3 +4994,106 @@ modify rpgLedger
         return nil;
     }
 ;
+
+/** B423 mortal-survival exception for an already established suspension effect.
+ * This receipt does not manufacture its technology, spell, cost or physiology. */
+class RpgExpandedMortalSuspension: object
+    id = nil
+    patient = nil
+    kind = nil
+    approved = nil
+    effectEvidence = nil
+    startedAt = nil
+    endedAt = nil
+    pausedClock = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.patient,self.kind,self.approved,self.effectEvidence]; }
+    validateReceipt()
+    {
+        if (self.startedAt == nil || !holds(self.patient.mortalSuspensionHistory,self))
+            rpgExpandedReject('mortal-suspension-history');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('mortal-suspension-binding');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.id == nil || self.id == '' || self.patient == nil || !self.patient.ofKind(RpgExpandedProfile)
+            || !holds(['supernatural','advanced-technology'],self.kind)) rpgExpandedReject('mortal-suspension-definition');
+        if (self.startedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (!self.approved || self.effectEvidence == nil || self.effectEvidence == '')
+        { value.reason = 'mortal-suspension-effect-required'; return value; }
+        if (self.patient.dead || !self.patient.mortal || !self.patient.unconscious)
+        { value.reason = 'mortal-suspension-condition'; return value; }
+        if (self.patient.mortalCare == nil || self.patient.traumaMaintenance != nil || self.patient.mortalSuspension != nil)
+        { value.reason = 'mortal-suspension-care-transition'; return value; }
+        foreach (local prior in self.patient.mortalSuspensionHistory)
+            if (prior.id == self.id) rpgExpandedReject('mortal-suspension-duplicate');
+        foreach (local operation in self.patient.surgicalOperations)
+            if (operation.result == nil) { value.reason = 'mortal-suspension-operation-active'; return value; }
+        value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.startedAt = rpgLedger.seconds; self.pausedClock = self.patient.mortalClock;
+        self.boundDefinition = self.definition(); self.patient.mortalSuspension = self;
+        self.patient.mortalSuspensionHistory = self.patient.mortalSuspensionHistory + [self];
+        value.status = 'resolved'; return value;
+    }
+    end()
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.endedAt != nil) { value.status = 'reused'; return value; }
+        if (self.patient.mortal && !self.patient.dead && self.patient.mortalCare == nil)
+        { value.reason = 'mortal-suspension-resume-care-required'; return value; }
+        if (self.patient.mortalSuspension != self || self.patient.mortalClock != self.pausedClock)
+            rpgExpandedReject('mortal-suspension-clock');
+        self.endedAt = rpgLedger.seconds; self.patient.mortalSuspension = nil;
+        value.status = 'resolved'; return value;
+    }
+;
+modify RpgExpandedProfile
+    mortalSuspension = nil
+    mortalSuspensionHistory = []
+    mortalClockOwned() { return self.mortalSuspension != nil || inherited(); }
+    mortalSurvivalSuspended()
+    {
+        if (self.mortalSuspension == nil) return inherited();
+        local receipt = self.mortalSuspension; receipt.validateReceipt();
+        if (receipt.patient != self || receipt.endedAt != nil || self.mortalClock != receipt.pausedClock
+            || !self.unconscious && !self.dead) rpgExpandedReject('mortal-suspension-state');
+        return true;
+    }
+    unconsciousRecoveryOwned() { return self.mortalSuspension != nil || inherited(); }
+;
+modify RpgExpandedSurgicalOperation
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'ready' && self.patient.mortalSurvivalSuspended())
+        { value.status = 'blocked'; value.reason = 'surgical-operation-suspension-active'; }
+        return value;
+    }
+;
+modify RpgExpandedTraumaMaintenance
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'ready' && self.patient.mortalSurvivalSuspended())
+        { value.status = 'blocked'; value.reason = 'trauma-maintenance-suspension-active'; }
+        return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local receipt = firstObj(RpgExpandedMortalSuspension); receipt != nil;
+            receipt = nextObj(receipt,RpgExpandedMortalSuspension))
+            if (receipt.startedAt != nil && receipt.endedAt == nil) receipt.patient.mortalSurvivalSuspended();
+        return nil;
+    }
+;
