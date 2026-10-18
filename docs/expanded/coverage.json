@@ -306,9 +306,11 @@
         "tests/expanded.py::test_computer_links",
         "tests/expanded.py::test_computer_link_persistence",
         "tests/expanded.py::test_computer_transfers",
-        "tests/expanded.py::test_computer_transfer_persistence"
+        "tests/expanded.py::test_computer_transfer_persistence",
+        "tests/expanded.py::test_computer_recording",
+        "tests/expanded.py::test_computer_recording_persistence"
       ],
-      "validation_note": "Object assessments, fault repairs, computer processing/storage, links, transfers and ordinary terminal switches authored; fixtures unrun. Recorder integration, general task software, structural injury/repair and maintenance scheduling remain incomplete."
+      "validation_note": "Object assessments, fault repairs and computer processing/storage/link/transfer/recording subsets authored; fixtures unrun. Interrupted recording, general task software, structural injury/repair and maintenance scheduling remain incomplete."
     },
     {
       "id": "templates",

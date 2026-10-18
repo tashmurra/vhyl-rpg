@@ -973,6 +973,63 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def computer_recording_state(s):
+    s.action(2088)
+    return last(s,'test.recording-state')
+
+
+def test_computer_recording(s):
+    s.action(2080,0)
+    initial = [0,0,0,0,0,100]
+    for code in [102,101,111]:
+        s.action(2080,code)
+        assert computer_recording_state(s) == initial
+    for code,reason in [(103,'recording-technology-unavailable'),(104,'recording-sensor-unavailable'),
+                         (105,'recording-sensor-unavailable'),(107,'computer-storage-full'),
+                         (110,'computer-unavailable')]:
+        s.action(2080,code)
+        assert last(s,'test.recording-operation') == ['blocked',reason,0]
+        assert computer_recording_state(s) == initial
+        s.command('undo')
+    for code,size in [(100,10),(106,10),(112,100)]:
+        s.action(2080,code)
+        assert computer_recording_state(s) == [size,1,1,5,0,100]
+        s.command('undo')
+        assert computer_recording_state(s) == initial
+    s.action(2080,100)
+    for code in [100,109]:
+        s.action(2080,code)
+        assert computer_recording_state(s) == [10,1,1,5,0,100]
+    s.action(2080,108); s.action(2080,100)
+    assert computer_recording_state(s) == [0,1,0,5,0,100]
+
+
+def test_computer_recording_persistence(Session,bundle,out):
+    for stage in range(3):
+        path = out / f'expanded-recording-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2080,0)
+            if stage >= 1:
+                first.action(2080,100)
+            if stage == 2:
+                first.action(2080,108)
+            saved = computer_recording_state(first); first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2088')
+            assert computer_recording_state(second) == saved
+            second.action(2080,100)
+            expected = [10 if stage < 2 else 0,1,1 if stage < 2 else 0,5,0,100]
+            assert computer_recording_state(second) == expected
+            second.action(2080,100)
+            assert computer_recording_state(second) == expected
+        finally:
+            second.close()
+
+
 def computer_transfer_state(s):
     s.action(2087)
     return last(s,'test.transfer-state')
@@ -5728,6 +5785,8 @@ def test(build):
     fresh(Session,computer,test_computer_storage)
     fresh(Session,computer,test_computer_links)
     fresh(Session,computer,test_computer_transfers)
+    fresh(Session,computer,test_computer_recording)
+    test_computer_recording_persistence(Session,computer,build.out)
     test_computer_transfer_persistence(Session,computer,build.out)
     test_computer_link_persistence(Session,computer,build.out)
     test_computer_storage_persistence(Session,computer,build.out)

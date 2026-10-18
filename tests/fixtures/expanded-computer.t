@@ -9,8 +9,8 @@
 #include <vhyl-rpg-expanded-equipment.t>
 #include <vhyl-rpg-expanded-technology.t>
 computerRoom: Room 'Control Room';
-computerItem: RpgLiteItem;
-computerHost: RpgExpandedComputer item = computerItem complexity = 2 powered = true storageMB = 100
+computerItem: RpgLiteItem techLevel = 8;
+computerHost: RpgExpandedComputer item = computerItem complexity = 2 powered = true storageMB = 100 microphone = true
     copies = [computerFull,computerSmall,computerLarge];
 computerFull: RpgExpandedSoftwareCopy dataSharing = true id = 'full' host = computerHost complexity = 2 approved = true evidence = 'Installed copy';
 computerSmall: RpgExpandedSoftwareCopy id = 'small' host = computerHost complexity = 1 approved = true evidence = 'Installed copy';
@@ -46,12 +46,16 @@ receiverRun: RpgExpandedProgramRun id = 'receiver-process' host = terminalOther 
 computerTransfer: RpgExpandedDataTransfer id = 'copy-log' dataId = 'received-log' link = computerLink
     source = computerData target = terminalOther senderProgram = computerRun receiverProgram = receiverRun
     copyApproved = true uninterrupted = true durationSeconds = 3 evidence = 'Authorized three-second log copy';
-transferClockFault: object enabled = nil;
+computerRecording: RpgExpandedRecording id = 'record-log' dataId = 'recorded-log' host = computerHost
+    reference = 'authored-recorded-audio' sizeMB = 10 durationSeconds = 5 approved = true uninterrupted = true
+    evidence = 'Audible fictional scene with declared duration and size';
+transferClockFault: object enabled = nil recording = nil;
 modify rpgLedger
     afterAdvance(previousSeconds)
     {
         inherited(previousSeconds);
         if (transferClockFault.enabled) computerLink.credentialsSatisfied = nil;
+        if (transferClockFault.recording) computerHost.microphone = nil;
         return nil;
     }
 ;
@@ -60,6 +64,22 @@ class ComputerAction: Action
     exec(context)
     {
         local code = computerInput.code;
+        if (code >= 100)
+        {
+            if (code == 103) computerItem.techLevel = 7;
+            if (code == 104) computerHost.microphone = nil;
+            if (code == 105) computerRecording.media = 'video';
+            if (code == 106) { computerRecording.media = 'audio-video'; computerHost.camera = true; }
+            if (code == 107) computerRecording.sizeMB = 101;
+            if (code == 108) { computerRecording.result.data.remove(); return nil; }
+            if (code == 109) computerRecording.sizeMB = 11;
+            if (code == 110) computerHost.powered = nil;
+            if (code == 111) transferClockFault.recording = true;
+            if (code == 112) computerRecording.sizeMB = 100;
+            local recording = code == 102 ? computerRecording.assess() : computerRecording.apply();
+            event('test.recording-operation'); eventValue(recording.status); eventValue(recording.reason); eventValue(recording.seconds);
+            if (code == 101) throw new RpgError(); return nil;
+        }
         if (code >= 80)
         {
             if (code == 80)
@@ -153,6 +173,12 @@ turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
     if (verb == 2080) { computerInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2088)
+    {
+        event('test.recording-state'); eventValue(computerHost.usedStorageMB()); eventValue(computerHost.recordings.length());
+        eventValue(computerRecording.result != nil && computerRecording.result.data.present ? 1 : 0);
+        eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); eventValue(computerHost.used()); return nil;
+    }
     if (verb == 2087)
     {
         event('test.transfer-state'); eventValue(computerHost.usedStorageMB()); eventValue(terminalOther.usedStorageMB());

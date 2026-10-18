@@ -199,9 +199,13 @@
       "pages": "B472",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A technology-eight-or-later computer with a microphone or camera can record until storage fills; no sensor is inferred from the computer alone.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_recording",
+        "tests/expanded.py::test_computer_recording_persistence"
+      ],
+      "validation_note": "Owned uninterrupted recordings enforce technology, sensors, authored size/time and storage capacity; fixtures unrun. Partial/streaming recordings and interruption remain incomplete."
     },
     {
       "id": "technology-software-bonus",

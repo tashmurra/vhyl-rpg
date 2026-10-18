@@ -516,3 +516,37 @@ changes access during elapsed time to exercise rollback rather than merely
 rejecting the initial request. `test_computer_transfer_persistence` resumes before
 transfer, after completion and after delivery removal in separate processes.
 All fixtures are authored and unrun while checks remain paused.
+
+## Owned computer recording
+
+A computer's `microphone` and `camera` are explicit installed capabilities; neither
+is inferred from the computer itself. `RpgExpandedRecording` requires an item
+technology level of at least eight, as specified by B472. Its `media` is `audio`,
+`video` or `audio-video`, requiring the corresponding sensor or both sensors.
+
+Supply a unique recording `id`, unique `dataId`, `host`, authored content
+`reference`, whole `sizeMB`, `durationSeconds` from one through 86,400,
+`approved`, `uninterrupted` and evidence of the scene and recording parameters.
+The source does not define a universal data rate: duration and size are separate
+explicit author facts, not a guessed compression or camera-quality formula.
+The reference remains fictional game content; no microphone, camera or real file
+is accessed by this library.
+
+`assess()` validates sensors, technology, availability and capacity without time or
+randomness. `apply()` advances the shared clock once, rechecks the conditions and
+stores the data through the existing storage ledger. Changed conditions raise an
+error within the enclosing transaction, rolling back the operation. Records live
+in `host.recordings`; replay cannot recreate deleted data or charge another duration.
+Running software reservations remain unchanged.
+
+This supports complete uninterrupted recordings that fit. An oversized request
+rejects before work instead of silently truncating content. Streaming until full,
+partial recordings, interruptions, remote sensor links and per-frame data rates
+remain pending. Narrative evidence must establish what the sensors can actually
+capture; the presence of a camera is not permission to observe hidden scenes.
+
+`test_computer_recording` covers technology/sensor requirements, exact and exceeded
+capacity, previews, rollback, undo, loss of a sensor during clock advancement,
+media choices, historical replay and deletion. `test_computer_recording_persistence`
+continues before recording, after completion and after data removal in separate
+processes. These fixtures are authored and unrun while checks remain paused.

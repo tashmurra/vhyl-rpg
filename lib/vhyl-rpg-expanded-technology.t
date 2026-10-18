@@ -920,3 +920,87 @@ class RpgExpandedDataTransfer: object
         self.link.transfers = self.link.transfers + [self]; value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedComputer
+    microphone = nil
+    camera = nil
+    recordings = []
+;
+
+class RpgExpandedRecordingResult: RpgExpandedResult
+    data = nil
+;
+
+/** One uninterrupted fictional recording, with explicitly authored duration and storage size. */
+class RpgExpandedRecording: object
+    id = nil
+    dataId = nil
+    host = nil
+    media = 'audio'
+    reference = nil
+    sizeMB = 0
+    durationSeconds = nil
+    uninterrupted = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundId = nil
+    boundDataId = nil
+    boundHost = nil
+    boundMedia = nil
+    boundReference = nil
+    boundSize = nil
+    boundDuration = nil
+    boundEvidence = nil
+    assess()
+    {
+        if (self.host == nil || !self.host.ofKind(RpgExpandedComputer)) rpgExpandedReject('recording-host');
+        local value = new RpgExpandedRecordingResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.dataId != self.boundDataId || self.host != self.boundHost
+                || self.media != self.boundMedia || self.reference != self.boundReference || self.sizeMB != self.boundSize
+                || self.durationSeconds != self.boundDuration || self.evidence != self.boundEvidence
+                || !self.uninterrupted || !self.approved || !holds(self.host.recordings,self))
+                rpgExpandedReject('recording-binding');
+            self.result.data.validateBinding(); value.status = 'reused'; value.data = self.result.data; return value;
+        }
+        if (self.id == nil || self.id == '' || self.dataId == nil || self.dataId == ''
+            || !holds(['audio','video','audio-video'],self.media)) rpgExpandedReject('recording-definition');
+        rpgInteger(self.sizeMB,1,1000000000); rpgInteger(self.durationSeconds,1,86400);
+        if (!self.approved || !self.uninterrupted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'recording-author-facts'; return value; }
+        if (self.host.item == nil || !self.host.item.ofKind(RpgLiteItem) || self.host.item.techLevel == nil)
+        { value.reason = 'recording-technology-required'; return value; }
+        rpgInteger(self.host.item.techLevel,0,12);
+        if (self.host.item.techLevel < 8) { value.reason = 'recording-technology-unavailable'; return value; }
+        if ((self.media == 'audio' || self.media == 'audio-video') && !self.host.microphone
+            || (self.media == 'video' || self.media == 'audio-video') && !self.host.camera)
+        { value.reason = 'recording-sensor-unavailable'; return value; }
+        foreach (local prior in self.host.recordings)
+        {
+            if (prior == nil || !prior.ofKind(RpgExpandedRecording) || prior.host != self.host
+                || prior.result == nil || prior.assess().status != 'reused') rpgExpandedReject('recording-history');
+            if (prior.id == self.id) rpgExpandedReject('recording-duplicate');
+        }
+        value.data = new RpgExpandedStoredData(); value.data.id = self.dataId; value.data.host = self.host;
+        value.data.reference = self.reference; value.data.sizeMB = self.sizeMB;
+        value.data.approved = true; value.data.evidence = self.evidence;
+        local storage = value.data.assess();
+        if (storage.status != 'ready') { value.reason = storage.reason; return value; }
+        value.seconds = self.durationSeconds; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        rpgSpendTime(value.seconds);
+        local refreshed = self.assess();
+        if (refreshed.status != 'ready') rpgExpandedReject('recording-conditions-changed');
+        value.data = refreshed.data;
+        if (value.data.store().status != 'resolved') rpgExpandedReject('recording-storage-changed');
+        self.boundId = self.id; self.boundDataId = self.dataId; self.boundHost = self.host; self.boundMedia = self.media;
+        self.boundReference = self.reference; self.boundSize = self.sizeMB; self.boundDuration = self.durationSeconds;
+        self.boundEvidence = self.evidence; self.host.recordings = self.host.recordings + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
