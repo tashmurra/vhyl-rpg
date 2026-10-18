@@ -169,3 +169,8 @@ permission and commits posture plus footprint in one battle transaction, using
 the existing round clock. Direct standing from lying is rejected. Expanded
 exhaustion permission and forced knockdown composition remain pending; the
 new battle fixture is authored but unrun.
+
+Posture maneuvers can now delegate to a fresh expanded health action gate.
+Exhaustion and injury consciousness resolve once, after geometry preflight;
+failed permission leaves the footprint unchanged. Combined rollback, undo and
+save-continuation fixtures are authored and unrun.

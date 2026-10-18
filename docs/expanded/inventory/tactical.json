@@ -57,9 +57,10 @@
       "tests": [
         "tests/expanded.py::test_tactical_footprints",
         "tests/expanded.py::test_tactical_footprint_persistence",
-        "tests/expanded.py::test_tactical_posture_maneuvers"
+        "tests/expanded.py::test_tactical_posture_maneuvers",
+        "tests/expanded.py::test_tactical_posture_health"
       ],
-      "implementation_note": "Owned lying/recovery footprints and explicit posture maneuver integration authored. Expanded exhaustion permission, forced knockdown, horizontal bodies and crowded-space resolution pending. Fixtures unrun."
+      "implementation_note": "Owned lying/recovery footprints and explicit posture maneuvers with expanded action-gate composition authored. Forced knockdown, horizontal bodies and crowded-space resolution pending. Fixtures unrun."
     },
     {
       "id": "tactical-committed-path",

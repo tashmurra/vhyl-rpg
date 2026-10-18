@@ -34,7 +34,7 @@ positionFall: RpgExpandedFootprintChange id = 'fall' figure = positionFigure sel
     approved = true evidence = 'Resolved knockdown, upper body falls north';
 positionRise: RpgExpandedFootprintChange id = 'rise' figure = positionFigure selected = positionNorth
     posture = 'kneeling' approved = true evidence = 'Resolved posture action at the upper-body hex';
-positionInput: object code = 0;
+positionInput: object code = 0 reportHealth() { return nil; };
 class PositionTestAction: Action
     exec(context)
     {
@@ -101,6 +101,7 @@ act(verb,args)
         catch (RpgExpandedError error) { eventValue('error'); eventValue(error.reason); }
         return nil;
     }
+    if (verb == 2283) return positionInput.reportHealth();
     if (verb == 2281)
     {
         event('test.tactical-footprint-state');

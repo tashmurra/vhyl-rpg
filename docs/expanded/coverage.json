@@ -357,9 +357,10 @@
         "tests/expanded.py::test_tactical_position_persistence",
         "tests/expanded.py::test_tactical_footprints",
         "tests/expanded.py::test_tactical_footprint_persistence",
-        "tests/expanded.py::test_tactical_posture_maneuvers"
+        "tests/expanded.py::test_tactical_posture_maneuvers",
+        "tests/expanded.py::test_tactical_posture_health"
       ],
-      "validation_note": "Geometry, movement values, placement, occupancy and explicit posture maneuver integration authored; fixtures unrun. Paths, forced footprint transitions, expanded action-gate composition and close combat pending."
+      "validation_note": "Geometry, movement values, placement, occupancy and posture maneuvers with explicit expanded action gates authored; fixtures unrun. Paths, forced footprint transitions and close combat pending."
     },
     {
       "id": "technology",

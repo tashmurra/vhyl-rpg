@@ -297,9 +297,9 @@ standing maneuver retains the chosen recovery hex and needs no footprint object.
 
 Crawling, free crouching, posture changes in place of a step, forced knockdown and
 large-body transitions still need dedicated integration. Characters at zero or
-negative HP/FP return `tactical-posture-health-permission-required`; this adapter
-must gain explicit expanded action-gate composition before supporting those
-cases, rather than silently substituting the abridged permission procedure.
+negative HP/FP require the explicit health permission adapter described below.
+Without one they return `tactical-posture-health-permission-required`, rather
+than silently substituting the abridged permission procedure.
 Existing unconsciousness and stun restrictions remain enforced by the battle.
 
 The [battle fixture](../../tests/fixtures/expanded-tactical-posture.t) and
@@ -307,3 +307,33 @@ The [battle fixture](../../tests/fixtures/expanded-tactical-posture.t) and
 lying-to-kneeling-to-standing transitions, rejection of a direct rise and one
 shared second per completed combat round. They remain unrun while checks are
 paused. This adapter covers posture only, not a complete tactical combat engine.
+
+
+### Expanded posture action permission
+
+With the health module installed, give the posture maneuver a `healthPermission`
+that is an `RpgExpandedHealthManeuver` with `kind = 'posture'` and a fresh owned
+`RpgExpandedActionGate` for this character, with `purpose = 'action'` and concrete
+evidence. The tactical module references the common maneuver contract, so its
+minimal geometry/placement builds do not require the health module.
+
+The outer battle executes only the tactical posture maneuver. Its
+`healthAvailable(fighter)` delegates pure permission assessment, and `canAct`
+delegates the single committed gate. Do not separately execute the health
+maneuver or apply its gate before calling the battle. Invalid actor/purpose,
+used gates and unsupported adapter kinds are rejected. Geometry availability is
+resolved before either a Will or consciousness roll can occur.
+
+The existing action gate combines exhaustion and low-HP consciousness. If it
+denies permission, the battle advances the turn without changing posture or
+footprint. A successful check permits the atomic posture operation. Neither the
+health adapter nor footprint operation charges an extra second. With no explicit
+health adapter, only positive-HP/positive-FP permission uses the inherited path.
+
+`test_tactical_posture_health` and its
+[fixture](../../tests/fixtures/expanded-tactical-posture-health.t) specify one
+Will roll at zero FP, an additional HT roll at zero HP, no draws during preview
+or blocked geometry, atomic rollback/undo, failed-consciousness immobility and
+cross-process continuation with a used permission receipt. They remain unrun.
+Forced falls from failed permission, expanded combat injuries and other footprint
+changes still need their own integration; this composes voluntary posture only.

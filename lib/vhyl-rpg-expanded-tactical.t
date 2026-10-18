@@ -524,12 +524,13 @@ class RpgExpandedFootprintChange: object
 
 
 /** Atomic posture/geometry adapter for the existing battle scheduler. Only
- * supported ordinary footprints and healthy action permission are accepted. */
+ * Supported footprints compose with an optional expanded health permission adapter. */
 class RpgExpandedPostureManeuver: RpgLiteManeuver
     kind = 'posture'
     battle = nil
     figure = nil
     footprint = nil
+    healthPermission = nil
     completed = nil
     available(fighter)
     {
@@ -547,7 +548,7 @@ class RpgExpandedPostureManeuver: RpgLiteManeuver
             return 'tactical-posture-maneuver-unimplemented';
         if (self.posture == fighter.profile.posture) return 'tactical-posture-unchanged';
         if (fighter.profile.posture == 'lying' && self.posture == 'standing') return 'invalid-posture-change';
-        if (fighter.profile.hp() <= 0 || fighter.profile.fp() <= 0)
+        if (self.healthPermission == nil && (fighter.profile.hp() <= 0 || fighter.profile.fp() <= 0))
             return 'tactical-posture-health-permission-required';
         if (self.posture == 'lying' || fighter.profile.posture == 'lying')
         {
@@ -560,6 +561,25 @@ class RpgExpandedPostureManeuver: RpgLiteManeuver
         }
         else if (self.footprint != nil) return 'tactical-posture-unexpected-footprint';
         return inherited(fighter);
+    }
+    healthAvailable(fighter)
+    {
+        if (self.healthPermission == nil)
+        {
+            if (fighter.profile.hp() <= 0 || fighter.profile.fp() <= 0)
+                return 'tactical-posture-health-permission-required';
+            return inherited(fighter);
+        }
+        if (self.healthPermission == self || !self.healthPermission.ofKind(RpgLiteManeuver)
+            || !self.healthPermission.expandedHealthPermission || self.healthPermission.kind != 'posture')
+            rpgExpandedReject('tactical-posture-health-adapter');
+        return self.healthPermission.healthAvailable(fighter);
+    }
+    canAct(fighter)
+    {
+        local reason = self.healthAvailable(fighter);
+        if (reason != nil) rpgExpandedReject(reason);
+        return self.healthPermission == nil ? inherited(fighter) : self.healthPermission.canAct(fighter);
     }
     apply(fighter, result)
     {

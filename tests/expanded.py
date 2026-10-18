@@ -9057,6 +9057,8 @@ def test(build):
     fresh(Session, positions, test_tactical_footprints)
     posture = build.build('expanded-tactical-posture', ROOT / 'tests/fixtures/expanded-tactical-posture.t')
     fresh(Session, posture, test_tactical_posture_maneuvers)
+    posture_health = build.build('expanded-tactical-posture-health', ROOT / 'tests/fixtures/expanded-tactical-posture-health.t')
+    test_tactical_posture_health(Session, posture_health, build.out)
     test_tactical_footprint_persistence(Session, positions, build.out)
     test_tactical_position_persistence(Session, positions, build.out)
     example = build.build('expanded-example',ROOT / 'examples/expanded/main.t')
@@ -9330,3 +9332,67 @@ def test_tactical_posture_maneuvers(s):
     s.action(2278, 54)
     assert last(s, 'test.posture-battle') == ['resolved', None]
     assert tactical_footprint_state(s) == ['standing', 0, -1, None, None, 2, 2, 0]
+
+
+def test_tactical_posture_health(Session, bundle, out):
+    def health(s):
+        s.action(2283)
+        return last(s, 'test.posture-health-state')
+    for injured in (False, True):
+        s = Session(bundle)
+        try:
+            s.action(2278, 50)
+            s.action(2278, 57)  # FP zero.
+            if injured:
+                s.action(2278, 60)  # HP zero: Will and HT must each resolve once.
+            s.action(2278, 61)
+            before = tactical_footprint_state(s), health(s)
+            s.action(2278, 65)
+            assert last(s, 'test.posture-health-preview') == [None]
+            assert (tactical_footprint_state(s), health(s)) == before
+            s.action(2278, 55)
+            assert (tactical_footprint_state(s), health(s)) == before
+            s.action(2278, 51)
+            assert last(s, 'test.posture-battle') == ['resolved', None]
+            expected_draws = 6 if injured else 3
+            assert health(s) == [1, True, 0, 10, 2, 0, 0, expected_draws]
+            assert tactical_footprint_state(s)[:6] == ['lying', 0, 0, 0, -1, 1]
+            s.command('undo')
+            assert (tactical_footprint_state(s), health(s)) == before
+            s.action(2278, 51)
+            path = out / f'tactical-posture-health-{injured}.zsave'
+            saved = tactical_footprint_state(s), health(s)
+            s.command(f':save {path}\n@2283')
+        finally:
+            s.close()
+        restored = Session(bundle)
+        try:
+            restored.command(f':restore {path}\n@2283')
+            assert (tactical_footprint_state(restored), health(restored)) == saved
+            restored.action(2278, 65)
+            assert last(restored, 'test.posture-health-preview') == ['maneuver-health-gate-used']
+            assert (tactical_footprint_state(restored), health(restored)) == saved
+        finally:
+            restored.close()
+    s = Session(bundle)
+    try:
+        s.action(2278, 50)
+        s.action(2278, 60)
+        s.action(2278, 64)  # HT 3 fails the first roll of ten.
+        s.action(2278, 51)
+        assert last(s, 'test.posture-battle') == ['resolved', None]
+        assert tactical_footprint_state(s)[:6] == ['standing', 0, 0, None, None, 0]
+        assert health(s) == [1, None, 1, 0, 2, 0, 0, 3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2278, 50)
+        s.action(2278, 57)
+        s.action(2278, 56)  # Occupied upper-body destination blocks before the Will roll.
+        before = health(s)
+        s.action(2278, 51)
+        assert last(s, 'test.posture-battle') == ['blocked', 'tactical-shared-cell-procedure-required']
+        assert health(s) == before
+    finally:
+        s.close()
