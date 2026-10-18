@@ -2531,6 +2531,7 @@ class RpgExpandedPoisonEntry: object
     filteredLungs = nil
     eyeMembrane = nil
     protectedVision = nil
+    senseKind = nil
     sensePresent = true
     senseProtected = nil
     assess()
@@ -2666,9 +2667,13 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
     cycleHistory = []
     condition = nil
     causesCoughing() { return self.hazard.ofKind(RpgExpandedCataloguePoison) && self.hazard.coughingEffect; }
-    newCoughing(tailSeconds)
+    causesBlindness() { return self.hazard.ofKind(RpgExpandedCataloguePoison) && self.hazard.blindingEffect; }
+    causesCondition() { return self.causesCoughing() || self.causesBlindness(); }
+    newCoughing(tailSeconds) { return self.newPoisonCondition(tailSeconds); }
+    newPoisonCondition(tailSeconds)
     {
-        local episode = new RpgExpandedEnvironmentalCoughing(); episode.id = 'poison-cough-' + self.id;
+        local episode = self.causesBlindness() ? new RpgExpandedEnvironmentalBlindness() : new RpgExpandedEnvironmentalCoughing();
+        episode.id = (self.causesBlindness() ? 'poison-blind-' : 'poison-cough-') + self.id;
         episode.profile = self.profile; episode.exposure = self; episode.durationSeconds = tailSeconds;
         episode.approved = true; episode.evidence = self.effectEvidence; return episode;
     }
@@ -2704,7 +2709,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             e.persistentWoundReached,e.vulnerableAreaHit,e.skinContact,e.unarmored,e.unclad,e.swallowed,
             e.forcedSwallow,e.headOrNeckHeldSeconds,e.wound,e.penetrationKind,e.inhaled,e.holdingBreath,
             e.improvisedMask,e.sealed,e.noBreathing,e.filteredLungs,e.eyeMembrane,e.protectedVision,
-            e.sensePresent,e.senseProtected,
+            e.sensePresent,e.senseProtected,e.senseKind,
             h.ofKind(RpgExpandedCataloguePoison) ? h.catalogueId : nil,
             h.ofKind(RpgExpandedCataloguePoison) ? h.route : nil,self.susceptibility]
             + (self.susceptibility == nil ? [nil,nil,nil,nil,nil,nil,nil] : self.susceptibility.signature());
@@ -2740,6 +2745,8 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             if (self.entry.route != self.hazard.route
                 || self.hazard.deliveryMethod != nil && self.entry.method != self.hazard.deliveryMethod)
             { value.reason = 'poison-catalogue-route'; return value; }
+            if (self.causesBlindness() && self.entry.senseKind != 'vision')
+            { value.reason = 'poison-visual-agent-sense'; return value; }
             if (self.hazard.unpreparedFear && (!self.preparedForAgent
                 || self.preparationEvidence == nil || self.preparationEvidence == ''))
             { value.reason = 'poison-unprepared-fear-admission-unimplemented'; return value; }
@@ -2758,7 +2765,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         if (!self.approved || self.effectEvidence == nil || self.effectEvidence == '')
         { value.reason = 'poison-exposure-effect-evidence'; return value; }
         rpgInteger(self.hazard.cycles,1,10000); rpgInteger(self.hazard.interval,1,86400);
-        rpgInteger(self.hazard.dice,0,100); rpgInteger(self.hazard.adds,self.hazard.dice == 0 && !self.causesCoughing() ? 1 : 0,1000);
+        rpgInteger(self.hazard.dice,0,100); rpgInteger(self.hazard.adds,self.hazard.dice == 0 && !self.causesCondition() ? 1 : 0,1000);
         rpgInteger(self.hazard.resistanceModifier,-100,100);
         if (self.profile.dead) { value.reason = 'poison-exposure-dead'; return value; }
         local susceptibility = new RpgExpandedPoisonSusceptibilityResult(); susceptibility.status = 'ready';
@@ -2796,7 +2803,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             local score = rpgLiteScore(self.profile,value.context);
             if (score == nil || score < 3) { value.reason = 'poison-resistance-score'; return value; }
         }
-        if (self.causesCoughing())
+        if (self.causesCondition())
         {
             if (!self.ofKind(RpgExpandedEnvironmentalPoisonExposure))
             { value.reason = 'poison-coughing-environment-required'; return value; }
@@ -2804,7 +2811,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             if (score > 16) { value.reason = 'poison-nonpositive-failure-duration-unimplemented'; return value; }
             local tail = (18 - score) * 60;
             rpgInteger(rpgLedger.seconds,0,2147483647 - value.seconds - tail);
-            local effect = self.newCoughing(tail).assess();
+            local effect = self.newPoisonCondition(tail).assess();
             if (effect.status != 'ready') { value.reason = effect.reason; return value; }
         }
         else
@@ -2894,9 +2901,9 @@ class RpgExpandedPoisonCycle: object
         local e = self.exposure;
         if (value.context != nil) value.check = rpgLiteCheck(e.profile,value.context);
         value.resisted = value.check != nil && value.check.achieved;
-        if (!value.resisted && e.causesCoughing())
+        if (!value.resisted && e.causesCondition())
         {
-            value.condition = e.newCoughing(-value.check.margin * 60);
+            value.condition = e.newPoisonCondition(-value.check.margin * 60);
             local effect = value.condition.apply();
             if (effect.status != 'resolved') rpgExpandedReject('poison-coughing-changed');
             e.condition = value.condition;
@@ -3372,12 +3379,13 @@ class RpgExpandedCataloguePoison: RpgLiteHazard
     unpreparedFear = nil
     dexteritySymptoms = nil
     coughingEffect = nil
+    blindingEffect = nil
     route = nil
     techLevel = 0
     unitCost = 0
     legality = 1
     signature() { return [self.kind,self.delay,self.interval,self.cycles,self.dice,self.adds,
-        self.fatigueDamage,self.resistible,self.resistanceModifier,self.techLevel,self.unitCost,self.legality,self.deliveryMethod,self.unpreparedFear,self.dexteritySymptoms,self.coughingEffect]; }
+        self.fatigueDamage,self.resistible,self.resistanceModifier,self.techLevel,self.unitCost,self.legality,self.deliveryMethod,self.unpreparedFear,self.dexteritySymptoms,self.coughingEffect,self.blindingEffect]; }
     validateCatalogue()
     {
         local expected = rpgExpandedPoisonCatalogue(self.catalogueId,self.route).signature();
@@ -3430,6 +3438,13 @@ rpgExpandedPoisonCatalogue(id, route)
         if (route != 'respiratory') rpgExpandedReject('poison-catalogue-route');
         value.techLevel = nil; value.unitCost = nil; value.legality = 4;
         value.deliveryMethod = 'area'; value.delay = 10; value.dice = 0; value.adds = 0; value.coughingEffect = true;
+    }
+    else if (id == 'dual-irritant')
+    {
+        if (!holds(['respiratory','sense'],route)) rpgExpandedReject('poison-catalogue-route');
+        value.techLevel = 6; value.unitCost = 10; value.legality = 2; value.unpreparedFear = true;
+        value.deliveryMethod = 'area'; value.delay = 0; value.resistanceModifier = -2; value.dice = 0; value.adds = 0;
+        value.coughingEffect = route == 'respiratory'; value.blindingEffect = route == 'sense';
     }
     else rpgExpandedReject('poison-catalogue-entry-unimplemented');
     return value;
@@ -3737,7 +3752,7 @@ class RpgExpandedEnvironmentalCoughing: RpgExpandedCoughing
     validateReceipt()
     {
         if (self.result == nil || self.exposure == nil || self.exposure.condition != self
-            || self.profile != self.exposure.profile || !holds(self.profile.coughingHistory,self))
+            || self.profile != self.exposure.profile || !holds(self.history(),self))
             rpgExpandedReject('environmental-coughing-history');
         local current = self.definition();
         for (local index = 1; index <= current.length(); index += 1)
@@ -3756,6 +3771,31 @@ class RpgExpandedEnvironmentalCoughing: RpgExpandedCoughing
     {
         local value = inherited();
         if (value.status == 'resolved') self.expiresAt = nil;
+        return value;
+    }
+;
+
+
+class RpgExpandedEnvironmentalBlindness: RpgExpandedEnvironmentalCoughing
+    history() { return self.profile.temporaryBlindnessHistory; }
+    remember() { self.profile.temporaryBlindnessHistory = self.profile.temporaryBlindnessHistory + [self]; }
+    receiptKind() { return 'environmental-blindness'; }
+;
+/** B439 authored opacity density, applied to actual whole yards of cloud crossed. */
+rpgExpandedIrritantCloudVision(yards, penaltyPerYard)
+{
+    rpgInteger(yards,0,1000000); rpgInteger(penaltyPerYard,1,3);
+    return -yards * penaltyPerYard;
+}
+modify RpgLiteContext
+    irritantCloudYards = 0
+    irritantCloudPenaltyPerYard = 1
+;
+modify RpgExpandedProfile
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        if (context.kind == 'vision') value += rpgExpandedIrritantCloudVision(context.irritantCloudYards,context.irritantCloudPenaltyPerYard);
         return value;
     }
 ;

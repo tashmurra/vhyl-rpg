@@ -307,6 +307,35 @@ modify BleedTestAction
         if (code == 423) { rpgSpendTime(100); return nil; }
         if (code == 424) { rpgSpendTime(419); return nil; }
         if (code == 425) { bleedProfile.ht = 20; return nil; }
+        if (code == 440 || code == 441)
+        {
+            environmentEntry.route = code == 440 ? 'respiratory' : 'sense'; environmentEntry.inhaled = true;
+            environmentEntry.senseKind = 'vision';
+            environmentExposure.hazard = rpgExpandedPoisonCatalogue('dual-irritant',environmentEntry.route);
+            environmentExposure.preparedForAgent = true; environmentExposure.preparationEvidence = 'The patient was briefed on this irritant';
+            environmentExposure.effectEvidence = 'The catalogue route determines the condition'; return nil;
+        }
+        if (code == 442)
+        {
+            local check = new RpgLiteContext(); check.attribute = rpgPerception; check.kind = 'vision';
+            event('test.poison-irritant'); eventValue(bleedProfile.coughing() ? 1 : 0);
+            eventValue(bleedProfile.temporarilyBlind() ? 1 : 0);
+            eventValue(environmentExposure.condition == nil ? nil : environmentExposure.condition.expiresAt);
+            eventValue(bleedProfile.injury); eventValue(bleedProfile.fatigue); eventValue(rpgLedger.seconds);
+            eventValue(rpgRandom.draws); eventValue(rpgLiteScore(bleedProfile,check)); return nil;
+        }
+        if (code == 443) { rpgSpendTime(539); return nil; }
+        if (code == 444) { environmentEntry.senseProtected = true; return nil; }
+        if (code == 445) { environmentExposure.preparedForAgent = nil; return nil; }
+        if (code == 446)
+        {
+            event('test.cloud-opacity');
+            foreach (local density in [1,2,3]) eventValue(rpgExpandedIrritantCloudVision(2,density));
+            local check = new RpgLiteContext(); check.attribute = rpgPerception; check.kind = 'vision';
+            check.irritantCloudYards = 2; check.irritantCloudPenaltyPerYard = 3;
+            eventValue(rpgLiteScore(bleedProfile,check)); return nil;
+        }
+        if (code == 447) { environmentEntry.senseKind = 'smell'; return nil; }
         return inherited(context);
     }
 ;

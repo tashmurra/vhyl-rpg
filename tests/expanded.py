@@ -11888,6 +11888,50 @@ def test_poison_exposure(Session, bundle, out):
     finally:
         s.close()
 
+    # B439 respiratory/vision irritant routes have distinct owned conditions.
+    for setup in (440, 441):
+        coughing, blind, vision = (1, 0, 9) if setup == 440 else (0, 1, None)
+        s = Session(bundle)
+        try:
+            for code in (setup, 265, 383, 384, 384, 423, 442):
+                s.action(2285, code)
+            assert last(s, 'test.poison-irritant') == [coughing, blind, None, 0, 0, 100, 3, vision]
+            s.action(2285, 388)
+            s.command('undo')
+            s.action(2285, 442)
+            assert last(s, 'test.poison-irritant') == [coughing, blind, None, 0, 0, 100, 3, vision]
+            for code in (388, 442):
+                s.action(2285, code)
+            assert last(s, 'test.poison-irritant') == [coughing, blind, 640, 0, 0, 100, 3, vision]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (443, 442):
+                s.action(2285, code)
+            assert last(s, 'test.poison-irritant') == [coughing, blind, 640, 0, 0, 639, 3, vision]
+            for code in (382, 442):
+                s.action(2285, code)
+            assert last(s, 'test.poison-irritant') == [0, 0, 640, 0, 0, 640, 3, 10]
+        finally:
+            s.close()
+    for invalid in (444, 445, 447):
+        s = Session(bundle)
+        try:
+            for code in (441, invalid, 383, 384, 442):
+                s.action(2285, code)
+            assert last(s, 'test.poison-irritant') == [0, 0, None, 0, 0, 0, 0, 10]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 446)
+        assert last(s, 'test.cloud-opacity') == [-2, -4, -6, 4]
+    finally:
+        s.close()
+
 
 def test_coughing(Session, bundle, out):
     def state(s):

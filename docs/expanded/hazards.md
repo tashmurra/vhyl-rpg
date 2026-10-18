@@ -1563,3 +1563,34 @@ Fixtures specify successful retry, failed onset without damage, continuous
 symptoms, departure and exact tail expiry, rollback, undo and cross-process
 continuation. They are authored and unrun. Dense-smoke injury, changed protection,
 re-entry and broader cloud lifecycle integration remain incomplete.
+
+
+### Respiratory and visual irritant cloud
+
+`rpgExpandedPoisonCatalogue('dual-irritant', route)` implements the respiratory
+and visual routes of full-2008 B439's irritant-cloud entry. Both are area effects
+with immediate onset, HT−2 resistance, technology six, price ten per dose and
+legality two. Choose `respiratory` for coughing or `sense` for blindness. The
+visual route additionally requires `entry.senseKind = 'vision'`; another sense
+cannot substitute for eyesight. Missing or protected senses prevent admission.
+
+Use `RpgExpandedEnvironmentalPoisonExposure` and explicit preparation evidence,
+as with the other catalogue agents that may require a fear decision. A failed
+check creates an owned condition that persists in the cloud, then for the failure
+margin in minutes after departure. Respiratory and visual effects use separate
+condition histories. `RpgExpandedEnvironmentalBlindness` uses the temporary
+blindness visual gates; its unseen-target combat adapter is still incomplete,
+so the existing explicit combat rejection remains in force.
+
+Opacity applies independently of the poison's resistance outcome. For a vision
+check, set `irritantCloudYards` to the actual whole yards of cloud crossed and
+`irritantCloudPenaltyPerYard` to the authored density from one through three.
+The shared modifier subtracts their product, matching
+`rpgExpandedIrritantCloudVision(yards, density)`. This is a vision-check modifier,
+not an automatic attack penalty. Fractional geometry, attack visibility and cloud
+movement remain separate unfinished integrations.
+
+Fixtures cover both route effects and expiry after departure, protected vision,
+wrong senses, missing preparation, density arithmetic, undo and saved continuation.
+They are authored and unrun. Unprepared fear resolution, overlapping conditions,
+changed protection and the remaining combat integration are still incomplete.

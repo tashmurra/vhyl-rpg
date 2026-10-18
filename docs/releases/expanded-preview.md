@@ -520,3 +520,10 @@ checks while preserving nonvisual senses. Strikes involving the condition reject
 before rolling until the unseen-target combat adapter is implemented. Added a
 minimal fixture for expiry, replay, rollback, undo and saved continuation; it is
 authored and unrun. Environmental blindness integration remains incomplete.
+
+
+The neutral dual-irritant catalogue now applies respiratory coughing or
+vision-based blindness through owned environmental conditions and departure
+tails. Authored cloud density also modifies vision per whole yard independently
+of resistance. Fixtures are authored and unrun. Unprepared fear resolution,
+overlapping effects and unseen-target combat remain incomplete.

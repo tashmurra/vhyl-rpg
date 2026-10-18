@@ -518,9 +518,13 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Technology six area respiratory and vision routes each have no delay and health-2; respiratory failure causes coughing, visual failure blindness, for exposure duration plus failure-margin minutes. Price ten, legality two; opacity penalizes vision -1 through -3 per affected yard.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure",
+        "tests/expanded.py::test_temporary_blindness"
+      ],
+      "validation_note": "Prepared respiratory and explicit vision-based area routes now execute immediate HT-2 resistance, coughing/blindness and departure-plus-margin expiry. Vision opacity applies authored one-to-three penalties per whole yard. Fixtures authored, unrun. Unprepared fear, overlapping conditions, fractional/cloud geometry and unseen-target combat remain incomplete."
     },
     {
       "id": "poison-unprepared-fear",

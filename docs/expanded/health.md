@@ -2548,8 +2548,9 @@ location discovery, random targeting and defense restrictions. That adapter is
 not implemented yet. The default-zero-cost `validateCombatVision()` profile hook
 therefore rejects a strike involving a temporarily blind attacker or defender
 before rolls or ammunition spending. It does not silently use sighted combat or
-apply only a damage penalty. Permanent blindness, alternate-sense combat,
-navigation assistance and environmental blindness causes remain incomplete.
+apply only a damage penalty. Permanent blindness, alternate-sense combat and navigation assistance remain
+incomplete. The hazards library supplies a separate environmental blindness
+lifecycle for its visual irritant route.
 
 `expanded-temporary-blindness.t` specifies visual gating, preserved nonvisual
 checks, isolated condition histories, early combat rejection, exact expiry,
