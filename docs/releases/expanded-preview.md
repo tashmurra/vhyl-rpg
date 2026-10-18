@@ -1050,3 +1050,9 @@ eligible skills and all sites. Physical health permission precedes the roll;
 replay preserves the outcome and the daily limit survives save continuation.
 Full-profile paid skill definitions are required. Alternate defaults, dedicated
 foraging days and food inventory remain pending. Fixtures are authored, unrun.
+
+Travel-day fishing now commits through the shared forage operation, with a
+separate animal-food allowance, Perception default and explicit equipment
+assessment. Plant and fishing requests can coexist on the same day. Exact daily
+boundary, default, equipment, rollback, undo and save-continuation assertions are
+authored, unrun. Hunting integration and food inventory remain pending.

@@ -366,3 +366,11 @@ class RpgExpandedPathMoveReceipt: object
 modify RpgExpandedProfile
     prepareForageGate(id,evidence) { return nil; }
 ;
+
+/** Equipment supplies the concrete fishing-tool assessment without a circular include. */
+class RpgExpandedForageTools: object
+    definition() { return []; }
+    assessFor(skill)
+    { local value = new RpgExpandedResult(); value.reason = 'forage-tools-adapter-required'; return value; }
+    configure(context) { rpgExpandedReject('forage-tools-adapter-required'); }
+;

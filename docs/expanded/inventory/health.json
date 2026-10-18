@@ -2280,9 +2280,10 @@
       "status": "partial",
       "acceptance": "Near suitable water, a successful fishing roll supplies two meals instead of using the missile-hunting attempt.",
       "tests": [
-        "tests/expanded.py::test_foraging_assessment"
+        "tests/expanded.py::test_foraging_assessment",
+        "tests/expanded.py::test_fishing_forage"
       ],
-      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
+      "validation_note": "Owned plant and fishing rolls use separate per-character ledger-day allowances. Fishing supports Perception/Easy, its Perception-4 default, explicit suitable water and concrete equipment assessments through the shared context. Success records two meals. Fixtures cover category independence, exact day boundaries, default/equipment scores, unavailable resources, replay, rollback, undo and cross-process continuation; authored, unrun. Hunting ammunition/roll ownership, actual food inventory and dedicated-day scheduling remain pending."
     },
     {
       "id": "health-foraging-travel-limits",
@@ -2293,9 +2294,10 @@
       "status": "partial",
       "acceptance": "During a travel day, each actor gets one plant attempt and one hunting-or-fishing attempt; creating new forage objects cannot reset the allowance.",
       "tests": [
-        "tests/expanded.py::test_plant_forage"
+        "tests/expanded.py::test_plant_forage",
+        "tests/expanded.py::test_fishing_forage"
       ],
-      "validation_note": "Owned travel-day plant attempts share one per-character ledger-day allowance across Naturalist, Survival, sites and request IDs. Paid full-profile skill definitions and physical health permission are required before the forage roll; replay returns its stored result. Fixtures cover preview, alternate skill/site rejection, next-day eligibility, invalid skill definitions, poison handoff, rollback, undo and cross-process continuation; authored, unrun. Alternate defaults, food inventory, dedicated-day scheduling and animal-food attempt ownership remain pending."
+      "validation_note": "Owned plant and fishing rolls use separate per-character ledger-day allowances. Fishing supports Perception/Easy, its Perception-4 default, explicit suitable water and concrete equipment assessments through the shared context. Success records two meals. Fixtures cover category independence, exact day boundaries, default/equipment scores, unavailable resources, replay, rollback, undo and cross-process continuation; authored, unrun. Hunting ammunition/roll ownership, actual food inventory and dedicated-day scheduling remain pending."
     },
     {
       "id": "health-foraging-dedicated-day",

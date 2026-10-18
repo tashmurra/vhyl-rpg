@@ -1028,3 +1028,27 @@ class RpgExpandedCatchCapture: object
         value.status = 'resolved'; return value;
     }
 ;
+
+/** B195 and B345: author identifies the available fishing method and tools. */
+class RpgExpandedFishingTools: RpgExpandedForageTools
+    equipmentAssessment = nil
+    approved = nil
+    evidence = nil
+    definition()
+    {
+        if (self.equipmentAssessment == nil || !self.equipmentAssessment.ofKind(RpgExpandedEquipmentAssessment))
+            rpgExpandedReject('fishing-equipment-definition');
+        local tools = self.equipmentAssessment;
+        return [tools,self.approved,self.evidence,tools.quality,tools.allowWithoutEquipment,
+            tools.techLevel,tools.missingItems,tools.damagePenalty];
+    }
+    assessFor(skill)
+    {
+        self.definition();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { local value = new RpgExpandedResult(); value.reason = 'fishing-equipment-facts'; return value; }
+        return self.equipmentAssessment.assess(skill);
+    }
+    configure(context)
+    { context.equipmentAssessment = self.equipmentAssessment; return context; }
+;

@@ -634,3 +634,14 @@ for an already settled flight is blocked. Failed catches require a separate
 landing or consequence procedure. Critical consequences and interceptions remain
 outside this adapter. Exception rollback, undo, duplicate rejection and save
 continuation assertions are authored in `test_catch_capture` and remain unrun.
+
+## Fishing tools for daily foraging
+
+`RpgExpandedFishingTools` adapts an existing `RpgExpandedEquipmentAssessment` for
+an exploration fishing attempt (full-2008, B195 and B345). Set `approved` and
+`evidence` to identify the actual available method and tools, and assign the
+assessment to `equipmentAssessment`. Its quality, missing-item and damage
+modifiers are applied through the skill context. The adapter records these facts
+in the attempt binding; it does not create tools or infer inventory ownership.
+See [owned fishing attempts](exploration.md#owned-travel-day-fishing-attempts)
+for the complete integration and authored, unrun fixture.

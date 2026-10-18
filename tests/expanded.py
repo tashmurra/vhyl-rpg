@@ -9024,6 +9024,8 @@ def test(build):
     test_forage_poisoning(Session, forage_poison, build.out)
     plant_forage = build.build('expanded-plant-forage',ROOT / 'tests/fixtures/expanded-plant-forage.t')
     test_plant_forage(Session, plant_forage, build.out)
+    fishing_forage = build.build('expanded-fishing-forage',ROOT / 'tests/fixtures/expanded-fishing-forage.t')
+    test_fishing_forage(Session, fishing_forage, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16012,3 +16014,63 @@ def test_plant_forage(Session, bundle, out):
         assert state(s) == [0,0,0,None,0]
     finally:
         s.close()
+
+
+def test_fishing_forage(Session, bundle, out):
+    def state(s):
+        s.action(2285,1703)
+        return last(s,'test.fishing-owned')
+    path = out / 'expanded-fishing-forage.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,1702,1701):
+            s.action(2285,code)
+        assert last(s,'test.fishing-preview') == ['ready',None,10]
+        assert state(s) == [0,0,0,0,None]
+        s.action(2285,1700)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,None]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1700,1700,1600,1705,1704):
+            s.action(2285,code)
+        assert state(s) == [1,1,6,86399,2]
+        assert last(s,'test.fishing-alternate') == ['blocked','fishing-forage-daily-limit']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1700,1706,1704):
+            s.action(2285,code)
+        assert state(s) == [2,1,9,86400,2]
+        assert last(s,'test.fishing-alternate') == ['resolved',None]
+        for code in (1708,1712):
+            s.action(2285,code)
+        assert last(s,'test.fishing-binding') == ['fishing-forage-binding']
+        assert state(s) == [2,1,9,86400,2]
+    finally:
+        s.close()
+    for setup,score,meals in ((1707,6,0),(1708,8,0),(1711,12,2)):
+        s = Session(bundle)
+        try:
+            for code in (30,setup,1702,1700):
+                s.action(2285,code)
+            assert last(s,'test.fishing-preview') == ['ready',None,score]
+            assert state(s) == [1,0,3,0,meals]
+        finally:
+            s.close()
+    for setup,reason in ((1709,'forage-resources-unavailable'),(1710,'equipment-required')):
+        s = Session(bundle)
+        try:
+            for code in (30,setup,1702,1700):
+                s.action(2285,code)
+            assert last(s,'test.fishing-result') == ['blocked',reason]
+            assert state(s) == [0,0,0,0,None]
+        finally:
+            s.close()

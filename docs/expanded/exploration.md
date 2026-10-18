@@ -1317,6 +1317,40 @@ the plants; this adapter does not infer consumers or create inventory items.
 
 No extra time is charged because this roll accompanies an authored travel day.
 The ledger-day boundary is explicit; a broader travel schedule, dedicated
-foraging days, hunting/fishing ownership and food preservation remain pending.
+foraging days, hunting ownership and food preservation remain pending; fishing ownership is described below.
 See `tests/fixtures/expanded-plant-forage.t` for integration and
 `test_plant_forage` for authored, unrun assertions.
+
+## Owned travel-day fishing attempts
+
+`RpgExpandedFishingForageAttempt` uses the same assessment and commit sequence
+as plant foraging. Supply an ID, profile, site with water available, approval,
+evidence and a Fishing definition (Perception/Easy, default -4, no technology
+level). Paid training and the printed Perception default are both supported.
+Water availability means suitable water with fish to catch, as established by
+the site evidence; a water hex alone does not establish that fact.
+
+Include equipment and supply `tools = RpgExpandedFishingTools`, with an
+`RpgExpandedEquipmentAssessment`, approval and evidence identifying the available
+fishing method and equipment. The equipment assessment applies its modifier
+through the existing skill context exactly once. Missing required equipment
+blocks the attempt; improvised tools use the ordinary equipment modifier.
+
+The profile owns `animalFoodForageAttempts`. One resolved fishing roll reserves
+that travel day's animal-food allowance, independently of plant attempts. The
+same request ID may occur once in each category; the health-gate IDs include the
+method. New request IDs do not grant additional fishing rolls. A successful
+roll records two meals, while failure records zero and still uses the allowance.
+Natural 17/18 fishing rolls do not invoke plant poisoning.
+
+Tool definitions are bound to the recorded attempt. Replay after changing its
+tools is rejected; create a fresh request for a later day's changed equipment.
+Site conditions may change after completion without altering the stored result.
+Shared roll ownership lives in `RpgExpandedTravelForageAttempt`; plant callers
+retain their original class and result interface.
+
+The fixture `tests/fixtures/expanded-fishing-forage.t` combines plant and fishing
+attempts, default use, equipment modifiers, unavailable resources, exact daily
+boundaries, rollback, undo and saved continuation. Its assertions are authored,
+unrun. Hunting ammunition and attempt integration, food inventory, preservation
+and dedicated foraging days remain pending.
