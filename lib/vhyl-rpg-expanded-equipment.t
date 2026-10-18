@@ -2071,3 +2071,19 @@ class RpgExpandedInventoryOutfit: RpgExpandedStylingOutfit
         return true;
     }
 ;
+
+modify rpgExpandedMakeupEquipment
+    definition(assessment,context)
+    {
+        if (assessment == nil || !assessment.ofKind(RpgExpandedToolkitAssessment)) rpgExpandedReject('makeup-toolkit-assessment-required');
+        if (context.equipmentAssessment != nil || context.equipmentTL != nil) rpgExpandedReject('makeup-duplicate-equipment');
+        return assessment.definition();
+    }
+    assess(assessment,profile,context)
+    {
+        self.definition(assessment,context);
+        local tools = assessment.assessFor(profile,context.skill); local value = new RpgExpandedMakeupEquipmentResult();
+        value.status = tools.status; value.reason = tools.reason; value.modifier = tools.modifier;
+        value.equipmentTL = assessment.techLevel; return value;
+    }
+;

@@ -1006,3 +1006,11 @@ modify RpgLiteProfile
 modify RpgLiteContext
     makeupFacts() { rpgExpandedReject('makeup-context-required'); }
 ;
+
+class RpgExpandedMakeupEquipmentResult: RpgExpandedResult
+    equipmentTL = nil
+;
+rpgExpandedMakeupEquipment: object
+    definition(assessment,context) { rpgExpandedReject('makeup-equipment-module-required'); }
+    assess(assessment,profile,context) { rpgExpandedReject('makeup-equipment-module-required'); }
+;

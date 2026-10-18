@@ -2398,6 +2398,7 @@ class RpgExpandedMakeupSkill: RpgExpandedSkill
     }
 ;
 class RpgExpandedMakeupContext: RpgExpandedSkillContext
+    toolkitAssessment = nil
     subject = nil
     presentation = nil
     prosthetics = nil
@@ -2412,15 +2413,36 @@ class RpgExpandedMakeupContext: RpgExpandedSkillContext
         self.skill.validateDefinition(); rpgInteger(self.heightChange,-1000,1000);
         if (!self.approved || self.presentation == nil || self.presentation == '' || self.evidence == nil || self.evidence == '')
             rpgExpandedReject('makeup-context-evidence');
-        return [self.skill,self.skill.techLevel,self.subject,self.presentation,self.prosthetics,self.heightChange,
-            self.approved,self.evidence,self.modifier,self.equipmentTL,self.familiarity];
+        local facts = [self.skill,self.skill.techLevel,self.subject,self.presentation,self.prosthetics,self.heightChange,
+            self.approved,self.evidence,self.modifier,self.equipmentTL,self.familiarity,self.toolkitAssessment];
+        return self.toolkitAssessment == nil ? facts : facts + rpgExpandedMakeupEquipment.definition(self.toolkitAssessment,self);
     }
     unavailableReason(profile)
     {
         self.makeupFacts();
         if (self.heightChange != 0) return 'makeup-height-change-impossible';
         local technology = self.equipmentTL == nil ? self.skill.techLevel : self.equipmentTL;
+        if (self.toolkitAssessment != nil)
+        {
+            local tools = rpgExpandedMakeupEquipment.assess(self.toolkitAssessment,profile,self);
+            if (tools.status != 'ready') return tools.reason;
+            technology = tools.equipmentTL;
+        }
         if (self.prosthetics && technology < 6) return 'makeup-prosthetics-technology';
         return inherited(profile);
+    }
+    skillUseModifier(profile)
+    {
+        local amount = inherited(profile); if (amount == nil || self.toolkitAssessment == nil) return amount;
+        local tools = rpgExpandedMakeupEquipment.assess(self.toolkitAssessment,profile,self);
+        return tools.status == 'ready' ? amount + tools.modifier : nil;
+    }
+    technologyModifierFor(profile)
+    {
+        if (self.toolkitAssessment == nil) return inherited(profile);
+        local tools = rpgExpandedMakeupEquipment.assess(self.toolkitAssessment,profile,self);
+        if (tools.status != 'ready') return nil;
+        local level = self.technologySkillLevel(profile); if (level == nil) return nil;
+        return rpgExpandedTechnologyModifier(level,tools.equipmentTL,true);
     }
 ;

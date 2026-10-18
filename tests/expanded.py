@@ -9488,6 +9488,8 @@ def test(build):
     test_makeup(Session,makeup,build.out)
     makeup_lifecycle = build.build('expanded-makeup-lifecycle',ROOT / 'tests/fixtures/expanded-makeup-lifecycle.t')
     test_makeup_lifecycle(Session,makeup_lifecycle,build.out)
+    makeup_equipment = build.build('expanded-makeup-equipment',ROOT / 'tests/fixtures/expanded-makeup-equipment.t')
+    test_makeup_equipment(Session,makeup_equipment,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25800,5 +25802,38 @@ def test_makeup_lifecycle(Session, bundle, out):
         for code in (25700,25600,25702):
             s.action(1680,code)
         assert last(s,'test.makeup-lifecycle') == ['makeup-ended',1,900,6]
+    finally:
+        s.close()
+
+
+def test_makeup_equipment(Session, bundle, out):
+    """Makeup uses live kit access/quality/TL without invalidating finished work; unrun."""
+    for setup, reason in (((25801,),'owned-equipment-inaccessible'),
+                         ((25802,),'makeup-prosthetics-technology'),
+                         ((25803,),'equipment-access-not-granted'),
+                         ((25803,25804,25805),'equipment-access-revoked')):
+        s = Session(bundle)
+        try:
+            for code in (*setup,25602,25600,25603):
+                s.action(1680,code)
+            assert last(s,'test.makeup-preview') == ['blocked',reason]
+            assert last(s,'test.makeup-state') == [0,0,0,0]
+        finally:
+            s.close()
+    path = out / 'makeup-kit.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,25800)
+        assert last(s,'test.makeup-kit-score') == [10]
+        for code in (25803,25804,25600,25805,25600,25603):
+            s.action(1680,code)
+        assert last(s,'test.makeup-state') == [1,1,600,3]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,25600); s.action(1680,25603)
+        assert last(s,'test.makeup-state') == [1,1,600,3]
     finally:
         s.close()

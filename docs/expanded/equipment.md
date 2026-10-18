@@ -1158,3 +1158,24 @@ purchase when styling is intended. The adapter does not upgrade, reprice or char
 for an existing item. Wardrobes, lower-status outfits and outfits outside that
 convention retain their existing rules. Other equipment types can provide a
 specific eligibility reason through the same hook.
+
+### Makeup toolkits
+
+Set a makeup context's `toolkitAssessment` to an
+`RpgExpandedToolkitAssessment` for its performer and skill. The kit must list that
+skill in `supportedSkills`; quality and technology must match the purchased kit.
+The adapter applies the ordinary equipment-quality modifier and technology
+modifier once, and checks owned access or an explicit shared-equipment grant.
+Do not also set raw `equipmentTL` or the generic `equipmentAssessment`.
+
+Prosthetics use the kit's technology level, including for a performer trained at
+another technology level. Stored, unavailable or unauthorized kits block the
+application before time or rolls. Access is checked again when execution assesses
+the final score. Completed applications preserve their result if the kit is later
+stored or its access grant is revoked. `materialsAvailable` still attests to
+adequate consumables; the source supplies no universal per-application consumption
+rate, and this adapter does not invent one.
+
+`test_makeup_equipment` specifies quality, prosthetic technology, storage,
+ungranted/revoked shared access and completed-work save continuation. Fixtures
+remain unrun.
