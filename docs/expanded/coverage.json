@@ -289,6 +289,7 @@
     "inventory/senses-influence-fear.json",
     "inventory/health.json",
     "inventory/environmental-hazards.json",
-    "inventory/radiation.json"
+    "inventory/radiation.json",
+    "inventory/poison-illness-aging.json"
   ]
 }

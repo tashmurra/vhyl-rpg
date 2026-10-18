@@ -12,9 +12,11 @@ Implementation must verify each applicable source procedure and catalogue entry,
 
 The [environmental inventory](inventory/environmental-hazards.json) covers the
 first text pass through B428–B437, excluding poison and the separately recorded
-[radiation procedures](inventory/radiation.json). The poison, illness, infection
-and aging sections still need their own complete pass. None of these inventories
-is evidence of implemented hazard behavior.
+[radiation procedures](inventory/radiation.json). The
+[poison, illness and aging inventory](inventory/poison-illness-aging.json) extends
+the first pass through B444, including infection and dependency. Enumeration
+audits, cross-references and independent numeric validation remain open. None of
+these inventories is evidence of implemented hazard behavior.
 
 Exposure records must identify the source, route, protection, elapsed intervals
 and resulting conditions. Air composition and pressure are independent; a sealed
@@ -31,6 +33,28 @@ dose has its own delayed reduction and permanent residue; symptom sequences and
 treatments have separate schedules. Removing an internal source does not remove
 already absorbed radiation. Machines use their own susceptibility and failure
 rules.
+
+Poison definitions need delivery-specific effects and protection. A multi-route
+agent can affect a protected respiratory system differently from exposed eyes or
+skin. Delay, repeated exposure and cyclic damage are separate clocks. Treatments
+must match the identified agent and change only its eligible future effects.
+The mechanical catalogue uses neutral identities and abstract game doses.
+
+Illness adds hidden acquisition and immunity, contagious periods, contact history
+and restricted natural healing. Infection of a wound uses its own contamination
+modifiers and surgical eligibility. These procedures must share the wound and
+treatment records managed by health rather than creating parallel injury totals.
+
+Intoxication and withdrawal require stage, consumption and daily-progress records.
+Their low-target resistance rolls are explicit exceptions to the usual rejection
+of impossible ordinary skill attempts. Temporary drug effects must preserve the
+traits they suppress so expiry does not delete the character's original abilities.
+
+Aging schedules depend on lifespan traits and the campaign calendar. Each event
+has four ordered checks with special critical and longevity rules. Store the date
+and origin of losses: rejuvenation restores age-related losses within the reversed
+years, while ordinary advancement purchases and unrelated injuries remain
+separately accounted.
 
 ## Unresolved supplied-source decisions
 
