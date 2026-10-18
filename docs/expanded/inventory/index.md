@@ -33,6 +33,7 @@ copies of the reference books.
 | `full-2008` | B146–B150, before programmable obedience | [Disadvantages, sixth segment](disadvantages-f.json) | Sensory limits, violence constraints and fear catalogue enumerated; implementation pending |
 | `full-2008` | B150, programmable obedience, through B156, before alternate personalities | [Disadvantages, seventh segment](disadvantages-g.json) | Secrets, aging/sleep tables and social restrictions enumerated; B154 tables visually reviewed; runtime pending |
 | `full-2008` | B156, alternate personalities, through B162, before quirks | [Disadvantages, eighth segment](disadvantages-h.json) | Remaining major entries enumerated; B161 vulnerability table visually reviewed; execution pending |
+| `full-2008` | B162, quirks, through B166 | [Quirks and custom disadvantages](disadvantages-i.json) | Minor-trait catalogue and custom pricing procedures enumerated; implementation pending |
 | `full-2008` | B167–B173; B229–B233 | [Skill and technique procedures](skills-procedures.json) | Text reviewed; table verification and cross-reference resolution still open |
 | `full-2008` | B174–B185 | [Skill catalogue, first segment](skills-catalogue-a.json) | Text and definition metadata transcribed; procedures and cross-references pending |
 | `full-2008` | B186–B197 | [Skill catalogue, second segment](skills-catalogue-b.json) | Definition metadata, timed procedures and specialty requirements transcribed |
