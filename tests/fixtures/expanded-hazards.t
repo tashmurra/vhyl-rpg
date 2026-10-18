@@ -106,5 +106,18 @@ act(verb,args)
         eventValue(value.check == nil ? 0 : value.check.score); eventValue(value.ended ? 1 : 0);
         eventValue(patient.injury); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds - time); return nil;
     }
+    if (verb == 1805)
+    {
+        local value = rpgExpandedAgingSchedule(args[1],args[2]); event('test.aging-schedule');
+        eventValue(value.status); eventValue(value.reason); eventValue(value.maturityYears);
+        foreach (local band in value.bands) foreach (local field in band) eventValue(field);
+        return nil;
+    }
+    if (verb == 1806)
+    {
+        local value = rpgExpandedAgingLoss(args[1],args[2],args[3] == 1); event('test.aging-loss');
+        eventValue(value.status); eventValue(value.reason); eventValue(value.loss);
+        eventValue(rpgExpandedAgingModifier(args[4],args[5])); return nil;
+    }
     return vhylAct(verb,args);
 }

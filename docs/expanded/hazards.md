@@ -253,3 +253,35 @@ Automatic care scheduling and interruption remain incomplete.
 `test_infection_supervision` records the combined bonus and no-spending rejection
 expectations for absent continuous care, late admission and an unavailable doctor.
 The fixture remains unrun while checks are paused.
+
+
+## Aging calculations
+
+`rpgExpandedAgingSchedule(shortLevels, extendedLevels)` returns maturity in years
+and three `bands`, each `[startingAgeYears, intervalUnit, intervalCount]`.
+The shortened-lifespan levels zero through four use the exact B154 table;
+extended lifespan multiplies the normal schedule from B53/B444. Conflicting
+shortened and extended inputs block. The current numeric interface supports
+extended levels through ten; larger values are outside this bounded interface.
+
+Preserve the returned `year`, `month` and `day` units in the campaign calendar.
+The B154 table rounds onset ages and includes specific day intervals; repeated
+fractional halving of the normal schedule is not equivalent. These calculations
+do not decide birthdays, whether an anniversary has occurred, or agelessness.
+An owned event must establish those facts before applying any aging rolls.
+
+`rpgExpandedAgingModifier(medicalTL, fitness)` uses the world's medical technology
+minus three and one fitness adjustment from -2 through +2. It does not infer
+world medicine from carried equipment or combine mutually exclusive fitness traits.
+`rpgExpandedAgingLoss(score, roll, longevity)` assesses one attribute's prospective
+loss from supplied dice. Ordinary failure loses one; critical failure and raw
+seventeen or eighteen lose two. Longevity uses its own raw-roll exception and
+limits loss to one, including the modified-health seventeen boundary.
+Ordinary scores below three remain explicitly unsupported; the longevity rule
+can be assessed directly even at those scores.
+
+The functions do not roll dice, mutate attributes, alter derived scores or
+account for character points. Ordered four-attribute events, the prohibition on
+luck, natural death, alternative equal-value losses and rejuvenation history
+remain incomplete. `test_aging_assessments` provides source-row, rounding,
+modifier and roll-boundary expectations. These fixtures remain unrun.

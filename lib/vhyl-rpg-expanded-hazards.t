@@ -338,3 +338,58 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+class RpgExpandedAgingSchedule: RpgExpandedResult
+    maturityYears = 0
+    bands = []
+;
+
+/** Exact shortened-lifespan rows (B154), or extended normal ages (B53/B444).
+ * Each band is [starting age in years, interval unit, interval count]. */
+rpgExpandedAgingSchedule(shortLevels, extendedLevels)
+{
+    rpgInteger(shortLevels,0,4); rpgInteger(extendedLevels,0,10);
+    local value = new RpgExpandedAgingSchedule();
+    if (shortLevels > 0 && extendedLevels > 0)
+    { value.reason = 'aging-conflicting-lifespan'; return value; }
+    local rows = [
+        [18,[[50,'year',1],[70,'month',6],[90,'month',3]]],
+        [9,[[25,'month',6],[35,'month',3],[45,'day',45]]],
+        [4,[[12,'month',3],[17,'day',45],[22,'day',22]]],
+        [2,[[6,'day',45],[8,'day',22],[11,'day',11]]],
+        [1,[[3,'day',22],[4,'day',11],[5,'day',5]]]
+    ];
+    local row = rows[shortLevels + 1]; local multiple = 1;
+    for (local index = 0; index < extendedLevels; index += 1) multiple *= 2;
+    value.maturityYears = row[1] * multiple;
+    foreach (local band in row[2]) value.bands = value.bands + [[band[1] * multiple,band[2],band[3] * multiple]];
+    value.status = 'ready'; return value;
+}
+
+/** World medical technology and one selected fitness modifier, B444. */
+rpgExpandedAgingModifier(medicalTL, fitness)
+{
+    rpgInteger(medicalTL,0,1000); rpgInteger(fitness,-2,2);
+    return medicalTL - 3 + fitness;
+}
+
+class RpgExpandedAgingLoss: RpgExpandedResult
+    score = 0
+    roll = 0
+    loss = 0
+;
+
+/** Pure loss for one attribute. Does not spend points or change characteristics. */
+rpgExpandedAgingLoss(score, roll, longevity)
+{
+    rpgInteger(score,-1000,1000); rpgInteger(roll,3,18);
+    local value = new RpgExpandedAgingLoss(); value.score = score; value.roll = roll;
+    if (longevity) value.loss = roll == 18 || roll == 17 && score < 17 ? 1 : 0;
+    else
+    {
+        if (score < 3) { value.reason = 'aging-low-score-unavailable'; return value; }
+        local check = rpgCheck(score,roll);
+        value.loss = roll >= 17 || check.critical == 'failure' ? 2 : check.achieved ? 0 : 1;
+    }
+    value.status = 'ready'; return value;
+}

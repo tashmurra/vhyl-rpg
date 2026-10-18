@@ -549,6 +549,29 @@ def test_infection_progression(s):
     assert last(s, 'test.infection-recovered') == [1,5,2,0,2,0,3]
 
 
+def test_aging_assessments(s):
+    for short, extended, values in [
+            (0,0,[18,50,'year',1,70,'month',6,90,'month',3]),
+            (1,0,[9,25,'month',6,35,'month',3,45,'day',45]),
+            (2,0,[4,12,'month',3,17,'day',45,22,'day',22]),
+            (3,0,[2,6,'day',45,8,'day',22,11,'day',11]),
+            (4,0,[1,3,'day',22,4,'day',11,5,'day',5]),
+            (0,1,[36,100,'year',2,140,'month',12,180,'month',6]),
+            (0,2,[72,200,'year',4,280,'month',24,360,'month',12])]:
+        s.action(1805, short, extended)
+        assert last(s, 'test.aging-schedule') == ['ready',None] + values
+    s.action(1805, 1, 1)
+    assert last(s, 'test.aging-schedule') == ['blocked','aging-conflicting-lifespan',0]
+    for score, roll, longevity, loss in [(10,10,0,0),(10,11,0,1),(6,16,0,2),
+                                       (18,17,0,2),(18,18,0,2),(10,4,0,0),
+                                       (3,16,1,0),(10,17,1,1),(17,17,1,0),
+                                       (17,18,1,1),(-2,16,1,0)]:
+        s.action(1806, score, roll, longevity, 7, 2)
+        assert last(s, 'test.aging-loss') == ['ready',None,loss,6]
+    s.action(1806, 2, 10, 0, 0, -2)
+    assert last(s, 'test.aging-loss') == ['blocked','aging-low-score-unavailable',0,-5]
+
+
 def test_infection_supervision(s):
     for code, expected in [
             (0,['resolved',None,1,10,1,2,3,0]),
@@ -3157,6 +3180,7 @@ def test(build):
     fresh(Session,hazards,test_infection_acquisition)
     fresh(Session,hazards,test_specific_natural_immunity)
     fresh(Session,hazards,test_infection_supervision)
+    fresh(Session,hazards,test_aging_assessments)
     fresh(Session,hazards,test_infection_progression)
     hazard_transactions = build.build('expanded-hazards-transactions',ROOT / 'tests/fixtures/expanded-hazards-transactions.t')
     fresh(Session,hazard_transactions,test_immunity_transactions)
