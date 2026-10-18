@@ -1651,3 +1651,21 @@ Do not roll twice when the same collision later supplies damage to both objects.
 `test_collision_assessment` specifies the fractional thresholds, rounding, zero
 motion and the printed hard-surface example; assertions remain unrun.
 Source: `full-2008`, B430-B431.
+
+### Fall protection and blunt trauma
+
+`rpgExpandedAssessFallProtection(damage, resistance, kind)` assesses one homogeneous
+protection layer. Use `armor` for worn armor (including rigid armor) or `innate`
+for innate resistance. It returns `penetratingDamage`, `stoppedDamage` and
+`bluntInjury`. If armor stops the entire fall damage, each full five damage points
+causes one point of blunt-trauma injury. Any penetration suppresses blunt trauma.
+Innate resistance never creates blunt trauma through this rule.
+
+Keep the outputs distinct: penetrating damage still needs the applicable location
+and injury rules; blunt injury is already injury and receives no wounding
+multiplier. This function neither rolls nor commits a wound. Do not combine mixed
+innate and worn layers into a single resistance value: their ordering is not
+represented by this interface, and layered fall protection remains pending.
+The authored fixture covers zero damage, zero resistance, five-point boundaries,
+exactly stopped damage, penetration and the innate exception. Checks remain paused.
+Source: `full-2008`, B379 and B431.

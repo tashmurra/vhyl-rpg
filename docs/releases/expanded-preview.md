@@ -775,3 +775,8 @@ Hazards now supplies a pure full-profile collision damage expression, including
 reduced-die bands, half-up rounding and hard-surface capacity doubling. It leaves
 existing abridged calculations unchanged. Boundary and printed-example fixtures
 are authored but unrun; collision injury execution remains incomplete.
+
+Fall protection assessment now distinguishes worn armor (all treated as flexible
+for falls) from innate resistance and separates penetrating damage from blunt
+trauma injury. It covers a single homogeneous layer; layered protection and wound
+commitment remain incomplete. Boundary fixtures are authored and unrun.

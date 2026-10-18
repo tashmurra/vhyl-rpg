@@ -1045,9 +1045,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Worn armor counts as flexible for fall blunt trauma, even if normally rigid; innate resistance does not inherit this treatment.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fall_protection"
+      ],
+      "validation_note": "Pure homogeneous-layer protection assessment distinguishes worn armor from innate resistance and separates penetration from direct blunt injury. Threshold and exception assertions authored, unrun. Layer ordering, location injury and owned falling integration remain incomplete."
     },
     {
       "id": "collision-controlled-fall",

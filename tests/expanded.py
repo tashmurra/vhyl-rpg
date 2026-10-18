@@ -8898,6 +8898,7 @@ def test(build):
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     collision = build.build('expanded-collision',ROOT / 'tests/fixtures/expanded-collision.t')
     test_collision_assessment(Session, collision)
+    test_fall_protection(Session, collision)
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_radiation_tables)
     fresh(Session,hazards,test_radiation_shielding)
@@ -13662,5 +13663,21 @@ def test_collision_assessment(Session, bundle):
         assert last(s, 'test.collision') == [10,19,2,0,'cr',0,0]
         s.action(2292,10,0,1)
         assert last(s, 'test.collision') == [20,0,0,0,'cr',0,0]
+    finally:
+        s.close()
+
+
+def test_fall_protection(Session, bundle):
+    s = Session(bundle)
+    try:
+        for damage, resistance, expected in [
+            (0,10,[0,0,0]), (4,10,[0,0,4]), (5,10,[0,1,5]),
+            (9,10,[0,1,9]), (10,10,[0,2,10]), (11,10,[1,0,10]),
+            (20,10,[10,0,10]), (5,0,[5,0,0]),
+        ]:
+            s.action(2293,damage,resistance,1)
+            assert last(s, 'test.fall-protection') == expected+[0,0]
+            s.action(2293,damage,resistance,0)
+            assert last(s, 'test.fall-protection') == [expected[0],0,expected[2],0,0]
     finally:
         s.close()

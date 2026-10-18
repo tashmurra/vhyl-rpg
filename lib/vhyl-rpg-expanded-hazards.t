@@ -3866,3 +3866,21 @@ rpgExpandedAssessCollision(capacity,velocity,hard)
     }
     value.status = 'ready'; return value;
 }
+
+class RpgExpandedFallProtectionAssessment: RpgExpandedResult
+    penetratingDamage = 0
+    bluntInjury = 0
+    stoppedDamage = 0
+;
+/** B431/B379: one homogeneous protection layer, prior to location injury modifiers.
+ * Mixed innate/armor layers require explicit ordering and are not represented here. */
+rpgExpandedAssessFallProtection(damage,resistance,kind)
+{
+    rpgInteger(damage,0,100000000); rpgInteger(resistance,0,100000000);
+    if (!holds(['armor','innate'],kind)) rpgExpandedReject('fall-protection-kind');
+    local value = new RpgExpandedFallProtectionAssessment();
+    value.stoppedDamage = damage < resistance ? damage : resistance;
+    value.penetratingDamage = damage - value.stoppedDamage;
+    if (kind == 'armor' && value.penetratingDamage == 0) value.bluntInjury = damage / 5;
+    value.status = 'ready'; return value;
+}
