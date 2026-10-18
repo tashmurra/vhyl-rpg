@@ -2193,9 +2193,12 @@
       "pages": "B461",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ordinary clothing protects completely against tiny creatures for two seconds and low-technology armor for five, after which ingress defeats that protection.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swarm_protection"
+      ],
+      "validation_note": "Owned exposure start and pure protection timing authored; fixtures unrun. Swarm damage, injury, encounter transitions and protection changes remain pending."
     },
     {
       "id": "creature-swarm-special-clothing",
@@ -2203,9 +2206,12 @@
       "pages": "B461",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Appropriate sealed or specialist clothing may protect against specified swarms; validate the swarm type and covering rather than granting universal swarm immunity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swarm_protection"
+      ],
+      "validation_note": "Owned exposure start and pure protection timing authored; fixtures unrun. Swarm damage, injury, encounter transitions and protection changes remain pending."
     },
     {
       "id": "creature-swarm-large-creatures",
@@ -2213,9 +2219,12 @@
       "pages": "B461",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Armor protects normally and indefinitely against larger swarm creatures such as rodents; do not apply insect ingress timing to all swarms.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swarm_protection"
+      ],
+      "validation_note": "Owned exposure start and pure protection timing authored; fixtures unrun. Swarm damage, injury, encounter transitions and protection changes remain pending."
     },
     {
       "id": "creature-swarm-countermeasure-contract",

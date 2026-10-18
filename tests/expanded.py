@@ -1664,6 +1664,32 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_swarm_protection(Session,bundle):
+    for setup,limit,initial_immune,dr in [(0,2,1,0),(3,5,1,0),(4,6,0,5),(5,6,1,0)]:
+        s=Session(bundle)
+        try:
+            s.action(2216,1)
+            s.action(2217)
+            assert last(s,'test.swarm-state') == [None,0,0]
+            s.action(2216,2)
+            s.action(2217)
+            assert last(s,'test.swarm-state') == [None,0,0]
+            s.action(2216,setup)
+            assert last(s,'test.swarm-protection') == ['active',None,0,initial_immune,dr]
+            s.action(2216,9)
+            assert last(s,'test.swarm-protection')[:2] == ['blocked','swarm-exposure-already-recorded']
+            for elapsed in range(1,limit+1):
+                s.action(2216,7)
+                immune = initial_immune if setup == 5 or elapsed < limit else 0
+                assert last(s,'test.swarm-protection') == ['active',None,elapsed,immune,dr]
+                s.action(2216,0)  # Repeated begin cannot reset ingress time.
+                assert last(s,'test.swarm-protection') == ['active',None,elapsed,immune,dr]
+            s.action(2216,8)
+            s.action(2217)
+            assert last(s,'test.swarm-state') == [0,0,limit]
+        finally: s.close()
+
+
 def test_animal_strength_damage(s):
     # Foundation-only creature fixture exercises table reuse without equipment includes.
     # Expected thrust values are independently transcribed from B16; B460 supplies anatomy.
@@ -7600,6 +7626,7 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
+    test_swarm_protection(Session,creatures)
     fresh(Session,creatures,test_animal_strength_damage)
     fresh(Session,creatures,test_animal_natural_damage)
     fresh(Session,creatures,test_animal_values)

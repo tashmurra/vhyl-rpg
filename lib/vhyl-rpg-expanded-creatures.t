@@ -750,3 +750,71 @@ rpgExpandedNaturalDamageForStrength(strength, kind, anatomy, weakBite, horizonta
     local thrust = rpgExpandedDamageDice(strength,nil);
     return rpgExpandedNaturalDamage(thrust[1],thrust[2],kind,anatomy,weakBite,horizontal,dexterity,brawlingScore);
 }
+
+class RpgExpandedSwarmProtectionResult: RpgExpandedResult
+    elapsed = 0
+    immune = nil
+    dr = 0
+;
+
+modify RpgExpandedProfile
+    swarmExposures = []
+;
+
+/** B461 exposure timer. Start once inside the caller's action transaction. */
+class RpgExpandedSwarmExposure: object
+    swarm = nil
+    victim = nil
+    tiny = nil
+    protection = 'none'
+    armorDR = 0
+    specialEffective = nil
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    snapshot = nil
+    definition()
+    { return [self.swarm,self.victim,self.tiny,self.protection,self.armorDR,self.specialEffective,self.evidence]; }
+    assess()
+    {
+        if (self.swarm == nil || self.victim == nil || !self.victim.ofKind(RpgExpandedProfile)
+            || !holds(['none','clothing','low-tech-armor','normal-armor','special'],self.protection))
+            rpgExpandedReject('swarm-exposure-definition');
+        rpgInteger(self.armorDR,0,10000);
+        if (self.protection != 'special' && self.specialEffective) rpgExpandedReject('swarm-unused-special-protection');
+        if (!holds(['low-tech-armor','normal-armor'],self.protection) && self.armorDR != 0)
+            rpgExpandedReject('swarm-unused-armor');
+        local value = new RpgExpandedSwarmProtectionResult();
+        if (self.startedAt != nil)
+        {
+            if (!holds(self.victim.swarmExposures,self)) rpgExpandedReject('swarm-exposure-history');
+            local current = self.definition();
+            if (self.snapshot == nil || self.snapshot.length() != current.length()) rpgExpandedReject('swarm-exposure-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.snapshot[index]) rpgExpandedReject('swarm-exposure-binding');
+            if (rpgLedger.seconds < self.startedAt) rpgExpandedReject('swarm-exposure-clock');
+            value.elapsed = rpgLedger.seconds - self.startedAt;
+        }
+        else if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'swarm-exposure-author-facts'; return value; }
+        if (self.startedAt == nil)
+            foreach (local prior in self.victim.swarmExposures)
+                if (prior.swarm == self.swarm)
+                { value.reason = 'swarm-exposure-already-recorded'; return value; }
+        if (self.tiny && self.protection == 'normal-armor')
+        { value.reason = 'swarm-tiny-armor-classification-required'; return value; }
+        if (self.protection == 'special') value.immune = self.specialEffective;
+        else if (self.tiny)
+            value.immune = (self.protection == 'clothing' && value.elapsed < 2)
+                || (self.protection == 'low-tech-armor' && value.elapsed < 5);
+        else if (holds(['low-tech-armor','normal-armor'],self.protection)) value.dr = self.armorDR;
+        value.status = self.startedAt == nil ? 'ready' : 'active'; return value;
+    }
+    begin()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.snapshot = self.definition(); self.startedAt = rpgLedger.seconds;
+        self.victim.swarmExposures = self.victim.swarmExposures + [self];
+        return self.assess();
+    }
+;

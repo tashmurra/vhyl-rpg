@@ -47,10 +47,32 @@ modify rpgLedger
         if (handlingClockFault.enabled) trainingAnimal.unconscious = true;
     }
 ;
+exposureSwarm: object;
+exposureRecord: RpgExpandedSwarmExposure swarm = exposureSwarm victim = trainingAnimal tiny = true
+    protection = 'clothing' approved = true evidence = 'Tiny insects contacting ordinary clothing';
 class AnimalHandlingAction: Action
     exec(context)
     {
         local code = handlingInput.code;
+        if (code >= 100)
+        {
+            if (code == 103) { exposureRecord.protection = 'low-tech-armor'; exposureRecord.armorDR = 5; }
+            if (code == 104) { exposureRecord.tiny = nil; exposureRecord.protection = 'normal-armor'; exposureRecord.armorDR = 5; }
+            if (code == 105) { exposureRecord.protection = 'special'; exposureRecord.specialEffective = true; }
+            if (code == 106) exposureRecord.protection = 'normal-armor';
+            if (code == 107) rpgSpendTime(1);
+            if (code == 108) exposureRecord.evidence = 'Changed exposure';
+            local request = exposureRecord;
+            if (code == 109)
+            {
+                request = new RpgExpandedSwarmExposure(); request.swarm = exposureSwarm;
+                request.victim = trainingAnimal; request.approved = true; request.evidence = 'Duplicate contact';
+            }
+            local value = code == 101 ? request.assess() : request.begin();
+            event('test.swarm-protection'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.elapsed); eventValue(value.immune ? 1 : 0); eventValue(value.dr);
+            if (code == 102) throw new RpgError(); return nil;
+        }
         if (code >= 80)
         {
             if (code == 80 || code == 84)
@@ -167,6 +189,11 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2216) { handlingInput.code = 100 + args[1]; return vhylAct(2203,args); }
+    if (verb == 2217)
+    {
+        event('test.swarm-state'); eventValue(exposureRecord.startedAt); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2215)
     {
         local value = rpgExpandedNaturalDamageForStrength(args[1],args[2],args[3],args[4] != 0,args[5] != 0,args[6],args[7]);

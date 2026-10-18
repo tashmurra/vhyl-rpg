@@ -371,3 +371,34 @@ qualifying brawling produces `5d+5`. Strength 24 gives `2d+1`; horizontal hooves
 cancel their per-die anatomy modifiers, and qualifying brawling adds two,
 producing `2d+3`. The fixture `test_animal_strength_damage` exercises these and
 other printed rows in the minimal creature build. It is authored but unrun.
+
+## Swarm exposure protection
+
+`RpgExpandedSwarmExposure` records a contact interval for one `swarm` identity
+and one expanded `victim` profile. Set `tiny` for insect-sized attackers,
+`protection` to `none`, `clothing`, `low-tech-armor`, `normal-armor` or `special`,
+and supply `approved` and `evidence` describing the actual covering and swarm.
+Set `armorDR` only for an armour category. For special protection the author
+must establish whether this covering protects against this particular swarm,
+then set `specialEffective` accordingly. Special protection is not universal.
+
+Call `assess()` for a pure preview and `begin()` inside an action transaction
+when contact starts. The owned record is stored in `victim.swarmExposures`.
+`begin()` on an existing record preserves its start; a second record for the
+same swarm and victim is blocked. Changing its definition after contact is
+rejected. Undo and save use the engine's ordinary object state mechanisms.
+
+Results contain elapsed whole seconds, `immune` and effective `dr`. Tiny
+creatures are excluded by ordinary clothing while elapsed time is below two
+seconds, and by low-tech armour while it is below five seconds. At the exact
+boundary protection expires. Larger creatures use armour's normal DR without
+an ingress deadline. Tiny creatures with unclassified normal armour return
+`swarm-tiny-armor-classification-required`; identify the actual protection
+category instead of treating all armour as sealed.
+
+The record does not advance time or consume randomness. The combat scheduler
+owns elapsed time. This implements the B461 protection interval only: it does
+not roll swarm damage, apply injury, reset protection after leaving contact,
+change clothing during contact or resolve a new encounter with a reused swarm
+identity. Those operations remain pending. `test_swarm_protection` covers the
+exact boundaries, repeated start, preview and exception rollback; it is unrun.
