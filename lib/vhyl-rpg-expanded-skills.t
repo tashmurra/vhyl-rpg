@@ -2791,3 +2791,87 @@ rpgExpandedTrackingWindow(terrain,elapsed,requestedSeconds)
 modify RpgExpandedTrackingContext
     trackingWindow(elapsed,seconds) { self.trackingFacts(); return rpgExpandedTrackingWindow(self.terrain,elapsed,seconds); }
 ;
+
+/** B219 unconditional defaults; the foot-only default is selected by the task context. */
+class RpgExpandedShadowingSkill: RpgExpandedSkill
+    id = 'shadowing'
+    attribute = rpgIQ
+    difficulty = 1
+    defaultPenalty = -5
+    validateDefinition()
+    {
+        if (self.id != 'shadowing' || self.attribute != rpgIQ || self.difficulty != 1 || self.defaultPenalty != -5
+            || self.techLevel != nil || self.specialty != nil || self.defaultAttribute != nil || self.alternateAttribute != nil
+            || self.defaults.length() != 0 || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil)
+            rpgExpandedReject('shadowing-skill-definition');
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+            if (training.points > 0 && training.skill != self && training.skill.ofKind(RpgExpandedSkill)
+                && training.skill.id == 'observation' && training.skill.techLevel == nil)
+                edges = edges + [[training.skill,-5]];
+        return edges;
+    }
+;
+class RpgExpandedShadowingContext: RpgExpandedSkillContext
+    kind = 'shadowing'
+    mode = 'foot'
+    crowdAvailable = nil
+    targetKnowsFollower = nil
+    noisyTarget = nil
+    distinctiveModifier = 0
+    visiblyDifferent = nil
+    sizeDifference = 0
+    crowdModifier = 0
+    approved = nil
+    evidence = nil
+    sensoryRecognitionMode() { return self.noisyTarget ? 'hearing' : nil; }
+    shadowingFacts()
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedShadowingSkill) || self.kind != 'shadowing'
+            || self.fixedBase != nil || self.rollAttribute != nil || !holds(['foot','vehicle'],self.mode))
+            rpgExpandedReject('shadowing-context');
+        self.skill.validateDefinition(); rpgInteger(self.distinctiveModifier,-100,0);
+        rpgInteger(self.sizeDifference,0,100); rpgInteger(self.crowdModifier,-100,0);
+        if ((!self.visiblyDifferent && (self.sizeDifference != 0 || self.crowdModifier != 0))
+            || (self.visiblyDifferent && self.crowdModifier > -self.sizeDifference)) rpgExpandedReject('shadowing-crowd-penalty');
+        return [self.skill,self.mode,self.crowdAvailable,self.targetKnowsFollower,self.noisyTarget,self.distinctiveModifier,
+            self.visiblyDifferent,self.sizeDifference,self.crowdModifier,self.approved,self.evidence,self.modifier,
+            self.equipmentTL,self.familiarity] + self.culturalTaskFacts();
+    }
+    taskUnavailableReason(profile)
+    {
+        self.shadowingFacts();
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'shadowing-world-facts-required';
+        if (!self.crowdAvailable) return 'shadowing-crowd-required';
+        return inherited(profile);
+    }
+    scoreFor(profile)
+    {
+        self.shadowingFacts(); local score = inherited(profile);
+        if (score == nil || self.mode != 'foot') return score;
+        foreach (local training in profile.skills)
+            if (training.points > 0 && training.skill.ofKind(RpgExpandedSkill) && training.skill.id == 'stealth'
+                && training.skill.techLevel == nil)
+            {
+                local paid = rpgExpandedPaidSkill(profile,training.skill,[self.skill]);
+                if (paid != nil)
+                {
+                    local candidate = paid-4 + profile.ancestrySkillModifier(self.skill)
+                        + profile.catalogueTalentSkillModifier(self.skill) + profile.catalogueSkillModifier(self.skill);
+                    if (candidate > score) score = candidate;
+                }
+            }
+        return score;
+    }
+    skillUseModifier(profile)
+    {
+        if (self.taskUnavailableReason(profile) != nil) return nil;
+        local modifier = inherited(profile); if (modifier == nil) return nil;
+        return modifier + (self.mode == 'vehicle' ? -2 : 0) + (self.targetKnowsFollower ? -3 : 0)
+            + self.distinctiveModifier + self.crowdModifier;
+    }
+;

@@ -9556,6 +9556,8 @@ def test(build):
     test_tracking_marching_boundaries(Session,tracking_encounter,build.out)
     tracking_actions = build.build('expanded-tracking-actions',ROOT / 'tests/fixtures/expanded-tracking-actions.t')
     test_tracking_actions(Session,tracking_actions)
+    shadowing_context = build.build('expanded-shadowing-context',ROOT / 'tests/fixtures/expanded-shadowing-context.t')
+    test_shadowing_context(Session,shadowing_context)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27368,3 +27370,20 @@ def test_tracking_actions(Session, bundle):
                         assert state(s) == before
                 finally:
                     s.close()
+
+
+def test_shadowing_context(Session, bundle):
+    """B219 foot-only defaults, vehicle exclusion and B49 noisy-target hearing; unrun."""
+    cases = (((),7),((29101,),14),((29101,29102),5),((29103,),13),((29103,29102),11),
+             ((29104,),4),((29106,),5),((29107,),5),((29107,29110),5),((29108,),None),
+             ((29101,29109),7),((28000,29105),11),((28000,),7),
+             ((27304,28000,29105),11),((28000,29105,29102,29104,29106,29107),2))
+    for codes,score in cases:
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,29100)
+            assert last(s,'test.shadowing-score') == [score,0,0]
+        finally:
+            s.close()

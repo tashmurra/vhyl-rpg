@@ -140,9 +140,10 @@
       "status": "partial",
       "acceptance": "Fine sound recognition adds 4 to hearing-based tasks on top of acute hearing, and 4 to shadowing a noisy target. Apply once per check, including when the skill task also uses hearing. An underwater-only accessibility limitation is -30%.",
       "tests": [
-        "tests/expanded.py::test_sensory_recognition"
+        "tests/expanded.py::test_sensory_recognition",
+        "tests/expanded.py::test_shadowing_context"
       ],
-      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun."
+      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun. Typed Shadowing context now selects foot-only purchased Stealth default, applies vehicle/known-target/appearance/crowd modifiers, and uses one fine-hearing bonus for an authored noisy target. Timed contests, awareness/loss transitions, vehicle encounters and conditional paid-default improvements remain pending. Fixtures unrun."
     },
     {
       "id": "traits-d-scent-recognition",

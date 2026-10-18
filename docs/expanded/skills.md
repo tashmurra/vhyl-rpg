@@ -1372,3 +1372,34 @@ adjudication contract; this calculation applies only within a fixed terrain.
 partial remainders, already-due blocking and invalid progress. Fixtures are
 unrun. Persistent encounters and integration with incremental travel remain
 pending; existing whole-hour marching must not bypass these boundaries.
+
+
+## Shadowing scores
+
+`RpgExpandedShadowingSkill` supplies the IQ/Average catalogue definition and
+unconditional IQ-5 or purchased Observation-5 defaults (full-2008 B219).
+`RpgExpandedShadowingContext` selects `mode = 'foot'` or `'vehicle'`.
+Only foot use can additionally default to purchased Stealth-4. Vehicle use takes
+-2 and cannot use that conditional default. The context does not mutate the
+skill or a character's default graph while assessing a request.
+
+Supply `crowdAvailable`, `approved` and concrete `evidence`. Wilderness pursuit
+requires other procedures and is blocked here. `targetKnowsFollower` applies
+-3; `distinctiveModifier` supplies an authored nonpositive appearance adjustment.
+For a visibly different follower, set `visiblyDifferent`, nonnegative absolute
+`sizeDifference`, and `crowdModifier`; the crowd penalty cannot have a magnitude
+smaller than the size difference. Keep these appearance facts distinct to avoid
+charging one feature twice.
+
+`noisyTarget` enables the fine-hearing purchase's +4 through the shared sensory
+hook (B49). Ordinary acute hearing is not added separately to this Shadowing
+skill check. The context's evidence must justify that the target is noisy enough
+for this modifier. Neither this bonus nor the default grants vehicle operation
+or removes crowd requirements.
+
+The ten-minute and five-minute contests, awareness transitions, loss, mistaken
+targets and vehicle encounter integration remain pending. Purchased improvements
+from the conditional Stealth default also remain unsupported and are rejected by
+the shared paid-default validator. `test_shadowing_context` specifies defaults,
+vehicle exclusion, unfamiliar/known targets, crowd penalties, noisy-target
+bonuses and uninvested sources. Fixtures remain unrun.
