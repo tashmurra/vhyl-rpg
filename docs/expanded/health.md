@@ -3880,3 +3880,25 @@ Other first-aid operations, including bleeding and resuscitation, still need
 case-specific integration. `test_first_aid_diagnosis` covers missing, unresolved,
 failed and partial findings, consultation, rollback, undo and replay. Fixtures
 remain unrun while checks are paused.
+
+
+## First-aid equipment assessment
+
+Set `RpgExpandedFirstAid.equipmentAssessment` to an owned or shared toolkit
+assessment bound to the healer and first-aid skill (full-2008 B195, B345).
+Include equipment and skills, and use `RpgExpandedFirstAidSkill`. The assessment
+checks access, ownership or a shared-use grant, task suitability and quality
+before treatment consumes time or randomness. Its technology must be explicit
+unless no tools are used. The expanded context applies technology compatibility
+and adds the assessed quality modifier once. Keep other situational adjustments
+in `modifier`; do not repeat the equipment bonus there.
+
+Requests without an equipment assessment retain their existing scoring path.
+The treatment binds the selected assessment and its definition. Replay validates
+that definition but does not demand continued access to tools after treatment
+has finished. This does not consume medical supplies or implement interruptions
+during the care interval; those still require integration.
+
+`test_first_aid_equipment` specifies fine-tool scoring, advanced technology,
+inaccessible tools, preview purity, rollback, undo and replay after tools are
+removed. Definition changes reject. Fixtures are authored and unrun.

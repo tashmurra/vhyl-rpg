@@ -6905,8 +6905,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Use full recovery procedures with equipment and physiology modifiers, requiring diagnosis for unusual problems; no treatment can duplicate an earlier benefit.",
-      "tests": ["tests/expanded.py::test_medical_skills", "tests/expanded.py::test_first_aid_physiology", "tests/expanded.py::test_first_aid_diagnosis"],
-      "validation_note": "Typed first-aid definition supplies printed defaults, including non-technological traditional treatment. Treatment supports physiology knowledge and shared healing accounting. Owned post-bandaging treatment now requires a completed same-patient, same-case diagnosis for authored unusual problems, including received consultation for another examiner. Equipment and diagnosis integration for other first-aid procedures remain pending. Fixtures authored but unrun.",
+      "tests": ["tests/expanded.py::test_medical_skills", "tests/expanded.py::test_first_aid_physiology", "tests/expanded.py::test_first_aid_diagnosis", "tests/expanded.py::test_first_aid_equipment"],
+      "validation_note": "Typed first-aid definition supplies printed defaults, including non-technological traditional treatment. Treatment supports physiology knowledge and shared healing accounting. Owned post-bandaging treatment now requires a completed same-patient, same-case diagnosis for authored unusual problems, including received consultation for another examiner. Owned/shared tool assessments now supply post-bandaging quality and technology modifiers with live access checks. Supply consumption, treatment interruption and equipment/diagnosis integration for other first-aid procedures remain pending. Fixtures authored but unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "easy",

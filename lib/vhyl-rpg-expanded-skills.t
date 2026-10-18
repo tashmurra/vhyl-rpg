@@ -1479,3 +1479,11 @@ class RpgExpandedFirstAidSkill: RpgExpandedSkill
         return edges;
     }
 ;
+
+modify RpgExpandedFirstAidSkill
+    firstAidContext(equipmentTL)
+    {
+        self.validateDefinition(); local context = new RpgExpandedSkillContext();
+        context.skill = self; context.kind = 'first-aid'; context.equipmentTL = equipmentTL; return context;
+    }
+;

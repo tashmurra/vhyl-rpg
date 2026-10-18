@@ -1439,6 +1439,9 @@ class RpgExpandedFirstAid: object
     bandage = nil
     healer = nil
     skill = nil
+    equipmentAssessment = nil
+    boundEquipment = nil
+    boundEquipmentDefinition = nil
     modifier = 0
     physiology = 'authored'
     speciesModifier = 0
@@ -1530,6 +1533,13 @@ class RpgExpandedFirstAid: object
                 || self.careEvidence != self.boundEvidence || self.dropDestination != self.boundDestination
                 || !self.comfortable || self.bandage.treatment != self)
                 rpgExpandedReject('first-aid-binding');
+            if (self.equipmentAssessment != self.boundEquipment) rpgExpandedReject('first-aid-equipment-binding');
+            if (self.equipmentAssessment != nil)
+            {
+                local equipmentFacts = rpgExpandedFirstAidEquipment.definition(self.equipmentAssessment);
+                for (local i = 1; i <= equipmentFacts.length(); i += 1)
+                    if (equipmentFacts[i] != self.boundEquipmentDefinition[i]) rpgExpandedReject('first-aid-equipment-binding');
+            }
             local facts = self.physiologyDefinition();
             for (local i = 1; i <= facts.length(); i += 1)
                 if (facts[i] != self.boundPhysiology[i]) rpgExpandedReject('first-aid-physiology-binding');
@@ -1568,8 +1578,17 @@ class RpgExpandedFirstAid: object
         local physiology = self.assessPhysiology();
         if (physiology.status != 'ready') { value.reason = physiology.reason; return value; }
         value.seconds = rpgExpandedFirstAidTable(self.skill.techLevel).tableSeconds;
-        value.context = new RpgLiteContext(); value.context.skill = self.skill;
-        value.context.kind = 'first-aid'; value.context.modifier = self.modifier + physiology.modifier;
+        local equipment = 0;
+        if (self.equipmentAssessment != nil)
+        {
+            local tools = rpgExpandedFirstAidEquipment.assess(self.equipmentAssessment,self.healer,self.skill);
+            if (tools.status != 'ready') { value.reason = tools.reason; return value; }
+            equipment = tools.modifier; value.context = self.skill.firstAidContext(tools.equipmentTL);
+            local unavailable = value.context.unavailableReason(self.healer);
+            if (unavailable != nil) { value.reason = unavailable; return value; }
+        }
+        else { value.context = new RpgLiteContext(); value.context.skill = self.skill; }
+        value.context.kind = 'first-aid'; value.context.modifier = self.modifier + physiology.modifier + equipment;
         local score = rpgLiteScore(self.healer,value.context);
         if (score == nil || score < 3)
         { value.reason = 'first-aid-score-unavailable'; return value; }
@@ -1605,6 +1624,8 @@ class RpgExpandedFirstAid: object
             if (eligible > 0) value.healed = rpgLiteHeal(patient,eligible);
         }
         patient.aidUsed = true; self.bandage.treatment = self;
+        self.boundEquipment = self.equipmentAssessment;
+        if (self.equipmentAssessment != nil) self.boundEquipmentDefinition = rpgExpandedFirstAidEquipment.definition(self.equipmentAssessment);
         self.boundDiagnosis = self.diagnosisDefinition();
         self.boundPhysiology = self.physiologyDefinition();
         self.boundBandage = self.bandage; self.boundHealer = self.healer; self.boundSkill = self.skill;

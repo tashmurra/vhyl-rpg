@@ -1770,3 +1770,20 @@ modify rpgExpandedDiagnosticEquipment
         value.equipmentTL = assessment.quality == 'none' ? nil : assessment.techLevel; return value;
     }
 ;
+
+modify rpgExpandedFirstAidEquipment
+    definition(assessment)
+    {
+        if (assessment == nil || !assessment.ofKind(RpgExpandedOwnedEquipmentAssessment))
+            rpgExpandedReject('first-aid-owned-equipment-required');
+        return assessment.definition();
+    }
+    assess(assessment,profile,skill)
+    {
+        self.definition(assessment);
+        if (assessment.quality != 'none' && assessment.techLevel == nil) rpgExpandedReject('first-aid-equipment-technology-required');
+        local tools = assessment.assessFor(profile,skill); local value = new RpgExpandedDiagnosticEquipmentResult();
+        value.status = tools.status; value.reason = tools.reason; value.modifier = tools.modifier;
+        value.equipmentTL = assessment.quality == 'none' ? nil : assessment.techLevel; return value;
+    }
+;

@@ -9380,6 +9380,8 @@ def test(build):
     test_medical_skills(Session, medical_skills)
     first_aid_diagnosis = build.build("expanded-first-aid-diagnosis",ROOT / "tests/fixtures/expanded-first-aid-diagnosis.t")
     test_first_aid_diagnosis(Session, first_aid_diagnosis)
+    first_aid_equipment = build.build("expanded-first-aid-equipment",ROOT / "tests/fixtures/expanded-first-aid-equipment.t")
+    test_first_aid_equipment(Session, first_aid_equipment)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23655,3 +23657,40 @@ def test_first_aid_diagnosis(Session, bundle):
             assert last(s,'test.aid-diagnosis-error') == ['first-aid-diagnosis-binding']
         finally:
             s.close()
+
+
+def test_first_aid_equipment(Session, bundle):
+    """B195 tool modifiers and technology compatibility precede treatment; unrun."""
+    for setup, status, reason, score in ((None,'ready',None,11),(19902,'ready',None,6),
+            (19900,'blocked','owned-equipment-not-owned',None),
+            (19901,'blocked','owned-equipment-inaccessible',None),
+            (19903,'blocked','technology-too-advanced',None)):
+        s = Session(bundle)
+        try:
+            s.action(1700,19400)
+            if setup is not None:
+                s.action(1700,setup)
+            s.action(1700,19403)
+            assert last(s,'test.aid-physiology') == [status,reason,score,0]
+            s.action(1701)
+            assert last(s,'test.aid-state')[:8] == [9,1,1,0,0,0,60,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (19400,19406):
+            s.action(1700,code)
+        s.action(1701)
+        assert last(s,'test.aid-state')[:8] == [9,1,1,0,0,0,60,0]
+        s.action(1700,19405)
+        s.command('undo')
+        s.action(1701)
+        assert last(s,'test.aid-state')[:8] == [9,1,1,0,0,0,60,0]
+        for code in (19405,19900,19405):
+            s.action(1700,code)
+        s.action(1701)
+        assert last(s,'test.aid-state')[:8] == [0,1,1,1,1,1,660,3]
+        s.action(1700,19904)
+        assert last(s,'test.aid-tools-error') == ['first-aid-equipment-binding']
+    finally:
+        s.close()

@@ -782,3 +782,12 @@ class RpgExpandedDiagnosticEquipmentResult: RpgExpandedResult
 modify RpgLiteSkill
     diagnosisContext(equipmentTL) { rpgExpandedReject('diagnosis-expanded-skill-required'); }
 ;
+
+/** Optional equipment bridge for first-aid treatment; no equipment dependency. */
+rpgExpandedFirstAidEquipment: object
+    definition(assessment) { rpgExpandedReject('first-aid-equipment-module-required'); }
+    assess(assessment,profile,skill) { rpgExpandedReject('first-aid-equipment-module-required'); }
+;
+modify RpgLiteSkill
+    firstAidContext(equipmentTL) { rpgExpandedReject('first-aid-expanded-skill-required'); }
+;
