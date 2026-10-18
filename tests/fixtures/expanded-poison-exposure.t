@@ -239,6 +239,14 @@ modify BleedTestAction
         if (code == 366) { poisonIdentification.clue = 'animal'; poisonIdentification.skill = poisonNaturalist; return nil; }
         if (code == 367) { poisonTreatment.identification = poisonIdentification; poisonTreatment.identificationEvidence = nil; return nil; }
         if (code == 368) { rpgSpendTime(45); return nil; }
+        if (code == 370)
+        { poisonCare.identification = poisonIdentification; poisonCare.administrator = surgicalHealer; poisonCare.identificationEvidence = nil; return nil; }
+        if (code == 371) { rpgSpendTime(55); return nil; }
+        if (code == 372) { poisonCare.administrator = bleedProfile; return nil; }
+        if (code == 373) { surgicalHealer.unconscious = true; return nil; }
+        if (code == 374) { poisonIdentification.evidence = 'A different unidentified sample'; return nil; }
+        if (code == 375)
+        { event('test.antidote-stock'); eventValue(poisonAntidote.quantity); eventValue(bleedProfile.poisonAntidotes.length()); return nil; }
         return inherited(context);
     }
 ;

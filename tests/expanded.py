@@ -11709,3 +11709,44 @@ def test_poison_exposure(Session, bundle, out):
         assert last(s, 'test.poison-identification') == [1, 1, 65, 7, 14]
     finally:
         s.close()
+
+    # Antidote knowledge uses the same exposure and actual identifying examiner.
+    s = Session(bundle)
+    try:
+        for code in (360, 287, 260, 362, 280, 370, 281, 283, 375):
+            s.action(2285, code)
+        assert last(s, 'test.antidote-stock') == [1, 0]
+        s.action(2285, 282)
+        s.command('undo')
+        s.action(2285, 375)
+        assert last(s, 'test.antidote-stock') == [1, 0]
+        for code in (282, 282, 286):
+            s.action(2285, code)
+        assert last(s, 'test.poison-antidote') == [0, 1, 3, 0, 0, 5, 3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (282, 371, 262, 286):
+            s.action(2285, code)
+        assert last(s, 'test.poison-antidote') == [0, 1, 3, 1, 0, 60, 6]
+    finally:
+        s.close()
+    for invalid in (265, 372, 373, 374):
+        s = Session(bundle)
+        try:
+            for code in (360, 287, 260):
+                s.action(2285, code)
+            if invalid == 265:
+                s.action(2285, invalid)
+            for code in (362, 280, 370):
+                s.action(2285, code)
+            if invalid != 265:
+                s.action(2285, invalid)
+            for code in (282, 375):
+                s.action(2285, code)
+            assert last(s, 'test.antidote-stock') == [1, 0]
+        finally:
+            s.close()

@@ -476,3 +476,10 @@ authorize timed treatment for the same examiner and exposure. Failed or
 unsupported identification does not grant care permission. Added authored, unrun
 transaction/persistence fixtures; knowledge sharing and other recognition paths
 remain incomplete.
+
+
+Antidote administration now accepts owned identification receipts, requiring a
+successful result for the same exposure and actual administrator before any
+stock is consumed. Failed knowledge, mismatched or incapacitated administrators
+and altered receipts are rejected. Added authored, unrun persistence and
+transaction fixtures. Knowledge sharing and combined remedies remain incomplete.

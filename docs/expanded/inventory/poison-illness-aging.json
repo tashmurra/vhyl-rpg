@@ -350,7 +350,7 @@
       "tests": [
         "tests/expanded.py::test_poison_exposure"
       ],
-      "validation_note": "Owned clue/symptom identification checks appropriate skills, actual damage before symptom-based examination, authored duration and dose detection modifiers. Successful same-examiner receipts authorize timed treatment; failure does not. Fixtures authored, unrun. Pre-admission recognition, social interrogation, knowledge sharing, retries and antidote receipt integration remain incomplete."
+      "validation_note": "Owned clue/symptom identification checks appropriate skills, actual damage before symptom examination, authored duration and dose modifiers. Successful same-examiner receipts authorize timed treatment and antidotes; failure does not. Fixtures authored, unrun. Pre-admission recognition, social interrogation, knowledge sharing and retries remain incomplete."
     },
     {
       "id": "poison-post-symptom-identification",
@@ -363,7 +363,7 @@
       "tests": [
         "tests/expanded.py::test_poison_exposure"
       ],
-      "validation_note": "Owned clue/symptom identification checks appropriate skills, actual damage before symptom-based examination, authored duration and dose detection modifiers. Successful same-examiner receipts authorize timed treatment; failure does not. Fixtures authored, unrun. Pre-admission recognition, social interrogation, knowledge sharing, retries and antidote receipt integration remain incomplete."
+      "validation_note": "Owned clue/symptom identification checks appropriate skills, actual damage before symptom examination, authored duration and dose modifiers. Successful same-examiner receipts authorize timed treatment and antidotes; failure does not. Fixtures authored, unrun. Pre-admission recognition, social interrogation, knowledge sharing and retries remain incomplete."
     },
     {
       "id": "poison-wound-treatment",
@@ -402,7 +402,7 @@
       "tests": [
         "tests/expanded.py::test_poison_exposure"
       ],
-      "validation_note": "Owned agent-specific antidote administration consumes one inventory unit and applies an authored resistance bonus or terminates an exposure without healing injury. Identification and administration require explicit evidence; action durations, identification rolls, combined remedies and general medical treatment remain unfinished. Fixtures authored, unrun."
+      "validation_note": "Owned agent-specific antidote administration consumes one inventory unit and applies an authored resistance bonus or terminates an exposure without healing. Identification can use an owned successful same-administrator/exposure receipt or explicit prior-knowledge evidence. Invalid knowledge is rejected before consumption. Fixtures authored, unrun. Administration action duration, combined remedies and knowledge sharing remain incomplete."
     },
     {
       "id": "poison-medical-treatment",

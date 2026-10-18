@@ -30,7 +30,9 @@ Recent health work includes owned bleeding, surgery, mortal recovery and
 persistent-wound care. Hazard work now includes toxic exposure cycles, selected
 catalogue definitions, dose scaling, treatments and weapon coating depletion.
 These are partial implementations with authored, unrun fixtures. Remaining
-poison work includes fatigue effects, symptoms, delivery integration, persistent
-environments and the rest of its catalogue. Continue through every pending entry
+poison work includes remaining condition effects, delivery integration, persistent
+environments, knowledge sharing and the rest of its catalogue. Owned fatigue
+effects, venom DX symptoms and identification-to-care paths now have authored
+fixtures but remain unverified. Continue through every pending entry
 in all nine selected modules, including catalogue effects and cross-module
 dependencies; these recent changes do not narrow the completion target.

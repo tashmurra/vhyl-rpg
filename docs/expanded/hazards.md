@@ -1237,8 +1237,8 @@ properties; later editing them invalidates execution. Combined/repeated remedies
 on one exposure are rejected pending an explicit interaction procedure.
 
 This implements the remedy-effect contract in full-2008 B439. Discovering a
-remedy, automatic identification rolls, administration action durations and other
-medical procedures remain separate unfinished integrations. Fixture scenarios
+remedy and administration action durations remain separate unfinished
+integrations. Owned identification and timed medical care are described below. Fixture scenarios
 cover inventory consumption, mismatched agents, future resistance, termination,
 replay, rollback, undo and saved continuation. They are authored and unrun.
 
@@ -1446,7 +1446,22 @@ knowing the agent does not make every proposed treatment safe.
 
 Interrogation remains a social procedure rather than an unconditional
 intimidation roll in this interface. Recognition before an exposure is admitted,
-sharing knowledge between characters, retries, and antidote receipt integration
-remain unfinished. Fixtures specify residue and animal clues, observed symptoms,
+sharing knowledge between characters and retries remain unfinished. Fixtures specify residue and animal clues, observed symptoms,
 dose bonuses, failed identification, treatment linkage, replay, rollback, undo
 and saved continuation. They are authored and unrun.
+
+
+An antidote administration may also set `identification` and `administrator` in
+place of `identificationEvidence`. The receipt must be successful, identify the
+same exposure and belong to that administrator. The administrator must currently
+be able to act. These conditions and receipt integrity are checked before the
+inventory unit is consumed. The administration receipt binds both objects and
+continues to validate the original identification on replay and later resistance
+queries. Previously established knowledge can still use explicit evidence.
+
+This path does not share an examiner's knowledge with another character
+implicitly. A different administrator needs independently established knowledge
+until an explicit knowledge-sharing interface is available. Fixtures cover
+failed identification, an incapacitated or different administrator, altered clue
+evidence, stock preservation on rejection, replay, rollback, undo and saved
+continuation; all remain unrun.

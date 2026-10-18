@@ -2946,6 +2946,8 @@ class RpgExpandedAntidoteAdministration: object
     exposure = nil
     medicine = nil
     approved = nil
+    identification = nil
+    administrator = nil
     identificationEvidence = nil
     administrationEvidence = nil
     administeredAt = nil
@@ -2953,7 +2955,7 @@ class RpgExpandedAntidoteAdministration: object
     result = nil
     definition()
     {
-        return [self.id,self.exposure,self.medicine,self.approved,self.identificationEvidence,
+        return [self.id,self.exposure,self.medicine,self.approved,self.identification,self.administrator,self.identificationEvidence,
             self.administrationEvidence,self.medicine.targetHazard,self.medicine.resistanceBonus,
             self.medicine.endsExposure,self.medicine.effectEvidence];
     }
@@ -2964,6 +2966,7 @@ class RpgExpandedAntidoteAdministration: object
         local current = self.definition();
         for (local index = 1; index <= current.length(); index += 1)
             if (current[index] != self.boundDefinition[index]) rpgExpandedReject('antidote-binding');
+        if (self.identification != nil) self.identification.validateReceipt();
         self.exposure.validateReceipt(); return nil;
     }
     assess()
@@ -2977,10 +2980,23 @@ class RpgExpandedAntidoteAdministration: object
         if (!e.started || e.finished) { value.reason = 'antidote-active-exposure-required'; return value; }
         e.validateReceipt(); rpgExpandedValidate(patient);
         if (patient.dead) { value.reason = 'antidote-patient-dead'; return value; }
-        if (!self.approved || self.identificationEvidence == nil || self.identificationEvidence == ''
+        if (!self.approved || self.identification == nil && (self.identificationEvidence == nil || self.identificationEvidence == '')
             || self.administrationEvidence == nil || self.administrationEvidence == ''
             || self.medicine.effectEvidence == nil || self.medicine.effectEvidence == '')
         { value.reason = 'antidote-authored-evidence-required'; return value; }
+        if (self.identification != nil)
+        {
+            if (!self.identification.ofKind(RpgExpandedPoisonIdentification)
+                || self.administrator == nil || !self.administrator.ofKind(RpgLiteProfile))
+                rpgExpandedReject('antidote-identification-definition');
+            self.identification.validateReceipt();
+            if (self.identification.exposure != e || self.identification.examiner != self.administrator
+                || !self.identification.result.identified)
+            { value.reason = 'antidote-not-identified'; return value; }
+            if (self.administrator.dead || self.administrator.unconscious || self.administrator.mortal
+                || self.administrator.stunned || self.administrator.mentalStun)
+            { value.reason = 'antidote-administrator-condition'; return value; }
+        }
         if (self.medicine.targetHazard != e.hazard)
         { value.reason = 'antidote-agent-mismatch'; return value; }
         rpgInteger(self.medicine.resistanceBonus,0,100);
