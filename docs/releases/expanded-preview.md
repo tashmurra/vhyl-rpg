@@ -1151,3 +1151,9 @@ expanded influence procedure remains partial.
   helpful-psychology/victim/coercion contexts, observer-specific reactions and
   recognition by existing interrogation questions (full-2008 B125). Added
   unrun fixtures; broader trait and social coverage remains incomplete.
+
+- Added the learning-bar disadvantage and acquisition gates for development,
+  direct skill purchases, study and familiarity. Starting skills remain usable;
+  approved physical advancement remains available. Technique purchases and
+  modular ability integration remain pending. Added unrun persistence and
+  resource-accounting fixtures (full-2008 B125).

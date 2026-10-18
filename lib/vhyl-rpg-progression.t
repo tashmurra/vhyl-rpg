@@ -10,7 +10,13 @@ modify RpgProfile
     developmentSpendingReason() { return nil; }
     /* Optional profile rules may reject learning before any resources are spent. */
     skillLearningReason(skill) { return nil; }
-    skillLearningWithTeacherReason(skill, teacher) { return self.skillLearningReason(skill); }
+    learningAcquisitionReason(kind) { return nil; }
+    developmentOfferReason(offer) { return nil; }
+    skillLearningWithTeacherReason(skill, teacher)
+    {
+        local reason = self.learningAcquisitionReason('skill');
+        return reason != nil ? reason : self.skillLearningReason(skill);
+    }
 ;
 
 /** Authored objective award. Eligibility is observational; apply can unlock
@@ -126,6 +132,8 @@ rpgAssessDevelopment(offer)
         if (p.will + delta > 100 || p.perception + delta > 100)
         { value.reason = 'rpg.attribute-limit'; return value; }
     }
+    value.reason = p.developmentOfferReason(offer);
+    if (value.reason != nil) return value;
     if (offer.kind == 'skill')
     {
         value.reason = p.skillLearningWithTeacherReason(offer.training.skill, offer.teacher);

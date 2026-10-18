@@ -1006,3 +1006,27 @@ Either condition gives -1; both together still give -1. Attach it to a reaction
 attempt's `socialContext`. This does not infer observer abilities or histories.
 The minimal fixture covers these contextual calculations and invalid facts;
 checks remain paused, so this entry remains partial and unverified.
+
+### Learning bar (full-2008, B125)
+
+`RpgExpandedLearningBar` costs -30. It leaves starting skills valid and usable,
+but blocks new skill investment through development offers, direct skill
+purchases and study. It also blocks familiarity practice and recognition before
+time or randomness is spent. Existing familiarities remain usable. Active,
+unmitigated instances block DX and IQ advancement; ST and HT offers can proceed
+through their ordinary approval and point gates.
+
+A trait purchase must supply `expandedTraitNature` (`mental` or `physical`) and
+`expandedTraitEvidence` on its `RpgDevelopment` offer. Mental purchases are
+blocked; approved physical purchases remain possible. Unclassified traits and
+secondary-characteristic advancement return explicit unresolved reasons rather
+than guessing. Buying off the disadvantage uses the existing removal path.
+
+`learningAcquisitionReason(kind)` distinguishes acquisition from creation
+validation. Custom technique acquisition must consult it with `technique` before
+spending resources. A shared technique purchase procedure and temporary modular
+ability integration remain pending; a callback alone does not complete either.
+Direct assignments to character fields are author operations and must not be
+used to bypass advancement assessment. The fixture covers rejection without
+spending, allowed purchases, mitigation, replay, rollback, undo and save
+continuation; it has not been run while checks are paused.

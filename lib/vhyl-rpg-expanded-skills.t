@@ -281,7 +281,9 @@ modify RpgExpandedProfile
     }
     skillLearningWithTeacherReason(skill, teacher)
     {
-        local reason = self.skillLearningReason(skill);
+        local reason = self.learningAcquisitionReason('skill');
+        if (reason != nil) return reason;
+        reason = self.skillLearningReason(skill);
         if (reason != nil) return reason;
         if (!skill.ofKind(RpgLiteSkill) || skill.techLevel == nil || skill.techLevel <= self.techLevel)
             return nil;
@@ -379,6 +381,8 @@ class RpgExpandedFamiliarity: object
         self.validate(); rpgInteger(seconds, 1, 86400);
         local value = new RpgExpandedResult();
         if (self.known()) { value.status = 'reused'; return value; }
+        value.reason = self.owner.learningAcquisitionReason('familiarity');
+        if (value.reason != nil) return value;
         if (!self.available) { value.reason = 'familiarity-equipment-unavailable'; return value; }
         if (self.owner.dead || self.owner.unconscious)
         { value.reason = 'cannot-practice'; return value; }
@@ -566,6 +570,8 @@ class RpgExpandedFamiliarityRecognition: object
         local value = new RpgExpandedResult();
         if (target.known() || target.recognitionAttempted)
         { value.status = 'reused'; value.check = target.recognitionCheck; return value; }
+        value.reason = target.owner.learningAcquisitionReason('familiarity');
+        if (value.reason != nil) return value;
         if (!self.approved) { value.reason = 'familiarity-recognition-unapproved'; return value; }
         if (!target.available) { value.reason = 'familiarity-equipment-unavailable'; return value; }
         if (target.owner.dead || target.owner.unconscious)

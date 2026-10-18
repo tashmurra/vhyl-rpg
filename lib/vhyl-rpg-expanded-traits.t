@@ -976,3 +976,58 @@ class RpgExpandedCallousnessContext: RpgLiteContext
         return amount;
     }
 ;
+
+/** B125 learning bar. Starting abilities remain valid and usable. */
+class RpgExpandedLearningBar: RpgExpandedDisadvantage
+    id = 'learning-bar'
+    points = -30
+    creationCost()
+    {
+        if (!self.approved || self.id != 'learning-bar' || self.points != -30 || self.level != 1
+            || self.percentages.length() != 0 || self.selfControlRating != nil || self.controlled)
+            rpgExpandedReject('learning-bar-definition');
+        return -30;
+    }
+;
+modify RpgDevelopment
+    /** Authored classification for a new trait; never infer it from its name. */
+    expandedTraitNature = nil
+    expandedTraitEvidence = nil
+;
+modify RpgExpandedProfile
+    learningBarActive()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedLearningBar))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-learning-bar'); found = trait;
+            }
+        return found != nil && found.active && !found.mitigated;
+    }
+    validateFeatures() { inherited(); self.learningBarActive(); return nil; }
+    learningAcquisitionReason(kind)
+    {
+        local reason = inherited(kind); if (reason != nil) return reason;
+        if (self.learningBarActive() && holds(['skill','technique','familiarity'],kind)) return 'learning-bar-acquisition';
+        return nil;
+    }
+    developmentOfferReason(offer)
+    {
+        local reason = inherited(offer); if (reason != nil || !self.learningBarActive()) return reason;
+        if (offer.kind == 'skill') return 'learning-bar-acquisition';
+        if (offer.kind == 'attribute')
+        {
+            if (offer.attribute == rpgDX || offer.attribute == rpgIQ) return 'learning-bar-attribute';
+            if (offer.attribute != rpgST && offer.attribute != rpgHT) return 'learning-bar-secondary-adjudication-required';
+        }
+        if (offer.kind == 'trait')
+        {
+            if (!holds(['mental','physical'],offer.expandedTraitNature)
+                || offer.expandedTraitEvidence == nil || offer.expandedTraitEvidence == '')
+                return 'learning-bar-trait-classification-required';
+            if (offer.expandedTraitNature == 'mental') return 'learning-bar-mental-trait';
+        }
+        return nil;
+    }
+;

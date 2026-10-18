@@ -151,9 +151,9 @@
       "pages": "B125",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Inability to learn is -30 and bars earned-point improvement of dexterity, intelligence, skills and mental advantages, plus new techniques/familiarities. Strength/health and approved physical traits remain eligible. Temporary modular skills are allowed. Apply at advancement assessment, not only character creation.",
-      "tests": []
+      "tests": ["tests/fixtures/expanded-learning-bar.t", "tests/expanded.py::test_learning_bar"]
     },
     {
       "id": "disadvantages-b-speech-limited",

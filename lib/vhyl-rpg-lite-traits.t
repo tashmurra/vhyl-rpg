@@ -137,6 +137,7 @@ rpgLiteLearn(profile, skill, points, teacher)
 {
     rpgInteger(points, 1, 10000);
     if (!profile.developmentOpen) return nil;
+    if (profile.skillLearningWithTeacherReason(skill, teacher) != nil) return nil;
     if (skill.techLevel != nil && skill.techLevel > profile.techLevel
         && (skill.attribute == rpgIQ || !teacher)) return nil;
     local training = nil;

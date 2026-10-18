@@ -9058,6 +9058,8 @@ def test(build):
     test_emotional_obliviousness(Session, emotional_obliviousness, build.out)
     callousness = build.build('expanded-callousness',ROOT / 'tests/fixtures/expanded-callousness.t')
     test_callousness(Session, callousness)
+    learning_bar = build.build('expanded-learning-bar',ROOT / 'tests/fixtures/expanded-learning-bar.t')
+    test_learning_bar(Session, learning_bar, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16787,3 +16789,59 @@ def test_callousness(Session, bundle):
             assert last(s,'test.callousness-error') == [reason,0]
         finally:
             s.close()
+
+
+def test_learning_bar(Session, bundle, out):
+    for setup,reason in (((),'learning-bar-attribute'),((3303,),'learning-bar-attribute'),
+                         ((3304,),'learning-bar-acquisition'),
+                         ((3305,),'learning-bar-trait-classification-required'),
+                         ((3305,3306),'learning-bar-mental-trait')):
+        s = Session(bundle)
+        try:
+            for code in setup+(3300,3301,3310):
+                s.action(2285,code)
+            assert last(s,'test.learning-offer') == ['blocked',reason,100,0]
+            assert last(s,'test.learning-state') == [100,1,0,0,0,0,10,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285,3309)
+        assert last(s,'test.learning-paths') == [-30,None,9,0,
+            'learning-bar-acquisition','learning-bar-acquisition',
+            'learning-bar-acquisition','learning-bar-acquisition']
+        s.action(2285,3310)
+        assert last(s,'test.learning-state') == [100,1,0,0,0,0,10,0]
+    finally:
+        s.close()
+    for setup,cost in (((3302,),10),((3305,3307),5),((3308,),20)):
+        s = Session(bundle)
+        try:
+            for code in setup+(3300,3301):
+                s.action(2285,code)
+            assert last(s,'test.learning-offer') == ['resolved',None,100-cost,1]
+            s.action(2285,3301)
+            assert last(s,'test.learning-offer') == ['reused',None,100-cost,1]
+        finally:
+            s.close()
+    path = out / 'expanded-learning-bar.zsave'
+    s = Session(bundle)
+    try:
+        for code in (3302,3313,3310):
+            s.action(2285,code)
+        assert last(s,'test.learning-state') == [100,1,0,0,0,0,10,0]
+        s.action(2285,3301)
+        s.command('undo')
+        s.action(2285,3310)
+        assert last(s,'test.learning-state') == [100,1,0,0,0,0,10,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,3301)
+        s.action(2285,3310)
+        assert last(s,'test.learning-state') == [90,1,0,0,0,0,11,1]
+    finally:
+        s.close()
