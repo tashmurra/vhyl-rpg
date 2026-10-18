@@ -1243,9 +1243,10 @@
       "status": "partial",
       "acceptance": "Catatonia lasts one die of days before a health check, repeating on failure; without medical care injury increases from one on day one to two on day two and so on. After recovery apply -2 to skills and attributes for the same number of days as the episode lasted.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_catatonia"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned one-die-day catatonia with shared-clock daily care receipts, escalating direct injury under absent care, HT recovery/repeated delays and equal-duration -2 scoring aftermath. Common purposeful-action gates block during the episode. Supports continuous or absent care; changing care regime, independent incapacitation and full fear selection remain pending. Receipt timelines validated; fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-31",

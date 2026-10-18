@@ -8157,3 +8157,234 @@ modify rpgLedger
         return nil;
     }
 ;
+
+modify RpgExpandedProfile
+    catatonia = nil
+    catatoniaHistory = []
+    healthEffortReason(purpose,mentalAbility,speech,movement)
+    {
+        if (self.catatonia != nil && !holds(['rest','do-nothing'],purpose)) return 'catatonia-action-unavailable';
+        return inherited(purpose,mentalAbility,speech,movement);
+    }
+    healthManeuverReason(kind)
+    { return self.catatonia != nil && kind != 'nothing' ? 'catatonia-do-nothing-required' : inherited(kind); }
+    healthAttributeModifier(context)
+    {
+        local amount = inherited(context);
+        foreach (local episode in self.catatoniaHistory)
+        {
+            episode.assess();
+            if (episode.recoveredAt != nil && rpgLedger.seconds < episode.recoveredAt + (episode.recoveredAt - episode.startedAt)) amount -= 2;
+        }
+        return amount;
+    }
+;
+/** B361 row 30: daily care receipts are separate from recovery checks. */
+class RpgExpandedCatatonia: object
+    id = nil
+    context = nil
+    approved = nil
+    evidence = nil
+    careMode = nil
+    dropDestination = nil
+    startedAt = nil
+    nextCheckAt = nil
+    initialSeconds = nil
+    recoveredAt = nil
+    boundDefinition = nil
+    days = []
+    recoveries = []
+    definition() { return [self.id,self.context,self.context.profile,self.approved,self.evidence,self.careMode,
+        self.dropDestination,self.startedAt,self.initialSeconds]; }
+    nextDayAt() { return self.startedAt + (self.days.length() + 1) * 86400; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
+            rpgExpandedReject('catatonia-definition');
+        local value = new RpgExpandedResult(); local profile = self.context.profile;
+        if (self.startedAt != nil)
+        {
+            if (!holds(profile.catatoniaHistory,self)) rpgExpandedReject('catatonia-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('catatonia-binding');
+            local dayIndex = 0; local dayIds = [];
+            foreach (local care in self.days)
+            {
+                dayIndex += 1;
+                if (care == nil || !care.ofKind(RpgExpandedCatatoniaDay) || care.episode != self
+                    || holds(dayIds,care.id)) rpgExpandedReject('catatonia-day-owner');
+                care.assess(); dayIds = dayIds + [care.id];
+                if (care.day != dayIndex || care.recordedAt != self.startedAt + dayIndex * 86400
+                    || care.recordedAt > rpgLedger.seconds) rpgExpandedReject('catatonia-day-timeline');
+            }
+            local due = self.startedAt + self.initialSeconds; local ended = nil; local ids = [];
+            foreach (local recovery in self.recoveries)
+            {
+                if (recovery == nil || !recovery.ofKind(RpgExpandedCatatoniaRecovery) || recovery.episode != self
+                    || holds(ids,recovery.id)) rpgExpandedReject('catatonia-recovery-owner');
+                recovery.assess(); ids = ids + [recovery.id];
+                if (ended != nil || recovery.recordedAt != due || recovery.recordedAt > rpgLedger.seconds)
+                    rpgExpandedReject('catatonia-recovery-timeline');
+                if (recovery.result.check.achieved) ended = due;
+                else due += recovery.delaySeconds;
+            }
+            if (self.nextCheckAt != due || self.recoveredAt != ended
+                || ended != nil && self.days.length() != (ended - self.startedAt) / 86400)
+                rpgExpandedReject('catatonia-timeline');
+            if (ended == nil && profile.catatonia != self || ended != nil && profile.catatonia == self)
+                rpgExpandedReject('catatonia-owner');
+            value.status = 'reused'; return value;
+        }
+        if (self.nextCheckAt != nil || self.initialSeconds != nil || self.recoveredAt != nil || self.boundDefinition != nil
+            || self.days.length() != 0 || self.recoveries.length() != 0) rpgExpandedReject('catatonia-uncommitted-state');
+        local scene = self.context.assess();
+        if (scene.status != 'ready') { value.reason = scene.reason; return value; }
+        if (scene.immune) { value.reason = 'catatonia-immune'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'catatonia-author-facts'; return value; }
+        if (!holds(['continuous','none'],self.careMode)) rpgExpandedReject('catatonia-care-mode');
+        if (profile.dead || profile.unconscious || profile.catatonia != nil) { value.reason = 'catatonia-existing-condition'; return value; }
+        foreach (local prior in profile.catatoniaHistory)
+        {
+            prior.assess(); if (prior.id == self.id) rpgExpandedReject('catatonia-duplicate');
+            if (prior.recoveredAt == nil || rpgLedger.seconds < prior.recoveredAt + (prior.recoveredAt - prior.startedAt))
+            { value.reason = 'catatonia-overlap-unimplemented'; return value; }
+        }
+        rpgInteger(rpgLedger.seconds,0,2146446847); value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.initialSeconds = rpgRandom.die() * 86400; self.startedAt = rpgLedger.seconds;
+        self.nextCheckAt = self.startedAt + self.initialSeconds; self.boundDefinition = self.definition();
+        local profile = self.context.profile; profile.catatonia = self; profile.catatoniaHistory = profile.catatoniaHistory + [self];
+        value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedCatatoniaDay: object
+    id = nil
+    episode = nil
+    careProvided = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    day = nil
+    recordedAt = nil
+    wound = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.episode,self.careProvided,self.approved,self.evidence,self.day,self.recordedAt,self.wound]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedCatatonia))
+            rpgExpandedReject('catatonia-day-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.episode.days,self)) rpgExpandedReject('catatonia-day-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('catatonia-day-binding');
+            if (self.wound != nil) self.wound.assess(); value.status = 'reused'; return value;
+        }
+        if (self.day != nil || self.recordedAt != nil || self.wound != nil || self.boundDefinition != nil)
+            rpgExpandedReject('catatonia-day-uncommitted-state');
+        if (self.episode.startedAt == nil) { value.reason = 'catatonia-episode-required'; return value; }
+        self.episode.assess(); local profile = self.episode.context.profile;
+        if (profile.dead || self.episode.recoveredAt != nil) { value.reason = 'catatonia-day-ended'; return value; }
+        if (rpgLedger.seconds != self.episode.nextDayAt()) { value.reason = 'catatonia-day-not-due'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'catatonia-day-care-evidence'; return value; }
+        if ((self.episode.careMode == 'continuous') != self.careProvided) { value.reason = 'catatonia-changing-care-unimplemented'; return value; }
+        foreach (local prior in self.episode.days) if (prior.id == self.id) rpgExpandedReject('catatonia-day-duplicate');
+        if (!self.careProvided)
+        {
+            local wound = new RpgExpandedWound(); wound.id = 'catatonia:' + self.id; wound.profile = profile;
+            wound.amount = self.episode.days.length() + 1; wound.dropDestination = self.episode.dropDestination;
+            local injury = wound.assess(); if (injury.status != 'ready') { value.reason = injury.reason; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.day = self.episode.days.length() + 1;
+        if (!self.careProvided)
+        {
+            self.wound = new RpgExpandedWound(); self.wound.id = 'catatonia:' + self.id;
+            self.wound.profile = self.episode.context.profile; self.wound.amount = self.day; self.wound.dropDestination = self.episode.dropDestination;
+            local injury = self.wound.apply(); if (injury.status != 'resolved') rpgExpandedReject('catatonia-day-injury-changed');
+        }
+        self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.episode.days = self.episode.days + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+class RpgExpandedCatatoniaRecovery: object
+    id = nil
+    episode = nil
+    result = nil
+    recordedAt = nil
+    delaySeconds = nil
+    boundDefinition = nil
+    boundCheck = nil
+    definition() { return [self.id,self.episode,self.recordedAt,self.delaySeconds]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedCatatonia))
+            rpgExpandedReject('catatonia-recovery-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.episode.recoveries,self)) rpgExpandedReject('catatonia-recovery-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('catatonia-recovery-binding');
+            local check = self.result.check;
+            if (check == nil || check != self.boundCheck[1] || check.score != self.boundCheck[2] || check.roll != self.boundCheck[3]
+                || check.achieved != self.boundCheck[4] || check.critical != self.boundCheck[5])
+                rpgExpandedReject('catatonia-recovery-check-binding');
+            value.status = 'reused'; value.check = self.result.check; return value;
+        }
+        if (self.recordedAt != nil || self.delaySeconds != nil || self.boundDefinition != nil || self.boundCheck != nil)
+            rpgExpandedReject('catatonia-recovery-uncommitted-state');
+        if (self.episode.startedAt == nil) { value.reason = 'catatonia-episode-required'; return value; }
+        self.episode.assess(); local profile = self.episode.context.profile;
+        if (self.episode.recoveredAt != nil) { value.reason = 'catatonia-ended'; return value; }
+        if (profile.dead || profile.unconscious) { value.reason = 'catatonia-recovery-incapacitated'; return value; }
+        if (rpgLedger.seconds != self.episode.nextCheckAt) { value.reason = 'catatonia-recovery-not-due'; return value; }
+        if (self.episode.nextDayAt() <= rpgLedger.seconds) { value.reason = 'catatonia-day-required'; return value; }
+        foreach (local prior in self.episode.recoveries) if (prior.id == self.id) rpgExpandedReject('catatonia-recovery-duplicate');
+        local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'catatonia-recovery';
+        local score = rpgLiteScore(profile,context);
+        if (score == nil || score < 3) { value.reason = 'catatonia-recovery-score'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2146446847);
+        if (rpgLedger.seconds - self.episode.startedAt > 2147483647 - rpgLedger.seconds)
+        { value.reason = 'catatonia-aftermath-clock'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local profile = self.episode.context.profile;
+        local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'catatonia-recovery';
+        value.check = rpgLiteCheck(profile,context); self.recordedAt = rpgLedger.seconds;
+        self.delaySeconds = value.check.achieved ? 0 : rpgRandom.die() * 86400;
+        if (value.check.achieved) { self.episode.recoveredAt = self.recordedAt; profile.catatonia = nil; }
+        else self.episode.nextCheckAt = self.recordedAt + self.delaySeconds;
+        self.boundCheck = [value.check,value.check.score,value.check.roll,value.check.achieved,value.check.critical];
+        self.boundDefinition = self.definition(); self.episode.recoveries = self.episode.recoveries + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local episode = firstObj(RpgExpandedCatatonia); episode != nil; episode = nextObj(episode,RpgExpandedCatatonia))
+            if (episode.startedAt != nil && episode.recoveredAt == nil && !episode.context.profile.dead)
+            {
+                episode.assess();
+                if (self.seconds + seconds > episode.nextDayAt() || self.seconds + seconds > episode.nextCheckAt)
+                    rpgExpandedReject('catatonia-due-boundary');
+            }
+        return nil;
+    }
+;

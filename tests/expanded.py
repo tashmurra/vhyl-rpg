@@ -9202,6 +9202,8 @@ def test(build):
     test_fear_seizure(Session, fear_seizure, build.out)
     fear_coma = build.build('expanded-fear-coma',ROOT / 'tests/fixtures/expanded-fear-coma.t')
     test_fear_coma(Session, fear_coma, build.out)
+    catatonia = build.build('expanded-catatonia',ROOT / 'tests/fixtures/expanded-catatonia.t')
+    test_catatonia(Session, catatonia, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20354,3 +20356,39 @@ def test_fear_coma(Session, bundle, out):
         assert last(s, 'test.coma-state')[:6] == [1, 1, 1800, None, 1800, 0]
     finally:
         s.close()
+
+
+def test_catatonia(Session, bundle, out):
+    """B361 row 30: daily neglect, recovery days and equal-duration aftermath; unrun."""
+    for care in (False, True):
+        path = out / f'expanded-catatonia-{care}.zsave'
+        s = Session(bundle)
+        try:
+            if care:
+                s.action(2285, 11109)
+            for code in (11100, 11111, 11101, 11105, 11104, 11108):
+                s.action(2285, code)
+            assert last(s, 'test.cat-clock') == ['catatonia-due-boundary', 0, 1]
+            assert last(s, 'test.cat-recovery') == ['blocked', 'catatonia-day-required']
+            assert last(s, 'test.cat-state') == [0, 0, 1, 86400, None, 86400, 1, 10]
+            s.action(2285, 11102)
+            s.command('undo')
+            s.action(2285, 11108)
+            assert last(s, 'test.cat-state') == [0, 0, 1, 86400, None, 86400, 1, 10]
+            for code in (11102, 11102, 11105, 11105, 11108):
+                s.action(2285, code)
+            assert last(s, 'test.cat-state') == [1, 0 if care else 1, 1, 172800, None, 86400, 5, 10]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (11101, 11103, 11107, 11106, 11106, 11108):
+                s.action(2285, code)
+            assert last(s, 'test.cat-state') == [2, 0 if care else 3, 0, 172800, 172800, 172800, 8, 8]
+            for code in (11110, 11108):
+                s.action(2285, code)
+            assert last(s, 'test.cat-state')[-1] == 10
+        finally:
+            s.close()

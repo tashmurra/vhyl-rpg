@@ -1637,3 +1637,10 @@ a six-hour shared-scoring aftereffect. Recovery ownership can exclude the curren
 episode while detecting independent causes. Timelines bind their roll receipts.
 Overlapping effects, independent-incapacity recovery and higher trait-bearing coma
 rows remain pending; schedule and persistence fixtures are authored but unrun.
+
+
+Catatonia now has owned day-based recovery, daily care receipts, escalating neglect
+injury and an equal-duration shared-scoring aftereffect. Receipt histories bind
+the timeline, and common action gates prevent purposeful activity. Intermittent
+care, independent incapacitation and full fear selection remain pending. Daily
+care and persistence fixtures are authored but unrun.

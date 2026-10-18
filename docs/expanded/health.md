@@ -3599,3 +3599,50 @@ full fear selection remain unfinished.
 `test_fear_coma` specify both schedules, failures and successful recovery, ownership,
 aftereffect expiry, pure preview, single draws, replay, rollback, undo and
 cross-process save continuation. Assertions remain unrun while checks are paused.
+
+
+## Catatonia, care and neglect
+
+`RpgExpandedCatatonia` executes selected row thirty (`full-2008`, B361). Supply
+a unique `id`, ready `RpgExpandedFearContext`, `approved = true`, original
+`evidence` of the selected outcome, and `careMode = 'continuous'` or `'none'`.
+The care mode selects a supported regime; it does not assert that future care has
+already happened. Set `dropDestination` when future neglect injury could cause
+a held-item drop.
+
+`assess()` is pure. `apply()` rolls one die of days before the first HT recovery
+check and registers the current episode in `profile.catatonia`. The character
+stares without pursuing purposeful actions: common effort and maneuver gates
+permit rest/do-nothing and reject other activity. The episode does not invent
+movement, posture changes or an additional unconsciousness condition.
+
+Each completed 86,400-second interval requires a distinct
+`RpgExpandedCatatoniaDay` with a unique `id`, `episode`, `careProvided`,
+`approved = true` and `evidence` describing the actual care received or its absence.
+Care status must match the selected regime. Continuous care avoids neglect injury;
+absent care applies one direct injury on day one, two on day two, and so on, using
+one `RpgExpandedWound` per day. Care receipts do not heal injuries or charge
+medical supplies/time a second time. The author must establish that qualifying
+medical care actually occurred. Use globally distinct day IDs for wound identity.
+
+The clock stops at both day boundaries and recovery deadlines. Settle the
+completed day's care before a `RpgExpandedCatatoniaRecovery` at that same boundary.
+A successful shared HT check clears the current episode. Failure rolls another
+one-die-day interval. Neither receipt adds elapsed time; the shared clock already
+charged it. Fatal neglect ends active processing. Independent unconsciousness
+blocks recovery pending integration rather than being silently cleared.
+
+After recovery, shared skill/attribute scoring receives -2 for exactly the
+elapsed duration of catatonia. Recovery does not heal neglect injury. Overlapping
+episodes/aftereffects are rejected. The episode checks daily receipt ordering,
+recovery history, deadlines and completion before using stored results.
+
+Changing care regimes is currently rejected with
+`catatonia-changing-care-unimplemented`; the supplied paragraph does not resolve
+how escalation changes with intermittent care. This limitation, independent
+incapacitation and full fear selection keep the row partial.
+
+[`expanded-catatonia.t`](../../tests/fixtures/expanded-catatonia.t) and
+`test_catatonia` specify daily injury versus continuous care, care-before-recovery
+ordering, repeated delays, equal-duration aftermath expiry, boundaries, replay,
+rollback, undo and cross-process save continuation. All assertions remain unrun.
