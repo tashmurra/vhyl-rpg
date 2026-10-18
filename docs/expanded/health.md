@@ -2911,3 +2911,26 @@ and walking; leaning/bracing, crawling, multiple impaired lower limbs and comple
 crutch equipment catalogue entries remain unfinished. Fixtures cover the distinct
 limits, reservations, aid loss, hand disability, rollback, undo and save continuation.
 Assertions remain unrun while checks are paused.
+
+### Settling after mobility support loss
+
+`RpgExpandedMobilitySettlement` resolves an active support's unavailability or
+intentional withdrawal. Set `support`, `cause` (`unavailable` or `withdrawn`),
+`evidence`, `impactResolved` and `impactEvidence`. The author must first resolve
+any injury, catches or safe lowering for this occurrence in the same transaction.
+This operation does not invent fall damage or treat a generic callback as a result.
+An unavailable cause is rejected while the support still assesses as usable.
+
+`apply()` releases the active support, sets lying posture, records a bound receipt
+in `mobilitySettlements`, and dispatches the existing knockdown notification. It
+adds no injury, randomness or time; repeated application does not settle again.
+The ordinary `deactivate()` method now rejects removal while an impaired character
+is standing or crouching. It remains available after a supported change to a stable
+posture. Positive time advance also rejects an unavailable active support while
+the character is standing/crouching, until its physical consequences are resolved.
+
+Fixtures cover premature settlement, guarded removal, blocked time, missing impact
+facts, withdrawal, rollback, undo and cross-process continuation, followed by time
+advancing after settlement. Assertions remain unrun. Automatic loss notification,
+retention/catching mechanics and integration with every equipment action remain
+incomplete; this is an explicit authored settlement path.

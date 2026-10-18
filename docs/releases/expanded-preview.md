@@ -856,3 +856,8 @@ Crutch mobility support now validates owned aid and hand bindings, reserves its
 supporting hands and applies distinct leg/foot movement limits. Availability,
 transaction and save fixtures are authored and unrun. Support-loss falls and
 broader mobility cases remain incomplete.
+
+Mobility support settlement now records resolved physical consequences, releases
+the aid and sets lying posture without duplicate injury/time. Unsafe deactivation
+and elapsed time with unavailable standing support are guarded. Fixtures remain
+unrun; automatic loss notifications and broader integration remain unfinished.

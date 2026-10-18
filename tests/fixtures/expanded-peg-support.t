@@ -30,6 +30,7 @@ modify BleedTestAction
         if (code == 976) { pegSupport.deactivate(); return nil; }
         if (code == 977) { pegItem.weight = 3000; return nil; }
         if (code == 978) { bleedProfile.fatigue = 7; return nil; }
+        if (code == 979) { bleedProfile.posture = 'sitting'; return nil; }
         return inherited(context);
     }
 ;

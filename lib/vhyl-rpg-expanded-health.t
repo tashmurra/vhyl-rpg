@@ -6167,6 +6167,8 @@ class RpgExpandedPegSupport: object
     }
     deactivate()
     {
+        if (self.profile != nil && self.profile.mobilitySupport == self && self.profile.lowerLimbImpaired()
+            && holds(['standing','crouching'],self.profile.posture)) rpgExpandedReject('mobility-support-settlement-required');
         if (self.profile != nil && self.profile.mobilitySupport == self) self.profile.mobilitySupport = nil;
         return nil;
     }
@@ -6238,5 +6240,65 @@ modify RpgExpandedProfile
             foreach (local hand in self.mobilitySupport.hands)
                 if (part == nil || part == hand || part == hand.parent || part.parent == hand.parent) return true;
         return inherited(part);
+    }
+;
+
+modify RpgExpandedProfile
+    mobilitySettlements = []
+;
+/** Authored physical settlement of unavailable or deliberately withdrawn support. */
+class RpgExpandedMobilitySettlement: object
+    support = nil
+    cause = 'unavailable'
+    evidence = nil
+    impactResolved = nil
+    impactEvidence = nil
+    completedAt = nil
+    boundDefinition = nil
+    definition() { return [self.support,self.cause,self.evidence,self.impactResolved,self.impactEvidence]; }
+    assess()
+    {
+        if (self.support == nil || !self.support.ofKind(RpgExpandedPegSupport)
+            || self.support.profile == nil) rpgExpandedReject('mobility-settlement-definition');
+        local value = new RpgExpandedResult();
+        if (self.completedAt != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('mobility-settlement-binding');
+            if (!holds(self.support.profile.mobilitySettlements,self)) rpgExpandedReject('mobility-settlement-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.support.profile.mobilitySupport != self.support)
+        { value.reason = 'mobility-settlement-inactive'; return value; }
+        if (!holds(['unavailable','withdrawn'],self.cause)) rpgExpandedReject('mobility-settlement-cause');
+        if (self.evidence == nil || self.evidence == '' || !self.impactResolved
+            || self.impactEvidence == nil || self.impactEvidence == '')
+        { value.reason = 'mobility-settlement-impact-unresolved'; return value; }
+        if (self.cause == 'unavailable' && self.support.assess().status == 'ready')
+        { value.reason = 'mobility-settlement-still-supported'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local profile = self.support.profile;
+        self.boundDefinition = self.definition(); self.completedAt = rpgLedger.seconds;
+        profile.mobilitySupport = nil; profile.posture = 'lying';
+        profile.mobilitySettlements = profile.mobilitySettlements + [self];
+        profile.onKnockdown(); value.status = 'resolved'; return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        if (seconds > 0)
+            for (local profile = firstObj(RpgExpandedProfile); profile != nil; profile = nextObj(profile,RpgExpandedProfile))
+                if (profile.mobilitySupport != nil && profile.lowerLimbImpaired()
+                    && holds(['standing','crouching'],profile.posture)
+                    && profile.mobilitySupport.assess().status != 'ready')
+                    rpgExpandedReject('mobility-support-settlement-required');
+        return nil;
     }
 ;
