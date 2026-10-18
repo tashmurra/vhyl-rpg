@@ -1719,3 +1719,9 @@ resolved result, while a later preview reports `reused`. The integration fixture
 `expanded-begging-actions.t` and `test_begging_actions` specify parser, structured
 and dialogue parity, preview purity, rollback, undo and ownership rejection.
 These fixtures remain unrun.
+
+For a concrete inventory bonus, the equipment library's `RpgExpandedBeggingGift`
+transfers an existing donor-owned stack and binds it to `hour.gift`. The hourly
+receipt binds its roll, margin, success and critical classification, preventing an
+edited result from authorizing the reward. Other critical incidents still need
+explicit settlement integration; a recorded finding alone is not completion.

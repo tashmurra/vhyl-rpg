@@ -1107,3 +1107,23 @@ cross-process fatigue continuation. Fixtures remain unrun.
 `test_packing_active_overload` specifies adding cargo under an active state without
 resetting fatigue, projected combined-capacity rejection, preview purity, rollback,
 undo and cross-process continuation. These fixtures also remain unrun.
+
+### A tangible critical bonus from begging
+
+`RpgExpandedBeggingGift` extends `RpgExpandedTradeTransfer` for an authored
+critical-success bonus (full-2008 B212). Set `hour` to the resolved begging hour,
+`buyer` to its profile, `seller` to the donor, and `item` to an existing inventory
+stack. Require the ordinary agreement, availability and permission fields, leave
+`price` at zero, and give concrete `evidence` tying the item to the bonus finding.
+
+`assess()` checks the bound critical outcome, donor ownership and item access.
+`transfer()` uses the existing inventory ledger and records `hour.gift`. It neither
+repeats the skill roll nor spends another hour or credits more cash. Another gift
+against that hour is blocked; replay of the original transfer is idempotent.
+Author a single stack representing the selected bonus. Multiple gifts and other
+incident types are not covered by this adapter. Acquiring the item does not
+consume it, equip it or establish permission to carry an excessive load.
+
+`test_begging_gift` specifies unresolved/ordinary-result rejection, duplicate
+prevention, rollback, undo, save continuation and rejection of altered critical
+flags. Fixtures remain unrun.

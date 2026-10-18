@@ -3615,7 +3615,7 @@ class RpgExpandedBeggingResult: RpgExpandedResult
     incident = nil
 ;
 /** B212 one owned hour, with concrete author-selected critical findings. */
-class RpgExpandedBeggingHour: object
+class RpgExpandedBeggingHour: RpgExpandedBeggingReceipt
     id = nil
     profile = nil
     context = nil
@@ -3638,7 +3638,17 @@ class RpgExpandedBeggingHour: object
     }
     outcomeDefinition()
     {
-        return [self.startedAt,self.completedAt,self.result.allowed,self.result.earned,self.result.incident,self.result.seconds];
+        local facts = [self.startedAt,self.completedAt,self.result.allowed,self.result.earned,self.result.incident,self.result.seconds,self.result.check];
+        return self.result.check == nil ? facts : facts + [self.result.check.score,self.result.check.roll,
+            self.result.check.margin,self.result.check.achieved,self.result.check.critical];
+    }
+    beggingBonusReason()
+    {
+        if (self.result == nil) return 'begging-gift-unresolved';
+        self.assess();
+        if (!self.result.allowed || self.result.check == nil || self.result.check.critical != 'success')
+            return 'begging-gift-critical-success-required';
+        return nil;
     }
     validateBinding(facts)
     {
@@ -3656,6 +3666,7 @@ class RpgExpandedBeggingHour: object
             self.validateBinding(self.boundDefinition);
             if (!holds(self.profile.beggingHours,self)) rpgExpandedReject('begging-hour-history');
             local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || self.boundOutcome.length() != outcome.length()) rpgExpandedReject('begging-hour-outcome');
             for (local index = 1; index <= outcome.length(); index += 1)
                 if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('begging-hour-outcome');
             value.status = 'reused'; return value;

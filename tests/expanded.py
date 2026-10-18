@@ -9462,6 +9462,8 @@ def test(build):
     test_begging_hour(Session,begging_hour,build.out)
     begging_actions = build.build('expanded-begging-actions',ROOT / 'tests/fixtures/expanded-begging-actions.t')
     test_begging_actions(Session,begging_actions)
+    begging_gift = build.build('expanded-begging-gift',ROOT / 'tests/fixtures/expanded-begging-gift.t')
+    test_begging_gift(Session,begging_gift,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
     test_travel_digging(Session,travel_digging,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
@@ -25331,3 +25333,40 @@ def test_begging_actions(Session, bundle):
             assert last(s,'test.begging-hour-state') == [0,0,0,0,None]
         finally:
             s.close()
+
+
+def test_begging_gift(Session, bundle, out):
+    """A critical bonus transfers an existing stack once; unrun."""
+    path = out / 'begging-gift.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,24500)
+        assert last(s,'test.begging-gift') == ['blocked','begging-gift-unresolved']
+        s.action(1680,24300); s.action(1680,24501); s.action(1680,24502)
+        assert last(s,'test.begging-gift-state') == [0,1,0,10,3600,3]
+        s.action(1680,24500); s.command('undo'); s.action(1680,24502)
+        assert last(s,'test.begging-gift-state') == [0,1,0,10,3600,3]
+        s.action(1680,24500); s.action(1680,24500)
+        assert last(s,'test.begging-gift') == ['reused',None]
+        s.action(1680,24502)
+        assert last(s,'test.begging-gift-state') == [1,0,1,10,3600,3]
+        s.action(1680,24503)
+        assert last(s,'test.begging-gift') == ['blocked','begging-gift-already-recorded']
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,24500); s.action(1680,24502)
+        assert last(s,'test.begging-gift-state') == [1,0,1,10,3600,3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (24304,24300,24500):
+            s.action(1680,code)
+        assert last(s,'test.begging-gift') == ['blocked','begging-gift-critical-success-required']
+        s.action(1680,24504)
+        assert last(s,'test.begging-gift-error') == ['begging-hour-outcome']
+    finally:
+        s.close()

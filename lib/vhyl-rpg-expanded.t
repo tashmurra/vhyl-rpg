@@ -961,3 +961,11 @@ modify RpgExpandedProfile
 modify RpgLiteContext
     beggingFacts() { rpgExpandedReject('begging-context-required'); }
 ;
+
+/** Optional social execution contract consumed by equipment reward adapters. */
+class RpgExpandedBeggingReceipt: object
+    profile = nil
+    result = nil
+    gift = nil
+    beggingBonusReason() { rpgExpandedReject('begging-social-required'); }
+;

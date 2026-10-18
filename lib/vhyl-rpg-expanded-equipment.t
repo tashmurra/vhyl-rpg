@@ -1977,3 +1977,51 @@ class RpgExpandedPackingBundleEntry: RpgExpandedTradeTransfer
         return inherited();
     }
 ;
+
+/** An authored B212 critical bonus delivered as one existing inventory stack. */
+class RpgExpandedBeggingGift: RpgExpandedTradeTransfer
+    hour = nil
+    evidence = nil
+    boundGiftDefinition = nil
+    giftDefinition()
+    {
+        return [self.id,self.hour,self.buyer,self.seller,self.item,self.price,self.buyerAgrees,
+            self.sellerAgrees,self.available,self.permitted,self.evidence];
+    }
+    assess()
+    {
+        if (self.hour == nil || !self.hour.ofKind(RpgExpandedBeggingReceipt) || self.buyer != self.hour.profile
+            || self.price != 0) rpgExpandedReject('begging-gift-definition');
+        local value = new RpgExpandedAcquisitionResult(); value.item = self.item;
+        value.reason = self.hour.beggingBonusReason(); if (value.reason != nil) return value;
+        if (self.hour.gift != nil && self.hour.gift != self)
+        { value.reason = 'begging-gift-already-recorded'; return value; }
+        if (self.claimed)
+        {
+            if (self.hour.gift != self || self.boundGiftDefinition == nil) rpgExpandedReject('begging-gift-history');
+            local facts = self.giftDefinition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundGiftDefinition[index]) rpgExpandedReject('begging-gift-binding');
+            return inherited();
+        }
+        if (self.evidence == nil || self.evidence == '') { value.reason = 'begging-gift-evidence'; return value; }
+        value = inherited();
+        if (value.status == 'reused') rpgExpandedReject('begging-gift-receipt-conflict');
+        if (value.status != 'ready') return value;
+        if (!self.item.usableBy(self.seller)) { value.status = 'blocked'; value.reason = 'begging-gift-inaccessible'; }
+        return value;
+    }
+    transfer()
+    {
+        local facts = self.giftDefinition(); local value = inherited();
+        if (value.status == 'resolved')
+        {
+            local current = self.giftDefinition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != current[index]) rpgExpandedReject('begging-gift-changed');
+            if (self.hour.beggingBonusReason() != nil || self.hour.gift != nil) rpgExpandedReject('begging-gift-changed');
+            self.boundGiftDefinition = facts; self.hour.gift = self;
+        }
+        return value;
+    }
+;
