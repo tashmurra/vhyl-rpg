@@ -912,6 +912,33 @@ def test_rescue_ungrateful(s):
     assert rescue_state(s) == [9, 1, 3, 0]
 
 
+def loyalty_pay_state(s):
+    s.action(1210)
+    return last(s, 'test.loyalty-pay-state')
+
+
+def test_loyalty_pay(s):
+    initial = loyalty_pay_state(s)
+    s.action(1100, 69)
+    assert loyalty_pay_state(s) == initial
+    s.action(1100, 68)
+    assert last(s, 'test.loyalty-pay') == ['resolved', 2]
+    assert loyalty_pay_state(s) == [14, 12, 2, None, 1, 0, 0]
+    s.command('undo')
+    assert loyalty_pay_state(s) == initial
+    s.action(1100, 68); s.action(1100, 68)
+    assert last(s, 'test.loyalty-pay') == ['reused', 0]
+    s.action(1100, 70); s.action(1100, 70)
+    assert last(s, 'test.loyalty-pay') == ['reused', 0]
+    assert loyalty_pay_state(s) == [14, 12, 2, 100, 2, 0, 0]
+    s.action(1100, 71)
+    assert loyalty_pay_state(s) == [14, 12, 2, 100, 2, 99, 0]
+    s.action(1100, 51)
+    assert loyalty_pay_state(s) == [12, 12, 2, 100, 2, 100, 0]
+    s.command('undo')
+    assert loyalty_pay_state(s) == [14, 12, 2, 100, 2, 99, 0]
+
+
 def test_loyalty(s):
     initial = loyalty_state(s)
     s.action(1203)
@@ -1250,7 +1277,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_service_anniversary,test_service_failure,test_service_automatic,test_rescue_loyalty,test_rescue_no_decrease,test_rescue_ungrateful,test_rescue_sacrifice,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_service_anniversary,test_service_failure,test_service_automatic,test_rescue_loyalty,test_rescue_no_decrease,test_rescue_ungrateful,test_rescue_sacrifice,test_loyalty_pay,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')

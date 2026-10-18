@@ -796,6 +796,18 @@
         "tests/expanded.py::test_rescue_sacrifice"
       ],
       "validation_note": "Saved rescue reaction and optional authored sacrifice bonus implemented. Checks unrun; comparison under temporary loyalty modifiers remains explicitly blocked."
+    },
+    {
+      "id": "higher-pay-loyalty",
+      "module": "social",
+      "pages": "B519; B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLoyaltyPayChange",
+      "tests": [
+        "tests/expanded.py::test_loyalty_pay"
+      ],
+      "validation_note": "Separate higher-pay bonus, event receipts and authored month-end expiry implemented. Checks unrun; overlapping rate changes and salary processing remain pending."
     }
   ],
   "detailed_inventories": [

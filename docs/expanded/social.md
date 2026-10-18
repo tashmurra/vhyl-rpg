@@ -580,3 +580,35 @@ The independent cases `test_rescue_loyalty`, `test_rescue_no_decrease`,
 `test_rescue_ungrateful` and `test_rescue_sacrifice` cover gratitude thresholds,
 retained higher loyalty, optional sacrifice, replay, rollback and undo. Checks
 remain paused and unrun.
+
+
+## Higher pay and its lingering bonus
+
+`RpgExpandedLoyaltyPayChange` implements full-2008 B519. Set `mode = 'start'`,
+owned `loyalty`, unique event `id`, `normalPay`, `actualPay` and concrete `evidence`
+of the compensation arrangement. Both amounts cover the same period or loot share.
+Each complete ten-percent increase gives +1 loyalty. Below-normal pay and increases
+smaller than a full step do not create this bonus. This operation records the loyalty
+effect; salary or loot payment must use its own single money transfer.
+
+The relationship keeps `payBonus` separate from `base`. Consequently, exclude this
+same higher-pay factor from `initialModifier` and from any later check's manual
+modifier. Effective `rating()` adds it once. The pay arrangement can be established
+before initial loyalty is determined; initialization returns the resulting effective
+rating without embedding the bonus in the permanent base.
+
+When extra pay actually ends, use a new event with `mode = 'stop'` and `expiresAt`
+set to one calendar month after cessation. The authored calendar must supply that
+absolute shared-clock date; no fixed thirty-day month is assumed. The bonus remains
+active before that date and expires exactly at it. Neither start nor stop advances
+time, and repeated event IDs cannot reapply or extend the effect.
+
+Changing an active bonus, or starting another while its old bonus lingers, returns
+`loyalty-pay-overlap-unresolved`. The supplied rule does not specify overlapping
+rate changes; the engine does not silently stack or refresh them. After expiry a
+new arrangement with a new event ID can start normally. Underpayment, ongoing
+salary processing and employment consequences remain separate requirements.
+
+`tests/expanded.py::test_loyalty_pay` covers bonus/base separation, repeated events,
+rollback, undo and exact expiry. Its short fixture date stands in for an authored
+calendar month. All cases remain unrun while checks are paused.

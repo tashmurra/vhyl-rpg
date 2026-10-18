@@ -81,6 +81,10 @@ crewPerformance: RpgExpandedLoyaltyChange loyalty = crewLoyalty id = 'survey-exp
 crewAnniversary: RpgExpandedServiceAnniversary loyalty = crewLoyalty year = 1 anniversaryAt = 100 completedService = true;
 crewRescue: RpgExpandedRescueLoyalty loyalty = crewLoyalty id = 'river-rescue'
     evidence = 'rescue-complete' rescued = true riskedLifeOrMission = true;
+crewPayStart: RpgExpandedLoyaltyPayChange loyalty = crewLoyalty id = 'extra-pay-start'
+    normalPay = 100 actualPay = 120 evidence = 'signed-pay-arrangement';
+crewPayStop: RpgExpandedLoyaltyPayChange loyalty = crewLoyalty id = 'extra-pay-stop'
+    mode = 'stop' expiresAt = 100 evidence = 'extra-pay-ended';
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -268,6 +272,17 @@ class ExpandedTestAction: Action
             eventValue(value.status); eventValue(value.check); eventValue(value.total); eventValue(value.rating); eventValue(value.change);
             if (code == 64) throw new RpgError();
         }
+        if (code == 68 || code == 69)
+        {
+            crewLoyalty.initialize(); local value = crewPayStart.apply(); event('test.loyalty-pay');
+            eventValue(value.status); eventValue(value.modifier);
+            if (code == 69) throw new RpgError();
+        }
+        if (code == 70)
+        {
+            local value = crewPayStop.apply(); event('test.loyalty-pay'); eventValue(value.status); eventValue(value.modifier);
+        }
+        if (code == 71) rpgSpendTime(99);
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
@@ -1316,6 +1331,12 @@ act(verb, args)
     {
         event('test.rescue-state'); eventValue(crewLoyalty.base); eventValue(crewLoyalty.rescues.length());
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1210)
+    {
+        event('test.loyalty-pay-state'); eventValue(crewLoyalty.initialized ? crewLoyalty.rating() : nil);
+        eventValue(crewLoyalty.base); eventValue(crewLoyalty.payBonus); eventValue(crewLoyalty.payUntil);
+        eventValue(crewLoyalty.payChanges.length()); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
     return vhylAct(verb,args);
 }

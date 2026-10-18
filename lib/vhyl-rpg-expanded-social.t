@@ -874,11 +874,14 @@ class RpgExpandedLoyalty: object
     initialRoll = nil
     incidents = []
     dangerEffects = []
+    payBonus = 0
+    payUntil = nil
+    payChanges = []
     rating()
     {
         self.validate();
         if (!self.initialized) rpgExpandedReject('loyalty-uninitialized');
-        local value = self.base;
+        local value = self.base + (self.payUntil == nil || rpgLedger.seconds < self.payUntil ? self.payBonus : 0);
         foreach (local effect in self.dangerEffects)
             if (rpgLedger.seconds < effect[2]) value -= 1;
         return value;
@@ -890,6 +893,8 @@ class RpgExpandedLoyalty: object
         foreach (local entry in self.subject.loyalties)
             if (entry != self && (entry.id == self.id || entry.employer == self.employer))
                 rpgExpandedReject('duplicate-loyalty');
+        rpgInteger(self.payBonus,0,1000);
+        if (self.payUntil != nil) rpgInteger(self.payUntil,0,2147483647);
         rpgInteger(self.initialModifier,-1000,1000);
         if (self.preset != nil) rpgInteger(self.preset,-1000,1000);
         if (self.initialized) rpgInteger(self.base,-1000,1018);
@@ -909,7 +914,7 @@ class RpgExpandedLoyalty: object
             else { self.initialRoll = rpgRandom.roll(); self.base = self.initialRoll + self.initialModifier; }
             self.initialized = true; value.status = 'resolved';
         }
-        value.rating = self.base; value.check = self.initialRoll; return value;
+        value.rating = self.rating(); value.check = self.initialRoll; return value;
     }
 ;
 
@@ -1159,6 +1164,56 @@ class RpgExpandedRescueLoyalty: object
         value.rating += self.sacrificeBonus;
         value.change = value.rating - self.loyalty.base; self.loyalty.base = value.rating;
         self.loyalty.rescues = self.loyalty.rescues + [[self.id,value.check,value.total,value.rating,self.evidence,self.sacrificeBonus]];
+        value.status = 'resolved'; return value;
+    }
+;
+
+
+/** B519 higher-pay bonus. The job's normal and actual pay cover the same period.
+ * Payment/loot transfer happens in its own operation; evidence identifies it. */
+class RpgExpandedLoyaltyPayChange: object
+    loyalty = nil
+    id = nil
+    mode = 'start'
+    normalPay = 0
+    actualPay = 0
+    expiresAt = nil
+    evidence = nil
+    assess()
+    {
+        if (self.loyalty == nil || !self.loyalty.ofKind(RpgExpandedLoyalty) || self.id == nil)
+            rpgExpandedReject('loyalty-pay-target');
+        self.loyalty.validate();
+        if (!holds(['start','stop'],self.mode)) rpgExpandedReject('loyalty-pay-mode');
+        local value = new RpgExpandedResult();
+        foreach (local receipt in self.loyalty.payChanges)
+            if (receipt[1] == self.id) { value.status = 'reused'; return value; }
+        if (self.evidence == nil) { value.reason = 'loyalty-pay-evidence'; return value; }
+        if (self.mode == 'start')
+        {
+            rpgInteger(self.normalPay,1,2147483647); rpgInteger(self.actualPay,0,2147483647);
+            if (self.actualPay <= self.normalPay) { value.reason = 'loyalty-no-extra-pay'; return value; }
+            value.modifier = rpgExpandedTradeOfferModifier(self.normalPay,self.actualPay,'buy');
+            if (value.modifier == 0) { value.reason = 'loyalty-no-full-pay-step'; return value; }
+            if (self.loyalty.payBonus > 0 && (self.loyalty.payUntil == nil || rpgLedger.seconds < self.loyalty.payUntil))
+            { value.reason = 'loyalty-pay-overlap-unresolved'; return value; }
+        }
+        else
+        {
+            if (self.loyalty.payBonus == 0 || self.loyalty.payUntil != nil)
+            { value.reason = 'loyalty-extra-pay-not-active'; return value; }
+            rpgInteger(self.expiresAt,1,2147483647);
+            if (self.expiresAt <= rpgLedger.seconds) { value.reason = 'loyalty-pay-expiry'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.mode == 'start') { self.loyalty.payBonus = value.modifier; self.loyalty.payUntil = nil; }
+        else self.loyalty.payUntil = self.expiresAt;
+        self.loyalty.payChanges = self.loyalty.payChanges
+            + [[self.id,self.mode,self.loyalty.payBonus,self.loyalty.payUntil,self.evidence]];
         value.status = 'resolved'; return value;
     }
 ;
