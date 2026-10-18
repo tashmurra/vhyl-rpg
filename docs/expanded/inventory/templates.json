@@ -61,9 +61,13 @@
       "pages": "B259",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use campaign technology for a character package unless its definition explicitly supplies another level and its associated cost.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_template_technology"
+      ],
+      "existing_feature": "template-technology-settings",
+      "validation_note": "Factory and composition use explicit campaign and personal settings; new native cases unrun."
     },
     {
       "id": "package-merge-scores",

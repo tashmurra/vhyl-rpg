@@ -82,8 +82,8 @@ Traits and training are freshly owned for every composition. Input templates and
 other previously created characters are not changed.
 
 Current composition supports the fields of the basic factory only. Definitions
-with additional contributions, languages, equipment or a different personal
-technology level are explicitly rejected. Ancestry, lenses, selectable options,
+with additional contributions, languages or equipment are explicitly rejected.
+Technology settings must agree across the selected templates. Ancestry, lenses, selectable options,
 modifier-bearing trait definitions and rich conflict diagnostics remain pending.
 Template authors must share the same immutable skill definition for requirements
 that denote the same skill and specialty; distinct definition objects are distinct
@@ -93,3 +93,22 @@ The native cases in `tests/expanded.py::test_template_composition` cover order
 independence, recalculated secondary costs, overlapping skills and traits, fresh
 ownership, conflicting status choices, empty input, and below-average requirements.
 These checks have not run while validation is paused.
+
+## Technology settings
+
+Set `campaignTL` on each template to the campaign's technology level. Its default
+is 3 for compatibility. A `nil` `techLevel` inherits that campaign setting; an
+explicit personal level instead contributes the normal five points per level of
+difference to the shared character cost calculation. It is not a separate package
+fee. Starting skill access is checked against the resulting personal level.
+
+Composition requires all templates to agree on both campaign and personal levels.
+It charges that difference once on the final profile. Mismatches return
+`template-technology-conflict`; authors must resolve the definitions before
+composition. The library does not silently combine a low-technology disadvantage
+and a high-technology advantage. An authored exception to ordinary starting skill
+access remains outside this interface.
+
+`tests/expanded.py::test_template_technology` covers campaign inheritance, explicit
+personal pricing, single charging during composition, mismatched settings and
+rejection of an inaccessible starting skill. These cases are authored but unrun.

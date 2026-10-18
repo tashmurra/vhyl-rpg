@@ -16,11 +16,15 @@ class RpgExpandedTemplate: object
     moveAdjustment = 0
     skillRows = []
     traitRows = []
+    campaignTL = 3
+    techLevel = nil
     pointBudget = 100
     disadvantageLimit = 50
     create(rules)
     {
         local p = new RpgExpandedProfile(); p.rules = rules;
+        p.campaignTL = self.campaignTL;
+        p.techLevel = self.techLevel == nil ? self.campaignTL : self.techLevel;
         p.st = self.st; p.dx = self.dx; p.iq = self.iq; p.ht = self.ht;
         p.hpAdjustment = self.hpAdjustment; p.fpAdjustment = self.fpAdjustment;
         p.willAdjustment = self.willAdjustment; p.perceptionAdjustment = self.perceptionAdjustment;
@@ -63,8 +67,12 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
         if (!template.ofKind(RpgExpandedTemplate)) rpgExpandedReject('template-type');
         local source = template.create(rules);
         if (source.contributions.length() != 0 || source.languages.length() != 0
-            || source.equipment.length() != 0 || source.techLevel != result.techLevel)
+            || source.equipment.length() != 0)
             rpgExpandedReject('template-composition-components');
+        if (first)
+        { result.campaignTL = source.campaignTL; result.techLevel = source.techLevel; }
+        else if (source.campaignTL != result.campaignTL || source.techLevel != result.techLevel)
+            rpgExpandedReject('template-technology-conflict');
         foreach (local training in source.skills)
         {
             local skill = training.skill;

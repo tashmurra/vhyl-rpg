@@ -529,6 +529,27 @@ act(verb, args)
         local p = rpgExpandedCombineTemplates([a,b],rules,1000,50); eventValue(p.st);
         return nil;
     }
+    if (verb == 1136)
+    {
+        local rules = new RpgExpandedRules();
+        local skill = new RpgExpandedSkill(); skill.techLevel = 8;
+        local a = new RpgExpandedTemplate(); a.campaignTL = 8; a.skillRows = [[skill,1]];
+        local p = a.create(rules);
+        event('test.template-technology'); eventValue(p.campaignTL); eventValue(p.techLevel);
+        eventValue(rpgExpandedCharacterCost(p,nil));
+        a.campaignTL = 6; a.techLevel = 8; p = a.create(rules);
+        eventValue(rpgExpandedCharacterCost(p,nil));
+        local b = new RpgExpandedTemplate(); b.campaignTL = 6; b.techLevel = 8;
+        p = rpgExpandedCombineTemplates([a,b],rules,100,50);
+        eventValue(p.techLevel); eventValue(rpgExpandedCharacterCost(p,nil));
+        b.techLevel = nil;
+        try { rpgExpandedCombineTemplates([a,b],rules,100,50); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        a.techLevel = nil;
+        try { a.create(rules); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;
