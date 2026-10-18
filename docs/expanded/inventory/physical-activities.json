@@ -371,9 +371,12 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Clambering onto a vertical obstacle with two consecutive movement maneuvers avoids the risky dexterity roll; validate the route and reachable obstacle before committing.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_clamber"
+      ],
+      "validation_note": "Owned adjacent-surface clamber records two consecutive physical-health-gated Move turns, automatically placing the existing figure after the second without accuracy dice. Author supplies reachable stable upper-surface facts. Origin, terrain, occupancy, body support, binding and ledger/turn continuity are validated. Skipped-turn, invalid-reach, occupancy, rollback, undo and saved continuation assertions authored, unrun. General elevation, changing supports and interrupt resolution remain pending."
     },
     {
       "id": "activity-jump-skill",

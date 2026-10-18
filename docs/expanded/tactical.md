@@ -463,3 +463,32 @@ turn. Exceptions and undo cover the move, permission, battle state and clock.
 The `expanded-path-move.t` fixture includes small-obstacle movement, crouching,
 preview, invalid inputs, rollback, undo, save continuation and Lite movement
 expected values. Assertions remain unrun while checks are paused.
+
+## Clambering onto an adjacent surface
+
+`RpgExpandedClamber` implements the B352 two-Move alternative to a risky jump.
+Bind its `id`, `fighter`, `battle`, existing `figure`, `origin` and adjacent
+`destination`. Set `reachable`, `stableSurface` and `evidence` only when the
+authored upper surface has suitable reachable support and no additional hazard
+procedure is needed. These are world facts: a two-dimensional map does not
+establish vertical reach or elevation by itself.
+
+For each turn create `RpgExpandedClamberManeuver` with `operation` set to this
+object and a fresh physical `healthGate`. Call the normal battle `step`. The first
+successful turn records progress without relocating the figure. The second
+consecutive successful turn moves it to the destination automatically, preserving
+facing. No accuracy roll is made. The battle charges both turns normally; the
+clamber operation charges neither additional time nor movement points.
+
+A skipped turn or unrelated ledger advance restarts the sequence. Origin changes,
+unsupported body support, blocked terrain and occupied destinations reject the
+attempt. The destination is checked again before the second turn commits.
+Completion is replay-safe; it cannot move the figure a second time. Existing
+health permission handles exhaustion or incapacity independently of the automatic
+clamber success rule.
+
+This adapter supports an ordinary upright figure and an adjacent authored upper
+surface. General three-dimensional movement, changing supports during a maneuver
+and interrupt resolution remain pending. The clamber fixture covers completion,
+skipped turns, invalid reach, occupancy, rollback, undo and saved continuation.
+Assertions remain unrun while checks are paused.

@@ -1027,3 +1027,8 @@ Jump preparation, launch and path movement now require explicitly physical
 health gates. Missing movement requirements and mental-only gates are rejected
 before rolls. Exhausted permission denial has authored rollback, undo and saved
 continuation coverage; assertions remain unrun while checks are paused.
+
+The two-Move clamber alternative now records consecutive progress and places the
+existing figure on an authored reachable adjacent upper surface without an
+accuracy roll. Health permission remains per-turn. Occupancy, skipped turns,
+rollback, undo and saved-continuation assertions are authored, unrun.

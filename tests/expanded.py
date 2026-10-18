@@ -9282,6 +9282,8 @@ def test(build):
     path_move = build.build('expanded-path-move',ROOT / 'tests/fixtures/expanded-path-move.t')
     test_path_move(Session, path_move, build.out)
     test_physical_maneuver_gates(Session, path_move, build.out)
+    clamber = build.build('expanded-clamber',ROOT / 'tests/fixtures/expanded-clamber.t')
+    test_clamber(Session, clamber, build.out)
     positions = build.build('expanded-tactical-positions', ROOT / 'tests/fixtures/expanded-tactical-positions.t')
     fresh(Session, positions, test_tactical_positions)
     fresh(Session, positions, test_tactical_footprints)
@@ -15806,5 +15808,63 @@ def test_physical_maneuver_gates(Session, bundle, out):
         s.command(f':restore {path}\n@2279')
         s.action(2278,101)
         assert gate_state(s) == [1,1,3,0]
+    finally:
+        s.close()
+
+
+def test_clamber(Session, bundle, out):
+    def state(s):
+        s.action(2278,142)
+        return last(s,'test.clamber')
+    path = out / 'expanded-clamber.zsave'
+    s = Session(bundle)
+    try:
+        for code in (70,100,141):
+            s.action(2278,code)
+        assert state(s) == [0,0,0,0,0,0]
+        s.action(2278,140)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,0,0]
+        for code in (140,103):
+            s.action(2278,code)
+        assert state(s) == [1,0,0,1,1,0]
+        s.command(f':save {path}\n@2279')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2279')
+        for code in (140,140,103):
+            s.action(2278,code)
+        assert state(s) == [2,1,1,1,2,0]
+        s.command(f':save {path}\n@2279')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2279')
+        s.action(2278,140)
+        assert state(s) == [2,1,1,1,2,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (70,100,140,103,143,103,140):
+            s.action(2278,code)
+        assert state(s) == [1,0,0,1,2,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (70,100,144,140):
+            s.action(2278,code)
+        assert state(s) == [0,0,0,0,0,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (70,100,73,140):
+            s.action(2278,code)
+        assert state(s) == [0,0,0,0,0,0]
     finally:
         s.close()

@@ -936,3 +936,89 @@ class RpgExpandedPathMove: RpgExpandedPathMoveReceipt
         value.status = 'resolved'; return value;
     }
 ;
+
+class RpgExpandedClamberResult: RpgExpandedResult
+    definition = []
+    completes = nil
+;
+modify RpgExpandedProfile
+    clambers = []
+;
+/** B352 authored reachable upper surface, two consecutive Move turns. */
+class RpgExpandedClamber: RpgExpandedPathMoveReceipt
+    id = nil
+    fighter = nil
+    battle = nil
+    figure = nil
+    origin = nil
+    destination = nil
+    reachable = nil
+    stableSurface = nil
+    evidence = nil
+    turns = 0
+    lastBattleSecond = nil
+    lastLedgerSecond = nil
+    boundDefinition = nil
+    result = nil
+    definition()
+    { return [self.id,self.fighter,self.battle,self.figure,self.origin.q,self.origin.r,
+        self.destination.q,self.destination.r,self.reachable,self.stableSurface,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter)
+            || self.battle == nil || !self.battle.ofKind(RpgLiteBattle) || self.figure == nil
+            || !self.figure.ofKind(RpgExpandedTacticalFigure) || self.figure.profile != self.fighter.profile
+            || self.origin == nil || !self.origin.ofKind(RpgExpandedHex)
+            || self.destination == nil || !self.destination.ofKind(RpgExpandedHex)) rpgExpandedReject('clamber-definition');
+        self.origin.validate(); self.destination.validate();
+        local value = new RpgExpandedClamberResult(); value.definition = self.definition();
+        if (self.turns > 0)
+        {
+            for (local index = 1; index <= value.definition.length(); index += 1)
+                if (value.definition[index] != self.boundDefinition[index]) rpgExpandedReject('clamber-binding');
+            if (!holds(self.fighter.profile.clambers,self)) rpgExpandedReject('clamber-history');
+        }
+        if (self.result != nil) { value.status = 'reused'; return value; }
+        if (!self.battle.active || self.battle.current() != self.fighter)
+        { value.reason = 'clamber-turn'; return value; }
+        if (self.lastBattleSecond == self.battle.seconds) { value.reason = 'clamber-duplicate-turn'; return value; }
+        foreach (local prior in self.fighter.profile.clambers)
+            if (prior != self && prior.id == self.id) rpgExpandedReject('clamber-duplicate');
+        if (!self.reachable || !self.stableSurface || self.evidence == nil || self.evidence == '')
+        { value.reason = 'clamber-surface-facts'; return value; }
+        if (self.figure.map == nil || self.figure.profile.tacticalFigure != self.figure)
+            rpgExpandedReject('clamber-map');
+        self.figure.map.validate();
+        if (self.figure.bodyForm != 'upright-human' || self.figure.upperCoordinate != nil
+            || !holds(['standing','crouching'],self.figure.profile.posture))
+        { value.reason = 'clamber-body-support'; return value; }
+        if (rpgExpandedHexDistance(self.figure.coordinate,self.origin) != 0)
+        { value.reason = 'clamber-origin-changed'; return value; }
+        if (rpgExpandedHexDistance(self.origin,self.destination) != 1)
+        { value.reason = 'clamber-adjacent-surface-required'; return value; }
+        local occupancy = self.figure.map.occupancy(self.destination);
+        if (occupancy.status != 'ready') { value.reason = occupancy.reason; return value; }
+        if (occupancy.occupants.length() != 0) { value.reason = 'clamber-surface-occupied'; return value; }
+        value.completes = self.turns == 1 && self.battle.seconds == self.lastBattleSecond + 1
+            && rpgLedger.seconds == self.lastLedgerSecond + 1;
+        value.status = 'ready'; return value;
+    }
+    commit(value)
+    {
+        if (self.result != nil || value == nil || !value.ofKind(RpgExpandedClamberResult)
+            || value.status != 'ready' || self.fighter.maneuver != 'move') rpgExpandedReject('clamber-commit');
+        local current = self.assess();
+        if (current.status != 'ready' || current.completes != value.completes) rpgExpandedReject('clamber-changed');
+        for (local index = 1; index <= current.definition.length(); index += 1)
+            if (current.definition[index] != value.definition[index]) rpgExpandedReject('clamber-changed');
+        if (self.turns == 0) self.fighter.profile.clambers = self.fighter.profile.clambers + [self];
+        self.boundDefinition = value.definition; self.turns = value.completes ? 2 : 1;
+        self.lastBattleSecond = self.battle.seconds; self.lastLedgerSecond = rpgLedger.seconds;
+        if (value.completes)
+        {
+            self.figure.coordinate = rpgExpandedHex(self.destination.q,self.destination.r);
+            self.result = value;
+        }
+        value.status = 'resolved'; return value;
+    }
+;

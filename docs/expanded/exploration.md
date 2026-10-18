@@ -1257,3 +1257,11 @@ and mark deliberate hazards significant; this helper does not move the actor.
 During combat, use the tactical
 [small-obstacle path entry](tactical.md#small-obstacle-jumps-in-a-path), which
 requires Move and adds one movement point within the existing allowance.
+
+### Clambering instead of a risky jump
+
+For the two-consecutive-Move alternative in B352, use the tactical
+[clamber operation](tactical.md#clambering-onto-an-adjacent-surface). It owns the
+progress and places an existing figure on an authored reachable adjacent upper
+surface after the second turn, without a jump accuracy roll. Both turns still
+require normal physical health permission.

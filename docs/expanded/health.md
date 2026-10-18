@@ -3137,3 +3137,7 @@ Will check and collapse outcome. The movement operation does not repeat that
 check. `test_physical_maneuver_gates` exercises malformed permission flags,
 preview purity, exhausted denial, exception rollback, undo and saved continuation.
 Assertions remain unrun while checks are paused.
+
+`RpgExpandedClamberManeuver` uses the same physical permission contract for each
+of the two clamber turns. Automatic clamber success does not bypass exhausted
+effort or other health restrictions. Each turn requires its own gate.

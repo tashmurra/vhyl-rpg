@@ -6753,3 +6753,6 @@ class RpgExpandedPathMoveManeuver: RpgExpandedPhysicalManeuver
     apply(fighter,result)
     { inherited(fighter,result); self.operation.commit(self.preparedPath); return nil; }
 ;
+
+/** Each of the two clamber turns owns a fresh physical health gate. */
+class RpgExpandedClamberManeuver: RpgExpandedPathMoveManeuver;
