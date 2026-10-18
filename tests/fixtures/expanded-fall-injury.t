@@ -22,6 +22,18 @@ modify BleedTestAction
         if (code == 837) { fallInjury.damage = 20; fallInjury.resistance = 0; fallInjury.obstacleHP = 2; fallInjury.obstacleDR = 1; return nil; }
         if (code == 838) { fallInjury.obstacleDR = nil; return nil; }
         if (code == 839) { fallInjury.resistance = 10; return nil; }
+        if (code == 840) { fallInjury.cushionDR = 2; fallInjury.cushionEvidence = 'An authored feather bed cushions this landing'; return nil; }
+        if (code == 841) { fallInjury.cushionDR = 10; fallInjury.cushionEvidence = 'An intact safety net cushions this landing'; return nil; }
+        if (code == 842) { fallInjury.cushionEvidence = nil; return nil; }
+        if (code == 843) { fallInjury.cushionDR = 1; return nil; }
+        if (code == 844)
+        {
+            local value = fallInjury.assess();
+            event('test.fall-cushion'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.impactDamage); eventValue(value.cushionedDamage);
+            if (value.protection != nil) { eventValue(value.protection.penetratingDamage); eventValue(value.protection.bluntInjury); }
+            return nil;
+        }
         return inherited(context);
     }
 ;

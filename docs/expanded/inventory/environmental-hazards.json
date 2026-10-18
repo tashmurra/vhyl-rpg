@@ -1015,9 +1015,10 @@
       "status": "partial",
       "acceptance": "A soft immovable surface uses ordinary capacity; an elastic surface may grant an authored collision-only resistance from two for a soft bed to ten for a net or airbag.",
       "tests": [
-        "tests/expanded.py::test_collision_assessment"
+        "tests/expanded.py::test_collision_assessment",
+        "tests/expanded.py::test_fall_cushion"
       ],
-      "validation_note": "Pure damage-expression assessment implements full-capacity times velocity, hard-surface doubling, reduced-die bands and half-up die rounding. Boundary and printed-example assertions authored, unrun. Owned damage, elastic cushioning and remaining collision interactions are incomplete."
+      "validation_note": "Pure damage-expression assessment implements full-capacity times velocity, hard-surface doubling, reduced-die bands and half-up die rounding. Boundary and printed-example assertions authored, unrun. Owned damage, elastic cushioning and remaining collision interactions are incomplete. Owned torso falls now accept evidenced elastic cushioning before character protection; cap ordering, blunt-trauma and replay/rollback fixtures authored, unrun. Water landing and broader collision execution remain incomplete."
     },
     {
       "id": "collision-water-dive",

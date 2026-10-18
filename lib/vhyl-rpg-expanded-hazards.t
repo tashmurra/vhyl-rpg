@@ -3892,6 +3892,7 @@ class RpgExpandedFallInjuryResult: RpgExpandedResult
     protection = nil
     wound = nil
     impactDamage = 0
+    cushionedDamage = 0
 ;
 /** Owned bridge from an already resolved fall damage roll to torso injury.
  * Location rules, mixed protection and special anatomy must not use this adapter. */
@@ -3901,6 +3902,8 @@ class RpgExpandedFallInjury: object
     damage = 0
     obstacleHP = nil
     obstacleDR = nil
+    cushionDR = 0
+    cushionEvidence = nil
     resistance = 0
     protectionKind = 'armor'
     location = 'torso'
@@ -3912,7 +3915,8 @@ class RpgExpandedFallInjury: object
     committedAt = nil
     definition()
     { return [self.id,self.profile,self.damage,self.resistance,self.protectionKind,self.location,
-        self.approved,self.evidence,self.dropDestination,self.obstacleHP,self.obstacleDR]; }
+        self.approved,self.evidence,self.dropDestination,self.obstacleHP,self.obstacleDR,
+        self.cushionDR,self.cushionEvidence]; }
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
@@ -3933,7 +3937,11 @@ class RpgExpandedFallInjury: object
         foreach (local prior in self.profile.fallInjuries)
             if (prior.id == self.id) rpgExpandedReject('fall-injury-duplicate');
         value.impactDamage = rpgExpandedCollisionCap(self.damage,self.obstacleHP,self.obstacleDR);
-        value.protection = rpgExpandedAssessFallProtection(value.impactDamage,self.resistance,self.protectionKind);
+        rpgInteger(self.cushionDR,0,10);
+        if (self.cushionDR != 0 && (self.cushionDR < 2 || self.cushionEvidence == nil || self.cushionEvidence == ''))
+        { value.reason = 'fall-cushion-facts'; return value; }
+        value.cushionedDamage = value.impactDamage > self.cushionDR ? value.impactDamage-self.cushionDR : 0;
+        value.protection = rpgExpandedAssessFallProtection(value.cushionedDamage,self.resistance,self.protectionKind);
         value.wound = new RpgExpandedWound(); value.wound.id = self.id; value.wound.profile = self.profile;
         value.wound.amount = value.protection.penetratingDamage + value.protection.bluntInjury;
         value.wound.dropDestination = self.dropDestination;

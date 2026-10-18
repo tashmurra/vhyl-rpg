@@ -789,3 +789,7 @@ provided but unrun. Location rules and the rest of fall execution remain partial
 Owned torso falls now apply an optional breakable-obstacle cap before protection
 and blunt trauma. The cap and its source facts are bound to the receipt. Obstacle
 damage and subsequent impacts remain unfinished; new fixtures are unrun.
+
+Owned torso falls now support evidenced elastic landing protection before armor,
+including its effect on blunt trauma. Fixtures cover partial/complete cushioning,
+cap ordering, replay and rollback, but remain unrun while checks are paused.

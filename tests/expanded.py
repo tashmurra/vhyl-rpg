@@ -8902,6 +8902,7 @@ def test(build):
     fall_injury = build.build('expanded-fall-injury',ROOT / 'tests/fixtures/expanded-fall-injury.t')
     test_fall_injury(Session, fall_injury, build.out)
     test_collision_cap(Session, collision, fall_injury)
+    test_fall_cushion(Session, fall_injury)
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_radiation_tables)
     fresh(Session,hazards,test_radiation_shielding)
@@ -13750,5 +13751,38 @@ def test_collision_cap(Session, collision, fall):
                 s.action(2285,code)
             count = 0 if 838 in setup else 1
             assert last(s,'test.fall-owned') == [expected,count,count,0,0]
+        finally:
+            s.close()
+
+
+def test_fall_cushion(Session, bundle):
+    cases = [((840,),10,8,0,1), ((841,),10,0,0,0),
+             ((837,840),3,1,1,0), ((836,840),11,9,0,1)]
+    for setup, impact, cushioned, penetrating, blunt in cases:
+        s = Session(bundle)
+        try:
+            for code in setup:
+                s.action(2285,code)
+            s.action(2285,844)
+            assert last(s,'test.fall-cushion') == ['ready',None,impact,cushioned,penetrating,blunt]
+            s.action(2285,833)
+            assert last(s,'test.fall-owned') == [0,0,0,0,0]
+            s.action(2285,832)
+            s.action(2285,833)
+            assert last(s,'test.fall-owned') == [0,0,0,0,0]
+            for code in (831,831,833):
+                s.action(2285,code)
+            assert last(s,'test.fall-owned') == [penetrating+blunt,1,1,0,0]
+        finally:
+            s.close()
+    for invalid in (842,843):
+        s = Session(bundle)
+        try:
+            for code in (840,invalid,830):
+                s.action(2285,code)
+            assert last(s,'test.fall-preview') == ['blocked','fall-cushion-facts']
+            for code in (831,833):
+                s.action(2285,code)
+            assert last(s,'test.fall-owned') == [0,0,0,0,0]
         finally:
             s.close()

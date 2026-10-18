@@ -1713,3 +1713,24 @@ subsequent fall remain unimplemented; authors must not treat the receipt as a
 complete resolution of an obstacle breaking. The new fixtures cover exact and
 exceeded caps, absent and incomplete facts, ordering before armor, replay and
 rollback. They remain unrun while checks are paused.
+
+### Elastic landing protection
+
+Owned torso falls accept `cushionDR` (zero by default, or 2 through 10) with
+`cushionEvidence` describing the elastic landing surface and its applicability.
+The printed examples give DR 2 for a feather bed and DR 10 for a safety net,
+trampoline or airbag; intermediate ratings require an authored assessment.
+These values are collision protection, not general armor for the character.
+
+The operation applies the obstacle cap, subtracts cushioning, then assesses the
+remaining impact against worn or innate protection. `impactDamage` is the capped
+impact and `cushionedDamage` is the amount reaching the character's protection.
+Cushioning is external to worn armor: only damage reaching that armor can cause
+its blunt trauma (B379). Cushioning itself does not create an armor blunt-trauma
+wound. Both rating and evidence are bound to the receipt. Missing evidence or a
+nonzero rating below the printed range blocks the operation before commitment.
+
+This does not determine whether a net breaks, infer a cushion from room scenery,
+or implement landing in water. The fixture covers partial and complete cushioning,
+obstacle-cap ordering, armor blunt trauma, preview, replay, rollback and missing
+facts. Assertions remain unrun. Source: `full-2008`, B379 and B431.
