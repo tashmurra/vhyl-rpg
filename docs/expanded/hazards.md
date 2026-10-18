@@ -1748,7 +1748,7 @@ For a result that does not negate damage, set `damageVelocity` to the velocity
 used for the supplied damage roll. It must match the receipt, so a successful
 acrobatic landing cannot accidentally reuse the original fall velocity. The damage
 roll itself is still supplied by the author: this link does not roll collision dice
-or verify their provenance. Automatic damage-roll ownership remains pending.
+or verify their provenance. Use `RpgExpandedFallImpact` below when the engine should own that roll.
 The operation makes no additional landing roll or time charge.
 
 When `fall` is set, only one injury receipt per profile may use that occurrence,
@@ -1757,3 +1757,31 @@ occurrence for a genuinely subsequent impact. All linkage fields bind on commit.
 Fixtures cover successful/failed dives, reduced velocity, unresolved/mismatched
 receipts, duplicate injury, rollback, undo and cross-process continuation. These
 assertions remain unrun while checks are paused.
+
+
+### Owned fall impact roll
+
+`RpgExpandedFallImpact` accepts an `injury` template (`RpgExpandedFallInjury`) and
+an authored `hard` surface classification. The template must be uncommitted with
+`damage = 0`, a distinct `fall` occurrence and `damageVelocity`; its existing
+landing, protection, cushion, obstacle, evidence and drop fields apply. Full HP
+capacity supplies collision dice. Resolve any owned landing attempt first.
+
+`assess()` computes the damage expression and preflights injury at the minimum,
+maximum and armor-stopping boundary, where applicable. This checks both the peak
+penetration and peak blunt trauma before consuming randomness. `apply()` rolls
+the damage dice once, records each die and the total, then commits a copied injury
+operation in the same action transaction. A negated dive rolls zero damage dice.
+The result exposes `expression`, `dice`, `damage` and the committed `injury`.
+The profile's `fallImpacts` list owns the impact receipt; the original template
+stays uncommitted. Do not separately apply that template.
+
+Replay validates the template binding and child injury receipt without rerolling.
+The occurrence guard prevents a second wound through a different impact or direct
+injury operation. No additional time is charged. Run inside an engine action so
+exceptions roll back dice, wounds and receipt histories together. The deterministic
+fixture specifies preview, rollback, undo, replay, save continuation, changed
+surface rejection, pre-roll location rejection and no damage RNG after a dive.
+Assertions remain unrun. This completes only the supported torso/homogeneous-
+protection impact path; random locations, layered protection, obstacle damage,
+subsequent falls and automatic world movement remain incomplete.

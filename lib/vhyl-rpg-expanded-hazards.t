@@ -3985,3 +3985,88 @@ rpgExpandedCollisionCap(damage,obstacleHP,obstacleDR)
     local limit = obstacleHP + obstacleDR;
     return damage < limit ? damage : limit;
 }
+
+modify RpgExpandedFallInjury
+    copyForDamage(amount)
+    {
+        local value = new RpgExpandedFallInjury();
+        value.id = self.id; value.profile = self.profile; value.damage = amount;
+        value.fall = self.fall; value.landing = self.landing; value.damageVelocity = self.damageVelocity;
+        value.obstacleHP = self.obstacleHP; value.obstacleDR = self.obstacleDR;
+        value.cushionDR = self.cushionDR; value.cushionEvidence = self.cushionEvidence;
+        value.resistance = self.resistance; value.protectionKind = self.protectionKind;
+        value.location = self.location; value.approved = self.approved; value.evidence = self.evidence;
+        value.dropDestination = self.dropDestination; return value;
+    }
+;
+modify RpgExpandedProfile
+    fallImpacts = []
+;
+class RpgExpandedFallImpactResult: RpgExpandedResult
+    expression = nil
+    injury = nil
+    damage = 0
+    dice = []
+;
+/** Own collision dice and the injury as one transaction. injury is an uncommitted template. */
+class RpgExpandedFallImpact: object
+    injury = nil
+    hard = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.injury,self.hard] + self.injury.definition(); }
+    assess()
+    {
+        if (self.injury == nil || !self.injury.ofKind(RpgExpandedFallInjury)
+            || self.injury.profile == nil || !self.injury.profile.ofKind(RpgExpandedProfile)
+            || self.injury.fall == nil) rpgExpandedReject('fall-impact-definition');
+        local value = new RpgExpandedFallImpactResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('fall-impact-binding');
+            if (!holds(self.injury.profile.fallImpacts,self) || self.result.injury.assess().status != 'reused')
+                rpgExpandedReject('fall-impact-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.injury.result != nil || self.injury.damage != 0) rpgExpandedReject('fall-impact-template');
+        rpgInteger(self.injury.damageVelocity,0,10000);
+        local velocity = self.injury.damageVelocity;
+        if (self.injury.landing != nil)
+        {
+            if (!self.injury.landing.ofKind(RpgExpandedLandingReceipt)) rpgExpandedReject('fall-injury-landing');
+            local landing = self.injury.landing.impactFor(self.injury.profile,self.injury.fall);
+            if (landing.negatesDamage) velocity = 0;
+        }
+        value.expression = rpgExpandedAssessCollision(self.injury.profile.maxHP,velocity,self.hard);
+        local minimum = value.expression.damageDice + value.expression.damageAdds;
+        local maximum = value.expression.damageDice * 6 + value.expression.damageAdds;
+        if (minimum < 0) minimum = 0; if (maximum < 0) maximum = 0;
+        /* Injury is monotonic on either side of the armor stopping threshold.
+         * Check its peak blunt injury as well as the highest penetration. */
+        local candidates = [minimum,maximum];
+        rpgInteger(self.injury.resistance,0,100000000); rpgInteger(self.injury.cushionDR,0,10);
+        local threshold = self.injury.resistance + self.injury.cushionDR;
+        if (threshold > minimum && threshold < maximum) candidates = candidates + [threshold];
+        foreach (local amount in candidates)
+        {
+            local prepared = self.injury.copyForDamage(amount).assess();
+            if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local damage = value.expression.damageAdds;
+        for (local index = 0; index < value.expression.damageDice; index += 1)
+        { local die = rpgRandom.die(); value.dice = value.dice + [die]; damage += die; }
+        value.damage = damage < 0 ? 0 : damage;
+        value.injury = self.injury.copyForDamage(value.damage);
+        if (value.injury.apply().status != 'resolved') rpgExpandedReject('fall-impact-interrupted');
+        self.boundDefinition = self.definition(); value.status = 'resolved'; self.result = value;
+        self.injury.profile.fallImpacts = self.injury.profile.fallImpacts + [self]; return value;
+    }
+;

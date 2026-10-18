@@ -808,3 +808,8 @@ Torso fall injuries can now consume owned landing receipts, enforcing occurrence
 and owner binding, matching non-negated impact velocity, dive damage negation and
 one injury receipt per fall. Integration/persistence fixtures remain unrun. The
 impact damage roll is still author-supplied; automatic roll ownership is pending.
+
+Owned torso impacts now roll and record collision dice and commit the linked
+injury in one transaction, after checking penetration and blunt-trauma extrema.
+Negated dives consume no damage dice. Deterministic, rollback, undo and save
+fixtures remain unrun; broader fall execution is still incomplete.
