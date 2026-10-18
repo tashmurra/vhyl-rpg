@@ -409,3 +409,10 @@ poison injury from healing until termination. Replaying the onset cannot trigger
 a later cycle. Added rollback, undo and cross-process continuation fixtures; all
 remain unrun while checks are paused. Fatigue effects, symptoms and treatments
 remain incomplete. The expansion branch includes the current main branch.
+
+
+Increased abstract digestive and hypodermic poison doses now bind timing, damage
+and resistance to one immutable exposure setting. The pure assessment also
+returns dose count, cost and detection modifiers. Fractional doses, automatic
+payload consumption and purchasing/detection integration remain unfinished.
+Added authored, unrun fixtures for arithmetic, injury and invalid routes.

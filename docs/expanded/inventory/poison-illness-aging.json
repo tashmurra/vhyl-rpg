@@ -313,9 +313,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For scalable digestive or injected agents, each abstract dosage doubling doubles cost and damage, halves delay and interval, adds -2 resistance and +2 detection; apply the same dose history consistently.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Exact whole-second increased-dose arithmetic is bound to admitted digestive/hypodermic exposures and used for resistance, damage and deadlines. Cost and detection modifiers are returned for author integration; automatic inventory, purchasing and detection execution remain unfinished. Fixtures authored, unrun."
     },
     {
       "id": "poison-fractional-dose",

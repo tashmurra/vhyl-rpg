@@ -35,6 +35,17 @@ modify BleedTestAction
             eventValue(poisonExposure.remaining); eventValue(bleedProfile.cyclicPoisonInjury());
             eventValue(bleedProfile.injury); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
         }
+        if (code == 276)
+        { poisonDelivery.route = 'digestive'; poisonDelivery.swallowed = true; poisonExposure.doseDoublings = 1; return nil; }
+        if (code == 277) { poisonExposure.doseDoublings = 1; return nil; }
+        if (code == 278)
+        {
+            local value = poisonExposure.doseAssessment(); event('test.poison-dose'); eventValue(value.status);
+            eventValue(value.doses); eventValue(value.damageMultiplier); eventValue(value.costMultiplier);
+            eventValue(value.delaySeconds); eventValue(value.intervalSeconds);
+            eventValue(value.resistanceModifier); eventValue(value.detectionModifier); return nil;
+        }
+        if (code == 279) { poisonExposure.doseDoublings = 2; return nil; }
         return inherited(context);
     }
 ;

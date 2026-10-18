@@ -1144,9 +1144,9 @@ owned follow-up wound. They are authored and unrun.
 base, but owns its admitted delivery and absolute onset deadline. Supply a unique
 `id`, expanded `profile`, `hazard`, approved `RpgExpandedPoisonEntry`, factual
 `sizeModifier`, `approved` and `effectEvidence` identifying the poison's supported
-effects. Currently the hazard must describe exactly one cycle of toxic HP injury,
-with one to one hundred dice and nonnegative additions. Fatigue, cyclic poison,
-other symptoms/conditions, variable dose and negative additions remain unsupported.
+effects. The hazard supports single or repeated cycles of toxic HP injury,
+with one to one hundred dice and nonnegative additions. Fatigue,
+other symptoms/conditions and negative additions remain unsupported.
 The original fictional fixture agent is not a claim of source-catalogue coverage.
 
 `assess()` verifies entry, resistance availability and every possible failure
@@ -1187,3 +1187,25 @@ antidotes and continuing environmental exposure remain unfinished.
 unresistible injury, size-adjusted timing, premature resolution, exact deadlines,
 unsupported forms, preview, replay, rollback, undo and saved continuation. They
 are authored and unrun.
+
+
+### Increased abstract poison dose
+
+For digestive or hypodermic follow-up delivery, set an exposure's `doseDoublings`
+before admission. It defaults to zero. `doseAssessment()` returns a pure
+`RpgExpandedPoisonDoseResult`: abstract dose count, cost and damage multipliers,
+size-adjusted onset, interval, resistance modifier and detection modifier.
+Each doubling doubles the abstract dose, cost and rolled damage, halves onset
+and cycle interval, subtracts two from resistance and adds two to detection
+(full-2008 B439). Size changes onset only. Every derived time must remain an
+exact whole second; fractional timing is rejected before admission.
+
+Exposure resolution uses this same assessment for every cycle. The admitted
+setting is immutable; changing it prevents further execution. The delivering
+system must consume the returned dose count once, and purchasing and detection
+authors must use its cost multiplier and detection modifier. Automatic inventory
+consumption, price settlement and identification actions remain unfinished; this
+interface does not claim those integrations. Increased dose on other routes is
+rejected. Fractional doses and their author-selected efficacy remain unsupported.
+The fixture includes twofold and fourfold arithmetic, doubled injury, shortened
+cycle deadlines, route rejection and mutation rejection. Checks remain paused.

@@ -2611,6 +2611,32 @@ rpgExpandedPoisonDelay(delay, sizeModifier)
         }
     return delay;
 }
+/** full-2008 B439: exact whole-second dose scaling. Zero interval means
+ * a noncyclic effect. A delivering system consumes the returned abstract doses. */
+class RpgExpandedPoisonDoseResult: RpgExpandedResult
+    doses = 1
+    damageMultiplier = 1
+    costMultiplier = 1
+    delaySeconds = 0
+    intervalSeconds = 0
+    resistanceModifier = 0
+    detectionModifier = 0
+;
+rpgExpandedPoisonDose(doublings, delay, interval)
+{
+    rpgInteger(doublings,0,10); rpgInteger(delay,0,2147483647); rpgInteger(interval,0,86400);
+    local value = new RpgExpandedPoisonDoseResult();
+    for (local step = 0; step < doublings; step += 1)
+    {
+        if (delay % 2 != 0 || interval % 2 != 0)
+        { value.reason = 'poison-dose-subsecond-timing'; return value; }
+        delay /= 2; interval /= 2; value.doses *= 2;
+    }
+    value.damageMultiplier = value.doses; value.costMultiplier = value.doses;
+    value.delaySeconds = delay; value.intervalSeconds = interval;
+    value.resistanceModifier = -2 * doublings; value.detectionModifier = 2 * doublings;
+    value.status = 'ready'; return value;
+}
 class RpgExpandedPoisonResult: RpgExpandedResult
     context = nil
     entryModifier = 0
@@ -2634,10 +2660,21 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
     boundDefinition = nil
     result = nil
     cycleHistory = []
+    doseDoublings = 0
+    doseAssessment()
+    {
+        if (self.doseDoublings != 0 && self.entry.route != 'digestive'
+            && !(self.entry.route == 'follow-up' && self.entry.penetrationKind == 'hypodermic'))
+        {
+            local value = new RpgExpandedPoisonDoseResult(); value.reason = 'poison-dose-route'; return value;
+        }
+        local delay = rpgExpandedPoisonDelay(self.hazard.delay,self.sizeModifier);
+        return rpgExpandedPoisonDose(self.doseDoublings,delay,self.hazard.cycles > 1 ? self.hazard.interval : 0);
+    }
     definition()
     {
         local e = self.entry; local h = self.hazard;
-        return [self.id,self.profile,h,self.sizeModifier,self.approved,self.effectEvidence,self.dropDestination,
+        return [self.id,self.profile,h,self.sizeModifier,self.doseDoublings,self.approved,self.effectEvidence,self.dropDestination,
             h.kind,h.delay,h.interval,h.cycles,h.dice,h.adds,h.fatigueDamage,h.resistible,h.resistanceModifier,
             e,e.patient,e.route,e.method,e.approved,e.evidence,e.inArea,e.mucousContact,e.openWoundContact,
             e.persistentWoundReached,e.vulnerableAreaHit,e.skinContact,e.unarmored,e.unclad,e.swallowed,
@@ -2683,6 +2720,8 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         rpgInteger(self.hazard.dice,1,100); rpgInteger(self.hazard.adds,0,1000);
         rpgInteger(self.hazard.resistanceModifier,-100,100);
         if (self.profile.dead) { value.reason = 'poison-exposure-dead'; return value; }
+        local dose = self.doseAssessment();
+        if (dose.status != 'ready') { value.reason = dose.reason; return value; }
         if (!self.started)
         {
             foreach (local prior in self.profile.poisonExposures)
@@ -2691,20 +2730,21 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
             if (entry.status != 'ready' || !entry.exposed)
             { value.reason = entry.status == 'ready' ? 'poison-not-delivered' : entry.reason; return value; }
             value.entryModifier = entry.resistanceModifier;
-            local delay = rpgExpandedPoisonDelay(self.hazard.delay,self.sizeModifier);
+            local delay = dose.delaySeconds;
             rpgInteger(rpgLedger.seconds,0,2147483647 - delay); value.seconds = delay;
-            rpgInteger(self.hazard.cycles - 1,0,(2147483647 - rpgLedger.seconds - delay) / self.hazard.interval);
+            if (self.hazard.cycles > 1)
+                rpgInteger(self.hazard.cycles - 1,0,(2147483647 - rpgLedger.seconds - delay) / dose.intervalSeconds);
         }
         if (self.hazard.resistible)
         {
             value.context = new RpgLiteContext(); value.context.attribute = rpgHT; value.context.kind = 'poison';
-            value.context.modifier = self.hazard.resistanceModifier + value.entryModifier;
+            value.context.modifier = self.hazard.resistanceModifier + value.entryModifier + dose.resistanceModifier;
             local score = rpgLiteScore(self.profile,value.context);
             if (score == nil || score < 3) { value.reason = 'poison-resistance-score'; return value; }
         }
         for (local amount = self.hazard.dice + self.hazard.adds; amount <= 6 * self.hazard.dice + self.hazard.adds; amount += 1)
         {
-            local harm = self.failureWound(amount).assess();
+            local harm = self.failureWound(amount * dose.damageMultiplier).assess();
             if (harm.status != 'ready') { value.reason = harm.reason; return value; }
         }
         value.status = 'ready'; return value;
@@ -2758,6 +2798,10 @@ class RpgExpandedPoisonCycle: object
             if (prior.id == self.id) rpgExpandedReject('poison-cycle-duplicate');
         local value = self.exposure.assessResolution();
         if (self.exposure.finished) { value.status = 'blocked'; value.reason = 'poison-already-ended'; }
+        if (value.status == 'ready')
+            foreach (local wound in self.exposure.profile.expandedWounds)
+                if (wound.id == 'poison-' + self.exposure.id + '-' + self.id)
+                    rpgExpandedReject('poison-cycle-wound-duplicate');
         return value;
     }
     apply()
@@ -2768,7 +2812,7 @@ class RpgExpandedPoisonCycle: object
         value.resisted = value.check != nil && value.check.achieved;
         if (!value.resisted)
         {
-            local amount = rpgLiteRollDamage(e.hazard.dice,e.hazard.adds,'tox',nil);
+            local amount = rpgLiteRollDamage(e.hazard.dice,e.hazard.adds,'tox',nil) * e.doseAssessment().damageMultiplier;
             value.wound = e.failureWound(amount); value.wound.id = 'poison-' + e.id + '-' + self.id;
             local harm = value.wound.apply();
             if (harm.status != 'resolved') rpgExpandedReject('poison-injury-changed');
@@ -2782,7 +2826,7 @@ class RpgExpandedPoisonCycle: object
             e.completedAt = rpgLedger.seconds; e.remaining = 0; e.finished = true;
             e.lockedInjury = 0; e.result = value;
         }
-        else { e.lockedInjury += value.injury; e.dueAt += e.hazard.interval; }
+        else { e.lockedInjury += value.injury; e.dueAt += e.doseAssessment().intervalSeconds; }
         return value;
     }
 ;

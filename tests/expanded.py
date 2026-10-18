@@ -11380,3 +11380,29 @@ def test_poison_exposure(Session, bundle, out):
             assert last(s, 'test.poison-cycle')[3] == (3 if resisted else 7)
         finally:
             s.close()
+
+    # B439: doubled swallowed dose uses half timing and twice rolled damage.
+    s = Session(bundle)
+    try:
+        for code in (269, 276, 265, 278):
+            s.action(2285, code)
+        assert last(s, 'test.poison-dose') == ['ready', 2, 2, 2, 30, 30, -2, 2]
+        for code in (260, 268, 262, 275):
+            s.action(2285, code)
+        assert last(s, 'test.poison-cycle') == [1, 1, 8, 8, 30, 4]
+        s.action(2285, 279)  # changing admitted dose invalidates the receipt
+        s.action(2285, 268)
+        s.action(2285, 264)
+        assert last(s, 'test.poison-exposure') == [0, 60, None, 1, 8, 30, 4]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (277, 260, 264):
+            s.action(2285, code)
+        assert last(s, 'test.poison-exposure') == [None, None, None, 0, 0, 0, 0]
+        for code in (276, 269, 279, 278):
+            s.action(2285, code)
+        assert last(s, 'test.poison-dose') == ['ready', 4, 4, 4, 15, 15, -4, 4]
+    finally:
+        s.close()
