@@ -1806,3 +1806,45 @@ modify rpgExpandedTemplateTraits
         local trait = self.plain(id,level,scope); trait.signalDependent = true; trait.creationCost(); return trait;
     }
 ;
+
+/** B146: fixed purchase; observer-specific reactions live in the social module. */
+class RpgExpandedHumorlessness: RpgLiteTrait
+    id = 'humorlessness'
+    labelId = 'humorlessness'
+    points = -10
+    approved = nil
+    templatePurchaseKind = 'expanded-humorlessness'
+    creationCost()
+    {
+        if (!self.approved || self.id != 'humorlessness' || self.points != -10 || self.level != 1
+            || self.scope != nil || self.controlled || self.skills.length() != 0) rpgExpandedReject('humorlessness-definition');
+        return -10;
+    }
+;
+modify RpgExpandedProfile
+    humorlessnessActive()
+    {
+        local count = 0; local active = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'humorlessness')
+            {
+                if (!trait.ofKind(RpgExpandedHumorlessness)) rpgExpandedReject('humorlessness-definition');
+                trait.creationCost(); count += 1; if (trait.active && !trait.mitigated) active = true;
+            }
+        if (count > 1) rpgExpandedReject('humorlessness-duplicate'); return active;
+    }
+    validateFeatures() { inherited(); self.humorlessnessActive(); return nil; }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id != 'humorlessness') return inherited(id,level,scope);
+        local trait = new RpgExpandedHumorlessness(); trait.level = level; trait.scope = scope; trait.approved = true;
+        trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedHumorlessness)) return inherited(trait);
+        trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
+    }
+;

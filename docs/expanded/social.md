@@ -1037,3 +1037,40 @@ remain unfinished.
 `test_talent_reaction` specifies eligibility, mitigation, the manipulation
 exception, pure assessment, rejection before rolling, replay, exception rollback,
 undo and cross-process save continuation. Assertions remain unrun.
+
+
+## Observed behavior in reactions
+
+`RpgExpandedHumorlessnessObservation` implements the situational reaction effect
+from `full-2008`, B146. Its subject receives -2 only when the trait is active and
+`evident = true` for this observer. The author describes the actual communication
+that revealed the behavior; owning the trait alone does not penalize every
+encounter. Interpreting jokes and choosing speech remain authored/player behavior.
+
+`RpgExpandedCallousnessObservation` supplies the existing B125 -1 when the observer
+is a `pastVictim` or an `empathicObserver`. Both concrete observations inherit
+`RpgExpandedSocialObservation`: set a unique `id`, `subject`, `observer`,
+`approved = true` and original `evidence`. `assess()` previews; `record()` stores
+immutable participant-specific evidence at the shared time without a roll or
+elapsed-time charge. Later facts use a new observation rather than rewriting an
+old one. Trait mitigation still suppresses the current trait effect.
+
+Use `RpgExpandedObservedReactionContext` with those participants and an
+`observations` list. Each selected observation must belong to that subject and
+observer. The context combines distinct effects but rejects duplicate kinds,
+including two observations of the same trait. Normal shared reaction modifiers
+still apply once. This supplies a concrete composition path for these two effects;
+other situational trait contexts are not automatically converted to observations.
+
+`RpgExpandedObservedReactionAttempt` uses the existing owned reaction encounter
+and distinct approach identity. It binds the chosen observation definitions to
+its resolved approach and rejects later substitutions. Retrying it reuses the
+stored roll/outcome. Use a new approved approach for a new observation selection.
+Reaction results and observation evidence are trusted-author data; do not expose
+hidden attitudes or rolls directly in player output.
+
+[`expanded-observed-reactions.t`](../../tests/fixtures/expanded-observed-reactions.t)
+contains cost, evident/unevident behavior, combined modifiers, duplicate rejection,
+immutable evidence, preview, replay, rollback, undo and persistence fixtures. They
+are authored but unrun while checks are paused. Automatic dialogue observation
+and conversion of the remaining situational trait contexts remain pending.

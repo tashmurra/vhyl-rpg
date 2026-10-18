@@ -1998,3 +1998,119 @@ class RpgExpandedTalentReactionContext: RpgLiteSocialContext
         return nil;
     }
 ;
+
+/** Immutable, participant-specific observation. Concrete types supply each rule. */
+class RpgExpandedSocialObservation: object
+    id = nil
+    subject = nil
+    observer = nil
+    approved = nil
+    evidence = nil
+    recordedAt = nil
+    boundDefinition = nil
+    kind() { rpgExpandedReject('social-observation-kind'); }
+    modifier() { rpgExpandedReject('social-observation-rule'); }
+    definition() { return [self.id,self.subject,self.observer,self.approved,self.evidence,self.recordedAt,self.kind()]; }
+    validateReceipt()
+    {
+        if (self.recordedAt == nil || !holds(self.subject.socialObservations,self)) rpgExpandedReject('social-observation-owner');
+        local current = self.definition();
+        if (current.length() != self.boundDefinition.length()) rpgExpandedReject('social-observation-binding');
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('social-observation-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.subject == nil || !self.subject.ofKind(RpgExpandedProfile)
+            || self.observer == nil || !self.observer.ofKind(RpgLiteProfile) || self.subject == self.observer)
+            rpgExpandedReject('social-observation-participants');
+        self.kind(); local value = new RpgExpandedResult();
+        if (self.recordedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'social-observation-evidence'; return value; }
+        foreach (local prior in self.subject.socialObservations)
+        { prior.validateReceipt(); if (prior.id == self.id) rpgExpandedReject('social-observation-duplicate'); }
+        value.modifier = self.modifier(); value.status = 'ready'; return value;
+    }
+    record()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.subject.socialObservations = self.subject.socialObservations + [self]; value.status = 'resolved'; return value;
+    }
+;
+modify RpgExpandedProfile
+    socialObservations = []
+;
+class RpgExpandedHumorlessnessObservation: RpgExpandedSocialObservation
+    evident = nil
+    kind() { return 'humorlessness'; }
+    definition() { return inherited() + [self.evident]; }
+    modifier() { return self.evident && self.subject.humorlessnessActive() ? -2 : 0; }
+;
+class RpgExpandedCallousnessObservation: RpgExpandedSocialObservation
+    pastVictim = nil
+    empathicObserver = nil
+    kind() { return 'callousness'; }
+    definition() { return inherited() + [self.pastVictim,self.empathicObserver]; }
+    modifier() { return (self.pastVictim || self.empathicObserver) && self.subject.callousnessActive() ? -1 : 0; }
+;
+class RpgExpandedObservedReactionContext: RpgLiteSocialContext
+    subject = nil
+    observer = nil
+    observations = []
+    traitReactionModifier(profile)
+    {
+        if (profile != self.subject || self.subject == nil || !self.subject.ofKind(RpgExpandedProfile)
+            || self.observer == nil || !self.observer.ofKind(RpgLiteProfile) || self.observer == self.subject)
+            rpgExpandedReject('observed-reaction-participants');
+        local amount = inherited(profile); local kinds = [];
+        foreach (local fact in self.observations)
+        {
+            if (fact == nil || !fact.ofKind(RpgExpandedSocialObservation) || fact.subject != profile || fact.observer != self.observer)
+                rpgExpandedReject('observed-reaction-fact-owner');
+            fact.validateReceipt(); local kind = fact.kind();
+            if (holds(kinds,kind)) rpgExpandedReject('observed-reaction-duplicate-effect');
+            kinds = kinds + [kind]; amount += fact.modifier();
+        }
+        return amount;
+    }
+    validateParticipants(profile,target)
+    {
+        self.traitReactionModifier(profile);
+        if (target != self.observer) rpgExpandedReject('observed-reaction-observer'); return nil;
+    }
+;
+/** Stores the observation selection with the resolved approach, without exposing it to players. */
+class RpgExpandedObservedReactionAttempt: RpgExpandedReactionAttempt
+    boundObservationDefinition = nil
+    observationDefinition()
+    {
+        if (self.socialContext == nil || !self.socialContext.ofKind(RpgExpandedObservedReactionContext))
+            rpgExpandedReject('observed-reaction-context');
+        local definition = [self.encounter,self.approach,self.socialContext,self.socialContext.subject,self.socialContext.observer];
+        foreach (local fact in self.socialContext.observations)
+        {
+            if (fact == nil || !fact.ofKind(RpgExpandedSocialObservation)) rpgExpandedReject('observed-reaction-fact-owner');
+            fact.validateReceipt(); definition = definition + [fact] + fact.definition();
+        }
+        return definition;
+    }
+    assess()
+    {
+        local current = self.observationDefinition();
+        if (self.boundObservationDefinition != nil)
+        {
+            if (current.length() != self.boundObservationDefinition.length()) rpgExpandedReject('observed-reaction-binding');
+            for (local i = 1; i <= current.length(); i += 1)
+                if (current[i] != self.boundObservationDefinition[i]) rpgExpandedReject('observed-reaction-binding');
+        }
+        return inherited();
+    }
+    resolve()
+    {
+        local value = inherited();
+        if (value.status == 'resolved') self.boundObservationDefinition = self.observationDefinition();
+        return value;
+    }
+;

@@ -11,9 +11,12 @@
       "pages": "B146",
       "module": "social",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Humorlessness costs -10 and gives -2 reactions when the inability to recognize or offer humor becomes apparent. Author supplies relevant communication context; do not penalize observers who have not encountered the behavior.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_observed_reactions"
+      ],
+      "validation_note": "Fixed -10 purchase, owned/copyable trait and immutable participant-specific evidence. Evident-only -2 composes with callousness once per effect via the shared reaction procedure, with saved observation selection. Actual jokes/dialogue and revelation are explicitly authored decisions; automatic parser/dialogue observation remains pending. Lifecycle fixtures authored, unrun."
     },
     {
       "id": "disadvantages-f-no-smell-taste",

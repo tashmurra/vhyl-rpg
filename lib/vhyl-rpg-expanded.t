@@ -638,3 +638,6 @@ modify rpgExpandedTemplateTraits
         rpgExpandedReject('template-trait-options-unavailable');
     }
 ;
+modify RpgExpandedProfile
+    humorlessnessActive() { return nil; }
+;

@@ -106,3 +106,9 @@ Orientation and susceptibility now compose through explicit template purchase
 options, with ancestry-origin preservation, duplicate-cost prevention and bound
 limitations. Mixed limited/unlimited purchases reject. Inherited transformation
 and arbitrary modifier combinations remain pending; fixtures are unrun.
+
+
+Social work now includes humorlessness accounting and owned observer-specific
+reaction facts. Humorlessness and callousness combine without duplicate penalties;
+resolved approaches bind their observation selection. Automatic dialogue
+observation and the remaining trait contexts are pending; fixtures are unrun.

@@ -9175,6 +9175,8 @@ def test(build):
     test_orientation_signal(Session, orientation_signal, build.out)
     navigation_templates = build.build('expanded-navigation-templates',ROOT / 'tests/fixtures/expanded-navigation-templates.t')
     test_navigation_templates(Session, navigation_templates, build.out)
+    observed_reactions = build.build('expanded-observed-reactions',ROOT / 'tests/fixtures/expanded-observed-reactions.t')
+    test_observed_reactions(Session, observed_reactions, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19717,5 +19719,52 @@ def test_navigation_templates(Session, bundle, out):
         s.command(f':restore {path}\n@2286')
         s.action(2285, 9705)
         assert last(s, 'test.navigation-ancestry') == [-2, 2, 10, 1, 1, 2, 2]
+    finally:
+        s.close()
+
+
+def test_observed_reactions(Session, bundle, out):
+    """B146 evident-only penalty combines with B125 once per observer; unrun."""
+    path = out / 'expanded-observed-reactions.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30, 9800, 9801, 9801, 9803, 9804):
+            s.action(2285, code)
+        assert last(s, 'test.observed-preview') == [-10, -3, 'ready', 0]
+        assert last(s, 'test.observed-state') == [2, 0, 0]
+        s.action(2285, 9802)
+        s.command('undo')
+        s.action(2285, 9804)
+        assert last(s, 'test.observed-state') == [2, 0, 0]
+        for code in (9802, 9802, 9804):
+            s.action(2285, code)
+        assert last(s, 'test.observed-result') == ['reused', 7]
+        assert last(s, 'test.observed-state') == [2, 1, 3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 9802)
+        assert last(s, 'test.observed-result') == ['reused', 7]
+        for code in (9808, 9806):
+            s.action(2285, code)
+        assert last(s, 'test.observed-error') == ['observed-reaction-binding', 3]
+    finally:
+        s.close()
+    for change, reason in ((9805, 'observed-reaction-duplicate-effect'), (9807, 'social-observation-binding')):
+        s = Session(bundle)
+        try:
+            for code in (9800, change, 9806):
+                s.action(2285, code)
+            assert last(s, 'test.observed-error') == [reason, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (9800, 9808, 9801):
+            s.action(2285, code)
+        assert last(s, 'test.observed-preview') == [-10, 0, 'ready', 0]
     finally:
         s.close()

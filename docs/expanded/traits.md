@@ -1304,3 +1304,14 @@ pending. The fixture
 [`expanded-orientation-signal.t`](../../tests/fixtures/expanded-orientation-signal.t)
 covers costs, copying, eligibility, time/frame staleness, preview, replay,
 rollback, undo and save continuation. It remains unrun while checks are paused.
+
+
+## Humorlessness
+
+`RpgExpandedHumorlessness` is a fixed -10-point purchase with `level = 1` and
+`approved = true` (`full-2008`, B146). It rejects custom cost, scope, self-control
+and skill lists. Template plain/copy operations create independent purchases.
+Character validation rejects duplicates. Its reaction penalty requires a recorded
+observer-specific indication that the behavior was evident; see
+[observed behavior](social.md#observed-behavior-in-reactions). No universal
+reaction penalty or compulsory player dialogue is added.
