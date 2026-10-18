@@ -223,9 +223,12 @@
       "pages": "B130",
       "module": "traits",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Accelerated aging adds +30% to the sustenance requirement and causes two years of aging per health point lost through that requirement, including normally ageless actors. Attribute aging to this cause, not unrelated injury, and route aging through its normal procedure.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_sustenance_aging_plan"
+      ],
+      "validation_note": "Pure two-year boundary assessment now uses the shared aging schedule, including month-based lifespan changes and ignoring ordinary aging immunity for this effect. Day-based calendar conversion explicitly rejects rather than guessing. Modifier pricing, causal injury ownership, committed age advancement and forced aging execution remain pending; this helper is not full modifier implementation. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-c-dependent-competence",

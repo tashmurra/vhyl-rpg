@@ -295,3 +295,9 @@ Continuous object/environment access now owns initial, lost and restored states.
 Loss starts minute injury; restoration stops further ticks without healing prior
 wounds. Automatic movement and finite supply consumption remain pending; replay,
 rollback, undo and save-continuation fixtures are authored but unrun.
+
+
+A pure sustenance-aging assessment now enumerates the aging boundaries crossed
+by two added years using the shared lifespan schedule. Ordinary aging immunity
+does not suppress the assessment; day-based calendar ambiguity rejects. Pricing,
+causal ownership and execution remain pending. Fixtures are authored but unrun.

@@ -9234,6 +9234,8 @@ def test(build):
     test_sustenance_initial(Session, sustenance_initial, build.out)
     sustenance_continuous = build.build('expanded-sustenance-continuous',ROOT / 'tests/fixtures/expanded-sustenance-continuous.t')
     test_sustenance_continuous(Session, sustenance_continuous, build.out)
+    sustenance_aging_plan = build.build('expanded-sustenance-aging-plan',ROOT / 'tests/fixtures/expanded-sustenance-aging-plan.t')
+    test_sustenance_aging_plan(Session, sustenance_aging_plan)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20969,5 +20971,26 @@ def test_sustenance_continuous(Session, bundle, out):
         for code in (12601, 12604, 12603, 12606):
             s.action(2285, code)
         assert last(s, 'test.sustenance-continuous') == [2, 1, 0, 1, 1, 180, 0]
+    finally:
+        s.close()
+
+
+def test_sustenance_aging_plan(Session, bundle):
+    """B130/B444 two-year crossings through shared lifespan bands; unrun."""
+    s = Session(bundle)
+    try:
+        cases = [
+            (12700, ['ready', None, 240, 264, 0, 0, 10]),
+            (12701, ['ready', None, 588, 612, 2, 600, 612, 0, 10]),
+            (12702, ['ready', None, 828, 852, 3, 840, 846, 852, 0, 10]),
+            (12703, ['ready', None, 1068, 1092, 5, 1080, 1083, 1086, 1089, 1092, 0, 10]),
+            (12704, ['ready', None, 588, 612, 2, 600, 612, 0, 10]),
+            (12705, ['ready', None, 1188, 1212, 1, 1200, 0, 10]),
+            (12706, ['blocked', 'sustenance-aging-day-calendar-required', 528, 552, 0, 0, 10]),
+            (12707, ['ready', None, 288, 312, 3, 300, 306, 312, 0, 10]),
+        ]
+        for code, expected in cases:
+            s.action(2285, code)
+            assert last(s, 'test.sustenance-aging-plan') == expected
     finally:
         s.close()

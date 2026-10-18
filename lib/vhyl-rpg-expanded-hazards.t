@@ -6042,3 +6042,33 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+class RpgExpandedSustenanceAgingPlan: RpgExpandedResult
+    oldAgeMonths = 0
+    newAgeMonths = 0
+    boundaryAgeMonths = []
+    addedYears = 2
+;
+/** B130 two years per injury point; B444/B53/B154 existing aging schedule.
+ * This assessment deliberately does not exempt ordinarily ageless characters. */
+rpgExpandedSustenanceAgingPlan(profile,oldAgeMonths)
+{
+    if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('sustenance-aging-profile');
+    rpgInteger(oldAgeMonths,0,11999976);
+    local value = new RpgExpandedSustenanceAgingPlan(); value.oldAgeMonths = oldAgeMonths; value.newAgeMonths = oldAgeMonths + 24;
+    local schedule = rpgExpandedAgingSchedule(profile.level('short-lifespan'),profile.level('extended-lifespan'));
+    if (schedule.status != 'ready') { value.reason = schedule.reason; return value; }
+    for (local month = oldAgeMonths + 1; month <= value.newAgeMonths; month += 1)
+    {
+        local band = nil;
+        foreach (local candidate in schedule.bands) if (month >= candidate[1] * 12) band = candidate;
+        if (band == nil) continue;
+        if (band[2] == 'day')
+        {
+            value.reason = 'sustenance-aging-day-calendar-required'; value.boundaryAgeMonths = []; return value;
+        }
+        local interval = band[2] == 'year' ? band[3] * 12 : band[3];
+        if ((month - band[1] * 12) % interval == 0) value.boundaryAgeMonths = value.boundaryAgeMonths + [month];
+    }
+    value.status = 'ready'; return value;
+}

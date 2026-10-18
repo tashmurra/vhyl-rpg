@@ -2411,3 +2411,31 @@ pending; this interface does not manufacture or consume an environmental supply.
 [`expanded-sustenance-continuous.t`](../../tests/fixtures/expanded-sustenance-continuous.t)
 and `test_sustenance_continuous` specify minute injury, loss/restoration replay,
 rollback, undo and cross-process save continuation. Fixtures remain unrun.
+
+
+### Assessing deprivation-related aging
+
+`rpgExpandedSustenanceAgingPlan(profile, oldAgeMonths)` is a pure assessment of
+the two years added by one qualifying injury point (`full-2008`, B130). It uses
+the existing aging schedule (B444, B53, B154) and returns `oldAgeMonths`,
+`newAgeMonths`, `addedYears = 2` and `boundaryAgeMonths`. The starting age must
+be an authored exact month boundary; the function does not infer a birthday or
+round an age measured in days. Boundaries after the old age and through the new
+age are included, including transitions to more frequent aging checks.
+
+Ordinary aging immunity does not remove these boundaries: B130 explicitly makes
+this effect apply to otherwise ageless characters. Extended lifespan and
+month-based shortened-lifespan bands use the shared schedule. Crossing a day-based
+band returns `sustenance-aging-day-calendar-required` and no partial boundary
+list, because exact campaign day/month relationships are needed.
+
+This is assessment coverage only. The sustenance modifier's price, causal link
+to each injury, committed age advancement and forced boundary execution remain
+pending. The helper does not change age, attributes, time or randomness and does
+not by itself implement the modifier. It will support preflight of the owned
+aging operation rather than introduce a second age ledger.
+
+[`expanded-sustenance-aging-plan.t`](../../tests/fixtures/expanded-sustenance-aging-plan.t)
+and `test_sustenance_aging_plan` specify young ages, the three ordinary frequency
+bands, ageless characters, extended and shortened lifespan, and explicit rejection
+of unresolved day calendars. Fixtures remain unrun.
