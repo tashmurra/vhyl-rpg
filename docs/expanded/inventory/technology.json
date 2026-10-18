@@ -401,9 +401,12 @@
       "status": "partial",
       "acceptance": "Failed prototypes may be retried only with new time and attempt cost. Critical failure causes an authored accident dealing at least two dice damage to inventor and every assistant and destroys facilities, requiring full rebuilding.",
       "tests": [
-        "tests/expanded.py::test_prototype_assessments"
+        "tests/expanded.py::test_prototype_assessments",
+        "tests/expanded.py::test_prototype_accident",
+        "tests/expanded.py::test_prototype_accident_protection",
+        "tests/expanded.py::test_prototype_accident_persistence"
       ],
-      "validation_note": "Pure supplied-dice duration, qualified-team modifiers and secret outcome assessments authored; fixtures unrun. Owned work/funding, injuries, actual defects and lifecycle remain pending."
+      "validation_note": "Owned supplied-outcome accident contract uses expanded wounds for every participant and destroys facilities; fixtures unrun. Secret completion dispatch, broader anatomy and secondary accident effects remain incomplete."
     },
     {
       "id": "technology-flawed-theory",

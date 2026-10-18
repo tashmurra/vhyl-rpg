@@ -1909,3 +1909,101 @@ class RpgExpandedPrototypeWork: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+class RpgExpandedPrototypeAccidentTarget: object
+    id = nil
+    profile = nil
+    dice = 2
+    damageType = 'cr'
+    protection = 0
+    divisor = 1
+    destination = nil
+    definition() { return [self.id,self.profile,self.dice,self.damageType,self.protection,self.divisor,self.destination]; }
+    prepare(raw)
+    {
+        local amount = rpgLitePenetration(raw,self.protection,self.divisor,self.damageType,nil);
+        return self.profile.prepareTechnologyWound(self.id,amount,self.destination);
+    }
+;
+
+class RpgExpandedPrototypeAccidentResult: RpgExpandedResult
+    damage = []
+    wounds = []
+;
+
+/** Explicit authored accident severity and protection; all participants must be covered. */
+class RpgExpandedPrototypeAccident: object
+    attempt = nil
+    outcome = nil
+    targets = []
+    approved = nil
+    evidence = nil
+    result = nil
+    definitionSnapshot = nil
+    definition()
+    {
+        local value = [self.attempt,self.outcome,self.evidence,self.targets.length()];
+        foreach (local target in self.targets) value = value + [target] + target.definition();
+        return value;
+    }
+    assess()
+    {
+        if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedPrototypeStart) || self.attempt.result == nil)
+            rpgExpandedReject('prototype-accident-attempt');
+        self.attempt.assess(); local value = new RpgExpandedPrototypeAccidentResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.definitionSnapshot.length()) rpgExpandedReject('prototype-accident-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('prototype-accident-binding');
+            value.status = 'reused'; value.damage = self.result.damage; value.wounds = self.result.wounds; return value;
+        }
+        if (self.outcome == nil || !self.outcome.ofKind(RpgExpandedPrototypeOutcome)
+            || !self.outcome.accident || !self.outcome.facilitiesDestroyed || self.outcome.check == nil
+            || self.outcome.check.critical != 'failure') rpgExpandedReject('prototype-accident-outcome');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'prototype-accident-author-facts'; return value; }
+        if (self.attempt.workedSeconds != self.attempt.result.seconds)
+        { value.reason = 'prototype-work-incomplete'; return value; }
+        if (self.attempt.facilities == nil || self.attempt.facilities.destroyed)
+        { value.reason = 'prototype-accident-facilities'; return value; }
+        local participants = [self.attempt.project.proposal.inventor] + self.attempt.assistants;
+        if (self.targets.length() != participants.length()) rpgExpandedReject('prototype-accident-team');
+        local seen = [];
+        foreach (local target in self.targets)
+        {
+            if (target == nil || !target.ofKind(RpgExpandedPrototypeAccidentTarget)
+                || target.profile == nil || !target.profile.ofKind(RpgExpandedProfile)
+                || !holds(participants,target.profile) || holds(seen,target.profile))
+                rpgExpandedReject('prototype-accident-target');
+            seen = seen + [target.profile];
+            if (target.id == nil || target.id == '') rpgExpandedReject('prototype-accident-wound-id');
+            rpgInteger(target.dice,2,10); rpgInteger(target.protection,0,10000); rpgInteger(target.divisor,1,100);
+            if (!holds(['cr','cut','imp','burn','pi-','pi','pi+'],target.damageType))
+                rpgExpandedReject('prototype-accident-damage-type');
+            for (local raw = target.dice; raw <= target.dice*6; raw += 1)
+            {
+                local wound = target.prepare(raw);
+                if (wound == nil) { value.reason = 'prototype-accident-health-required'; return value; }
+                local check = wound.assess();
+                if (check.status != 'ready') { value.reason = check.reason; return value; }
+            }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        foreach (local target in self.targets)
+        {
+            local raw = 0;
+            for (local index = 1; index <= target.dice; index += 1) raw += rpgRandom.die();
+            local wound = target.prepare(raw); local injury = wound.apply();
+            if (injury.status != 'resolved') rpgExpandedReject('prototype-accident-injury-changed');
+            value.damage = value.damage + [raw]; value.wounds = value.wounds + [wound];
+        }
+        self.attempt.facilities.destroyed = true; self.definitionSnapshot = self.definition();
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

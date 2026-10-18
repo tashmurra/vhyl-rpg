@@ -94,3 +94,7 @@ rpgExpandedValidate(profile)
     }
     return true;
 }
+
+modify RpgExpandedProfile
+    prepareTechnologyWound(id, amount, destination) { return nil; }
+;

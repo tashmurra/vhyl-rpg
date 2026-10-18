@@ -7,9 +7,10 @@
 #include <vhyl-rpg-lite.t>
 #include <vhyl-rpg-expanded.t>
 #include <vhyl-rpg-expanded-equipment.t>
+#include <vhyl-rpg-expanded-health.t>
 #include <vhyl-rpg-expanded-technology.t>
 inventionRoom: Room 'Design Office';
-conceptRules: RpgExpandedRules;
+conceptRules: RpgExpandedRules scaledInjuryShock = true;
 conceptUser: RpgExpandedProfile rules = conceptRules money = 1000000 techLevel = 8 skills = [conceptTraining];
 conceptSkill: RpgLiteSkill id = 'engineer' attribute = rpgIQ difficulty = 2;
 conceptTraining: RpgTraining skill = conceptSkill points = 24;
@@ -39,11 +40,34 @@ modify rpgLedger
         if (prototypeClockFault.enabled) conceptUser.unconscious = true;
     }
 ;
+prototypeAccidentTarget: RpgExpandedPrototypeAccidentTarget id = 'lab-accident-wound' profile = conceptUser destination = 'laboratory-floor';
+prototypeAccident: RpgExpandedPrototypeAccident attempt = prototypeStart targets = [prototypeAccidentTarget]
+    approved = true evidence = 'Crushing machinery accident; torso protection assessed';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 80)
+        {
+            if (code == 80)
+            {
+                conceptBlueprint.apply(); conceptFacilities.fund(); prototypeStart.begin();
+                for (local day = 1; day <= 4; day += 1)
+                {
+                    local work = new RpgExpandedPrototypeWork(); work.id = day; work.attempt = prototypeStart;
+                    work.seconds = 86400; work.approved = true; work.uninterrupted = true; work.evidence = 'Complete day'; work.apply();
+                }
+                prototypeAccident.outcome = rpgExpandedPrototypeOutcome(12,17,nil,[]); rpgRandom.seed(1); return nil;
+            }
+            if (code == 84) prototypeAccident.approved = nil;
+            if (code == 85) prototypeAccident.targets = [];
+            if (code == 86) prototypeAccidentTarget.protection = 100;
+            if (code == 87) prototypeAccident.evidence = 'Changed accident';
+            local value = code == 83 ? prototypeAccident.assess() : prototypeAccident.apply();
+            event('test.prototype-accident'); eventValue(value.status); eventValue(value.reason); eventValue(value.damage.length());
+            if (code == 82) throw new RpgError(); return nil;
+        }
         if (code >= 60)
         {
             if (code == 60) { conceptBlueprint.apply(); conceptFacilities.fund(); prototypeStart.begin(); return nil; }
@@ -117,6 +141,13 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2107) { conceptInput.code = 80 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2108)
+    {
+        event('test.prototype-accident-state'); eventValue(conceptUser.injury); eventValue(conceptUser.expandedWounds.length());
+        eventValue(conceptFacilities.destroyed ? 1 : 0); eventValue(conceptUser.money);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2106) { conceptInput.code = 60 + args[1]; return vhylAct(2097,args); }
     if (verb == 2104) { conceptInput.code = 40 + args[1]; return vhylAct(2097,args); }
     if (verb == 2105)

@@ -942,3 +942,40 @@ that every elapsed second is strenuous labor or award study credit for it.
 rollback, clock-triggered interruption, facility loss, undo, replay, exact remaining
 work, and cross-process continuation. These fixtures remain unrun while checks
 are paused. Source: `full-2008`, B474.
+
+
+## Owned prototype accident consequences
+
+`RpgExpandedPrototypeAccident` accepts a completed-work attempt, its assessed
+critical-failure `outcome`, explicit approval, evidence and exactly one target for
+every inventor/assistant. `RpgExpandedPrototypeAccidentTarget` specifies an owned
+wound `id`, expanded `profile`, two through ten damage `dice`, a supported physical
+`damageType`, assessed `protection`, armor `divisor` and equipment-drop
+`destination`. The author must establish the accident mechanism and applicable
+protection; neither an explosion nor a default protection value is inferred from
+the source's minimum damage statement.
+
+Include the health module to supply `prepareTechnologyWound`. The foundation's
+fallback returns no adapter, causing `prototype-accident-health-required` rather
+than applying simplified injury. The concrete adapter creates the existing owned
+torso wound, retaining scaled shock, major wounds, drops and the shared injury
+ledger. Its anatomy, trait and campaign-rule restrictions still apply.
+
+Assessment preflights every possible raw damage total for every target before
+randomness. Execution rolls each target's damage in declared order, applies its
+wound and records both in the accident receipt, then marks the original facilities
+destroyed. Enclose this in an action transaction so any exception restores all
+participants, randomness and facilities. There is no additional cost or elapsed
+time. Replay returns the historical receipt without another injury or destruction.
+
+This is a concrete consequence contract for supplied critical-failure outcomes;
+it does not yet make the secret prototype completion roll or close the active
+attempt. It supports standard torso wounds and the listed physical damage types,
+not arbitrary multi-location explosions, secondary fires or unsupported anatomy.
+Those combinations must await explicit support. Actual rebuilding still uses a
+new facilities funding request and the recorded full cost.
+
+`test_prototype_accident`, `test_prototype_accident_protection` and
+`test_prototype_accident_persistence` author preflight, rollback, undo, replay,
+protection, funding preservation and cross-process wound continuation. These
+fixtures remain unrun. Source: `full-2008`, B474, with existing injury procedures.

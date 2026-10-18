@@ -973,6 +973,55 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def prototype_accident_state(s):
+    s.action(2108)
+    return last(s,'test.prototype-accident-state')
+
+
+def test_prototype_accident(s):
+    s.action(2107,0)
+    initial = [0,0,0,899000,0,345600]
+    for code in [3,2,5]:
+        s.action(2107,code)
+        assert prototype_accident_state(s) == initial
+    s.action(2107,4)
+    assert last(s,'test.prototype-accident') == ['blocked','prototype-accident-author-facts',0]
+    s.command('undo')
+    s.action(2107,1)
+    hurt = [4,1,1,899000,2,345600]
+    assert prototype_accident_state(s) == hurt
+    s.command('undo')
+    assert prototype_accident_state(s) == initial
+    s.action(2107,1)
+    for code in [1,7]:
+        s.action(2107,code)
+        assert prototype_accident_state(s) == hurt
+
+
+def test_prototype_accident_protection(s):
+    s.action(2107,0)
+    s.action(2107,6)
+    assert prototype_accident_state(s) == [0,1,1,899000,2,345600]
+
+
+def test_prototype_accident_persistence(Session,bundle,out):
+    path = out / 'expanded-prototype-accident.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2107,0)
+        first.action(2107,1)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2108')
+        second.action(2107,1)
+        assert prototype_accident_state(second) == [4,1,1,899000,2,345600]
+    finally:
+        second.close()
+
+
 def test_prototype_work(s):
     s.action(2106,0)
     initial = [899000,1,345600,0,2,0]
@@ -6316,6 +6365,9 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_prototype_accident)
+    fresh(Session,invention,test_prototype_accident_protection)
+    test_prototype_accident_persistence(Session,invention,build.out)
     fresh(Session,invention,test_prototype_work)
     test_prototype_work_persistence(Session,invention,build.out)
     fresh(Session,invention,test_prototype_start)

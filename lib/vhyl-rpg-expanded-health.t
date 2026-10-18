@@ -2103,3 +2103,12 @@ modify rpgLedger
         inherited(previousSeconds); rpgExpandedCardiacClock.dispatch(); return nil;
     }
 ;
+
+/** Technology accidents use the same owned torso wound and injury ledger. */
+modify RpgExpandedProfile
+    prepareTechnologyWound(id, amount, destination)
+    {
+        local wound = new RpgExpandedWound(); wound.id = id; wound.profile = self;
+        wound.amount = amount; wound.dropDestination = destination; return wound;
+    }
+;
