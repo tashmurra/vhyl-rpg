@@ -121,6 +121,7 @@ rpgLiteHeal(profile, amount)
     if (amount > 0 && profile.unconscious && !profile.mortal && profile.fp() > 0
         && rpgLiteAttributeCheck(profile, rpgHT, 'wake', 0).achieved)
     { profile.unconscious = nil; profile.apparentDeath = nil; profile.needsMedicalHelp = nil; }
+    profile.afterHealing();
     return amount;
 }
 

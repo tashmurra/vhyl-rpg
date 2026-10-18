@@ -420,9 +420,14 @@
       "pages": "B422",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Determine crippling duration with a health check, at combat end for battlefield injuries: success temporary, ordinary failure lasting and critical failure permanent. Destruction is automatically permanent and consumes no duration roll.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_duration",
+        "tests/expanded.py::test_crippling_duration_persistence",
+        "tests/expanded.py::test_crippling_months"
+      ],
+      "validation_note": "Owned duration classification, active-combat gate, destroyed-part roll suppression, healing-trait bonus, explicit completed-care adjustment and temporary full-health recovery authored. Fixtures unrun. Calendar expiry, later care, permanent repair and character-value accounting remain incomplete."
     },
     {
       "id": "health-temporary-crippling",
@@ -430,9 +435,14 @@
       "pages": "B422",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Temporary crippling persists until full health is restored, then removes only the associated temporary functional penalties.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_duration",
+        "tests/expanded.py::test_crippling_duration_persistence",
+        "tests/expanded.py::test_crippling_months"
+      ],
+      "validation_note": "Owned duration classification, active-combat gate, destroyed-part roll suppression, healing-trait bonus, explicit completed-care adjustment and temporary full-health recovery authored. Fixtures unrun. Calendar expiry, later care, permanent repair and character-value accounting remain incomplete."
     },
     {
       "id": "health-lasting-crippling",
@@ -440,9 +450,14 @@
       "pages": "B422",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Lasting crippling lasts one die of months, reduced by qualifying medical treatment but never below one month; use the campaign calendar rather than an unexplained fixed seconds-per-month constant.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_duration",
+        "tests/expanded.py::test_crippling_duration_persistence",
+        "tests/expanded.py::test_crippling_months"
+      ],
+      "validation_note": "Owned duration classification, active-combat gate, destroyed-part roll suppression, healing-trait bonus, explicit completed-care adjustment and temporary full-health recovery authored. Fixtures unrun. Calendar expiry, later care, permanent repair and character-value accounting remain incomplete."
     },
     {
       "id": "health-permanent-crippling",
@@ -450,9 +465,14 @@
       "pages": "B422-B423",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Permanent loss grants the appropriate negative trait and lowers character value without crediting spendable points; later restoration uses the applicable repair or treatment procedure.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_duration",
+        "tests/expanded.py::test_crippling_duration_persistence",
+        "tests/expanded.py::test_crippling_months"
+      ],
+      "validation_note": "Owned duration classification, active-combat gate, destroyed-part roll suppression, healing-trait bonus, explicit completed-care adjustment and temporary full-health recovery authored. Fixtures unrun. Calendar expiry, later care, permanent repair and character-value accounting remain incomplete."
     },
     {
       "id": "health-temporary-strength",

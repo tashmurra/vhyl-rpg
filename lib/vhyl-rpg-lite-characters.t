@@ -47,6 +47,7 @@ class RpgLiteProfile: RpgProfile
     creationComplete = nil
     injury = 0
     fatigue = 0
+    afterHealing() { return nil; }
     shock = 0
     /* Pure injury extension; the default preserves the abridged penalty. */
     shockFromInjury(amount) { return amount; }

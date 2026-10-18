@@ -101,9 +101,12 @@
         "tests/expanded.py::test_limb_wound_persistence",
         "tests/expanded.py::test_unarmed_limb_capacity",
         "tests/expanded.py::test_limb_grip_retention",
-        "tests/expanded.py::test_limb_grip_persistence"
+        "tests/expanded.py::test_limb_grip_persistence",
+        "tests/expanded.py::test_crippling_duration",
+        "tests/expanded.py::test_crippling_duration_persistence",
+        "tests/expanded.py::test_crippling_months"
       ],
-      "validation_note": "Partial upper-limb wounds include multiple-grip retention and remaining-grip attack eligibility. Fixtures authored but unrun. Repeated location injury, broader task effects, treatment and recovery remain incomplete."
+      "validation_note": "Partial upper-limb wounds now include owned duration classification and temporary full-health recovery. Fixtures authored but unrun. Calendar expiry, repeated location injury, broader task effects, complete treatment and permanent-disability accounting remain incomplete."
     },
     {
       "id": "magic",

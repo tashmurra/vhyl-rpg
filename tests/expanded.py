@@ -408,6 +408,80 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def duration_state(s):
+    s.action(1631)
+    return last(s, 'test.duration-state')
+
+
+def test_crippling_duration(s):
+    initial = duration_state(s)
+    assert initial == [0, 0, None, 0, 0, 0, 0, 0, 0, 0, 0]
+    s.action(1630, 10)
+    assert duration_state(s) == initial
+    for code, expected in [
+            (1, [6, 1, 'temporary', 0, 0, 11, 11, 6, 0, 1, 1]),
+            (2, [6, 1, 'lasting', 1, 1, 10, 11, 7, 0, 1, 1]),
+            (3, [6, 1, 'permanent', 0, 0, 10, 17, 3, 0, 1, 1]),
+            (4, [6, 1, 'permanent', 0, 0, 0, 0, 3, 0, 1, 1]),
+            (5, [0, 0, 'temporary', 0, 0, 11, 11, 6, 1, 1, 0]),
+            (13, [6, 1, 'temporary', 0, 0, 15, 11, 6, 0, 1, 1]),
+            (14, [6, 1, 'temporary', 0, 0, 15, 11, 6, 0, 1, 1]),
+            (15, [6, 1, 'lasting', 1, 1, 10, 11, 7, 0, 1, 1]),
+            (16, [0, 1, 'lasting', 1, 1, 10, 11, 7, 0, 1, 1]),
+            (17, [0, 1, 'permanent', 0, 0, 10, 17, 3, 0, 1, 1])]:
+        s.action(1630, code)
+        assert last(s, 'test.duration-outcome') == ['resolved', None]
+        assert duration_state(s) == expected
+        s.command('undo')
+        assert duration_state(s) == initial
+    for code, reason in [(11, 'crippling-duration-combat-active'),
+                         (12, 'crippling-duration-combat-not-ended')]:
+        s.action(1630, code)
+        assert last(s, 'test.duration-outcome') == ['blocked', reason]
+        assert duration_state(s) == [6, 1, None, 0, 0, 0, 0, 3, 0, 0, 1]
+        s.command('undo')
+    s.action(1630, 6)
+    partial = duration_state(s)
+    assert partial == [1, 1, 'temporary', 0, 0, 11, 11, 6, 0, 1, 1]
+    for code in [8, 9]:
+        s.action(1630, code)
+        assert duration_state(s) == partial
+    s.action(1630, 7)
+    assert duration_state(s) == [0, 0, 'temporary', 0, 0, 11, 11, 6, 1, 1, 0]
+    s.command('undo')
+    assert duration_state(s) == partial
+
+
+def test_crippling_duration_persistence(Session, bundle, out):
+    for code in [1, 2, 3, 4, 5]:
+        path = out / f'expanded-duration-{code}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1630, code)
+            saved = duration_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1631')
+            assert duration_state(second) == saved
+            second.action(1630, 0)
+            assert last(second, 'test.duration-outcome') == ['reused', None]
+            assert duration_state(second) == saved
+        finally:
+            second.close()
+
+
+def test_crippling_months(s):
+    for tl, expected in [(-1, [1,2,3,4,5,6]), (4, [1,2,3,4,5,6]),
+                         (5, [1,1,2,3,4,5]), (6, [1,1,1,2,3,4]),
+                         (7, [1,1,1,1,2,3]), (12, [1,1,1,1,2,3])]:
+        for roll, months in enumerate(expected, 1):
+            s.action(1615, roll, tl)
+            assert last(s, 'test.crippling-months') == [months]
+
+
 def limb_retention(s):
     s.action(1623)
     return last(s, 'test.limb-retention')
@@ -2305,9 +2379,12 @@ def test(build):
     fresh(Session,health,test_crippling_thresholds)
     fresh(Session,health,test_body_supports)
     fresh(Session,health,test_unarmed_limb_capacity)
+    fresh(Session,health,test_crippling_months)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_limb_wound_transactions)
+    fresh(Session,wounds,test_crippling_duration)
+    test_crippling_duration_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_limb_grip_retention)
     test_limb_grip_persistence(Session,wounds,build.out)
     test_limb_wound_persistence(Session,wounds,build.out)

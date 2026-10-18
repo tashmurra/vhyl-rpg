@@ -290,8 +290,8 @@ state and do not store or spend health points.
 `validateBodyParts()` checks ownership, identities, supported kinds and parent
 relationships. `functional()` returns false for a disabled part or a hand on a
 disabled arm. Authors can supply existing disabilities with these fields. The owned upper-limb wound path below sets disability and its wound reference.
-Healing does not yet clear these fields; no duration or advancement accounting
-is inferred.
+The duration procedure below can clear temporary disability at full health;
+permanent-disability point accounting is not yet supplied.
 
 Bind a weapon's `bodySupports` to the hands holding it; bind an attached shield
 to its arm. The shared combat engine now dispatches weapon attacks, weapon
@@ -424,3 +424,54 @@ remaining-grip attack eligibility and repeat protection after save/restore.
 They are authored but unrun. Multiple-grip retention no longer blocks solely
 because an unaffected hand remains; duration, repeated-location injury and the
 other listed incomplete procedures still remain outstanding.
+
+
+## Classifying crippling duration
+
+`RpgExpandedCripplingDuration` is owned by an existing committed crippling wound
+through `wound.durationRecord`. Set `wound` and the authored `combatEnded` fact,
+then call `assess()` or `apply()` inside an action transaction. Assessment checks
+ownership and rejects duplicate duration records. It also checks active battle
+objects: an authored end-of-combat assertion cannot bypass a still-active battle
+containing this patient. For an injury outside combat, the author sets
+`combatEnded` to indicate no combat remains to be concluded.
+
+Under full-2008 B422-B423, success on the health check gives `temporary`, ordinary
+failure gives `lasting`, and critical failure gives `permanent`. Destruction is
+permanent without this check or a month roll; it need not wait for combat to end.
+The active `rapid-healing` or `very-rapid-healing` trait supplies the B79 bonus of
+five, once. This integrates that effect without supplying the trait catalogue or
+its other recovery effects.
+
+The stored `result` contains the classification, check and, for lasting injury,
+`monthRoll` and `months`. `rpgExpandedCripplingMonths(roll, medicalTL)` applies the
+B422 reductions for physician care, with a one-month minimum. A nil level means
+no qualifying treatment. To use this adjustment in the owned request, provide
+`physician`, `medicalTL` and nonempty `careEvidence` identifying completed care.
+These are authored world facts: the interface records the provider and completed
+care, but does not perform treatment, validate a physician's full qualifications,
+or charge its resources. Missing or inconsistent care fields reject before the
+duration roll. The broader medical subsystem remains incomplete.
+
+Repeated application returns `reused`; the original outcome remains available
+as `record.result`. The wound, combat-end fact and care fields are bound at
+commit and cannot be changed to reroll or obtain a different discount. Requests
+with unavailable health scores reject before consuming randomness.
+
+The shared `afterHealing()` hook has a no-op Lite default. Expanded profiles use
+it to clear only a temporary disability from its own still-current wound when
+injury reaches zero. Partial healing does not clear it. Full healing does not
+clear lasting or permanent disability. The stored result marks `recovered`, and
+the historical wound remains available. Classifying a temporary injury when the
+patient is already fully healed also clears that disability immediately.
+
+Lasting recovery is recorded in calendar months, not converted to a fixed number
+of ledger seconds. Calendar expiry, later treatment, surgery, permanent repair
+and the character-value consequences of permanent disability remain pending.
+This procedure grants no advancement points. It is not complete injury recovery.
+
+`test_crippling_duration`, `test_crippling_duration_persistence` and
+`test_crippling_months` cover classifications, destroyed-part roll suppression,
+trait bonuses, care reductions, full-health restrictions, active-combat gates,
+duplicate/retargeted requests, rollback, undo and cross-process continuation.
+They are authored but unrun while build checks remain paused.

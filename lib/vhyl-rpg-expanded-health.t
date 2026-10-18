@@ -99,6 +99,7 @@ class RpgExpandedWound: object
     boundBodyPart = nil
     boundSevering = nil
     cripplingAssessment = nil
+    durationRecord = nil
     droppedLimbEquipment = nil
     maleGroin = nil
     anatomy = 'standard-humanoid'
@@ -218,6 +219,11 @@ modify RpgExpandedProfile
             if (wound == nil || !wound.ofKind(RpgExpandedWound) || wound.profile != self
                 || wound.boundProfile != self || wound.health == nil || wound.id != wound.boundId
                 || holds(ids,wound.id)) rpgExpandedReject('expanded-wound-history');
+            if (wound.durationRecord != nil && (!wound.durationRecord.ofKind(RpgExpandedCripplingDuration)
+                || wound.durationRecord.wound != wound || wound.durationRecord.boundWound != wound
+                || wound.durationRecord.result == nil
+                || !holds(['temporary','lasting','permanent'],wound.durationRecord.result.duration)))
+                rpgExpandedReject('crippling-duration-history');
             ids = ids + [wound.id];
         }
         return nil;
@@ -540,5 +546,127 @@ class RpgExpandedLimbDropPlan: RpgExpandedResult
         }
         self.forcedDrop.items = dropped; self.forcedDrop.commit(); self.items = dropped;
         self.committed = true; return 'resolved';
+    }
+;
+
+
+/** Lasting recovery in calendar months, B422; treatment never reduces it below one. */
+rpgExpandedCripplingMonths(roll, medicalTL)
+{
+    rpgInteger(roll,1,6);
+    if (medicalTL == nil) return roll;
+    rpgInteger(medicalTL,0,12);
+    local reduction = medicalTL >= 7 ? 3 : medicalTL == 6 ? 2 : medicalTL == 5 ? 1 : 0;
+    return roll - reduction < 1 ? 1 : roll - reduction;
+}
+
+/** Stored classification and check; months are calendar units, not ledger seconds. */
+class RpgExpandedCripplingDurationResult: RpgExpandedResult
+    duration = nil
+    months = 0
+    monthRoll = 0
+    recovered = nil
+;
+
+/** One owned duration determination per crippling wound, B422-B423. Physician
+ * treatment is an explicit completed-care fact; this does not perform treatment. */
+class RpgExpandedCripplingDuration: object
+    wound = nil
+    combatEnded = nil
+    physician = nil
+    medicalTL = nil
+    careEvidence = nil
+    boundWound = nil
+    boundCombatEnded = nil
+    boundPhysician = nil
+    boundMedicalTL = nil
+    boundCareEvidence = nil
+    result = nil
+    assess()
+    {
+        if (self.wound == nil || !self.wound.ofKind(RpgExpandedWound)
+            || self.wound.health == nil || self.wound.bodyPart == nil
+            || self.wound.cripplingAssessment == nil || !self.wound.cripplingAssessment.crippled)
+            rpgExpandedReject('crippling-duration-wound');
+        local profile = self.wound.profile; rpgExpandedValidate(profile);
+        if (!holds(profile.expandedWounds,self.wound)) rpgExpandedReject('crippling-duration-owner');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.wound.durationRecord != self || self.wound != self.boundWound
+                || self.combatEnded != self.boundCombatEnded || self.physician != self.boundPhysician
+                || self.medicalTL != self.boundMedicalTL || self.careEvidence != self.boundCareEvidence)
+                rpgExpandedReject('crippling-duration-retargeted');
+            value.status = 'reused'; return value;
+        }
+        if (self.wound.durationRecord != nil) rpgExpandedReject('crippling-duration-duplicate');
+        if (self.wound.bodyPart.disablingWound != self.wound || !self.wound.bodyPart.disabled)
+            rpgExpandedReject('crippling-duration-part');
+        if (self.medicalTL != nil)
+        {
+            rpgInteger(self.medicalTL,0,12);
+            if (self.physician == nil || !self.physician.ofKind(RpgLiteProfile)
+                || self.careEvidence == nil || self.careEvidence == '')
+                rpgExpandedReject('crippling-duration-care-evidence');
+        }
+        else if (self.physician != nil || self.careEvidence != nil)
+            rpgExpandedReject('crippling-duration-care-level');
+        if (!self.wound.cripplingAssessment.destroyed)
+        {
+            if (profile.dead) { value.reason = 'crippling-duration-dead'; return value; }
+            if (!self.combatEnded) { value.reason = 'crippling-duration-combat-not-ended'; return value; }
+            for (local battle = firstObj(RpgLiteBattle); battle != nil; battle = nextObj(battle,RpgLiteBattle))
+                if (battle.active)
+                    foreach (local fighter in battle.fighters)
+                        if (fighter.profile == profile)
+                        { value.reason = 'crippling-duration-combat-active'; return value; }
+            local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'crippling-duration';
+            context.modifier = profile.level('rapid-healing') > 0 || profile.level('very-rapid-healing') > 0 ? 5 : 0;
+            local score = rpgLiteScore(profile,context);
+            if (score == nil || score < 3) { value.reason = 'crippling-duration-score-unavailable'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local assessment = self.assess(); if (assessment.status != 'ready') return assessment;
+        local value = new RpgExpandedCripplingDurationResult(); local profile = self.wound.profile;
+        if (self.wound.cripplingAssessment.destroyed) value.duration = 'permanent';
+        else
+        {
+            local modifier = profile.level('rapid-healing') > 0 || profile.level('very-rapid-healing') > 0 ? 5 : 0;
+            value.check = rpgLiteAttributeCheck(profile,rpgHT,'crippling-duration',modifier);
+            if (value.check.achieved) value.duration = 'temporary';
+            else if (value.check.critical == 'failure') value.duration = 'permanent';
+            else
+            {
+                value.duration = 'lasting'; value.monthRoll = rpgRandom.die();
+                value.months = rpgExpandedCripplingMonths(value.monthRoll,self.medicalTL);
+            }
+        }
+        value.status = 'resolved'; self.result = value;
+        self.boundWound = self.wound; self.boundCombatEnded = self.combatEnded;
+        self.boundPhysician = self.physician; self.boundMedicalTL = self.medicalTL;
+        self.boundCareEvidence = self.careEvidence; self.wound.durationRecord = self;
+        profile.afterHealing(); return value;
+    }
+;
+
+modify RpgExpandedProfile
+    afterHealing()
+    {
+        inherited();
+        if (self.dead || self.injury != 0) return nil;
+        foreach (local wound in self.expandedWounds)
+        {
+            local record = wound.durationRecord;
+            if (record != nil && record.result != nil && record.result.duration == 'temporary'
+                && !record.result.recovered && wound.bodyPart.disablingWound == wound)
+            {
+                wound.bodyPart.disabled = nil; wound.bodyPart.severed = nil;
+                wound.bodyPart.disablingWound = nil; record.result.recovered = true;
+            }
+        }
+        return nil;
     }
 ;

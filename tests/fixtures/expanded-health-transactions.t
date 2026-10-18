@@ -82,6 +82,44 @@ class LimbFixtureAction: Action
 ;
 limbAction: LimbFixtureAction;
 limbVerb: Verb code = 1620 action = limbAction label = 'limb-fixture';
+limbDuration: RpgExpandedCripplingDuration wound = limbWound combatEnded = true;
+durationBattle: RpgLiteBattle;
+class DurationFixtureAction: Action
+    exec(context)
+    {
+        if (healthInput.code == 7) { rpgLiteHeal(limbPatient,1); return nil; }
+        if (healthInput.code == 8)
+        {
+            local duplicate = new RpgExpandedCripplingDuration(); duplicate.wound = limbWound;
+            duplicate.combatEnded = true; duplicate.apply(); return nil;
+        }
+        if (healthInput.code == 9) { limbDuration.combatEnded = nil; limbDuration.apply(); return nil; }
+        if (healthInput.code == 4) { limbWound.amount = 12; limbWound.severing = true; limbDuration.combatEnded = nil; }
+        if (limbWound.health == nil) limbWound.apply();
+        limbPatient.ht = holds([1,5,6,10],healthInput.code) ? 11 : 10;
+        if (healthInput.code == 3 || healthInput.code == 17) rpgRandom.seed(5);
+        if (healthInput.code == 11)
+        {
+            local fighter = new RpgLiteFighter(); fighter.profile = limbPatient;
+            durationBattle.fighters = [fighter]; durationBattle.active = true;
+        }
+        if (healthInput.code == 12) limbDuration.combatEnded = nil;
+        if (healthInput.code == 13 || healthInput.code == 14)
+        {
+            local rapid = new RpgLiteTrait(); rapid.id = 'rapid-healing'; limbPatient.traits = [rapid];
+            if (healthInput.code == 14)
+            { local very = new RpgLiteTrait(); very.id = 'very-rapid-healing'; limbPatient.traits = [rapid,very]; }
+        }
+        if (healthInput.code == 15)
+        { limbDuration.physician = healthPatient; limbDuration.medicalTL = 7; limbDuration.careEvidence = 'completed-clinic-care'; }
+        local value = limbDuration.apply(); event('test.duration-outcome'); eventValue(value.status); eventValue(value.reason);
+        if (holds([5,6,16,17],healthInput.code)) rpgLiteHeal(limbPatient,healthInput.code == 6 ? 5 : 6);
+        if (healthInput.code == 10) throw new RpgError();
+        return nil;
+    }
+;
+durationAction: DurationFixtureAction;
+durationVerb: Verb code = 1630 action = durationAction label = 'duration-fixture';
 modify gameMain initialRoom = healthRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
@@ -139,6 +177,17 @@ act(verb,args)
         local fighter = new RpgLiteFighter(); fighter.profile = limbPatient; fighter.weapon = limbHeld;
         eventValue(rpgLiteStrike(fighter,nil,new RpgLiteManeuver()).reason);
         eventValue(limbPatient.shock); eventValue(limbPatient.injury); return nil;
+    }
+    if (verb == 1630) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1631)
+    {
+        local value = limbDuration.result; event('test.duration-state');
+        eventValue(limbPatient.injury); eventValue(limbArm.disabled ? 1 : 0);
+        eventValue(value == nil ? nil : value.duration); eventValue(value == nil ? 0 : value.months);
+        eventValue(value == nil ? 0 : value.monthRoll); eventValue(value == nil || value.check == nil ? 0 : value.check.score);
+        eventValue(value == nil || value.check == nil ? 0 : value.check.roll); eventValue(rpgRandom.draws);
+        eventValue(value != nil && value.recovered ? 1 : 0); eventValue(limbWound.durationRecord == limbDuration ? 1 : 0);
+        eventValue(limbArm.disablingWound != nil ? 1 : 0); return nil;
     }
     return vhylAct(verb,args);
 }

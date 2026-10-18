@@ -194,5 +194,10 @@ act(verb,args)
         fighter.profile = new RpgExpandedProfile(); fighter.freeHands = 2;
         eventValue(fighter.unarmedParryCapacity()); return nil;
     }
+    if (verb == 1615)
+    {
+        event('test.crippling-months'); eventValue(rpgExpandedCripplingMonths(args[1],args[2] < 0 ? nil : args[2]));
+        return nil;
+    }
     return vhylAct(verb,args);
 }
