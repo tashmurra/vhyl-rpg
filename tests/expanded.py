@@ -908,6 +908,53 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_unarmed_miss_assessments(s):
+    keys = ['outcome','injury','dice','adds','location','recovery','disability','pain','damage',
+            'divisor','natural','attack','defense','affected','guard','move','away','dx','forbid']
+    base = dict(zip(keys,[None,0,0,0,None,0,0,0,None,1,0,0,0,0,1,0,0,0,0]))
+    def assess(roll, expected, kind='attack', limb=1, natural=0, kick=0, penalty=999,
+               health=10, iq=10, animal=0, flee=1, impaling=0, pain=0, mobility='ground'):
+        s.action(2020,roll,kind,limb,natural,kick,penalty,health,iq,animal,flee,impaling,pain,mobility)
+        assert dict(zip(keys,last(s,'test.unarmed-miss'))) == dict(base,**expected)
+        assert last(s,'test.burst-purity') == [0,0]
+    rows = {
+        3: dict(outcome='unconscious',recovery=1800),
+        4: dict(outcome='strained-limb',injury=1,location='used-limb',disability=1800),
+        5: dict(outcome='self-damage',location='used-body-part',damage='own-thrust-crushing'),
+        6: dict(outcome='self-damage',location='used-body-part',damage='own-thrust-crushing',divisor=2),
+        7: dict(outcome='stumble-past',move=1,away=1),
+        8: dict(outcome='fall'),
+        9: dict(outcome='off-balance',defense=-2,forbid=1),
+        12:dict(outcome='trip-check'),
+        13:dict(outcome='open-guard',defense=-2,guard=2),
+        15:dict(outcome='torn-muscle',dice=1,adds=-3,location='used-limb',attack=-1,defense=-1,affected=-3)}
+    for roll,row in [(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(10,9),
+                     (11,9),(12,12),(13,13),(14,7),(15,15),(16,5),(17,4),(18,3)]:
+        assess(roll,rows[row])
+    assess(4,dict(outcome='moderate-pain',pain=600),limb=0)
+    assess(4,dict(outcome='moderate-pain',pain=60),limb=0,health=25)
+    assess(5,dict(rows[5],damage='opponent-weapon-own-strength'),impaling=1)
+    assess(5,rows[5],kind='parry',impaling=1)
+    assess(6,dict(outcome='broken-natural-weapon',natural=-1),natural=1)
+    assess(6,rows[6],kind='parry',natural=1)
+    assess(7,dict(outcome='fall'),kind='parry')
+    assess(8,dict(outcome='general-injury',dice=1,adds=-3,location='general'),mobility='cannot-fall')
+    for mobility in ['flying','swimming']:
+        assess(8,dict(outcome='awkward-position',attack=-4,defense=-3),mobility=mobility)
+    assess(12,dict(outcome='trip-check',dx=-4),kick=1)
+    assess(12,dict(outcome='trip-check',dx=-8),kick=1,penalty=-4)
+    assess(15,dict(rows[15],location='neck',affected=-1),limb=0,pain=1)
+    for iq in [3,4,5]:
+        assess(17,dict(outcome='flee-next-turn'),animal=1,iq=iq)
+        assess(17,dict(outcome='submit-next-turn'),animal=1,iq=iq,flee=0)
+    for iq in [2,6]:
+        assess(17,rows[4],animal=1,iq=iq)
+    for die, injury in [(1,0),(2,0),(3,0),(4,1),(5,2),(6,3)]:
+        s.action(2021,die)
+        assert last(s,'test.unarmed-injury') == [injury]
+        assert last(s,'test.burst-purity') == [0,0]
+
+
 def test_weapon_miss_assessments(s):
     outcomes = {3:'break-weapon',4:'break-weapon',5:'self-hit',6:'self-hit',
                 7:'off-balance',8:'weapon-unready',9:'drop-weapon',10:'drop-weapon',
@@ -4670,6 +4717,7 @@ def test(build):
     fresh(Session,combat,test_combat_check_classification)
     fresh(Session,combat,test_critical_hit_assessments)
     fresh(Session,combat,test_weapon_miss_assessments)
+    fresh(Session,combat,test_unarmed_miss_assessments)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_airless_seconds)

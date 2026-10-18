@@ -72,6 +72,24 @@ act(verb,args)
         eventValue(value.forbidsFurtherActions ? 1 : 0); eventValue(value.randomLimb ? 1 : 0);
         eventValue(value.randomDisplacement ? 1 : 0);
     }
+    else if (verb == 2020)
+    {
+        local context = new RpgExpandedUnarmedMissContext(); context.kind = args[2]; context.limbUsed = args[3] == 1;
+        context.naturalWeapon = args[4] == 1; context.kicking = args[5] == 1;
+        context.normalMishapPenalty = args[6] == 999 ? nil : args[6]; context.health = args[7];
+        context.intelligence = args[8]; context.animal = args[9] == 1; context.canFlee = args[10] == 1;
+        context.foeReadyImpaling = args[11] == 1; context.highPainThreshold = args[12] == 1; context.mobility = args[13];
+        local value = rpgExpandedUnarmedMiss(context,args[1]);
+        event('test.unarmed-miss'); eventValue(value.outcome); eventValue(value.injury); eventValue(value.injuryDice);
+        eventValue(value.injuryAdds); eventValue(value.injuryLocation); eventValue(value.recoveryIntervalSeconds);
+        eventValue(value.disabilitySeconds); eventValue(value.painSeconds); eventValue(value.damageMode);
+        eventValue(value.damageDivisor); eventValue(value.naturalDamageModifier); eventValue(value.attackModifier);
+        eventValue(value.defenseModifier); eventValue(value.affectedActionModifier); eventValue(value.guardExposureMultiplier);
+        eventValue(value.movePastYards); eventValue(value.turnAway ? 1 : 0); eventValue(value.dexterityModifier);
+        eventValue(value.forbidsFurtherActions ? 1 : 0);
+    }
+    else if (verb == 2021)
+    { event('test.unarmed-injury'); eventValue(rpgExpandedUnarmedMissInjury(args[1])); }
     else return vhylAct(verb,args);
     event('test.burst-purity'); eventValue(rpgRandom.draws - draws); eventValue(rpgLedger.seconds - clock); return nil;
 }

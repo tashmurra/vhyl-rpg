@@ -126,7 +126,7 @@ persistent consequences or grant normal defenses against a critical hit.
 `test_critical_hit_assessments` records every general and head table roll,
 eye-redirection fallback, damage-type scarring, armor rounding, maximum and
 multiplied basic damage, penetration-dependent shock, and duration boundaries.
-All cases are authored but unrun. Unarmed critical-miss assessment, multi-hit critical routing
+All cases are authored but unrun. Multi-hit critical routing
 and owned injury/equipment/condition integration remain incomplete.
 
 ## Weapon critical-miss assessment
@@ -163,6 +163,45 @@ unarmed table or category-specific overrides.
 `test_weapon_miss_assessments` records all sixteen ordinary rows, attack/parry
 exceptions, cheap breakage, both confirmation branches and a three-roll chain.
 Fixtures are authored but unrun while checks remain paused.
+
+## Unarmed critical-miss assessment
+
+`RpgExpandedUnarmedMissContext` records attack versus parry, whether a limb was
+used, natural-weapon and kicking facts, health, intelligence, animal status,
+available escape, the opponent's ready impaling weapon, pain resistance, and the
+current movement mode. `rpgExpandedUnarmedMiss(context, roll)` assesses the B557
+row with supplied table dice. It does not infer those facts from a creature label.
+
+Receipts distinguish unconsciousness with 30-minute recovery checks, strained
+limbs, timed moderate pain, protected self-damage, natural-weapon breakage,
+stumbling past an opponent, falling, imbalance, a DX trip check, exposed guard,
+torn muscles and animal flight/submission. A ready impaling opponent changes an
+attacker's self-damage source to that weapon using the attacker's strength; it
+does not change a parry mishap. Natural-weapon breakage on row six applies when
+attacking, and records -1 future damage pending the disability recovery procedure.
+
+A row-twelve trip still requires its DX check. Set `normalMishapPenalty` when a
+technique has its own ordinary-failure mishap penalty; the assessment doubles it.
+Otherwise a kick gives -4 and other uses give zero. If that check fails, use
+`rpgExpandedUnarmedFall(mobility)`: `ground` falls, `cannot-fall` substitutes 1d-3
+general injury, and `flying`/`swimming` impose the awkward-position attack -4 and
+defense -3. The authored movement mode must reflect the actual state, including
+being already on the ground. No position is changed by assessment.
+
+Torn-muscle injury identifies the used limb, or the neck for a non-limb attack.
+The author must bind the actual limb when several were used. It records -1 attack
+and defense for the next turn, plus the affected-action penalty until healing;
+neck injury affects every action. Pain resistance reduces that ongoing penalty
+from -3 to -1. `rpgExpandedUnarmedMissInjury(die)` evaluates the supplied 1d-3 roll
+with a zero floor, preventing negative injury from becoming healing.
+
+All fields are pending consequences. Concrete body-part selection, injury and
+armor, recovery checks, timed penalties, tactical movement, sensory narration and
+animal decisions still require their owned execution paths. This assessment is
+not a generic callback presented as implemented combat.
+`test_unarmed_miss_assessments` records every table roll, attack/parry and natural
+weapon exceptions, pain duration, fall replacements, technique trip modifiers,
+animal intelligence boundaries, and each injury die. Fixtures remain unrun.
 
 ## Modifier-table requirements
 

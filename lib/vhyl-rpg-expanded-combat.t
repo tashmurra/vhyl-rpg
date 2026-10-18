@@ -277,3 +277,117 @@ rpgExpandedWeaponMiss(context, rolls)
     if (rolls.length() != value.rollsUsed) rpgExpandedReject('weapon-miss-unused-rolls');
     value.status = 'ready'; return value;
 }
+
+class RpgExpandedUnarmedMissContext: object
+    kind = 'attack'
+    limbUsed = true
+    naturalWeapon = nil
+    kicking = nil
+    normalMishapPenalty = nil
+    health = 10
+    intelligence = 10
+    animal = nil
+    canFlee = true
+    foeReadyImpaling = nil
+    highPainThreshold = nil
+    mobility = 'ground'
+;
+
+class RpgExpandedUnarmedMissResult: RpgExpandedResult
+    outcome = nil
+    injury = 0
+    injuryDice = 0
+    injuryAdds = 0
+    injuryLocation = nil
+    recoveryIntervalSeconds = 0
+    disabilitySeconds = 0
+    painSeconds = 0
+    damageMode = nil
+    damageDivisor = 1
+    naturalDamageModifier = 0
+    attackModifier = 0
+    defenseModifier = 0
+    affectedActionModifier = 0
+    guardExposureMultiplier = 1
+    forbidsFurtherActions = nil
+    movePastYards = 0
+    turnAway = nil
+    dexterityModifier = 0
+;
+
+/** Select the unarmed table's replacement for falling in the current movement mode. */
+rpgExpandedUnarmedFall(mobility)
+{
+    if (!holds(['ground','cannot-fall','flying','swimming'],mobility)) rpgExpandedReject('unarmed-miss-mobility');
+    local value = new RpgExpandedUnarmedMissResult(); value.status = 'ready';
+    if (mobility == 'ground') value.outcome = 'fall';
+    else if (mobility == 'cannot-fall')
+    { value.outcome = 'general-injury'; value.injuryDice = 1; value.injuryAdds = -3; value.injuryLocation = 'general'; }
+    else
+    { value.outcome = 'awkward-position'; value.attackModifier = -4; value.defenseModifier = -3; }
+    return value;
+}
+
+/** Supplied-roll unarmed critical miss; owns no injury, tactical state or recovery yet. */
+rpgExpandedUnarmedMiss(context, roll)
+{
+    if (context == nil || !context.ofKind(RpgExpandedUnarmedMissContext)) rpgExpandedReject('unarmed-miss-context');
+    if (!holds(['attack','parry'],context.kind)) rpgExpandedReject('unarmed-miss-kind');
+    rpgInteger(roll,3,18); rpgInteger(context.health,1,1000); rpgInteger(context.intelligence,0,1000);
+    if (context.normalMishapPenalty != nil) rpgInteger(context.normalMishapPenalty,-1000,0);
+    if (!holds(['ground','cannot-fall','flying','swimming'],context.mobility)) rpgExpandedReject('unarmed-miss-mobility');
+    local value = new RpgExpandedUnarmedMissResult();
+    if (roll == 3 || roll == 18)
+    { value.outcome = 'unconscious'; value.recoveryIntervalSeconds = 1800; }
+    else if (roll == 17 && context.animal && context.intelligence >= 3 && context.intelligence <= 5)
+        value.outcome = context.canFlee ? 'flee-next-turn' : 'submit-next-turn';
+    else if (roll == 4 || roll == 17)
+    {
+        if (context.limbUsed)
+        { value.outcome = 'strained-limb'; value.injury = 1; value.injuryLocation = 'used-limb'; value.disabilitySeconds = 1800; }
+        else
+        {
+            value.outcome = 'moderate-pain'; local minutes = 20 - context.health;
+            value.painSeconds = (minutes < 1 ? 1 : minutes) * 60;
+        }
+    }
+    else if (roll == 6 && context.kind == 'attack' && context.naturalWeapon)
+    { value.outcome = 'broken-natural-weapon'; value.naturalDamageModifier = -1; }
+    else if (roll == 5 || roll == 6 || roll == 16)
+    {
+        value.outcome = 'self-damage'; value.damageDivisor = roll == 6 ? 2 : 1;
+        value.damageMode = context.kind == 'attack' && context.foeReadyImpaling
+            ? 'opponent-weapon-own-strength' : 'own-thrust-crushing';
+        value.injuryLocation = 'used-body-part';
+    }
+    else if (roll == 7 || roll == 14)
+    {
+        if (context.kind == 'parry') return rpgExpandedUnarmedFall(context.mobility);
+        value.outcome = 'stumble-past'; value.movePastYards = 1; value.turnAway = true;
+    }
+    else if (roll == 8) return rpgExpandedUnarmedFall(context.mobility);
+    else if (holds([9,10,11],roll))
+    { value.outcome = 'off-balance'; value.defenseModifier = -2; value.forbidsFurtherActions = true; }
+    else if (roll == 12)
+    {
+        value.outcome = 'trip-check';
+        value.dexterityModifier = context.normalMishapPenalty != nil ? context.normalMishapPenalty * 2
+            : context.kicking ? -4 : 0;
+    }
+    else if (roll == 13)
+    { value.outcome = 'open-guard'; value.defenseModifier = -2; value.guardExposureMultiplier = 2; }
+    else if (roll == 15)
+    {
+        value.outcome = 'torn-muscle'; value.injuryDice = 1; value.injuryAdds = -3;
+        value.injuryLocation = context.limbUsed ? 'used-limb' : 'neck';
+        value.attackModifier = -1; value.defenseModifier = -1;
+        value.affectedActionModifier = context.highPainThreshold ? -1 : -3;
+    }
+    value.status = 'ready'; return value;
+}
+
+/** Supplied one-die injury for unarmed falls/tears; negative totals do not heal. */
+rpgExpandedUnarmedMissInjury(die)
+{
+    rpgInteger(die,1,6); return die > 3 ? die - 3 : 0;
+}

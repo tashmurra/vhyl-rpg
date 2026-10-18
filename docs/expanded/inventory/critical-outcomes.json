@@ -870,13 +870,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Become unconscious, checking health every thirty minutes to recover; the author supplies the incident description, not arbitrary recovery timing.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 3
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-4",
@@ -884,13 +887,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A limb attack/parry causes one injury and thirty-minute limb incapacity. Other body attacks cause moderate pain for max(1,20-HT) minutes.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 4
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-5",
@@ -898,13 +904,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply own thrust crushing damage to the attacking/parrying part with normal DR. An attack against a ready impaling weapon instead uses that weapon damage based on the attacker\u2019s strength.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 5
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-6",
@@ -912,13 +921,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply outcome 5 with half damage, except natural weapons break and receive -1 future damage until recovery under crippling rules.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 6
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-7",
@@ -926,13 +938,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "On an attack, move one yard beyond the opponent and face away; on a parry, fall. Resolve occupied or impossible destinations with a specific tactical contract.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 7
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-8",
@@ -940,13 +955,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Fall, subject to anatomy and medium substitutions.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 8
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-9",
@@ -954,13 +972,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Forbid all remaining actions, including free actions, until the next turn; active defenses receive -2 during that interval.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 9
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-10",
@@ -968,13 +989,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Forbid all remaining actions, including free actions, until the next turn; active defenses receive -2 during that interval.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 10
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-11",
@@ -982,13 +1006,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Forbid all remaining actions, including free actions, until the next turn; active defenses receive -2 during that interval.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 11
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-12",
@@ -996,13 +1023,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Check dexterity to avoid falling: -4 for kicks; double the usual mishap penalty for techniques that already require a failure-triggered dexterity check.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 12
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-13",
@@ -1010,13 +1040,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply -2 to all active defenses next turn; double opposing evaluation bonuses and feint penalties until the next turn. Nearby opponents can perceive the opening.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 13
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-14",
@@ -1024,13 +1057,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use outcome 7, including the attack/parry distinction.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 14
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-15",
@@ -1038,13 +1074,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply 1d-3 injury to the used limb (one if two used) or neck for other attacks. Apply -1 to attacks/defenses next turn and -3 to affected-part actions until healed, reduced to -1 with the appropriate pain-resistance trait; neck injury affects all actions.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 15
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-16",
@@ -1052,13 +1091,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use outcome 5 with its weapon-contact exception.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 16
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-17",
@@ -1066,13 +1108,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use outcome 4 except an animal with intelligence 3-5 instead flees on its next turn where possible, or submits when cornered.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 17
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-unarmed-miss-18",
@@ -1080,13 +1125,16 @@
       "pages": "B557",
       "module": "combat",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Become unconscious, checking health every thirty minutes to recover.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
       "outcome_data": {
         "table": "unarmed-miss",
         "roll": 18
-      }
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
     },
     {
       "id": "critical-breakage-exception",
