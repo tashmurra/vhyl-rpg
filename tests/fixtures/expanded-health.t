@@ -10,6 +10,16 @@ modify gameMain initialRoom = healthRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2254)
+    {
+        local attributes = [rpgST,rpgDX,rpgIQ,rpgHT,rpgWill,rpgPerception];
+        local value = rpgExpandedAssessFearRetching(args[1],attributes[args[2]],args[3] != 0);
+        event('test.fear-retching'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.initialSeconds); eventValue(value.recoveryScore); eventValue(value.recoveryInterval);
+        eventValue(value.modifier); eventValue(value.actionAllowed ? 1 : 0); eventValue(value.automaticFailure ? 1 : 0);
+        eventValue(value.defensePenalty); eventValue(value.finishingFatigue); eventValue(value.oralBenefitsLost ? 1 : 0);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2249)
     {
         local profile = new RpgExpandedProfile(); local context = new RpgExpandedFearContext();

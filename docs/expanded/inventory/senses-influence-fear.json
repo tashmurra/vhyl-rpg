@@ -998,9 +998,10 @@
       "status": "partial",
       "acceptance": "Retch for twenty-five minus health seconds, then check health each second to recover; apply the incapacitating-condition rules.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_retching"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Pure fear-induced duration and condition assessment authored from B361 and B428-B429, including concentration failure, attribute and defense penalties, final fatigue and oral-benefit loss. Fixture unrun. Exceptional health duration is explicitly blocked; owned execution and recovery remain pending."
     },
     {
       "id": "fear-outcome-13",

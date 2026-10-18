@@ -251,9 +251,12 @@
       "pages": "B429",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Retching allows attempted actions at -5 dexterity, intelligence and perception but automatically defeats concentration actions; its end costs one fatigue and invalidates benefits of recently expelled meals and oral medicine.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_retching"
+      ],
+      "validation_note": "Pure fear-induced duration and condition assessment authored from B361 and B428-B429, including concentration failure, attribute and defense penalties, final fatigue and oral-benefit loss. Fixture unrun. Exceptional health duration is explicitly blocked; owned execution and recovery remain pending."
     },
     {
       "id": "condition-seizure",

@@ -1788,6 +1788,18 @@ def test_fear_combat(Session,bundle):
         finally: s.close()
 
 
+def test_fear_retching(s):
+    for health,duration in [(1,24),(10,15),(15,10),(24,1)]:
+        for attribute,modifier in [(1,0),(2,-5),(3,-5),(4,0),(5,0),(6,-5)]:
+            for concentration in [0,1]:
+                s.action(2254,health,attribute,concentration)
+                assert last(s,'test.fear-retching') == ['ready',None,duration,health,1,
+                    modifier,1-concentration,concentration,-4,1,1,0,0]
+    for health in [25,30,1000]:
+        s.action(2254,health,2,0)
+        assert last(s,'test.fear-retching')[:4] == ['blocked','retching-duration-source-required',None,None]
+
+
 def test_fear_context(s):
     for code,a,b,modifier,score in [
             (0,0,0,0,10),(1,0,0,6,13),(2,0,0,2,12),(3,0,0,0,10),
@@ -8367,6 +8379,7 @@ def test(build):
     test_fear_combat(Session,fear_combat)
     fresh(Session,health,test_fear_assessments)
     fresh(Session,health,test_fear_context)
+    fresh(Session,health,test_fear_retching)
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)
     fresh(Session,health,test_knockdown_assessment)

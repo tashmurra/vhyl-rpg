@@ -1424,3 +1424,29 @@ period use an ordinary Do Nothing maneuver; no recovery roll is yet eligible.
 `test_fear_combat` specifies initial-duration rejection, health-gate integration,
 no duplicate time charge, successful and failed recovery, same-second rejection,
 preview purity, exception rollback, undo and replay rejection. It remains unrun.
+
+
+### Fear-induced retching assessment
+
+`rpgExpandedAssessFearRetching(health, attribute, requiresConcentration)`
+assesses the row-twelve duration and B428–B429 condition effects without
+changing state. For health below twenty-five, `initialSeconds` is twenty-five
+minus health; subsequent recovery uses `recoveryScore` with a one-second
+interval. The inspected source does not specify a minimum for exceptional
+health values at or above twenty-five, so those requests return
+`retching-duration-source-required` instead of inventing a duration.
+
+The result applies a minus-five `modifier` to dexterity, intelligence and
+perception, with zero for the other base attributes. `automaticFailure` and
+`actionAllowed` identify concentration's special restriction. This condition
+permits attempted actions despite the general incapacitating-condition rule;
+do not implement it by setting mental stun. Its effective-stun defense penalty
+is minus four. `finishingFatigue` records one fatigue point due at the end, and
+`oralBenefitsLost` records the need to revoke affected meals and oral medication.
+These fields describe required consequences; this helper does not charge or
+revoke them, change defense scores, or create a recovery episode.
+
+`test_fear_retching` contains independent duration, attribute, concentration and
+resource expectations. The fixture remains unrun. Owned retching execution,
+shared fatigue/injury integration, oral-benefit revocation and timed health
+recovery are still pending; row twelve remains partial.

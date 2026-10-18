@@ -2164,6 +2164,32 @@ class RpgExpandedFearTableResult: RpgExpandedResult
     fallbackTraitPoints = 0
 ;
 
+/** Pure B361/B428-B429 assessment; the owning episode must execute its costs. */
+class RpgExpandedRetchingAssessment: RpgExpandedResult
+    initialSeconds = nil
+    recoveryScore = nil
+    recoveryInterval = 1
+    actionAllowed = true
+    automaticFailure = nil
+    defensePenalty = -4
+    finishingFatigue = 1
+    oralBenefitsLost = true
+;
+
+rpgExpandedAssessFearRetching(health,attribute,requiresConcentration)
+{
+    rpgInteger(health,1,1000);
+    if (!holds([rpgST,rpgDX,rpgIQ,rpgHT,rpgWill,rpgPerception],attribute))
+        rpgExpandedReject('retching-attribute');
+    local value = new RpgExpandedRetchingAssessment();
+    /* No minimum duration is stated for the exceptional HT >= 25 case. */
+    if (health >= 25) { value.reason = 'retching-duration-source-required'; return value; }
+    value.initialSeconds = 25 - health; value.recoveryScore = health;
+    value.modifier = holds([rpgDX,rpgIQ,rpgPerception],attribute) ? -5 : 0;
+    value.actionAllowed = !requiresConcentration; value.automaticFailure = requiresConcentration;
+    value.status = 'ready'; return value;
+}
+
 /** B360-B361 consequence specification only; caller supplies the table roll. */
 rpgExpandedFearTable(total)
 {
