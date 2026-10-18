@@ -3,7 +3,7 @@
 Essential means required by the selected integration, not enabled in every game.
 Include the engine once. For Lite, include progression followed by the Lite umbrella; do not also include its components separately. Expanded integrations add the expanded foundation after this sequence.
 
-**The expanded conversion is incomplete.** Ten feature modules currently provide the scoped mechanics described below. Remaining modules are a roadmap, not includeable libraries. The [coverage ledger](expanded/coverage.json) is a chapter-level inventory; detailed catalogue enumeration remains unfinished.
+**The expanded conversion is incomplete.** Fifteen feature modules currently provide the scoped mechanics described below. Remaining modules are a roadmap, not includeable libraries. The [coverage ledger](expanded/coverage.json) is a chapter-level inventory; detailed catalogue enumeration remains unfinished.
 
 ## Core / essential
 
@@ -25,6 +25,7 @@ Include the engine once. For Lite, include progression followed by the Lite umbr
 
 | Library | Include | Dependencies | Compatibility | Status | Guide / example |
 | --- | --- | --- | --- | --- | --- |
+| Character/social umbrella | `vhyl-rpg-expanded-character-social.t` | Core + progression + Lite; includes foundation and five feature modules | Expanded profiles | Experimental subset | [Guide](expanded/character-social.md) / [example](../examples/bellwether/main.t) |
 | Conflict | `vhyl-rpg-conflict.t` | Core + resilience | Simplified profiles | Available | [Guide](resilience.md) / [example](../examples/resilience/main.t) |
 | Expanded all | `vhyl-rpg-expanded-all.t` | Core + progression + Lite | Expanded profiles | Experimental; available modules only | [Guide](expanded/index.md) / [example](../examples/expanded/main.t) |
 | Expanded campaign | `vhyl-rpg-expanded-campaign.t` | Expanded foundation + equipment | Expanded profiles | Partial: legal access, employment, wealth and recurring finances | [Guide](expanded/campaign.md) / [minimal fixture](../tests/fixtures/expanded-campaign.t) |

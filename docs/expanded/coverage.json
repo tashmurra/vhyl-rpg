@@ -22,7 +22,8 @@
       "status": "partial",
       "tests": [
         "tests/expanded.py::test_numbers",
-        "tests/expanded.py::test_fear_quirks"
+        "tests/expanded.py::test_fear_quirks",
+        "tests/character_social.py::test_character_contracts"
       ]
     },
     {
@@ -124,6 +125,15 @@
         "tests/expanded.py::test_swimming_persistence"
       ],
       "validation_note": "Fixed-activity breath reserves and duration arithmetic authored; new fixtures unrun. Preparation actions, skill and trait integration, activity changes and suffocation handoff remain incomplete."
+    },
+    {
+      "id": "foundation",
+      "source": "full-2008",
+      "pages": "B14-B17",
+      "status": "partial",
+      "tests": [
+        "tests/character_social.py::test_character_contracts"
+      ]
     },
     {
       "id": "hazards",
@@ -310,7 +320,9 @@
       "source": "full-2008",
       "status": "partial",
       "tests": [
-        "tests/expanded.py::test_numbers"
+        "tests/expanded.py::test_numbers",
+        "tests/character_social.py::test_character_contracts",
+        "tests/character_social.py::test_learning_requirements"
       ]
     },
     {
@@ -320,7 +332,16 @@
       "source": "full-2008",
       "status": "partial",
       "tests": [
-        "tests/expanded.py::test_social_status"
+        "tests/expanded.py::test_social_status",
+        "tests/character_social.py::test_social_status",
+        "tests/character_social.py::test_combat_reactions",
+        "tests/character_social.py::test_aid_reactions",
+        "tests/character_social.py::test_information_reactions",
+        "tests/character_social.py::test_trade_reactions",
+        "tests/character_social.py::test_trade_modifiers",
+        "tests/character_social.py::test_social_transactions",
+        "tests/character_social.py::test_failed_recognition",
+        "tests/character_social.py::test_social_save"
       ]
     },
     {
@@ -430,7 +451,12 @@
       "source": "full-2008",
       "status": "partial",
       "tests": [
-        "tests/expanded.py::test_numbers"
+        "tests/expanded.py::test_numbers",
+        "tests/character_social.py::test_character_contracts",
+        "tests/character_social.py::test_template_composition",
+        "tests/character_social.py::test_template_technology",
+        "tests/character_social.py::test_template_choices",
+        "tests/character_social.py::test_template_score_options"
       ]
     },
     {
@@ -443,7 +469,8 @@
         "tests/expanded.py::test_numbers",
         "tests/expanded.py::test_maintenance_prices",
         "tests/expanded.py::test_fear_quirks",
-        "tests/expanded.py::test_fear_quirk_stun"
+        "tests/expanded.py::test_fear_quirk_stun",
+        "tests/character_social.py::test_trait_prices"
       ]
     },
     {
@@ -1421,5 +1448,6 @@
     "inventory/trait-summary-b.json",
     "inventory/trait-summary-c.json",
     "inventory/trait-summary-d.json"
-  ]
+  ],
+  "validation": "Main character/social prerelease evidence is recorded in docs/releases/v1.1.0-alpha.1.md. The merged expanded suite has not been validated; checks remain paused."
 }

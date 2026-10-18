@@ -1,9 +1,9 @@
 # vhyl-rpg
 
-**Release: v1.0.0.** Development follows `main`, with tagged snapshots
+**Prerelease: v1.1.0-alpha.1.** Development follows `main`, with tagged snapshots
 for releases. Saves identify the exact compiled game; upgrades require a new game
 unless the game author supplies a migration.
-See the [release notes](docs/releases/v1.0.0.md) and
+See the [release notes](docs/releases/v1.1.0-alpha.1.md) and
 [release builds](docs/development.md) for packages and validation.
 Browse the [searchable documentation and library reference](https://tashmurra.github.io/vhyl-rpg/).
 
@@ -20,7 +20,7 @@ add [injury, treatment and bounded conflicts](docs/resilience.md), plus
 The opt-in [Lite rules layer](docs/lite.md) implements character creation,
 the advantage/disadvantage and skill catalogues, equipment, second-by-second
 combat, social checks, travel, injury, fatigue, recovery and hazards from
-**abridged fourth-generation rules (August 2004, Rev. 07/12/04)**. Jumper is included;
+the **abridged-2004 reference (August 2004, Rev. 07/12/04)**. Jumper is included;
 magic systems from other books are not. The guide distinguishes executable
 mechanics from GM-authored setting and narrative decisions.
 
@@ -197,3 +197,10 @@ A changed tree or unavailable build evidence requires fresh validation.
 The partial [psionics library](docs/expanded/psionics.md) adds explicit power
 membership, owned talent pricing and latent purchase eligibility. Ability effects,
 activation and interference remain incomplete; the new fixtures are unrun.
+
+The optional `vhyl-rpg-expanded-character-social.t` umbrella packages the
+[character/social subset](docs/expanded/character-social.md). The
+[Town Registry example](examples/bellwether/README.md) demonstrates its shared
+parser, structured-action and dialogue interfaces. See the original
+[prerelease record](docs/releases/v1.1.0-alpha.1.md); the merged expanded suite
+remains incomplete and its checks are paused.

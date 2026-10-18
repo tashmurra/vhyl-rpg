@@ -65,7 +65,8 @@ Cyclic paid defaults throw an error. Automatic redistribution of investment when
 switching the direction of a default is not implemented.
 
 Skills are authored definitions, not a full catalogue. Prerequisites, familiarity,
-optional specialties and technological cross-level penalties are not yet supplied.
+optional specialties and technological cross-level penalties have explicit
+interfaces described in the [skills guide](skills.md).
 The inherited Lite score pipeline applies its existing situational adjustments.
 
 `RpgExpandedTechnique` is an owned contribution with a trained parent skill,
@@ -77,8 +78,8 @@ prerequisites beyond the invested parent are not implemented.
 `rpgExpandedModifiedCost` prices positive-cost traits using a summed percentage,
 a minimum 20% multiplier and upward integer rounding. `RpgExpandedTrait` requires
 explicit author approval. This is **pricing only**: it neither implements the
-modifiers' effects nor certifies their compatibility. Negative-cost modifiers,
-the trait catalogue and special pricing exceptions remain pending.
+modifiers' effects nor certifies their compatibility. Signed-cost modifiers and self-control pricing have explicit interfaces in the
+[traits guide](traits.md); the full catalogue and many special exceptions remain pending.
 
 ## Numeric expansion helpers
 
@@ -162,3 +163,11 @@ The [combat module](combat.md) now supplies pure ordinary burst declaration,
 rate-of-fire bonus, recoil hit-count and supplied-roll Dodge assessments. The
 umbrella includes it without replacing existing attacks. Owned attack execution
 and per-hit injury remain incomplete; new fixtures are authored but unrun.
+
+## Character/social subset
+
+The [subset integration guide](character-social.md) documents the smaller
+`vhyl-rpg-expanded-character-social.t` umbrella imported from main. Include it
+instead of the all-module umbrella, never alongside it: both include foundation
+and shared components. The original prerelease validation record does not certify
+this merged branch; checks remain paused.

@@ -298,6 +298,7 @@ class RpgExpandedReactionEncounter: object
     }
 ;
 
+/** Private reaction outcome: band, adjusted total and roll are trusted-author data. */
 class RpgExpandedReactionResult: RpgExpandedResult
     band = nil
     total = nil
@@ -357,6 +358,7 @@ class RpgExpandedReactionAttempt: object
     }
 ;
 
+/** Authored combat intent and follow-up conditions; no combat is executed by this result. */
 class RpgExpandedCombatReactionResult: RpgExpandedResult
     intent = nil
     aidModifier = 0
@@ -411,6 +413,7 @@ rpgExpandedCombatReactionModifier(perceivedStrength, commonLanguage, intruders)
     return perceivedStrength - (commonLanguage ? 0 : 2) - (intruders ? 2 : 0);
 }
 
+/** Aid decision and any required follow-up, advice or retry conditions. */
 class RpgExpandedAidResult: RpgExpandedResult
     granted = nil
     extent = 'none'
@@ -474,6 +477,7 @@ class RpgExpandedAidModifiers: object
     }
 ;
 
+/** Information response decision, including research and follow-up requirements. */
 class RpgExpandedInformationResult: RpgExpandedResult
     answer = 'none'
     related = nil
@@ -585,6 +589,7 @@ class RpgExpandedKnowledge: object
     }
 ;
 
+/** Committed statement selection and payment amount; previews do not disclose statements. */
 class RpgExpandedInformationDeliveryResult: RpgExpandedResult
     statements = []
     money = 0
@@ -702,6 +707,7 @@ modify RpgExpandedKnowledge
     checks = []
 ;
 
+/** Private knowledge-check result; a failed check does not fabricate a belief. */
 class RpgExpandedKnowledgeResult: RpgExpandedResult
     known = nil
 ;
@@ -766,6 +772,7 @@ rpgExpandedTradeFraction(amount, numerator, denominator)
     return quotient * numerator + tail;
 }
 
+/** Quoted terms and refusal/advice flags; this result does not transfer property. */
 class RpgExpandedTradeResult: RpgExpandedResult
     price = 0
     refused = nil
@@ -857,6 +864,7 @@ modify RpgExpandedProfile
     loyalties = []
 ;
 
+/** Private loyalty rating, roll and decision for trusted author interpretation. */
 class RpgExpandedLoyaltyResult: RpgExpandedResult
     rating = nil
     loyal = nil
@@ -991,6 +999,7 @@ modify RpgExpandedLoyalty
     changes = []
 ;
 
+/** Recorded permanent loyalty change with its signed adjustment. */
 class RpgExpandedLoyaltyChangeResult: RpgExpandedResult
     change = 0
 ;
@@ -1053,6 +1062,7 @@ modify RpgExpandedLoyalty
     lastAnniversaryAt = 0
 ;
 
+/** Service-anniversary result and any permanent loyalty increase. */
 class RpgExpandedServiceResult: RpgExpandedLoyaltyResult
     change = 0
 ;
@@ -1109,6 +1119,7 @@ modify RpgExpandedLoyalty
     rescues = []
 ;
 
+/** Rescue gratitude result and the resulting private loyalty rating. */
 class RpgExpandedRescueResult: RpgExpandedLoyaltyResult
     total = nil
     change = 0

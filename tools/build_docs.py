@@ -174,7 +174,7 @@ def render(symbols: list[Symbol], stage: Path, revision: str, root: Path = ROOT)
     for name in ('dependencies.json', 'LICENSE', 'THIRD_PARTY_NOTICES.md'):
         shutil.copy2(root / name, stage / name)
     for source in (root / 'examples').rglob('*'):
-        if source.is_file() and source.suffix in ('.py', '.t'):
+        if source.is_file() and source.suffix in ('.py', '.t', '.md'):
             target = stage / source.relative_to(root)
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)

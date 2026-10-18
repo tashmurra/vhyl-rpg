@@ -14,7 +14,7 @@ publication for complete rules, examples and GM guidance.
 
 See the [Lite coverage and authoring guide](lite.md) for source-page mappings,
 GM decision hooks and table boundaries. No earlier-generation material is blended
-into the Fourth Edition mechanics.
+into this rules generation.
 
 The declaration scanner in `tools/docscan.py` is adapted from
 [vhyl's documentation builder at v0.2.1](https://github.com/tashmurra/vhyl/blob/53dbf3b94bb12f269fc447c414bff09fc0b7e46d/tools/build_docs.py),

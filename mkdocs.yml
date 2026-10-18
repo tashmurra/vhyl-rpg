@@ -27,6 +27,7 @@ nav:
   - Progression: docs/progression.md
   - Lite rules: docs/lite.md
   - Expanded campaign: docs/expanded/campaign.md
+  - Character/social integration: docs/expanded/character-social.md
   - Expanded characters: docs/expanded/characters.md
   - Expanded combat: docs/expanded/combat.md
   - Expanded creatures: docs/expanded/creatures.md
@@ -51,7 +52,9 @@ nav:
   - Alphabetical members: reference/members.md
   - Development and releases: docs/development.md
   - Unreleased expanded preview: docs/releases/expanded-preview.md
-  - Current release: docs/releases/v1.0.0.md
+  - Character/social prerelease: docs/releases/v1.1.0-alpha.1.md
+  - Interim release notes: docs/releases/character-social-preview.md
+  - Lite release: docs/releases/v1.0.0.md
   - Resilience prototype: docs/releases/v0.2.0-alpha.1.md
   - First prototype: docs/releases/v0.1.0-alpha.1.md
   - Provenance: docs/provenance.md
