@@ -1313,9 +1313,11 @@ class RpgExpandedMarketOffer: object
 class RpgExpandedCoinage: object
     currency = 'campaign-unit'
     goldRatio = 20
+    copperWeightThousandths = nil
+    copperWeightEvidence = nil
     approved = nil
     evidence = nil
-    definition() { return [self.currency,self.goldRatio,self.approved,self.evidence]; }
+    definition() { return [self.currency,self.goldRatio,self.copperWeightThousandths,self.copperWeightEvidence,self.approved,self.evidence]; }
     validate()
     {
         if (self.currency == nil || self.currency == '' || !self.approved || self.evidence == nil || self.evidence == '')
@@ -1325,9 +1327,19 @@ class RpgExpandedCoinage: object
     denomination(metal)
     {
         self.validate();
+        if (metal == 'copper') return 1;
         if (metal == 'silver') return 4;
         if (metal == 'gold') return 4 * self.goldRatio;
         rpgExpandedReject('coinage-metal-weight-unsupported');
+    }
+    weightThousandths(metal)
+    {
+        self.validate();
+        if (holds(['silver','gold'],metal)) return 4;
+        if (metal != 'copper') rpgExpandedReject('coinage-metal-weight-unsupported');
+        if (self.copperWeightThousandths == nil || self.copperWeightEvidence == nil || self.copperWeightEvidence == '')
+            rpgExpandedReject('coinage-copper-weight-required');
+        rpgInteger(self.copperWeightThousandths,1,1000000); return self.copperWeightThousandths;
     }
 ;
 /** Quantity counts coins; cash value is not simultaneously held in profile.money. */
@@ -1341,17 +1353,22 @@ class RpgExpandedCoinStock: RpgLiteItem
             rpgExpandedReject('coin-stock-convention');
         return [self.id,self.coinage,self.metal] + self.coinage.definition();
     }
-    faceValue()
+    validateQuantity(quantity)
     {
         self.definition(); local unit = self.coinage.denomination(self.metal);
-        rpgInteger(self.quantity,0,1000000); rpgInteger(self.quantity,0,2147483647 / unit);
-        return self.quantity * unit;
+        local mass = self.coinage.weightThousandths(self.metal);
+        rpgInteger(quantity,0,1000000); rpgInteger(quantity,0,2147483647 / unit);
+        rpgInteger(quantity,0,2147483638 / mass); return nil;
+    }
+    faceValue()
+    {
+        self.validateQuantity(self.quantity); return self.quantity * self.coinage.denomination(self.metal);
     }
     weightHundredths()
     {
         self.faceValue();
-        /* 250 equal-weight coins per pound; ceiling to the engine's 0.01 lb unit. */
-        return (self.quantity * 2 + 4) / 5;
+        /* Ceiling stack mass to the engine's 0.01 lb unit. */
+        return (self.quantity * self.coinage.weightThousandths(self.metal) + 9) / 10;
     }
     validateAcquisition() { rpgExpandedReject('coin-stock-exchange-required'); }
 ;
@@ -1404,6 +1421,7 @@ class RpgExpandedCoinExchange: object
         if (self.direction == 'withdraw')
         {
             if (owner != nil || self.stock.quantity != 0) rpgExpandedReject('coin-withdraw-fresh-stock');
+            self.stock.validateQuantity(self.quantity);
             if (self.profile.money < value.money) { value.reason = 'coin-exchange-insufficient-funds'; return value; }
         }
         else

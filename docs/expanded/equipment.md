@@ -735,8 +735,8 @@ preview, rollback, undo, replay and saved continuation. Fixtures remain unrun.
 evidence and `currency`: silver coins are worth four units, with 250 coins per
 pound. The equal-weight gold coin uses an authored `goldRatio`, default twenty.
 The reference describes that ratio as approximate; setting it is a campaign
-choice. Copper weight is unspecified, so this implementation rejects copper
-rather than inventing its mass.
+choice. Copper weight is unspecified; copper requires the explicit author convention
+described below.
 
 `RpgExpandedCoinStock` is an ordinary physical inventory stack whose `quantity`
 counts coins. `faceValue()` returns the stack's currency value and
@@ -789,3 +789,24 @@ authored merchant acceptance is required even when the denominations are valid.
 `expanded-coin-purchases.t` / `test_coin_purchases` cover partial/exhausted stacks,
 mixed payment, acceptance and exact-price gates, unchanged resources on failure,
 rollback, undo, replay and saved continuation. Fixtures remain unrun.
+
+
+### Copper with authored mass
+
+The optional B264 copper denomination is one currency unit per coin. To use
+`metal = 'copper'`, the campaign must supply `copperWeightThousandths` (positive
+thousandths of a pound per coin) and nonempty `copperWeightEvidence` on its
+`RpgExpandedCoinage`. There is no default copper weight: the source does not give
+one. Missing weight rejects even for an empty copper stack before withdrawal.
+The mass setting is an explicit campaign fact and becomes part of exchange and
+payment receipt bindings.
+
+Copper uses the same owned withdrawal, deposit and exact-tender paths as silver
+and gold. One-unit coins permit wholly physical payment of odd prices without
+changing the abstract purse. Stack mass rounds upward only after multiplication;
+value and mass overflow checks occur before funds or inventory change. Silver
+and gold retain their exact four-thousandths-pound coin weight.
+`expanded-copper.t` / `test_copper` use a clearly synthetic five-thousandths-pound
+copper weight to specify rounding, missing-detail rejection, physical purchase,
+rollback, undo, receipt binding and saved continuation. That fixture weight is
+not a reference-table value. Fixtures remain unrun.

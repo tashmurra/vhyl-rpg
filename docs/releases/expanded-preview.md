@@ -1868,3 +1868,9 @@ Equipment acquisition now accepts exact owned coin tender mixed with existing
 abstract funds. Payment and item transfer commit together without depositing or
 duplicating coin value. Change-making and currency conversion remain pending.
 Fixtures are authored but unrun while checks remain paused.
+
+
+One-unit copper coins now work through the existing physical-money paths when
+the author supplies explicit weight and evidence. No copper weight is invented.
+Mass/value overflow checks precede withdrawals; synthetic-weight fixtures remain
+unrun. Change-making and currency conversion remain pending.

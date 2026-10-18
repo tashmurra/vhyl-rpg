@@ -9278,6 +9278,8 @@ def test(build):
     test_coins(Session, coins, build.out)
     coin_purchases = build.build('expanded-coin-purchases',ROOT / 'tests/fixtures/expanded-coin-purchases.t')
     test_coin_purchases(Session, coin_purchases, build.out)
+    copper = build.build('expanded-copper',ROOT / 'tests/fixtures/expanded-copper.t')
+    test_copper(Session, copper, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21846,3 +21848,43 @@ def test_coin_purchases(Session, bundle, out):
             assert last(s, 'test.coin-purchase-state') == [1, 6, 24, 1, 0, 0, 0]
         finally:
             s.close()
+
+
+def test_copper(Session, bundle, out):
+    """B264 copper face value with explicitly authored mass, not an invented table value; unrun."""
+    path = out / 'copper.zsave'
+    s = Session(bundle)
+    try:
+        for code in (14900, 14901, 14703, 14704):
+            s.action(2285, code)
+        assert last(s, 'test.copper-mass') == [1, 1, 2, 13]
+        assert last(s, 'test.coin-state') == [25, 0, 0, 0, 0, 0, 0]
+        s.action(2285, 14702)
+        s.command('undo')
+        s.action(2285, 14704)
+        assert last(s, 'test.coin-state') == [25, 0, 0, 0, 0, 0, 0]
+        for code in (14702, 14702, 14704, 14602, 14704):
+            s.action(2285, code)
+        assert last(s, 'test.coin-state') == [0, 25, 25, 13, 1, 1, 0]
+        for code in (14601, 14601, 14704):
+            s.action(2285, code)
+        assert last(s, 'test.coin-state') == [0, 0, 0, 0, 1, 1, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (14702, 14601, 14704, 14903):
+            s.action(2285, code)
+        assert last(s, 'test.coin-state') == [0, 0, 0, 0, 1, 1, 0]
+        assert last(s, 'test.copper-reject') == ['coin-exchange-binding']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (14900, 14902):
+            s.action(2285, code)
+        assert last(s, 'test.copper-reject') == ['coinage-copper-weight-required']
+    finally:
+        s.close()
