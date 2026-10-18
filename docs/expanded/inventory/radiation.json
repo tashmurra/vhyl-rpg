@@ -90,9 +90,12 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After recovery from outcome A, make separate table-modified health checks for sterility and a one-year terminal condition; each occurs only on its own critical failure.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_recovery"
+      ],
+      "implementation": "Owned recovery validates healing and authored recovery evidence, then rolls separate table-modified radiation HT checks, including advanced treatment. Only individual critical failures acquire zero-point sterility or a one-year terminal condition, without spendable-point awards. Whole-profile healing is required until wound-specific healing allocation exists. Fixtures authored and unrun."
     },
     {
       "id": "radiation-blood-onset",

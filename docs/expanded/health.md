@@ -1949,8 +1949,8 @@ the clock at this deadline. Use engine transactions for acquisition and death.
 This interface implements one-year acquired conditions only. Creation purchases,
 other duration tiers, miraculous cures, replacement disadvantages and point-funded
 buy-off remain pending. Deleting, deactivating or mitigating the trait is not a
-supported cure and is rejected by receipt validation. Radiation recovery still
-needs its own checks and acquisition integration.
+supported cure and is rejected by receipt validation. Radiation-burn recovery composes its two independent checks with this acquisition
+interface; see the hazards guide.
 
 `tests/fixtures/expanded-terminal-condition.t` and `test_terminal_condition`
 specify character-value accounting, unchanged spendable points, deadline edges,

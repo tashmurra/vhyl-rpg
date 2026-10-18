@@ -2181,7 +2181,8 @@ class RpgExpandedRadiationBurn: object
             if (prior.id == self.id || prior.radiationCheck == self.radiationCheck)
                 rpgExpandedReject('radiation-burn-duplicate');
             /* Recovery outcomes and overlapping pain effects need composition support. */
-            if (prior.result == nil || prior.result.recoveryChecksPending)
+            if (prior.result == nil || prior.result.recoveryChecksPending
+                || prior.onsetAt != nil && rpgLedger.seconds - prior.onsetAt < 604800)
             { value.reason = 'radiation-burn-overlap-unimplemented'; return value; }
         }
         rpgInteger(self.profile().ht,1,1000);
@@ -2209,7 +2210,8 @@ class RpgExpandedRadiationBurn: object
         if (self.result != nil)
         {
             if (self.result.wound.assess().status != 'reused') rpgExpandedReject('radiation-burn-wound-history');
-            value.status = 'reused'; value.wound = self.result.wound; value.injury = self.result.injury; return value;
+            value.status = 'reused'; value.wound = self.result.wound; value.injury = self.result.injury;
+            value.recoveryChecksPending = self.result.recoveryChecksPending; return value;
         }
         if (self.profile().dead) { value.reason = 'radiation-burn-patient-dead'; return value; }
         if (rpgLedger.seconds != self.onsetDue) { value.reason = 'radiation-burn-not-due'; return value; }
@@ -2244,5 +2246,95 @@ modify rpgLedger
                 if (self.seconds + seconds > episode.onsetDue) rpgExpandedReject('radiation-burn-onset-boundary');
             }
         return nil;
+    }
+;
+
+modify RpgExpandedRadiationBurn
+    recovery = nil
+;
+class RpgExpandedRadiationRecoveryResult: RpgExpandedResult
+    sterilityCheck = nil
+    terminalCheck = nil
+    sterile = nil
+    terminal = nil
+;
+
+/** B436 independent post-recovery checks. Whole-profile healing is a conservative
+ * prerequisite until wound-specific healing allocation is available. */
+class RpgExpandedRadiationBurnRecovery: object
+    episode = nil
+    terminalCondition = nil
+    approved = nil
+    recoveryEvidence = nil
+    result = nil
+    boundDefinition = nil
+    completedAt = nil
+    sterilityTrait = nil
+    definition() { return [self.episode,self.terminalCondition,self.approved,self.recoveryEvidence]; }
+    context()
+    {
+        local context = new RpgExpandedRadiationContext();
+        context.modifier = self.episode.radiationCheck.result.modifier; return context;
+    }
+    assess()
+    {
+        if (self.episode == nil || !self.episode.ofKind(RpgExpandedRadiationBurn))
+            rpgExpandedReject('radiation-recovery-episode');
+        self.episode.validateReceipt(); local value = new RpgExpandedRadiationRecoveryResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('radiation-recovery-binding');
+            if (self.episode.recovery != self) rpgExpandedReject('radiation-recovery-history');
+            if (self.result.terminal) self.terminalCondition.validateReceipt();
+            if (self.sterilityTrait != nil && !holds(self.episode.profile().traits,self.sterilityTrait))
+                rpgExpandedReject('radiation-recovery-sterility-history');
+            value.status = 'reused'; value.sterilityCheck = self.result.sterilityCheck;
+            value.terminalCheck = self.result.terminalCheck; value.sterile = self.result.sterile;
+            value.terminal = self.result.terminal; value.points = self.result.points; return value;
+        }
+        if (self.episode.recovery != nil) rpgExpandedReject('radiation-recovery-duplicate');
+        if (self.episode.result == nil || self.episode.result.wound.assess().status != 'reused')
+        { value.reason = 'radiation-recovery-onset-required'; return value; }
+        local profile = self.episode.profile();
+        if (profile.dead) { value.reason = 'radiation-recovery-patient-dead'; return value; }
+        if (profile.injury != 0) { value.reason = 'radiation-recovery-healing-required'; return value; }
+        if (!self.approved || self.recoveryEvidence == nil || self.recoveryEvidence == '')
+        { value.reason = 'radiation-recovery-evidence-required'; return value; }
+        if (self.terminalCondition == nil || !self.terminalCondition.ofKind(RpgExpandedTerminalCondition)
+            || self.terminalCondition.profile != profile) rpgExpandedReject('radiation-recovery-terminal-definition');
+        local terminal = self.terminalCondition.assess();
+        if (terminal.status != 'ready') { value.reason = 'radiation-recovery-terminal-unavailable'; return value; }
+        local score = rpgLiteScore(profile,self.context());
+        if (score == nil || score < 3) { value.reason = 'radiation-recovery-score-unavailable'; return value; }
+        foreach (local trait in profile.traits)
+            if (trait.id == 'sterility' && (!trait.ofKind(RpgExpandedSterility) || !trait.active || trait.mitigated))
+                rpgExpandedReject('radiation-recovery-sterility-definition');
+        /* Reserve room for both independently acquired consequences before rolling. */
+        rpgInteger(profile.developmentRevision,0,2147483645);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local profile = self.episode.profile();
+        value.sterilityCheck = rpgLiteCheck(profile,self.context());
+        value.terminalCheck = rpgLiteCheck(profile,self.context());
+        value.sterile = value.sterilityCheck.critical == 'failure';
+        value.terminal = value.terminalCheck.critical == 'failure';
+        if (value.sterile && !profile.fertilityBlocked())
+        {
+            self.sterilityTrait = new RpgExpandedSterility();
+            profile.traits = profile.traits + [self.sterilityTrait]; profile.developmentRevision += 1;
+        }
+        if (value.terminal && self.terminalCondition.acquire().status != 'resolved')
+            rpgExpandedReject('radiation-recovery-terminal-changed');
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.episode.recovery = self; self.episode.result.recoveryChecksPending = nil;
+        self.episode.result.status = 'resolved'; value.points = value.terminal ? -75 : 0;
+        self.episode.radiationCheck.result.consequencesPending = nil;
+        self.episode.radiationCheck.result.status = 'resolved';
+        value.status = 'resolved'; self.result = value; return value;
     }
 ;

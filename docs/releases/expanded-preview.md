@@ -280,3 +280,10 @@ An acquired one-year terminal condition now has shared trait accounting and an
 owned, calendar-defined death deadline. It does not award spendable points or
 permit time to skip its pending resolution. Other tiers, cures and radiation
 recovery integration remain pending; new fixtures are authored and unrun.
+
+
+Radiation-burn recovery now records its two independent health checks and acquires
+sterility or a one-year terminal condition only on the corresponding critical
+failure. Outcomes share character accounting and existing condition deadlines.
+Whole-profile healing is required pending wound-specific recovery allocation;
+new outcome and persistence fixtures are authored and unrun.

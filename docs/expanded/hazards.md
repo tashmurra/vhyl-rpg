@@ -995,7 +995,7 @@ normal trait lookup resumes at the expiry instant. Subsequent injuries use the
 health module's pain-sensitive pipeline where applicable.
 
 The result is `awaiting-recovery`, with `recoveryChecksPending = true`. The parent
-radiation check still has pending consequences: later recovery must resolve the
+radiation check still has pending consequences: the recovery operation below resolves the
 two specified HT checks and their lasting conditions. This onset implementation
 does not mark the whole syndrome complete. Continued-exposure onset epochs,
 higher syndromes that inherit these symptoms, and overlapping burn episodes
@@ -1006,3 +1006,45 @@ the onset boundary and cannot receive this living-patient onset operation.
 scheduling preview, deadline protection, preflight, exception rollback, undo,
 shared injury, temporary trait behavior, replay and cross-process continuation.
 The fixtures are authored and unrun.
+
+
+### Radiation-burn recovery consequences
+
+`RpgExpandedRadiationBurnRecovery` implements the two independent recovery checks
+in `full-2008`, B436. Supply the `episode`, `approved`, concrete `recoveryEvidence`
+and a prepared `terminalCondition` owned by the same profile. The terminal object
+must include an approved, meaningful one-year calendar definition; it is only
+acquired if its check critically fails. All possible outcomes are preflighted
+before dice, including character creation completion and terminal eligibility.
+
+The onset must have committed and the patient must be alive with zero current
+injury. Recovery evidence confirms recovery from this episode, not merely an
+elapsed duration. Requiring zero total injury is an explicit implementation
+restriction until wound-specific healing allocation can distinguish unrelated
+remaining injuries. The operation does not itself heal or charge treatment time.
+
+Apply inside an engine action transaction. It rolls twice, first for sterility,
+then for the terminal condition. Each check uses the original radiation table
+modifier and the current radiation HT context, including advanced treatment.
+Only that check's critical failure grants its corresponding condition. Ordinary
+failure grants neither. Existing active sterility does not duplicate its feature.
+The result exposes both checks, their independent outcome flags and the net
+character-point change. Spendable points remain unchanged.
+
+Simple sterility is `RpgExpandedSterility`, a zero-point feature (`full-2008`, B165).
+`profile.fertilityBlocked()` exposes this impediment for authored reproductive
+procedures; false does not establish fertility in the presence of other world
+facts. This feature does not apply the broader source's sexual-trait effects.
+The one-year condition uses the health module's owned terminal deadline.
+
+The episode owns one recovery receipt. Completing both checks clears its pending
+recovery flag and the parent check's pending consequences. Its temporary pain
+effect continues until the original one-week expiry. Replay retains both rolls
+and does not duplicate traits, extend a deadline or grant points. Overlapping
+burn episodes remain blocked until both recovery checks and the pain effect have
+finished. Cures and terminal-condition buy-off remain unsupported.
+
+`tests/fixtures/expanded-radiation-recovery.t` and `test_radiation_recovery` specify
+all combinations of the two critical-failure outcomes, ordinary failure, healing
+preconditions, preview, rollback, undo, replay, accounting and saved continuation.
+These cases are authored and unrun.

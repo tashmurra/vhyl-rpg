@@ -8908,6 +8908,8 @@ def test(build):
     test_radiation_burns(Session, radiation_burn, build.out)
     terminal = build.build('expanded-terminal-condition', ROOT / 'tests/fixtures/expanded-terminal-condition.t')
     test_terminal_condition(Session, terminal, build.out)
+    radiation_recovery = build.build('expanded-radiation-recovery', ROOT / 'tests/fixtures/expanded-radiation-recovery.t')
+    test_radiation_recovery(Session, radiation_recovery, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10379,5 +10381,44 @@ def test_terminal_condition(Session, bundle, out):
         s.action(2291, 23, 0)
         s.action(2291, 23, 0)
         assert state(s) == [-75, 0, 1, 75, 31536000, 1, 31536000, 0]
+    finally:
+        s.close()
+
+
+def test_radiation_recovery(Session, bundle, out):
+    def setup(s, pair):
+        for code, argument in [(0, 0), (50, 0), (60, 0), (30, 36000), (62, 0), (70, pair)]:
+            s.action(2291, code, argument)
+    def state(s):
+        s.action(2291, 84, 0)
+        return last(s, 'test.radiation-recovery')
+    for pair, sterile, terminal in [(1, 0, 0), (2, 1, 0), (3, 0, 1), (4, 1, 1), (5, 0, 0)]:
+        s = Session(bundle)
+        try:
+            setup(s, pair)
+            s.action(2291, 82, 0)
+            assert state(s) == [0, 0, 0, 4, 1, None, 2, 0]
+            s.action(2291, 80, 0)
+            s.action(2291, 81, 0)
+            s.action(2291, 83, 0)
+            assert state(s) == [0, 0, 0, 4, 1, None, 0, 0]
+            s.action(2291, 82, 0)
+            s.command('undo')
+            assert state(s) == [0, 0, 0, 4, 1, None, 0, 0]
+            s.action(2291, 82, 0)
+            s.action(2291, 82, 0)
+            expected = [sterile, -75 * terminal, sterile + terminal, 10, 0,
+                        31572000 if terminal else None, 0, 0]
+            assert state(s) == expected
+            if pair == 4:
+                path = out / 'expanded-radiation-recovery.zsave'
+                s.command(f':save {path}\n@2295')
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2295')
+        s.action(2291, 82, 0)
+        assert state(s) == [1, -75, 2, 10, 0, 31572000, 0, 0]
     finally:
         s.close()

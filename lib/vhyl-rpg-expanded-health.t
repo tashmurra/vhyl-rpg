@@ -3724,3 +3724,18 @@ modify rpgLedger
         return nil;
     }
 ;
+
+/** B165 simple sterility is a zero-point feature, not the broader sexual trait. */
+class RpgExpandedSterility: RpgLiteTrait
+    id = 'sterility'
+    points = 0
+    creationCost()
+    {
+        if (self.id != 'sterility' || self.points != 0 || self.level != 1)
+            rpgExpandedReject('sterility-definition');
+        return 0;
+    }
+;
+modify RpgExpandedProfile
+    fertilityBlocked() { return self.level('sterility') > 0; }
+;
