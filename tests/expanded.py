@@ -11590,3 +11590,36 @@ def test_poison_exposure(Session, bundle, out):
             assert last(s, 'test.poison-exposure') == [None, None, None, 0, 0, 0, 0]
         finally:
             s.close()
+
+    # B438/B439 thresholds and B421 temporary-DX defense/secondary exceptions.
+    s = Session(bundle)
+    try:
+        for code in (347, 0, 340, 265, 260, 4, 262, 341):
+            s.action(2285, code)
+        assert last(s, 'test.poison-thresholds') == [0, -2, -4, -4, -6]
+        assert last(s, 'test.poison-symptom') == [8, 0, 0, 0, 20, 10]
+        for index, penalty in [(2, -2), (3, -4), (4, -6)]:
+            s.action(2285, 333)
+            s.action(2285, 341)
+            assert last(s, 'test.poison-symptom') == [index * 8, penalty, penalty, 0, 20, index * 8 + 2]
+        for code in (280, 284, 342, 282):
+            s.action(2285, code)
+        s.action(2285, 343)
+        s.command('undo')
+        s.action(2285, 341)
+        assert last(s, 'test.poison-symptom') == [32, -6, -6, 0, 20, 34]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code, injury, penalty in [(343, 26, -4), (344, 19, -2), (345, 13, 0)]:
+            s.action(2285, code)
+            s.action(2285, 341)
+            assert last(s, 'test.poison-symptom') == [injury, penalty, penalty, 0, 20, injury]
+        s.action(2285, 346)
+        s.action(2285, 341)
+        assert last(s, 'test.poison-symptom') == [13, 0, 0, 0, 20, 19]
+    finally:
+        s.close()

@@ -223,9 +223,12 @@
       "pages": "B438",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Track poison-attributed injury against its specified fraction of full capacity and activate the corresponding symptom; resolve symptom expiry when recovery passes the relevant threshold.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Injected-venom catalogue definition now executes delayed cyclic injury and exact one-third/one-half/two-thirds temporary DX symptoms through shared check modifiers. B421 defense/secondary exceptions and healing threshold clearance are integrated. Fixtures authored, unrun. Other symptom forms, overlapping symptomatic exposures and automatic follow-up delivery remain incomplete."
     },
     {
       "id": "poison-nondamage-duration",
@@ -440,9 +443,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Technology zero, follow-up delivery, one-minute delay, health-3, two dice toxic damage at hourly intervals for six cycles, price ten and legality one; injury at one-third, one-half and two-thirds capacity gives dexterity -2, -4 and -6 respectively.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Injected-venom catalogue definition now executes delayed cyclic injury and exact one-third/one-half/two-thirds temporary DX symptoms through shared check modifiers. B421 defense/secondary exceptions and healing threshold clearance are integrated. Fixtures authored, unrun. Other symptom forms, overlapping symptomatic exposures and automatic follow-up delivery remain incomplete."
     },
     {
       "id": "poison-catalogue-rapid-systemic-agent",

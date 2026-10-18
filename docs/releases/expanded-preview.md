@@ -453,3 +453,11 @@ dual-route catalogue agent's distinct area-contact and area-respiratory cycles.
 Admission enforces area delivery and documented preparation; unprepared fear
 integration remains blocked explicitly. Full-cycle expected-value fixtures are
 authored and unrun, and persistent environmental repetition remains incomplete.
+
+
+The neutral injected-venom catalogue entry now executes cyclic toxic damage and
+its exact injury-based DX symptom thresholds. Temporary penalties affect DX
+checks and skills while preserving secondary characteristics and defensive
+reactions. Healing clears severity without later unrelated wounds restoring it.
+Fixtures are authored and unrun; other symptom forms and combined symptomatic
+exposures remain incomplete.

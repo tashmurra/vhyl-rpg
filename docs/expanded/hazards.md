@@ -1315,6 +1315,7 @@ following neutral entries from full-2008 B439:
 | Identifier | Route | Onset | Resistance | Toxic damage | Cycles | Technology | Price/dose | Legality |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `delayed-ingested-agent` | digestive | 3600 seconds | HT−2 | 1d | Eight, 3600-second intervals | 1 | 1 | 1 |
+| `injected-venom` | follow-up | 60 seconds | HT−3 | 2d | Six, 3600-second intervals | 0 | 10 | 1 |
 | `rapid-systemic-agent` | follow-up or respiratory | Immediate | None | 4d | One | 4 | 2 | 1 |
 | `rapid-systemic-agent` | contact or digestive | 900 seconds | None | 4d | One | 4 | 2 | 1 |
 | `dual-route-agent` | area contact | Immediate | HT−4 | 1 HP | Twenty-four, 28800-second intervals | 6 | 10 | 0 |
@@ -1357,3 +1358,30 @@ persistent-environment coverage. The preparation facts are bound at admission.
 Fixtures cover the full twenty-four contact cycles and six respiratory cycles,
 their final injuries and random-draw counts, wrong delivery methods, unprepared
 admission and invalid zero-damage definitions. They remain unrun.
+
+
+### Venom injury symptoms
+
+The `injected-venom` catalogue entry (full-2008 B439) applies temporary DX
+penalties of −2, −4 and −6 when its attributed injury reaches one third, one half
+and two thirds of full HP. `rpgExpandedVenomDexterityPenalty(capacity, injury)`
+compares exact integer fractions; it does not round a threshold downward. Owned
+exposures retain `symptomInjury`, incremented only by their committed toxic injury.
+Unrelated wounds cannot start or escalate these symptoms.
+
+`poisonDexterityPenalty()` feeds the shared health modifier for DX actions and
+DX-based skills. Under the temporary-attribute rule (B421), Basic Speed, Move and
+active defenses remain unchanged. A custom DX-based defensive reaction must mark
+its check context `defensiveReaction = true`; ordinary defense contexts are
+already exempt. This changes a temporary check modifier, not purchased DX.
+
+Healing caps each exposure's remaining symptom injury at current total injury,
+so crossing back above a symptom threshold removes that severity. Later unrelated
+injury does not restore the cleared severity. Ending the poison stops future
+cycles and releases its healing lock but does not itself clear symptoms or heal
+HP. Simultaneous symptom-bearing exposures are rejected pending an explicit
+combined-attribution procedure. Other symptom forms remain unfinished.
+
+Fixtures specify nonintegral threshold boundaries, staged DX loss, unchanged
+secondary/defense values, antidote termination followed by healing, later
+unrelated injury, undo and saved continuation. They remain unrun.

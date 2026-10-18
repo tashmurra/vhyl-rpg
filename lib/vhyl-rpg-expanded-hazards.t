@@ -2660,6 +2660,13 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
     boundDefinition = nil
     result = nil
     cycleHistory = []
+    symptomInjury = 0
+    hasDexteritySymptoms() { return self.hazard.ofKind(RpgExpandedCataloguePoison) && self.hazard.dexteritySymptoms; }
+    dexteritySymptomPenalty()
+    {
+        self.validateReceipt();
+        return self.hasDexteritySymptoms() ? rpgExpandedVenomDexterityPenalty(self.profile.maxHP,self.symptomInjury) : 0;
+    }
     doseDoublings = 0
     preparedForAgent = nil
     preparationEvidence = nil
@@ -2740,7 +2747,11 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         if (!self.started)
         {
             foreach (local prior in self.profile.poisonExposures)
+            {
                 if (prior.id == self.id) rpgExpandedReject('poison-exposure-duplicate');
+                if (self.hasDexteritySymptoms() && prior.hasDexteritySymptoms() && (!prior.finished || prior.symptomInjury > 0))
+                { value.reason = 'poison-symptom-overlap-unimplemented'; return value; }
+            }
             local entry = self.entry.assess();
             if (entry.status != 'ready' || !entry.exposed)
             { value.reason = entry.status == 'ready' ? 'poison-not-delivered' : entry.reason; return value; }
@@ -2833,6 +2844,7 @@ class RpgExpandedPoisonCycle: object
             local harm = value.wound.apply();
             if (harm.status != 'resolved') rpgExpandedReject('poison-injury-changed');
             value.injury = harm.healthLoss;
+            if (e.hasDexteritySymptoms()) e.symptomInjury += value.injury;
         }
         self.completedAt = rpgLedger.seconds; self.boundId = self.id; self.boundExposure = e;
         value.status = 'resolved'; self.result = value; e.cycleHistory = e.cycleHistory + [self];
@@ -3258,12 +3270,13 @@ class RpgExpandedCataloguePoison: RpgLiteHazard
     catalogueId = nil
     deliveryMethod = nil
     unpreparedFear = nil
+    dexteritySymptoms = nil
     route = nil
     techLevel = 0
     unitCost = 0
     legality = 1
     signature() { return [self.kind,self.delay,self.interval,self.cycles,self.dice,self.adds,
-        self.fatigueDamage,self.resistible,self.resistanceModifier,self.techLevel,self.unitCost,self.legality,self.deliveryMethod,self.unpreparedFear]; }
+        self.fatigueDamage,self.resistible,self.resistanceModifier,self.techLevel,self.unitCost,self.legality,self.deliveryMethod,self.unpreparedFear,self.dexteritySymptoms]; }
     validateCatalogue()
     {
         local expected = rpgExpandedPoisonCatalogue(self.catalogueId,self.route).signature();
@@ -3288,6 +3301,12 @@ rpgExpandedPoisonCatalogue(id, route)
         if (!holds(['follow-up','respiratory','contact','digestive'],route)) rpgExpandedReject('poison-catalogue-route');
         value.techLevel = 4; value.unitCost = 2; value.resistible = nil; value.dice = 4;
         value.delay = holds(['follow-up','respiratory'],route) ? 0 : 900;
+    }
+    else if (id == 'injected-venom')
+    {
+        if (route != 'follow-up') rpgExpandedReject('poison-catalogue-route');
+        value.techLevel = 0; value.unitCost = 10; value.delay = 60; value.resistanceModifier = -3;
+        value.dice = 2; value.interval = 3600; value.cycles = 6; value.dexteritySymptoms = true;
     }
     else if (id == 'dual-route-agent')
     {
@@ -3319,3 +3338,44 @@ rpgExpandedPoisonCatalogueStock(stockId, catalogueId, route, doses)
     stock.quantity = doses; stock.techLevel = hazard.techLevel; stock.legality = hazard.legality;
     stock.cost = doses * hazard.unitCost; return stock;
 }
+
+
+/** B439 symptom thresholds use exact fractions of full HP, never rounded-down HP. */
+rpgExpandedVenomDexterityPenalty(capacity, injury)
+{
+    rpgInteger(capacity,1,1000000); rpgInteger(injury,0,100000000);
+    if (injury * 3 >= capacity * 2) return -6;
+    if (injury * 2 >= capacity) return -4;
+    if (injury * 3 >= capacity) return -2;
+    return 0;
+}
+modify RpgLiteContext
+    /* Authors mark other defensive reactions that use a DX-based check. */
+    defensiveReaction = nil
+;
+modify RpgExpandedProfile
+    poisonDexterityPenalty()
+    {
+        local penalty = 0;
+        foreach (local exposure in self.poisonExposures)
+            penalty += exposure.dexteritySymptomPenalty();
+        return penalty;
+    }
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        if (context.controllingAttribute() == rpgDX && context.kind != 'defense' && !context.defensiveReaction)
+            value += self.poisonDexterityPenalty();
+        return value;
+    }
+    afterHealing()
+    {
+        inherited();
+        foreach (local exposure in self.poisonExposures)
+        {
+            exposure.validateReceipt();
+            if (exposure.symptomInjury > self.injury) exposure.symptomInjury = self.injury;
+        }
+        return nil;
+    }
+;

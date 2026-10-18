@@ -170,6 +170,34 @@ modify BleedTestAction
         if (code == 334) { poisonExposure.preparedForAgent = nil; return nil; }
         if (code == 335) { poisonDelivery.method = 'direct'; return nil; }
         if (code == 336) { poisonDefinition.dice = 0; poisonDefinition.adds = 0; return nil; }
+        if (code == 340)
+        {
+            poisonExposure.hazard = rpgExpandedPoisonCatalogue('injected-venom','follow-up');
+            poisonDelivery.route = 'follow-up'; poisonDelivery.method = 'weapon';
+            poisonDelivery.wound = bleedWound; poisonDelivery.penetrationKind = 'impaling'; return nil;
+        }
+        if (code == 341)
+        {
+            local context = new RpgLiteContext(); context.attribute = rpgDX;
+            event('test.poison-symptom'); eventValue(poisonExposure.symptomInjury); eventValue(bleedProfile.poisonDexterityPenalty());
+            eventValue(bleedProfile.healthAttributeModifier(context)); context.kind = 'defense';
+            eventValue(bleedProfile.healthAttributeModifier(context)); eventValue(bleedProfile.basicSpeedQuarters());
+            eventValue(bleedProfile.injury); return nil;
+        }
+        if (code == 342) { poisonAntidote.targetHazard = poisonExposure.hazard; return nil; }
+        if (code == 343) { rpgLiteHeal(bleedProfile,8); return nil; }
+        if (code == 344) { rpgLiteHeal(bleedProfile,7); return nil; }
+        if (code == 345) { rpgLiteHeal(bleedProfile,6); return nil; }
+        if (code == 346)
+        {
+            local wound = new RpgExpandedWound(); wound.profile = bleedProfile; wound.id = 'unrelated-later-wound';
+            wound.amount = 6; wound.apply(); return nil;
+        }
+        if (code == 347)
+        {
+            event('test.poison-thresholds');
+            foreach (local injury in [3,4,5,6,7]) eventValue(rpgExpandedVenomDexterityPenalty(10,injury)); return nil;
+        }
         return inherited(context);
     }
 ;
