@@ -9012,6 +9012,8 @@ def test(build):
     test_climb_assessment(Session, climb_assessment)
     hiking_assessment = build.build('expanded-hiking-assessment',ROOT / 'tests/fixtures/expanded-hiking-assessment.t')
     test_hiking_assessment(Session, hiking_assessment)
+    throw_assessment = build.build('expanded-throw-assessment',ROOT / 'tests/fixtures/expanded-throw-assessment.t')
+    test_throw_assessment(Session, throw_assessment)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
     test_hiking_attempt(Session, hiking_attempt, build.out)
     hiking_party = build.build('expanded-hiking-party',ROOT / 'tests/fixtures/expanded-hiking-party.t')
@@ -14654,5 +14656,49 @@ def test_march_hour(Session, bundle, out):
             s.action(2285,code)
         assert last(s,'test.march-hour-preview') == ['blocked','march-continuous-consciousness-required',0,0]
         assert state(s) == [0,0,10,0,0,0,0]
+    finally:
+        s.close()
+
+
+def test_throw_assessment(Session, bundle):
+    s = Session(bundle)
+    try:
+        # B355 endpoints, including the three non-authorizing rows above 8x lift.
+        rows = [(500,350),(1000,250),(1500,200),(2000,150),(2500,120),(3000,110),
+                (4000,100),(5000,80),(7500,70),(10000,60),(15000,40),(20000,30),
+                (25000,25),(30000,20),(40000,15),(50000,12),(60000,10),(70000,9),
+                (80000,8),(90000,7),(100000,6),(120000,5)]
+        previous = 0
+        for weight, factor in rows:
+            for probe in (previous+1,weight):
+                s.action(2292,probe,10000)
+                assert last(s,'test.throw-distance-factor') == [factor,0,0]
+            previous = weight
+        def assess(weight, strength=10, lift=2000, mode=1, relative=0, palm=1, cinematic=0):
+            s.action(2293,strength,lift,weight,mode,relative,palm,cinematic)
+            return last(s,'test.throw-assessment')
+        # ST10 thrust is 1d-2. Exact weight bands and the next hundredth pound.
+        for weight, adds in ((250,-4),(251,-3),(500,-3),(501,-2),(1000,-2),
+                             (1001,-1),(2000,-1),(2001,-2),(4000,-2),
+                             (4001,-3),(8000,-3),(8001,-3),(16000,-3)):
+            result = assess(weight)
+            assert result[4:6] == [1,adds]
+            assert result[2] == (1 if weight <= 4000 else 2)
+            assert result[-2:] == [0,0]
+        assert assess(16001)[1] == 'throw-weight-limit'
+        # Printed examples: ST12/BL29 throwing 120 lb; ST28/BL157 throwing 50 lb.
+        assert assess(12000,strength=12,lift=2900)[3] == 144
+        assert assess(5000,strength=28,lift=15700)[4:6] == [3,-1]
+        # Negative half-point-per-die adjustment rounds down, including odd dice.
+        assert assess(40000,strength=28,lift=15700)[4:6] == [3,-3]
+        assert assess(100)[3:7] == [3500,1,-4,-3]
+        assert assess(100,mode=2,relative=1)[3:7] == [3850,1,-4,0]
+        assert assess(100,mode=2,relative=2)[3:7] == [4200,1,-4,0]
+        assert assess(100,mode=2,relative=10)[3] == 4200
+        assert assess(100,mode=2,palm=0)[1] == 'throw-skill-palm-size'
+        assert assess(100,mode=3)[1] == 'throw-cinematic-skill-disabled'
+        assert assess(100,mode=3,cinematic=1)[3:7] == [3850,1,-3,0]
+        assert assess(100,mode=3,relative=1,cinematic=1)[3:7] == [4200,1,-2,0]
+        assert assess(16001,mode=3,relative=1,cinematic=1)[1] == 'throw-weight-limit'
     finally:
         s.close()

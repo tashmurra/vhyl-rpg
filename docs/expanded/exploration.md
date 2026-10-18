@@ -789,3 +789,43 @@ For a continuous hour under unchanged conditions, health now also supplies
 marching cost together. Failed permission is retained without charging an hour.
 See [continuous marching hours](health.md#continuous-marching-hours). This does
 not complete the full-day itinerary, rest or interruption procedures.
+
+## Ordinary-object throwing assessments
+
+`rpgExpandedThrowDistanceFactor(weight, lift)` contains every printed ratio row
+from `full-2008` B355, including rows above the ordinary eight-times-lift weight
+limit. Both inputs are hundredths of a pound; the returned distance factor is in
+hundredths. It compares exact integer cross-products rather than rounding a
+weight ratio before choosing the next higher row. Table access alone grants no
+permission to lift or throw an object.
+
+`rpgExpandedAssessThrow(strength, lift, weight, skillAssessment)` rejects weights
+above eight times Basic Lift, selects one hand up to twice lift and two above,
+and returns distance in hundredths of a yard plus an unrolled thrust damage
+expression. `skillAssessment` can be nil for unskilled throwing. The result also
+identifies the attack maneuver and base accuracy adjustments: DX-3 for a specific
+target, DX for a general area, or the selected throwing skill without that DX
+penalty. Actual size, speed, range and other target modifiers remain separate.
+
+`rpgExpandedAssessThrowSkill(mode, relativeLevel, palmSized, cinematicAllowed)`
+implements B356 with modes `unskilled`, `throwing` and `throwing-art`.
+`relativeLevel` is **trained** skill relative to DX; a default does not establish
+training. Ordinary throwing requires a palm-sized object and grants +1 or +2
+range strength at DX+1 or DX+2. The explicitly authorized cinematic skill can
+handle any ordinary object and grants +1 or +2 range strength and damage per
+die at DX or DX+1. These bonuses do not change lifting eligibility, weight bands
+or the strength used to select base thrust damage.
+
+Damage defaults to crushing. Sharp-object damage types need authored shape
+adjudication. For the two-to-four-times-lift damage band, the negative half-point
+per die rounds downward (B9/B355): three dice take a -2 adjustment. This corrects
+the earlier inventory wording, which described subtracting a rounded-down
+positive quantity. Existing Lite formulas remain unchanged.
+
+These functions assess capability without time, RNG or inventory changes. They
+do not replace purpose-built thrown-weapon statistics, confirm ready equipment,
+execute an attack, damage either participant, or catch an object. Fragile objects
+and thrown characters require their own independent damage roll on impact.
+Those owned operations and skill eligibility integrations remain incomplete.
+The minimal fixture is `tests/fixtures/expanded-throw-assessment.t`; full-table,
+weight-band, skill-bonus and source-example assertions are authored and unrun.

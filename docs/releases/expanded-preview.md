@@ -896,3 +896,9 @@ their fatigue cost. Failed effort attempts persist without rerolling; completed
 hours replay without another time or fatigue charge. Fixed-condition changes
 reject the transaction. Authored fixtures remain unrun; interrupted travel,
 recurring consciousness checks and full-day scheduling are still incomplete.
+
+Ordinary-object throwing now has pure full-table range and damage assessments,
+including lift limits, hand requirements and ordinary/cinematic skill bonuses.
+The inventory's negative half-point-per-die rounding description was corrected
+against the source. Source-table and example fixtures remain unrun; pickup,
+attack, catching and impact execution are still incomplete.

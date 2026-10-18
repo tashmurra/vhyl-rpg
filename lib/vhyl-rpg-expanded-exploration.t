@@ -1615,3 +1615,80 @@ class RpgExpandedHikingParty: object
         return result;
     }
 ;
+
+/** B355 full distance table. Ratios above eight remain table data, not lifting
+ * permission. Both weight and Basic Lift are hundredths of a pound. */
+rpgExpandedThrowDistanceFactor(weight, lift)
+{
+    rpgInteger(weight,1,1000000); rpgInteger(lift,1,1000000);
+    local rows = [[5,350],[10,250],[15,200],[20,150],[25,120],[30,110],[40,100],[50,80],
+        [75,70],[100,60],[150,40],[200,30],[250,25],[300,20],[400,15],[500,12],[600,10],
+        [700,9],[800,8],[900,7],[1000,6],[1200,5]];
+    foreach (local row in rows) if (weight * 100 <= lift * row[1]) return row[2];
+    rpgExpandedReject('throw-distance-table-limit');
+}
+class RpgExpandedThrowSkillAssessment: RpgExpandedResult
+    mode = 'unskilled'
+    rangeStrengthBonus = 0
+    damagePerDieBonus = 0
+;
+/** B356 skill bonuses, supplied as trained skill relative to DX. No default
+ * skill grants these training bonuses; mode selection is an authored fact. */
+rpgExpandedAssessThrowSkill(mode, relativeLevel, palmSized, cinematicAllowed)
+{
+    if (!holds(['unskilled','throwing','throwing-art'],mode)) rpgExpandedReject('throw-skill-mode');
+    rpgInteger(relativeLevel,-1000,1000);
+    local value = new RpgExpandedThrowSkillAssessment(); value.mode = mode;
+    if (mode == 'throwing' && !palmSized) { value.reason = 'throw-skill-palm-size'; return value; }
+    if (mode == 'throwing-art' && !cinematicAllowed) { value.reason = 'throw-cinematic-skill-disabled'; return value; }
+    if (mode == 'throwing') value.rangeStrengthBonus = relativeLevel >= 2 ? 2 : relativeLevel >= 1 ? 1 : 0;
+    if (mode == 'throwing-art')
+    {
+        value.rangeStrengthBonus = relativeLevel >= 1 ? 2 : relativeLevel >= 0 ? 1 : 0;
+        value.damagePerDieBonus = value.rangeStrengthBonus;
+    }
+    value.status = 'ready'; return value;
+}
+class RpgExpandedThrowAssessment: RpgExpandedResult
+    handsRequired = 0
+    distanceHundredths = 0
+    distanceFactor = 0
+    damageDice = 0
+    damageAdds = 0
+    damageType = 'cr'
+    maneuver = 'attack'
+    specificTargetModifier = -3
+    generalAreaModifier = 0
+    skillMode = 'unskilled'
+;
+/** B355-B356 ordinary-object assessment. A skill's range-strength bonus does
+ * not change Basic Lift, eligibility or the strength used for base damage. */
+rpgExpandedAssessThrow(strength, lift, weight, skillAssessment)
+{
+    rpgInteger(strength,1,1000); rpgInteger(lift,1,1000000); rpgInteger(weight,1,1000000);
+    local value = new RpgExpandedThrowAssessment();
+    if (weight > lift * 8) { value.reason = 'throw-weight-limit'; return value; }
+    local rangeBonus = 0; local damageBonus = 0;
+    if (skillAssessment != nil)
+    {
+        if (!skillAssessment.ofKind(RpgExpandedThrowSkillAssessment)) rpgExpandedReject('throw-skill-assessment');
+        if (skillAssessment.status != 'ready') { value.reason = skillAssessment.reason; return value; }
+        rpgInteger(skillAssessment.rangeStrengthBonus,0,2); rpgInteger(skillAssessment.damagePerDieBonus,0,2);
+        rangeBonus = skillAssessment.rangeStrengthBonus; damageBonus = skillAssessment.damagePerDieBonus;
+        value.skillMode = skillAssessment.mode;
+        if (value.skillMode != 'unskilled') value.specificTargetModifier = 0;
+    }
+    value.handsRequired = weight <= lift * 2 ? 1 : 2;
+    value.distanceFactor = rpgExpandedThrowDistanceFactor(weight,lift);
+    value.distanceHundredths = (strength + rangeBonus) * value.distanceFactor;
+    local damage = rpgExpandedDamageDice(strength,nil); value.damageDice = damage[1]; value.damageAdds = damage[2];
+    if (weight * 8 <= lift) value.damageAdds -= 2 * value.damageDice;
+    else if (weight * 4 <= lift) value.damageAdds -= value.damageDice;
+    else if (weight * 2 <= lift) value.damageAdds += 0;
+    else if (weight <= lift) value.damageAdds += value.damageDice;
+    else if (weight <= lift * 2) value.damageAdds += 0;
+    else if (weight <= lift * 4) value.damageAdds -= (value.damageDice + 1) / 2;
+    else value.damageAdds -= value.damageDice;
+    value.damageAdds += damageBonus * value.damageDice;
+    value.status = 'ready'; return value;
+}
