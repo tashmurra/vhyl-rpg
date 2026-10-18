@@ -1179,3 +1179,19 @@ rate, and this adapter does not invent one.
 `test_makeup_equipment` specifies quality, prosthetic technology, storage,
 ungranted/revoked shared access and completed-work save continuation. Fixtures
 remain unrun.
+
+For actual consumable stock, assign an `RpgExpandedInventoryMakeupMaterials` to
+an application's `materials`. Set its matching `application`, an owned `stock`
+item, positive `units`, `approved` and concrete `evidence`. Units are authored
+portions, not a printed consumption rate. The debit uses the item's existing
+`quantity` and removes an exhausted stack from the same equipment list. It
+checks unique ownership, accessibility and quantity before work and again at
+commit. A toolkit permission does not authorize spending another owner's stock.
+
+An allowed application consumes the portions even if its cosmetic roll fails;
+a denied health gate consumes none. Preview, replay and recorded presentation
+removal consume none. The debit remains bound to that one application after the
+stock is exhausted or transferred. Call application operations rather than the
+adapter's internal `consume` method. `test_makeup_materials` specifies preview,
+insufficient/stored stock, failure, health denial, rollback, undo and save replay.
+These fixtures remain unrun while checks are paused.

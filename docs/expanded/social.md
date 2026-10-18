@@ -1776,3 +1776,10 @@ procedure or duration. `rpg.expanded.makeup` contains operation, status and reas
 not the cosmetic description. `test_makeup_actions` specifies parser, structured
 and dialogue parity, distinct actor roles, preview, rollback, undo, repeat calls
 and ending without replay resurrection. Fixtures remain unrun.
+
+Applications may now set `materials` to an equipment-backed
+`RpgExpandedInventoryMakeupMaterials` instead of the `materialsAvailable`
+author attestation. The equipment guide describes owned stock and authored units.
+An allowed attempt spends materials once, whether its roll succeeds or fails;
+health denial spends none. This does not add a material consumption rate to the
+printed rule. Existing attestation-only applications retain their behavior.

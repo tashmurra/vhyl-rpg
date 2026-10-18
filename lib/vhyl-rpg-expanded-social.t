@@ -3912,6 +3912,7 @@ class RpgExpandedMakeupApplication: object
     context = nil
     seconds = nil
     materialsAvailable = nil
+    materials = nil
     permitted = nil
     result = nil
     completedAt = nil
@@ -3961,7 +3962,13 @@ class RpgExpandedMakeupApplication: object
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
             || self.context == nil || !self.context.ofKind(RpgLiteContext)) rpgExpandedReject('makeup-application-definition');
         rpgInteger(self.seconds,0,86400);
-        return [self.id,self.profile,self.context,self.seconds,self.materialsAvailable,self.permitted] + self.context.makeupFacts();
+        local facts = [self.id,self.profile,self.context,self.seconds,self.materialsAvailable,self.permitted,self.materials] + self.context.makeupFacts();
+        if (self.materials != nil)
+        {
+            if (!self.materials.ofKind(RpgExpandedMakeupMaterials)) rpgExpandedReject('makeup-materials-definition');
+            facts = facts + self.materials.definition(self);
+        }
+        return facts;
     }
     outcomeDefinition()
     {
@@ -3973,6 +3980,7 @@ class RpgExpandedMakeupApplication: object
         if (self.result != nil)
         {
             self.validateEnd();
+            if (self.materials != nil) self.materials.validateReceipt(self,self.result.allowed);
             if (!holds(self.profile.makeupApplications,self) || self.completedAt > rpgLedger.seconds
                 || facts.length() != self.boundDefinition.length()) rpgExpandedReject('makeup-application-history');
             for (local index = 1; index <= facts.length(); index += 1)
@@ -3984,7 +3992,11 @@ class RpgExpandedMakeupApplication: object
             value.status = 'reused'; return value;
         }
         if (self.endedAt != nil || self.endEvidence != nil || self.boundEnd != nil) rpgExpandedReject('makeup-end-before-application');
-        if (!self.permitted || !self.materialsAvailable) { value.reason = 'makeup-application-access'; return value; }
+        if (!self.permitted || (self.materials == nil && !self.materialsAvailable)) { value.reason = 'makeup-application-access'; return value; }
+        if (self.materials != nil)
+        {
+            value.reason = self.materials.assess(self); if (value.reason != nil) return value;
+        }
         foreach (local prior in self.profile.makeupApplications)
             if (prior.id == self.id) rpgExpandedReject('makeup-application-duplicate');
         value.reason = self.profile.nonTravelScheduleReason(rpgLedger.seconds,self.seconds);
@@ -4015,6 +4027,7 @@ class RpgExpandedMakeupApplication: object
         {
             if (rpgLedger.seconds != start+self.seconds || rpgLiteScore(self.profile,self.context) != value.score
                 || self.profile.nonTravelScheduleReason(start,self.seconds) != nil) rpgExpandedReject('makeup-application-changed');
+            if (self.materials != nil) self.materials.consume(self);
             value.check = rpgCheck(value.score,rpgRandom.roll());
             if (value.check.achieved) { value.presentation = self.context.presentation; self.context.subject.makeupPresentation = self; }
         }

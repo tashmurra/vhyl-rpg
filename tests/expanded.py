@@ -9492,6 +9492,8 @@ def test(build):
     test_makeup_equipment(Session,makeup_equipment,build.out)
     makeup_actions = build.build('expanded-makeup-actions',ROOT / 'tests/fixtures/expanded-makeup-actions.t')
     test_makeup_actions(Session,makeup_actions)
+    makeup_materials = build.build('expanded-makeup-materials',ROOT / 'tests/fixtures/expanded-makeup-materials.t')
+    test_makeup_materials(Session,makeup_materials,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25881,5 +25883,44 @@ def test_makeup_actions(Session, bundle):
                 assert last(s,'rpg.expanded.makeup') == [operation,'blocked','makeup-action-owner-required']
             s.action(1680,25603)
             assert last(s,'test.makeup-state') == [0,0,0,0]
+        finally:
+            s.close()
+
+
+def test_makeup_materials(Session, bundle, out):
+    """Authored inventory units debit once, including failed work; unrun."""
+    s = Session(bundle)
+    try:
+        s.action(1680,25602); s.action(1680,26000)
+        assert last(s,'test.makeup-materials') == [2,1,0]
+        s.action(1680,25601); s.action(1680,26000)
+        assert last(s,'test.makeup-materials') == [2,1,0]
+        s.action(1680,25600); s.command('undo'); s.action(1680,26000)
+        assert last(s,'test.makeup-materials') == [2,1,0]
+        s.action(1680,25600); s.action(1680,25600); s.action(1680,26000)
+        assert last(s,'test.makeup-materials') == [0,0,1]
+        path = out / 'makeup-materials.zsave'
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,25600); s.action(1680,26000)
+        assert last(s,'test.makeup-materials') == [0,0,1]
+    finally:
+        s.close()
+    for code, reason in ((26001,'makeup-materials-insufficient'),(26002,'makeup-materials-inaccessible')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code); s.action(1680,25602); s.action(1680,25600); s.action(1680,25603)
+            assert last(s,'test.makeup-preview') == ['blocked',reason]
+            assert last(s,'test.makeup-state') == [0,0,0,0]
+        finally:
+            s.close()
+    for code, expected in ((25606,[0,0,1]),(26003,[2,1,0])):
+        s = Session(bundle)
+        try:
+            s.action(1680,code); s.action(1680,25600); s.action(1680,25600); s.action(1680,26000)
+            assert last(s,'test.makeup-materials') == expected
         finally:
             s.close()

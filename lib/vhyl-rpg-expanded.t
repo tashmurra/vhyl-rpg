@@ -1014,3 +1014,11 @@ rpgExpandedMakeupEquipment: object
     definition(assessment,context) { rpgExpandedReject('makeup-equipment-module-required'); }
     assess(assessment,profile,context) { rpgExpandedReject('makeup-equipment-module-required'); }
 ;
+
+/** Optional inventory debit owned by one cosmetic application. */
+class RpgExpandedMakeupMaterials: object
+    definition(application) { rpgExpandedReject('makeup-materials-equipment-required'); }
+    assess(application) { return 'makeup-materials-equipment-required'; }
+    consume(application) { rpgExpandedReject('makeup-materials-equipment-required'); }
+    validateReceipt(application,consumed) { rpgExpandedReject('makeup-materials-equipment-required'); }
+;

@@ -2087,3 +2087,68 @@ modify rpgExpandedMakeupEquipment
         value.equipmentTL = assessment.techLevel; return value;
     }
 ;
+
+/** Authored units of actual inventory stock; B206 specifies no fixed quantity. */
+class RpgExpandedInventoryMakeupMaterials: RpgExpandedMakeupMaterials
+    application = nil
+    stock = nil
+    units = nil
+    approved = nil
+    evidence = nil
+    consumed = nil
+    boundDefinition = nil
+    definition(application)
+    {
+        if (self.application != application || application.materials != self
+            || self.stock == nil || !self.stock.ofKind(RpgLiteItem)) rpgExpandedReject('makeup-materials-definition');
+        rpgInteger(self.units,1,1000000);
+        return [self.application,self.stock,self.units,self.approved,self.evidence];
+    }
+    assess(application)
+    {
+        self.definition(application);
+        if (self.consumed || self.boundDefinition != nil) rpgExpandedReject('makeup-materials-already-consumed');
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'makeup-materials-facts-required';
+        local owners = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            foreach (local item in owner.equipment)
+                if (item == self.stock)
+                {
+                    if (owner != application.profile) return 'makeup-materials-owner';
+                    owners += 1;
+                }
+        if (owners != 1) return 'makeup-materials-owner';
+        rpgInteger(self.stock.quantity,0,1000000);
+        if (self.stock.quantity < self.units) return 'makeup-materials-insufficient';
+        if (!self.stock.usableBy(application.profile) || self.stock.thrownFlight != nil || self.stock.sharedCarry != nil)
+            return 'makeup-materials-inaccessible';
+        return nil;
+    }
+    consume(application)
+    {
+        local reason = self.assess(application); if (reason != nil) rpgExpandedReject(reason);
+        self.boundDefinition = self.definition(application);
+        self.stock.quantity -= self.units;
+        if (self.stock.quantity == 0)
+        {
+            local kept = [];
+            foreach (local item in application.profile.equipment) if (item != self.stock) kept = kept + [item];
+            application.profile.equipment = kept;
+        }
+        self.consumed = true; return nil;
+    }
+    validateReceipt(application,consumed)
+    {
+        local facts = self.definition(application);
+        if (self.consumed != consumed) rpgExpandedReject('makeup-materials-receipt');
+        if (!consumed)
+        {
+            if (self.boundDefinition != nil) rpgExpandedReject('makeup-materials-receipt');
+            return nil;
+        }
+        if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('makeup-materials-binding');
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('makeup-materials-binding');
+        return nil;
+    }
+;
