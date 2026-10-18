@@ -270,9 +270,12 @@
       "pages": "B473",
       "module": "technology",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An invention begins with an authored function, mechanism, technology, relevant skills, complexity, retail value and equipment requirements. Approval of feasibility must precede resource spending; a clear proposal can receive an explicitly awarded +1 or +2.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_invention_proposals"
+      ],
+      "validation_note": "Approved proposal and trained primary/related skill assessment authored; fixtures unrun. Owned concept, prototype, testing and production stages remain incomplete."
     },
     {
       "id": "technology-invention-skill",
@@ -280,9 +283,12 @@
       "pages": "B473",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The inventor must know the required invention skill; required related subjects cap the effective invention skill at the lowest applicable skill.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_invention_proposals"
+      ],
+      "validation_note": "Approved proposal and trained primary/related skill assessment authored; fixtures unrun. Owned concept, prototype, testing and production stages remain incomplete."
     },
     {
       "id": "technology-ordinary-tech-limit",

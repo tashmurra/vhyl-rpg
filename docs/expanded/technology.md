@@ -697,3 +697,37 @@ preview, insufficient funds, denied permission, duplicate copy, exception rollba
 undo, replay, two instances for one price, removal and three cross-process save
 stages. `test_software_purchase` and `test_software_purchase_persistence` are
 unrun while checks remain paused.
+
+
+## Realistic invention proposals
+
+`RpgExpandedInventionProposal` records an `inventor`, primary `skill`, optional
+`relatedSkills`, `description`, proposed `mechanism`, approval and supporting
+`evidence`. Set the invention `techLevel`, `retailPrice`, and either an authored
+`category` (simple, average, complex or amazing) or `softwareComplexity`.
+The price and skill category helpers expose B473 guidance; they never override
+the author's classification or create skill prerequisites.
+
+`assess()` requires purchased training in each required subject and uses the
+lowest skill score. Realistic inventions more than one technology level above
+the inventor block. Lower-technology physical inventions reduce category one
+step per level, with a simple minimum. The interaction between historical
+software and numerical complexity remains explicitly unsupported.
+
+The result contains the category, controlling skill, base concept modifier,
+facilities cost and per-attempt retail cost. An authored `descriptionBonus` of
+zero, one or two and the advanced-technology penalty are included. The
+`relatedFacilities` decision asserts suitable facilities from an equal-or-higher
+complexity project and divides facilities cost by ten. Prices use B474 fixed
+currency amounts rather than automatic technology/wealth scaling.
+
+This assessment consumes no money, time or randomness. It is not a completed
+invention project or a complete roll context: model access, novelty, variant
+modifiers, historical research, daily concept attempts, secret flawed theories,
+prototype duration, assistants, accidents, defects, testing and production are
+pending. Do not charge the returned costs merely for submitting a proposal.
+
+`test_invention_proposals` authors category boundaries, related-skill selection,
+technology limits, historical reduction, facilities reuse, software complexity,
+approval, training and description-bonus cases in the technology fixture. The
+fixtures are unrun while checks remain paused. Neutral source: `full-2008`, B473–B474.

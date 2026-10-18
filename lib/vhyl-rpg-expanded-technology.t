@@ -1291,3 +1291,103 @@ class RpgExpandedSoftwarePurchase: RpgExpandedAcquisition
         self.boundQuote = self.quote; return value;
     }
 ;
+
+/** Guidance categories, not minimum skill prerequisites, full-2008 B473. */
+rpgExpandedInventionPriceCategory(price)
+{
+    rpgInteger(price,0,100000000);
+    return price <= 100 ? 'simple' : price <= 10000 ? 'average' : price <= 1000000 ? 'complex' : 'amazing';
+}
+rpgExpandedInventionSkillCategory(score)
+{
+    rpgInteger(score,1,1000);
+    return score <= 14 ? 'simple' : score <= 17 ? 'average' : score <= 20 ? 'complex' : 'amazing';
+}
+rpgExpandedInventionSoftwareCategory(complexity)
+{
+    rpgInteger(complexity,1,12);
+    return complexity <= 3 ? 'simple' : complexity <= 5 ? 'average' : complexity <= 7 ? 'complex' : 'amazing';
+}
+
+class RpgExpandedInventionProposalResult: RpgExpandedResult
+    skillScore = nil
+    category = nil
+    conceptModifier = 0
+    facilitiesCost = 0
+    attemptCost = 0
+;
+
+/** Approved realistic proposal. Classification hints never replace author approval. */
+class RpgExpandedInventionProposal: object
+    inventor = nil
+    skill = nil
+    relatedSkills = []
+    description = nil
+    mechanism = nil
+    evidence = nil
+    approved = nil
+    techLevel = nil
+    category = nil
+    softwareComplexity = nil
+    retailPrice = nil
+    descriptionBonus = 0
+    relatedFacilities = nil
+    paidScore(subject)
+    {
+        if (subject == nil || !subject.ofKind(RpgSkill)) rpgExpandedReject('invention-skill');
+        local trained = nil;
+        foreach (local training in self.inventor.skills)
+            if (training.skill == subject && training.points > 0) trained = true;
+        return trained ? self.inventor.skillScore(subject) : nil;
+    }
+    assess()
+    {
+        if (self.inventor == nil || !self.inventor.ofKind(RpgLiteProfile))
+            rpgExpandedReject('invention-inventor');
+        local value = new RpgExpandedInventionProposalResult();
+        if (!self.approved || self.description == nil || self.description == ''
+            || self.mechanism == nil || self.mechanism == '' || self.evidence == nil || self.evidence == '')
+        { value.reason = 'invention-proposal-approval'; return value; }
+        rpgInteger(self.techLevel,0,12); rpgInteger(self.inventor.techLevel,0,12);
+        rpgInteger(self.retailPrice,0,100000000); rpgInteger(self.descriptionBonus,0,2);
+        if (self.techLevel > self.inventor.techLevel + 1)
+        { value.reason = 'invention-technology-too-advanced'; return value; }
+        local categories = ['simple','average','complex','amazing'];
+        local selected = self.category;
+        if (self.softwareComplexity != nil)
+        {
+            if (selected != nil) rpgExpandedReject('invention-complexity-source');
+            selected = rpgExpandedInventionSoftwareCategory(self.softwareComplexity);
+            if (self.techLevel < self.inventor.techLevel)
+            { value.reason = 'invention-software-historical-complexity-unresolved'; return value; }
+        }
+        if (!holds(categories,selected)) rpgExpandedReject('invention-category');
+        local index = 1;
+        while (categories[index] != selected) index += 1;
+        if (self.softwareComplexity == nil && self.techLevel < self.inventor.techLevel)
+        {
+            index -= self.inventor.techLevel - self.techLevel;
+            if (index < 1) index = 1;
+        }
+        value.category = categories[index]; value.skillScore = self.paidScore(self.skill);
+        if (value.skillScore == nil) { value.reason = 'invention-skill-not-trained'; return value; }
+        local seen = [self.skill];
+        foreach (local related in self.relatedSkills)
+        {
+            if (holds(seen,related)) rpgExpandedReject('invention-duplicate-skill');
+            seen = seen + [related]; local score = self.paidScore(related);
+            if (score == nil) { value.reason = 'invention-related-skill-not-trained'; return value; }
+            if (score < value.skillScore) value.skillScore = score;
+        }
+        local penalties = [-6,-10,-14,-22]; local facilities = [50000,100000,250000,500000];
+        value.conceptModifier = (self.softwareComplexity == nil ? penalties[index] : -2*self.softwareComplexity)
+            + self.descriptionBonus;
+        value.facilitiesCost = facilities[index]; value.attemptCost = self.retailPrice;
+        if (self.techLevel > self.inventor.techLevel)
+        {
+            value.conceptModifier -= 5; value.facilitiesCost *= 3; value.attemptCost *= 3;
+        }
+        if (self.relatedFacilities) value.facilitiesCost /= 10;
+        value.status = 'ready'; return value;
+    }
+;

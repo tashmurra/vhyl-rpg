@@ -973,6 +973,35 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_invention_proposals(Session,bundle):
+    for code,expected in [
+            (0,['ready',None,15,'average',-10,100000,1000]),
+            (1,['ready',None,13,'average',-10,100000,1000]),
+            (2,['ready',None,15,'average',-15,300000,3000]),
+            (3,['blocked','invention-technology-too-advanced',None,None,0,0,0]),
+            (4,['ready',None,15,'average',-10,100000,1000]),
+            (5,['ready',None,15,'average',-10,10000,1000]),
+            (6,['ready',None,15,'complex',-12,250000,1000]),
+            (7,['blocked','invention-proposal-approval',None,None,0,0,0]),
+            (8,['blocked','invention-skill-not-trained',None,'average',0,0,0]),
+            (9,['ready',None,15,'average',-8,100000,1000])]:
+        s = Session(bundle)
+        try:
+            s.action(2095,code)
+            assert last(s,'test.invention-proposal') == expected + [0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for price,skill,software,category in [(100,14,3,'simple'),(101,15,4,'average'),
+                (10000,17,5,'average'),(10001,18,6,'complex'),(1000000,20,7,'complex'),
+                (1000001,21,8,'amazing')]:
+            s.action(2096,price,skill,software)
+            assert last(s,'test.invention-category') == [category,category,category]
+    finally:
+        s.close()
+
+
 def software_purchase_state(s):
     s.action(2094)
     return last(s,'test.software-purchase-state')
@@ -5964,6 +5993,7 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')
+    test_invention_proposals(Session,technology)
     fresh(Session,technology,test_broken_weapons)
     fresh(Session,technology,test_object_capacity)
     fresh(Session,technology,test_object_injury_thresholds)
