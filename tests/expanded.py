@@ -9471,6 +9471,8 @@ def test(build):
     test_appearance_modifiers(Session,appearance)
     appearance_template = build.build('expanded-appearance-template',ROOT / 'tests/fixtures/expanded-appearance-template.t')
     test_appearance_template(Session,appearance_template,build.out)
+    styling = build.build('expanded-styling',ROOT / 'tests/fixtures/expanded-styling.t')
+    test_styling(Session,styling,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25500,5 +25502,46 @@ def test_appearance_template(Session, bundle, out):
         assert last(s,'test.appearance-template') == [15,9,9,1,2,1]
         s.action(1680,24903)
         assert last(s,'test.appearance-template-error') == ['appearance-template-options']
+    finally:
+        s.close()
+
+
+def test_styling(Session, bundle, out):
+    """B21 advance styling for another person adds one visible social bonus; unrun."""
+    path = out / 'styling.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,25007)
+        assert last(s,'test.styling-preview') == ['ready',None,0]
+        s.action(1680,25001); s.action(1680,25007)
+        assert last(s,'test.styling-preview') == ['ready',None,0]
+        s.action(1680,25000); s.command('undo'); s.action(1680,25007)
+        assert last(s,'test.styling-preview') == ['ready',None,0]
+        for code in (25000,25000,25002):
+            s.action(1680,code)
+        assert last(s,'test.styling') == [5,1,0,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,25002)
+        assert last(s,'test.styling') == [5,1,0,0]
+        s.action(1680,25008)
+        assert last(s,'test.styling-error') == ['styling-preparation-binding']
+    finally:
+        s.close()
+    for change, bonus in ((25003,4),(25004,4),(25005,4),(24706,0),(25006,5)):
+        s = Session(bundle)
+        try:
+            for code in (25000,change,25002):
+                s.action(1680,code)
+            assert last(s,'test.styling') == [bonus,1,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,25006); s.action(1680,25007)
+        assert last(s,'test.styling-preview') == ['blocked','styling-trait-required',0]
     finally:
         s.close()

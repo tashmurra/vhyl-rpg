@@ -1725,3 +1725,20 @@ transfers an existing donor-owned stack and binds it to `hour.gift`. The hourly
 receipt binds its roll, margin, success and critical classification, preventing an
 edited result from authorizing the reward. Other critical incidents still need
 explicit settlement integration; a recorded finding alone is not completion.
+
+### Applying a prepared outfit
+
+Any social context can select one `stylingPreparation` together with
+`stylingOccasion`, `stylingOutfit`, `stylingWorn`, `stylingSocialSituation` and
+concrete `stylingEvidence`. A validated preparation adds +1 only when its wearer
+is the reaction subject, its outfit and occasion match, it is worn in a social
+situation, and the observer can see the subject. This composes with specialized
+appearance contexts and does not stack multiple styling records.
+
+Preparation and reaction applicability are separate. A trait purchase alone does
+not add the bonus. The preparation's description and identities are bound against
+later rewriting. These fields are explicit author attestations; live clothing
+inventory, wear-state checks and any authored preparation time remain pending.
+`test_styling` specifies preparation purity, replay, rollback, undo, save
+continuation, changed facts, visibility and occasion applicability. Fixtures are
+unrun.

@@ -1781,3 +1781,17 @@ hourly record. `test_appearance_modifiers` covers signed prices, combined pricin
 visibility, compatibility, culture, odd bonuses, resentment and ineligible tiers.
 Fixtures remain unrun. Narrative consequences of extreme appearance still need
 explicit authored incident integration.
+
+### Styling expertise
+
+`RpgExpandedStyling` is an approved, fixed five-point trait (full-2008 B21).
+Activation and mitigation determine whether the designer can prepare an outfit.
+Templates support `['styling', 1, nil]` and preserve typed copies. Duplicate owned
+instances and unsupported price modifiers are rejected.
+
+The social library's `RpgExpandedStylingPreparation` records concrete advance
+preparation: give it an ID, designer, wearer, occasion, outfit identity, outfit
+description, approval and evidence, with `plannedInAdvance = true`. Designer and
+wearer may be the same person. `prepare()` records the authored preparation once;
+it does not invent a duration or consume materials. The wearer owns the receipt.
+Later loss of the designer's trait does not undo the already prepared outfit.

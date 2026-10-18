@@ -1698,9 +1698,10 @@
       "pages": "B21",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Implement price and effects with explicit audience/scene applicability; narrative complications need a specific authored contract.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_styling"],
+      "validation_note": "Fixed cost, active trait lookup, typed template factories and owned concrete advance preparation are implemented. Reaction applicability composes with appearance contexts. Live clothing inventory and wear-state adapters remain pending; fixtures unrun."
     },
     {
       "id": "physical-lookalike",

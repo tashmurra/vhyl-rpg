@@ -3121,3 +3121,44 @@ modify rpgExpandedTemplateTraits
         value.approved = trait.approved; return value;
     }
 ;
+
+/** B21 ordinary styling expertise, with preparation owned by the social library. */
+class RpgExpandedStyling: RpgExpandedTrait
+    id = 'styling'
+    labelId = 'styling'
+    points = 5
+    templatePurchaseKind = 'expanded-styling'
+    creationCost()
+    {
+        if (!self.approved || self.id != 'styling' || self.points != 5 || self.level != 1
+            || self.scope != nil || self.percentages.length() != 0) rpgExpandedReject('styling-definition');
+        return 5;
+    }
+;
+modify RpgExpandedProfile
+    stylingActive()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedStyling))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-styling'); found = trait;
+            }
+        return found != nil && found.active && !found.mitigated;
+    }
+    validateFeatures() { inherited(); self.stylingActive(); return nil; }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id != 'styling') return inherited(id,level,scope);
+        local trait = new RpgExpandedStyling(); trait.approved = true; trait.level = level; trait.scope = scope;
+        trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedStyling)) return inherited(trait);
+        trait.creationCost(); if (trait.labelId != trait.id) rpgExpandedReject('styling-template-definition');
+        return self.plain(trait.id,trait.level,trait.scope);
+    }
+;

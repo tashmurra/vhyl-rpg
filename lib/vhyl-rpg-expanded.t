@@ -983,3 +983,7 @@ modify RpgLiteSocialContext
     beggingAppearanceFacts() { rpgExpandedReject('begging-appearance-context-required'); }
     beggingAppearanceModifier(profile) { rpgExpandedReject('begging-appearance-context-required'); }
 ;
+
+modify RpgExpandedProfile
+    stylingActive() { return nil; }
+;

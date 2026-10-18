@@ -3809,3 +3809,86 @@ modify RpgExpandedAppearanceReactionContext
         return -amount;
     }
 ;
+
+/** B21 record concrete advance outfit preparation; no printed duration is imposed. */
+class RpgExpandedStylingPreparation: object
+    id = nil
+    designer = nil
+    wearer = nil
+    occasion = nil
+    outfit = nil
+    description = nil
+    plannedInAdvance = nil
+    approved = nil
+    evidence = nil
+    preparedAt = nil
+    boundDefinition = nil
+    boundPreparedAt = nil
+    definition()
+    {
+        return [self.id,self.designer,self.wearer,self.occasion,self.outfit,self.description,
+            self.plannedInAdvance,self.approved,self.evidence];
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.designer == nil || !self.designer.ofKind(RpgExpandedProfile)
+            || self.wearer == nil || !self.wearer.ofKind(RpgExpandedProfile) || self.occasion == nil || self.outfit == nil)
+            rpgExpandedReject('styling-preparation-definition');
+        local value = new RpgExpandedResult();
+        if (self.preparedAt != nil)
+        {
+            if (!holds(self.wearer.stylingPreparations,self) || self.preparedAt != self.boundPreparedAt
+                || self.preparedAt > rpgLedger.seconds) rpgExpandedReject('styling-preparation-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('styling-preparation-binding');
+            value.status = 'reused'; return value;
+        }
+        if (!self.approved || !self.plannedInAdvance || self.description == nil || self.description == ''
+            || self.evidence == nil || self.evidence == '') { value.reason = 'styling-preparation-facts'; return value; }
+        if (!self.designer.stylingActive()) { value.reason = 'styling-trait-required'; return value; }
+        foreach (local prior in self.wearer.stylingPreparations)
+            if (prior.id == self.id || prior.occasion == self.occasion && prior.outfit == self.outfit)
+                rpgExpandedReject('styling-preparation-duplicate');
+        value.status = 'ready'; return value;
+    }
+    prepare()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.preparedAt = rpgLedger.seconds; self.boundPreparedAt = self.preparedAt;
+        self.wearer.stylingPreparations = self.wearer.stylingPreparations + [self]; value.status = 'resolved'; return value;
+    }
+;
+modify RpgExpandedProfile
+    stylingPreparations = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local preparation in self.stylingPreparations)
+        {
+            if (preparation == nil || !preparation.ofKind(RpgExpandedStylingPreparation) || preparation.wearer != self
+                || holds(ids,preparation.id) || preparation.assess().status != 'reused') rpgExpandedReject('styling-preparation-history');
+            ids = ids + [preparation.id];
+        }
+        return nil;
+    }
+;
+modify RpgLiteSocialContext
+    stylingPreparation = nil
+    stylingOccasion = nil
+    stylingOutfit = nil
+    stylingWorn = nil
+    stylingSocialSituation = nil
+    stylingEvidence = nil
+    traitReactionModifier(profile)
+    {
+        local amount = inherited(profile); if (self.stylingPreparation == nil) return amount;
+        local preparation = self.stylingPreparation;
+        if (!preparation.ofKind(RpgExpandedStylingPreparation) || preparation.wearer != profile)
+            rpgExpandedReject('styling-reaction-owner');
+        if (preparation.assess().status != 'reused') rpgExpandedReject('styling-reaction-unprepared');
+        if (self.stylingEvidence == nil || self.stylingEvidence == '') rpgExpandedReject('styling-reaction-evidence');
+        return amount + (self.sees && self.stylingWorn && self.stylingSocialSituation
+            && self.stylingOccasion == preparation.occasion && self.stylingOutfit == preparation.outfit ? 1 : 0);
+    }
+;
