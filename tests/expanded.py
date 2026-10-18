@@ -9020,6 +9020,7 @@ def test(build):
     test_throw_attempt(Session, throw_attempt, build.out)
     throw_release = build.build('expanded-throw-release',ROOT / 'tests/fixtures/expanded-throw-release.t')
     test_throw_release(Session, throw_release, build.out)
+    test_throw_ranged_failure(Session, throw_release)
     thrown_damage = build.build('expanded-thrown-damage',ROOT / 'tests/fixtures/expanded-thrown-damage.t')
     test_thrown_damage(Session, thrown_damage, build.out)
     thrown_injury = build.build('expanded-thrown-injury',ROOT / 'tests/fixtures/expanded-thrown-injury.t')
@@ -14768,7 +14769,13 @@ def test_catch_assessment(Session, bundle):
         s.action(2292,10,1,12,10,0,3)
         assert last(s,'test.catch-assessment') == ['blocked','catch-defense-procedure-required',None,0,0,0,0,None,0,0]
         s.action(2292,6,0,10,10,1,3)
-        assert last(s,'test.catch-assessment') == ['blocked','catch-score-too-low',2,0,-4,0,0,None,0,0]
+        assert last(s,'test.catch-assessment') == ['ready',None,2,0,-4,1,1,'success',0,0]
+        # A catch counts as a parry: low active-defense scores can still succeed
+        # on 3/4, and a failed defense by ten is critical (unlike ranged attacks).
+        s.action(2292,6,0,10,10,1,13)
+        assert last(s,'test.catch-assessment') == ['ready',None,2,0,-4,1,0,'failure',0,0]
+        s.action(2292,6,0,10,10,1,4)
+        assert last(s,'test.catch-assessment') == ['ready',None,2,0,-4,1,1,'success',0,0]
         for roll,caught,critical in ((3,1,'success'),(18,0,'failure')):
             s.action(2292,12,1,10,10,1,roll)
             assert last(s,'test.catch-assessment') == ['ready',None,12,0,0,1,caught,critical,0,0]
@@ -15062,5 +15069,17 @@ def test_thrown_limbs(Session, bundle, out):
         for code in (1231,1231):
             s.action(2285,code)
         assert state(s) == cases[0][1]
+    finally:
+        s.close()
+
+
+def test_throw_ranged_failure(Session, bundle):
+    s = Session(bundle)
+    try:
+        # Skill 3, roll 13: a ranged miss by ten still releases the object.
+        for code in (1210,1171,1208,1200,1202):
+            s.action(2285,code)
+        assert last(s,'test.throw-release-preview') == ['ready',None]
+        assert last(s,'test.throw-release') == [1,0,0,0,1,3,0]
     finally:
         s.close()

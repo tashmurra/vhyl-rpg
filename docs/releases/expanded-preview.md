@@ -943,3 +943,9 @@ and applies their location penalties. Recorded injury uses the same part,
 including living-limb impaling adjustments, caps, severance, equipment drops and
 lower-limb knockdown. Fixtures are authored but unrun; other locations, anatomy
 and complete timed attack composition remain unfinished.
+
+Throw attempts now use the full ranged critical-miss rule: a failure by ten
+alone no longer blocks ordinary release as a critical failure. Catch assessments
+use active-defense low-score success and critical-failure rules. The shared check
+helper moved to the foundation to avoid a new module dependency. Regression
+fixtures are authored but unrun; checks remain paused.

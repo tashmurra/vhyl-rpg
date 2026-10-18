@@ -987,3 +987,12 @@ unsupported or already disabled parts before randomness.
 The damage receipt carries the selected part into the owned wound pipeline.
 See [selected thrown limb injuries](health.md#selected-thrown-limb-injuries).
 This does not implement other hit locations or random location selection.
+
+Throw attempts use the full ranged check classification from B382. A failure by
+ten alone is an ordinary ranged miss, not a critical failure; 17/18 retain their
+source-defined treatment. Catch rolls count as active defenses and use B374's
+successful 3/4 exception even at effective scores below three, while failures by
+ten can be critical. The prior lob and catcher keep their distinct check kinds.
+`rpgExpandedCombatCheck` now lives in the expanded foundation so exploration
+shares these rules without depending on the optional combat module. Lite roll
+classification is unchanged. The new regression assertions remain unrun.

@@ -265,3 +265,25 @@ modify RpgExpandedThrownInjuryFacts
     location = 'torso'
     bodyPart = nil
 ;
+
+/** Supplied-dice combat check with ranged-miss and low-defense exceptions. */
+rpgExpandedCombatCheck(kind, score, roll)
+{
+    if (!holds(['melee','ranged','defense'],kind)) rpgExpandedReject('combat-check-kind');
+    rpgInteger(score,-1000,1000); rpgInteger(roll,3,18);
+    if (kind != 'defense' && score < 3) return rpgCheck(score,roll);
+    local value = rpgCheck(score < 3 ? 3 : score,roll);
+    value.score = score; value.margin = score - roll;
+    value.achieved = roll <= 4 || roll < 17 && roll <= score;
+    value.rollSucceeded = value.achieved; value.critical = nil;
+    if (value.achieved)
+    {
+        if (roll <= 4 || roll == 5 && score >= 15 || roll == 6 && score >= 16)
+            value.critical = 'success';
+    }
+    else if (roll == 18 || roll == 17 && score <= 15 || kind != 'ranged' && roll - score >= 10)
+        value.critical = 'failure';
+    value.outcome = value.achieved ? 'success' : value.critical == 'failure' ? 'complication' : 'setback';
+    return value;
+}
+

@@ -596,3 +596,9 @@ explicit consequence operation; automatic attack/parry dispatch is still pending
 conditional drops, pending confirmation, breakage rejection, missing destinations,
 preview purity, rollback, undo, retargeting, pickup replay and separate-process save
 continuation. These fixtures are authored and unrun while checks remain paused.
+
+The shared pure `rpgExpandedCombatCheck(kind, score, roll)` is defined in the
+expanded foundation. Combat continues to use it for ranged and defense outcomes;
+exploration also uses it for throwing and catching. Moving this helper adds no
+optional combat behavior automatically. General skill rolls and the Lite
+profile retain their existing check functions.

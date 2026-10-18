@@ -33,6 +33,7 @@ modify BleedTestAction
         if (code == 1208)
         { local value = throwRelease.assess(); event('test.throw-release-preview'); eventValue(value.status); eventValue(value.reason); return nil; }
         if (code == 1209) { bleedInput.forcedRoll = 18; return nil; }
+        if (code == 1210) { bleedInput.forcedRoll = 13; heldThrow.modifier = -8; return nil; }
         return inherited(context);
     }
 ;
