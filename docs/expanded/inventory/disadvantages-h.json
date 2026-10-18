@@ -294,9 +294,10 @@
       "pages": "B159",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Truthfulness is base -5: self-control to omit an uncomfortable truth, at -5 to tell a falsehood. Failure discloses truth or makes the lie obvious. Fast-talk always takes -5 and acting takes -5 when used to deceive. Keep the actual communicated content authored and avoid exposing unrelated private facts.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_truthfulness"],
+      "validation_note": "Fixed controlled trait and owned omission/falsehood triggers now select only authored relevant communication outcomes; shared skill penalties are reused without duplication. Outcome, replay, rollback, undo and save-continuation assertions authored, unrun. Parser/dialogue delivery and wider social contest integrations remain incomplete."
     },
     {
       "id": "disadvantages-h-predatory-appetite",

@@ -713,3 +713,35 @@ conflicting choices, mandatory-development spending protection, a modified score
 below three, preview, replay, rollback, undo and cross-process continuation.
 These assertions are authored and unrun. Campaign reward judgments about repeated
 resistance remain authored rather than automatic point penalties.
+
+
+### Truthfulness
+
+`RpgExpandedTruthfulness` implements the full-2008 B159 base −5 controlled trait.
+Set `approved = true` and an optional `selfControlRating` (default twelve).
+Its fixed identity, level and base price are validated; percentage modifications
+are not yet supported. Shared scoring already supplies −5 to Fast-Talk and −5 to
+Acting when `context.deceptive` is true. Nondeceptive Acting retains its normal
+score. The penalty remains even after successful self-control for an occurrence.
+
+Use `RpgExpandedTruthfulnessTrigger` for a concrete communication opportunity.
+Supply the inherited ID, profile, trait, stable trigger and evidence, plus `mode`
+(`omission` or `falsehood`), the relevant authored `truth`, and a proposed
+`falsehood` when applicable. Omission uses the selected self-control rating;
+speaking a falsehood adds −5 to the effective modifier. `failureChoice` is `truth`
+or, for falsehood attempts, `obvious-lie`. This is an authored choice between the
+two source-described consequences, not automatic disclosure of arbitrary secrets.
+
+On success, the receipt reports `withheld` with no statement or `falsehood` with
+the proposed statement. On failure or voluntary acceptance, it reports
+`disclosed-truth` or `obvious-falsehood` and the corresponding authored statement.
+Successful self-control does not make a lie convincing; any later Acting or
+Fast-Talk procedure still applies its penalty. Render the receipt through the
+story's communication action; it does not send messages or alter knowledge by
+itself. Replays reuse the original outcome, and altered requests reject. The
+inherited obligation interface remains available for authored action permission.
+
+`expanded-truthfulness.t` specifies skill penalties, omission, falsehood, both
+failure choices, voluntary acceptance, preview, replay, rollback, undo and saved
+continuation. Assertions remain unrun. Parser/dialogue delivery and integrations
+with broader social contests remain incomplete.

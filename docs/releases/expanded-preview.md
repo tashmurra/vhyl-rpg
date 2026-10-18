@@ -618,3 +618,10 @@ records automatic success without randomness. Replay never charges again or
 refunds a completed purchase. Authored, unrun fixtures cover policy/funds checks,
 conflicting choices, rollback, undo and saved continuation. Retroactive purchases
 and campaign reward adjudication remain separate.
+
+
+Added executable truthfulness with owned omission/falsehood occurrences and
+explicit authored communication outcomes. Existing Fast-Talk and deceptive-Acting
+penalties are reused; successful self-control does not remove them or guarantee
+that a lie convinces anyone. Authored, unrun fixtures cover outcomes, replay,
+rollback, undo and saved continuation. Communication delivery remains incomplete.

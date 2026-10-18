@@ -371,12 +371,14 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
     result = nil
     boundDefinition = nil
     definition() { return [self.id,self.profile,self.trait,self.trigger,self.modifier,self.giveIn,self.evidence,self.buySuccess]; }
+    effectiveModifier() { return self.modifier; }
+    newResult() { return new RpgExpandedResult(); }
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
             || self.trait == nil || !self.trait.ofKind(RpgExpandedDisadvantage))
             rpgExpandedReject('self-control-trigger-definition');
-        local value = new RpgExpandedResult();
+        local value = self.newResult();
         if (self.result != nil)
         {
             local current = self.definition();
@@ -407,7 +409,7 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
             if (self.profile.unspentPoints < 1) { value.reason = 'rpg.insufficient-points'; return value; }
             value.points = 1;
         }
-        if (!self.buySuccess && !self.giveIn && base + self.modifier - (self.profile.sleepPenalty ? 2 : 0)
+        if (!self.buySuccess && !self.giveIn && base + self.effectiveModifier() - (self.profile.sleepPenalty ? 2 : 0)
             + self.profile.healthSelfControlModifier(self.trait) < 3)
         { value.reason = 'self-control-trigger-score'; return value; }
         value.status = 'ready'; return value;
@@ -421,7 +423,7 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
             value.check = new RpgResult(); value.check.status = 'resolved';
             value.check.achieved = true; value.check.outcome = 'automatic';
         }
-        else value.check = rpgLiteSelfControl(self.profile,self.trait,self.modifier,self.giveIn);
+        else value.check = rpgLiteSelfControl(self.profile,self.trait,self.effectiveModifier(),self.giveIn);
         if (value.check.status != 'resolved') rpgExpandedReject('self-control-trigger-changed');
         self.check = value.check; self.active = !self.check.achieved;
         self.boundDefinition = self.definition(); self.profile.selfControlTriggers = self.profile.selfControlTriggers + [self];
@@ -432,4 +434,61 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
         self.modifier = modifier; self.giveIn = giveIn; self.resolve(); return self.active;
     }
     permits(action) { return self.result != nil && inherited(action); }
+;
+
+/** B159 truthfulness; existing shared scoring supplies its permanent skill penalties. */
+class RpgExpandedTruthfulness: RpgExpandedDisadvantage
+    id = 'truthfulness'
+    points = -5
+    controlled = true
+    validateDefinition()
+    {
+        if (self.id != 'truthfulness' || self.points != -5 || self.level != 1 || !self.controlled
+            || self.percentages.length() != 0) rpgExpandedReject('truthfulness-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedTruthfulnessResult: RpgExpandedResult
+    communicationKind = nil
+    statement = nil
+;
+/** The author names only the relevant truth and proposed falsehood for this occurrence. */
+class RpgExpandedTruthfulnessTrigger: RpgExpandedSelfControlTrigger
+    mode = 'omission'
+    truth = nil
+    falsehood = nil
+    failureChoice = 'truth'
+    definition() { return inherited() + [self.mode,self.truth,self.falsehood,self.failureChoice]; }
+    effectiveModifier() { return inherited() - (self.mode == 'falsehood' ? 5 : 0); }
+    newResult() { return new RpgExpandedTruthfulnessResult(); }
+    assess()
+    {
+        local value = inherited(); if (value.status != 'ready') return value;
+        if (!self.trait.ofKind(RpgExpandedTruthfulness)) rpgExpandedReject('truthfulness-trigger-trait');
+        if (!holds(['omission','falsehood'],self.mode) || !holds(['truth','obvious-lie'],self.failureChoice)
+            || self.mode == 'omission' && self.failureChoice != 'truth')
+            rpgExpandedReject('truthfulness-communication-mode');
+        if (self.truth == nil || self.mode == 'falsehood' && self.falsehood == nil)
+        { value.status = 'blocked'; value.reason = 'truthfulness-authored-statements'; }
+        return value;
+    }
+    resolve()
+    {
+        local value = inherited();
+        if (value.status == 'reused') return self.result;
+        if (value.status != 'resolved') return value;
+        if (self.check.achieved)
+        {
+            value.communicationKind = self.mode == 'omission' ? 'withheld' : 'falsehood';
+            value.statement = self.mode == 'omission' ? nil : self.falsehood;
+        }
+        else
+        {
+            value.communicationKind = self.failureChoice == 'truth' ? 'disclosed-truth' : 'obvious-falsehood';
+            value.statement = self.failureChoice == 'truth' ? self.truth : self.falsehood;
+        }
+        return value;
+    }
 ;

@@ -8955,6 +8955,8 @@ def test(build):
     self_control = build.build('expanded-self-control', ROOT / 'tests/fixtures/expanded-self-control.t')
     test_expanded_self_control(Session, self_control)
     test_self_control_points(Session, self_control, build.out)
+    truthfulness = build.build('expanded-truthfulness', ROOT / 'tests/fixtures/expanded-truthfulness.t')
+    test_truthfulness(Session, truthfulness, build.out)
     temporary_blindness = build.build('expanded-temporary-blindness', ROOT / 'tests/fixtures/expanded-temporary-blindness.t')
     test_temporary_blindness(Session, temporary_blindness, build.out)
     paralysis = build.build('expanded-paralysis', ROOT / 'tests/fixtures/expanded-paralysis.t')
@@ -12534,5 +12536,53 @@ def test_self_control_points(Session, bundle, out):
             for code in (590,591,invalid,581):
                 s.action(2285, code)
             assert state(s) == [2,points,0,0,0,None,0]
+        finally:
+            s.close()
+
+
+def test_truthfulness(Session, bundle, out):
+    def state(s):
+        s.action(2285, 603)
+        return last(s, 'test.truthfulness')
+    clear = [0,None,None,None,0,0]
+    path = out / 'expanded-truthfulness.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,609,600,602):
+            s.action(2285, code)
+        assert last(s, 'test.truthfulness-skills') == [5,10,5]
+        assert state(s) == clear
+        s.action(2285, 601)
+        s.command('undo')
+        assert state(s) == clear
+        s.action(2285, 601)
+        assert state(s) == [1,12,'withheld',None,0,3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 601)
+        assert state(s) == [1,12,'withheld',None,0,3]
+        # Retargeting the already resolved occurrence cannot produce another answer.
+        for code in (604,601):
+            s.action(2285, code)
+        assert state(s) == [1,12,'withheld',None,0,3]
+    finally:
+        s.close()
+    cases = [
+        ((604,), [1,7,'disclosed-truth','original-relevant-truth',1,3]),
+        ((604,605), [1,7,'obvious-falsehood','original-proposed-falsehood',1,3]),
+        ((604,606), [1,10,'falsehood','original-proposed-falsehood',0,3]),
+        ((607,), [1,None,'disclosed-truth','original-relevant-truth',1,0]),
+        ((608,), clear),
+    ]
+    for setup, expected in cases:
+        s = Session(bundle)
+        try:
+            for code in (30,) + setup + (601,601):
+                s.action(2285, code)
+            assert state(s) == expected
         finally:
             s.close()
