@@ -683,6 +683,83 @@ def test_rejuvenation(s):
     assert last(s, 'test.youth-result') == ['blocked','blocked',0,10,0,20,0,0,0,0]
 
 
+def cold_state(s):
+    s.action(1841)
+    return last(s, 'test.cold-state')
+
+
+def test_cold_transactions(s):
+    s.action(1840, 0)
+    started = cold_state(s)
+    assert started == [10,2,2,2,1,0,0,0,0,0]
+    for code in [0,8,10]:
+        s.action(1840, code)
+        assert cold_state(s) == started
+    s.action(1840, 1)
+    before = cold_state(s)
+    s.action(1840, 11)
+    assert last(s, 'test.cold-operation') == ['blocked','cold-interval-not-due']
+    assert cold_state(s) == before
+    s.action(1840, 2)
+    due = cold_state(s)
+    s.action(1840, 5)
+    assert last(s, 'test.cold-operation') == ['blocked','cold-unresolved-interval']
+    assert cold_state(s) == due
+    s.action(1840, 11)
+    assert last(s, 'test.cold-operation') == ['ready',None]
+    assert cold_state(s) == due
+    s.action(1840, 4)
+    assert cold_state(s) == due
+    s.action(1840, 3)
+    frozen = cold_state(s)
+    assert frozen == [11,3,3,3,1,1,0,3,1800,0]
+    s.command('undo')
+    assert cold_state(s) == due
+    s.action(1840, 3)
+    for code in [3,7,6,9]:
+        s.action(1840, code)
+        assert cold_state(s) == frozen
+    s.action(1840, 5)
+    sheltered = cold_state(s)
+    assert sheltered == [11,3,2,2,0,1,1,3,1800,0]
+    s.command('undo')
+    assert cold_state(s) == frozen
+    for code in [5,5,3,9]:
+        s.action(1840, code)
+        assert cold_state(s) == sheltered
+
+
+def test_cold_persistence(Session, bundle, out):
+    for stage in [0,1,2,3]:
+        path = out / f'expanded-cold-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1840, 0)
+            if stage >= 1:
+                first.action(1840, 1); first.action(1840, 2)
+            if stage >= 2:
+                first.action(1840, 3)
+            if stage == 3:
+                first.action(1840, 5)
+            saved = cold_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1841')
+            assert cold_state(second) == saved
+            second.action(1840, 9)
+            assert cold_state(second) == saved
+            if stage == 0:
+                second.action(1840, 1); second.action(1840, 2)
+            second.action(1840, 3); second.action(1840, 5)
+            assert cold_state(second) == [11,3,2,2,0,1,1,3,1800,0]
+            second.action(1840, 9)
+        finally:
+            second.close()
+
+
 def test_cold_overflow(s):
     for fatigue, seed, expected, shelter in [
             (10,5,[1,1,11,3,3,3,0,3,0],[11,3,2,2,3]),
@@ -3372,6 +3449,9 @@ def test(build):
     fresh(Session,hazards,test_cold_assessments)
     fresh(Session,hazards,test_cold_intervals)
     fresh(Session,hazards,test_cold_overflow)
+    cold_transactions = build.build('expanded-cold-transactions',ROOT / 'tests/fixtures/expanded-cold-transactions.t')
+    fresh(Session,cold_transactions,test_cold_transactions)
+    test_cold_persistence(Session,cold_transactions,build.out)
     fresh(Session,hazards,test_rejuvenation)
     aging_transactions = build.build('expanded-aging-transactions',ROOT / 'tests/fixtures/expanded-aging-transactions.t')
     fresh(Session,aging_transactions,test_rejuvenation_transactions)

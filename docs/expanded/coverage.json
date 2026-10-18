@@ -97,7 +97,9 @@
         "tests/expanded.py::test_rejuvenation_persistence",
         "tests/expanded.py::test_cold_assessments",
         "tests/expanded.py::test_cold_intervals",
-        "tests/expanded.py::test_cold_overflow"
+        "tests/expanded.py::test_cold_overflow",
+        "tests/expanded.py::test_cold_transactions",
+        "tests/expanded.py::test_cold_persistence"
       ],
       "validation_note": "Owned infection progression integrates the qualified roster bonus with antibiotic modifiers and shared recovery restrictions. Fixtures authored but unrun. Automatic care scheduling, interruption, catch-up, broader disease treatment and verified cross-module behavior remain incomplete."
     },

@@ -469,7 +469,7 @@ available after the episode ends.
 
 Overflow injury now uses the owned wound path described below. Thermal shock,
 changing conditions, automatic scheduling,
-and cold-specific transaction/save fixtures remain incomplete.
+and verified cold transaction/save behavior remain incomplete.
 `test_cold_intervals` records expected timing, failure cost, repeated use, history
 validation, missing-heat rejection and preservation of another temperature lock.
 The fixture remains unrun while checks are paused.
@@ -493,3 +493,20 @@ This intended compatibility still requires the paused regression suite to run.
 `test_cold_overflow` records expected behavior at zero fatigue, just above the
 negative-capacity limit and at that limit, plus successful resistance, repeat
 protection and recovery restriction ownership. These fixtures remain unrun.
+
+
+The dedicated
+[`expanded-cold-transactions.t`](../../tests/fixtures/expanded-cold-transactions.t)
+exercises engine transactions around fixed-condition exposure, overflow injury and
+shelter release. `test_cold_transactions` covers duplicate active exposure,
+changed bound weather, early and due boundaries, preview purity, an unresolved
+check before shelter, exception rollback, undo, deterministic replay and history
+validation. It preserves separately authored temperature fatigue and injury
+restrictions while releasing only the tested episode's contributions.
+
+`test_cold_persistence` restores separate-process saves immediately after exposure
+starts, at the first due boundary, after overflow and after shelter release. Each
+route reaches the same fatigue, injury, restrictions, receipt history, random draw
+count and shared time. Historical interval receipts remain reusable after shelter.
+These fixtures are authored but unrun while checks are paused; the exact compiled
+game is required for continuation.

@@ -605,9 +605,11 @@
       "acceptance": "Below the actor's cold comfort threshold, roll the better of health and health-based arctic survival every thirty minutes, shortened by wind.",
       "tests": [
         "tests/expanded.py::test_cold_assessments",
-        "tests/expanded.py::test_cold_intervals"
+        "tests/expanded.py::test_cold_intervals",
+        "tests/expanded.py::test_cold_transactions",
+        "tests/expanded.py::test_cold_persistence"
       ],
-      "validation_note": "Owned fixed-condition intervals use shared fatigue and episode-specific temperature recovery restrictions. Shelter plus heat releases only the episode lock. Fixtures unrun. Overflow injury, changing conditions, automatic scheduling and cold transaction/save coverage remain incomplete."
+      "validation_note": "Owned fixed-condition cold intervals, overflow wounds and shelter-dependent recovery restrictions are authored. Outcome, rollback, undo and cross-process continuation fixtures remain unrun. Changing conditions, automatic scheduling, thermal shock and exceptional physiology remain incomplete."
     },
     {
       "id": "environment-cold-cost",
@@ -619,9 +621,11 @@
       "acceptance": "Cold-check failure spends one fatigue and may cause overflow injury; recovery of cold-caused fatigue or injury requires adequate shelter and a heat source.",
       "tests": [
         "tests/expanded.py::test_cold_intervals",
-        "tests/expanded.py::test_cold_overflow"
+        "tests/expanded.py::test_cold_overflow",
+        "tests/expanded.py::test_cold_transactions",
+        "tests/expanded.py::test_cold_persistence"
       ],
-      "validation_note": "Owned cold intervals integrate fatigue overflow through preflighted wounds and shared fatigue arithmetic, with separate episode contributions to temperature injury/fatigue restrictions. Fixtures unrun. Changing conditions, automatic scheduling and cold transaction/save coverage remain incomplete."
+      "validation_note": "Owned fixed-condition cold intervals, overflow wounds and shelter-dependent recovery restrictions are authored. Outcome, rollback, undo and cross-process continuation fixtures remain unrun. Changing conditions, automatic scheduling, thermal shock and exceptional physiology remain incomplete."
     },
     {
       "id": "environment-cold-armor",
