@@ -928,6 +928,9 @@ class RpgExpandedDrivingSkill: RpgExpandedSkill
     validateDefinition()
     {
         if (self.id != 'driving' || self.attribute != rpgDX || self.difficulty != 1 || self.defaultPenalty != -5
+            || self.defaultAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 1 || self.attributeDefaults[1].length() != 2
+            || self.attributeDefaults[1][1] != rpgIQ || self.attributeDefaults[1][2] != -5
             || self.techLevel == nil || self.wildcard || self.optionalParent != nil
             || !holds(['automobile','construction-equipment','halftrack','heavy-wheeled','hovercraft',
                 'locomotive','mecha','motorcycle','tracked'],self.specialty))

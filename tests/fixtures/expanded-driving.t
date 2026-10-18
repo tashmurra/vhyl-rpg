@@ -1,5 +1,5 @@
 #include "expanded.t"
-drivingHero: RpgExpandedProfile rules = expandedRules dx = 12 iq = 14 skills = [drivingTraining];
+drivingHero: RpgExpandedProfile rules = expandedRules techLevel = 8 campaignTL = 8 dx = 12 iq = 14 skills = [drivingTraining];
 drivingCar: RpgExpandedDrivingSkill techLevel = 8 specialty = 'automobile';
 drivingTruck: RpgExpandedDrivingSkill techLevel = 8 specialty = 'heavy-wheeled';
 drivingTrack: RpgExpandedDrivingSkill techLevel = 8 specialty = 'tracked';

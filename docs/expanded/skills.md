@@ -695,3 +695,16 @@ the same unfamiliarity twice.
 task substitution, combined modifiers and invalid penalty rejection. Fixtures
 remain unrun. Per-vehicle familiarity acquisition, minimum-strength effects,
 control-loss consequences and vehicle movement integration remain outstanding.
+
+
+The typed Driving definition rejects changes to its prescribed attribute-default
+list and additional authored default edges. Use an explicitly authored skill type
+for a campaign variant rather than silently changing the published definition.
+The Driving fixture now sets the character's technology to match the skill;
+untrained access to higher-technology skills still follows the shared restriction.
+
+`expanded-driving-matrix.t` / `test_driving_matrix` enumerate all 81 directed
+specialty pairs against an independently specified expected-score matrix. They
+also cover Bicycling and Battlesuit sources, technology mismatch, an unpaid
+source and altered attribute defaults. These are authored expectations, not
+passing validation results: checks remain paused.

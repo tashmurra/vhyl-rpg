@@ -9314,6 +9314,8 @@ def test(build):
     test_motion_catalogue(Session, motion_catalogue)
     driving = build.build("expanded-driving",ROOT / "tests/fixtures/expanded-driving.t")
     test_driving(Session, driving)
+    driving_matrix = build.build("expanded-driving-matrix",ROOT / "tests/fixtures/expanded-driving-matrix.t")
+    test_driving_matrix(Session, driving_matrix)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22465,5 +22467,30 @@ def test_driving(Session, bundle):
         assert last(s, 'test.driving-context') == [14, 16, 4, 0]
         s.action(1100, 16502)
         assert last(s, 'test.driving-context') == [14, 16, 'driving-context-minimum-penalty', 0]
+    finally:
+        s.close()
+
+
+def test_driving_matrix(Session, bundle):
+    """Independent B188 directed matrix at paid source level 20; unrun."""
+    rows = [
+        [20,16,16,18,16,16,16,16,16],
+        [15,20,15,15,15,15,15,15,15],
+        [16,16,20,16,16,16,16,16,18],
+        [18,16,16,20,16,16,16,16,16],
+        [15,15,15,15,20,15,15,15,15],
+        [15,15,15,15,15,20,15,15,15],
+        [15,15,15,15,15,15,20,15,15],
+        [9,9,9,9,9,9,9,20,9],
+        [16,16,18,16,16,16,16,16,20],
+    ]
+    s = Session(bundle)
+    try:
+        s.action(1100, 16600)
+        assert last(s, 'test.driving-matrix') == [score for row in rows for score in row]
+        s.action(1100, 16601)
+        assert last(s, 'test.driving-external') == [17,17,9,9]
+        s.action(1100, 16602)
+        assert last(s, 'test.driving-invalid-default') == ['driving-skill-definition']
     finally:
         s.close()
