@@ -407,9 +407,12 @@
       "pages": "B353",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Roll lifting once per lift; success increases capacity for that lift by five percent per success margin, without permanently changing strength or encumbrance capacity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_lifting_skill"
+      ],
+      "validation_note": "Owned once-per-lift skill attempt retains exact five-percent-per-margin capacity without changing encumbrance or carrying. Paid training and physical-action gates precede RNG; replay and alternate-ID duplicate attempts cannot reroll. Fixtures authored, unrun. Consumption by the physical pickup and broader action routing remain pending."
     },
     {
       "id": "activity-drag-cap",

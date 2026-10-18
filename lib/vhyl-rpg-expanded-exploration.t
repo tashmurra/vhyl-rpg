@@ -947,3 +947,73 @@ rpgExpandedAssessDragging(lift,load,deviceWeight,device,smoothLevel)
 modify rpgExpandedLiftingRules
     assess(lift,weight,mode) { return rpgExpandedAssessLift(lift,weight,mode,nil,nil,nil); }
 ;
+
+class RpgExpandedLiftingSkillResult: RpgExpandedResult
+    score = nil
+    baseLift = nil
+    liftNumerator = 0
+    liftDenominator = 100
+;
+modify RpgExpandedProfile
+    liftingSkillAttempts = []
+;
+/** B205/B353: one skill roll for a concrete lift, without altering carrying capacity. */
+class RpgExpandedLiftingSkillAttempt: object
+    id = nil
+    profile = nil
+    skill = nil
+    lift = nil
+    approved = nil
+    evidence = nil
+    modifier = 0
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.skill,self.lift,self.approved,self.evidence,self.modifier]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || self.skill.id != 'lifting'
+            || self.skill.attribute != rpgHT || self.skill.difficulty != 1 || self.skill.defaultPenalty != nil
+            || self.lift == nil) rpgExpandedReject('lifting-skill-definition');
+        local value = new RpgExpandedLiftingSkillResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('lifting-skill-binding');
+            if (!holds(self.profile.liftingSkillAttempts,self)) rpgExpandedReject('lifting-skill-history');
+            value.status = 'reused'; return value;
+        }
+        foreach (local prior in self.profile.liftingSkillAttempts)
+            if (prior.id == self.id || prior.lift == self.lift) rpgExpandedReject('lifting-skill-duplicate');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'lifting-skill-author-facts'; return value; }
+        local trained = nil;
+        foreach (local training in self.profile.skills)
+            if (training.skill == self.skill && training.points > 0) trained = true;
+        if (!trained) { value.reason = 'lifting-skill-training'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.stunned || self.profile.mentalStun
+            || self.profile.mortal || self.profile.hp() <= 0 || self.profile.fp() <= 0
+            || self.profile.voluntaryMovementUnavailable()
+            || self.profile.healthEffortReason('action',nil,nil,true) != nil)
+        { value.reason = 'lifting-skill-actor'; return value; }
+        rpgInteger(self.modifier,-1000,1000);
+        local context = new RpgLiteContext(); context.skill = self.skill; context.kind = 'lifting';
+        context.modifier = self.modifier; context.requiresMovement = true;
+        value.score = rpgLiteScore(self.profile,context);
+        if (value.score == nil || value.score < 3) { value.reason = 'lifting-skill-score'; return value; }
+        rpgInteger(value.score,3,1000); value.baseLift = self.profile.basicLiftHundredths();
+        rpgInteger(value.baseLift,1,2147483647 / (100 + 5 * value.score));
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        value.check = rpgCheck(value.score,rpgRandom.roll());
+        local margin = value.check.achieved && value.check.margin > 0 ? value.check.margin : 0;
+        value.liftNumerator = value.baseLift * (100 + 5 * margin);
+        self.boundDefinition = self.definition(); self.profile.liftingSkillAttempts = self.profile.liftingSkillAttempts + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

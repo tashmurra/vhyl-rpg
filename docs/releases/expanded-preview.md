@@ -699,3 +699,7 @@ repairs and other tool uses remain incomplete.
 - Added owned noncombat equipment lifts using exact capacity and the shared time
   ledger. Stored items become carried after revalidation; anatomy checks available
   hands when installed. Added rollback, undo and save-continuation fixtures, unrun.
+
+- Added owned lifting-skill rolls with exact margin-based capacity ratios and
+  duplicate-lift rejection. Carrying and encumbrance remain unchanged. Pickup
+  consumption is pending; rollback/undo/save fixtures are authored and unrun.

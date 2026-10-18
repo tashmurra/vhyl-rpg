@@ -418,3 +418,34 @@ The equipment module now commits noncombat stored-item pickups through
 [`RpgExpandedEquipmentLift`](equipment.md#owned-equipment-pickup), sharing these
 assessments and the existing inventory/time ledgers. Other load execution remains
 pending; new owned-pickup assertions are authored and unrun.
+
+## One lifting-skill roll per lift
+
+`RpgExpandedLiftingSkillAttempt` implements the full-2008 B205/B353 skill roll.
+Supply a stable `id`, expanded `profile`, an owned purchased HT/Average skill
+whose ID is `lifting` and which has no attribute default, the concrete `lift`
+operation identity, `approved`, and nonempty `evidence`. `modifier` is an explicit
+authored skill-check modifier. Untrained use and physical incapacity block before
+rolling. The operation does not use an attribute default for this skill.
+
+`assess()` is pure. `resolve()` rolls once, retaining the check and the capacity
+ratio in `RpgExpandedLiftingSkillResult.liftNumerator / liftDenominator`, measured
+in hundredths of a pound. Success multiplies the initial Basic Lift by
+`(100 + 5 * margin) / 100`; a failed roll retains baseline capacity. No intermediate
+rounding is applied. Replay returns the original result; a second attempt object
+for the same lift identity rejects even if given another request ID. The profile's
+`liftingSkillAttempts` owns these receipts through undo and save continuation.
+
+This result applies to that pickup only. It never changes the profile's Basic
+Lift, encumbrance thresholds, carrying limit or inventory. Assessment and skill
+resolution do not charge additional action time. The actual lift must charge its
+ordinary action duration once. Automatic consumption of this receipt by
+`RpgExpandedEquipmentLift` is still pending, so authors must not treat resolving
+the skill as completing or authorizing the physical pickup. The lifting operation
+must first establish that a physical attempt is available; this skill interface
+alone does not validate equipment ownership, reach or hands.
+
+The fixture specifies margin-four success, critical success using its actual
+margin, failure, no-default rejection, duplicate-lift rejection, preview purity,
+rollback, undo and cross-process continuation. Carrying state remains unchanged
+in every case. Assertions remain unrun while checks are paused.

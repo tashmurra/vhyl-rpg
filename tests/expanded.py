@@ -8982,6 +8982,8 @@ def test(build):
     test_load_assessments(Session, loads)
     equipment_lift = build.build('expanded-equipment-lift', ROOT / 'tests/fixtures/expanded-equipment-lift.t')
     test_equipment_lift(Session, equipment_lift, build.out)
+    lifting_skill = build.build('expanded-lifting-skill', ROOT / 'tests/fixtures/expanded-lifting-skill.t')
+    test_lifting_skill(Session, lifting_skill, build.out)
     digging_work = build.build('expanded-digging-work', ROOT / 'tests/fixtures/expanded-digging-work.t')
     test_digging_work(Session, digging_work, build.out)
     test_digging_material(Session, digging_work, build.out)
@@ -13122,3 +13124,43 @@ def test_equipment_lift(Session, bundle, out):
         assert state(s) == [1,3000,1,2,0,3000]
     finally:
         s.close()
+
+
+def test_lifting_skill(Session, bundle, out):
+    def state(s):
+        s.action(2285, 752)
+        return last(s, 'test.lifting-skill')
+    clear = [0,None,None,None,2000,0,0,0]
+    successful = [1,14,240000,100,2000,0,0,3]
+    path = out / 'expanded-lifting-skill.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,756,751):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 750)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (750,750,755):
+            s.action(2285, code)
+        assert state(s) == successful
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (750,755):
+            s.action(2285, code)
+        assert state(s) == successful
+    finally:
+        s.close()
+    for setup, expected in [(754,[1,14,200000,100,2000,0,0,3]),
+                             (31,[1,14,310000,100,2000,0,0,3]),(753,clear)]:
+        s = Session(bundle)
+        try:
+            for code in (setup,750):
+                s.action(2285, code)
+            assert state(s) == expected
+        finally:
+            s.close()

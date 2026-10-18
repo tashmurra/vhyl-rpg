@@ -1820,7 +1820,10 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Spend five minutes per question, secretly oppose will and distinguish truthful answers, silence/falsehood and convincing falsehood by margin. Apply declared duration, loyalty and social-trait modifiers.",
-      "tests": ["tests/expanded.py::test_interrogation", "tests/expanded.py::test_interrogation_delivery"],
+      "tests": [
+        "tests/expanded.py::test_interrogation",
+        "tests/expanded.py::test_interrogation_delivery"
+      ],
       "validation_note": "Owned continuous sessions and five-minute questions now resolve private opposed outcomes with explicit authored responses, loyalty/means/trait modifiers and the two-hour boundary. Fixtures authored, unrun. Explicit once-only answer delivery now records received claims without automatically adopting beliefs; replay, rollback, undo and saved-continuation assertions are unrun. Repeated/interrupted questioning, teaching access, exhausted participants, witnesses and belief adoption remain incomplete.",
       "reference_data": {
         "attribute": "iq",
@@ -2217,16 +2220,19 @@
       "pages": "B204",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Roll once per lift and increase lifting capacity by five percent per success margin; never change encumbrance or sustained carrying capacity.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_lifting_skill"
+      ],
       "reference_data": {
         "attribute": "ht",
         "difficulty": "average",
         "technology_qualified": false,
         "defaults": [],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Owned once-per-lift skill attempt retains exact five-percent-per-margin capacity without changing encumbrance or carrying. Paid training and physical-action gates precede RNG; replay and alternate-ID duplicate attempts cannot reroll. Fixtures authored, unrun. Consumption by the physical pickup and broader action routing remain pending."
     },
     {
       "id": "catalogue-skill-light-footfall",
