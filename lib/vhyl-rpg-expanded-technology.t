@@ -406,3 +406,125 @@ class RpgExpandedRepairParts: object
         self.payer.equipment = kept; self.installed = true; return 'resolved';
     }
 ;
+
+/** Exact B472 processing units. The bounded scale supports mixed workloads without fractions. */
+rpgExpandedProcessingUnits(complexity)
+{
+    rpgInteger(complexity,0,8); local units = 1;
+    for (local level = 0; level < complexity; level += 1) units *= 10;
+    return units;
+}
+
+/** An authored installed copy, distinct from any number of running instances. */
+class RpgExpandedSoftwareCopy: object
+    id = nil
+    host = nil
+    complexity = 1
+    approved = nil
+    evidence = nil
+;
+
+/** Persistent host reservations. Storage, task effects and connection permissions are separate. */
+class RpgExpandedComputer: object
+    item = nil
+    complexity = 1
+    powered = nil
+    copies = []
+    runs = []
+    capacity() { return 2 * rpgExpandedProcessingUnits(self.complexity); }
+    used()
+    {
+        local used = 0; local ids = [];
+        foreach (local run in self.runs)
+        {
+            if (run == nil || !run.ofKind(RpgExpandedProgramRun) || run.host != self
+                || run.result == nil || holds(ids,run.id)) rpgExpandedReject('computer-run-history');
+            run.validateBinding(); ids = ids + [run.id];
+            if (run.result.units != rpgExpandedProcessingUnits(run.boundComplexity))
+                rpgExpandedReject('computer-reservation-changed');
+            if (run.active)
+            {
+                if (run.result.units > self.capacity() - used) rpgExpandedReject('computer-overcommitted');
+                used += run.result.units;
+            }
+        }
+        if (used > self.capacity()) rpgExpandedReject('computer-overcommitted');
+        return used;
+    }
+;
+
+class RpgExpandedProgramResult: RpgExpandedResult
+    units = 0
+    used = 0
+    capacity = 0
+;
+
+/** One owned software process; restarting after stop requires a new instance ID. */
+class RpgExpandedProgramRun: object
+    id = nil
+    host = nil
+    copy = nil
+    active = nil
+    result = nil
+    startedAt = nil
+    stoppedAt = nil
+    boundId = nil
+    boundHost = nil
+    boundCopy = nil
+    boundComplexity = nil
+    validateBinding()
+    {
+        if (self.id != self.boundId || self.host != self.boundHost || self.copy != self.boundCopy
+            || self.copy == nil || self.copy.host != self.host || self.copy.complexity != self.boundComplexity
+            || !holds(self.host.runs,self)) rpgExpandedReject('program-run-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.host == nil || !self.host.ofKind(RpgExpandedComputer)) rpgExpandedReject('program-host');
+        local value = new RpgExpandedProgramResult();
+        if (self.result != nil)
+        {
+            self.validateBinding(); value.status = 'reused'; value.units = self.result.units;
+            value.used = self.result.used; value.capacity = self.result.capacity; return value;
+        }
+        if (self.id == nil || self.id == '' || self.copy == nil || !self.copy.ofKind(RpgExpandedSoftwareCopy)
+            || self.copy.host != self.host || !holds(self.host.copies,self.copy)) rpgExpandedReject('program-copy');
+        if (self.host.item == nil || !self.host.item.ofKind(RpgLiteItem)) rpgExpandedReject('computer-item');
+        if (!self.copy.approved || self.copy.evidence == nil || self.copy.evidence == '')
+        { value.reason = 'program-copy-authorization'; return value; }
+        local copyIds = []; local copies = [];
+        foreach (local installed in self.host.copies)
+        {
+            if (installed == nil || !installed.ofKind(RpgExpandedSoftwareCopy) || installed.host != self.host
+                || installed.id == nil || installed.id == '' || holds(copies,installed) || holds(copyIds,installed.id))
+                rpgExpandedReject('computer-copy-inventory');
+            copies = copies + [installed]; copyIds = copyIds + [installed.id];
+        }
+        foreach (local prior in self.host.runs)
+            if (prior.id == self.id) rpgExpandedReject('program-run-duplicate');
+        value.capacity = self.host.capacity(); value.used = self.host.used();
+        value.units = rpgExpandedProcessingUnits(self.copy.complexity);
+        if (!self.host.powered || self.host.item.environmentFailure != nil)
+        { value.reason = 'computer-unavailable'; return value; }
+        if (self.copy.complexity > self.host.complexity)
+        { value.reason = 'program-complexity'; return value; }
+        if (value.units > value.capacity - value.used)
+        { value.reason = 'computer-capacity'; return value; }
+        value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundId = self.id; self.boundHost = self.host; self.boundCopy = self.copy; self.boundComplexity = self.copy.complexity;
+        self.active = true; self.startedAt = rpgLedger.seconds; self.host.runs = self.host.runs + [self];
+        value.used += value.units; value.status = 'resolved'; self.result = value; return value;
+    }
+    stop()
+    {
+        if (self.result == nil) rpgExpandedReject('program-not-started');
+        self.validateBinding();
+        if (!self.active) return 'reused';
+        self.active = nil; self.stoppedAt = rpgLedger.seconds; return 'resolved';
+    }
+;

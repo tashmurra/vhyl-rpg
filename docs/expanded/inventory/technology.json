@@ -141,9 +141,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A program cannot run above the host complexity. Concurrent capacity equals two host-level programs, twenty one level below, two hundred two below, and so on; mixed loads consume the same weighted capacity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_reservations"
+      ],
+      "validation_note": "Owned mixed-workload processing reservations and host-bound copy authorization authored; fixtures unrun. Software purchasing, lifecycle effects, terminal/network access and storage remain incomplete."
     },
     {
       "id": "technology-computer-storage",
@@ -221,9 +224,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A purchased software copy belongs to a host and permits multiple simultaneous instances within processing capacity. Copying and legal permissions use campaign decisions; each instance does not incur a new purchase.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_computer_reservations"
+      ],
+      "validation_note": "Owned mixed-workload processing reservations and host-bound copy authorization authored; fixtures unrun. Software purchasing, lifecycle effects, terminal/network access and storage remain incomplete."
     },
     {
       "id": "technology-invention-proposal",

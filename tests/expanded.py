@@ -973,6 +973,49 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def computer_state(s):
+    s.action(2081)
+    return last(s,'test.computer-state')
+
+
+def test_computer_reservations(s):
+    initial = [0,200,0,0,0,0]
+    assert computer_state(s) == initial
+    for code in [2,1]:
+        s.action(2080,code)
+        assert computer_state(s) == initial
+    for code, reason in [(7,'program-complexity'),(8,'computer-unavailable')]:
+        s.action(2080,code)
+        assert last(s,'test.computer-operation') == ['blocked',reason]
+        assert computer_state(s) == initial
+        s.command('undo')
+    s.action(2080,0)
+    first = [100,200,1,1,0,0]
+    assert computer_state(s) == first
+    s.action(2080,0)
+    assert computer_state(s) == first
+    s.action(2080,5)
+    full = [200,200,11,1,0,0]
+    assert computer_state(s) == full
+    s.action(2080,6)
+    assert last(s,'test.computer-operation') == ['blocked','computer-capacity']
+    assert computer_state(s) == full
+    s.command('undo')
+    s.action(2080,4)
+    assert computer_state(s) == full
+    s.action(2080,3)
+    stopped = [100,200,11,0,0,0]
+    assert computer_state(s) == stopped
+    s.command('undo')
+    assert computer_state(s) == full
+    s.action(2080,3)
+    for code in [3,0,9]:
+        s.action(2080,code)
+        assert computer_state(s) == stopped
+    s.action(2080,10)
+    assert computer_state(s) == [200,200,12,0,0,0]
+
+
 def test_maintenance_prices(s):
     for people, base in [(1,-10),(2,-20),(3,-30),(5,-30),(6,-40),(10,-40),
             (11,-50),(20,-50),(21,-60),(50,-60),(51,-70),(100,-70),
@@ -5404,6 +5447,8 @@ def test(build):
     fresh(Session,combat,test_critical_hit_assessments)
     fresh(Session,combat,test_weapon_miss_assessments)
     fresh(Session,combat,test_unarmed_miss_assessments)
+    computer = build.build('expanded-computer',ROOT / 'tests/fixtures/expanded-computer.t')
+    fresh(Session,computer,test_computer_reservations)
     maintenance_price = build.build('expanded-maintenance-price',ROOT / 'tests/fixtures/expanded-maintenance-price.t')
     fresh(Session,maintenance_price,test_maintenance_prices)
     breakdown = build.build('expanded-breakdown',ROOT / 'tests/fixtures/expanded-breakdown.t')

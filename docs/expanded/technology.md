@@ -330,3 +330,42 @@ additional incapacity or potentially fatal outcomes supplied by the author. The
 [trait price helpers](traits.md#maintenance-staffing-and-frequency-prices) cover
 staffing/frequency accounting only. The existing `maintenanceHTLoss` input is not
 an implementation of that missed-service procedure or its recovery.
+
+## Computer processing reservations
+
+`RpgExpandedComputer` owns installed `copies` and process `runs`. Set its physical
+`item`, `complexity` and `powered` state. `RpgExpandedSoftwareCopy` identifies one
+host-bound installed copy, its complexity, an explicit `approved` authorization
+and evidence. These declarations do not purchase software, grant network access
+or create skills. A licensed copy can support multiple simultaneous instances;
+no new purchase is charged for each process.
+
+`RpgExpandedProgramRun` has a unique `id`, `host` and installed `copy`. `assess()`
+checks power, environmental failure, copy authorization and processing capacity
+without mutation. `start()` reserves capacity; `stop()` releases it once. The
+host retains the history and timestamps, so replaying a stopped run's start does
+not restart it. A new execution needs a new instance ID. Stop remains possible
+when the machine is unavailable so reservations can be cleaned up explicitly.
+
+The B472 capacity rule uses exact integer units: each complexity step costs ten
+times the previous one, and a host has twice the units of its own complexity.
+Complexity two can therefore run one complexity-two program plus ten
+complexity-one programs. A program above the host's complexity is rejected even
+if its reservation could otherwise be represented. Supported complexity values
+are zero through eight; values outside that numerical range reject explicitly.
+`rpgExpandedProcessingUnits()` exposes the pure conversion.
+
+The host rejects duplicate instance IDs and invalidated copy bindings. It derives
+used capacity from active owned records rather than a separately mutable counter.
+The API consumes no dice, money or time; an authored operator action owns its
+actual interaction cost. Each mutation belongs in that action's transaction.
+Power loss prevents new starts but does not silently erase reservation history.
+World simulation of process execution, crash recovery and device destruction
+remains to be implemented.
+
+`test_computer_reservations` and the [computer fixture](../../tests/fixtures/expanded-computer.t)
+cover preview purity, start/stop rollback, undo, host limits, a mixed workload,
+capacity rejection, historical replay and release/reallocation. They are authored
+and unrun. Software purchase, storage allocation, equipment bonuses, task
+prerequisites, terminals, network permissions and save-continuation fixtures remain
+unfinished; processing reservations do not substitute for those systems.
