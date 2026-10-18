@@ -9326,6 +9326,8 @@ def test(build):
     test_swim_exhaustion(Session, swim_exhaustion, build.out)
     swim_negative = build.build("expanded-swim-negative-fatigue",ROOT / "tests/fixtures/expanded-swim-negative-fatigue.t")
     test_swim_negative_fatigue(Session, swim_negative, build.out)
+    swim_zero_entry = build.build("expanded-swim-zero-entry",ROOT / "tests/fixtures/expanded-swim-zero-entry.t")
+    test_swim_zero_entry(Session, swim_zero_entry, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22637,5 +22639,35 @@ def test_swim_negative_fatigue(Session, bundle, out):
         for code in (17103,17102):
             s.action(1910,code)
         assert last(s, 'test.swim-negative') == [-1,1,5,2,21,5]
+    finally:
+        s.close()
+
+
+def test_swim_zero_entry(Session, bundle, out):
+    """Already-exhausted entry requires immediate Will, then balance, with validated history; unrun."""
+    path = out / 'swim-zero-entry.zsave'
+    s = Session(bundle)
+    try:
+        for code in (17200,17203,17202,17102):
+            s.action(1910,code)
+        assert last(s, 'test.swim-initial-block') == ['swimming-will-check-required']
+        assert last(s, 'test.swim-negative') == [0,0,0,0,0,0]
+        s.action(1910,17201)
+        s.command('undo')
+        s.action(1910,17102)
+        assert last(s, 'test.swim-negative') == [0,0,0,0,0,0]
+        for code in (17201,17201,17102):
+            s.action(1910,code)
+        assert last(s, 'test.swim-negative') == [-1,1,1,1,6,0]
+        s.command(f':save {path}\n@1911')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1911')
+        for code in (17201,17102,17204):
+            s.action(1910,code)
+        assert last(s, 'test.swim-negative') == [-1,1,1,1,6,0]
+        assert last(s, 'test.swim-will-history') == ['swimming-will-history']
     finally:
         s.close()

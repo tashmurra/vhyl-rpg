@@ -1572,3 +1572,22 @@ At negative full fatigue capacity, the swimmer becomes unconscious.
 Will checks followed by one fatigue point and one injury, including rollback,
 undo and saved replay. Fixtures remain unrun; unconscious drowning transitions
 are still outstanding.
+
+
+### Entering water already exhausted
+
+Starting a swimming encounter at zero or negative fatigue schedules an immediate
+consciousness check at the entry instant. Resolve `RpgExpandedSwimConsciousness`
+before the first balance check; later checks retain one-second spacing. A
+swimmer who becomes exhausted during an existing check instead starts that
+sequence at the next second. No elapsed time or extra fatigue is invented at
+entry.
+
+Encounter validation now checks the complete consciousness sequence: owned
+receipts, distinct IDs, consecutive timestamps, bound outcomes and the retained
+last-check boundary. A failed check cannot have later consciousness checks in
+the same sequence. `expanded-swim-zero-entry.t` / `test_swim_zero_entry` specify
+immediate entry, precondition rejection, single injury, rollback, undo, save
+continuation and altered-history rejection. Fixtures remain unrun. Recovery
+and renewed exhaustion within one uninterrupted encounter still need an explicit
+transition; unconscious drowning and rescue work remains outstanding.

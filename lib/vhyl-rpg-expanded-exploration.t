@@ -309,6 +309,10 @@ class RpgExpandedSwimmingEncounter: object
         self.startedAt = rpgLedger.seconds; self.nextCheckAt = self.startedAt;
         self.nextEnduranceAt = self.startedAt + (self.pace == 'top-speed' ? 60 : 1800);
         self.profile.swimmingEncounter = self; self.profile.swimmingHistory = self.profile.swimmingHistory + [self];
+        if (self.profile.fp() <= 0)
+        {
+            self.exhaustedOnEntry = true; self.recordExhaustion(); self.lastWillAt = self.startedAt - 1;
+        }
         value.status = 'resolved'; return value;
     }
     leave(evidence)
@@ -3059,8 +3063,35 @@ class RpgExpandedBoatEntry: object
 
 modify RpgExpandedSwimmingEncounter
     exhaustedAt = nil
+    exhaustedOnEntry = nil
     lastWillAt = nil
     willChecks = []
+    validateWillHistory()
+    {
+        if (self.exhaustedAt == nil)
+        {
+            if (self.lastWillAt != nil || self.willChecks.length() != 0 || self.exhaustedOnEntry)
+                rpgExpandedReject('swimming-will-history');
+            return nil;
+        }
+        if (self.exhaustedAt < self.startedAt || self.exhaustedAt > rpgLedger.seconds
+            || self.exhaustedOnEntry && self.exhaustedAt != self.startedAt)
+            rpgExpandedReject('swimming-exhaustion-time');
+        local previous = self.exhaustedAt - (self.exhaustedOnEntry ? 1 : 0);
+        local ids = []; local failed = nil;
+        foreach (local check in self.willChecks)
+        {
+            if (check == nil || !check.ofKind(RpgExpandedSwimConsciousness) || check.encounter != self
+                || check.boundEncounter != self || check.id != check.boundId || holds(ids,check.id)
+                || check.result == nil || check.result.check == nil || failed
+                || check.completedAt != check.boundCompletedAt || check.completedAt != previous + 1
+                || check.completedAt > rpgLedger.seconds || check.result.check.achieved != check.boundSucceeded)
+                rpgExpandedReject('swimming-will-history');
+            ids = ids + [check.id]; previous = check.completedAt; failed = !check.boundSucceeded;
+        }
+        if (self.lastWillAt != previous) rpgExpandedReject('swimming-will-schedule');
+        return nil;
+    }
     recordExhaustion()
     {
         if (self.profile.fp() <= 0 && self.exhaustedAt == nil)
@@ -3075,13 +3106,15 @@ class RpgExpandedSwimConsciousness: object
     result = nil
     completedAt = nil
     boundId = nil
+    boundCompletedAt = nil
+    boundSucceeded = nil
     boundEncounter = nil
     assess()
     {
         local value = new RpgExpandedResult();
         if (self.id == nil || self.id == '' || self.encounter == nil || !self.encounter.ofKind(RpgExpandedSwimmingEncounter))
             rpgExpandedReject('swimming-will-definition');
-        self.encounter.validateBinding();
+        self.encounter.validateBinding(); self.encounter.validateWillHistory();
         if (self.result != nil)
         {
             if (self.id != self.boundId || self.encounter != self.boundEncounter || !holds(self.encounter.willChecks,self))
@@ -3108,6 +3141,7 @@ class RpgExpandedSwimConsciousness: object
         value.check = rpgLiteAttributeCheck(p,rpgWill,'air',0);
         if (!value.check.achieved) { p.becomeUnconscious(); p.fatigueCollapse = true; }
         self.boundId = self.id; self.boundEncounter = self.encounter; self.completedAt = rpgLedger.seconds;
+        self.boundCompletedAt = self.completedAt; self.boundSucceeded = value.check.achieved;
         self.encounter.lastWillAt = self.completedAt; self.encounter.willChecks = self.encounter.willChecks + [self];
         value.status = 'resolved'; self.result = value; return value;
     }
@@ -3119,9 +3153,19 @@ modify rpgLedger
         for (local e = firstObj(RpgExpandedSwimmingEncounter); e != nil; e = nextObj(e,RpgExpandedSwimmingEncounter))
             if (e.exhaustedAt != nil && e.endedAt == nil && e.profile.fp() <= 0 && !e.profile.dead && !e.profile.unconscious)
             {
-                e.validateBinding();
+                e.validateBinding(); e.validateWillHistory();
                 if (self.seconds + seconds > e.lastWillAt + 1) rpgExpandedReject('swimming-will-boundary');
             }
+        return nil;
+    }
+;
+
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited();
+        foreach (local encounter in self.swimmingHistory) encounter.validateWillHistory();
         return nil;
     }
 ;
