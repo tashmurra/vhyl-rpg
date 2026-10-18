@@ -84,6 +84,18 @@ rpgExpandedCopyTemplateTrait(trait)
     return copy;
 }
 
+/** Explicit choices for one occupational package in a composition. */
+class RpgExpandedTemplateSelection: object
+    template = nil
+    selections = []
+    create(rules)
+    {
+        if (self.template == nil || !self.template.ofKind(RpgExpandedTemplate))
+            rpgExpandedReject('template-selection-definition');
+        return self.template.createSelected(rules,self.selections);
+    }
+;
+
 /** Combine occupational packages, B259. All outputs are freshly constructed;
  * actual secondary scores are maximized before their final costs are derived. */
 rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
@@ -95,8 +107,11 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
     local speed = 0; local move = 0; local requirements = [];
     foreach (local template in templates)
     {
-        if (!template.ofKind(RpgExpandedTemplate)) rpgExpandedReject('template-type');
+        if (template == nil || !template.ofKind(RpgExpandedTemplate)
+            && !template.ofKind(RpgExpandedTemplateSelection)) rpgExpandedReject('template-type');
         local source = template.create(rules);
+        local definition = template.ofKind(RpgExpandedTemplateSelection) ? template.template : template;
+        result.templateSelections = result.templateSelections + [[definition,source.templateChoices]];
         if (source.contributions.length() != 0 || source.languages.length() != 0
             || source.equipment.length() != 0)
             rpgExpandedReject('template-composition-components');
@@ -230,6 +245,7 @@ class RpgExpandedTemplateChoice: object
 
 modify RpgExpandedProfile
     templateChoices = []
+    templateSelections = []
 ;
 
 modify RpgExpandedTemplate

@@ -9107,6 +9107,7 @@ def test(build):
     test_behavior_templates(Session, behavior_templates)
     template_isolation = build.build('expanded-template-isolation',ROOT / 'tests/fixtures/expanded-template-isolation.t')
     test_template_isolation(Session, template_isolation, build.out)
+    test_selected_template_composition(Session, template_isolation, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17704,5 +17705,38 @@ def test_template_isolation(Session, bundle, out):
         assert last(s,'test.template-isolation') == [1,3,0,5,15]
         s.action(2285,5500)
         assert last(s,'test.behavior-template') == [-45,2,1,1,6,12]
+    finally:
+        s.close()
+
+
+def test_selected_template_composition(Session, bundle, out):
+    path = out / 'expanded-selected-templates.zsave'
+    s = Session(bundle)
+    try:
+        for code in (5620, 5622):
+            s.action(2285, code)
+        assert last(s, 'test.template-selection') == [10, 2, 0, 2, 1, 'profession', 'charm']
+        s.action(2285, 5621)
+        s.command('undo')
+        s.action(2285, 5622)
+        assert last(s, 'test.template-selection') == [10, 2, 0, 2, 1, 'profession', 'charm']
+        for code in (5621, 5622):
+            s.action(2285, code)
+        assert last(s, 'test.template-selection') == [7, 1, 1, 2, 1, 'profession', 'training']
+        for code in (5625, 5624):
+            s.action(2285, code)
+        assert last(s, 'test.template-selection-error') == ['template-choice-points']
+        for code in (5623, 5624, 5622):
+            s.action(2285, code)
+        assert last(s, 'test.template-selection-error') == ['template-choice-option']
+        assert last(s, 'test.template-selection') == [7, 1, 1, 2, 1, 'profession', 'training']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 5622)
+        assert last(s, 'test.template-selection') == [7, 1, 1, 2, 1, 'profession', 'training']
     finally:
         s.close()

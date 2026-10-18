@@ -29,10 +29,11 @@
       "tests": [
         "tests/expanded.py::test_template_choices",
         "tests/expanded.py::test_template_score_options",
-        "tests/expanded.py::test_template_composition"
+        "tests/expanded.py::test_template_composition",
+        "tests/expanded.py::test_selected_template_composition"
       ],
       "existing_feature": "template-choice-groups",
-      "validation_note": "Choice identity, eligibility, count and signed budget gates include score changes before fresh-profile construction. Native cases unrun; extended components and exchange options pending. Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete."
+      "validation_note": "Choice identity, eligibility, count and signed budget gates include score changes before fresh-profile construction. Native cases unrun; extended components and exchange options pending. Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete. Explicit selection inputs now resolve package choices before occupational composition, retain per-package chosen-option provenance and leave unused options on their source definitions without granting them. Later customization purchases and broader component support remain pending. Assertions authored, unrun."
     },
     {
       "id": "package-personal-customization",
@@ -101,10 +102,11 @@
       "status": "partial",
       "acceptance": "Union required occupational traits and retain the highest required level of a repeated leveled trait or skill; do not add those levels or charge duplicate instances.",
       "tests": [
-        "tests/expanded.py::test_template_composition"
+        "tests/expanded.py::test_template_composition",
+        "tests/expanded.py::test_selected_template_composition"
       ],
       "existing_feature": "occupational-template-composition",
-      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending. Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete."
+      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending. Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete. Explicit selection inputs now resolve package choices before occupational composition, retain per-package chosen-option provenance and leave unused options on their source definitions without granting them. Later customization purchases and broader component support remain pending. Assertions authored, unrun."
     },
     {
       "id": "package-merge-conflict",
@@ -126,9 +128,12 @@
       "pages": "B259",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Keep unused template options available for later customization without silently granting them or consuming their costs.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_selected_template_composition"
+      ],
+      "validation_note": " Explicit selection inputs now resolve package choices before occupational composition, retain per-package chosen-option provenance and leave unused options on their source definitions without granting them. Later customization purchases and broader component support remain pending. Assertions authored, unrun."
     },
     {
       "id": "ancestry-mandatory-components",

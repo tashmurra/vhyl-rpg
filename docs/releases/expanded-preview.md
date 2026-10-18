@@ -1264,3 +1264,9 @@ and rejects conflicting activation, mitigation or skill-scope state. Pending
 trait checks are rejected instead of discarded when creating the combined
 character. Both package orders have regression assertions; these remain unrun
 while validation is paused.
+
+Occupational composition accepts explicit package selections, resolving option
+counts, eligibility and prices before merging requirements. Combined characters
+retain chosen-option provenance per source template; unused options grant no
+investments. The new fixture covers duplicate pricing, rejected selections,
+undo and save continuation. Checks remain paused.

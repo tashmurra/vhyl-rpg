@@ -21,11 +21,47 @@ isolationCustomized: RpgExpandedTemplate
         return profile;
     }
 ;
+selectionCharm: RpgExpandedTemplateOption id = 'charm' traitRows = [['charisma',2,nil]];
+selectionTraining: RpgExpandedTemplateOption id = 'training' skillRows = [[learningSkill,2]];
+selectionGroup: RpgExpandedTemplateChoice
+    id = 'profession'
+    options = [selectionCharm,selectionTraining]
+;
+selectionPackage: RpgExpandedTemplate choiceGroups = [selectionGroup];
+selectionInput: RpgExpandedTemplateSelection
+    template = selectionPackage
+    selections = [['profession',['charm']]]
+;
 isolationSecond: RpgExpandedTemplate traitRows = [['charisma',2,nil]];
 modify BleedTestAction
     exec(context)
     {
         local code = bleedInput.code;
+        if (code == 5620 || code == 5621)
+        {
+            if (code == 5621) selectionInput.selections = [['profession',['training']]];
+            isolationState.combined = rpgExpandedCombineTemplates([isolationFirst,selectionInput],bleedRules,100,50);
+            return nil;
+        }
+        if (code == 5622)
+        {
+            local p = isolationState.combined;
+            event('test.template-selection'); eventValue(rpgExpandedCharacterCost(p,nil));
+            eventValue(p.traits[1].level); eventValue(p.skills.length());
+            eventValue(p.templateSelections.length());
+            eventValue(p.templateSelections[2][1] == selectionPackage ? 1 : 0);
+            eventValue(p.templateSelections[2][2][1][1]); eventValue(p.templateSelections[2][2][1][2]);
+            return nil;
+        }
+        if (code == 5623) { selectionInput.selections = [['profession',['missing']]]; return nil; }
+        if (code == 5624)
+        {
+            event('test.template-selection-error');
+            try { rpgExpandedCombineTemplates([isolationFirst,selectionInput],bleedRules,100,50); eventValue('accepted'); }
+            catch (RpgExpandedError error) { eventValue(error.reason); }
+            return nil;
+        }
+        if (code == 5625) { selectionGroup.minimumPoints = 10; selectionGroup.maximumPoints = 10; return nil; }
         if (code >= 5610 && code <= 5615)
         {
             isolationCustomized.change = code - 5610;

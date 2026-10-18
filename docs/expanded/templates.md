@@ -83,7 +83,7 @@ other previously created characters are not changed.
 
 Current composition supports the fields of the basic factory only. Definitions
 with additional contributions, languages or equipment are explicitly rejected.
-Technology settings must agree across the selected templates. Ancestry, lenses, composition of templates with unresolved choices,
+Technology settings must agree across the selected templates. Ancestry, lenses, composition without explicit resolution of required choices,
 modifier-bearing trait definitions and rich conflict diagnostics remain pending.
 Template authors must share the same immutable skill definition for requirements
 that denote the same skill and specialty; distinct definition objects are distinct
@@ -267,3 +267,39 @@ character. This avoids package-order-dependent behavior or silently dropping a
 customized purchase. The isolation fixture specifies both package orders for
 these cases; execution remains paused. Arbitrary custom trait methods are not a
 supported template purchase interface.
+
+## Combining packages with selected options
+
+Pass an `RpgExpandedTemplateSelection` alongside ordinary templates to
+`rpgExpandedCombineTemplates`. Set its `template` to the source package and
+`selections` to the same `[group ID, [option IDs]]` rows accepted by
+`createSelected`. Every selected package is fully validated, including option
+eligibility, count and its own point bounds, before the combined profile is
+returned. Passing a choice-bearing template directly still rejects unresolved
+choices.
+
+```text
+selectedProfession: RpgExpandedTemplateSelection
+    template = professionPackage
+    selections = [['training', ['fieldwork']]]
+;
+// Compose [backgroundPackage, selectedProfession] using the ordinary function.
+```
+
+Selected traits and skills participate in the same highest-requirement merge as
+mandatory components. They are not charged again as a package fee. Unselected
+options grant no purchases; they remain in the original package definition for
+author-directed later customization. This does not implement a later advancement
+purchase or automatic application of unused options.
+
+The result's `templateSelections` stores one `[source template, choice receipts]`
+row per input, in input order. Choice receipts are the resolved `[group ID,
+option ID]` pairs, so equal group IDs in different packages retain their origin.
+`templateChoices` remains the receipt for a single factory selection. Changing a
+selection input later does not rewrite the combined character's choices or
+investments. Source definitions remain shared author definitions, not copies of
+all available options.
+
+Source: `full-2008`, B259. `test_selected_template_composition` specifies choice
+pricing, duplicate merging, invalid selections, preserved prior results, undo and
+cross-process save continuation. These assertions are authored and unrun.
