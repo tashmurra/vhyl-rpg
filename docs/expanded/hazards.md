@@ -2669,7 +2669,32 @@ history without continuing swimming checks. Replay cannot duplicate the handoff.
 
 This subtype rejects ordinary `resumeAir()` with
 `drowning-resuscitation-required`: clean air alone cannot bypass the required
-water-clearing treatment. That treatment transition remains outstanding.
+water-clearing treatment. The staged treatment transition is described below.
 `expanded-swim-submersion.t` / `test_swim_submersion` specify conscious rejection,
 atomic handoff, one-second air costs, rollback, undo and save continuation.
 Fixtures remain unrun.
+
+
+## Staged drowning resuscitation
+
+`RpgExpandedDrowningResuscitation` supplies `id`, `exposure`, `healer`, a
+First Aid or Physician `skill`, `modernTechnique`, optional `modifier`,
+`approved` and `evidence` of actual rescue access. It uses the B425 technology
+and skill modifiers. `start()` records treatment without charging time. Advance
+the existing `RpgExpandedAirlessSecond` operations during the one-minute
+treatment; `finish()` requires exactly sixty elapsed seconds and no unresolved
+air-deprivation seconds. The minute is not charged a second time.
+
+Successful treatment authorizes the exposure's existing clean-air recovery,
+including its brain-injury check when applicable. It does not restore spent
+fatigue or injury or immediately awaken a still-exhausted patient. Failure leaves
+the exposure active and permits a distinct later attempt if time remains.
+Concurrent attempts, inaccessible healers, insufficient time, early completion
+and clean-air recovery without successful water clearing reject.
+
+`expanded-drowning-care.t` / `test_drowning_care` specify minute timing, ongoing
+air costs, successful recovery, rollback, undo and saved replay. The synthetic
+patient has unusually high health capacity to isolate the full minute from death
+thresholds; this does not imply ordinary drowning victims survive that delay.
+Fixtures remain unrun. Interrupted or abandoned treatment and native rescuer
+actions remain outstanding.

@@ -9330,6 +9330,8 @@ def test(build):
     test_swim_zero_entry(Session, swim_zero_entry, build.out)
     swim_submersion = build.build("expanded-swim-submersion",ROOT / "tests/fixtures/expanded-swim-submersion.t")
     test_swim_submersion(Session, swim_submersion, build.out)
+    drowning_care = build.build("expanded-drowning-care",ROOT / "tests/fixtures/expanded-drowning-care.t")
+    test_drowning_care(Session, drowning_care, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22703,5 +22705,36 @@ def test_swim_submersion(Session, bundle, out):
             s.action(1910,code)
         assert last(s, 'test.submersion') == [1,1,1,-1,1,3]
         assert last(s, 'test.submersion-rescue') == ['drowning-resuscitation-required']
+    finally:
+        s.close()
+
+
+def test_drowning_care(Session, bundle, out):
+    """B425 staged minute preserves ongoing air costs and clears water only on success; unrun."""
+    path = out / 'drowning-care.zsave'
+    s = Session(bundle)
+    try:
+        for code in (17000,17001,17003,17300,17400,17402):
+            s.action(1910,code)
+        assert last(s, 'test.drowning-care-result') == ['blocked','drowning-care-minute-not-complete']
+        for code in (17401,17403,17404):
+            s.action(1910,code)
+        assert last(s, 'test.drowning-care') == [0,60,-10,60,62,9]
+        s.action(1910,17402)
+        s.command('undo')
+        s.action(1910,17404)
+        assert last(s, 'test.drowning-care') == [0,60,-10,60,62,9]
+        for code in (17402,17402,17404):
+            s.action(1910,code)
+        assert last(s, 'test.drowning-care') == [1,0,-10,60,62,12]
+        s.command(f':save {path}\n@1911')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1911')
+        for code in (17402,17404):
+            s.action(1910,code)
+        assert last(s, 'test.drowning-care') == [1,0,-10,60,62,12]
     finally:
         s.close()

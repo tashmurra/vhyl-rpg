@@ -1294,7 +1294,8 @@ class RpgExpandedAirlessExposure: object
         self.profile.airlessExposure = self; self.profile.airlessHistory = self.profile.airlessHistory + [self];
         value.status = 'resolved'; return value;
     }
-    assessAir(evidence)
+    assessAir(evidence) { return self.assessAirRecovery(evidence); }
+    assessAirRecovery(evidence)
     {
         local value = new RpgExpandedAirlessResult();
         if (self.startedAt == nil) { value.reason = 'airless-not-started'; return value; }
@@ -6652,6 +6653,8 @@ modify RpgExpandedProfile
  * World evidence establishes submersion: unconsciousness alone does not prove it. */
 class RpgExpandedDrowningExposure: RpgExpandedAirlessExposure
     swimming = nil
+    resuscitations = []
+    clearedBy = nil
     approved = nil
     boundSwimming = nil
     boundApproval = nil
@@ -6702,6 +6705,100 @@ class RpgExpandedDrowningExposure: RpgExpandedAirlessExposure
     assessAir(evidence)
     {
         local value = new RpgExpandedAirlessResult();
-        self.validateBinding(); value.reason = 'drowning-resuscitation-required'; return value;
+        self.validateBinding();
+        if (self.clearedBy == nil || self.clearedBy.exposure != self || self.clearedBy.result == nil
+            || self.clearedBy.result.check == nil || !self.clearedBy.result.check.achieved
+            || !holds(self.resuscitations,self.clearedBy))
+        { value.reason = 'drowning-resuscitation-required'; return value; }
+        return inherited(evidence);
+    }
+;
+
+
+class RpgExpandedDrowningCareResult: RpgExpandedResult
+    context = nil
+    recovery = nil
+;
+/** B425 staged minute of treatment; callers advance the existing airless seconds. */
+class RpgExpandedDrowningResuscitation: object
+    id = nil
+    exposure = nil
+    healer = nil
+    skill = nil
+    modernTechnique = nil
+    modifier = 0
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition()
+    { return [self.id,self.exposure,self.healer,self.skill,self.modernTechnique,self.modifier,self.approved,self.evidence]; }
+    assess()
+    {
+        local value = new RpgExpandedDrowningCareResult();
+        if (self.id == nil || self.id == '' || self.exposure == nil || !self.exposure.ofKind(RpgExpandedDrowningExposure)
+            || self.healer == nil || !self.healer.ofKind(RpgLiteProfile) || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)
+            || !holds(['first-aid','physician'],self.skill.id) || self.skill.attribute != rpgIQ
+            || self.skill.difficulty != (self.skill.id == 'first-aid' ? 0 : 2) || self.skill.techLevel == nil)
+            rpgExpandedReject('drowning-care-definition');
+        self.exposure.validateBinding();
+        if (self.startedAt != nil)
+        {
+            local facts = self.definition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('drowning-care-binding');
+            if (!holds(self.exposure.resuscitations,self)) rpgExpandedReject('drowning-care-history');
+        }
+        if (self.result != nil) { value.status = 'reused'; return value; }
+        local patient = self.exposure.profile;
+        if (patient.dead || self.exposure.endedAt != nil || patient.airlessExposure != self.exposure)
+        { value.reason = 'drowning-care-not-active'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'drowning-care-access-required'; return value; }
+        if (self.healer == patient || self.healer.dead || self.healer.unconscious || self.healer.stunned
+            || self.healer.mentalStun || self.healer.mortal || self.healer.fp() <= 0 || self.healer.voluntaryMovementUnavailable())
+        { value.reason = 'drowning-care-healer-unavailable'; return value; }
+        local trained = nil;
+        foreach (local training in self.healer.skills) if (training.skill == self.skill && training.points > 0) trained = true;
+        local procedure = rpgExpandedResuscitationProcedure(self.skill.id,self.skill.techLevel,trained,self.modernTechnique,'drowning');
+        if (procedure.status != 'ready') { value.reason = procedure.reason; return value; }
+        rpgInteger(self.modifier,-100,100);
+        value.context = new RpgLiteContext(); value.context.skill = self.skill; value.context.kind = 'resuscitation';
+        value.context.modifier = procedure.modifier + self.modifier;
+        local score = rpgLiteScore(self.healer,value.context);
+        if (score == nil || score < 3) { value.reason = 'drowning-care-score-unavailable'; return value; }
+        foreach (local prior in self.exposure.resuscitations)
+            if (prior != self && (prior.id == self.id || prior.result == nil))
+                rpgExpandedReject('drowning-care-overlap');
+        if (self.startedAt == nil && patient.airClock + procedure.seconds >= 240)
+        { value.reason = 'drowning-care-insufficient-time'; return value; }
+        value.seconds = procedure.seconds; value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.startedAt != nil) { value.status = 'reused'; return value; }
+        if (rpgLedger.seconds != self.exposure.lastSecondAt)
+        { value.status = 'blocked'; value.reason = 'drowning-care-unresolved-air'; return value; }
+        self.startedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.exposure.resuscitations = self.exposure.resuscitations + [self]; value.status = 'resolved'; return value;
+    }
+    finish()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.startedAt == nil || rpgLedger.seconds != self.startedAt + value.seconds)
+        { value.status = 'blocked'; value.reason = 'drowning-care-minute-not-complete'; return value; }
+        local recovery = self.exposure.assessAirRecovery(self.evidence);
+        if (recovery.status != 'ready') { value.status = 'blocked'; value.reason = recovery.reason; return value; }
+        value.check = rpgLiteCheck(self.healer,value.context);
+        self.completedAt = rpgLedger.seconds; self.result = value;
+        if (value.check.achieved)
+        {
+            self.exposure.clearedBy = self; value.recovery = self.exposure.resumeAir(self.evidence);
+            if (value.recovery.status != 'resolved') rpgExpandedReject('drowning-care-recovery-changed');
+        }
+        value.status = 'resolved'; return value;
     }
 ;

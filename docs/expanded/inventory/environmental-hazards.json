@@ -2507,9 +2507,12 @@
       "pages": "B437",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A drowning rescue also requires the specified first-aid/resuscitation success to clear water; access to clean air alone is insufficient.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_drowning_care"
+      ],
+      "validation_note": "Owned staged B425 minute validates healer, technology, skill and access, retaining ongoing shared airless-second costs. Successful medical check authorizes clean-air recovery and applicable brain-loss checks, without healing injury/fatigue. Concurrent and early attempts reject. Interrupted treatment and native rescuer actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "hazard-suffocation-brain",
