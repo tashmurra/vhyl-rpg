@@ -71,3 +71,10 @@ altitude, clearance and nonhovering stall limits; a dive can temporarily change
 acceleration and maximum speed. The optional realistic turning formula and
 encumbrance-based posture duration require explicit campaign selection. Neither
 may silently replace the default procedure.
+
+The [targeting and elevation inventory](inventory/targeting-elevation.json)
+records vertical-distance bands and size-based reach. Extra reach reduces the
+effective vertical separation for its user only. Each actor can therefore have
+different legal locations and modifiers in the same exchange. Above the normal
+vertical limit, unusual postures require concrete authored geometry and exposed
+locations before assessment can accept an attack.

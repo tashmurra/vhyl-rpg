@@ -1,0 +1,455 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B398-B403",
+  "review": "Detailed location, area exposure, weapon targeting, restrained capture and elevation rules inventoried through the start of advanced unarmed techniques. Existing location tables remain separate shared requirements; geometry and rounding audits pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "targeting-location-choice",
+      "source": "full-2008",
+      "pages": "B398",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary attacks default to torso unless another location or random targeting is declared. Unaimed attacks require random locations, large-area attacks use exposure rules, and fatigue damage ignores location.",
+      "tests": []
+    },
+    {
+      "id": "targeting-location-effects",
+      "source": "full-2008",
+      "pages": "B399",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reconcile each detailed humanoid location with B552 inventory: vital-organ damage-type eligibility, skull armor and toxic exception, eye crippling, facial corrosion, neck multipliers, groin-specific anatomy, limb caps and shield-side penalties. One shared location resolver must serve both chapters.",
+      "tests": []
+    },
+    {
+      "id": "targeting-beam-definition",
+      "source": "full-2008",
+      "pages": "B399",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Tight-beam burning means ranged burning that is neither jet, cone, area, explosion nor follow-up. It may target eyes/vitals, but divides damage by ten only for ignition procedures, not ordinary injury.",
+      "tests": []
+    },
+    {
+      "id": "targeting-grapple-rounding",
+      "source": "full-2008",
+      "pages": "B400",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Body-part grapples halve location penalties and round up under the printed convention; verify negative-penalty rounding against worked definitions. This reduction does not apply to grabbing a weapon.",
+      "tests": []
+    },
+    {
+      "id": "targeting-random-order",
+      "source": "full-2008",
+      "pages": "B400",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Declared random target has no location attack modifier. Roll location only after attack succeeds and defense fails, using actual body-form table. Do not consume location randomness on misses or successful defense.",
+      "tests": []
+    },
+    {
+      "id": "targeting-above-random",
+      "source": "full-2008",
+      "pages": "B400",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For random hits from directly above, convert feet to hands and legs to arms; preserve side and actual anatomy constraints.",
+      "tests": []
+    },
+    {
+      "id": "targeting-anatomy",
+      "source": "full-2008",
+      "pages": "B400",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Dispersed/uniform bodies ignore location wound and knockdown modifiers but retain eye/limb crippling. Missing locations cannot be deliberately targeted. Brain/vitals/nonliving exceptions resolve through the actual anatomy model, not one universal damage reduction.",
+      "tests": []
+    },
+    {
+      "id": "targeting-area-trigger",
+      "source": "full-2008",
+      "pages": "B400",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Area effects, cones and external explosions use large-area injury. A body-scaled/unarmed melee attack with attacker size at least seven greater also does; such attacker can choose a location only against pinned or immobile victim.",
+      "tests": []
+    },
+    {
+      "id": "targeting-area-armor",
+      "source": "full-2008",
+      "pages": "B400",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Effective large-area armor is ceil((torso armor + lowest exposed location armor)/2), evaluated for this damage type. Covered or body-masked locations are excluded; directional blasts/cones expose facing surfaces, immersion only immersed parts, true area effects all parts.",
+      "tests": []
+    },
+    {
+      "id": "targeting-area-location",
+      "source": "full-2008",
+      "pages": "B400",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Large-area injury normally uses torso wound behavior. With only one exposed location use that location; exposed limb damage is capped under crippling rules. Distinguish exposed-set calculation from random targeting.",
+      "tests": []
+    },
+    {
+      "id": "targeting-armor-gap",
+      "source": "full-2008",
+      "pages": "B400",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Gap targeting requires piercing, impaling or tight-beam burning. Use -8 torso or -10 elsewhere instead of ordinary location penalty; halve protection cumulatively with divisors. Resolve rounding and actual armor weak points before execution.",
+      "tests": []
+    },
+    {
+      "id": "targeting-weapon-declare",
+      "source": "full-2008",
+      "pages": "B400",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Declare disarm or destruction before attacking a weapon. Target penalty is -5 for close-reach/pistol, -4 for reach-one/medium firearm, -3 for reach-two-or-more/rifle. Extra disarm penalty is separately conditional.",
+      "tests": []
+    },
+    {
+      "id": "targeting-weapon-position",
+      "source": "full-2008",
+      "pages": "B401",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Close weapon occupies wielder hex; reach-one weapon also front hex; reach-two/three weapon occupies forward line of that length. On first turn after a long weapon attacks or feints at actor, that actor can strike it despite ordinary spatial reach; retain attack history and reconcile diagram geometry.",
+      "tests": []
+    },
+    {
+      "id": "targeting-weapon-defense",
+      "source": "full-2008",
+      "pages": "B401",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Weapon target can be dodged or parried only with the attacked ready weapon, never blocked or defended using another weapon. Retreat can apply; shield defense bonus cannot.",
+      "tests": []
+    },
+    {
+      "id": "targeting-disarm-eligibility",
+      "source": "full-2008",
+      "pages": "B401",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only attacks using a parry-capable weapon can disarm. Extra -2 attack penalty applies except specified fencing weapons. Validate actual attack mode rather than just possession of a disarming skill.",
+      "tests": []
+    },
+    {
+      "id": "targeting-disarm-contest",
+      "source": "full-2008",
+      "pages": "B401",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After hit and failed defense, quick contest weapon skills; defender uses dexterity for missile weapon. Either may use strength-based skill when better. Actual hook/whip-skill use adds two to attacker; two-handed target adds two to defender.",
+      "tests": []
+    },
+    {
+      "id": "targeting-disarm-result",
+      "source": "full-2008",
+      "pages": "B401",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Attacker victory sends target weapon one yard in random direction. Defender win/tie retains it but leaves it unready unless victory margin at least three. Attacker critical failure disarms attacker instead. Update actual hands and item world position once.",
+      "tests": []
+    },
+    {
+      "id": "targeting-weapon-break",
+      "source": "full-2008",
+      "pages": "B401",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Destructive weapon targeting uses ordinary damage against object armor/capacity and material. Purchased gadget abilities use their gadget rules. Do not confuse successful contact with automatic breakage.",
+      "tests": []
+    },
+    {
+      "id": "targeting-pull-force",
+      "source": "full-2008",
+      "pages": "B401",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Actor may choose lower strength for unarmed, melee, thrown, bow or sling attack, but not crossbow/firearm. Declare before rolling and preserve relevant weapon constraints; lower attack strength does not permanently change character attributes.",
+      "tests": []
+    },
+    {
+      "id": "targeting-blunt-mode",
+      "source": "full-2008",
+      "pages": "B401",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Flat of swing-cutting weapon converts to crushing. Blunt end of thrust-impaling weapon converts to crushing and subtracts one damage; reversing reach-two-or-more weapon requires ready action.",
+      "tests": []
+    },
+    {
+      "id": "targeting-restrain",
+      "source": "full-2008",
+      "pages": "B401",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After pin, binding with rope takes about sixty seconds, with ready cuffs two. Track actual restraints and interruption; successful pin does not instantly create permanent restraint.",
+      "tests": []
+    },
+    {
+      "id": "targeting-smother",
+      "source": "full-2008",
+      "pages": "B401",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Non-damaging suffocation requires an actually restrained, unconscious or unresisting victim and suitable means. Use the shared suffocation episode instead of invented direct injury.",
+      "tests": []
+    },
+    {
+      "id": "targeting-feign",
+      "source": "full-2008",
+      "pages": "B401",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Conscious suffocating actor may cease resisting with will check and attempt acting against attacker intelligence to appear unconscious, generally after at least ten seconds. Author supplies whether foe is hasty/squeamish and response; avoid guaranteed escape.",
+      "tests": []
+    },
+    {
+      "id": "targeting-ambush-above",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Compare stealth with victim vision. Ordinary overhead inattention gives vision -2; explicit upward attention gives +2 overhead but -2 same-level detection. Peripheral vision gives no special benefit. Attacker victory denies defense; otherwise defender takes -2 and a warned defender can prepare stop-thrust.",
+      "tests": []
+    },
+    {
+      "id": "targeting-drop-attack",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Dropping to attack uses a special step and -2 attack. Falls over two yards still cause landing damage regardless of attack result, with actual acrobatics/fall-reduction capabilities. Landing on victim resolves collision separately; victim is soft unless armor at least three.",
+      "tests": []
+    },
+    {
+      "id": "targeting-elevation-reach",
+      "source": "full-2008",
+      "pages": "B403",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each yard of reach beyond one reduces effective vertical separation by three feet for that actor only. Do not grant reciprocal reach or globally move the participants closer.",
+      "tests": []
+    },
+    {
+      "id": "targeting-elevation-authored",
+      "source": "full-2008",
+      "pages": "B403",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At over six feet effective separation ordinary melee is unavailable. Author can approve a concrete posture/geometry exception, such as leaning prone lowering effective separation three feet while exposing head/arm. Record actual modifiers, exposed locations and permissions before rolls.",
+      "tests": []
+    },
+    {
+      "id": "targeting-size-grapple",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Positive size advantage adds one per size step to grappling attacks. Equal size gains no bonus; integrate actual target size without double-counting ordinary location targeting.",
+      "tests": []
+    },
+    {
+      "id": "targeting-elevation-1",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Vertical separation zero through one foot: No elevation modifiers.",
+      "tests": []
+    },
+    {
+      "id": "targeting-elevation-2",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Effective vertical separation greater than 1 through 2 feet: With locations enabled, upper actor has -2 to legs/feet and +1 head/neck; lower actor +2 legs/feet and -2 head. Otherwise no modifiers.",
+      "tests": []
+    },
+    {
+      "id": "targeting-elevation-3",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Effective vertical separation greater than 2 through 3 feet: Retain preceding location modifiers; upper defense +1 and lower defense -1.",
+      "tests": []
+    },
+    {
+      "id": "targeting-elevation-4",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Effective vertical separation greater than 3 through 4 feet: Upper cannot target lower legs/feet; upper defense +2 and lower -2, retaining other applicable location modifiers.",
+      "tests": []
+    },
+    {
+      "id": "targeting-elevation-5",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Effective vertical separation greater than 4 through 5 feet: Lower cannot target upper head; upper cannot target lower legs/feet; upper defense +3 and lower -3. Reconcile inherited location modifiers explicitly.",
+      "tests": []
+    },
+    {
+      "id": "targeting-elevation-6",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Effective vertical separation greater than 5 through 6 feet: Upper may target only head, lower only legs/feet, with no special attack bonuses/penalties; upper defense +3 and lower -3.",
+      "tests": []
+    },
+    {
+      "id": "targeting-size-reach-1",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Size +1 adds 0 yards to upper reach only. Close reach becomes reach one despite zero numeric addition.",
+      "tests": []
+    },
+    {
+      "id": "targeting-size-reach-2",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Size +2 adds 1 yards to upper reach only. Preserve lower reach and grip choices.",
+      "tests": []
+    },
+    {
+      "id": "targeting-size-reach-3",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Size +3 adds 2 yards to upper reach only. Preserve lower reach and grip choices.",
+      "tests": []
+    },
+    {
+      "id": "targeting-size-reach-4",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Size +4 adds 3 yards to upper reach only. Preserve lower reach and grip choices.",
+      "tests": []
+    },
+    {
+      "id": "targeting-size-reach-5",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Size +5 adds 5 yards to upper reach only. Preserve lower reach and grip choices.",
+      "tests": []
+    },
+    {
+      "id": "targeting-size-reach-6",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Size +6 adds 7 yards to upper reach only. Preserve lower reach and grip choices.",
+      "tests": []
+    },
+    {
+      "id": "targeting-size-reach-7",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Size +7 adds 10 yards to upper reach only. Preserve lower reach and grip choices.",
+      "tests": []
+    },
+    {
+      "id": "targeting-size-reach-8",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Size +8 adds 15 yards to upper reach only. Preserve lower reach and grip choices.",
+      "tests": []
+    },
+    {
+      "id": "targeting-size-reach-9",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Size +9 adds 20 yards to upper reach only. Preserve lower reach and grip choices.",
+      "tests": []
+    },
+    {
+      "id": "targeting-size-reach-10",
+      "source": "full-2008",
+      "pages": "B402",
+      "module": "tactical",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Size +10 adds 30 yards to upper reach only. Preserve lower reach and grip choices.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B398; B403",
+      "reason": "Earlier mounted/aerial continuation is in special-mobility inventory. Advanced unarmed techniques beginning B403 require a separate pass."
+    }
+  ]
+}

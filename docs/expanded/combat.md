@@ -160,3 +160,20 @@ Mounted attacks use rider skill limits, mount motion and control history. Near
 misses can transfer between rider and mount; special hanging postures change both
 exposed locations and transfer thresholds. Resolve one attack identity through
 these branches so it cannot strike both participants accidentally.
+
+The [targeting inventory](inventory/targeting-elevation.json) adds the detailed
+B398–B403 procedures. Random hit location is rolled after a successful attack
+and failed defense. Large-area injury instead derives protection from torso armor
+and the least-protected exposed location, accounting for direction, immersion and
+cover. It must not use a random location or a permanent whole-body average.
+
+Attacks on weapons declare disarming or destruction before resolution. Their
+defense choices exclude blocking, another weapon's parry and shield bonuses.
+Disarming then has its own contest, readiness consequences and item displacement;
+destruction uses actual object durability. These paths must share inventory state
+without treating a successful attack as automatic item removal.
+
+Armor-gap targeting replaces the ordinary location penalty and restricts eligible
+damage types. Reduced-force and blunt-mode attacks likewise need declared attack
+profiles before rolling. They do not change the character's purchased strength or
+permanently rewrite the weapon's normal damage definition.

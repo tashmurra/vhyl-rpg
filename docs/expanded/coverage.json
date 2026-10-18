@@ -314,6 +314,7 @@
     "inventory/attacks-defenses.json",
     "inventory/damage-readiness.json",
     "inventory/tactical.json",
-    "inventory/special-mobility.json"
+    "inventory/special-mobility.json",
+    "inventory/targeting-elevation.json"
   ]
 }
