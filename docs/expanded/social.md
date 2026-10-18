@@ -1169,7 +1169,7 @@ that member value. Set `group = true`
 for an authored representative member's value doubled, consuming both credit
 slots. At most two slots may earn points. Further relationships can use
 `credited = nil`; they remain relationships but contribute zero accounting credit.
-Repeated person/group identities reject. Actual group membership is still pending.
+Repeated person/group identities reject. Explicit group membership snapshots are supported by the group-session interface below.
 
 `RpgExpandedDependentAppearance` owns the adventure's appearance determination.
 Supply the installed `relationship`, an `adventure` identity, approval and evidence
@@ -1181,7 +1181,7 @@ automatic move, injury or kidnapping. The author supplies that concrete scene.
 
 Live rescue routing, fractional/nonpositive-total advancement,
 permanent-loss replacement, combined helpful/troublesome roles, combined-package copying
-and group incidents remain pending. Pricing and appearance alone do not mark the
+and group membership changes across sessions remain pending. Pricing and appearance alone do not mark the
 relationship fully implemented.
 [`expanded-dependents.t`](../../tests/fixtures/expanded-dependents.t) and
 `test_dependents` specify brackets, combined multipliers, character accounting,
@@ -1217,8 +1217,8 @@ removed. Authors must close the session before awarding its points, rather than
 attempt retrospective adjudication after awarding them.
 
 This does not route live rescue actions or settle permanent-loss replacement.
-Group member/incident modeling remains pending; group outcome classification is
-currently supplied by the author. `expanded-dependent-sessions.t` and
+For member-specific group outcomes, use the group-session subclass described below;
+serious-harm classification remains an authored judgment. `expanded-dependent-sessions.t` and
 `test_dependent_sessions` specify closure requirements, serious harm, discretionary
 bonus denial, ordinary objective awards, preview, replay, rollback, undo and saved
 continuation. These fixtures remain unrun while checks are paused.
@@ -1312,3 +1312,32 @@ build changes; those remain explicit author-maintained records.
 `expanded-dependent-skill-growth.t` and `test_dependent_skill_growth` cover actual
 NPC cost changes, prerequisite and stale-investment rejection, unchanged banks,
 rollback, undo, replay and cross-process save continuation. Fixtures remain unrun.
+
+
+### Group members and session incidents
+
+Use `RpgExpandedDependentGroupSession` when recording member-specific group
+outcomes. Supply `rosters` of `RpgExpandedDependentRoster` objects: each has its
+installed group `relationship`, unique non-null `members`, approval and evidence.
+A member identity differs from the principal and the group identity. The roster
+is a snapshot bound into the session closure, not a new point contribution.
+Population never multiplies the group's two-slot credit.
+
+Supply one `memberOutcomes` row per member: `[roster, member, peril, promptAid,
+seriousHarm, denyBonus, evidence]`. Every group relationship in the session needs
+one roster. Duplicate/missing members and outcomes for an unrelated roster reject.
+The ordinary `outcomes` summary must match the member facts: any peril, prompt aid
+for every endangered member, any serious harm, and any adjudicated bonus denial.
+A member's denied bonus requires peril without prompt aid. An incorrect safe
+summary therefore cannot hide a seriously injured member from the award gate.
+
+Recording binds membership and each incident to the same session receipt and
+shared award restrictions. Replay rejects changed facts. The author supplies
+explicit safe outcomes for unaffected members; no automatic injury classification
+or world movement is implied. Membership changes use a new roster/session snapshot;
+automatic transfers, individual build validation and permanent-loss replacement
+remain pending. The ordinary session class still accepts an authored aggregate
+judgment when individual members are not modeled.
+`expanded-dependent-groups.t` and `test_dependent_groups` cover safe and harmful
+sessions, summary disagreement, omitted members, receipt binding, rollback, undo,
+replay and save continuation. Fixtures remain unrun while checks are paused.

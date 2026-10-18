@@ -9260,6 +9260,8 @@ def test(build):
     test_dependent_growth(Session, dependent_growth, build.out)
     dependent_skill_growth = build.build('expanded-dependent-skill-growth',ROOT / 'tests/fixtures/expanded-dependent-skill-growth.t')
     test_dependent_skill_growth(Session, dependent_skill_growth, build.out)
+    dependent_groups = build.build('expanded-dependent-groups',ROOT / 'tests/fixtures/expanded-dependent-groups.t')
+    test_dependent_groups(Session, dependent_groups, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21426,3 +21428,45 @@ def test_dependent_skill_growth(Session, bundle, out):
         assert last(s, 'test.dependent-skill-reject') == ['dependent-skill-growth-stale-points']
     finally:
         s.close()
+
+
+def test_dependent_groups(Session, bundle, out):
+    """B131 group incidents retain member identity and block the same award ledger; unrun."""
+    for harm in (False, True):
+        path = out / f'dependent-group-{harm}.zsave'
+        s = Session(bundle)
+        try:
+            for code in (14000,) + ((14001,) if harm else ()) + (14005, 14004, 13509):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-group-preview') == ['ready']
+            assert last(s, 'test.dependent-session-state') == [0, 0, 0, 0, 0]
+            s.action(2285, 14003)
+            s.command('undo')
+            s.action(2285, 13509)
+            assert last(s, 'test.dependent-session-state') == [0, 0, 0, 0, 0]
+            for code in (14003, 14003, 13507, 13509):
+                s.action(2285, code)
+            expected = [1, 0, 0, 0, 0] if harm else [1, 3, 3, 1, 0]
+            assert last(s, 'test.dependent-session-state') == expected
+            if harm:
+                assert last(s, 'test.dependent-session-award') == ['blocked', 'dependent-serious-harm-no-session-points']
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (14003, 13507, 13509, 14007, 14005):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-session-state') == expected
+            assert last(s, 'test.dependent-group-reject') == ['dependent-session-binding']
+        finally:
+            s.close()
+    for setup, reason in [((14001, 14002), 'dependent-group-summary'), ((14006,), 'dependent-group-missing-member')]:
+        s = Session(bundle)
+        try:
+            for code in (14000,) + setup + (14005,):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-group-reject') == [reason]
+        finally:
+            s.close()

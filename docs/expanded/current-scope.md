@@ -375,3 +375,9 @@ Skill-only dependent growth can now apply approved point increases to existing
 NPC training slots after shared ownership and learning checks, without charging
 either point bank. Attribute/trait/mixed applications remain pending. Fixtures
 are authored but unrun while checks remain paused.
+
+
+Dependent group session records now bind explicit member rosters and individual
+incidents, validate aggregate rescue/harm judgments and enforce the shared award
+restrictions without population-based point credit. Automatic group membership
+transfers and permanent-loss handling remain pending. Fixtures remain unrun.

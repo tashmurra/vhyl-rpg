@@ -274,9 +274,10 @@
       "status": "partial",
       "acceptance": "Dependent peril requires prompt rescue. Author adjudicates failure to aid for session advancement; a session where the dependent is killed or seriously injured grants no character points. Record session identity, injury judgment and award decision without deleting previously earned points.",
       "tests": [
-        "tests/expanded.py::test_dependent_sessions"
+        "tests/expanded.py::test_dependent_sessions",
+        "tests/expanded.py::test_dependent_groups"
       ],
-      "validation_note": "Owned session closure enforces serious-harm award prohibition and authored rescue bonus denial through the shared milestone bank. Live rescue routing and group incident ownership remain pending. Fixtures unrun."
+      "validation_note": "Owned session closure enforces serious-harm award prohibition and authored rescue bonus denial through the shared milestone bank. Live rescue routing and group incident ownership remain pending. Fixtures unrun. Group session closures now bind roster/member incidents and validate aggregate harm/rescue outcomes; automatic membership transfers and permanent-loss handling remain pending. Group fixtures unrun."
     },
     {
       "id": "disadvantages-c-dependent-ally",
@@ -299,9 +300,10 @@
       "tests": [
         "tests/expanded.py::test_dependents",
         "tests/expanded.py::test_dependent_templates",
-        "tests/expanded.py::test_dependent_choices"
+        "tests/expanded.py::test_dependent_choices",
+        "tests/expanded.py::test_dependent_groups"
       ],
-      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun. Fixed and selected templates create fresh owned dependent contributions from unowned definitions; combined-package composition remains unsupported. Template fixtures unrun. Selectable template options now include dependent purchase prices in signed choice bounds and validate combined credit slots. Choice fixtures unrun."
+      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun. Fixed and selected templates create fresh owned dependent contributions from unowned definitions; combined-package composition remains unsupported. Template fixtures unrun. Selectable template options now include dependent purchase prices in signed choice bounds and validate combined credit slots. Choice fixtures unrun. Group session closures now bind roster/member incidents and validate aggregate harm/rescue outcomes; automatic membership transfers and permanent-loss handling remain pending. Group fixtures unrun."
     },
     {
       "id": "disadvantages-c-dependent-progression",

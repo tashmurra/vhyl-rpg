@@ -2611,3 +2611,83 @@ class RpgExpandedDependentSkillGrowth: object
         value.status = 'resolved'; return value;
     }
 ;
+
+/** Authored group membership snapshot; membership does not multiply point credit. */
+class RpgExpandedDependentRoster: object
+    relationship = nil
+    members = []
+    approved = nil
+    evidence = nil
+    definition()
+    {
+        return [self.relationship,self.approved,self.evidence,self.members.length()] + self.members
+            + self.relationship.definition();
+    }
+    validate(profile)
+    {
+        if (self.relationship == nil || !self.relationship.ofKind(RpgExpandedDependent)
+            || !self.relationship.group || self.relationship.owner != profile
+            || !holds(profile.contributions,self.relationship)) rpgExpandedReject('dependent-roster-owner');
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.members.length() == 0)
+            rpgExpandedReject('dependent-roster-facts');
+        local seen = [];
+        foreach (local member in self.members)
+        {
+            if (member == nil || member == profile || member == self.relationship.dependent || holds(seen,member))
+                rpgExpandedReject('dependent-roster-member');
+            seen = seen + [member];
+        }
+        return nil;
+    }
+;
+/** B131: member-specific outcomes reduce to the ordinary session award gate. */
+class RpgExpandedDependentGroupSession: RpgExpandedDependentSession
+    rosters = []
+    /* [roster, member, peril, prompt aid, serious harm, deny bonus, evidence] */
+    memberOutcomes = []
+    definition()
+    {
+        local facts = inherited() + [self.rosters.length(),self.memberOutcomes.length()];
+        foreach (local roster in self.rosters) facts = facts + [roster] + roster.definition();
+        foreach (local row in self.memberOutcomes) facts = facts + row;
+        return facts;
+    }
+    assess()
+    {
+        local value = inherited(); if (value.status != 'ready') return value;
+        local relationships = [];
+        foreach (local roster in self.rosters)
+        {
+            if (roster == nil || !roster.ofKind(RpgExpandedDependentRoster)) rpgExpandedReject('dependent-group-roster');
+            roster.validate(self.profile);
+            if (holds(relationships,roster.relationship)) rpgExpandedReject('dependent-group-duplicate-roster');
+            relationships = relationships + [roster.relationship];
+            local seen = []; local peril = nil; local missedAid = nil; local harm = nil; local denied = nil;
+            foreach (local row in self.memberOutcomes)
+            {
+                if (row.length() != 7 || !holds(self.rosters,row[1]) || row[7] == nil || row[7] == '')
+                    rpgExpandedReject('dependent-group-member-outcome');
+                if (row[1] != roster) continue;
+                if (!holds(roster.members,row[2]) || holds(seen,row[2])) rpgExpandedReject('dependent-group-member-outcome');
+                if (row[6] && (!row[3] || row[4])) rpgExpandedReject('dependent-group-bonus-judgment');
+                seen = seen + [row[2]];
+                if (row[3]) peril = true;
+                if (row[3] && !row[4]) missedAid = true;
+                if (row[5]) harm = true;
+                if (row[6]) denied = true;
+            }
+            if (seen.length() != roster.members.length()) rpgExpandedReject('dependent-group-missing-member');
+            local summary = nil;
+            foreach (local row in self.outcomes) if (row[1] == roster.relationship) summary = row;
+            if (summary == nil || (summary[2] ? 1 : 0) != (peril ? 1 : 0)
+                || (summary[3] ? 1 : 0) != (peril && !missedAid ? 1 : 0)
+                || (summary[4] ? 1 : 0) != (harm ? 1 : 0) || (summary[5] ? 1 : 0) != (denied ? 1 : 0))
+                rpgExpandedReject('dependent-group-summary');
+        }
+        foreach (local row in self.outcomes)
+            if (row[1].group && !holds(relationships,row[1])) rpgExpandedReject('dependent-group-missing-roster');
+        if (self.rosters.length() == 0 && self.memberOutcomes.length() != 0)
+            rpgExpandedReject('dependent-group-member-outcome');
+        return value;
+    }
+;
