@@ -312,9 +312,10 @@
       "status": "partial",
       "acceptance": "Scale a dependent proportionally as the principal gains points, keeping the disadvantage value stable; the author approves concrete improvements. Do not silently grant the principal those points or charge the principal for dependent training.",
       "tests": [
-        "tests/expanded.py::test_dependent_growth"
+        "tests/expanded.py::test_dependent_growth",
+        "tests/expanded.py::test_dependent_skill_growth"
       ],
-      "validation_note": "Owned approved growth receipts preserve original purchase costs and principal bank, enforce exact positive whole-point proportions and itemized build accounting. Fractional/nonpositive totals, refunds and automatic NPC profile changes remain pending. Fixtures unrun."
+      "validation_note": "Owned growth receipts preserve original costs and principal bank, enforce exact positive whole-point proportions and itemized accounting. Skill-only records can apply to owned NPC training slots through shared learning gates. Fractional/nonpositive totals, refunds and attribute/trait/mixed applications remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-dependent-loss",

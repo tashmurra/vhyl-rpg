@@ -2537,3 +2537,77 @@ class RpgExpandedDependentGrowth: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    dependentSkillGrowthApplications = []
+;
+/** Execute a fully itemized skill-only NPC growth record on existing owned slots. */
+class RpgExpandedDependentSkillGrowth: object
+    growth = nil
+    /* [improvement ID, owned training, old points, new points, teacher or nil] */
+    purchases = []
+    recorded = nil
+    boundDefinition = nil
+    profile() { return self.growth.relationship.dependent; }
+    definition()
+    {
+        local facts = [self.growth,self.purchases.length()] + self.growth.definition();
+        foreach (local row in self.purchases) facts = facts + row + [row[2].skill];
+        return facts;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.growth == nil || !self.growth.ofKind(RpgExpandedDependentGrowth)
+            || self.growth.assess().status != 'reused') rpgExpandedReject('dependent-skill-growth-record-required');
+        local profile = self.profile();
+        if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('dependent-skill-growth-profile');
+        if (self.recorded)
+        {
+            if (!holds(profile.dependentSkillGrowthApplications,self)) rpgExpandedReject('dependent-skill-growth-history');
+            local facts = self.definition();
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('dependent-skill-growth-binding');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('dependent-skill-growth-binding');
+            value.status = 'reused'; return value;
+        }
+        if (self.boundDefinition != nil) rpgExpandedReject('dependent-skill-growth-uncommitted');
+        rpgExpandedValidate(profile);
+        foreach (local prior in profile.dependentSkillGrowthApplications)
+            if (prior.growth == self.growth) rpgExpandedReject('dependent-skill-growth-duplicate');
+        local ids = []; local slots = [];
+        foreach (local row in self.purchases)
+        {
+            if (row.length() != 5 || row[2] == nil || !row[2].ofKind(RpgTraining)
+                || holds(ids,row[1]) || holds(slots,row[2])) rpgExpandedReject('dependent-skill-growth-purchase');
+            rpgInteger(row[3],0,1000000); rpgInteger(row[4],row[3] + 1,1000000);
+            local improvement = nil;
+            foreach (local item in self.growth.improvements) if (item[1] == row[1]) improvement = item;
+            if (improvement == nil || improvement[2] != row[4] - row[3])
+                rpgExpandedReject('dependent-skill-growth-accounting');
+            if (row[2].points != row[3]) rpgExpandedReject('dependent-skill-growth-stale-points');
+            value.reason = profile.trainingPurchaseReason(row[2].skill,row[2]);
+            if (value.reason != nil) return value;
+            value.reason = profile.skillLearningWithTeacherReason(row[2].skill,row[5]);
+            if (value.reason != nil) return value;
+            local offer = new RpgDevelopment(); offer.profile = profile; offer.kind = 'skill';
+            offer.training = row[2]; offer.teacher = row[5]; offer.target = row[4];
+            value.reason = profile.developmentOfferReason(offer);
+            if (value.reason != nil) return value;
+            ids = ids + [row[1]]; slots = slots + [row[2]];
+        }
+        if (ids.length() != self.growth.improvements.length()) rpgExpandedReject('dependent-skill-growth-incomplete');
+        rpgInteger(profile.developmentRevision,0,2147483646);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local profile = self.profile(); self.boundDefinition = self.definition();
+        foreach (local row in self.purchases) row[2].points = row[4];
+        profile.developmentRevision += 1; self.recorded = true;
+        profile.dependentSkillGrowthApplications = profile.dependentSkillGrowthApplications + [self];
+        value.status = 'resolved'; return value;
+    }
+;

@@ -9258,6 +9258,8 @@ def test(build):
     test_dependent_choices(Session, dependent_choices, build.out)
     dependent_growth = build.build('expanded-dependent-growth',ROOT / 'tests/fixtures/expanded-dependent-growth.t')
     test_dependent_growth(Session, dependent_growth, build.out)
+    dependent_skill_growth = build.build('expanded-dependent-skill-growth',ROOT / 'tests/fixtures/expanded-dependent-skill-growth.t')
+    test_dependent_skill_growth(Session, dependent_skill_growth, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21378,3 +21380,49 @@ def test_dependent_growth(Session, bundle, out):
             assert last(s, 'test.dependent-growth-state') == [0, -20, 0, 0, 0, 200, 50]
         finally:
             s.close()
+
+
+def test_dependent_skill_growth(Session, bundle, out):
+    """B131 executable approved NPC skill improvements use existing owned slots; unrun."""
+    before = [10, 0, 0, 0, 0, 0, 0, 0, 50]
+    after = [20, 1, 1, 0, 0, 0, 0, 0, 60]
+    path = out / 'dependent-skill-growth.zsave'
+    s = Session(bundle)
+    try:
+        for code in (13900, 13901, 13903, 13904):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-skill-preview') == ['ready', None]
+        assert last(s, 'test.dependent-skill-state') == before
+        s.action(2285, 13902)
+        s.command('undo')
+        s.action(2285, 13904)
+        assert last(s, 'test.dependent-skill-state') == before
+        for code in (13902, 13902, 13904):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-skill-state') == after
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (13902, 13904):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-skill-state') == after
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (13900, 13906, 13901, 13902, 13904):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-skill-preview') == ['blocked', 'authored-prerequisite']
+        assert last(s, 'test.dependent-skill-state') == before
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (13900, 13905):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-skill-reject') == ['dependent-skill-growth-stale-points']
+    finally:
+        s.close()

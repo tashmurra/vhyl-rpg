@@ -1810,3 +1810,9 @@ Dependent growth receipts now account for approved whole-point proportional NPC
 build improvements while preserving original relationship costs and the principal
 point bank. Fractional/nonpositive-total growth and automatic NPC profile changes
 remain pending. The new fixtures are authored but unrun while checks are paused.
+
+
+Skill-only dependent growth can now apply approved point increases to existing
+NPC training slots after shared ownership and learning checks, without charging
+either point bank. Attribute/trait/mixed applications remain pending. Fixtures
+are authored but unrun while checks remain paused.

@@ -1284,8 +1284,31 @@ appearance and session bindings. Replay validates the bound facts and predecesso
 chain. The latest receipt supplies the current approved NPC build totals.
 This is author-maintained NPC build accounting: it neither grants points to the
 principal nor automatically changes an NPC profile's training or characteristics.
-Automatic NPC profile application, fractional and nonpositive-total advancement
+General NPC profile application, fractional and nonpositive-total advancement
 remain pending, so the source inventory still marks progression partial.
 `expanded-dependent-growth.t` and `test_dependent_growth` specify exact proportions,
 itemized accounting, unchanged purchase/bank/RNG, chain replay, rollback, undo,
 save continuation and changed-fact rejection. Fixtures remain unrun.
+
+
+For a growth record consisting entirely of skill improvements,
+`RpgExpandedDependentSkillGrowth` applies the approved purchases to an actual NPC
+profile. The relationship's `dependent` must be that expanded profile. Supply the
+recorded `growth` and `purchases` rows `[improvementID, ownedTraining, oldPoints,
+newPoints, teacherOrNil]`. Every approved improvement must be covered once, with
+a matching point difference; duplicate IDs/slots, changed old investments and
+partial applications reject. Existing zero-point slots may be used to learn a
+new skill. Shared ownership, learning/prerequisite/teacher and development-offer
+gates run before any mutation. Prerequisites must already be satisfied; purchases
+in the same batch cannot unlock one another.
+
+`assess()` is pure. `apply()` changes the NPC's existing training points, advances
+its development revision and records one application per growth receipt. It adds
+no study time or random rolls and changes neither character's earned/unspent bank:
+this executes the approved proportional NPC improvement. Saved replay returns the
+receipt without reapplying points. Subsequent growth uses a fresh receipt and the
+then-current investment. This path does not yet apply attribute, trait or mixed
+build changes; those remain explicit author-maintained records.
+`expanded-dependent-skill-growth.t` and `test_dependent_skill_growth` cover actual
+NPC cost changes, prerequisite and stale-investment rejection, unchanged banks,
+rollback, undo, replay and cross-process save continuation. Fixtures remain unrun.
