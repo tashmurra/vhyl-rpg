@@ -295,9 +295,12 @@
       "acceptance": "Cardiac arrest sets fatigue to negative full capacity and establishes a death deadline of health/3 minutes unless resuscitated; surviving health becomes the lower of zero and current health.",
       "tests": [
         "tests/expanded.py::test_cardiac_condition",
-        "tests/expanded.py::test_cardiac_resuscitation"
+        "tests/expanded.py::test_cardiac_resuscitation",
+        "tests/expanded.py::test_cardiac_transactions",
+        "tests/expanded.py::test_cardiac_deadline_transactions",
+        "tests/expanded.py::test_cardiac_persistence"
       ],
-      "validation_note": "Owned onset, immunity, untreated expiry and uninterrupted cardiac resuscitation authored; fixtures unrun. Automatic deadlines, interrupted care, other death causes and transaction/persistence coverage remain incomplete."
+      "validation_note": "Owned cardiac onset, treatment and expiry authored. Expected-value, rollback, undo and separate-process continuation fixtures remain unrun. Automatic deadlines, interrupted care and other death-cause integration remain incomplete."
     },
     {
       "id": "condition-heart-attack-death-value",
@@ -308,9 +311,12 @@
       "status": "partial",
       "acceptance": "If cardiac arrest kills and postmortem health matters, use the lower of negative full health capacity and current health.",
       "tests": [
-        "tests/expanded.py::test_cardiac_condition"
+        "tests/expanded.py::test_cardiac_condition",
+        "tests/expanded.py::test_cardiac_transactions",
+        "tests/expanded.py::test_cardiac_deadline_transactions",
+        "tests/expanded.py::test_cardiac_persistence"
       ],
-      "validation_note": "Owned onset, anatomy immunity and untreated expiry plus pure post-arrest health floors authored; fixtures unrun. Revival treatment, automatic deadlines, other death causes and transaction/persistence coverage remain incomplete."
+      "validation_note": "Owned cardiac onset, treatment and expiry authored. Expected-value, rollback, undo and separate-process continuation fixtures remain unrun. Automatic deadlines, interrupted care and other death-cause integration remain incomplete."
     },
     {
       "id": "condition-heart-attack-immunity",

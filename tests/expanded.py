@@ -896,6 +896,96 @@ def test_swimming_assessments(s):
         assert last(s, 'test.lifesaving') == expected
 
 
+def cardiac_state(s):
+    s.action(1931)
+    return last(s, 'test.cardiac-state')
+
+
+def test_cardiac_transactions(s):
+    initial = cardiac_state(s)
+    assert initial == [3,2,0,0,0,0,0,0,0,0]
+    s.action(1930, 1)
+    assert cardiac_state(s) == initial
+    s.action(1930, 0)
+    onset = cardiac_state(s)
+    assert onset == [20,2,1,0,0,0,0,0,1,1]
+    s.command('undo')
+    assert cardiac_state(s) == initial
+    s.action(1930, 0)
+    for code in [11,3,5,12,9]:
+        s.action(1930, code)
+        assert cardiac_state(s) == onset
+    s.action(1930, 4)
+    failed = cardiac_state(s)
+    assert failed == [20,2,1,1,0,0,3,60,1,1]
+    s.command('undo')
+    assert cardiac_state(s) == onset
+    s.action(1930, 4)
+    s.action(1930, 2)
+    revived = cardiac_state(s)
+    assert revived == [20,10,0,2,1,0,3,120,1,1]
+    s.command('undo')
+    assert cardiac_state(s) == failed
+    for code in [2,2,4,0,10,9]:
+        s.action(1930, code)
+        assert cardiac_state(s) == revived
+    s.action(1930, 8)
+    s.action(1930, 6)
+    assert last(s, 'test.cardiac-operation') == ['blocked','cardiac-already-revived']
+    assert cardiac_state(s) == [20,10,0,2,1,0,3,200,1,1]
+
+
+def test_cardiac_deadline_transactions(s):
+    s.action(1930, 0)
+    s.action(1930, 8)
+    due = cardiac_state(s)
+    assert due == [20,2,1,0,0,0,0,200,1,1]
+    s.action(1930, 7)
+    assert cardiac_state(s) == due
+    s.action(1930, 6)
+    expired = cardiac_state(s)
+    assert expired == [20,20,0,0,0,1,0,200,1,1]
+    s.command('undo')
+    assert cardiac_state(s) == due
+    for code in [6,6,9]:
+        s.action(1930, code)
+        assert cardiac_state(s) == expired
+
+
+def test_cardiac_persistence(Session, bundle, out):
+    for stage in range(4):
+        path = out / f'expanded-cardiac-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1930, 0)
+            if stage in [1,2]:
+                first.action(1930, 4)
+            if stage == 2:
+                first.action(1930, 2)
+            if stage == 3:
+                first.action(1930, 8); first.action(1930, 6)
+            saved = cardiac_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1931')
+            assert cardiac_state(second) == saved
+            second.action(1930, 9)
+            if stage == 3:
+                second.action(1930, 6)
+                assert cardiac_state(second) == [20,20,0,0,0,1,0,200,1,1]
+            else:
+                if stage == 0:
+                    second.action(1930, 4)
+                for code in [2,2,4,9]:
+                    second.action(1930, code)
+                    assert cardiac_state(second) == [20,10,0,2,1,0,3,120,1,1]
+        finally:
+            second.close()
+
+
 def test_cardiac_resuscitation(s):
     for kind, score in [('physician',12),('first-aid',10)]:
         s.action(1922, 10, 2, kind, 7, 1)
@@ -4031,6 +4121,10 @@ def test(build):
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
     fresh(Session,hazards,test_cardiac_resuscitation)
+    cardiac_transactions = build.build('expanded-cardiac-transactions',ROOT / 'tests/fixtures/expanded-cardiac-transactions.t')
+    fresh(Session,cardiac_transactions,test_cardiac_transactions)
+    fresh(Session,cardiac_transactions,test_cardiac_deadline_transactions)
+    test_cardiac_persistence(Session,cardiac_transactions,build.out)
     fresh(Session,hazards,test_airless_duration)
     fresh(Session,hazards,test_airless_scheduler_conflict)
     airless_transactions = build.build('expanded-airless-transactions',ROOT / 'tests/fixtures/expanded-airless-transactions.t')

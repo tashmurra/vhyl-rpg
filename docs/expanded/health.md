@@ -946,8 +946,8 @@ without an attack damage roll.
 `test_cardiac_condition` records duration, fatigue assignment without overflow,
 repeated onset, early expiry, exact expiry, preserved recovery restrictions,
 immunities and both health-floor formulas. Fixtures remain unrun while checks are
-paused. Transaction rollback, undo, save continuation, interrupted care and automatic
-deadline dispatch remain outstanding.
+paused. Interrupted care and automatic deadline dispatch remain outstanding; the
+transaction and continuation fixtures below are authored but unrun.
 
 
 ## Committed cardiac resuscitation
@@ -986,4 +986,20 @@ asphyxiation treatment remain separate incomplete procedures.
 `test_cardiac_resuscitation` records physician and first-aid targets, a retained
 worse injury total, repeat protection, failed-then-successful treatment, unavailable
 technology and a deadline that cannot accommodate an attempt. Fixtures remain
-unrun while checks are paused; persistence and rollback validation are outstanding.
+unrun while checks are paused; the dedicated persistence and rollback fixtures below remain unrun.
+
+
+The dedicated
+[`expanded-cardiac-transactions.t`](../../tests/fixtures/expanded-cardiac-transactions.t)
+adds exception rollback after onset, failed treatment, revival and untreated
+expiry. `test_cardiac_transactions` records undo and replay of onset and treatment,
+preview purity, blocked rest, bound-care rejection and stale requests after
+revival. `test_cardiac_deadline_transactions` checks rollback and undo at the fatal
+boundary. The original expiry request must remain blocked after revival, even
+when the old deadline has passed.
+
+`test_cardiac_persistence` restores separate-process saves after onset, after a
+failed attempt, after revival and after death. Continuation preserves attempted
+care, elapsed time, shared fatigue/injury and random state. Historical successful
+and failed treatment requests must not reroll or recharge time. All fixtures are
+unrun while checks are paused; no passing persistence claim is made.
