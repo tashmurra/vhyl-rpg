@@ -25,6 +25,16 @@ modify warningObserver rules = warningRules creationComplete = true developmentO
 warningAdvancement: RpgExpandedPsionicTalentAdvancement id = 'improve-warning' profile = warningObserver
     talent = warningTalent targetLevel = 4 permitted = true evidence = 'Practice during downtime';
 
+latentTalent: RpgExpandedPsionicTalent id = 'latent-talent' power = warningPower level = 2
+    approved = true evidence = 'Owned latent potential';
+latentProfile: RpgExpandedProfile iq = 8 traits = [latentTalent] rules = warningRules creationComplete = true
+    developmentOpen = true earnedPoints = 20 unspentPoints = 20;
+latentAbility: RpgExpandedPsionicDangerSense power = warningPower approved = true evidence = 'Approved warning ability';
+latentPurchase: RpgExpandedDangerSensePurchase id = 'first-warning' profile = latentProfile ability = latentAbility
+    permitted = true evidence = 'Development from latent potential';
+latentWarning: RpgExpandedDangerWarning id = 'first-hazard' profile = latentProfile ability = latentAbility
+    hazardPresent = true approved = true interferenceKnown = true evidence = 'Known impending fall'
+    warningText = 'Step back.' detailText = 'The roof is falling.';
 modify rpgRandom
     roll()
     {
@@ -36,6 +46,21 @@ class WarningTestAction: Action
     exec(context)
     {
         local code = warningInput.code;
+        if (code >= 40)
+        {
+            if (code == 44) latentProfile.unspentPoints = 0;
+            if (code == 45 || code == 46) latentProfile.traits = [];
+            if (code == 46) latentPurchase.newPowerApproved = true;
+            if (code == 47) latentProfile.developmentOpen = nil;
+            if (code == 48)
+            {
+                local warning = latentWarning.apply(); event('test.purchased-warning');
+                eventValue(warning.status); eventValue(warning.reason); eventValue(warning.warning); return nil;
+            }
+            local value = code == 41 ? latentPurchase.assess() : latentPurchase.apply();
+            event('test.psionic-purchase'); eventValue(value.status); eventValue(value.reason); eventValue(value.points);
+            if (code == 42) throw new RpgError(); return nil;
+        }
         if (code >= 20)
         {
             if (code == 23) warningObserver.unspentPoints = 0;
@@ -85,6 +110,13 @@ warningVerb: Verb code = 2231 action = warningAction label = 'sense danger';
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2240) { warningInput.code = 40 + args[1]; return vhylAct(2231,args); }
+    if (verb == 2241)
+    {
+        event('test.psionic-purchase-state'); eventValue(holds(latentProfile.traits,latentAbility) ? 1 : 0);
+        eventValue(latentProfile.unspentPoints); eventValue(latentProfile.developmentRevision);
+        eventValue(latentProfile.psionicAbilityPurchases.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2238) { warningInput.code = 20 + args[1]; return vhylAct(2231,args); }
     if (verb == 2239)
     {

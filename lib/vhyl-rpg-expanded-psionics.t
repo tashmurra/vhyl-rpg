@@ -474,3 +474,66 @@ class RpgExpandedPsionicTalentAdvancement: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    psionicAbilityPurchases = []
+;
+
+/** Purchase the implemented warning ability, not a catalogue-only power label. */
+class RpgExpandedDangerSensePurchase: object
+    id = nil
+    profile = nil
+    ability = nil
+    permitted = nil
+    newPowerApproved = nil
+    requiresDowntime = true
+    evidence = nil
+    result = nil
+    snapshot = nil
+    definition() { return [self.id,self.profile,self.ability,self.ability.power,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.ability == nil || !self.ability.ofKind(RpgExpandedPsionicDangerSense))
+            rpgExpandedReject('psionic-ability-purchase-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.snapshot == nil || self.snapshot.length() != current.length()) rpgExpandedReject('psionic-ability-purchase-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.snapshot[index]) rpgExpandedReject('psionic-ability-purchase-binding');
+            if (!holds(self.profile.psionicAbilityPurchases,self)) rpgExpandedReject('psionic-ability-purchase-history');
+            value.status = 'reused'; return value;
+        }
+        rpgExpandedValidate(self.profile); self.ability.validateAbility();
+        rpgInteger(self.profile.unspentPoints,0,1000000);
+        rpgInteger(self.profile.developmentRevision,0,2147483646);
+        if (!self.profile.creationComplete) { value.reason = 'psionic-advancement-after-creation'; return value; }
+        if (!self.permitted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'psionic-advancement-permission'; return value; }
+        if (self.requiresDowntime && !self.profile.developmentOpen)
+        { value.reason = 'rpg.downtime-required'; return value; }
+        foreach (local trait in self.profile.traits)
+            if (trait == self.ability || trait.ofKind(RpgExpandedPsionicDangerSense)
+                || holds(['danger-sense','precognition'],trait.id) || trait.id == self.ability.id)
+            { value.reason = 'psionic-danger-duplicate-ability'; return value; }
+        local eligibility = rpgExpandedPsionicLatentEligibility(self.profile,self.ability.power,'danger-sense');
+        if (eligibility.status != 'ready' && !self.newPowerApproved)
+        { value.reason = 'psionic-new-power-permission'; return value; }
+        foreach (local prior in self.profile.psionicAbilityPurchases)
+            if (prior.id == self.id) rpgExpandedReject('psionic-ability-purchase-duplicate');
+        value.points = self.ability.creationCost();
+        if (value.points > self.profile.unspentPoints) { value.reason = 'rpg.insufficient-points'; return value; }
+        value.reason = self.profile.developmentSpendingReason(); if (value.reason != nil) return value;
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.snapshot = self.definition(); self.profile.unspentPoints -= value.points;
+        self.profile.developmentRevision += 1; self.profile.traits = self.profile.traits + [self.ability];
+        self.profile.psionicAbilityPurchases = self.profile.psionicAbilityPurchases + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

@@ -276,9 +276,10 @@
         "tests/expanded.py::test_psionic_static",
         "tests/expanded.py::test_static_ready",
         "tests/expanded.py::test_static_health_defaults",
-        "tests/expanded.py::test_psionic_advancement"
+        "tests/expanded.py::test_psionic_advancement",
+        "tests/expanded.py::test_psionic_purchase"
       ],
-      "validation_note": "Owned talent advancement shares the point ledger, spending gates and revision, with explicit first-family permission; fixtures unrun. Ability purchases and other power membership integrations remain pending."
+      "validation_note": "Owned executable warning purchase and shared point/revision accounting authored, with latent/new-family gates and save-continuation fixture; unrun. Other ability purchases and broad membership integration remain pending."
     },
     {
       "id": "skills",

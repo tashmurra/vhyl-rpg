@@ -1664,6 +1664,48 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_psionic_purchase(Session,bundle,out):
+    def state(s):
+        s.action(2241)
+        return last(s,'test.psionic-purchase-state')
+    path=out / 'expanded-psionic-purchase.zsave'
+    s=Session(bundle)
+    try:
+        s.action(2240,8)
+        assert last(s,'test.purchased-warning')[:2] == ['blocked','psionic-danger-ability-required']
+        for code in [1,2]:
+            s.action(2240,code)
+            assert state(s) == [0,20,0,0,0,0]
+        s.action(2240,0)
+        assert last(s,'test.psionic-purchase') == ['resolved',None,14]
+        assert state(s) == [1,6,1,1,0,0]
+        s.command(f':save {path}')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2241')
+        assert state(s) == [1,6,1,1,0,0]
+        s.action(2240,0)
+        assert last(s,'test.psionic-purchase') == ['reused',None,0]
+        assert state(s) == [1,6,1,1,0,0]
+        s.action(2240,8)
+        assert last(s,'test.purchased-warning') == ['resolved',None,'Step back.']
+        assert state(s) == [1,6,1,1,3,0]
+        s.command('undo')
+        assert state(s) == [1,6,1,1,0,0]
+    finally: s.close()
+    for code,status,reason,points in [(4,'blocked','rpg.insufficient-points',14),
+            (5,'blocked','psionic-new-power-permission',0),(6,'resolved',None,14),
+            (7,'blocked','rpg.downtime-required',0)]:
+        s=Session(bundle)
+        try:
+            s.action(2240,code)
+            assert last(s,'test.psionic-purchase') == [status,reason,points]
+            s.command('undo')
+            assert state(s) == [0,20,0,0,0,0]
+        finally: s.close()
+
+
 def test_psionic_advancement(Session,bundle):
     def state(s):
         s.action(2239)
@@ -7934,6 +7976,7 @@ def test(build):
     fresh(Session,psionics,test_psionic_talents)
     test_psionic_warning(Session,psionics)
     test_psionic_advancement(Session,psionics)
+    test_psionic_purchase(Session,psionics,build.out)
     test_psionic_resistance(Session,psionics)
     fresh(Session,psionics,test_psionic_static)
     static_ready = build.build('expanded-static-ready',ROOT / 'tests/fixtures/expanded-static-ready.t')

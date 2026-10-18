@@ -59,8 +59,8 @@ ability, roll dice or alter any ledger. Automatic roll integration is pending.
 `rpgExpandedPsionicLatentEligibility(profile, power, abilityId)` checks whether
 an owned talent permits an eligible first-ability purchase. Temporarily inactive
 talent remains owned potential, although its use bonus is zero. A ready result
-is permission only: the ability purchase itself remains pending. Talent purchases use the owned
-advancement interface below.
+is permission only: only supported executable abilities may be purchased. The warning purchase
+and talent advancement interfaces below perform their respective transactions.
 
 The [minimal fixture](../../tests/fixtures/expanded-psionics.t) and
 `test_psionic_talents` specify five-point costs, the four-level limit, explicit
@@ -244,5 +244,30 @@ returns zero additional cost and never lowers a later improved talent.
 `test_psionic_advancement` specifies delta costs, first talent with an owned
 ability, new-family permission, higher-level approval, insufficient funds,
 downtime, preview purity, replay, exception rollback and undo. These assertions
-are authored but unrun. Ability purchases, modifier buyoffs and advancement
+are authored but unrun. Other ability purchases, modifier buyoffs and advancement
 through arbitrary unimplemented abilities remain pending.
+
+## Purchasing the warning ability
+
+`RpgExpandedDangerSensePurchase` installs the implemented danger-warning trait.
+Set `id`, `profile`, an approved `RpgExpandedPsionicDangerSense` as `ability`,
+`permitted` and `evidence`. An owned talent in the same power establishes latent
+eligibility. Otherwise `newPowerApproved` is required; membership from other,
+unimplemented abilities is not inferred. An existing warning ability, ordinary
+danger sense, precognition or conflicting trait ID blocks the purchase.
+
+After creation, `assess()` applies the existing downtime and mandatory-spending
+gates and checks the fourteen-point price against `unspentPoints`. `apply()`
+installs the actual trait, debits that bank, increments `developmentRevision`
+and stores the receipt in `psionicAbilityPurchases`. It creates neither a
+separate point account nor a catalogue-only permission flag. Time and randomness
+are unchanged. Replaying the receipt costs zero and does not reinstall a trait
+that a later authored transformation removed.
+
+The installed ability can immediately be used by `RpgExpandedDangerWarning`,
+subject to its normal situation and interference requirements. The
+`test_psionic_purchase` fixture specifies blocked pre-purchase use, preview,
+rollback, latent and new-family permission, insufficient points, downtime,
+separate-process save continuation, zero-cost replay, actual post-purchase
+warning and undo. It remains unrun. Other ability purchases, potential abilities
+and modifier buyoffs still require their own implemented procedures.
