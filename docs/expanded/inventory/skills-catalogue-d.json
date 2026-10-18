@@ -5949,7 +5949,8 @@
         "tests/expanded.py::test_tracking_context",
         "tests/expanded.py::test_tracking_acquisition",
         "tests/expanded.py::test_tracking_encounter",
-        "tests/expanded.py::test_tracking_marching_boundaries"
+        "tests/expanded.py::test_tracking_marching_boundaries",
+        "tests/expanded.py::test_tracking_actions"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -5967,7 +5968,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun. Initial acquisition now uses owned bound requests, the shared health/time ledger and retained checks. Duplicate same-trail occurrences are rejected. Continuation, travel and concealed-trail contests remain pending. Fixtures unrun. The executable default now references the existing typed naturalist catalogue, with its planetary definition validated. Unrelated labels and uninvested skills cannot grant the default. New integration fixtures unrun. Fixed-terrain owned encounters now consume incremental march receipts, preserve partial progress and roll once at each boundary, retaining trail loss. Trail age is checked against elapsed world time. Terrain changes, rests, concealment and group/reacquisition remain pending. Fixtures unrun. Integration fixtures now specify all terrain intervals, marching receipt reuse rejection, health denial and coincident hourly fatigue/continuation checks with rollback, undo and cross-process replay. Fixtures remain unrun."
+      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun. Initial acquisition now uses owned bound requests, the shared health/time ledger and retained checks. Duplicate same-trail occurrences are rejected. Continuation, travel and concealed-trail contests remain pending. Fixtures unrun. The executable default now references the existing typed naturalist catalogue, with its planetary definition validated. Unrelated labels and uninvested skills cannot grant the default. New integration fixtures unrun. Fixed-terrain owned encounters now consume incremental march receipts, preserve partial progress and roll once at each boundary, retaining trail loss. Trail age is checked against elapsed world time. Terrain changes, rests, concealment and group/reacquisition remain pending. Fixtures unrun. Integration fixtures now specify all terrain intervals, marching receipt reuse rejection, health denial and coincident hourly fatigue/continuation checks with rollback, undo and cross-process replay. Fixtures remain unrun. Shared owner-authorized parser, structured and dialogue actions now delegate acquisition and continuation to their retained procedures without separate costs. Parity fixtures authored, unrun."
     },
     {
       "id": "catalogue-tracking-terrain-jungle-plains-woodland",

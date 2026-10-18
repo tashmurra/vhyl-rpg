@@ -9554,6 +9554,8 @@ def test(build):
     tracking_encounter = build.build('expanded-tracking-encounter',ROOT / 'tests/fixtures/expanded-tracking-encounter.t')
     test_tracking_encounter(Session,tracking_encounter,build.out)
     test_tracking_marching_boundaries(Session,tracking_encounter,build.out)
+    tracking_actions = build.build('expanded-tracking-actions',ROOT / 'tests/fixtures/expanded-tracking-actions.t')
+    test_tracking_actions(Session,tracking_actions)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27322,3 +27324,47 @@ def test_partial_march_interruption(Session, bundle, out):
             assert state(s) == [60,1,61 if code == 28707 else 60,0,0,0]
         finally:
             s.close()
+
+
+def test_tracking_actions(Session, bundle):
+    """Acquisition and continuation share player routes without duplicate costs; unrun."""
+    for stage in ('acquire','follow'):
+        for route in ('parser','structured','dialogue'):
+            def perform(s,operation):
+                if route == 'parser':
+                    s.command({'preview':'assess tracking','resolve':'resolve tracking','rollback':'rollback tracking'}[operation])
+                elif route == 'structured':
+                    s.action({'preview':29010,'resolve':29011,'rollback':29012}[operation])
+                else:
+                    s.action(80,'trail-tracking'); s.select(operation)
+            def prepare(s):
+                if stage == 'follow':
+                    for code in (28500,28800,28801,29003):
+                        s.action(1680,code)
+            def state(s):
+                s.action(1680,28502 if stage == 'acquire' else 28804)
+                return last(s,'test.tracking-acquisition' if stage == 'acquire' else 'test.tracking-encounter')
+            before = [0,None,0,0] if stage == 'acquire' else [1,30,0,30,3,30,0]
+            after = [1,True,0,3] if stage == 'acquire' else [2,0,0,60,6,60,0]
+            s = Session(bundle)
+            try:
+                prepare(s); perform(s,'preview')
+                assert last(s,'rpg.expanded.tracking') == [stage,'preview','ready',None]
+                assert state(s) == before
+                perform(s,'rollback'); assert state(s) == before
+                perform(s,'resolve'); s.command('undo'); assert state(s) == before
+                perform(s,'resolve'); perform(s,'resolve')
+                assert last(s,'rpg.expanded.tracking') == [stage,'resolve','resolved',None]
+                assert state(s) == after
+            finally:
+                s.close()
+            for outsider in (29001,29002):
+                s = Session(bundle)
+                try:
+                    prepare(s); s.action(1680,outsider)
+                    for operation in ('preview','resolve'):
+                        perform(s,operation)
+                        assert last(s,'rpg.expanded.tracking') == [stage,operation,'blocked','tracking-action-owner-required']
+                        assert state(s) == before
+                finally:
+                    s.close()

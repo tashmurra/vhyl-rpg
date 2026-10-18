@@ -5134,3 +5134,25 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Shared native route for initial acquisition and an authored continuation step. */
+class RpgExpandedTrackingAction: Action
+    request = nil
+    operation = 'resolve'
+    perform(actor)
+    {
+        if (self.request == nil || (!self.request.ofKind(RpgExpandedTrackingAcquisition) && !self.request.ofKind(RpgExpandedTrackingStep))
+            || !holds(['preview','resolve'],self.operation)) rpgExpandedReject('tracking-action-definition');
+        local acquisition = self.request.ofKind(RpgExpandedTrackingAcquisition);
+        if (!acquisition && (self.request.encounter == nil || self.request.encounter.acquisition == nil))
+            rpgExpandedReject('tracking-action-encounter');
+        local profile = acquisition ? self.request.profile : self.request.encounter.acquisition.profile;
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile == nil || actor.rpgProfile != profile)
+            value.reason = 'tracking-action-owner-required';
+        else value = self.operation == 'preview' ? self.request.assess() : self.request.resolve();
+        event('rpg.expanded.tracking'); eventValue(acquisition ? 'acquire' : 'follow');
+        eventValue(self.operation); eventValue(value.status); eventValue(value.reason); return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;

@@ -2424,3 +2424,25 @@ Rollback, undo and saved continuation at that combined boundary must preserve
 both histories: exactly one hourly cost and one continuation check. A denied
 marching gate must add neither tracking progress nor a continuation roll. These
 integration fixtures remain unrun and do not establish validated coverage.
+
+
+## Shared tracking actions
+
+`RpgExpandedTrackingAction.request` accepts an
+`RpgExpandedTrackingAcquisition` or `RpgExpandedTrackingStep`. Set `operation`
+to `preview` or `resolve`. Parser and structured commands use `exec(context)`;
+dialogue choices call `perform(context.asker)`. The actor must own the request's
+profile before either assessment or execution is permitted.
+
+The adapter delegates to the existing owned procedure. It never charges travel
+time or fatigue separately, and does not automatically create an encounter or
+choose a route. Authors start the encounter after successful acquisition and
+supply each continuation context and marching step. Repeated actions return the
+same retained result.
+
+The `rpg.expanded.tracking` event contains stage (`acquire` or `follow`), operation,
+status and reason. It does not broadcast trail identity, target information or
+dice. Authors control recipient-specific feedback using the returned result.
+`test_tracking_actions` specifies parser, structured and dialogue parity for both
+stages, ownership denial, preview purity, rollback, undo and repeated execution.
+Fixtures remain unrun while checks are paused.
