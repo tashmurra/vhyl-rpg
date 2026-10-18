@@ -1525,3 +1525,33 @@ material receipt. Automatic rapid completion remains blocked.
 `test_rapid_materials` authors incorporation, ruin, retention, incomplete-work
 rejection, unavailable components, preview, rollback, undo and replay. Fixtures
 remain unrun. Sources: `full-2008`, B474 and B476–B477.
+
+## Analyzing an encountered device
+
+`RpgExpandedDeviceAnalysis` operates on an existing `item` using an approved
+cinematic or rapid `proposal` that describes the device's actual mechanical
+requirements. The proposal is author knowledge, not information automatically
+revealed to the player. Supply a unique analysis ID, evidence and explicit
+approval, availability, permission and uninterrupted access. `knowledge` and
+`variantBonus` represent the same authored concept circumstances as invention.
+
+A new analysis uses the required paid skills and concept modifiers. It takes one
+die times ten minutes for ordinary cinematic capability, or one die minutes for
+rapid capability. All possible durations are preflighted before the duration die.
+After elapsed time, the request checks its definition, permission, inventor state
+and device revision again before the secret success roll. Execute `apply()` inside
+an action transaction so interruption rolls back time and random draws.
+
+Results contain `check`, `score`, `understood`, `seconds` and `deviceRevision`.
+Only an achieved check sets `understood`. The author controls what is narrated;
+this does not generate a device description, create an invention theory or grant
+an item. Each item retains `inventionAnalyses`. Replaying a receipt returns its
+historical result without spending time again. `inventionRevision` lets later
+modification procedures distinguish an old analysis from the current device;
+changing that revision does not rewrite the old receipt.
+
+`test_device_analysis` authors both durations, failure, preview, rollback,
+interruption, permission/access gates, retargeting rejection, revision-preserving
+replay and absence of unrelated inventory/theory/currency changes. Fixtures remain
+unrun. Functional modification remains a separate pending procedure.
+Source: `full-2008`, B477.

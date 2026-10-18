@@ -3371,3 +3371,85 @@ class RpgExpandedRapidMaterialSettlement: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgLiteItem
+    inventionAnalyses = []
+    inventionRevision = 0
+;
+class RpgExpandedDeviceAnalysisResult: RpgExpandedResult
+    score = nil
+    understood = nil
+    deviceRevision = nil
+;
+
+/** B477: analyze an existing device; this does not create an invention theory. */
+class RpgExpandedDeviceAnalysis: object
+    id = nil
+    proposal = nil
+    item = nil
+    knowledge = 'new'
+    variantBonus = 0
+    approved = nil
+    available = nil
+    permitted = nil
+    uninterrupted = nil
+    evidence = nil
+    result = nil
+    definitionSnapshot = nil
+    definition()
+    { return [self.id,self.proposal,self.item,self.knowledge,self.variantBonus,self.evidence] + self.proposal.definition(); }
+    assess()
+    {
+        if (self.proposal == nil || !self.proposal.ofKind(RpgExpandedCinematicProposal)
+            || self.item == nil || !self.item.ofKind(RpgLiteItem)) rpgExpandedReject('device-analysis-definition');
+        local value = new RpgExpandedDeviceAnalysisResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.definitionSnapshot == nil || current.length() != self.definitionSnapshot.length())
+                rpgExpandedReject('device-analysis-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('device-analysis-binding');
+            if (!holds(self.item.inventionAnalyses,self)) rpgExpandedReject('device-analysis-history');
+            value.status = 'reused'; value.check = self.result.check; value.score = self.result.score;
+            value.understood = self.result.understood; value.deviceRevision = self.result.deviceRevision;
+            value.seconds = self.result.seconds; return value;
+        }
+        if (self.id == nil || self.id == '' || !holds(['new','exists','model'],self.knowledge))
+            rpgExpandedReject('device-analysis-request');
+        rpgInteger(self.variantBonus,0,5); rpgInteger(self.item.inventionRevision,0,2147483647);
+        if (!self.approved || !self.available || !self.permitted || !self.uninterrupted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'device-analysis-author-facts'; return value; }
+        foreach (local prior in self.item.inventionAnalyses)
+            if (prior.id == self.id) rpgExpandedReject('device-analysis-duplicate');
+        local quote = self.proposal.assess();
+        if (quote.status != 'ready') { value.reason = quote.reason; return value; }
+        local inventor = self.proposal.inventor;
+        if (inventor.dead || inventor.unconscious || inventor.stunned || inventor.hp() <= 0 || inventor.fp() <= 0)
+        { value.reason = 'device-analysis-inventor-unavailable'; return value; }
+        value.modifier = quote.conceptModifier + (self.knowledge == 'model' ? 5 : self.knowledge == 'exists' ? 2 : 0)
+            + self.variantBonus;
+        value.score = quote.skillScore + value.modifier; rpgInteger(value.score,-1000,1000);
+        if (value.score < 3) { value.reason = 'too-difficult'; return value; }
+        value.deviceRevision = self.item.inventionRevision; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local current = self.definition(); local start = rpgLedger.seconds;
+        local unit = self.proposal.permission.mode == 'rapid' ? 60 : 600;
+        for (local die = 1; die <= 6; die += 1) rpgLedger.validateAdvance(die * unit);
+        value.seconds = rpgRandom.die() * unit; rpgSpendTime(value.seconds);
+        local changed = self.definition();
+        if (changed.length() != current.length()) rpgExpandedReject('device-analysis-definition-changed');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != changed[index]) rpgExpandedReject('device-analysis-definition-changed');
+        local refreshed = self.assess();
+        if (refreshed.status != 'ready' || refreshed.deviceRevision != value.deviceRevision
+            || rpgLedger.seconds != start + value.seconds) rpgExpandedReject('device-analysis-interrupted');
+        value.score = refreshed.score; value.modifier = refreshed.modifier;
+        value.check = rpgCheck(value.score,rpgRandom.roll()); value.understood = value.check.achieved;
+        self.definitionSnapshot = current; self.item.inventionAnalyses = self.item.inventionAnalyses + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

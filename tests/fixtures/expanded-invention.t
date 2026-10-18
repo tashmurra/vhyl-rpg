@@ -99,11 +99,36 @@ rapidStart: RpgExpandedRapidPrototypeStart id = 'rapid-build' project = conceptP
 rapidWork: RpgExpandedPrototypeWork id = 'rapid-work' attempt = rapidStart seconds = 1800
     approved = true uninterrupted = true evidence = 'Uninterrupted rapid construction';
 rapidMaterials: RpgExpandedRapidMaterialSettlement attempt = rapidStart;
+deviceAnalysis: RpgExpandedDeviceAnalysis id = 'survey-analysis' proposal = cinematicProposal item = prototypeProduct
+    approved = true available = true permitted = true uninterrupted = true evidence = 'Accessible unknown optical instrument';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 380)
+        {
+            if (code == 380 || code == 384)
+            {
+                conceptUser.campaignTL = 8; conceptUser.traits = [cinematicCapability]; conceptRules.cinematicInvention = true;
+                if (code == 384)
+                {
+                    cinematicCapability.tier = 'rapid'; cinematicPermission.mode = 'rapid';
+                    conceptRules.rapidInvention = true; deviceAnalysis.proposal = rapidProposal;
+                }
+                return nil;
+            }
+            if (code == 385) conceptUser.iq = 6;
+            if (code == 386) prototypeClockFault.enabled = true;
+            if (code == 387) deviceAnalysis.available = nil;
+            if (code == 388) cinematicCapability.active = nil;
+            if (code == 389) deviceAnalysis.evidence = 'Changed analysis';
+            if (code == 390) prototypeProduct.inventionRevision += 1;
+            local value = code == 383 ? deviceAnalysis.assess() : deviceAnalysis.apply();
+            event('test.device-analysis'); eventValue(value.status); eventValue(value.reason); eventValue(value.score);
+            eventValue(value.understood ? 1 : 0); eventValue(value.seconds); eventValue(value.deviceRevision);
+            if (code == 382) throw new RpgError(); return nil;
+        }
         if (code >= 360)
         {
             if (code == 360 || code == 364 || code == 365 || code == 366)
@@ -585,6 +610,13 @@ act(verb,args)
     {
         event('test.facilities-state'); eventValue(conceptUser.money); eventValue(conceptProject.facilityFunding.length());
         eventValue(conceptProject.facilities == nil ? nil : conceptProject.facilities.destroyed ? 'destroyed' : 'available');
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2140) { conceptInput.code = 380 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2141)
+    {
+        event('test.device-analysis-state'); eventValue(prototypeProduct.inventionAnalyses.length());
+        eventValue(conceptProject.theory); eventValue(conceptUser.equipment.length()); eventValue(conceptUser.money);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     if (verb == 2138) { conceptInput.code = 360 + args[1]; return vhylAct(2097,args); }

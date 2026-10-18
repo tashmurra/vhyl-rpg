@@ -1331,6 +1331,46 @@ def test_rapid_materials(Session,bundle):
         s.close()
 
 
+def device_analysis_state(s):
+    s.action(2141)
+    return last(s,'test.device-analysis-state')
+
+
+def test_device_analysis(Session,bundle):
+    for setup,seconds in [(0,1200),(4,120)]:
+        s = Session(bundle)
+        try:
+            s.action(2140,setup)
+            initial = [0,None,0,1000000,0,0]
+            for code in [3,2,6]:
+                s.action(2140,code)
+                assert device_analysis_state(s) == initial
+            for code,reason in [(7,'device-analysis-author-facts'),(8,'invention-capability-required')]:
+                s.action(2140,code)
+                assert last(s,'test.device-analysis')[:2] == ['blocked',reason]
+                s.command('undo')
+                assert device_analysis_state(s) == initial
+            s.action(2140,1)
+            assert last(s,'test.device-analysis') == ['resolved',None,13,1,seconds,0]
+            completed = [1,None,0,1000000,4,seconds]
+            assert device_analysis_state(s) == completed
+            s.action(2140,9)
+            assert device_analysis_state(s) == completed
+            s.action(2140,10)
+            assert last(s,'test.device-analysis') == ['reused',None,13,1,seconds,0]
+            assert device_analysis_state(s) == completed
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2140,0)
+        s.action(2140,5)
+        assert last(s,'test.device-analysis') == ['resolved',None,9,0,1200,0]
+        assert device_analysis_state(s) == [1,None,0,1000000,4,1200]
+    finally:
+        s.close()
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -7142,6 +7182,7 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    test_device_analysis(Session,invention)
     test_rapid_materials(Session,invention)
     test_rapid_starts(Session,invention)
     fresh(Session,invention,test_rapid_salvage)

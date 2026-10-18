@@ -747,9 +747,12 @@
       "pages": "B477",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A cinematic inventor analyzes equipment with the concept skill/modifiers, taking one die times ten minutes, or one die minutes with rapid capability.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_device_analysis"
+      ],
+      "validation_note": "Owned device analysis applies paid concept skills/modifiers, mode-specific rolled duration, post-time revalidation and historical device revision receipts. Fixtures unrun; functional modification integration remains pending."
     },
     {
       "id": "technology-modify-device",
