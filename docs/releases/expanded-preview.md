@@ -1005,3 +1005,9 @@ inside the launch transaction. Success and ordinary failure do not use it;
 recorded critical outcomes validate the existing child injury on replay. Missing
 plans fail before rolls. Armor, rollback, undo and saved-replay assertions are
 authored, unrun. Position changes and reactive landing maneuvers remain pending.
+
+Horizontal jump launches can now place the existing tactical figure at authored
+success/failure endpoints, including the prone failure footprint. Both outcomes
+are checked before dice; mapped profiles require a placement plan. Vertical and
+multi-second enhanced-jump placement remain unsupported. Terrain, occupancy,
+rollback, undo and saved-replay fixtures are authored, unrun.

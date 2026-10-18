@@ -382,3 +382,28 @@ The [path fixture](../../tests/fixtures/expanded-tactical-path.t) and
 `test_tactical_paths` specify ordered headings, paid/free turns, fractional costs,
 budget rejection, minimum progress, deep water, allied traversal, occupied
 endpoints and required evasion. These fixtures remain unrun.
+
+## Horizontal jump placement
+
+`RpgExpandedJumpPlacement` implements the foundation's jump-position plan.
+Supply the existing `figure`, `origin`, successful `destination`, prone `failure`
+cell and adjacent `failureUpper` cell. `clearanceApproved` and `evidence` describe
+an authored clear flight path and the possible landing surfaces. Intermediate
+vertical clearance is an author fact; the map does not infer an arc from ground
+terrain. Facing is retained.
+
+Assign the plan to a jump launch's `positionPlan`. Horizontal hex distance must
+match the launch distance exactly. Both possible endpoints and the entire prone
+failure footprint must be mapped, permitted by terrain and free of other figures.
+This validation runs before accuracy dice. Commit updates the same tactical
+figure once, including its upper-body cell on failure; it adds no movement clock
+or extra time charge. Recorded placement replays validate history without moving
+a figure again.
+
+A mapped profile must supply a position plan. The current plan supports ordinary
+upright-human figures and horizontal placement only. Vertical placement requires
+an elevation-aware adapter. Enhanced jumps requiring more than one second are
+rejected rather than instantly placed; multi-turn travel remains pending.
+`expanded-jump-placement.t` covers success, prone and critical failure, blocked
+terrain, occupied cells, missing plans, rollback, undo and saved replay. Assertions
+are authored, unrun while checks are paused.

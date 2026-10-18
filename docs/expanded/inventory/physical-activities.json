@@ -335,9 +335,10 @@
       "status": "partial",
       "acceptance": "Jumping a larger obstacle or onto a surface uses the whole movement turn; vertical and long horizontal jumps require a dexterity check when specified by the hazard.",
       "tests": [
-        "tests/expanded.py::test_jump_launch"
+        "tests/expanded.py::test_jump_launch",
+        "tests/expanded.py::test_jump_placement"
       ],
-      "validation_note": " Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending."
+      "validation_note": " Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending. Horizontal tactical placement now preflights authored successful and prone-failure endpoints and commits the same figure once. Terrain, occupancy, missing plans, rollback, undo and saved replay assertions authored, unrun. Vertical placement and multi-second enhanced travel remain unsupported."
     },
     {
       "id": "activity-jump-failure",
@@ -349,9 +350,10 @@
       "acceptance": "A failed difficult jump leaves the actor fallen and requires two posture changes to stand; critical failure invokes falling damage from the actual height.",
       "tests": [
         "tests/expanded.py::test_jump_launch",
-        "tests/expanded.py::test_jump_launch_fall"
+        "tests/expanded.py::test_jump_launch_fall",
+        "tests/expanded.py::test_jump_placement"
       ],
-      "validation_note": "Owned launch failure sets prone posture. Critical failure consumes an authored fall-height plan through the owned collision/protection/wound pipeline; the complete possible damage range is preflighted before accuracy dice. Success and ordinary failure leave the plan unused. Replay validates the child impact. Damage, armor, missing-plan, rollback, undo and saved continuation assertions authored, unrun. Actual destination placement, travel interruption and newly reactive landing maneuvers remain pending."
+      "validation_note": "Owned launch failure sets prone posture. Critical failure consumes an authored fall-height plan through the owned collision/protection/wound pipeline; the complete possible damage range is preflighted before accuracy dice. Success and ordinary failure leave the plan unused. Replay validates the child impact. Damage, armor, missing-plan, rollback, undo and saved continuation assertions authored, unrun. Actual destination placement, travel interruption and newly reactive landing maneuvers remain pending. Horizontal tactical placement now preflights authored successful and prone-failure endpoints and commits the same figure once. Terrain, occupancy, missing plans, rollback, undo and saved replay assertions authored, unrun. Vertical placement and multi-second enhanced travel remain unsupported."
     },
     {
       "id": "activity-jump-clamber",

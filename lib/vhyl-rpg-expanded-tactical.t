@@ -722,3 +722,95 @@ class RpgExpandedMovementPath: object
         value.wholeAllowance = whole; value.status = 'ready'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    jumpPositionRequired() { return self.tacticalFigure != nil; }
+;
+modify RpgExpandedTacticalFigure
+    jumpPlacements = []
+;
+/** Authored clear horizontal arc, with separate successful and prone-failure endpoints. */
+class RpgExpandedJumpPlacement: RpgExpandedJumpPositionPlan
+    figure = nil
+    origin = nil
+    destination = nil
+    failure = nil
+    failureUpper = nil
+    clearanceApproved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    boundProfile = nil
+    boundOccurrence = nil
+    boundSucceeded = nil
+    definition()
+    {
+        local values = [self.figure,self.clearanceApproved,self.evidence];
+        foreach (local point in [self.origin,self.destination,self.failure,self.failureUpper])
+        {
+            if (point == nil || !point.ofKind(RpgExpandedHex)) rpgExpandedReject('jump-placement-coordinate');
+            point.validate(); values = values + [point.q,point.r];
+        }
+        return values;
+    }
+    validateResult(profile,occurrence,succeeded)
+    {
+        local current = self.definition();
+        if (self.result == nil || profile != self.boundProfile || occurrence != self.boundOccurrence
+            || succeeded != self.boundSucceeded || !holds(self.figure.jumpPlacements,self))
+            rpgExpandedReject('jump-placement-history');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('jump-placement-binding');
+        return nil;
+    }
+    assessFor(profile,occurrence,direction,distance)
+    {
+        local definition = self.definition(); local value = new RpgExpandedResult();
+        if (self.figure == nil || !self.figure.ofKind(RpgExpandedTacticalFigure)
+            || self.figure.profile != profile || self.figure.map == nil || profile.tacticalFigure != self.figure)
+            rpgExpandedReject('jump-placement-figure');
+        if (self.result != nil)
+        { self.validateResult(profile,occurrence,self.boundSucceeded); value.status = 'reused'; return value; }
+        self.figure.map.validate();
+        if (direction != 'horizontal') { value.reason = 'jump-placement-elevation-required'; return value; }
+        if (!self.clearanceApproved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'jump-placement-clearance-required'; return value; }
+        if (self.figure.bodyForm != 'upright-human' || self.figure.upperCoordinate != nil)
+        { value.reason = 'jump-placement-body-form'; return value; }
+        if (rpgExpandedHexDistance(self.figure.coordinate,self.origin) != 0)
+        { value.reason = 'jump-placement-origin-changed'; return value; }
+        if (rpgExpandedHexDistance(self.origin,self.destination) * 360 != distance)
+        { value.reason = 'jump-placement-distance'; return value; }
+        if (rpgExpandedHexDistance(self.failure,self.failureUpper) != 1)
+            rpgExpandedReject('jump-placement-failure-footprint');
+        foreach (local point in [self.destination,self.failure,self.failureUpper])
+        {
+            local cell = self.figure.map.cellAt(point);
+            if (cell == nil) { value.reason = 'tactical-unmapped-cell'; return value; }
+            local terrain = cell.assess(); if (terrain.status != 'ready') return terrain;
+            foreach (local other in self.figure.map.figures)
+                if (other != self.figure)
+                {
+                    value.reason = other.footprintReason(); if (value.reason != nil) return value;
+                    foreach (local occupied in other.occupiedCells())
+                        if (rpgExpandedHexDistance(occupied,point) == 0)
+                        { value.reason = 'jump-placement-occupied'; return value; }
+                }
+        }
+        value.reason = nil; value.status = 'ready'; return value;
+    }
+    applyFor(profile,occurrence,direction,distance,succeeded)
+    {
+        if (self.result != nil)
+        { self.validateResult(profile,occurrence,succeeded); return self.result; }
+        local value = self.assessFor(profile,occurrence,direction,distance);
+        if (value.status != 'ready') rpgExpandedReject('jump-placement-changed');
+        local target = succeeded ? self.destination : self.failure;
+        self.figure.coordinate = rpgExpandedHex(target.q,target.r);
+        self.figure.upperCoordinate = succeeded ? nil : rpgExpandedHex(self.failureUpper.q,self.failureUpper.r);
+        self.boundDefinition = self.definition(); self.boundProfile = profile;
+        self.boundOccurrence = occurrence; self.boundSucceeded = succeeded;
+        self.figure.jumpPlacements = self.figure.jumpPlacements + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

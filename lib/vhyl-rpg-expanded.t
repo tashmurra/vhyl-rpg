@@ -339,3 +339,14 @@ class RpgExpandedJumpFallPlan: object
     applyFor(profile,fall,velocity) { rpgExpandedReject('jump-fall-plan-unavailable'); }
     validateResult(profile,fall,velocity) { rpgExpandedReject('jump-fall-plan-unavailable'); }
 ;
+
+class RpgExpandedJumpPositionPlan: object
+    definition() { return []; }
+    assessFor(profile,occurrence,direction,distance)
+    { local value = new RpgExpandedResult(); value.reason = 'jump-position-unavailable'; return value; }
+    applyFor(profile,occurrence,direction,distance,succeeded) { rpgExpandedReject('jump-position-unavailable'); }
+    validateResult(profile,occurrence,succeeded) { rpgExpandedReject('jump-position-unavailable'); }
+;
+modify RpgExpandedProfile
+    jumpPositionRequired() { return nil; }
+;

@@ -9028,6 +9028,8 @@ def test(build):
     jump_launch = build.build('expanded-jump-launch',ROOT / 'tests/fixtures/expanded-jump-launch.t')
     test_jump_launch(Session, jump_launch, build.out)
     test_jump_launch_fall(Session, jump_launch, build.out)
+    jump_placement = build.build('expanded-jump-placement',ROOT / 'tests/fixtures/expanded-jump-placement.t')
+    test_jump_placement(Session, jump_placement, build.out)
     jump_fall = build.build('expanded-jump-fall',ROOT / 'tests/fixtures/expanded-jump-fall.t')
     test_jump_fall(Session, jump_fall, build.out)
     throw_release = build.build('expanded-throw-release',ROOT / 'tests/fixtures/expanded-throw-release.t')
@@ -15585,5 +15587,65 @@ def test_jump_launch_fall(Session, bundle, out):
             s.action(2285,code)
         assert last(s,'test.jump-launch-preview') == ['reused',None]
         assert state(s) == [3,1,1,4]
+    finally:
+        s.close()
+
+
+def test_jump_placement(Session, bundle, out):
+    def state(s):
+        s.action(2285,1371)
+        return last(s,'test.jump-position')
+    def prepare(s):
+        for code in (1370,30,1340,1341,1343,1341,1343):
+            s.action(2285,code)
+    for choices, expected in (((),[3,0,None,1,3,2]),
+                               ((1353,),[1,0,2,1,3,2]),
+                               ((1354,),[1,0,2,1,4,2])):
+        s = Session(bundle)
+        try:
+            prepare(s)
+            for code in (*choices,1350,1355,1350):
+                s.action(2285,code)
+            assert state(s) == expected
+            assert last(s,'test.jump-launch-preview') == ['reused',None]
+        finally:
+            s.close()
+    for choice, reason in ((1372,'tactical-solid-barrier'),(1373,'jump-position-plan-required'),
+                           (1374,'jump-placement-occupied')):
+        s = Session(bundle)
+        try:
+            prepare(s)
+            for code in (choice,1355,1350):
+                s.action(2285,code)
+            assert last(s,'test.jump-launch-preview') == ['blocked',reason]
+            assert state(s) == [0,0,None,0,0,2]
+        finally:
+            s.close()
+    path = out / 'expanded-jump-placement.zsave'
+    s = Session(bundle)
+    try:
+        prepare(s)
+        s.action(2285,1351)
+        assert state(s) == [0,0,None,0,0,2]
+        s.action(2285,1350)
+        s.command('undo')
+        assert state(s) == [0,0,None,0,0,2]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,1350)
+        assert state(s) == [3,0,None,1,3,2]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1355,1350):
+            s.action(2285,code)
+        assert state(s) == [3,0,None,1,3,2]
     finally:
         s.close()

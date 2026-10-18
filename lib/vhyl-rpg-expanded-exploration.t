@@ -2424,6 +2424,7 @@ class RpgExpandedJumpLaunchResult: RpgExpandedResult
     succeeded = nil
     fallRequired = nil
     fallOutcome = nil
+    positionOutcome = nil
     fallVelocity = 0
 ;
 modify RpgExpandedProfile
@@ -2440,6 +2441,7 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
     requiredInchTenths = 0
     fallYards = nil
     fallPlan = nil
+    positionPlan = nil
     difficult = nil
     penalty = 0
     approved = nil
@@ -2451,7 +2453,8 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
         self.requiredInchTenths,self.difficult,self.penalty,self.approved,self.evidence,
         self.jumping.profile,self.jumping.skill,self.jumping.runYards,self.jumping.preparation,
         self.jumping.strengthOption,self.jumping.bodyWeightHundredths,self.jumping.bodyWeightEvidence,
-        self.jumping.encumbranceOption,self.fallYards,self.fallPlan]; }
+        self.jumping.encumbranceOption,self.fallYards,self.fallPlan,self.positionPlan]
+        + (self.positionPlan == nil ? [] : self.positionPlan.definition()); }
     assess()
     {
         if (self.id == nil || self.id == '' || self.occurrence == nil || dataType(self.occurrence) != TypeObject
@@ -2466,6 +2469,7 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
                 if (value.definition[index] != self.boundDefinition[index]) rpgExpandedReject('jump-launch-binding');
             if (!holds(self.fighter.profile.jumpLaunches,self)) rpgExpandedReject('jump-launch-history');
             if (self.result.fallRequired) self.fallPlan.validateResult(self.fighter.profile,self.occurrence,self.result.fallVelocity);
+            if (self.positionPlan != nil) self.positionPlan.validateResult(self.fighter.profile,self.occurrence,self.result.succeeded);
             value.status = 'reused'; return value;
         }
         foreach (local prior in self.fighter.profile.jumpLaunches)
@@ -2481,6 +2485,22 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
         if (value.distance.status != 'ready') { value.reason = value.distance.reason; return value; }
         if (self.requiredInchTenths > (self.direction == 'vertical' ? value.distance.highInchTenths : value.distance.broadInchTenths))
         { value.reason = 'jump-launch-range'; return value; }
+        if (self.positionPlan == nil && self.fighter.profile.jumpPositionRequired())
+        { value.reason = 'jump-position-plan-required'; return value; }
+        if (self.positionPlan != nil)
+        {
+            if (!self.positionPlan.ofKind(RpgExpandedJumpPositionPlan)) rpgExpandedReject('jump-position-plan-definition');
+            if (self.fighter.profile.enhancedJumpLevels() > 0)
+            {
+                local maximum = self.jumping.maximumAssessment();
+                if (maximum.status != 'ready') { value.reason = maximum.reason; return value; }
+                local travel = rpgExpandedAssessJumpTravel(self.fighter.profile.move(),maximum.broadInchTenths,self.requiredInchTenths);
+                if (travel.status != 'ready') { value.reason = travel.reason; return value; }
+                if (travel.seconds > 1) { value.reason = 'jump-multiturn-travel-required'; return value; }
+            }
+            local position = self.positionPlan.assessFor(self.fighter.profile,self.occurrence,self.direction,self.requiredInchTenths);
+            if (position.status != 'ready') { value.reason = position.status == 'reused' ? 'jump-position-plan-used' : position.reason; return value; }
+        }
         if (self.difficult || self.direction == 'vertical')
         {
             local context = new RpgLiteContext(); context.attribute = rpgDX; context.kind = 'jumping';
@@ -2520,6 +2540,9 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
             value.fallOutcome = self.fallPlan.applyFor(self.fighter.profile,self.occurrence,value.fallVelocity);
             if (value.fallOutcome.status != 'resolved') rpgExpandedReject('jump-fall-unresolved');
         }
+        if (self.positionPlan != nil)
+            value.positionOutcome = self.positionPlan.applyFor(self.fighter.profile,self.occurrence,self.direction,
+                self.requiredInchTenths,value.succeeded);
         self.boundDefinition = value.definition; self.result = value;
         self.fighter.profile.jumpLaunches = self.fighter.profile.jumpLaunches + [self];
         value.status = 'resolved'; return value;

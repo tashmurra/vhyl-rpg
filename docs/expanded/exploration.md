@@ -1235,3 +1235,13 @@ new reactive landing maneuver during the critical-fall transaction is pending.
 `test_jump_launch_fall` covers critical damage, armor, missing-plan rejection,
 rollback, undo and cross-process continuation. These assertions are authored,
 unrun while checks remain paused.
+
+### Placing a jump on a tactical map
+
+A launch can now take a `positionPlan`, and requires one when the profile already
+has a tactical figure. The tactical module supplies
+[`RpgExpandedJumpPlacement`](tactical.md#horizontal-jump-placement), with authored
+successful and prone-failure destinations. Launch preflights both outcomes and
+commits the selected location in the same transaction as its roll and any fall
+injury. Horizontal placement retains the existing figure and facing. Vertical
+placement, enhanced multi-second travel and interruption remain unsupported.
