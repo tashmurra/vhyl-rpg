@@ -31,7 +31,7 @@
             "entry": "catalogue-skill-chemistry"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -59,7 +59,7 @@
             "entry": "catalogue-skill-climbing"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -89,7 +89,7 @@
             "entry": "catalogue-skill-cloak"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -117,7 +117,7 @@
             "entry": "catalogue-combat-art-sport"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -145,7 +145,7 @@
             "entry": "catalogue-skill-cinematic-computer-intrusion"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -173,7 +173,7 @@
             "entry": "catalogue-skill-computer-operation"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -201,7 +201,7 @@
             "entry": "catalogue-skill-programming"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -246,7 +246,7 @@
             "entry": "catalogue-skill-appraisal-wine"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -275,7 +275,7 @@
             "entry": "catalogue-skill-cooking"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -304,7 +304,7 @@
             "entry": "catalogue-skill-counterfeiting"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -344,7 +344,7 @@
             "entry": "catalogue-skill-submarine-crew"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -373,7 +373,7 @@
             "entry": "catalogue-skill-criminology"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -401,7 +401,7 @@
             "entry": "catalogue-skill-crossbow"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -429,7 +429,7 @@
             "entry": "catalogue-skill-cryptography"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -494,7 +494,7 @@
             "entry": "catalogue-skill-news-travel"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -522,7 +522,7 @@
             "entry": "catalogue-skill-dancing"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -552,7 +552,7 @@
             "entry": "catalogue-skill-lie-detection"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -583,7 +583,7 @@
             "entry": "catalogue-skill-diagnosis"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -612,7 +612,7 @@
             "entry": "catalogue-skill-diplomacy"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -641,7 +641,7 @@
             "entry": "catalogue-skill-disguise"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -673,7 +673,7 @@
             "entry": "catalogue-skill-diving-suit"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -701,7 +701,7 @@
             "entry": "catalogue-skill-dream-control"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -762,7 +762,7 @@
             "entry": "catalogue-skill-driving-tracked"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -791,7 +791,7 @@
             "entry": "catalogue-skill-aerial-dropping"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -822,7 +822,7 @@
             "entry": "catalogue-skill-economics"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -851,7 +851,7 @@
             "entry": "catalogue-skill-electrical-work"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -933,7 +933,7 @@
             "entry": "catalogue-skill-electronics-operation-time-transfer"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1019,7 +1019,7 @@
             "entry": "catalogue-skill-electronics-repair-computers"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1107,7 +1107,7 @@
             "entry": "catalogue-skill-engineering-vehicle-category"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1147,7 +1147,7 @@
             "entry": "catalogue-skill-story-emotion"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1188,7 +1188,7 @@
             "entry": "catalogue-skill-vacuum-suit"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1217,7 +1217,7 @@
             "entry": "catalogue-skill-intimate-performance"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1245,7 +1245,7 @@
             "entry": "catalogue-skill-escape"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1273,7 +1273,7 @@
             "entry": "catalogue-skill-traditional-treatment"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1304,7 +1304,7 @@
             "entry": "catalogue-skill-spirit-expulsion"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1372,7 +1372,7 @@
             "entry": "catalogue-skill-expert-alien-cultures"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1417,7 +1417,7 @@
             "entry": "catalogue-skill-explosives-underwater-demolition"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1446,7 +1446,7 @@
             "entry": "catalogue-skill-falconry"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1476,7 +1476,7 @@
             "entry": "catalogue-skill-farming"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1532,7 +1532,17 @@
             "entry": "catalogue-skill-quick-draw-ammunition"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending",
+        "heading_exceptions": [
+          {
+            "entry": "catalogue-skill-quick-draw-ammunition",
+            "field": "technology_qualified",
+            "summary_value": false,
+            "detail_value": true,
+            "pages": "B194-B195",
+            "resolution": "The summary group heading omits technology qualification. Retain it for the ammunition specialty specified in the detailed entry."
+          }
+        ]
       }
     },
     {
@@ -1561,7 +1571,7 @@
             "entry": "catalogue-skill-quick-persuasion"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1591,7 +1601,7 @@
             "entry": "catalogue-skill-snatching"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1621,7 +1631,7 @@
             "entry": "catalogue-skill-finance"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1649,7 +1659,7 @@
             "entry": "catalogue-skill-flame-performance"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1680,7 +1690,7 @@
             "entry": "catalogue-skill-first-aid"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1708,7 +1718,7 @@
             "entry": "catalogue-skill-fishing"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1737,7 +1747,7 @@
             "entry": "catalogue-skill-flail"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1765,7 +1775,7 @@
             "entry": "catalogue-skill-endurance-flight"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1793,7 +1803,7 @@
             "entry": "catalogue-skill-empowered-leap"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1821,7 +1831,7 @@
             "entry": "catalogue-skill-energy-sword"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1851,7 +1861,7 @@
             "entry": "catalogue-skill-energy-whip"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1879,7 +1889,7 @@
             "entry": "catalogue-skill-forced-entry"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1908,7 +1918,7 @@
             "entry": "catalogue-skill-forensics"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1937,7 +1947,7 @@
             "entry": "catalogue-skill-forgery"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -1991,7 +2001,7 @@
             "entry": "catalogue-skill-fortune-reading-card-reading"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2021,7 +2031,7 @@
             "entry": "catalogue-skill-forward-observation"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2050,7 +2060,7 @@
             "entry": "catalogue-skill-zero-gravity"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2078,7 +2088,7 @@
             "entry": "catalogue-skill-freight-handling"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2107,7 +2117,7 @@
             "entry": "catalogue-skill-gambling"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2135,7 +2145,7 @@
             "entry": "catalogue-skill-games"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2164,7 +2174,7 @@
             "entry": "catalogue-skill-gardening"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2192,7 +2202,7 @@
             "entry": "catalogue-skill-strangling-cord"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2229,7 +2239,7 @@
             "entry": "catalogue-skill-geography-regional"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2259,7 +2269,7 @@
             "entry": "catalogue-skill-geology"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2287,7 +2297,7 @@
             "entry": "catalogue-skill-gesture"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2328,7 +2338,7 @@
             "entry": "catalogue-skill-combat-direction"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2372,7 +2382,7 @@
             "entry": "catalogue-skill-direct-heavy-fire-rockets"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2432,7 +2442,7 @@
             "entry": "catalogue-skill-guns-submachine-gun"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2476,7 +2486,7 @@
             "entry": "catalogue-skill-hazardous-materials-nanotechnology"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2505,7 +2515,7 @@
             "entry": "catalogue-skill-heraldry"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2533,7 +2543,7 @@
             "entry": "catalogue-skill-magical-herbalism"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2573,7 +2583,7 @@
             "entry": "catalogue-skill-secret-lore-spirits"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2601,7 +2611,7 @@
             "entry": "catalogue-skill-hiking"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2629,7 +2639,7 @@
             "entry": "catalogue-skill-history"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2661,7 +2671,7 @@
             "entry": "catalogue-skill-hobby-iq"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2690,7 +2700,7 @@
             "entry": "catalogue-skill-conceal-item"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2718,7 +2728,7 @@
             "entry": "catalogue-skill-housekeeping"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2746,7 +2756,7 @@
             "entry": "catalogue-skill-hypnosis"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2774,7 +2784,7 @@
             "entry": "catalogue-skill-anchored-stance"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2814,7 +2824,7 @@
             "entry": "catalogue-skill-innate-aim-hand-projectile"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2843,7 +2853,7 @@
             "entry": "catalogue-skill-intelligence-analysis"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2873,7 +2883,7 @@
             "entry": "catalogue-skill-interrogation"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2902,7 +2912,7 @@
             "entry": "catalogue-skill-intimidation"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2930,7 +2940,7 @@
             "entry": "catalogue-skill-unnoticed-presence"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2960,7 +2970,7 @@
             "entry": "catalogue-skill-jewelry-work"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -2990,7 +3000,7 @@
             "entry": "catalogue-skill-tined-blade"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3018,7 +3028,7 @@
             "entry": "catalogue-skill-throw-grappling"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3046,7 +3056,7 @@
             "entry": "catalogue-skill-jumping"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3074,7 +3084,7 @@
             "entry": "catalogue-skill-advanced-striking"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3102,7 +3112,7 @@
             "entry": "catalogue-skill-stunning-shout"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3132,7 +3142,7 @@
             "entry": "catalogue-skill-knife"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3162,7 +3172,7 @@
             "entry": "catalogue-skill-knot-tying"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3193,7 +3203,7 @@
             "entry": "catalogue-skill-weighted-chain"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3222,7 +3232,7 @@
             "entry": "catalogue-skill-lance"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3250,7 +3260,7 @@
             "entry": "catalogue-skill-lasso"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3278,7 +3288,7 @@
             "entry": "catalogue-skill-law"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3306,7 +3316,7 @@
             "entry": "catalogue-skill-leadership"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3334,7 +3344,7 @@
             "entry": "catalogue-skill-leatherworking"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3362,7 +3372,7 @@
             "entry": "catalogue-skill-lifting"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3390,7 +3400,7 @@
             "entry": "catalogue-skill-light-footfall"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3418,7 +3428,7 @@
             "entry": "catalogue-skill-linguistics"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3446,7 +3456,7 @@
             "entry": "catalogue-skill-lip-reading"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     },
     {
@@ -3486,7 +3496,7 @@
             "entry": "catalogue-skill-liquid-projector-water-cannon"
           }
         ],
-        "reconciliation": "mapped; full field comparison pending"
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
       }
     }
   ],

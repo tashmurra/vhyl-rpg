@@ -9,7 +9,7 @@ biographies and copied form layouts are not repository deliverables.
 | Covers, title and credit pages; B3–B6 | Publication context and navigation; no reproduced artwork, prose or branding | Preserve edition metadata in provenance |
 | B7–B9 | Introductory conventions, arithmetic and unit conversions are in [reference overview](reference-overview.json) | Independent arithmetic fixtures and explicit unit-display policy |
 | B10–B296 | Detailed character, ability, equipment and development ledgers | Catalogue reconciliation, source ambiguities, execution and fixtures |
-| B297–B306 | Summary trait, skill, technique and spell tables are secondary cross-checks | Every row still needs a link to its detailed entry and a comparison of values and conditions |
+| B297–B306 | Summary trait, skill, technique and spell tables are secondary cross-checks | Skill, technique and spell rows mapped to detail; trait and modifier rows still need mapping. Complete value/condition comparisons and resolve recorded disagreements |
 | B307–B323 | Fiction and named characters excluded; reusable mechanics retained in [example compositions](example-compositions.json) | Neutral component links and original integration fixtures |
 | B324–B328 | [Condensed combat](condensed-combat.json) is a distinct source section | Explicit precedence for differences from detailed combat and profile-specific fixtures |
 | B329–B334 | Index used as a coverage aid; not a new rule catalogue | Complete index-to-ledger reconciliation |

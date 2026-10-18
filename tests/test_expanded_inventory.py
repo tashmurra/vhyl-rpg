@@ -8,6 +8,51 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_skill_summary_links_and_heading_exceptions(self):
+        """Summary headings are cross-checks, not new purchasable definitions."""
+        base = ROOT / 'docs/expanded/inventory'
+        details = {
+            (path.name, entry['id']): entry
+            for path in base.glob('skills-catalogue-*.json')
+            for entry in json.loads(path.read_text())['entries']
+        }
+        rows = {}
+        for segment, count in [('a', 44), ('b', 103), ('c', 104), ('d', 24)]:
+            path = base / f'skill-summary-{segment}.json'
+            summary = [e['summary_data'] for e in json.loads(path.read_text())['entries']
+                       if 'summary_data' in e]
+            self.assertEqual(len(summary), count)
+            self.assertEqual([row['row'] for row in summary], list(range(1, count + 1)))
+            for row in summary:
+                self.assertTrue(row['targets'])
+                rows[row['neutral_key']] = row
+                for target in row['targets']:
+                    entry = details[(target['file'], target['entry'])]
+                    data = entry.get('reference_data')
+                    if data is None:
+                        continue  # E.g. the combat art/sport construction procedure.
+                    exceptions = {e['field']: e for e in row.get('heading_exceptions', [])
+                                  if e['entry'] == entry['id']}
+                    for field in ('attribute', 'difficulty', 'technology_qualified'):
+                        if row[field] in ('dx-or-iq', 'varies'):
+                            continue
+                        if field in exceptions:
+                            exception = exceptions[field]
+                            self.assertEqual(exception['summary_value'], row[field])
+                            self.assertEqual(exception['detail_value'], data[field])
+                            self.assertTrue(exception['pages'])
+                            self.assertTrue(exception['resolution'])
+                        else:
+                            self.assertEqual(row[field], data[field], (row['neutral_key'], field))
+        weather = rows['weather-sense']
+        self.assertTrue(weather['alias_only'])
+        self.assertEqual(weather['targets'], rows['meteorology']['targets'])
+        self.assertEqual(weather['alias_conditions'], {
+            'maximum_technology_level': 4,
+            'requires_planet_type_specialty': False,
+            'home_area_bonus': 2,
+        })
+
     def test_aiming_catalogue_default_edges(self):
         """Source-definition expectations, not proof of runtime integration."""
         entries = {}

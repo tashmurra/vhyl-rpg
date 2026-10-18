@@ -67,3 +67,22 @@ The [second skill-summary segment](inventory/skill-summary-b.json) maps 103
 rows, including group headings and concrete skills. Group headings resolve to
 their detailed specializations; they must not create duplicate purchasable skills.
 The summary field comparison remains pending.
+
+The [third skill-summary segment](inventory/skill-summary-c.json) maps 104
+rows, including group headings and concrete skills. Group headings resolve to
+their detailed specializations; they must not create duplicate purchasable skills.
+The summary field comparison remains pending.
+
+The [final skill-summary segment](inventory/skill-summary-d.json) maps 24
+rows, including group headings and concrete skills. Group headings resolve to
+their detailed specializations; they must not create duplicate purchasable skills.
+The summary field comparison remains pending.
+
+All four skill-summary segments now link 275 rows to their detailed definitions.
+Attribute, difficulty and technology headings have been compared. The ammunition
+quick-draw specialty retains its technology qualification despite the unqualified
+group heading in the summary. Low-technology weather prediction is an alias of
+meteorology, with a home-area bonus and no planet-type specialty requirement until
+technology level five. These exceptions are recorded explicitly. Defaults,
+prerequisites, conditional specializations and executable effects still need their
+full reconciliation and integration fixtures.

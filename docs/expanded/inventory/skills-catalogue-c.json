@@ -4227,7 +4227,7 @@
       "module": "skills",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Resolve one secret check per forecast day and make later predictions fail after the first failure. Require world-type specialization from technology five onward.",
+      "acceptance": "Resolve one secret check per forecast day and make later predictions fail after the first failure. Require world-type specialization from technology five onward. At technology levels zero through four, use the low-technology alias and grant plus two in the home area; it shares the same skill investment. Equipment bonuses require actual training rather than a default.",
       "tests": [],
       "reference_data": {
         "attribute": "iq",
@@ -4239,7 +4239,16 @@
             -5
           ]
         ],
-        "prerequisites": []
+        "prerequisites": [],
+        "specialty_conditions": {
+          "planet_type_required_from_technology_level": 5
+        },
+        "aliases": [
+          {
+            "key": "weather-sense",
+            "maximum_technology_level": 4
+          }
+        ]
       }
     },
     {
