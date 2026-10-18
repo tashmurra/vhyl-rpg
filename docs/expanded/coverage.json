@@ -94,9 +94,10 @@
         "tests/expanded.py::test_knockdown_equipment_drop",
         "tests/expanded.py::test_knockdown_equipment_retained",
         "tests/expanded.py::test_knockdown_drop_persistence",
-        "tests/expanded.py::test_knockdown_anatomy_exceptions"
+        "tests/expanded.py::test_knockdown_anatomy_exceptions",
+        "tests/expanded.py::test_crippling_thresholds"
       ],
-      "validation_note": "Active absent-brain/vitals knockdown exceptions and retained assessment authored. Cases unrun; full injury-tolerance catalogue, body forms and crippling remain incomplete."
+      "validation_note": "Shock, supported-location owned wounds, equipment drops, absent-organ knockdown exceptions and pure crippling thresholds authored. Cases unrun; persistent crippling, broader anatomy, treatment and recovery remain incomplete."
     },
     {
       "id": "magic",

@@ -384,6 +384,30 @@ def test_knockdown_anatomy_exceptions(s):
         assert last(s, 'test.anatomy-wound') == ['resolved'] + expected
 
 
+def test_crippling_thresholds(s):
+    for capacity, injury, kind, count, severing, expected in [
+            (10, 5, 'limb', 2, 0, [6, 5, 0, 0, 0]),
+            (10, 6, 'limb', 2, 0, [6, 6, 1, 0, 0]),
+            (10, 11, 'limb', 2, 1, [6, 6, 1, 0, 0]),
+            (10, 12, 'limb', 2, 1, [6, 6, 1, 1, 1]),
+            (10, 12, 'limb', 2, 0, [6, 6, 1, 1, 0]),
+            (11, 6, 'limb', 2, 0, [6, 6, 1, 0, 0]),
+            (10, 3, 'limb', 4, 0, [3, 3, 1, 0, 0]),
+            (10, 6, 'limb', 4, 1, [3, 3, 1, 1, 1]),
+            (10, 3, 'extremity', 2, 0, [4, 3, 0, 0, 0]),
+            (10, 8, 'extremity', 2, 1, [4, 4, 1, 1, 1]),
+            (10, 3, 'extremity', 3, 0, [3, 3, 1, 0, 0]),
+            (10, 2, 'extremity', 4, 0, [2, 2, 1, 0, 0]),
+            (10, 1, 'eye', 2, 0, [2, 1, 0, 0, 0]),
+            (10, 2, 'eye', 2, 0, [2, 2, 1, 0, 0]),
+            (10, 4, 'eye', 2, 1, [2, 4, 1, 1, 0]),
+            (10, 20, 'eye', 4, 0, [2, 20, 1, 1, 0]),
+            (1, 0, 'limb', 2, 0, [1, 0, 0, 0, 0])]:
+        for _ in range(2):
+            s.action(1609, capacity, injury, kind, count, severing)
+            assert last(s, 'test.crippling-assessment') == expected + [0]
+
+
 def test_numbers(s):
     before = state(s)
     # Full-2008 B170. Enumerated offsets rather than the implementation formula.
@@ -2134,6 +2158,7 @@ def test(build):
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
     fresh(Session,health,test_knockdown_anatomy_exceptions)
+    fresh(Session,health,test_crippling_thresholds)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_knockdown_equipment_drop)

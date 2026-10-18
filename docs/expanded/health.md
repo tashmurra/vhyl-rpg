@@ -248,3 +248,32 @@ bodies and eye/limb crippling remain explicitly unsupported by this request.
 `test_knockdown_anatomy_exceptions` covers minor/major cases, unchanged unrelated
 locations, retained assessment flags and random draw counts. It is authored but
 unrun. The broader anatomy/trait inventory remains partial.
+
+
+## Single-injury crippling assessment
+
+`rpgExpandedAssessCrippling(capacity, injury, kind, count, severing)` returns a
+`RpgExpandedCripplingAssessment` without changing a character or drawing random
+numbers. `injury` is final injury before the location's health-loss cap; `kind`
+is `limb`, `extremity` or `eye`. `count` is the anatomical count of that kind,
+including already disabled parts. It must not shrink as parts become unusable.
+
+Under full-2008 B421, the returned `minimumInjury` is the smallest integer above
+the applicable threshold. `healthLoss` caps limb and extremity loss at that
+minimum; eye injury remains uncapped. `crippled` and `destroyed` use the original
+injury, with destruction starting at twice the minimum. `severed` additionally
+requires cutting or explosive trauma, supplied through `severing`, and applies
+only to limbs and extremities. For example, at capacity 10 an ordinary limb hit
+for 12 returns minimum 6, health loss 6, and destruction; an eye hit for 4 returns
+minimum 2, health loss 4, and destruction.
+
+This helper assesses one ordinary injury. It does not accumulate location injury,
+apply critical-result overrides, determine disability duration, or disable a
+body part. `RpgExpandedWound` continues to reject these locations until the
+corresponding functional consequences are implemented. Applying only its capped
+health loss through a torso wound would omit those consequences and is not a
+supported integration.
+
+`test_crippling_thresholds` enumerates exact boundaries, odd capacity, additional
+limbs and extremities, uncapped eyes, and severing distinctions. It is authored
+but unrun while build checks are paused. The inventory entries remain partial.

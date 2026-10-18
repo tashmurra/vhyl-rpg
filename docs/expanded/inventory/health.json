@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "full-2008",
   "pages": "B418-B427",
-  "review": "Injury, anatomy, recovery, treatment, drug-design, fatigue and foraging text reviewed. Existing Lite injury, fatigue, consciousness and first-aid helpers inspected to identify integration boundaries. All detailed entries remain pending independent mappings and validation; underlying trait, surgery, infection and mortal-condition references still require resolution.",
+  "review": "Injury, anatomy, recovery, treatment, drug-design, fatigue and foraging text reviewed. Existing Lite injury, fatigue, consciousness and first-aid helpers inspected to identify integration boundaries. Detailed entries remain pending or partial as recorded below; authored fixtures remain unrun; underlying trait, surgery, infection and mortal-condition references still require resolution.",
   "enumeration_complete": false,
   "entries": [
     {
@@ -331,9 +331,12 @@
       "pages": "B420-B421",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use a strict greater-than threshold for ordinary crippling, while supporting a critical outcome that cripples with less or no injury.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds"
+      ],
+      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
     },
     {
       "id": "health-limb-injury-cap",
@@ -341,9 +344,12 @@
       "pages": "B421",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Limit health loss from a limb or extremity hit to the smallest integer injury that cripples it; no corresponding cap applies to eyes.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds"
+      ],
+      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
     },
     {
       "id": "health-dismemberment",
@@ -351,9 +357,12 @@
       "pages": "B421",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Before capping global injury, compare raw injury with twice the minimum crippling amount; qualifying damage destroys the part, with cutting/explosion severing and other types using their appropriate destruction.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds"
+      ],
+      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
     },
     {
       "id": "health-extra-limb-threshold",
@@ -361,9 +370,12 @@
       "pages": "B421",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "With more than two limbs of a kind, crippling requires injury greater than capacity divided by that kind's count; four arms use capacity/4.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds"
+      ],
+      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
     },
     {
       "id": "health-extra-extremity-threshold",
@@ -371,9 +383,12 @@
       "pages": "B421",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "With more than two extremities of a kind, use capacity divided by 1.5 times their count; four feet use capacity/6.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds"
+      ],
+      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
     },
     {
       "id": "health-crippling-major-check",
@@ -881,9 +896,12 @@
       "pages": "B420-B421",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An ordinary arm, leg, wing, striker or prehensile tail is crippled by injury strictly over half full health capacity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds"
+      ],
+      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
     },
     {
       "id": "health-crippling-threshold-extremity",
@@ -891,9 +909,12 @@
       "pages": "B420-B421",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An ordinary hand, foot, tail, fin or extraneous head is crippled by injury strictly over one-third full capacity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds"
+      ],
+      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
     },
     {
       "id": "health-crippling-threshold-eye",
@@ -901,9 +922,12 @@
       "pages": "B420-B421",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An eye is crippled by injury strictly over one-tenth full capacity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds"
+      ],
+      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
     },
     {
       "id": "health-crippling-effect-hand",

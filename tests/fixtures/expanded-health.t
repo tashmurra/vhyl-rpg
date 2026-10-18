@@ -100,5 +100,13 @@ act(verb,args)
         eventValue(rpgRandom.draws); eventValue(wound.knockdownAssessment.brainException ? 1 : 0);
         eventValue(wound.knockdownAssessment.vitalsException ? 1 : 0); return nil;
     }
+    if (verb == 1609)
+    {
+        local before = rpgRandom.draws;
+        local value = rpgExpandedAssessCrippling(args[1],args[2],args[3],args[4],args[5] == 1);
+        event('test.crippling-assessment'); eventValue(value.minimumInjury); eventValue(value.healthLoss);
+        eventValue(value.crippled ? 1 : 0); eventValue(value.destroyed ? 1 : 0);
+        eventValue(value.severed ? 1 : 0); eventValue(rpgRandom.draws - before); return nil;
+    }
     return vhylAct(verb,args);
 }

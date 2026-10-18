@@ -176,3 +176,30 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Separate pre-cap trauma from health loss, full-2008 B421. */
+class RpgExpandedCripplingAssessment: RpgExpandedResult
+    minimumInjury = 0
+    healthLoss = 0
+    crippled = nil
+    destroyed = nil
+    severed = nil
+;
+
+/** Assess one injury to a limb, extremity or eye. Count is the number of that
+ * anatomical kind, not the number currently usable. severing means cutting or
+ * explosive trauma; it affects destruction description, not thresholds. */
+rpgExpandedAssessCrippling(capacity, injury, kind, count, severing)
+{
+    rpgInteger(capacity,1,1000); rpgInteger(injury,0,100000); rpgInteger(count,1,1000);
+    if (!holds(['limb','extremity','eye'],kind)) rpgExpandedReject('crippling-part-kind');
+    local value = new RpgExpandedCripplingAssessment();
+    if (kind == 'eye') value.minimumInjury = capacity / 10 + 1;
+    else if (kind == 'limb') value.minimumInjury = capacity / (count > 2 ? count : 2) + 1;
+    else value.minimumInjury = count > 2 ? (capacity * 2) / (count * 3) + 1 : capacity / 3 + 1;
+    value.crippled = injury >= value.minimumInjury;
+    value.destroyed = injury >= value.minimumInjury * 2;
+    value.severed = value.destroyed && severing && kind != 'eye';
+    value.healthLoss = kind == 'eye' || injury < value.minimumInjury ? injury : value.minimumInjury;
+    value.status = 'ready'; return value;
+}
