@@ -1609,3 +1609,10 @@ unmodified-Will recovery checks at minute boundaries, without duplicate time
 charges or rerolls. Author-selected pointless behavior is recorded, but action
 routing and incapacitation interruptions remain unfinished. Timing and lifecycle
 fixtures are authored but unrun; the row remains partial.
+
+
+Panic now has a concrete stationary crying activity that spends shared time and
+records one owned health permission. Common effort and maneuver gates prevent
+purposeful actions until recovery; rest/do-nothing remain available. Moving
+behaviors, battle-specific receipts and incapacitation interruptions are still
+pending. Activity, gate and persistence fixtures are authored but unrun.

@@ -9194,6 +9194,8 @@ def test(build):
     test_fear_acute(Session, fear_acute, build.out)
     fear_panic = build.build('expanded-fear-panic',ROOT / 'tests/fixtures/expanded-fear-panic.t')
     test_fear_panic(Session, fear_panic, build.out)
+    panic_crying = build.build('expanded-panic-crying',ROOT / 'tests/fixtures/expanded-panic-crying.t')
+    test_panic_crying(Session, panic_crying, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20181,5 +20183,48 @@ def test_fear_panic(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.panic-recovery') == ['reused', None, 20, 1]
         assert last(s, 'test.panic-state') == [1, 0, 120, 120, 120, 7]
+    finally:
+        s.close()
+
+
+def test_panic_crying(Session, bundle, out):
+    """Concrete stationary panic activity, shared clock and action gates; unrun."""
+    path = out / 'expanded-panic-crying.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 10704)
+        assert last(s, 'test.panic-gates') == [None, None, None, None]
+        for code in (10602, 10700, 10704, 10702, 10703):
+            s.action(2285, code)
+        assert last(s, 'test.crying-preview') == ['ready', None, 0, 1]
+        assert last(s, 'test.panic-gates') == ['fear-panic-purposeful-action', None, 'fear-panic-purposeful-maneuver', None]
+        assert last(s, 'test.crying-state') == [0, 0, 0, 1]
+        s.action(2285, 10701)
+        s.command('undo')
+        s.action(2285, 10703)
+        assert last(s, 'test.crying-state') == [0, 0, 0, 1]
+        for code in (10701, 10701, 10703):
+            s.action(2285, code)
+        assert last(s, 'test.crying-result') == ['reused', 60]
+        assert last(s, 'test.crying-state') == [1, 1, 60, 1]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10701, 10608, 10606, 10704, 10703):
+            s.action(2285, code)
+        assert last(s, 'test.crying-result') == ['reused', 60]
+        assert last(s, 'test.panic-gates') == [None, None, None, None]
+        assert last(s, 'test.crying-state') == [1, 1, 60, 4]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (10602, 10705, 10700, 10703):
+            s.action(2285, code)
+        assert last(s, 'test.crying-preview') == ['blocked', 'panic-crying-recovery-boundary', 0, 1]
+        assert last(s, 'test.crying-state') == [0, 0, 0, 1]
     finally:
         s.close()

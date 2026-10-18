@@ -7756,3 +7756,86 @@ modify rpgLedger
         return nil;
     }
 ;
+
+modify RpgExpandedFearPanic
+    activities = []
+;
+modify RpgExpandedProfile
+    activeFearPanic()
+    {
+        if (self.fearPanic == nil) return nil;
+        self.fearPanic.assess(); return self.fearPanic.completedAt == nil;
+    }
+    healthEffortReason(purpose,mentalAbility,speech,movement)
+    {
+        local reason = inherited(purpose,mentalAbility,speech,movement); if (reason != nil) return reason;
+        if (self.activeFearPanic() && !holds(['rest','do-nothing'],purpose)) return 'fear-panic-purposeful-action';
+        return nil;
+    }
+    healthManeuverReason(kind)
+    {
+        local reason = inherited(kind); if (reason != nil) return reason;
+        return self.activeFearPanic() && kind != 'nothing' ? 'fear-panic-purposeful-maneuver' : nil;
+    }
+;
+/** Concrete stationary crying interval; author text supplies presentation only. */
+class RpgExpandedFearPanicCrying: object
+    id = nil
+    episode = nil
+    seconds = 1
+    healthGate = nil
+    result = nil
+    startedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.episode,self.seconds,self.healthGate,self.startedAt,self.completedAt]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedFearPanic))
+            rpgExpandedReject('panic-crying-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.episode.activities,self)) rpgExpandedReject('panic-crying-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('panic-crying-binding');
+            self.healthGate.assess(); value.status = 'reused'; value.seconds = self.seconds; return value;
+        }
+        if (self.startedAt != nil || self.completedAt != nil || self.boundDefinition != nil) rpgExpandedReject('panic-crying-uncommitted-state');
+        if (self.episode.startedAt == nil) { value.reason = 'panic-crying-episode-required'; return value; }
+        self.episode.assess(); local profile = self.episode.context.profile;
+        if (self.episode.completedAt != nil) { value.reason = 'panic-crying-ended'; return value; }
+        if (self.episode.behaviorKind != 'cry') { value.reason = 'panic-crying-behavior'; return value; }
+        if (profile.dead || profile.unconscious || profile.stunned || profile.mentalStun)
+        { value.reason = 'panic-crying-incapacitated'; return value; }
+        rpgInteger(self.seconds,1,360);
+        if (rpgLedger.seconds + self.seconds > self.episode.nextCheckAt)
+        { value.reason = 'panic-crying-recovery-boundary'; return value; }
+        if (self.healthGate == nil || !self.healthGate.ofKind(RpgExpandedActionGate)
+            || self.healthGate.profile != profile || self.healthGate.purpose != 'do-nothing') rpgExpandedReject('panic-crying-health-gate');
+        if (self.healthGate.result != nil) { value.reason = 'panic-crying-health-gate-used'; return value; }
+        foreach (local prior in self.episode.activities)
+            if (prior.id == self.id) rpgExpandedReject('panic-crying-duplicate');
+        local gate = self.healthGate.assess();
+        if (gate.status != 'ready') { value.reason = gate.reason; return value; }
+        rpgLedger.validateAdvance(self.seconds); value.seconds = self.seconds; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds;
+        rpgSpendTime(self.seconds);
+        local current = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != current[index]) rpgExpandedReject('panic-crying-interrupted');
+        self.episode.assess(); local profile = self.episode.context.profile;
+        if (rpgLedger.seconds != start + self.seconds || self.episode.completedAt != nil
+            || profile.dead || profile.unconscious || profile.stunned || profile.mentalStun)
+            rpgExpandedReject('panic-crying-interrupted');
+        local gate = self.healthGate.apply();
+        if (gate.status != 'resolved' || !gate.allowed) rpgExpandedReject('panic-crying-health-changed');
+        self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.episode.activities = self.episode.activities + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;

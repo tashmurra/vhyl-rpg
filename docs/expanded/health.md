@@ -3432,8 +3432,9 @@ B361). Set a unique `id`, ready `RpgExpandedFearContext`, `approved = true`,
 `evidence` recording that selected table outcome, `behaviorKind` and original
 `behavior` text. Kinds are `cry`, `agitated-motion` or `other-pointless`; the
 author describes the actual pointless behavior. The record does not invent a
-route, move the character, choose targets or charge an action. Behavior/action
-routing is still pending, so this is a partial outcome executor.
+route, move the character, choose targets or charge an action. Stationary crying
+has the concrete activity below; moving and other behaviors remain pending, so
+this is a partial outcome executor.
 
 `assess()` is pure. `apply()` rolls one die and records an initial deadline that
 many minutes after the shared clock, without immediately advancing time. The
@@ -3458,3 +3459,37 @@ Starting while dead, unconscious or already in a panic episode is rejected.
 and successful minute checks, uncapped Will, clock boundaries, replay, rollback,
 undo and cross-process save continuation. All assertions remain unrun. The
 presence of a behavior description does not count as implemented action routing.
+
+
+### Stationary crying during panic
+
+`RpgExpandedFearPanicCrying` executes a stationary interval for an active
+`RpgExpandedFearPanic` whose `behaviorKind` is `cry`. Supply a unique `id`,
+`episode`, whole `seconds` from one through 360, and a fresh
+`RpgExpandedActionGate` in `healthGate`. The gate must belong to the same profile
+and use `purpose = 'do-nothing'`, with its normal evidence. The activity does not
+change position, posture or inventory and does not grant purposeful progress.
+The episode's original behavior text supplies presentation.
+
+Assessment verifies the episode, health permission and every clock guard before
+committing. The requested interval cannot cross the next panic recovery deadline.
+`apply()` spends that shared time once, verifies no unsupported interruption
+occurred, commits its health permission and records the receipt in
+`episode.activities`. It adds no recovery roll, fatigue charge or second time
+charge. A repeated receipt returns `reused`. The caller must use the surrounding
+engine action transaction so interruption rejection also restores elapsed time.
+
+While panic is active, the common health effort gate blocks purposeful action
+and speech with `fear-panic-purposeful-action`; rest and do-nothing remain
+available. The combat health gate allows only the do-nothing maneuver and returns
+`fear-panic-purposeful-maneuver` for other maneuvers. These restrictions cease
+when recovery clears the episode. Existing defense rules are unchanged. Authors
+must route voluntary actions through these common gates; direct low-level
+checks do not themselves authorize an action.
+
+[`expanded-panic-crying.t`](../../tests/fixtures/expanded-panic-crying.t) and
+`test_panic_crying` specify gate behavior before/during/after panic, pure preview,
+recovery boundaries, single time/permission recording, replay, exception rollback,
+undo and save continuation. Assertions remain unrun. Agitated movement, other
+pointless behaviors, battle-specific activity receipts and unconsciousness
+interruptions remain incomplete.
