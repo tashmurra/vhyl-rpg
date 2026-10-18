@@ -177,7 +177,8 @@
       "acceptance": "Convey or understand one simple idea per check with cultural modifiers; do not grant complex language comprehension.",
       "tests": [
         "tests/expanded.py::test_cultures",
-        "tests/expanded.py::test_gesture_attempt"
+        "tests/expanded.py::test_gesture_attempt",
+        "tests/expanded.py::test_gesture_actions"
       ],
       "reference_data": {
         "attribute": "iq",
@@ -191,7 +192,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed IQ/Easy IQ-4 skill, authored simple-idea observation and cultural contexts implemented. Owned single-check convey/understand attempts retain shared participant history, health permission, one time debit and bound outcomes. Automatic senses, shared player actions and broader task designation remain pending. Fixtures authored, unrun."
+      "validation_note": "Typed IQ/Easy IQ-4 skill, authored simple-idea observation and cultural contexts implemented. Owned single-check convey/understand attempts retain shared participant history, health permission, one time debit and bound outcomes. Automatic senses and broader task designation remain pending. Fixtures authored, unrun. Shared player actions enforce acting-profile ownership; both skill directions have parser, structured, dialogue and saved-continuation fixtures, unrun."
     },
     {
       "id": "catalogue-skill-dance-direction",

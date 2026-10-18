@@ -9504,6 +9504,8 @@ def test(build):
     test_gesture_attempt(Session,gesture_attempt,build.out)
     task_availability = build.build('expanded-task-availability',ROOT / 'tests/fixtures/expanded-task-availability.t')
     test_task_availability(Session,task_availability)
+    gesture_actions = build.build('expanded-gesture-actions',ROOT / 'tests/fixtures/expanded-gesture-actions.t')
+    test_gesture_actions(Session,gesture_actions,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26238,3 +26240,50 @@ def test_task_availability(Session, bundle):
             assert last(s,'test.makeup-state') == ([1,1,600,3] if reason is None else [0,0,0,0])
         finally:
             s.close()
+
+
+def test_gesture_actions(Session, bundle, out):
+    """Shared native gesture operation, actor authority and continuation; unrun."""
+    for route in ('parser','structured','dialogue'):
+        def perform(s, operation):
+            if route == 'parser':
+                s.command({'preview':'assess signal','resolve':'resolve signal','rollback':'rollback signal'}[operation])
+            elif route == 'structured':
+                s.action({'preview':26710,'resolve':26711,'rollback':26712}[operation])
+            else:
+                s.action(80,'doorway-signal'); s.select(operation)
+        def state(s):
+            s.action(1680,26503)
+            return last(s,'test.gesture-attempt')
+        for direction in ('convey','understand'):
+            s = Session(bundle)
+            path = out / f'gesture-actions-{route}-{direction}.zsave'
+            try:
+                if direction == 'understand':
+                    s.action(1680,26207)
+                perform(s,'preview')
+                assert last(s,'rpg.expanded.gesture') == ['preview','ready',None]
+                assert state(s) == [0,0,None,0,0]
+                perform(s,'rollback'); assert state(s) == [0,0,None,0,0]
+                perform(s,'resolve'); s.command('undo'); assert state(s) == [0,0,None,0,0]
+                perform(s,'resolve'); perform(s,'resolve')
+                assert state(s) == [1,1,'Wait beside the doorway',2,3]
+                s.command(f':save {path}')
+            finally:
+                s.close()
+            s = Session(bundle)
+            try:
+                s.command(f':restore {path}\n@1681'); perform(s,'resolve')
+                assert state(s) == [1,1,'Wait beside the doorway',2,3]
+            finally:
+                s.close()
+        for outsider in (26700,26701):
+            s = Session(bundle)
+            try:
+                s.action(1680,outsider)
+                for operation in ('preview','resolve'):
+                    perform(s,operation)
+                    assert last(s,'rpg.expanded.gesture') == [operation,'blocked','gesture-action-owner-required']
+                    assert state(s) == [0,0,None,0,0]
+            finally:
+                s.close()

@@ -1215,7 +1215,7 @@ that it is a `simpleIdea`, visible observation (`observed`) and cultural evidenc
 Set `operation` to `convey` or `understand`. Complex messages and unseen gestures
 have no score. This context does not grant language comprehension or replace the
 existing player-authored gesture exchange. The social library supplies owned skill-roll communication through
-`RpgExpandedGestureAttempt`; its player-action interface remains pending. `test_cultures` includes default and
+`RpgExpandedGestureAttempt` and the shared `RpgExpandedGestureAction` interface. `test_cultures` includes default and
 cultural score cases, scope rejection and persistence; fixtures remain unrun.
 
 ## Task preconditions versus unavailable-score diagnostics

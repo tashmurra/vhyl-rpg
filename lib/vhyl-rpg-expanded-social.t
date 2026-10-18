@@ -4204,3 +4204,21 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Command and dialogue routes share the acting profile's owned skill attempt. */
+class RpgExpandedGestureAction: Action
+    attempt = nil
+    operation = 'resolve'
+    perform(actor)
+    {
+        if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedGestureAttempt)
+            || !holds(['preview','resolve'],self.operation)) rpgExpandedReject('gesture-action-definition');
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile == nil || actor.rpgProfile != self.attempt.profile)
+            value.reason = 'gesture-action-owner-required';
+        else value = self.operation == 'preview' ? self.attempt.assess() : self.attempt.resolve();
+        event('rpg.expanded.gesture'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;

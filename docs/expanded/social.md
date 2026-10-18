@@ -1806,5 +1806,20 @@ when the participants' actual interpretation is supplied by players. An attempt
 does not create a second exchange, grant language comprehension or award study
 credit automatically. `test_gesture_attempt` specifies scope, both skill directions,
 health denial, failure, pure preview, rollback, undo, replay and save continuation.
-Fixtures remain unrun. Native player actions and automatic observational/sensory
-integration remain pending.
+Fixtures remain unrun. Automatic observational/sensory integration remains pending; the shared player
+action interface is described below.
+
+`RpgExpandedGestureAction` exposes `preview` and `resolve` for one `attempt`.
+Command execution uses `context.actor`; dialogue choices call
+`perform(context.asker)`. Both require the acting person's profile to match the
+attempt's `profile`. The counterpart cannot roll someone else's attempt merely
+by participating in the exchange. For understanding, author an attempt whose
+profile is the person doing the understanding and whose context operation is
+`understand`.
+
+The `rpg.expanded.gesture` event reports operation, status and reason. It does not
+emit the private intended meaning. Authored presentation may reveal the retained
+meaning after success; failure does not reveal or invent an interpretation.
+`test_gesture_actions` specifies parser, structured and dialogue parity for both
+skill directions, actor ownership, preview purity, rollback, undo, replay and
+cross-process save continuation. Fixtures remain unrun while checks are paused.
