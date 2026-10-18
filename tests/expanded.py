@@ -8984,6 +8984,8 @@ def test(build):
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)
     fresh(Session,health,test_bleeding_outcomes)
+    bleeding = build.build('expanded-bleeding', ROOT / 'tests/fixtures/expanded-bleeding.t')
+    test_bleeding_onset(Session, bleeding, build.out)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
     fresh(Session,health,test_critical_major_wound)
@@ -9459,3 +9461,59 @@ def test_bleeding_outcomes(s):
     assert last(s, 'test.bleeding-outcome') == ['ready', None, 0, 10, 0, 3, 1, 0, 0]
     s.action(2284, 3, 5, 0, 3, 0)
     assert last(s, 'test.bleeding-outcome') == ['blocked', 'bleeding-score-unavailable', -1, None, 0, 0, 0, 0, 0]
+
+
+def test_bleeding_onset(Session, bundle, out):
+    def state(s):
+        s.action(2286)
+        return last(s, 'test.bleeding-state')
+    s = Session(bundle)
+    path = out / 'expanded-bleeding-onset.zsave'
+    try:
+        s.action(2285, 0)
+        before = state(s)
+        assert before == [2, 0, None, None, 0, 0, 0]
+        s.action(2285, 2)
+        assert last(s, 'test.bleeding-onset') == ['ready', None]
+        assert state(s) == before
+        s.action(2285, 3)
+        assert state(s) == before
+        s.action(2285, 1)
+        onset = state(s)
+        assert onset == [2, 1, 0, 60, 1, 0, 0]
+        s.command('undo')
+        assert state(s) == before
+        s.action(2285, 1)
+        s.action(2285, 1)
+        assert last(s, 'test.bleeding-onset') == ['reused', None]
+        assert state(s) == onset
+        s.action(2285, 5)
+        assert state(s) == onset
+        s.action(2285, 4)
+        saved = state(s)
+        assert saved == [2, 1, 0, 60, 1, 60, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        assert state(s) == saved
+        s.action(2285, 6)
+        assert state(s) == saved
+        s.action(2285, 1)
+        assert last(s, 'test.bleeding-onset') == ['reused', None]
+        assert state(s) == saved
+    finally:
+        s.close()
+    for change, reason in [(7, 'bleeding-rule-disabled'), (8, 'bleeding-exception-evidence'),
+                           (6, 'bleeding-late-registration')]:
+        s = Session(bundle)
+        try:
+            s.action(2285, 0)
+            s.action(2285, change)
+            s.action(2285, 1)
+            assert last(s, 'test.bleeding-onset') == ['blocked', reason]
+            assert state(s)[1] == 0
+        finally:
+            s.close()

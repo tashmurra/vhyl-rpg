@@ -1725,3 +1725,40 @@ not activate bleeding.
 `test_bleeding_outcomes` specifies five-HP boundaries, ordinary and critical
 results, three consecutive clear minutes, failure resetting the streak, modifiers
 and blocked scores. The fixture is authored and unrun while checks are paused.
+
+
+### Owned bleeding onset and eligibility
+
+`RpgExpandedRules.bleeding` defaults to nil. With it explicitly enabled,
+`RpgExpandedBleedingWound` classifies a committed `RpgExpandedWound` using
+`damageKind`, `bleeds`, `approved` and concrete `evidence`. Supported categories
+are cutting, impaling, piercing, crushing, burning, corrosion and other. Ordinary
+cutting/impaling/piercing wounds bleed; ordinary crushing wounds do not. Burns
+and corrosion use the wound's actual major-wound assessment. Departures from
+these defaults, and the `other` category, require `exceptionEvidence`. This records
+an explicit author decision rather than inferring unseen injury anatomy.
+
+`RpgExpandedBleedingEpisode` takes a unique `id` and this `classification`.
+`apply()` must occur at the wound's recorded `committedAt` time, normally in the
+same engine transaction. It installs `profile.bleedingEpisode`, adds an owned
+history entry and sets `nextCheckAt` sixty seconds after onset. It neither causes
+another wound nor spends time. Replaying its bound receipt does not reset that
+deadline. Late registration and overlapping active episodes return explicit
+requirements for the pending aggregation procedure.
+
+The shared ledger may advance exactly to a pending check, but rejects crossing
+it. Binding changes are rejected before clock advance. Dead characters no longer
+block the clock. Episode scheduling and wound timestamps follow the exact-game
+save policy; no old-save migration is supplied.
+
+**This lifecycle is incomplete.** Minute execution, automatic wound enrollment,
+subsequent-wound aggregation, the loss-basis policy and first-aid termination are
+not yet supplied. Do not enable bleeding in a playable integration until those
+operations are available: an active episode currently stops time at its first
+required check. This boundary is intentional and must not be bypassed by manually
+changing the deadline or clearing ownership fields.
+
+`test_bleeding_onset` and the
+[fixture](../../tests/fixtures/expanded-bleeding.t) specify opt-in, wound ownership,
+eligibility evidence, registration timing, preview, rollback, undo, replay and
+cross-process preservation of the exact minute boundary. They remain unrun.

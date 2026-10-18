@@ -185,3 +185,8 @@ traits/skills/templates, social play, equipment and exploration. Other unfinishe
 areas will be listed at delivery. The B420 supplied-roll bleeding outcome and
 clear-minute streak are now assessed explicitly; owned bleeding execution remains
 pending. New fixtures are authored and unrun.
+
+Optional bleeding now has concrete wound classifications, owned onset receipts
+and a protected first-minute boundary. Minute execution and first-aid termination
+are still pending, so active bleeding is not yet suitable for playable integration.
+Onset transaction and save fixtures are authored and unrun.

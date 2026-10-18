@@ -263,9 +263,12 @@
       "pages": "B420",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Bleeding is disabled unless selected by campaign configuration; qualifying injuries create persistent bleeding state tied to their actual wounds.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_bleeding_onset"
+      ],
+      "validation_note": "Owned opted-in onset, concrete wound classification, timestamp and first-minute clock boundary authored. Minute execution, aggregation, loss-basis reconciliation and first-aid termination pending. Fixtures unrun."
     },
     {
       "id": "health-bleeding-timing",
@@ -273,9 +276,12 @@
       "pages": "B420",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At each minute after injury, roll health with -1 per five health lost; record the source-backed wound-loss basis and avoid reprocessing elapsed boundaries.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_bleeding_onset"
+      ],
+      "validation_note": "Owned opted-in onset, concrete wound classification, timestamp and first-minute clock boundary authored. Minute execution, aggregation, loss-basis reconciliation and first-aid termination pending. Fixtures unrun."
     },
     {
       "id": "health-bleeding-outcomes",
@@ -309,9 +315,12 @@
       "pages": "B420",
       "module": "health",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Author which wounds bleed, normally cutting/impaling/piercing; minor burn/corrosion does not bleed significantly but a major such wound does. Preserve exceptions explicitly.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_bleeding_onset"
+      ],
+      "validation_note": "Owned opted-in onset, concrete wound classification, timestamp and first-minute clock boundary authored. Minute execution, aggregation, loss-basis reconciliation and first-aid termination pending. Fixtures unrun."
     },
     {
       "id": "health-accumulation-option",

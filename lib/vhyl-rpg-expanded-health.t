@@ -123,6 +123,7 @@ class RpgExpandedWound: object
     droppedEquipment = nil
     bandage = nil
     committedSerial = nil
+    committedAt = nil
     boundProfile = nil
     boundId = nil
     boundAmount = 0
@@ -237,7 +238,7 @@ class RpgExpandedWound: object
         self.boundProfile = self.profile; self.boundId = self.id; self.boundAmount = self.amount;
         self.boundLocation = self.location; self.boundMaleGroin = self.maleGroin;
         self.boundDropDestination = self.dropDestination;
-        self.committedSerial = self.profile.woundSerial;
+        self.committedSerial = self.profile.woundSerial; self.committedAt = rpgLedger.seconds;
         self.profile.expandedWounds = self.profile.expandedWounds + [self];
         value.health = self.health; value.status = 'resolved'; return value;
     }
@@ -3215,4 +3216,118 @@ class RpgExpandedBleedingResult: RpgExpandedResult
     injury = 0
     clearMinutes = 0
     stopped = nil
+;
+
+
+modify RpgExpandedRules
+    bleeding = nil
+;
+
+modify RpgExpandedProfile
+    bleedingEpisode = nil
+    bleedingHistory = []
+;
+
+/** Concrete author classification for one actual wound, B420. Damage category
+ * and exceptions remain explicit; no generic predicate counts as eligibility. */
+class RpgExpandedBleedingWound: object
+    wound = nil
+    damageKind = nil
+    bleeds = nil
+    approved = nil
+    evidence = nil
+    exceptionEvidence = nil
+    assess()
+    {
+        if (self.wound == nil || !self.wound.ofKind(RpgExpandedWound)
+            || self.wound.health == nil || self.wound.committedAt == nil)
+            rpgExpandedReject('bleeding-committed-wound-required');
+        self.wound.assess();
+        if (!holds(['cutting','impaling','piercing','crushing','burning','corrosion','other'],self.damageKind))
+            rpgExpandedReject('bleeding-damage-kind');
+        local value = new RpgExpandedResult();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'bleeding-wound-evidence'; return value; }
+        if (self.wound.health.injury <= 0) { value.reason = 'bleeding-no-injury'; return value; }
+        local ordinary = holds(['cutting','impaling','piercing'],self.damageKind);
+        if (self.damageKind == 'burning' || self.damageKind == 'corrosion')
+            ordinary = self.wound.knockdownAssessment.major;
+        if (self.damageKind == 'other' || (self.bleeds ? true : nil) != (ordinary ? true : nil))
+            if (self.exceptionEvidence == nil || self.exceptionEvidence == '')
+            { value.reason = 'bleeding-exception-evidence'; return value; }
+        value.status = 'ready'; return value;
+    }
+;
+
+/** Owned onset for a classified wound. Late registration and overlapping wounds
+ * require the still-pending aggregation procedure, never a reset of the clock. */
+class RpgExpandedBleedingEpisode: object
+    id = nil
+    classification = nil
+    result = nil
+    startedAt = nil
+    nextCheckAt = nil
+    stoppedAt = nil
+    clearMinutes = 0
+    minutes = []
+    boundDefinition = nil
+    definition()
+    {
+        local entry = self.classification;
+        return [self.id,entry,entry.wound,entry.wound.profile,entry.damageKind,entry.bleeds,
+            entry.approved,entry.evidence,entry.exceptionEvidence];
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.classification == nil
+            || !self.classification.ofKind(RpgExpandedBleedingWound)) rpgExpandedReject('bleeding-episode-definition');
+        local eligible = self.classification.assess();
+        local profile = self.classification.wound.profile; local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('bleeding-episode-binding');
+            if (!holds(profile.bleedingHistory,self)) rpgExpandedReject('bleeding-episode-history');
+            value.status = 'reused'; return value;
+        }
+        if (eligible.status != 'ready') return eligible;
+        rpgExpandedValidate(profile);
+        if (!profile.rules.bleeding) { value.reason = 'bleeding-rule-disabled'; return value; }
+        if (!self.classification.bleeds) { value.reason = 'bleeding-wound-ineligible'; return value; }
+        if (profile.dead) { value.reason = 'bleeding-dead'; return value; }
+        if (profile.bleedingEpisode != nil) { value.reason = 'bleeding-aggregation-required'; return value; }
+        if (self.classification.wound.committedAt != rpgLedger.seconds)
+        { value.reason = 'bleeding-late-registration'; return value; }
+        foreach (local prior in profile.bleedingHistory)
+            if (prior.id == self.id || prior.classification.wound == self.classification.wound)
+                rpgExpandedReject('bleeding-episode-duplicate');
+        rpgInteger(rpgLedger.seconds,0,2147483587);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local profile = self.classification.wound.profile;
+        self.boundDefinition = self.definition(); self.startedAt = rpgLedger.seconds;
+        self.nextCheckAt = self.startedAt + 60; profile.bleedingEpisode = self;
+        profile.bleedingHistory = profile.bleedingHistory + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+/** Pending bleeding checks cannot be silently skipped by an unrelated action. */
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local episode = firstObj(RpgExpandedBleedingEpisode); episode != nil;
+            episode = nextObj(episode,RpgExpandedBleedingEpisode))
+            if (episode.startedAt != nil && episode.stoppedAt == nil && !episode.classification.wound.profile.dead)
+            {
+                episode.assess();
+                if (self.seconds + seconds > episode.nextCheckAt) rpgExpandedReject('bleeding-minute-boundary');
+            }
+        return nil;
+    }
 ;
