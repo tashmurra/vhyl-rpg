@@ -125,8 +125,8 @@ class RpgLiteJump: object
 rpgLiteBuyOff(profile, trait)
 {
     if (!profile.developmentOpen || !holds(profile.traits, trait) || trait.points >= 0) return nil;
-    local cost = -rpgLiteTraitCost(trait);
-    if (profile.unspentPoints < cost) return nil;
+    local cost = profile.disadvantageBuyoffCost(trait);
+    if (cost == nil || profile.developmentSpendingReason() != nil || profile.unspentPoints < cost) return nil;
     local kept = [];
     foreach (local owned in profile.traits) if (owned != trait) kept = kept + [owned];
     profile.unspentPoints -= cost; profile.traits = kept; return true;
@@ -149,3 +149,7 @@ rpgLiteLearn(profile, skill, points, teacher)
     { training = new RpgTraining(); training.skill = skill; profile.skills = profile.skills + [training]; }
     profile.unspentPoints -= cost; training.points = points; return true;
 }
+
+modify RpgLiteProfile
+    disadvantageBuyoffCost(trait) { return -rpgLiteTraitCost(trait); }
+;

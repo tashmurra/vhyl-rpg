@@ -1237,3 +1237,7 @@ expanded influence procedure remains partial.
 - Unified expanded training ownership checks across character validation and
   skill purchases. Direct learning now respects reserved advancement spending.
   Added unrun direct/offer parity and resource-accounting fixtures.
+
+- Expanded direct disadvantage buyoffs now use explicit original-bonus records
+  instead of the unmodified base price, and respect reserved points. Added unrun
+  cost, rollback and save fixtures. Automatic historical-cost capture is pending.

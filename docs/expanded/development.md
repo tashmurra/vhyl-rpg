@@ -111,3 +111,20 @@ blocks the purchase; the direct API retains its nil result for blocked requests.
 The owned-offer API returns a structured reason. Reservation hooks also apply to
 direct purchases. The authored fixture compares both paths and checks that
 blocked requests leave points untouched; it remains unrun.
+
+### Historical disadvantage buyoff cost (full-2008, B291)
+
+Expanded direct buyoffs require a `RpgExpandedBuyoffBasis` in the profile's
+`buyoffBases`. Bind its owner and trait, the `originalBonus` awarded for that
+trait, approval and evidence covering the original cost and world justification.
+The cost is historical: changing a current self-control rating does not rewrite
+the original award. Creation modifiers and self-control pricing can make this
+amount differ from the trait's base price. No cost is guessed when the basis is
+missing. Ordinary Lite profiles retain their existing base-price calculation.
+
+`rpgLiteBuyOff` now consults reserved-point rules before spending. It removes the
+owned trait and debits its recorded cost once; repeat calls return nil. Its
+existing downtime gate remains. The fixture covers missing evidence records,
+reservations, affordability, historical cost, rollback, undo and save replay;
+it remains unrun. Automated capture of original awards during all creation and
+transformation paths remains pending.

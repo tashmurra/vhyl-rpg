@@ -9097,6 +9097,8 @@ def test(build):
     test_company_social_operations(Session, company_question, company_preparation)
     learning_ownership = build.build('expanded-learning-ownership',ROOT / 'tests/fixtures/expanded-learning-ownership.t')
     test_learning_ownership(Session, learning_ownership)
+    buyoff = build.build('expanded-buyoff',ROOT / 'tests/fixtures/expanded-buyoff.t')
+    test_expanded_buyoff(Session, buyoff, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17531,5 +17533,41 @@ def test_learning_ownership(Session, bundle):
         assert last(s,'test.learning-direct') == [1,2,1,99,0]
         s.action(2285,5103)
         assert last(s,'test.learning-direct') == [0,2,1,99,0]
+    finally:
+        s.close()
+
+
+def test_expanded_buyoff(Session, bundle, out):
+    for setup,bank in (((5203,),100),((5204,),100),((5205,),29)):
+        s = Session(bundle)
+        try:
+            for code in setup+(5200,5202):
+                s.action(2285,code)
+            assert last(s,'test.buyoff') == [0]
+            assert last(s,'test.buyoff-state') == [bank,1]
+        finally:
+            s.close()
+    path = out / 'expanded-buyoff.zsave'
+    s = Session(bundle)
+    try:
+        for code in (5201,5202):
+            s.action(2285,code)
+        assert last(s,'test.buyoff-state') == [100,1]
+        s.action(2285,5200)
+        s.command('undo')
+        s.action(2285,5202)
+        assert last(s,'test.buyoff-state') == [100,1]
+        for code in (5206,5200,5200,5202):
+            s.action(2285,code)
+        assert last(s,'test.buyoff-state') == [70,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,5200)
+        s.action(2285,5202)
+        assert last(s,'test.buyoff-state') == [70,0]
     finally:
         s.close()

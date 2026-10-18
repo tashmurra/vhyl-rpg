@@ -541,3 +541,31 @@ modify RpgExpandedProfile
         return owners == 1 ? nil : 'training-purchase-shared';
     }
 ;
+
+/** B291 historical award and world justification for one owner's buyoff. */
+class RpgExpandedBuyoffBasis: object
+    owner = nil
+    trait = nil
+    originalBonus = nil
+    approved = nil
+    evidence = nil
+;
+modify RpgExpandedProfile
+    buyoffBases = []
+    disadvantageBuyoffCost(trait)
+    {
+        local found = nil;
+        foreach (local basis in self.buyoffBases)
+        {
+            if (basis == nil || !basis.ofKind(RpgExpandedBuyoffBasis) || basis.owner != self)
+                rpgExpandedReject('buyoff-basis-ownership');
+            if (basis.trait == trait)
+            {
+                if (found != nil) rpgExpandedReject('buyoff-basis-duplicate'); found = basis;
+            }
+        }
+        if (found == nil || !found.approved || found.evidence == nil || found.evidence == '') return nil;
+        rpgInteger(found.originalBonus,0,1000000);
+        return found.originalBonus;
+    }
+;
