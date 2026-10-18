@@ -348,6 +348,7 @@
     "inventory/magic-procedures-b.json",
     "inventory/magic-catalogue-a.json",
     "inventory/magic-catalogue-b.json",
-    "inventory/magic-catalogue-c.json"
+    "inventory/magic-catalogue-c.json",
+    "inventory/equipment-procedures.json"
   ]
 }

@@ -46,6 +46,7 @@ copies of the reference books.
 | `full-2008` | B249, knowledge spells, through B253 | [Spell catalogue, final segment](magic-catalogue-c.json) | Forty-one remaining entries enumerated; ninety-three total first-pass definitions; audit and execution pending |
 | `full-2008` | B254–B257 | [Psionic powers](psionics.json) | Family memberships, advancement, interference and information contracts enumerated; underlying traits pending |
 | `full-2008` | B258–B263; B445–B454 | [Templates and combined packages](templates.json) | Composition, ancestry accounting, sample packages and design permissions enumerated; component definitions pending |
+| `full-2008` | B264–B271, before melee table | [Equipment procedures](equipment-procedures.json) | Purchasing, living costs, legality and weapon fields enumerated; item catalogue and execution pending |
 | `full-2008` | B290–B296 | [Development and transformations](development.json) | Advancement, study, maintenance and transformation procedures enumerated; existing study mappings remain partial |
 | `full-2008` | B343–B349 | [Task resolution](task-resolution.json) | Roll procedures, equipment modifiers, timing, projects and contests enumerated |
 | `full-2008` | B349–B357 | [Physical activities](physical-activities.json) | Activity procedures, gravity, numeric tables and effort options enumerated |

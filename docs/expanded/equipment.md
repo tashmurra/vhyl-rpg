@@ -31,3 +31,18 @@ removes its invested value; blameless permanent loss permits either replacement 
 point return, with an authored recovery opportunity first. Shrinking equipment
 returns to normal size when put down, potentially changing occupied space. The
 existing numeric equipment helpers do not provide these lifecycle rules.
+
+
+## Purchasing and weapon data
+
+The [equipment procedure inventory](inventory/equipment-procedures.json) records
+living and wardrobe costs, legality, technology eligibility and weapon-field
+semantics. Starting funds, issued possessions and household assets must share the
+existing ownership and money model. Travel lodging and included clothing must not
+be charged twice through overlapping living and item expenses.
+
+Weapon definitions need separate physical items and attack modes. Loaded mass,
+reload mass, individual loading, rated strength, hand requirements, reach changes,
+parry restrictions and mounted use all have distinct meanings. A missing field is
+not zero. Existing numeric helpers do not implement these rules or the item tables;
+source review, catalogue definitions and executable integration remain pending.
