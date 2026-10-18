@@ -681,3 +681,17 @@ B44-B45, B494-B495, B518-B519 and B560-B562. See the [prerelease validation reco
 
 The prerelease record applies to the original subset. Checks for this merged
 expanded suite remain paused.
+
+
+### Threatening recurrence of a resolved condition
+
+When the optional health library is included, `RpgExpandedAgonyThreatContext`
+connects a recovered agony episode to interrogation or intimidation scoring.
+Supply the actual target, owned episode, credibility decision and supporting
+threat evidence. It contributes the B428 bonus once through the normal skill
+modifier interface. Use it with the shared score/check functions or, for
+intimidation, `rpgLiteInfluence`; the latter rejects a mismatched target before
+rolling. Keep unrelated adjustments in `modifier`, without adding the recurrence
+bonus a second time. See the [health guide](health.md) for fields and limits.
+This adapter does not supply the full interrogation procedure or automatically
+transfer knowledge. Its fixture is authored and unrun while checks are paused.

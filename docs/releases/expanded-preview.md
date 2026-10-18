@@ -571,3 +571,10 @@ condition. Toxic cycles and begun-minute fatigue retain independent receipts and
 shared-clock deadlines. Involuntary pain-cry checks remain available during agony
 and seizures. Added authored, unrun assertions for coincident deadlines, rejected
 time advancement and independent resource spending.
+
+
+Added a health/social threat context that applies recovered-agony bonuses once
+through shared skill scoring. Intimidation validates the actual target before
+rolling through a default no-op base hook. Added authored, unrun fixtures for
+ordinary/low-threshold bonuses, repeated previews and wrong-target rejection.
+The full owned interrogation procedure remains incomplete.

@@ -2649,13 +2649,31 @@ receipt are rejected rather than silently altering its costs.
 After expiry, `recurrenceBonus(skillId, credible, evidence)` returns three for
 interrogation or intimidation when the author supplies a credible threat of
 renewed pain, or six with low pain threshold. Other skills and noncredible threats
-receive zero. The author must pass this modifier into the applicable social
-operation once; the condition does not infer credibility or automatically modify
-all conversations.
+receive zero. For a raw authored operation, pass this modifier once. Alternatively use
+`RpgExpandedAgonyThreatContext`, which adds it through the shared skill-score
+interface without changing `modifier`. Do not also add it manually. The condition
+does not infer credibility or modify unrelated conversations.
 
 `expanded-agony.t` specifies minute boundaries, trait differences, onset and
 payment replay, preview purity, rollback, undo, saved continuation and recurrence
 bonuses. Assertions remain unrun. The neurological-agent adapter can apply agony on the first failed toxic cycle;
-its fatigue schedule remains independent of toxic injury. Other cause adapters and
-social-operation integration remain incomplete. Involuntary pain-cry checks remain
+its fatigue schedule remains independent of toxic injury. Other cause adapters and a full owned interrogation procedure remain incomplete. Involuntary pain-cry checks remain
 available during agony and seizures; these are not permissions to act voluntarily.
+
+
+`RpgExpandedAgonyThreatContext` takes the recovered `episode`, its `target`, the
+interrogation or intimidation `skill`, `credible`, and `threatEvidence`, alongside
+ordinary skill-context fields. `assessThreat(actor)` reports the pure contribution.
+The target must be the episode's patient and must differ from the acting character.
+A credible threat requires evidence. Before recovery, or with a noncredible threat,
+the contribution is zero. Invalid participants or skills make scoring unavailable.
+
+Use this context directly with `rpgLiteScore` or `rpgLiteCheck`; for intimidation,
+pass it to `rpgLiteInfluence`. That operation validates the actual target before
+rolling. The base context's new `validateInfluenceTarget(target)` hook is a no-op,
+preserving existing behavior. Repeated previews never accumulate the bonus or
+consume fatigue, time or randomness. The context supplies a modifier only; it does
+not invent answers, knowledge or a full interrogation procedure. Existing general
+influence limitations still apply. `expanded-agony-social.t` specifies ordinary
+and low-threshold bonuses, both supported skills, repeated previews, missing
+credibility evidence and wrong-target rejection. Assertions remain unrun.

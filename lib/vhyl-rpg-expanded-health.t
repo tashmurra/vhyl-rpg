@@ -5786,3 +5786,40 @@ modify rpgLedger
         return nil;
     }
 ;
+
+/** B428 recurrence threat, as a pure contribution to the shared skill score. */
+class RpgExpandedAgonyThreatContext: RpgLiteContext
+    episode = nil
+    target = nil
+    credible = nil
+    threatEvidence = nil
+    assessThreat(actor)
+    {
+        local value = new RpgExpandedResult();
+        if (self.episode == nil || !self.episode.ofKind(RpgExpandedAgony)
+            || self.target != self.episode.profile || actor == nil || actor == self.target)
+        { value.reason = 'agony-threat-participants'; return value; }
+        if (self.skill == nil || !holds(['interrogation','intimidation'],self.skill.id))
+        { value.reason = 'agony-threat-skill'; return value; }
+        if (self.credible && (self.threatEvidence == nil || self.threatEvidence == ''))
+        { value.reason = 'agony-threat-evidence'; return value; }
+        value.modifier = self.episode.recurrenceBonus(self.skill.id,self.credible,self.threatEvidence);
+        value.status = 'ready'; return value;
+    }
+    skillUseModifier(profile)
+    {
+        local base = inherited(profile); if (base == nil) return nil;
+        local value = self.assessThreat(profile); return value.status == 'ready' ? base + value.modifier : nil;
+    }
+    unavailableReason(profile)
+    {
+        local value = self.assessThreat(profile);
+        return value.status == 'ready' ? inherited(profile) : value.reason;
+    }
+    validateInfluenceTarget(target)
+    {
+        inherited(target);
+        if (target != self.target) rpgExpandedReject('agony-threat-influence-target');
+        return nil;
+    }
+;

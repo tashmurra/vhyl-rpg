@@ -175,8 +175,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Agony causes collapse from standing/sitting and costs one fatigue per minute or fraction; credible threatened recurrence gives +3 to interrogation and intimidation afterward.",
-      "tests": ["tests/expanded.py::test_agony"],
-      "validation_note": "Owned finite onset, begun-minute fatigue receipts, low/high pain thresholds, action gating and explicit credible-recurrence bonus implemented. Boundary, replay, rollback, undo and save-continuation fixtures authored, unrun. Cause integrations, social adapters and broader validation remain incomplete."
+      "tests": ["tests/expanded.py::test_agony", "tests/expanded.py::test_agony_social"],
+      "validation_note": "Owned finite onset, begun-minute fatigue receipts, low/high pain thresholds, action gating and explicit credible-recurrence bonus implemented. Boundary, replay, rollback, undo and save-continuation fixtures authored, unrun. A pure threat context now contributes the recurrence bonus to shared scoring and validates influence targets before rolling; its assertions are unrun. Full interrogation, other cause integrations and broader validation remain incomplete."
     },
     {
       "id": "condition-agony-tolerance",
@@ -186,8 +186,8 @@
       "kind": "procedure",
       "status": "partial",
       "acceptance": "Low pain threshold doubles agony fatigue and the threatened-recurrence bonus; high pain threshold permits functioning at -3 dexterity and intelligence.",
-      "tests": ["tests/expanded.py::test_agony"],
-      "validation_note": "Owned finite onset, begun-minute fatigue receipts, low/high pain thresholds, action gating and explicit credible-recurrence bonus implemented. Boundary, replay, rollback, undo and save-continuation fixtures authored, unrun. Cause integrations, social adapters and broader validation remain incomplete."
+      "tests": ["tests/expanded.py::test_agony", "tests/expanded.py::test_agony_social"],
+      "validation_note": "Owned finite onset, begun-minute fatigue receipts, low/high pain thresholds, action gating and explicit credible-recurrence bonus implemented. Boundary, replay, rollback, undo and save-continuation fixtures authored, unrun. A pure threat context now contributes the recurrence bonus to shared scoring and validates influence targets before rolling; its assertions are unrun. Full interrogation, other cause integrations and broader validation remain incomplete."
     },
     {
       "id": "condition-choking",

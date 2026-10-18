@@ -8958,6 +8958,8 @@ def test(build):
     test_seizure(Session, seizure, build.out)
     agony = build.build('expanded-agony', ROOT / 'tests/fixtures/expanded-agony.t')
     test_agony(Session, agony, build.out)
+    agony_social = build.build('expanded-agony-social', ROOT / 'tests/fixtures/expanded-agony-social.t')
+    test_agony_social(Session, agony_social)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -12253,5 +12255,36 @@ def test_agony(Session, bundle, out):
                 s.action(2285, code)
             assert state(s) == [0, 'lying', fatigue, 10, 0, actions, 1, 60, 0]
             assert last(s, 'test.agony-recurrence') == [bonus, bonus, 0, 0]
+        finally:
+            s.close()
+
+
+def test_agony_social(Session, bundle):
+    def state(s):
+        s.action(2285, 510)
+        return last(s, 'test.agony-social')
+    for low, bonus, fatigue in [(False, 3, 1), (True, 6, 2)]:
+        s = Session(bundle)
+        try:
+            if low:
+                s.action(2285, 496)
+            for code in (499, 491):
+                s.action(2285, code)
+            assert state(s) == [12, 2, fatigue, 0, 0]
+            s.action(2285, 4)
+            for _ in range(2):
+                assert state(s) == [12 + bonus, 2, fatigue, 60, 0]
+            s.action(2285, 513)  # Wrong influence target rejects before either roll.
+            assert state(s) == [12 + bonus, 2, fatigue, 60, 0]
+            s.action(2285, 512)
+            assert state(s) == [12 + bonus, 2, fatigue, 60, 6]
+            s.action(2285, 511)
+            assert state(s) == [12 + bonus, 2, fatigue, 60, 6]
+            s.action(2285, 514)
+            assert state(s) == [None, 2, fatigue, 60, 6]
+            s.action(2285, 515)
+            assert state(s) == [12, 2, fatigue, 60, 6]
+            s.action(2285, 516)
+            assert state(s) == [None, 2, fatigue, 60, 6]
         finally:
             s.close()

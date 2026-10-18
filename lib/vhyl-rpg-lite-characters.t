@@ -226,6 +226,7 @@ class RpgLiteContext: object
     controllingAttribute() { return self.skill == nil ? self.attribute : self.skill.attribute; }
     skillUseModifier(profile) { return 0; }
     equipmentUseModifier(profile) { return 0; }
+    validateInfluenceTarget(target) { return nil; }
     unavailableReason(profile) { return 'training-required'; }
     reroll(profile, result) { return nil; }
 ;
@@ -507,6 +508,7 @@ class RpgLiteInfluenceResult: object
 rpgLiteInfluence(profile, target, context, social)
 {
     if (context.skill == nil || !context.skill.influence) throw new RpgError();
+    context.validateInfluenceTarget(target);
     local value = new RpgLiteInfluenceResult();
     local score = rpgLiteScore(profile, context);
     if (score == nil || score < 3) return value;
