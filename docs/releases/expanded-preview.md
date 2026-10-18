@@ -1298,3 +1298,9 @@ Approved nonhuman packages waive only the printed physical adjustment limits;
 Will and Perception retain their separate permission requirements. Personal
 purchases must still validate before the ancestry is applied. Classification
 binding and physical/mental limit fixtures are authored but unrun.
+
+Ancestry creation now validates the completed character after assembling personal
+choices and changes. Personal physical purchases may use approved nonhuman
+exemptions, and negative ancestry costs may bring the final total within budget.
+Ordinary public template factories still validate their returned characters.
+Additional boundary and rejection fixtures remain unrun.

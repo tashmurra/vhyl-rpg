@@ -17853,6 +17853,24 @@ def test_template_taboo(Session, bundle, out):
 
 def test_ancestry_scores(Session, bundle, out):
     path = out / 'expanded-ancestry-scores.zsave'
+    for setup in (5920, 5921, 5922, 5923):
+        s = Session(bundle)
+        try:
+            for code in (setup, 5905):
+                s.action(2285, code)
+            if setup == 5923:
+                assert last(s, 'test.ancestry-before-validation') == ['point-budget']
+                expected_final = [10, -10, 10, 11, 10, 10, 10, 11, 20, 1, 0, 0]
+            else:
+                assert last(s, 'test.ancestry-before-validation') == ['secondary-limit']
+                expected_final = [20, 0, 0, 10, 10, 10, 10, 20, 20, 1, 0, 0]
+            assert last(s, 'test.ancestry-scores') == expected_final
+            for code in (5924, 5905):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-score-error') == ['secondary-limit']
+            assert last(s, 'test.ancestry-scores') == expected_final
+        finally:
+            s.close()
     for setup in (5915, 5916, 5917):
         s = Session(bundle)
         try:

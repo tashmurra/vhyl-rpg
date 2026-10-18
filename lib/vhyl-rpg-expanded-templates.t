@@ -35,6 +35,14 @@ class RpgExpandedTemplate: object
     disadvantageLimit = 50
     create(rules)
     {
+        local profile = self.assembleProfile(rules);
+        try { rpgLiteValidateTraits(profile); }
+        catch (RpgLiteCharacterError error) { rpgExpandedReject(error.reason); }
+        rpgExpandedValidateCharacter(profile); return profile;
+    }
+    /** Internal construction stage; callers must validate the complete character. */
+    assembleProfile(rules)
+    {
         if (self.choiceGroups.length() != 0) rpgExpandedReject('template-unresolved-choices');
         local p = new RpgExpandedProfile(); p.rules = rules;
         p.campaignTL = self.campaignTL;
@@ -56,9 +64,7 @@ class RpgExpandedTemplate: object
         {
             p.traits = p.traits + [rpgExpandedTemplateTrait(row)];
         }
-        try { rpgLiteValidateTraits(p); }
-        catch (RpgLiteCharacterError error) { rpgExpandedReject(error.reason); }
-        rpgExpandedValidateCharacter(p); return p;
+        return p;
     }
 ;
 
@@ -93,6 +99,12 @@ class RpgExpandedTemplateSelection: object
         if (self.template == nil || !self.template.ofKind(RpgExpandedTemplate))
             rpgExpandedReject('template-selection-definition');
         return self.template.createSelected(rules,self.selections);
+    }
+    assembleProfile(rules)
+    {
+        if (self.template == nil || !self.template.ofKind(RpgExpandedTemplate))
+            rpgExpandedReject('template-selection-definition');
+        return self.template.assembleSelectedProfile(rules,self.selections);
     }
 ;
 
@@ -252,6 +264,14 @@ modify RpgExpandedTemplate
     /** selections: one [group ID, [option IDs]] row for every group. */
     createSelected(rules, selections)
     {
+        local profile = self.assembleSelectedProfile(rules,selections);
+        try { rpgLiteValidateTraits(profile); }
+        catch (RpgLiteCharacterError error) { rpgExpandedReject(error.reason); }
+        rpgExpandedValidateCharacter(profile); return profile;
+    }
+    /** Internal selection stage; retains option gates but defers character validation. */
+    assembleSelectedProfile(rules, selections)
+    {
         if (selections.length() != self.choiceGroups.length())
             rpgExpandedReject('template-choice-groups');
         local selectedGroups = [];
@@ -321,7 +341,7 @@ modify RpgExpandedTemplate
         resolved.campaignTL = self.campaignTL; resolved.techLevel = self.techLevel;
         resolved.pointBudget = self.pointBudget; resolved.disadvantageLimit = self.disadvantageLimit;
         resolved.skillRows = skillRows; resolved.traitRows = traitRows;
-        local profile = resolved.create(rules); profile.templateChoices = receipt; return profile;
+        local profile = resolved.assembleProfile(rules); profile.templateChoices = receipt; return profile;
     }
 ;
 
@@ -337,6 +357,12 @@ class RpgExpandedTemplateCustomization: object
     evidence = nil
     create(rules)
     {
+        local profile = self.assembleProfile(rules);
+        rpgExpandedValidateCharacter(profile); return profile;
+    }
+    /** Internal construction stage used before ancestry is added. */
+    assembleProfile(rules)
+    {
         if (self.template == nil || !self.template.ofKind(RpgExpandedTemplate)
             || self.additions == nil || !self.additions.ofKind(RpgExpandedTemplateOption))
             rpgExpandedReject('template-customization-definition');
@@ -344,7 +370,7 @@ class RpgExpandedTemplateCustomization: object
             rpgExpandedReject('template-customization-approval');
         if (!self.additions.eligible) rpgExpandedReject('template-choice-ineligible');
         self.additions.cost();
-        local profile = self.template.createSelected(rules,self.selections);
+        local profile = self.template.assembleSelectedProfile(rules,self.selections);
         foreach (local row in self.removeTraits)
         {
             if (row.length() != 2) rpgExpandedReject('template-customization-trait');
@@ -390,7 +416,6 @@ class RpgExpandedTemplateCustomization: object
         }
         foreach (local row in self.additions.traitRows)
             profile.traits = profile.traits + [rpgExpandedTemplateTrait(row)];
-        rpgExpandedValidateCharacter(profile);
         return profile;
     }
 ;
@@ -582,7 +607,7 @@ rpgExpandedCreateAncestryCharacter(personal, ancestries, rules)
         }
         changes = combined;
     }
-    local p = personal.create(rules);
+    local p = personal.assembleProfile(rules);
     if (p.ancestryScores != nil || p.creationComplete) rpgExpandedReject('ancestry-existing-character');
     local receipt = new RpgExpandedAncestryScores(); receipt.owner = p;
     receipt.nonhuman = nonhuman; receipt.boundNonhuman = nonhuman;

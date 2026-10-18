@@ -415,11 +415,13 @@ Perception from their limits. Those still require the campaign's explicit
 retain ordinary limits. The owned ancestry receipt binds this classification
 alongside its score origins.
 
-The personal template must still validate on its own before ancestry is applied;
-use an appropriate author-approved budget and permitted personal purchases. A
-personal template that only becomes legal through nonhuman physical exemptions
-cannot yet be constructed through this factory. The final profile is validated
-again at the resulting budget. Traits, ancestry skills,
+The ancestry factory resolves personal options and changes, applies ancestry,
+and validates the complete character once. Personal physical purchases that
+need the approved nonhuman exemption are therefore allowed. A negative ancestry
+cost can also bring the completed character within its point budget. The final
+personal disadvantage cap, prerequisites, compatibility and characteristic
+limits still apply. Public `create` and `createSelected` calls without ancestry
+continue to validate the characters they return. Traits, ancestry skills,
 size-based pricing modifiers, mandatory components, omissions and transformations
 remain unfinished. Occupational composition rejects ancestry-bearing profiles
 rather than losing their origin accounting.
@@ -435,3 +437,13 @@ ordinary campaign rules, rejection of the same human package, retained Will and
 Perception limits, and rejection of edited receipt classification. Assertions
 remain unrun. This is a character-rule distinction, not an automatic inference
 from size, appearance or a package's name.
+
+Internal `assembleProfile` and `assembleSelectedProfile` methods construct
+unvalidated intermediate profiles. They are implementation stages for the
+validated factories, not ready-to-play creation APIs. Custom template subclasses
+that participate in ancestry creation must put their construction changes in
+these stages; overriding only `create` does not customize ancestry assembly.
+The ancestry fixture covers ordinary, selected and customized personal purchases
+that require nonhuman classification, a final-budget boundary, and rejection of
+an invalid completed character without changing a previously returned profile.
+These assertions remain unrun.

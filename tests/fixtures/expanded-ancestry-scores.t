@@ -15,6 +15,17 @@ ancestryPhysical: RpgExpandedAncestryScoreTemplate
     id = 'nonhuman-body' hpChange = 10 fpChange = 10 speedQuarterChange = 12 moveChange = 4
     nonhuman = true approved = true evidence = 'Approved nonhuman physiology';
 ancestryPlain: RpgExpandedTemplate pointBudget = 1000 disadvantageLimit = 0;
+ancestryClassification: RpgExpandedAncestryScoreTemplate
+    id = 'nonhuman-classification' nonhuman = true approved = true evidence = 'Approved nonhuman physiology';
+ancestryPersonalLargeHP: RpgExpandedTemplate hpAdjustment = 10 pointBudget = 1000;
+ancestryHPOption: RpgExpandedTemplateOption id = 'large-hp' hpChange = 10;
+ancestryHPChoice: RpgExpandedTemplateChoice id = 'body' options = [ancestryHPOption];
+ancestryPersonalChoices: RpgExpandedTemplate choiceGroups = [ancestryHPChoice] pointBudget = 1000;
+ancestrySelectedHP: RpgExpandedTemplateSelection
+    template = ancestryPersonalChoices selections = [['body',['large-hp']]];
+ancestryCustomizedHP: RpgExpandedTemplateCustomization
+    template = ancestryPlain additions = ancestryHPOption approved = true evidence = 'Approved personal HP';
+ancestryPersonalBudget: RpgExpandedTemplate st = 12 pointBudget = 10;
 ancestryState: object profile = nil;
 ancestryOffer: RpgDevelopment
     id = 'ancestry-personal-growth' kind = 'attribute' attribute = rpgST unlocked = true
@@ -24,6 +35,26 @@ modify BleedTestAction
     exec(context)
     {
         local code = bleedInput.code;
+        if (code >= 5920 && code <= 5923)
+        {
+            bleedRules.exceptionalCharacteristics = nil;
+            local personal = ancestryPersonalLargeHP; local packages = [ancestryClassification];
+            if (code == 5921) personal = ancestrySelectedHP;
+            if (code == 5922) personal = ancestryCustomizedHP;
+            if (code == 5923) { personal = ancestryPersonalBudget; packages = [ancestrySmall]; }
+            event('test.ancestry-before-validation');
+            try { personal.create(bleedRules); eventValue('accepted'); }
+            catch (RpgExpandedError error) { eventValue(error.reason); }
+            ancestryState.profile = rpgExpandedCreateAncestryCharacter(personal,packages,bleedRules);
+            return nil;
+        }
+        if (code == 5924)
+        {
+            ancestryPersonalLargeHP.willAdjustment = 11;
+            event('test.ancestry-score-error');
+            try { rpgExpandedCreateAncestryCharacter(ancestryPersonalLargeHP,[ancestryClassification],bleedRules); eventValue('accepted'); }
+            catch (RpgExpandedError error) { eventValue(error.reason); } return nil;
+        }
         if (code >= 5900 && code <= 5904 || code == 5911)
         {
             bleedRules.exceptionalCharacteristics = true;
