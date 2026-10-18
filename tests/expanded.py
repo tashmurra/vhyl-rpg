@@ -1173,6 +1173,65 @@ def cardiac_state(s):
     return last(s, 'test.cardiac-state')
 
 
+def second_cardiac_state(s):
+    s.action(1933)
+    return last(s, 'test.second-cardiac-state')
+
+
+def test_cardiac_clock_batch(s):
+    initial = cardiac_state(s)
+    second_initial = second_cardiac_state(s)
+    assert second_initial == [0,1,0,0,None,0]
+    s.action(1930, 24)
+    assert cardiac_state(s) == initial
+    assert second_cardiac_state(s) == second_initial
+    s.action(1930, 21)
+    onset = cardiac_state(s)
+    second_onset = second_cardiac_state(s)
+    assert onset == [20,2,1,0,0,0,0,0,1,1]
+    assert second_onset == [10,1,0,1,None,2]
+    # The fixture catches this rejection, so rollback cannot conceal a partial commit.
+    s.action(1930, 22)
+    assert last(s, 'test.cardiac-clock-rejection') == ['cardiac-other-death-unavailable']
+    assert cardiac_state(s) == onset
+    assert second_cardiac_state(s) == second_onset
+    s.action(1930, 17)
+    assert cardiac_state(s) == [20,20,0,0,0,1,0,201,1,1]
+    assert second_cardiac_state(s) == [10,20,1,0,100,2]
+    s.command('undo')
+    assert cardiac_state(s) == onset
+    assert second_cardiac_state(s) == second_onset
+    s.action(1930, 23)
+    assert cardiac_state(s) == [20,2,1,0,0,0,0,100,1,1]
+    assert second_cardiac_state(s) == [10,20,1,0,100,2]
+    s.action(1930, 23)
+    s.action(1930, 25)
+    assert cardiac_state(s) == [20,20,0,0,0,1,0,200,1,1]
+    assert second_cardiac_state(s) == [10,20,1,0,100,2]
+
+
+def test_cardiac_clock_batch_persistence(Session, bundle, out):
+    path = out / 'expanded-cardiac-clock-batch.zsave'
+    first = Session(bundle)
+    try:
+        first.action(1930, 21); first.action(1930, 23)
+        saved = cardiac_state(first)
+        second_saved = second_cardiac_state(first)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    restored = Session(bundle)
+    try:
+        restored.command(f':restore {path}\n@1931')
+        assert cardiac_state(restored) == saved
+        assert second_cardiac_state(restored) == second_saved
+        restored.action(1930, 23); restored.action(1930, 25)
+        assert cardiac_state(restored) == [20,20,0,0,0,1,0,200,1,1]
+        assert second_cardiac_state(restored) == [10,20,1,0,100,2]
+    finally:
+        restored.close()
+
+
 def test_cardiac_clock(s):
     s.action(1930, 13)
     s.action(1930, 14)
@@ -4478,6 +4537,8 @@ def test(build):
     cardiac_transactions = build.build('expanded-cardiac-transactions',ROOT / 'tests/fixtures/expanded-cardiac-transactions.t')
     fresh(Session,cardiac_transactions,test_cardiac_transactions)
     fresh(Session,cardiac_transactions,test_cardiac_clock)
+    fresh(Session,cardiac_transactions,test_cardiac_clock_batch)
+    test_cardiac_clock_batch_persistence(Session,cardiac_transactions,build.out)
     fresh(Session,cardiac_transactions,test_cardiac_clock_revival)
     fresh(Session,cardiac_transactions,test_cardiac_clock_immunity)
     test_cardiac_clock_persistence(Session,cardiac_transactions,build.out)

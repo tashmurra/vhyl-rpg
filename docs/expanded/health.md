@@ -1239,3 +1239,13 @@ repeat protection. `test_cardiac_clock_revival` records cancellation by successf
 treatment. `test_cardiac_clock_persistence` continues saves immediately before and
 after expiry in a separate process. All fixtures are authored but unrun while
 checks remain paused.
+
+
+`test_cardiac_clock_batch` adds two cases with deadlines at 100 and 200 seconds,
+registered in the opposite order. It records onset rollback, one advance crossing
+both deadlines, undo of both expiries, and separate advances through each boundary.
+Its unsupported-death case catches the rejection inside the fixture operation,
+then inspects both patients and the clock. Thus transaction rollback cannot conceal
+a partial commit before validation rejected the later registered case.
+`test_cardiac_clock_batch_persistence` saves between the deadlines and continues
+the remaining case in another process. These batch fixtures remain unrun.

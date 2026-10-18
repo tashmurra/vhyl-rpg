@@ -189,6 +189,8 @@
         "tests/expanded.py::test_cardiac_resuscitation",
         "tests/expanded.py::test_cardiac_transactions",
         "tests/expanded.py::test_cardiac_clock",
+        "tests/expanded.py::test_cardiac_clock_batch",
+        "tests/expanded.py::test_cardiac_clock_batch_persistence",
         "tests/expanded.py::test_cardiac_clock_immunity",
         "tests/expanded.py::test_cardiac_clock_revival",
         "tests/expanded.py::test_cardiac_clock_persistence",

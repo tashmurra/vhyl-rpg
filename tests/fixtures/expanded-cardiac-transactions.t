@@ -10,6 +10,8 @@
 cardiacRoom: Room 'Treatment Room';
 cardiacRules: RpgExpandedRules;
 cardiacPatient: RpgExpandedProfile rules = cardiacRules fatigue = 3 injury = 2;
+cardiacSecondPatient: RpgExpandedProfile rules = cardiacRules ht = 5 injury = 1;
+cardiacSecondCase: RpgExpandedCardiacArrest id = 'second-arrest' profile = cardiacSecondPatient evidence = 'Second confirmed condition';
 cardiacHealer: RpgLiteProfile iq = 14 techLevel = 7 skills = [cardiacTraining];
 cardiacSkill: RpgLiteSkill id = 'physician' attribute = rpgIQ difficulty = 2 techLevel = 7;
 cardiacTraining: RpgTraining skill = cardiacSkill points = 1;
@@ -50,6 +52,22 @@ class CardiacFixtureAction: Action
         else if (code == 20)
         { local trait = new RpgLiteTrait(); trait.id = 'no-vitals'; cardiacPatient.traits = [trait]; return nil; }
 
+        else if (code == 21 || code == 24)
+        {
+            cardiacRules.automaticCardiacDeadlines = true; cardiacCase.start(); cardiacSecondCase.start();
+            if (code == 24) throw new RpgError(); return nil;
+        }
+        else if (code == 22)
+        {
+            cardiacSecondPatient.dead = true; local reason = nil;
+            try { rpgSpendTime(201); }
+            catch (RpgExpandedError error) { reason = error.reason; }
+            cardiacSecondPatient.dead = nil;
+            event('test.cardiac-clock-rejection'); eventValue(reason); return nil;
+        }
+        else if (code == 23) { rpgSpendTime(100); return nil; }
+        else if (code == 25) { cardiacPatient.validateFeatures(); cardiacSecondPatient.validateFeatures(); return nil; }
+
         event('test.cardiac-operation'); eventValue(value.status); eventValue(value.reason);
         if (code == 1 || code == 3 || code == 5 || code == 7) throw new RpgError();
         return nil;
@@ -63,6 +81,13 @@ turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
     if (verb == 1930) { cardiacInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1933)
+    {
+        event('test.second-cardiac-state'); eventValue(cardiacSecondPatient.fatigue);
+        eventValue(cardiacSecondPatient.injury); eventValue(cardiacSecondPatient.dead ? 1 : 0);
+        eventValue(cardiacSecondPatient.cardiacArrest == nil ? 0 : 1); eventValue(cardiacSecondCase.endedAt);
+        eventValue(rpgExpandedCardiacClock.arrests.length()); return nil;
+    }
     if (verb == 1932)
     {
         event('test.cardiac-clock'); eventValue(rpgExpandedCardiacClock.arrests.length());
