@@ -3713,3 +3713,21 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Shared parser/structured/dialogue entry point for one owned begging hour. */
+class RpgExpandedBeggingAction: Action
+    hour = nil
+    operation = 'resolve'
+    perform(actor)
+    {
+        if (self.hour == nil || !self.hour.ofKind(RpgExpandedBeggingHour)
+            || !holds(['preview','resolve'],self.operation)) rpgExpandedReject('begging-action-definition');
+        local value = new RpgExpandedBeggingResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile != self.hour.profile)
+            value.reason = 'begging-action-owner-required';
+        else value = self.operation == 'preview' ? self.hour.assess() : self.hour.resolve();
+        event('rpg.expanded.begging'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;

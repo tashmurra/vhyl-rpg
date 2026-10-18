@@ -9460,6 +9460,8 @@ def test(build):
     test_begging_skill(Session,begging_skill)
     begging_hour = build.build('expanded-begging-hour',ROOT / 'tests/fixtures/expanded-begging-hour.t')
     test_begging_hour(Session,begging_hour,build.out)
+    begging_actions = build.build('expanded-begging-actions',ROOT / 'tests/fixtures/expanded-begging-actions.t')
+    test_begging_actions(Session,begging_actions)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
     test_travel_digging(Session,travel_digging,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
@@ -25289,5 +25291,43 @@ def test_begging_hour(Session, bundle, out):
             for code in (setup,24300,24303):
                 s.action(1680,code)
             assert last(s,'test.begging-hour-state') == [0,3600,3,1,incident]
+        finally:
+            s.close()
+
+
+def test_begging_actions(Session, bundle):
+    """Every native route shares ownership, preview purity and one hour's costs; unrun."""
+    for route in ('parser','structured','dialogue'):
+        def perform(session, operation):
+            if route == 'parser':
+                session.command({'preview':'assess begging','resolve':'beg hour','rollback':'rollback begging'}[operation])
+            elif route == 'structured':
+                session.action({'preview':24410,'resolve':24411,'rollback':24412}[operation])
+            else:
+                session.action(80,'begging-plan'); session.select(operation)
+        s = Session(bundle)
+        try:
+            perform(s,'preview')
+            assert last(s,'rpg.expanded.begging') == ['preview','ready',None]
+            s.action(1680,24303)
+            assert last(s,'test.begging-hour-state') == [0,0,0,0,None]
+            perform(s,'rollback'); s.action(1680,24303)
+            assert last(s,'test.begging-hour-state') == [0,0,0,0,None]
+            perform(s,'resolve'); s.command('undo'); s.action(1680,24303)
+            assert last(s,'test.begging-hour-state') == [0,0,0,0,None]
+            perform(s,'resolve'); perform(s,'resolve'); perform(s,'preview')
+            assert last(s,'rpg.expanded.begging') == ['preview','reused',None]
+            s.action(1680,24303)
+            assert last(s,'test.begging-hour-state') == [10,3600,3,1,'A resident offers a meal']
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.action(1680,24400)
+            for operation in ('preview','resolve'):
+                perform(s,operation)
+                assert last(s,'rpg.expanded.begging') == [operation,'blocked','begging-action-owner-required']
+            s.action(1680,24303)
+            assert last(s,'test.begging-hour-state') == [0,0,0,0,None]
         finally:
             s.close()

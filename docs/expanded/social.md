@@ -1705,3 +1705,17 @@ outcome without another hour, payment or roll. `profile.beggingHours` retains th
 owned history. `test_begging_hour` specifies earnings, failure, critical findings,
 rollback, undo and cross-process save continuation. Fixtures remain unrun. Incident
 settlement, general work scheduling and full trait adapters remain incomplete.
+
+`RpgExpandedBeggingAction` exposes the same hour through native actions. Set
+`hour` and choose `operation = 'preview'` or `'resolve'`. `exec(context)` uses the
+command actor; dialogue choices call `perform(context.asker)`. The actor's
+`rpgProfile` must own the hour, including for previews. Unauthorized calls return
+`begging-action-owner-required` without advancing time or consuming randomness.
+
+The `rpg.expanded.begging` event contains operation, status and reason. Read the
+owned result explicitly when presenting earnings or its authored incident; the
+event does not broadcast the incident. A repeated resolution returns the stored
+resolved result, while a later preview reports `reused`. The integration fixture
+`expanded-begging-actions.t` and `test_begging_actions` specify parser, structured
+and dialogue parity, preview purity, rollback, undo and ownership rejection.
+These fixtures remain unrun.
