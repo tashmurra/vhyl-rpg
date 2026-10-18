@@ -57,6 +57,9 @@ limbHeld: RpgLiteWeapon id = 'held' ready = true bodySupports = [limbHand];
 limbShield: RpgLiteItem id = 'shield' ready = true worn = true db = 3 bodySupports = [limbArm];
 limbWound: RpgExpandedWound id = 'limb-impact' profile = limbPatient amount = 8 location = 'arm'
     bodyPart = limbArm dropDestination = 'floor';
+limbOtherArm: RpgExpandedBodyPart id = 'other-arm' profile = limbPatient;
+limbOtherHand: RpgExpandedBodyPart id = 'other-hand' kind = 'hand' profile = limbPatient parent = limbOtherArm;
+limbTwoHandMode: RpgLiteAttackMode hands = 2 requiresTwoHands = true minimumST = 10;
 class LimbFixtureAction: Action
     exec(context)
     {
@@ -64,8 +67,16 @@ class LimbFixtureAction: Action
         if (healthInput.code == 3) { limbWound.bodyPart = limbHand; limbWound.location = 'hand'; limbWound.amount = 4; }
         if (healthInput.code == 4) limbPatient.ht = 9;
         if (healthInput.code == 6) limbWound.dropDestination = nil;
+        if (healthInput.code >= 7 && healthInput.code <= 12)
+        {
+            limbPatient.bodyParts = [limbArm,limbHand,limbOtherArm,limbOtherHand];
+            limbHeld.bodySupports = [limbHand,limbOtherHand]; limbHeld.modes = [limbTwoHandMode];
+            limbPatient.dx = healthInput.code == 8 ? 10 : healthInput.code == 11 ? 2 : 11;
+            if (healthInput.code == 9) limbPatient.ht = 9;
+            if (healthInput.code == 12) { limbWound.amount = 12; limbWound.severing = true; }
+        }
         local result = limbWound.apply(); event('test.limb-wound'); eventValue(result.status); eventValue(result.reason);
-        if (healthInput.code == 5) throw new RpgError();
+        if (healthInput.code == 5 || healthInput.code == 10) throw new RpgError();
         return nil;
     }
 ;
@@ -117,6 +128,17 @@ act(verb,args)
         local value = limbWound.assess(); event('test.limb-preview'); eventValue(value.status);
         eventValue(value.healthLoss); eventValue(value.crippling.crippled ? 1 : 0);
         eventValue(value.assessment.required ? 1 : 0); return nil;
+    }
+    if (verb == 1623)
+    {
+        local plan = limbWound.droppedLimbEquipment; event('test.limb-retention');
+        eventValue(plan.checks.length()); eventValue(plan.checks.length() == 0 ? 0 : plan.checks[1].roll);
+        eventValue(plan.checks.length() == 0 ? 0 : plan.checks[1].score);
+        eventValue(plan.retainedItems.length()); eventValue(plan.items.length());
+        eventValue(limbHeld.bodySupports.length()); eventValue(limbHeld.storageLocation); eventValue(rpgRandom.draws);
+        local fighter = new RpgLiteFighter(); fighter.profile = limbPatient; fighter.weapon = limbHeld;
+        eventValue(rpgLiteStrike(fighter,nil,new RpgLiteManeuver()).reason);
+        eventValue(limbPatient.shock); eventValue(limbPatient.injury); return nil;
     }
     return vhylAct(verb,args);
 }

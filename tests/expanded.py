@@ -408,6 +408,57 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def limb_retention(s):
+    s.action(1623)
+    return last(s, 'test.limb-retention')
+
+
+def test_limb_grip_retention(s):
+    initial = limb_state(s)
+    s.action(1620, 10)
+    assert limb_state(s) == initial
+    s.action(1620, 11)
+    assert last(s, 'test.limb-wound') == ['blocked', 'limb-retention-score-unavailable']
+    assert limb_state(s) == initial
+    s.command('undo')
+    for code, expected in [
+            (7, [1, 11, 11, 1, 0, 1, None, 6, 'hands-unavailable', 4, 6]),
+            (8, [1, 11, 10, 0, 1, 2, 'floor', 6, 'weapon-not-ready', 4, 6]),
+            (9, [0, 0, 0, 0, 0, 2, 'floor', 3, 'weapon-not-ready', 4, 6]),
+            (12, [1, 11, 11, 1, 1, 1, None, 6, 'hands-unavailable', 4, 6])]:
+        s.action(1620, code)
+        assert last(s, 'test.limb-wound') == ['resolved', None]
+        assert limb_retention(s) == expected
+        s.command('undo')
+        assert limb_state(s) == initial
+    s.action(1620, 7)
+    saved = limb_retention(s)
+    s.action(1620, 1)
+    assert last(s, 'test.limb-wound') == ['reused', None]
+    assert limb_retention(s) == saved
+
+
+def test_limb_grip_persistence(Session, bundle, out):
+    for code in [7, 8, 9, 12]:
+        path = out / f'expanded-limb-grip-{code}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1620, code)
+            saved = limb_retention(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1621')
+            assert limb_retention(second) == saved
+            second.action(1620, 1)
+            assert last(second, 'test.limb-wound') == ['reused', None]
+            assert limb_retention(second) == saved
+        finally:
+            second.close()
+
+
 def test_unarmed_limb_capacity(s):
     # B147: an unusable hand does not remove its functioning arm's unarmed parry.
     for arms, hand, occupied, cap, expected in [
@@ -2257,6 +2308,8 @@ def test(build):
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_limb_wound_transactions)
+    fresh(Session,wounds,test_limb_grip_retention)
+    test_limb_grip_persistence(Session,wounds,build.out)
     test_limb_wound_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_knockdown_equipment_drop)
     fresh(Session,wounds,test_knockdown_equipment_retained)

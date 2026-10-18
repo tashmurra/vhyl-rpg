@@ -955,9 +955,11 @@
         "tests/expanded.py::test_body_supports",
         "tests/expanded.py::test_limb_wound_transactions",
         "tests/expanded.py::test_limb_wound_persistence",
-        "tests/expanded.py::test_unarmed_limb_capacity"
+        "tests/expanded.py::test_unarmed_limb_capacity",
+        "tests/expanded.py::test_limb_grip_retention",
+        "tests/expanded.py::test_limb_grip_persistence"
       ],
-      "validation_note": "Owned wounds, equipment restrictions/drops and unarmed parry capacity including the handless-arm exception authored. Fixtures unrun. Multiple-grip retention, repeated location injury, broader task effects, duration and recovery remain incomplete."
+      "validation_note": "Owned arm/hand wounds, unarmed parry capacity and single/multiple-grip drops with retained check receipts authored. Fixtures unrun. Repeated location injury, broader task effects, duration and recovery remain incomplete. Retention uses the B419/B421 general defensive-reaction exception."
     },
     {
       "id": "health-crippling-effect-arm",
@@ -971,9 +973,11 @@
         "tests/expanded.py::test_body_supports",
         "tests/expanded.py::test_limb_wound_transactions",
         "tests/expanded.py::test_limb_wound_persistence",
-        "tests/expanded.py::test_unarmed_limb_capacity"
+        "tests/expanded.py::test_unarmed_limb_capacity",
+        "tests/expanded.py::test_limb_grip_retention",
+        "tests/expanded.py::test_limb_grip_persistence"
       ],
-      "validation_note": "Owned wounds, equipment restrictions/drops and unarmed parry capacity including the handless-arm exception authored. Fixtures unrun. Multiple-grip retention, repeated location injury, broader task effects, duration and recovery remain incomplete."
+      "validation_note": "Owned arm/hand wounds, unarmed parry capacity and single/multiple-grip drops with retained check receipts authored. Fixtures unrun. Repeated location injury, broader task effects, duration and recovery remain incomplete. Retention uses the B419/B421 general defensive-reaction exception."
     },
     {
       "id": "health-crippling-effect-foot",

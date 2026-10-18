@@ -194,13 +194,8 @@ class RpgExpandedWound: object
             self.bodyPart.disablingWound = self;
             if (value.limbDrop != nil)
             {
-                /* Knockdown may already have dropped some of the same held items. */
-                local remaining = [];
-                foreach (local item in value.limbDrop.items)
-                    if (self.droppedEquipment == nil || !holds(self.droppedEquipment.items,item))
-                        remaining = remaining + [item];
-                value.limbDrop.items = remaining;
-                value.limbDrop.commit(); self.droppedLimbEquipment = value.limbDrop;
+                value.limbDrop.commitAfter(self.droppedEquipment);
+                self.droppedLimbEquipment = value.limbDrop;
             }
         }
         self.cripplingAssessment = value.crippling;
@@ -355,6 +350,19 @@ modify RpgLiteItem
         }
         return true;
     }
+    attackHandCount(profile, requested)
+    {
+        self.validateBodySupports(profile);
+        if (self.bodySupports.length() == 0) return inherited(profile,requested);
+        local arms = [];
+        foreach (local part in self.bodySupports)
+            if (part.functional())
+            {
+                local arm = part.kind == 'hand' ? part.parent : part;
+                if (!holds(arms,arm)) arms = arms + [arm];
+            }
+        return arms.length() < requested ? arms.length() : requested;
+    }
     parryUsableBy(profile) { return self.attackUsableBy(profile); }
     blockUsableBy(profile)
     {
@@ -385,7 +393,7 @@ modify RpgLiteItem
 modify RpgExpandedProfile
     prepareLimbInjuryDrop(part, severed, destination)
     {
-        local items = [];
+        local items = []; local conditional = [];
         foreach (local item in self.equipment)
         {
             item.validateBodySupports(self);
@@ -402,7 +410,7 @@ modify RpgExpandedProfile
                     foreach (local support in item.bodySupports)
                     {
                         if (support == part || support.parent == part) affected = true;
-                        else retained = true;
+                        else if (support.functional()) retained = true;
                     }
                     if (affected)
                     {
@@ -415,14 +423,30 @@ modify RpgExpandedProfile
                         else
                         {
                             if (retained)
-                            { local blocked = new RpgExpandedResult(); blocked.reason = 'limb-drop-multiple-grip-unavailable'; return blocked; }
+                            {
+                                foreach (local support in item.bodySupports)
+                                    if (support.kind != 'hand')
+                                    { local blocked = new RpgExpandedResult(); blocked.reason = 'limb-retention-hand-grips-required'; return blocked; }
+                                conditional = conditional + [item];
+                            }
                             items = items + [item];
                         }
                     }
                 }
             }
         }
-        return self.prepareForcedDrop(items,destination);
+        if (items.length() == 0) return nil;
+        local forced = self.prepareForcedDrop(items,destination);
+        if (forced.status != 'ready') return forced;
+        local value = new RpgExpandedLimbDropPlan(); value.profile = self; value.part = part;
+        value.forcedDrop = forced; value.conditionalItems = conditional;
+        if (conditional.length() > 0 && !self.unconscious)
+        {
+            local score = rpgLiteScore(self,new RpgExpandedGripContext());
+            if (score == nil || score < 3)
+            { value.reason = 'limb-retention-score-unavailable'; return value; }
+        }
+        value.status = 'ready'; return value;
     }
 ;
 
@@ -461,5 +485,60 @@ modify RpgLiteFighter
         foreach (local part in self.profile.bodyParts)
             if (part.kind == 'arm' && part.functional() && !holds(occupied,part)) count += 1;
         return count < self.freeHands ? count : self.freeHands;
+    }
+;
+
+
+/** Immediate retention is a defensive reaction, B419/B421: temporary attribute
+ * reductions do not apply. It uses DX without an action or resource charge. */
+class RpgExpandedGripContext: RpgLiteContext
+    attribute = rpgDX
+    kind = 'defense'
+    controllingAttribute() { return nil; }
+;
+
+/** Owned wound consequence: conditional retention rolls and actual drop receipt. */
+class RpgExpandedLimbDropPlan: RpgExpandedResult
+    profile = nil
+    part = nil
+    forcedDrop = nil
+    conditionalItems = []
+    retainedItems = []
+    checks = []
+    items = []
+    committed = nil
+    commitAfter(knockdownDrop)
+    {
+        if (self.committed) return 'reused';
+        if (self.status != 'ready' || self.forcedDrop == nil || self.profile == nil
+            || self.part == nil || self.part.profile != self.profile || !self.part.disabled
+            || self.part.disablingWound == nil || self.forcedDrop.profile != self.profile
+            || !holds(self.profile.bodyParts,self.part)) rpgExpandedReject('limb-drop-unprepared');
+        if (knockdownDrop != nil && (!knockdownDrop.committed || knockdownDrop.profile != self.profile))
+            rpgExpandedReject('limb-drop-knockdown-owner');
+        local dropped = [];
+        foreach (local item in self.forcedDrop.items)
+        {
+            if (knockdownDrop == nil || !holds(knockdownDrop.items,item))
+            {
+                local retained = nil;
+                if (holds(self.conditionalItems,item) && !self.profile.unconscious && !self.profile.dead)
+                {
+                    local check = rpgLiteCheck(self.profile,new RpgExpandedGripContext());
+                    self.checks = self.checks + [check]; retained = check.achieved;
+                }
+                if (retained)
+                {
+                    local grips = [];
+                    foreach (local support in item.bodySupports)
+                        if (support != self.part && support.parent != self.part && !support.disabled)
+                            grips = grips + [support];
+                    item.bodySupports = grips; self.retainedItems = self.retainedItems + [item];
+                }
+                else dropped = dropped + [item];
+            }
+        }
+        self.forcedDrop.items = dropped; self.forcedDrop.commit(); self.items = dropped;
+        self.committed = true; return 'resolved';
     }
 ;

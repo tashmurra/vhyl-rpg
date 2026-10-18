@@ -99,9 +99,11 @@
         "tests/expanded.py::test_body_supports",
         "tests/expanded.py::test_limb_wound_transactions",
         "tests/expanded.py::test_limb_wound_persistence",
-        "tests/expanded.py::test_unarmed_limb_capacity"
+        "tests/expanded.py::test_unarmed_limb_capacity",
+        "tests/expanded.py::test_limb_grip_retention",
+        "tests/expanded.py::test_limb_grip_persistence"
       ],
-      "validation_note": "Partial upper-limb wound execution now constrains unarmed parry capacity while retaining the handless-arm exception. Fixtures authored but unrun. Multiple-grip retention, repeated location injury, broader task effects, treatment and recovery remain incomplete."
+      "validation_note": "Partial upper-limb wounds include multiple-grip retention and remaining-grip attack eligibility. Fixtures authored but unrun. Repeated location injury, broader task effects, treatment and recovery remain incomplete."
     },
     {
       "id": "magic",

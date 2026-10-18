@@ -213,13 +213,14 @@ rpgLiteStrike(attacker, defender, request)
     local profile = attacker.profile; local weapon = attacker.weapon;
     if (weapon == nil || !weapon.ready || !weapon.attackUsableBy(profile)) { result.reason = 'weapon-not-ready'; return result; }
     local mode = attacker.mode();
+    local hands = weapon.attackHandCount(profile,request.hands);
     if (profile.stunned || profile.mentalStun || profile.unconscious || profile.dead)
     { result.reason = 'unable-to-attack'; return result; }
     if (!mode.ranged && !request.inReach) { result.reason = 'out-of-reach'; return result; }
     if (request.deadly && !request.targetThreatens && profile.level('cannot-harm-innocents') > 0)
     { result.reason = 'cannot-harm-innocents'; return result; }
-    if (mode.hands == 2 && request.hands < 2 && (mode.requiresTwoHands || profile.st * 2 < mode.minimumST * 3)
-        || request.hands == 2 && attacker.shield != nil && attacker.shield.ready && attacker.shield.usableBy(profile))
+    if (mode.hands == 2 && hands < 2 && (mode.requiresTwoHands || profile.st * 2 < mode.minimumST * 3)
+        || hands == 2 && attacker.shield != nil && attacker.shield.ready && attacker.shield.usableBy(profile))
     { result.reason = 'hands-unavailable'; return result; }
     local strength = weapon.id == 'crossbow' ? weapon.weaponST : profile.st;
     local maximum = mode.rangeScale == 10 ? mode.maximumRange * strength / 10 : mode.maximumRange;
@@ -251,7 +252,7 @@ rpgLiteStrike(attacker, defender, request)
         {
             context.modifier += mode.acc + (attacker.aimSeconds >= 3 ? 2 : attacker.aimSeconds == 2 ? 1 : 0);
             context.modifier += attacker.aimSeconds < weapon.scopeBonus ? attacker.aimSeconds : weapon.scopeBonus;
-            if ((request.braced || weapon.bipod && profile.posture == 'lying' || mode.hands == 1 && request.hands == 2)
+            if ((request.braced || weapon.bipod && profile.posture == 'lying' || mode.hands == 1 && hands == 2)
                 && (mode.base == 'fixed' || weapon.id == 'crossbow')) context.modifier += 1;
         }
     }
@@ -277,7 +278,7 @@ rpgLiteStrike(attacker, defender, request)
     attacker.attacked = true; attacker.participated = true;
     if (mode.ranged && !mode.thrown) weapon.ammunition -= 1;
     if (mode.thrown || mode.unready && profile.st * 2 < mode.minimumST * 3
-        || mode.hands == 2 && request.hands == 1 && profile.st < mode.minimumST * (mode.unready ? 3 : 2)) weapon.ready = nil;
+        || mode.hands == 2 && hands == 1 && profile.st < mode.minimumST * (mode.unready ? 3 : 2)) weapon.ready = nil;
     attacker.aimSeconds = 0;
     if (!result.attack.achieved)
     {

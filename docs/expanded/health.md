@@ -344,10 +344,9 @@ severed; severing drops it and clears its worn state. The equipment module's
 share item identities so an item is not dropped twice. Missing integration or
 destination blocks before injury or dice are spent.
 
-Multiple-grip retention, unsupported worn bindings, further injury to an already
+Unsupported worn bindings, further injury to an already
 disabled part, critical-result crippling overrides, duration, recovery, unarmed
-combat and full limb-based action restrictions remain incomplete. Multiple-grip
-and already-disabled-part wounds explicitly block. This is a partial upper-limb
+combat and full limb-based action restrictions remain incomplete. Already-disabled-part wounds explicitly block. This is a partial upper-limb
 integration, not complete crippling coverage. Authors must not assume the new
 state covers every action or supplies an automatic recovery schedule.
 
@@ -388,3 +387,40 @@ also covers the built-in punch representation, invalid grip information, attack
 eligibility, no random draws and profiles without anatomy. These fixtures are
 unrun. Full grappling, limb-specific maneuver choices and the B147 modifiers to
 other tasks remain outstanding; this closes only the unarmed-parry capacity gap.
+
+
+## Retaining an item held in several hands
+
+When a disabled hand or arm releases an item still held by another functioning
+hand, full-2008 B421 provides a DX check to retain it. Preflight now collects
+those items and verifies the check is available before committing injury or
+randomness. All grips in this case must explicitly name hands. The destination
+for a possible drop is still required even if the later check succeeds.
+
+`RpgExpandedLimbDropPlan` records conditional items, `checks`, `retainedItems`,
+and actual dropped `items`. The wound commits its knockdown consequences first.
+An item already dropped by knockdown needs no retention roll. Incapacitation also
+prevents retention. Otherwise, each eligible item gets one immediate DX check.
+A success removes the injured support from the item's grips and keeps the item
+carried; a failure sends it through the same forced-drop storage operation.
+Repeating the wound reuses this record without rerolling.
+
+`RpgExpandedGripContext` treats immediate retention as a defensive reaction under
+the temporary-attribute exception in B419/B421. It does not apply the wound's
+shock or other temporary attribute reductions. This is the implementation's
+application of that general exception to the specified immediate retention roll;
+the source does not list retention by name among its examples.
+
+`attackHandCount(profile, requested)` defaults to the existing requested count.
+For body-bound equipment it limits that count to the distinct functioning arms
+supporting the item. Combat uses the effective count for hand requirements,
+two-handed bracing and becoming unready. Retaining an item with one hand therefore
+does not make a mandatory two-hand attack available.
+
+`test_limb_grip_retention` and `test_limb_grip_persistence` cover successful and
+failed retention, shock exclusion, knockdown superseding the check, retained
+weapons with a severed-arm shield drop, invalid low scores, rollback, undo,
+remaining-grip attack eligibility and repeat protection after save/restore.
+They are authored but unrun. Multiple-grip retention no longer blocks solely
+because an unaffected hand remains; duration, repeated-location injury and the
+other listed incomplete procedures still remain outstanding.

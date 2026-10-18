@@ -12,6 +12,7 @@ class RpgLiteItem: object
     usableBy(profile) { return true; }
     /* Separate operation hooks allow optional anatomy without changing carried state. */
     attackUsableBy(profile) { return self.usableBy(profile); }
+    attackHandCount(profile, requested) { return requested; }
     parryUsableBy(profile) { return self.usableBy(profile); }
     blockUsableBy(profile) { return self.usableBy(profile); }
     passiveDefenseBonus(profile) { return self.usableBy(profile) ? self.db : 0; }
