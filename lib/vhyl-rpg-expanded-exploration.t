@@ -1058,3 +1058,51 @@ modify rpgExpandedLiftingRules
 modify RpgExpandedLoadAssessment
     pickedUp = nil
 ;
+
+/** B353 authored cooperation: sum individual BL after each profile's calculation. */
+class RpgExpandedCooperativeLoad: object
+    participants = []
+    approved = nil
+    evidence = nil
+    operation = 'lift'
+    mode = 'two-hands'
+    weight = 0
+    deviceWeight = 0
+    device = 'none'
+    smoothLevel = nil
+    combat = nil
+    runningStart = nil
+    braced = nil
+    assess()
+    {
+        local blocked = new RpgExpandedLoadAssessment();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { blocked.reason = 'cooperative-load-arrangement'; return blocked; }
+        if (!holds(['lift','drag'],self.operation) || self.participants.length() < 2
+            || self.participants.length() > 100) rpgExpandedReject('cooperative-load-definition');
+        if (self.operation == 'lift' && (self.device != 'none' || self.deviceWeight != 0 || self.smoothLevel)
+            || self.operation == 'drag' && (self.combat || self.runningStart || self.braced))
+            rpgExpandedReject('cooperative-load-unused-fields');
+        local seen = []; local combined = 0;
+        foreach (local profile in self.participants)
+        {
+            if (profile == nil || !profile.ofKind(RpgExpandedProfile) || holds(seen,profile))
+                rpgExpandedReject('cooperative-load-participant');
+            seen = seen + [profile];
+            if (profile.dead || profile.unconscious || profile.mortal || profile.stunned || profile.mentalStun
+                || profile.hp() <= 0 || profile.fp() <= 0 || profile.voluntaryMovementUnavailable()
+                || profile.healthEffortReason('action',nil,nil,true) != nil)
+            { blocked.reason = 'cooperative-load-worker-unavailable'; return blocked; }
+            local lift = profile.basicLiftHundredths(); rpgInteger(lift,1,1000000-combined);
+            combined += lift;
+        }
+        local value = self.operation == 'lift'
+            ? rpgExpandedAssessLift(combined,self.weight,self.mode,self.combat,self.runningStart,self.braced)
+            : rpgExpandedAssessDragging(combined,self.weight,self.deviceWeight,self.device,self.smoothLevel);
+        value.combinedLift = combined; value.participantCount = self.participants.length(); return value;
+    }
+;
+modify RpgExpandedLoadAssessment
+    combinedLift = nil
+    participantCount = 0
+;

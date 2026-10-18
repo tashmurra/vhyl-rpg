@@ -489,3 +489,39 @@ and the one-second threshold with a skill-adjusted lifting capacity. The owned
 digging fixture now expects 48 cubic feet per hour at strength 11, using the
 rounded 24-pound base. These corrections come from source/code inspection; all
 assertions remain unrun while checks are paused.
+
+## Cooperative load assessment
+
+`RpgExpandedCooperativeLoad` implements full-2008 B353's permission to combine
+Basic Lift when the arrangement allows cooperation. Provide at least two distinct
+expanded `participants`, `approved = true`, and nonempty `evidence` explaining the
+physical arrangement: access, grips, positioning and how each helper contributes.
+This approval is an authored world fact. It does not automatically make an awkward
+object shareable or grant another hand to a character.
+
+For `operation = 'lift'`, supply `weight`, `mode` and the relevant lift facts.
+For `operation = 'drag'`, supply the load `weight`, `deviceWeight`, `device` and
+`smoothLevel` facts used by the existing dragging assessment. Inapplicable device
+fields on lifts, or combat/running/bracing flags on dragging, reject rather than
+silently changing the operation. All weights are hundredths of a pound.
+
+`assess()` sums each participant's existing `basicLiftHundredths()` after that
+profile's rounding. It never adds ST and squares the result. For example, strength
+8 and 11 contribute 13 and 24 pounds, for 37 pounds combined. The returned load
+assessment adds `combinedLift` and `participantCount` and otherwise uses the same
+capacity, duration and exact effective-weight calculations as individual loads.
+Duplicate participants and actors unable to perform voluntary physical work are
+rejected or blocked before any time or randomness is spent.
+
+This is a pure cooperative-capacity assessment, not a joint pickup or travel
+operation. Returned encumbrance is the combined-load calculation, not an automatic
+replacement for each participant's inventory, movement or fatigue state. Individual
+load distribution, each helper's available hands, coordinated execution, ongoing
+team movement and fatigue still require implementation. Do not execute several
+individual pickups for one shared object or multiply its weight into every
+inventory as a substitute.
+
+`test_cooperative_loads` specifies separately rounded strength values, exact
+capacity and immediate-over-limit cases, wagon/surface modifiers, duplicate
+helpers, missing authorization and an incapacitated helper. Assertions are authored
+and unrun while checks remain paused.

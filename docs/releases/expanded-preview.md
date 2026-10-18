@@ -718,3 +718,7 @@ repairs and other tool uses remain incomplete.
   combat as well. Added strength-rounding and skill-adjusted duration assertions;
   corrected the strength-11 digging expectation to the existing rounded base.
   No Lite rounding change was needed. Checks remain paused.
+
+- Added authored cooperative-load assessment by summing individual Basic Lift,
+  with duplicate-helper and incapacity rejection. It reuses exact lift/dragging
+  arithmetic. Joint execution and load distribution remain pending; fixtures unrun.

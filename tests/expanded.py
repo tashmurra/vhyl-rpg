@@ -8980,6 +8980,7 @@ def test(build):
     test_digging_assessment(Session, digging)
     loads = build.build('expanded-loads', ROOT / 'tests/fixtures/expanded-loads.t')
     test_load_assessments(Session, loads)
+    test_cooperative_loads(Session, loads)
     equipment_lift = build.build('expanded-equipment-lift', ROOT / 'tests/fixtures/expanded-equipment-lift.t')
     test_equipment_lift(Session, equipment_lift, build.out)
     lifting_skill = build.build('expanded-lifting-skill', ROOT / 'tests/fixtures/expanded-lifting-skill.t')
@@ -13289,5 +13290,28 @@ def test_lift_attempt(Session, bundle, out):
         for code in (754,757,760,746,761):
             s.action(2285, code)
         assert state(s) == clear, 'interruption retained the failed roll or elapsed time'
+    finally:
+        s.close()
+
+
+def test_cooperative_loads(Session, bundle):
+    s = Session(bundle)
+    try:
+        # B15 then B353: ST 8 gives 13 lb, ST 11 gives 24 lb. Sum BL = 37 lb.
+        s.action(2298,0,29600)
+        assert last(s, 'test.cooperative-load') == ['ready',None,3700,2,29600,29600,1,None,0,0]
+        s.action(2298,0,29601)
+        assert last(s, 'test.cooperative-load')[:2] == ['blocked','lifting-capacity']
+        # Wagon and smooth surface: gross 1480 lb / 40 = combined BL 37 lb.
+        s.action(2298,1,138000)
+        assert last(s, 'test.cooperative-load') == ['ready',None,3700,2,55500,148000,40,0,0,0]
+        s.action(2298,1,138001)
+        assert last(s, 'test.cooperative-load')[7] == 1
+        s.action(2298,2,29600)
+        assert last(s, 'test.cooperative-load') == ['cooperative-load-participant',0,0]
+        for code, reason in [(3,'cooperative-load-arrangement'),(4,'cooperative-load-worker-unavailable')]:
+            s.action(2298,code,29600)
+            assert last(s, 'test.cooperative-load')[:2] == ['blocked',reason]
+            assert last(s, 'test.cooperative-load')[-2:] == [0,0]
     finally:
         s.close()
