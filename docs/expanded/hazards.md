@@ -2072,9 +2072,45 @@ Current execution supports effective resistance scores 3 through 16. Higher
 scores can critically fail without a positive mathematical failure margin; the
 supplied procedure does not resolve the resulting fatigue/blackout boundary.
 Those cases reject before randomness rather than inventing a minimum duration.
-Already unconscious patients are also explicitly unsupported. Collision injury
-from being thrown against a surface remains separate and pending; the health
-check must not be used in its place. The minimal fixture is
+Already unconscious patients are also explicitly unsupported. Collision injury from being thrown against a surface is a separate receipt,
+described below; the health check must not be used in its place. The minimal fixture is
 [`expanded-acceleration.t`](../../tests/fixtures/expanded-acceleration.t).
 Expected-value, preview, replay, rollback, undo and persistence fixtures are
 written but unrun while checks remain paused.
+
+
+## Acceleration against a surface
+
+`RpgExpandedAccelerationImpact` binds one physical impact to an already committed
+`accelerationEvent`. Its `injury` is an uncommitted `RpgExpandedFallInjury`
+template for that event's profile, with `fall = accelerationEvent`, approved
+impact evidence, actual protection and location facts. Set `hard` for an
+immovable hard surface. The adapter supports the existing torso/limb injury
+subset; it does not assert a collision merely because acceleration occurred.
+
+The source velocity is ten times acceleration in standard gravities (B434).
+The adapter uses `velocityScale = 100` for hundredths of yards per second, so
+`injury.damageVelocity` equals the event's acceleration in thousandths of standard
+gravity. For example, acceleration 250 becomes 2.5 yards per second. Binding the
+physical event prevents substituting another velocity or using its receipt for a
+different character. An optional landing receipt is inapplicable and rejected.
+
+Call `assess()` and `apply()` at the recorded event time. Damage is rolled once,
+then committed through the shared collision protection and wound procedures.
+The existing impact history prevents another impact receipt from charging the
+same event again. The acceleration health check, its fatigue and this physical
+impact remain separate consequences; either can apply without the other. The
+adapter adds no elapsed time. To commit both consequences atomically, call them
+inside one engine action and reject blocked outcomes so the action rolls back.
+
+`rpgExpandedAssessScaledCollision(capacity, velocity, scale, hard)` supports
+velocity scales 1, 10, 100 and 1000. It retains fractional velocity through the
+collision calculation and rounds only the resulting damage expression. Existing
+`rpgExpandedAssessCollision` calls still use scale 1. General `RpgExpandedFallImpact`
+records may declare a scale, but existing landing receipts require scale 1.
+
+See [`expanded-acceleration-impact.t`](../../tests/fixtures/expanded-acceleration-impact.t)
+for a minimal integration fixture. Fractional thresholds, equivalence to whole
+speeds, duplicate prevention, preview, rollback, undo and save continuation
+fixtures are authored but unrun. Multiple successive impacts from a single event,
+unsupported hit locations and special anatomy remain outside this adapter.

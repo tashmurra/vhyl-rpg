@@ -59,3 +59,9 @@ Sudden acceleration now has source-based threshold/position assessment, owned
 fatigue loss and timed blackout recovery with shared-clock boundaries. High-score
 critical-failure margin semantics, already unconscious patients and associated
 collisions remain outstanding. Its fixtures are authored but unrun.
+
+
+Acceleration now supports one separately authored surface impact per event,
+through the existing collision/wound pipeline. Fixed-point collision velocity
+preserves low-acceleration fractions. The adapter retains the existing location
+and anatomy limits; its integration and lifecycle fixtures are unrun.

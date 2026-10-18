@@ -2271,9 +2271,12 @@
       "pages": "B434",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Being thrown against a solid surface by acceleration uses collision velocity ten times the acceleration in gravities; distinguish collision injury from resistance-check fatigue.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_acceleration_impact"
+      ],
+      "validation_note": "Owned acceleration impact binds event, profile and ten-times-standard-G velocity to existing collision/wound procedures. Fixed-point velocity preserves fractions without early truncation; one impact per event. Multiple impacts, unsupported locations and special anatomy remain outside the adapter. Lifecycle/expected-value fixtures authored, unrun."
     },
     {
       "id": "hazard-pressure-depth",

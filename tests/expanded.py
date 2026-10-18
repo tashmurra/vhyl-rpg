@@ -9159,6 +9159,8 @@ def test(build):
     test_recompression(Session, recompression, build.out)
     acceleration = build.build('expanded-acceleration',ROOT / 'tests/fixtures/expanded-acceleration.t')
     test_acceleration(Session, acceleration, build.out)
+    acceleration_impact = build.build('expanded-acceleration-impact',ROOT / 'tests/fixtures/expanded-acceleration-impact.t')
+    test_acceleration_impact(Session, acceleration_impact, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19390,5 +19392,44 @@ def test_acceleration(Session, bundle, out):
         for code in (8909, 8900, 8900, 8902):
             s.action(2285, code)
         assert last(s, 'test.acceleration') == [0, 0, 0, 0, 0]
+    finally:
+        s.close()
+
+
+def test_acceleration_impact(Session, bundle, out):
+    """B434 velocity conversion and B430 fractional collision dice; unrun."""
+    path = out / 'expanded-acceleration-impact.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 9005)
+        assert last(s, 'test.acceleration-impact-table') == [1, -3, 1, -2, 1, -2, 1, 0, 2, 0, 10, 10, 0]
+        for code in (9000, 9002, 9002, 9003, 9004):
+            s.action(2285, code)
+        assert last(s, 'test.acceleration-impact') == [0, 0, 0, 0, 0]
+        s.action(2285, 9001)
+        s.command('undo')
+        s.action(2285, 9004)
+        assert last(s, 'test.acceleration-impact') == [0, 0, 0, 0, 0]
+        for code in (9001, 9001, 9004):
+            s.action(2285, code)
+        state = last(s, 'test.acceleration-impact')
+        assert 0 <= state[0] <= 4
+        assert state[1:] == [0, 1, 0, 1]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (9001, 9004):
+            s.action(2285, code)
+        assert last(s, 'test.acceleration-impact') == state
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (9000, 8905, 9002):
+            s.action(2285, code)
+        assert last(s, 'test.acceleration-impact-result') == ['blocked', 'acceleration-impact-time']
     finally:
         s.close()

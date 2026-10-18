@@ -3846,23 +3846,29 @@ class RpgExpandedCollisionAssessment: RpgExpandedResult
     capacity = 0
     velocity = 0
     damageType = 'cr'
+    velocityScale = 1
 ;
 /** B430-B431: capacity is full HP, not remaining HP. Hard means immovable hard surface. */
 rpgExpandedAssessCollision(capacity,velocity,hard)
+{ return rpgExpandedAssessScaledCollision(capacity,velocity,1,hard); }
+
+/** Fixed-point velocity preserves fractional yards/second without early rounding. */
+rpgExpandedAssessScaledCollision(capacity,velocity,scale,hard)
 {
-    rpgInteger(capacity,1,1000000); rpgInteger(velocity,0,10000);
+    if (!holds([1,10,100,1000],scale)) rpgExpandedReject('collision-velocity-scale');
+    rpgInteger(capacity,1,1000000); rpgInteger(velocity,0,10000*scale);
     local value = new RpgExpandedCollisionAssessment();
-    value.capacity = capacity * (hard ? 2 : 1); value.velocity = velocity;
+    value.capacity = capacity * (hard ? 2 : 1); value.velocity = velocity; value.velocityScale = scale;
     if (velocity != 0)
     {
         rpgInteger(value.capacity,1,2147483647 / velocity);
-        local numerator = value.capacity * velocity;
-        if (numerator < 100)
+        local numerator = value.capacity * velocity; local denominator = 100*scale;
+        if (numerator < denominator)
         {
             value.damageDice = 1;
-            value.damageAdds = numerator <= 25 ? -3 : numerator <= 50 ? -2 : -1;
+            value.damageAdds = numerator <= denominator/4 ? -3 : numerator <= denominator/2 ? -2 : -1;
         }
-        else value.damageDice = numerator / 100 + (numerator % 100 >= 50 ? 1 : 0);
+        else value.damageDice = numerator/denominator + (numerator%denominator >= denominator/2 ? 1 : 0);
     }
     value.status = 'ready'; return value;
 }
@@ -4022,9 +4028,10 @@ class RpgExpandedFallImpactResult: RpgExpandedResult
 class RpgExpandedFallImpact: object
     injury = nil
     hard = nil
+    velocityScale = 1
     result = nil
     boundDefinition = nil
-    definition() { return [self.injury,self.hard] + self.injury.definition(); }
+    definition() { return [self.injury,self.hard,self.velocityScale] + self.injury.definition(); }
     assess()
     {
         if (self.injury == nil || !self.injury.ofKind(RpgExpandedFallInjury)
@@ -4041,15 +4048,17 @@ class RpgExpandedFallImpact: object
             value.status = 'reused'; return value;
         }
         if (self.injury.result != nil || self.injury.damage != 0) rpgExpandedReject('fall-impact-template');
-        rpgInteger(self.injury.damageVelocity,0,10000);
+        if (!holds([1,10,100,1000],self.velocityScale)) rpgExpandedReject('collision-velocity-scale');
+        rpgInteger(self.injury.damageVelocity,0,10000*self.velocityScale);
         local velocity = self.injury.damageVelocity;
         if (self.injury.landing != nil)
         {
+            if (self.velocityScale != 1) rpgExpandedReject('fall-landing-velocity-scale');
             if (!self.injury.landing.ofKind(RpgExpandedLandingReceipt)) rpgExpandedReject('fall-injury-landing');
             local landing = self.injury.landing.impactFor(self.injury.profile,self.injury.fall);
             if (landing.negatesDamage) velocity = 0;
         }
-        value.expression = rpgExpandedAssessCollision(self.injury.profile.maxHP,velocity,self.hard);
+        value.expression = rpgExpandedAssessScaledCollision(self.injury.profile.maxHP,velocity,self.velocityScale,self.hard);
         local minimum = value.expression.damageDice + value.expression.damageAdds;
         local maximum = value.expression.damageDice * 6 + value.expression.damageAdds;
         if (minimum < 0) minimum = 0; if (maximum < 0) maximum = 0;
@@ -4987,5 +4996,26 @@ modify rpgLedger
                     rpgExpandedReject('acceleration-blackout-boundary');
             }
         return nil;
+    }
+;
+
+
+/** B434 acceleration impact: thousandths-G numerically equals hundredths yd/s. */
+class RpgExpandedAccelerationImpact: RpgExpandedFallImpact
+    accelerationEvent = nil
+    velocityScale = 100
+    definition() { return inherited() + [self.accelerationEvent]; }
+    assess()
+    {
+        if (self.accelerationEvent == nil || !self.accelerationEvent.ofKind(RpgExpandedAcceleration))
+            rpgExpandedReject('acceleration-impact-event');
+        self.accelerationEvent.validateReceipt();
+        if (self.injury == nil || !self.injury.ofKind(RpgExpandedFallInjury)
+            || self.injury.profile != self.accelerationEvent.profile || self.injury.fall != self.accelerationEvent
+            || self.injury.damageVelocity != self.accelerationEvent.acceleration || self.velocityScale != 100
+            || self.injury.landing != nil) rpgExpandedReject('acceleration-impact-binding');
+        if (self.result == nil && rpgLedger.seconds != self.accelerationEvent.startedAt)
+        { local value = new RpgExpandedFallImpactResult(); value.reason = 'acceleration-impact-time'; return value; }
+        return inherited();
     }
 ;
