@@ -939,6 +939,46 @@ def test_loyalty_pay(s):
     assert loyalty_pay_state(s) == [14, 12, 2, 100, 2, 99, 0]
 
 
+def job_state(s):
+    s.action(1215)
+    return last(s, 'test.job-state')
+
+
+def test_job_month(s):
+    initial = job_state(s)
+    assert initial == [100, 400, 0, 1, 0, 0]
+    s.action(1216)
+    assert last(s, 'test.job-month-preview') == ['blocked', 'job-month-not-due', None]
+    s.action(1100, 73)
+    assert job_state(s) == initial
+    s.action(1100, 72)
+    assert last(s, 'test.job-month') == ['resolved', 400, 400]
+    assert job_state(s) == [500, 400, 1, 1, 3, 100]
+    s.command('undo')
+    assert job_state(s) == initial
+    s.action(1100, 72); s.action(1100, 76)
+    assert last(s, 'test.job-month') == ['reused', 0, 0]
+    assert job_state(s) == [500, 400, 1, 1, 3, 100]
+
+
+def test_job_demotion(s):
+    s.action(1100, 74)
+    assert last(s, 'test.job-month') == ['resolved', 0, 360]
+    assert job_state(s) == [80, 360, 1, 1, 3, 100]
+
+
+def test_job_dismissal(s):
+    s.action(1100, 75)
+    assert last(s, 'test.job-month') == ['resolved', 0, 400]
+    assert job_state(s) == [80, 400, 1, 0, 3, 100]
+
+
+def test_job_variable_month(s):
+    s.action(1100, 77)
+    assert last(s, 'test.job-month') == ['resolved', 480, 400]
+    assert job_state(s) == [580, 400, 1, 1, 3, 100]
+
+
 def test_job_earnings(s):
     cases = [
         ((400, 0, 12, 10, 'next-month'), ['ready', None, 400, 400, 0]),
@@ -1308,7 +1348,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_service_anniversary,test_service_failure,test_service_automatic,test_rescue_loyalty,test_rescue_no_decrease,test_rescue_ungrateful,test_rescue_sacrifice,test_loyalty_pay,test_job_qualifications,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_service_anniversary,test_service_failure,test_service_automatic,test_rescue_loyalty,test_rescue_no_decrease,test_rescue_ungrateful,test_rescue_sacrifice,test_loyalty_pay,test_job_qualifications,test_job_month,test_job_demotion,test_job_dismissal,test_job_variable_month,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')

@@ -832,6 +832,21 @@
         "tests/expanded.py::test_job_earnings"
       ],
       "validation_note": "Pure fixed/variable earnings and next-pay calculation authored. Checks unrun; monthly commitment, consequences, fractional currency and ambiguous automatic-failure margins pending."
+    },
+    {
+      "id": "monthly-employment-settlement",
+      "module": "campaign",
+      "pages": "B516-B517",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedJobMonth",
+      "tests": [
+        "tests/expanded.py::test_job_month",
+        "tests/expanded.py::test_job_demotion",
+        "tests/expanded.py::test_job_dismissal",
+        "tests/expanded.py::test_job_variable_month"
+      ],
+      "validation_note": "Owned monthly pay, preflight of all rolls, financial/dismissal consequences and receipts authored. Checks unrun; partial months, injury/arrest and economic integration pending."
     }
   ],
   "detailed_inventories": [

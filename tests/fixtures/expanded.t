@@ -85,6 +85,12 @@ crewPayStart: RpgExpandedLoyaltyPayChange loyalty = crewLoyalty id = 'extra-pay-
     normalPay = 100 actualPay = 120 evidence = 'signed-pay-arrangement';
 crewPayStop: RpgExpandedLoyaltyPayChange loyalty = crewLoyalty id = 'extra-pay-stop'
     mode = 'stop' expiresAt = 100 evidence = 'extra-pay-ended';
+jobWorker: RpgExpandedProfile rules = expandedRules money = 100 employments = [workerEmployment];
+workerJob: RpgExpandedJob id = 'courier' fixedScore = 12 requirementsApproved = true;
+workerFailure: RpgExpandedJobFailure evidence = 'courier-contract';
+workerEmployment: RpgExpandedEmployment id = 'courier-post' owner = jobWorker job = workerJob
+    monthlyPay = 400 raiseTiming = 'next-month' failurePolicy = workerFailure;
+workerMonth: RpgExpandedJobMonth employment = workerEmployment month = 1 dueAt = 100 fullMonthWorked = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -283,6 +289,19 @@ class ExpandedTestAction: Action
             local value = crewPayStop.apply(); event('test.loyalty-pay'); eventValue(value.status); eventValue(value.modifier);
         }
         if (code == 71) rpgSpendTime(99);
+        if (code == 72 || code == 73 || code == 74 || code == 75 || code == 76 || code == 77)
+        {
+            if (code != 76) rpgSpendTime(100);
+            if (code == 74 || code == 75)
+            {
+                rpgRandom.seed(5); workerFailure.kind = code == 74 ? 'demotion' : 'dismissal';
+                workerFailure.lostSavings = 20;
+            }
+            if (code == 77) workerEmployment.variable = true;
+            local value = workerMonth.settle(); event('test.job-month');
+            eventValue(value.status); eventValue(value.money); eventValue(value.nextPay);
+            if (code == 73) throw new RpgError();
+        }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
@@ -1355,6 +1374,17 @@ act(verb, args)
         job.prerequisites = []; job.rollMode = 'fixed'; job.fixedScore = 12; eventValue(job.assess(p).score);
         job.rollMode = 'attribute'; job.rollAttribute = rpgST; p.st = 14; job.rollModifier = -2;
         eventValue(job.assess(p).score); return nil;
+    }
+    if (verb == 1215)
+    {
+        event('test.job-state'); eventValue(jobWorker.money); eventValue(workerEmployment.monthlyPay);
+        eventValue(workerEmployment.months.length()); eventValue(workerEmployment.active ? 1 : 0);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1216)
+    {
+        local value = workerMonth.assess(); event('test.job-month-preview'); eventValue(value.status);
+        eventValue(value.reason); eventValue(value.check); return nil;
     }
     return vhylAct(verb,args);
 }

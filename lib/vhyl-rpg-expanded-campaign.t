@@ -588,3 +588,106 @@ rpgExpandedJobEarnings(monthlyPay, variable, score, roll, raiseTiming)
     }
     value.status = 'ready'; return value;
 }
+
+modify RpgExpandedProfile
+    employments = []
+;
+
+/** Owned employment state. Job definitions may be shared; pay and receipts may not. */
+class RpgExpandedEmployment: object
+    id = nil
+    owner = nil
+    job = nil
+    monthlyPay = 0
+    variable = nil
+    raiseTiming = nil
+    failurePolicy = nil
+    active = true
+    lastMonth = 0
+    lastMonthAt = 0
+    months = []
+    validate()
+    {
+        if (self.id == nil || self.owner == nil || !self.owner.ofKind(RpgExpandedProfile)
+            || !holds(self.owner.employments,self) || self.job == nil || !self.job.ofKind(RpgExpandedJob))
+            rpgExpandedReject('employment-owner');
+        foreach (local entry in self.owner.employments)
+            if (entry != self && entry.id == self.id) rpgExpandedReject('duplicate-employment');
+        rpgInteger(self.monthlyPay,0,2147483647); rpgInteger(self.lastMonth,0,1000000);
+        return nil;
+    }
+;
+
+/** Concrete financial/dismissal consequences for critical job failures, B516.
+ * Injury/arrest policies require their own subsystem and are not approximated. */
+class RpgExpandedJobFailure: object
+    kind = 'unpaid'
+    evidence = nil
+    retainedPayPercent = 90
+    lostSavings = 0
+    validate(employment)
+    {
+        if (!holds(['unpaid','demotion','dismissal'],self.kind) || self.evidence == nil)
+            rpgExpandedReject('job-failure-policy');
+        rpgInteger(self.lostSavings,0,2147483647);
+        if (self.lostSavings > employment.owner.money) rpgExpandedReject('job-failure-loss-unfunded');
+        if (self.kind == 'demotion')
+        { rpgInteger(self.retainedPayPercent,0,90); rpgExpandedJobPercent(employment.monthlyPay,self.retainedPayPercent); }
+        return nil;
+    }
+;
+
+/** One completed full month's work. Author supplies the actual calendar date
+ * and worked-month fact; settlement never adds a second month to the clock. */
+class RpgExpandedJobMonth: object
+    employment = nil
+    month = 1
+    dueAt = nil
+    fullMonthWorked = nil
+    assess()
+    {
+        if (self.employment == nil || !self.employment.ofKind(RpgExpandedEmployment))
+            rpgExpandedReject('job-month-employment');
+        self.employment.validate(); rpgInteger(self.month,1,1000000);
+        local value = new RpgExpandedJobEarnings(); local employment = self.employment;
+        foreach (local receipt in employment.months)
+            if (receipt[1] == self.month) { value.status = 'reused'; return value; }
+        if (!employment.active) { value.reason = 'employment-inactive'; return value; }
+        if (self.month != employment.lastMonth + 1) { value.reason = 'job-month-gap'; return value; }
+        rpgInteger(self.dueAt,1,2147483647);
+        if (self.dueAt <= employment.lastMonthAt) rpgExpandedReject('job-month-date-order');
+        if (!self.fullMonthWorked) { value.reason = 'job-full-month-required'; return value; }
+        if (rpgLedger.seconds < self.dueAt) { value.reason = 'job-month-not-due'; return value; }
+        local qualification = employment.job.assess(employment.owner);
+        if (qualification.status != 'ready') { value.reason = qualification.reason; return value; }
+        rpgInteger(employment.owner.money,0,2147483647);
+        if (employment.failurePolicy == nil || !employment.failurePolicy.ofKind(RpgExpandedJobFailure))
+            rpgExpandedReject('job-failure-policy');
+        employment.failurePolicy.validate(employment);
+        for (local roll = 3; roll <= 18; roll += 1)
+        {
+            local outcome = rpgExpandedJobEarnings(employment.monthlyPay,employment.variable,qualification.score,roll,employment.raiseTiming);
+            if (outcome.status != 'ready') { value.reason = outcome.reason; return value; }
+            if (outcome.money > 2147483647 - employment.owner.money) rpgExpandedReject('job-month-money-limit');
+        }
+        value.status = 'ready'; return value;
+    }
+    settle()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local employment = self.employment;
+        local qualification = employment.job.assess(employment.owner);
+        value = rpgExpandedJobEarnings(employment.monthlyPay,employment.variable,qualification.score,rpgRandom.roll(),employment.raiseTiming);
+        local loss = 0;
+        if (value.consequenceRequired)
+        {
+            local policy = employment.failurePolicy; loss = policy.lostSavings;
+            if (policy.kind == 'demotion') value.nextPay = rpgExpandedJobPercent(employment.monthlyPay,policy.retainedPayPercent);
+            if (policy.kind == 'dismissal') employment.active = nil;
+        }
+        employment.owner.money += value.money - loss; employment.monthlyPay = value.nextPay;
+        employment.months = employment.months + [[self.month,self.dueAt,value.check,value.money,value.nextPay,loss,employment.active]];
+        employment.lastMonth = self.month; employment.lastMonthAt = self.dueAt;
+        value.status = 'resolved'; return value;
+    }
+;

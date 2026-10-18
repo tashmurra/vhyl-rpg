@@ -415,3 +415,39 @@ consequences, partial months and pay scaling remain implementation work.
 when checks resume. Its authored cases cover fixed/variable outcomes, both explicit
 raise timings, critical failures, unresolved margin handling and arithmetic limits.
 No checks have been run for this addition.
+
+
+## Settling completed work months
+
+Register `RpgExpandedEmployment` in `owner.employments`, with unique `id`, shared
+`job` definition, owned `monthlyPay`, `variable`, `raiseTiming` and `failurePolicy`.
+Pay changes belong to the employment, so they cannot change every worker sharing
+the job definition. `RpgExpandedJobMonth` supplies sequential `month`, authored
+calendar `dueAt` and `fullMonthWorked`. It rejects early dates, skipped months,
+inactive employment and unqualified workers. Partial-month work is not yet supported.
+
+`assess()` evaluates all possible roll totals without randomness to ensure every
+branch has supported arithmetic and sufficient currency headroom. Unsupported
+fractional wages or raise choices therefore fail before a roll is consumed.
+`settle()` rolls once, credits earnings to the owner's existing money balance,
+updates ongoing pay and records the month's outcome. Repeated settlement returns
+`reused`, even after dismissal. The operation does not add work time: the authored
+work schedule must already have charged the shared clock once.
+
+`RpgExpandedJobFailure` requires a concrete `evidence` reference to the authored
+job consequence. Supported `kind` values are `unpaid`, `demotion` and `dismissal`.
+All give zero earnings for the failed month. Demotion uses `retainedPayPercent`
+from 0 through 90, ensuring at least a ten-percent reduction. `lostSavings` can
+add an explicit loss, provided it is affordable before the roll. Dismissal also
+marks the employment inactive. Injury, arrest and other unsupported consequences
+are rejected rather than approximated by unpaid work.
+
+Each receipt records month, date, check, income, ongoing pay, savings loss and
+active state. Fixed/variable pay and critical-failure changes are committed with
+that receipt in the same transaction. Independent income, debt and living costs
+still use their own monthly operations; integrating their chronological settlement,
+work-based study, wealth advancement and real employer payments remains pending.
+
+The authored `test_job_month`, `test_job_demotion`, `test_job_dismissal` and
+`test_job_variable_month` cases cover earnings, consequences, clock ownership,
+repeat protection, rollback and undo. They remain unrun while checks are paused.
