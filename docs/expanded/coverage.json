@@ -295,7 +295,9 @@
         "tests/expanded.py::test_repair_prices",
         "tests/expanded.py::test_breakdown_repair",
         "tests/expanded.py::test_breakdown_repair_persistence",
-        "tests/expanded.py::test_major_repair_parts"
+        "tests/expanded.py::test_major_repair_parts",
+        "tests/expanded.py::test_major_parts_preflight",
+        "tests/expanded.py::test_major_parts_persistence"
       ],
       "validation_note": "Object assessments, owned breakdowns and minor/major environmental-fault repairs authored; fixtures unrun. Structural injury/repair, maintenance scheduling, piece transformations and broader technology remain incomplete."
     },

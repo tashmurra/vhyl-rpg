@@ -388,7 +388,10 @@ class RpgExpandedRepairParts: object
         self.assess();
         if (!self.acquisition.claimed) return 'repair-parts-not-purchased';
         if (self.installed) return nil;
-        if (!holds(self.payer.equipment,self.package) || !self.package.usableBy(self.payer))
+        local count = 0;
+        foreach (local item in self.payer.equipment) if (item == self.package) count += 1;
+        if (count > 1) return 'repair-parts-duplicate-inventory';
+        if (count == 0 || !self.package.usableBy(self.payer))
             return 'repair-parts-not-carried';
         return nil;
     }

@@ -316,4 +316,9 @@ ordinary structural damage and multiple distinct faults remain unfinished.
 `test_major_repair_parts` covers quote rollback and replay, affordability, purchase
 rollback and replay, package weight in inventory, installation rollback, failed
 repair followed by success, and no repeated payment or installation. It is authored
-and unrun; separate-process major-parts continuation remains to be added.
+and unrun. `test_major_parts_preflight` additionally covers a competing quote,
+unpurchased or stored parts and duplicated inventory entries; those reject before
+repair time or dice. `test_major_parts_persistence` saves at five stages (before
+quote, quoted, purchased, installed after failure, repaired) and continues in a
+new process. Historical replay must retain money, inventory, repair state, dice
+and time. These additional fixtures are also authored and unrun.

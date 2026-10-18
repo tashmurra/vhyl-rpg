@@ -1013,6 +1013,57 @@ def test_major_repair_parts(s):
         assert repair_state(s)[0] == 1
 
 
+def test_major_parts_preflight(s):
+    s.action(2060,30); s.action(2060,31)
+    quoted = parts_state(s)
+    s.action(2060,39)
+    assert last(s,'test.parts-operation') == ['blocked','repair-parts-already-quoted']
+    assert parts_state(s) == quoted
+    s.action(2060,23)
+    assert last(s,'test.repair-operation') == ['blocked','repair-parts-not-purchased',0]
+    assert parts_state(s) == quoted
+    s.action(2060,33)
+    purchased = parts_state(s)
+    for code,reason in [(40,'repair-parts-not-carried'),(41,'repair-parts-duplicate-inventory')]:
+        s.action(2060,code)
+        assert last(s,'test.repair-operation') == ['blocked',reason,0]
+        assert repair_state(s) == [0,0,0,1,0]
+        s.command('undo')
+        assert parts_state(s) == purchased
+
+
+def test_major_parts_persistence(Session,bundle,out):
+    for stage in range(5):
+        path = out / f'expanded-major-parts-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2060,30)
+            for threshold,code in [(1,31),(2,33),(3,21),(4,36)]:
+                if stage >= threshold:
+                    first.action(2060,code)
+            saved = (parts_state(first),repair_state(first))
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2064')
+            assert (parts_state(second),repair_state(second)) == saved
+            for threshold,code in [(1,31),(2,33),(3,21),(4,36)]:
+                if stage < threshold:
+                    second.action(2060,code)
+            expected_parts = [900,0,0,100,1,3,3600]
+            expected_repair = [1,2,1,3,3600]
+            assert parts_state(second) == expected_parts
+            assert repair_state(second) == expected_repair
+            for code in [31,33,21,0,37]:
+                second.action(2060,code)
+                assert parts_state(second) == expected_parts
+                assert repair_state(second) == expected_repair
+        finally:
+            second.close()
+
+
 def repair_state(s):
     s.action(2062)
     return last(s,'test.repair-state')
@@ -5339,6 +5390,8 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_transactions)
     fresh(Session,breakdown,test_repair_prices)
     fresh(Session,breakdown,test_major_repair_parts)
+    fresh(Session,breakdown,test_major_parts_preflight)
+    test_major_parts_persistence(Session,breakdown,build.out)
     fresh(Session,breakdown,test_breakdown_repair)
     test_breakdown_repair_persistence(Session,breakdown,build.out)
     fresh(Session,breakdown,test_breakdown_days)

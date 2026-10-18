@@ -37,6 +37,19 @@ class BreakdownAction: Action
             if (code == 35) partsPayer.money = 1000;
             if (code == 36) { repairProfile.iq = 12; rpgRandom.seed(1); repairRetry.apply(); return nil; }
             if (code == 37) { partsRequest.evidence = 'Changed supply'; partsRequest.quote(); return nil; }
+            if (code == 39)
+            {
+                local another = new RpgExpandedRepairParts(); another.failure = breakdownRequest; another.payer = partsPayer;
+                another.evidence = 'Another supplier'; another.available = true; another.permitted = true;
+                local attempt = another.quote(); event('test.parts-operation'); eventValue(attempt.status); eventValue(attempt.reason); return nil;
+            }
+            if (code == 40 || code == 41)
+            {
+                if (code == 40) partsRequest.package.storageLocation = 'shelf';
+                else partsPayer.equipment = partsPayer.equipment + [partsRequest.package];
+                local preview = repairRequest.assess(); event('test.repair-operation');
+                eventValue(preview.status); eventValue(preview.reason); eventValue(preview.repaired ? 1 : 0); return nil;
+            }
             local parts = code == 31 || code == 32 ? partsRequest.quote() : partsRequest.purchase();
             event('test.parts-operation'); eventValue(parts.status); eventValue(parts.reason);
             if (code == 32 || code == 38) throw new RpgError(); return nil;
