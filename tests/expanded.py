@@ -1664,6 +1664,24 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_animal_strength_damage(s):
+    # Foundation-only creature fixture exercises table reuse without equipment includes.
+    # Expected thrust values are independently transcribed from B16; B460 supplies anatomy.
+    for strength,kind,anatomy,weak,horizontal,dx,skill,dice,adds,dtype in [
+            (10,'bite','ordinary',0,0,10,10,1,-3,'cr'),
+            (20,'kick','ordinary',0,0,10,10,2,-1,'cr'),
+            (21,'bite','ordinary',1,0,10,10,2,-5,'cr'),
+            (22,'kick','hooves',0,1,9,10,2,0,'cr'),
+            (24,'kick','hooves',0,1,9,12,2,3,'cr'),
+            (27,'striker','imp',0,0,8,None,3,2,'imp'),
+            (40,'claw','sharp-claws',0,0,10,12,4,4,'cut'),
+            (45,'striker','cr',0,0,12,None,5,5,'cr'),
+            (100,'bite','fangs',0,0,10,12,11,10,'imp'),
+            (110,'bite','fangs',0,0,10,12,12,11,'imp')]:
+        s.action(2215,strength,kind,anatomy,weak,horizontal,dx,skill)
+        assert last(s,'test.natural-strength') == ['ready',dice,adds,dtype,0,0]
+
+
 def test_animal_natural_damage(s):
     # Independent B460 examples use raw thrust 2d-1, not precomputed creature attacks.
     for kind,anatomy,weak,horizontal,score,adds,dtype,anatomy_bonus,skill_bonus in [
@@ -7582,6 +7600,7 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
+    fresh(Session,creatures,test_animal_strength_damage)
     fresh(Session,creatures,test_animal_natural_damage)
     fresh(Session,creatures,test_animal_values)
     test_learned_animal_tasks(Session,creatures)

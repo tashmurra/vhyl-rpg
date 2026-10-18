@@ -743,3 +743,10 @@ rpgExpandedNaturalDamage(thrustDice, thrustAdds, kind, anatomy, weakBite, horizo
     if (value.adds < -1000 || value.adds > 1000) rpgExpandedReject('animal-natural-damage-limit');
     value.status = 'ready'; return value;
 }
+
+/** Use the shared full-reference thrust lookup before applying natural anatomy. */
+rpgExpandedNaturalDamageForStrength(strength, kind, anatomy, weakBite, horizontal, dexterity, brawlingScore)
+{
+    local thrust = rpgExpandedDamageDice(strength,nil);
+    return rpgExpandedNaturalDamage(thrust[1],thrust[2],kind,anatomy,weakBite,horizontal,dexterity,brawlingScore);
+}

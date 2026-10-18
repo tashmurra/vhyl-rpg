@@ -346,9 +346,28 @@ Negative adds remain intact until basic damage is rolled and its minimum is
 applied by the damage resolver.
 
 This assessment does not establish attack legality, choose a target, roll an
-attack or apply an injury. Complete strength-table lookup, creature catalogue
-wiring and combat dispatch remain pending. In particular, do not use the Lite
-strength table for animals above its supported range. The authored
+attack or apply an injury. Creature catalogue wiring and combat dispatch remain pending. The authored
 `test_animal_natural_damage` fixture covers the formula branches and the skill
 threshold; it remains unrun while checks are paused.
 
+
+### Strength-based natural attacks
+
+`rpgExpandedNaturalDamageForStrength(strength, kind, anatomy, weakBite,
+horizontal, dexterity, brawlingScore)` obtains raw thrust from the shared
+`rpgExpandedDamageDice` lookup in the expanded foundation, then applies the same
+natural-attack assessment. The creature module does not require equipment.
+Existing equipment users retain the same function name and results.
+
+The lookup supports strength 1–40, the printed five-point rows through 100,
+and the specified full-ten-point progression above 100, bounded at 1000.
+Unprinted intermediate rows from 41 through 99 are rejected; no interpolation
+is inferred. The natural-attack assessor retains its 100-die bound, so a table
+result beyond that limit is rejected before any random roll or ledger change.
+A stronger animal does not silently fall back to the Lite table.
+
+For example, strength 45 gives raw thrust `5d`; a crushing striker with no
+qualifying brawling produces `5d+5`. Strength 24 gives `2d+1`; horizontal hooves
+cancel their per-die anatomy modifiers, and qualifying brawling adds two,
+producing `2d+3`. The fixture `test_animal_strength_damage` exercises these and
+other printed rows in the minimal creature build. It is authored but unrun.

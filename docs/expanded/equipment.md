@@ -337,3 +337,7 @@ ordinary transfers. Unlike voluntary storage movement, a forced drop remains
 valid when the injury leaves its owner unconscious. The plan clears affected aim
 state and is retained by the wound receipt. Authors provide the actual receiving
 location; inclusion does not guess one. See the [health integration](health.md).
+
+The shared `rpgExpandedDamageDice` lookup is defined in the expanded foundation.
+Equipment includes and callers retain their existing API; creature assessments
+can reuse the identical table without including the equipment library.
