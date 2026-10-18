@@ -16,6 +16,19 @@ expandedInvestment: RpgExpandedTraining skill = expandedSubject points = 1;
 expandedStudy: RpgExpandedStudy profile = expandedHero training = expandedInvestment permitted = true;
 expandedFamiliarity: RpgExpandedFamiliarity owner = expandedHero skill = expandedSubject
     equipmentType = 'survey-console' available = true;
+recognitionHero: RpgExpandedProfile rules = expandedRules iq = 12 techLevel = 5
+    skills = [recognitionTraining]
+    familiarities = [recognitionOne,recognitionTwo,recognitionThree,recognitionFour,recognitionFive,recognitionSix,recognitionTarget];
+recognitionSkill: RpgExpandedSkill id = 'console-operation' techLevel = 5 difficulty = 1;
+recognitionTraining: RpgExpandedTraining skill = recognitionSkill points = 4;
+recognitionOne: RpgExpandedFamiliarity owner = recognitionHero skill = recognitionSkill equipmentType = 'one' initial = true;
+recognitionTwo: RpgExpandedFamiliarity owner = recognitionHero skill = recognitionSkill equipmentType = 'two' initial = true;
+recognitionThree: RpgExpandedFamiliarity owner = recognitionHero skill = recognitionSkill equipmentType = 'three' initial = true;
+recognitionFour: RpgExpandedFamiliarity owner = recognitionHero skill = recognitionSkill equipmentType = 'four' initial = true;
+recognitionFive: RpgExpandedFamiliarity owner = recognitionHero skill = recognitionSkill equipmentType = 'five' initial = true;
+recognitionSix: RpgExpandedFamiliarity owner = recognitionHero skill = recognitionSkill equipmentType = 'six' initial = true;
+recognitionTarget: RpgExpandedFamiliarity owner = recognitionHero skill = recognitionSkill equipmentType = 'new' available = true;
+recognitionDecision: RpgExpandedFamiliarityRecognition familiarity = recognitionTarget approved = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -33,6 +46,15 @@ class ExpandedTestAction: Action
             local value = expandedStudy.advance(args[2]);
             event('test.study'); eventValue(value.status); eventValue(value.reason); eventValue(value.points);
             if (code == 3) throw new RpgError();
+        }
+        if (code == 8 || code == 9 || code == 10)
+        {
+            if (code == 10)
+            { recognitionDecision.mode = 'improved'; recognitionDecision.similarTo = recognitionOne; }
+            else recognitionHero.iq = args[2];
+            local value = recognitionDecision.resolve();
+            event('test.recognition'); eventValue(value.status); eventValue(value.reason);
+            if (code == 9) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -437,6 +459,41 @@ act(verb, args)
         offer.teacher = teacher; eventValue(rpgAssessDevelopment(offer).status);
         study.mode = 'education'; eventValue(study.assess(100).status);
         p.iq = 5; eventValue(study.advance(100).reason); eventValue(study.credit);
+        return nil;
+    }
+    if (verb == 1131)
+    {
+        event('test.recognition-state'); eventValue(recognitionTarget.recognitionAttempted);
+        eventValue(recognitionTarget.recognized ? 1 : 0); eventValue(rpgRandom.draws);
+        eventValue(rpgLedger.seconds); eventValue(recognitionTarget.modifier());
+        eventValue(recognitionTarget.recognitionCheck == nil ? nil : recognitionTarget.recognitionCheck.roll);
+        local context = new RpgExpandedSkillContext(); context.skill = recognitionSkill;
+        context.familiarity = recognitionTarget; context.equipmentTL = 7;
+        eventValue(rpgLiteScore(recognitionHero,context)); return nil;
+    }
+    if (verb == 1132)
+    {
+        local value = recognitionDecision.assess();
+        event('test.recognition'); eventValue(value.status); eventValue(value.reason); return nil;
+    }
+    if (verb == 1133)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        local skill = new RpgExpandedSkill();
+        local training = new RpgExpandedTraining(); training.skill = skill; training.points = 4;
+        p.skills = [training];
+        local source = new RpgExpandedFamiliarity(); source.owner = p; source.skill = skill;
+        source.equipmentType = 'known'; source.initial = true;
+        local target = new RpgExpandedFamiliarity(); target.owner = p; target.skill = skill;
+        target.equipmentType = 'new'; target.available = true; p.familiarities = [source,target];
+        local decision = new RpgExpandedFamiliarityRecognition(); decision.familiarity = target;
+        event('test.recognition-gates'); eventValue(decision.assess().reason);
+        decision.approved = true; eventValue(decision.assess().reason);
+        decision.mode = 'similar'; decision.similarTo = source; eventValue(decision.assess().status);
+        source.initial = nil; eventValue(decision.assess().reason);
+        decision.similarTo = recognitionOne;
+        try { decision.assess(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
     return vhylAct(verb,args);

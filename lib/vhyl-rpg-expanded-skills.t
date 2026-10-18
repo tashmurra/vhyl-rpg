@@ -290,6 +290,9 @@ class RpgExpandedFamiliarity: object
     requiredSeconds = 28800
     penalty = -2
     practicedSeconds = 0
+    recognized = nil
+    recognitionAttempted = nil
+    recognitionCheck = nil
     practiceOwner = nil
     practiceSkill = nil
     practiceType = nil
@@ -323,7 +326,7 @@ class RpgExpandedFamiliarity: object
         if (initialCount > points * 2) rpgExpandedReject('initial-familiarity-limit');
         return nil;
     }
-    known() { return self.initial || self.practicedSeconds == self.requiredSeconds; }
+    known() { return self.initial || self.recognized || self.practicedSeconds == self.requiredSeconds; }
     modifier()
     {
         self.validate(); return self.known() ? 0 : self.penalty;
@@ -491,3 +494,63 @@ rpgExpandedSkillStrength(profile, skill)
     if (relative == nil) return nil;
     return profile.st + (relative > 0 ? relative : 0);
 }
+
+/** Authored B169 recognition decision. Similar/improved/obsolete decisions must
+ * identify a known type; optional rolls require six known types of this skill.
+ * One attempted recognition is retained on the target record, even on failure. */
+class RpgExpandedFamiliarityRecognition: object
+    familiarity = nil
+    mode = 'roll'
+    similarTo = nil
+    approved = nil
+    assess()
+    {
+        if (self.familiarity == nil || !self.familiarity.ofKind(RpgExpandedFamiliarity))
+            rpgExpandedReject('familiarity-recognition-target');
+        local target = self.familiarity; target.validate();
+        rpgExpandedValidate(target.owner);
+        if (!holds(['roll','similar','improved','obsolete'], self.mode))
+            rpgExpandedReject('familiarity-recognition-mode');
+        local value = new RpgExpandedResult();
+        if (target.known() || target.recognitionAttempted)
+        { value.status = 'reused'; value.check = target.recognitionCheck; return value; }
+        if (!self.approved) { value.reason = 'familiarity-recognition-unapproved'; return value; }
+        if (!target.available) { value.reason = 'familiarity-equipment-unavailable'; return value; }
+        if (target.owner.dead || target.owner.unconscious)
+        { value.reason = 'cannot-recognize'; return value; }
+        if (self.mode == 'roll')
+        {
+            local count = 0;
+            foreach (local entry in target.owner.familiarities)
+                if (entry.skill == target.skill && entry.known()) count += 1;
+            if (count < 6) { value.reason = 'familiarity-recognition-experience'; return value; }
+            local score = target.owner.skillScore(target.skill);
+            if (score == nil || score < 3)
+            { value.reason = 'familiarity-skill-unavailable'; return value; }
+            rpgInteger(score, 3, 1000); value.check = score;
+        }
+        else
+        {
+            if (self.similarTo == nil || !self.similarTo.ofKind(RpgExpandedFamiliarity)
+                || self.similarTo == target || self.similarTo.owner != target.owner
+                || self.similarTo.skill != target.skill)
+                rpgExpandedReject('familiarity-recognition-source');
+            self.similarTo.validate();
+            if (!self.similarTo.known())
+            { value.reason = 'familiarity-recognition-source-unknown'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess();
+        if (value.status != 'ready') return value;
+        local target = self.familiarity;
+        if (self.mode == 'roll') value.check = rpgCheck(value.check, rpgRandom.roll());
+        target.practiceOwner = target.owner; target.practiceSkill = target.skill;
+        target.practiceType = target.equipmentType;
+        target.recognitionAttempted = true; target.recognitionCheck = value.check;
+        target.recognized = self.mode != 'roll' || value.check.achieved;
+        value.status = 'resolved'; return value;
+    }
+;

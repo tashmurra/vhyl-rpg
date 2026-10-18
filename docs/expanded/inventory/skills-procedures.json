@@ -363,9 +363,14 @@
       "pages": "B169",
       "module": "skills",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Offer the optional broad-experience check only at the required familiarity count; record similarity decisions and avoid repeated checks for the same introduction.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_recognition",
+        "tests/expanded.py::test_recognition_similarity"
+      ],
+      "existing_feature": "familiarity-recognition",
+      "validation_note": "Recognition decision interface authored with ownership and known-source requirements; new checks unrun."
     },
     {
       "id": "skill-familiarity-starting",
@@ -383,9 +388,14 @@
       "pages": "B169",
       "module": "skills",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Recognize improved or obsolete versions of familiar equipment without dropping the independent technology penalty.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_recognition",
+        "tests/expanded.py::test_recognition_similarity"
+      ],
+      "existing_feature": "familiarity-recognition",
+      "validation_note": "Recognition decision interface authored with ownership and known-source requirements; new checks unrun."
     },
     {
       "id": "skill-cost-easy-minus-3",

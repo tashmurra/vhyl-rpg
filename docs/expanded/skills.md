@@ -237,9 +237,9 @@ Ordinary contexts retain a zero-valued hook and consume no additional randomness
 A context without a familiarity record applies no familiarity modifier, so authors
 must supply a record whenever the equipment-use procedure calls for one.
 
-The discretionary recognition roll after six familiarities, automatic recognition
-of similar equipment, and technology-level exceptions are still pending. Do not
-model technology penalties by changing this penalty or practice duration. Combined
+The recognition decision interface below handles discretionary rolls and authored
+similarity decisions. Do not model technology penalties by changing this penalty
+or practice duration. Combined
 study/practice sessions also remain unsupported; calling both commits would charge
 time twice. The familiarity state currently supports a dedicated practice action.
 
@@ -266,8 +266,8 @@ Familiarity removes only its own penalty. At an impossible technology difference
 `technology-too-advanced`, without consuming randomness. Untouched Lite contexts
 retain their existing unavailable reason and zero additional modifier.
 
-Learning access is handled separately below. Programmed capabilities and the
-exceptions for improved or obsolete familiar equipment remain pending. Native
+Learning access is handled separately below. Programmed capabilities remain
+pending. Improved or obsolete equipment uses the recognition interface below. Native
 expected-value table checks and combined-context cases are authored in
 `tests/expanded.py::test_technology_modifiers` but remain unrun.
 
@@ -361,3 +361,38 @@ catalogue-specific exceptions remain pending. The authored checks in
 `tests/expanded.py::test_technology_learning` cover starting versus in-play access,
 IQ-based restrictions, teacher identity and training, lower cognition, purchase and
 study gates, and unchanged ledgers on rejection. They have not run.
+
+## Recognizing familiar equipment
+
+Create an owned target familiarity record and an authored
+`RpgExpandedFamiliarityRecognition` decision referencing it. Set `approved` only
+when the author elects to use the B169 recognition procedure. `assess()` is pure;
+`resolve()` belongs inside the action transaction and spends no practice time or
+points. It records the decision on the target so a repeated call, including one
+through another decision object, cannot grant a free reroll.
+
+For `mode = 'roll'`, the profile must know at least six distinct equipment types
+for the selected skill. Resolution rolls against that skill once. Success removes
+the familiarity penalty; failure leaves it in place, and ordinary practice remains
+available. The stored `recognitionCheck` preserves the outcome. A blocked assessment
+does not count as an attempt or consume randomness.
+
+For `mode = 'similar'`, `'improved'` or `'obsolete'`, set `similarTo` to another
+known familiarity of the same owner and skill. This is the author's explicit
+judgment about the relationship between the two types; the library validates the
+comparison and grants recognition without a roll. It does not infer similarity
+from item labels, numeric technology levels or adjacent catalogue entries. All
+three modes remove only unfamiliarity. The independent technology modifier still
+applies to the actual equipment level.
+
+A target retains one recognition decision, including a failed roll. Authors should
+reuse that record for future encounters with the same type. Reopening a failed
+decision based on new narrative evidence is not currently an implemented procedure.
+Retargeting a record after practice or recognition is rejected. Catalogue-specific
+recognition exceptions still need their own integrations.
+
+Authored native cases cover approval and experience gates, known comparison types,
+ownership, deterministic success and failure, no repeat rolls, unchanged technology
+penalties, exception rollback, undo and cross-process continuation. See
+`test_recognition`, `test_recognition_failure`, `test_recognition_similarity` and
+`test_recognition_persistence` in `tests/expanded.py`. These checks remain unrun.

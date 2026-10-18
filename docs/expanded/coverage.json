@@ -380,6 +380,21 @@
         "tests/expanded.py::test_technology_learning"
       ],
       "validation_note": "Starting access, cognitive restrictions and teacher gates implemented for ordinary learning. New checks unrun; programmed capabilities and catalogue exceptions pending."
+    },
+    {
+      "id": "familiarity-recognition",
+      "module": "skills",
+      "pages": "B169",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedFamiliarityRecognition",
+      "tests": [
+        "tests/expanded.py::test_recognition",
+        "tests/expanded.py::test_recognition_failure",
+        "tests/expanded.py::test_recognition_similarity",
+        "tests/expanded.py::test_recognition_persistence"
+      ],
+      "validation_note": "Explicit recognition decisions and saved outcomes implemented. New native checks unrun; catalogue-specific integrations and reopening decisions remain pending."
     }
   ],
   "detailed_inventories": [

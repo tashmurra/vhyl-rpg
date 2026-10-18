@@ -224,6 +224,69 @@ def test_technology_learning(s):
     assert state(s) == before, 'rejected technology learning consumed resources'
 
 
+def recognition_state(s):
+    s.action(1131)
+    return last(s, 'test.recognition-state')
+
+
+def test_recognition(s):
+    initial = recognition_state(s)
+    assert initial == [None, 0, 0, 0, -2, None, 1]
+    s.action(1132)
+    assert last(s, 'test.recognition') == ['ready', None]
+    s.action(1133)
+    assert last(s, 'test.recognition-gates') == [
+        'familiarity-recognition-unapproved', 'familiarity-recognition-experience',
+        'ready', 'familiarity-recognition-source-unknown', 'familiarity-recognition-source']
+    assert recognition_state(s) == initial
+    s.action(1100, 9, 12)
+    assert recognition_state(s) == initial, 'exception leaked recognition or RNG'
+    s.action(1100, 8, 12)
+    success = recognition_state(s)
+    assert success == [True, 1, 3, 0, 0, 10, 3]
+    s.action(1100, 8, 12)
+    assert last(s, 'test.recognition') == ['reused', None]
+    assert recognition_state(s) == success
+
+
+def test_recognition_failure(s):
+    s.action(1100, 8, 3)
+    failed = recognition_state(s)
+    assert failed == [True, 0, 3, 0, -2, 10, -8]
+    s.action(1100, 8, 3)
+    assert last(s, 'test.recognition') == ['reused', None]
+    assert recognition_state(s) == failed, 'failed recognition allowed a free retry'
+
+
+def test_recognition_similarity(s):
+    initial = recognition_state(s)
+    s.action(1100, 10)
+    assert recognition_state(s) == [True, 1, 0, 0, 0, None, 3]
+    s.command('undo')
+    assert recognition_state(s) == initial
+
+
+def test_recognition_persistence(Session, bundle, out):
+    path = out / 'expanded-recognition.zsave'
+    first = Session(bundle)
+    try:
+        first.action(1100, 8, 3)
+        saved = recognition_state(first)
+        first.command(f':save {path}\n@1131')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@1131')
+        assert recognition_state(second) == saved
+        second.action(1100, 8, 3)
+        assert last(second, 'test.recognition') == ['reused', None]
+        assert recognition_state(second) == saved
+    finally:
+        second.close()
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -301,9 +364,10 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
+    test_recognition_persistence(Session,bundle,build.out)
     test_familiarity_persistence(Session,bundle,build.out)
     test_persistence(Session,bundle,build.out)
     print('  expanded cross-process persistence: passed',flush=True)
