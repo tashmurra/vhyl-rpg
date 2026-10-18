@@ -8982,6 +8982,8 @@ def test(build):
     test_load_assessments(Session, loads)
     test_cooperative_loads(Session, loads)
     test_load_distribution(Session, loads)
+    climb_assessment = build.build('expanded-climb-assessment', ROOT / 'tests/fixtures/expanded-climb-assessment.t')
+    test_climb_assessment(Session, climb_assessment)
     equipment_lift = build.build('expanded-equipment-lift', ROOT / 'tests/fixtures/expanded-equipment-lift.t')
     test_equipment_lift(Session, equipment_lift, build.out)
     shared_carry = build.build('expanded-shared-carry', ROOT / 'tests/fixtures/expanded-shared-carry.t')
@@ -13575,5 +13577,33 @@ def test_shared_hands(Session, bundle):
         assert last(s, 'test.shared-hands') == [0,0,0,1,0,2,'lifting-shared-support-occupied',2,0]
         s.action(2285, 822)
         assert last(s, 'test.shared-unarmed') == [1,8,None,0,0]
+    finally:
+        s.close()
+
+
+def test_climb_assessment(Session, bundle):
+    # Independently transcribed B349 rates in feet/rungs per minute.
+    rows = [(None,180,60,'rungs'), (None,120,60,'rungs'),
+            (5,60,20,'feet'), (0,30,10,'feet'), (-3,12,4,'feet'),
+            (-3,6,2,'feet'), (-2,60,20,'feet'), (-1,120,30,'feet'),
+            (-1,720,720,'feet')]
+    s = Session(bundle)
+    try:
+        for index, (modifier, fast, regular, unit) in enumerate(rows, 1):
+            for combat, rate in ((0,regular), (1,fast)):
+                s.action(2292,index,rate,2,combat,3)
+                assert last(s, 'test.climb-assessment') == [
+                    unit,rate,60,60,None if modifier is None else modifier-2,
+                    0 if modifier is None else 1,6 if combat else 3,
+                    'move' if combat else None,0,0]
+        # Exact fractional speed: a building climb takes 30 seconds per foot.
+        for distance, seconds, checks in ((9,270,1),(10,300,2),(11,330,2)):
+            s.action(2292,6,distance,0,0,0)
+            assert last(s, 'test.climb-assessment') == ['feet',2,60,seconds,-3,checks,0,None,0,0]
+        # Round only the final duration; ladder climbing still costs combat effort.
+        s.action(2292,1,1,4,1,0)
+        assert last(s, 'test.climb-assessment') == ['rungs',180,60,1,None,0,1,'move',0,0]
+        s.action(2292,9,13,0,0,0)
+        assert last(s, 'test.climb-assessment') == ['feet',720,60,2,-1,1,0,None,0,0]
     finally:
         s.close()

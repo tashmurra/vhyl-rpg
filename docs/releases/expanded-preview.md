@@ -4,6 +4,11 @@ This branch implements an incomplete experimental suite. It is not a stable
 release and does not claim full-reference coverage. VERSION follows the merged
 main prerelease; no new tag or release publication is part of this work.
 
+Exploration now exposes a pure climbing assessment for all nine printed surfaces,
+with exact rates, explicit feet/rung units, encumbrance, check boundaries and
+combat fatigue. Owned climbing and falling integration remain pending. The new
+table and boundary assertions are authored but unrun while checks are paused.
+
 Shared-load lowering now rejects unresolved support loss detected during its time
 interval, including a carrier who recovers before the interval ends. An authored
 fixture covers rollback of the clock, support event and inventory transfer. Checks

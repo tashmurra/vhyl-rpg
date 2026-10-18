@@ -1152,3 +1152,32 @@ modify rpgExpandedSharedCarryRules
         distribution.seconds = capacity.seconds; return distribution;
     }
 ;
+
+/** Pure B349 assessment. Distance is whole feet or ladder rungs, never yards. */
+class RpgExpandedClimbAssessment: RpgExpandedResult
+    unit = nil
+    rateNumerator = nil
+    rateDenominator = 60
+    modifier = nil
+    checkCount = 0
+    fatigueCost = 0
+    maneuver = nil
+;
+rpgExpandedAssessClimb(surface,distance,encumbrance,combat,ordinaryFatigue)
+{
+    rpgInteger(distance,1,1000000); rpgInteger(encumbrance,0,4);
+    rpgInteger(ordinaryFatigue,0,1000000);
+    local row = rpgLiteClimbData(surface); local value = new RpgExpandedClimbAssessment();
+    value.unit = row[5]; value.rateNumerator = row[combat ? 3 : 4];
+    local numerator = distance * 60;
+    value.seconds = (numerator + value.rateNumerator - 1) / value.rateNumerator;
+    if (row[2] != nil)
+    {
+        value.modifier = row[2] - encumbrance;
+        value.checkCount = 1 + value.seconds / 300;
+    }
+    value.fatigueCost = combat ? ordinaryFatigue * 2 : ordinaryFatigue;
+    if (combat && value.fatigueCost < 1) value.fatigueCost = 1;
+    value.maneuver = combat ? 'move' : nil;
+    value.status = 'ready'; return value;
+}

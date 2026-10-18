@@ -557,3 +557,30 @@ The equipment module now provides [owned shared carrying](equipment.md#owned-sha
 for these capacity and distribution assessments. One inventory owns the item;
 participant load calculations add only their assigned shares. Coordinated movement,
 emergency drops and reallocation remain incomplete; integration fixtures are unrun.
+
+### Climbing assessment
+
+`rpgExpandedAssessClimb(surface, distance, encumbrance, combat, ordinaryFatigue)`
+implements the printed B349 rate table through the existing shared table. Pass
+whole feet for walls, trees, mountains and ropes, or whole rungs for ladders.
+The result exposes `unit`, an exact `rateNumerator / rateDenominator` in units per
+second, and a duration rounded up once to whole ledger seconds. It does not convert
+feet to truncated hundredths of yards. Supported surface identifiers are
+`ladder-up`, `ladder-down`, `tree`, `mountain`, `stone-wall`, `building`, `rope-up`,
+`rope-down` and `rappel` (equipped rope descent).
+
+For non-ladders, `modifier` includes the printed surface adjustment minus the
+encumbrance level, and `checkCount` gives the entry check plus five-minute checks
+through the assessed interval. Ladders return no modifier and zero checks.
+`ordinaryFatigue` is the author's ordinary cost for this climb; the combat result
+replaces it with twice that cost, with a minimum of one, and specifies `move`.
+Do not add the ordinary cost again. Overloaded climbing is rejected rather than
+assigned an unsupported fifth encumbrance penalty.
+
+This assessment spends no time, fatigue or randomness. It is not an executable
+climbing encounter: skill rolls, interruption, secured-rope fall distances,
+falling damage and owned progress still require implementation. The existing
+profile's activity behavior is unchanged. `test_climb_assessment` specifies all
+nine rows at both speeds, encumbrance, fractional rates, whole-second rounding,
+five-minute boundaries and combat fatigue. These assertions remain unrun while
+checks are paused. Source: `full-2008`, B349.

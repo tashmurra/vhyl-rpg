@@ -21,9 +21,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For non-ladder climbs roll climbing at entry and each five-minute boundary, with the climb modifier and a penalty equal to encumbrance level.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
     },
     {
       "id": "activity-climb-failure",
@@ -41,9 +44,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Combat-speed climbing requires a movement maneuver and fatigue cost of at least one or twice the authored ordinary cost; do not also charge another ordinary climb cost.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
     },
     {
       "id": "activity-dig-volume",
@@ -670,9 +676,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use no roll for the climb check, combat speed 3 rungs/second and ordinary speed 1 rung/second; keep units explicit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
     },
     {
       "id": "climb-surface-ladder-down",
@@ -680,9 +689,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use no roll for the climb check, combat speed 2 rungs/second and ordinary speed 1 rung/second; keep units explicit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
     },
     {
       "id": "climb-surface-tree",
@@ -690,9 +702,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use +5 for the climb check, combat speed 1 foot/second and ordinary speed 1 foot/3 seconds; keep units explicit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
     },
     {
       "id": "climb-surface-mountain",
@@ -700,9 +715,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use 0 for the climb check, combat speed 1 foot/2 seconds and ordinary speed 10 feet/minute; keep units explicit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
     },
     {
       "id": "climb-surface-stone-wall",
@@ -710,9 +728,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use -3 for the climb check, combat speed 1 foot/5 seconds and ordinary speed 4 feet/minute; keep units explicit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
     },
     {
       "id": "climb-surface-building",
@@ -720,9 +741,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use -3 for the climb check, combat speed 1 foot/10 seconds and ordinary speed 2 feet/minute; keep units explicit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
     },
     {
       "id": "climb-surface-rope-up",
@@ -730,9 +754,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use -2 for the climb check, combat speed 1 foot/second and ordinary speed 20 feet/minute; keep units explicit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
     },
     {
       "id": "climb-surface-rope-down-unassisted",
@@ -740,9 +767,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use -1 for the climb check, combat speed 2 feet/second and ordinary speed 30 feet/minute; keep units explicit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
     },
     {
       "id": "climb-surface-rope-down-equipped",
@@ -750,9 +780,12 @@
       "pages": "B349",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use -1 for the climb check, combat speed 12 feet/second and ordinary speed 12 feet/second; keep units explicit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
     },
     {
       "id": "digging-rate-loose",
