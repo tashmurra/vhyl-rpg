@@ -674,3 +674,34 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     sustenanceAgingRequired(trait) { rpgExpandedReject('sustenance-traits-module-required'); }
 ;
+
+
+/** Historical contribution credit captured by character finalization. */
+class RpgExpandedContributionBasis: object
+    owner = nil
+    contribution = nil
+    originalBonus = nil
+    creationReceipt = nil
+;
+modify RpgExpandedProfile
+    contributionBuyoffBases = []
+    originalContributionBonus(contribution)
+    {
+        if (self.creationReceipt != nil) self.creationReceipt.assess();
+        local found = nil;
+        foreach (local basis in self.contributionBuyoffBases)
+        {
+            if (basis == nil || !basis.ofKind(RpgExpandedContributionBasis) || basis.owner != self)
+                rpgExpandedReject('contribution-basis-owner');
+            if (basis.contribution == contribution)
+            {
+                if (found != nil) rpgExpandedReject('contribution-basis-duplicate');
+                found = basis;
+            }
+        }
+        if (found == nil) return nil;
+        if (found.creationReceipt == nil) rpgExpandedReject('contribution-basis-receipt');
+        found.creationReceipt.validateContributionBasis(found);
+        return found.originalBonus;
+    }
+;

@@ -1828,3 +1828,9 @@ Permanent dependent loss now supports an owned removal record and funded
 settlement from the existing unspent bank, retaining historical session records
 and retiring accounting credit once. Original-credit capture and replacement
 options remain pending; author evidence supplies historical cost. Fixtures unrun.
+
+
+Character finalization now captures contribution credit, including zero-credit
+dependents. Permanent-loss settlement uses verified original credit despite later
+repricing; imported/post-creation relationships retain the explicit evidence path.
+Replacement options remain pending. New fixtures are authored but unrun.

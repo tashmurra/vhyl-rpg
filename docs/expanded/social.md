@@ -1368,9 +1368,27 @@ in later sessions; an existing loss-session closure still prohibits that session
 awards. Loss history independently blocks awards for its session even without a
 closure; subsequent milestones must identify their session. Do not remove
 historical contributions or edit their purchase definitions.
-Creation-time capture of original dependent credit, replacement disadvantages,
-replacement dependents and partial group-loss handling remain pending. The
-historical amount currently requires explicit author evidence.
+Replacement disadvantages,
+replacement dependents and partial group-loss handling remain pending. Without a character-finalization receipt, the
+historical amount requires explicit author evidence.
 `expanded-dependent-loss.t` and `test_dependent_loss` specify funded/insufficient
 settlement, historical award restrictions, unavailable appearances, surviving
 groups, replay, rollback, undo and save continuation. Fixtures remain unrun.
+
+
+Character finalization now captures contribution credit in
+`RpgExpandedContributionBasis` records alongside the existing trait records.
+`profile.originalContributionBonus(relationship)` returns the verified original
+negative credit, including zero for uncredited relationships. Finalization replay
+validates ownership, receipt membership and the captured amounts. Subsequent
+purchase repricing does not rewrite historical credit.
+
+For a dependent present at finalization, leave `loss.originalBonus` and
+`bonusEvidence` nil to use the captured value. A supplied amount must match;
+conflicting amounts reject. Relationships added later, or characters without a
+finalization receipt, still require an explicit historical amount and evidence.
+Finalization adds no points or time, and funded settlement continues to use the
+single existing unspent bank. Replacement options remain pending.
+`expanded-dependent-original-credit.t` / `test_dependent_original_credit` specify
+zero-credit capture, repricing, mismatched/tampered history rejection, rollback,
+undo and cross-process saved continuation. Fixtures remain unrun.

@@ -9264,6 +9264,8 @@ def test(build):
     test_dependent_groups(Session, dependent_groups, build.out)
     dependent_loss = build.build('expanded-dependent-loss',ROOT / 'tests/fixtures/expanded-dependent-loss.t')
     test_dependent_loss(Session, dependent_loss, build.out)
+    dependent_original_credit = build.build('expanded-dependent-original-credit',ROOT / 'tests/fixtures/expanded-dependent-original-credit.t')
+    test_dependent_original_credit(Session, dependent_original_credit, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21519,3 +21521,44 @@ def test_dependent_loss(Session, bundle, out):
         assert last(s, 'test.dependent-loss-reject') == ['dependent-loss-group-still-present']
     finally:
         s.close()
+
+
+def test_dependent_original_credit(Session, bundle, out):
+    """B131 finalization captures historical credit rather than later repricing; unrun."""
+    for uncredited in (False, True):
+        path = out / f'dependent-original-credit-{uncredited}.zsave'
+        bonus = 0 if uncredited else 20
+        s = Session(bundle)
+        try:
+            for code in (14200,) + ((14207,) if uncredited else ()) + (14202, 14203):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-original-credit') == [0, 0, None, 0]
+            s.action(2285, 14201)
+            s.command('undo')
+            s.action(2285, 14203)
+            assert last(s, 'test.dependent-original-credit') == [0, 0, None, 0]
+            for code in (14201, 14201, 14203, 14204, 14101, 14102, 14103, 14105):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-original-credit') == [1, 1, bonus, 0]
+            assert last(s, 'test.dependent-loss-preview') == ['ready', None, bonus]
+            assert last(s, 'test.dependent-loss-state') == [1, 1, 0, 25, 25-bonus, 1, 0]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (14201, 14103, 14203, 14105):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-original-credit') == [1, 1, bonus, 0]
+            assert last(s, 'test.dependent-loss-state') == [1, 1, 0, 25, 25-bonus, 1, 0]
+        finally:
+            s.close()
+    for mutation, reason in [(14205, 'dependent-loss-original-credit-mismatch'), (14206, 'creation-contribution-cost-changed')]:
+        s = Session(bundle)
+        try:
+            for code in (14200, 14201, mutation):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-original-reject') == [reason]
+        finally:
+            s.close()

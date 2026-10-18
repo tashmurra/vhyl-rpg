@@ -99,3 +99,13 @@ exemptions for HP, FP, Basic Speed and Basic Move from the separate permissions
 for Will and Perception. The ancestry module supplies this hook from an approved,
 owned nonhuman classification. Ordinary profiles retain all previous limits;
 `exceptionalCharacteristics` retains its explicit campaign-wide override.
+
+
+Character finalization also captures each installed contribution's original
+negative credit in owned `RpgExpandedContributionBasis` receipts. Positive amounts
+do not offset negative components for this historical-credit record. Zero-credit
+contributions receive zero-valued receipts. Use
+`profile.originalContributionBonus(contribution)` for validated historical credit,
+independent of later purchase repricing. This does not grant or spend points;
+feature modules decide which settlement procedure uses the captured credit.
+Dependent permanent-loss settlement uses this history automatically.
