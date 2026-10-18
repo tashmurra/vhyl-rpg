@@ -9416,6 +9416,8 @@ def test(build):
     test_psychology_templates(Session, psychology_templates)
     sociology_skill = build.build("expanded-sociology-skill",ROOT / "tests/fixtures/expanded-sociology-skill.t")
     test_sociology_skill(Session, sociology_skill)
+    anthropology_skill = build.build("expanded-anthropology-skill",ROOT / "tests/fixtures/expanded-anthropology-skill.t")
+    test_anthropology_skill(Session, anthropology_skill)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24181,5 +24183,19 @@ def test_sociology_skill(Session, bundle):
             for code in (*setup,21600):
                 s.action(1680,code)
             assert last(s,'test.sociology-scores') == expected
+        finally:
+            s.close()
+
+
+def test_anthropology_skill(Session, bundle):
+    """B175's printed defaults and explicit related-species edges; unrun."""
+    for setup, expected in (((),6),((21601,),14),((21701,),14),((21701,21705),6),
+                            ((21702,),6),((21702,21703),15),((21702,21703,21704),12),
+                            ((21702,21703,21706),6)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,21700):
+                s.action(1680,code)
+            assert last(s,'test.anthropology-score') == [expected,0]
         finally:
             s.close()

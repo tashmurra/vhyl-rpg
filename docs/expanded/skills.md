@@ -1000,3 +1000,25 @@ pressures and contact between societies still require owned authored-finding
 operations and appropriate access/evidence. `test_sociology_skill` specifies the
 printed defaults, the incoming psychology default, optional-source propagation
 and prevention of untrained chains. Fixtures remain unrun while checks are paused.
+
+
+## Anthropology catalogue skill
+
+`RpgExpandedAnthropologySkill` provides IQ/Hard anthropology for an explicit
+species `specialty`, with IQ-6, Sociology-3 and Paleontology (human origins)-2
+(full-2008 B175, B212). The latter source uses neutral `id = 'paleontology'`,
+`specialty = 'human-origins'` and an explicit technology level. Other fossil-study
+specialties do not directly supply that default. Only purchased source training
+counts; optional source subfields receive the normal additional -2.
+
+Add `RpgExpandedAnthropologyDefault` objects to `speciesDefaults` for related
+species. Each requires a typed `source`, `penalty` from -2 through -5, author
+approval and concrete relationship evidence. Leave the relationship absent for
+unrelated species. The character can still use the printed IQ default; an absent
+relationship prevents transfer of another species' purchased skill, not the
+attribute fallback. Untrained sources cannot create default chains.
+
+Cultural findings and predictions about rituals still need owned authored-result
+operations. The definition alone supplies skill scoring. `test_anthropology_skill`
+specifies every printed source default, correct fossil specialty selection,
+related/unrelated species and untrained-source rejection. Fixtures remain unrun.

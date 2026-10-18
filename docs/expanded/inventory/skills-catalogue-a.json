@@ -295,9 +295,10 @@
       "pages": "B175",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require species specialization; author cross-species defaults in the stated -2 to -5 range or no default for unrelated biology.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_anthropology_skill"],
+      "validation_note": "Typed species anthropology supplies IQ, sociology and the correct technology-qualified paleontology specialty defaults. Explicit approved species relationships implement -2 through -5; absent relationships provide no transfer. Owned cultural findings and ritual predictions remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",

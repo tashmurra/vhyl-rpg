@@ -1872,3 +1872,56 @@ class RpgExpandedSociologySkill: RpgExpandedSkill
         return edges;
     }
 ;
+
+/** Full-2008 B175: explicit related-species defaults, absent for unrelated species. */
+class RpgExpandedAnthropologyDefault: object
+    source = nil
+    penalty = nil
+    approved = nil
+    evidence = nil
+    edge(target)
+    {
+        if (self.source == nil || !self.source.ofKind(RpgExpandedAnthropologySkill) || self.source == target
+            || self.source.specialty == target.specialty) rpgExpandedReject('anthropology-default-source');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('anthropology-default-evidence');
+        rpgInteger(self.penalty,-5,-2); return [self.source,self.penalty];
+    }
+;
+class RpgExpandedAnthropologySkill: RpgExpandedSkill
+    id = 'anthropology'
+    attribute = rpgIQ
+    difficulty = 2
+    defaultPenalty = -6
+    speciesDefaults = []
+    validateDefinition()
+    {
+        if (self.id != 'anthropology' || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != -6
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil || self.techLevel != nil
+            || self.specialty == nil || self.specialty == '') rpgExpandedReject('anthropology-skill-definition');
+        local seen = [];
+        foreach (local relation in self.speciesDefaults)
+        {
+            if (relation == nil || !relation.ofKind(RpgExpandedAnthropologyDefault)) rpgExpandedReject('anthropology-default-definition');
+            local edge = relation.edge(self);
+            if (holds(seen,edge[1])) rpgExpandedReject('anthropology-default-duplicate');
+            seen = seen + [edge[1]];
+        }
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill)) continue;
+            local general = source.ofKind(RpgExpandedSkill) && source.optionalParent != nil ? source.optionalParent : source;
+            if (general.id == 'sociology' && general.techLevel == nil) edges = edges + [[general,-3]];
+            if (general.id == 'paleontology' && general.specialty == 'human-origins' && general.techLevel != nil)
+                edges = edges + [[general,-2]];
+        }
+        foreach (local relation in self.speciesDefaults) edges = edges + [relation.edge(self)];
+        return edges;
+    }
+;
