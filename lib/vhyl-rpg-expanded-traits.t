@@ -2782,3 +2782,20 @@ modify RpgExpandedProfile
     sustenanceAgingRequired(trait)
     { self.sustenanceInjuryInterval(trait); return trait.acceleratedAging; }
 ;
+
+modify RpgExpandedProfile
+    dependentReplacementTraitFacts(trait)
+    {
+        if (!trait.ofKind(RpgExpandedFixedBelief)) return inherited(trait);
+        return [trait.id,trait.points,trait.level,trait.scope,trait.approved,trait.beliefText,trait.behaviorText,
+            trait.creditedPoints,trait.controlled,trait.skills.length(),trait.fearAcquisition];
+    }
+    validateDependentReplacementTrait(trait)
+    {
+        if (!trait.ofKind(RpgExpandedFixedBelief)) return inherited(trait);
+        trait.creationCost(); self.validateFixedBeliefs(trait);
+        if (trait.fearAcquisition != nil || !trait.active || trait.mitigated)
+            rpgExpandedReject('dependent-replacement-trait-existing-state');
+        return nil;
+    }
+;

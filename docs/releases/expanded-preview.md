@@ -1840,3 +1840,8 @@ Permanent dependent loss can now be settled by an explicitly approved equal-cred
 replacement, transferring the historical obligation without changing either point
 bank. Historical session receipts survive later relationship installation.
 Replacement disadvantages and mixed settlements remain pending; fixtures unrun.
+
+
+Dependent loss can now be replaced with an approved equal-credit fixed belief,
+using existing behavior and validation plus a transferred buyoff basis. Broader
+disadvantage adapters and mixed settlements remain pending. Fixtures are unrun.

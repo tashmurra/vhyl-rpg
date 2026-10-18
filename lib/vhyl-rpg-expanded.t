@@ -705,3 +705,8 @@ modify RpgExpandedProfile
         return found.originalBonus;
     }
 ;
+
+modify RpgExpandedProfile
+    dependentReplacementTraitFacts(trait) { rpgExpandedReject('dependent-replacement-trait-unsupported'); }
+    validateDependentReplacementTrait(trait) { rpgExpandedReject('dependent-replacement-trait-unsupported'); }
+;

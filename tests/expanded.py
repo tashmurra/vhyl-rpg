@@ -9268,6 +9268,8 @@ def test(build):
     test_dependent_original_credit(Session, dependent_original_credit, build.out)
     dependent_replacement = build.build('expanded-dependent-replacement',ROOT / 'tests/fixtures/expanded-dependent-replacement.t')
     test_dependent_replacement(Session, dependent_replacement, build.out)
+    dependent_trait_replacement = build.build('expanded-dependent-trait-replacement',ROOT / 'tests/fixtures/expanded-dependent-trait-replacement.t')
+    test_dependent_trait_replacement(Session, dependent_trait_replacement, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21615,5 +21617,55 @@ def test_dependent_replacement(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.dependent-replacement-preview') == ['blocked', 'dependent-replacement-story-approval-required', 20]
         assert last(s, 'test.dependent-replacement-state') == before
+    finally:
+        s.close()
+
+
+def test_dependent_trait_replacement(Session, bundle, out):
+    """B131 replacement disadvantage carries executable behavior and buyoff basis; unrun."""
+    before = [0, 0, -10, 25, 25, None, 0]
+    after = [1, 1, -10, 25, 25, 10, 0]
+    path = out / 'dependent-trait-replacement.zsave'
+    s = Session(bundle)
+    try:
+        for code in (14400, 14401, 14403, 14404):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-trait-preview') == ['ready', None, 10]
+        assert last(s, 'test.dependent-trait-state') == before
+        s.action(2285, 14402)
+        s.command('undo')
+        s.action(2285, 14404)
+        assert last(s, 'test.dependent-trait-state') == before
+        for code in (14402, 14402, 14404):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-trait-state') == after
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (14402, 14404):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-trait-state') == after
+        for code in (14405, 14402, 14404):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-trait-state') == [1, 0, 0, 25, 15, 10, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (14400, 14406, 14404):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-trait-reject') == ['dependent-replacement-trait-credit']
+        assert last(s, 'test.dependent-trait-state') == before
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (14400, 14407, 14401, 14402, 14404):
+            s.action(2285, code)
+        assert last(s, 'test.dependent-trait-preview') == ['blocked', 'dependent-replacement-trait-story-required', 10]
+        assert last(s, 'test.dependent-trait-state') == before
     finally:
         s.close()

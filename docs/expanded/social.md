@@ -1421,3 +1421,30 @@ for awards. `expanded-dependent-replacement.t` and `test_dependent_replacement`
 specify credit/identity/approval rejection, unchanged banks, inherited historical
 credit, historical session replay, rollback, undo and saved continuation. Fixtures
 remain unrun while checks are paused.
+
+
+### Replacing loss with an executable disadvantage
+
+`RpgExpandedDependentTraitReplacement` supplies the disadvantage-replacement path
+(`full-2008`, B131). Supply recorded `loss`, a fresh `trait`, approval and evidence
+linking the concrete disadvantage to the loss. The installed traits module
+currently supports `RpgExpandedFixedBelief`: its scope, severity, belief text and
+behavior text are validated, including the aggregate credit cap and duplicate
+scope restrictions. Existing owned traits, inactive/mitigated purchases and
+fear-acquired beliefs reject. Other trait types explicitly reject until they
+provide a compatible validation adapter.
+
+The replacement must exactly match the original outstanding credit. `assess()`
+checks shared development restrictions and author approval before mutation.
+`apply()` installs the actual trait, retires the lost relationship and transfers
+the amount to an owned `RpgExpandedBuyoffBasis`; neither point bank changes.
+The trait uses its normal executable portrayal/reaction interfaces. Subsequent
+ordinary buyoff spends the transferred amount through the existing bank.
+Replaying settlement after buyoff does not recreate the removed trait.
+
+This is the first supported disadvantage type; broader replacements, bundles and
+mixed funded settlements remain pending. The foundation alone rejects unsupported
+trait adapters. `expanded-dependent-trait-replacement.t` and
+`test_dependent_trait_replacement` specify accounting, approval/mismatched credit,
+rollback, undo, replay, saved continuation and later funded buyoff. Fixtures are
+unrun while checks remain paused.
