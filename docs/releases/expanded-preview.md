@@ -557,3 +557,10 @@ binds condition duration and evidence, preflights before randomness and prevents
 later toxic cycles from refreshing the condition. Added authored, unrun coverage
 for six cycles, resistance, recovery boundaries and transactional continuation.
 Other afflictions, onset policies and unprepared fear remain incomplete.
+
+
+Added owned agony episodes, begun-minute fatigue payments, low/high pain-threshold
+handling and an explicit credible-recurrence bonus interface. Shared-clock guards
+prevent unpaid minutes from being skipped. Added authored, unrun fixtures for
+boundary costs, trait effects, transactional behavior and saved continuation.
+Cause and social adapters remain incomplete.

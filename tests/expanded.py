@@ -8956,6 +8956,8 @@ def test(build):
     test_paralysis(Session, paralysis, build.out)
     seizure = build.build('expanded-seizure', ROOT / 'tests/fixtures/expanded-seizure.t')
     test_seizure(Session, seizure, build.out)
+    agony = build.build('expanded-agony', ROOT / 'tests/fixtures/expanded-agony.t')
+    test_agony(Session, agony, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -12178,3 +12180,52 @@ def test_neurological_agent(Session, bundle, out):
         assert state(s) == [1, 0, 0, 0, 0, 0, 0, 3]
     finally:
         s.close()
+
+
+def test_agony(Session, bundle, out):
+    def state(s):
+        s.action(2285, 495)
+        return last(s, 'test.agony')
+    clear = [0, 'standing', 0, 10, 0, 0, 0, 0, 0]
+    path = out / 'expanded-agony.zsave'
+    s = Session(bundle)
+    try:
+        for code in (490, 492):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 491)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (491, 491, 454, 455, 456, 493, 5):
+            s.action(2285, code)
+        assert state(s) == [1, 'lying', 1, None, 4, 0, 1, 0, 0]
+        s.action(2285, 4)
+        s.action(2285, 494)
+        assert state(s) == [1, 'lying', 1, None, 4, 0, 1, 60, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 493)
+        s.command('undo')
+        assert state(s) == [1, 'lying', 1, None, 4, 0, 1, 60, 0]
+        for code in (493, 493, 415, 498):
+            s.action(2285, code)
+        assert state(s) == [0, 'lying', 2, 10, 0, 0, 2, 61, 0]
+        assert last(s, 'test.agony-recurrence') == [3, 3, 0, 0]
+    finally:
+        s.close()
+    for setup, fatigue, score, defense, actions, bonus in [(496, 2, None, 4, 0, 6), (497, 1, 7, 0, 1, 3)]:
+        s = Session(bundle)
+        try:
+            for code in (setup, 499, 491, 454):
+                s.action(2285, code)
+            assert state(s) == [1, 'lying', fatigue, score, defense, actions, 1, 0, 0]
+            for code in (4, 498):
+                s.action(2285, code)
+            assert state(s) == [0, 'lying', fatigue, 10, 0, actions, 1, 60, 0]
+            assert last(s, 'test.agony-recurrence') == [bonus, bonus, 0, 0]
+        finally:
+            s.close()

@@ -173,9 +173,10 @@
       "pages": "B428",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Agony causes collapse from standing/sitting and costs one fatigue per minute or fraction; credible threatened recurrence gives +3 to interrogation and intimidation afterward.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_agony"],
+      "validation_note": "Owned finite onset, begun-minute fatigue receipts, low/high pain thresholds, action gating and explicit credible-recurrence bonus implemented. Boundary, replay, rollback, undo and save-continuation fixtures authored, unrun. Cause integrations, social adapters and broader validation remain incomplete."
     },
     {
       "id": "condition-agony-tolerance",
@@ -183,9 +184,10 @@
       "pages": "B428",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Low pain threshold doubles agony fatigue and the threatened-recurrence bonus; high pain threshold permits functioning at -3 dexterity and intelligence.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_agony"],
+      "validation_note": "Owned finite onset, begun-minute fatigue receipts, low/high pain thresholds, action gating and explicit credible-recurrence bonus implemented. Boundary, replay, rollback, undo and save-continuation fixtures authored, unrun. Cause integrations, social adapters and broader validation remain incomplete."
     },
     {
       "id": "condition-choking",

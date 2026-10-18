@@ -5640,3 +5640,149 @@ modify rpgLedger
         return nil;
     }
 ;
+
+/** B428 agony: each begun minute owns a fatigue payment, including onset. */
+class RpgExpandedAgony: RpgExpandedCoughing
+    dropDestination = nil
+    payments = []
+    nextPaymentAt = nil
+    history() { return self.profile.agonyHistory; }
+    remember() { self.profile.agonyHistory = self.profile.agonyHistory + [self]; }
+    receiptKind() { return 'agony'; }
+    onsetLowPain = nil
+    onsetHighPain = nil
+    validateReceipt()
+    {
+        inherited(); local count = self.payments.length();
+        if (rpgLedger.seconds < self.expiresAt && (self.profile.level('low-pain-threshold') != self.onsetLowPain
+            || self.profile.level('high-pain-threshold') != self.onsetHighPain)) rpgExpandedReject('agony-pain-threshold-changed');
+        if (count == 0 || count > (self.durationSeconds - 1) / 60 + 1) rpgExpandedReject('agony-payment-history');
+        local expected = count == (self.durationSeconds - 1) / 60 + 1 ? self.expiresAt : self.startedAt + count * 60;
+        if (self.nextPaymentAt != expected) rpgExpandedReject('agony-payment-boundary');
+        foreach (local loss in self.payments)
+            if (loss.profile != self.profile || loss.dropDestination != self.dropDestination || loss.assess().status != 'reused')
+                rpgExpandedReject('agony-payment-binding');
+        return nil;
+    }
+    definition()
+    { return inherited() + [self.dropDestination]; }
+    payment(id)
+    {
+        local loss = new RpgExpandedAgonyFatigueLoss(); loss.id = self.id + '-' + id;
+        loss.profile = self.profile; loss.amount = self.profile.level('low-pain-threshold') > 0 ? 2 : 1;
+        loss.dropDestination = self.dropDestination; return loss;
+    }
+    assess()
+    {
+        local value = inherited(); if (value.status != 'ready') return value;
+        if (self.profile.level('low-pain-threshold') > 0 && self.profile.level('high-pain-threshold') > 0)
+        { value.status = 'blocked'; value.reason = 'pain-threshold-conflict'; return value; }
+        return self.payment('onset').assess();
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local loss = self.payment('onset'); value = loss.apply();
+        if (value.status != 'resolved') rpgExpandedReject('agony-onset-changed');
+        self.startedAt = rpgLedger.seconds; self.expiresAt = self.startedAt + self.durationSeconds;
+        self.nextPaymentAt = self.durationSeconds > 60 ? self.startedAt + 60 : self.expiresAt;
+        self.onsetLowPain = self.profile.level('low-pain-threshold'); self.onsetHighPain = self.profile.level('high-pain-threshold');
+        self.payments = [loss]; self.boundDefinition = self.definition(); self.remember(); self.result = value;
+        if (holds(['standing','sitting'],self.profile.posture)) self.profile.posture = 'lying';
+        return value;
+    }
+    assessPayment(id)
+    {
+        self.validateReceipt();
+        if (id == nil || id == '') rpgExpandedReject('agony-payment-id');
+        local value = new RpgExpandedResult();
+        foreach (local prior in self.payments)
+            if (prior.id == self.id + '-' + id) return prior.assess();
+        if (self.profile.dead || rpgLedger.seconds >= self.expiresAt)
+        { value.reason = 'agony-payment-inactive'; return value; }
+        if (rpgLedger.seconds != self.nextPaymentAt)
+        { value.reason = 'agony-payment-time'; return value; }
+        return self.payment(id).assess();
+    }
+    pay(id)
+    {
+        local value = self.assessPayment(id); if (value.status != 'ready') return value;
+        local loss = self.payment(id); value = loss.apply();
+        if (value.status != 'resolved') rpgExpandedReject('agony-payment-changed');
+        self.payments = self.payments + [loss];
+        self.nextPaymentAt = self.expiresAt - self.nextPaymentAt > 60 ? self.nextPaymentAt + 60 : self.expiresAt;
+        return value;
+    }
+    recurrenceBonus(skillId, credible, evidence)
+    {
+        self.validateReceipt();
+        if (rpgLedger.seconds < self.expiresAt || !credible) return 0;
+        if (!holds(['interrogation','intimidation'],skillId)) return 0;
+        if (evidence == nil || evidence == '') rpgExpandedReject('agony-recurrence-evidence');
+        return self.profile.level('low-pain-threshold') > 0 ? 6 : 3;
+    }
+;
+class RpgExpandedAgonyFatigueLoss: RpgExpandedFearFatigueLoss
+    fatigueCause() { return 'agony'; }
+    history() { return self.profile.agonyFatigueLosses; }
+    remember() { self.profile.agonyFatigueLosses = self.profile.agonyFatigueLosses + [self]; }
+    woundId(index)
+    {
+        local suffixes = ['one','two']; return 'agony-fatigue-' + self.id + '-' + suffixes[index];
+    }
+    maximumAmount() { return 2; }
+;
+modify RpgExpandedProfile
+    agonyHistory = []
+    agonyFatigueLosses = []
+    agonized()
+    {
+        local active = nil;
+        foreach (local episode in self.agonyHistory) if (episode.active()) active = true;
+        return active;
+    }
+    agonyIncapacitated() { return self.agonized() && self.level('high-pain-threshold') == 0; }
+    voluntaryMovementUnavailable() { return self.agonyIncapacitated() || inherited(); }
+    healthEffortReason(purpose,mentalAbility,speech,movement)
+    {
+        if (self.agonyIncapacitated() && !holds(['rest','do-nothing'],purpose)) return 'agony-action-unavailable';
+        return inherited(purpose,mentalAbility,speech,movement);
+    }
+    healthCheckReason(context)
+    {
+        if (self.agonyIncapacitated() && !context.defensiveReaction && context.kind != 'defense'
+            && (context.skill != nil || context.mentalAbility || context.requiresMovement || context.requiresSpeech
+                || holds([rpgST,rpgDX,rpgIQ,rpgPerception,rpgWill],context.controllingAttribute())))
+            return 'agony-check-unavailable';
+        return inherited(context);
+    }
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        if (self.agonized() && self.level('high-pain-threshold') > 0 && !context.defensiveReaction
+            && !holds(['defense','resistance','fright','fear'],context.kind)
+            && holds([rpgDX,rpgIQ,rpgPerception,rpgWill],context.controllingAttribute())) value -= 3;
+        return value;
+    }
+    healthManeuverReason(kind)
+    {
+        if (self.agonyIncapacitated() && kind != 'nothing') return 'agony-do-nothing-required';
+        return inherited(kind);
+    }
+    healthDefensePenalty()
+    { local value = inherited(); return self.agonyIncapacitated() && value < 4 ? 4 : value; }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local episode = firstObj(RpgExpandedAgony); episode != nil; episode = nextObj(episode,RpgExpandedAgony))
+            if (episode.result != nil && !episode.profile.dead)
+            {
+                episode.validateReceipt();
+                if (episode.nextPaymentAt < episode.expiresAt && self.seconds + seconds > episode.nextPaymentAt)
+                    rpgExpandedReject('agony-minute-boundary');
+            }
+        return nil;
+    }
+;

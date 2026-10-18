@@ -2624,3 +2624,36 @@ early-end rejection, time boundaries, preview purity, replay, exception rollback
 undo and cross-process save continuation. These assertions are unrun. Poison and
 other cause integrations, falls from height and cross-module verification remain
 incomplete; including the library does not generate seizures automatically.
+
+
+### Agony and pain thresholds
+
+`RpgExpandedAgony` owns a finite episode under full-2008 B428. Supply `id`,
+`profile`, `durationSeconds`, `approved`, `evidence` and, if collapse could drop
+items, `dropDestination`. Its pure `assess()` preflights onset fatigue. `apply()`
+charges the first begun minute and makes a standing or sitting patient lie down.
+Ordinary patients cannot act voluntarily and have the effective-stun defense
+penalty. High pain threshold allows action with temporary −3 DX/IQ (including
+IQ-derived perception and will checks under B421); defensive reactions and
+secondary characteristics retain their existing treatment.
+
+The first minute costs one fatigue, or two with low pain threshold. If the episode
+continues beyond a minute boundary, advance to `nextPaymentAt` and call
+`assessPayment(id)` or `pay(id)` with a unique payment ID. The clock will not skip
+an unpaid boundary. Each payment owns its fatigue, overflow injury and collapse
+consequences. Repeating the same ID returns the stored receipt without charging
+again. A duration of exactly sixty seconds costs one payment; sixty-one seconds
+costs two. Expiry leaves posture unchanged. Pain-threshold changes during a live
+receipt are rejected rather than silently altering its costs.
+
+After expiry, `recurrenceBonus(skillId, credible, evidence)` returns three for
+interrogation or intimidation when the author supplies a credible threat of
+renewed pain, or six with low pain threshold. Other skills and noncredible threats
+receive zero. The author must pass this modifier into the applicable social
+operation once; the condition does not infer credibility or automatically modify
+all conversations.
+
+`expanded-agony.t` specifies minute boundaries, trait differences, onset and
+payment replay, preview purity, rollback, undo, saved continuation and recurrence
+bonuses. Assertions remain unrun. Poison/cause adapters and social-operation
+integration remain incomplete.
