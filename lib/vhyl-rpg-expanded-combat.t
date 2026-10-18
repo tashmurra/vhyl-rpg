@@ -498,3 +498,75 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+modify RpgExpandedProfile
+    criticalReadiness = []
+;
+
+/** Owned weapon-table readiness consequence; the ordinary Ready action restores use. */
+class RpgExpandedCriticalReadiness: object
+    id = nil
+    profile = nil
+    weapon = nil
+    tableRoll = 8
+    evidence = nil
+    result = nil
+    boundId = nil
+    boundProfile = nil
+    boundWeapon = nil
+    boundRoll = nil
+    boundEvidence = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('critical-readiness-profile');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.profile != self.boundProfile
+                || self.weapon != self.boundWeapon || self.tableRoll != self.boundRoll
+                || self.evidence != self.boundEvidence || !holds(self.profile.criticalReadiness,self))
+                rpgExpandedReject('critical-readiness-binding');
+            value.status = 'reused'; return value;
+        }
+        if (self.id == nil || self.id == '' || !holds([8,12],self.tableRoll))
+            rpgExpandedReject('critical-readiness-declaration');
+        if (self.weapon == nil || !self.weapon.ofKind(RpgLiteWeapon)
+            || !holds(self.profile.equipment,self.weapon)) rpgExpandedReject('critical-readiness-weapon');
+        if (self.evidence == nil || self.evidence == '')
+        { value.reason = 'critical-readiness-evidence'; return value; }
+        foreach (local prior in self.profile.criticalReadiness)
+            if (prior.id == self.id) rpgExpandedReject('critical-readiness-duplicate');
+        rpgExpandedValidate(self.profile);
+        if (!self.weapon.ready || !self.weapon.usableBy(self.profile))
+        { value.reason = 'critical-readiness-not-held'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.weapon.ready = nil;
+        for (local fighter = firstObj(RpgLiteFighter); fighter != nil; fighter = nextObj(fighter,RpgLiteFighter))
+            if (fighter.profile == self.profile && fighter.aimWeapon == self.weapon)
+            { fighter.aimSeconds = 0; fighter.aimTarget = nil; fighter.aimWeapon = nil; }
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundWeapon = self.weapon;
+        self.boundRoll = self.tableRoll; self.boundEvidence = self.evidence;
+        self.profile.criticalReadiness = self.profile.criticalReadiness + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local receipt in self.criticalReadiness)
+        {
+            if (receipt == nil || !receipt.ofKind(RpgExpandedCriticalReadiness) || receipt.profile != self
+                || receipt.result == nil || holds(ids,receipt.id) || receipt.assess().status != 'reused')
+                rpgExpandedReject('critical-readiness-history');
+            ids = ids + [receipt.id];
+        }
+        return nil;
+    }
+;

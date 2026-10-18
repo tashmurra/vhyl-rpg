@@ -39,6 +39,7 @@
         "tests/expanded.py::test_critical_major_wound",
         "tests/expanded.py::test_critical_major_transactions",
         "tests/expanded.py::test_critical_major_persistence",
+        "tests/expanded.py::test_critical_readiness",
         "tests/expanded.py::test_critical_drop_transactions",
         "tests/expanded.py::test_critical_drop_persistence"
       ],

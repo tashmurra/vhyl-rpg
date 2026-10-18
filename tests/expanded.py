@@ -973,6 +973,29 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def critical_readiness_state(s):
+    s.action(2032)
+    return last(s,'test.critical-readiness-state')
+
+
+def test_critical_readiness(s):
+    initial = [1,2,0,0,0]
+    assert critical_readiness_state(s) == initial
+    for code in [23,21]:
+        s.action(2030,code)
+        assert critical_readiness_state(s) == initial
+    for code in [20,26]:
+        s.action(2030,code)
+        assert critical_readiness_state(s) == [0,0,1,0,0]
+        s.command('undo')
+        assert critical_readiness_state(s) == initial
+    s.action(2030,20)
+    s.action(2030,24)
+    for code in [22,25]:
+        s.action(2030,code)
+        assert critical_readiness_state(s) == [1,0,1,0,0]
+
+
 def critical_drop_state(s):
     s.action(2031)
     return last(s,'test.critical-drop-state')
@@ -4844,6 +4867,7 @@ def test(build):
     fresh(Session,combat,test_unarmed_miss_assessments)
     combat_drop = build.build('expanded-combat-drop',ROOT / 'tests/fixtures/expanded-combat-drop.t')
     fresh(Session,combat_drop,test_critical_drop_transactions)
+    fresh(Session,combat_drop,test_critical_readiness)
     test_critical_drop_persistence(Session,combat_drop,build.out)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)

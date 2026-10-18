@@ -19,11 +19,22 @@ dropPacked: RpgLiteItem id = 'packed' weight = 100;
 dropFighter: RpgLiteFighter profile = dropPatient aimWeapon = dropFirst aimSeconds = 2;
 dropRequest: RpgExpandedCriticalDrop id = 'critical-drop' profile = dropPatient
     evidence = 'Recorded qualifying critical-hit table result' destination = 'yard';
+readinessRequest: RpgExpandedCriticalReadiness id = 'weapon-readiness' profile = dropPatient
+    weapon = dropFirst evidence = 'Recorded weapon critical miss';
 dropInput: object code = 0;
 class CriticalDropAction: Action
     exec(context)
     {
         local code = dropInput.code;
+        if (code >= 20)
+        {
+            if (code == 24) { dropFirst.ready = true; return nil; }
+            if (code == 25) readinessRequest.evidence = 'Changed evidence';
+            if (code == 26) readinessRequest.tableRoll = 12;
+            local readiness = code == 23 ? readinessRequest.assess() : readinessRequest.apply();
+            event('test.critical-readiness-operation'); eventValue(readiness.status); eventValue(readiness.reason);
+            if (code == 21) throw new RpgError(); return nil;
+        }
         if (code == 2 || code == 3 || code == 11) dropRequest.trigger = 'head-14';
         if (code == 4) dropRequest.destination = nil;
         if (code == 5) dropRequest.evidence = 'Changed trigger';
@@ -52,6 +63,12 @@ turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
     if (verb == 2030) { dropInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2032)
+    {
+        event('test.critical-readiness-state'); eventValue(dropFirst.ready ? 1 : 0);
+        eventValue(dropFighter.aimSeconds); eventValue(dropPatient.criticalReadiness.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2031)
     {
         event('test.critical-drop-state'); eventValue(dropFirst.storageLocation); eventValue(dropSecond.storageLocation);

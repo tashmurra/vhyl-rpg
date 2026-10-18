@@ -476,3 +476,23 @@ covers both trigger types, both random choices, missing destinations, preview
 purity, rollback, undo, historical replay after pickup and separate-process save
 continuation. `test_critical_drop_transactions` and `test_critical_drop_persistence`
 are authored but unrun. Automatic wiring from a committed attack remains pending.
+
+## Owned weapon readiness after a critical miss
+
+`RpgExpandedCriticalReadiness` handles weapon-table results eight and twelve
+(`full-2008`, B556). Supply an owned ready `weapon`, `profile`, unique `id`,
+`tableRoll` and `evidence` identifying the resolved table outcome. `assess()` is
+pure; `apply()` clears the existing readiness flag and any aim with that weapon.
+The request belongs in the triggering action transaction. It charges no additional
+time or randomness. An ordinary Ready maneuver is required before further use.
+
+Receipts remain in `profile.criticalReadiness`. Replaying one after a later Ready
+returns `reused` without making the weapon unready again. Retargeting a recorded
+request is rejected. This is an explicit consequence API; automatic critical-miss
+attack dispatch remains unfinished. It does not implement the critical-block
+shield-grip consequence: the current shared readiness flag also removes passive
+shield defense, so that consequence needs a separately verified integration.
+
+`test_critical_readiness` uses the equipment integration fixture for both table
+rows, preview purity, rollback, undo, binding rejection and replay after readiness
+restoration. It is authored and unrun while checks are paused.
