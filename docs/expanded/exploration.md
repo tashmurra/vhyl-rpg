@@ -921,3 +921,34 @@ record alone as an object in flight or a completed attack.
 `tests/fixtures/expanded-throw-attempt.t` contains unrun assertions for pure
 preview, rollback, undo, duplicate occurrences, saved replay after readiness
 changes, declared-field retargeting and a denied consciousness check.
+
+## Owned ordinary-hit damage rolls
+
+`RpgExpandedThrownDamage` implements the B355 damage-roll stage after an ordinary
+specific-target throw. The held request must name `targetEntity` before its
+attempt resolves; this identity is included in the bound request definition.
+Supply `id`, the resolved `attempt`, `approved`, `defensesResolved`, `hitConfirmed`
+and `evidence` establishing the hit. The attempt itself must have a successful,
+noncritical throw check. Critical outcomes require their separate procedure.
+
+`objectKind` is `durable`, `fragile` or `character`. All three roll target damage.
+The latter two also roll **independent** damage for the thrown object or
+character, using the same damage expression. A durable object has no self-damage
+roll, represented by `objectDamage = nil`, not a zero result from a discarded
+roll. `damageType` defaults to `cr`; `cut`, `pi` or `imp` require authored
+`shapeEvidence`. The usual crushing/non-crushing minimum applies to each total.
+
+`assess()` validates those facts before RNG. `resolve()` stores `targetDice`,
+`objectDice`, `targetDamage`, `objectDamage`, `dice` and `adds` in a result owned
+by the thrower's `thrownDamageRolls` history. Replaying it returns the same dice;
+a second ID for the same throw cannot reroll damage. Neither later training nor
+item-readiness changes recompute the throw's recorded damage expression.
+
+This stage does not establish physical release, apply armour, deal injury,
+transfer an item or resolve critical-hit effects. The thrown-character option
+only records the additional damage roll; it does not replace creature carrying
+and injury integration. Compose these records with owned impact operations once
+those paths are implemented. The fixture `tests/fixtures/expanded-thrown-damage.t`
+contains unrun assertions for independent dice, crushing/non-crushing minima,
+invalid hit facts, duplicate rolls, rollback, undo and saved continuation before
+and after damage resolution.

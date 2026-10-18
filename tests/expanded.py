@@ -9018,6 +9018,8 @@ def test(build):
     test_held_throw(Session, held_throw)
     throw_attempt = build.build('expanded-throw-attempt',ROOT / 'tests/fixtures/expanded-throw-attempt.t')
     test_throw_attempt(Session, throw_attempt, build.out)
+    thrown_damage = build.build('expanded-thrown-damage',ROOT / 'tests/fixtures/expanded-thrown-damage.t')
+    test_thrown_damage(Session, thrown_damage, build.out)
     catch_assessment = build.build('expanded-catch-assessment',ROOT / 'tests/fixtures/expanded-catch-assessment.t')
     test_catch_assessment(Session, catch_assessment)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
@@ -14817,5 +14819,74 @@ def test_throw_attempt(Session, bundle, out):
         s.command(f':restore {path}\n@2286')
         s.action(2285,1171)
         assert state(s) == [1,3,0,0,None,None]
+    finally:
+        s.close()
+
+
+def test_thrown_damage(Session, bundle, out):
+    def state(s):
+        s.action(2285,1183)
+        return last(s,'test.thrown-damage-owned')
+    path = out / 'expanded-thrown-damage.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,1180)
+        assert last(s,'test.thrown-damage-preview') == ['blocked','thrown-damage-throw-unresolved',0]
+        for code in (30,1171,1180):
+            s.action(2285,code)
+        assert last(s,'test.thrown-damage-preview') == ['ready',None,3]
+        s.action(2285,1182)
+        assert state(s) == [0,3,0,None,None,0,0]
+        s.action(2285,1181)
+        s.command('undo')
+        assert state(s) == [0,3,0,None,None,0,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1181,1181,1184):
+            s.action(2285,code)
+        assert state(s) == [1,5,0,2,0,1,1]
+        assert last(s,'test.thrown-damage-duplicate') == ['thrown-damage-duplicate']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,1181)
+        assert state(s) == [1,5,0,2,0,1,1]
+    finally:
+        s.close()
+    for codes, expected in (((1185,),[1,4,0,2,None,1,0]),
+                            ((1186,),[1,5,0,2,0,1,1]),
+                            ((1187,),[1,5,0,2,1,1,1])):
+        s = Session(bundle)
+        try:
+            for code in (30,1171,*codes,1181):
+                s.action(2285,code)
+            assert state(s) == expected
+        finally:
+            s.close()
+    for codes, reason in (((31,1171),'thrown-damage-critical-procedure-required'),
+                          ((30,1171,1188),'thrown-damage-hit-facts'),
+                          ((30,1171,1187,1189),'thrown-damage-shape-evidence')):
+        s = Session(bundle)
+        try:
+            for code in (*codes,1180,1181):
+                s.action(2285,code)
+            assert last(s,'test.thrown-damage-preview') == ['blocked',reason,3]
+            assert state(s) == [0,3,0,None,None,0,0]
+        finally:
+            s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (30,1190,1171,1181):
+            s.action(2285,code)
+        # 3d-1: independent [4,2,4] and [2,4,2], not one copied total.
+        assert state(s) == [1,9,0,9,7,3,3]
     finally:
         s.close()

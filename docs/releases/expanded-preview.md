@@ -919,3 +919,9 @@ occurrence. Recorded deliberate passes can feed catch assessments without
 rerolling; denied permission remains denied on replay. Persistence fixtures
 are authored but unrun. Inventory release, maneuver time and impact remain
 unfinished parts of the complete throw action.
+
+Confirmed ordinary thrown hits now have owned damage-roll records. Fragile
+objects and thrown characters use independent self-damage dice, preserved across
+replay. Unresolved defenses and critical outcomes are rejected before damage RNG.
+Fixtures are authored but unrun; release, protection and injury integration
+remain unfinished.

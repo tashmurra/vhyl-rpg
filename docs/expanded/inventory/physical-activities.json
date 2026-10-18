@@ -1488,9 +1488,10 @@
       "status": "partial",
       "acceptance": "Base damage on strength thrust and the weight-band adjustment; use crushing unless an authored shape supports cutting, piercing or impaling.",
       "tests": [
-        "tests/expanded.py::test_throw_assessment"
+        "tests/expanded.py::test_throw_assessment",
+        "tests/expanded.py::test_thrown_damage"
       ],
-      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete. Owned ordinary-hit damage rolls now preserve separate target and fragile-object/character dice and totals from the bound throw expression. The stage requires a specific target entity, confirmed hit, resolved defense facts and shape evidence for non-crushing damage, and rejects critical outcomes before RNG. Independent one-/three-die, minimum damage, duplicate occurrence, rollback, undo and saved continuation fixtures are authored, unrun. Armour, injury, object damage commitment, physical release and critical damage integration remain incomplete."
     },
     {
       "id": "throwing-fragile-object",
@@ -1498,9 +1499,12 @@
       "pages": "B355",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A fragile thrown object or thrown character also takes damage, rolled independently from damage to its target.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_thrown_damage"
+      ],
+      "validation_note": " Owned ordinary-hit damage rolls now preserve separate target and fragile-object/character dice and totals from the bound throw expression. The stage requires a specific target entity, confirmed hit, resolved defense facts and shape evidence for non-crushing damage, and rejects critical outcomes before RNG. Independent one-/three-die, minimum damage, duplicate occurrence, rollback, undo and saved continuation fixtures are authored, unrun. Armour, injury, object damage commitment, physical release and critical damage integration remain incomplete."
     },
     {
       "id": "throwing-ordinary-skill",

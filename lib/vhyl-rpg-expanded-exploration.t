@@ -1699,6 +1699,7 @@ modify RpgExpandedThrowAssessment
 /** Pure request for an ordinary object already held. Training, readiness and
  * hand legality come from owned state; execution remains a separate operation. */
 class RpgExpandedHeldThrow: object
+    targetEntity = nil
     profile = nil
     item = nil
     skill = nil
@@ -1797,7 +1798,7 @@ modify RpgExpandedHeldThrow
     definition()
     {
         local values = [self.profile,self.item,self.skill,self.target,self.palmSized,self.modifier,
-            self.offHand,self.approved,self.evidence];
+            self.offHand,self.approved,self.evidence,self.targetEntity];
         if (self.skill != nil) values = values + [self.skill.id,self.skill.attribute,self.skill.difficulty,self.skill.defaultPenalty];
         return values;
     }
@@ -1883,5 +1884,90 @@ class RpgExpandedThrowAttempt: object
         if (!self.result.allowed || self.result.check == nil)
         { local value = new RpgExpandedCatchAssessment(); value.reason = 'catch-throw-not-permitted'; return value; }
         return rpgExpandedAssessCatch(score,waiting,self.result.check.score,self.result.check.roll,true);
+    }
+;
+
+modify RpgExpandedProfile
+    thrownDamageRolls = []
+;
+class RpgExpandedThrownDamageResult: RpgExpandedResult
+    targetDice = []
+    objectDice = []
+    targetDamage = 0
+    objectDamage = nil
+    dice = 0
+    adds = 0
+;
+/** B355 damage-roll stage for one confirmed ordinary hit. Defense adjudication
+ * precedes this stage; protection and injury follow it. A fragile thrown object
+ * or character receives a separate damage roll, not a copy of the target roll. */
+class RpgExpandedThrownDamage: object
+    id = nil
+    attempt = nil
+    objectKind = 'durable'
+    damageType = 'cr'
+    shapeEvidence = nil
+    defensesResolved = nil
+    hitConfirmed = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.attempt,self.objectKind,self.damageType,self.shapeEvidence,
+        self.defensesResolved,self.hitConfirmed,self.approved,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.attempt == nil || !self.attempt.ofKind(RpgExpandedThrowAttempt))
+            rpgExpandedReject('thrown-damage-definition');
+        local value = new RpgExpandedThrownDamageResult();
+        if (self.attempt.result == nil) { value.reason = 'thrown-damage-throw-unresolved'; return value; }
+        if (self.attempt.assess().status != 'reused') rpgExpandedReject('thrown-damage-throw-history');
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('thrown-damage-binding');
+            if (!holds(self.attempt.request.profile.thrownDamageRolls,self)) rpgExpandedReject('thrown-damage-history');
+            value.status = 'reused'; return value;
+        }
+        foreach (local prior in self.attempt.request.profile.thrownDamageRolls)
+            if (prior.id == self.id || prior.attempt == self.attempt) rpgExpandedReject('thrown-damage-duplicate');
+        if (!self.approved || !self.defensesResolved || !self.hitConfirmed || self.evidence == nil || self.evidence == '')
+        { value.reason = 'thrown-damage-hit-facts'; return value; }
+        if (!holds(['durable','fragile','character'],self.objectKind)) rpgExpandedReject('thrown-damage-object-kind');
+        if (!holds(['cr','cut','pi','imp'],self.damageType)) rpgExpandedReject('thrown-damage-type');
+        if (self.damageType != 'cr' && (self.shapeEvidence == nil || self.shapeEvidence == ''))
+        { value.reason = 'thrown-damage-shape-evidence'; return value; }
+        if (self.attempt.request.target != 'specific' || self.attempt.request.targetEntity == nil
+            || dataType(self.attempt.request.targetEntity) != TypeObject)
+        { value.reason = 'thrown-damage-specific-target-required'; return value; }
+        local check = self.attempt.result.check;
+        if (!self.attempt.result.allowed || check == nil || !check.achieved)
+        { value.reason = 'thrown-damage-no-hit'; return value; }
+        if (check.critical != nil) { value.reason = 'thrown-damage-critical-procedure-required'; return value; }
+        value.dice = self.attempt.result.assessment.damageDice; value.adds = self.attempt.result.assessment.damageAdds;
+        rpgInteger(value.dice,1,100); rpgInteger(value.adds,-1000,1000);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local targetTotal = value.adds;
+        for (local index = 0; index < value.dice; index += 1)
+        { local die = rpgRandom.die(); value.targetDice = value.targetDice + [die]; targetTotal += die; }
+        local minimum = self.damageType == 'cr' ? 0 : 1;
+        value.targetDamage = targetTotal < minimum ? minimum : targetTotal;
+        if (self.objectKind != 'durable')
+        {
+            local objectTotal = value.adds;
+            for (local index = 0; index < value.dice; index += 1)
+            { local die = rpgRandom.die(); value.objectDice = value.objectDice + [die]; objectTotal += die; }
+            value.objectDamage = objectTotal < minimum ? minimum : objectTotal;
+        }
+        self.boundDefinition = self.definition(); self.result = value;
+        self.attempt.request.profile.thrownDamageRolls = self.attempt.request.profile.thrownDamageRolls + [self];
+        value.status = 'resolved'; return value;
     }
 ;
