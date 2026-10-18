@@ -908,6 +908,75 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def maneuver_state(s):
+    s.action(1981)
+    return last(s, 'test.maneuver-state')
+
+
+def test_maneuver_transactions(s):
+    initial = maneuver_state(s)
+    assert initial == [1,0,0,10,10,0,0,0,0,0,0]
+    for seed, committed in [(1,[2,0,0,10,10,1,0,1,0,6,1]),
+                            (9,[2,0,0,10,10,0,1,1,0,3,1]),
+                            (11,[2,0,0,20,10,1,1,1,1,6,1])]:
+        s.action(1980, 5, seed)
+        assert maneuver_state(s) == initial
+        s.action(1980, 1, seed)
+        assert maneuver_state(s) == initial
+        s.action(1980, 0, seed)
+        assert maneuver_state(s) == committed
+        s.command('undo')
+        assert maneuver_state(s) == initial
+    s.action(1980, 0, 1)
+    first = maneuver_state(s)
+    for code in [0,3,4,6]:
+        s.action(1980, code, 1)
+        assert maneuver_state(s) == first
+    s.action(1980, 2, 1)
+    next_turn = [1,1,1,10,10,1,0,1,0,6,1]
+    assert maneuver_state(s) == next_turn
+    s.command('undo')
+    assert maneuver_state(s) == first
+    s.action(1980, 2, 1)
+    s.action(1980, 0, 1)
+    assert last(s, 'test.maneuver-operation') == ['blocked','maneuver-health-gate-used',None]
+    assert maneuver_state(s) == next_turn
+
+
+def test_maneuver_persistence(Session, bundle, out):
+    for seed in [1,9,11]:
+        for stage in range(3):
+            path = out / f'expanded-maneuver-{seed}-{stage}.zsave'
+            first = Session(bundle)
+            try:
+                if stage >= 1:
+                    first.action(1980, 0, seed)
+                if stage == 2:
+                    first.action(1980, 2, seed)
+                saved = maneuver_state(first)
+                first.command(f':save {path}')
+            finally:
+                first.close()
+            second = Session(bundle)
+            try:
+                second.command(f':restore {path}\n@1981')
+                assert maneuver_state(second) == saved
+                second.action(1980, 4, seed)
+                if stage == 0:
+                    second.action(1980, 0, seed)
+                if stage < 2:
+                    second.action(1980, 2, seed)
+                final = maneuver_state(second)
+                assert final == ([1,1,1,10,10,1,0,1,0,6,1] if seed == 1 else
+                                 [1,1,1,10,10,0,1,1,0,3,1] if seed == 9 else
+                                 [1,1,1,20,10,1,1,1,1,6,1])
+                second.action(1980, 0, seed)
+                assert last(second, 'test.maneuver-operation') == ['blocked','maneuver-health-gate-used',None]
+                assert maneuver_state(second) == final
+            finally:
+                second.close()
+
+
 def test_health_maneuver(s):
     for fatigue, injury, seed, kind, movement, expected in [
             (10,0,1,'move',0,['resolved',None,'move',0,0,1,3,2,0]),
@@ -4260,6 +4329,9 @@ def test(build):
     fresh(Session,hazards,test_owned_effort)
     fresh(Session,hazards,test_action_gate)
     fresh(Session,hazards,test_health_maneuver)
+    maneuver_transactions = build.build('expanded-maneuver-transactions',ROOT / 'tests/fixtures/expanded-maneuver-transactions.t')
+    fresh(Session,maneuver_transactions,test_maneuver_transactions)
+    test_maneuver_persistence(Session,maneuver_transactions,build.out)
     fresh(Session,hazards,test_effort_recovery)
     effort_transactions = build.build('expanded-effort-transactions',ROOT / 'tests/fixtures/expanded-effort-transactions.t')
     fresh(Session,effort_transactions,test_effort_transactions)

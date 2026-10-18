@@ -1134,3 +1134,15 @@ journeys, travel abilities and other action adapters remain to be integrated.
 `test_health_maneuver` records successful effort with one roll, failed effort,
 combined injury checks, Do Nothing, invalid movement and rejection of a consumed
 gate on the next turn. Fixtures remain unrun while checks are paused.
+
+
+The `expanded-maneuver-transactions.t` fixture exercises the adapter inside a real
+engine action transaction and encounter. `test_maneuver_transactions` records
+exception rollback and undo of the effort, injury-consciousness and cardiac
+branches, including the encounter index and RNG state. It also records rollback
+of a later actor's turn and the associated shared second of time, changed-evidence
+rejection, and refusal to reuse a gate in the next round.
+`test_maneuver_persistence` saves before the first action, after its health outcome,
+and after the round boundary, then continues each phase in a separate process.
+These checks are authored but unrun. Parser/dialogue parity and automatic defense
+integration remain outstanding.
