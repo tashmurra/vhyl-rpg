@@ -10,7 +10,9 @@ This module has not been implemented. Its proposed filename,
 `vhyl-rpg-expanded-magic.t`, is reserved in the catalogue; do not include it in a
 game. The [first casting inventory](inventory/magic-procedures-a.json) covers
 learning, ambient energy, rituals, critical outcomes, maintenance and ceremonial
-casting. Spell classes and the spell catalogue still need their detailed inventory.
+casting. The [spell-class inventory](inventory/magic-procedures-b.json) adds
+targeting, charged attacks, defensive casting, information, resistance and optional
+magic systems. The ninety-three-spell catalogue still needs its detailed inventory.
 The enchantment chapter now has a first text pass covering creation,
 level-cost tables, the item catalogue, use and market procedures. Underlying spell
 and trait references, numeric audits and validating tests remain pending.
@@ -103,3 +105,21 @@ must each be committed once, with explicit ownership and payment records.
 The critical-outcome inventory includes every table result. Alternate targets,
 reversed effects, illusions and hostile arrivals need spell-specific authored
 contracts; none is complete merely because an outcome name exists.
+
+
+## Spell-class integration
+
+Contact and projectile spells own charged state between casting and delivery.
+Their delivery rolls, armor interaction and permitted defenses differ. Defensive
+casting can preserve a held charge while spoiling an unfinished cast, and harmless
+dismissal of a held charge is a specific free-action exception to early cancellation.
+
+Information spells require private outcomes and attempt histories. Their wording
+about always spending energy needs reconciliation with the general critical-success
+rule. Projectile growth discounts and extended range-table thresholds also remain
+explicit source decisions. Resisted area effects share one casting roll but retain
+per-target resistance and outcomes.
+
+Granted and path-based magic are explicit campaign variants with different learning
+and prerequisite rules. Path defaults cannot count aptitude repeatedly through the
+same derivation chain. None of these inventories establishes executable coverage.
