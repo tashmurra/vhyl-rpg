@@ -9036,6 +9036,8 @@ def test(build):
     test_foraging_day(Session, foraging_day, build.out)
     nature_defaults = build.build('expanded-nature-defaults',ROOT / 'tests/fixtures/expanded-nature-defaults.t')
     test_nature_defaults(Session, nature_defaults, build.out)
+    wilderness_day = build.build('expanded-wilderness-day',ROOT / 'tests/fixtures/expanded-wilderness-day.t')
+    test_wilderness_day(Session, wilderness_day, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16353,5 +16355,74 @@ def test_nature_defaults(Session, bundle, out):
     try:
         s.action(2285,2209)
         assert last(s,'test.survival-defaults') == [-3,-4,-4,-4,None,-7,-4,None,None]
+    finally:
+        s.close()
+
+
+def test_wilderness_day(Session, bundle, out):
+    def state(s):
+        s.action(2285,2303)
+        return last(s,'test.wilderness-state')
+    path = out / 'expanded-wilderness-day.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,2307,2302,2301):
+            s.action(2285,code)
+        assert last(s,'test.wilderness-injury-table') == [0,0,1,3,8]
+        assert last(s,'test.wilderness-preview') == ['ready',None,5]
+        assert state(s) == [0,0,0,0,0,0]
+        s.action(2285,2300)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,0,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (2300,2300,2304):
+            s.action(2285,code)
+        assert last(s,'test.wilderness-result') == ['blocked','wilderness-day-already-resolved']
+        assert state(s) == [4,0,1,1,7,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,2300)
+        assert state(s) == [4,0,1,1,7,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (31,2300,2300):
+            s.action(2285,code)
+        assert state(s) == [0,0,1,1,3,0]
+    finally:
+        s.close()
+    for setup,reason in ((2305,'wilderness-specialty-mismatch'),(2306,'wilderness-care-facts')):
+        s = Session(bundle)
+        try:
+            for code in (30,setup,2300):
+                s.action(2285,code)
+            assert last(s,'test.wilderness-result') == ['blocked',reason]
+            assert state(s) == [0,0,0,0,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (2308,2302):
+            s.action(2285,code)
+        assert last(s,'test.wilderness-preview') == ['ready',None,3]
+        assert state(s) == [0,0,0,0,0,0]
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        s.action(2285,2309)
+        assert last(s,'test.wilderness-limit') == ['wilderness-dependent-limit']
+        assert state(s) == [0,0,0,0,0,0]
     finally:
         s.close()

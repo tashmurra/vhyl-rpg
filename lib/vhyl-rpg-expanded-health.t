@@ -6929,3 +6929,132 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** B223 separate 2d-4 direct injury per affected person, never negative healing. */
+rpgExpandedSurvivalInjury(first, second)
+{
+    rpgInteger(first,1,6); rpgInteger(second,1,6);
+    local injury = first + second - 4; return injury < 0 ? 0 : injury;
+}
+class RpgExpandedWildernessDayResult: RpgExpandedResult
+    day = nil
+    score = nil
+    gate = nil
+    allowed = nil
+    injuryDice = []
+    wounds = []
+;
+modify RpgExpandedProfile
+    wildernessDays = []
+;
+/** One ordinary daily survival roll for a guide and up to ten dependents. */
+class RpgExpandedWildernessDay: object
+    id = nil
+    profile = nil
+    skill = nil
+    tools = nil
+    dependents = []
+    compatibleBodies = nil
+    approved = nil
+    evidence = nil
+    dropDestination = nil
+    result = nil
+    boundDefinition = nil
+    recipients() { return [self.profile] + self.dependents; }
+    definition()
+    { return [self.id,self.profile,self.skill,self.tools,self.compatibleBodies,self.approved,self.evidence,self.dropDestination,
+        self.skill.id,self.skill.attribute,self.skill.difficulty,self.skill.defaultPenalty,self.skill.specialty,self.dependents.length()]
+        + self.dependents + self.skill.foragingDefinition() + self.tools.definition(); }
+    context()
+    {
+        local context = new RpgLiteContext(); context.skill = self.skill; context.kind = 'survival';
+        context.requiresMovement = true; return self.tools.configure(context);
+    }
+    woundFor(profile, amount)
+    {
+        local wound = new RpgExpandedWound(); wound.id = 'wilderness-' + self.id; wound.profile = profile;
+        wound.amount = amount; wound.dropDestination = self.dropDestination; return wound;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || self.tools == nil || !self.tools.ofKind(RpgExpandedForageTools))
+            rpgExpandedReject('wilderness-day-definition');
+        if (self.dependents.length() > 10) rpgExpandedReject('wilderness-dependent-limit');
+        local recipients = self.recipients(); local seen = [];
+        foreach (local recipient in recipients)
+        {
+            if (recipient == nil || !recipient.ofKind(RpgExpandedProfile) || holds(seen,recipient))
+                rpgExpandedReject('wilderness-recipient');
+            seen = seen + [recipient];
+        }
+        local value = new RpgExpandedWildernessDayResult(); local definition = self.definition();
+        if (self.result != nil)
+        {
+            if (definition.length() != self.boundDefinition.length()) rpgExpandedReject('wilderness-day-binding');
+            for (local index = 1; index <= definition.length(); index += 1)
+                if (definition[index] != self.boundDefinition[index]) rpgExpandedReject('wilderness-day-binding');
+            foreach (local recipient in recipients)
+                if (!holds(recipient.wildernessDays,self)) rpgExpandedReject('wilderness-day-history');
+            if (self.result.gate.assess().status != 'reused') rpgExpandedReject('wilderness-gate-history');
+            foreach (local wound in self.result.wounds)
+                if (wound.assess().status != 'reused') rpgExpandedReject('wilderness-wound-history');
+            value.status = 'reused'; return value;
+        }
+        if (!self.approved || !self.compatibleBodies || self.evidence == nil || self.evidence == '')
+        { value.reason = 'wilderness-care-facts'; return value; }
+        if (self.skill.id != 'survival' || self.skill.attribute != rpgPerception || self.skill.difficulty != 1
+            || self.skill.defaultPenalty != -5 || !self.skill.expandedForageDefaultsReady())
+            rpgExpandedReject('wilderness-survival-definition');
+        local tools = self.tools.assessFor(self.skill); if (tools.status != 'ready') { value.reason = tools.reason; return value; }
+        value.day = rpgLedger.seconds / 86400;
+        foreach (local recipient in recipients)
+        {
+            if (recipient.dead) { value.reason = 'wilderness-recipient-dead'; return value; }
+            foreach (local prior in recipient.wildernessDays)
+            {
+                if (prior.id == self.id) rpgExpandedReject('wilderness-day-duplicate');
+                if (prior.result.day == value.day && prior.result.check != nil)
+                { value.reason = 'wilderness-day-already-resolved'; return value; }
+            }
+            for (local amount = 0; amount <= 8; amount += 1)
+            {
+                local wound = self.woundFor(recipient,amount); local prepared = wound.assess();
+                if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+            }
+        }
+        value.score = rpgLiteScore(self.profile,self.context());
+        if (value.score == nil || value.score < 3) { value.reason = 'wilderness-score-unavailable'; return value; }
+        value.gate = new RpgExpandedActionGate(); value.gate.id = 'wilderness-' + self.id;
+        value.gate.profile = self.profile; value.gate.requiresMovement = true; value.gate.evidence = self.evidence;
+        local permission = value.gate.assess(); if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local permission = value.gate.apply();
+        if (permission.status != 'resolved') rpgExpandedReject('wilderness-permission-changed');
+        value.allowed = permission.allowed;
+        if (value.allowed)
+        {
+            if (rpgLedger.seconds / 86400 != value.day || rpgLiteScore(self.profile,self.context()) != value.score)
+                rpgExpandedReject('wilderness-context-changed');
+            value.check = rpgCheck(value.score,rpgRandom.roll());
+            if (!value.check.achieved)
+                foreach (local recipient in self.recipients())
+                {
+                    local first = rpgRandom.die(); local second = rpgRandom.die();
+                    local wound = self.woundFor(recipient,rpgExpandedSurvivalInjury(first,second));
+                    if (wound.apply().status != 'resolved') rpgExpandedReject('wilderness-injury-changed');
+                    value.injuryDice = value.injuryDice + [[first,second]]; value.wounds = value.wounds + [wound];
+                }
+        }
+        local current = self.definition(); if (current.length() != definition.length()) rpgExpandedReject('wilderness-day-changed');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('wilderness-day-changed');
+        foreach (local recipient in self.recipients()) recipient.wildernessDays = recipient.wildernessDays + [self];
+        self.boundDefinition = definition; self.result = value; value.status = 'resolved'; return value;
+    }
+;

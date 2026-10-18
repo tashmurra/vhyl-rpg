@@ -691,3 +691,13 @@ quantity conservation, rollback, undo and saved continuation. Assertions are
 unrun. Fuel inventory, lighting, automatic cooking times, drying weight and
 spoilage/shelf-life rules remain outside this operation; no values are invented
 for them.
+
+## Wilderness equipment and weather
+
+`RpgExpandedWildernessTools` combines an existing equipment assessment with
+explicit `planet`, `terrain`, `weatherPenalty`, approval and evidence. The weather
+penalty is limited to 0 through -5 (full-2008, B224). It rejects a Survival
+specialty that does not match the actual planet and terrain, then supplies both
+weather and equipment modifiers through the shared skill context. Use it with
+[daily wilderness survival](health.md#daily-wilderness-survival); this condition
+record does not itself resolve care or create equipment.

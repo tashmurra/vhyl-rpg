@@ -1091,3 +1091,9 @@ through the shared resolver without granting extra attempts. Standard terrain,
 planet classification and no-double-default assertions are authored, unrun.
 Automatic Biology source selection and the broader wilderness procedures remain
 pending.
+
+Daily wilderness survival now records one guide's roll and up to ten dependents,
+with matched terrain/world conditions, equipment and weather modifiers. Failure
+commits independently rolled direct injuries through existing wounds; duplicate
+daily resolution is blocked across recipients. Expected values, zero-injury
+floors, rollback, undo and saved continuation fixtures are authored, unrun.

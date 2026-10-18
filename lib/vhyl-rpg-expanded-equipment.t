@@ -1219,3 +1219,24 @@ class RpgExpandedSmokingBatch: object
         value.status = 'resolved'; return value;
     }
 ;
+
+/** B223-B224 ordinary wilderness conditions, including weather and task equipment. */
+class RpgExpandedWildernessTools: RpgExpandedFishingTools
+    planet = nil
+    terrain = nil
+    weatherPenalty = 0
+    definition() { return inherited() + [self.planet,self.terrain,self.weatherPenalty]; }
+    assessFor(skill)
+    {
+        local value = inherited(skill); if (value.status != 'ready') return value;
+        rpgInteger(self.weatherPenalty,-5,0);
+        if (skill.id != 'survival' || !skill.expandedForageDefaultsReady())
+            rpgExpandedReject('wilderness-expanded-survival-required');
+        local facts = skill.foragingDefinition();
+        if (facts.length() < 1 || self.planet != facts[1] || self.terrain != skill.specialty)
+        { value.status = 'blocked'; value.reason = 'wilderness-specialty-mismatch'; }
+        return value;
+    }
+    configure(context)
+    { inherited(context); context.modifier += self.weatherPenalty; return context; }
+;

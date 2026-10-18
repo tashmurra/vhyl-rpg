@@ -4217,7 +4217,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -4280,7 +4281,7 @@
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-desert",
@@ -4291,7 +4292,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -4354,7 +4356,7 @@
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-coast",
@@ -4365,7 +4367,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -4433,7 +4436,7 @@
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-jungle",
@@ -4444,7 +4447,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -4507,7 +4511,7 @@
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-mountain",
@@ -4518,7 +4522,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -4581,7 +4586,7 @@
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-plains",
@@ -4592,7 +4597,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -4655,7 +4661,7 @@
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-swamp",
@@ -4666,7 +4672,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -4734,7 +4741,7 @@
           "survival-river": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-woodland",
@@ -4745,7 +4752,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -4808,7 +4816,7 @@
           "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-bank",
@@ -4819,7 +4827,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -4882,7 +4891,7 @@
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-deep-vent",
@@ -4893,7 +4902,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -4956,7 +4966,7 @@
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-freshwater-lake",
@@ -4967,7 +4977,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -5030,7 +5041,7 @@
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-open-ocean",
@@ -5041,7 +5052,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -5104,7 +5116,7 @@
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-reef",
@@ -5115,7 +5127,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -5178,7 +5191,7 @@
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-river",
@@ -5189,7 +5202,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -5257,7 +5271,7 @@
           "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-saltwater-sea",
@@ -5268,7 +5282,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -5331,7 +5346,7 @@
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-skill-survival-lagoon",
@@ -5342,7 +5357,8 @@
       "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
       "tests": [
-        "tests/expanded.py::test_nature_defaults"
+        "tests/expanded.py::test_nature_defaults",
+        "tests/expanded.py::test_wilderness_day"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -5410,7 +5426,7 @@
           "survival-coast": "Same world, or apply world-specialization rules; never cross different world types."
         }
       },
-      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending. Daily care now has an owned guide/ten-dependent resolution, matched terrain/world and equipment/weather context, recipient-wide daily limits and independent direct injuries. All possible wounds are preflighted. Expected values, zero-injury floor, rollback, undo and saved replay assertions authored, unrun. Body-compatible care remains an explicit author fact; trapping, route finding and full catalogue adaptation remain pending."
     },
     {
       "id": "catalogue-survival-dependent-injury",

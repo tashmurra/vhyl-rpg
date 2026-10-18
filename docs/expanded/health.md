@@ -3209,3 +3209,33 @@ Owned marching-hour execution now checks
 before health permission, time or fatigue is spent. Completed marching intervals
 also participate in reservation conflict detection. Ordinary movement within a
 foraging area is not treated as expedition travel by this day-choice interface.
+
+## Daily wilderness survival
+
+`RpgExpandedWildernessDay` resolves B223 daily survival for one guide and up to
+ten dependents. Supply the guide, an expanded Survival skill, a
+`RpgExpandedWildernessTools` condition record, distinct dependent profiles,
+approval and evidence of actual care in terrain compatible with their bodies.
+Set `compatibleBodies` only when those facts have been established. The condition
+record requires the same planet and terrain as the selected skill, applies an
+authored weather penalty from 0 to -5, and uses the existing equipment assessment.
+
+The guide makes one contextual Survival roll after physical health permission.
+Success records no injury. Failure rolls two dice independently for each person,
+subtracts four and floors the result at zero. These are direct injuries applied
+through owned `RpgExpandedWound` objects; armor is not subtracted. The operation
+preflights every possible injury for every recipient before rolling, including
+any required equipment-drop handling through `dropDestination`.
+
+Each recipient records the daily resolution, preventing a second guide or a new
+request ID from repeating it that day. Replay retains the original checks and
+wounds. Denied health permission records no survival roll and does not consume
+the daily resolution. This is separate from forage attempts and meal inventory;
+it neither grants meals nor substitutes for actual food consumption.
+
+The author establishes the day's care and environmental facts; this resolution
+adds no second day of elapsed time. Different terrain procedures, special body
+needs, guidance beyond ten dependents and other world facts require their own
+explicit integration. `tests/fixtures/expanded-wilderness-day.t` covers success,
+independent injuries, zero-injury floors, daily ownership, conditions, rollback,
+undo and saved continuation. Assertions are authored, unrun.

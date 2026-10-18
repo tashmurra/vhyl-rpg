@@ -502,3 +502,9 @@ uses, daily wilderness injury, dependent care, terrain/body compatibility,
 trapping and complete catalogue integration remain pending.
 `tests/fixtures/expanded-nature-defaults.t` covers attribute, terrain, aquatic,
 crossing, world and untrained-source cases; assertions are authored, unrun.
+
+The health module now supplies [daily wilderness survival](health.md#daily-wilderness-survival)
+using the expanded Survival definition. It enforces the ten-dependent limit and
+commits independent failure injuries. This partially addresses the earlier daily
+wilderness-procedure gap; trapping, route-finding, full catalogue adaptation and
+special body/terrain rules remain pending.
