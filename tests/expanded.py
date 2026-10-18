@@ -9406,6 +9406,8 @@ def test(build):
     test_psychology_assessment(Session, psychology_assessment, build.out)
     psychology_disclosure = build.build("expanded-psychology-disclosure",ROOT / "tests/fixtures/expanded-psychology-disclosure.t")
     test_psychology_disclosure(Session, psychology_disclosure, build.out)
+    psychology_group = build.build("expanded-psychology-group",ROOT / "tests/fixtures/expanded-psychology-group.t")
+    test_psychology_group(Session, psychology_group)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24048,3 +24050,32 @@ def test_psychology_disclosure(Session, bundle, out):
         assert last(s,'test.psychology-knowledge') == [0,0,3]
     finally:
         s.close()
+
+
+def test_psychology_group(Session, bundle):
+    """B216 small-group prediction has authored eligibility and bound membership; unrun."""
+    s = Session(bundle)
+    try:
+        for code in (21004,21001,21002):
+            s.action(1680,code)
+        assert last(s,'test.psychology-preview') == ['ready',17,None]
+        assert last(s,'test.psychology-history') == [0,0,0]
+        s.action(1680,21000)
+        assert last(s,'test.psychology-finding') == ['resolved','The pair will probably leave together when the crowd arrives']
+        s.command('undo'); s.action(1680,21002)
+        assert last(s,'test.psychology-history') == [0,0,0]
+        for code in (21000,21000,21002):
+            s.action(1680,code)
+        assert last(s,'test.psychology-history') == [1,3,0]
+        s.action(1680,21203)
+        assert last(s,'test.psychology-group-error') == ['psychology-assessment-binding']
+    finally:
+        s.close()
+    for code, reason in ((21200,'psychology-context-small-group'),(21201,'psychology-group-members'),
+                         (21202,'psychology-group-individual-modifiers')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code)
+            assert last(s,'test.psychology-group-error') == [reason]
+        finally:
+            s.close()

@@ -1747,6 +1747,10 @@ class RpgExpandedPsychologyDefault: object
 /** B216 individual psychology modifiers, with explicit situational evidence. */
 class RpgExpandedPsychologyContext: RpgExpandedSkillContext
     subject = nil
+    group = nil
+    members = []
+    smallGroupApproved = nil
+    psychologySubjectIdentity() { return self.group == nil ? self.subject : self.group; }
     subjectSpecies = nil
     purpose = 'prediction'
     knownWell = nil
@@ -1758,9 +1762,27 @@ class RpgExpandedPsychologyContext: RpgExpandedSkillContext
     validatePsychology()
     {
         if (self.skill == nil || !self.skill.ofKind(RpgExpandedPsychologySkill)
-            || self.subject == nil || !self.subject.ofKind(RpgLiteProfile) || self.subjectSpecies == nil
+            || self.subjectSpecies == nil
             || self.subjectSpecies != self.skill.specialty || self.fixedBase != nil || self.rollAttribute != nil)
             rpgExpandedReject('psychology-context-definition');
+        if (self.group == nil)
+        {
+            if (self.subject == nil || !self.subject.ofKind(RpgLiteProfile) || self.members.length() != 0 || self.smallGroupApproved)
+                rpgExpandedReject('psychology-context-subject');
+        }
+        else
+        {
+            if (self.subject != nil || self.members.length() < 2 || !self.smallGroupApproved)
+                rpgExpandedReject('psychology-context-small-group');
+            if (self.purpose != 'prediction' || self.knownWell || self.knownPersonalityType || self.subjectPresent || self.empathyModifier != 0)
+                rpgExpandedReject('psychology-group-individual-modifiers');
+            local seen = [];
+            foreach (local member in self.members)
+            {
+                if (member == nil || !member.ofKind(RpgLiteProfile) || holds(seen,member)) rpgExpandedReject('psychology-group-members');
+                seen = seen + [member];
+            }
+        }
         self.skill.validateDefinition();
         if (self.skill.discipline == 'experimental') rpgExpandedReject('psychology-applied-context-required');
         if (!holds(['prediction','diagnosis','exploit-weakness'],self.purpose)) rpgExpandedReject('psychology-context-purpose');
@@ -1786,6 +1808,7 @@ modify RpgExpandedPsychologyContext
         self.validatePsychology();
         return [self.skill,self.subject,self.subjectSpecies,self.purpose,self.knownWell,self.knownPersonalityType,
             self.subjectPresent,self.empathyModifier,self.approved,self.evidence,self.modifier,
-            self.skill.specialty,self.skill.discipline,self.skill.splitApproved,self.skill.splitEvidence];
+            self.skill.specialty,self.skill.discipline,self.skill.splitApproved,self.skill.splitEvidence,
+            self.group,self.smallGroupApproved,self.members.length()] + self.members;
     }
 ;

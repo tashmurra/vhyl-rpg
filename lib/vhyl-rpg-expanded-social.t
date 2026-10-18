@@ -3309,7 +3309,7 @@ class RpgExpandedPsychologyAssessment: object
         if (self.profile.dead || self.profile.unconscious || self.profile.stunned)
         { value.reason = 'psychology-assessment-observer-unavailable'; return value; }
         foreach (local prior in self.profile.psychologyAssessments)
-            if (prior.id == self.id || prior.situation == self.situation && prior.context.subject == self.context.subject
+            if (prior.id == self.id || prior.situation == self.situation && prior.context.psychologySubjectIdentity() == self.context.psychologySubjectIdentity()
                 && prior.context.purpose == self.context.purpose) rpgExpandedReject('psychology-assessment-repeat');
         local reason = self.context.unavailableReason(self.profile);
         if (reason != nil) { value.reason = reason; return value; }
@@ -3336,7 +3336,7 @@ modify RpgExpandedProfile
             if (assessment == nil || !assessment.ofKind(RpgExpandedPsychologyAssessment) || assessment.profile != self)
                 rpgExpandedReject('psychology-assessment-history');
             foreach (local prior in seen)
-                if (prior.id == assessment.id || prior.situation == assessment.situation && prior.context.subject == assessment.context.subject
+                if (prior.id == assessment.id || prior.situation == assessment.situation && prior.context.psychologySubjectIdentity() == assessment.context.psychologySubjectIdentity()
                     && prior.context.purpose == assessment.context.purpose) rpgExpandedReject('psychology-assessment-history');
             assessment.validateReceipt(); seen = seen + [assessment];
         }

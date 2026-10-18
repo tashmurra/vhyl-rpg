@@ -1597,8 +1597,7 @@ The author decides what prediction or finding the available evidence supports.
 A success is not mind-reading and does not force the subject to act as predicted.
 The operation neither broadcasts the result nor alters another character's beliefs,
 health or decisions. It has no automatic time charge; authors account for any
-interview, observation or travel separately. Small-group prediction still needs integration; individual knowledge delivery is
-described below.
+interview, observation or travel separately. Small-group prediction and knowledge delivery are described below.
 
 `test_psychology_assessment` covers success/failure, pure preview, changed context,
 rollback, undo, replay and cross-process save continuation. Fixtures remain unrun.
@@ -1619,3 +1618,28 @@ or inform another character; communicating an inference needs a separate authore
 conversation. `test_psychology_disclosure` covers preview purity, success/failure,
 rollback, undo, replay, save continuation and timestamp tampering. Fixtures remain
 unrun while checks are paused.
+
+
+## Predicting a small group
+
+For the small-group use in full-2008 B216, set the psychology context's `group`
+to a stable authored identity, leave `subject` unset, and supply `members` as a
+list of at least two distinct profiles. Set `smallGroupApproved` and provide
+context evidence that this is a small, coherent group of the stated species for
+which the authored finding is supportable. The source supplies no numeric upper
+limit; the author decides eligibility rather than relying on an invented cutoff.
+
+Only `purpose = 'prediction'` is currently supported for groups. Individual
+familiarity/personality bonuses, presence-based diagnosis and empathy adjustments
+are rejected in group mode until their group applicability is explicitly
+implemented. General contextual adjustments still use `modifier`. Mixed-species
+inference requires a separate author-adjudication design and is not implied by
+one group species identifier.
+
+The owned assessment binds group identity and the complete ordered membership
+list. Replay cannot substitute members. Duplicate-attempt protection distinguishes
+groups by identity within the situation and purpose; authors must reuse the same
+identity for the same group rather than creating fresh identities to reroll.
+Knowledge delivery uses the same observer-only finding record as individual
+assessment. `test_psychology_group` specifies preview, eligibility, membership,
+rollback, undo and replay. Fixtures remain unrun.
