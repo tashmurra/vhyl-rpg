@@ -204,9 +204,10 @@
       "acceptance": "Specify dose deadline, first injury tick, restored-access handling and missed-tick catch-up using the source timing language. Reject ambiguous calendar/access policies before commitment. Save and undo must retain exact elapsed access and prevent replay from duplicating injury.",
       "tests": [
         "tests/expanded.py::test_sustenance_injury",
-        "tests/expanded.py::test_sustenance_contact"
+        "tests/expanded.py::test_sustenance_contact",
+        "tests/expanded.py::test_sustenance_dose"
       ],
-      "validation_note": " Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun. Owned uninterrupted periodic object/environment contact now measures actual elapsed duration and ends deprivation through an author-confirmed receipt. Simultaneous injury/access ordering is an explicit authored ruling. Restored episodes allow a distinct later episode; automatic calendar recurrence, interrupted contact and substance consumption remain pending. Fixtures unrun."
+      "validation_note": " Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun. Owned uninterrupted periodic object/environment contact now measures actual elapsed duration and ends deprivation through an author-confirmed receipt. Simultaneous injury/access ordering is an explicit authored ruling. Restored episodes allow a distinct later episode; automatic calendar recurrence, interrupted contact and substance consumption remain pending. Fixtures unrun. Periodic substance restoration now consumes one uniquely owned matching dose through the ordinary inventory ledger and releases the clock guard once. Assisted ingestion, regurgitation and automatic scheduling remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-sustenance-aging",

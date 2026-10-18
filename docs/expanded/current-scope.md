@@ -253,3 +253,9 @@ Sustenance contact now supports interruption and restart under an explicitly
 selected uninterrupted-contact ruling. Bound chronological receipts preserve
 elapsed intervals without crediting partial time to a restart. Accumulated contact
 and automatic movement integration remain pending; persistence fixtures are unrun.
+
+
+Periodic substance requirements can now restore access by consuming one uniquely
+owned inventory dose. Receipts prevent duplicate consumption and release the
+injury boundary. Assisted ingestion, regurgitation and automatic scheduling remain
+pending; rollback, undo and save-continuation fixtures are authored but unrun.

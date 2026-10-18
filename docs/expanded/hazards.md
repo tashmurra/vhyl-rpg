@@ -2234,3 +2234,29 @@ World movement adapters must record interruptions when access actually ends.
 and `test_sustenance_interruption` specify partial-duration rejection after a
 restart, continued injury, replay, rollback, undo and save continuation. These
 fixtures remain unrun. Accumulated-contact policies remain unimplemented.
+
+
+### Restoring access with a substance dose
+
+`RpgExpandedSustenanceStock` uses the ordinary item inventory and quantity ledger.
+Its `requirementScope` identifies the authored requirement; each unit is one
+sufficient dose. The author defines dose size and suitability in the world.
+`RpgExpandedSustenanceDose` supplies a unique `id`, `episode`, owned `stock`,
+approval, ingestion evidence and the same explicit `boundaryOrder` ruling used
+for contact. It requires a periodic substance requirement, a living conscious
+subject who is not retching, and an accessible uniquely owned stock unit.
+
+`assess()` is pure. `apply()` consumes one unit, removes an exhausted stack from
+inventory, and records restoration once. It does not heal injury, add another
+time charge or consume again on replay. Injury due at the same instant follows
+the authored boundary choice. The clock guard releases after restoration, and a
+later missed deadline can start a distinct episode. Purchase and action duration
+remain with their existing author operations; this receipt records ingestion at
+the shared clock rather than inventing a universal ingestion duration.
+
+Continuous supplies, assisted ingestion, later regurgitation, automatic dose
+scheduling and calendar recurrence remain pending. A stock match alone does not
+establish ingestion; the author must provide that fact from the actual action.
+[`expanded-sustenance-dose.t`](../../tests/fixtures/expanded-sustenance-dose.t)
+and `test_sustenance_dose` specify both boundary choices, absent stock, one-time
+consumption, clock release, rollback, undo and save continuation. Fixtures are unrun.

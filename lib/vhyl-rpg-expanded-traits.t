@@ -2746,3 +2746,13 @@ modify RpgExpandedProfile
         self.sustenanceInjuryInterval(trait); return trait.requiredContactSeconds();
     }
 ;
+
+modify RpgExpandedProfile
+    validateSustenanceDose(trait)
+    {
+        self.sustenanceInjuryInterval(trait);
+        if (trait.requirementKind != 'substance') rpgExpandedReject('sustenance-substance-required');
+        if (trait.frequency == 'continuous') rpgExpandedReject('sustenance-continuous-access-required');
+        return nil;
+    }
+;

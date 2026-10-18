@@ -9220,6 +9220,8 @@ def test(build):
     test_sustenance_contact(Session, sustenance_contact, build.out)
     sustenance_interruption = build.build('expanded-sustenance-interruption',ROOT / 'tests/fixtures/expanded-sustenance-interruption.t')
     test_sustenance_interruption(Session, sustenance_interruption, build.out)
+    sustenance_dose = build.build('expanded-sustenance-dose',ROOT / 'tests/fixtures/expanded-sustenance-dose.t')
+    test_sustenance_dose(Session, sustenance_dose, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20708,5 +20710,49 @@ def test_sustenance_interruption(Session, bundle, out):
         for code in (11901, 11905, 11701, 11906):
             s.action(2285, code)
         assert last(s, 'test.sustenance-interruption') == [1800, 2, 1, 1, 9000, 0]
+    finally:
+        s.close()
+
+
+def test_sustenance_dose(Session, bundle, out):
+    """Owned substance dose consumes one shared inventory unit; unrun."""
+    for setup, injury in (((), 0), ((12005,), 1)):
+        path = out / f'expanded-sustenance-dose-{injury}.zsave'
+        s = Session(bundle)
+        try:
+            for code in (12000,) + setup + (11701,):
+                s.action(2285, code)
+            if injury:
+                s.action(2285, 12001)
+                assert last(s, 'test.sustenance-dose-preview') == ['blocked', 'sustenance-dose-injury-due']
+                s.action(2285, 11703)
+            for code in (12001, 12003, 12004):
+                s.action(2285, code)
+            assert last(s, 'test.sustenance-dose-preview') == ['ready', None]
+            assert last(s, 'test.sustenance-dose-state') == [1, 1, 0, injury, 3600, 0]
+            s.action(2285, 12002)
+            s.command('undo')
+            s.action(2285, 12004)
+            assert last(s, 'test.sustenance-dose-state') == [1, 1, 0, injury, 3600, 0]
+            for code in (12002, 12002, 11701, 12004):
+                s.action(2285, code)
+            assert last(s, 'test.sustenance-dose-state') == [0, 0, 1, injury, 7200, 0]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (12002, 11701, 12004):
+                s.action(2285, code)
+            assert last(s, 'test.sustenance-dose-state') == [0, 0, 1, injury, 10800, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (12000, 12006, 12001, 12002, 12004):
+            s.action(2285, code)
+        assert last(s, 'test.sustenance-dose-preview') == ['blocked', 'sustenance-dose-unavailable']
+        assert last(s, 'test.sustenance-dose-state') == [0, 1, 0, 0, 0, 0]
     finally:
         s.close()

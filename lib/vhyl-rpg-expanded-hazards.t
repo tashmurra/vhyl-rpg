@@ -5254,7 +5254,7 @@ class RpgExpandedSustenanceDeprivation: object
     restoration = nil
     definition()
     {
-        return [self.id,self.profile,self.requirement,self.approved,self.evidence,self.dropDestination,self.startedAt,self.intervalSeconds]
+        return [self.id,self.profile,self.requirement,self.approved,self.evidence,self.dropDestination,self.startedAt,self.intervalSeconds,self.requirement.scope,self.requirement.level,self.requirement.points]
             + self.requirement.templatePurchaseOptions();
     }
     nextTickAt() { return self.startedAt + (self.ticks.length() + 1) * self.intervalSeconds; }
@@ -5285,8 +5285,20 @@ class RpgExpandedSustenanceDeprivation: object
             contact.validateReceipt(); seen = seen + [contact]; previous = contact;
         }
         if (self.contact != previous) rpgExpandedReject('sustenance-contact-sequence');
-        if (self.restoration != nil && (self.restoration != self.contact || self.restoration.completedAt == nil))
-            rpgExpandedReject('sustenance-restoration-history');
+        if (self.restoration != nil)
+        {
+            if (self.restoration.ofKind(RpgExpandedSustenanceContact))
+            {
+                if (self.restoration != self.contact || self.restoration.completedAt == nil)
+                    rpgExpandedReject('sustenance-restoration-history');
+            }
+            else if (self.restoration.ofKind(RpgExpandedSustenanceDose))
+            {
+                if (self.restoration.episode != self || self.contact != nil) rpgExpandedReject('sustenance-restoration-history');
+                self.restoration.validateReceipt();
+            }
+            else rpgExpandedReject('sustenance-restoration-type');
+        }
         return nil;
     }
     assess()
@@ -5473,6 +5485,79 @@ class RpgExpandedSustenanceContact: object
         { value.status = 'blocked'; value.reason = 'sustenance-contact-continuity-evidence'; return value; }
         self.completedAt = rpgLedger.seconds; self.completionEvidence = evidence;
         self.boundCompletion = [self.completedAt,self.completionEvidence]; self.episode.restoration = self;
+        value.status = 'resolved'; return value;
+    }
+;
+
+/** One inventory quantity is one authored sufficient dose for this requirement scope. */
+class RpgExpandedSustenanceStock: RpgLiteItem
+    requirementScope = nil
+;
+class RpgExpandedSustenanceDose: object
+    id = nil
+    episode = nil
+    stock = nil
+    approved = nil
+    evidence = nil
+    boundaryOrder = nil
+    completedAt = nil
+    boundDefinition = nil
+    definition()
+    {
+        return [self.id,self.episode,self.stock,self.approved,self.evidence,self.boundaryOrder,self.completedAt,
+            self.stock.id,self.stock.requirementScope];
+    }
+    validateReceipt()
+    {
+        if (self.completedAt == nil || self.boundDefinition == nil || self.episode.restoration != self)
+            rpgExpandedReject('sustenance-dose-history');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sustenance-dose-binding');
+        rpgInteger(self.completedAt,self.episode.startedAt,rpgLedger.seconds); return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedSustenanceDeprivation)
+            || self.stock == nil || !self.stock.ofKind(RpgExpandedSustenanceStock)) rpgExpandedReject('sustenance-dose-definition');
+        local value = new RpgExpandedResult(); self.episode.validateReceipt();
+        if (self.completedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundDefinition != nil) rpgExpandedReject('sustenance-dose-uncommitted-state');
+        if (self.episode.restoration != nil || self.episode.contact != nil) rpgExpandedReject('sustenance-dose-already-restored');
+        local profile = self.episode.profile; profile.validateSustenanceDose(self.episode.requirement);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'sustenance-dose-ingestion-evidence'; return value; }
+        if (!holds(['injury-first','access-first'],self.boundaryOrder)) rpgExpandedReject('sustenance-dose-boundary-ruling');
+        if (profile.dead || profile.unconscious || profile.retchingEpisode != nil)
+        { value.reason = 'sustenance-dose-ingestion-unavailable'; return value; }
+        if (self.stock.id == nil || self.stock.id == '' || self.stock.requirementScope != self.episode.requirement.scope)
+            rpgExpandedReject('sustenance-dose-mismatch');
+        rpgInteger(self.stock.quantity,0,1000000);
+        if (!holds(profile.equipment,self.stock) || !self.stock.usableBy(profile) || self.stock.quantity == 0)
+        { value.reason = 'sustenance-dose-unavailable'; return value; }
+        local owners = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            foreach (local item in owner.equipment) if (item == self.stock) owners += 1;
+        if (owners != 1) rpgExpandedReject('sustenance-dose-ownership');
+        foreach (local prior in profile.sustenanceDeprivations)
+            if (prior.restoration != nil && prior.restoration.ofKind(RpgExpandedSustenanceDose) && prior.restoration.id == self.id)
+                rpgExpandedReject('sustenance-dose-duplicate');
+        if (self.episode.nextTickAt() < rpgLedger.seconds
+            || self.boundaryOrder == 'injury-first' && self.episode.nextTickAt() == rpgLedger.seconds)
+        { value.reason = 'sustenance-dose-injury-due'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.stock.quantity -= 1;
+        if (self.stock.quantity == 0)
+        {
+            local remaining = [];
+            foreach (local item in self.episode.profile.equipment) if (item != self.stock) remaining = remaining + [item];
+            self.episode.profile.equipment = remaining;
+        }
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition(); self.episode.restoration = self;
         value.status = 'resolved'; return value;
     }
 ;
