@@ -8936,6 +8936,8 @@ def test(build):
     test_trauma_maintenance(Session, trauma_maintenance, build.out)
     mortal_suspension = build.build('expanded-mortal-suspension', ROOT / 'tests/fixtures/expanded-mortal-suspension.t')
     test_mortal_suspension(Session, mortal_suspension, build.out)
+    mortal_recovery = build.build('expanded-mortal-recovery', ROOT / 'tests/fixtures/expanded-mortal-recovery.t')
+    test_mortal_recovery(Session, mortal_recovery)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -11169,3 +11171,26 @@ def test_mortal_suspension(Session, bundle, out):
         assert state(s) == [600, None, 600, 1, 0, 1, 4200, 6]
     finally:
         s.close()
+
+
+def test_mortal_recovery(Session, bundle):
+    for codes, cause, at in [([210], 'healing', 0), ([211], 'survival', 1800),
+                             ([171,172,173,173], 'surgery', 3600)]:
+        s = Session(bundle)
+        try:
+            s.action(2285, 170)
+            for code in codes:
+                s.action(2285, code)
+            s.action(2285, 212)
+            assert last(s, 'test.mortal-recovery') == [1, cause, at, 10, 9, 9, 1, 0, 0, None]
+            if cause == 'healing':
+                s.action(2285, 213)
+                s.command('undo')
+                s.action(2285, 212)
+                assert last(s, 'test.mortal-recovery')[-1] is None
+                s.action(2285, 213)
+                s.action(2285, 213)
+                s.action(2285, 212)
+                assert last(s, 'test.mortal-recovery') == [1, cause, at, 10, 9, 9, 1, 0, 0, 'none']
+        finally:
+            s.close()

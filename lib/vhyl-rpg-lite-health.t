@@ -118,6 +118,7 @@ rpgLiteHeal(profile, amount)
     if (profile.dead) return 0;
     if (amount > profile.injury) amount = profile.injury;
     profile.validateHealing(amount);
+    if (amount > 0 && profile.mortal) profile.validateMortalRecovery();
     profile.injury -= amount;
     if (amount > 0 && profile.mortal)
     {
@@ -125,7 +126,7 @@ rpgLiteHeal(profile, amount)
         if (check.achieved)
         {
             profile.mortal = nil;
-            if (!rpgLiteAttributeCheck(profile, rpgHT, 'permanent-health', 0).achieved && profile.ht > 1) profile.ht -= 1;
+            profile.afterMortalRecovery('healing');
         }
     }
     if (amount > 0 && profile.unconscious && !profile.unconsciousRecoveryOwned() && !profile.mortal && profile.fp() > 0
@@ -202,6 +203,7 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     rpgInteger(seconds, 1, 86400);
     local result = new RpgLiteHealthResult(); result.seconds = seconds;
     if (profile.dead) { result.status = 'blocked'; return result; }
+    if (profile.mortal && !profile.mortalSurvivalSuspended()) profile.validateMortalRecovery();
     profile.validateNaturalRecovery(seconds,food,healingAllowed);
     local healingInterval = profile.naturalRecoveryInterval();
     local healingModifier = food && healingAllowed && profile.naturalRecoveryNeeded()
@@ -568,6 +570,7 @@ rpgLiteMortalTime(profile, seconds)
     if (profile.mortalSurvivalSuspended()) return nil;
     if (profile.mortal)
     {
+        profile.validateMortalRecovery();
         local mortalInterval = profile.mortalSurvivalInterval();
         profile.mortalClock += seconds;
         while (profile.mortalClock >= mortalInterval && !profile.dead && profile.mortal)
@@ -578,9 +581,19 @@ rpgLiteMortalTime(profile, seconds)
             else if (check.critical == 'success')
             {
                 profile.mortal = nil;
-                if (!rpgLiteAttributeCheck(profile, rpgHT, 'permanent-health', 0).achieved && profile.ht > 1) profile.ht -= 1;
+                profile.afterMortalRecovery('survival');
             }
         }
     }
     return nil;
 }
+
+modify RpgLiteProfile
+    validateMortalRecovery() { return nil; }
+    afterMortalRecovery(cause)
+    {
+        local check = rpgLiteAttributeCheck(self,rpgHT,'permanent-health',0);
+        if (!check.achieved && self.ht > 1) self.ht -= 1;
+        return check;
+    }
+;

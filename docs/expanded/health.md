@@ -2417,3 +2417,32 @@ this narrow adapter and must not be represented as fully implemented by it.
 held across a day, resumption, surgery rejection, retained unconsciousness after
 healing, preview, rollback, undo, replay and cross-process continuation. They are
 authored and unrun.
+
+### Shared mortal-recovery consequences
+
+Expanded patients now retain `mortalRecoveryHistory` for recovery through healing,
+survival critical success or surgery. Each `RpgExpandedMortalRecoveryReceipt`
+records its `cause`, event time, permanent-health `check`, and HT before and after
+that check. Failure reduces HT once and increments the existing development
+revision once; earned and unspent points are untouched. Existing surgery results
+reference that same check and loss, rather than applying a second consequence.
+A survival receipt uses the actual half-hour/hour/day boundary even when the host
+advances a longer interval in one transaction.
+
+On a critical failure, the author can explicitly elect no further consequence
+with `declineAdditionalConsequence(true, evidence)`. This records `none`, requires
+an explanation and reuses an identical repeated decision. It does not negate the
+mandatory HT loss. Choosing an additional disadvantage, scar or appearance change
+still requires its verified implementation; no invented trait is installed.
+
+`validateMortalRecovery` and `afterMortalRecovery` are engine dispatch hooks, not
+standalone healing actions. The defaults preserve the abridged check and minimum
+HT behavior. Expanded recovery at HT one is explicitly unsupported pending the
+source interaction for losing the last point; it is rejected before healing or
+owned clock advancement can spend resources or randomness. Recovery dispatch is
+performed only by a genuine transition out of the mortal condition.
+
+`expanded-mortal-recovery.t` and `test_mortal_recovery` specify all three causes,
+once-only HT/revision changes, unchanged advancement balances, actual event time
+and replay/undo of the author decision. They are authored and unrun; the existing
+surgical persistence fixtures also exercise the shared receipt path.

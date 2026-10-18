@@ -4846,11 +4846,9 @@ class RpgExpandedMortalStabilization: RpgExpandedSurgicalOperation
         if (value.succeeded)
         {
             self.patient.mortal = nil;
-            value.permanentHealthCheck = rpgLiteAttributeCheck(self.patient,rpgHT,'permanent-health',0);
-            if (!value.permanentHealthCheck.achieved)
-            {
-                self.patient.ht -= 1; self.patient.developmentRevision += 1; value.healthLost = 1;
-            }
+            local before = self.patient.ht;
+            value.permanentHealthCheck = self.patient.afterMortalRecovery('surgery');
+            value.healthLost = before - self.patient.ht;
             value.complicationReviewRequired = value.permanentHealthCheck.critical == 'failure';
             self.care.close();
         }
@@ -5094,6 +5092,69 @@ modify rpgLedger
         for (local receipt = firstObj(RpgExpandedMortalSuspension); receipt != nil;
             receipt = nextObj(receipt,RpgExpandedMortalSuspension))
             if (receipt.startedAt != nil && receipt.endedAt == nil) receipt.patient.mortalSurvivalSuspended();
+        return nil;
+    }
+;
+
+/** One B423 recovery consequence, owned by the recovered patient. */
+class RpgExpandedMortalRecoveryReceipt: object
+    patient = nil
+    cause = nil
+    completedAt = nil
+    healthBefore = 0
+    healthAfter = 0
+    check = nil
+    additionalConsequence = nil
+    decisionEvidence = nil
+    declineAdditionalConsequence(approved, evidence)
+    {
+        local value = new RpgExpandedResult();
+        if (self.patient == nil || !holds(self.patient.mortalRecoveryHistory,self)
+            || self.check == nil) rpgExpandedReject('mortal-recovery-receipt');
+        if (self.check.critical != 'failure')
+        { value.reason = 'mortal-recovery-no-critical-consequence'; return value; }
+        if (self.additionalConsequence != nil)
+        {
+            if (self.additionalConsequence != 'none' || self.decisionEvidence != evidence || !approved)
+                rpgExpandedReject('mortal-recovery-decision-binding');
+            value.status = 'reused'; return value;
+        }
+        if (!approved || evidence == nil || evidence == '')
+        { value.reason = 'mortal-recovery-decision-evidence'; return value; }
+        self.additionalConsequence = 'none'; self.decisionEvidence = evidence;
+        value.status = 'resolved'; return value;
+    }
+;
+modify RpgExpandedProfile
+    mortalRecoveryHistory = []
+    validateMortalRecovery()
+    {
+        if (self.ht <= 1) rpgExpandedReject('mortal-recovery-minimum-health-unimplemented');
+        rpgInteger(self.developmentRevision,0,2147483646); return nil;
+    }
+    afterMortalRecovery(cause)
+    {
+        if (!holds(['healing','survival','surgery'],cause) || self.mortal || self.dead)
+            rpgExpandedReject('mortal-recovery-transition');
+        self.validateMortalRecovery();
+        local receipt = new RpgExpandedMortalRecoveryReceipt(); receipt.patient = self; receipt.cause = cause;
+        receipt.completedAt = cause == 'survival' ? rpgLedger.seconds - self.mortalClock : rpgLedger.seconds;
+        receipt.healthBefore = self.ht;
+        receipt.check = rpgLiteAttributeCheck(self,rpgHT,'permanent-health',0);
+        if (!receipt.check.achieved) { self.ht -= 1; self.developmentRevision += 1; }
+        receipt.healthAfter = self.ht;
+        self.mortalRecoveryHistory = self.mortalRecoveryHistory + [receipt];
+        return receipt.check;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local patient = firstObj(RpgExpandedProfile); patient != nil;
+            patient = nextObj(patient,RpgExpandedProfile))
+            if (patient.mortalClockOwned() && patient.mortal && !patient.dead && !patient.mortalSurvivalSuspended())
+                patient.validateMortalRecovery();
         return nil;
     }
 ;

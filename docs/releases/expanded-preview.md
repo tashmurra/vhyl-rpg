@@ -374,3 +374,8 @@ preserving the partial interval and preventing ordinary awakening. It requires a
 already resolved external effect; acquisition and other physiological interactions
 remain unfinished. Persistence and healing-interaction fixtures are authored and
 unrun.
+
+Healing, spontaneous survival and surgery now share owned mortal-recovery
+consequences. A failed permanent-health check changes HT and development revision
+once without awarding points. Critical receipts allow an explicit decision to add
+no discretionary consequence. Fixtures remain authored and unrun.

@@ -645,9 +645,13 @@
       "pages": "B423",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After recovery from a mortal wound, make one health check; failure permanently loses one health and critical failure may also produce an explicitly authored lasting consequence.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_mortal_recovery",
+        "tests/expanded.py::test_mortal_stabilization"
+      ],
+      "validation_note": "All three recovery sources now dispatch one recorded permanent-health check, HT loss and development revision. A critical receipt permits an explicit no-additional-consequence decision. Fixtures unrun. Additional authored consequences and minimum-HT source interactions remain incomplete."
     },
     {
       "id": "health-postmortem-injury",
