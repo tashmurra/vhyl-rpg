@@ -9110,6 +9110,8 @@ def test(build):
     test_selected_template_composition(Session, template_isolation, build.out)
     template_personal = build.build('expanded-template-customization',ROOT / 'tests/fixtures/expanded-template-customization.t')
     test_template_customization(Session, template_personal, build.out)
+    template_taboo = build.build('expanded-template-taboo',ROOT / 'tests/fixtures/expanded-template-taboo.t')
+    test_template_taboo(Session, template_taboo, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17783,5 +17785,37 @@ def test_template_customization(Session, bundle, out):
         s.command(f':restore {path}\n@2286')
         s.action(2285, 5701)
         assert last(s, 'test.template-personal') == [31, 0, 11, 2, 1, 0, 0]
+    finally:
+        s.close()
+
+
+def test_template_taboo(Session, bundle, out):
+    path = out / 'expanded-template-taboo.zsave'
+    for change, reason in ((5803, 'taboo-attribute'), (5804, 'taboo-trait'), (5805, 'taboo-skill')):
+        s = Session(bundle)
+        try:
+            for code in (5800, change, 5806):
+                s.action(2285, code)
+            assert last(s, 'test.taboo-error') == [reason]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (5800, 5801):
+            s.action(2285, code)
+        assert last(s, 'test.taboo') == [6, 'taboo-skill', 0, 'taboo-trait', 100, 0, 0]
+        s.action(2285, 5803)
+        s.command('undo')
+        for code in (5802, 5801):
+            s.action(2285, code)
+        assert last(s, 'test.taboo') == [6, 'taboo-skill', 0, 'taboo-attribute', 100, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 5801)
+        assert last(s, 'test.taboo') == [6, 'taboo-skill', 0, 'taboo-attribute', 100, 0, 0]
     finally:
         s.close()

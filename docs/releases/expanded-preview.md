@@ -1275,3 +1275,8 @@ Fresh occupational customization supports explicit trait/skill removals, score
 changes, additional skill points and supported trait replacements. It validates
 combined personal and occupational costs, negative limits and quirks without
 mutating source templates or existing characters. New fixtures remain unrun.
+
+Owned zero-cost ancestry prohibitions now cover specified traits, purchased skills
+and basic-attribute ranges. Character validation and shared learning/development
+gates reject these purchases without spending resources. Ancestry composition and
+secondary-characteristic prohibitions remain pending. Fixtures are unrun.

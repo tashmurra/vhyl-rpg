@@ -339,3 +339,34 @@ Source: `full-2008`, B258-B259. `test_template_customization` specifies additive
 skill investment, replacement and removal, combined negative limits, excessive
 quirks, permission and invalid-removal rejection, fresh ownership, undo and save
 continuation. Assertions are authored but unrun while checks remain paused.
+
+## Zero-cost prohibited purchases
+
+`RpgExpandedTabooTraits` is an owned `RpgExpandedContribution` for an authored
+ancestry prohibition (full-2008, B261 and B452). Give it a unique `id`, its
+character `owner`, `approved = true`, and a nonempty explanatory `evidence`.
+Install it in that character's `contributions`.
+
+- `traitIds` prohibits possession of those trait IDs, even when inactive or
+  mitigated. It does not grant a negative point allowance.
+- `skills` prohibits purchased training in the specified shared skill
+  definitions. An untrained default is not a purchased skill.
+- `attributeRanges` holds `[attribute, minimum, maximum]` rows. Both endpoints
+  are forbidden, with supported attributes ST, DX, IQ and HT. Secondary
+  characteristics need a separate implementation and reject as definitions.
+
+Character validation rejects existing prohibited investments. Shared skill
+learning gates reject new training before spending points or study time. Ordinary
+trait and attribute development offers reject forbidden target purchases before
+commit. These constraints contribute no points and do not automatically infer
+prohibitions from anatomy or other traits. An author must supply the concrete
+restrictions and their rationale.
+
+This interface does not implement ancestry package costs, mandatory-component
+composition, or arbitrary author-written purchase paths. Occupational composition
+continues to reject profiles with contributions; it cannot silently discard these
+constraints. Each character needs its own contribution instance.
+
+`test_template_taboo` specifies zero cost, creation rejection, learning and
+advancement gates, unchanged resources on rejection, undo, and save continuation.
+Assertions remain unrun while checks are paused.

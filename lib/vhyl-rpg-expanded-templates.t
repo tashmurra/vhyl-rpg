@@ -394,3 +394,87 @@ class RpgExpandedTemplateCustomization: object
         return profile;
     }
 ;
+
+/** Zero-cost ancestry prohibitions, full-2008 B261 and B452. */
+class RpgExpandedTabooTraits: RpgExpandedContribution
+    traitIds = []
+    skills = []
+    attributeRanges = []
+    approved = nil
+    evidence = nil
+    validateDefinition(profile)
+    {
+        if (self.owner != profile || self.id == nil || !self.approved
+            || self.evidence == nil || self.evidence == '') rpgExpandedReject('taboo-definition');
+        local ids = [];
+        foreach (local id in self.traitIds)
+        {
+            if (id == nil || id == '' || holds(ids,id)) rpgExpandedReject('taboo-definition');
+            ids = ids + [id];
+        }
+        local seen = [];
+        foreach (local skill in self.skills)
+        {
+            if (skill == nil || !skill.ofKind(RpgSkill) || holds(seen,skill)) rpgExpandedReject('taboo-definition');
+            seen = seen + [skill];
+        }
+        foreach (local row in self.attributeRanges)
+        {
+            if (row.length() != 3 || !holds([rpgST,rpgDX,rpgIQ,rpgHT],row[1]))
+                rpgExpandedReject('taboo-definition');
+            rpgInteger(row[2],1,1000); rpgInteger(row[3],row[2],1000);
+        }
+        return nil;
+    }
+    attributeReason(attribute,score)
+    {
+        foreach (local row in self.attributeRanges)
+            if (row[1] == attribute && score >= row[2] && score <= row[3]) return 'taboo-attribute';
+        return nil;
+    }
+    validate(profile)
+    {
+        self.validateDefinition(profile);
+        foreach (local trait in profile.traits)
+            if (holds(self.traitIds,trait.id)) rpgExpandedReject('taboo-trait');
+        foreach (local training in profile.skills)
+            if (training.points > 0 && holds(self.skills,training.skill)) rpgExpandedReject('taboo-skill');
+        foreach (local attribute in [rpgST,rpgDX,rpgIQ,rpgHT])
+        {
+            local reason = self.attributeReason(attribute,profile.attributeScore(attribute));
+            if (reason != nil) rpgExpandedReject(reason);
+        }
+        return nil;
+    }
+    amounts(profile) { self.validate(profile); return []; }
+;
+modify RpgExpandedProfile
+    socialSkillLearningReason(skill)
+    {
+        local reason = inherited(skill); if (reason != nil) return reason;
+        foreach (local contribution in self.contributions)
+            if (contribution.ofKind(RpgExpandedTabooTraits))
+            {
+                contribution.validateDefinition(self);
+                if (holds(contribution.skills,skill)) return 'taboo-skill';
+            }
+        return nil;
+    }
+    developmentOfferReason(offer)
+    {
+        local reason = inherited(offer); if (reason != nil) return reason;
+        foreach (local contribution in self.contributions)
+            if (contribution.ofKind(RpgExpandedTabooTraits))
+            {
+                contribution.validateDefinition(self);
+                if (offer.kind == 'trait' && offer.trait != nil && holds(contribution.traitIds,offer.trait.id))
+                    return 'taboo-trait';
+                if (offer.kind == 'attribute')
+                {
+                    reason = contribution.attributeReason(offer.attribute,offer.target);
+                    if (reason != nil) return reason;
+                }
+            }
+        return nil;
+    }
+;

@@ -300,9 +300,12 @@
       "pages": "B261; B452",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Reject purchased attributes, traits and skills forbidden by an ancestry taboo, including later advancement and template composition, even though the taboo itself costs zero.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_template_taboo"
+      ],
+      "validation_note": "Owned zero-cost prohibitions validate trait IDs, purchased skill definitions and inclusive basic-attribute ranges. Shared learning and ordinary development offers gate prohibited purchases. Secondary ranges, ancestry composition and other purchase adapters remain pending; assertions authored and unrun."
     },
     {
       "id": "ancestry-native-environment",
