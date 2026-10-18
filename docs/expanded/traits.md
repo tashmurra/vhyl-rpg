@@ -27,6 +27,23 @@ appearance checks, invested replacement value, betrayal consequences and growth
 need owned relationship records. The following catalogue pages and special
 modifiers still need review before the companion definition is complete.
 
+The [second catalogue segment](inventory/traits-catalogue-b.json) adds companion
+modifiers and abilities through B42. Summoning reuses an existing companion and
+retains failed-attempt deadlines. Shared-fate effects need propagation identities
+to prevent cycles. Companion-granted powers retain their purchases while the link
+is unavailable, rather than being deleted and repurchased.
+
+Arm-specific attributes affect only eligible tasks and use different combination
+rules for multiple hands. Accelerated subjective time adds maneuvers without
+changing initiative and still respects actions that depend on another actor's
+reaction. Neither feature can be represented by a blanket attribute or speed bonus.
+
+Restraint powers own their strength, layers, damage, escape progress and retry
+restrictions. Remote perception owns a viewpoint and displaced senses, while
+ordinary ability ranges still originate at the body. Hidden impressions and
+failed viewpoint placement require specific author contracts without revealing
+private world facts through assessment. These effects remain unimplemented.
+
 **Status: partial.** Trait catalogues, modifiers, benefits and restrictions. Neutral source: `full-2008`, B32-B166.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)

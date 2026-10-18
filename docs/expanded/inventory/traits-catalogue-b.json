@@ -1,0 +1,445 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B38-B42",
+  "review": "Companion modifiers and catalogue through first natural-limb variants inventoried. Remaining B43 variants, modifiers, sensory secrecy and executable contracts pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-b-linked-companion",
+      "source": "full-2008",
+      "pages": "B38",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Build supernatural companion from actual ancestry, raising intelligence to at least six if initially five or less. Appearance may gate physical presence or special capabilities; select mode before play. Price actual component traits.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-companion-grants",
+      "source": "full-2008",
+      "pages": "B38",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Granted powers require special companion capability modifier and separately purchased abilities with -40% linked-access restriction. Disable grants on failed appearance, companion stun/unconsciousness/death or failed link conditions. Do not erase purchase or double-charge granted resources.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-obedience",
+      "source": "full-2008",
+      "pages": "B38",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Unconditional-service modifier is +0% for intelligence zero or programmed servility, otherwise +50%. It removes ordinary departure for mistreatment but retains authored breakdown risks and supervision requirements.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-special-capability",
+      "source": "full-2008",
+      "pages": "B38",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Companion exceptional-influence/granted-power modifier +50% applies to out-of-proportion access, not merely exotic traits already priced in companion value.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-summon",
+      "source": "full-2008",
+      "pages": "B38",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Summonable companion +100% replaces adventure appearance with concentrate plus appearance check. Success places companion nearby through authored legal placement; failure locks retry for one full day. Free dismissal requires physical presence; preserve identity rather than spawning duplicates.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-shared-fate",
+      "source": "full-2008",
+      "pages": "B38",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sympathetic condition link transfers stun, unconsciousness, mind control and specified effects between partners. Death reducing other to zero health is -25%, killing other -50%; one-way owner-to-companion versions -5%/-10%. Propagation must avoid loops and duplicate consequences.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-coerced",
+      "source": "full-2008",
+      "pages": "B38",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Coerced companion -50% permits authored rebellion when compliance is worse than consequences of refusal. Departure loses invested value; this is separate from ordinary replacement entitlement.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-subjective-time",
+      "source": "full-2008",
+      "pages": "B38-B39",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Accelerated subjective time costs100 per level, granting one extra maneuver per level on existing turn without earlier initiative. Preserve full-turn restrictions. Feint or social influence requiring others\u2019 reactions consumes entire turn despite extra maneuvers.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-subjective-planning",
+      "source": "full-2008",
+      "pages": "B38",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Accelerated time permits an additional sense or authored intelligence-based planning/recall check without action penalty. Define eligible information and actual check instead of unlimited extra actions.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-identity",
+      "source": "full-2008",
+      "pages": "B39",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Alternate registered identity costs five legal or fifteen illegal per identity. Legal version needs at least ten points in approved authority/access traits. Documents/biometrics do not create wealth; financial accounts require actual funds.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-identity-discovery",
+      "source": "full-2008",
+      "pages": "B39",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Unnamed identification initially selects equally among identities. Continued investigation can reveal others; government identification destroys alternate identities under source rule. Illegal identity consequences depend on jurisdiction; record evidence and discovery state.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-hand-equality",
+      "source": "full-2008",
+      "pages": "B39",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Five-point equal-handedness removes off-hand -4 dexterity penalty but grants no extra action. Unspecified one-arm accident defaults left; deliberate/random locations still use their actual rules.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-water-adaptation",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ten-point water adaptation removes underwater work skill penalties and permits swimming at full basic movement, but supplies no breathing exemption. Water-only locomotion is a different negative trait.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-animal-insight",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Five-point animal insight uses hidden intelligence check on meeting animal, reporting emotion and supernatural control awareness. Enables ordinary influence skills on animals; author must define truthful, false or absent impressions according to actual check rules.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-arm-dexterity",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Extra arm dexterity costs twelve per level for one arm, sixteen for two; three-plus requires overall dexterity purchase. Applies only arm tasks, never combat skills or basic speed; multi-hand tasks use lowest participating arm dexterity. Inherit applicable manipulation limitation.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-arm-strength",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Extra arm strength costs three/five/eight per level for one/two/three arms; four-plus requires overall strength. Affects arm lifting/throwing/attacks, not health/global lift; multi-arm tasks use average participating strength with rounding resolved. Inherit eligible size/manipulation discounts.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-binding-definition",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Restraint attack costs two per level: range100, accuracy3, rate1, recoil1, no half-range/shot limit. Hit roots target, forbids move/posture/facing and gives dexterity-4; restraint strength equals level, later layers add one each.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-binding-escape",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each one-second escape compares target strength or escape skill with restraint strength. Failed attempt costs one fatigue and permits retry. Damaging restraint: innate attack auto-hits, other victim attacks -4, external attacks ordinary but risk victim on miss.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-binding-durability",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Restraint armor floor(level/3); each damage reduces strength one, zero frees victim. Resolve whether armor follows original level or altered layered strength explicitly; preserve shared restraint identity.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-binding-engulf",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Engulfing +60% pins and prevents speech/limb movement; permits purely mental abilities, innate attacks on restraint and strength-only escape. Failed escape retries every ten seconds; raw17/18 prevents further self-escape. Persist deadline and condition.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-binding-filter",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Damage vulnerability restriction costs +30% for one of burning/corrosion/crushing/cutting, +20% two, +10% three. Validate chosen set and reject other damage without consuming target durability.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-binding-sticky",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sticky +20% uses persistence only on people touching original target. Track contact events and propagation boundaries without unlimited recursive spread.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-binding-unbreakable",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Unbreakable +40% prohibits damage destruction but leaves escape contest. Do not model with arbitrarily high armor.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-binding-environment",
+      "source": "full-2008",
+      "pages": "B40",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Environmental requirement -20% through -40% depends on approved actual prerequisite. One-layer-only -10% prevents strengthening with repeated hits. Validate both before rolling/payment.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-vision-blessing",
+      "source": "full-2008",
+      "pages": "B40-B41",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Divine insight costs ten, needs at least hour of approved ritual, hidden intelligence check and ten fatigue at completion; followers react +1. Twenty-point tier adds five to insight check and reaction becomes +2. Failure to uphold actual obligations can remove trait under authored decision.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-heroic-boost",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ten-point blessing chooses strength/dexterity/health or approved alternate score at purchase. Once per session add1d for3d seconds; on expiry apply actual accumulated losses/thresholds, not heal or reset injury. Session identity and temporary contribution must persist.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-swing-travel",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Five-point branch-swinging gives climbing+2 and half-basic-movement travel through suitable supports. Validate support path and free limbs; do not grant unrestricted flight.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-breath-reserve",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Breath reserve costs two per level and doubles holding duration per level. Not available to ordinary humans; can combine with breathing-control skill when eligible. Integrate actual activity/oxygen ledger.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-fall-grace",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ten-point fall grace automatically subtracts five fall yards as acrobatic success, without another acrobatics roll; dexterity success additionally halves damage. Requires unbound limbs and freedom to twist.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-camouflage",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Adaptive coloration costs five per level: visual stealth+2 per level still, +1 moving. Clothing reduces to+1 still/zero moving unless appropriately camouflaged. Select one affected visual/scanning sense; no automatic benefit against unrelated senses or darkness.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-camouflage-modifiers",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each additional affected sense +20%. Always-active limitation -10% also gives stranger reaction -1; preserve inability to toggle.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-channel",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ten-point spirit channel requires minute concentration then will, +2 for trance capability. While entranced actor lacks surrounding awareness; nearby spirit can communicate through body under author control, without truth guarantee. Possessing spirit counts as touching, but host resists at +5.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-social-presence",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Social presence costs five per level: +1 reaction per level for actively interacting sapient audience, influence+1 and specified divination/leadership/begging/public-speaking skills+1. Author may exclude very alien audiences; avoid applying both trait and already-adjusted skill bonus twice.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-hospitality",
+      "source": "full-2008",
+      "pages": "B41-B42",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hospitality access ranges one through ten points with group scope. Search takes1d-1 hours and succeeds on14 or less; incidental suitable crowd contact6 or less. Group reactions+3 and basic lodging/aid, with reciprocal home obligations. Repeated refusal can lose trait through authored consequences.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-remote-senses",
+      "source": "full-2008",
+      "pages": "B42",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Remote viewpoint costs fifty, moves all ranged senses to one location/facing within ten yards. Minute concentration plus intelligence; unseen destination requires distance/direction and -5. Double range costs two fatigue per minute. Body loses those senses, but ability ranges remain body-originated.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-remote-outcomes",
+      "source": "full-2008",
+      "pages": "B42",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Success establishes viewpoint with darkness ignored but solid obstacles respected; failure by one sends senses to authored alternate point, greater failure does nothing, critical disables ability1d hours. Keep true viewpoint private where appropriate.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-remote-change",
+      "source": "full-2008",
+      "pages": "B42",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Returning, relocating or rotating senses requires one-second concentration plus intelligence. Attached viewpoint follows moving object automatically. Only one shared viewpoint, not split senses; maintain owned duration/payment and carrier identity.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-remote-limits",
+      "source": "full-2008",
+      "pages": "B42",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hearing-only -30%, smell-only -60%, vision-only -10%, psychic-sensory membership -10%, visible manifestation -10%. Selected sense subset changes displaced senses; modifier names alone do not implement visibility or interference.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-natural-limbs",
+      "source": "full-2008",
+      "pages": "B42",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Natural hand/foot weapons apply to all such limbs with no partial-limb discount. Initial variants: blunt3 points adds one per punch/kick die; hoof3 adds one per kick die and foot armor+1; sharp5 converts punch/kick to cutting. Remaining variants continue B43 before catalogue completeness.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-hospitality-1",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative hospitality scope single distant host costs 1; author defines actual membership, coverage and obligations.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-hospitality-2",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative hospitality scope small family costs 2; author defines actual membership, coverage and obligations.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-hospitality-5",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative hospitality scope trade-route association costs 5; author defines actual membership, coverage and obligations.",
+      "tests": []
+    },
+    {
+      "id": "traits-b-hospitality-10",
+      "source": "full-2008",
+      "pages": "B41",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Illustrative hospitality scope worldwide wealthy network costs 10; author defines actual membership, coverage and obligations.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B38-B42",
+      "reason": "Alias-only entries refer to previously inventoried timing/appearance or future talent definitions; named fiction and decorative examples excluded."
+    }
+  ]
+}

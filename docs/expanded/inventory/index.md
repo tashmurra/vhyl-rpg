@@ -10,6 +10,7 @@ copies of the reference books.
 | --- | --- | --- | --- |
 | `full-2008` | B10–B31 | [Character creation](creation.json) | Text reviewed; table verification and complete enumeration still open |
 | `full-2008` | B32–B37 | [Trait foundation and initial catalogue](traits-foundation.json) | Categories, activation, potential purchases, senses, condition attacks and companion pricing enumerated; catalogue continuation pending |
+| `full-2008` | B38–B42 | [Trait catalogue, second segment](traits-catalogue-b.json) | Companion modifiers, time, identities, limb attributes, restraint and perception capabilities enumerated; natural-weapon continuation pending |
 | `full-2008` | B167–B173; B229–B233 | [Skill and technique procedures](skills-procedures.json) | Text reviewed; table verification and cross-reference resolution still open |
 | `full-2008` | B174–B185 | [Skill catalogue, first segment](skills-catalogue-a.json) | Text and definition metadata transcribed; procedures and cross-references pending |
 | `full-2008` | B186–B197 | [Skill catalogue, second segment](skills-catalogue-b.json) | Definition metadata, timed procedures and specialty requirements transcribed |
