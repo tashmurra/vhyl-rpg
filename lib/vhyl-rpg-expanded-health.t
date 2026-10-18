@@ -2799,17 +2799,106 @@ modify RpgExpandedFearRetching
         local seen = [];
         foreach (local benefit in self.affectedOralBenefits)
         {
-            if (dataType(benefit) != TypeObject || !benefit.ofKind(RpgExpandedMealCredit)) return 'retching-oral-revocation-unavailable';
+            if (dataType(benefit) != TypeObject || (!benefit.ofKind(RpgExpandedMealCredit)
+                && !benefit.ofKind(RpgExpandedOralNauseaRemedy))) return 'retching-oral-revocation-unavailable';
             if (holds(seen,benefit)) rpgExpandedReject('retching-oral-benefit-duplicate');
             seen = seen + [benefit];
             local reason = benefit.revocationReason(self.context.profile,self); if (reason != nil) return reason;
             if (self.startedAt != nil && benefit.revokedBy != self) return 'retching-oral-review-changed';
-            local total = 0;
-            foreach (local other in self.affectedOralBenefits)
-                if (dataType(other) == TypeObject && other.ofKind(RpgExpandedMealCredit) && other.needs == benefit.needs && other.revokedBy == nil)
-                    total += other.meals;
-            if (total > benefit.needs.meals) return 'meal-credit-ledger-changed';
+            if (benefit.ofKind(RpgExpandedMealCredit))
+            {
+                local total = 0;
+                foreach (local other in self.affectedOralBenefits)
+                    if (dataType(other) == TypeObject && other.ofKind(RpgExpandedMealCredit) && other.needs == benefit.needs && other.revokedBy == nil)
+                        total += other.meals;
+                if (total > benefit.needs.meals) return 'meal-credit-ledger-changed';
+            }
         }
         return nil;
     }
 ;
+
+/** Owned B428 nausea remedy; onset and expiry are explicit authored treatment facts. */
+class RpgExpandedOralNauseaRemedy: object
+    id = nil
+    profile = nil
+    effectStartsAt = nil
+    effectEndsAt = nil
+    approved = nil
+    evidence = nil
+    recordedAt = nil
+    boundId = nil
+    boundProfile = nil
+    boundStartsAt = nil
+    boundEndsAt = nil
+    boundEvidence = nil
+    revokedBy = nil
+    validateBinding()
+    {
+        if (self.id != self.boundId || self.profile != self.boundProfile || self.effectStartsAt != self.boundStartsAt
+            || self.effectEndsAt != self.boundEndsAt || self.evidence != self.boundEvidence
+            || !holds(self.profile.oralNauseaRemedies,self)) rpgExpandedReject('nausea-remedy-binding');
+        return nil;
+    }
+    effective()
+    {
+        if (self.recordedAt == nil) return nil;
+        self.validateBinding();
+        return self.revokedBy == nil && rpgLedger.seconds >= self.effectStartsAt && rpgLedger.seconds < self.effectEndsAt;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('nausea-remedy-definition');
+        local value = new RpgExpandedResult();
+        if (self.recordedAt != nil) { self.validateBinding(); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'nausea-remedy-evidence'; return value; }
+        if (self.effectStartsAt == nil || self.effectEndsAt == nil)
+        { value.reason = 'nausea-remedy-timing-required'; return value; }
+        rpgInteger(self.effectStartsAt,0,2147483646); rpgInteger(self.effectEndsAt,self.effectStartsAt + 1,2147483647);
+        if (rpgLedger.seconds >= self.effectEndsAt) { value.reason = 'nausea-remedy-expired'; return value; }
+        if (self.profile.retchingEpisode != nil) { value.reason = 'nausea-remedy-retching'; return value; }
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'nausea-remedy-observer-unavailable'; return value; }
+        foreach (local prior in self.profile.oralNauseaRemedies)
+            if (prior.id == self.id) rpgExpandedReject('nausea-remedy-duplicate');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundStartsAt = self.effectStartsAt;
+        self.boundEndsAt = self.effectEndsAt; self.boundEvidence = self.evidence; self.recordedAt = rpgLedger.seconds;
+        self.profile.oralNauseaRemedies = self.profile.oralNauseaRemedies + [self];
+        value.status = 'resolved'; return value;
+    }
+    revocationReason(profile,episode)
+    {
+        if (self.recordedAt == nil) return 'nausea-remedy-not-recorded';
+        self.validateBinding();
+        if (self.profile != profile) return 'nausea-remedy-wrong-owner';
+        if (self.revokedBy != nil) return self.revokedBy == episode ? nil : 'nausea-remedy-already-revoked';
+        if (rpgLedger.seconds >= self.effectEndsAt) return 'nausea-remedy-expired';
+        return nil;
+    }
+    revoke(episode)
+    {
+        local reason = self.revocationReason(episode.context.profile,episode);
+        if (reason != nil) rpgExpandedReject(reason);
+        self.revokedBy = episode; return nil;
+    }
+;
+
+modify RpgExpandedProfile
+    oralNauseaRemedies = []
+;
+
+/** B428 trigger modifiers only: neither global nausea penalties nor trigger scheduling. */
+rpgExpandedNauseaTriggerModifier(profile,richMealWithinHour)
+{
+    if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('nausea-trigger-profile');
+    local remedy = nil;
+    foreach (local dose in profile.oralNauseaRemedies)
+        if (dose.effective()) remedy = true;
+    return (remedy ? 2 : 0) - (richMealWithinHour ? 2 : 0);
+}

@@ -111,9 +111,13 @@
       "pages": "B428",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Check health after eating, foul odors, failed fear checks or stun and hourly in free fall or motion-sickness conditions; a recent rich meal gives -2 and a remedy +2. Failure causes retching for twenty-five minus health seconds.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_retching_remedy",
+        "tests/expanded.py::test_remedy_persistence"
+      ],
+      "validation_note": "Owned oral nausea remedy with explicit authored timing supplies the source +2 trigger modifier without stacking; recent rich meals contribute -2. Retching atomically revokes reviewed remedy and meal records. Other medicines, general nausea state and trigger scheduling remain incomplete. New fixtures, including save continuation, are unrun."
     },
     {
       "id": "condition-moderate-pain",
@@ -259,9 +263,11 @@
         "tests/expanded.py::test_retching_persistence",
         "tests/expanded.py::test_retching_fatigue",
         "tests/expanded.py::test_retching_combat",
-        "tests/expanded.py::test_retching_meals"
+        "tests/expanded.py::test_retching_meals",
+        "tests/expanded.py::test_retching_remedy",
+        "tests/expanded.py::test_remedy_persistence"
       ],
-      "validation_note": "Owned retching, contextual restrictions, shared defense, standalone/combat recovery and fatigue injury are authored. Reviewed owned meal credits are revoked through the existing daily needs ledger; credits expire after that cycle is settled. Oral medicine, retroactive settled-day reversal and exceptional duration remain unavailable. All new fixtures are unrun."
+      "validation_note": "Owned oral nausea remedy with explicit authored timing supplies the source +2 trigger modifier without stacking; recent rich meals contribute -2. Retching atomically revokes reviewed remedy and meal records. Other medicines, general nausea state and trigger scheduling remain incomplete. New fixtures, including save continuation, are unrun."
     },
     {
       "id": "condition-seizure",

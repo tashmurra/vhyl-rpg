@@ -1447,8 +1447,8 @@ These fields describe required consequences; this helper does not charge or
 revoke them, change defense scores, or create a recovery episode.
 
 `test_fear_retching` contains independent duration, attribute, concentration and
-resource expectations. The fixture remains unrun. Owned execution is described below. Oral-medicine revocation
-remains pending; row twelve remains partial.
+resource expectations. The fixture remains unrun. Owned execution is described below. Broader oral-medicine effects
+remain pending; row twelve remains partial.
 
 
 ### Owned retching episodes
@@ -1456,8 +1456,8 @@ remains pending; row twelve remains partial.
 `RpgExpandedFearRetching` owns one active condition on an expanded profile.
 Provide a unique `id`, an approved fear `context`, outcome `approved` and
 `evidence`, and `oralEffectsReviewed`. The latter is an explicit author finding
-about recent meals and oral medicine. `affectedOralBenefits` accepts the owned meal credits described below. Oral
-medicine and other benefit types remain explicitly unavailable. The selected
+about recent meals and oral medicine. `affectedOralBenefits` accepts the owned meal credits and oral nausea remedies
+described below. Other benefit types remain explicitly unavailable. The selected
 list is bound when the episode starts; changing it prevents recovery until
 the original reviewed list is restored. New meals cannot be credited while
 retching remains active.
@@ -1552,4 +1552,37 @@ A meal's receipt retains `revokedBy`, and replay cannot restore expelled food.
 `test_retching_meals` specifies credit replay, revocation, pure previews,
 rollback, undo, changed-review rejection, duplicate references and the daily
 settlement boundary. These fixtures remain unrun. Retroactive reversal of a
-settled day's fatigue and oral-medicine effects remain unsupported.
+settled day's fatigue and broader oral-medicine effects remain unsupported.
+
+
+### Oral nausea remedies
+
+`RpgExpandedOralNauseaRemedy` records an already administered oral treatment
+whose supported effect is the B428 nausea-trigger bonus. Set its unique `id`,
+`profile`, `approved`, `evidence`, `effectStartsAt` and `effectEndsAt`. The source
+specifies the bonus but no universal onset or duration for medicines; those
+times must be explicit authored facts for the selected treatment. Missing timing
+blocks registration. This record does not purchase, consume or administer an
+inventory item and does not add a separate time charge.
+
+`rpgExpandedNauseaTriggerModifier(profile, richMealWithinHour)` returns the
+source's plus-two remedy adjustment and minus-two recent-rich-meal adjustment.
+The modifier applies only to the vomiting-trigger health check. It does not
+remove nausea's general penalties or improve retching recovery. Multiple active
+remedies still contribute a single plus two. Effects begin at `effectStartsAt`
+and cease at `effectEndsAt` on the shared clock; queries never roll or mutate.
+Global nausea state, trigger scheduling and its retching-on-failure procedure
+remain to be implemented.
+
+Include an expelled remedy record in the retching episode's reviewed
+`affectedOralBenefits`, alongside any meal credits. The start transaction removes
+both benefits atomically and binds each `revokedBy` receipt. Replaying remedy
+registration cannot restore an expelled effect. New oral remedies cannot be
+registered during active retching. Unrecorded, foreign, expired or previously
+revoked remedies reject; other medicines require their own concrete effect
+implementations and are not represented by this class.
+
+`test_retching_remedy` and `test_remedy_persistence` specify the numeric bonus,
+non-stacking behavior, onset and expiry boundaries, combined meal/medicine
+revocation, preview, rollback, undo, replay and cross-process continuation.
+They remain unrun while checks are paused.

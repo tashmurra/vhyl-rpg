@@ -1004,9 +1004,11 @@
         "tests/expanded.py::test_retching_persistence",
         "tests/expanded.py::test_retching_fatigue",
         "tests/expanded.py::test_retching_combat",
-        "tests/expanded.py::test_retching_meals"
+        "tests/expanded.py::test_retching_meals",
+        "tests/expanded.py::test_retching_remedy",
+        "tests/expanded.py::test_remedy_persistence"
       ],
-      "validation_note": "Owned retching, contextual restrictions, shared defense, standalone/combat recovery and fatigue injury are authored. Reviewed owned meal credits are revoked through the existing daily needs ledger; credits expire after that cycle is settled. Oral medicine, retroactive settled-day reversal and exceptional duration remain unavailable. All new fixtures are unrun."
+      "validation_note": "Owned oral nausea remedy with explicit authored timing supplies the source +2 trigger modifier without stacking; recent rich meals contribute -2. Retching atomically revokes reviewed remedy and meal records. Other medicines, general nausea state and trigger scheduling remain incomplete. New fixtures, including save continuation, are unrun."
     },
     {
       "id": "fear-outcome-13",

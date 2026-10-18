@@ -24,11 +24,32 @@ retchIdle: RpgLiteManeuver;
 retchConcentrate: RpgLiteManeuver kind = 'concentrate';
 retchNeeds: RpgLiteNeeds profile = retchProfile meals = 0;
 retchMeal: RpgExpandedMealCredit id = 'supper' profile = retchProfile needs = retchNeeds approved = true evidence = 'One eaten meal';
+retchRemedy: RpgExpandedOralNauseaRemedy id = 'remedy' profile = retchProfile effectStartsAt = 0 effectEndsAt = 60 approved = true evidence = 'Authored effective interval';
+retchOtherRemedy: RpgExpandedOralNauseaRemedy id = 'other-remedy' profile = retchProfile effectStartsAt = 0 effectEndsAt = 120 approved = true evidence = 'Second authored interval';
 retchInput: object code = 0;
 class RetchTestAction: Action
     exec(context)
     {
         local code = retchInput.code;
+        if (code >= 40)
+        {
+            if (code == 40 || code == 41 || code == 44)
+            {
+                local remedy = code == 44 ? retchRemedy.assess() : retchRemedy.apply();
+                event('test.retch-remedy'); eventValue(remedy.status); eventValue(remedy.reason);
+                if (code == 41) throw new RpgError(); return nil;
+            }
+            if (code == 42) retchEpisode.affectedOralBenefits = [retchRemedy];
+            if (code == 43) rpgSpendTime(60);
+            if (code == 45) rpgSpendTime(59);
+            if (code == 46) retchEpisode.affectedOralBenefits = [retchMeal,retchRemedy];
+            if (code == 47) retchOtherRemedy.apply();
+            if (code == 48) retchRemedy.effectStartsAt = 10;
+            if (code == 49) rpgSpendTime(1);
+            if (code == 50) retchRemedy.effectEndsAt = nil;
+            if (code == 51) rpgSpendTime(10);
+            return nil;
+        }
         if (code >= 30)
         {
             if (code == 30 || code == 31)
@@ -123,6 +144,13 @@ act(verb,args)
     {
         event('test.retch-meal-state'); eventValue(retchNeeds.meals); eventValue(retchNeeds.cycle);
         eventValue(retchMeal.revokedBy == retchEpisode ? 1 : 0); eventValue(retchProfile.mealCredits.length()); return nil;
+    }
+    if (verb == 2261)
+    {
+        event('test.retch-remedy-state'); eventValue(rpgExpandedNauseaTriggerModifier(retchProfile,nil));
+        eventValue(rpgExpandedNauseaTriggerModifier(retchProfile,true)); eventValue(retchRemedy.effective() ? 1 : 0);
+        eventValue(retchRemedy.revokedBy == retchEpisode ? 1 : 0); eventValue(retchProfile.oralNauseaRemedies.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     return nil;
 }

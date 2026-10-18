@@ -1928,6 +1928,90 @@ def test_retching_meals(Session,bundle):
     finally: s.close()
 
 
+def test_retching_remedy(Session,bundle):
+    def state(s):
+        s.action(2261)
+        return last(s,'test.retch-remedy-state')
+    s = Session(bundle)
+    try:
+        for code in [44,41]:
+            s.action(2255,code)
+            assert state(s) == [0,-2,0,0,0,0,0]
+        s.action(2255,40)
+        s.action(2255,40)
+        assert state(s) == [2,0,1,0,1,0,0]
+        s.action(2255,47)
+        assert state(s) == [2,0,1,0,2,0,0] # Multiple remedies do not multiply the source bonus.
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in [40,45]: s.action(2255,code)
+        assert state(s) == [2,0,1,0,1,0,59]
+        s.action(2255,49)
+        assert state(s) == [0,-2,0,0,1,0,60]
+        s.command('undo')
+        assert state(s) == [2,0,1,0,1,0,59]
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in [48,40]: s.action(2255,code)
+        assert state(s) == [0,-2,0,0,1,0,0]
+        s.action(2255,51)
+        assert state(s) == [2,0,1,0,1,0,10]
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in [30,40,46]: s.action(2255,code)
+        for code in [1,2]:
+            s.action(2255,code)
+            assert state(s) == [2,0,1,0,1,0,0]
+            s.action(2260)
+            assert last(s,'test.retch-meal-state') == [1,0,0,1]
+        s.action(2255,0)
+        assert state(s) == [0,-2,0,1,1,0,0]
+        s.action(2260)
+        assert last(s,'test.retch-meal-state') == [0,0,1,1]
+        s.command('undo')
+        assert state(s) == [2,0,1,0,1,0,0]
+        s.action(2255,0)
+        s.action(2255,40)
+        assert state(s) == [0,-2,0,1,1,0,0]
+    finally: s.close()
+    for setup,reason in [([50],'nausea-remedy-timing-required'),([43],'nausea-remedy-expired'),([0],'nausea-remedy-retching')]:
+        s = Session(bundle)
+        try:
+            for code in setup: s.action(2255,code)
+            before = state(s)
+            s.action(2255,40)
+            assert last(s,'test.retch-remedy') == ['blocked',reason]
+            assert state(s) == before
+        finally: s.close()
+
+
+def test_remedy_persistence(Session,bundle,out):
+    for revoked in [False,True]:
+        path = out / f'expanded-oral-remedy-{revoked}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2255,40)
+            if revoked:
+                first.action(2255,42)
+                first.action(2255,0)
+            first.command(f':save {path}\n@2261')
+            assert any('[save ok code=0]' in line for line in first.raw_lines)
+        finally: first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2261')
+            second.action(2255,40)
+            second.action(2261)
+            assert last(second,'test.retch-remedy-state') == ([0,-2,0,1,1,0,0] if revoked else [2,0,1,0,1,0,0])
+            second.action(2255,43)
+            second.action(2261)
+            assert last(second,'test.retch-remedy-state') == [0,-2,0,int(revoked),1,0,60]
+        finally: second.close()
+
+
 def test_retching_combat(Session,bundle):
     for low_fatigue in [False,True]:
         for failed in [False,True]:
@@ -8587,6 +8671,8 @@ def test(build):
     test_retching_fatigue(Session,retching)
     test_retching_combat(Session,retching)
     test_retching_meals(Session,retching)
+    test_retching_remedy(Session,retching)
+    test_remedy_persistence(Session,retching,build.out)
     test_retching_persistence(Session,retching,build.out)
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)
