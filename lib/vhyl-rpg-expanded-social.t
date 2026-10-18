@@ -2088,7 +2088,8 @@ class RpgExpandedObservedReactionAttempt: RpgExpandedReactionAttempt
     {
         if (self.socialContext == nil || !self.socialContext.ofKind(RpgExpandedObservedReactionContext))
             rpgExpandedReject('observed-reaction-context');
-        local definition = [self.encounter,self.approach,self.socialContext,self.socialContext.subject,self.socialContext.observer];
+        local definition = [self.encounter,self.approach,self.socialContext,self.socialContext.subject,self.socialContext.observer]
+            + self.socialContext.observationFacts();
         foreach (local fact in self.socialContext.observations)
         {
             if (fact == nil || !fact.ofKind(RpgExpandedSocialObservation)) rpgExpandedReject('observed-reaction-fact-owner');
@@ -2112,5 +2113,64 @@ class RpgExpandedObservedReactionAttempt: RpgExpandedReactionAttempt
         local value = inherited();
         if (value.status == 'resolved') self.boundObservationDefinition = self.observationDefinition();
         return value;
+    }
+;
+
+
+modify RpgExpandedObservedReactionContext
+    observationFacts() { return []; }
+    traitReactionComponents(profile)
+    {
+        self.traitReactionModifier(profile); local parts = [];
+        foreach (local fact in self.observations) parts = parts + [[fact.kind(),fact.modifier()]];
+        return parts;
+    }
+;
+class RpgExpandedDistrustObservation: RpgExpandedSocialObservation
+    typicalObserver = nil
+    kind() { return 'pervasive-distrust'; }
+    definition() { return inherited() + [self.typicalObserver]; }
+    modifier() { return self.typicalObserver && self.subject.pervasiveDistrustActive() ? -2 : 0; }
+;
+/** B148 observer behavior: double each other negative contribution, not the net. */
+class RpgExpandedDistrustReactionContext: RpgExpandedObservedReactionContext
+    observerIsNpc = nil
+    stranger = nil
+    approved = nil
+    evidence = nil
+    adjustments = []
+    observationFacts()
+    {
+        local facts = [self.observerIsNpc,self.stranger,self.approved,self.evidence,self.modifier];
+        foreach (local row in self.adjustments) facts = facts + row;
+        return facts;
+    }
+    validateObserverFacts()
+    {
+        if (self.observer == nil || !self.observer.ofKind(RpgExpandedProfile)) rpgExpandedReject('distrust-reaction-observer');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('distrust-reaction-facts');
+        if (self.modifier != 0) rpgExpandedReject('distrust-itemized-modifiers-required');
+        return nil;
+    }
+    baseReactionComponents(profile)
+    {
+        self.validateObserverFacts(); local parts = []; local ids = [];
+        foreach (local row in self.adjustments)
+        {
+            if (row.length() != 3 || row[1] == nil || row[1] == '' || row[3] == nil || row[3] == '' || holds(ids,row[1]))
+                rpgExpandedReject('distrust-reaction-adjustment');
+            rpgInteger(row[2],-1000,1000); ids = ids + [row[1]]; parts = parts + [[row[1],row[2]]];
+        }
+        return parts;
+    }
+    adjustReactionComponent(profile,id,amount)
+    {
+        self.validateObserverFacts();
+        return self.observerIsNpc && self.observer.pervasiveDistrustActive() && amount < 0 ? amount * 2 : amount;
+    }
+    observerReactionModifier(profile)
+    {
+        self.validateObserverFacts();
+        return self.observerIsNpc && self.stranger && self.observer.pervasiveDistrustActive() ? -4 : 0;
     }
 ;

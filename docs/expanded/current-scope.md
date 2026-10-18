@@ -112,3 +112,10 @@ Social work now includes humorlessness accounting and owned observer-specific
 reaction facts. Humorlessness and callousness combine without duplicate penalties;
 resolved approaches bind their observation selection. Automatic dialogue
 observation and the remaining trait contexts are pending; fixtures are unrun.
+
+
+Pervasive distrust now has fixed character accounting, owned subject observations
+and itemized nonplayer reactions. Separate penalties double before the stranger
+penalty is added once; bonuses remain unchanged. Resolved approaches bind the
+authored observer roles and adjustments. Specialized context integration remains
+partial, and regression/persistence fixtures are authored but unrun.

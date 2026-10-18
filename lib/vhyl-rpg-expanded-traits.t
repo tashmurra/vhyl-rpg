@@ -1848,3 +1848,45 @@ modify rpgExpandedTemplateTraits
         trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
     }
 ;
+
+/** B148: fixed cost; reactions require authored observer roles and knowledge. */
+class RpgExpandedPervasiveDistrust: RpgLiteTrait
+    id = 'pervasive-distrust'
+    labelId = 'pervasive-distrust'
+    points = -10
+    approved = nil
+    templatePurchaseKind = 'expanded-pervasive-distrust'
+    creationCost()
+    {
+        if (!self.approved || self.id != 'pervasive-distrust' || self.points != -10 || self.level != 1
+            || self.scope != nil || self.controlled || self.skills.length() != 0) rpgExpandedReject('pervasive-distrust-definition');
+        return -10;
+    }
+;
+modify RpgExpandedProfile
+    pervasiveDistrustActive()
+    {
+        local count = 0; local active = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'pervasive-distrust')
+            {
+                if (!trait.ofKind(RpgExpandedPervasiveDistrust)) rpgExpandedReject('pervasive-distrust-definition');
+                trait.creationCost(); count += 1; if (trait.active && !trait.mitigated) active = true;
+            }
+        if (count > 1) rpgExpandedReject('pervasive-distrust-duplicate'); return active;
+    }
+    validateFeatures() { inherited(); self.pervasiveDistrustActive(); return nil; }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id != 'pervasive-distrust') return inherited(id,level,scope);
+        local trait = new RpgExpandedPervasiveDistrust(); trait.level = level; trait.scope = scope; trait.approved = true;
+        trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedPervasiveDistrust)) return inherited(trait);
+        trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
+    }
+;

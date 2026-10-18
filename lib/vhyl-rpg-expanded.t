@@ -641,3 +641,7 @@ modify rpgExpandedTemplateTraits
 modify RpgExpandedProfile
     humorlessnessActive() { return nil; }
 ;
+
+modify RpgExpandedProfile
+    pervasiveDistrustActive() { return nil; }
+;

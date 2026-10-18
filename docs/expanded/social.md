@@ -1074,3 +1074,38 @@ contains cost, evident/unevident behavior, combined modifiers, duplicate rejecti
 immutable evidence, preview, replay, rollback, undo and persistence fixtures. They
 are authored but unrun while checks are paused. Automatic dialogue observation
 and conversion of the remaining situational trait contexts remain pending.
+
+
+## Pervasive distrust
+
+`RpgExpandedDistrustObservation` records the ordinary -2 response to a subject
+with active pervasive distrust (`full-2008`, B148). Set `typicalObserver = true`
+only when the author confirms that this response applies; use the same owned
+observation recording contract described above.
+
+For an observer with this trait, use `RpgExpandedDistrustReactionContext` with
+an expanded `observer`, `observerIsNpc`, `stranger`, `approved` and original
+`evidence`. An active nonplayer observer doubles each other negative reaction
+component, preserves positive components, then adds -4 once for a stranger.
+Player-controlled observers do not receive these automatic attitude changes.
+
+Supply contextual modifiers as `adjustments`: rows of
+`[uniqueId, signedAmount, evidence]`. Keep the inherited `modifier` zero.
+Aggregating a bonus and penalty would lose the information needed for doubling,
+so a nonzero aggregate modifier is rejected before rolling. Existing personal
+modifiers and concrete selected observations participate separately. For example,
+a +4 benefit, a -2 affiliation penalty and a -2 observed behavior penalty total
+-8 for a stranger: +4 -4 -4 -4.
+
+Resolve through `RpgExpandedObservedReactionAttempt`; observer roles and itemized
+facts bind to the stored approach, preventing changed facts from silently reusing
+a result. Ordinary social contexts retain identity component adjustments and no
+extra random draws. Custom contexts supplying an aggregated trait contribution
+must expose separate `traitReactionComponents(profile)` before combining with
+this rule. Automatic dialogue observations and other specialized-context
+integrations remain pending.
+
+[`expanded-distrust-reactions.t`](../../tests/fixtures/expanded-distrust-reactions.t)
+and `test_distrust_reactions` specify costs, both observer roles, separate signs,
+stranger handling, preview, invalid aggregate rejection, replay, rollback, undo
+and save continuation. These fixtures remain unrun while checks are paused.

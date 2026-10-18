@@ -509,31 +509,33 @@ class RpgLiteSocialContext: object
 /** Calculate visible and applicable personal reaction modifiers. */
 rpgLiteReactionModifier(profile, context)
 {
-    local amount = context.modifier + context.traitReactionModifier(profile);
-    if (context.interaction) amount += profile.level('charisma');
-    if (context.hears) amount += 2 * profile.level('voice');
+    local parts = context.baseReactionComponents(profile) + context.traitReactionComponents(profile);
+    if (context.interaction) parts = parts + [['charisma',profile.level('charisma')]];
+    if (context.hears) parts = parts + [['voice',2 * profile.level('voice')]];
     if (context.recognizes)
     {
         local reputation = profile.trait('reputation');
-        if (reputation != nil) amount += reputation.points < 0 ? -reputation.level : reputation.level;
-        amount -= profile.level('bad-reputation');
+        if (reputation != nil) parts = parts + [['reputation',reputation.points < 0 ? -reputation.level : reputation.level]];
+        parts = parts + [['bad-reputation',-profile.level('bad-reputation')]];
     }
     if (context.sameCulture)
     {
         local status = profile.trait('status');
-        if (status != nil) amount += status.points < 0 ? -status.level : status.level;
-        amount -= profile.level('low-status');
+        if (status != nil) parts = parts + [['status',status.points < 0 ? -status.level : status.level]];
+        parts = parts + [['low-status',-profile.level('low-status')]];
     }
-    if (context.noticesHabits) amount -= profile.level('odious-habits') + profile.level('delusions');
+    if (context.noticesHabits) parts = parts + [['habits',-(profile.level('odious-habits') + profile.level('delusions'))]];
     if (context.sees)
     {
-        amount -= 4 * profile.level('hideous') + 2 * profile.level('ugly') + profile.level('unattractive');
-        amount += profile.level('attractive');
-        if (profile.level('handsome') > 0) amount += context.attracted ? 4 : 2;
-        if (profile.level('very-handsome') > 0) amount += context.attracted ? 6 : 2;
+        parts = parts + [['negative-appearance',-(4 * profile.level('hideous') + 2 * profile.level('ugly') + profile.level('unattractive'))]];
+        parts = parts + [['attractive',profile.level('attractive')]];
+        if (profile.level('handsome') > 0) parts = parts + [['handsome',context.attracted ? 4 : 2]];
+        if (profile.level('very-handsome') > 0) parts = parts + [['very-handsome',context.attracted ? 6 : 2]];
     }
-    if (profile.level('overconfidence') > 0) amount += context.naive ? 2 : context.experienced ? -2 : 0;
-    return amount;
+    if (profile.level('overconfidence') > 0) parts = parts + [['overconfidence',context.naive ? 2 : context.experienced ? -2 : 0]];
+    local amount = 0;
+    foreach (local part in parts) amount += context.adjustReactionComponent(profile,part[1],part[2]);
+    return amount + context.observerReactionModifier(profile);
 }
 
 /** Opposed influence outcome, reaction category and optional ordinary reaction roll. */
@@ -608,4 +610,13 @@ modify RpgLiteProfile
 
 modify RpgLiteProfile
     catalogueFeatureCheckModifier(skill) { return 0; }
+;
+
+
+/* Default component hooks preserve ordinary reaction arithmetic and draw counts. */
+modify RpgLiteSocialContext
+    baseReactionComponents(profile) { return [['context',self.modifier]]; }
+    traitReactionComponents(profile) { return [['traits',self.traitReactionModifier(profile)]]; }
+    adjustReactionComponent(profile,id,amount) { return amount; }
+    observerReactionModifier(profile) { return 0; }
 ;

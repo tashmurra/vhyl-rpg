@@ -1315,3 +1315,13 @@ Character validation rejects duplicates. Its reaction penalty requires a recorde
 observer-specific indication that the behavior was evident; see
 [observed behavior](social.md#observed-behavior-in-reactions). No universal
 reaction penalty or compulsory player dialogue is added.
+
+
+## Pervasive distrust
+
+`RpgExpandedPervasiveDistrust` costs -10 points with `level = 1` and
+`approved = true` (`full-2008`, B148). Custom costs, scopes, self-control
+and skill lists are rejected. Character validation rejects duplicate purchases;
+template plain/copy operations produce independent purchases. Active, unmitigated
+traits enable the [observer-specific effects](social.md#pervasive-distrust).
+Trust decisions and character dialogue remain authored/player choices.

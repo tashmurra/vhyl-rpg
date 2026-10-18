@@ -9177,6 +9177,8 @@ def test(build):
     test_navigation_templates(Session, navigation_templates, build.out)
     observed_reactions = build.build('expanded-observed-reactions',ROOT / 'tests/fixtures/expanded-observed-reactions.t')
     test_observed_reactions(Session, observed_reactions, build.out)
+    distrust_reactions = build.build('expanded-distrust-reactions',ROOT / 'tests/fixtures/expanded-distrust-reactions.t')
+    test_distrust_reactions(Session, distrust_reactions, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19766,5 +19768,56 @@ def test_observed_reactions(Session, bundle, out):
         for code in (9800, 9808, 9801):
             s.action(2285, code)
         assert last(s, 'test.observed-preview') == [-10, 0, 'ready', 0]
+    finally:
+        s.close()
+
+
+def test_distrust_reactions(Session, bundle, out):
+    """B148 doubles separate negatives, preserves bonuses, adds stranger -4 once; unrun."""
+    path = out / 'expanded-distrust-reactions.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30, 9900, 9800, 9901, 9908, 9903, 9804):
+            s.action(2285, code)
+        assert last(s, 'test.distrust-modifier') == [-10, -8, 0]  # +4 -4 -4 -4
+        assert last(s, 'test.distrust-baseline') == [2, 0]
+        assert last(s, 'test.observed-state') == [2, 0, 0]
+        s.action(2285, 9902)
+        s.command('undo')
+        s.action(2285, 9804)
+        assert last(s, 'test.observed-state') == [2, 0, 0]
+        for code in (9902, 9902):
+            s.action(2285, code)
+        assert last(s, 'test.distrust-result') == ['reused', 2, 3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 9902)
+        assert last(s, 'test.distrust-result') == ['reused', 2, 3]
+        for code in (9904, 9907):
+            s.action(2285, code)
+        assert last(s, 'test.distrust-error') == ['observed-reaction-binding', 3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (9900, 9800, 9904, 9901):
+            s.action(2285, code)
+        assert last(s, 'test.distrust-modifier') == [-10, -4, 0]
+        for code in (9905, 9901, 9906, 9907):
+            s.action(2285, code)
+        assert last(s, 'test.distrust-modifier') == [-10, 0, 0]
+        assert last(s, 'test.distrust-error') == ['distrust-itemized-modifiers-required', 0]
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (9900, 9800, 9910, 9901):
+            s.action(2285, code)
+        assert last(s, 'test.distrust-modifier') == [-10, -12, 0]
     finally:
         s.close()

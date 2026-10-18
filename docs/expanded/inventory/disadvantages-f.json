@@ -257,9 +257,12 @@
       "pages": "B148",
       "module": "social",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Pervasive distrust costs -10. Most observers react -2; a nonplayer actor with this trait reacts -4 to strangers and doubles other applicable negative reaction modifiers. Author distinguishes the inherent stranger penalty from other penalties to avoid doubling the same term twice.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_distrust_reactions"
+      ],
+      "validation_note": "Fixed cost, validated template copies, owned subject observations and nonplayer observer component arithmetic. Explicit author facts identify strangers and applicable modifiers. Fixtures are authored but unrun; automatic dialogue and remaining contextual modifier integrations are pending."
     },
     {
       "id": "disadvantages-f-voices-trigger",
