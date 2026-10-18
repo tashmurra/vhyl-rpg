@@ -1338,7 +1338,7 @@ taste/smell is not independently added to this tracking check. The context does
 not grant a sensory capability merely because it is relevant.
 
 `concealedTrail` blocks ordinary scoring: hidden tracks require an invested
-tracker and a contest adapter, which remains pending. Acquisition, continuation
+tracker and a contest adapter, which remains pending. Acquisition has a separate owned procedure in the exploration guide. Continuation
 scheduling, terrain changes, movement/time ledger integration and concealment
 are not implemented by returning an interval. Do not count the terrain table as
 a complete tracking encounter. `test_tracking_context` specifies every terrain,

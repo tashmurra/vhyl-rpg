@@ -1076,3 +1076,7 @@ modify RpgExpandedProfile
     sensoryRecognitionBonus(sense) { rpgExpandedReject('sensory-recognition-traits-module-required'); }
     knowsSensorySignature(sense,signature) { rpgExpandedReject('sensory-recognition-traits-module-required'); }
 ;
+
+modify RpgLiteContext
+    trackingFacts() { rpgExpandedReject('tracking-skills-module-required'); }
+;

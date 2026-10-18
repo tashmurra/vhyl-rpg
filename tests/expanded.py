@@ -9542,6 +9542,8 @@ def test(build):
     test_signature_recognition(Session,signature_recognition,build.out)
     tracking_context = build.build('expanded-tracking-context',ROOT / 'tests/fixtures/expanded-tracking-context.t')
     test_tracking_context(Session,tracking_context)
+    tracking_acquisition = build.build('expanded-tracking-acquisition',ROOT / 'tests/fixtures/expanded-tracking-acquisition.t')
+    test_tracking_acquisition(Session,tracking_acquisition,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -27060,5 +27062,40 @@ def test_tracking_context(Session, bundle):
                 s.action(1680,code)
             s.action(1680,28400)
             assert last(s,'test.tracking-context') == [score,1800,0,0,0]
+        finally:
+            s.close()
+
+
+def test_tracking_acquisition(Session, bundle, out):
+    """Owned B226 acquisition retains failure/success and rejects duplicate spending; unrun."""
+    def state(s):
+        s.action(1680,28502)
+        return last(s,'test.tracking-acquisition')
+    s = Session(bundle)
+    path = out / 'tracking-acquisition.zsave'
+    try:
+        s.action(1680,28503)
+        assert last(s,'test.tracking-preview') == ['ready',None,7]
+        assert state(s) == [0,None,0,0]
+        s.action(1680,28501); assert state(s) == [0,None,0,0]
+        s.action(1680,28500); s.command('undo'); assert state(s) == [0,None,0,0]
+        s.action(1680,28500); s.action(1680,28500); assert state(s) == [1,True,30,3]
+        for code in (28504,28505,28506):
+            s.action(1680,code); assert state(s) == [1,True,30,3]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,28500)
+        assert state(s) == [1,True,30,3]
+    finally:
+        s.close()
+    for code,expected in ((27004,[1,None,30,3]),(27009,[1,None,0,3]),
+                          (28412,[0,None,0,0]),(28413,[0,None,0,0]),(28407,[0,None,0,0])):
+        s = Session(bundle)
+        try:
+            s.action(1680,code); s.action(1680,28500); s.action(1680,28500)
+            assert state(s) == expected
         finally:
             s.close()

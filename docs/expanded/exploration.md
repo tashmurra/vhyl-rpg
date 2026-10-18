@@ -2351,3 +2351,33 @@ familiarity, unknown signatures, failed observation, wrong observer, inactive
 traits, no extra time/randomness, rollback, undo, tamper rejection and saved
 continuation. Fixtures remain unrun. Automated identity evidence, contested
 matching and recipient-specific player actions remain pending.
+
+
+## Acquiring an ordinary trail
+
+`RpgExpandedTrackingAcquisition` implements the initial tracking check in
+full-2008 B226. Supply `id`, `profile`, an `RpgExpandedTrackingContext`, stable
+`trail` and `occurrence` objects, `seconds`, `approved` and concrete `evidence`.
+The reference does not prescribe an acquisition duration: authors provide the
+elapsed examination time, including zero when appropriate. This is not a
+movement operation and does not advance travel distance.
+
+`assess()` validates accessible, unconcealed trail conditions, effective score,
+health permission and time availability before spending resources. `resolve()`
+uses the existing health gate, spends the authored interval once and retains a
+single acquisition check. `result.acquired` is true only on success. Health
+denial produces no acquisition roll or examination time. Invalid or unsupported
+requests are rejected or blocked before spending time or randomness.
+
+Keep context facts stable for the attempt, with trail age appropriate to its
+resolution. A context change during the elapsed interval interrupts resolution.
+The receipt binds those facts and the outcome; reusing it spends nothing, while
+another request for the same trail and occurrence is rejected. Do not generate a
+new occurrence merely to reroll the same failed search.
+
+`test_tracking_acquisition` specifies preview purity, success, failure, health
+denial, concealed/unavailable trails, inadequate score, duplicate requests,
+context/outcome tampering, rollback, undo and saved continuation. Fixtures remain
+unrun. Following the trail, continuation deadlines, movement/exertion, evolving
+trail age and terrain transitions still need an encounter implementation;
+acquisition alone does not implement those procedures.

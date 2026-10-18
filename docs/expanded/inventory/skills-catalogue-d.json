@@ -5946,7 +5946,8 @@
       "status": "partial",
       "acceptance": "Check to acquire the trail and at terrain-dependent intervals; apply trail age, subject group and appropriate sensory modifiers.",
       "tests": [
-        "tests/expanded.py::test_tracking_context"
+        "tests/expanded.py::test_tracking_context",
+        "tests/expanded.py::test_tracking_acquisition"
       ],
       "reference_data": {
         "attribute": "perception",
@@ -5964,7 +5965,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun."
+      "validation_note": "Typed skill/default, all terrain intervals/modifiers, strict trail-age boundaries, subject categories and approved sensory applicability implemented as pure scoring. Acquisition/continuation encounters, movement timing, terrain transitions and concealed-trail contests remain pending. Fixtures authored, unrun. Initial acquisition now uses owned bound requests, the shared health/time ledger and retained checks. Duplicate same-trail occurrences are rejected. Continuation, travel and concealed-trail contests remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-tracking-terrain-jungle-plains-woodland",

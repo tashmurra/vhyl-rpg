@@ -4855,3 +4855,117 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+class RpgExpandedTrackingAcquisitionResult: RpgExpandedResult
+    acquired = nil
+    score = nil
+    gate = nil
+    allowed = nil
+;
+/** B226 acquire an ordinary trail before starting any continuation procedure. */
+class RpgExpandedTrackingAcquisition: object
+    id = nil
+    profile = nil
+    context = nil
+    trail = nil
+    occurrence = nil
+    seconds = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.context == nil || !self.context.ofKind(RpgLiteContext) || self.trail == nil || self.occurrence == nil)
+            rpgExpandedReject('tracking-acquisition-definition');
+        rpgInteger(self.seconds,0,86400);
+        return [self.id,self.profile,self.context,self.trail,self.occurrence,self.seconds,self.approved,self.evidence]
+            + self.context.trackingFacts();
+    }
+    outcomeDefinition()
+    {
+        local facts = [self.completedAt,self.result,self.result.acquired,self.result.seconds,self.result.allowed,self.result.gate,self.result.check];
+        if (self.result.check != nil) facts = facts + [self.result.check.score,self.result.check.roll,
+            self.result.check.margin,self.result.check.achieved,self.result.check.critical];
+        return facts;
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedTrackingAcquisitionResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.trackingAcquisitions,self) || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('tracking-acquisition-history');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('tracking-acquisition-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('tracking-acquisition-outcome');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('tracking-acquisition-outcome');
+            if (self.completedAt > rpgLedger.seconds || self.result.gate.assess().status != 'reused') rpgExpandedReject('tracking-acquisition-gate');
+            value.status = 'reused'; return value;
+        }
+        if (self.completedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('tracking-acquisition-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'tracking-acquisition-evidence-required'; return value; }
+        foreach (local prior in self.profile.trackingAcquisitions)
+            if (prior.id == self.id || prior.trail == self.trail && prior.occurrence == self.occurrence)
+                rpgExpandedReject('tracking-acquisition-repeat');
+        value.reason = self.context.taskUnavailableReason(self.profile); if (value.reason != nil) return value;
+        value.reason = self.profile.nonTravelScheduleReason(rpgLedger.seconds,self.seconds); if (value.reason != nil) return value;
+        value.score = rpgLiteScore(self.profile,self.context);
+        if (value.score == nil || value.score < 3) { value.reason = 'tracking-acquisition-score'; return value; }
+        value.gate = self.profile.prepareSocialGate(self.id,self.evidence,nil);
+        if (value.gate == nil) { value.reason = 'tracking-acquisition-health-adapter-required'; return value; }
+        local permission = value.gate.assess();
+        if (permission.status != 'ready') { value.reason = permission.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds); rpgLedger.validateAdvance(self.seconds);
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local facts = self.definition(); local start = rpgLedger.seconds;
+        local permission = value.gate.resolve();
+        if (!holds(['resolved','reused'],permission.status)) rpgExpandedReject('tracking-acquisition-gate-changed');
+        value.allowed = permission.allowed;
+        if (value.allowed)
+        {
+            rpgSpendTime(self.seconds); value.seconds = self.seconds;
+            if (rpgLedger.seconds != start+self.seconds || self.context.taskUnavailableReason(self.profile) != nil
+                || rpgLiteScore(self.profile,self.context) != value.score || self.profile.nonTravelScheduleReason(start,self.seconds) != nil)
+                rpgExpandedReject('tracking-acquisition-interrupted');
+        }
+        local current = self.definition();
+        if (current.length() != facts.length()) rpgExpandedReject('tracking-acquisition-changed');
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (current[index] != facts[index]) rpgExpandedReject('tracking-acquisition-changed');
+        if (value.allowed)
+        {
+            value.check = rpgCheck(value.score,rpgRandom.roll());
+            value.acquired = value.check.achieved;
+        }
+        else value.reason = permission.reason;
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = facts; value.status = 'resolved';
+        self.result = value; self.boundOutcome = self.outcomeDefinition();
+        self.profile.trackingAcquisitions = self.profile.trackingAcquisitions + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    trackingAcquisitions = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local search in self.trackingAcquisitions)
+        {
+            if (search == nil || !search.ofKind(RpgExpandedTrackingAcquisition) || search.profile != self || holds(ids,search.id)
+                || search.assess().status != 'reused') rpgExpandedReject('tracking-acquisition-history');
+            ids = ids + [search.id];
+        }
+        return nil;
+    }
+;
+
