@@ -3,8 +3,9 @@
 This is an incremental implementation, **not a complete full-reference conversion**.
 The [library catalogue](../libraries.md) separates available modules from proposed
 ones. The [coverage ledger](coverage.json) records implemented features, pending
-modules and the unfinished detailed source inventory. The full conversion cannot
-be accepted while those entries remain unresolved.
+modules and the unfinished detailed source inventory. The [detailed source inventory](inventory/index.md) records individual obligations
+and the evidence still needed. The full conversion cannot be accepted while those
+entries remain unresolved.
 
 ## Integration
 

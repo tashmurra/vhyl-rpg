@@ -8,6 +8,49 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_detailed_inventory_references_and_completion_claims(self):
+        """Structural integrity only; this does not validate source mechanics."""
+        base = ROOT / 'docs/expanded'
+        inventory = json.loads((base / 'coverage.json').read_text())
+        modules = {row['id'] for row in inventory['modules']}
+        features = {row['id'] for row in inventory['features']}
+        identifiers = set()
+        for filename in inventory['detailed_inventories']:
+            path = base / filename
+            self.assertTrue(path.resolve().is_relative_to(base.resolve()))
+            detail = json.loads(path.read_text())
+            self.assertEqual(detail['source'], 'full-2008')
+            self.assertTrue(detail['entries'])
+            self.assertTrue(detail['exclusions'])
+            if inventory['inventory_complete']:
+                self.assertTrue(detail['enumeration_complete'])
+            for entry in detail['entries']:
+                with self.subTest(entry=entry['id']):
+                    self.assertNotIn(entry['id'], identifiers)
+                    identifiers.add(entry['id'])
+                    self.assertIn(entry['module'], modules)
+                    self.assertEqual(entry['source'], detail['source'])
+                    self.assertTrue(entry['pages'].startswith('B'))
+                    self.assertTrue(entry['acceptance'])
+                    self.assertIn(entry['kind'], {
+                        'procedure', 'table', 'table-row', 'modifier',
+                        'catalogue-entry', 'author-decision'})
+                    self.assertIn(entry['status'], {
+                        'pending', 'partial', 'implemented', 'adjudicated'})
+                    if 'existing_feature' in entry:
+                        self.assertIn(entry['existing_feature'], features)
+                    if entry['status'] in {'implemented', 'adjudicated'}:
+                        self.assertTrue(entry['tests'])
+                        self.assertTrue(entry.get('interfaces'))
+                    if entry['status'] == 'adjudicated':
+                        self.assertTrue(entry.get('author_contract'))
+                    for reference in entry['tests']:
+                        test_path, name = reference.split('::')
+                        tree = ast.parse((ROOT / test_path).read_text())
+                        self.assertIn(name, {
+                            node.name for node in ast.walk(tree)
+                            if isinstance(node, ast.FunctionDef)})
+
     def test_inventory_and_catalogue_agree(self):
         inventory = json.loads((ROOT / 'docs/expanded/coverage.json').read_text())
         modules = inventory['modules']

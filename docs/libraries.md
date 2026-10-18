@@ -42,7 +42,7 @@ Include the engine once. For Lite, include progression followed by the Lite umbr
 | Expanded social | `vhyl-rpg-expanded-social.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/social.md) / no example yet |
 | Expanded tactical | `vhyl-rpg-expanded-tactical.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/tactical.md) / no example yet |
 | Expanded technology | `vhyl-rpg-expanded-technology.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/technology.md) / no example yet |
-| Expanded templates | `vhyl-rpg-expanded-templates.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/templates.md) / [example](../examples/expanded/main.t) |
+| Expanded templates | `vhyl-rpg-expanded-templates.t` | Expanded foundation + characters + skills | Expanded profiles | Partial | [Guide](expanded/templates.md) / [example](../examples/expanded/main.t) |
 | Expanded traits | `vhyl-rpg-expanded-traits.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/traits.md) / [example](../examples/expanded/main.t) |
 | Expanded vehicles | `vhyl-rpg-expanded-vehicles.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/vehicles.md) / no example yet |
 | Reporting | `vhyl-rpg-report.t` | Core | Core assessments | Available | [Guide](reporting.md) / [example](../examples/hybrid/main.t) |

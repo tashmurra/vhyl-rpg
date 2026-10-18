@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "inventory_complete": false,
-  "scope": "Chapter-level work inventory; catalogue entry enumeration remains pending. No full-conversion claim.",
+  "scope": "Detailed inventory in progress. Chapter ownership is provisional until every section, table and catalogue entry has been reviewed. No full-conversion claim.",
   "modules": [
     {
       "id": "campaign",
@@ -273,5 +273,9 @@
         "tests/expanded.py::test_study"
       ]
     }
+  ],
+  "detailed_inventories": [
+    "inventory/creation.json",
+    "inventory/skills-procedures.json"
   ]
 }
