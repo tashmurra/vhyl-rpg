@@ -1903,9 +1903,30 @@ without performing a detection or recognition check. Bound request and outcome
 fields prevent rewriting a completed attempt or its deadline.
 
 Author evidence is required for uninterrupted exposure; automated moving-source
-availability and interruption events remain pending. Taste sampling, matching a
-new stimulus against known signatures, and player-facing memory actions are
-separate unfinished integrations. `test_sensory_memory` specifies both senses,
+availability and interruption events remain pending. Taste sampling and matching a new stimulus against known signatures remain
+unfinished integrations. The shared player action interface is described below. `test_sensory_memory` specifies both senses,
 minimum duration, trait suppression, health denial, replay, rollback, undo,
 failed-attempt tampering and saved retry-boundary continuation. Fixtures are
 unrun while checks are paused.
+
+
+## Shared sensory memory actions
+
+Bind `RpgExpandedSensoryMemoryAction.attempt` to a
+`RpgExpandedSensoryMemoryAttempt`, and set `operation` to `preview` or `resolve`.
+Parser and structured commands call `exec(context)`; dialogue choices call
+`perform(context.asker)`. The actor must own the attempt's profile. Ownership is
+checked before assessment, preventing another character from probing remembered
+signatures or retry deadlines through this action.
+
+The action delegates to the same attempt for time, health permission, learning
+and replay. Its `rpg.expanded.sensory-memory` event contains operation, status
+and reason only; signature identity, die rolls and retry timestamps are not
+broadcast. Authors may use the returned outcome for recipient-specific feedback.
+Switching to another request for the same signature still respects the owned
+history and retry deadline.
+
+`test_sensory_memory_actions` specifies parser, structured and dialogue routes
+for hearing and smell, ownership denial, preview purity, rollback, undo, repeated
+execution and saved continuation of a failed-attempt retry barrier. These
+fixtures are unrun while validation remains paused.

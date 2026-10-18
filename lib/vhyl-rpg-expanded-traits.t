@@ -3520,3 +3520,21 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** One ownership boundary for parser, structured action and authored dialogue routes. */
+class RpgExpandedSensoryMemoryAction: Action
+    attempt = nil
+    operation = 'resolve'
+    perform(actor)
+    {
+        if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedSensoryMemoryAttempt)
+            || !holds(['preview','resolve'],self.operation)) rpgExpandedReject('sensory-memory-action-definition');
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile == nil || actor.rpgProfile != self.attempt.profile)
+            value.reason = 'sensory-memory-action-owner-required';
+        else value = self.operation == 'preview' ? self.attempt.assess() : self.attempt.resolve();
+        event('rpg.expanded.sensory-memory'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;

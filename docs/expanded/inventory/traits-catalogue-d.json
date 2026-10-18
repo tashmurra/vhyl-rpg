@@ -125,9 +125,10 @@
       "acceptance": "Fine sound recognition costs 15. Recognize individual voices and machine sound signatures. Memorizing a new sound requires at least one minute and intelligence success; failure prohibits retry for one full day. Retain attempt identity and deadline across save/undo and repeated action objects.",
       "tests": [
         "tests/expanded.py::test_sensory_recognition",
-        "tests/expanded.py::test_sensory_memory"
+        "tests/expanded.py::test_sensory_memory",
+        "tests/expanded.py::test_sensory_memory_actions"
       ],
-      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun. Owned minimum-minute IQ memorization now retains successful signatures and enforces a full-day failed-check retry deadline across requests. Health denial has no retry penalty. Automated exposure interruption, recognition matching and native memory actions remain pending. New fixtures unrun."
+      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun. Owned minimum-minute IQ memorization now retains successful signatures and enforces a full-day failed-check retry deadline across requests. Health denial has no retry penalty. Shared owner-authorized native memory actions now delegate to the same attempt and retry history. Automated exposure interruption and recognition matching remain pending. New fixtures unrun."
     },
     {
       "id": "traits-d-sound-bonuses",
@@ -152,9 +153,10 @@
       "acceptance": "Fine scent recognition costs 15 and permits individual recognition by odor. Memorizing a new scent takes at least one minute and intelligence success, with a full-day retry restriction after failure. Add 4 to smell tasks and tracking, cumulative with acute taste/smell but not duplicated for a single task.",
       "tests": [
         "tests/expanded.py::test_sensory_recognition",
-        "tests/expanded.py::test_sensory_memory"
+        "tests/expanded.py::test_sensory_memory",
+        "tests/expanded.py::test_sensory_memory_actions"
       ],
-      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun. Owned minimum-minute IQ memorization now retains successful signatures and enforces a full-day failed-check retry deadline across requests. Health denial has no retry penalty. Automated exposure interruption, recognition matching and native memory actions remain pending. New fixtures unrun."
+      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun. Owned minimum-minute IQ memorization now retains successful signatures and enforces a full-day failed-check retry deadline across requests. Health denial has no retry penalty. Shared owner-authorized native memory actions now delegate to the same attempt and retry history. Automated exposure interruption and recognition matching remain pending. New fixtures unrun."
     },
     {
       "id": "traits-d-scent-revulsion",

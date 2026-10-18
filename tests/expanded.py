@@ -9536,6 +9536,8 @@ def test(build):
     test_sensory_recognition(Session,sensory_recognition,build.out)
     sensory_memory = build.build('expanded-sensory-memory',ROOT / 'tests/fixtures/expanded-sensory-memory.t')
     test_sensory_memory(Session,sensory_memory,build.out)
+    sensory_memory_actions = build.build('expanded-sensory-memory-actions',ROOT / 'tests/fixtures/expanded-sensory-memory-actions.t')
+    test_sensory_memory_actions(Session,sensory_memory_actions,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26916,3 +26918,60 @@ def test_sensory_memory(Session, bundle, out):
         assert last(s,'test.memory-retry')[1] != 'sensory-memory-retry-delay'
     finally:
         s.close()
+
+
+def test_sensory_memory_actions(Session, bundle, out):
+    """Memory action routes share ownership, time, history and retry barriers; unrun."""
+    for route in ('parser','structured','dialogue'):
+        def perform(s,operation):
+            if route == 'parser':
+                s.command({'preview':'assess memory','resolve':'resolve memory','rollback':'rollback memory'}[operation])
+            elif route == 'structured':
+                s.action({'preview':28210,'resolve':28211,'rollback':28212}[operation])
+            else:
+                s.action(80,'sensory-memory'); s.select(operation)
+        def state(s):
+            s.action(1680,28102)
+            return last(s,'test.sensory-memory')
+        for sense in ('hearing','smell'):
+            s = Session(bundle)
+            try:
+                if sense == 'smell':
+                    s.action(1680,28110)
+                perform(s,'preview')
+                assert last(s,'rpg.expanded.sensory-memory') == ['preview','ready',None]
+                assert state(s) == [0,None,None,0,0]
+                perform(s,'rollback'); assert state(s) == [0,None,None,0,0]
+                perform(s,'resolve'); s.command('undo'); assert state(s) == [0,None,None,0,0]
+                perform(s,'resolve'); perform(s,'resolve')
+                assert last(s,'rpg.expanded.sensory-memory') == ['resolve','resolved',None]
+                assert state(s) == [1,True,None,60,3]
+            finally:
+                s.close()
+        for outsider in (28201,28202):
+            s = Session(bundle)
+            try:
+                s.action(1680,outsider)
+                for operation in ('preview','resolve'):
+                    perform(s,operation)
+                    assert last(s,'rpg.expanded.sensory-memory') == [operation,'blocked','sensory-memory-action-owner-required']
+                    assert state(s) == [0,None,None,0,0]
+            finally:
+                s.close()
+        path = out / f'sensory-memory-action-{route}.zsave'
+        s = Session(bundle)
+        try:
+            s.action(1680,27004); perform(s,'resolve'); s.action(1680,28203)
+            perform(s,'resolve')
+            assert last(s,'rpg.expanded.sensory-memory') == ['resolve','blocked','sensory-memory-retry-delay']
+            assert state(s) == [1,None,86460,60,3]
+            s.command(f':save {path}')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@1681'); perform(s,'preview')
+            assert last(s,'rpg.expanded.sensory-memory') == ['preview','blocked','sensory-memory-retry-delay']
+            assert state(s) == [1,None,86460,60,3]
+        finally:
+            s.close()
