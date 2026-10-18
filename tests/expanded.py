@@ -9250,6 +9250,8 @@ def test(build):
     test_dated_aging(Session, dated_aging, build.out)
     dependents = build.build('expanded-dependents',ROOT / 'tests/fixtures/expanded-dependents.t')
     test_dependents(Session, dependents, build.out)
+    dependent_sessions = build.build('expanded-dependent-sessions',ROOT / 'tests/fixtures/expanded-dependent-sessions.t')
+    test_dependent_sessions(Session, dependent_sessions, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21217,5 +21219,45 @@ def test_dependents(Session, bundle, out):
             for code in (13403, 13405):
                 s.action(2285, code)
             assert last(s, 'test.dependent-state') == [1, roll, appeared, draws, cost]
+        finally:
+            s.close()
+
+
+def test_dependent_sessions(Session, bundle, out):
+    """B131 session adjudication gates the shared award bank; unrun."""
+    for setup, reason in [((), None), ((13501,), 'dependent-serious-harm-no-session-points'),
+                          ((13502,), None), ((13502, 13503), 'dependent-rescue-bonus-denied')]:
+        s = Session(bundle)
+        path = out / ('dependent-session-' + '-'.join(map(str, setup)) + '.zsave')
+        try:
+            for code in (13500,) + setup + (13507, 13504, 13506, 13509):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-session-award') == ['blocked', 'dependent-session-closure-required']
+            assert last(s, 'test.dependent-session-preview') == ['ready', 0]
+            assert last(s, 'test.dependent-session-state') == [0, 0, 0, 0, 0]
+            s.action(2285, 13505)
+            s.command('undo')
+            s.action(2285, 13509)
+            assert last(s, 'test.dependent-session-state') == [0, 0, 0, 0, 0]
+            for code in (13505, 13505, 13508, 13509):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-session-state') == [1, 0, 0, 0, 0]
+            s.action(2285, 13507)
+            assert last(s, 'test.dependent-session-award') == ['blocked' if reason else 'resolved', reason]
+            points, claimed = (0, 0) if reason else (3, 1)
+            for code in (13507, 13509):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-session-state') == [1, points, points, claimed, 0]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (13505, 13507, 13509):
+                s.action(2285, code)
+            assert last(s, 'test.dependent-session-state') == [1, points, points, claimed, 0]
+            s.action(2285, 13510)
+            assert last(s, 'test.dependent-session-binding') == ['dependent-session-binding']
         finally:
             s.close()

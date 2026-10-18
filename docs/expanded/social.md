@@ -1179,7 +1179,7 @@ receipt for the same relationship/adventure rejects; replay returns the saved
 outcome. Appearing means this relationship should cause authored trouble, not an
 automatic move, injury or kidnapping. The author supplies that concrete scene.
 
-Rescue obligations, session award restrictions, proportional advancement,
+Live rescue routing, proportional advancement,
 permanent-loss replacement, combined helpful/troublesome roles, template copying
 and group incidents remain pending. Pricing and appearance alone do not mark the
 relationship fully implemented.
@@ -1187,3 +1187,38 @@ relationship fully implemented.
 `test_dependents` specify brackets, combined multipliers, character accounting,
 rolled/constant appearances, preview, replay, rollback, undo and save continuation.
 Fixtures remain unrun.
+
+
+### Closing a session with dependents
+
+`RpgExpandedDependentSession` records the author's end-of-session adjudication
+(`full-2008`, B131). Supply `profile`, a stable `session` identity, approval,
+evidence and exactly one `outcomes` row for every installed dependent, including
+uncredited relationships. A row contains `[relationship, peril, promptAid,
+seriousHarm, denyBonus, evidence]`. `seriousHarm` means killed or badly hurt;
+the author decides that classification from actual play. `denyBonus` is the
+author's decision after failure to provide prompt aid, and rejects if there was
+no peril or prompt aid was provided. This is a concrete adjudication contract,
+not an automatic interpretation of dialogue or wound totals.
+
+Call pure `assess()` and then `record()` after session events are settled.
+The immutable receipt binds the relationships and all outcomes. Duplicate session
+closures and closure after a claimed session award reject. The record itself
+spends no points, time or randomness. Replay reuses it.
+
+Every `RpgMilestone` awarded to a profile with dependents must identify its
+`awardSession`, matching a recorded closure. Set `bonusAward = true` for a bonus
+subject to the author's rescue judgment. Serious harm blocks every milestone in
+that session; denied rescue bonuses block only bonus milestones. The shared
+`rpgAwardMilestone` path enforces these gates before touching its existing receipt,
+point bank or unlock effects. Other profiles retain their prior default behavior.
+Previously claimed awards remain replayable and previously earned points are not
+removed. Authors must close the session before awarding its points, rather than
+attempt retrospective adjudication after awarding them.
+
+This does not route live rescue actions or settle permanent-loss replacement.
+Group member/incident modeling remains pending; group outcome classification is
+currently supplied by the author. `expanded-dependent-sessions.t` and
+`test_dependent_sessions` specify closure requirements, serious harm, discretionary
+bonus denial, ordinary objective awards, preview, replay, rollback, undo and saved
+continuation. These fixtures remain unrun while checks are paused.

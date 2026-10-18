@@ -268,9 +268,12 @@
       "pages": "B131",
       "module": "development",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Dependent peril requires prompt rescue. Author adjudicates failure to aid for session advancement; a session where the dependent is killed or seriously injured grants no character points. Record session identity, injury judgment and award decision without deleting previously earned points.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_dependent_sessions"
+      ],
+      "validation_note": "Owned session closure enforces serious-harm award prohibition and authored rescue bonus denial through the shared milestone bank. Live rescue routing and group incident ownership remain pending. Fixtures unrun."
     },
     {
       "id": "disadvantages-c-dependent-ally",

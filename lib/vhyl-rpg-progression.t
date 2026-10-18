@@ -2,6 +2,7 @@
  * Include after vhyl-rpg.t. Copyright (c) 2026 John Cunningham. MIT License. */
 
 modify RpgProfile
+    milestoneAwardReason(milestone) { return nil; }
     earnedPoints = 0
     unspentPoints = 0
     developmentOpen = nil
@@ -23,6 +24,8 @@ modify RpgProfile
 /** Authored objective award. Eligibility is observational; apply can unlock
  * opportunities after the receipt has been claimed. Never award for retries. */
 class RpgMilestone: object
+    awardSession = nil
+    bonusAward = nil
     id = nil
     points = 1
     available(profile) { return nil; }
@@ -90,6 +93,8 @@ rpgAwardMilestone(profile, milestone)
     local value = new RpgProgressResult(); value.profile = profile;
     value.id = milestone.id; value.kind = 'award';
     if (receipt.claimed) { value.status = 'reused'; return value; }
+    value.reason = profile.milestoneAwardReason(milestone);
+    if (value.reason != nil) return value;
     value.reason = milestone.available(profile);
     if (value.reason != nil) return value;
     rpgInteger(profile.earnedPoints, 0, 1000000 - milestone.points);

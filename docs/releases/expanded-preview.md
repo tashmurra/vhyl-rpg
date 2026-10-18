@@ -1786,3 +1786,10 @@ appearance pricing to character accounting, with group doubling and credit-slot
 limits. Adventure appearances have owned replay-safe rolls. Rescue/session-award
 obligations, progression, permanent loss and combined roles remain pending.
 Accounting and persistence fixtures are authored but unrun.
+
+
+Dependent session closures now bind authored peril, rescue and harm outcomes to
+the existing milestone award path. Serious harm blocks session points; an
+authored failure-to-rescue judgment can deny bonus awards without removing prior
+earnings. Live rescue routing and permanent-loss settlement remain pending.
+The integration fixtures are authored but unrun while checks remain paused.

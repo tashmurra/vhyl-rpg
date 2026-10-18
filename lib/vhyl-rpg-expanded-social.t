@@ -2335,3 +2335,90 @@ class RpgExpandedDependentAppearance: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B131: close authored dependent outcomes before granting session points. */
+class RpgExpandedDependentSession: object
+    profile = nil
+    session = nil
+    approved = nil
+    evidence = nil
+    /* [relationship, peril, prompt aid, killed/badly hurt, deny bonus, evidence] */
+    outcomes = []
+    recorded = nil
+    boundDefinition = nil
+    definition()
+    {
+        local facts = [self.profile,self.session,self.approved,self.evidence,self.outcomes.length()];
+        foreach (local row in self.outcomes) facts = facts + row + row[1].definition();
+        foreach (local relationship in self.profile.contributions)
+            if (relationship.ofKind(RpgExpandedDependent)) facts = facts + [relationship];
+        return facts;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.session == nil)
+            rpgExpandedReject('dependent-session-owner');
+        if (self.recorded)
+        {
+            if (!holds(self.profile.dependentSessions,self)) rpgExpandedReject('dependent-session-history');
+            local facts = self.definition();
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('dependent-session-binding');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('dependent-session-binding');
+            value.status = 'reused'; return value;
+        }
+        if (self.boundDefinition != nil) rpgExpandedReject('dependent-session-uncommitted');
+        rpgExpandedValidate(self.profile);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'dependent-session-adjudication-required'; return value; }
+        local seen = [];
+        foreach (local row in self.outcomes)
+        {
+            if (row.length() != 6 || row[1] == nil || !row[1].ofKind(RpgExpandedDependent)
+                || !holds(self.profile.contributions,row[1]) || holds(seen,row[1])
+                || row[6] == nil || row[6] == '') rpgExpandedReject('dependent-session-outcome');
+            if (row[5] && (!row[2] || row[3])) rpgExpandedReject('dependent-session-bonus-judgment');
+            seen = seen + [row[1]];
+        }
+        foreach (local relationship in self.profile.contributions)
+            if (relationship.ofKind(RpgExpandedDependent) && !holds(seen,relationship))
+                rpgExpandedReject('dependent-session-missing-relationship');
+        foreach (local prior in self.profile.dependentSessions)
+            if (prior.session == self.session) rpgExpandedReject('dependent-session-duplicate');
+        for (local award = firstObj(RpgAward); award != nil; award = nextObj(award,RpgAward))
+            if (award.profile == self.profile && award.claimed && award.milestone.awardSession == self.session)
+                rpgExpandedReject('dependent-session-already-awarded');
+        value.status = 'ready'; return value;
+    }
+    record()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.recorded = true;
+        self.profile.dependentSessions = self.profile.dependentSessions + [self];
+        value.status = 'resolved'; return value;
+    }
+    awardReason(bonus)
+    {
+        if (self.assess().status != 'reused') return 'dependent-session-not-closed';
+        foreach (local row in self.outcomes)
+            if (row[4]) return 'dependent-serious-harm-no-session-points';
+        foreach (local row in self.outcomes)
+            if (bonus && row[5]) return 'dependent-rescue-bonus-denied';
+        return nil;
+    }
+;
+modify RpgExpandedProfile
+    dependentSessions = []
+    milestoneAwardReason(milestone)
+    {
+        local reason = inherited(milestone); if (reason != nil) return reason;
+        local required = nil;
+        foreach (local relationship in self.contributions)
+            if (relationship.ofKind(RpgExpandedDependent)) required = true;
+        foreach (local closure in self.dependentSessions)
+            if (closure.session == milestone.awardSession) return closure.awardReason(milestone.bonusAward);
+        return required ? 'dependent-session-closure-required' : nil;
+    }
+;
