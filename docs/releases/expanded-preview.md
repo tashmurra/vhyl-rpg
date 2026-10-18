@@ -726,3 +726,8 @@ repairs and other tool uses remain incomplete.
 - Added pure shared-load allocation assessment with exact weight conservation,
   existing inventory load and per-helper encumbrance. Shares require an evidenced
   author decision. Committed shared carrying remains pending; fixtures unrun.
+
+- Added owned shared carrying and authored lowering, preserving a single item
+  owner and per-helper load shares. Storage, trade and individual pickup reject an
+  actively shared item. Added rollback, undo and saved-carrying fixtures, unrun.
+  Coordinated movement, emergency drops and reallocation remain pending.

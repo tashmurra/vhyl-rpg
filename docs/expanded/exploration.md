@@ -552,3 +552,8 @@ The fixture includes unequal shares, existing carried equipment, exact total
 conservation, missing/excess weight, duplicate helpers, missing approval and
 individual overload. Assertions are authored and unrun. Committed shared-object
 ownership, ongoing movement, fatigue and release remain pending.
+
+The equipment module now provides [owned shared carrying](equipment.md#owned-shared-carrying)
+for these capacity and distribution assessments. One inventory owns the item;
+participant load calculations add only their assigned shares. Coordinated movement,
+emergency drops and reallocation remain incomplete; integration fixtures are unrun.

@@ -1137,3 +1137,18 @@ rpgExpandedAssessLoadDistribution(rows,weight,approved,evidence)
     if (allocated != weight) { value.reason = 'load-distribution-total'; return value; }
     value.allocations = assessments; value.status = 'ready'; return value;
 }
+
+modify rpgExpandedSharedCarryRules
+    assess(carry)
+    {
+        local task = new RpgExpandedCooperativeLoad(); task.approved = carry.approved;
+        task.evidence = carry.evidence; task.weight = carry.item.weightHundredths(); task.mode = carry.mode;
+        local shares = [];
+        foreach (local row in carry.members)
+        { task.participants = task.participants + [row[1]]; shares = shares + [[row[1],row[2]]]; }
+        local capacity = task.assess(); if (capacity.status != 'ready') return capacity;
+        local distribution = rpgExpandedAssessLoadDistribution(shares,task.weight,carry.approved,carry.evidence);
+        if (distribution.status != 'ready') return distribution;
+        distribution.seconds = capacity.seconds; return distribution;
+    }
+;

@@ -8984,6 +8984,8 @@ def test(build):
     test_load_distribution(Session, loads)
     equipment_lift = build.build('expanded-equipment-lift', ROOT / 'tests/fixtures/expanded-equipment-lift.t')
     test_equipment_lift(Session, equipment_lift, build.out)
+    shared_carry = build.build('expanded-shared-carry', ROOT / 'tests/fixtures/expanded-shared-carry.t')
+    test_shared_carry(Session, shared_carry, build.out)
     lifting_skill = build.build('expanded-lifting-skill', ROOT / 'tests/fixtures/expanded-lifting-skill.t')
     test_lifting_skill(Session, lifting_skill, build.out)
     test_skilled_pickup(Session, lifting_skill, build.out)
@@ -13337,3 +13339,50 @@ def test_load_distribution(Session, bundle):
         assert last(s, 'test.load-distribution') == ['blocked','load-distribution-overload-required',19000,0,0,0]
     finally:
         s.close()
+
+
+def test_shared_carry(Session, bundle, out):
+    def state(s):
+        s.action(2285, 783)
+        return last(s, 'test.shared-carry')
+    clear = [0,0,1,0,0,0,0,0,0]
+    carrying = [2000,4000,1,0,1,1,1,4,0]
+    lowered = [0,0,1,0,1,1,0,6,0]
+    path = out / 'expanded-shared-carry.zsave'
+    s = Session(bundle)
+    try:
+        for code in (780,782):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 781)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (781,781,786):
+            s.action(2285, code)
+        assert last(s, 'test.shared-carry-guards') == ['equipment-in-shared-carry'] * 3
+        assert state(s) == carrying
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        assert state(s) == carrying
+        s.action(2285, 785)
+        assert state(s) == carrying
+        s.action(2285, 784)
+        s.command('undo')
+        assert state(s) == carrying
+        for code in (784,784,781):
+            s.action(2285, code)
+        assert state(s) == lowered
+    finally:
+        s.close()
+    for invalid in (787,788,746):
+        s = Session(bundle)
+        try:
+            for code in (invalid,781):
+                s.action(2285, code)
+            assert state(s) == clear
+        finally:
+            s.close()

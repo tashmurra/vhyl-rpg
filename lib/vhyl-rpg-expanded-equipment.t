@@ -210,6 +210,7 @@ class RpgExpandedEquipmentStorage: object
             || !holds(self.profile.equipment,self.item))
             rpgExpandedReject('storage-ownership');
         local value = new RpgExpandedAcquisitionResult(); value.item = self.item;
+        if (self.item.sharedCarry != nil) { value.reason = 'equipment-in-shared-carry'; return value; }
         if (self.item.storageLocation == self.destination) { value.status = 'reused'; return value; }
         if (!self.accessible) { value.reason = 'storage-inaccessible'; return value; }
         if (self.profile.dead || self.profile.unconscious)
@@ -266,6 +267,7 @@ class RpgExpandedTradeTransfer: object
                 if (receipt[2] != self.seller || receipt[3] != self.item) rpgExpandedReject('trade-transfer-id-conflict');
                 value.status = 'reused'; return value;
             }
+        if (self.item.sharedCarry != nil) { value.reason = 'equipment-in-shared-carry'; return value; }
         rpgExpandedValidate(self.buyer); rpgExpandedValidate(self.seller);
         rpgInteger(self.price,0,2147483647);
         rpgInteger(self.buyer.money,0,2147483647); rpgInteger(self.seller.money,0,2147483647);
@@ -443,6 +445,7 @@ class RpgExpandedEquipmentLift: RpgExpandedLiftIdentity
         local value = new RpgExpandedResult();
         if (!self.approved || !self.accessible || self.evidence == nil || self.evidence == '')
         { value.reason = 'lifting-author-facts'; return value; }
+        if (self.item.sharedCarry != nil) { value.reason = 'equipment-in-shared-carry'; return value; }
         if (!holds(self.profile.equipment,self.item))
         { value.reason = 'lifting-item-ownership'; return value; }
         if (self.item.storageLocation != self.sourceLocation)
@@ -550,5 +553,160 @@ modify RpgExpandedEquipmentLift
         self.profile.liftingReceipts = self.profile.liftingReceipts + [self];
         value.seconds = self.failedAttemptSeconds; value.pickedUp = nil;
         value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgLiteItem
+    sharedCarry = nil
+;
+modify RpgExpandedProfile
+    sharedCarries = []
+    loadHundredths()
+    {
+        local total = inherited();
+        foreach (local carry in self.sharedCarries)
+            if (carry.endedAt == nil) total += carry.shareFor(self);
+        return total;
+    }
+    healthEffortReason(purpose,mentalAbility,speech,movement)
+    {
+        foreach (local carry in self.sharedCarries)
+            if (carry.endedAt == nil && movement) return 'shared-carry-action-adapter-required';
+        return inherited(purpose,mentalAbility,speech,movement);
+    }
+;
+
+/** One owned object, distinct physical shares; members: [profile, weight, freeHands, hands]. */
+class RpgExpandedSharedCarry: object
+    id = nil
+    owner = nil
+    item = nil
+    sourceLocation = nil
+    members = []
+    mode = 'two-hands'
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    endedAt = nil
+    boundDefinition = nil
+    boundWeight = nil
+    result = nil
+    endDestination = nil
+    endEvidence = nil
+    endSeconds = nil
+    definition()
+    {
+        local value = [self.id,self.owner,self.item,self.sourceLocation,self.mode,self.approved,self.evidence,self.members.length()];
+        foreach (local row in self.members)
+        {
+            if (row.length() != 4) rpgExpandedReject('shared-carry-member');
+            value = value + [row[1],row[2],row[3],row[4].length()] + row[4];
+        }
+        return value;
+    }
+    validateReceipt()
+    {
+        local current = self.definition();
+        if (self.result == nil || current.length() != self.boundDefinition.length()) rpgExpandedReject('shared-carry-binding');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('shared-carry-binding');
+        foreach (local row in self.members)
+            if (!holds(row[1].sharedCarries,self)) rpgExpandedReject('shared-carry-history');
+        if (self.endedAt == nil && (self.item.sharedCarry != self || self.item.storageLocation != self
+            || !holds(self.owner.equipment,self.item) || self.item.weightHundredths() != self.boundWeight))
+            rpgExpandedReject('shared-carry-item-changed');
+        return nil;
+    }
+    shareFor(profile)
+    {
+        self.validateReceipt(); if (self.endedAt != nil) return 0;
+        foreach (local row in self.members) if (row[1] == profile) return row[2];
+        rpgExpandedReject('shared-carry-participant');
+    }
+    prepare()
+    {
+        if (self.id == nil || self.id == '' || self.owner == nil || !self.owner.ofKind(RpgExpandedProfile)
+            || self.item == nil || !self.item.ofKind(RpgLiteItem) || self.sourceLocation == nil)
+            rpgExpandedReject('shared-carry-definition');
+        if (self.result != nil)
+        { self.validateReceipt(); local value = new RpgExpandedResult(); value.status = 'reused'; return value; }
+        self.definition(); local blocked = new RpgExpandedResult();
+        if (self.item.sharedCarry != nil || self.item.storageLocation != self.sourceLocation)
+        { blocked.reason = 'shared-carry-location'; return blocked; }
+        local owners = 0;
+        for (local profile = firstObj(RpgLiteProfile); profile != nil; profile = nextObj(profile,RpgLiteProfile))
+            foreach (local entry in profile.equipment)
+                if (entry == self.item)
+                { if (profile != self.owner) rpgExpandedReject('shared-carry-owner'); owners += 1; }
+        if (owners != 1) rpgExpandedReject('shared-carry-owner');
+        rpgInteger(self.item.weight,1,1000000); rpgInteger(self.item.quantity,1,100);
+        if (!holds(['one-hand','two-hands'],self.mode)) rpgExpandedReject('shared-carry-mode');
+        local required = self.mode == 'one-hand' ? 1 : 2;
+        foreach (local row in self.members)
+        {
+            if (row[1] == nil || !row[1].ofKind(RpgExpandedProfile)) rpgExpandedReject('shared-carry-member');
+            rpgInteger(row[3],0,100);
+            if (row[3] < required) { blocked.reason = 'shared-carry-free-hands'; return blocked; }
+            blocked.reason = row[1].liftingHandsReason(row[4],required); if (blocked.reason != nil) return blocked;
+            foreach (local prior in row[1].sharedCarries)
+                if (prior.id == self.id) rpgExpandedReject('shared-carry-duplicate');
+        }
+        return rpgExpandedSharedCarryRules.assess(self);
+    }
+    assess()
+    {
+        local value = self.prepare();
+        if (value.status == 'ready')
+        { rpgInteger(rpgLedger.seconds,0,2147483647-value.seconds); rpgLedger.validateAdvance(value.seconds); }
+        return value;
+    }
+    lift()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local definition = self.definition(); local weight = self.item.weightHundredths(); local start = rpgLedger.seconds;
+        rpgSpendTime(value.seconds); local after = self.prepare(); local current = self.definition();
+        if (after.status != 'ready' || after.seconds != value.seconds || current.length() != definition.length()
+            || self.item.weightHundredths() != weight || rpgLedger.seconds != start + value.seconds)
+            rpgExpandedReject('shared-carry-interrupted');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('shared-carry-interrupted');
+        self.boundDefinition = definition; self.boundWeight = weight; self.startedAt = start;
+        self.item.storageLocation = self; self.item.sharedCarry = self; self.item.ready = nil; self.item.worn = nil;
+        foreach (local row in self.members) row[1].sharedCarries = row[1].sharedCarries + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+    loweringReason()
+    {
+        foreach (local row in self.members)
+        {
+            local profile = row[1];
+            if (profile.dead || profile.unconscious || profile.mortal || profile.stunned || profile.mentalStun
+                || profile.hp() <= 0 || profile.fp() <= 0 || profile.voluntaryMovementUnavailable()
+                || profile.healthEffortReason('action',nil,nil,nil) != nil)
+                return 'shared-carry-lowering-worker';
+            local reason = profile.liftingHandsReason(row[4],self.mode == 'one-hand' ? 1 : 2);
+            if (reason != nil) return reason;
+        }
+        return nil;
+    }
+    lower(destination,seconds,evidence)
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.endedAt != nil)
+        {
+            if (destination != self.endDestination || seconds != self.endSeconds || evidence != self.endEvidence)
+                rpgExpandedReject('shared-carry-lowering-binding');
+            value.status = 'reused'; return value;
+        }
+        if (destination == nil || destination == self || evidence == nil || evidence == '')
+        { value.reason = 'shared-carry-lowering-facts'; return value; }
+        value.reason = self.loweringReason(); if (value.reason != nil) return value;
+        rpgInteger(seconds,1,86400); rpgInteger(rpgLedger.seconds,0,2147483647-seconds);
+        rpgLedger.validateAdvance(seconds); local start = rpgLedger.seconds; rpgSpendTime(seconds);
+        self.validateReceipt(); if (rpgLedger.seconds != start+seconds || self.loweringReason() != nil)
+            rpgExpandedReject('shared-carry-interrupted');
+        self.endedAt = rpgLedger.seconds; self.endDestination = destination; self.endEvidence = evidence; self.endSeconds = seconds;
+        self.item.storageLocation = destination; self.item.sharedCarry = nil;
+        value.status = 'resolved'; return value;
     }
 ;

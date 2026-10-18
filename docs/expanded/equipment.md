@@ -442,3 +442,45 @@ Fixtures cover missing timing before RNG, success, failure, joint rollback, undo
 replay, an interruption during failure and saved failed-attempt continuation.
 Assertions remain unrun. Combat lifting, cooperative lifts, sustained gripping,
 overload and game-specific action routing remain incomplete.
+
+## Owned shared carrying
+
+`RpgExpandedSharedCarry` lifts one stored, already owned item using the exploration
+module's cooperative capacity and load-distribution assessments. Supply `id`,
+`owner`, `item`, non-nil `sourceLocation`, `mode` (`one-hand` or `two-hands`),
+`approved` and evidence of access, grips and physical cooperation. `members` rows
+are `[expandedProfile, shareHundredths, freeHands, handObjects]`. Shares must account
+for the entire item exactly; the existing anatomy hook validates supplied hands
+when anatomy is defined. The allocation is authored, not automatically equal.
+
+`assess()` is pure. `lift()` advances one shared lifting interval, rechecks the
+arrangement, and commits one receipt. The item remains in its owner's equipment
+list; no copy is added to helpers' inventories. Its `storageLocation` and
+`sharedCarry` point to the carrying operation. Each participant's `sharedCarries`
+ledger references that same object, and `loadHundredths()` adds only their share.
+Consequently existing encumbrance calculations see each person's actual assigned
+load alongside their own gear. Post-time assessment does not reserve another
+lifting interval.
+
+Ordinary storage, trade and single-person lifting reject the item while it is in
+shared carrying. Movement-requiring effort hooks reject unsupported actions while
+a participant is carrying; coordinated travel and combat hand occupation are not
+yet integrated. Authors must not move the object or participants through unrelated
+low-level operations as a substitute for a shared movement procedure.
+
+`lower(destination, seconds, evidence)` ends the arrangement after an explicitly
+authored lowering action. The destination must be non-nil and the duration positive;
+the source does not provide a universal lowering duration. The method checks
+participants' ability to act and hand functionality before and after elapsed time.
+It stores the destination, duration and evidence for replay, clears the active item
+association, and removes every active share while retaining historical receipts.
+A changed condition throws so the surrounding transaction rolls back. Emergency
+drops, loss of a helper, reallocation, overloaded carrying and coordinated movement
+remain pending and must be handled as explicit unsupported combinations.
+
+Replaying `lift()` after lowering does not lift the item again. A new lift requires
+a new operation ID. Altering an active allocation or item weight invalidates its
+receipt rather than silently changing carried weight. The fixture specifies unequal
+shares, a single owner, one time charge, transfer guards, rollback, undo, saved
+active carrying and replayed lowering. Assertions remain unrun. Source: full-2008,
+B353; shares and lowering duration are explicit author adjudications.

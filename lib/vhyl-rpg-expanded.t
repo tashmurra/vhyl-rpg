@@ -198,3 +198,8 @@ class RpgExpandedLiftIdentity: object
     liftingDefinition() { rpgExpandedReject('lifting-identity-unimplemented'); }
     skillPreparationReason() { return 'lifting-identity-unimplemented'; }
 ;
+
+rpgExpandedSharedCarryRules: object
+    assess(carry)
+    { local value = new RpgExpandedResult(); value.reason = 'shared-carry-exploration-required'; return value; }
+;
