@@ -828,3 +828,7 @@ Owned arm falls now roll once for additional arm crippling and record secondary
 disabilities with zero extra HP loss. Existing anatomy/drop hooks are reused.
 Both branches and transaction/save fixtures are authored and unrun; automatic
 locations, lower limbs and broader equipment combinations remain incomplete.
+
+Combined fall-arm equipment fixtures now cover shared-weapon retention, secondary
+arm drops, knockdown precedence, missing destinations and transaction/persistence
+behavior. They remain unrun; no equipment integration pass is claimed.

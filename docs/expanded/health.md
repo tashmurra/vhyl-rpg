@@ -2790,3 +2790,13 @@ require implementation or validation; this does not complete falling support.
 Fixtures specify both extra-die branches, no die below the crippling threshold,
 uncapped HP loss, zero extra HP loss, rollback, undo and saved continuation. All
 assertions remain unrun while checks are paused.
+
+The combined arm/equipment fixture now specifies a one-handed tool and a weapon
+held in both hands. On a successful retention check, the shared weapon transfers
+to the functioning hand; if the extra fall die disables that arm too, the secondary
+disability drops it. An existing knockdown drop takes precedence, avoiding another
+drop or grip roll for the same item. Inventory ownership is retained while storage
+location and active grip bindings change. Assertions cover both extra-die branches,
+knockdown precedence, missing drop destination before RNG, replay, rollback, undo
+and separate-process continuation. These are authored expectations, not passing
+validation; checks remain paused.
