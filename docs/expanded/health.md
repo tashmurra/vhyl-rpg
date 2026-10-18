@@ -2823,3 +2823,21 @@ Owned leg/foot anatomy and movement enforcement remain pending, so the wound
 operation still rejects those locations. The new fixtures specify both kinds,
 posture/aid distinctions and half-speed rounding boundaries. Assertions remain
 unrun while checks are paused. Source: `full-2008`, B141 and B421.
+
+### Owned lower-limb anatomy
+
+Body parts now accept legs and feet. Each foot names its parent leg, with at most
+one foot per leg. Ordinary wounds retain their injury caps; fall wounds preserve
+full injury. Crippling forces lying even when the major-wound check succeeds.
+The extra fall die affects other limbs of the same kind, never arms from a leg hit.
+
+Supported movement remains incomplete. `move()` rejects impaired lower limbs with
+`lower-limb-movement-adapter-required`. The posture-change hook rejects unsupported
+standing, crouching or crawling and rejects kneeling with a disabled leg. Sitting
+and lying remain possible. The default hook preserves existing profiles. Equipment
+grip bindings still accept only upper limbs. Aid use, crawling, leg-dependent skill
+modifiers and broader locomotion integration remain pending.
+
+Fixtures specify leg/foot falls, forced lying despite a successful health check,
+same-kind secondary disability, movement rejection, sub-threshold injury, replay,
+rollback, undo and saved continuation. Assertions remain unrun while checks are paused.

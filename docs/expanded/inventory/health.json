@@ -1172,9 +1172,10 @@
       "status": "partial",
       "acceptance": "Fall and require a crutch or support to stand or walk; braced, sitting or kneeling combat remains subject to the appropriate posture restrictions.",
       "tests": [
-        "tests/expanded.py::test_lower_limb_assessment"
+        "tests/expanded.py::test_lower_limb_assessment",
+        "tests/expanded.py::test_fall_lower"
       ],
-      "validation_note": "Pure biped consequence assessment implements falling, required support, leg-dependent skill penalties, movement limits and unaided posture distinctions. Boundary fixtures authored, unrun. Owned anatomy, aid validation and movement enforcement remain pending."
+      "validation_note": "Pure biped consequence assessment implements falling, required support, leg-dependent skill penalties, movement limits and unaided posture distinctions. Boundary fixtures authored, unrun. Owned anatomy, aid validation and movement enforcement remain pending. Owned lower-limb anatomy/fall injuries now force lying and reject unsupported movement/posture changes. Transaction/save assertions authored, unrun. Aid, locomotion and skill integration remain pending."
     },
     {
       "id": "health-crippling-effect-leg",
@@ -1185,9 +1186,10 @@
       "status": "partial",
       "acceptance": "Fall and use sitting or lying posture to fight, with the corresponding missing-leg functional restriction.",
       "tests": [
-        "tests/expanded.py::test_lower_limb_assessment"
+        "tests/expanded.py::test_lower_limb_assessment",
+        "tests/expanded.py::test_fall_lower"
       ],
-      "validation_note": "Pure biped consequence assessment implements falling, required support, leg-dependent skill penalties, movement limits and unaided posture distinctions. Boundary fixtures authored, unrun. Owned anatomy, aid validation and movement enforcement remain pending."
+      "validation_note": "Pure biped consequence assessment implements falling, required support, leg-dependent skill penalties, movement limits and unaided posture distinctions. Boundary fixtures authored, unrun. Owned anatomy, aid validation and movement enforcement remain pending. Owned lower-limb anatomy/fall injuries now force lying and reject unsupported movement/posture changes. Transaction/save assertions authored, unrun. Aid, locomotion and skill integration remain pending."
     },
     {
       "id": "health-crippling-effect-eye",

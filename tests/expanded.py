@@ -8905,6 +8905,8 @@ def test(build):
     test_fall_hand(Session, fall_hand, build.out)
     fall_arm = build.build('expanded-fall-arm',ROOT / 'tests/fixtures/expanded-fall-arm.t')
     test_fall_arm(Session, fall_arm, build.out)
+    fall_lower = build.build('expanded-fall-lower',ROOT / 'tests/fixtures/expanded-fall-lower.t')
+    test_fall_lower(Session, fall_lower, build.out)
     fall_arm_equipment = build.build('expanded-fall-arm-equipment',ROOT / 'tests/fixtures/expanded-fall-arm-equipment.t')
     test_fall_arm_equipment(Session, fall_arm_equipment, build.out)
     test_collision_cap(Session, collision, fall_injury)
@@ -14101,3 +14103,47 @@ def test_lower_limb_assessment(s):
         assert last(s,'test.lower-limb') == [-3,limit,1,1,'crutch','lean','lying','sitting','kneeling',1,0,0]
         s.action(2298,2,speed)
         assert last(s,'test.lower-limb') == [-6,2,1,1,'crutch','peg','lying','sitting',0,0,0]
+
+
+def test_fall_lower(Session, bundle, out):
+    def state(s):
+        s.action(2285,950)
+        return last(s,'test.fall-lower')
+    clear = [0,'standing',0,0,0,0,5]
+    leg = [10,'lying',1,0,1,4,'lower-limb-movement-adapter-required']
+    path = out / 'expanded-fall-lower.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,830):
+            s.action(2285,code)
+        assert last(s,'test.fall-preview') == ['ready',None]
+        assert state(s) == clear
+        s.action(2285,832)
+        assert state(s) == clear
+        s.action(2285,831)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (831,831):
+            s.action(2285,code)
+        assert state(s) == leg
+        s.action(2285,952)
+        assert last(s,'test.lower-posture') == ['lower-limb-support-required','lower-limb-posture-unavailable',None]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,831)
+        assert state(s) == leg
+    finally:
+        s.close()
+    for setup, expected in ((951,[10,'lying',0,1,0,3,'lower-limb-movement-adapter-required']),
+                            (922,[3,'standing',0,0,0,0,5])):
+        s = Session(bundle)
+        try:
+            for code in (30,setup,831):
+                s.action(2285,code)
+            assert state(s) == expected
+        finally:
+            s.close()

@@ -837,3 +837,7 @@ Health now exposes lower-limb consequence assessments for a biped's crippled foo
 or leg, including skill penalties, movement limits and support/posture requirements.
 Owned lower-limb anatomy and movement enforcement remain pending; boundary fixtures
 are authored and unrun.
+
+Owned legs and feet now support ordinary and uncapped fall injuries, forced lying
+and same-kind extra crippling. Unsupported movement/posture changes reject pending
+aid integration. Transaction/save fixtures are authored and unrun.

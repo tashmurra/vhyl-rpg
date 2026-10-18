@@ -1807,3 +1807,8 @@ HP loss and owns the additional-limb die. Other arms disabled by that die receiv
 zero-injury disability receipts, not repeated impact damage. The same fields bind
 through direct injury and owned impact rolling. Lower-limb and automatic location
 support remain unfinished; see the health guide for the current arm procedure.
+
+Owned leg and foot fall locations are now accepted with matching body parts and
+resolved-location evidence. They preserve full injury and force lying when crippled.
+Extra leg crippling affects other legs only. Supported locomotion remains blocked
+pending its aid/movement adapter; new fixtures remain unrun.

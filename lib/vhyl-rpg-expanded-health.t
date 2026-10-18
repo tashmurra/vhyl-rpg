@@ -133,7 +133,7 @@ class RpgExpandedWound: object
     assessPartInjury(count)
     {
         return rpgExpandedAssessCrippling(self.profile.maxHP,self.amount,
-            self.bodyPart.kind == 'arm' ? 'limb' : 'extremity',count,self.severing);
+            holds(['arm','leg'],self.bodyPart.kind) ? 'limb' : 'extremity',count,self.severing);
     }
     assess()
     {
@@ -243,7 +243,12 @@ class RpgExpandedWound: object
         self.boundDropDestination = self.dropDestination;
         self.committedSerial = self.profile.woundSerial; self.committedAt = rpgLedger.seconds;
         self.profile.expandedWounds = self.profile.expandedWounds + [self];
-        if (value.crippling != nil && value.crippling.crippled) self.profile.onBodySupportLost(self.bodyPart);
+        if (value.crippling != nil && value.crippling.crippled)
+        {
+            if (holds(['leg','foot'],self.bodyPart.kind))
+            { self.profile.posture = 'lying'; self.profile.onKnockdown(); }
+            self.profile.onBodySupportLost(self.bodyPart);
+        }
         value.health = self.health; value.status = 'resolved'; return value;
     }
 ;
@@ -358,15 +363,15 @@ class RpgExpandedBodyPart: object
         if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
             || !holds(self.profile.bodyParts,self) || self.id == nil || self.id == '')
             rpgExpandedReject('body-part-owner');
-        if (!holds(['arm','hand'],self.kind)) rpgExpandedReject('body-part-kind-unavailable');
+        if (!holds(['arm','hand','leg','foot'],self.kind)) rpgExpandedReject('body-part-kind-unavailable');
         if (self.severed && !self.disabled) rpgExpandedReject('body-part-severed-state');
         if (self.disablingWound != nil && (!self.disablingWound.ofKind(RpgExpandedWound)
             || self.disablingWound.profile != self.profile || self.disablingWound.boundBodyPart != self
             || !holds(self.profile.expandedWounds,self.disablingWound)))
             rpgExpandedReject('body-part-wound-history');
-        if (self.kind == 'arm' && self.parent != nil) rpgExpandedReject('body-part-parent');
-        if (self.kind == 'hand' && (self.parent == nil || !self.parent.ofKind(RpgExpandedBodyPart)
-            || self.parent.kind != 'arm' || self.parent.profile != self.profile
+        if (holds(['arm','leg'],self.kind) && self.parent != nil) rpgExpandedReject('body-part-parent');
+        if (holds(['hand','foot'],self.kind) && (self.parent == nil || !self.parent.ofKind(RpgExpandedBodyPart)
+            || self.parent.kind != (self.kind == 'hand' ? 'arm' : 'leg') || self.parent.profile != self.profile
             || !holds(self.profile.bodyParts,self.parent))) rpgExpandedReject('body-part-parent');
         return nil;
     }
@@ -389,7 +394,7 @@ modify RpgExpandedProfile
             part.validate();
             if (holds(ids,part.id)) rpgExpandedReject('body-part-duplicate');
             ids = ids + [part.id];
-            if (part.kind == 'hand')
+            if (holds(['hand','foot'],part.kind))
             {
                 if (holds(armsWithHands,part.parent)) rpgExpandedReject('body-part-hand-duplicate');
                 armsWithHands = armsWithHands + [part.parent];
@@ -416,6 +421,7 @@ modify RpgLiteItem
             if (part == nil || !part.ofKind(RpgExpandedBodyPart) || part.profile != profile
                 || !holds(profile.bodyParts,part) || holds(seen,part))
                 rpgExpandedReject('body-support-owner');
+            if (!holds(['arm','hand'],part.kind)) rpgExpandedReject('equipment-lower-support-unavailable');
             seen = seen + [part];
         }
         return nil;
@@ -489,6 +495,7 @@ modify RpgLiteItem
 modify RpgExpandedProfile
     prepareLimbInjuryDrop(part, severed, destination)
     {
+        if (holds(['leg','foot'],part.kind)) return nil;
         local items = []; local conditional = [];
         foreach (local item in self.equipment)
         {
@@ -5935,7 +5942,7 @@ rpgExpandedAssessFallCrippling(capacity,injury,kind,count,limbRoll)
 class RpgExpandedFallExtremityWound: RpgExpandedWound
     assessPartInjury(count)
     {
-        if (self.bodyPart.kind != 'hand' || self.severing) rpgExpandedReject('fall-extremity-unavailable');
+        if (!holds(['hand','foot'],self.bodyPart.kind) || self.severing) rpgExpandedReject('fall-extremity-unavailable');
         return rpgExpandedAssessFallCrippling(self.profile.maxHP,self.amount,'extremity',count,nil);
     }
 ;
@@ -5953,7 +5960,7 @@ class RpgExpandedFallSecondaryWound: RpgExpandedWound
     assessPartInjury(count)
     {
         if (self.primary == nil || !self.primary.ofKind(RpgExpandedFallLimbWound)
-            || self.primary.profile != self.profile || self.bodyPart.kind != 'arm'
+            || self.primary.profile != self.profile || self.bodyPart.kind != self.primary.bodyPart.kind
             || self.primary.bodyPart == self.bodyPart || self.amount != 0 || self.severing)
             rpgExpandedReject('fall-secondary-definition');
         local value = rpgExpandedAssessCrippling(self.profile.maxHP,0,'limb',count,nil);
@@ -5974,14 +5981,14 @@ class RpgExpandedFallLimbWound: RpgExpandedWound
     additionalWounds = []
     assessPartInjury(count)
     {
-        if (self.bodyPart.kind != 'arm' || self.severing) rpgExpandedReject('fall-limb-unavailable');
+        if (!holds(['arm','leg'],self.bodyPart.kind) || self.severing) rpgExpandedReject('fall-limb-unavailable');
         return rpgExpandedAssessFallCrippling(self.profile.maxHP,self.amount,'limb',count,nil);
     }
     secondary(part)
     {
         local wound = new RpgExpandedFallSecondaryWound(); wound.primary = self;
         wound.id = self.id + '-fall-' + part.id; wound.profile = self.profile;
-        wound.bodyPart = part; wound.location = 'arm'; wound.dropDestination = self.dropDestination;
+        wound.bodyPart = part; wound.location = part.kind; wound.dropDestination = self.dropDestination;
         return wound;
     }
     assess()
@@ -5989,7 +5996,7 @@ class RpgExpandedFallLimbWound: RpgExpandedWound
         local value = inherited();
         if (value.status != 'ready' || value.crippling == nil || !value.crippling.crippled) return value;
         foreach (local part in self.profile.bodyParts)
-            if (part.kind == 'arm' && part != self.bodyPart && part.functional())
+            if (part.kind == self.bodyPart.kind && part != self.bodyPart && part.functional())
             {
                 local prepared = self.secondary(part).assess();
                 if (prepared.status != 'ready') { value.status = 'blocked'; value.reason = prepared.reason; return value; }
@@ -6006,7 +6013,7 @@ class RpgExpandedFallLimbWound: RpgExpandedWound
             self.additionalRoll = rpgRandom.die();
             if (self.additionalRoll >= 5)
                 foreach (local part in self.profile.bodyParts)
-                    if (part.kind == 'arm' && part != self.bodyPart && part.functional())
+                    if (part.kind == self.bodyPart.kind && part != self.bodyPart && part.functional())
                     {
                         local wound = self.secondary(part);
                         self.additionalWounds = self.additionalWounds + [wound];
@@ -6040,3 +6047,28 @@ rpgExpandedAssessLowerLimb(kind,basicSpeedHundredths)
     value.bracedCombatPossible = kind == 'foot';
     value.status = 'ready'; return value;
 }
+
+
+modify RpgExpandedProfile
+    lowerLimbImpaired()
+    {
+        foreach (local part in self.bodyParts)
+            if (holds(['leg','foot'],part.kind) && !part.functional()) return true;
+        return nil;
+    }
+    postureChangeReason(posture)
+    {
+        if (!self.lowerLimbImpaired()) return inherited(posture);
+        if (holds(['standing','crouching','crawling'],posture)) return 'lower-limb-support-required';
+        if (posture == 'kneeling')
+            foreach (local part in self.bodyParts)
+                if (part.kind == 'leg' && !part.functional()) return 'lower-limb-posture-unavailable';
+        return inherited(posture);
+    }
+    move()
+    {
+        if (!self.dead && !self.unconscious && self.lowerLimbImpaired())
+            rpgExpandedReject('lower-limb-movement-adapter-required');
+        return inherited();
+    }
+;

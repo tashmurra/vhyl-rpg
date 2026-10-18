@@ -438,7 +438,12 @@ class RpgLiteBattle: object
         if (request.kind == 'posture' && (request.posture == nil
             || fighter.profile.posture == 'lying' && request.posture == 'standing'))
         { result.reason = 'invalid-posture-change'; return result; }
-        if (request.kind == 'posture') rpgLitePostureModifier(request.posture, nil);
+        if (request.kind == 'posture')
+        {
+            rpgLitePostureModifier(request.posture, nil);
+            result.reason = fighter.profile.postureChangeReason(request.posture);
+            if (result.reason != nil) return result;
+        }
         if (holds(['attack','all-out-attack','move-attack','aim'], request.kind) && request.target == nil)
             throw new RpgError();
         if (request.kind == 'all-out-attack' && !holds(['determined','double','strong'], request.option)

@@ -67,6 +67,7 @@ class RpgLiteProfile: RpgProfile
     healthCheckReason(context) { return nil; }
     healthManeuverReason(kind) { return nil; }
     voluntaryMovementUnavailable() { return nil; }
+    postureChangeReason(posture) { return nil; }
     healthEffortReason(purpose, mentalAbility, speech, movement) { return nil; }
     healthDefensePenalty() { return 0; }
     afterNeedsCycle(needs) { return nil; }

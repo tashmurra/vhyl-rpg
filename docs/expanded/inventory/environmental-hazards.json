@@ -1144,9 +1144,10 @@
         "tests/expanded.py::test_fall_crippling",
         "tests/expanded.py::test_fall_hand",
         "tests/expanded.py::test_fall_arm",
-        "tests/expanded.py::test_fall_arm_equipment"
+        "tests/expanded.py::test_fall_arm_equipment",
+        "tests/expanded.py::test_fall_lower"
       ],
-      "validation_note": "Pure fall-specific crippling assessment preserves uncapped health loss and classifies all six additional-limb die outcomes without adding injury. Assertions authored, unrun. Owned random location, disability/drop handling and injury commitment remain pending. Owned hand impacts now preserve full HP loss and reuse disability/drop hooks with explicit evidence of the resolved location. Transaction/save assertions authored, unrun; automatic location selection and other limbs remain pending. Owned arm impacts now preserve HP loss and roll once for secondary arm disabilities with zero extra injury. Both branches and transaction/save fixtures authored, unrun. Lower limbs, automatic location selection and broader integration remain incomplete. Combined arm/equipment fixtures now specify conditional grip transfer, later secondary-arm drop, knockdown precedence, missing-destination preflight and save continuation. These assertions are unrun."
+      "validation_note": "Pure fall-specific crippling assessment preserves uncapped health loss and classifies all six additional-limb die outcomes without adding injury. Assertions authored, unrun. Owned random location, disability/drop handling and injury commitment remain pending. Owned hand impacts now preserve full HP loss and reuse disability/drop hooks with explicit evidence of the resolved location. Transaction/save assertions authored, unrun; automatic location selection and other limbs remain pending. Owned arm impacts now preserve HP loss and roll once for secondary arm disabilities with zero extra injury. Both branches and transaction/save fixtures authored, unrun. Lower limbs, automatic location selection and broader integration remain incomplete. Combined arm/equipment fixtures now specify conditional grip transfer, later secondary-arm drop, knockdown precedence, missing-destination preflight and save continuation. These assertions are unrun. Owned lower-limb anatomy/fall injuries now force lying and reject unsupported movement/posture changes. Transaction/save assertions authored, unrun. Aid, locomotion and skill integration remain pending."
     },
     {
       "id": "collision-fall-multiple-limbs",
@@ -1159,9 +1160,10 @@
       "tests": [
         "tests/expanded.py::test_fall_crippling",
         "tests/expanded.py::test_fall_arm",
-        "tests/expanded.py::test_fall_arm_equipment"
+        "tests/expanded.py::test_fall_arm_equipment",
+        "tests/expanded.py::test_fall_lower"
       ],
-      "validation_note": "Pure fall-specific crippling assessment preserves uncapped health loss and classifies all six additional-limb die outcomes without adding injury. Assertions authored, unrun. Owned random location, disability/drop handling and injury commitment remain pending. Owned arm impacts now preserve HP loss and roll once for secondary arm disabilities with zero extra injury. Both branches and transaction/save fixtures authored, unrun. Lower limbs, automatic location selection and broader integration remain incomplete. Combined arm/equipment fixtures now specify conditional grip transfer, later secondary-arm drop, knockdown precedence, missing-destination preflight and save continuation. These assertions are unrun."
+      "validation_note": "Pure fall-specific crippling assessment preserves uncapped health loss and classifies all six additional-limb die outcomes without adding injury. Assertions authored, unrun. Owned random location, disability/drop handling and injury commitment remain pending. Owned arm impacts now preserve HP loss and roll once for secondary arm disabilities with zero extra injury. Both branches and transaction/save fixtures authored, unrun. Lower limbs, automatic location selection and broader integration remain incomplete. Combined arm/equipment fixtures now specify conditional grip transfer, later secondary-arm drop, knockdown precedence, missing-destination preflight and save continuation. These assertions are unrun. Owned lower-limb anatomy/fall injuries now force lying and reject unsupported movement/posture changes. Transaction/save assertions authored, unrun. Aid, locomotion and skill integration remain pending."
     },
     {
       "id": "collision-head-on",
