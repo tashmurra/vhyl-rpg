@@ -1478,6 +1478,7 @@ class RpgExpandedFirstAid: object
 class RpgExpandedSurgeryAssessment: RpgExpandedResult
     context = nil
     score = nil
+    technologyModifier = 0
     equipmentModifier = 0
     anestheticModifier = 0
     cleanlinessModifier = 0
@@ -1541,8 +1542,9 @@ class RpgExpandedSurgicalAssessment: object
         if (self.surgeon.dead || self.surgeon.unconscious || self.surgeon.stunned
             || self.surgeon.mentalStun || self.surgeon.mortal || self.surgeon.fp() <= 0)
         { value.reason = 'surgical-assessment-incapacity'; return value; }
-        if (self.skill.techLevel != self.conditions.techLevel)
-        { value.reason = 'surgical-assessment-technology-mismatch-unimplemented'; return value; }
+        local technology = rpgExpandedTechnologyModifier(self.skill.techLevel,self.conditions.techLevel,true);
+        if (technology == nil)
+        { value.reason = 'surgical-assessment-technology-too-advanced'; return value; }
         local trained = nil; local prerequisite = nil; local physician = nil;
         foreach (local training in self.surgeon.skills)
         {
@@ -1574,6 +1576,8 @@ class RpgExpandedSurgicalAssessment: object
         prepared.earlyAntisepsis = self.conditions.earlyAntisepsis;
         value = prepared.assess();
         if (value.status != 'ready') return value;
+        value.technologyModifier = technology;
+        value.modifier += technology;
         value.context = new RpgLiteContext(); value.context.skill = self.skill;
         value.context.kind = 'surgery'; value.context.modifier = value.modifier;
         value.score = rpgLiteScore(self.surgeon,value.context);

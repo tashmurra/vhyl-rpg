@@ -459,19 +459,6 @@ class RpgExpandedSkillContext: RpgLiteContext
     }
 ;
 
-/** Equipment-to-skill technology difference, B168. nil means impossible,
- * rather than an arbitrarily large numeric penalty. No familiarity is included. */
-rpgExpandedTechnologyModifier(skillTL, equipmentTL, cognitive)
-{
-    rpgInteger(skillTL, 0, 12); rpgInteger(equipmentTL, 0, 12);
-    local difference = equipmentTL - skillTL;
-    if (!cognitive) return difference < 0 ? difference : -difference;
-    if (difference >= 4) return nil;
-    if (difference > 0) return -5 * difference;
-    if (difference == 0) return 0;
-    return 2 * difference + 1;
-}
-
 /** Create an author-approved optional specialty, B169-B170. generalSkill may
  * already represent a required specialty, but cannot itself be optional. */
 rpgExpandedOptionalSpecialty(generalSkill, id, specialty, approved)

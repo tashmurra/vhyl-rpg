@@ -334,5 +334,7 @@ new partial-restoration and persistence fixtures are authored and unrun.
 Surgical assessment now derives prerequisite and Physician training from owned
 skill investments and returns the shared current skill score. The medical
 skill supplies all four published default paths and distinguishes learning
-prerequisites from default use; mixed technology remains explicitly unsupported. Timed surgery
+prerequisites from default use. Surgical equipment from a different technology
+level now uses the shared B168 penalties, including impossible advanced tools,
+without doubling the B424 equipment or anesthetic modifiers. Timed surgery
 and its consequences remain incomplete; the new fixture is authored and unrun.

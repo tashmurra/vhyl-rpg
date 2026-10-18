@@ -4202,7 +4202,7 @@
           "any:first-aid,physician"
         ]
       },
-      "validation_note": "Source default edges and learning prerequisites authored, with shared paid/default scoring and pure surgical context assessment. Fixtures unrun. Committed operations, infection and operation-specific consequences remain incomplete."
+      "validation_note": "Source default edges and learning prerequisites authored, with shared paid/default scoring and pure surgical context assessment. Fixtures unrun. Committed operations, infection and operation-specific consequences remain incomplete. Surgical assessment uses shared B168 cognitive equipment mismatch penalties; boundary and no-double-charge fixtures authored and unrun."
     },
     {
       "id": "catalogue-skill-survival-arctic",

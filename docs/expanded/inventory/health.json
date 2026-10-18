@@ -802,7 +802,7 @@
         "tests/expanded.py::test_surgery_assessments",
         "tests/expanded.py::test_surgical_training_assessment"
       ],
-      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete. Owned surgeon investments now determine prerequisite eligibility and the no-Physician penalty in a pure current-score assessment; the skills library supplies published default paths, while mixed technology remains explicitly unsupported. Additional fixture authored and unrun."
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete. Owned surgeon investments now determine prerequisite eligibility and the no-Physician penalty in a pure current-score assessment; the skills library supplies published default paths, and the assessment composes B168 equipment mismatch with B424 medical modifiers once. Additional fixture authored and unrun."
     },
     {
       "id": "health-surgery-anesthetic",

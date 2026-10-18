@@ -2207,15 +2207,19 @@ Surgery skill must use IQ, Very Hard difficulty and an explicit technology level
 Include the skills library for its expanded Very Hard skill type and scoring.
 Purchased Surgery requires purchased First Aid or Physician at the operation's
 technology level. Untrained Surgery can instead use a published default through
-`RpgExpandedSurgerySkill`; learning prerequisites do not block default use. Mixed
-technology still returns an explicit unsupported reason.
+`RpgExpandedSurgerySkill`; learning prerequisites do not block default use. Equipment from a different technology level uses the B168 cognitive-skill
+penalty in addition to the B424 surgical equipment modifier. Equipment four or
+more levels above the skill is unavailable. `technologyModifier` exposes this
+component separately; it is included once in the returned total `modifier`.
 
 The assessment derives Physician training from the surgeon's owned investments;
 it does not trust or change `conditions.physicianTrained`. Non-field surgery
 without Physician receives the B223 penalty. The resulting `context` uses the
 shared skill pipeline, including current health modifiers; `score` is its current
 value. Equipment, site, diagnosis, physiology and anesthetic modifiers still come
-from the B223/B424 context assessment. Incapacitated surgeons and unavailable
+from the B223/B424 context assessment. Its technology level describes the care
+and equipment actually available; skill prerequisites and default sources use
+the surgeon's learned skill technology level. Incapacitated surgeons and unavailable
 scores are rejected before spending resources or randomness.
 
 A ready result only establishes eligibility and a score. It does not stop

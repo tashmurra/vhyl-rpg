@@ -458,5 +458,8 @@ its default implementation returns the existing authored `defaults` unchanged.
 `learningPrerequisiteReason(profile)` defaults to no additional constraint. Neither
 hook may mutate state or consume randomness. The surgical fixture specifies all
 four source defaults, learning versus use, double-default rejection and unfamiliar
-skills. It remains unrun. Operation execution and mixed-technology surgery remain
-incomplete, so this catalogue entry is still partial.
+skills. It remains unrun. Operation execution remains incomplete, so this catalogue entry is still
+partial. Surgical assessment now applies B168 technology mismatch penalties
+through `rpgExpandedTechnologyModifier`, which lives in the expanded foundation
+so health and skills use one implementation. The public function and its results
+are unchanged.

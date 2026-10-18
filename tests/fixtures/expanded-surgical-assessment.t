@@ -48,6 +48,21 @@ modify BleedTestAction
             surgicalHealer.skills = [surgicalTraining,surgicalPhysicianTraining]; return nil;
         }
         if (code == 106) { surgicalTraining.defaultFrom = surgicalPhysician; return nil; }
+        if (code == 107) { surgicalConditions.techLevel = 9; return nil; }
+        if (code == 108) { surgicalConditions.techLevel = 10; return nil; }
+        if (code == 109) { surgicalConditions.techLevel = 11; return nil; }
+        if (code == 110) { surgicalConditions.techLevel = 12; return nil; }
+        if (code == 111) { surgicalConditions.techLevel = 6; return nil; }
+        if (code == 112) { surgicalConditions.techLevel = 5; return nil; }
+        if (code == 113) { surgicalConditions.techLevel = 4; return nil; }
+        if (code == 114) { surgicalConditions.anesthetic = nil; return nil; }
+        if (code == 115)
+        {
+            local value = surgicalAssessment.assess();
+            event('test.surgical-technology'); eventValue(value.modifier); eventValue(value.technologyModifier);
+            eventValue(value.equipmentModifier); eventValue(value.anestheticModifier);
+            eventValue(value.infectionCheckRequired ? 1 : 0); return nil;
+        }
         return inherited(context);
     }
 ;

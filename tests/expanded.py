@@ -10771,7 +10771,17 @@ def test_surgical_training_assessment(Session, bundle):
         ([93], ['ready', None, 15, 0, 1, 0, 0]),
         ([91, 97], ['ready', None, 12, 0, 1, 0, 0]),
         ([92], ['blocked', 'surgical-assessment-prerequisite', None, 0, 1, 0, 0]),
-        ([94], ['blocked', 'surgical-assessment-technology-mismatch-unimplemented', None, 0, 1, 0, 0]),
+        ([94], ['ready', None, 8, -5, 1, 0, 0]),
+        ([91, 94], ['ready', None, 13, 0, 1, 0, 0]),
+        ([91, 107], ['ready', None, 11, 0, 1, 0, 0]),
+        ([91, 108], ['ready', None, 7, 0, 1, 0, 0]),
+        ([91, 109], ['ready', None, 3, 0, 1, 0, 0]),
+        ([91, 110], ['blocked', 'surgical-assessment-technology-too-advanced', None, 0, 1, 0, 0]),
+        ([91, 111], ['ready', None, 10, 0, 1, 0, 0]),
+        ([91, 112], ['ready', None, 6, 0, 1, 0, 0]),
+        ([91, 113], ['blocked', 'surgical-assessment-score-unavailable', 2, 0, 1, 0, 0]),
+        ([91, 107, 114], ['ready', None, 9, 0, 1, 0, 0]),
+        ([101, 107], ['ready', None, 5, 0, 1, 0, 0]),
         ([95], ['blocked', 'surgical-assessment-score-unavailable', -1, -5, 1, 0, 0]),
         ([95, 93], ['ready', None, 4, 0, 1, 0, 0]),
         ([101], ['ready', None, 9, 0, 1, 0, 0]),
@@ -10802,5 +10812,18 @@ def test_surgical_training_assessment(Session, bundle):
             s.action(2285, code)
             s.action(2285, 99)
             assert last(s, 'test.surgical-learning') == [expected]
+        finally:
+            s.close()
+    # The B168 equipment mismatch is applied once, separately from B424's
+    # equipment/anesthetic modifiers; infection eligibility follows care TL.
+    for codes, expected in [([91, 107], [-2, -5, 3, 0, 0]),
+                            ([91, 107, 114], [-4, -5, 3, -2, 0]),
+                            ([91, 113], [-11, -7, -4, 0, 1])]:
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(2285, code)
+            s.action(2285, 115)
+            assert last(s, 'test.surgical-technology') == expected
         finally:
             s.close()
