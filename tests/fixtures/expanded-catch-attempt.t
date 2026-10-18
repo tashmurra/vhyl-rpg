@@ -63,3 +63,24 @@ modify BleedTestAction
         return inherited(context);
     }
 ;
+
+#include <vhyl-rpg-expanded-traits.t>
+catchMartialTraining: RpgExpandedMartialTraining approved = true
+    prerequisiteEvidence = 'Campaign permits cinematic training; no additional prerequisites';
+modify BleedTestAction
+    exec(context)
+    {
+        local code = bleedInput.code;
+        if (code == 1280) { catchProfile.traits = [catchMartialTraining]; return nil; }
+        if (code == 1281) { catchMartialTraining.mitigated = true; return nil; }
+        if (code == 1282) { catchFighter.parries = 2; return nil; }
+        if (code == 1283) { catchAttempt.otherHand = true; catchAttempt.hand = catchOtherHand; return nil; }
+        if (code == 1284)
+        {
+            local value = catchAttempt.assess(); event('test.catch-repeat');
+            eventValue(value.status); eventValue(value.assessment == nil ? nil : value.assessment.score);
+            eventValue(catchMartialTraining.creationCost()); eventValue(rpgRandom.draws); return nil;
+        }
+        return inherited(context);
+    }
+;

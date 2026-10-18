@@ -313,3 +313,7 @@ class RpgExpandedCatchReceipt: object
     captureAssessment()
     { local value = new RpgExpandedCatchFacts(); value.reason = 'catch-receipt-unavailable'; return value; }
 ;
+
+modify RpgExpandedProfile
+    martialParryDivisor() { return 1; }
+;

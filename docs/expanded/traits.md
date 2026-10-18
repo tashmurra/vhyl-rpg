@@ -844,3 +844,19 @@ Social reactions from informed occupational observers are available through
 action gates remain incomplete; this catalogue entry remains
 partial. The author determines actual physical danger and greater threats, and
 must route all relevant action entry points through the permission contract.
+
+
+## Advanced martial training
+
+`RpgExpandedMartialTraining` represents the thirty-point cinematic permission
+from `full-2008`, B93. Set `approved` and `prerequisiteEvidence` to record the
+campaign's availability decision and its additional prerequisites (or their
+absence). The fixed single-level form currently rejects percentage modifiers.
+An active, unmitigated instance halves the repeated bare-hand parry penalty in
+owned catch attempts. Duplicate instances are rejected before a catch roll.
+
+The trait grants no skills automatically. Rapid-strike integration, cinematic
+skill prerequisite integration and other melee-parry adapters remain pending;
+this catalogue entry is partial. `test_catch_repeat_parry` contains expected
+scores for ordinary and trained repeated parries, inactive benefits and independent
+hand counters. These assertions are authored, unrun while checks are paused.

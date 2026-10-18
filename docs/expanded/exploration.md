@@ -1014,8 +1014,10 @@ attempt returns its recorded result; another attempt for that flight is rejected
 The catch uses the recorded lob margin, ordinary defense modifiers and the
 recipient's health restrictions. The hand must be functional, empty and free of
 support reservations. This initial adapter requires ordinary two-hand anatomy
-and an object within the one-hand lifting limit. Repeat parries and maintained
-concentration return explicit unsupported reasons before spending anything.
+and an object within the one-hand lifting limit. Repeated catches use the same hand counter as other parries: each prior parry
+subtracts four, or two with active approved advanced martial training (B376).
+The other hand has its own counter; the normal turn reset clears both. Maintained
+concentration remains explicitly unsupported before spending anything.
 
 This is a roll-and-parry stage. Use equipment’s `RpgExpandedCatchCapture` with
 `receipt` set to the successful attempt to transfer the item and settle the

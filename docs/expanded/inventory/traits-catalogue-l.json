@@ -521,9 +521,12 @@
       "pages": "B93",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Advanced martial training costs thirty, halves rapid-strike and repeated-parry penalties for all unarmed/melee weapon skills, and permits skills listing it as prerequisite. It grants no such skill automatically. Author approves cinematic availability and any additional training prerequisites.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_catch_repeat_parry"
+      ],
+      "validation_note": "Fixed thirty-point approved training definition and active repeated-catch-parry benefit implemented. Author records cinematic permission and additional prerequisites. Ordinary/melee rapid strikes, other melee parries and cinematic skill prerequisite integration remain pending. Assertions authored, unrun while checks are paused."
     }
   ]
 }

@@ -9030,6 +9030,7 @@ def test(build):
     catch_attempt = build.build('expanded-catch-attempt',ROOT / 'tests/fixtures/expanded-catch-attempt.t')
     test_catch_attempt(Session, catch_attempt, build.out)
     test_catch_capture(Session, catch_attempt, build.out)
+    test_catch_repeat_parry(Session, catch_attempt)
     catch_assessment = build.build('expanded-catch-assessment',ROOT / 'tests/fixtures/expanded-catch-assessment.t')
     test_catch_assessment(Session, catch_assessment)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
@@ -15093,7 +15094,6 @@ def test_catch_attempt(Session, bundle, out):
         s.action(2285,1263)
         return last(s,'test.catch-state')
     for choice, reason in ((1265,'catch-hand-disabled'),
-                           (1266,'catch-repeat-parry-adapter-required'),
                            (1267,'catch-concentration-adapter-required')):
         s = Session(bundle)
         try:
@@ -15203,5 +15203,28 @@ def test_catch_capture(Session, bundle, out):
                 s.action(2285,code)
             assert last(s,'test.capture-preview') == ['blocked',reason]
             assert state(s) == before
+        finally:
+            s.close()
+
+
+def test_catch_repeat_parry(Session, bundle):
+    # B376: -4 per previous bare-hand parry, halved by active martial training.
+    cases = [((),10),((1266,),6),((1282,),2),((1266,1280),8),
+             ((1282,1280),6),((1266,1280,1281),6),((1282,1283),6)]
+    for choices, score in cases:
+        s = Session(bundle)
+        try:
+            for code in (30,1171,1200,*choices,1284):
+                s.action(2285,code)
+            assert last(s,'test.catch-repeat') == ['ready',score,30,3]
+            s.action(2285,1261)
+            s.action(2285,1261)
+            s.action(2285,1263)
+            state = last(s,'test.catch-state')
+            assert state[0] == 1 and state[3] == 6
+            if 1283 in choices:
+                assert state[1:3] == [2,1]
+            else:
+                assert state[1] == (3 if 1282 in choices else 2 if 1266 in choices else 1)
         finally:
             s.close()

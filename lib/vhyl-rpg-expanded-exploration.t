@@ -2081,8 +2081,9 @@ class RpgExpandedCatchAttempt: RpgExpandedCatchReceipt
         if (profile.dead || profile.unconscious || profile.healthBlocksDefense()
             || holds(['all-out-attack','move-attack'],self.fighter.maneuver))
         { value.reason = 'catch-defense-unavailable'; return value; }
-        if ((self.otherHand ? self.fighter.offParries : self.fighter.parries) > 0)
-        { value.reason = 'catch-repeat-parry-adapter-required'; return value; }
+        local previousParries = self.otherHand ? self.fighter.offParries : self.fighter.parries;
+        rpgInteger(previousParries,0,1000);
+        local repeatPenalty = previousParries * (4 / profile.martialParryDivisor());
         if (self.fighter.concentration > 0)
         { value.reason = 'catch-concentration-adapter-required'; return value; }
         value.reason = profile.catchHandReason(self.hand); if (value.reason != nil) return value;
@@ -2098,7 +2099,7 @@ class RpgExpandedCatchAttempt: RpgExpandedCatchReceipt
         if (score == nil) { value.reason = 'catch-score-unavailable'; return value; }
         local penalty = profile.healthDefensePenalty();
         if ((profile.stunned || profile.mentalStun) && penalty < 4) penalty = 4;
-        score += profile.level('combat-reflexes') + rpgLitePostureModifier(profile.posture,true) - penalty;
+        score += profile.level('combat-reflexes') + rpgLitePostureModifier(profile.posture,true) - penalty - repeatPenalty;
         if (self.fighter.maneuver == 'all-out-defense' && self.fighter.defenseOption == 'parry') score += 2;
         value.assessment = facts.throwReceipt.assessCatch(profile,score,self.waiting);
         if (value.assessment.status != 'ready') { value.reason = value.assessment.reason; return value; }

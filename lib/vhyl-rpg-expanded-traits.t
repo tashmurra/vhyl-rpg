@@ -680,3 +680,31 @@ modify rpgExpandedTemplateTraits
         trait.selfControlRating = rating; trait.creationCost(); return trait;
     }
 ;
+
+/** B93 cinematic training permission; purchased skills remain separate. */
+class RpgExpandedMartialTraining: RpgExpandedTrait
+    id = 'advanced-martial-training'
+    points = 30
+    prerequisiteEvidence = nil
+    creationCost()
+    {
+        if (!self.approved || self.id != 'advanced-martial-training' || self.level != 1
+            || self.percentages.length() != 0 || self.prerequisiteEvidence == nil || self.prerequisiteEvidence == '')
+            rpgExpandedReject('martial-training-definition');
+        return 30;
+    }
+;
+modify RpgExpandedProfile
+    martialParryDivisor()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedMartialTraining))
+            {
+                trait.creationCost();
+                if (found != nil) rpgExpandedReject('duplicate-martial-training');
+                found = trait;
+            }
+        return found != nil && found.active && !found.mitigated ? 2 : 1;
+    }
+;
