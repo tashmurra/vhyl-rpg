@@ -97,6 +97,7 @@ rpgExpandedValidate(profile)
     if (profile == nil || !profile.ofKind(RpgExpandedProfile)
         || profile.rules == nil || !profile.rules.ofKind(RpgExpandedRules))
         rpgExpandedReject('profile-or-rules');
+    rpgInteger(profile.nativePressureHundredths,1,100000);
     profile.validateFeatures();
     local ids = [];
     foreach (local contribution in profile.contributions)

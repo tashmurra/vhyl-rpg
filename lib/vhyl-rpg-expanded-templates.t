@@ -29,6 +29,7 @@ class RpgExpandedTemplate: object
     skillRows = []
     traitRows = []
     choiceGroups = []
+    nativePressureHundredths = 100
     campaignTL = 3
     techLevel = nil
     pointBudget = 100
@@ -45,6 +46,7 @@ class RpgExpandedTemplate: object
     {
         if (self.choiceGroups.length() != 0) rpgExpandedReject('template-unresolved-choices');
         local p = new RpgExpandedProfile(); p.rules = rules;
+        p.nativePressureHundredths = self.nativePressureHundredths;
         p.campaignTL = self.campaignTL;
         p.techLevel = self.techLevel == nil ? self.campaignTL : self.techLevel;
         p.st = self.st; p.dx = self.dx; p.iq = self.iq; p.ht = self.ht;
@@ -129,6 +131,9 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
         { result.campaignTL = source.campaignTL; result.techLevel = source.techLevel; }
         else if (source.campaignTL != result.campaignTL || source.techLevel != result.techLevel)
             rpgExpandedReject('template-technology-conflict');
+        if (first) result.nativePressureHundredths = source.nativePressureHundredths;
+        else if (result.nativePressureHundredths != source.nativePressureHundredths)
+            rpgExpandedReject('template-native-pressure-conflict');
         foreach (local training in source.skills)
         {
             local skill = training.skill;
@@ -337,6 +342,7 @@ modify RpgExpandedTemplate
         resolved.speedQuarterAdjustment = self.speedQuarterAdjustment + changes[9];
         resolved.moveAdjustment = self.moveAdjustment + changes[10];
         resolved.campaignTL = self.campaignTL; resolved.techLevel = self.techLevel;
+        resolved.nativePressureHundredths = self.nativePressureHundredths;
         resolved.pointBudget = self.pointBudget; resolved.disadvantageLimit = self.disadvantageLimit;
         resolved.skillRows = skillRows; resolved.traitRows = traitRows;
         local profile = resolved.assembleProfile(rules); profile.templateChoices = receipt; return profile;

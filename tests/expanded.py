@@ -9146,6 +9146,8 @@ def test(build):
     test_pressure(Session, pressure, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
+    native_pressure_template = build.build('expanded-native-pressure-template',ROOT / 'tests/fixtures/expanded-native-pressure-template.t')
+    test_native_pressure_template(Session, native_pressure_template, build.out)
     talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
     test_talent_study(Session, talent_study, build.out)
     talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
@@ -18953,5 +18955,36 @@ def test_pressure_support(Session, bundle):
     try:
         s.action(2285, 8114)
         assert last(s, 'test.pressure-support-copy') == [1, 10]
+    finally:
+        s.close()
+
+
+def test_native_pressure_template(Session, bundle, out):
+    path = out / 'expanded-native-pressure-template.zsave'
+    for creation, cost in ((8200, 0), (8201, 0), (8203, 10)):
+        s = Session(bundle)
+        try:
+            for code in (creation, 8204):
+                s.action(2285, code)
+            assert last(s, 'test.native-pressure-template') == [200, cost, 0, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 8202)
+        assert last(s, 'test.native-pressure-error') == ['template-native-pressure-conflict']
+        s.action(2285, 8200)
+        s.action(2285, 8205)
+        s.command('undo')
+        s.action(2285, 8204)
+        assert last(s, 'test.native-pressure-template') == [200, 0, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 8204)
+        assert last(s, 'test.native-pressure-template') == [200, 0, 0, 0]
     finally:
         s.close()

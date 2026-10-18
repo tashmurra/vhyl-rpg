@@ -1436,3 +1436,7 @@ Pressure-support purchases now supply active protection to owned exposures at
 five points per tier. Template copying and zero-point native-pressure features are
 available; active intervals bind effective protection and native pressure. Tier,
 mitigation and mutation-boundary fixtures are authored but unrun.
+
+Character templates now preserve zero-point native pressure through ordinary and
+choice-based creation; composition rejects conflicting values. Feature accounting,
+conflict, undo and saved-continuation fixtures are authored but unrun.

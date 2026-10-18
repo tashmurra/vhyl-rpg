@@ -719,3 +719,19 @@ above four. Existing shared-catalogue purchase kinds retain their existing
 composition behavior. See [talent catalogue](traits.md#additional-catalogue-talents)
 for IDs, prices and remaining limitations. Isolation, level-cap, undo and saved
 continuation fixtures are authored but unrun while checks are paused.
+
+## Native pressure
+
+Set `nativePressureHundredths` on a character template to its native atmosphere
+pressure in hundredths (100 by default). This zero-point feature is copied into
+fresh profiles, including templates resolved through choices. Occupational
+composition requires matching native pressures and rejects
+`template-native-pressure-conflict` otherwise; it does not choose the larger
+value as though it were an attribute bonus. The personal template's feature also
+survives subsequent ancestry application. Ancestry-defined pressure overrides
+remain unsupported. Active pressure exposures bind their native-pressure basis,
+so changing the profile feature is not an exposure-transition operation.
+
+The foundation validates the supported integer range 1–100,000. Feature accounting,
+choice propagation, conflict, undo and saved-continuation fixtures are authored
+but unrun while checks are paused.
