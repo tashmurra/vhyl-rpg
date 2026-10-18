@@ -1736,6 +1736,56 @@ def test_fear_quirks(Session,bundle,out):
     finally: second.close()
 
 
+def test_fear_quirk_stun(Session,bundle,out):
+    def state(s):
+        s.action(2265)
+        return last(s,'test.quirk-state'),last(s,'test.quirk-stun-state')
+    before = ([-5,5,10,7,0,0,0,0,0],[0,None,0,0,0])
+    after = ([-6,6,10,7,1,1,0,1,0],[1,2,0,0,0])
+    s = Session(bundle)
+    try:
+        for code in [21,22]:
+            s.action(2264,code)
+            assert state(s) == before
+        s.action(2264,20)
+        assert state(s) == after
+        s.command('undo')
+        assert state(s) == before
+        s.action(2264,20)
+        s.action(2264,20)
+        assert state(s) == after
+        s.action(2264,24)
+        assert last(s,'test.quirk-stun-recovery') == ['blocked','fear-recovery-initial-duration']
+        assert state(s) == after
+    finally: s.close()
+    for code,reason in [(28,'fear-stun-quirk-required'),(29,'fear-quirk-module-required'),(8,'fear-quirk-relation-required')]:
+        s = Session(bundle)
+        try:
+            s.action(2264,code)
+            s.action(2264,20)
+            assert last(s,'test.quirk-stun-start') == ['blocked',reason]
+            assert state(s) == before
+        finally: s.close()
+    path = out / 'expanded-quirk-stun.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2264,20)
+        first.command(f':save {path}\n@2265')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+    finally: first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2265')
+        second.action(2264,20)
+        assert state(second) == after
+        for code in [23,27,26,25]: second.action(2264,code)
+        # Increasing Will changes character value by fifty, but gives no spendable points.
+        assert state(second) == ([44,6,10,7,1,1,0,1,2],[1,2,0,0,0])
+        second.action(2264,24)
+        assert state(second) == ([44,6,10,7,1,1,0,4,3],[0,2,1,1,0])
+    finally: second.close()
+
+
 def test_fear_fatigue(Session,bundle):
     def state(s):
         s.action(2263)
@@ -8810,6 +8860,8 @@ def test(build):
     fear = build.build('expanded-fear',ROOT / 'tests/fixtures/expanded-fear.t')
     fear_quirks = build.build('expanded-fear-quirks',ROOT / 'tests/fixtures/expanded-fear-quirks.t')
     test_fear_quirks(Session,fear_quirks,build.out)
+    quirk_stun = build.build('expanded-fear-quirk-stun',ROOT / 'tests/fixtures/expanded-fear-quirk-stun.t')
+    test_fear_quirk_stun(Session,quirk_stun,build.out)
     test_fear_stun(Session,fear)
     test_fear_fatigue(Session,fear)
     test_fear_fatigue_stun(Session,fear,build.out)

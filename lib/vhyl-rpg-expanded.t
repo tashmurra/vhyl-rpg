@@ -129,3 +129,14 @@ rpgExpandedDamageDice(strength, swing)
 modify RpgExpandedProfile
     prepareSwarmWound(id, amount, destination) { return nil; }
 ;
+
+/** Optional trait-module contract; the foundation alone cannot award a quirk. */
+class RpgExpandedFearQuirkContract: object
+    profile = nil
+    eventId = nil
+    assess()
+    {
+        local value = new RpgExpandedResult(); value.reason = 'fear-quirk-module-required'; return value;
+    }
+    apply() { return self.assess(); }
+;

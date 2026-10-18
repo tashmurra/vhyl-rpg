@@ -123,5 +123,6 @@ before rolling. New boundary and continuation fixtures remain unrun.
 
 Behavioral mental quirks can be acquired from an authored fear event without
 awarding advancement points. Owned receipts permit the source's creation-limit
-exception and preserve concrete scene portrayal decisions. Broader trait outcomes
-and compound integration remain unfinished; new fixtures are unrun.
+exception and preserve concrete scene portrayal decisions. The health module
+can commit a combined stun-and-quirk outcome atomically. Broader trait outcomes
+remain unfinished; new fixtures are unrun.

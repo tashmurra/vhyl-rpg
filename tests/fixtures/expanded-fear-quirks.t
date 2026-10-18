@@ -18,25 +18,25 @@ quirkFive: RpgLiteTrait id = 'quirk';
 quirkProfile: RpgExpandedProfile rules = quirkRules creationComplete = true pointBudget = 0 disadvantageLimit = 5
     earnedPoints = 10 unspentPoints = 7 traits = [quirkOne,quirkTwo,quirkThree,quirkFour,quirkFive];
 fearQuirk: RpgExpandedMentalQuirk approved = true triggerText = 'Entering an unlit room' responseText = 'Ask a companion to inspect the doorway first';
-quirkAcquisition: RpgExpandedFearQuirkAcquisition id = 'threshold-fear' eventId = 'apparition' profile = quirkProfile quirk = fearQuirk
+quirkAward: RpgExpandedFearQuirkAcquisition id = 'threshold-fear' eventId = 'apparition' profile = quirkProfile quirk = fearQuirk
     approved = true relationEvidence = 'The apparition emerged from an unlit doorway';
 quirkPortrayal: RpgExpandedQuirkPortrayal id = 'next-room' profile = quirkProfile quirk = fearQuirk triggerPresent = true
     decision = 'followed' approved = true observedBehavior = 'Asked the guide to inspect the threshold';
-quirkInput: object code = 0;
+quirkInput: object code = 0 reportExtraState() { return nil; };
 class QuirkTestAction: Action
     exec(context)
     {
         local code = quirkInput.code;
         if (code == 3) { rpgExpandedValidateCharacter(quirkProfile); event('test.quirk-valid'); eventValue(quirkProfile.traits.length()); return nil; }
         if (code == 7) { quirkPortrayal.decision = 'inapplicable'; return nil; }
-        if (code == 8) { quirkAcquisition.approved = nil; return nil; }
+        if (code == 8) { quirkAward.approved = nil; return nil; }
         if (code == 9) { quirkProfile.creationComplete = nil; return nil; }
         if (code == 10) { quirkProfile.traits = [quirkOne,quirkTwo,quirkThree,quirkFour,quirkFive]; return nil; }
         if (code == 11) { quirkProfile.traits = quirkProfile.traits + [fearQuirk]; return nil; }
         if (code == 12) { fearQuirk.responseText = ''; return nil; }
         if (code <= 2)
         {
-            local value = code == 1 ? quirkAcquisition.assess() : quirkAcquisition.apply();
+            local value = code == 1 ? quirkAward.assess() : quirkAward.apply();
             event('test.quirk-acquisition'); eventValue(value.status); eventValue(value.reason); eventValue(value.points);
             if (code == 2) throw new RpgError(); return nil;
         }
@@ -58,7 +58,8 @@ act(verb,args)
         event('test.quirk-state'); eventValue(rpgExpandedCharacterCost(quirkProfile,nil));
         eventValue(quirkProfile.traits.length()); eventValue(quirkProfile.earnedPoints); eventValue(quirkProfile.unspentPoints);
         eventValue(quirkProfile.developmentRevision); eventValue(quirkProfile.fearQuirkAcquisitions.length());
-        eventValue(quirkProfile.quirkPortrayals.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+        eventValue(quirkProfile.quirkPortrayals.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
+        quirkInput.reportExtraState(); return nil;
     }
     return nil;
 }

@@ -268,7 +268,8 @@
         "tests/expanded.py::test_retching_combat",
         "tests/expanded.py::test_retching_meals",
         "tests/expanded.py::test_retching_remedy",
-        "tests/expanded.py::test_remedy_persistence"
+        "tests/expanded.py::test_remedy_persistence",
+        "tests/expanded.py::test_fear_quirk_stun"
       ],
       "validation_note": "Partial recovery includes scheduled physician checks and owned bandaging/post-bandaging treatment using shared time and health. Source outcome, rollback, undo and save-continuation fixtures authored but unrun. Interrupted care, bleeding, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },
@@ -439,7 +440,8 @@
       "tests": [
         "tests/expanded.py::test_numbers",
         "tests/expanded.py::test_maintenance_prices",
-        "tests/expanded.py::test_fear_quirks"
+        "tests/expanded.py::test_fear_quirks",
+        "tests/expanded.py::test_fear_quirk_stun"
       ]
     },
     {
@@ -1287,6 +1289,18 @@
         "tests/expanded.py::test_fear_quirks"
       ],
       "validation_note": "Owned behavioral quirk acquisition and scene adjudication are authored. Fixtures unrun; numeric-penalty quirks, compound integration and sanctions remain incomplete."
+    },
+    {
+      "id": "fear-stun-quirk-composition",
+      "module": "health",
+      "pages": "B361",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedFearStun",
+      "tests": [
+        "tests/expanded.py::test_fear_quirk_stun"
+      ],
+      "validation_note": "Concrete optional trait acquisition and owned stun commit atomically. Fixtures unrun; full-table event selection incomplete."
     }
   ],
   "detailed_inventories": [

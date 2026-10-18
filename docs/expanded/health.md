@@ -1367,7 +1367,7 @@ combined modifiers. All new fixtures remain unrun.
 ## Owned short fear-stun episodes
 
 `RpgExpandedFearStun` executes an authored outcome from `full-2008`, B360,
-rows four through eleven, fourteen and fifteen. Supply a unique `id`, a ready `RpgExpandedFearContext`,
+rows four through eleven and fourteen through sixteen. Supply a unique `id`, a ready `RpgExpandedFearContext`,
 `tableTotal`, `approved` and `evidence` recording the selected outcome. This is
 an explicit outcome interface; it does not yet roll the initial fear check or
 select an outcome from the whole table. Unsupported rows are rejected before
@@ -1616,3 +1616,29 @@ records the episode as completed instead of creating an active stun on a corpse.
 specify positive, zero and negative fatigue, clamping, separate wounds, both
 randomized outcomes, preflight rejection, preview, rollback, undo, replay and
 cross-process recovery. They remain unrun.
+
+
+### Combined stun and mental quirk
+
+For row sixteen, set `RpgExpandedFearStun.quirkAcquisition` to a fresh
+`RpgExpandedFearQuirkAcquisition` from the traits module. Its `profile` must
+match the fear context and its `eventId` must equal the episode's `id`. The
+acquisition must have the explicit behavior and event-relation evidence described
+in the [traits guide](traits.md#fear-induced-behavioral-quirks).
+
+Both consequences are assessed before the one-die stun duration is rolled.
+The same engine action commits the new quirk and owned stun. This row does not
+charge fatigue. Recovery follows the modified-Will procedure of row ten, while
+the quirk persists after stun ends. An already used acquisition, missing approval
+or missing trait implementation blocks before randomness. A quirk acquisition
+supplied for another stun row is rejected rather than silently ignored.
+
+`RpgExpandedFearQuirkContract` lives in the foundation solely to avoid circular
+or mandatory catalogue dependencies. Its default implementation is unavailable;
+it does not count as implemented author adjudication. The traits module supplies
+the concrete acquisition. Health-only integrations retain their existing include
+set and can continue using other supported outcomes.
+
+`test_fear_quirk_stun` specifies compound preview and rollback, unchanged
+spendable points, no fatigue cost, missing-contract rejection, replay and recovery
+after cross-process restoration. The fixture remains unrun.

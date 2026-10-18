@@ -2355,17 +2355,20 @@ class RpgExpandedFearStun: object
     dropDestination = nil
     boundDropDestination = nil
     fatigueLoss = nil
+    quirkAcquisition = nil
+    boundQuirkAcquisition = nil
     assess()
     {
         if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
             rpgExpandedReject('fear-stun-definition');
-        rpgInteger(self.tableTotal,4,15);
+        rpgInteger(self.tableTotal,4,16);
         if (self.tableTotal == 12 || self.tableTotal == 13) rpgExpandedReject('fear-stun-row');
         local value = new RpgExpandedFearStunResult();
         if (self.startedAt != nil)
         {
             if (self.context != self.boundContext || self.evidence != self.boundEvidence || self.dropDestination != self.boundDropDestination
                 || self.context.profile != self.boundProfile || self.id != self.boundId || self.tableTotal != self.boundTotal
+                || self.quirkAcquisition != self.boundQuirkAcquisition
                 || !holds(self.boundProfile.fearStunEpisodes,self)) rpgExpandedReject('fear-stun-binding');
             value.status = 'reused'; return value;
         }
@@ -2381,7 +2384,18 @@ class RpgExpandedFearStun: object
         foreach (local prior in profile.fearStunEpisodes)
             if (prior.id == self.id) rpgExpandedReject('fear-stun-duplicate');
         rpgInteger(rpgLedger.seconds,0,2147483647 - (self.tableTotal == 11 ? 12 : self.tableTotal >= 10 ? 6 : 1));
-        if (self.tableTotal >= 14)
+        if (self.tableTotal == 16)
+        {
+            if (self.quirkAcquisition == nil) { value.reason = 'fear-stun-quirk-required'; return value; }
+            if (!self.quirkAcquisition.ofKind(RpgExpandedFearQuirkContract)
+                || self.quirkAcquisition.profile != profile || self.quirkAcquisition.eventId != self.id)
+                rpgExpandedReject('fear-stun-quirk-owner');
+            local quirk = self.quirkAcquisition.assess();
+            if (quirk.status != 'ready')
+            { value.reason = quirk.status == 'reused' ? 'fear-stun-quirk-used' : quirk.reason; return value; }
+        }
+        else if (self.quirkAcquisition != nil) rpgExpandedReject('fear-stun-unexpected-quirk');
+        if (self.tableTotal == 14 || self.tableTotal == 15)
         {
             value.fatigueLoss = new RpgExpandedFearFatigueLoss(); value.fatigueLoss.id = 'stun-' + self.id;
             value.fatigueLoss.profile = profile; value.fatigueLoss.amount = 6; value.fatigueLoss.dropDestination = self.dropDestination;
@@ -2405,11 +2419,17 @@ class RpgExpandedFearStun: object
             if (fatigue.status != 'resolved') rpgExpandedReject('fear-stun-fatigue-changed');
             self.fatigueLoss = value.fatigueLoss;
         }
+        if (self.quirkAcquisition != nil)
+        {
+            local quirk = self.quirkAcquisition.apply();
+            if (quirk.status != 'resolved') rpgExpandedReject('fear-stun-quirk-changed');
+        }
         self.startedAt = rpgLedger.seconds; self.initialEnd = self.startedAt + duration;
         self.recoveryModifier = self.tableTotal <= 7 ? 0 : value.modifier;
         self.boundProfile = self.context.profile; self.boundId = self.id; self.boundTotal = self.tableTotal;
         self.boundContext = self.context; self.boundEvidence = self.evidence;
         self.boundDropDestination = self.dropDestination;
+        self.boundQuirkAcquisition = self.quirkAcquisition;
         if (self.boundProfile.dead) self.completed = true;
         else { self.boundProfile.mentalStun = true; self.boundProfile.expandedFearStun = self; }
         self.boundProfile.fearStunEpisodes = self.boundProfile.fearStunEpisodes + [self];

@@ -1052,9 +1052,10 @@
       "status": "partial",
       "acceptance": "Apply the one-die stun and modified-will recovery sequence plus a new event-related quirk.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_quirk_stun"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Atomic one-die stun and behavioral mental-quirk acquisition authored; concrete trait-module contract preflights before randomness. Shared modified-Will recovery, replay and cross-process fixtures are unrun. Full fear event selection remains pending."
     },
     {
       "id": "fear-outcome-17",

@@ -141,7 +141,7 @@ class RpgExpandedMentalQuirk: RpgLiteTrait
 ;
 
 /** B360-B361 authored mental-quirk consequence; never grants spendable points. */
-class RpgExpandedFearQuirkAcquisition: object
+class RpgExpandedFearQuirkAcquisition: RpgExpandedFearQuirkContract
     id = nil
     eventId = nil
     profile = nil

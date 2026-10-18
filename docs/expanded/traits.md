@@ -553,5 +553,5 @@ operation; automatic sanction handling is not implemented here.
 `test_fear_quirks` specifies sixth-quirk acquisition, unchanged spendable points,
 creation-budget validation, ordinary-sixth-quirk rejection, portrayal decisions,
 preview, rollback, undo, replay and cross-process continuation. The fixture is
-unrun. Compound stun-plus-quirk integration and the broader fear trait outcomes
-remain incomplete.
+unrun. The health module can combine this acquisition with row-sixteen stun
+atomically; see its authoring guide. Broader fear trait outcomes remain incomplete.
