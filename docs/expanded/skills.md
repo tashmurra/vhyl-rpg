@@ -1263,3 +1263,31 @@ using the generic interface; automatic context selection remains incomplete.
 contexts, exactly one penalty, familiar cultures, additive situational modifiers,
 missing evidence, duplicate interfaces and retained makeup request binding.
 These fixtures remain unrun while checks are paused.
+
+## Geography branches and bounded questions
+
+`RpgExpandedGeographySkill` fixes the full-2008 B198 IQ/Hard, IQ−6 definition.
+Set `techLevel` and `specialty` to `physical`, `political` or `regional`. Physical
+knowledge requires an explicit `planetType` from the six B180 categories already
+used by Biology; regional knowledge requires an authored `region`. Other branches
+reject these extra qualifiers. Resolve omitted home-world shorthand to the
+explicit planet type when authoring the definition.
+
+Purchased branches default to one another at −5 at matching technology levels.
+Different physical planet types default at −4. Physical Geography also accepts
+Geology or Meteorology at −4 for the same type and technology; Political accepts
+Economics at −4; Regional accepts the relevant Area Knowledge at −6. The common
+resolver excludes unpurchased default chains. No default between two different
+regional areas is invented. External sources use their ordinary expanded skill
+IDs and specialty qualifiers; their full catalogue procedures are separate work.
+
+`RpgExpandedGeographyContext` requires an approved, evidenced question and a
+`topic` of `physical` or `political`. Physical tasks must match the skill's world
+type. Political and physical branches cannot answer each other's questions
+without selecting the corresponding target skill/default. Regional tasks require
+the exact region and `depthApproved`, attesting that the requested detail fits
+that region's scale. This grants a score, not automatic world information.
+Owned research resolution, information delivery, detailed regional scales and
+societal default eligibility remain pending. `test_geography` specifies branch,
+world-type and scientific defaults plus bounded context scoring; fixtures are
+unrun while checks are paused.

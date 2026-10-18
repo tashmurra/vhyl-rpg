@@ -11,9 +11,11 @@
       "pages": "B198; B180",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use -5 between branches; require the additional world-type or regional qualifier and restrict information to its authored scope.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_geography"
+      ],
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",
@@ -54,7 +56,8 @@
           "different_type_modifier": -4,
           "source_pages": "B180"
         }
-      }
+      },
+      "validation_note": "Typed technology-qualified branches, explicit physical world type/regional scope and printed purchased-source default edges implemented. Bounded question contexts reject branch/type/region mismatches and unapproved regional detail. Owned knowledge resolution, delivery, region-scale detail and societal default eligibility remain pending. Fixtures authored, unrun."
     },
     {
       "id": "catalogue-skill-geography-political",
@@ -62,9 +65,11 @@
       "pages": "B198",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use -5 between branches; require the additional world-type or regional qualifier and restrict information to its authored scope.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_geography"
+      ],
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",
@@ -88,7 +93,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed technology-qualified branches, explicit physical world type/regional scope and printed purchased-source default edges implemented. Bounded question contexts reject branch/type/region mismatches and unapproved regional detail. Owned knowledge resolution, delivery, region-scale detail and societal default eligibility remain pending. Fixtures authored, unrun."
     },
     {
       "id": "catalogue-skill-geography-regional",
@@ -96,9 +102,11 @@
       "pages": "B198",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use -5 between branches; require the additional world-type or regional qualifier and restrict information to its authored scope.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_geography"
+      ],
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",
@@ -122,7 +130,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed technology-qualified branches, explicit physical world type/regional scope and printed purchased-source default edges implemented. Bounded question contexts reject branch/type/region mismatches and unapproved regional detail. Owned knowledge resolution, delivery, region-scale detail and societal default eligibility remain pending. Fixtures authored, unrun."
     },
     {
       "id": "catalogue-skill-geology",

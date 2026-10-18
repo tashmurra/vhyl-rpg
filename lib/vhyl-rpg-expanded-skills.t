@@ -2532,3 +2532,84 @@ modify RpgExpandedGestureContext
     }
     gestureAttemptReason(profile) { return self.gestureReason(profile); }
 ;
+
+/** B198 Geography/TL branches, with explicit B180 planet-type qualification. */
+class RpgExpandedGeographySkill: RpgExpandedSkill
+    id = 'geography'
+    attribute = rpgIQ
+    difficulty = 2
+    defaultPenalty = -6
+    planetType = nil
+    region = nil
+    validateDefinition()
+    {
+        if (self.id != 'geography' || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != -6
+            || self.techLevel == nil || !holds(['physical','political','regional'],self.specialty)
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil)
+            rpgExpandedReject('geography-skill-definition');
+        rpgInteger(self.techLevel,0,12);
+        if (self.specialty == 'physical')
+        {
+            if (!holds(['habitable','gas-giant','hostile-terrestrial','icy-small-body','ice-covered','rocky'],self.planetType))
+                rpgExpandedReject('geography-planet-type');
+        }
+        else if (self.planetType != nil) rpgExpandedReject('geography-planet-type');
+        if ((self.specialty == 'regional' && (self.region == nil || self.region == ''))
+            || (self.specialty != 'regional' && self.region != nil)) rpgExpandedReject('geography-region');
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (source == self || training.points <= 0 || !source.ofKind(RpgExpandedSkill)) continue;
+            local general = source.optionalParent == nil ? source : source.optionalParent;
+            if (general.ofKind(RpgExpandedGeographySkill))
+            {
+                general.validateDefinition(); if (general.techLevel != self.techLevel) continue;
+                if (general.specialty != self.specialty) edges = edges + [[general,-5]];
+                else if (self.specialty == 'physical' && general.planetType != self.planetType) edges = edges + [[general,-4]];
+            }
+            else if (self.specialty == 'physical' && holds(['geology','meteorology'],general.id)
+                && general.techLevel == self.techLevel && general.specialty == self.planetType) edges = edges + [[general,-4]];
+            else if (self.specialty == 'political' && general.id == 'economics' && general.techLevel == nil)
+                edges = edges + [[general,-4]];
+            else if (self.specialty == 'regional' && general.id == 'area-knowledge' && general.specialty == self.region
+                && general.techLevel == nil) edges = edges + [[general,-6]];
+        }
+        return edges;
+    }
+;
+/** A bounded authored question; a regional skill does not imply unlimited detail. */
+class RpgExpandedGeographyContext: RpgExpandedSkillContext
+    topic = nil
+    planetType = nil
+    region = nil
+    depthApproved = nil
+    approved = nil
+    evidence = nil
+    geographyReason()
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedGeographySkill) || self.fixedBase != nil || self.rollAttribute != nil)
+            rpgExpandedReject('geography-context-definition');
+        self.skill.validateDefinition();
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'geography-question-evidence-required';
+        if (!holds(['physical','political'],self.topic)) return 'geography-topic-unavailable';
+        if (self.skill.specialty != 'regional' && self.topic != self.skill.specialty) return 'geography-branch-mismatch';
+        if (self.skill.specialty == 'physical' && self.planetType != self.skill.planetType) return 'geography-planet-mismatch';
+        if (self.skill.specialty == 'regional' && (self.region != self.skill.region || !self.depthApproved))
+            return 'geography-regional-scope-required';
+        return nil;
+    }
+    taskUnavailableReason(profile)
+    {
+        local reason = self.geographyReason(); return reason == nil ? inherited(profile) : reason;
+    }
+    skillUseModifier(profile)
+    {
+        return self.geographyReason() == nil ? inherited(profile) : nil;
+    }
+;

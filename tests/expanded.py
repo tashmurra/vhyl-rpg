@@ -9508,6 +9508,8 @@ def test(build):
     test_gesture_actions(Session,gesture_actions,build.out)
     cultural_scoring = build.build('expanded-cultural-scoring',ROOT / 'tests/fixtures/expanded-cultural-scoring.t')
     test_cultural_scoring(Session,cultural_scoring)
+    geography = build.build('expanded-geography',ROOT / 'tests/fixtures/expanded-geography.t')
+    test_geography(Session,geography)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26313,3 +26315,20 @@ def test_cultural_scoring(Session, bundle):
         assert last(s,'test.makeup-state') == [1,1,600,3]
     finally:
         s.close()
+
+
+def test_geography(Session, bundle):
+    """B198 branches and B180 world types use purchased defaults and bounded questions; unrun."""
+    for codes,expected in (((),[6,6]),((26901,),[12,12]),((26902,),[13,17]),
+                            ((26903,),[13,6]),((26903,26904),[6,13]),
+                            ((26905,),[None,6]),((26906,),[None,6]),
+                            ((26907,),[6,6]),((26907,26908),[None,6]),
+                            ((26907,26909),[None,6]),((26910,),[13,6]),((26911,),[13,6])):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,26900)
+            assert last(s,'test.geography') == expected + [0,0]
+        finally:
+            s.close()
