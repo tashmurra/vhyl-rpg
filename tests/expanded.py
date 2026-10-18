@@ -1788,6 +1788,76 @@ def test_fear_combat(Session,bundle):
         finally: s.close()
 
 
+def test_owned_retching(Session,bundle):
+    def state(s):
+        s.action(2256)
+        return last(s,'test.retch-state')
+    s = Session(bundle)
+    try:
+        for code in [1,2]:
+            s.action(2255,code)
+            assert state(s) == [0,0,0,0,0,0]
+        s.action(2255,0)
+        assert state(s) == [1,0,1,0,0,0]
+        s.action(2257)
+        assert last(s,'test.retch-scores') == [10,5,5,10,10,5,0,4,'retching-concentration-failure']
+        s.action(2255,12)
+        assert last(s,'test.retch-concentrate') == ['retching-concentration-failure']
+        assert state(s) == [1,0,1,0,0,0]
+        s.action(2255,10)
+        s.action(2255,4)
+        assert last(s,'test.retch-recovery') == ['blocked','retching-initial-duration']
+        assert state(s) == [1,0,1,0,0,14]
+        s.action(2255,11)
+        for code in [6,5]:
+            s.action(2255,code)
+            assert state(s) == [1,0,1,0,0,15]
+        s.action(2255,4)
+        assert state(s) == [0,1,1,1,3,16]
+        s.action(2257)
+        assert last(s,'test.retch-scores') == [10,10,10,10,10,10,0,0,None]
+        s.command('undo')
+        assert state(s) == [1,0,1,0,0,15]
+        s.action(2255,4)
+        s.action(2255,4)
+        assert last(s,'test.retch-recovery') == ['reused',None]
+        assert state(s) == [0,1,1,1,3,16]
+    finally: s.close()
+    for code,reason in [(7,'retching-fatigue-injury-unavailable'),(8,'retching-oral-revocation-unavailable'),(9,'retching-oral-revocation-unavailable')]:
+        s = Session(bundle)
+        try:
+            s.action(2255,0)
+            s.action(2255,3)
+            s.action(2255,code)
+            before = state(s)
+            s.action(2255,4)
+            assert last(s,'test.retch-recovery') == ['blocked',reason]
+            assert state(s) == before
+        finally: s.close()
+
+
+def test_retching_persistence(Session,bundle,out):
+    path = out / 'expanded-retching.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2255,0)
+        first.action(2255,10)
+        first.command(f':save {path}\n@2256')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+    finally: first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2256')
+        second.action(2256)
+        assert last(second,'test.retch-state') == [1,0,1,0,0,14]
+        second.action(2255,11)
+        second.action(2255,4)
+        second.action(2255,4)
+        second.action(2256)
+        assert last(second,'test.retch-state') == [0,1,1,1,3,16]
+    finally: second.close()
+
+
 def test_fear_retching(s):
     for health,duration in [(1,24),(10,15),(15,10),(24,1)]:
         for attribute,modifier in [(1,0),(2,-5),(3,-5),(4,0),(5,0),(6,-5)]:
@@ -8380,6 +8450,9 @@ def test(build):
     fresh(Session,health,test_fear_assessments)
     fresh(Session,health,test_fear_context)
     fresh(Session,health,test_fear_retching)
+    retching = build.build('expanded-retching',ROOT / 'tests/fixtures/expanded-retching.t')
+    test_owned_retching(Session,retching)
+    test_retching_persistence(Session,retching,build.out)
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)
     fresh(Session,health,test_knockdown_assessment)

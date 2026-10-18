@@ -1447,6 +1447,41 @@ These fields describe required consequences; this helper does not charge or
 revoke them, change defense scores, or create a recovery episode.
 
 `test_fear_retching` contains independent duration, attribute, concentration and
-resource expectations. The fixture remains unrun. Owned retching execution,
-shared fatigue/injury integration, oral-benefit revocation and timed health
-recovery are still pending; row twelve remains partial.
+resource expectations. The fixture remains unrun. Owned execution is described below. Low-fatigue injury, oral-benefit revocation
+and combat-turn recovery remain pending; row twelve remains partial.
+
+
+### Owned retching episodes
+
+`RpgExpandedFearRetching` owns one active condition on an expanded profile.
+Provide a unique `id`, an approved fear `context`, outcome `approved` and
+`evidence`, and `oralEffectsReviewed`. The latter is an explicit author finding
+about recent meals and oral medicine. `affectedOralBenefits` must currently be
+empty: affected benefits require an executable revocation path that is not yet
+implemented, so such requests are rejected. Reconsider this list if the actor
+receives a new oral benefit during the episode.
+
+Starting the episode records the initial deadline without spending time or
+randomness. It applies the attribute penalties through ordinary contextual
+checks and the effective-stun defense penalty through the existing defense
+calculation. Physical or mental stun does not double that defense penalty.
+The actor is not marked mentally stunned and can attempt other actions.
+`RpgLiteContext.requiresConcentration`, a `concentrate` check kind, and the
+combat Concentrate maneuver all identify the unavailable operation. Authors
+must mark concentration-dependent checks explicitly; the engine cannot infer
+that requirement from descriptive text.
+
+After the deadline, a fresh `RpgExpandedRetchingRecovery` with an `id` and
+`episode` spends one shared second and checks health. Successful recovery ends
+the condition and charges one fatigue point through the shared increment
+function. This route currently requires positive remaining fatigue before the
+attempt: recovery that would cause additional injury is explicitly unavailable.
+A changed oral review or affected benefit also blocks before time or dice.
+Replaying a committed request does not charge fatigue, time or dice again.
+Use this standalone recovery outside an already charged combat turn; a combat
+recovery adapter is still pending.
+
+`test_owned_retching` and `test_retching_persistence` specify contextual penalties,
+concentration rejection, duration boundaries, final fatigue, pure preview,
+rollback, undo, replay, unsupported combinations and continuation in a new
+process. They are authored and unrun while checks remain paused.

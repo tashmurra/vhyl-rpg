@@ -56,6 +56,9 @@ class RpgLiteProfile: RpgProfile
     afterHealing() { return nil; }
     /* Contextual health adjustments must not alter purchased attributes. */
     healthAttributeModifier(context) { return 0; }
+    healthCheckReason(context) { return nil; }
+    healthManeuverReason(kind) { return nil; }
+    healthDefensePenalty() { return 0; }
     naturalRecoveryInterval() { return 86400; }
     naturalRecoveryModifier() { return 0; }
     naturalRecoveryAmount() { return 1; }
@@ -203,6 +206,7 @@ class RpgLiteContext: object
     language = nil
     written = nil
     resistedTrait = nil
+    requiresConcentration = nil
     scoreFor(profile)
     {
         return self.skill == nil ? profile.attributeScore(self.attribute)
@@ -218,6 +222,7 @@ class RpgLiteContext: object
 /** Calculate effective skill or attribute without consuming randomness; nil means no legal default. */
 rpgLiteScore(profile, context)
 {
+    if (profile.healthCheckReason(context) != nil) return nil;
     local score = context.scoreFor(profile);
     if (score == nil) return nil;
     local attribute = context.controllingAttribute();
@@ -292,7 +297,12 @@ rpgLiteScore(profile, context)
 rpgLiteCheck(profile, context)
 {
     local score = rpgLiteScore(profile, context);
-    if (score == nil) { local result = new RpgResult(); result.reason = context.unavailableReason(profile); return result; }
+    if (score == nil)
+    {
+        local result = new RpgResult(); result.reason = profile.healthCheckReason(context);
+        if (result.reason == nil) result.reason = context.unavailableReason(profile);
+        return result;
+    }
     if (score < 3) return rpgCheck(score, 3);
     local result = rpgCheck(score, rpgRandom.roll());
     if (context.reroll(profile, result)) result = rpgCheck(score, rpgLiteReroll(profile, result.roll, 3, nil));

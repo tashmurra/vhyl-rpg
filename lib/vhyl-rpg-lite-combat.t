@@ -208,7 +208,9 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
     score += profile.level('combat-reflexes') + request.defenseModifier;
     if (fighter.shield != nil && fighter.shield.ready && request.shieldSide) score += fighter.shield.passiveDefenseBonus(profile);
     score += rpgLitePostureModifier(profile.posture, true);
-    if (profile.stunned || profile.mentalStun) score -= 4;
+    local conditionPenalty = profile.healthDefensePenalty();
+    if ((profile.stunned || profile.mentalStun) && conditionPenalty < 4) conditionPenalty = 4;
+    score -= conditionPenalty;
     if (fighter.maneuver == 'all-out-defense' && (fighter.defenseOption == kind
         || kind == 'parry-other' && fighter.defenseOption == 'parry')) score += 2;
     if (!request.visible) score -= 4;
@@ -418,6 +420,8 @@ class RpgLiteBattle: object
             || request.kind == 'all-out-defense' && request.option != 'dodge' && request.movement > 1)
         { result.reason = 'movement-limit'; return result; }
         result.reason = request.available(fighter); if (result.reason != nil) return result;
+        result.reason = fighter.profile.healthManeuverReason(request.kind);
+        if (result.reason != nil) return result;
         if (request.target != nil && !holds(self.fighters, request.target)) throw new RpgError();
         if ((fighter.profile.stunned || fighter.profile.mentalStun) && request.kind != 'nothing')
         { result.reason = 'stunned'; return result; }

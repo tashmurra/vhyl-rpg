@@ -2496,3 +2496,140 @@ class RpgExpandedFearRecoveryManeuver: RpgExpandedHealthManeuver
         return nil;
     }
 ;
+
+/** Owned retching state; meal and oral-treatment consequences need explicit review. */
+modify RpgExpandedProfile
+    retchingEpisode = nil
+    retchingHistory = []
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        if (self.retchingEpisode != nil && holds([rpgDX,rpgIQ,rpgPerception],context.controllingAttribute())) value -= 5;
+        return value;
+    }
+    healthCheckReason(context)
+    {
+        if (self.retchingEpisode != nil && (context.requiresConcentration || context.kind == 'concentrate'))
+            return 'retching-concentration-failure';
+        return inherited(context);
+    }
+    healthManeuverReason(kind)
+    {
+        if (self.retchingEpisode != nil && kind == 'concentrate') return 'retching-concentration-failure';
+        return inherited(kind);
+    }
+    healthDefensePenalty()
+    {
+        local value = inherited(); return self.retchingEpisode != nil && value < 4 ? 4 : value;
+    }
+;
+
+class RpgExpandedFearRetching: object
+    id = nil
+    context = nil
+    approved = nil
+    evidence = nil
+    oralEffectsReviewed = nil
+    affectedOralBenefits = []
+    startedAt = nil
+    initialEnd = nil
+    boundProfile = nil
+    boundId = nil
+    boundContext = nil
+    boundEvidence = nil
+    completedAt = nil
+    recoveries = []
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
+            rpgExpandedReject('retching-definition');
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil)
+        {
+            if (self.id != self.boundId || self.context != self.boundContext || self.context.profile != self.boundProfile
+                || self.evidence != self.boundEvidence || !holds(self.boundProfile.retchingHistory,self))
+                rpgExpandedReject('retching-binding');
+            value.status = 'reused'; return value;
+        }
+        local scene = self.context.assess();
+        if (scene.status != 'ready') { value.reason = scene.reason; return value; }
+        if (scene.immune) { value.reason = 'retching-fear-immune'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'retching-outcome-evidence'; return value; }
+        if (!self.oralEffectsReviewed) { value.reason = 'retching-oral-review-required'; return value; }
+        if (self.affectedOralBenefits.length() > 0) { value.reason = 'retching-oral-revocation-unavailable'; return value; }
+        local profile = self.context.profile;
+        rpgExpandedValidate(profile);
+        if (profile.dead || profile.unconscious || profile.retchingEpisode != nil)
+        { value.reason = 'retching-observer-unavailable'; return value; }
+        foreach (local prior in profile.retchingHistory)
+            if (prior.id == self.id) rpgExpandedReject('retching-duplicate');
+        local condition = rpgExpandedAssessFearRetching(profile.ht,rpgHT,nil);
+        if (condition.status != 'ready') { value.reason = condition.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647 - condition.initialSeconds);
+        value.seconds = condition.initialSeconds; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.startedAt = rpgLedger.seconds; self.initialEnd = self.startedAt + value.seconds;
+        self.boundProfile = self.context.profile; self.boundId = self.id;
+        self.boundContext = self.context; self.boundEvidence = self.evidence;
+        self.boundProfile.retchingEpisode = self;
+        self.boundProfile.retchingHistory = self.boundProfile.retchingHistory + [self];
+        value.seconds = 0; value.status = 'resolved'; return value;
+    }
+;
+
+/** A one-second health recovery attempt; supports final costs with positive FP. */
+class RpgExpandedRetchingRecovery: object
+    id = nil
+    episode = nil
+    result = nil
+    boundId = nil
+    boundEpisode = nil
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedFearRetching))
+            rpgExpandedReject('retching-recovery-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.episode != self.boundEpisode || !holds(self.episode.recoveries,self))
+                rpgExpandedReject('retching-recovery-binding');
+            value.status = 'reused'; value.check = self.result.check; return value;
+        }
+        if (self.episode.startedAt == nil) { value.reason = 'retching-episode-required'; return value; }
+        self.episode.assess(); local profile = self.episode.boundProfile;
+        if (self.episode.completedAt != nil) { value.reason = 'retching-already-ended'; return value; }
+        if (profile.retchingEpisode != self.episode) rpgExpandedReject('retching-ownership');
+        if (profile.dead || profile.unconscious) { value.reason = 'retching-observer-unavailable'; return value; }
+        if (rpgLedger.seconds < self.episode.initialEnd) { value.reason = 'retching-initial-duration'; return value; }
+        if (!self.episode.oralEffectsReviewed || self.episode.affectedOralBenefits.length() > 0)
+        { value.reason = 'retching-oral-revocation-unavailable'; return value; }
+        if (profile.fp() <= 0) { value.reason = 'retching-fatigue-injury-unavailable'; return value; }
+        if (profile.ht < 3) { value.reason = 'retching-recovery-score-unavailable'; return value; }
+        rpgInteger(profile.ht,3,1000);
+        foreach (local prior in self.episode.recoveries)
+            if (prior.id == self.id) rpgExpandedReject('retching-recovery-duplicate');
+        rpgInteger(rpgLedger.seconds,0,2147483646);
+        value.seconds = 1; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local originalId = self.id; local originalEpisode = self.episode; local start = rpgLedger.seconds;
+        rpgSpendTime(1);
+        if (self.id != originalId || self.episode != originalEpisode || rpgLedger.seconds != start + 1
+            || self.assess().status != 'ready') rpgExpandedReject('retching-recovery-interrupted');
+        local profile = self.episode.boundProfile;
+        value.check = rpgCheck(profile.ht,rpgRandom.roll());
+        if (value.check.achieved)
+        {
+            rpgLiteFatigueIncrement(profile,'retching');
+            profile.retchingEpisode = nil; self.episode.completedAt = rpgLedger.seconds;
+        }
+        self.boundId = self.id; self.boundEpisode = self.episode;
+        self.episode.recoveries = self.episode.recoveries + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;

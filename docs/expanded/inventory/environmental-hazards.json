@@ -254,9 +254,11 @@
       "status": "partial",
       "acceptance": "Retching allows attempted actions at -5 dexterity, intelligence and perception but automatically defeats concentration actions; its end costs one fatigue and invalidates benefits of recently expelled meals and oral medicine.",
       "tests": [
-        "tests/expanded.py::test_fear_retching"
+        "tests/expanded.py::test_fear_retching",
+        "tests/expanded.py::test_owned_retching",
+        "tests/expanded.py::test_retching_persistence"
       ],
-      "validation_note": "Pure fear-induced duration and condition assessment authored from B361 and B428-B429, including concentration failure, attribute and defense penalties, final fatigue and oral-benefit loss. Fixture unrun. Exceptional health duration is explicitly blocked; owned execution and recovery remain pending."
+      "validation_note": "Owned fear-induced retching, contextual attribute penalties, concentration rejection, effective-stun defense and standalone health recovery with positive FP are authored. Oral review must establish no affected benefits. Low-FP injury, oral revocation, exceptional duration and combat recovery remain unavailable. Rollback, undo and cross-process fixtures are unrun."
     },
     {
       "id": "condition-seizure",

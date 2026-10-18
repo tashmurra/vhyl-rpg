@@ -102,3 +102,10 @@ recovery and subsequent Will attempts share the time ledger; replay does not
 charge twice. A Do Nothing combat adapter uses the existing battle clock and
 shared health gate. Complete fear-event execution remains unfinished. Persistence,
 rollback and recovery fixtures are authored and unrun.
+
+
+Owned fear-induced retching supplies contextual penalties, concentration
+restrictions and shared defense effects. Standalone health recovery charges its
+final fatigue once when remaining fatigue is positive and the author has
+established that no oral benefits need revocation. Other recovery combinations
+remain explicitly unavailable. New persistence and transaction fixtures are unrun.
