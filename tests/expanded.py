@@ -9384,6 +9384,8 @@ def test(build):
     test_first_aid_equipment(Session, first_aid_equipment)
     biology_skill = build.build("expanded-biology-skill",ROOT / "tests/fixtures/expanded-biology-skill.t")
     test_biology_skill(Session, biology_skill)
+    biology_subfields = build.build("expanded-biology-subfields",ROOT / "tests/fixtures/expanded-biology-subfields.t")
+    test_biology_subfields(Session, biology_subfields)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23708,5 +23710,31 @@ def test_biology_skill(Session, bundle):
             for code in (*setup,20000):
                 s.action(1680,code)
             assert last(s,'test.biology-score') == [expected,0]
+        finally:
+            s.close()
+
+
+def test_biology_subfields(Session, bundle):
+    """B170 general -2 and cross-planet -4 combine without untrained chains; unrun."""
+    s = Session(bundle)
+    try:
+        s.action(1680,20101)
+        s.action(1680,20102)
+        assert last(s,'test.biology-subfield') == [None,None,None,0,0]
+        s.action(1680,20100)
+        s.command('undo')
+        s.action(1680,20102)
+        assert last(s,'test.biology-subfield') == [None,None,None,0,0]
+        s.action(1680,20100)
+        s.action(1680,20102)
+        assert last(s,'test.biology-subfield') == [12,10,6,1,0]
+    finally:
+        s.close()
+    for code, reason in ((20103,'optional-specialty-approval'),(20104,'biology-subfield-evidence'),
+                         (20105,'biology-skill-definition')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code)
+            assert last(s,'test.biology-subfield-error') == [reason]
         finally:
             s.close()

@@ -2024,8 +2024,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Require world-type specialization; default between types at -4 and permit optional subfields at the appropriate technology.",
-      "tests": ["tests/expanded.py::test_biology_skill", "tests/expanded.py::test_body_physiology"],
-      "validation_note": "Typed planet specialties, native-background IQ default, paid same-TL cross-type defaults and matching-planet-type naturalist defaults authored. Common-animal physiology fixture uses the typed definition. Optional subfield catalogue and technology eligibility remain pending. Fixtures unrun.",
+      "tests": ["tests/expanded.py::test_biology_skill", "tests/expanded.py::test_biology_subfields", "tests/expanded.py::test_body_physiology"],
+      "validation_note": "Typed planet specialties, native-background IQ default, paid same-TL cross-type defaults and matching-planet-type naturalist defaults authored. Common-animal physiology fixture uses the typed definition. Optional subfield definitions require approval and technology-specific evidence, preserve parent prerequisites, and propagate general/cross-planet defaults from purchased subfield training. Fixtures unrun; task-specific scientific adjudication and overall validation remain incomplete.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "very-hard",

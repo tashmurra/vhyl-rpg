@@ -540,6 +540,7 @@ rpgExpandedValidateSkill(skill)
     local parent = skill.optionalParent;
     if (!parent.ofKind(RpgExpandedSkill) || parent.optionalParent != nil || parent.wildcard)
         rpgExpandedReject('optional-specialty-parent');
+    parent.validateDefinition();
     if (!skill.optionalApproved) rpgExpandedReject('optional-specialty-approval');
     if (parent.attribute != rpgIQ || parent.difficulty < 1 || parent.difficulty > 3
         || skill.attribute != rpgIQ || skill.difficulty != parent.difficulty - 1
@@ -1523,11 +1524,37 @@ class RpgExpandedBiologySkill: RpgExpandedSkill
         {
             local source = training.skill;
             if (training.points <= 0 || source == self) continue;
-            if (source.ofKind(RpgExpandedBiologySkill) && source.techLevel == self.techLevel && source.specialty != self.specialty)
-            { source.validateDefinition(); edges = edges + [[source,-4]]; }
+            local general = source.ofKind(RpgExpandedSkill) && source.optionalParent != nil ? source.optionalParent : source;
+            if (general.ofKind(RpgExpandedBiologySkill) && general.techLevel == self.techLevel && general.specialty != self.specialty)
+            { general.validateDefinition(); edges = edges + [[general,-4]]; }
             if (source.ofKind(RpgExpandedNaturalistSkill) && source.planetType == self.specialty)
             { source.validateDefinition(); edges = edges + [[source,-6]]; }
         }
         return edges;
     }
 ;
+
+/** B169-B170/B180 approved biology subfield, tied to one planet-type parent. */
+class RpgExpandedBiologySubfield: RpgExpandedSkill
+    attribute = rpgIQ
+    difficulty = 2
+    subfieldEvidence = nil
+    validateDefinition()
+    {
+        if (self.optionalParent == nil || !self.optionalParent.ofKind(RpgExpandedBiologySkill)
+            || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != nil
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard)
+            rpgExpandedReject('biology-subfield-definition');
+        if (self.subfieldEvidence == nil || self.subfieldEvidence == '') rpgExpandedReject('biology-subfield-evidence');
+        return nil;
+    }
+;
+rpgExpandedBiologySubfield(parent,id,subfield,approved,evidence)
+{
+    if (parent == nil || !parent.ofKind(RpgExpandedBiologySkill)) rpgExpandedReject('biology-subfield-parent');
+    local value = new RpgExpandedBiologySubfield(); value.optionalParent = parent;
+    value.id = id; value.specialty = subfield; value.optionalApproved = approved;
+    value.subfieldEvidence = evidence; value.techLevel = parent.techLevel; value.prerequisite = parent.prerequisite;
+    rpgExpandedValidateSkill(value); return value;
+}

@@ -839,8 +839,32 @@ with its existing -4 modifier and an explicitly matching planet type.
 
 The new `attributeDefaultAllowed(profile)` hook preserves existing defaults by
 returning true unless overridden; optional specialties delegate to their parent.
-Biology's optional subfield definitions and their technology eligibility still
-need catalogue integration. `test_biology_skill` specifies native and foreign
+Biology's optional subfields use the explicit approval contract below. `test_biology_skill` specifies native and foreign
 attribute defaults, purchased scientific and practical defaults, incompatible
 technology, untrained sources and preview purity. The body-physiology fixture
 now uses typed biology. All affected fixtures remain unrun.
+
+
+## Optional biology subfields
+
+Use `rpgExpandedBiologySubfield(parent, id, subfield, approved, evidence)` to
+create a `RpgExpandedBiologySubfield` tied to one typed biology parent. It uses
+IQ/Hard, the parent's technology and prerequisites, and its own training slot.
+Supply approval and concrete evidence that the field is coherent at this
+technology (full-2008 B169–B170, B180). Botany, ecology and genetics are examples;
+other authored scientific fields are allowed. Level 6 is a common historical
+threshold in the source, not a universal prohibition on earlier specialties.
+
+General biology defaults to purchased subfield training at -2. Another planet
+type at the same technology defaults to that training at -6: its -4 biology
+relationship plus the -2 optional-specialty adjustment. This works even when the
+general parent has no purchased training. It does not permit arbitrary untrained
+default chains or grant a general biology IQ default on a foreign world.
+The factory grants no points and does not decide which subfield applies to a task.
+Authors select the skill appropriate to the question, using the general parent
+for work outside the subfield. The parent definition is validated whenever the
+optional specialty is validated.
+
+`test_biology_subfields` specifies direct, general and cross-planet ratings,
+invalid approval/evidence/parent definitions, rollback and undo. Fixtures remain
+unrun; catalogue completion still requires the paused validation work.
