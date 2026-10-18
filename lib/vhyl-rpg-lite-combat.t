@@ -142,7 +142,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
     }
     else if (kind == 'block')
     {
-        if (fighter.blocks > 0 || fighter.shield == nil || !fighter.shield.ready
+        if (fighter.blocks > 0 || fighter.shield == nil || !fighter.shield.ready || !fighter.shield.usableBy(profile)
             || incoming.ranged && incoming.base == 'fixed') return nil;
         local skill = fighter.shieldSkill == nil ? rpgLiteTraining(profile, 'shield', nil, nil) : fighter.shieldSkill;
         local rating = profile.skillScore(skill);
@@ -169,7 +169,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
         }
         else
         {
-            if (!parryWeapon.ready || parryMode.ranged
+            if (!parryWeapon.ready || !parryWeapon.usableBy(profile) || parryMode.ranged
                 || parryMode.skillId == 'axe-mace' && fighter.attacked) return nil;
             local rating = profile.skillScore(rpgLiteTraining(profile, parryMode.skillId, nil, parryMode.specialty));
             if (rating == nil) return nil;
@@ -186,7 +186,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
     }
     else throw new RpgError();
     score += profile.level('combat-reflexes') + request.defenseModifier;
-    if (fighter.shield != nil && fighter.shield.ready && request.shieldSide) score += fighter.shield.db;
+    if (fighter.shield != nil && fighter.shield.ready && fighter.shield.usableBy(profile) && request.shieldSide) score += fighter.shield.db;
     score += rpgLitePostureModifier(profile.posture, true);
     if (profile.stunned || profile.mentalStun) score -= 4;
     if (fighter.maneuver == 'all-out-defense' && (fighter.defenseOption == kind
@@ -209,7 +209,7 @@ rpgLiteStrike(attacker, defender, request)
 {
     local result = new RpgLiteCombatResult();
     local profile = attacker.profile; local weapon = attacker.weapon;
-    if (weapon == nil || !weapon.ready) { result.reason = 'weapon-not-ready'; return result; }
+    if (weapon == nil || !weapon.ready || !weapon.usableBy(profile)) { result.reason = 'weapon-not-ready'; return result; }
     local mode = attacker.mode();
     if (profile.stunned || profile.mentalStun || profile.unconscious || profile.dead)
     { result.reason = 'unable-to-attack'; return result; }
@@ -217,7 +217,7 @@ rpgLiteStrike(attacker, defender, request)
     if (request.deadly && !request.targetThreatens && profile.level('cannot-harm-innocents') > 0)
     { result.reason = 'cannot-harm-innocents'; return result; }
     if (mode.hands == 2 && request.hands < 2 && (mode.requiresTwoHands || profile.st * 2 < mode.minimumST * 3)
-        || request.hands == 2 && attacker.shield != nil && attacker.shield.ready)
+        || request.hands == 2 && attacker.shield != nil && attacker.shield.ready && attacker.shield.usableBy(profile))
     { result.reason = 'hands-unavailable'; return result; }
     local strength = weapon.id == 'crossbow' ? weapon.weaponST : profile.st;
     local maximum = mode.rangeScale == 10 ? mode.maximumRange * strength / 10 : mode.maximumRange;
@@ -256,7 +256,7 @@ rpgLiteStrike(attacker, defender, request)
     else
     {
         context.modifier += rpgLitePostureModifier(profile.posture, nil);
-        if (attacker.shield != nil && attacker.shield.ready && attacker.shield.db == 3) context.modifier -= 2;
+        if (attacker.shield != nil && attacker.shield.ready && attacker.shield.usableBy(profile) && attacker.shield.db == 3) context.modifier -= 2;
     }
     if (request.kind == 'all-out-attack' && (request.option == 'determined' || mode.ranged)) context.modifier += mode.ranged ? 1 : 4;
     if (request.kind == 'move-attack') context.modifier -= 4;

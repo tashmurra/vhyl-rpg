@@ -404,6 +404,56 @@ def test_acquisition(s):
     assert acquisition_state(s) == purchased
 
 
+def storage_state(s):
+    s.action(1147)
+    return last(s, 'test.storage-state')
+
+
+def test_equipment_storage(s):
+    s.action(1100, 11)
+    s.action(1100, 15)
+    carried = storage_state(s)
+    assert carried == [None, True, True, 200, 3, 1, 60]
+    s.action(1100, 13)
+    stored = storage_state(s)
+    assert stored == ['workshop', None, None, 0, 0, 1, 60]
+    s.command('undo')
+    assert storage_state(s) == carried
+    s.action(1100, 13)
+    s.action(1100, 15)
+    assert storage_state(s) == ['workshop', True, True, 0, 0, 1, 60]
+    s.action(1148)
+    assert last(s, 'test.stored-use') == ['weapon-not-ready', None, 'storage-inaccessible', None, 8, 10, 10]
+    s.action(1100, 14)
+    assert storage_state(s) == [None, None, None, 200, 0, 1, 60]
+    s.action(1100, 11)
+    assert acquisition_state(s) == [60, 1, True, 200, 0, 0], 'retrieval enabled a second purchase'
+
+
+def test_equipment_persistence(Session, bundle, out):
+    path = out / 'expanded-equipment.zsave'
+    first = Session(bundle)
+    try:
+        first.action(1100, 11); first.action(1100, 13)
+        saved = storage_state(first)
+        first.command(f':save {path}\n@1147')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+        first.action(1100, 14)
+        continued = storage_state(first)
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@1147')
+        assert storage_state(second) == saved
+        second.action(1100, 14)
+        assert storage_state(second) == continued
+        second.action(1100, 11)
+        assert last(second, 'test.acquisition') == ['reused', None, 0]
+    finally:
+        second.close()
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -481,9 +531,10 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_acquisition,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_acquisition,test_equipment_storage,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
+    test_equipment_persistence(Session,bundle,build.out)
     test_recognition_persistence(Session,bundle,build.out)
     test_familiarity_persistence(Session,bundle,build.out)
     test_persistence(Session,bundle,build.out)

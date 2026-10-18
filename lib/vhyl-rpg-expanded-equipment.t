@@ -180,3 +180,42 @@ class RpgExpandedAcquisition: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgLiteItem
+    /* nil means carried; a non-nil authored location means stored off-character. */
+    storageLocation = nil
+    usableBy(profile) { return self.storageLocation == nil; }
+;
+
+/** Move an owned item between carried state and an authored storage location.
+ * Ownership remains in the same inventory; accessibility is an explicit fact. */
+class RpgExpandedEquipmentStorage: object
+    profile = nil
+    item = nil
+    destination = nil
+    accessible = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.item == nil || !self.item.ofKind(RpgLiteItem)
+            || !holds(self.profile.equipment,self.item))
+            rpgExpandedReject('storage-ownership');
+        local value = new RpgExpandedAcquisitionResult(); value.item = self.item;
+        if (self.item.storageLocation == self.destination) { value.status = 'reused'; return value; }
+        if (!self.accessible) { value.reason = 'storage-inaccessible'; return value; }
+        if (self.profile.dead || self.profile.unconscious)
+        { value.reason = 'cannot-move-equipment'; return value; }
+        value.status = 'ready'; return value;
+    }
+    move()
+    {
+        local value = self.assess();
+        if (value.status != 'ready') return value;
+        self.item.storageLocation = self.destination;
+        self.item.worn = nil; self.item.ready = nil;
+        for (local fighter = firstObj(RpgLiteFighter); fighter != nil; fighter = nextObj(fighter,RpgLiteFighter))
+            if (fighter.profile == self.profile && fighter.aimWeapon == self.item)
+            { fighter.aimSeconds = 0; fighter.aimTarget = nil; fighter.aimWeapon = nil; }
+        value.status = 'resolved'; return value;
+    }
+;

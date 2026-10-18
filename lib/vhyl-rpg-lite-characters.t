@@ -111,7 +111,8 @@ class RpgLiteProfile: RpgProfile
     loadHundredths()
     {
         local amount = 0;
-        foreach (local item in self.equipment) amount += item.weightHundredths();
+        foreach (local item in self.equipment)
+            if (item.usableBy(self)) amount += item.weightHundredths();
         return amount;
     }
     encumbrance()

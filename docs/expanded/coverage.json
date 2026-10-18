@@ -467,9 +467,23 @@
       "status": "partial",
       "symbol": "RpgExpandedAcquisition",
       "tests": [
-        "tests/expanded.py::test_acquisition"
+        "tests/expanded.py::test_acquisition",
+        "tests/expanded.py::test_equipment_persistence"
       ],
       "validation_note": "Single-ledger purchase/issue with explicit availability, permission and ownership checks authored; checks unrun. Merchant transfers, legality and starting allocations pending."
+    },
+    {
+      "id": "equipment-storage",
+      "module": "equipment",
+      "pages": "B266",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedEquipmentStorage",
+      "tests": [
+        "tests/expanded.py::test_equipment_storage",
+        "tests/expanded.py::test_equipment_persistence"
+      ],
+      "validation_note": "One-inventory carried/stored distinction and combat/load exclusions authored. Checks unrun; containers, capacity and tool binding pending."
     }
   ],
   "detailed_inventories": [

@@ -9,6 +9,7 @@ class RpgLiteItem: object
     worn = nil
     ready = nil
     weightHundredths() { return self.weight * self.quantity; }
+    usableBy(profile) { return true; }
 ;
 
 /** Mutable weapon instance with attack modes, ammunition, reserves and reload progress. */
@@ -190,7 +191,7 @@ rpgLiteMakeWeapon(id, weaponST)
 /** Query reload eligibility and duration without changing the weapon. */
 rpgLiteReloadSeconds(profile, weapon, mode)
 {
-    if (!holds(profile.equipment, weapon) || !mode.ranged || mode.thrown || weapon.reserves < 1) return nil;
+    if (!holds(profile.equipment, weapon) || !weapon.usableBy(profile) || !mode.ranged || mode.thrown || weapon.reserves < 1) return nil;
     local seconds = mode.reloadSeconds;
     if (weapon.id == 'crossbow')
     {
@@ -229,6 +230,6 @@ rpgLiteBuy(profile, item)
 rpgLiteArmor(profile)
 {
     local total = 0;
-    foreach (local item in profile.equipment) if (item.worn) total += item.dr;
+    foreach (local item in profile.equipment) if (item.worn && item.usableBy(profile)) total += item.dr;
     return total;
 }

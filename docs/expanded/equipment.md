@@ -238,10 +238,38 @@ Availability and permission are explicit authored world facts. The reference's
 item technology indicates earliest availability, not a universal prohibition on
 buying above one's personal level. This interface does not infer market supply,
 licenses or legality from that level. Detailed legality/control interactions,
-merchant-to-buyer transfers, starting-wealth allocation, stored versus carried
-possessions and sale/resale procedures remain pending. Existing `rpgLiteBuy`
+merchant-to-buyer transfers, starting-wealth allocation and sale/resale procedures
+remain pending. Carried versus stored equipment uses the interface below. Existing `rpgLiteBuy`
 retains its original contract; use this acquisition object for the expanded path.
 
 `tests/expanded.py::test_acquisition` covers pure previews, affordability and
 permission gates, issue pricing, inventory ownership, one-time charging, undo and
 exception rollback. These authored cases remain unrun while checks are paused.
+
+## Carried and stored possessions
+
+An item's `storageLocation = nil` means it is carried. A non-nil authored location
+means it is stored off-character. Both states retain the same item in the owner's
+`equipment` inventory, so storage cannot create a second ownership or money ledger.
+The default preserves existing carried-item behavior.
+
+Use `RpgExpandedEquipmentStorage` with `profile`, `item`, `destination` and an
+explicit `accessible` world fact. A `nil` destination retrieves the item. `assess()`
+is pure; `move()` performs the transfer within the action transaction. It requires
+ownership and access, clears worn/ready state and cancels aim associated with the
+moved item. Moving to the current location is a no-op. The transfer does not specify
+a universal elapsed time; an operation that includes travel or handling must
+account for that time once through the shared ledger.
+
+Stored items contribute no carried weight or worn armour protection. Combat checks
+also exclude them from strikes, weapon parries, shield blocks, shield defense
+bonuses and reloading, even if a stale ready/worn flag is present. Retrieval does
+not automatically ready or wear equipment. Tool assessments still require their
+authored availability facts; they are not yet bound to particular inventory items.
+Container nesting, storage capacity and other owners' custody remain pending.
+
+Authored cases cover ownership-preserving storage, retrieval, weight/protection,
+stale equipment flags, attack/reload/shield exclusion, access rejection, undo and
+cross-process save continuation. The restored acquisition receipt also prevents a
+second charge. See `test_equipment_storage` and `test_equipment_persistence` in
+`tests/expanded.py`; these checks remain unrun.

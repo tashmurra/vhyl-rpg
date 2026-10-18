@@ -30,8 +30,9 @@ recognitionSix: RpgExpandedFamiliarity owner = recognitionHero skill = recogniti
 recognitionTarget: RpgExpandedFamiliarity owner = recognitionHero skill = recognitionSkill equipmentType = 'new' available = true;
 recognitionDecision: RpgExpandedFamiliarityRecognition familiarity = recognitionTarget approved = true;
 purchaseHero: RpgExpandedProfile rules = expandedRules money = 100;
-purchaseItem: RpgLiteItem id = 'field-tools' cost = 40 weight = 200;
+purchaseItem: RpgLiteItem id = 'field-tools' cost = 40 weight = 200 dr = 3;
 purchaseOffer: RpgExpandedAcquisition profile = purchaseHero item = purchaseItem available = true permitted = true;
+purchaseStorage: RpgExpandedEquipmentStorage profile = purchaseHero item = purchaseItem destination = 'workshop' accessible = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -65,6 +66,13 @@ class ExpandedTestAction: Action
             eventValue(value.status); eventValue(value.reason); eventValue(value.money);
             if (code == 12) throw new RpgError();
         }
+        if (code == 13 || code == 14)
+        {
+            purchaseStorage.destination = code == 13 ? 'workshop' : nil;
+            local value = purchaseStorage.move(); event('test.storage');
+            eventValue(value.status); eventValue(value.reason);
+        }
+        if (code == 15) { purchaseItem.ready = true; purchaseItem.worn = true; }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
@@ -692,6 +700,36 @@ act(verb, args)
         try { offer.assess(); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         offer.quote = nil; offer.item = purchaseItem; eventValue(offer.assess().reason);
+        return nil;
+    }
+    if (verb == 1147)
+    {
+        event('test.storage-state'); eventValue(purchaseItem.storageLocation);
+        eventValue(purchaseItem.worn); eventValue(purchaseItem.ready);
+        eventValue(purchaseHero.loadHundredths()); eventValue(rpgLiteArmor(purchaseHero));
+        eventValue(purchaseHero.equipment.length()); eventValue(purchaseHero.money); return nil;
+    }
+    if (verb == 1148)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
+        local weapon = new RpgLiteWeapon(); weapon.ready = true; weapon.storageLocation = 'store';
+        weapon.reserves = 10;
+        local mode = new RpgLiteAttackMode(); mode.ranged = true; mode.base = 'fixed';
+        weapon.modes = [mode]; p.equipment = [weapon];
+        local fighter = new RpgLiteFighter(); fighter.profile = p; fighter.weapon = weapon;
+        local request = new RpgLiteManeuver();
+        event('test.stored-use'); eventValue(rpgLiteStrike(fighter,fighter,request).reason);
+        eventValue(rpgLiteReloadSeconds(p,weapon,mode));
+        local storage = new RpgExpandedEquipmentStorage(); storage.profile = p; storage.item = weapon;
+        eventValue(storage.assess().reason);
+        weapon.db = 2; fighter.shield = weapon; mode.ranged = nil;
+        local shieldSkill = new RpgExpandedSkill(); shieldSkill.defaultPenalty = 0;
+        fighter.shieldSkill = shieldSkill;
+        eventValue(rpgLiteDefenseScore(fighter,fighter,request,'block'));
+        eventValue(rpgLiteDefenseScore(fighter,fighter,request,'dodge'));
+        weapon.storageLocation = nil;
+        eventValue(rpgLiteDefenseScore(fighter,fighter,request,'block'));
+        eventValue(rpgLiteDefenseScore(fighter,fighter,request,'dodge'));
         return nil;
     }
     return vhylAct(verb,args);
