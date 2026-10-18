@@ -131,3 +131,23 @@ profiles. Coverage, facing, restricted vision and movement penalties belong to
 the mount. Leg armour is purchased and weighed per protected pair, with a movement
 penalty for each pair. Fitting these pieces to other anatomy requires an explicit
 author contract; the listed profiles do not imply universal creature sizing.
+
+The [shield inventory](inventory/shields-and-carrying.json) separates defense
+bonuses from the shield's own resistance and durability. Shield-side coverage,
+attack type and the optional damage-to-shields procedure govern protection.
+Holding an item is distinct from wielding it, and bucklers have different handling
+from strapped shields. Offensive and defensive modes share one inventory item.
+
+The [camping equipment inventory](inventory/general-equipment-a.json) records
+47 distinct profiles and one alias. Containers have separate empty mass and
+capacity; consumable quantities and operating time persist with the item. Skill
+gear, tent poles, satellite signals and deployment height are prerequisites for
+specific uses. Qualitative warmth or tool functions require documented author
+contracts where the source does not specify a numeric effect.
+
+The [remaining general equipment inventory](inventory/general-equipment-b.json)
+records 79 profiles, including separate portable tool-kit specialties. Mount
+control aids cancel penalties rather than granting unrestricted riding bonuses.
+Medical kits bind to treatment and wound records; optics, communications and weapon
+accessories require active use and compatible targets. Missing capacities, service
+conditions and operating details remain explicit author-contract requirements.

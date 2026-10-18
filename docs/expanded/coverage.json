@@ -359,6 +359,9 @@
     "inventory/firearms-catalogue-c.json",
     "inventory/armor-catalogue-a.json",
     "inventory/armor-catalogue-b.json",
-    "inventory/armor-catalogue-c.json"
+    "inventory/armor-catalogue-c.json",
+    "inventory/shields-and-carrying.json",
+    "inventory/general-equipment-a.json",
+    "inventory/general-equipment-b.json"
   ]
 }

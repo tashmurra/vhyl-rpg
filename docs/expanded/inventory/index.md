@@ -57,6 +57,9 @@ copies of the reference books.
 | `full-2008` | B282–B284; B286 wearing rules | [Early armour and wearing procedures](armor-catalogue-a.json) | All 53 profiles visually reviewed; coverage, layering, reactions and equip timing recorded; execution pending |
 | `full-2008` | B284–B285 | [Advanced armour and attachments](armor-catalogue-b.json) | All 28 profiles visually reviewed; power, breathing supply and equipment-granted traits recorded; execution pending |
 | `full-2008` | B286 | [Mount armour](armor-catalogue-c.json) | All 15 profiles visually reviewed; mount-specific coverage, senses and leg-pair movement costs recorded; execution pending |
+| `full-2008` | B287 | [Shields and carrying](shields-and-carrying.json) | Seven profiles visually reviewed; defense arcs, variants, hand use and stowage recorded; execution pending |
+| `full-2008` | B288 camping section | [Camping and survival equipment](general-equipment-a.json) | 47 distinct profiles visually reviewed; capacities, prerequisites and supply clocks recorded; execution pending |
+| `full-2008` | B288 communications; B289 | [Tools, communications and accessories](general-equipment-b.json) | 79 profiles visually reviewed; skill-specific uses, supplies and mount modifiers recorded; execution pending |
 | `full-2008` | B290–B296 | [Development and transformations](development.json) | Advancement, study, maintenance and transformation procedures enumerated; existing study mappings remain partial |
 | `full-2008` | B343–B349 | [Task resolution](task-resolution.json) | Roll procedures, equipment modifiers, timing, projects and contests enumerated |
 | `full-2008` | B349–B357 | [Physical activities](physical-activities.json) | Activity procedures, gravity, numeric tables and effort options enumerated |

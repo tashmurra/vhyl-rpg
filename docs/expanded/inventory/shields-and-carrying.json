@@ -1,0 +1,265 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B287",
+  "review": "All seven shield/cloak rows visually reviewed. Defense coverage, hand use, variants, offensive identity and body stowage inventoried. Energy-shield buckler handling and unspecified durability/supply details remain explicit decisions; runtime and fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "shields-light-cloak",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the page-specific shield rules. Resistance protects the shield, not the wearer. Share one physical item with existing offensive cloak/shield modes and inventory accounting. Null hit points are unspecified, not zero or an invented infinite-health implementation. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "light-cloak",
+        "physical_key": "light-cloak",
+        "technology": 1,
+        "defense_bonus": 1,
+        "cost": 20,
+        "weight_pounds": 2,
+        "item_resistance": 1,
+        "item_hit_points": 3,
+        "legality_class": null,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "shields-heavy-cloak",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the page-specific shield rules. Resistance protects the shield, not the wearer. Share one physical item with existing offensive cloak/shield modes and inventory accounting. Null hit points are unspecified, not zero or an invented infinite-health implementation. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-cloak",
+        "physical_key": "heavy-cloak",
+        "technology": 1,
+        "defense_bonus": 2,
+        "cost": 50,
+        "weight_pounds": 5,
+        "item_resistance": 1,
+        "item_hit_points": 5,
+        "legality_class": null,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "shields-light-shield",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the page-specific shield rules. Resistance protects the shield, not the wearer. Share one physical item with existing offensive cloak/shield modes and inventory accounting. Null hit points are unspecified, not zero or an invented infinite-health implementation. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "light-shield",
+        "physical_key": "light-shield",
+        "technology": 0,
+        "defense_bonus": 1,
+        "cost": 25,
+        "weight_pounds": 2,
+        "item_resistance": 5,
+        "item_hit_points": 20,
+        "legality_class": 4,
+        "notes": [
+          2,
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "id": "shields-small-shield",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the page-specific shield rules. Resistance protects the shield, not the wearer. Share one physical item with existing offensive cloak/shield modes and inventory accounting. Null hit points are unspecified, not zero or an invented infinite-health implementation. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "small-shield",
+        "physical_key": "small-shield",
+        "technology": 0,
+        "defense_bonus": 1,
+        "cost": 40,
+        "weight_pounds": 8,
+        "item_resistance": 6,
+        "item_hit_points": 30,
+        "legality_class": 4,
+        "notes": [
+          2,
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "id": "shields-medium-shield",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the page-specific shield rules. Resistance protects the shield, not the wearer. Share one physical item with existing offensive cloak/shield modes and inventory accounting. Null hit points are unspecified, not zero or an invented infinite-health implementation. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "medium-shield",
+        "physical_key": "medium-shield",
+        "technology": 1,
+        "defense_bonus": 2,
+        "cost": 60,
+        "weight_pounds": 15,
+        "item_resistance": 7,
+        "item_hit_points": 40,
+        "legality_class": 4,
+        "notes": [
+          2,
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "id": "shields-large-shield",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the page-specific shield rules. Resistance protects the shield, not the wearer. Share one physical item with existing offensive cloak/shield modes and inventory accounting. Null hit points are unspecified, not zero or an invented infinite-health implementation. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "large-shield",
+        "physical_key": "large-shield",
+        "technology": 1,
+        "defense_bonus": 3,
+        "cost": 90,
+        "weight_pounds": 25,
+        "item_resistance": 9,
+        "item_hit_points": 60,
+        "legality_class": 4,
+        "notes": [
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "id": "shields-energy-shield",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with the page-specific shield rules. Resistance protects the shield, not the wearer. Share one physical item with existing offensive cloak/shield modes and inventory accounting. Null hit points are unspecified, not zero or an invented infinite-health implementation. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "energy-shield",
+        "physical_key": "energy-shield",
+        "technology": "speculative",
+        "defense_bonus": 3,
+        "cost": 1500,
+        "weight_pounds": 0.5,
+        "item_resistance": 100,
+        "item_hit_points": null,
+        "legality_class": 3,
+        "notes": [
+          3,
+          5
+        ]
+      }
+    },
+    {
+      "id": "shields-defaults",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cloak defaults to dexterity minus five, net minus four, or any shield specialty minus four. Shield and energy-shield specialties default to dexterity minus four or other shield specialties minus two. Buckler variants use their own shield specialty. Preserve directed default graph rules and prerequisites.",
+      "tests": []
+    },
+    {
+      "id": "shields-defense-coverage",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Defense bonus applies to block, dodge and parry against front or shield-side attacks even without shield skill. Restrict it to melee and muscle-powered ranged attacks unless the campaign explicitly enables the B484 shield-damage procedure. Do not automatically apply the bonus to firearm attacks, rear attacks or the non-shield side. A shield block still uses its active-defense procedure.",
+      "tests": []
+    },
+    {
+      "id": "shields-hand-occupancy",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A strapped ordinary shield lets its hand hold an item but not wield a weapon or handheld device, and prevents actions requiring two free hands. The wrist-worn energy shield leaves its hand free. Distinguish holding, wielding and attachment ownership rather than rejecting all held items or allowing shield-hand attacks.",
+      "tests": []
+    },
+    {
+      "id": "shields-offensive-modes",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cloaks can entangle through B404. Note-2 shields can bash or rush with their listed offensive modes. At technology two-plus small, medium and large shields can add a spike for twenty cost and five pounds; the light shield is not eligible. Keep the damage benefit and purchase in the same physical shield record.",
+      "tests": []
+    },
+    {
+      "id": "shields-buckler-variant",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only note-3 rows permit a buckler variant with unchanged table statistics. A buckler takes one turn to ready, may be dropped as a free action, occupies one hand and cannot perform a shield rush. Resolve the buckler hand restriction explicitly for the energy-shield variant, whose normal wrist-worn version leaves the hand free; do not silently combine contradictory handling benefits.",
+      "tests": []
+    },
+    {
+      "id": "shields-material-variants",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note-4 iron shields become available at technology three: price times five, weight times two, resistance plus three and hit points times two. Technology-seven plastic shields halve weight with other statistics unchanged. These are alternative materials, not automatically stackable upgrades, and material never changes defense bonus.",
+      "tests": []
+    },
+    {
+      "id": "shields-energy-hardening",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The energy shield has one level of armor hardening applied through B47 when the shield itself intercepts damage. Do not add its resistance to wearer armor. The page supplies no hit-point value or operating duration; resolve these through the reference or an explicit authored contract before supporting destructive or exhaustion behavior.",
+      "tests": []
+    },
+    {
+      "id": "shields-body-stowage",
+      "source": "full-2008",
+      "pages": "B287",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary hands each carry one item. With appropriate carriers, allow one sword/pistol-sized one-handed item per hip; one similar or larger item slung on the back; one small item per wrist or ankle with a sheath; one extra item per side pocket; and a pistol-sized chest item with a shoulder holster. Validate item fit and actual carriers. A bag, pack or case can hold additional gear, but retrieval takes several seconds: require an authored access-time policy grounded in the action rules, not a free instant transfer.",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,1780 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B288 communications; B289",
+  "review": "79 profiles visually reviewed, with portable tool-kit skill variants expanded separately. Communications, mount aids, medical supplies, sensors, tools and accessories inventoried. Runtime, missing-detail contracts and independent fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "gear-battery",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "battery",
+        "technology": 6,
+        "cost": 1.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {}
+      }
+    },
+    {
+      "id": "gear-cellular-phone",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "cellular-phone",
+        "technology": 8,
+        "cost": 250.0,
+        "weight_pounds": 0.25,
+        "legality_class": 4,
+        "properties": {
+          "operation_hours": 10,
+          "monthly_fee": 20,
+          "requires": "network-coverage"
+        }
+      }
+    },
+    {
+      "id": "gear-laptop",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "laptop",
+        "technology": 8,
+        "cost": 1500.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "operation_hours": 2,
+          "connection": "telephone-modem"
+        }
+      }
+    },
+    {
+      "id": "gear-wearable-computer",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "wearable-computer",
+        "technology": 8,
+        "cost": 1000.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "operation_hours": 8,
+          "connection": "wireless-modem",
+          "display": "glasses"
+        }
+      }
+    },
+    {
+      "id": "gear-drum",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "drum",
+        "technology": 0,
+        "cost": 40.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "audibility": "several-miles"
+        }
+      }
+    },
+    {
+      "id": "gear-tape-recorder",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "tape-recorder",
+        "technology": 7,
+        "cost": 200.0,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "properties": {
+          "recording_hours": 3,
+          "extra_tape_cost": 5
+        }
+      }
+    },
+    {
+      "id": "gear-digital-recorder",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "digital-recorder",
+        "technology": 8,
+        "cost": 30.0,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "properties": {
+          "inherits": "tape-recorder",
+          "requires_tape": false
+        }
+      }
+    },
+    {
+      "id": "gear-backpack-radio",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "backpack-radio",
+        "technology": 7,
+        "cost": 6000.0,
+        "weight_pounds": 15.0,
+        "legality_class": 4,
+        "properties": {
+          "range_miles": 20,
+          "operation_hours": 12,
+          "band": "vhf"
+        }
+      }
+    },
+    {
+      "id": "gear-hand-radio",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "hand-radio",
+        "technology": 7,
+        "cost": 100.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "range_miles": 2,
+          "operation_hours": 12
+        }
+      }
+    },
+    {
+      "id": "gear-headset-radio",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "headset-radio",
+        "technology": 8,
+        "cost": 500.0,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "properties": {
+          "range_miles": 1,
+          "operation_hours": 12,
+          "encrypted_cost_multiplier": 10
+        }
+      }
+    },
+    {
+      "id": "gear-satellite-phone",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "satellite-phone",
+        "technology": 8,
+        "cost": 3000.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "range": "global",
+          "requires": "satellite-relay",
+          "operation_hours": 1
+        }
+      }
+    },
+    {
+      "id": "gear-scribing-kit",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "scribing-kit",
+        "technology": 3,
+        "cost": 50.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "writing"
+        }
+      }
+    },
+    {
+      "id": "gear-radio-receiver",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "radio-receiver",
+        "technology": 7,
+        "cost": 15.0,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "properties": {
+          "operation_hours": 8,
+          "receive_only": true
+        }
+      }
+    },
+    {
+      "id": "gear-portable-television",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "portable-television",
+        "technology": 7,
+        "cost": 150.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "operation_hours": 4,
+          "screen_inches": [
+            5,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "id": "gear-manual-typewriter",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "manual-typewriter",
+        "technology": 6,
+        "cost": 200.0,
+        "weight_pounds": 10.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "writing"
+        }
+      }
+    },
+    {
+      "id": "gear-wax-tablet",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "wax-tablet",
+        "technology": 1,
+        "cost": 10.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "erasable-writing"
+        }
+      }
+    },
+    {
+      "id": "gear-bridle",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "bridle",
+        "technology": 1,
+        "cost": 35.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "control_penalty_offset": 2,
+          "two_hands_offset": 3,
+          "animal": "horse"
+        }
+      }
+    },
+    {
+      "id": "gear-horseshoes",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "horseshoes",
+        "technology": 3,
+        "cost": 50.0,
+        "weight_pounds": 4.0,
+        "legality_class": 4,
+        "properties": {
+          "unit": "set",
+          "health_bonus_long_ride_stamina": 2
+        }
+      }
+    },
+    {
+      "id": "gear-saddle-tack",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "saddle-tack",
+        "technology": 2,
+        "cost": 150.0,
+        "weight_pounds": 15.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "riding"
+        }
+      }
+    },
+    {
+      "id": "gear-saddlebags",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "saddlebags",
+        "technology": 1,
+        "cost": 100.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "capacity_pounds": 40
+        }
+      }
+    },
+    {
+      "id": "gear-spurs",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "spurs",
+        "technology": 2,
+        "cost": 25.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "control_penalty_offset": 1
+        }
+      }
+    },
+    {
+      "id": "gear-saddle-with-stirrups",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "saddle-with-stirrups",
+        "technology": 3,
+        "cost": 125.0,
+        "weight_pounds": 20.0,
+        "legality_class": 4,
+        "properties": {
+          "includes": "ordinary-saddle",
+          "control_penalty_offset": 1,
+          "required_for": "lance",
+          "function": "mounting-aid"
+        }
+      }
+    },
+    {
+      "id": "gear-war-saddle",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "war-saddle",
+        "technology": 3,
+        "cost": 250.0,
+        "weight_pounds": 35.0,
+        "legality_class": 4,
+        "properties": {
+          "includes": "stirrups",
+          "riding_bonus_stay_seated": 1,
+          "unconscious_retention_percent": 50
+        }
+      }
+    },
+    {
+      "id": "gear-audio-transmitter",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "audio-transmitter",
+        "technology": 7,
+        "cost": 200.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "spot_modifier": -7,
+          "range_miles": 0.25,
+          "operation_hours": 168
+        }
+      }
+    },
+    {
+      "id": "gear-transmitter-jammer",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "transmitter-jammer",
+        "technology": 7,
+        "cost": 1200.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "radius_yards": 10,
+          "operation_hours": 8
+        }
+      }
+    },
+    {
+      "id": "gear-disguise-kit",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "disguise-kit",
+        "technology": 5,
+        "cost": 200.0,
+        "weight_pounds": 10.0,
+        "legality_class": 4,
+        "properties": {
+          "skill_bonus": {
+            "disguise": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "gear-electronic-lock-tools",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "electronic-lock-tools",
+        "technology": 7,
+        "cost": 1500.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "lockpicking_bonus": 2,
+          "lock_type": "electronic"
+        }
+      }
+    },
+    {
+      "id": "gear-handcuffs",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "handcuffs",
+        "technology": 5,
+        "cost": 40.0,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "properties": {
+          "escape_modifier": -5
+        }
+      }
+    },
+    {
+      "id": "gear-tracking-beacon",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "tracking-beacon",
+        "technology": 7,
+        "cost": 40.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "scanner_range_miles": 1,
+          "operation_hours": 12
+        }
+      }
+    },
+    {
+      "id": "gear-laser-microphone",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "laser-microphone",
+        "technology": 8,
+        "cost": 500.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "range_yards": 300,
+          "requires": "glass-target"
+        }
+      }
+    },
+    {
+      "id": "gear-lockpicks",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "lockpicks",
+        "technology": 3,
+        "cost": 50.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "lockpicking"
+        }
+      }
+    },
+    {
+      "id": "gear-tiny-audiovisual-transmitter",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "tiny-audiovisual-transmitter",
+        "technology": 8,
+        "cost": 100.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "spot_modifier": -10
+        }
+      }
+    },
+    {
+      "id": "gear-directional-microphone",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "directional-microphone",
+        "technology": 6,
+        "cost": 250.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "directional_hearing_levels": "technology-5"
+        }
+      }
+    },
+    {
+      "id": "gear-antibiotic",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "antibiotic",
+        "technology": 6,
+        "cost": 20.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "infection_cure_days": "1d",
+          "function": [
+            "infection-prevention",
+            "infection-treatment"
+          ]
+        }
+      }
+    },
+    {
+      "id": "gear-antitoxin-kit",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "antitoxin-kit",
+        "technology": 6,
+        "cost": 25.0,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "properties": {
+          "uses": 10,
+          "requires": "matching-poison"
+        }
+      }
+    },
+    {
+      "id": "gear-bandages",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "bandages",
+        "technology": "variable",
+        "cost": 10.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "wounds": 6,
+          "basic_gear": "first-aid"
+        }
+      }
+    },
+    {
+      "id": "gear-trauma-kit",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "trauma-kit",
+        "technology": "variable",
+        "cost": 200.0,
+        "weight_pounds": 10.0,
+        "legality_class": 4,
+        "properties": {
+          "skill_bonus": {
+            "first-aid": 2
+          },
+          "improvised_gear": {
+            "surgery": -5
+          }
+        }
+      }
+    },
+    {
+      "id": "gear-first-aid-kit",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "first-aid-kit",
+        "technology": "variable",
+        "cost": 50.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "skill_bonus": {
+            "first-aid": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "gear-surgical-instruments",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "surgical-instruments",
+        "technology": "variable",
+        "cost": 300.0,
+        "weight_pounds": 15.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "surgery"
+        }
+      }
+    },
+    {
+      "id": "gear-binoculars",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "binoculars",
+        "technology": 6,
+        "cost": 400.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "telescopic_vision_levels": "technology-4"
+        }
+      }
+    },
+    {
+      "id": "gear-video-camera",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "video-camera",
+        "technology": 8,
+        "cost": 1000.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "zoom_multiplier": 10,
+          "darkness_reduction": 5,
+          "operation_hours": 7
+        }
+      }
+    },
+    {
+      "id": "gear-film-camera",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "film-camera",
+        "technology": 6,
+        "cost": 50.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "photography",
+          "extra_film_exposures": 32,
+          "extra_film_cost": 10,
+          "extra_film_weight": "negligible"
+        }
+      }
+    },
+    {
+      "id": "gear-metal-detector",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "metal-detector",
+        "technology": 7,
+        "cost": 50.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "metal_search_bonus": 3,
+          "operation_hours": 8
+        }
+      }
+    },
+    {
+      "id": "gear-digital-camera",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "digital-camera",
+        "technology": 8,
+        "cost": 500.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "storage": "optical-disk"
+        }
+      }
+    },
+    {
+      "id": "gear-night-goggles",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "night-goggles",
+        "technology": 8,
+        "cost": 600.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "darkness_reduction": 9,
+          "operation_hours": 8
+        }
+      }
+    },
+    {
+      "id": "gear-concealed-camera",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "concealed-camera",
+        "technology": 6,
+        "cost": 500.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "exposures": 36,
+          "storage": "microfilm"
+        }
+      }
+    },
+    {
+      "id": "gear-telescope",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "telescope",
+        "technology": 4,
+        "cost": 500.0,
+        "weight_pounds": 6.0,
+        "legality_class": 4,
+        "properties": {
+          "telescopic_vision_levels": "technology-3"
+        }
+      }
+    },
+    {
+      "id": "gear-balance-weights",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "balance-weights",
+        "technology": 1,
+        "cost": 35.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "weighing"
+        }
+      }
+    },
+    {
+      "id": "gear-crowbar",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "crowbar",
+        "technology": 2,
+        "cost": 20.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "length_feet": 3,
+          "combat_profile": "small-mace",
+          "combat_skill_modifier": -1
+        }
+      }
+    },
+    {
+      "id": "gear-cutting-torch",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "cutting-torch",
+        "technology": 6,
+        "cost": 500.0,
+        "weight_pounds": 30.0,
+        "legality_class": 4,
+        "properties": {
+          "damage_per_second": "1d+3(2) burn",
+          "seconds_per_bottle": 30,
+          "extra_bottle_cost": 50,
+          "extra_bottle_weight_pounds": 15
+        }
+      }
+    },
+    {
+      "id": "gear-knitting-needles",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "knitting-needles",
+        "technology": 3,
+        "cost": 5.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "unit": "pair"
+        }
+      }
+    },
+    {
+      "id": "gear-pickaxe",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "pickaxe",
+        "technology": 2,
+        "cost": 15.0,
+        "weight_pounds": 8.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "digging-speed"
+        }
+      }
+    },
+    {
+      "id": "gear-iron-plow",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "iron-plow",
+        "technology": 2,
+        "cost": 220.0,
+        "weight_pounds": 120.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "rough-soil-plowing"
+        }
+      }
+    },
+    {
+      "id": "gear-wooden-plow",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "wooden-plow",
+        "technology": 1,
+        "cost": 55.0,
+        "weight_pounds": 60.0,
+        "legality_class": 4,
+        "properties": {
+          "requires": "oxen",
+          "function": "plowing"
+        }
+      }
+    },
+    {
+      "id": "gear-carpentry-tools",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "carpentry-tools",
+        "technology": 1,
+        "cost": 300.0,
+        "weight_pounds": 20.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "carpentry",
+          "technology_tracks_skill": true
+        }
+      }
+    },
+    {
+      "id": "gear-armament-tools",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "armament-tools",
+        "technology": 1,
+        "cost": 600.0,
+        "weight_pounds": 20.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "armament-maintenance",
+          "technology_tracks_skill": true
+        }
+      }
+    },
+    {
+      "id": "gear-explosives-tools",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "explosives-tools",
+        "technology": 5,
+        "cost": 600.0,
+        "weight_pounds": 20.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "explosives",
+          "technology_tracks_skill": true
+        }
+      }
+    },
+    {
+      "id": "gear-machining-tools",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "machining-tools",
+        "technology": 5,
+        "cost": 600.0,
+        "weight_pounds": 20.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "machinist",
+          "technology_tracks_skill": true
+        }
+      }
+    },
+    {
+      "id": "gear-mechanic-tools",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mechanic-tools",
+        "technology": 5,
+        "cost": 600.0,
+        "weight_pounds": 20.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "mechanic",
+          "technology_tracks_skill": true
+        }
+      }
+    },
+    {
+      "id": "gear-electrical-tools",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "electrical-tools",
+        "technology": 6,
+        "cost": 600.0,
+        "weight_pounds": 20.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "electrician",
+          "technology_tracks_skill": true
+        }
+      }
+    },
+    {
+      "id": "gear-electronics-tools",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "electronics-tools",
+        "technology": 6,
+        "cost": 1200.0,
+        "weight_pounds": 10.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "electronics-repair",
+          "technology_tracks_skill": true
+        }
+      }
+    },
+    {
+      "id": "gear-logging-saw",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "logging-saw",
+        "technology": 0,
+        "cost": 150.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "logging",
+          "not_carpentry_saw": true
+        }
+      }
+    },
+    {
+      "id": "gear-shovel",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "shovel",
+        "technology": 1,
+        "cost": 12.0,
+        "weight_pounds": 6.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "digging-speed"
+        }
+      }
+    },
+    {
+      "id": "gear-spinning-wheel",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "spinning-wheel",
+        "technology": 3,
+        "cost": 100.0,
+        "weight_pounds": 40.0,
+        "legality_class": 4,
+        "properties": {
+          "yarn_production_multiplier": 6
+        }
+      }
+    },
+    {
+      "id": "gear-portable-laboratory",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "portable-laboratory",
+        "technology": "variable",
+        "cost": 3000.0,
+        "weight_pounds": 10.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "one-selected-scientific-skill"
+        }
+      }
+    },
+    {
+      "id": "gear-wheelbarrow",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "wheelbarrow",
+        "technology": 2,
+        "cost": 60.0,
+        "weight_pounds": 18.0,
+        "legality_class": 4,
+        "properties": {
+          "capacity_pounds": 350,
+          "effective_load_divisor": 5
+        }
+      }
+    },
+    {
+      "id": "gear-whetstone",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "whetstone",
+        "technology": 1,
+        "cost": 5.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "sharpening"
+        }
+      }
+    },
+    {
+      "id": "gear-hearing-protectors",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "hearing-protectors",
+        "technology": 6,
+        "cost": 200.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "grants": "protected-hearing"
+        }
+      }
+    },
+    {
+      "id": "gear-hip-quiver",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "hip-quiver",
+        "technology": 0,
+        "cost": 15.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "capacity_projectiles": 20,
+          "accepts": [
+            "arrow",
+            "bolt"
+          ]
+        }
+      }
+    },
+    {
+      "id": "gear-belt-holster",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "belt-holster",
+        "technology": 5,
+        "cost": 25.0,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "properties": {
+          "fits": "most-pistols"
+        }
+      }
+    },
+    {
+      "id": "gear-shoulder-holster",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "shoulder-holster",
+        "technology": 5,
+        "cost": 50.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "permits": "holdout",
+          "fast-draw_modifier": -1
+        }
+      }
+    },
+    {
+      "id": "gear-leather-lanyard",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "leather-lanyard",
+        "technology": 0,
+        "cost": 1.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "retrieval": "dexterity-roll-per-ready",
+          "target_modifier": -6,
+          "item_resistance": 2,
+          "item_hit_points": 2
+        }
+      }
+    },
+    {
+      "id": "gear-steel-lanyard",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "steel-lanyard",
+        "technology": 6,
+        "cost": 15.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "retrieval": "dexterity-roll-per-ready",
+          "target_modifier": -6,
+          "item_resistance": 6,
+          "item_hit_points": 4
+        }
+      }
+    },
+    {
+      "id": "gear-laser-sight",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "laser-sight",
+        "technology": 8,
+        "cost": 100.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "skill_bonus": 1,
+          "operation_hours": 6
+        }
+      }
+    },
+    {
+      "id": "gear-four-power-scope",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "four-power-scope",
+        "technology": 6,
+        "cost": 150.0,
+        "weight_pounds": 1.5,
+        "legality_class": 4,
+        "properties": {
+          "aim_accuracy_bonus": 2
+        }
+      }
+    },
+    {
+      "id": "gear-thermal-four-power-scope",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "thermal-four-power-scope",
+        "technology": 8,
+        "cost": 8000.0,
+        "weight_pounds": 4.0,
+        "legality_class": 4,
+        "properties": {
+          "aim_accuracy_bonus": 2,
+          "grants": "infrared-vision",
+          "operation_hours": 2
+        }
+      }
+    },
+    {
+      "id": "gear-shoulder-quiver",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "shoulder-quiver",
+        "technology": 0,
+        "cost": 10.0,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "properties": {
+          "capacity_projectiles": 12,
+          "accepts": [
+            "arrow",
+            "bolt"
+          ]
+        }
+      }
+    },
+    {
+      "id": "gear-sound-suppressor",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "sound-suppressor",
+        "technology": 6,
+        "cost": 400.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "damage_modifier_per_die": -1,
+          "fits": [
+            "pistol",
+            "compact-automatic"
+          ]
+        }
+      }
+    },
+    {
+      "id": "gear-web-carrier",
+      "source": "full-2008",
+      "pages": "B289",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with its explicit use conditions, compatible target and owned supplies. Qualitative effects and omitted operating details require documented authored contracts rather than assumed universal bonuses. Preserve one physical item across carried, equipped and active modes; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "web-carrier",
+        "technology": 6,
+        "cost": 50.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "gear-carriage"
+        }
+      }
+    },
+    {
+      "id": "gear-communications-contract",
+      "source": "full-2008",
+      "pages": "B288-B289",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Communication requires compatible endpoints, coverage, power and any authored signal conditions. Receiver-only radio cannot transmit. Headset encryption costs ten times ordinary price. Cellular service has a twenty-per-month fee distinct from item purchase. Recorder storage duration is not battery life; digital storage inherits the recorder description without consuming tape. Missing battery capacities, data limits and service details remain explicit author choices, not unlimited capabilities inferred from an absent number.",
+      "tests": []
+    },
+    {
+      "id": "gear-mount-control-offsets",
+      "source": "full-2008",
+      "pages": "B288-B289",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Bridle, spurs and stirrup control modifiers only offset riding penalties; they never produce a net control bonus. Bridle grants two, or three with both hands; spurs and stirrups each grant one. The war-saddle plus one applies specifically to staying seated, with a fifty-percent unconscious retention chance. Shoes grant the mount plus two health on long-ride stamina checks. Preserve which actor rolls and prevent rerolling retention by reequipping.",
+      "tests": []
+    },
+    {
+      "id": "gear-mount-purchase-identity",
+      "source": "full-2008",
+      "pages": "B288-B289",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The stirrup row includes an ordinary saddle; the war-saddle row includes stirrups. Charge the recorded package mass and cost once. Saddlebags have separate cargo capacity. A lance requires stirrups; carrying the item detached is insufficient. Validate actual compatible mount equipment rather than summing every named saddle as an independent bonus.",
+      "tests": []
+    },
+    {
+      "id": "gear-surveillance-and-restraints",
+      "source": "full-2008",
+      "pages": "B288-B289",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Spot penalties apply to discovery of the particular transmitter; they do not grant general invisibility. Jamming has a ten-yard radius and a finite operating supply. A tracker requires its scanner; a laser microphone requires suitable glass. Electronic lock tools grant two only for electronic locks; handcuffs impose minus five escape through the restraint operation. Missing compatibility or transmission range for the tiny audiovisual device requires an authored contract.",
+      "tests": []
+    },
+    {
+      "id": "gear-medical-gear-contract",
+      "source": "full-2008",
+      "pages": "B288-B289",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Antibiotics prevent or treat infections, with treatment lasting one die days; applicability follows infection rules and authored substance suitability. Antitoxin has ten uses for one specified poison. Bandages cover six wounds. Trauma kit grants plus two first aid and is improvised surgery gear at minus five; ordinary first-aid kit grants plus one, surgical tools supply basic surgery equipment. Match technology and consume supplies against the persistent wound/treatment ledger, without resetting retry limits or stacking mutually alternative kits.",
+      "tests": []
+    },
+    {
+      "id": "gear-optical-use-contract",
+      "source": "full-2008",
+      "pages": "B288-B289",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optical benefits apply while using compatible functioning gear: binocular telescopic levels equal technology minus four, telescope levels technology minus three, directional microphone levels technology minus five. Camera darkness reduction five and goggle reduction nine affect suitable observations. Magnification and aiming bonuses are distinct. Record exposures and storage without treating absent capacity as infinite or granting a sensor to the actor permanently.",
+      "tests": []
+    },
+    {
+      "id": "gear-tool-use-contract",
+      "source": "full-2008",
+      "pages": "B288-B289",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each portable tool kit supplies one selected skill at matching technology, with the listed introduction technology, cost and mass. A laboratory likewise supports one selected science. Logging saw is not a carpentry saw. Digging tools defer to physical activity procedures; plow suitability and required traction are authored world facts. Spinning wheel multiplies yarn production by six, not all crafting speed. Sharpening does not invent a permanent damage bonus.",
+      "tests": []
+    },
+    {
+      "id": "gear-cutting-and-cargo",
+      "source": "full-2008",
+      "pages": "B288-B289",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cutting torch applies its specified burning attack per second and consumes a gas bottle after thirty seconds, using object resistance and damage rules. Extra bottles cost fifty and weigh fifteen pounds. Wheelbarrow holds up to three hundred fifty pounds and divides effective load weight by five; preserve actual cargo mass and distinguish the eighteen-pound carrier from its load when applying the carry/push rules. Resolve terrain and hand use explicitly.",
+      "tests": []
+    },
+    {
+      "id": "gear-combat-accessory-contract",
+      "source": "full-2008",
+      "pages": "B288-B289",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Quivers limit carried arrows or bolts but do not create ammunition. Shoulder holster permits concealment and penalizes fast draw by one. Lanyard retrieval takes one Ready attempt with a dexterity roll and can be severed using its own target modifier, resistance and hit points. Laser sights follow B412; four-power scopes grant two accuracy only on aimed shots. Thermal scope adds infrared viewing while powered. Suppressors reduce damage one per die and follow B412 sound rules; they are not silent-fire immunity.",
+      "tests": []
+    },
+    {
+      "id": "gear-transport-cross-reference",
+      "source": "full-2008",
+      "pages": "B288-B289",
+      "module": "vehicles",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The equipment transportation heading delegates to riding/draft animals at B459 and vehicle statistics at B462. Reuse those catalogues and owned entities; do not create a duplicate vehicle or mount purchase table here.",
+      "tests": []
+    }
+  ]
+}
