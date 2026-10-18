@@ -1744,10 +1744,32 @@ The receipt binds the specimen, conclusion, approvals, task, specialty, technolo
 laboratory flag and scoring inputs. Changing those facts after resolution rejects
 rather than rerolling. Profile validation checks owned history. Familiarity contexts
 are explicitly unsupported for this receipt until their changing state can be
-bound. Laboratory access is currently an authored fact; live equipment receipts,
-knowledge delivery and shared parser/dialogue actions remain unfinished.
+bound. Laboratory access is currently an authored fact; live equipment receipts remain
+unfinished. Include social for the disclosure and action interfaces below.
 
 `test_paleontology_assessment` specifies preview purity, successful and failed
 findings, duplicate rejection, exception rollback, undo, replay, cross-process save
 continuation, changed-context rejection and blocked access. These fixtures are
 unrun while checks are paused.
+
+
+### Receiving fossil findings through native actions
+
+`RpgExpandedPaleontologyDisclosure` in social accepts an `id`, resolved
+`assessment` and `recipient`. The recipient must be the observer and own their
+`RpgExpandedKnowledge`. `assess()` previews eligibility without returning the
+statement. `deliver()` records exactly the successful finding in `received` once;
+failed assessments cannot disclose a finding. It does not change beliefs, spend
+time or roll again. The receipt binds its timestamp, knowledge owner and exact
+statement, including across save continuation.
+
+`RpgExpandedPaleontologyAction` takes `assessment`, optional `disclosure`, and
+`operation` (`assess` or `receive`). `exec(context)` uses the command actor;
+dialogue choices call `perform(context.asker)`. Both require the actor's
+`rpgProfile` to be the observer. The `rpg.expanded.paleontology` event carries
+operation, status and reason; authored presentation uses the returned result.
+
+The minimal disclosure and action fixtures demonstrate parser commands, structured
+verbs and dialogue choices sharing these objects. Their unrun tests cover missing
+or failed findings, owner mismatch, preview purity, repeat delivery, rollback,
+undo, save continuation, timestamp tampering and route parity.

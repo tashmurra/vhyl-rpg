@@ -3430,3 +3430,91 @@ class RpgExpandedPsychologyAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+/** Receive one resolved fossil-study finding without forced belief changes. */
+class RpgExpandedPaleontologyDisclosure: object
+    id = nil
+    assessment = nil
+    recipient = nil
+    completedAt = nil
+    boundCompletedAt = nil
+    boundDefinition = nil
+    boundKnowledge = nil
+    boundStatement = nil
+    definition()
+    { return [self.id,self.assessment,self.recipient]; }
+    assess()
+    {
+        local value = new RpgExpandedInformationDeliveryResult();
+        if (self.id == nil || self.id == '' || self.assessment == nil || !self.assessment.ofKind(RpgExpandedPaleontologyReceipt)
+            || self.recipient == nil || !self.recipient.ofKind(RpgExpandedProfile) || self.recipient.knowledge == nil
+            || !self.recipient.knowledge.ofKind(RpgExpandedKnowledge)
+            || self.recipient.knowledge.owner != self.recipient) rpgExpandedReject('paleontology-disclosure-definition');
+        if (self.assessment.result == nil) { value.reason = 'paleontology-disclosure-unresolved'; return value; }
+        self.assessment.validateReceipt(); self.recipient.knowledge.validate();
+        if (self.recipient != self.assessment.profile) { value.reason = 'paleontology-disclosure-observer-required'; return value; }
+        if (self.completedAt != nil)
+        {
+            if (self.completedAt != self.boundCompletedAt || self.completedAt > rpgLedger.seconds)
+                rpgExpandedReject('paleontology-disclosure-clock');
+            local facts = self.definition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('paleontology-disclosure-binding');
+            if (self.boundKnowledge != self.recipient.knowledge || self.assessment.disclosure != self
+                || self.boundStatement != self.assessment.result.finding)
+                rpgExpandedReject('paleontology-disclosure-binding');
+            local count = 0;
+            foreach (local row in self.boundKnowledge.received)
+                if (row[1] == self.id)
+                {
+                    if (row[2] != self.assessment.profile || row[3].length() != 1
+                        || row[3][1] != self.boundStatement || row[4] != 0) rpgExpandedReject('paleontology-disclosure-history');
+                    count += 1;
+                }
+            if (count != 1) rpgExpandedReject('paleontology-disclosure-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.assessment.disclosure != nil) { value.reason = 'paleontology-disclosure-already-recorded'; return value; }
+        if (self.assessment.result.finding == nil)
+        { value.reason = 'paleontology-disclosure-no-finding'; return value; }
+        foreach (local row in self.recipient.knowledge.received)
+            if (row[1] == self.id) rpgExpandedReject('paleontology-disclosure-duplicate');
+        value.status = 'ready'; return value;
+    }
+    deliver()
+    {
+        local value = self.assess();
+        if (value.status == 'reused') { value.statements = [self.boundStatement]; return value; }
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.boundKnowledge = self.recipient.knowledge;
+        self.boundStatement = self.assessment.result.finding;
+        value.statements = [self.boundStatement];
+        self.boundKnowledge.received = self.boundKnowledge.received + [[self.id,self.assessment.profile,value.statements,0]];
+        self.completedAt = rpgLedger.seconds; self.boundCompletedAt = self.completedAt; self.assessment.disclosure = self;
+        value.status = 'resolved'; return value;
+    }
+;
+
+
+
+/** One actor-bound route for fossil study and receiving its finding. */
+class RpgExpandedPaleontologyAction: Action
+    assessment = nil
+    disclosure = nil
+    operation = 'assess'
+    perform(actor)
+    {
+        if (self.assessment == nil || !self.assessment.ofKind(RpgExpandedPaleontologyReceipt)
+            || !holds(['assess','receive'],self.operation)) rpgExpandedReject('paleontology-action-definition');
+        if (self.operation == 'receive' && (self.disclosure == nil || !self.disclosure.ofKind(RpgExpandedPaleontologyDisclosure)
+            || self.disclosure.assessment != self.assessment || self.disclosure.recipient != self.assessment.profile))
+            rpgExpandedReject('paleontology-action-disclosure');
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile != self.assessment.profile)
+            value.reason = 'paleontology-action-observer-required';
+        else value = self.operation == 'assess' ? self.assessment.resolve() : self.disclosure.deliver();
+        event('rpg.expanded.paleontology'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;

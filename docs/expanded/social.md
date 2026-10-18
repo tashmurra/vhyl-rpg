@@ -1660,3 +1660,14 @@ reason only. Present returned findings only through the intended observer-facing
 interface. The library installs no automatic grammar or dialogue choices.
 `test_psychology_actions` covers parser, structured-action and dialogue parity,
 wrong-actor rejection, rollback, undo and replay. Fixtures remain unrun.
+
+
+## Fossil-study findings
+
+With exploration and skills installed, use `RpgExpandedPaleontologyDisclosure`
+to receive a successful owned specimen finding without changing beliefs, and
+`RpgExpandedPaleontologyAction` for shared command/dialogue execution. The
+[exploration guide](exploration.md#receiving-fossil-findings-through-native-actions)
+describes ownership, preview, delivery and replay contracts. The foundation
+receipt interface keeps social independent of exploration includes; attempting to
+resolve the bare foundation receipt rejects explicitly.

@@ -9422,6 +9422,10 @@ def test(build):
     test_paleontology_skill(Session, paleontology_skill)
     paleontology_assessment = build.build("expanded-paleontology-assessment",ROOT / "tests/fixtures/expanded-paleontology-assessment.t")
     test_paleontology_assessment(Session,paleontology_assessment,build.out)
+    paleontology_disclosure = build.build("expanded-paleontology-disclosure",ROOT / "tests/fixtures/expanded-paleontology-disclosure.t")
+    test_paleontology_disclosure(Session,paleontology_disclosure,build.out)
+    paleontology_actions = build.build("expanded-paleontology-actions",ROOT / "tests/fixtures/expanded-paleontology-actions.t")
+    test_paleontology_actions(Session,paleontology_actions)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24274,4 +24278,93 @@ def test_paleontology_assessment(Session, bundle, out):
             assert last(s,'test.paleontology-history') == [0,0,0]
         finally:
             s.close()
+
+
+
+def test_paleontology_disclosure(Session, bundle, out):
+    """A successful assessment supplies one observer-only finding; unrun."""
+    path = out / 'paleontology-disclosure.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,22000)
+        assert last(s,'test.paleontology-disclosure') == ['blocked','paleontology-disclosure-unresolved',[]]
+        s.action(1680,21900); s.action(1680,22004)
+        assert last(s,'test.paleontology-disclosure-preview') == ['ready',0]
+        s.action(1680,22001); s.action(1680,22002)
+        assert last(s,'test.paleontology-knowledge') == [0,0,3]
+        s.action(1680,22000)
+        assert last(s,'test.paleontology-disclosure') == ['resolved',None,['This organism lived in shallow coastal water']]
+        s.command('undo'); s.action(1680,22002)
+        assert last(s,'test.paleontology-knowledge') == [0,0,3]
+        for code in (22000,22000,22002):
+            s.action(1680,code)
+        assert last(s,'test.paleontology-knowledge') == [1,0,3]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681')
+        s.action(1680,22000); s.action(1680,22002)
+        assert last(s,'test.paleontology-knowledge') == [1,0,3]
+        s.action(1680,22003)
+        assert last(s,'test.paleontology-disclosure-error') == ['paleontology-disclosure-clock']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (21903,21900,22000,22002):
+            s.action(1680,code)
+        assert last(s,'test.paleontology-disclosure') == ['blocked','paleontology-disclosure-no-finding',[]]
+        assert last(s,'test.paleontology-knowledge') == [0,0,3]
+    finally:
+        s.close()
+
+
+
+    s = Session(bundle)
+    try:
+        s.action(1680,21900); s.action(1680,22005)
+        assert last(s,'test.paleontology-disclosure-error') == ['paleontology-disclosure-definition']
+    finally:
+        s.close()
+
+
+def test_paleontology_actions(Session, bundle):
+    """Assessment and disclosure share actor ownership on every native route; unrun."""
+    for route in ('parser','structured','dialogue'):
+        s = Session(bundle)
+        try:
+            def perform(operation):
+                if route == 'parser':
+                    s.command({'assess':'study fossil','receive':'receive finding','rollback':'rollback assessment'}[operation])
+                elif route == 'structured':
+                    s.action({'assess':22110,'receive':22111,'rollback':22112}[operation])
+                else:
+                    s.action(80,'paleontology-plan'); s.select(operation)
+            perform('receive')
+            assert last(s,'rpg.expanded.paleontology') == ['receive','blocked','paleontology-disclosure-unresolved']
+            perform('rollback'); s.action(1680,21902)
+            assert last(s,'test.paleontology-history') == [0,0,0]
+            perform('assess'); perform('receive')
+            assert last(s,'rpg.expanded.paleontology') == ['receive','resolved',None]
+            s.command('undo'); s.action(1680,22002)
+            assert last(s,'test.paleontology-knowledge') == [0,0,3]
+            perform('receive'); perform('receive'); perform('assess')
+            assert last(s,'rpg.expanded.paleontology') == ['assess','reused',None]
+            s.action(1680,22002)
+            assert last(s,'test.paleontology-knowledge') == [1,0,3]
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.action(1680,22100)
+            for operation in ('assess','receive'):
+                perform(operation)
+                assert last(s,'rpg.expanded.paleontology') == [operation,'blocked','paleontology-action-observer-required']
+            s.action(1680,21902)
+            assert last(s,'test.paleontology-history') == [0,0,0]
+        finally:
+            s.close()
+
 

@@ -809,3 +809,12 @@ modify RpgLiteContext
     psychologyFacts() { rpgExpandedReject('psychology-assessment-skills-required'); }
     psychologySubjectIdentity() { rpgExpandedReject('psychology-assessment-skills-required'); }
 ;
+
+/** Cross-module contract for an owned fossil-study result. */
+class RpgExpandedPaleontologyReceipt: object
+    profile = nil
+    result = nil
+    disclosure = nil
+    validateReceipt() { rpgExpandedReject('paleontology-assessment-exploration-required'); }
+    resolve() { rpgExpandedReject('paleontology-assessment-exploration-required'); }
+;

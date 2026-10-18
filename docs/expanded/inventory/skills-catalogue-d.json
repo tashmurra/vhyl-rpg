@@ -578,8 +578,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Use -2 between specialties; require a laboratory for microscopic fossils and equipment-sensitive age estimates from actual evidence.",
-      "tests": ["tests/expanded.py::test_paleontology_skill", "tests/expanded.py::test_paleontology_assessment"],
-      "validation_note": "Typed specialties supply printed biology, human-origins anthropology and inter-specialty defaults. Study context enforces microscopic laboratory access and age-only authored equipment modifiers. Owned specimen assessments preserve success/failure, bind study facts and reject duplicate specimen/task rolls; rollback, undo and save fixtures authored. Live equipment receipts, knowledge delivery and shared actions remain pending. Fixtures unrun.",
+      "tests": ["tests/expanded.py::test_paleontology_skill", "tests/expanded.py::test_paleontology_assessment", "tests/expanded.py::test_paleontology_disclosure", "tests/expanded.py::test_paleontology_actions"],
+      "validation_note": "Typed specialties supply printed biology, human-origins anthropology and inter-specialty defaults. Study context enforces microscopic laboratory access and age-only authored equipment modifiers. Owned specimen assessments preserve success/failure, bind study facts and reject duplicate specimen/task rolls; rollback, undo and save fixtures authored. Observer-owned knowledge delivery and shared native actions are implemented with transaction, save and parity fixtures. Live equipment receipts remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",
@@ -601,8 +601,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Use -2 between specialties; require a laboratory for microscopic fossils and equipment-sensitive age estimates from actual evidence.",
-      "tests": ["tests/expanded.py::test_paleontology_skill", "tests/expanded.py::test_paleontology_assessment"],
-      "validation_note": "Typed specialties supply printed biology, human-origins anthropology and inter-specialty defaults. Study context enforces microscopic laboratory access and age-only authored equipment modifiers. Owned specimen assessments preserve success/failure, bind study facts and reject duplicate specimen/task rolls; rollback, undo and save fixtures authored. Live equipment receipts, knowledge delivery and shared actions remain pending. Fixtures unrun.",
+      "tests": ["tests/expanded.py::test_paleontology_skill", "tests/expanded.py::test_paleontology_assessment", "tests/expanded.py::test_paleontology_disclosure", "tests/expanded.py::test_paleontology_actions"],
+      "validation_note": "Typed specialties supply printed biology, human-origins anthropology and inter-specialty defaults. Study context enforces microscopic laboratory access and age-only authored equipment modifiers. Owned specimen assessments preserve success/failure, bind study facts and reject duplicate specimen/task rolls; rollback, undo and save fixtures authored. Observer-owned knowledge delivery and shared native actions are implemented with transaction, save and parity fixtures. Live equipment receipts remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",
@@ -628,8 +628,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Use -2 between specialties; require a laboratory for microscopic fossils and equipment-sensitive age estimates from actual evidence.",
-      "tests": ["tests/expanded.py::test_paleontology_skill", "tests/expanded.py::test_paleontology_assessment"],
-      "validation_note": "Typed specialties supply printed biology, human-origins anthropology and inter-specialty defaults. Study context enforces microscopic laboratory access and age-only authored equipment modifiers. Owned specimen assessments preserve success/failure, bind study facts and reject duplicate specimen/task rolls; rollback, undo and save fixtures authored. Live equipment receipts, knowledge delivery and shared actions remain pending. Fixtures unrun.",
+      "tests": ["tests/expanded.py::test_paleontology_skill", "tests/expanded.py::test_paleontology_assessment", "tests/expanded.py::test_paleontology_disclosure", "tests/expanded.py::test_paleontology_actions"],
+      "validation_note": "Typed specialties supply printed biology, human-origins anthropology and inter-specialty defaults. Study context enforces microscopic laboratory access and age-only authored equipment modifiers. Owned specimen assessments preserve success/failure, bind study facts and reject duplicate specimen/task rolls; rollback, undo and save fixtures authored. Observer-owned knowledge delivery and shared native actions are implemented with transaction, save and parity fixtures. Live equipment receipts remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",
@@ -651,8 +651,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Use -2 between specialties; require a laboratory for microscopic fossils and equipment-sensitive age estimates from actual evidence.",
-      "tests": ["tests/expanded.py::test_paleontology_skill", "tests/expanded.py::test_paleontology_assessment"],
-      "validation_note": "Typed specialties supply printed biology, human-origins anthropology and inter-specialty defaults. Study context enforces microscopic laboratory access and age-only authored equipment modifiers. Owned specimen assessments preserve success/failure, bind study facts and reject duplicate specimen/task rolls; rollback, undo and save fixtures authored. Live equipment receipts, knowledge delivery and shared actions remain pending. Fixtures unrun.",
+      "tests": ["tests/expanded.py::test_paleontology_skill", "tests/expanded.py::test_paleontology_assessment", "tests/expanded.py::test_paleontology_disclosure", "tests/expanded.py::test_paleontology_actions"],
+      "validation_note": "Typed specialties supply printed biology, human-origins anthropology and inter-specialty defaults. Study context enforces microscopic laboratory access and age-only authored equipment modifiers. Owned specimen assessments preserve success/failure, bind study facts and reject duplicate specimen/task rolls; rollback, undo and save fixtures authored. Observer-owned knowledge delivery and shared native actions are implemented with transaction, save and parity fixtures. Live equipment receipts remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",

@@ -3513,7 +3513,7 @@ class RpgExpandedPaleontologyResult: RpgExpandedResult
     finding = nil
     score = nil
 ;
-class RpgExpandedPaleontologyAssessment: object
+class RpgExpandedPaleontologyAssessment: RpgExpandedPaleontologyReceipt
     id = nil
     profile = nil
     context = nil
