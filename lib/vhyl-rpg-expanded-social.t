@@ -3917,6 +3917,45 @@ class RpgExpandedMakeupApplication: object
     completedAt = nil
     boundDefinition = nil
     boundOutcome = nil
+    endedAt = nil
+    endEvidence = nil
+    boundEnd = nil
+    validateEnd()
+    {
+        if (self.endedAt == nil)
+        {
+            if (self.boundEnd != nil || self.endEvidence != nil) rpgExpandedReject('makeup-end-binding');
+            return nil;
+        }
+        if (self.boundEnd == nil || self.endedAt != self.boundEnd[1] || self.endEvidence != self.boundEnd[2]
+            || self.endedAt < self.completedAt || self.endedAt > rpgLedger.seconds
+            || self.context.subject.makeupPresentation == self) rpgExpandedReject('makeup-end-binding');
+        return nil;
+    }
+    presentationReason()
+    {
+        if (self.result == nil) return 'makeup-unresolved';
+        self.assess();
+        if (self.result.presentation == nil) return 'makeup-no-presentation';
+        if (self.endedAt != nil) return 'makeup-ended';
+        return self.context.subject.makeupPresentation == self ? nil : 'makeup-replaced';
+    }
+    end(evidence)
+    {
+        local value = new RpgExpandedResult();
+        if (self.result == nil) { value.reason = 'makeup-unresolved'; return value; }
+        self.assess();
+        if (self.result.presentation == nil) { value.reason = 'makeup-no-presentation'; return value; }
+        if (evidence == nil || evidence == '') rpgExpandedReject('makeup-end-evidence');
+        if (self.endedAt != nil)
+        {
+            if (evidence != self.endEvidence) rpgExpandedReject('makeup-end-binding');
+            value.status = 'reused'; return value;
+        }
+        self.endedAt = rpgLedger.seconds; self.endEvidence = evidence; self.boundEnd = [self.endedAt,evidence];
+        if (self.context.subject.makeupPresentation == self) self.context.subject.makeupPresentation = nil;
+        value.status = 'resolved'; return value;
+    }
     definition()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
@@ -3933,6 +3972,7 @@ class RpgExpandedMakeupApplication: object
         local facts = self.definition(); local value = new RpgExpandedMakeupResult();
         if (self.result != nil)
         {
+            self.validateEnd();
             if (!holds(self.profile.makeupApplications,self) || self.completedAt > rpgLedger.seconds
                 || facts.length() != self.boundDefinition.length()) rpgExpandedReject('makeup-application-history');
             for (local index = 1; index <= facts.length(); index += 1)
@@ -3943,6 +3983,7 @@ class RpgExpandedMakeupApplication: object
             if (self.result.gate.assess().status != 'reused') rpgExpandedReject('makeup-application-gate');
             value.status = 'reused'; return value;
         }
+        if (self.endedAt != nil || self.endEvidence != nil || self.boundEnd != nil) rpgExpandedReject('makeup-end-before-application');
         if (!self.permitted || !self.materialsAvailable) { value.reason = 'makeup-application-access'; return value; }
         foreach (local prior in self.profile.makeupApplications)
             if (prior.id == self.id) rpgExpandedReject('makeup-application-duplicate');

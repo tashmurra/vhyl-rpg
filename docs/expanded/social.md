@@ -1743,3 +1743,22 @@ accessibility and worn-state checks. Preparation time remains authored.
 `test_styling` specifies preparation purity, replay, rollback, undo, save
 continuation, changed facts, visibility and occasion applicability. Fixtures are
 unrun.
+
+### Ending a cosmetic presentation
+
+Call `makeupApplication.end(evidence)` after an authored removal or expiry event
+has actually occurred. This records the shared-clock timestamp and a concrete
+reason; it does not assume a wash duration or advance time. Resolve any removal
+action's time and materials before recording the end. Repeating the same end
+reuses it; rewriting its reason or timestamp rejects validation.
+
+`presentationReason()` returns nil for the subject's current successful
+presentation, or `makeup-unresolved`, `makeup-no-presentation`, `makeup-ended` or
+`makeup-replaced`. Replaying an ended application's `apply()` never reinstalls it.
+Ending an application clears the subject's presentation only if that exact
+application is still current, so an older receipt cannot erase newer makeup.
+
+`test_makeup_lifecycle` specifies recorded removal, replacement, replay, rollback,
+undo, save continuation and end-timestamp binding. Fixtures remain unrun. Physical
+removal operations and automatic environment-dependent wear remain authored;
+this lifecycle supplies no invented universal cosmetic duration.

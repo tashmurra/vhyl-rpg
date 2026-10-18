@@ -1192,7 +1192,8 @@ returns the stored result without charging time or rolling again.
 
 Cosmetic presentation does not change physical characteristics, purchased
 appearance or identity knowledge, and it does not establish that an observer is
-fooled. Material inventory, removal/expiry, observer contests and native action
-routes remain pending. `test_makeup` specifies the disguise default, height and
+fooled. Material inventory, physical removal operations, observer contests and native
+action routes remain pending. The social guide documents recorded removal and
+replacement through `end(evidence)` and `presentationReason()`. `test_makeup` specifies the disguise default, height and
 technology restrictions, success/failure, rollback, undo and save continuation.
 Fixtures remain unrun.

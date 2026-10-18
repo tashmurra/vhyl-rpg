@@ -9486,6 +9486,8 @@ def test(build):
     test_animal_habits_health(Session,animal_disguise,build.out)
     makeup = build.build('expanded-makeup',ROOT / 'tests/fixtures/expanded-makeup.t')
     test_makeup(Session,makeup,build.out)
+    makeup_lifecycle = build.build('expanded-makeup-lifecycle',ROOT / 'tests/fixtures/expanded-makeup-lifecycle.t')
+    test_makeup_lifecycle(Session,makeup_lifecycle,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25761,5 +25763,42 @@ def test_makeup(Session, bundle, out):
     try:
         s.action(1680,25607)
         assert last(s,'test.makeup-default') == [11]
+    finally:
+        s.close()
+
+
+def test_makeup_lifecycle(Session, bundle, out):
+    """Ending a cosmetic record cannot resurrect it or clear its replacement; unrun."""
+    path = out / 'makeup-ended.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,25700)
+        assert last(s,'test.makeup-end') == ['blocked','makeup-unresolved']
+        s.action(1680,25600); s.action(1680,25701); s.action(1680,25702)
+        assert last(s,'test.makeup-lifecycle') == [None,0,600,3]
+        s.action(1680,25700); s.command('undo'); s.action(1680,25702)
+        assert last(s,'test.makeup-lifecycle') == [None,0,600,3]
+        for code in (25700,25700,25600,25702):
+            s.action(1680,code)
+        assert last(s,'test.makeup-lifecycle') == ['makeup-ended',0,600,3]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,25600); s.action(1680,25702)
+        assert last(s,'test.makeup-lifecycle') == ['makeup-ended',0,600,3]
+        s.action(1680,25704)
+        assert last(s,'test.makeup-end-error') == ['makeup-end-binding']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (25600,25703,25702):
+            s.action(1680,code)
+        assert last(s,'test.makeup-lifecycle') == ['makeup-replaced',1,900,6]
+        for code in (25700,25600,25702):
+            s.action(1680,code)
+        assert last(s,'test.makeup-lifecycle') == ['makeup-ended',1,900,6]
     finally:
         s.close()
