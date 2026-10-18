@@ -1632,3 +1632,49 @@ class RpgExpandedVeterinaryContext: RpgExpandedSkillContext
         return base == nil ? nil : base + self.unfamiliarPenalty + (self.knowsAndTrusts ? 5 : 0);
     }
 ;
+
+/** B175 authored taxonomy relationship; avoids guessing categories for fictional fauna. */
+class RpgExpandedAnimalHandlingDefault: object
+    source = nil
+    relationship = nil
+    approved = nil
+    evidence = nil
+    edge(target)
+    {
+        if (self.source == nil || !self.source.ofKind(RpgExpandedAnimalHandlingSkill)
+            || self.source == target || self.source.specialty == target.specialty)
+            rpgExpandedReject('animal-handling-default-source');
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('animal-handling-default-evidence');
+        if (!holds(['same-order','different-order','distant'],self.relationship)) rpgExpandedReject('animal-handling-default-relationship');
+        return [self.source,self.relationship == 'same-order' ? -2 : self.relationship == 'different-order' ? -4 : -6];
+    }
+;
+class RpgExpandedAnimalHandlingSkill: RpgExpandedSkill
+    id = 'animal-handling'
+    attribute = rpgIQ
+    difficulty = 1
+    defaultPenalty = -5
+    relationships = []
+    validateDefinition()
+    {
+        if (self.id != 'animal-handling' || self.attribute != rpgIQ || self.difficulty != 1 || self.defaultPenalty != -5
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil || self.techLevel != nil
+            || self.specialty == nil || self.specialty == '') rpgExpandedReject('animal-handling-skill-definition');
+        local sources = [];
+        foreach (local relation in self.relationships)
+        {
+            if (relation == nil || !relation.ofKind(RpgExpandedAnimalHandlingDefault)) rpgExpandedReject('animal-handling-default-definition');
+            local edge = relation.edge(self);
+            if (holds(sources,edge[1])) rpgExpandedReject('animal-handling-default-duplicate');
+            sources = sources + [edge[1]];
+        }
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local relation in self.relationships) edges = edges + [relation.edge(self)];
+        return edges;
+    }
+;

@@ -212,9 +212,10 @@
       "pages": "B175",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require animal-category specialization; use daily training checks, distinct task and calming modifiers, and skill-threshold combat penalties for animals in the specialty.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_animal_handling_skill"],
+      "validation_note": "Typed IQ/Average category skill with IQ-5 and approved taxonomy relationships implements -2/-4/-6 purchased defaults and the veterinary connection. Existing creature procedures remain separately inventoried; combined training, task, calming and combat integration validation remains incomplete. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "average",

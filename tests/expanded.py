@@ -9396,6 +9396,8 @@ def test(build):
     test_nature_actions(Session, nature_actions)
     veterinary_skill = build.build("expanded-veterinary-skill",ROOT / "tests/fixtures/expanded-veterinary-skill.t")
     test_veterinary_skill(Session, veterinary_skill)
+    animal_handling_skill = build.build("expanded-animal-handling-skill",ROOT / "tests/fixtures/expanded-animal-handling-skill.t")
+    test_animal_handling_skill(Session, animal_handling_skill)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23901,5 +23903,24 @@ def test_veterinary_skill(Session, bundle):
     try:
         s.action(1680,20608)
         assert last(s,'test.veterinary-error') == ['veterinary-unfamiliar-minimum']
+    finally:
+        s.close()
+
+
+def test_animal_handling_skill(Session, bundle):
+    """B175 relationship defaults and B228 any-specialty veterinary default; unrun."""
+    for setup, expected in (((),[7,None,0]),((20701,),[15,11,0]),((20701,20702),[13,11,0]),
+                            ((20701,20703),[11,11,0]),((20701,20704),[7,None,0])):
+        s = Session(bundle)
+        try:
+            for code in (*setup,20700):
+                s.action(1680,code)
+            assert last(s,'test.handling-score') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,20701); s.action(1680,20705)
+        assert last(s,'test.handling-error') == ['animal-handling-default-evidence']
     finally:
         s.close()

@@ -910,3 +910,26 @@ procedures and their shared ledgers before that part of the catalogue is complet
 `test_veterinary_skill` specifies each default, absent IQ default, trust,
 unfamiliarity, combined modifiers and optional-specialty scoring. Fixtures remain
 unrun while checks are paused.
+
+
+## Animal-handling catalogue specialties
+
+`RpgExpandedAnimalHandlingSkill` implements IQ/Average, IQ-5 animal handling
+with a required animal-category `specialty` (full-2008 B175). It has no technology
+level. Authors choose categories appropriate to the animals' intelligence and the
+setting; the engine does not assign fictional species to a biological taxonomy.
+
+Populate a target skill's `relationships` with `RpgExpandedAnimalHandlingDefault`
+objects. Each names a typed `source` specialty, `relationship` (`same-order`,
+`different-order` or `distant`), `approved` and concrete `evidence` for that
+classification. The corresponding penalties are -2, -4 and -6. Duplicate sources
+reject. Only purchased source training supplies a default; an untrained specialty
+cannot pass along its IQ default. Any purchased animal-handling specialty also
+supplies the veterinary default at -6.
+
+These skills can be passed to existing animal training, task and calming
+operations. Their existing author permissions and animal-state requirements still
+apply. This catalogue definition alone grants no training, command compliance or
+combat effect. `test_animal_handling_skill` specifies all relationship penalties,
+untrained sources, missing approval and the veterinary connection. Fixtures remain
+unrun; combined animal-procedure and combat validation remains incomplete.
