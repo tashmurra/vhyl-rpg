@@ -1022,3 +1022,7 @@ class RpgExpandedMakeupMaterials: object
     consume(application) { rpgExpandedReject('makeup-materials-equipment-required'); }
     validateReceipt(application,consumed) { rpgExpandedReject('makeup-materials-equipment-required'); }
 ;
+
+modify RpgExpandedProfile
+    culturalPenalty(culture) { rpgExpandedReject('culture-characters-module-required'); }
+;

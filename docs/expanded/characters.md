@@ -109,3 +109,25 @@ contributions receive zero-valued receipts. Use
 independent of later purchase repricing. This does not grant or spend points;
 feature modules decide which settlement procedure uses the captured credit.
 Dependent permanent-loss settlement uses this history automatically.
+
+## Cultural background
+
+For explicit cultural tasks, set `profile.nativeCulture` to an approved
+`RpgExpandedCulture` with a stable `id` and concrete `evidence` describing a broad
+shared culture (full-2008 B23). It receives no point charge. Existing profiles
+that do not use cultural tasks may leave this unset.
+
+Add `RpgExpandedCulturalFamiliarity` objects to the ordinary `traits` list for
+additional cultures. Set `culture`, `approved`, `evidence` explaining relatedness,
+and `id` to `culture-` followed by that culture's ID. `alien = nil` costs one
+point; `alien = true` costs two. `creationCost()` contributes directly to the
+existing character accounting. A culture cannot be purchased twice or purchased
+as well as selected as native, even with inactive or mitigated entries.
+
+`culturalPenalty(culture)` returns zero for native or active, unmitigated purchased
+familiarity and minus three otherwise. Culture IDs identify the same culture
+across authored records; use different IDs only for distinct cultures. Familiarity
+does not teach a language, establish citizenship or grant social permission.
+Template copies and cultural adaptation traits remain pending. `test_cultures`
+specifies costs, duplicate rejection, modifiers, undo and saved continuation;
+fixtures remain unrun while checks are paused.

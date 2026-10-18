@@ -9494,6 +9494,8 @@ def test(build):
     test_makeup_actions(Session,makeup_actions)
     makeup_materials = build.build('expanded-makeup-materials',ROOT / 'tests/fixtures/expanded-makeup-materials.t')
     test_makeup_materials(Session,makeup_materials,build.out)
+    cultures = build.build('expanded-cultures',ROOT / 'tests/fixtures/expanded-cultures.t')
+    test_cultures(Session,cultures,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26069,5 +26071,37 @@ def test_bleeding_timeline(Session, bundle, out):
         assert state(s) == stopped
         s.action(2285,5)
         assert state(s)[-2] == 241
+    finally:
+        s.close()
+
+
+def test_cultures(Session, bundle, out):
+    """B23 cultural costs/penalties and B198 simple hand-signal contexts; unrun."""
+    for codes, score in (((),8),((26201,),8),((26202,),5),((26202,26203),8),
+                         ((26201,26204),5),((26205,),None),((26206,),None),
+                         ((26207,),8),((26208,),None)):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,26200)
+            assert last(s,'test.culture') == [score,1,2,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    path = out / 'cultures.zsave'
+    try:
+        for code in (26209,26210):
+            s.action(1680,code); s.action(1680,26200)
+            assert last(s,'test.culture') == [8,1,2,0,0]
+        s.action(1680,26202); s.action(1680,26203); s.command('undo'); s.action(1680,26200)
+        assert last(s,'test.culture') == [5,1,2,0,0]
+        s.action(1680,26203); s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,26200)
+        assert last(s,'test.culture') == [8,1,2,0,0]
     finally:
         s.close()

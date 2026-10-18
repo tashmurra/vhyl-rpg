@@ -1198,3 +1198,22 @@ Shared native action routes are described in the social guide. The social guide 
 replacement through `end(evidence)` and `presentationReason()`. `test_makeup` specifies the disguise default, height and
 technology restrictions, success/failure, rollback, undo and save continuation.
 Fixtures remain unrun.
+
+## Explicit cultural tasks and simple hand signals
+
+`RpgExpandedCulturalSkillContext` adds the full-2008 B23 unfamiliar-culture
+penalty to ordinary skill scoring. Supply an expanded `skill`, the task's
+`culture`, `culturallySignificant = true` and concrete `cultureEvidence`. Include
+the characters module and configure the profile's cultural background. Ordinary
+contexts remain unchanged. Authors must select this context for tasks with a
+significant cultural component; global automatic designation is not implemented.
+The penalty composes with ordinary context and equipment modifiers once.
+
+`RpgExpandedGestureSkill` fixes the B198 IQ/Easy definition and IQ−4 default.
+`RpgExpandedGestureContext` requires this skill, an authored `idea`, confirmation
+that it is a `simpleIdea`, visible observation (`observed`) and cultural evidence.
+Set `operation` to `convey` or `understand`. Complex messages and unseen gestures
+have no score. This context does not grant language comprehension or replace the
+existing player-authored gesture exchange. Owned skill-roll communication and
+its player-action interface remain pending. `test_cultures` includes default and
+cultural score cases, scope rejection and persistence; fixtures remain unrun.

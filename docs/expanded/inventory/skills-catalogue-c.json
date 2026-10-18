@@ -173,9 +173,11 @@
       "pages": "B198",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Convey or understand one simple idea per check with cultural modifiers; do not grant complex language comprehension.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_cultures"
+      ],
       "reference_data": {
         "attribute": "iq",
         "difficulty": "easy",
@@ -187,7 +189,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed IQ/Easy IQ-4 skill and explicit cultural context validate one simple observed idea for convey/understand operations. Native and paid familiarity supply unfamiliarity -3. Owned resolution, health gates and shared player action integration remain pending. Fixtures authored, unrun."
     },
     {
       "id": "catalogue-skill-dance-direction",

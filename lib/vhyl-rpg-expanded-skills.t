@@ -2446,3 +2446,66 @@ class RpgExpandedMakeupContext: RpgExpandedSkillContext
         return rpgExpandedTechnologyModifier(level,tools.equipmentTL,true);
     }
 ;
+
+/** Explicit significant-cultural-component task, full-2008 B23. */
+class RpgExpandedCulturalSkillContext: RpgExpandedSkillContext
+    culture = nil
+    culturallySignificant = nil
+    cultureEvidence = nil
+    cultureReason(profile)
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedSkill) || self.culture == nil)
+            rpgExpandedReject('cultural-skill-context');
+        if (!self.culturallySignificant || self.cultureEvidence == nil || self.cultureEvidence == '')
+            return 'cultural-skill-evidence-required';
+        profile.culturalPenalty(self.culture); return nil;
+    }
+    unavailableReason(profile)
+    {
+        local reason = self.cultureReason(profile); return reason == nil ? inherited(profile) : reason;
+    }
+    skillUseModifier(profile)
+    {
+        if (self.cultureReason(profile) != nil) return nil;
+        local amount = inherited(profile); return amount == nil ? nil : amount + profile.culturalPenalty(self.culture);
+    }
+;
+/** B198 improvised simple hand signals. */
+class RpgExpandedGestureSkill: RpgExpandedSkill
+    id = 'gesture'
+    attribute = rpgIQ
+    difficulty = 0
+    defaultPenalty = -4
+    validateDefinition()
+    {
+        if (self.id != 'gesture' || self.attribute != rpgIQ || self.difficulty != 0 || self.defaultPenalty != -4
+            || self.techLevel != nil || self.specialty != nil || self.defaultAttribute != nil || self.alternateAttribute != nil
+            || self.defaults.length() != 0 || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil)
+            rpgExpandedReject('gesture-skill-definition');
+        return nil;
+    }
+;
+class RpgExpandedGestureContext: RpgExpandedCulturalSkillContext
+    operation = 'convey'
+    simpleIdea = nil
+    idea = nil
+    observed = nil
+    culturallySignificant = true
+    gestureReason(profile)
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedGestureSkill) || self.fixedBase != nil || self.rollAttribute != nil
+            || !holds(['convey','understand'],self.operation)) rpgExpandedReject('gesture-context-definition');
+        self.skill.validateDefinition();
+        if (!self.simpleIdea || self.idea == nil || self.idea == '') return 'gesture-simple-idea-required';
+        if (!self.observed) return 'gesture-not-observed';
+        return self.cultureReason(profile);
+    }
+    unavailableReason(profile)
+    {
+        local reason = self.gestureReason(profile); return reason == nil ? inherited(profile) : reason;
+    }
+    skillUseModifier(profile)
+    {
+        return self.gestureReason(profile) == nil ? inherited(profile) : nil;
+    }
+;

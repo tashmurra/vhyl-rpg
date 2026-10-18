@@ -1771,9 +1771,12 @@
       "pages": "B23",
       "module": "characters",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Grant one free culture and reject duplicate paid familiarity with it.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cultures"
+      ],
+      "validation_note": "Explicit native culture, one/two-point owned familiarity and duplicate rejection now use character accounting; culturally significant contexts apply unfamiliarity -3. Template composition, adaptation traits and automatic designation of all applicable skill operations remain pending. Fixtures authored, unrun."
     },
     {
       "id": "culture-familiarity",
@@ -1781,9 +1784,12 @@
       "pages": "B23",
       "module": "skills",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Price related and alien cultures and apply the unfamiliar-culture penalty to each designated skill using authored culture relations.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_cultures"
+      ],
+      "validation_note": "Explicit native culture, one/two-point owned familiarity and duplicate rejection now use character accounting; culturally significant contexts apply unfamiliarity -3. Template composition, adaptation traits and automatic designation of all applicable skill operations remain pending. Fixtures authored, unrun."
     },
     {
       "id": "language-none",

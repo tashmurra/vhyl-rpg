@@ -207,3 +207,65 @@ class RpgExpandedCharacterFinalization: object
         self.boundDefinition = self.definition(); value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B23 broad authored cultural identity, not a language or nationality inference. */
+class RpgExpandedCulture: object
+    id = nil
+    approved = nil
+    evidence = nil
+    validateDefinition()
+    {
+        if (self.id == nil || self.id == '' || !self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('culture-definition');
+        return nil;
+    }
+;
+/** One purchased culture; relatedness is an explicit campaign fact. */
+class RpgExpandedCulturalFamiliarity: RpgLiteTrait
+    culture = nil
+    alien = nil
+    approved = nil
+    evidence = nil
+    creationCost()
+    {
+        if (self.culture == nil || !self.culture.ofKind(RpgExpandedCulture)) rpgExpandedReject('culture-familiarity-definition');
+        self.culture.validateDefinition();
+        if (self.id != 'culture-' + self.culture.id || self.level != 1 || self.controlled || self.scope != nil
+            || !self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('culture-familiarity-definition');
+        return self.alien ? 2 : 1;
+    }
+;
+modify RpgExpandedProfile
+    nativeCulture = nil
+    validateCultures()
+    {
+        local ids = [];
+        if (self.nativeCulture != nil)
+        {
+            if (!self.nativeCulture.ofKind(RpgExpandedCulture)) rpgExpandedReject('native-culture-definition');
+            self.nativeCulture.validateDefinition(); ids = [self.nativeCulture.id];
+        }
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedCulturalFamiliarity))
+            {
+                trait.creationCost();
+                if (self.nativeCulture == nil) rpgExpandedReject('native-culture-required');
+                if (holds(ids,trait.culture.id)) rpgExpandedReject('duplicate-cultural-familiarity');
+                ids = ids + [trait.culture.id];
+            }
+        return nil;
+    }
+    culturalPenalty(culture)
+    {
+        self.validateCultures();
+        if (self.nativeCulture == nil) rpgExpandedReject('native-culture-required');
+        if (culture == nil || !culture.ofKind(RpgExpandedCulture)) rpgExpandedReject('culture-context-required');
+        culture.validateDefinition();
+        if (culture.id == self.nativeCulture.id) return 0;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedCulturalFamiliarity) && trait.culture.id == culture.id && trait.active && !trait.mitigated)
+                return 0;
+        return -3;
+    }
+    validateFeatures() { inherited(); self.validateCultures(); return nil; }
+;
