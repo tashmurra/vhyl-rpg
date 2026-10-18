@@ -895,7 +895,20 @@
       "tests": [
         "tests/expanded.py::test_job_seeking"
       ],
-      "validation_note": "Qualifications separated from monthly performance; IQ search modifiers and explicit prerequisite/ability choices authored. Checks unrun; weekly execution and simultaneous-batch enforcement remain pending."
+      "validation_note": "Qualifications separated from monthly performance; IQ search modifiers and explicit prerequisite/ability choices authored. Checks unrun; full trait effects remain pending."
+    },
+    {
+      "id": "weekly-job-search-batch",
+      "module": "campaign",
+      "pages": "B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedJobSearch",
+      "tests": [
+        "tests/expanded.py::test_job_search_batch",
+        "tests/expanded.py::test_job_search_persistence"
+      ],
+      "validation_note": "Owned weekly batch receipts, actual batch-size penalty, whole-budget preflight, advertising charge and authored opportunities implemented. Checks unrun; accepting employment and recruiting remain separate unfinished integrations."
     }
   ],
   "detailed_inventories": [

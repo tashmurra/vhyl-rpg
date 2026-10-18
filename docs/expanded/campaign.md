@@ -581,10 +581,49 @@ The result contains `modifier` and intelligence-based `score`; a target below
 three is unavailable. Self-employment (`employerRequired = nil`) is rejected by
 this employer-search procedure. Assessment does not spend advertising money or
 perform the weekly roll, and `simultaneousJobs` must describe the actual search
-batch rather than being independently chosen to avoid its penalty. Persistent
-weekly search execution and enforcement of that batch remain pending.
+batch rather than being independently chosen to avoid its penalty. The weekly search batch below derives the count from its rows and enforces the
+interval on the character.
 
 `test_job_seeking` covers qualification boundaries, the capped experience bonus,
 scarcity, advertising, simultaneous searches, the disadvantage penalty, author
 bonus evidence, and separation from monthly performance difficulty. The authored
 cases remain unrun while checks are paused.
+
+
+## Executing a weekly job-search batch
+
+Create `RpgExpandedJobSearch` with a unique `id`, `profile`, `permitted` and
+`searches` containing `[seekingContext, opportunity]` pairs. Each context must
+belong to that profile and identify a different job ID. The batch overrides the
+standalone `simultaneousJobs` setting with the actual number of rows; splitting
+searches into separate objects cannot bypass the character's weekly limit.
+
+A `RpgExpandedJobOpportunity` binds a job to an authored `employer`, `terms`,
+`monthlyPay` and `available` fact. Its pay must match the search context. These
+concrete employer terms are required before rolling. They describe the work that
+can be found, not an automatic hiring or salary transaction. A successful result
+returns the opportunity; failure returns no opportunity. Authors resolve acceptance
+and subsequent employment separately. Unavailable opportunities block the request
+before spending; this API does not invent an employer for an empty local market.
+
+`assess()` validates every row and the entire advertising budget without drawing
+dice or exposing successful offers. `search()` charges that total once, rolls each
+IQ target in row order, and records `[job, check, opportunity-or-nil]` outcomes in
+`profile.jobSearchReceipts`. Each receipt also stores the batch ID, shared-clock
+time and advertising cost. A duplicate ID returns `reused` with no extra charge or
+roll. The receipt remains available for the author to inspect.
+
+The weekly limit uses seven elapsed days (604,800 seconds) from the previous
+batch. A new batch at 604,799 seconds is blocked; one at 604,800 is eligible. The
+operation does not itself advance time, so an authored activity schedule must
+account for search activity using the shared clock. Sleeping, travel or other
+activities must not charge that same elapsed interval twice. Dead or unconscious
+characters cannot initiate a new batch. The transaction owns money, random state,
+receipts and the attempt timestamp together; invoke it through an action.
+
+`test_job_search_batch` covers all-row preflight, aggregate affordability,
+qualification/offer binding, simultaneous-search penalties, replay protection,
+rollback, undo and the interval boundary. `test_job_search_persistence` covers
+receipt and random-state preservation across save/restore in separate processes.
+These cases are authored and remain unrun. Recruiting candidates, accepting
+employment and calendar-week alternatives are separate, unfinished integrations.

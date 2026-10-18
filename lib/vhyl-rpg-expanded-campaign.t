@@ -917,13 +917,14 @@ class RpgExpandedJobSeekingModifiers: object
     otherAbilityEvidence = nil
     lazy = nil
     employerRequired = true
-    assess()
+    assess() { return self.assessCount(self.simultaneousJobs); }
+    assessCount(count)
     {
         if (self.job == nil || !self.job.ofKind(RpgExpandedJob)) rpgExpandedReject('job-search-job');
         local value = self.job.qualifications(self.profile); if (value.status != 'ready') return value;
         value.status = 'blocked';
         if (!self.employerRequired) { value.reason = 'job-search-self-employment'; return value; }
-        rpgInteger(self.supportedStatus,-2,8); rpgInteger(self.simultaneousJobs,1,1000);
+        rpgInteger(self.supportedStatus,-2,8); rpgInteger(count,1,1000);
         rpgInteger(self.otherAbilityBonus,0,1000);
         if (self.otherAbilityBonus != 0 && self.otherAbilityEvidence == nil)
             rpgExpandedReject('job-search-ability-evidence');
@@ -943,10 +944,99 @@ class RpgExpandedJobSeekingModifiers: object
         value.modifier = rpgExpandedEmploymentPopulation(self.population)
             + rpgExpandedEmploymentAdvertising(self.monthlyPay,self.advertising,nil)
             + experience + self.otherAbilityBonus - 2 * self.supportedStatus
-            - (self.simultaneousJobs - 1) - (self.lazy ? 5 : 0);
+            - (count - 1) - (self.lazy ? 5 : 0);
         value.score = self.profile.attributeScore(rpgIQ) + value.modifier;
+        rpgInteger(value.score,-1000,1000);
         value.skill = skill;
         if (value.score < 3) { value.reason = 'job-search-roll-unavailable'; return value; }
         value.status = 'ready'; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    jobSearchReceipts = []
+    lastJobSearchAt = nil
+;
+
+/** Concrete authored employer and terms revealed by a successful search. */
+class RpgExpandedJobOpportunity: object
+    job = nil
+    employer = nil
+    terms = nil
+    monthlyPay = 0
+    available = nil
+;
+
+class RpgExpandedJobSearchResult: RpgExpandedResult
+    money = 0
+    assessments = []
+    outcomes = []
+;
+
+/** One weekly batch of employer searches, B518. Rows are [context, opportunity].
+ * Every row is validated before any advertising is charged or dice are drawn. */
+class RpgExpandedJobSearch: object
+    id = nil
+    profile = nil
+    searches = []
+    permitted = nil
+    boundProfile = nil
+    boundId = nil
+    assess()
+    {
+        if (self.id == nil || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('job-search-owner');
+        if (self.boundProfile != nil && (self.profile != self.boundProfile || self.id != self.boundId))
+            rpgExpandedReject('job-search-retargeted');
+        local value = new RpgExpandedJobSearchResult();
+        foreach (local receipt in self.profile.jobSearchReceipts)
+            if (receipt[1] == self.id) { value.status = 'reused'; return value; }
+        rpgExpandedValidate(self.profile);
+        if (!self.permitted) { value.reason = 'job-search-unapproved'; return value; }
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'cannot-search-jobs'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647);
+        if (self.profile.lastJobSearchAt != nil)
+        {
+            rpgInteger(self.profile.lastJobSearchAt,0,2147483647);
+            if (rpgLedger.seconds < self.profile.lastJobSearchAt
+                || rpgLedger.seconds - self.profile.lastJobSearchAt < 604800)
+            { value.reason = 'job-search-week-used'; return value; }
+        }
+        rpgInteger(self.searches.length(),1,1000); local jobs = []; local total = 0;
+        foreach (local row in self.searches)
+        {
+            if (row.length() != 2 || row[1] == nil || !row[1].ofKind(RpgExpandedJobSeekingModifiers)
+                || row[2] == nil || !row[2].ofKind(RpgExpandedJobOpportunity))
+                rpgExpandedReject('job-search-row');
+            local context = row[1]; local offer = row[2];
+            if (context.profile != self.profile) rpgExpandedReject('job-search-context-owner');
+            local assessment = context.assessCount(self.searches.length());
+            if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
+            if (holds(jobs,context.job.id)) rpgExpandedReject('job-search-duplicate-job');
+            jobs = jobs + [context.job.id];
+            if (offer.job != context.job || offer.employer == nil || offer.terms == nil
+                || offer.monthlyPay != context.monthlyPay) rpgExpandedReject('job-search-opportunity');
+            if (!offer.available) { value.reason = 'job-search-opportunity-unavailable'; return value; }
+            if (context.advertising > 2147483647 - total) rpgExpandedReject('job-search-cost-limit');
+            total += context.advertising; value.assessments = value.assessments + [assessment];
+        }
+        rpgInteger(self.profile.money,0,2147483647);
+        if (total > self.profile.money) { value.reason = 'job-search-funds'; return value; }
+        value.money = total; value.status = 'ready'; return value;
+    }
+    search()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.profile.money -= value.money; local index = 0;
+        foreach (local row in self.searches)
+        {
+            index += 1; local check = rpgCheck(value.assessments[index].score,rpgRandom.roll());
+            value.outcomes = value.outcomes + [[row[1].job,check,check.achieved ? row[2] : nil]];
+        }
+        self.profile.jobSearchReceipts = self.profile.jobSearchReceipts
+            + [[self.id,rpgLedger.seconds,value.outcomes,value.money]];
+        self.profile.lastJobSearchAt = rpgLedger.seconds;
+        self.boundProfile = self.profile; self.boundId = self.id;
+        value.status = 'resolved'; return value;
     }
 ;

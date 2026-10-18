@@ -95,6 +95,21 @@ householdPayer: RpgExpandedProfile rules = expandedRules money = 2000;
 householdDependent: RpgExpandedProfile rules = expandedRules;
 householdPayment: RpgExpandedLivingPayment id = 'household-first-month' period = 'first-month'
     payer = householdPayer members = [[householdPayer,0],[householdDependent,-1]] approved = true;
+searchWorker: RpgExpandedProfile rules = expandedRules iq = 12 money = 100;
+searchJobOne: RpgExpandedJob id = 'search-post-one' requirementsApproved = true;
+searchJobTwo: RpgExpandedJob id = 'search-post-two' requirementsApproved = true;
+searchContextOne: RpgExpandedJobSeekingModifiers profile = searchWorker job = searchJobOne
+    population = 5000 monthlyPay = 100 advertising = 5;
+searchContextTwo: RpgExpandedJobSeekingModifiers profile = searchWorker job = searchJobTwo
+    population = 5000 monthlyPay = 100 advertising = 5;
+searchOfferOne: RpgExpandedJobOpportunity job = searchJobOne employer = 'archive'
+    terms = 'archive-contract' monthlyPay = 100 available = true;
+searchOfferTwo: RpgExpandedJobOpportunity job = searchJobTwo employer = 'observatory'
+    terms = 'observatory-contract' monthlyPay = 100 available = true;
+searchBatch: RpgExpandedJobSearch id = 'first-search-week' profile = searchWorker permitted = true
+    searches = [[searchContextOne,searchOfferOne],[searchContextTwo,searchOfferTwo]];
+searchNextBatch: RpgExpandedJobSearch id = 'second-search-week' profile = searchWorker permitted = true
+    searches = [[searchContextOne,searchOfferOne],[searchContextTwo,searchOfferTwo]];
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -311,6 +326,15 @@ class ExpandedTestAction: Action
             local value = householdPayment.pay(); event('test.living-payment'); eventValue(value.status); eventValue(value.money);
             if (code == 79) throw new RpgError();
         }
+        if (code == 80 || code == 81 || code == 82)
+        {
+            local value = (code == 82 ? searchNextBatch : searchBatch).search();
+            event('test.job-search-result'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.money); eventValue(value.outcomes.length());
+            if (code == 81) throw new RpgError();
+        }
+        if (code == 83) { for (local day = 0; day < 6; day += 1) rpgSpendTime(86400); rpgSpendTime(86399); }
+        if (code == 84) rpgSpendTime(1);
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
@@ -1459,6 +1483,40 @@ act(verb, args)
         context.qualificationSkill = skill;
         try { context.assess(); } catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
+    }
+    if (verb == 1229)
+    {
+        event('test.job-search-state'); eventValue(searchWorker.money); eventValue(searchWorker.jobSearchReceipts.length());
+        eventValue(searchWorker.lastJobSearchAt); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 1230)
+    {
+        local value = searchBatch.assess(); event('test.job-search-preview'); eventValue(value.status); eventValue(value.money);
+        foreach (local assessment in value.assessments) eventValue(assessment.score);
+        eventValue(value.outcomes.length()); return nil;
+    }
+    if (verb == 1231)
+    {
+        event('test.job-search-receipt'); local receipt = searchWorker.jobSearchReceipts[1];
+        eventValue(receipt[3][1][2].score); eventValue(receipt[3][1][2].roll);
+        eventValue(receipt[3][1][3] == searchOfferOne ? 1 : 0); eventValue(receipt[4]); return nil;
+    }
+    if (verb == 1232)
+    {
+        local p = new RpgExpandedProfile(); p.rules = expandedRules; p.money = 9;
+        local one = new RpgExpandedJobSeekingModifiers(); one.profile = p; one.job = searchJobOne;
+        one.population = 5000; one.monthlyPay = 100; one.advertising = 5;
+        local two = new RpgExpandedJobSeekingModifiers(); two.profile = p; two.job = searchJobTwo;
+        two.population = 5000; two.monthlyPay = 100; two.advertising = 5;
+        local batch = new RpgExpandedJobSearch(); batch.id = 'unfunded-search'; batch.profile = p;
+        batch.searches = [[one,searchOfferOne],[two,searchOfferTwo]];
+        event('test.job-search-gates'); eventValue(batch.assess().reason); batch.permitted = true;
+        eventValue(batch.search().reason); eventValue(p.money); eventValue(p.jobSearchReceipts.length());
+        batch.searches = [[one,searchOfferOne],[one,searchOfferOne]];
+        try { batch.search(); } catch (RpgExpandedError error) { eventValue(error.reason); }
+        batch.searches = [[one,searchOfferTwo]];
+        try { batch.search(); } catch (RpgExpandedError error) { eventValue(error.reason); }
+        eventValue(p.money); eventValue(p.jobSearchReceipts.length()); return nil;
     }
     return vhylAct(verb,args);
 }
