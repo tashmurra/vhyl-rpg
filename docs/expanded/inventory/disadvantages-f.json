@@ -1,0 +1,639 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B146-B150, before programmable obedience",
+  "review": "Sensory restrictions, limb functions, violence constraints, phantom voices and every fear catalogue entry in this segment enumerated. Timing contracts, source ambiguities and executable integration remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "disadvantages-f-humorless",
+      "source": "full-2008",
+      "pages": "B146",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Humorlessness costs -10 and gives -2 reactions when the inability to recognize or offer humor becomes apparent. Author supplies relevant communication context; do not penalize observers who have not encountered the behavior.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-no-smell-taste",
+      "source": "full-2008",
+      "pages": "B146",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Absent smell/taste costs -5 and blocks information and hazard detection through those channels. It also prevents sensory aversion to offensive smells/tastes, but does not confer immunity to toxic substances or other physical consequences.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-daytime-dormancy",
+      "source": "full-2008",
+      "pages": "B146",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Daytime dormancy costs -20. Dawn causes lethargy; when the sun clears the horizon the actor becomes paralyzed/comatose until sunset. Use authored astronomical events and location rather than a fixed clock time; specify the otherwise unquantified dawn lethargy behavior.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-daytime-permanence",
+      "source": "full-2008",
+      "pages": "B146",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Permanent sunlight incapacitation is a +100% modifier: direct sun rays produce a persistent transformation/incapacity removable only by one authored power/item. Distinguish direct exposure from ordinary daytime dormancy, and require a concrete restoration action.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-noise",
+      "source": "full-2008",
+      "pages": "B146",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Constant noise costs -2 per level, normally at most five without approval. Each level gives hearers +2 or the actor stealth -2 as appropriate, and possibly -1 reactions in noise-sensitive contexts. Noise ceases only while animate actors are comatose or machines powered down; standing still does not suppress it. Avoid applying both alternate hearing/stealth representations twice.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-symbol-processing",
+      "source": "full-2008",
+      "pages": "B146",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Inability to process abstract visual symbols costs -10: prohibit mapmaking, heraldry, symbolic drawing and comparable pattern-design skills; disallow graphical interfaces, while text and immersive environments remain usable. Written languages remain learnable and magic can be learned by oral tradition. This structural restriction is not normally removable by ordinary point buyoff.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-absent-touch",
+      "source": "full-2008",
+      "pages": "B146",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Absent touch costs -20. Preserve limited pressure sense for balance but block texture and touch-only tasks. Hand-eye tasks suffer one level of poor fine motor control unless the actor can clearly see the task and spends twice normal time; existing poor fine motor effects still apply.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-absent-touch-injury",
+      "source": "full-2008",
+      "pages": "B146",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Absent touch does not remove pain, temperature or shock. Injury location is unknown without sight and self-first-aid requires seeing the wound. Keep actual wound location private from sensory output while retaining it for mechanical resolution.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-social-obliviousness",
+      "source": "full-2008",
+      "pages": "B146",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Social obliviousness costs -5 and gives -1 both to use and resist the six influence skill categories: diplomacy, fast-talk, intimidation, etiquette, attraction and street contacts. It affects social motivation inference without removing emotions or all social understanding.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-obsession",
+      "source": "full-2008",
+      "pages": "B146",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Overriding goal obsession costs base -5 for a short-term goal or -10 for a long-term goal, with self-control when deviation would be wise. Failure continues the goal pursuit. Author defines the concrete goal and fulfillment event; completion requires replacement with a new goal or point buyoff. Separate additional reaction-producing habits or beliefs from this cost.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-reckless-risk",
+      "source": "full-2008",
+      "pages": "B146-B147",
+      "module": "combat",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Extreme risk taking is base -15. A life-threatening situation prompts self-control; failure forbids backing down, with another chance after each relevant success/reaction roll. In combat check each own turn; failure requires all-out attack or an authored comparably dangerous action. Do not grant additional actions or permit invalid maneuvers.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-reckless-reactions",
+      "source": "full-2008",
+      "pages": "B147",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Witnessed extreme risk taking gives -2 reactions from ordinary observers or +2 from those explicitly valuing bravery above survival. Track the witnessed conduct and observer values rather than assigning universal approval/disapproval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-single-arm",
+      "source": "full-2008",
+      "pages": "B147",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "One functional fine-manipulation arm costs -20: prohibit tasks needing two arms, including two-handed weapons or weapon-plus-shield; tasks feasible with one but normally requiring two take -4, one-arm tasks have no penalty. Natural non-arm manipulators can qualify. For acquired loss, default the lost side to the nondominant arm unless authored otherwise.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-arm-restoration",
+      "source": "full-2008",
+      "pages": "B147",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A prosthesis that cancels single-arm restriction while worn uses the mitigation limitation. Permanent restoration requires point repayment. Keep the replacement item and functioning state distinct from the underlying body, with ordinary inventory removal/damage consequences.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-single-eye",
+      "source": "full-2008",
+      "pages": "B147",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Single-eye vision costs -15 and gives -1 dexterity in combat/hand-eye tasks, and -3 ranged attacks unless aimed first, plus -3 operating vehicles faster than slow animal transport. Explicitly resolve whether the ranged value replaces or adds to general combat dexterity using the source attack procedure; aiming does not necessarily erase the general dexterity effect.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-eye-appearance",
+      "source": "full-2008",
+      "pages": "B147",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Where the culture treats acquired eye loss as unattractive, lower appearance one level. At creation this is already represented by the purchased appearance; do not add a second reaction penalty. Natural single-eye bodies use their actual authored appearance.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-single-hand",
+      "source": "full-2008",
+      "pages": "B147",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "One hand costs -15 and generally follows single-arm restrictions, but the remaining handless arm can parry unarmed and may carry strapped equipment such as a shield. Preserve arm hit locations and permitted equipment attachment rather than deleting the entire limb.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-hand-prosthesis",
+      "source": "full-2008",
+      "pages": "B147",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "A basic mechanical grabber gives -2 on tasks using it; a hook/claw gives -4. A hook/claw can be used as an undroppable large knife and gives +1 intimidation when displayed threateningly. Only sufficiently capable prostheses qualify for mitigation; culturally adverse appearance follows the eye-loss accounting rule.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-overconfidence",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Overconfidence is base -5 with self-control when the author judges caution inconsistent with it; failure proceeds as if capable. Reactions are +2 from young/naive observers and -2 from experienced observers. It does not grant actual skill or ability increases.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-violence-reluctance",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "combat",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reluctance to kill costs -5: a deadly attack on a recognized person with visible face takes -4 and cannot aim. With face unseen the penalty is -2 except in close combat; vehicle, believed nonperson and unseen target attacks are exempt. Killing a recognized person triggers the cannot-kill aftermath. Author supplies perceived personhood/visibility, including how close-combat exceptions apply.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-protect-innocents",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Innocent-protection restriction costs -10. Deadly force is allowed only against a foe attempting serious harm; capture alone does not qualify except existing death penalty or an honor obligation requiring death after capture. Prohibit intentional injury/threat to uninvolved people. Use authored stakes and bystander knowledge before committing attacks.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-cannot-kill",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cannot-kill restriction costs -15 and forbids actions believed likely to kill, including abandonment of dying foes, while requiring efforts to prevent companion killings. Causing or feeling responsible for a death triggers three dice days of incapacity and requires will for any violence during that period. Own aftermath duration and perceived responsibility.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-defense-only",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Defense-only violence costs -15: fight only to protect self or those in care, using necessary force without preemptive attacks, and discourage others starting fights. Author defines protected actors, imminent attack and proportional response; do not infer legality from target hostility alone.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-total-nonviolence",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Total nonviolence costs -30 and prohibits violence against intelligent creatures for any reason, while requiring nonviolent discouragement of others. Defense against nonintelligent animals remains possible. A high-realism campaign may require one of the less restrictive anti-killing forms at creation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-paranoid-reactions",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Pervasive distrust costs -10. Most observers react -2; a nonplayer actor with this trait reacts -4 to strangers and doubles other applicable negative reaction modifiers. Author distinguishes the inherent stranger penalty from other penalties to avoid doubling the same term twice.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-voices-trigger",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Phantom voices may trigger during authored stress on three dice six or less, and require that check on failed or exactly successful fear checks and failed stress-related self-control. Effects coexist with the triggering result. Specify episode end through an authored contract because this passage supplies no duration.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-voices-annoying",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Phantom-voice severity annoying costs -5. The actor recognizes the voices as unreal; observers who see responses react -2.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-voices-disruptive",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Phantom-voice severity disruptive costs -10. Apply the observer reaction and permit voices to mask ordinary sound or cause a source-appropriate fear check.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-voices-commanding",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Phantom-voice severity commanding costs -15. Voices can urge harmful deeds; during stress or intoxication an authored will check may be required to resist. The author supplies the command and qualifying trigger, without automatically succeeding at any resulting action.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-voices-origin",
+      "source": "full-2008",
+      "pages": "B148",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "If voices arise from supernatural possession, psychotherapy cannot reveal or cure that origin. Exorcism removes the cause and requires buying off the trait. Keep author-known cause distinct from the character belief and ordinary treatment assessment.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-resolution",
+      "source": "full-2008",
+      "pages": "B148-B149",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fear of a specific stimulus uses self-control on exposure. Failure rolls three dice plus failure margin on the full fear table, immediately applying its result. Success still gives -4/-3/-2/-1 to dexterity/intelligence/skills at self-control six/nine/twelve/fifteen while exposure persists. Recheck every ten minutes.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-threat",
+      "source": "full-2008",
+      "pages": "B149",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A mere threat of the feared stimulus uses self-control at +4; actual exposure uses the unmodified procedure. Panic does not automatically reveal information under coercion. Failed fear resistance can also trigger other stress traits; identify a single causal event and apply each relevant trigger once.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-isolation",
+      "source": "full-2008",
+      "pages": "B149",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of isolation has base price -15, adjusted for self-control. Being alone triggers the fear and motivates avoidance of isolation. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-blood",
+      "source": "full-2008",
+      "pages": "B149",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of blood has base price -10, adjusted for self-control. Visible blood triggers the fear, commonly during combat; combat without perceived blood is not automatically exposure. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-cats",
+      "source": "full-2008",
+      "pages": "B149",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of cats has base price -5, adjusted for self-control. Perceived cats are the stimulus. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-crowds",
+      "source": "full-2008",
+      "pages": "B149",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of crowds has base price -15, adjusted for self-control. More than twelve people triggers unless all are well known. More than twenty-five gives -1, one hundred or more -2, one thousand -3, ten thousand -4, continuing by factors of ten. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-darkness",
+      "source": "full-2008",
+      "pages": "B149",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of darkness has base price -15, adjusted for self-control. Darkness is the stimulus; loss of the available light source can begin exposure. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-dead",
+      "source": "full-2008",
+      "pages": "B149",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of dead has base price -10, adjusted for self-control. Dead people or body portions trigger; ordinary dead animals do not. A familiar deceased person gives -4, unnatural animation or a perceived ghost -6. Resolve overlapping modifiers explicitly rather than summing by default. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-dirt",
+      "source": "full-2008",
+      "pages": "B149",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of dirt has base price -10, adjusted for self-control. Potential dirt/contamination exposure triggers; unfamiliar food gives -5. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-canines",
+      "source": "full-2008",
+      "pages": "B149",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of canines has base price -5, adjusted for self-control. All canines, including wild relatives, are relevant stimuli. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-enclosure",
+      "source": "full-2008",
+      "pages": "B149",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of enclosure has base price -15, adjusted for self-control. Confined spaces trigger; author defines enclosure and the qualifying open sky/high-ceiling relief. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-fire",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of fire has base price -5, adjusted for self-control. Fire within five yards can trigger even from a very small flame. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-heights",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of heights has base price -10, adjusted for self-control. Voluntary height above fifteen feet is prohibited unless indoors away from windows; actual falling risk gives -5 to self-control. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-insects",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of insects has base price -10, adjusted for self-control. Large or poisonous insects give -3; very large insects or large numbers give -6. Author classifies size/count without stacking alternate categories automatically. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-loud-noise",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of loud-noise has base price -10, adjusted for self-control. Sudden loud sound requires an immediate check; author supplies perceived intensity. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-monsters",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of monsters has base price -15, adjusted for self-control. Perceived unnatural creatures trigger; apparent size, danger or numbers can give -1 through -4. The actor experience defines what appears unnatural. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-number-thirteen",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of number-thirteen has base price -5, adjusted for self-control. Dealing with the number thirteen triggers, at -5 when the associated weekday/date superstition applies in the campaign calendar. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-large-water",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of large-water has base price -10, adjusted for self-control. Large bodies of water, travel over them and associated aquatic monsters trigger according to perceived exposure. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-open-space",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of open-space has base price -10, adjusted for self-control. Outdoor exposure becomes frightening when no wall is within fifty feet; preserve actual wall geometry and perceived shelter. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-reptiles",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of reptiles has base price -10, adjusted for self-control. Reptiles/amphibians and similar creatures trigger; very large or poisonous examples give -2, a horde -4. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-sexual-contact",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of sexual-contact has base price -10, adjusted for self-control. Prospective sexual contact or the actor defined associated concern triggers; author supplies circumstances without treating personal boundaries alone as this disadvantage. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-spiders",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of spiders has base price -5, adjusted for self-control. Perceived spiders are the stimulus. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-unfamiliar",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of unfamiliar has base price -15, adjusted for self-control. Unfamiliar situations/people trigger according to actor experience; being surrounded by unfamiliar nonhuman people gives -3. Failure can produce authored fear-driven hostility rather than establishing facts about those people. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-sunlight",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of sunlight has base price -15, adjusted for self-control. Perceived sun exposure is the stimulus; distinguish the fear procedure from actual sunlight vulnerability. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-weapons",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stimulus-specific fear of weapons has base price -20, adjusted for self-control. Weapons are stressful; trying to use one or being threatened with one gives -2 to self-control. Use the shared fear exposure, successful-resistance penalties and repeat-check procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-machinery",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Machinery fear costs base -5 at technology level four or lower, -15 at five or higher. Prohibit learning any machine repair and operation beyond simple mechanical transport/weapons. High-technology surroundings trigger, robots/computers give -3, hostile intelligent machines -6.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-magic",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Magic fear costs base -15/-10/-5 when magic is common/uncommon/essentially unknown. It prevents learning magic; perceived magic triggers, friendly targeting gives -3 and hostile targeting -6. Belief in the effect is sufficient even when no magic exists; do not leak actual supernatural validity.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-psi",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Psionic fear costs base -15/-10/-5 for common/uncommon/essentially unknown powers. A perceived display triggers and voluntary receipt is prohibited. Actual power presence is unnecessary if the actor believes it, so assess knowledge rather than hidden truth.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-phobia-sharp",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Sharp-object fear costs base -15 at technology level five or lower, -10 at six or higher. Attempting to use a sharp weapon or being threatened with one gives -2 to self-control. Medical needles and other pointed items remain relevant stimuli.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-postbattle-stress",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "combat",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Postbattle stress costs base -5. At the authored end of each battle, check self-control with possible danger/gruesomeness penalty; failure rolls three dice plus failure margin on the full fear table. Mark encounter end once so repeated end notifications do not produce extra checks.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-fire-setting",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fire-setting compulsion costs base -5 with self-control on an opportunity to start a fire. Failure prompts an attempt, which still needs ignition materials, time and ordinary success conditions; author also supplies behavior toward existing fires.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-all-limb-impairment",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "characters",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Total limb paralysis/absence costs -80 and combines acquired complete leg impairment with absent manipulators, without independent movement or manipulation. This trait counts toward the disadvantage cap, but up to four levels each of strength/dexterity reductions are exempt from that cap; further reductions count normally. Preserve actual targetable limbs when paralyzed.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-f-all-limb-restoration",
+      "source": "full-2008",
+      "pages": "B150",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Total limb impairment uses the separate arm/leg prosthetic and permanent-restoration rules. Apply mitigation and point repayment to the actual restored capabilities, with one shared accounting record; avoid automatically removing all restrictions when only one limb is restored.",
+      "tests": []
+    }
+  ]
+}

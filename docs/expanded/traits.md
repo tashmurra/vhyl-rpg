@@ -301,3 +301,15 @@ Mobility traits also alter valid hit locations, manipulator access, armor covera
 and point accounting. Acquired leg loss, naturally legless movement and anchored
 bodies must remain distinct. The inventory records these integration requirements;
 it does not yet provide their runtime behavior.
+
+
+The [sixth disadvantage segment](inventory/disadvantages-f.json) records each
+stimulus-specific fear, including technology-dependent prices and exposure
+modifiers. Successful resistance still imposes penalties, failed resistance uses
+the full fear table, and continuing exposure has its own retry clock. Believed
+threats must not disclose whether hidden supernatural effects are real.
+
+Violence constraints depend on authored intent, perceived targets and consequences.
+Limb and sensory restrictions require task-specific permissions and information
+filtering. These are pending integration requirements, including the unresolved
+relationship between single-eye ranged and general coordination penalties.
