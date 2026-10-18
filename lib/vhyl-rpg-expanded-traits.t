@@ -527,3 +527,82 @@ modify rpgExpandedTemplateTraits
         trait.selfControlRating = rating; trait.creationCost(); return trait;
     }
 ;
+
+/** B129: a rated investigative compulsion; warnings do not remove its trigger. */
+class RpgExpandedCuriosity: RpgExpandedDisadvantage
+    id = 'curious'
+    points = -5
+    controlled = true
+    templatePurchaseKind = 'expanded-curiosity'
+    validateDefinition()
+    {
+        if (self.id != 'curious' || self.points != -5 || self.level != 1 || !self.controlled
+            || self.percentages.length() != 0) rpgExpandedReject('curiosity-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+
+/** Authored concrete investigative alternatives for one interesting situation.
+ * Call complete only after the ordinary action has committed in the same transaction. */
+class RpgExpandedCuriosityTrigger: RpgExpandedSelfControlTrigger
+    subject = nil
+    interesting = nil
+    investigationActions = []
+    completedAction = nil
+    completionEvidence = nil
+    completedAt = nil
+    definition()
+    { return inherited() + [self.subject,self.interesting,self.investigationActions.length()] + self.investigationActions; }
+    assess()
+    {
+        local value = inherited();
+        if (value.status != 'ready') return value;
+        if (!self.trait.ofKind(RpgExpandedCuriosity)) rpgExpandedReject('curiosity-trigger-trait');
+        if (self.subject == nil || !self.interesting || self.investigationActions.length() == 0)
+        { value.status = 'blocked'; value.reason = 'curiosity-investigation-definition'; return value; }
+        local seen = [];
+        foreach (local action in self.investigationActions)
+        {
+            if (action == nil || holds(seen,action)) rpgExpandedReject('curiosity-investigation-actions');
+            seen = seen + [action];
+        }
+        return value;
+    }
+    permits(action)
+    {
+        if (self.result == nil) return nil;
+        self.assess();
+        return !self.active || holds(self.investigationActions,action);
+    }
+    complete(action,evidence)
+    {
+        local value = new RpgExpandedResult();
+        if (self.result == nil) { value.reason = 'curiosity-unresolved'; return value; }
+        self.assess();
+        if (self.completedAt != nil)
+        {
+            if (self.completedAction != action || self.completionEvidence != evidence || self.active)
+                rpgExpandedReject('curiosity-completion-binding');
+            value.status = 'reused'; return value;
+        }
+        if (!self.active) { value.reason = 'curiosity-no-obligation'; return value; }
+        if (!holds(self.investigationActions,action) || evidence == nil || evidence == '')
+        { value.reason = 'curiosity-completion-evidence'; return value; }
+        self.completedAction = action; self.completionEvidence = evidence;
+        self.completedAt = rpgLedger.seconds; self.active = nil;
+        value.status = 'resolved'; return value;
+    }
+;
+
+modify rpgExpandedTemplateTraits
+    rated(id, level, scope, rating)
+    {
+        if (id != 'curious') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedCuriosity(); trait.labelId = id;
+        trait.level = level; trait.scope = scope; trait.approved = true;
+        trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+;

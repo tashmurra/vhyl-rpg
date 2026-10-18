@@ -202,10 +202,11 @@ expanded suite remain paused.
 ## Purchased self-control in template rows
 
 With the traits module installed, `traitRows` also accepts
-`['truthfulness', 1, scope, rating]`, where `rating` is 6, 9, 12 or 15.
+`['truthfulness', 1, scope, rating]` or `['curious', 1, scope, rating]`,
+where `rating` is 6, 9, 12 or 15.
 `rpgExpandedTemplateTrait(row)` resolves both the original three-field form and
 this explicit four-field purchase. The latter creates a fresh
-`RpgExpandedTruthfulness`, preserving its concrete trigger interface and the
+`RpgExpandedTruthfulness` or `RpgExpandedCuriosity`, preserving its concrete trigger interface and the
 selected rating. The existing three-field form retains shared catalogue behavior.
 Other four-field trait IDs currently reject as `template-rated-trait-unavailable`;
 the same rejection occurs when the traits module is absent.

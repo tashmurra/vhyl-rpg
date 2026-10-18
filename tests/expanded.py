@@ -8965,6 +8965,8 @@ def test(build):
     test_pain(Session, pain, build.out)
     self_control = build.build('expanded-self-control', ROOT / 'tests/fixtures/expanded-self-control.t')
     test_expanded_self_control(Session, self_control)
+    curiosity = build.build('expanded-curiosity', ROOT / 'tests/fixtures/expanded-curiosity.t')
+    test_curiosity(Session, curiosity, build.out)
     test_self_control_points(Session, self_control, build.out)
     truthfulness = build.build('expanded-truthfulness', ROOT / 'tests/fixtures/expanded-truthfulness.t')
     test_truthfulness(Session, truthfulness, build.out)
@@ -12869,3 +12871,55 @@ def test_statement_delivery(Session, bundle, out):
         assert state(s) == clear, 'altered source receipt delivered a statement'
     finally:
         s.close()
+
+
+def test_curiosity(Session, bundle, out):
+    def state(s):
+        s.action(2285, 683)
+        return last(s, 'test.curiosity')
+    clear = [0,0,0,0,None,0,0,0]
+    compelled = [1,1,0,0,None,1,0,3]
+    completed = [0,1,1,1,5,1,5,3]
+    path = out / 'expanded-curiosity.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 690)
+        assert last(s, 'test.curiosity-purchase') == [-10,6,True,-7,9,True,-5,12,True,-2,15,True]
+        for code in (30,680,682):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 681)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (681,681,686):
+            s.action(2285, code)
+        assert state(s) == compelled
+        s.action(2285, 685)
+        assert state(s) == compelled
+        s.action(2285, 684)
+        s.command('undo')
+        assert state(s) == compelled
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        assert state(s) == compelled
+        for code in (684,684,681):
+            s.action(2285, code)
+        assert state(s) == completed
+    finally:
+        s.close()
+    for setup, expected in [
+        ((688,), [0,1,1,0,None,1,0,3]),
+        ((687,), [1,1,0,0,None,1,0,0]),
+        ((689,), clear),
+    ]:
+        s = Session(bundle)
+        try:
+            for code in (30,) + setup + (681,):
+                s.action(2285, code)
+            assert state(s) == expected
+        finally:
+            s.close()

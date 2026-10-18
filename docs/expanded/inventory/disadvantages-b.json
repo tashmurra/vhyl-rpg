@@ -531,9 +531,12 @@
       "pages": "B129",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Compulsive curiosity is base -5 with self-control and prompts investigation of interesting unfamiliar situations despite known risk. Judgment-warning traits do not remove the urge. Author offers concrete investigative actions with ordinary costs and consequences instead of revealing hidden contents automatically.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_curiosity"
+      ],
+      "validation_note": "Rated trait, concrete occurrence choices, owned self-control, action permission and completion contract implemented. Cabinet-action fixture covers normal time cost, replay, rollback, undo and saved pending obligations; assertions unrun. Broader story-action integration and parser/dialogue parity remain incomplete."
     },
     {
       "id": "disadvantages-b-curse",

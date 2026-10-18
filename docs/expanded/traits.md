@@ -761,3 +761,46 @@ The template adapter accepts an explicit truthfulness rating in a fourth trait-r
 field, retaining `RpgExpandedTruthfulness` behavior and fresh ownership. See
 [purchased template traits](templates.md#purchased-self-control-in-template-rows)
 for supported rows, composition guards and choice accounting.
+
+## Curiosity occurrences
+
+`RpgExpandedCuriosity` implements the base −5 rated investigative compulsion
+(full-2008, B129). Set `approved = true` and an optional `selfControlRating`;
+its price and runtime rating use the shared B121 procedure. Warning or judgment
+traits do not bypass this trigger. An explicit template row
+`['curious',1,scope,rating]` creates this concrete trait.
+
+For each interesting situation create an owned `RpgExpandedCuriosityTrigger`.
+Set the inherited profile, trait, stable ID, trigger and evidence, plus a
+`subject`, `interesting = true`, and a nonempty, unique `investigationActions`
+list. Entries are stable authored action identities for concrete ways to
+investigate that subject. They may share one parser/structured/dialogue operation.
+`assess()` rejects incomplete definitions before rolling. `resolve()` performs
+self-control once, or accepts voluntary surrender, retaining the resulting
+obligation. Merely resolving it spends no action time and reveals no hidden facts.
+
+Before the ordinary story action executes, call `permits(actionIdentity)`.
+Unresolved occurrences permit nothing. After a failed check only the listed
+investigative actions are permitted through this contract; after success or
+completion the occurrence imposes no restriction. The author must install this
+gate in each applicable entry path. It is not an automatic global parser filter,
+and unrelated emergency or forced-action exceptions are not inferred.
+
+Execute the permitted action through its normal mechanics, charging its normal
+time/resources and applying its actual consequences. At the end of that same
+transaction, call `complete(actionIdentity,evidence)` with a nonempty account of
+the completed investigation. Do not call it for an assessment or failed attempt
+that did not investigate the subject. Completion clears the obligation and binds
+the action, evidence and game time. Identical completion calls reuse that record;
+a different action or explanation rejects. A transaction failure rolls back both
+the action and the completion. An investigation need not discover a secret to
+satisfy the compulsion.
+
+The `expanded-curiosity.t` integration opens an authored cabinet in five seconds,
+then records completion, with no automatic secret reveal. Its assertions cover
+failed and successful resistance, voluntary acceptance, action gating, missing
+definitions, repeat resolution, completion replay, rollback, undo, saved pending
+obligations and rated purchases. All are unrun. Broader story-action integration,
+parser/dialogue parity and general investigation mechanics remain incomplete;
+this entry remains partial rather than treating the author interface as complete
+catalogue coverage.

@@ -675,3 +675,8 @@ repairs and other tool uses remain incomplete.
   received-information ledger. Withheld information cannot be delivered; each
   recipient receives an utterance once, without automatic belief or additional
   rolls. Added rollback, undo and saved-continuation fixtures, still unrun.
+
+- Added rated curiosity occurrences with concrete investigative action choices,
+  one-time self-control and owned completion. Added a cabinet-action fixture
+  covering normal time charging, rollback, undo and saved pending obligations.
+  Explicit template purchases retain the concrete trait. Checks remain paused.
