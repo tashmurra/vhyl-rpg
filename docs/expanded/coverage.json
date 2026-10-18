@@ -352,9 +352,11 @@
       "status": "partial",
       "tests": [
         "tests/expanded.py::test_tactical_geometry",
-        "tests/expanded.py::test_tactical_movement_values"
+        "tests/expanded.py::test_tactical_movement_values",
+        "tests/expanded.py::test_tactical_positions",
+        "tests/expanded.py::test_tactical_position_persistence"
       ],
-      "validation_note": "Geometry, barriers, movement-value and facing assessments authored; fixtures unrun. Persistent paths, occupancy, minimum progress, steps and combat integration remain pending."
+      "validation_note": "Geometry, movement values, owned initial placement and occupancy authored; fixtures unrun. Paths, footprint transitions, close combat and battle integration remain pending."
     },
     {
       "id": "technology",

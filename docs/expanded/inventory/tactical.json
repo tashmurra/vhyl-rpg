@@ -14,9 +14,11 @@
       "status": "partial",
       "acceptance": "Each hex represents one yard. Human-sized or smaller combatants occupy one hex except actual close combat, swarms and noncombat crowding; up to four friendly ordinary humans can crowd without gaining normal fighting space.",
       "tests": [
-        "tests/expanded.py::test_tactical_geometry"
+        "tests/expanded.py::test_tactical_geometry",
+        "tests/expanded.py::test_tactical_positions",
+        "tests/expanded.py::test_tactical_position_persistence"
       ],
-      "implementation_note": "Pure geometric/terrain assessment only. Owned positions, occupancy and path integration remain incomplete; fixtures unrun."
+      "implementation_note": "Owned single-hex encounter placement, finite map occupancy and receipts authored. Crowding, close combat, swarms, multi-hex footprints and movement integration remain pending; fixtures unrun."
     },
     {
       "id": "tactical-partial-hex",

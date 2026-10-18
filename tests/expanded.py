@@ -9052,6 +9052,9 @@ def test(build):
     tactical = build.build('expanded-tactical', ROOT / 'tests/fixtures/expanded-tactical.t')
     fresh(Session, tactical, test_tactical_geometry)
     fresh(Session, tactical, test_tactical_movement_values)
+    positions = build.build('expanded-tactical-positions', ROOT / 'tests/fixtures/expanded-tactical-positions.t')
+    fresh(Session, positions, test_tactical_positions)
+    test_tactical_position_persistence(Session, positions, build.out)
     example = build.build('expanded-example',ROOT / 'examples/expanded/main.t')
     test_example(Session,example)
     print('  expanded example parser/action/dialogue parity: passed',flush=True)
@@ -9137,3 +9140,87 @@ def test_tactical_movement_values(s):
             assert last(s, 'test.tactical-turn') == ['ready', None, heading, cost]
     s.action(2277, 0, 3, 3)
     assert last(s, 'test.tactical-turn') == ['blocked', 'tactical-committed-turn-procedure', None, 0]
+
+
+def tactical_position_state(s):
+    s.action(2279)
+    return last(s, 'test.tactical-position-state')
+
+
+def test_tactical_positions(s):
+    before = tactical_position_state(s)
+    assert before == [0, 0, 0, 0, None, None, 0, 'standing', 0, 0]
+    s.action(2278, 1)
+    assert last(s, 'test.tactical-placement') == ['ready', None]
+    assert tactical_position_state(s) == before
+    s.action(2278, 2)
+    assert tactical_position_state(s) == before
+    s.action(2278, 0)
+    assert last(s, 'test.tactical-placement') == ['resolved', None]
+    placed = tactical_position_state(s)
+    assert placed == [1, 1, 1, 1, 0, 0, 2, 'standing', 0, 0]
+    s.command('undo')
+    assert tactical_position_state(s) == before
+    s.action(2278, 0)
+    s.action(2278, 0)
+    assert last(s, 'test.tactical-placement') == ['reused', None]
+    assert tactical_position_state(s) == placed
+    s.action(2280)
+    assert last(s, 'test.tactical-occupancy') == ['ready', None, 1]
+    s.action(2278, 12)  # A retargeted setup receipt must never move the figure.
+    s.action(2278, 0)
+    assert last(s, 'test.tactical-placement') == ['error', 'tactical-placement-binding']
+    assert tactical_position_state(s) == placed
+
+
+def test_tactical_position_persistence(Session, bundle, out):
+    path = out / 'expanded-tactical-position.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2278, 0)
+        saved = tactical_position_state(first)
+        first.command(f':save {path}\n@2279')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2279')
+        assert tactical_position_state(second) == saved
+        second.action(2278, 0)
+        assert last(second, 'test.tactical-placement') == ['reused', None]
+        assert tactical_position_state(second) == saved
+        second.action(2278, 6)
+        second.action(2278, 20)
+        assert last(second, 'test.tactical-placement') == ['blocked', 'tactical-shared-cell-procedure-required']
+        second.action(2278, 7)
+        second.action(2280)
+        assert last(second, 'test.tactical-occupancy') == ['blocked', 'tactical-footprint-transition-required', 0]
+    finally:
+        second.close()
+    for code, status, reason in [
+            (3, 'blocked', 'tactical-solid-barrier'),
+            (4, 'blocked', 'tactical-unmapped-cell'),
+            (7, 'blocked', 'tactical-footprint-transition-required'),
+            (9, 'blocked', 'tactical-placement-evidence'),
+            (10, 'error', 'tactical-map-duplicate-cell'),
+            (13, 'blocked', 'tactical-body-form-unimplemented')]:
+        session = Session(bundle)
+        try:
+            session.action(2278, code)
+            session.action(2278, 0)
+            assert last(session, 'test.tactical-placement') == [status, reason]
+            assert tactical_position_state(session)[:7] == [0, 0, 0, 0, None, None, 0]
+        finally:
+            session.close()
+    session = Session(bundle)
+    try:
+        session.action(2278, 5)
+        session.action(2278, 0)
+        assert tactical_position_state(session)[4:6] == [0, -1]
+        session.action(2278, 20)
+        assert tactical_position_state(session)[:2] == [2, 2]
+        session.action(2278, 11)
+        session.action(2278, 21)
+        assert last(session, 'test.tactical-placement') == ['error', 'tactical-placement-binding']
+    finally:
+        session.close()

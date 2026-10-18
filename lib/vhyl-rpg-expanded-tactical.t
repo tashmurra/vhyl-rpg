@@ -244,3 +244,167 @@ rpgExpandedFinalFacing(facing, targetFacing, maneuver, allowanceHalfPoints, spen
     { value.reason = 'tactical-final-facing-limit'; return value; }
     value.heading = targetFacing; value.status = 'ready'; return value;
 }
+
+modify RpgExpandedProfile
+    tacticalFigure = nil
+;
+
+/** Finite authored encounter map. Missing cells are unknown, never open terrain. */
+class RpgExpandedTacticalMap: object
+    id = nil
+    cells = []
+    figures = []
+    placements = []
+    validate()
+    {
+        if (self.id == nil || self.id == '') rpgExpandedReject('tactical-map-id');
+        local seen = [];
+        foreach (local cell in self.cells)
+        {
+            if (cell == nil || !cell.ofKind(RpgExpandedHexTerrain)) rpgExpandedReject('tactical-map-cell');
+            cell.assess();
+            foreach (local prior in seen)
+                if (rpgExpandedHexDistance(prior.coordinate,cell.coordinate) == 0)
+                    rpgExpandedReject('tactical-map-duplicate-cell');
+            seen = seen + [cell];
+        }
+        local profiles = []; local ids = [];
+        foreach (local figure in self.figures)
+        {
+            if (figure == nil || !figure.ofKind(RpgExpandedTacticalFigure)
+                || figure.map != self || figure.profile == nil
+                || !figure.profile.ofKind(RpgExpandedProfile)
+                || figure.profile.tacticalFigure != figure || figure.placement == nil
+                || !holds(self.placements,figure.placement) || figure.placement.result == nil
+                || figure.placement.figure != figure || figure.placement.map != self)
+                rpgExpandedReject('tactical-figure-ownership');
+            if (holds(ids,figure.id) || holds(profiles,figure.profile))
+                rpgExpandedReject('tactical-duplicate-figure');
+            ids = ids + [figure.id]; profiles = profiles + [figure.profile];
+            if (figure.coordinate == nil || !figure.coordinate.ofKind(RpgExpandedHex))
+                rpgExpandedReject('tactical-figure-coordinate');
+            local definition = figure.placement.definition();
+            for (local index = 1; index <= definition.length(); index += 1)
+                if (definition[index] != figure.placement.boundDefinition[index])
+                    rpgExpandedReject('tactical-placement-binding');
+            figure.coordinate.validate(); rpgInteger(figure.facing,0,5);
+        }
+        return nil;
+    }
+    cellAt(coordinate)
+    {
+        if (coordinate == nil || !coordinate.ofKind(RpgExpandedHex)) rpgExpandedReject('tactical-coordinate');
+        coordinate.validate();
+        foreach (local cell in self.cells)
+            if (rpgExpandedHexDistance(cell.coordinate,coordinate) == 0) return cell;
+        return nil;
+    }
+    occupancy(coordinate)
+    {
+        self.validate();
+        local value = new RpgExpandedOccupancyResult();
+        local cell = self.cellAt(coordinate);
+        if (cell == nil) { value.reason = 'tactical-unmapped-cell'; return value; }
+        local terrainResult = cell.assess();
+        if (terrainResult.status != 'ready') { value.reason = terrainResult.reason; return value; }
+        foreach (local figure in self.figures)
+        {
+            /* A changed body/posture can extend beyond its stored origin. Until
+             * that footprint is resolved, no apparently empty destination is safe. */
+            if (figure.footprintReason() != nil)
+            { value.reason = figure.footprintReason(); return value; }
+            if (rpgExpandedHexDistance(figure.coordinate,coordinate) == 0)
+                value.occupants = value.occupants + [figure];
+        }
+        value.status = 'ready'; return value;
+    }
+;
+
+/** A figure shares its character's posture and health; only geometry lives here. */
+class RpgExpandedTacticalFigure: object
+    id = nil
+    profile = nil
+    map = nil
+    coordinate = nil
+    facing = 0
+    bodyForm = 'upright-human'
+    placement = nil
+    footprintReason()
+    {
+        if (self.bodyForm != 'upright-human') return 'tactical-body-form-unimplemented';
+        if (!holds(['standing','crouching','kneeling','sitting'],self.profile.posture))
+            return 'tactical-footprint-transition-required';
+        return nil;
+    }
+;
+
+/** Pure occupancy result. Sharing a cell requires a separate explicit procedure. */
+class RpgExpandedOccupancyResult: RpgExpandedResult
+    occupants = []
+;
+
+/** Encounter setup placement, not a movement or teleport action. It records the
+ * initial authored position once without spending combat time or resources. */
+class RpgExpandedTacticalPlacement: object
+    id = nil
+    map = nil
+    figure = nil
+    coordinate = nil
+    facing = 0
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    {
+        return [self.id,self.map,self.figure,self.figure.id,self.figure.profile,
+            self.figure.bodyForm,self.coordinate.q,self.coordinate.r,self.facing,self.approved,self.evidence];
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.map == nil || !self.map.ofKind(RpgExpandedTacticalMap)
+            || self.figure == nil || !self.figure.ofKind(RpgExpandedTacticalFigure)
+            || self.figure.id == nil || self.figure.id == '' || self.figure.profile == nil
+            || !self.figure.profile.ofKind(RpgExpandedProfile)
+            || self.coordinate == nil || !self.coordinate.ofKind(RpgExpandedHex))
+            rpgExpandedReject('tactical-placement-definition');
+        self.coordinate.validate(); rpgInteger(self.facing,0,5);
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('tactical-placement-binding');
+            self.map.validate();
+            if (!holds(self.map.placements,self) || !holds(self.map.figures,self.figure)
+                || self.figure.placement != self) rpgExpandedReject('tactical-placement-history');
+            value.status = 'reused'; return value;
+        }
+        rpgExpandedValidate(self.figure.profile); self.map.validate();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'tactical-placement-evidence'; return value; }
+        if (self.figure.map != nil || self.figure.placement != nil || self.figure.profile.tacticalFigure != nil)
+        { value.reason = 'tactical-already-placed'; return value; }
+        value.reason = self.figure.footprintReason(); if (value.reason != nil) return value;
+        foreach (local prior in self.map.placements)
+            if (prior.id == self.id) rpgExpandedReject('tactical-placement-duplicate');
+        foreach (local prior in self.map.figures)
+            if (prior.id == self.figure.id) rpgExpandedReject('tactical-duplicate-figure');
+        local occupancy = self.map.occupancy(self.coordinate);
+        if (occupancy.status != 'ready') { value.reason = occupancy.reason; return value; }
+        if (occupancy.occupants.length() != 0)
+        { value.reason = 'tactical-shared-cell-procedure-required'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition();
+        /* Copy coordinates: mutating a setup request cannot move its figure. */
+        self.figure.coordinate = rpgExpandedHex(self.coordinate.q,self.coordinate.r);
+        self.figure.facing = self.facing; self.figure.map = self.map; self.figure.placement = self;
+        self.figure.profile.tacticalFigure = self.figure;
+        self.map.figures = self.map.figures + [self.figure]; self.map.placements = self.map.placements + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

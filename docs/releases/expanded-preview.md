@@ -151,3 +151,9 @@ turns from fixed-facing sidesteps, and apply the final-facing restrictions.
 Whole-allowance entries, jumping and evasion have explicit result contracts;
 complete path execution and its transactional integration remain pending. The
 associated movement-value fixtures are authored and unrun.
+
+Tactical maps now own initial single-hex figure placements and retained receipts.
+Finite-cell occupancy checks reject unknown terrain and unresolved footprint
+changes. Replay cannot reset a position or install a second figure for a character.
+Position transaction and save fixtures are authored but unrun; movement, larger
+footprints, close combat and encounter transfer remain incomplete.

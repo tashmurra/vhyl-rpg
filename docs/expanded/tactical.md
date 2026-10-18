@@ -5,7 +5,7 @@
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
 Include `vhyl-rpg-expanded-tactical.t` after the expanded foundation, or use the
-all-module umbrella. It currently supplies pure geometry and terrain assessments.
+all-module umbrella. It supplies geometry, movement-value assessments and owned encounter placement.
 Including it does not activate tactical movement or replace existing combat.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
@@ -113,13 +113,12 @@ The resulting reason distinguishes that author ruling from a solid barrier.
 This assessment addresses barriers only: `ready` does not certify occupancy,
 posture, terrain cost, clearance or a complete movement path.
 
-These interfaces spend neither time nor randomness and install no persistent
-figure state. They need no separate tactical ledger. The minimal
+These geometry interfaces spend neither time nor randomness and install no persistent
+figure state. Owned placement is described below. The minimal
 [fixture](../../tests/fixtures/expanded-tactical.t) and `test_tactical_geometry`
 specify all six rotations, both handedness choices, adjacency rejection,
-distance examples and barrier decisions. They are authored but unrun. Owned
-positions, posture transitions, path execution and their transaction/save
-fixtures are still required before tactical encounters are playable.
+distance examples and barrier decisions. They are authored but unrun. Posture transitions and path execution still need their own transaction/save
+fixtures before tactical encounters are playable.
 
 
 ## Movement costs and heading changes
@@ -175,5 +174,57 @@ validated path; this helper does not independently establish a legal budget or
 minimum-progress exception.
 
 A step is a separate procedure. Do not apply these movement-point costs to its
-hex allowance. Persistent positions, footprint/occupancy checks, minimum progress,
-step execution, interrupted movement and battle-clock integration remain pending.
+hex allowance. Owned initial positions and occupancy queries are available below. Footprint
+transitions, minimum progress, step execution, interrupted movement and
+battle-clock integration remain pending.
+
+
+## Owned encounter placement
+
+`RpgExpandedTacticalMap` is a finite encounter map with an `id` and an authored
+`cells` list of `RpgExpandedHexTerrain` objects. Repeated coordinates are invalid.
+A missing cell is unknown, not passable ground. Its `figures` and `placements`
+are persistent owned records populated by successful placement operations.
+
+Create one `RpgExpandedTacticalFigure` per character with a unique map-local `id`
+and `profile`. The supported initial `bodyForm` is `upright-human`, with the
+profile standing, crouching, kneeling or sitting. This describes an authored
+ordinary one-hex body; it does not automatically infer anatomy from purchased
+traits. Lying, crawling, horizontal bodies, larger figures and swarms require
+footprint procedures that are not yet implemented.
+
+`RpgExpandedTacticalPlacement` supplies `id`, `map`, `figure`, `coordinate`,
+`facing`, `approved` and nonempty `evidence` establishing the initial encounter
+position. Call `assess()` for a pure preview, then `apply()` inside an engine
+transaction. Placement copies the input coordinate and installs the figure in
+both the map roster and `profile.tacticalFigure`. It changes no posture, health,
+time, inventory or advancement balance. A character already assigned to any map
+cannot acquire a second figure through another placement.
+
+This is encounter setup, not teleportation or a movement action. A receipt binds
+its original character, figure identity, body form, coordinates, heading and
+author evidence. Replay returns `reused` without resetting position. Mutating the
+request cannot move the figure. Map ownership and receipt bindings are checked
+when occupancy is queried. Encounter exit and transfer need explicit future
+operations; do not clear ownership fields manually during play.
+
+`map.occupancy(coordinate)` returns a structured result with `occupants` for a
+known passable cell. It neither grants traversal nor authorizes sharing a hex.
+Placement rejects an occupied destination with
+`tactical-shared-cell-procedure-required`; close combat and friendly noncombat
+crowding remain separate pending procedures. Allies can eventually be crossed at
+an increased movement cost, but initial placement does not implement traversal.
+
+The character's existing `posture` remains authoritative. If any installed figure
+changes into an unsupported footprint, occupancy queries return
+`tactical-footprint-transition-required`, even for another cell: an unresolved
+second occupied hex cannot safely be assumed empty. Resolve posture/footprint
+transitions through the future tactical interface before continuing map actions.
+The current implementation does not intercept every existing combat posture change.
+
+The [position fixture](../../tests/fixtures/expanded-tactical-positions.t),
+`test_tactical_positions` and `test_tactical_position_persistence` specify preview,
+replay, exception rollback, undo, cross-process saves, ownership, occupied cells,
+barriers, missing cells, duplicate map cells and unresolved footprints. All are
+unrun while checks remain paused. Saves still require the exact compiled game;
+there is no migration or separate tactical save format.
