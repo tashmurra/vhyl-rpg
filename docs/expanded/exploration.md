@@ -1845,8 +1845,7 @@ roll adds none; authored handling durations still use the common ledger.
 
 `test_packing_attempt` specifies blocked prerequisites, successful ordering,
 preview purity, rollback, undo, save continuation, replay and mismatched occurrence
-rejection. Fixtures remain unrun. Inventory movement, knowledge delivery, shared native actions and journey execution
-integration remain pending.
+rejection. Fixtures remain unrun. Inventory movement and journey execution integration remain pending.
 
 
 ### Packing evaluations and route recommendations
@@ -1862,8 +1861,32 @@ Preview returns no finding. A successful committed check returns the approved
 finding, while a failed check returns none. Repeating the operation retains the
 original outcome, including failure. The request and result bind the finding so
 that later edits cannot replace a completed recommendation. Receiving the finding
-in a character's knowledge ledger is a separate integration still pending.
+in a character's knowledge ledger uses the separate disclosure operation below.
 
 `test_packing_findings` specifies route and evaluation results, missing findings,
 inapplicable load findings, preview purity, success and failure, rollback, undo,
 save continuation and changed-result rejection. Fixtures remain unrun.
+
+
+### Packing knowledge and native actions
+
+With social installed, `RpgExpandedPackingDisclosure` takes `id`, `attempt` and
+`recipient`. The recipient must be the packing actor and own their knowledge
+record. `assess()` previews delivery without exposing the statement; `deliver()`
+records the exact successful finding once in `knowledge.received`. Failed rolls
+and tasks without findings cannot disclose information. Delivery preserves beliefs
+and spends no additional time or randomness. Reuse validates its timestamp, owner,
+statement and received-history row.
+
+`RpgExpandedPackingAction` binds `attempt`, optional `disclosure` and `operation`
+(`assess` or `receive`). Its command `exec(context)` and dialogue
+`perform(context.asker)` both require the acting character's `rpgProfile` to match
+the attempt's profile. `assess` commits the packing roll; it is not the pure preview
+method. Events `rpg.expanded.packing` contain operation, status and reason. Use the
+returned result for authored presentation of findings.
+
+The disclosure and action fixtures demonstrate route planning through parser,
+structured verbs and dialogue, including missing results, failed rolls, wrong
+knowledge owners, rollback, undo, repeated delivery and cross-process saves. They
+remain unrun while checks are paused. These actions resolve the packing check;
+loading inventory and executing caravan travel remain separate unfinished work.

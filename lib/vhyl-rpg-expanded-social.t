@@ -3518,3 +3518,91 @@ class RpgExpandedPaleontologyAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+/** Receive one resolved packing finding without forced belief changes. */
+class RpgExpandedPackingDisclosure: object
+    id = nil
+    attempt = nil
+    recipient = nil
+    completedAt = nil
+    boundCompletedAt = nil
+    boundDefinition = nil
+    boundKnowledge = nil
+    boundStatement = nil
+    definition()
+    { return [self.id,self.attempt,self.recipient]; }
+    assess()
+    {
+        local value = new RpgExpandedInformationDeliveryResult();
+        if (self.id == nil || self.id == '' || self.attempt == nil || !self.attempt.ofKind(RpgExpandedPackingReceipt)
+            || self.recipient == nil || !self.recipient.ofKind(RpgExpandedProfile) || self.recipient.knowledge == nil
+            || !self.recipient.knowledge.ofKind(RpgExpandedKnowledge)
+            || self.recipient.knowledge.owner != self.recipient) rpgExpandedReject('packing-disclosure-definition');
+        if (self.attempt.result == nil) { value.reason = 'packing-disclosure-unresolved'; return value; }
+        self.attempt.validateReceipt(); self.recipient.knowledge.validate();
+        if (self.recipient != self.attempt.profile) { value.reason = 'packing-disclosure-observer-required'; return value; }
+        if (self.completedAt != nil)
+        {
+            if (self.completedAt != self.boundCompletedAt || self.completedAt > rpgLedger.seconds)
+                rpgExpandedReject('packing-disclosure-clock');
+            local facts = self.definition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('packing-disclosure-binding');
+            if (self.boundKnowledge != self.recipient.knowledge || self.attempt.disclosure != self
+                || self.boundStatement != self.attempt.result.finding)
+                rpgExpandedReject('packing-disclosure-binding');
+            local count = 0;
+            foreach (local row in self.boundKnowledge.received)
+                if (row[1] == self.id)
+                {
+                    if (row[2] != self.attempt.profile || row[3].length() != 1
+                        || row[3][1] != self.boundStatement || row[4] != 0) rpgExpandedReject('packing-disclosure-history');
+                    count += 1;
+                }
+            if (count != 1) rpgExpandedReject('packing-disclosure-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.attempt.disclosure != nil) { value.reason = 'packing-disclosure-already-recorded'; return value; }
+        if (self.attempt.result.finding == nil)
+        { value.reason = 'packing-disclosure-no-finding'; return value; }
+        foreach (local row in self.recipient.knowledge.received)
+            if (row[1] == self.id) rpgExpandedReject('packing-disclosure-duplicate');
+        value.status = 'ready'; return value;
+    }
+    deliver()
+    {
+        local value = self.assess();
+        if (value.status == 'reused') { value.statements = [self.boundStatement]; return value; }
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.boundKnowledge = self.recipient.knowledge;
+        self.boundStatement = self.attempt.result.finding;
+        value.statements = [self.boundStatement];
+        self.boundKnowledge.received = self.boundKnowledge.received + [[self.id,self.attempt.profile,value.statements,0]];
+        self.completedAt = rpgLedger.seconds; self.boundCompletedAt = self.completedAt; self.attempt.disclosure = self;
+        value.status = 'resolved'; return value;
+    }
+;
+
+
+
+/** One actor-bound route for packing and receiving its finding. */
+class RpgExpandedPackingAction: Action
+    attempt = nil
+    disclosure = nil
+    operation = 'assess'
+    perform(actor)
+    {
+        if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedPackingReceipt)
+            || !holds(['assess','receive'],self.operation)) rpgExpandedReject('packing-action-definition');
+        if (self.operation == 'receive' && (self.disclosure == nil || !self.disclosure.ofKind(RpgExpandedPackingDisclosure)
+            || self.disclosure.attempt != self.attempt || self.disclosure.recipient != self.attempt.profile))
+            rpgExpandedReject('packing-action-disclosure');
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile != self.attempt.profile)
+            value.reason = 'packing-action-observer-required';
+        else value = self.operation == 'assess' ? self.attempt.resolve() : self.disclosure.deliver();
+        event('rpg.expanded.packing'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;

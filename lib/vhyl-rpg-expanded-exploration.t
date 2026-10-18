@@ -3632,7 +3632,7 @@ class RpgExpandedPackingResult: RpgExpandedResult
     score = nil
     finding = nil
 ;
-class RpgExpandedPackingAttempt: object
+class RpgExpandedPackingAttempt: RpgExpandedPackingReceipt
     id = nil
     profile = nil
     animal = nil

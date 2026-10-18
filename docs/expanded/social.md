@@ -1671,3 +1671,13 @@ to receive a successful owned specimen finding without changing beliefs, and
 describes ownership, preview, delivery and replay contracts. The foundation
 receipt interface keeps social independent of exploration includes; attempting to
 resolve the bare foundation receipt rejects explicitly.
+
+
+## Packing findings
+
+`RpgExpandedPackingDisclosure` delivers a successful evaluation or route finding
+to the actor's owned knowledge record without forcing belief changes.
+`RpgExpandedPackingAction` supplies shared parser, structured-action and dialogue
+execution. See [Packing knowledge and native actions](exploration.md#packing-knowledge-and-native-actions)
+for the contract. Social depends on a foundation receipt interface, so it does not
+require the exploration implementation merely to be included.

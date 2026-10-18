@@ -9436,6 +9436,10 @@ def test(build):
     test_packing_attempt(Session,packing_attempt,build.out)
     packing_findings = build.build("expanded-packing-findings",ROOT / "tests/fixtures/expanded-packing-findings.t")
     test_packing_findings(Session,packing_findings,build.out)
+    packing_disclosure = build.build("expanded-packing-disclosure",ROOT / "tests/fixtures/expanded-packing-disclosure.t")
+    test_packing_disclosure(Session,packing_disclosure,build.out)
+    packing_actions = build.build("expanded-packing-actions",ROOT / "tests/fixtures/expanded-packing-actions.t")
+    test_packing_actions(Session,packing_actions)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24585,3 +24589,94 @@ def test_packing_findings(Session, bundle, out):
         assert last(s,'test.packing-finding-error') == ['packing-finding-inapplicable']
     finally:
         s.close()
+
+
+def test_packing_disclosure(Session, bundle, out):
+    """A successful assessment supplies one observer-only finding; unrun."""
+    path = out / 'packing-disclosure.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,22700)
+        assert last(s,'test.packing-disclosure') == ['blocked','packing-disclosure-unresolved',[]]
+        s.action(1680,22600); s.action(1680,22704)
+        assert last(s,'test.packing-disclosure-preview') == ['ready',0]
+        s.action(1680,22701); s.action(1680,22702)
+        assert last(s,'test.packing-knowledge') == [0,0,3]
+        s.action(1680,22700)
+        assert last(s,'test.packing-disclosure') == ['resolved',None,['The eastern pass is suitable for these pack animals']]
+        s.command('undo'); s.action(1680,22702)
+        assert last(s,'test.packing-knowledge') == [0,0,3]
+        for code in (22700,22700,22702):
+            s.action(1680,code)
+        assert last(s,'test.packing-knowledge') == [1,0,3]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681')
+        s.action(1680,22700); s.action(1680,22702)
+        assert last(s,'test.packing-knowledge') == [1,0,3]
+        s.action(1680,22703)
+        assert last(s,'test.packing-disclosure-error') == ['packing-disclosure-clock']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (22505,22600,22700,22702):
+            s.action(1680,code)
+        assert last(s,'test.packing-disclosure') == ['blocked','packing-disclosure-no-finding',[]]
+        assert last(s,'test.packing-knowledge') == [0,0,3]
+    finally:
+        s.close()
+
+
+
+    s = Session(bundle)
+    try:
+        s.action(1680,22600); s.action(1680,22705)
+        assert last(s,'test.packing-disclosure-error') == ['packing-disclosure-definition']
+    finally:
+        s.close()
+
+
+def test_packing_actions(Session, bundle):
+    """Assessment and disclosure share actor ownership on every native route; unrun."""
+    for route in ('parser','structured','dialogue'):
+        s = Session(bundle)
+        try:
+            def perform(operation):
+                if route == 'parser':
+                    s.command({'assess':'plan route','receive':'receive finding','rollback':'rollback assessment'}[operation])
+                elif route == 'structured':
+                    s.action({'assess':22810,'receive':22811,'rollback':22812}[operation])
+                else:
+                    s.action(80,'packing-plan'); s.select(operation)
+            perform('receive')
+            assert last(s,'rpg.expanded.packing') == ['receive','blocked','packing-disclosure-unresolved']
+            perform('rollback'); s.action(1680,22506)
+            assert last(s,'test.packing-state') == [0,0,0,0]
+            perform('assess'); perform('receive')
+            assert last(s,'rpg.expanded.packing') == ['receive','resolved',None]
+            s.command('undo'); s.action(1680,22702)
+            assert last(s,'test.packing-knowledge') == [0,0,3]
+            perform('receive'); perform('receive'); perform('assess')
+            assert last(s,'rpg.expanded.packing') == ['assess','reused',None]
+            s.action(1680,22702)
+            assert last(s,'test.packing-knowledge') == [1,0,3]
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.action(1680,22800)
+            for operation in ('assess','receive'):
+                perform(operation)
+                assert last(s,'rpg.expanded.packing') == [operation,'blocked','packing-action-observer-required']
+            s.action(1680,22506)
+            assert last(s,'test.packing-state') == [0,0,0,0]
+        finally:
+            s.close()
+
+
+
+

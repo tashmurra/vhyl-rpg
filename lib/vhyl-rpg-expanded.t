@@ -834,3 +834,12 @@ rpgExpandedPackingHandling: object
     definition(attempt) { rpgExpandedReject('packing-creatures-required'); }
     assess(attempt,profile,animal,occurrence) { rpgExpandedReject('packing-creatures-required'); }
 ;
+
+/** Shared contract for exploration packing outcomes consumed by social. */
+class RpgExpandedPackingReceipt: object
+    profile = nil
+    result = nil
+    disclosure = nil
+    validateReceipt() { rpgExpandedReject('packing-exploration-required'); }
+    resolve() { rpgExpandedReject('packing-exploration-required'); }
+;
