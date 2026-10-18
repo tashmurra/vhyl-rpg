@@ -983,3 +983,8 @@ Enhanced jumping now supplies an owned safe-fall receipt connected to collision
 and injury resolution. Prepared maxima consider paid Jumping skill; optional
 Acrobatics reuses the prior landing roll. Protected impacts use no damage dice.
 Threshold, rollback, undo and saved-continuation fixtures are authored, unrun.
+
+Enhanced-jump travel assessment now calculates speed from current ground Move
+and maximum broad-jump range, retains fractional speeds and gives bounded
+whole-second travel time. Actual launch distance is checked independently.
+Time commitment and position changes remain pending; new assertions are unrun.

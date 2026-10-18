@@ -879,3 +879,8 @@ see [enhanced-jump fall protection](exploration.md#enhanced-jump-fall-protection
 It compares the full prepared running high-jump maximum with the fall and can
 reuse one successful Acrobatics landing for the five-yard extension. Jump
 movement speed and jump attacks remain pending; the trait is still partial.
+
+The enhanced-jump speed rule is now available through exploration's pure
+`travelAssessment`: current ground Move or one fifth of maximum broad-jump
+range, whichever is greater. It retains fractional speed and calculates elapsed
+whole seconds. Committed travel, interruption and jump attacks remain pending.

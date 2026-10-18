@@ -1129,3 +1129,27 @@ change. Duplicate protection records for one fall are rejected. The fixture
 `expanded-jump-fall.t` covers threshold boundaries, Acrobatics composition,
 inactive traits, rollback, undo and cross-process save continuation. Assertions
 remain unrun while checks are paused.
+
+
+### Enhanced-jump speed and elapsed time
+
+`rpgExpandedAssessJumpTravel(groundMove, maximumInchTenths, distanceInchTenths)`
+implements the B89 speed rule. It returns `speedNumerator / speedDenominator`
+in yards per second: the greater of ground Move and one fifth of maximum broad
+jump distance. Distances use tenths of an inch. The denominator is 1800, retaining
+fractional speeds without rounding the maximum-distance jump beyond five seconds.
+`seconds` is elapsed time rounded up to the engine's whole-second clock; a zero
+distance requires zero seconds. Requests exceeding maximum distance are blocked.
+
+For example, a hundred-yard maximum and ground Move five give a jump speed of
+twenty yards per second and a five-second maximum jump. Ground Move twenty-five
+gives a four-second maximum jump. Integer-limit distances are assessed without
+multiplying them into an overflowing intermediate result.
+
+`RpgExpandedJumpDistance.travelAssessment(distanceInchTenths)` supplies current
+ground Move and the computed maximum. It additionally requires active enhanced
+jumping and checks the actual launch's prepared/unprepared and running/standing
+range. Maximum-distance speed does not let an unprepared standing jump exceed
+its own distance limit. These are pure assessments; time commitment, travel
+interruption, position changes and jump attacks remain pending. The speed table
+and profile-boundary fixtures in `test_jump_travel` are authored, unrun.

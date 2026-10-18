@@ -2318,3 +2318,42 @@ class RpgExpandedJumpFallProtection: RpgExpandedLandingReceipt
         self.assess(); return self.result;
     }
 ;
+
+class RpgExpandedJumpTravelAssessment: RpgExpandedResult
+    speedNumerator = 0
+    speedDenominator = 1800
+    distanceInchTenths = 0
+    maximumInchTenths = 0
+;
+/** B89 speed is max(ground Move, maximum broad jump / five seconds).
+ * Numerator uses tenths of inches per five seconds, denominator yards per second. */
+rpgExpandedAssessJumpTravel(groundMove, maximumInchTenths, distanceInchTenths)
+{
+    rpgInteger(groundMove,0,1000); rpgInteger(maximumInchTenths,1,2147483647);
+    rpgInteger(distanceInchTenths,0,2147483647);
+    local value = new RpgExpandedJumpTravelAssessment();
+    value.maximumInchTenths = maximumInchTenths; value.distanceInchTenths = distanceInchTenths;
+    if (distanceInchTenths > maximumInchTenths) { value.reason = 'jump-travel-distance'; return value; }
+    value.speedNumerator = groundMove * 1800;
+    if (value.speedNumerator < maximumInchTenths) value.speedNumerator = maximumInchTenths;
+    /* Compare to floor(speed * elapsed) without multiplying large distances. */
+    while (value.seconds < 5 && distanceInchTenths >
+        (value.speedNumerator / 5) * value.seconds + (value.speedNumerator % 5) * value.seconds / 5)
+        value.seconds += 1;
+    value.status = 'ready'; return value;
+}
+
+modify RpgExpandedJumpDistance
+    travelAssessment(distanceInchTenths)
+    {
+        local actual = self.assess(); if (actual.status != 'ready') return actual;
+        local value = new RpgExpandedJumpTravelAssessment();
+        if (self.profile.enhancedJumpLevels() == 0)
+        { value.reason = 'jump-travel-trait-required'; return value; }
+        rpgInteger(distanceInchTenths,0,2147483647);
+        if (distanceInchTenths > actual.broadInchTenths)
+        { value.reason = 'jump-travel-launch-distance'; return value; }
+        local maximum = self.maximumAssessment(); if (maximum.status != 'ready') return maximum;
+        return rpgExpandedAssessJumpTravel(self.profile.move(),maximum.broadInchTenths,distanceInchTenths);
+    }
+;

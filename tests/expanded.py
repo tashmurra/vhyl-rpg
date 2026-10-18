@@ -9022,6 +9022,7 @@ def test(build):
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
     test_jump_profile(Session, jump_profile)
+    test_jump_travel(Session, jump_profile)
     jump_fall = build.build('expanded-jump-fall',ROOT / 'tests/fixtures/expanded-jump-fall.t')
     test_jump_fall(Session, jump_fall, build.out)
     throw_release = build.build('expanded-throw-release',ROOT / 'tests/fixtures/expanded-throw-release.t')
@@ -15394,5 +15395,28 @@ def test_jump_fall(Session, bundle, out):
         for code in (1325,1322):
             s.action(2285,code)
         assert last(s,'test.jump-protection') == ['blocked','jump-fall-trait-required',0,0]
+    finally:
+        s.close()
+
+
+def test_jump_travel(Session, bundle):
+    s = Session(bundle)
+    try:
+        s.action(2285,1333)
+        rows = [event['values'] for event in s.log if event['id'] == 'test.jump-travel-table']
+        assert rows[-8:] == [
+            ['ready',None,36000,1800,5], ['ready',None,45000,1800,4],
+            ['ready',None,36001,1800,5], ['ready',None,36001,1800,1],
+            ['ready',None,36001,1800,2], ['ready',None,36000,1800,0],
+            ['blocked','jump-travel-distance',0,1800,0],
+            ['ready',None,2147483647,1800,5]]
+        for code in (1330,1331):
+            s.action(2285,code)
+        assert last(s,'test.jump-travel') == ['ready',None,26880,1800,2,0,0]
+        s.action(2285,1332)
+        assert last(s,'test.jump-travel') == ['blocked','jump-travel-launch-distance',0,1800,0,0,0]
+        for code in (1303,1332):
+            s.action(2285,code)
+        assert last(s,'test.jump-travel') == ['ready',None,26880,1800,4,0,0]
     finally:
         s.close()

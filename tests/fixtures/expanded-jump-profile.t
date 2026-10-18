@@ -40,3 +40,33 @@ modify BleedTestAction
         return inherited(context);
     }
 ;
+
+modify BleedTestAction
+    exec(context)
+    {
+        local code = bleedInput.code;
+        if (code == 1330) { jumpTrait.level = 4; bleedProfile.traits = [jumpTrait]; return nil; }
+        if (code == 1331 || code == 1332)
+        {
+            local value = jumpDistance.travelAssessment(code == 1331 ? 10000 : 20000);
+            event('test.jump-travel'); eventValue(value.status); eventValue(value.reason);
+            if (value.ofKind(RpgExpandedJumpTravelAssessment))
+            { eventValue(value.speedNumerator); eventValue(value.speedDenominator); eventValue(value.seconds); }
+            eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+        }
+        if (code == 1333)
+        {
+            local cases = [[5,36000,36000],[25,36000,36000],[0,36001,36001],
+                [0,36001,7200],[0,36001,7201],[5,36000,0],[5,36000,36001],
+                [0,2147483647,2147483647]];
+            foreach (local row in cases)
+            {
+                local value = rpgExpandedAssessJumpTravel(row[1],row[2],row[3]);
+                event('test.jump-travel-table'); eventValue(value.status); eventValue(value.reason);
+                eventValue(value.speedNumerator); eventValue(value.speedDenominator); eventValue(value.seconds);
+            }
+            return nil;
+        }
+        return inherited(context);
+    }
+;

@@ -55,9 +55,10 @@
       "acceptance": "Enhanced jumping costs ten per level, doubling ordinary height and distance per level. Jump movement is the greater of ground movement and one fifth maximum long-jump distance. A jump-slam uses maximum jump movement and no separate accuracy check. Falls up to maximum high-jump distance cause no injury, increased by five yards after successful acrobatics.",
       "tests": [
         "tests/expanded.py::test_jump_profile",
-        "tests/expanded.py::test_jump_fall"
+        "tests/expanded.py::test_jump_fall",
+        "tests/expanded.py::test_jump_travel"
       ],
-      "validation_note": "Fixed ten-point level accounting, distance scaling and owned fall protection implemented. Maximum prepared running height compares the movement/optional-strength basis with paid Jumping skills. One existing Acrobatics landing can extend protection by five yards without another roll. The receipt integrates with owned collision and injury, including zero damage dice for protected falls. Boundary, disabled trait, rollback, undo and saved replay assertions authored, unrun. Enhanced ground movement, jump travel speed and jump attacks remain pending."
+      "validation_note": "Fixed ten-point level accounting, distance scaling and owned fall protection implemented. Maximum prepared running height compares the movement/optional-strength basis with paid Jumping skills. One existing Acrobatics landing can extend protection by five yards without another roll. The receipt integrates with owned collision and injury, including zero damage dice for protected falls. Boundary, disabled trait, rollback, undo and saved replay assertions authored, unrun. Enhanced ground movement, jump travel speed and jump attacks remain pending. Pure jump travel assessment now preserves rational speed, uses the greater of current ground Move and maximum broad-jump distance divided by five, rounds elapsed duration upward to whole engine seconds and checks actual launch range. Printed example, fractional-speed, overflow and launch-boundary assertions authored, unrun. Committed travel, interruption and position changes remain pending."
     },
     {
       "id": "traits-l-selected-roll",
