@@ -497,7 +497,7 @@
       "status": "partial",
       "acceptance": "Technology six area contact delivery, no delay, health-6, two dice toxic damage each minute for six cycles, price twenty and legality zero; an authored associated incapacitating condition is required.",
       "tests": ["tests/expanded.py::test_neurological_agent"],
-      "validation_note": "Fixed catalogue mechanics and explicit authored first-failed-cycle paralysis/seizure contracts implemented with bound duration and evidence. Six-cycle, rollback, undo and save-continuation assertions authored, unrun. Agony, retching, alternative onset policies and unprepared fear admission remain incomplete; duration is an authored decision, not supplied by this catalogue entry."
+      "validation_note": "Fixed catalogue mechanics and explicit authored first-failed-cycle paralysis/seizure/agony contracts implemented with bound duration and evidence. Six-cycle, coincident agony-fatigue/toxic deadlines, rollback, undo and save-continuation assertions authored, unrun. Retching, alternative onset policies and unprepared fear admission remain incomplete; duration is an authored decision, not supplied by this catalogue entry."
     },
     {
       "id": "poison-catalogue-combustion-smoke",

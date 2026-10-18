@@ -1608,7 +1608,7 @@ is still required until unprepared fear admission is integrated.
 This entry also requires an executable authored affliction contract on the
 exposure: `associatedCondition`, `associatedPolicy`, and `associationEvidence`.
 The supported policy is `first-failed-cycle`. Supply an approved
-`RpgExpandedParalysis` or `RpgExpandedSeizure` for the same patient, with its own
+`RpgExpandedParalysis`, `RpgExpandedSeizure` or `RpgExpandedAgony` for the same patient, with its own
 unique ID, duration and evidence. Paralysis also requires its balance assessment.
 The book lists possible accompanying conditions but does not supply their duration
 or precise onset/refresh procedure here. Selecting this policy and duration is an
@@ -1620,10 +1620,12 @@ restart or extend it. Its definition is bound into the exposure receipt and cann
 be changed after admission. Its own recovery remains independent of poison-cycle
 termination: an antidote that ends toxic cycles does not silently cure paralysis
 or settle a seizure's pending fatigue. A seizure end must be resolved at its exact
-shared-clock boundary. Agony, retching, combined irritant effects and alternative
+shared-clock boundary. Agony independently charges each begun minute; when its
+payment and a toxic cycle are both due, resolve both before advancing beyond that
+second. Toxic injury never settles an agony payment. Retching, combined irritant effects and alternative
 onset policies reject as unsupported rather than being approximated.
 
 `expanded-neurological-agent.t` specifies fixed catalogue values, six injury
 cycles, absence of condition refresh, successful resistance, missing-contract
-rejection, seizure-end integration, preview, replay, rollback, undo and saved
+rejection, seizure-end integration, coincident agony/toxic deadlines, preview, replay, rollback, undo and saved
 continuation. These assertions are authored and unrun.

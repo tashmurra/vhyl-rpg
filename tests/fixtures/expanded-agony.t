@@ -29,6 +29,11 @@ modify BleedTestAction
             eventValue(agonyEpisode.recurrenceBonus('intimidation',nil,nil)); return nil;
         }
         if (code == 499) { agonyEpisode.durationSeconds = 60; return nil; }
+        if (code == 500)
+        {
+            local check = new RpgLiteContext(); check.attribute = rpgWill; check.kind = 'pain-cry';
+            event('test.agony-pain-cry'); eventValue(rpgLiteScore(bleedProfile,check)); return nil;
+        }
         return inherited(context);
     }
 ;

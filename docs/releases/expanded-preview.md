@@ -564,3 +564,10 @@ handling and an explicit credible-recurrence bonus interface. Shared-clock guard
 prevent unpaid minutes from being skipped. Added authored, unrun fixtures for
 boundary costs, trait effects, transactional behavior and saved continuation.
 Cause and social adapters remain incomplete.
+
+
+Neurological agents now accept owned agony as their authored accompanying
+condition. Toxic cycles and begun-minute fatigue retain independent receipts and
+shared-clock deadlines. Involuntary pain-cry checks remain available during agony
+and seizures. Added authored, unrun assertions for coincident deadlines, rejected
+time advancement and independent resource spending.

@@ -3,6 +3,8 @@ neurologicalParalysis: RpgExpandedParalysis id = 'agent-paralysis' profile = ble
     approved = true positionAssessed = true balanced = nil evidence = 'Authored two-minute paralysis for this agent';
 neurologicalSeizure: RpgExpandedSeizure id = 'agent-seizure' profile = bleedProfile durationSeconds = 60
     approved = true evidence = 'Authored one-minute seizure for this agent';
+neurologicalAgony: RpgExpandedAgony id = 'agent-agony' profile = bleedProfile durationSeconds = 61
+    approved = true evidence = 'Authored sixty-one seconds of agony from the first failed cycle';
 modify BleedTestAction
     exec(context)
     {
@@ -30,6 +32,14 @@ modify BleedTestAction
             eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
         }
         if (code == 486) { neurologicalSeizure.finish(); return nil; }
+        if (code == 487) { poisonExposure.associatedCondition = neurologicalAgony; return nil; }
+        if (code == 488) { neurologicalAgony.pay('second'); return nil; }
+        if (code == 489)
+        {
+            event('test.neurological-agony'); eventValue(bleedProfile.agonized() ? 1 : 0);
+            eventValue(bleedProfile.fatigue); eventValue(bleedProfile.injury); eventValue(neurologicalAgony.payments.length());
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
         return inherited(context);
     }
 ;

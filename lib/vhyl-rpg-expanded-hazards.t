@@ -2680,7 +2680,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         { value.reason = 'poison-associated-condition-contract'; return value; }
         local effect = self.associatedCondition;
         if (self.causesCondition()) { value.reason = 'poison-combined-conditions-unimplemented'; return value; }
-        if ((!effect.ofKind(RpgExpandedParalysis) && !effect.ofKind(RpgExpandedSeizure)) || effect.profile != self.profile)
+        if ((!effect.ofKind(RpgExpandedParalysis) && !effect.ofKind(RpgExpandedSeizure) && !effect.ofKind(RpgExpandedAgony)) || effect.profile != self.profile)
         { value.reason = 'poison-associated-condition-unsupported'; return value; }
         if (self.associatedApplied)
         { effect.validateReceipt(); value.status = 'ready'; return value; }

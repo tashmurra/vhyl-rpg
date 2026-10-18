@@ -2655,5 +2655,7 @@ all conversations.
 
 `expanded-agony.t` specifies minute boundaries, trait differences, onset and
 payment replay, preview purity, rollback, undo, saved continuation and recurrence
-bonuses. Assertions remain unrun. Poison/cause adapters and social-operation
-integration remain incomplete.
+bonuses. Assertions remain unrun. The neurological-agent adapter can apply agony on the first failed toxic cycle;
+its fatigue schedule remains independent of toxic injury. Other cause adapters and
+social-operation integration remain incomplete. Involuntary pain-cry checks remain
+available during agony and seizures; these are not permissions to act voluntarily.

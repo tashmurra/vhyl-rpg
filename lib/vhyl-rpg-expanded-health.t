@@ -5617,7 +5617,7 @@ modify RpgExpandedProfile
     }
     healthCheckReason(context)
     {
-        if (self.seizing() && (context.mentalAbility || context.requiresSpeech || context.requiresMovement
+        if (self.seizing() && context.kind != 'pain-cry' && (context.mentalAbility || context.requiresSpeech || context.requiresMovement
             || context.requiresConcentration || holds(['attack','concentrate','talk'],context.kind)
             || context.skill != nil || holds([rpgDX,rpgST,rpgIQ,rpgPerception,rpgWill],context.controllingAttribute())))
             return 'seizure-check-unavailable';
@@ -5750,7 +5750,7 @@ modify RpgExpandedProfile
     }
     healthCheckReason(context)
     {
-        if (self.agonyIncapacitated() && !context.defensiveReaction && context.kind != 'defense'
+        if (self.agonyIncapacitated() && !context.defensiveReaction && !holds(['defense','pain-cry'],context.kind)
             && (context.skill != nil || context.mentalAbility || context.requiresMovement || context.requiresSpeech
                 || holds([rpgST,rpgDX,rpgIQ,rpgPerception,rpgWill],context.controllingAttribute())))
             return 'agony-check-unavailable';

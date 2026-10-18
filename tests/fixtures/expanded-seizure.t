@@ -23,6 +23,11 @@ modify BleedTestAction
         }
         if (code == 476) { bleedProfile.posture = 'sitting'; return nil; }
         if (code == 477) { seizureEpisode.assessEnd(); return nil; }
+        if (code == 478)
+        {
+            local check = new RpgLiteContext(); check.attribute = rpgWill; check.kind = 'pain-cry';
+            event('test.seizure-pain-cry'); eventValue(rpgLiteScore(bleedProfile,check)); return nil;
+        }
         return inherited(context);
     }
 ;

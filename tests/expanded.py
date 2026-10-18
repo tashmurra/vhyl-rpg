@@ -12095,6 +12095,8 @@ def test_seizure(Session, bundle, out):
         for code in (471, 471, 454, 455, 456, 473):
             s.action(2285, code)
         assert state(s) == active
+        s.action(2285, 478)
+        assert last(s, 'test.seizure-pain-cry') == [10]
         s.action(2285, 5)  # Cannot skip the unresolved end at second sixty.
         assert state(s) == active
         s.action(2285, 4)
@@ -12181,6 +12183,28 @@ def test_neurological_agent(Session, bundle, out):
     finally:
         s.close()
 
+    # One exposure owns toxic cycles; its agony episode independently owns FP.
+    s = Session(bundle)
+    try:
+        for code in (480, 487, 265, 260, 261, 263, 489):
+            s.action(2285, code)
+        assert last(s, 'test.neurological-agony') == [0, 0, 0, 0, 0, 0]
+        for code in (262, 262, 489):
+            s.action(2285, code)
+        assert last(s, 'test.neurological-agony') == [1, 1, 8, 1, 0, 5]
+        for code in (333, 489):
+            s.action(2285, code)
+        assert last(s, 'test.neurological-agony') == [1, 1, 16, 1, 60, 10]
+        # Both systems have a deadline at sixty: toxic resolution does not pay FP.
+        for code in (6, 489):
+            s.action(2285, code)
+        assert last(s, 'test.neurological-agony') == [1, 1, 16, 1, 60, 10]
+        for code in (488, 488, 6, 489):
+            s.action(2285, code)
+        assert last(s, 'test.neurological-agony') == [0, 2, 16, 2, 61, 10]
+    finally:
+        s.close()
+
 
 def test_agony(Session, bundle, out):
     def state(s):
@@ -12223,6 +12247,8 @@ def test_agony(Session, bundle, out):
             for code in (setup, 499, 491, 454):
                 s.action(2285, code)
             assert state(s) == [1, 'lying', fatigue, score, defense, actions, 1, 0, 0]
+            s.action(2285, 500)
+            assert last(s, 'test.agony-pain-cry') == [7 if setup == 497 else 10]
             for code in (4, 498):
                 s.action(2285, code)
             assert state(s) == [0, 'lying', fatigue, 10, 0, actions, 1, 60, 0]
