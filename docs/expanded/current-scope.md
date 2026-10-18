@@ -445,3 +445,9 @@ Inventory-backed equipment assessments now connect task-specific quality to
 actual owned, accessible tools through shared skill contexts. Unavailable tools
 block before rolling; numeric authored assessments keep their existing behavior.
 Consumption and borrowed/workshop access remain pending. Fixtures unrun.
+
+
+Task equipment can now use owned permission grants for shared carried tools or
+fixed facilities. Expiry, revocation, ownership and authored site facts are checked
+before rolls without moving inventory. Native movement wiring, consumption and
+capacity scheduling remain pending. Fixtures unrun.

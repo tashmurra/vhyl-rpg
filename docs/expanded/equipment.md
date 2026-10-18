@@ -855,3 +855,32 @@ quality-specific kits remain pending.
 `expanded-owned-tools.t` / `test_owned_tools` specify quality/condition arithmetic,
 storage and ownership rejection before rolls, wrong-character rejection, undo and
 saved continuation. Fixtures remain unrun while checks are paused.
+
+
+## Permitted shared tools and fixed facilities
+
+`RpgExpandedEquipmentAccess` owns a permission grant for one `profile`, `owner`,
+`item` and `skill`, with unique `id`, approval and evidence. Both profiles are
+expanded profiles. `grant()` records the permission once; optional `expiresAt`
+uses the existing world clock and expires at that exact second. `revoke()` ends
+permission immediately and idempotently. Permission transfers neither ownership,
+weight nor money.
+
+World integration must maintain each profile's `equipmentSite` using the game's
+actual location facts. For a carried borrowed tool, recipient and owner must have
+the same non-null site and the item must be usable. For a fixed facility, set the
+grant's `site`: recipient must be there and the item must be stored at precisely
+that site. This explicit grant permits use of the stored workshop without putting
+it into the recipient's carried inventory. Thrown/jointly carried items still
+block; changed ownership or duplicate inventory ownership cannot preserve access.
+These site tokens are authored world facts, not automatic native movement hooks.
+
+Use `RpgExpandedAccessibleEquipmentAssessment` with `accessGrants`. It applies
+the ordinary owned checks to the user's own items and resolves exactly one grant
+for each other item. The same B345 adequacy evidence and numeric quality/condition
+rules apply. Every use reassesses permission, expiry, ownership and physical
+access before rolling. Consumption, capacity scheduling and automatic native
+movement wiring remain pending. `expanded-equipment-access.t` /
+`test_equipment_access` specify carried and workshop access, expiry, revocation,
+movement/ownership changes, no transfer, rollback, undo and saved continuation.
+Fixtures remain unrun while checks are paused.

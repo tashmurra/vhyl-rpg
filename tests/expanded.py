@@ -9284,6 +9284,8 @@ def test(build):
     test_starting_purchases(Session, starting_purchases, build.out)
     owned_tools = build.build('expanded-owned-tools',ROOT / 'tests/fixtures/expanded-owned-tools.t')
     test_owned_tools(Session, owned_tools, build.out)
+    equipment_access = build.build('expanded-equipment-access',ROOT / 'tests/fixtures/expanded-equipment-access.t')
+    test_equipment_access(Session, equipment_access, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21976,3 +21978,44 @@ def test_owned_tools(Session, bundle, out):
         assert last(s, 'test.owned-tool-check') == ['blocked', 'owned-equipment-not-owned', 0]
     finally:
         s.close()
+
+
+def test_equipment_access(Session, bundle, out):
+    """B345 shared tools/workshop use has explicit permission and world-site facts; unrun."""
+    path = out / 'equipment-access.zsave'
+    s = Session(bundle)
+    try:
+        for code in (15200, 15103, 15208, 15209):
+            s.action(2285, code)
+        assert last(s, 'test.owned-tool-check') == ['blocked', 'equipment-access-not-granted', 0]
+        assert last(s, 'test.tool-access-state') == [0, 0, 1, 0]
+        s.action(2285, 15201)
+        s.command('undo')
+        s.action(2285, 15209)
+        assert last(s, 'test.tool-access-state') == [0, 0, 1, 0]
+        for code in (15201, 15201, 15101, 15209):
+            s.action(2285, code)
+        assert last(s, 'test.owned-tool-preview') == [2, None, 0]
+        assert last(s, 'test.tool-access-state') == [1, 0, 1, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (15201, 15101, 15203, 15103):
+            s.action(2285, code)
+        assert last(s, 'test.owned-tool-preview') == [2, None, 0]
+        assert last(s, 'test.owned-tool-check') == ['blocked', 'equipment-access-expired', 0]
+    finally:
+        s.close()
+    for setup, mutation, reason in [((),15202,'equipment-access-revoked'), ((),15204,'equipment-access-unavailable'),
+                                    ((15205,),15206,'equipment-access-wrong-site'), ((),15207,'equipment-access-owner-changed')]:
+        s = Session(bundle)
+        try:
+            for code in (15200,) + setup + (15201, 15101, mutation, 15103):
+                s.action(2285, code)
+            assert last(s, 'test.owned-tool-preview') == [2, None, 0]
+            assert last(s, 'test.owned-tool-check') == ['blocked', reason, 0]
+        finally:
+            s.close()

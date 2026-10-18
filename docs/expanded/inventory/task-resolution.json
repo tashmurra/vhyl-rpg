@@ -467,7 +467,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-none-other",
@@ -481,7 +481,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-improvised-technical",
@@ -495,7 +495,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-improvised-other",
@@ -509,7 +509,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-basic",
@@ -523,7 +523,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-good",
@@ -537,7 +537,7 @@
         "tests/expanded.py::test_equipment_quality"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-fine",
@@ -549,10 +549,11 @@
       "acceptance": "Apply equipment modifier 2. Fine equipment, priced at approximately twenty times basic cost.",
       "tests": [
         "tests/expanded.py::test_equipment_quality",
-        "tests/expanded.py::test_owned_tools"
+        "tests/expanded.py::test_owned_tools",
+        "tests/expanded.py::test_equipment_access"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-best",
@@ -567,7 +568,7 @@
         "tests/expanded.py::test_owned_tools"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-missing",
@@ -582,7 +583,7 @@
         "tests/expanded.py::test_owned_tools"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-equipment-damaged",
@@ -597,7 +598,7 @@
         "tests/expanded.py::test_owned_tools"
       ],
       "existing_feature": "task-equipment-quality",
-      "validation_note": "Numeric task assessment and context integration authored. Owned-equipment adapter now checks task identity, unique ownership and access before rolling. Borrowed/workshop access, consumption, purchase multipliers and catalogue-specific exceptions remain pending. Fixtures unrun."
+      "validation_note": "Numeric and owned-equipment assessments plus explicit shared-tool/workshop grants are implemented. Author-maintained site facts gate access alongside permission/expiry/ownership. Native movement wiring, consumption, purchase multipliers and catalogue exceptions remain pending. Fixtures unrun."
     },
     {
       "id": "task-time-extra-1",

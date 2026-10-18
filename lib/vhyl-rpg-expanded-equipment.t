@@ -1542,6 +1542,18 @@ class RpgExpandedOwnedEquipmentAssessment: RpgExpandedEquipmentAssessment
     items = []
     approved = nil
     evidence = nil
+    itemAccessReason(item)
+    {
+        if (!holds(self.profile.equipment,item)) return 'owned-equipment-not-owned';
+        local owners = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            foreach (local owned in owner.equipment) if (owned == item) owners += 1;
+        if (owners != 1) rpgExpandedReject('owned-equipment-shared-item');
+        rpgInteger(item.quantity,1,1000000);
+        if (!item.usableBy(self.profile) || item.thrownFlight != nil || item.sharedCarry != nil)
+            return 'owned-equipment-inaccessible';
+        return nil;
+    }
     assessFor(profile,skill)
     {
         if (profile != self.profile) rpgExpandedReject('owned-equipment-context-owner');
@@ -1560,17 +1572,104 @@ class RpgExpandedOwnedEquipmentAssessment: RpgExpandedEquipmentAssessment
         foreach (local item in self.items)
         {
             if (item == nil || !item.ofKind(RpgLiteItem) || holds(seen,item)) rpgExpandedReject('owned-equipment-item');
-            if (!holds(self.profile.equipment,item))
-            { value.status = 'blocked'; value.reason = 'owned-equipment-not-owned'; return value; }
-            local owners = 0;
-            for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
-                foreach (local owned in owner.equipment) if (owned == item) owners += 1;
-            if (owners != 1) rpgExpandedReject('owned-equipment-shared-item');
-            rpgInteger(item.quantity,1,1000000);
-            if (!item.usableBy(self.profile) || item.thrownFlight != nil || item.sharedCarry != nil)
-            { value.status = 'blocked'; value.reason = 'owned-equipment-inaccessible'; return value; }
+            value.reason = self.itemAccessReason(item);
+            if (value.reason != nil) { value.status = 'blocked'; return value; }
             seen = seen + [item];
         }
         return value;
+    }
+;
+
+modify RpgExpandedProfile
+    /* Authored current world site, updated by the game's movement integration. */
+    equipmentSite = nil
+    equipmentAccessGrants = []
+;
+/** Task-specific permission to use another profile's tools without transferring them. */
+class RpgExpandedEquipmentAccess: object
+    id = nil
+    profile = nil
+    owner = nil
+    item = nil
+    skill = nil
+    site = nil
+    expiresAt = nil
+    approved = nil
+    evidence = nil
+    recorded = nil
+    boundDefinition = nil
+    revokedAt = nil
+    definition() { return [self.id,self.profile,self.owner,self.item,self.skill,self.site,self.expiresAt,self.approved,self.evidence]; }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.owner == nil || !self.owner.ofKind(RpgExpandedProfile) || self.owner == self.profile
+            || self.item == nil || !self.item.ofKind(RpgLiteItem) || self.skill == nil || !self.skill.ofKind(RpgSkill))
+            rpgExpandedReject('equipment-access-definition');
+        if (self.recorded)
+        {
+            if (!holds(self.profile.equipmentAccessGrants,self)) rpgExpandedReject('equipment-access-history');
+            local facts = self.definition();
+            if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('equipment-access-binding');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('equipment-access-binding');
+            value.status = 'reused'; return value;
+        }
+        if (self.boundDefinition != nil || self.revokedAt != nil) rpgExpandedReject('equipment-access-uncommitted');
+        if (!holds(self.owner.equipment,self.item)) rpgExpandedReject('equipment-access-not-owned');
+        if (self.expiresAt != nil) rpgInteger(self.expiresAt,rpgLedger.seconds + 1,2147483647);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'equipment-access-permission-required'; return value; }
+        foreach (local prior in self.profile.equipmentAccessGrants) if (prior.id == self.id) rpgExpandedReject('equipment-access-duplicate');
+        value.status = 'ready'; return value;
+    }
+    grant()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.recorded = true;
+        self.profile.equipmentAccessGrants = self.profile.equipmentAccessGrants + [self]; value.status = 'resolved'; return value;
+    }
+    revoke()
+    {
+        if (self.assess().status != 'reused') rpgExpandedReject('equipment-access-not-granted');
+        if (self.revokedAt == nil) self.revokedAt = rpgLedger.seconds;
+        return nil;
+    }
+    useReason(profile,skill)
+    {
+        if (self.profile != profile || self.skill != skill) rpgExpandedReject('equipment-access-task');
+        if (self.assess().status != 'reused') return 'equipment-access-not-granted';
+        if (self.revokedAt != nil) return 'equipment-access-revoked';
+        if (self.expiresAt != nil && rpgLedger.seconds >= self.expiresAt) return 'equipment-access-expired';
+        if (!holds(self.owner.equipment,self.item)) return 'equipment-access-owner-changed';
+        local owners = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            foreach (local item in owner.equipment) if (item == self.item) owners += 1;
+        if (owners != 1) rpgExpandedReject('equipment-access-shared-item');
+        rpgInteger(self.item.quantity,1,1000000);
+        if (self.item.thrownFlight != nil || self.item.sharedCarry != nil) return 'equipment-access-unavailable';
+        if (self.site != nil)
+        {
+            if (profile.equipmentSite != self.site || self.item.storageLocation != self.site) return 'equipment-access-wrong-site';
+        }
+        else if (profile.equipmentSite == nil || profile.equipmentSite != self.owner.equipmentSite || !self.item.usableBy(profile))
+            return 'equipment-access-unavailable';
+        return nil;
+    }
+;
+class RpgExpandedAccessibleEquipmentAssessment: RpgExpandedOwnedEquipmentAssessment
+    accessGrants = []
+    itemAccessReason(item)
+    {
+        if (holds(self.profile.equipment,item)) return inherited(item);
+        local found = nil;
+        foreach (local grant in self.accessGrants)
+        {
+            if (grant == nil || !grant.ofKind(RpgExpandedEquipmentAccess)) rpgExpandedReject('equipment-access-grant-type');
+            if (grant.item == item)
+            { if (found != nil) rpgExpandedReject('equipment-access-ambiguous'); found = grant; }
+        }
+        return found == nil ? 'equipment-access-grant-required' : found.useReason(self.profile,self.skill);
     }
 ;
