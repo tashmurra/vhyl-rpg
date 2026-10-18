@@ -528,9 +528,10 @@
       "status": "partial",
       "acceptance": "Temporary strength penalties alter muscle-powered damage but ordinarily do not reduce health capacity or other derived characteristics.",
       "tests": [
-        "tests/expanded.py::test_strength_reduction"
+        "tests/expanded.py::test_strength_reduction",
+        "tests/expanded.py::test_strength_handling"
       ],
-      "validation_note": "Timed ST reduction now modifies shared strike, retaliation and throwing damage through a profile hook, preserves weapon-rated crossbow damage and leaves capacities/Basic Lift unchanged. Below-table strength rejects before combat rolls. Other strength-dependent handling and range adapters remain pending. Assertions authored, unrun."
+      "validation_note": "Timed ST reduction now modifies shared strike, retaliation and throwing damage through a profile hook, preserves weapon-rated crossbow damage and leaves capacities/Basic Lift unchanged. Below-table strength rejects before combat rolls. Other strength-dependent handling and range adapters remain pending. Assertions authored, unrun. Shared minimum-strength, one-handed handling, readiness, reload and range paths now use reduced handling strength; expanded bows/crossbows use weapon ratings. Boundary assertions authored, unrun. Explicit-strength assessments still require authored input."
     },
     {
       "id": "health-temporary-intelligence",

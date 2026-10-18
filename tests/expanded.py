@@ -9141,6 +9141,7 @@ def test(build):
     test_attribute_reduction(Session, attribute_reduction, build.out)
     strength_reduction = build.build('expanded-strength-reduction',ROOT / 'tests/fixtures/expanded-strength-reduction.t')
     test_strength_reduction(Session, strength_reduction)
+    test_strength_handling(Session, strength_reduction)
     talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
     test_talent_study(Session, talent_study, build.out)
     talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
@@ -18846,5 +18847,38 @@ def test_strength_reduction(Session, bundle):
         for code in (7903, 7801, 7904):
             s.action(2285, code)
         assert last(s, 'test.strength-error') == ['reduced-strength-damage-unavailable', 0]
+    finally:
+        s.close()
+
+
+def test_strength_handling(Session, bundle):
+    for setup, score, reload_time, distance in (([], 10, 4, 800), ([7801], 8, 8, 640)):
+        s = Session(bundle)
+        try:
+            for code in setup + [7911]:
+                s.action(2285, code)
+            assert last(s, 'test.strength-reload') == [reload_time, distance, 0]
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            for code in setup + [31, 7910]:
+                s.action(2285, code)
+            assert last(s, 'test.strength-handling') == [score]
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            for code in setup + [7912]:
+                s.action(2285, code)
+            expected = ['ready', None, 0] if not setup else ['blocked', 'out-of-range', 0]
+            assert last(s, 'test.strength-range') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (7801, 7913, 31, 7901):
+            s.action(2285, code)
+        assert last(s, 'test.strength-strike') == [4]
     finally:
         s.close()

@@ -38,7 +38,7 @@ rpgLiteThrowDistance(profile, weight)
     if (weight > lift * 8) return 0;
     local table = [[5,350],[10,250],[15,200],[20,150],[40,100],[50,80],[100,60],[150,40],
         [200,30],[250,25],[300,20],[400,15],[600,10],[1000,6],[1200,5]];
-    foreach (local row in table) if (weight * 100 <= lift * row[1]) return profile.st * row[2];
+    foreach (local row in table) if (weight * 100 <= lift * row[1]) return profile.handlingStrength() * row[2];
     return 0;
 }
 

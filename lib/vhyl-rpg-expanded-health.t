@@ -7551,3 +7551,13 @@ modify RpgExpandedProfile
         inherited(); self.muscleDamageStrength(); return nil;
     }
 ;
+
+modify RpgExpandedProfile
+    handlingStrength() { return self.muscleDamageStrength(); }
+    weaponStrength(weapon)
+    {
+        /* B270: bows and crossbows use their own rating for range and damage. */
+        if (holds(['longbow','short-bow','crossbow'],weapon.id)) return weapon.weaponST;
+        return inherited(weapon);
+    }
+;

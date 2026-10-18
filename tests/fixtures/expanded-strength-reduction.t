@@ -23,6 +23,28 @@ modify BleedTestAction
             event('test.strength-strike'); eventValue(value.damage); return nil;
         }
         if (code == 7902) { strengthWeapon.id = 'crossbow'; strengthMode.ranged = true; return nil; }
+        if (code == 7910)
+        {
+            strengthWeapon.id = 'test-hand-tool'; strengthMode.minimumST = 10;
+            local value = rpgLiteStrike(strengthAttacker,strengthTarget,strengthRequest);
+            event('test.strength-handling'); eventValue(value.attack.score); return nil;
+        }
+        if (code == 7911)
+        {
+            strengthWeapon.id = 'crossbow'; strengthMode.ranged = true; strengthMode.capacity = 1;
+            strengthWeapon.ammunition = 0; strengthWeapon.reserves = 1; bleedProfile.equipment = [strengthWeapon];
+            event('test.strength-reload'); eventValue(rpgLiteReloadSeconds(bleedProfile,strengthWeapon,strengthMode));
+            eventValue(rpgLiteThrowDistance(bleedProfile,1000)); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 7912)
+        {
+            strengthWeapon.id = 'test-thrown'; strengthMode.ranged = true; strengthMode.thrown = true;
+            strengthMode.maximumRange = 10; strengthMode.rangeScale = 10;
+            strengthRequest.distance = 9; strengthRequest.preflight = true;
+            local value = rpgLiteStrike(strengthAttacker,strengthTarget,strengthRequest);
+            event('test.strength-range'); eventValue(value.status); eventValue(value.reason); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 7913) { strengthWeapon.id = 'longbow'; strengthMode.ranged = true; return nil; }
         if (code == 7903) { attributeEpisode.penalty = 10; return nil; }
         if (code == 7904)
         {

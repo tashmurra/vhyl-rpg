@@ -205,7 +205,7 @@ rpgLiteReloadSeconds(profile, weapon, mode)
     local seconds = mode.reloadSeconds;
     if (weapon.id == 'crossbow')
     {
-        local difference = weapon.weaponST - profile.st;
+        local difference = weapon.weaponST - profile.handlingStrength();
         if (difference >= 5 || difference >= 3 && (!weapon.goatFoot || profile.posture != 'standing')) return nil;
         seconds = difference <= 0 ? 4 : difference <= 2 ? 8 : 20;
     }

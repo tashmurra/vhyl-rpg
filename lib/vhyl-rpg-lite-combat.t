@@ -250,10 +250,11 @@ rpgLiteResolveStrike(attacker, defender, request)
     if (!mode.ranged && !request.inReach) { result.reason = 'out-of-reach'; return result; }
     if (request.deadly && !request.targetThreatens && profile.level('cannot-harm-innocents') > 0)
     { result.reason = 'cannot-harm-innocents'; return result; }
-    if (mode.hands == 2 && hands < 2 && (mode.requiresTwoHands || profile.st * 2 < mode.minimumST * 3)
+    local handlingStrength = profile.handlingStrength();
+    if (mode.hands == 2 && hands < 2 && (mode.requiresTwoHands || handlingStrength * 2 < mode.minimumST * 3)
         || hands == 2 && attacker.shield != nil && attacker.shield.ready && attacker.shield.usableBy(profile))
     { result.reason = 'hands-unavailable'; return result; }
-    local strength = weapon.id == 'crossbow' ? weapon.weaponST : profile.st;
+    local strength = profile.weaponStrength(weapon);
     local maximum = mode.rangeScale == 10 ? mode.maximumRange * strength / 10 : mode.maximumRange;
     local half = mode.rangeScale == 10 ? mode.halfRange * strength / 10 : mode.halfRange;
     if (mode.ranged && request.distance > maximum) { result.reason = 'out-of-range'; return result; }
@@ -271,7 +272,7 @@ rpgLiteResolveStrike(attacker, defender, request)
         context.modifier += rating == nil || rating < profile.dx ? 0 : rating - profile.dx;
     }
     if (weapon.id == 'kick') context.modifier -= 2;
-    local effectiveST = profile.fp() * 3 < profile.maxEnergy ? (profile.st + 1) / 2 : profile.st;
+    local effectiveST = profile.fp() * 3 < profile.maxEnergy ? (handlingStrength + 1) / 2 : handlingStrength;
     local minimumST = weapon.bipod && profile.posture == 'lying' ? (mode.minimumST * 2 + 2) / 3 : mode.minimumST;
     if (effectiveST < minimumST) context.modifier -= minimumST - effectiveST;
     if (mode.ranged)
@@ -309,8 +310,8 @@ rpgLiteResolveStrike(attacker, defender, request)
         result.attack = rpgCheck(score, rpgLiteReroll(defender.profile, result.attack.roll, 3, true));
     attacker.attacked = true; attacker.participated = true;
     if (mode.ranged && !mode.thrown) weapon.ammunition -= 1;
-    if (mode.thrown || mode.unready && profile.st * 2 < mode.minimumST * 3
-        || mode.hands == 2 && hands == 1 && profile.st < mode.minimumST * (mode.unready ? 3 : 2)) weapon.ready = nil;
+    if (mode.thrown || mode.unready && handlingStrength * 2 < mode.minimumST * 3
+        || mode.hands == 2 && hands == 1 && handlingStrength < mode.minimumST * (mode.unready ? 3 : 2)) weapon.ready = nil;
     attacker.aimSeconds = 0;
     if (!result.attack.achieved)
     {
@@ -368,7 +369,7 @@ rpgLiteResolveStrike(attacker, defender, request)
     local dice = mode.dice; local adds = mode.adds;
     if (mode.base != 'fixed')
     {
-        if (weapon.id != 'crossbow') strength = profile.muscleDamageStrength();
+        strength = profile.weaponStrength(weapon);
         if (mode.minimumST > 0 && !mode.ranged && strength > mode.minimumST * 3) strength = mode.minimumST * 3;
         local damage = rpgLiteDamageDice(strength, mode.base == 'swing'); dice = damage[1]; adds += damage[2];
         if (unarmed)
@@ -524,7 +525,7 @@ class RpgLiteBattle: object
                 if (fighter.participated)
                 {
                     local cost = 1 + fighter.profile.encumbrance();
-                    if (fighter.weapon != nil && fighter.mode().minimumST > fighter.profile.st) cost += 1;
+                    if (fighter.weapon != nil && fighter.mode().minimumST > fighter.profile.handlingStrength()) cost += 1;
                     rpgLiteFatigue(fighter.profile, cost, 'battle');
                 }
         return true;

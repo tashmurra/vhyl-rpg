@@ -3377,8 +3377,11 @@ This is distinct from permanent score loss, which requires recalculation.
 Strength reductions use `muscleDamageStrength()` for shared strike, retaliation
 and throwing damage; crossbows retain weapon-rated strength. Basic Lift is not
 recalculated. Strength below one rejects before combat rolls because the damage
-table does not define that case. Other strength-dependent combat handling and
-range procedures still need adapters.
+table does not define that case. Shared combat handling, minimum-strength penalties, readiness, crossbow reload
+assessment and throwing ranges use `handlingStrength()`. Expanded bows and
+crossbows use their weapon ratings through `weaponStrength(weapon)` (B270).
+Explicit-strength expanded exploration assessments still require the author to
+supply the reduced strength; they do not infer a profile.
 Direct consumers bypassing contextual checks require their own adapters. This
 receipt does not invent the originating affliction's resistance, cost or duration.
 Propagation, defense exemption, capacity preservation, expiry, rollback, undo and

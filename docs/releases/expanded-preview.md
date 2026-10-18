@@ -1420,3 +1420,9 @@ Temporary strength reduction now affects shared muscle-powered strike, retaliati
 and throwing damage while preserving crossbow weapon strength and secondary
 capacities. Below-table strength rejects before combat rolls. Other handling/range
 adapters remain pending; printed damage-value fixtures are authored but unrun.
+
+Temporary strength now reaches shared weapon handling, minimum-strength penalties,
+readiness, reload duration and throwing range. Expanded bows/crossbows retain their
+weapon ratings for range and damage. Reload, attack-score and range-boundary
+fixtures are authored but unrun; explicit-strength assessments still need the
+correct authored input.

@@ -98,6 +98,8 @@ class RpgLiteProfile: RpgProfile
     shockLimit() { return 4; }
     validateInjury(amount) { return nil; }
     muscleDamageStrength() { return self.st; }
+    handlingStrength() { return self.st; }
+    weaponStrength(weapon) { return weapon.id == 'crossbow' ? weapon.weaponST : self.handlingStrength(); }
     afterInjuryShock(amount, result) { return nil; }
     /* Retain only shock from injury suffered during this character's turn. */
     shockAfterTurn(counterInjury)
