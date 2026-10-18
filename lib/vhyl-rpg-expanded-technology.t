@@ -1070,3 +1070,80 @@ class RpgExpandedRemoteTerminal: RpgExpandedTerminal
         return found == nil ? 'terminal-service-unavailable' : found.reason(self.localHost,host);
     }
 ;
+
+/** B472 usual technical-software baseline; individual tasks may specify a different minimum. */
+rpgExpandedRequiredSoftwareComplexity(techLevel)
+{
+    rpgInteger(techLevel,7,12); return (techLevel - 6) * 2;
+}
+
+modify RpgExpandedSoftwareCopy
+    taskCapabilities = []
+;
+
+/** One approved task-specific equipment contribution, not a permanent skill increase. */
+class RpgExpandedSoftwareCapability: object
+    taskId = nil
+    skill = nil
+    equipment = nil
+    approved = nil
+    evidence = nil
+;
+
+class RpgExpandedSoftwareUse: object
+    program = nil
+    terminal = nil
+    taskId = nil
+    capability = nil
+    assess(profile, skill)
+    {
+        local value = new RpgExpandedResult();
+        if (self.program == nil || !self.program.ofKind(RpgExpandedProgramRun) || self.program.result == nil
+            || !self.program.active) { value.reason = 'task-software-not-running'; return value; }
+        self.program.validateBinding(); local host = self.program.host;
+        if (self.terminal == nil || !self.terminal.ofKind(RpgExpandedTerminal)
+            || self.terminal.controller != profile || self.terminal.current != host)
+        { value.reason = 'task-software-terminal'; return value; }
+        self.terminal.validate();
+        if (!self.terminal.powered || !host.powered || host.item == nil || !host.item.ofKind(RpgLiteItem)
+            || host.item.environmentFailure != nil) { value.reason = 'task-software-unavailable'; return value; }
+        value.reason = self.terminal.accessReason(host); if (value.reason != nil) return value;
+        if (profile.dead || profile.unconscious || profile.stunned || profile.hp() <= 0 || profile.fp() <= 0)
+        { value.reason = 'task-software-operator-unavailable'; return value; }
+        if (!self.program.copy.approved || !holds(host.copies,self.program.copy))
+        { value.reason = 'task-software-copy'; return value; }
+        host.used();
+        if (self.capability == nil || !self.capability.ofKind(RpgExpandedSoftwareCapability)
+            || !holds(self.program.copy.taskCapabilities,self.capability)
+            || self.taskId == nil || self.taskId == '' || self.capability.taskId != self.taskId
+            || self.capability.skill != skill)
+        { value.reason = 'task-software-scope'; return value; }
+        if (!self.capability.approved || self.capability.evidence == nil || self.capability.evidence == '')
+        { value.reason = 'task-software-capability-approval'; return value; }
+        if (self.capability.equipment == nil || !self.capability.equipment.ofKind(RpgExpandedEquipmentAssessment))
+            rpgExpandedReject('task-software-equipment');
+        return self.capability.equipment.assess(skill);
+    }
+;
+
+modify RpgLiteContext
+    softwareUse = nil
+    equipmentUseModifier(profile)
+    {
+        if (self.softwareUse == nil) return inherited(profile);
+        if (!self.softwareUse.ofKind(RpgExpandedSoftwareUse)) rpgExpandedReject('task-software-context');
+        if (self.equipmentAssessment != nil) rpgExpandedReject('task-software-equipment-combination');
+        local value = self.softwareUse.assess(profile,self.skill);
+        return value.status == 'ready' ? value.modifier : nil;
+    }
+    unavailableReason(profile)
+    {
+        if (self.softwareUse != nil)
+        {
+            if (!self.softwareUse.ofKind(RpgExpandedSoftwareUse)) rpgExpandedReject('task-software-context');
+            local value = self.softwareUse.assess(profile,self.skill);
+            if (value.status != 'ready') return value.reason;
+        }
+        return inherited(profile);
+    }
+;

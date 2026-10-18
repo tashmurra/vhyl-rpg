@@ -8,9 +8,10 @@ maintenance and repair. Neutral source: `full-2008`, B471–B479; B483–B485; B
 [Outcome tables](inventory/technology-outcomes.json)
 
 Include `vhyl-rpg-expanded-technology.t` after the expanded foundation and equipment. The current
-runtime provides pure object-capacity, injury-threshold and disabled-weapon assessments, plus owned environmental breakdown checks. Other inventoried
-procedures remain pending, including object damage, actual piece creation,
-maintenance, repair and invention projects.
+runtime provides pure object assessments, owned environmental faults and their
+repairs, computer processing, storage, links, terminals, transfers, recordings and
+task-scoped software equipment contributions. Object damage, actual weapon-piece
+creation, maintenance scheduling, structural repair and invention projects remain pending.
 
 ## Object capacity and injury thresholds
 
@@ -584,3 +585,42 @@ or server capability, unavailable links/local hosts, unsupported complexity,
 previews, rollback, undo, access loss during clock advancement, revocation while
 selected, local return and separate-process continuation. Fixtures are authored
 and unrun while checks remain paused.
+
+
+## Software supporting a skill task
+
+`RpgExpandedSoftwareCapability` declares an exact `taskId`, `skill`, approved
+`equipment` assessment and supporting `evidence`. Install it in the host-bound
+software copy's `taskCapabilities`. The author must establish why this program
+supports this particular task and choose its equipment quality from B345;
+software complexity alone does not determine the bonus.
+
+Set `RpgLiteContext.softwareUse` to a `RpgExpandedSoftwareUse` selecting the
+`program`, `terminal`, `taskId` and `capability`. Assessment requires a running,
+authorized copy, an operational host, the profile controlling a terminal currently
+selecting that host, and matching task and skill. Remote terminals recheck their
+live link and client/server programs. An incapacitated operator cannot use this
+interface. A second running instance does not add another bonus.
+
+The selected capability contributes through the existing equipment modifier hook.
+It changes neither learned skill nor character points, and preview consumes no
+time or randomness. The task's existing execution owns its roll and duration;
+software selection itself adds no action cost. Contexts without `softwareUse`
+retain their existing equipment behavior. Simultaneous `equipmentAssessment` and
+`softwareUse` explicitly reject with `task-software-equipment-combination` until a
+combined physical/software tool policy is implemented.
+
+`rpgExpandedRequiredSoftwareComplexity(techLevel)` returns the B472 usual baseline
+for levels seven through twelve. This is an assessment helper, not automatic
+permission to execute a technical task. Task-specific exceptions, effective skill
+technology when mandatory software is absent, superior-software time reductions,
+robot personality/skill installations and general utilities remain pending.
+The current processing reservation range also limits which complexities can run;
+returning a baseline does not bypass host limits.
+
+[Minimal fixture](../../tests/fixtures/expanded-software.t) demonstrates accounting
+support with an explicitly approved good-quality program. `test_software_task_support`
+authors expected values for ordinary and fine equipment, duplicate instances,
+stopped programs, task mismatch, revoked approval, unavailable terminals and
+operators, unchanged learned skill and pure previews. These fixtures are unrun
+while checks remain paused.

@@ -217,9 +217,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Task software can grant a specified equipment bonus, provide a utility, or satisfy a technical prerequisite. Apply the equipment-bonus rules rather than silently stacking identical software instances.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_software_task_support"
+      ],
+      "validation_note": "Task-scoped equipment contribution through a running approved copy and live terminal authored; duplicate instances do not stack. Fixtures unrun. Combined physical/software tools, utilities and committed task effects remain incomplete."
     },
     {
       "id": "technology-software-prerequisite",
@@ -227,9 +230,12 @@
       "pages": "B472",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Required technical software generally has complexity two at technology seven, four at eight, six at nine and the same progression thereafter. Missing software may force the specified lower-technology skill procedure; superior software needs an explicit bonus or time benefit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_software_task_support"
+      ],
+      "validation_note": "Usual complexity baseline for technology levels seven through twelve authored; fixtures unrun. Task-specific minima, missing-software lower-technology execution and superior-software time benefits remain pending."
     },
     {
       "id": "technology-robot-program",

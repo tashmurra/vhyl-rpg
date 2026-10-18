@@ -973,6 +973,28 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_software_task_support(Session,bundle):
+    for code,score,reason in [(0,11,None),(1,11,None),(2,None,'task-software-not-running'),
+                            (3,None,'task-software-scope'),(4,None,'task-software-unavailable'),
+                            (5,None,'task-software-capability-approval'),(6,10,None),
+                            (7,None,'task-software-terminal'),(8,None,'task-software-operator-unavailable'),
+                            (9,None,'task-software-copy'),(10,None,'task-software-scope'),
+                            (11,12,None),(12,None,'task-software-unavailable')]:
+        s = Session(bundle)
+        try:
+            s.action(2090,code)
+            assert last(s,'test.software-score') == [score,reason,10,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for level,complexity in [(7,2),(8,4),(9,6),(10,8),(11,10),(12,12)]:
+            s.action(2091,level)
+            assert last(s,'test.software-complexity') == [complexity]
+    finally:
+        s.close()
+
+
 def remote_terminal_state(s):
     s.action(2089)
     return last(s,'test.remote-state')
@@ -5835,6 +5857,8 @@ def test(build):
     fresh(Session,combat,test_critical_hit_assessments)
     fresh(Session,combat,test_weapon_miss_assessments)
     fresh(Session,combat,test_unarmed_miss_assessments)
+    software = build.build('expanded-software',ROOT / 'tests/fixtures/expanded-software.t')
+    test_software_task_support(Session,software)
     computer = build.build('expanded-computer',ROOT / 'tests/fixtures/expanded-computer.t')
     fresh(Session,computer,test_computer_reservations)
     fresh(Session,computer,test_terminal_switches)
