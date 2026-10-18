@@ -2084,3 +2084,43 @@ above ten also needs an explicit source-consistent resolution; no HT reduction i
 invented here. `tests/fixtures/expanded-impaired-clotting.t` and
 `test_impaired_clotting` specify the rates, care stages, cost, cap and ordinary-path
 rejection. They are authored and unrun.
+
+
+### Owned mandatory clotting losses
+
+`RpgExpandedClottingEpisode` owns one committed untreated `RpgExpandedWound`.
+Supply a unique `id`, `wound`, `approved`, wound evidence and `torsoImpaling` when
+that original injury came from an impaling torso wound. Register at the same
+ledger instant as the wound. The active impaired-clotting trait and HT cap are
+required; the optional ordinary-bleeding switch does not control this procedure.
+Late registration and transition from an existing ordinary bleeding episode are
+explicitly unsupported.
+
+The record retains `originalInjury` and a first `nextLossAt` sixty seconds later.
+Multiple wounds have separate records and deadlines. `RpgExpandedClottingLoss`
+accepts a unique `id`, `episode` and any required `dropDestination`. At the exact
+deadline it commits the original amount through one shared wound record and
+advances that episode's deadline by sixty seconds. It does not roll an ordinary
+bleeding HT check. Normal injury consequences can still require their own checks.
+Accumulated loss never increases the original amount, and generated blood-loss
+wounds must not be registered as new bleeding sources.
+
+The clock cannot pass any unresolved loss deadline. Replay preserves injury,
+randomness and the next deadline. Current support requires original loss no larger
+than half maximum HP and excludes the optional last-wounds rule until their
+blood-loss-specific interaction is resolved.
+
+Internal loss is retained as a protected component of the existing injury total.
+The shared `validateHealing(amount)` hook rejects ordinary healing while a
+registered wound remains untreated or protected internal loss remains; natural
+recovery skips its healing roll in that state. Its Lite default is inert.
+This conservatively blocks ordinary healing of unrelated injury too, pending
+wound-specific healing allocation. Bandage preview also checks the restriction.
+
+First-aid transition, daily internal losses, definitive care and restoration are
+still pending. These records currently implement the untreated stage only; they
+must not be described as a complete playable clotting disorder. Automatic wound
+enrollment is also pending. `tests/fixtures/expanded-clotting-loss.t` and
+`test_clotting_loss` specify independent wounds, fixed loss bases, deadline and
+healing protection, preview, rollback, undo, replay and saved continuation.
+They are authored and unrun.

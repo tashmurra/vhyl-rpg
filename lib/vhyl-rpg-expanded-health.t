@@ -1334,6 +1334,7 @@ class RpgExpandedBandage: object
         { value.reason = 'bandage-wake-score-unavailable'; return value; }
         value.healed = rpgExpandedHealingAmount(patient.maxHP,1);
         if (value.healed > self.eligibleInjury) value.healed = self.eligibleInjury;
+        patient.validateHealing(value.healed);
         value.seconds = 60; value.status = 'ready'; return value;
     }
     apply()
@@ -4084,3 +4085,146 @@ rpgExpandedAssessImpairedClotting(originalInjury, torsoImpaling, care)
     else if (value.requiresDefinitiveCare) { value.intervalSeconds = 86400; value.injury = originalInjury; }
     value.status = 'ready'; return value;
 }
+
+modify RpgExpandedProfile
+    clottingHistory = []
+    clottingHealingBlocked()
+    {
+        foreach (local episode in self.clottingHistory)
+        {
+            episode.validateReceipt();
+            if (episode.care == 'untreated' || episode.internalLoss > 0) return true;
+        }
+        return nil;
+    }
+    validateHealing(amount)
+    {
+        inherited(amount);
+        if (amount > 0 && self.clottingHealingBlocked()) rpgExpandedReject('clotting-protected-healing');
+        return nil;
+    }
+    naturalRecoveryNeeded() { return !self.clottingHealingBlocked() && inherited(); }
+;
+
+/** B138 one wound's mandatory bleeding; registration is contemporaneous and owned. */
+class RpgExpandedClottingEpisode: object
+    id = nil
+    wound = nil
+    torsoImpaling = nil
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    originalInjury = nil
+    nextLossAt = nil
+    care = 'untreated'
+    internalLoss = 0
+    ticks = []
+    boundDefinition = nil
+    definition() { return [self.id,self.wound,self.torsoImpaling,self.approved,self.evidence]; }
+    validateReceipt()
+    {
+        if (self.startedAt == nil || self.boundDefinition == nil) rpgExpandedReject('clotting-unstarted');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('clotting-binding');
+        if (!holds(self.wound.profile.clottingHistory,self) || self.wound.assess().status != 'reused'
+            || self.originalInjury != self.wound.health.injury) rpgExpandedReject('clotting-history');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.wound == nil || !self.wound.ofKind(RpgExpandedWound)
+            || self.wound.health == nil) rpgExpandedReject('clotting-wound-required');
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        self.wound.assess(); local profile = self.wound.profile; rpgExpandedValidate(profile);
+        if (profile.level('impaired-clotting') == 0) { value.reason = 'clotting-trait-required'; return value; }
+        rpgInteger(profile.ht,1,10);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'clotting-wound-evidence'; return value; }
+        if (profile.dead || self.wound.health.injury <= 0 || self.wound.bandage != nil)
+        { value.reason = 'clotting-untreated-wound-required'; return value; }
+        if (self.torsoImpaling && self.wound.location != 'torso') rpgExpandedReject('clotting-impalement-location');
+        if (self.wound.committedAt != rpgLedger.seconds) { value.reason = 'clotting-late-registration'; return value; }
+        if (profile.bleedingEpisode != nil) { value.reason = 'clotting-ordinary-transition-unimplemented'; return value; }
+        foreach (local prior in profile.clottingHistory)
+            if (prior.id == self.id || prior.wound == self.wound) rpgExpandedReject('clotting-duplicate-wound');
+        rpgInteger(rpgLedger.seconds,0,2147483587); value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.startedAt = rpgLedger.seconds; self.originalInjury = self.wound.health.injury;
+        self.nextLossAt = self.startedAt + 60; self.boundDefinition = self.definition();
+        self.wound.profile.clottingHistory = self.wound.profile.clottingHistory + [self];
+        value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedClottingLossResult: RpgExpandedResult
+    wound = nil
+    injury = 0
+;
+class RpgExpandedClottingLoss: object
+    id = nil
+    episode = nil
+    dropDestination = nil
+    result = nil
+    boundDefinition = nil
+    completedAt = nil
+    definition() { return [self.id,self.episode,self.dropDestination]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedClottingEpisode))
+            rpgExpandedReject('clotting-loss-definition');
+        self.episode.validateReceipt(); local value = new RpgExpandedClottingLossResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('clotting-loss-binding');
+            if (!holds(self.episode.ticks,self) || self.result.wound.assess().status != 'reused')
+                rpgExpandedReject('clotting-loss-history');
+            value.status = 'reused'; value.wound = self.result.wound; value.injury = self.result.injury; return value;
+        }
+        local profile = self.episode.wound.profile;
+        if (profile.dead) { value.reason = 'clotting-loss-patient-dead'; return value; }
+        if (self.episode.care != 'untreated') { value.reason = 'clotting-care-stage-unimplemented'; return value; }
+        if (rpgLedger.seconds != self.episode.nextLossAt) { value.reason = 'clotting-loss-not-due'; return value; }
+        if (profile.level('impaired-clotting') == 0) { value.reason = 'clotting-trait-transition-unimplemented'; return value; }
+        if (profile.rules.lastWounds || self.episode.originalInjury * 2 > profile.maxHP)
+        { value.reason = 'clotting-loss-injury-policy-unimplemented'; return value; }
+        foreach (local prior in self.episode.ticks)
+            if (prior.id == self.id || prior.completedAt == rpgLedger.seconds) rpgExpandedReject('clotting-loss-duplicate');
+        rpgInteger(rpgLedger.seconds,0,2147483587);
+        rpgInteger(self.episode.internalLoss,0,2147483647 - self.episode.originalInjury);
+        value.injury = self.episode.originalInjury;
+        value.wound = new RpgExpandedWound(); value.wound.profile = profile;
+        value.wound.id = 'clotting-' + self.episode.id + '-' + self.id;
+        value.wound.amount = value.injury; value.wound.dropDestination = self.dropDestination;
+        local prepared = value.wound.assess();
+        if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (value.wound.apply().status != 'resolved') rpgExpandedReject('clotting-loss-wound-changed');
+        if (self.episode.torsoImpaling) self.episode.internalLoss += value.injury;
+        self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.episode.ticks = self.episode.ticks + [self]; self.episode.nextLossAt += 60;
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local episode = firstObj(RpgExpandedClottingEpisode); episode != nil; episode = nextObj(episode,RpgExpandedClottingEpisode))
+            if (episode.startedAt != nil && episode.care == 'untreated' && !episode.wound.profile.dead)
+            {
+                episode.validateReceipt();
+                if (self.seconds + seconds > episode.nextLossAt) rpgExpandedReject('clotting-loss-boundary');
+            }
+        return nil;
+    }
+;

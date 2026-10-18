@@ -314,9 +314,10 @@
       "status": "partial",
       "acceptance": "Severe persistent bleeding costs -30 and caps health attribute at ten. Each untreated wound loses its original injury every minute until stanched; appropriate bandaging is required for wound healing. Record each original injury separately so cumulative loss does not itself inflate the next tick.",
       "tests": [
-        "tests/expanded.py::test_impaired_clotting"
+        "tests/expanded.py::test_impaired_clotting",
+        "tests/expanded.py::test_clotting_loss"
       ],
-      "implementation": "Fixed trait price and HT cap, deterministic original-injury/care-stage assessment, and explicit rejection by ordinary bleeding authored. Owned mandatory bleeding execution, bandaging gates, internal-loss recovery and definitive treatment remain pending. Temporary acquisition in a subject with HT above ten needs source resolution. Fixtures authored and unrun."
+      "implementation": "Owned per-wound untreated minute losses retain original injury and independent protected deadlines. Shared injury records account for each loss; internal losses are tracked as protected components, not a second HP pool. Ordinary healing is blocked while registered untreated/protected loss remains. First-aid/daily-stage transition, definitive restoration, larger-injury policy and automatic enrollment remain pending. Fixtures authored and unrun."
     },
     {
       "id": "disadvantages-d-internal-bleeding",
@@ -327,9 +328,10 @@
       "status": "partial",
       "acceptance": "A torso impalement in an actor with severe persistent bleeding causes minute-by-minute loss until first aid, then retains daily loss equal to original injury. Surgery or supernatural healing is required to stop that internal bleeding or restore its lost health. Track external and internal stages per wound; ordinary first aid cannot erase the daily stage.",
       "tests": [
-        "tests/expanded.py::test_impaired_clotting"
+        "tests/expanded.py::test_impaired_clotting",
+        "tests/expanded.py::test_clotting_loss"
       ],
-      "implementation": "Fixed trait price and HT cap, deterministic original-injury/care-stage assessment, and explicit rejection by ordinary bleeding authored. Owned mandatory bleeding execution, bandaging gates, internal-loss recovery and definitive treatment remain pending. Temporary acquisition in a subject with HT above ten needs source resolution. Fixtures authored and unrun."
+      "implementation": "Owned per-wound untreated minute losses retain original injury and independent protected deadlines. Shared injury records account for each loss; internal losses are tracked as protected components, not a second HP pool. Ordinary healing is blocked while registered untreated/protected loss remains. First-aid/daily-stage transition, definitive restoration, larger-injury policy and automatic enrollment remain pending. Fixtures authored and unrun."
     },
     {
       "id": "disadvantages-d-uncreative",

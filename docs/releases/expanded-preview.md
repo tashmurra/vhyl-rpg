@@ -311,3 +311,10 @@ Impaired clotting now has its fixed purchase, HT cap and distinct care-stage
 assessment. Ordinary bleeding rejects the trait rather than applying its different
 random loss procedure. Owned mandatory bleeding and definitive treatment remain
 pending; new fixtures are authored and unrun.
+
+
+Impaired-clotting wounds now own independent untreated minute-loss records with
+fixed original amounts, protected deadlines and shared injury accounting.
+Ordinary healing is gated for registered untreated/protected losses. Treatment
+transitions and automatic enrollment remain pending; new fixtures are authored
+and unrun.

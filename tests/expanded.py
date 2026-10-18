@@ -8918,6 +8918,8 @@ def test(build):
     test_nausea_motion(Session, nausea_motion, build.out)
     clotting = build.build('expanded-impaired-clotting', ROOT / 'tests/fixtures/expanded-impaired-clotting.t')
     fresh(Session, clotting, test_impaired_clotting)
+    clotting_loss = build.build('expanded-clotting-loss', ROOT / 'tests/fixtures/expanded-clotting-loss.t')
+    test_clotting_loss(Session, clotting_loss, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10592,3 +10594,52 @@ def test_impaired_clotting(s):
     assert last(s, 'test.clotting-profile') == [-30, 'impaired-clotting-health-limit']
     s.action(2381)
     assert last(s, 'test.clotting-dispatch') == ['blocked', 'bleeding-impaired-clotting-procedure-required', 0, 0]
+
+
+def test_clotting_loss(Session, bundle, out):
+    def state(s):
+        s.action(2285, 66)
+        return last(s, 'test.clotting-loss')
+    path = out / 'expanded-clotting-loss.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 0)
+        s.action(2285, 67)
+        s.action(2285, 60)
+        s.action(2285, 65)
+        s.action(2285, 5)
+        assert state(s) == [2, 2, 0, 0, 60, 0, 0, 0]
+        s.action(2285, 4)
+        s.action(2285, 64)
+        s.action(2285, 63)
+        assert state(s) == [2, 2, 0, 0, 60, 60, 0, 0]
+        s.action(2285, 61)
+        s.command('undo')
+        assert state(s) == [2, 2, 0, 0, 60, 60, 0, 0]
+        s.action(2285, 61)
+        s.action(2285, 61)
+        assert state(s) == [4, 2, 1, 2, 120, 60, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 4)
+        s.action(2285, 62)
+        assert state(s) == [6, 2, 2, 4, 180, 120, 0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 0)
+        s.action(2285, 60)
+        s.action(2285, 68)
+        s.action(2285, 4)
+        s.action(2285, 61)
+        s.action(2285, 6)  # The other wound still owns a due loss at this instant.
+        assert state(s) == [5, 2, 1, 0, 120, 60, 0, 0]
+        s.action(2285, 69)
+        assert state(s) == [6, 2, 1, 0, 120, 60, 0, 0]
+    finally:
+        s.close()

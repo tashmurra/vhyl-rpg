@@ -117,6 +117,7 @@ rpgLiteHeal(profile, amount)
     rpgInteger(amount, 0, 10000);
     if (profile.dead) return 0;
     if (amount > profile.injury) amount = profile.injury;
+    profile.validateHealing(amount);
     profile.injury -= amount;
     if (amount > 0 && profile.mortal)
     {
