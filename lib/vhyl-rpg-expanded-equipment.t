@@ -2060,6 +2060,7 @@ class RpgExpandedInventoryOutfit: RpgExpandedStylingOutfit
                         }
             if (owners != 1) return 'styling-outfit-ownership';
             if (!item.usableBy(wearer) || item.quantity < 1) return 'styling-outfit-inaccessible';
+            local reason = item.stylingUseReason(wearer); if (reason != nil) return reason;
         }
         return nil;
     }

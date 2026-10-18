@@ -9475,6 +9475,8 @@ def test(build):
     test_styling(Session,styling,build.out)
     styling_equipment = build.build('expanded-styling-equipment',ROOT / 'tests/fixtures/expanded-styling-equipment.t')
     test_styling_equipment(Session,styling_equipment,build.out)
+    styling_budget = build.build('expanded-styling-budget',ROOT / 'tests/fixtures/expanded-styling-budget.t')
+    test_styling_budget(Session,styling_budget)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25582,3 +25584,25 @@ def test_styling_equipment(Session, bundle, out):
             assert last(s,'test.styling') == [4,1,0,0]
         finally:
             s.close()
+
+
+def test_styling_budget(Session, bundle):
+    """B266 conservative clothing must retain the styling-eligible budget; unrun."""
+    for setup, money, reason in (((),600,'styling-outfit-budget'),((25201,),2400,None),
+                                 ((25203,),600,None),((25204,),60000,None),((25205,),2400,None)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,25200):
+                s.action(1680,code)
+            assert last(s,'test.styling-budget') == [money,reason]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,25007)
+        assert last(s,'test.styling-preview') == ['blocked','styling-outfit-budget',0]
+        for code in (25201,25000,25202,25002):
+            s.action(1680,code)
+        assert last(s,'test.styling') == [5,1,0,0]
+    finally:
+        s.close()

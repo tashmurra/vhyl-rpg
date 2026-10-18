@@ -1767,3 +1767,14 @@ class RpgExpandedRationUnpacking: object
         self.recorded = true; value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedLifestyleItem
+    stylingUseReason(profile)
+    {
+        self.packagePrice();
+        if (holds(['ordinary-outfit','winter-outfit','formal-outfit'],self.lifestyle.kind)
+            && self.lifestyle.conservativeOutfit && self.lifestyle.status >= 3 && !self.lifestyle.fashionBenefit)
+            return 'styling-outfit-budget';
+        return inherited(profile);
+    }
+;

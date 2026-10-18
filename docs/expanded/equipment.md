@@ -1148,3 +1148,13 @@ The author still identifies which pieces constitute the outfit and attests that
 styling occurred in advance. This is not an automatic clothing suitability or
 fashion judgment. `test_styling_equipment` specifies storage preflight, wear state,
 transfer, undo, save continuation and bound-list rejection. Fixtures remain unrun.
+
+Lifestyle clothing packages participate in the outfit eligibility check through
+`stylingUseReason(profile)`. Under the authored B266 conservative-clothing
+convention, a status 3+ single outfit priced without `fashionBenefit` returns
+`styling-outfit-budget`. Its cheaper price remains valid for ordinary clothing;
+it cannot supply the styling bonus. Select the full-benefit package before
+purchase when styling is intended. The adapter does not upgrade, reprice or charge
+for an existing item. Wardrobes, lower-status outfits and outfits outside that
+convention retain their existing rules. Other equipment types can provide a
+specific eligibility reason through the same hook.

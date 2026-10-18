@@ -994,3 +994,7 @@ class RpgExpandedStylingOutfit: object
     preparationReason(wearer) { return 'styling-outfit-equipment-required'; }
     wornBy(wearer) { return nil; }
 ;
+
+modify RpgLiteItem
+    stylingUseReason(profile) { return nil; }
+;

@@ -905,3 +905,13 @@ separate integration.
 `expanded-initial-wardrobe.t` / `test_initial_wardrobe` specify free issuance,
 duplicate rejection, creation boundaries, bound choices, lost-item replay,
 rollback, undo and save continuation. These fixtures remain unrun.
+
+The equipment-backed styling adapter now enforces the B266 single-outfit budget
+condition through `RpgExpandedLifestyleItem.stylingUseReason(profile)`. A status
+3+ conservative outfit using the status-2 price cannot qualify for the styling
+reaction bonus. A package quoted with `fashionBenefit` uses the existing status-3
+price and can qualify, subject to the ordinary preparation and wear checks. This
+is an eligibility check, not an automatic purchase or a change to character money.
+The setting's conservative-clothing applicability remains an explicit author
+choice. `test_styling_budget` specifies the 600 versus 2400 ordinary-outfit prices,
+full-status wardrobe pricing and preparation rejection. Fixtures remain unrun.
