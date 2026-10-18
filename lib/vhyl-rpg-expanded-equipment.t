@@ -113,6 +113,8 @@ class RpgExpandedAcquisition: object
     mode = 'purchase'
     quote = nil
     marketOffer = nil
+    coinTender = nil
+    boundCoinTender = nil
     boundMarketOffer = nil
     boundMarketFacts = nil
     startingPurchase = nil
@@ -133,6 +135,8 @@ class RpgExpandedAcquisition: object
         local value = new RpgExpandedAcquisitionResult(); value.item = self.item;
         if (self.claimed)
         {
+            if (self.coinTender != self.boundCoinTender) rpgExpandedReject('acquisition-tender-retargeted');
+            if (self.coinTender != nil) self.coinTender.validateReceipt(self);
             if (self.marketOffer != self.boundMarketOffer) rpgExpandedReject('acquisition-market-retargeted');
             if (self.marketOffer != nil)
             {
@@ -178,7 +182,14 @@ class RpgExpandedAcquisition: object
         if (self.marketOffer != nil) price = self.marketOffer.price;
         if (self.startingPurchase)
             price = rpgExpandedStartingEquipmentPrice(price,self.item.techLevel,self.profile.campaignTL);
-        if (self.profile.money < price) { value.reason = 'equipment-unaffordable'; return value; }
+        if (self.coinTender == nil)
+        { if (self.profile.money < price) { value.reason = 'equipment-unaffordable'; return value; } }
+        else
+        {
+            if (self.mode != 'purchase' || !self.coinTender.ofKind(RpgExpandedCoinTender))
+                rpgExpandedReject('acquisition-tender-definition');
+            value.reason = self.coinTender.assess(self,price); if (value.reason != nil) return value;
+        }
         value.money = price; value.status = 'ready'; return value;
     }
     acquire()
@@ -187,7 +198,9 @@ class RpgExpandedAcquisition: object
         if (value.status != 'ready') return value;
         self.boundMarketOffer = self.marketOffer;
         if (self.marketOffer != nil) self.boundMarketFacts = self.marketOffer.definition() + [self.mode,self.quote,self.startingPurchase];
-        self.profile.money -= value.money;
+        self.boundCoinTender = self.coinTender;
+        if (self.coinTender == nil) self.profile.money -= value.money;
+        else self.coinTender.commitPayment(self,value.money);
         self.profile.equipment = self.profile.equipment + [self.item];
         self.claimed = true; self.claimedProfile = self.profile; self.claimedItem = self.item;
         value.status = 'resolved'; return value;
@@ -1425,5 +1438,79 @@ class RpgExpandedCoinExchange: object
         }
         self.recorded = true; self.profile.coinExchanges = self.profile.coinExchanges + [self];
         value.status = 'resolved'; return value;
+    }
+;
+
+
+/** Exact coin/cash tender for one acquisition; no implicit bank conversion or change. */
+class RpgExpandedCoinTender: object
+    acquisition = nil
+    /* [owned coin stack, number of coins tendered] */
+    coins = []
+    cash = 0
+    approved = nil
+    evidence = nil
+    recorded = nil
+    boundDefinition = nil
+    boundPrice = nil
+    definition()
+    {
+        local facts = [self.acquisition,self.acquisition.profile,self.acquisition.item,self.cash,self.approved,self.evidence,self.coins.length()];
+        foreach (local row in self.coins) facts = facts + row + row[1].definition();
+        return facts;
+    }
+    validateReceipt(acquisition)
+    {
+        if (!self.recorded || self.acquisition != acquisition || acquisition.coinTender != self)
+            rpgExpandedReject('coin-tender-receipt');
+        local facts = self.definition();
+        if (self.boundDefinition == nil || facts.length() != self.boundDefinition.length()) rpgExpandedReject('coin-tender-binding');
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('coin-tender-binding');
+        return nil;
+    }
+    assess(acquisition,price)
+    {
+        if (self.recorded || self.boundDefinition != nil || self.boundPrice != nil) rpgExpandedReject('coin-tender-already-used');
+        if (self.acquisition != acquisition || acquisition.coinTender != self) rpgExpandedReject('coin-tender-acquisition');
+        local profile = acquisition.profile; rpgInteger(self.cash,0,price);
+        local total = self.cash; local seen = [];
+        foreach (local row in self.coins)
+        {
+            if (row.length() != 2 || row[1] == nil || !row[1].ofKind(RpgExpandedCoinStock) || holds(seen,row[1]))
+                rpgExpandedReject('coin-tender-stack');
+            local stock = row[1]; stock.faceValue(); rpgInteger(row[2],1,stock.quantity);
+            if (!holds(profile.equipment,stock)) rpgExpandedReject('coin-tender-ownership');
+            local owners = 0;
+            for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+                foreach (local item in owner.equipment) if (item == stock) owners += 1;
+            if (owners != 1) rpgExpandedReject('coin-tender-shared');
+            if (stock.coinage.currency != profile.moneyUnit) return 'coin-tender-currency';
+            if (!stock.usableBy(profile) || stock.thrownFlight != nil || stock.sharedCarry != nil) return 'coin-tender-inaccessible';
+            local unit = stock.coinage.denomination(stock.metal);
+            rpgInteger(row[2],1,(2147483647 - total) / unit); total += row[2] * unit;
+            seen = seen + [stock];
+        }
+        if (total != price) return 'coin-tender-exact-price-required';
+        if (profile.money < self.cash) return 'equipment-unaffordable';
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'coin-tender-acceptance-required';
+        return nil;
+    }
+    /** Internal commit after the acquisition has assessed item, permission and price. */
+    commitPayment(acquisition,price)
+    {
+        local reason = self.assess(acquisition,price); if (reason != nil) rpgExpandedReject(reason);
+        self.boundDefinition = self.definition(); self.boundPrice = price;
+        local profile = acquisition.profile; profile.money -= self.cash;
+        foreach (local row in self.coins)
+        {
+            local stock = row[1]; stock.quantity -= row[2];
+            if (stock.quantity == 0)
+            {
+                local kept = []; foreach (local item in profile.equipment) if (item != stock) kept = kept + [item];
+                profile.equipment = kept;
+            }
+        }
+        self.recorded = true; return nil;
     }
 ;

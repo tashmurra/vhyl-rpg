@@ -421,3 +421,9 @@ Optional silver/gold coin stacks now carry face value and inventory mass. Explic
 owned exchanges move value to/from the existing money balance without duplicate
 credit. Copper weight, direct tender and currency conversion remain pending.
 Integration fixtures are authored but unrun.
+
+
+Equipment acquisition now accepts exact owned coin tender mixed with existing
+abstract funds. Payment and item transfer commit together without depositing or
+duplicating coin value. Change-making and currency conversion remain pending.
+Fixtures are authored but unrun while checks remain paused.

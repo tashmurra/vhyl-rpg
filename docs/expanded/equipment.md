@@ -763,3 +763,29 @@ Direct coin tender, change-making, copper weight and currency conversion remain
 pending. `expanded-coins.t` / `test_coins` specify silver/gold value and mass,
 conservation, partial/full deposits, bound convention, rollback, undo and saved
 continuation. Fixtures remain unrun while checks are paused.
+
+
+## Paying for equipment with coins
+
+Set `RpgExpandedAcquisition.coinTender` to an `RpgExpandedCoinTender` naming that
+same `acquisition`. Supply `coins` rows `[ownedStack, coinCount]`, optional
+nonnegative `cash` from the existing abstract purse, approval and evidence that
+the merchant accepts this payment. All stacks must use the purse's currency,
+be uniquely owned and accessible, and appear only once in the tender. Total face
+value plus abstract cash must exactly match the assessed purchase price.
+
+The ordinary acquisition assessment still validates the item, availability,
+permission, ownership and price, then assesses payment without mutation. Commit
+deducts only the specified abstract cash and physical coins, removes empty stacks
+and adds the purchased item in the same gameplay transaction. It never deposits
+the coins into the purse first. Partial stacks retain their remaining value and
+mass. Replay binds the accepted tender and cannot spend it twice, including after
+an emptied stack has left inventory. Cash-only purchases keep their previous path.
+
+This interface supports explicit exact payment for the existing merchant
+acquisition model. It does not invent merchant change, exchange rates or a second
+seller cash ledger. Overpayment, underpayment and issued-item tender reject;
+authored merchant acceptance is required even when the denominations are valid.
+`expanded-coin-purchases.t` / `test_coin_purchases` cover partial/exhausted stacks,
+mixed payment, acceptance and exact-price gates, unchanged resources on failure,
+rollback, undo, replay and saved continuation. Fixtures remain unrun.

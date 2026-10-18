@@ -9276,6 +9276,8 @@ def test(build):
     test_market_offers(Session, market_offers, build.out)
     coins = build.build('expanded-coins',ROOT / 'tests/fixtures/expanded-coins.t')
     test_coins(Session, coins, build.out)
+    coin_purchases = build.build('expanded-coin-purchases',ROOT / 'tests/fixtures/expanded-coin-purchases.t')
+    test_coin_purchases(Session, coin_purchases, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21800,5 +21802,47 @@ def test_coins(Session, bundle, out):
             assert last(s, 'test.coin-state') == [1000, 0, 0, 0, 0, 3, 0]
             s.action(2285, 14708)
             assert last(s, 'test.coin-reject') == ['coin-exchange-binding']
+        finally:
+            s.close()
+
+
+def test_coin_purchases(Session, bundle, out):
+    """B264 exact coin/cash tender shares atomic equipment acquisition; unrun."""
+    for partial in (False, True):
+        path = out / f'coin-purchase-{partial}.zsave'
+        before = [1, 250 if partial else 6, 1000 if partial else 24, 1, 0, 0, 0]
+        after = [0, 244 if partial else 0, 976 if partial else 0, 2 if partial else 1, 1, 1, 0]
+        s = Session(bundle)
+        try:
+            for code in (14800,) + ((14801,) if partial else ()) + (14702, 14600, 14602, 14802):
+                s.action(2285, code)
+            assert last(s, 'test.market-preview') == ['ready', None, 25]
+            assert last(s, 'test.coin-purchase-state') == before
+            s.action(2285, 14601)
+            s.command('undo')
+            s.action(2285, 14802)
+            assert last(s, 'test.coin-purchase-state') == before
+            for code in (14601, 14601, 14802):
+                s.action(2285, code)
+            assert last(s, 'test.coin-purchase-state') == after
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (14601, 14802, 14805):
+                s.action(2285, code)
+            assert last(s, 'test.coin-purchase-state') == after
+            assert last(s, 'test.coin-purchase-reject') == ['coin-tender-binding']
+        finally:
+            s.close()
+    for setup, reason in [(14803, 'coin-tender-acceptance-required'), (14804, 'coin-tender-exact-price-required')]:
+        s = Session(bundle)
+        try:
+            for code in (14800, 14702, setup, 14600, 14601, 14802):
+                s.action(2285, code)
+            assert last(s, 'test.market-preview') == ['blocked', reason, 0]
+            assert last(s, 'test.coin-purchase-state') == [1, 6, 24, 1, 0, 0, 0]
         finally:
             s.close()
