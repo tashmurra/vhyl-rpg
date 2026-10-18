@@ -1262,3 +1262,28 @@ these assessments into an ordinary project's mutable receipts.
 accumulated-price progression, campaign/personal technology distinctions, category
 penalties, rapid timing boundaries and preview purity. Fixtures remain unrun.
 Source: `full-2008`, B475–B476.
+
+
+## Cinematic invention permission
+
+`RpgExpandedInventionPermission` checks an expanded inventor, `mode` (cinematic or
+rapid), design approval and evidence. Enable `rules.cinematicInvention` explicitly;
+rapid mode additionally requires `rules.rapidInvention`. Both default to nil.
+The traits module must supply an active purchased `RpgExpandedInventor`; an
+ordinary tier cannot authorize rapid work. The rapid tier also qualifies for the
+ordinary cinematic mode.
+
+Set `violatesOrdinaryPhysics` when the proposed design needs speculative physics.
+Such a request additionally requires `rules.speculativePhysics`, plus the same
+explicit design approval. Neither a purchased trait nor broad world permission
+makes every design feasible. The author evidence must explain the proposed design.
+
+This pure gate grants no skill, points, material, time discount or project outcome.
+Ordinary invention execution remains unchanged. Owned cinematic dispatch will
+need to invoke this gate and the appropriate formulas at each committing stage;
+it remains incomplete. Calling `assess()` alone does not authorize editing an
+ordinary request's stored costs or duration.
+
+`test_inventor_permission` authors disabled campaign settings, missing/inactive
+capability, both tier costs, rapid restrictions, speculative physics and design
+approval. Fixtures remain unrun. Source: `full-2008`, B56–B57 and B475–B476.

@@ -181,9 +181,12 @@
       "pages": "B56-B57",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Exceptional invention costs 25 for the cinematic procedure taking days/months and substantial funds/equipment, or 50 for the rapid procedure taking minutes/hours with improvised parts. Dispatch to the detailed invention procedures at B475 rather than substituting an arbitrary time multiplier. Both need explicit campaign permission.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_inventor_permission"
+      ],
+      "validation_note": "Purchased alternative tier pricing and explicit campaign/world/design gates authored; fixtures unrun. Owned cinematic dispatch, advancement and full consequences remain pending."
     },
     {
       "id": "traits-f-gravity-experience",

@@ -93,3 +93,32 @@ rpgExpandedMaintenanceCost(people, frequency)
     if (frequency == 'constant') return base * 5;
     rpgExpandedReject('maintenance-frequency');
 }
+
+/** B56-B57 purchased invention capability; ordinary and rapid tiers are alternatives. */
+class RpgExpandedInventor: RpgExpandedTrait
+    id = 'inventive-capability'
+    tier = 'cinematic'
+    points = (tier == 'rapid' ? 50 : 25)
+    creationCost()
+    {
+        if (!self.approved || self.id != 'inventive-capability' || self.level != 1
+            || !holds(['cinematic','rapid'],self.tier) || self.percentages.length() != 0)
+            rpgExpandedReject('inventor-capability-definition');
+        return self.tier == 'rapid' ? 50 : 25;
+    }
+;
+
+modify RpgExpandedProfile
+    inventionCapabilityTier()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedInventor))
+            {
+                trait.creationCost();
+                if (found != nil) rpgExpandedReject('duplicate-inventor-capability');
+                found = trait;
+            }
+        return found == nil || !found.active || found.mitigated ? nil : found.tier;
+    }
+;

@@ -496,3 +496,20 @@ The [minimal price fixture](../../tests/fixtures/expanded-maintenance-price.t) a
 `test_maintenance_prices` record staffing boundaries, full doublings, every
 frequency, fractional negative costs and zero time/randomness. They are authored
 and unrun while checks are paused. Maintenance remains partial in the inventory.
+
+
+## Purchased invention capability
+
+`RpgExpandedInventor` uses the neutral identifier `inventive-capability` and a
+`tier` of `cinematic` (25 points) or `rapid` (50 points). These are alternative
+purchases, not cumulative levels. Approval is required; repeated instances,
+nonunit levels and percentage modifiers are currently rejected. The existing
+character trait-cost interface includes the selected cost. The trait grants no
+scientific or technical training.
+
+`RpgExpandedProfile.inventionCapabilityTier()` returns the active, unmitigated
+capability, or nil. Without this traits module the foundation returns nil. The
+technology permission interface adds campaign and world gates. Owned cinematic
+execution and advancement between these tiers remain incomplete; pricing and
+permission are not a complete implementation of the trait. The permission fixtures
+are authored and unrun. Source: `full-2008`, B56–B57 and B475.

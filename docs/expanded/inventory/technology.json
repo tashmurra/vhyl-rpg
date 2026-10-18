@@ -595,9 +595,12 @@
       "pages": "B475",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Cinematic invention requires its purchased trait and an enabled campaign option; it does not grant missing scientific or technical skills. Designs violating ordinary physics need separate world permission.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_inventor_permission"
+      ],
+      "validation_note": "Purchased alternative tier pricing and explicit campaign/world/design gates authored; fixtures unrun. Owned cinematic dispatch, advancement and full consequences remain pending."
     },
     {
       "id": "technology-cinematic-concept",

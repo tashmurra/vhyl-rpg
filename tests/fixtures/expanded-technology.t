@@ -4,6 +4,7 @@
 #include <vhyl-rpg-progression.t>
 #include <vhyl-rpg-lite.t>
 #include <vhyl-rpg-expanded.t>
+#include <vhyl-rpg-expanded-traits.t>
 #include <vhyl-rpg-expanded-equipment.t>
 #include <vhyl-rpg-expanded-technology.t>
 technologyRoom: Room 'Workshop';
@@ -19,10 +20,31 @@ prototypeHelper: RpgLiteProfile skills = [prototypeHelperTraining];
 prototypeHelperTraining: RpgTraining skill = inventionSkill points = 44;
 prototypeJunior: RpgLiteProfile skills = [prototypeJuniorTraining];
 prototypeJuniorTraining: RpgTraining skill = inventionSkill points = 40;
+inventorRules: RpgExpandedRules;
+inventorCapability: RpgExpandedInventor approved = true;
+inventorProfile: RpgExpandedProfile rules = inventorRules traits = [inventorCapability];
+inventorPermission: RpgExpandedInventionPermission inventor = inventorProfile designApproved = true evidence = 'Approved feasible design';
 modify gameMain initialRoom = technologyRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2125)
+    {
+        local code = args[1];
+        if (code != 0) inventorRules.cinematicInvention = true;
+        if (code == 2) inventorProfile.traits = [];
+        if (code == 3) inventorCapability.active = nil;
+        if (code == 4 || code == 5 || code == 6) inventorPermission.mode = 'rapid';
+        if (code == 5 || code == 6) inventorRules.rapidInvention = true;
+        if (code == 6) inventorCapability.tier = 'rapid';
+        if (code == 7 || code == 8) inventorPermission.violatesOrdinaryPhysics = true;
+        if (code == 8) inventorRules.speculativePhysics = true;
+        if (code == 9) inventorPermission.designApproved = nil;
+        local value = inventorPermission.assess();
+        event('test.inventor-permission'); eventValue(value.status); eventValue(value.reason);
+        eventValue(inventorCapability.creationCost()); eventValue(inventorProfile.skills.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2122)
     {
         local value = rpgExpandedCinematicInventionCosts(args[1],args[2],args[3],args[4],args[5] != 0);

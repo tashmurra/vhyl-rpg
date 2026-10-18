@@ -98,3 +98,7 @@ rpgExpandedValidate(profile)
 modify RpgExpandedProfile
     prepareTechnologyWound(id, amount, destination) { return nil; }
 ;
+
+modify RpgExpandedProfile
+    inventionCapabilityTier() { return nil; }
+;

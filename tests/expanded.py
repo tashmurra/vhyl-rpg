@@ -973,6 +973,19 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_inventor_permission(Session,bundle):
+    for code,reason,cost in [(0,'invention-campaign-option',25),(1,None,25),
+            (2,'invention-capability-required',25),(3,'invention-capability-required',25),
+            (4,'invention-campaign-option',25),(5,'invention-capability-required',25),
+            (6,None,50),(7,'invention-world-physics',25),(8,None,25),(9,'invention-design-approval',25)]:
+        s = Session(bundle)
+        try:
+            s.action(2125,code)
+            assert last(s,'test.inventor-permission') == ['ready' if reason is None else 'blocked',reason,cost,0,0,0]
+        finally:
+            s.close()
+
+
 def test_cinematic_invention_assessments(s):
     for args,expected in [
             (('simple',4000,8,8,0),[50000,4000]),
@@ -6779,6 +6792,7 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')
+    test_inventor_permission(Session,technology)
     fresh(Session,technology,test_cinematic_invention_assessments)
     fresh(Session,technology,test_production_assessments)
     fresh(Session,technology,test_prototype_assessments)

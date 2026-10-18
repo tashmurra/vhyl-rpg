@@ -2757,3 +2757,36 @@ rpgExpandedRapidConceptSeconds(die)
 {
     rpgInteger(die,1,6); return die * 60;
 }
+
+modify RpgExpandedRules
+    cinematicInvention = nil
+    rapidInvention = nil
+    speculativePhysics = nil
+;
+
+/** Campaign permission and purchased capability are independent of technical training. */
+class RpgExpandedInventionPermission: object
+    inventor = nil
+    mode = 'cinematic'
+    violatesOrdinaryPhysics = nil
+    designApproved = nil
+    evidence = nil
+    assess()
+    {
+        if (self.inventor == nil || !self.inventor.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('invention-permission-owner');
+        rpgExpandedValidate(self.inventor);
+        if (!holds(['cinematic','rapid'],self.mode)) rpgExpandedReject('invention-permission-mode');
+        local value = new RpgExpandedResult();
+        if (!self.inventor.rules.cinematicInvention || self.mode == 'rapid' && !self.inventor.rules.rapidInvention)
+        { value.reason = 'invention-campaign-option'; return value; }
+        local tier = self.inventor.inventionCapabilityTier();
+        if (tier == nil || self.mode == 'rapid' && tier != 'rapid')
+        { value.reason = 'invention-capability-required'; return value; }
+        if (self.violatesOrdinaryPhysics && !self.inventor.rules.speculativePhysics)
+        { value.reason = 'invention-world-physics'; return value; }
+        if (!self.designApproved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'invention-design-approval'; return value; }
+        value.status = 'ready'; return value;
+    }
+;
