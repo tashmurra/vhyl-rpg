@@ -957,6 +957,54 @@ def test_maneuver_transactions(s):
     assert maneuver_state(s) == next_turn
 
 
+def test_maneuver_route_parity(Session, bundle):
+    commands = {'first': 'first turn', 'second': 'second turn',
+                'first-rollback': 'first rollback', 'second-rollback': 'second rollback'}
+    verbs = {'first': 1983, 'second': 1984, 'first-rollback': 1985, 'second-rollback': 1986}
+    for seed, injury, expected in [(1,0,[2,0,0,10,0,0,0,1,0,3,1]),
+                                   (1,10,[2,0,0,10,10,1,0,1,0,6,1]),
+                                   (9,10,[2,0,0,10,10,0,1,1,0,3,1]),
+                                   (11,10,[2,0,0,20,10,1,1,1,1,6,1])]:
+        outcomes = []
+        for route in ['parser','structured','dialogue']:
+            s = Session(bundle)
+            try:
+                s.action(1982, seed, injury)
+                initial = maneuver_state(s)
+                def perform(operation):
+                    if route == 'parser':
+                        s.command(commands[operation])
+                    elif route == 'structured':
+                        s.action(verbs[operation])
+                    else:
+                        s.action(80, 'maneuver-plan'); s.select(operation)
+                perform('first-rollback')
+                assert maneuver_state(s) == initial
+                perform('first')
+                assert last(s, 'test.maneuver-operation') == [
+                    'resolved',None,'move' if injury == 0 else 'incapacitated']
+                assert maneuver_state(s) == expected
+                s.command('undo')
+                assert maneuver_state(s) == initial
+                perform('first')
+                assert last(s, 'test.maneuver-operation') == [
+                    'resolved',None,'move' if injury == 0 else 'incapacitated']
+                assert maneuver_state(s) == expected
+                perform('second-rollback')
+                assert maneuver_state(s) == expected
+                perform('second')
+                next_turn = [1,1,1] + expected[3:]
+                assert maneuver_state(s) == next_turn
+                perform('first')
+                receipt = last(s, 'test.maneuver-operation')
+                assert receipt == ['blocked','maneuver-health-gate-used',None]
+                assert maneuver_state(s) == next_turn
+                outcomes.append((next_turn,receipt))
+            finally:
+                s.close()
+        assert outcomes[0] == outcomes[1] == outcomes[2]
+
+
 def test_maneuver_persistence(Session, bundle, out):
     for seed in [1,9,11]:
         for stage in range(3):
@@ -4346,6 +4394,7 @@ def test(build):
     fresh(Session,hazards,test_fatigue_strength)
     maneuver_transactions = build.build('expanded-maneuver-transactions',ROOT / 'tests/fixtures/expanded-maneuver-transactions.t')
     fresh(Session,maneuver_transactions,test_maneuver_transactions)
+    test_maneuver_route_parity(Session,maneuver_transactions)
     test_maneuver_persistence(Session,maneuver_transactions,build.out)
     fresh(Session,hazards,test_effort_recovery)
     effort_transactions = build.build('expanded-effort-transactions',ROOT / 'tests/fixtures/expanded-effort-transactions.t')

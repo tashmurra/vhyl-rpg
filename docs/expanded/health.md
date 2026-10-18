@@ -1144,8 +1144,8 @@ of a later actor's turn and the associated shared second of time, changed-eviden
 rejection, and refusal to reuse a gate in the next round.
 `test_maneuver_persistence` saves before the first action, after its health outcome,
 and after the round boundary, then continues each phase in a separate process.
-These checks are authored but unrun. Parser/dialogue parity and automatic defense
-integration remain outstanding.
+These checks are authored but unrun. The route-parity fixture below covers this
+maneuver entry point; automatic defense integration remains outstanding.
 
 ## Low-fatigue strength checks
 
@@ -1173,3 +1173,17 @@ core resilience system are not automatically redirected to this option.
 relative training, fixed-base exemption, preserved purchased characteristics and
 lifting capacity, combined low-health/low-fatigue Move and Dodge, the disabled
 option, and pure assessment. These fixtures are authored but unrun.
+
+
+The fixture also exposes `first turn`, `second turn`, `first rollback` and
+`second rollback` parser commands, corresponding structured verbs, and instructor
+dialogue choices. All three routes call the same `maneuverDo` operation inside
+their engine transaction. The instructor is an observer of the encounter; issuing
+a fixture command is not an in-world action by the incapacitated fighter.
+
+`test_maneuver_route_parity` compares successful effort, injury-consciousness failure, exhausted
+collapse and cardiac onset across those routes. For each branch it records
+exception rollback, undo and deterministic replay of the first turn, rollback of
+the round boundary, and rejection of a consumed gate on the following turn.
+The fixture is authored but unrun; it establishes no passing parity claim yet.
+Other shared health operations still need equivalent route coverage.
