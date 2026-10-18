@@ -9196,6 +9196,8 @@ def test(build):
     test_fear_panic(Session, fear_panic, build.out)
     panic_crying = build.build('expanded-panic-crying',ROOT / 'tests/fixtures/expanded-panic-crying.t')
     test_panic_crying(Session, panic_crying, build.out)
+    panic_history = build.build('expanded-panic-history',ROOT / 'tests/fixtures/expanded-panic-history.t')
+    test_panic_history(Session, panic_history)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20226,5 +20228,32 @@ def test_panic_crying(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.crying-preview') == ['blocked', 'panic-crying-recovery-boundary', 0, 1]
         assert last(s, 'test.crying-state') == [0, 0, 0, 1]
+    finally:
+        s.close()
+
+
+def test_panic_history(Session, bundle):
+    """A changed deadline, receipt or completion cannot bypass a due check; unrun."""
+    cases = ((10800, 'fear-panic-timeline'),
+             (10801, 'fear-panic-timeline'),
+             (10802, 'fear-panic-recovery-check-binding'),
+             (10803, 'fear-panic-timeline'),
+             (10804, 'fear-panic-recovery-binding'),
+             (10805, 'fear-panic-history'),
+             (10809, 'fear-panic-owner'))
+    for change, reason in cases:
+        for query in (10806, 10807, 10810):
+            s = Session(bundle)
+            try:
+                for code in (10600, 10602, 10605, 10606, change, query):
+                    s.action(2285, code)
+                assert last(s, 'test.panic-history') == [reason, 60, 4]
+            finally:
+                s.close()
+    s = Session(bundle)
+    try:
+        for code in (10600, 10602, 10605, 10606, 10802, 10808):
+            s.action(2285, code)
+        assert last(s, 'test.panic-history') == ['fear-panic-recovery-check-binding', 60, 4]
     finally:
         s.close()

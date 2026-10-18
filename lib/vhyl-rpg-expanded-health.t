@@ -7664,6 +7664,24 @@ class RpgExpandedFearPanic: object
         return [self.id,self.context,self.context.profile,self.approved,self.evidence,self.behaviorKind,self.behavior,
             self.startedAt,self.initialMinutes];
     }
+    validateTimeline()
+    {
+        local due = self.startedAt + self.initialMinutes * 60; local ended = nil; local ids = [];
+        foreach (local recovery in self.recoveries)
+        {
+            if (recovery == nil || !recovery.ofKind(RpgExpandedFearPanicRecovery) || recovery.episode != self)
+                rpgExpandedReject('fear-panic-recovery-owner');
+            recovery.validateReceipt();
+            if (holds(ids,recovery.id) || ended != nil || recovery.recordedAt != due) rpgExpandedReject('fear-panic-timeline');
+            ids = ids + [recovery.id];
+            if (recovery.result.check.achieved) ended = due;
+            else due += 60;
+        }
+        if (self.nextCheckAt != due || self.completedAt != ended) rpgExpandedReject('fear-panic-timeline');
+        if (ended == nil && self.context.profile.fearPanic != self
+            || ended != nil && self.context.profile.fearPanic == self) rpgExpandedReject('fear-panic-owner');
+        return nil;
+    }
     assess()
     {
         if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
@@ -7675,7 +7693,7 @@ class RpgExpandedFearPanic: object
             local facts = self.definition();
             for (local index = 1; index <= facts.length(); index += 1)
                 if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('fear-panic-binding');
-            if (self.completedAt == nil && profile.fearPanic != self) rpgExpandedReject('fear-panic-owner');
+            self.validateTimeline();
             value.status = 'reused'; return value;
         }
         if (self.initialMinutes != nil || self.nextCheckAt != nil || self.completedAt != nil || self.boundDefinition != nil
@@ -7709,7 +7727,21 @@ class RpgExpandedFearPanicRecovery: object
     result = nil
     recordedAt = nil
     boundDefinition = nil
+    boundCheck = nil
     definition() { return [self.id,self.episode,self.recordedAt]; }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.episode.recoveries,self)) rpgExpandedReject('fear-panic-recovery-history');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('fear-panic-recovery-binding');
+        local check = self.result.check;
+        if (check == nil || check != self.boundCheck[1] || check.score != self.boundCheck[2] || check.roll != self.boundCheck[3]
+            || check.achieved != self.boundCheck[4] || check.margin != self.boundCheck[5] || check.critical != self.boundCheck[6])
+            rpgExpandedReject('fear-panic-recovery-check-binding');
+        if (self.recordedAt > rpgLedger.seconds) rpgExpandedReject('fear-panic-recovery-time');
+        return nil;
+    }
     assess()
     {
         if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedFearPanic))
@@ -7717,12 +7749,10 @@ class RpgExpandedFearPanicRecovery: object
         local value = new RpgExpandedResult();
         if (self.result != nil)
         {
-            if (!holds(self.episode.recoveries,self)) rpgExpandedReject('fear-panic-recovery-history');
-            local facts = self.definition();
-            for (local index = 1; index <= facts.length(); index += 1)
-                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('fear-panic-recovery-binding');
+            self.validateReceipt(); self.episode.assess();
             value.status = 'reused'; value.check = self.result.check; return value;
         }
+        if (self.recordedAt != nil || self.boundDefinition != nil || self.boundCheck != nil) rpgExpandedReject('fear-panic-recovery-uncommitted-state');
         if (self.episode.startedAt == nil) { value.reason = 'fear-panic-episode-required'; return value; }
         self.episode.assess(); local profile = self.episode.context.profile;
         if (self.episode.completedAt != nil) { value.reason = 'fear-panic-ended'; return value; }
@@ -7740,6 +7770,7 @@ class RpgExpandedFearPanicRecovery: object
         local profile = self.episode.context.profile;
         value.check = rpgCheck(profile.attributeScore(rpgWill),rpgRandom.roll());
         self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.boundCheck = [value.check,value.check.score,value.check.roll,value.check.achieved,value.check.margin,value.check.critical];
         self.episode.recoveries = self.episode.recoveries + [self];
         if (value.check.achieved) { self.episode.completedAt = self.recordedAt; profile.fearPanic = nil; }
         else self.episode.nextCheckAt = self.recordedAt + 60;
@@ -7751,8 +7782,12 @@ modify rpgLedger
     {
         inherited(seconds);
         for (local episode = firstObj(RpgExpandedFearPanic); episode != nil; episode = nextObj(episode,RpgExpandedFearPanic))
-            if (episode.startedAt != nil && episode.completedAt == nil && !episode.context.profile.dead
-                && self.seconds + seconds > episode.nextCheckAt) rpgExpandedReject('fear-panic-recovery-boundary');
+            if (episode.startedAt != nil)
+            {
+                episode.assess();
+                if (episode.completedAt == nil && !episode.context.profile.dead
+                    && self.seconds + seconds > episode.nextCheckAt) rpgExpandedReject('fear-panic-recovery-boundary');
+            }
         return nil;
     }
 ;
@@ -7763,6 +7798,13 @@ modify RpgExpandedFearPanic
 modify RpgExpandedProfile
     activeFearPanic()
     {
+        local ids = [];
+        foreach (local episode in self.fearPanicEpisodes)
+        {
+            if (episode == nil || !episode.ofKind(RpgExpandedFearPanic) || episode.context.profile != self || holds(ids,episode.id))
+                rpgExpandedReject('fear-panic-profile-history');
+            episode.assess(); ids = ids + [episode.id];
+        }
         if (self.fearPanic == nil) return nil;
         self.fearPanic.assess(); return self.fearPanic.completedAt == nil;
     }
@@ -7800,7 +7842,7 @@ class RpgExpandedFearPanicCrying: object
             local facts = self.definition();
             for (local index = 1; index <= facts.length(); index += 1)
                 if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('panic-crying-binding');
-            self.healthGate.assess(); value.status = 'reused'; value.seconds = self.seconds; return value;
+            self.episode.assess(); self.healthGate.assess(); value.status = 'reused'; value.seconds = self.seconds; return value;
         }
         if (self.startedAt != nil || self.completedAt != nil || self.boundDefinition != nil) rpgExpandedReject('panic-crying-uncommitted-state');
         if (self.episode.startedAt == nil) { value.reason = 'panic-crying-episode-required'; return value; }

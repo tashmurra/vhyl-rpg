@@ -1616,3 +1616,10 @@ records one owned health permission. Common effort and maneuver gates prevent
 purposeful actions until recovery; rest/do-nothing remain available. Moving
 behaviors, battle-specific receipts and incapacitation interruptions are still
 pending. Activity, gate and persistence fixtures are authored but unrun.
+
+
+Panic timelines now derive deadlines and completion from bound recovery receipts.
+Clock advancement, action gates and replay reject inconsistent history before
+spending, including missing ownership and altered recovery results. Mutation
+fixtures are authored but unrun; remaining panic behavior and interruption gaps
+are unchanged.

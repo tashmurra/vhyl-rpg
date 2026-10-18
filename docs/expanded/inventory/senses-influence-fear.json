@@ -1123,9 +1123,10 @@
       "tests": [
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_panic",
-        "tests/expanded.py::test_panic_crying"
+        "tests/expanded.py::test_panic_crying",
+        "tests/expanded.py::test_panic_history"
       ],
-      "validation_note": "Owned initial 1d-minute episode and unmodified-Will recovery once per minute. Stationary crying has a concrete shared-time activity with owned health permission; common effort and maneuver gates block purposeful actions during panic. Moving/other behaviors, incapacitation interruptions and full fear selection remain pending. Lifecycle fixtures authored, unrun."
+      "validation_note": "Owned initial 1d-minute episode and unmodified-Will recovery once per minute. Stationary crying has a concrete shared-time activity with owned health permission; common effort and maneuver gates block purposeful actions during panic. Moving/other behaviors, incapacitation interruptions and full fear selection remain pending. Lifecycle fixtures authored, unrun. Timeline and completion are reconstructed from bound recovery receipts; shared clock and action gates reject inconsistent history before spending. Mutation fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-22",

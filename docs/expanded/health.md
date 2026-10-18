@@ -3493,3 +3493,26 @@ recovery boundaries, single time/permission recording, replay, exception rollbac
 undo and save continuation. Assertions remain unrun. Agitated movement, other
 pointless behaviors, battle-specific activity receipts and unconsciousness
 interruptions remain incomplete.
+
+
+### Panic timeline consistency
+
+Panic episode assessment reconstructs its expected deadline from the recorded
+initial duration and ordered recovery receipts. Every failure advances the
+deadline by sixty seconds; the first success establishes completion, with no
+later receipts permitted. Recovery receipts bind their time, score, roll, margin,
+critical result and success flag. Changing a deadline, completion or check result
+cannot turn a pending recovery into a completed episode.
+
+Clock advancement validates these histories before spending time, including
+completed episodes. Common action-permission queries validate owned panic
+histories even when the current-episode pointer is nil. A missing pointer therefore
+cannot silently remove an unresolved episode's action restrictions. These are
+consistency checks for authored state, not a security boundary against code that
+rewrites all stored evidence. The exact-compiled-game save policy is unchanged.
+
+[`expanded-panic-history.t`](../../tests/fixtures/expanded-panic-history.t) and
+`test_panic_history` specify changed deadlines/completion, modified check results,
+removed receipts, changed timestamps and lost ownership through episode queries,
+clock advancement, replay and action gates. They remain unrun alongside the
+existing rollback, undo and cross-process save fixtures.
