@@ -2931,3 +2931,49 @@ modify rpgExpandedTemplateTraits
         trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
     }
 ;
+
+/** Full-2008 B41 exceptional physiology; ordinary humans are ineligible. */
+class RpgExpandedBreathReserveTrait: RpgLiteTrait
+    id = 'breath-reserve'
+    labelId = 'breath-reserve'
+    points = 2
+    approved = nil
+    eligibility = nil
+    evidence = nil
+    templatePurchaseKind = 'expanded-breath-reserve'
+    templatePurchaseOptions() { return [self.eligibility,self.evidence]; }
+    creationCost()
+    {
+        if (!self.approved) rpgExpandedReject('unapproved-trait');
+        if (!holds(['nonhuman','super'],self.eligibility) || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('breath-reserve-eligibility');
+        if (self.id != 'breath-reserve' || self.points != 2 || self.scope != nil || self.controlled || self.skills.length() != 0)
+            rpgExpandedReject('breath-reserve-trait-definition');
+        rpgInteger(self.level,1,10); return self.level * 2;
+    }
+;
+modify RpgExpandedProfile
+    purchasedBreathReserveLevels()
+    {
+        local found = nil; local levels = 0;
+        foreach (local trait in self.traits)
+            if (trait.id == 'breath-reserve')
+            {
+                if (found != nil) rpgExpandedReject('breath-reserve-duplicate');
+                if (!trait.ofKind(RpgExpandedBreathReserveTrait)) rpgExpandedReject('breath-reserve-trait-definition');
+                trait.creationCost(); found = trait;
+                if (trait.active && !trait.mitigated) levels = trait.level;
+            }
+        return levels;
+    }
+    validateFeatures() { inherited(); self.purchasedBreathReserveLevels(); return nil; }
+;
+modify rpgExpandedTemplateTraits
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedBreathReserveTrait)) return inherited(trait);
+        trait.creationCost(); local value = new RpgExpandedBreathReserveTrait();
+        value.level = trait.level; value.approved = trait.approved; value.eligibility = trait.eligibility;
+        value.evidence = trait.evidence; value.creationCost(); return value;
+    }
+;

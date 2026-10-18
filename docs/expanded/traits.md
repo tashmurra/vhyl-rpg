@@ -1689,3 +1689,24 @@ explicit classification when the susceptibility restriction applies.
 identities, navigation exclusion, optional specialty inheritance and conflicting
 overrides. Fixtures remain unrun. Expanded crew, command and custom operation
 skills still need their source-specific catalogue definitions.
+
+
+## Exceptional breath reserve
+
+`RpgExpandedBreathReserveTrait` uses neutral ID `breath-reserve` and costs two
+points per level (full-2008 B41). Set `approved`, `eligibility` (`nonhuman` or
+`super`) and evidence for that eligibility. Ordinary humans reject. The current
+integer implementation supports levels 1–10 and explicitly rejects higher
+levels; this is an implementation bound, not a source maximum.
+
+`profile.purchasedBreathReserveLevels()` validates the purchase and returns its
+active, unmitigated levels. Duplicate purchases reject. Template copying makes a
+fresh trait and preserves eligibility and evidence; these are purchase options
+for composition comparisons. Existing character accounting uses `creationCost()`.
+
+Set a `RpgExpandedBreathReserve`'s `usePurchasedReserve = true` to derive and
+snapshot its levels from the profile. Each level doubles duration, including a
+successful breathing-skill bonus. Later mitigation affects future reserves;
+changing physiology during an existing reserve requires a separate transition.
+The `test_breath_reserve_trait` fixture covers cost, combined duration, mitigation,
+eligibility, duplication and independent template copies. Fixtures remain unrun.

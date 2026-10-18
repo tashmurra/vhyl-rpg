@@ -281,9 +281,10 @@
       "pages": "B41",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Breath reserve costs two per level and doubles holding duration per level. Not available to ordinary humans; can combine with breathing-control skill when eligible. Integrate actual activity/oxygen ledger.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_breath_reserve_trait"],
+      "validation_note": "Typed two-point purchase, explicit nonhuman/super eligibility, active-level selection, template copies and reserve duration snapshot authored. Levels above ten, changing physiology mid-reserve and broad catalogue integration remain incomplete. Fixtures unrun."
     },
     {
       "id": "traits-b-fall-grace",

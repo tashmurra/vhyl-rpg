@@ -1651,3 +1651,10 @@ also preflights shared-clock boundaries before the check. Profile validation
 binds recovery completion times and outcomes and rejects duplicate or
 overlapping history records. `test_breathing_restrictions` covers these air and
 protected-fatigue gates plus altered history rejection; fixtures remain unrun.
+
+
+For purchased exceptional physiology, enable `usePurchasedReserve` on the breath
+reserve. The traits module then supplies active levels and validates eligibility;
+the reserve snapshots them when starting. Without the traits module this option
+rejects explicitly. The original author-supplied `reserveLevels` mode remains
+available when the option is absent. See [Exceptional breath reserve](traits.md#exceptional-breath-reserve).

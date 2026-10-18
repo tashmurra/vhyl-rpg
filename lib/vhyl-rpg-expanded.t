@@ -743,3 +743,7 @@ modify RpgExpandedProfile
 modify RpgLiteSkill
     validateBreathControl() { rpgExpandedReject('breath-control-expanded-skill-required'); }
 ;
+
+modify RpgExpandedProfile
+    purchasedBreathReserveLevels() { rpgExpandedReject('breath-reserve-traits-required'); }
+;

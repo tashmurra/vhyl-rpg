@@ -63,6 +63,8 @@ class RpgExpandedBreathReserve: object
     ventilation = 'none'
     controlSucceeded = nil
     reserveLevels = 0
+    usePurchasedReserve = nil
+    boundPurchasedReserve = nil
     evidence = nil
     startedAt = nil
     endedAt = nil
@@ -82,7 +84,7 @@ class RpgExpandedBreathReserve: object
         if (self.id != self.boundId || self.profile != self.boundProfile || self.activity != self.boundActivity
             || self.prepared != self.boundPrepared || self.ventilation != self.boundVentilation
             || self.controlSucceeded != self.boundControl || self.reserveLevels != self.boundLevels
-            || self.preparation != self.boundPreparation
+            || self.preparation != self.boundPreparation || self.usePurchasedReserve != self.boundPurchasedReserve
             || self.evidence != self.boundEvidence || !holds(self.profile.breathHistory,self))
             rpgExpandedReject('breath-binding');
         if (self.preparation != nil)
@@ -121,8 +123,10 @@ class RpgExpandedBreathReserve: object
             { value.reason = 'breath-preparation-not-applicable'; return value; }
             control = self.preparation.result.check != nil && self.preparation.result.check.achieved;
         }
-        value = rpgExpandedBreathDuration(self.profile.ht,self.activity,self.prepared,self.ventilation,control,self.reserveLevels);
+        local levels = self.usePurchasedReserve ? self.profile.purchasedBreathReserveLevels() : self.reserveLevels;
+        value = rpgExpandedBreathDuration(self.profile.ht,self.activity,self.prepared,self.ventilation,control,levels);
         if (value.status != 'ready') return value;
+        self.reserveLevels = levels; self.boundPurchasedReserve = self.usePurchasedReserve;
         self.controlSucceeded = control; self.boundPreparation = self.preparation;
         if (self.preparation != nil) self.preparation.usedBy = self;
         self.boundId = self.id; self.boundProfile = self.profile; self.boundActivity = self.activity;

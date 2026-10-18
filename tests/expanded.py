@@ -9346,6 +9346,8 @@ def test(build):
     test_breathing_recovery(Session, breathing_recovery, build.out)
     breathing_restrictions = build.build("expanded-breathing-restrictions",ROOT / "tests/fixtures/expanded-breathing-restrictions.t")
     test_breathing_restrictions(Session, breathing_restrictions)
+    reserve_trait = build.build("expanded-breath-reserve-trait",ROOT / "tests/fixtures/expanded-breath-reserve-trait.t")
+    test_breath_reserve_trait(Session, reserve_trait)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23060,3 +23062,30 @@ def test_breathing_restrictions(Session, bundle):
             assert last(s,'test.breathing-history-error') == [reason]
         finally:
             s.close()
+
+
+def test_breath_reserve_trait(Session, bundle):
+    """B41 two-point levels multiply a prepared skill-enhanced reserve; unrun."""
+    for mitigated in (False,True):
+        s = Session(bundle)
+        try:
+            if mitigated:
+                s.action(1100,18201)
+            for code in (18200,18200):
+                s.action(1100,code)
+            assert last(s,'test.reserve-trait') == [4,0 if mitigated else 2,60 if mitigated else 240,0,0]
+        finally:
+            s.close()
+    for code, reason in ((18202,'breath-reserve-eligibility'),(18203,'breath-reserve-duplicate')):
+        s = Session(bundle)
+        try:
+            s.action(1100,code)
+            assert last(s,'test.reserve-trait-error') == [reason]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1100,18204)
+        assert last(s,'test.reserve-trait-copy') == [1,2,6,'nonhuman',1]
+    finally:
+        s.close()
