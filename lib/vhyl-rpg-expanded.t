@@ -26,6 +26,17 @@ class RpgExpandedProfile: RpgLiteProfile
     /* Character module supplies creation-budget assessment for cash exchanges. */
     creationMoneyReason(points) { return 'creation-money-accounting-unavailable'; }
     validateFeatures() { return nil; }
+    /* Equipment module supplies concrete forced-drop handling when installed. */
+    prepareKnockdownDrop(destination)
+    {
+        foreach (local item in self.equipment)
+            if (item.ready && !item.worn)
+            {
+                local value = new RpgExpandedResult(); value.reason = 'expanded-wound-drop-unavailable';
+                return value;
+            }
+        return nil;
+    }
     hpAdjustment = 0
     fpAdjustment = 0
     willAdjustment = 0

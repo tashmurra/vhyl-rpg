@@ -1,6 +1,7 @@
 /** Structured injury, healing, fatigue and elapsed-time result with any resistance checks. */
 class RpgLiteHealthResult: object
     status = 'resolved'
+    knockedDown = nil
     injury = 0
     healed = 0
     fatigue = 0
@@ -35,6 +36,7 @@ rpgLiteWoundWithKnockdown(profile, amount, knockdown, modifier)
         result.checks = result.checks + [result.check];
         if (!result.check.achieved)
         {
+            result.knockedDown = true;
             profile.stunned = true; profile.posture = 'lying';
             foreach (local item in profile.equipment) if (!item.worn) item.ready = nil;
             if (result.check.margin <= -5 || result.check.critical == 'failure') profile.unconscious = true;

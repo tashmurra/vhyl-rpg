@@ -6,15 +6,25 @@
 #include <vhyl-rpg-progression.t>
 #include <vhyl-rpg-lite.t>
 #include <vhyl-rpg-expanded.t>
+#include <vhyl-rpg-expanded-equipment.t>
 #include <vhyl-rpg-expanded-health.t>
 healthRoom: Room 'Recovery';
 healthRules: RpgExpandedRules scaledInjuryShock = true;
 healthPatient: RpgExpandedProfile rules = healthRules;
 healthWound: RpgExpandedWound id = 'impact' profile = healthPatient amount = 6 location = 'face';
+healthHeld: RpgLiteItem id = 'held' ready = true weight = 100;
+healthWorn: RpgLiteItem id = 'worn' ready = true worn = true weight = 200;
+healthPacked: RpgLiteItem id = 'packed' weight = 300;
+healthFighter: RpgLiteFighter profile = healthPatient aimWeapon = healthHeld aimSeconds = 2;
 healthInput: object code = 0;
 class HealthFixtureAction: Action
     exec(context)
     {
+        if (healthInput.code == 5 || healthInput.code == 6 || healthInput.code == 7)
+        {
+            healthPatient.equipment = [healthHeld,healthWorn,healthPacked];
+            if (healthInput.code != 7) healthWound.dropDestination = 'floor';
+        }
         if (healthInput.code == 3) healthWound.amount = 7;
         if (healthInput.code == 4)
         {
@@ -24,7 +34,7 @@ class HealthFixtureAction: Action
         else
         {
             local result = healthWound.apply(); event('test.owned-wound'); eventValue(result.status);
-            if (healthInput.code == 2) throw new RpgError();
+            if (healthInput.code == 2 || healthInput.code == 6) throw new RpgError();
         }
         return nil;
     }
@@ -50,6 +60,15 @@ act(verb,args)
     {
         local result = healthWound.assess(); event('test.wound-preview'); eventValue(result.status);
         eventValue(result.assessment == nil ? 0 : result.assessment.required ? 1 : 0); return nil;
+    }
+    if (verb == 1613)
+    {
+        event('test.wound-drop'); eventValue(healthHeld.usableBy(healthPatient) ? 1 : 0);
+        eventValue(healthHeld.storageLocation); eventValue(healthHeld.ready ? 1 : 0);
+        eventValue(healthWorn.ready ? 1 : 0); eventValue(healthWorn.worn ? 1 : 0);
+        eventValue(healthPacked.storageLocation); eventValue(healthPatient.loadHundredths());
+        eventValue(healthWound.droppedEquipment == nil ? 0 : healthWound.droppedEquipment.items.length());
+        eventValue(healthFighter.aimSeconds); return nil;
     }
     return vhylAct(verb,args);
 }

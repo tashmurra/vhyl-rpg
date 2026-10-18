@@ -172,9 +172,10 @@
       "tests": [
         "tests/expanded.py::test_expanded_wound_commit",
         "tests/expanded.py::test_owned_wound_transactions",
-        "tests/expanded.py::test_owned_wound_persistence"
+        "tests/expanded.py::test_owned_wound_persistence",
+        "tests/expanded.py::test_knockdown_equipment_drop"
       ],
-      "validation_note": "Owned standard-location wound execution and receipt ownership validation authored. Pure preview, transaction and cross-process continuation cases unrun. Unsupported held-item drops, anatomy, crippling and low-target checks remain explicit."
+      "validation_note": "Owned wounds and concrete optional-equipment forced drops authored with shared inventory/load state. Transaction and continuation cases unrun; broader anatomy, crippling and low-target checks remain unresolved."
     },
     {
       "id": "health-knockdown-unconscious",

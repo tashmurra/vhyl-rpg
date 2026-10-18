@@ -303,6 +303,34 @@ def test_owned_wound_persistence(Session, bundle, out):
             second.close()
 
 
+def wound_drop_state(s):
+    s.action(1613)
+    return last(s, 'test.wound-drop')
+
+
+def test_knockdown_equipment_drop(s):
+    initial = owned_wound_state(s)
+    equipment = wound_drop_state(s)
+    s.action(1610, 6)
+    assert owned_wound_state(s) == initial
+    assert wound_drop_state(s) == equipment
+    s.action(1610, 7)
+    assert last(s, 'test.owned-wound') == ['blocked']
+    assert owned_wound_state(s) == initial
+    s.command('undo')
+    assert wound_drop_state(s) == equipment
+    s.action(1610, 5)
+    assert owned_wound_state(s) == [6, 4, 1, 1, 'lying', 1, 1, 6, 10, 3, 0]
+    dropped = wound_drop_state(s)
+    assert dropped == [0, 'floor', 0, 1, 1, None, 500, 1, 0]
+    s.command('undo')
+    assert owned_wound_state(s) == initial
+    assert wound_drop_state(s) == equipment
+    s.action(1610, 5); s.action(1610, 1)
+    assert wound_drop_state(s) == dropped
+    assert owned_wound_state(s)[-2:] == [3, 0]
+
+
 def test_numbers(s):
     before = state(s)
     # Full-2008 B170. Enumerated offsets rather than the implementation formula.
@@ -2054,6 +2082,7 @@ def test(build):
     fresh(Session,health,test_expanded_wound_commit)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
+    fresh(Session,wounds,test_knockdown_equipment_drop)
     test_owned_wound_persistence(Session,wounds,build.out)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)

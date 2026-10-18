@@ -325,3 +325,15 @@ also cover any seller-side restrictions in the authored jurisdiction.
 `tests/expanded.py::test_trade_transfer` covers pure preview, consent/access/funds,
 sole ownership, local prohibition, movement and payment, rollback, undo and repeat
 execution. These authored checks remain unrun while checks are paused.
+
+
+## Forced drops from injury
+
+The health module can request a concrete `RpgExpandedKnockdownDrop` plan through
+`profile.prepareKnockdownDrop(destination)`. It captures carried, ready, non-worn
+items without moving them. Wound resolution commits the prepared plan only on a
+failed knockdown check, using the same storage-location and inventory fields as
+ordinary transfers. Unlike voluntary storage movement, a forced drop remains
+valid when the injury leaves its owner unconscious. The plan clears affected aim
+state and is retained by the wound receipt. Authors provide the actual receiving
+location; inclusion does not guess one. See the [health integration](health.md).

@@ -63,6 +63,7 @@ modify RpgExpandedProfile
 
 /** Preflight and receipt envelope for an explicitly selected expanded wound. */
 class RpgExpandedWoundResult: RpgExpandedResult
+    dropPlan = nil
     assessment = nil
     health = nil
 ;
@@ -77,11 +78,14 @@ class RpgExpandedWound: object
     location = 'torso'
     maleGroin = nil
     anatomy = 'standard-humanoid'
+    dropDestination = nil
+    droppedEquipment = nil
     boundProfile = nil
     boundId = nil
     boundAmount = 0
     boundLocation = nil
     boundMaleGroin = nil
+    boundDropDestination = nil
     health = nil
     assess()
     {
@@ -93,6 +97,7 @@ class RpgExpandedWound: object
             if (!holds(self.profile.expandedWounds,self)) rpgExpandedReject('expanded-wound-history');
             if (self.profile != self.boundProfile || self.id != self.boundId || self.amount != self.boundAmount
                 || self.location != self.boundLocation || self.maleGroin != self.boundMaleGroin
+                || self.dropDestination != self.boundDropDestination
                 || self.anatomy != 'standard-humanoid') rpgExpandedReject('expanded-wound-retargeted');
             value.status = 'reused'; value.health = self.health; return value;
         }
@@ -110,9 +115,9 @@ class RpgExpandedWound: object
         value.assessment = rpgExpandedAssessKnockdown(self.profile.maxHP,self.amount,self.location,self.maleGroin);
         if (value.assessment.required && !self.profile.unconscious)
         {
-            foreach (local item in self.profile.equipment)
-                if (item.ready && !item.worn)
-                { value.reason = 'expanded-wound-drop-unavailable'; return value; }
+            value.dropPlan = self.profile.prepareKnockdownDrop(self.dropDestination);
+            if (value.dropPlan != nil && value.dropPlan.status != 'ready')
+            { value.reason = value.dropPlan.reason; return value; }
             local context = new RpgLiteContext(); context.attribute = rpgHT;
             context.kind = 'major-wound'; context.modifier = value.assessment.modifier;
             local score = rpgLiteScore(self.profile,context);
@@ -129,8 +134,11 @@ class RpgExpandedWound: object
         local value = self.assess(); if (value.status != 'ready') return value;
         self.health = rpgLiteWoundWithKnockdown(self.profile,self.amount,
             value.assessment.required,value.assessment.modifier);
+        if (self.health.knockedDown && value.dropPlan != nil)
+        { value.dropPlan.commit(); self.droppedEquipment = value.dropPlan; }
         self.boundProfile = self.profile; self.boundId = self.id; self.boundAmount = self.amount;
         self.boundLocation = self.location; self.boundMaleGroin = self.maleGroin;
+        self.boundDropDestination = self.dropDestination;
         self.profile.expandedWounds = self.profile.expandedWounds + [self];
         value.health = self.health; value.status = 'resolved'; return value;
     }

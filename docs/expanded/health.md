@@ -24,7 +24,7 @@ and integrated repeated-wound/resistance cases.
 scaling and rejection before injury or randomness is spent. These cases have not
 run while checks are paused.
 
-Broader detailed injury, anatomy exceptions, item dropping, medical care, recovery
+Broader detailed injury, anatomy exceptions, medical care, recovery
 and fear remain pending. This option does not enable a complete expanded injury profile;
 other wound behavior remains the explicitly selected existing foundation behavior.
 
@@ -185,9 +185,9 @@ resolved before creating this request.
 
 The supported subset requires standard humanoid anatomy, excludes eye/limb
 crippling and the listed injury-tolerance/pain-sensitivity traits, and blocks a
-required check with an unavailable score. If a knockdown check could require
-held equipment to be dropped, the request also blocks until item-drop integration
-is supplied; unreadying an item is not presented as a complete drop. These are
+required check with an unavailable score. If a knockdown check could require held equipment to be dropped, include the
+expanded equipment module and supply `dropDestination`. Without that integration
+or destination, the request blocks before injury. These are
 explicit limitations, not full health coverage.
 
 `test_expanded_wound_commit` covers exact-half/no-check, minor face injury,
@@ -199,3 +199,22 @@ repeat protection and rejected duplicate/retargeted requests.
 receipts in separate processes. Wound history validates receipt ownership and
 identity. These cases are authored but unrun; their presence is not runtime
 validation.
+
+
+## Equipment dropped by knockdown
+
+With `vhyl-rpg-expanded-equipment.t` installed, `dropDestination` identifies the
+authored floor or other receiving location. Preflight captures carried, ready,
+non-worn items in a concrete `RpgExpandedKnockdownDrop` plan. A failed knockdown
+check commits that plan even if the same check leaves the character unconscious.
+A successful check moves nothing. Worn and packed items remain carried.
+
+Dropped items retain ownership in the existing equipment list but receive the
+storage location, become unusable as carried gear, and no longer contribute to
+carried load. Relevant aim state is cleared. `wound.droppedEquipment` retains the
+committed plan and its item identities; it is not a second inventory. Repeating a
+wound does not drop the objects again. Picking them up uses the existing authored
+storage-transfer procedure and its accessibility checks.
+
+`test_knockdown_equipment_drop` covers missing-destination rejection, item/load
+changes, aim cleanup, rollback, undo and repeat protection. It remains unrun.

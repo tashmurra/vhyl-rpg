@@ -324,3 +324,48 @@ class RpgExpandedTradeTransfer: object
         value.status = 'resolved'; return value;
     }
 ;
+
+/** Prepared forced drop from knockdown, full-2008 B420. Item identities remain
+ * in the owner's inventory; storageLocation makes them no longer carried. */
+class RpgExpandedKnockdownDrop: RpgExpandedResult
+    profile = nil
+    destination = nil
+    items = []
+    committed = nil
+    commit()
+    {
+        if (self.committed) return 'reused';
+        if (self.status != 'ready' || self.profile == nil || self.destination == nil)
+            rpgExpandedReject('knockdown-drop-unprepared');
+        foreach (local item in self.items)
+            if (!holds(self.profile.equipment,item) || item.storageLocation != nil || item.worn)
+                rpgExpandedReject('knockdown-drop-item-changed');
+        foreach (local item in self.items)
+        {
+            item.storageLocation = self.destination; item.ready = nil;
+            for (local fighter = firstObj(RpgLiteFighter); fighter != nil; fighter = nextObj(fighter,RpgLiteFighter))
+                if (fighter.profile == self.profile && fighter.aimWeapon == item)
+                { fighter.aimSeconds = 0; fighter.aimTarget = nil; fighter.aimWeapon = nil; }
+        }
+        self.committed = true; return 'resolved';
+    }
+;
+
+modify RpgExpandedProfile
+    prepareKnockdownDrop(destination)
+    {
+        local items = [];
+        foreach (local item in self.equipment)
+            if (item.ready && !item.worn)
+            {
+                if (!item.ofKind(RpgLiteItem) || item.storageLocation != nil)
+                    rpgExpandedReject('knockdown-drop-item-changed');
+                items = items + [item];
+            }
+        if (items.length() == 0) return nil;
+        local value = new RpgExpandedKnockdownDrop(); value.profile = self;
+        value.destination = destination; value.items = items;
+        if (destination == nil) { value.reason = 'knockdown-drop-destination-required'; return value; }
+        value.status = 'ready'; return value;
+    }
+;
