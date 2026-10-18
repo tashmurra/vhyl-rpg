@@ -2957,3 +2957,38 @@ changes and other loss causes still need their own event integration; direct fie
 edits are not a substitute for the public notification hooks.
 
 Owned equipment storage and trade operations notify `onEquipmentUnavailable(item, cause)` after changing inventory state. An active mobility aid records the occurrence as `storage-change` or `transferred`, even if its readiness is subsequently restored. Pending support loss still requires an authored mobility settlement before positive time advances. Reused operations do not repeat notifications. Direct field edits remain the author's responsibility.
+
+## Marching-hour fatigue
+
+`rpgExpandedMarchFatigueCost(encumbrance, hot, heavyClothing, cooling)` implements
+`full-2008` B426. Costs are one through five points across the five encumbrance
+levels. A hot day adds one point, or two with heavy clothing such as plate armour
+or an overcoat. Effective cooling removes this heat addition. The author supplies
+those environmental and equipment facts; the function is pure.
+
+`RpgExpandedMarchHourCost` commits that cost to an expanded character's existing
+fatigue ledger. Supply `id`, `profile`, a distinct owned `interval` object,
+`approved = true`, and `evidence` establishing the hour and heat/clothing facts.
+Use `basis = 'completed-hour'` for completed road travel, or
+`'combat-assumed-hour'` for the source's default hour when combat interrupts a
+march. If actual events contradict the assumed hour, this interface must not
+manufacture one: the travel controller needs an explicit interval settlement.
+
+The same interval must identify both pathways. Applying either one records the
+cost in `profile.marchHours`; another ID for that interval is rejected. Replaying
+the original request returns its recorded result without spending again. Its
+`fatigueCost` and owned `fatigueLoss` remain available for inspection. The latter
+uses `RpgExpandedMarchFatigueLoss`, the common owned fatigue and overflow-injury
+procedure with an exertion cause and separate `marchFatigueLosses` history.
+Supply `dropDestination` where exhaustion or injury can force equipment drops.
+
+The cost includes heat once; it does not add the legacy `heatExtra` a second
+time. No time is charged, since the journey owns the elapsed interval. Neither
+this receipt nor the daily hiking bonus is a complete journey. Automatic travel
+interval ownership, effort permissions, rest scheduling, interruption exceptions
+and full-day time occupation remain incomplete. Do not also charge the same
+interval through the legacy journey fatigue path.
+
+`tests/fixtures/expanded-march-fatigue.t` provides authored, unrun assertions for
+the cost table, preview purity, cooling, overflow injury, rollback, undo,
+duplicate charges and saved replay.

@@ -9016,6 +9016,8 @@ def test(build):
     test_hiking_attempt(Session, hiking_attempt, build.out)
     hiking_party = build.build('expanded-hiking-party',ROOT / 'tests/fixtures/expanded-hiking-party.t')
     test_hiking_party(Session, hiking_party, build.out)
+    march_fatigue = build.build('expanded-march-fatigue',ROOT / 'tests/fixtures/expanded-march-fatigue.t')
+    test_march_fatigue(Session, march_fatigue, build.out)
     test_climb_fall_assessment(Session, climb_assessment)
     test_landing_assessment(Session, climb_assessment)
     landing_attempt = build.build('expanded-landing-attempt',ROOT / 'tests/fixtures/expanded-landing-attempt.t')
@@ -14553,3 +14555,47 @@ def test_hiking_party(Session, bundle, out):
         assert state(s) == [0,0,3,0,0]
     finally:
         s.close()
+
+
+def test_march_fatigue(Session, bundle, out):
+    def state(s):
+        s.action(2285,1133)
+        return last(s,'test.march-owned')
+    path = out / 'expanded-march-fatigue.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,1138)
+        assert last(s,'test.march-table') == [1,2,3,1,2,3,4,2,3,4,5,3,4,5,6,4,5,6,7,5,0,0]
+        for code in (1134,1130):
+            s.action(2285,code)
+        assert last(s,'test.march-preview') == ['ready',None,3,0]
+        s.action(2285,1132)
+        assert state(s) == [0,0,0,0,0,0]
+        s.action(2285,1131)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,0,0]
+        for code in (1131,1131,1137):
+            s.action(2285,code)
+        assert state(s) == [3,0,1,1,0,0]
+        assert last(s,'test.march-combat') == ['march-hour-already-charged']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1131,1137):
+            s.action(2285,code)
+        assert state(s) == [3,0,1,1,0,0]
+        assert last(s,'test.march-combat') == ['march-hour-already-charged']
+    finally:
+        s.close()
+    for codes, expected in (((1134,1135,1131),[1,0,1,1,0,0]),
+                            ((1134,1136,1131),[12,2,1,1,0,0])):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(2285,code)
+            assert state(s) == expected
+        finally:
+            s.close()

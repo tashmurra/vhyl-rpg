@@ -776,3 +776,10 @@ The fixture `tests/fixtures/expanded-hiking-party.t` covers a mixed-result party
 an all-success party, regrouping, invalid receipts, exception rollback, undo and
 save continuation. These assertions are authored and unrun. Travel execution,
 fatigue, interruptions and full-day time occupation remain incomplete.
+
+The health module's `RpgExpandedMarchHourCost` now provides the B426 fatigue
+settlement for a completed marching hour or the assumed hour at a combat stop.
+Its owned interval prevents duplicate charging between those pathways and feeds
+the existing fatigue/injury ledger. See [marching-hour fatigue](health.md#marching-hour-fatigue).
+A travel controller must supply the interval and own its time; automatic travel
+scheduling and actual-event interruption exceptions are still incomplete.

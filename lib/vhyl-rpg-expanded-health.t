@@ -6342,3 +6342,85 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** B426 hourly marching fatigue, including the hot-weather clothing exception.
+ * The caller establishes weather and effective cooling as world facts. */
+rpgExpandedMarchFatigueCost(encumbrance, hot, heavyClothing, cooling)
+{
+    rpgInteger(encumbrance,0,4);
+    return 1 + encumbrance + (hot && !cooling ? (heavyClothing ? 2 : 1) : 0);
+}
+class RpgExpandedMarchFatigueLoss: RpgExpandedFearFatigueLoss
+    maximumAmount() { return 7; }
+    fatigueCause() { return 'exertion'; }
+    history() { return self.profile.marchFatigueLosses; }
+    remember() { self.profile.marchFatigueLosses = self.profile.marchFatigueLosses + [self]; }
+    woundId(index)
+    {
+        return 'march-fatigue-' + self.id + '-' + ['one','two','three','four','five','six','seven'][index];
+    }
+;
+class RpgExpandedMarchHourResult: RpgExpandedResult
+    fatigueCost = 0
+    fatigueLoss = nil
+;
+modify RpgExpandedProfile
+    marchHours = []
+    marchFatigueLosses = []
+;
+/** One completed marching hour or the B426 assumed hour at a combat interruption.
+ * Time belongs to the journey. Reuse the same interval object for both pathways;
+ * an already charged interval cannot acquire a second cost under another ID. */
+class RpgExpandedMarchHourCost: object
+    id = nil
+    profile = nil
+    interval = nil
+    basis = 'completed-hour'
+    hot = nil
+    heavyClothing = nil
+    cooling = nil
+    approved = nil
+    evidence = nil
+    dropDestination = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.profile,self.interval,self.basis,self.hot,self.heavyClothing,self.cooling,
+        self.approved,self.evidence,self.dropDestination]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.interval == nil || dataType(self.interval) != TypeObject)
+            rpgExpandedReject('march-hour-definition');
+        local value = new RpgExpandedMarchHourResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('march-hour-binding');
+            if (!holds(self.profile.marchHours,self) || self.result.fatigueLoss.assess().status != 'reused')
+                rpgExpandedReject('march-hour-history');
+            value.status = 'reused'; return value;
+        }
+        if (!holds(['completed-hour','combat-assumed-hour'],self.basis)) rpgExpandedReject('march-hour-basis');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'march-hour-author-facts'; return value; }
+        foreach (local prior in self.profile.marchHours)
+            if (prior.id == self.id || prior.interval == self.interval) rpgExpandedReject('march-hour-already-charged');
+        value.fatigueCost = rpgExpandedMarchFatigueCost(self.profile.encumbrance(),self.hot,self.heavyClothing,self.cooling);
+        local loss = new RpgExpandedMarchFatigueLoss(); loss.id = self.id; loss.profile = self.profile;
+        loss.amount = value.fatigueCost; loss.dropDestination = self.dropDestination;
+        local prepared = loss.assess();
+        if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        value.fatigueLoss = loss; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        if (value.fatigueLoss.apply().status != 'resolved') rpgExpandedReject('march-hour-fatigue-changed');
+        self.boundDefinition = self.definition(); self.result = value;
+        self.profile.marchHours = self.profile.marchHours + [self];
+        value.status = 'resolved'; return value;
+    }
+;

@@ -885,3 +885,8 @@ receipts. Their bonus requires every traveler to succeed, and their pace uses
 the slowest member. Splitting or regrouping cannot create new daily rolls;
 shared leadership receipts cannot be reused as independent rolls. Fixtures are
 authored but unrun, and full travel execution remains incomplete.
+
+Marching-hour fatigue now has an owned cost record, including hot-weather,
+heavy-clothing and cooling adjustments, overflow injury and duplicate interval
+protection. Time remains the travel controller's responsibility. Cost-table and
+persistence fixtures are authored but unrun; automatic scheduling remains partial.
