@@ -818,3 +818,116 @@ class RpgExpandedSwarmExposure: object
         return self.assess();
     }
 ;
+
+/** Mechanical B461 sample swarm, with independent encounter history. */
+class RpgExpandedSwarm: object
+    kind = 'stinging-insects'
+    attacks = []
+    dispersed = nil
+;
+
+class RpgExpandedSwarmAttackResult: RpgExpandedResult
+    damage = 0
+    injury = 0
+    wound = nil
+    immune = nil
+;
+
+/** Automatic contact attack. The caller owns the combat clock and map facts. */
+class RpgExpandedSwarmAttack: object
+    id = nil
+    exposure = nil
+    mapped = nil
+    inContact = nil
+    approved = nil
+    evidence = nil
+    distanceFromNest = nil
+    victimChangeReason = nil
+    dropDestination = nil
+    result = nil
+    snapshot = nil
+    resolvedAt = nil
+    definition()
+    { return [self.id,self.exposure,self.exposure.swarm,self.exposure.victim,self.exposure.swarm.kind,
+        self.mapped,self.evidence,self.dropDestination,self.distanceFromNest,self.victimChangeReason]; }
+    injuryFor(damage, protection)
+    {
+        if (protection.immune) return 0;
+        if (self.exposure.swarm.kind == 'stinging-insects') return 1;
+        local penetration = damage - protection.dr;
+        return penetration <= 0 ? 0 : penetration * 3 / 2;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.exposure == nil || !self.exposure.ofKind(RpgExpandedSwarmExposure)
+            || self.exposure.swarm == nil || !self.exposure.swarm.ofKind(RpgExpandedSwarm)) rpgExpandedReject('swarm-attack-definition');
+        local swarm = self.exposure.swarm; local value = new RpgExpandedSwarmAttackResult();
+        if (!holds(['stinging-insects','flying-biters','ground-biters'],swarm.kind)) rpgExpandedReject('swarm-attack-kind');
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.snapshot == nil || self.snapshot.length() != current.length()) rpgExpandedReject('swarm-attack-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.snapshot[index]) rpgExpandedReject('swarm-attack-binding');
+            if (!holds(swarm.attacks,self)) rpgExpandedReject('swarm-attack-history');
+            value.status = 'reused'; value.damage = self.result.damage; value.injury = self.result.injury;
+            value.wound = self.result.wound; value.immune = self.result.immune; return value;
+        }
+        if (!self.approved || !self.inContact || self.evidence == nil || self.evidence == '')
+        { value.reason = 'swarm-attack-author-facts'; return value; }
+        if (swarm.kind == 'stinging-insects')
+        {
+            if (self.distanceFromNest == nil) { value.reason = 'swarm-nest-distance-required'; return value; }
+            rpgInteger(self.distanceFromNest,0,100000000);
+            if (self.distanceFromNest >= 50) { value.reason = 'swarm-pursuit-ended'; return value; }
+        }
+        else if (self.distanceFromNest != nil) rpgExpandedReject('swarm-unused-nest-distance');
+        if (!self.mapped && swarm.attacks.length() > 0
+            && swarm.attacks[swarm.attacks.length()].exposure.victim != self.exposure.victim
+            && (self.victimChangeReason == nil || self.victimChangeReason == ''))
+        { value.reason = 'swarm-victim-change-reason-required'; return value; }
+        if (swarm.dispersed) { value.reason = 'swarm-dispersed'; return value; }
+        if (self.exposure.tiny != (swarm.kind == 'stinging-insects')) rpgExpandedReject('swarm-attack-size');
+        if (self.exposure.startedAt == nil) { value.reason = 'swarm-exposure-required'; return value; }
+        local protection = self.exposure.assess();
+        if (protection.status != 'active') { value.reason = protection.reason; return value; }
+        foreach (local prior in swarm.attacks)
+        {
+            if (prior.id == self.id) rpgExpandedReject('swarm-attack-duplicate');
+            if (prior.resolvedAt == rpgLedger.seconds && (!self.mapped || !prior.mapped
+                || prior.exposure.victim == self.exposure.victim))
+            { value.reason = 'swarm-attack-turn-used'; return value; }
+        }
+        value.immune = protection.immune;
+        local maximum = swarm.kind == 'stinging-insects' ? 1 : 6;
+        for (local damage = 1; damage <= maximum; damage += 1)
+        {
+            local injury = self.injuryFor(damage,protection);
+            if (injury > 0)
+            {
+                local wound = self.exposure.victim.prepareSwarmWound(self.id,injury,self.dropDestination);
+                if (wound == nil) { value.reason = 'swarm-health-module-required'; return value; }
+                local assessed = wound.assess();
+                if (assessed.status != 'ready') { value.reason = assessed.reason; return value; }
+            }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local protection = self.exposure.assess();
+        /* Immunity prevents the damage roll as well as injury. No attack or defense roll. */
+        value.damage = protection.immune ? 0 : self.exposure.swarm.kind == 'stinging-insects' ? 1 : rpgRandom.die();
+        value.injury = self.injuryFor(value.damage,protection);
+        if (value.injury > 0)
+        {
+            value.wound = self.exposure.victim.prepareSwarmWound(self.id,value.injury,self.dropDestination);
+            local outcome = value.wound.apply();
+            if (outcome.status != 'resolved') rpgExpandedReject('swarm-wound-commit');
+        }
+        self.snapshot = self.definition(); self.resolvedAt = rpgLedger.seconds;
+        self.exposure.swarm.attacks = self.exposure.swarm.attacks + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

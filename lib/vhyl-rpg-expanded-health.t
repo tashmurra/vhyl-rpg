@@ -2112,3 +2112,12 @@ modify RpgExpandedProfile
         wound.amount = amount; wound.dropDestination = destination; return wound;
     }
 ;
+
+/** Swarm attacks share the same owned wound, shock and survival procedure. */
+modify RpgExpandedProfile
+    prepareSwarmWound(id, amount, destination)
+    {
+        local wound = new RpgExpandedWound(); wound.id = id; wound.profile = self;
+        wound.amount = amount; wound.dropDestination = destination; return wound;
+    }
+;

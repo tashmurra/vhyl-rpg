@@ -1664,6 +1664,42 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_swarm_attacks(Session,bundle):
+    def state(s):
+        s.action(2221)
+        return last(s,'test.swarm-health')
+    s=Session(bundle)
+    try:
+        s.action(2220,1)
+        assert last(s,'test.swarm-attack')[:2] == ['ready',None]
+        assert state(s) == [0,0,0,0,0]
+        s.action(2220,2)
+        assert state(s) == [0,0,0,0,0]
+        s.action(2220,0)
+        assert last(s,'test.swarm-attack') == ['resolved',None,1,1]
+        assert state(s) == [1,1,1,0,0]
+        s.action(2220,0)
+        assert last(s,'test.swarm-attack')[:2] == ['reused',None]
+        assert state(s) == [1,1,1,0,0]
+        s.action(2220,8)
+        assert last(s,'test.swarm-attack')[:2] == ['blocked','swarm-attack-turn-used']
+        s.action(2220,7)
+        assert state(s) == [2,2,2,0,1]
+        s.command('undo')
+        assert state(s) == [1,1,1,0,0]
+    finally: s.close()
+    for code,expected,health in [
+            (4,['resolved',None,2,3],[3,1,1,1,0]),
+            (5,['resolved',None,0,0],[0,0,1,0,0]),
+            (6,['blocked','swarm-pursuit-ended',0,0],[0,0,0,0,0])]:
+        s=Session(bundle)
+        try:
+            s.action(2220,code)
+            assert last(s,'test.swarm-attack') == expected
+            assert state(s) == health
+        finally: s.close()
+
+
 def test_swarm_protection(Session,bundle):
     for setup,limit,initial_immune,dr in [(0,2,1,0),(3,5,1,0),(4,6,0,5),(5,6,1,0)]:
         s=Session(bundle)
@@ -7626,6 +7662,8 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
+    swarms = build.build('expanded-swarms',ROOT / 'tests/fixtures/expanded-swarms.t')
+    test_swarm_attacks(Session,swarms)
     test_swarm_protection(Session,creatures)
     fresh(Session,creatures,test_animal_strength_damage)
     fresh(Session,creatures,test_animal_natural_damage)

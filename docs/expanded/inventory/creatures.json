@@ -2173,9 +2173,12 @@
       "pages": "B461",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A swarm is an owned group occupying one hex; it attacks victims within that hex, or one person per second without a map, and needs an authored reason to change victims.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swarm_attacks"
+      ],
+      "validation_note": "Owned automatic contact attacks use the shared wound ledger with replay and per-second duplicate protection; fixtures unrun. Map occupancy, movement, incoming damage and dispersal remain incomplete."
     },
     {
       "id": "creature-swarm-automatic-attack",
@@ -2183,9 +2186,12 @@
       "pages": "B461",
       "module": "creatures",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Swarm attacks hit without attack or defense rolls and apply their listed damage each turn until dispersed; preserve this random-consumption difference from individual creatures.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swarm_attacks"
+      ],
+      "validation_note": "Owned automatic contact attacks use the shared wound ledger with replay and per-second duplicate protection; fixtures unrun. Map occupancy, movement, incoming damage and dispersal remain incomplete."
     },
     {
       "id": "creature-swarm-tiny-clothing",
@@ -2272,9 +2278,12 @@
       "pages": "B461",
       "module": "creatures",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The flying-biter example moves eight, inflicts one die cutting each turn, uses ordinary armor resistance and disperses after eight health loss.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swarm_attacks"
+      ],
+      "validation_note": "Owned automatic contact attacks use the shared wound ledger with replay and per-second duplicate protection; fixtures unrun. Map occupancy, movement, incoming damage and dispersal remain incomplete."
     },
     {
       "id": "creature-swarm-catalogue-stinging-insects",
@@ -2282,9 +2291,12 @@
       "pages": "B461",
       "module": "creatures",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The stinging-insect example flies at six, inflicts one direct injury each turn unless completely protected, disperses at twelve health loss and stops pursuing fifty yards from its nest; several swarms retain independent state.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swarm_attacks"
+      ],
+      "validation_note": "Owned automatic contact attacks use the shared wound ledger with replay and per-second duplicate protection; fixtures unrun. Map occupancy, movement, incoming damage and dispersal remain incomplete."
     },
     {
       "id": "creature-swarm-catalogue-ground-biters",
@@ -2292,9 +2304,12 @@
       "pages": "B461",
       "module": "creatures",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The ground-biter example moves four, inflicts one die cutting each turn, uses ordinary armor resistance and disperses after six health loss.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swarm_attacks"
+      ],
+      "validation_note": "Owned automatic contact attacks use the shared wound ledger with replay and per-second duplicate protection; fixtures unrun. Map occupancy, movement, incoming damage and dispersal remain incomplete."
     },
     {
       "id": "creature-handling-task-modifiers",

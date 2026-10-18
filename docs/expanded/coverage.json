@@ -74,7 +74,8 @@
         "tests/expanded.py::test_animal_values",
         "tests/expanded.py::test_animal_natural_damage",
         "tests/expanded.py::test_animal_strength_damage",
-        "tests/expanded.py::test_swarm_protection"
+        "tests/expanded.py::test_swarm_protection",
+        "tests/expanded.py::test_swarm_attacks"
       ]
     },
     {

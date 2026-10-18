@@ -397,8 +397,47 @@ an ingress deadline. Tiny creatures with unclassified normal armour return
 category instead of treating all armour as sealed.
 
 The record does not advance time or consume randomness. The combat scheduler
-owns elapsed time. This implements the B461 protection interval only: it does
-not roll swarm damage, apply injury, reset protection after leaving contact,
+owns elapsed time. This record implements the B461 protection interval only. The attack interface
+below applies damage separately. It does not reset protection after leaving contact,
 change clothing during contact or resolve a new encounter with a reused swarm
 identity. Those operations remain pending. `test_swarm_protection` covers the
 exact boundaries, repeated start, preview and exception rollback; it is unrun.
+
+## Automatic swarm contact attacks
+
+Include the health module to commit injury. `RpgExpandedSwarm` owns the contact
+attack history; its `kind` selects `stinging-insects`, `flying-biters` or
+`ground-biters`. These neutral identifiers select the B461 sample damage
+procedures. Movement, population, dispersal damage and map occupancy are not yet
+implemented by this class. An author may mark a swarm `dispersed`; attacks then
+block.
+
+Give each `RpgExpandedSwarmAttack` a unique `id`, a started `exposure`,
+`inContact`, `approved` and `evidence` establishing actual contact. The exposure
+must identify the same typed swarm and an expanded victim. Stinging insects
+require a tiny exposure and an authored whole-yard `distanceFromNest`; at 50
+yards or more pursuit ends. The two biting kinds require a non-tiny exposure.
+Use `dropDestination` when potential knockdown requires dropping held objects.
+
+`assess()` preflights every possible injury through the victim's
+`prepareSwarmWound` hook. The health module implements this hook with the shared
+owned wound record. Missing health support or unsupported anatomy blocks before
+randomness. `apply()` must run inside an action transaction. It makes no attack
+or defense check: biting swarms roll one die of cutting damage, subtract the
+exposure's DR and apply the cutting wound multiplier; stinging insects inflict
+one injury directly. Complete immunity prevents both damage and its roll.
+Health checks required by injury still use the ordinary health procedure.
+
+The receipt retains damage, injury and the owned wound. Replaying it never
+applies injury again. There is at most one attack per victim per ledger second.
+Without `mapped`, a swarm may attack only one victim that second; changing its
+victim also requires `victimChangeReason`. With `mapped`, the author must verify
+that every victim occupies the swarm's hex. The attack does not spend a second:
+the encounter scheduler advances the shared clock once for the combat interval.
+No scheduler or tactical occupancy verification is implied by these flags.
+
+The combined fixture `expanded-swarms.t` and `test_swarm_attacks` cover direct
+sting injury, cutting damage, immunity, pursuit distance, duplicate intervals,
+receipt replay, exception rollback and undo. They remain unrun. Incoming attacks
+against the swarm, automatic dispersal, target relocation, exposure renewal and
+cross-process attack continuation remain unfinished.

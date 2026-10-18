@@ -124,3 +124,7 @@ rpgExpandedDamageDice(strength, swing)
     rpgExpandedReject('unsupported-strength-row'); return nil;
 }
 
+
+modify RpgExpandedProfile
+    prepareSwarmWound(id, amount, destination) { return nil; }
+;
