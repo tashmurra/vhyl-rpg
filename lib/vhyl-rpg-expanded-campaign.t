@@ -1577,3 +1577,40 @@ modify RpgExpandedProfile
         return self.pendingWealthObligation(nil) == nil ? nil : 'employment-wealth-priority';
     }
 ;
+
+/** Physical lifestyle packages, full-2008 B265-B266. One item is one listed
+ * package; services and monthly household coverage are not inventory objects. */
+class RpgExpandedLifestyleItem: RpgLiteItem
+    lifestyle = nil
+    exactWeight = nil
+    approved = nil
+    evidence = nil
+    packagePrice()
+    {
+        if (self.lifestyle == nil || !self.lifestyle.ofKind(RpgExpandedLifestyle)
+            || !holds(['rations-week','wardrobe','ordinary-outfit','winter-outfit',
+                'formal-outfit','cosmetics-month'],self.lifestyle.kind))
+            rpgExpandedReject('lifestyle-item-kind');
+        return self.lifestyle.assess();
+    }
+    cost = (self.packagePrice().money)
+    weight = (self.packageWeight())
+    packageWeight()
+    {
+        local value = self.packagePrice();
+        if (value.minimumWeight)
+        {
+            if (self.exactWeight == nil) rpgExpandedReject('lifestyle-item-exact-weight');
+            rpgInteger(self.exactWeight,value.weight,2147483647); return self.exactWeight;
+        }
+        if (self.exactWeight != nil && self.exactWeight != value.weight)
+            rpgExpandedReject('lifestyle-item-weight-mismatch');
+        return value.weight;
+    }
+    validateAcquisition()
+    {
+        if (self.id == nil || self.id == '' || !self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('lifestyle-item-definition');
+        rpgInteger(self.quantity,1,1); self.packagePrice(); self.packageWeight(); return nil;
+    }
+;

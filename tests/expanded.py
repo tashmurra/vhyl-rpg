@@ -9292,6 +9292,8 @@ def test(build):
     test_owned_fishing(Session, owned_fishing, build.out)
     owned_wilderness = build.build("expanded-owned-wilderness",ROOT / "tests/fixtures/expanded-owned-wilderness.t")
     test_owned_wilderness(Session, owned_wilderness)
+    lifestyle_items = build.build("expanded-lifestyle-items",ROOT / "tests/fixtures/expanded-lifestyle-items.t")
+    test_lifestyle_items(Session, lifestyle_items, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22115,3 +22117,38 @@ def test_owned_wilderness(Session, bundle):
         assert last(s, 'test.wilderness-owner') == ['owned-equipment-context-owner', 0, 0]
     finally:
         s.close()
+
+
+def test_lifestyle_items(Session, bundle, out):
+    """B265-B266 physical packages use one purse and inventory; unrun."""
+    path = out / 'lifestyle-items.zsave'
+    s = Session(bundle)
+    try:
+        for code in (15501, 15502):
+            s.action(1100, code)
+        assert last(s, 'test.lifestyle-items') == [1000, 0, 30, 1400, 600, 2300, 0]
+        s.action(1100, 15500)
+        s.command('undo')
+        s.action(1100, 15502)
+        assert last(s, 'test.lifestyle-items') == [1000, 0, 30, 1400, 600, 2300, 0]
+        for code in (15500, 15500, 15502):
+            s.action(1100, code)
+        assert last(s, 'test.lifestyle-items') == [370, 2, 30, 1400, 600, 2300, 0]
+        s.command(f':save {path}\n@1101')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1101')
+        for code in (15500, 15502):
+            s.action(1100, code)
+        assert last(s, 'test.lifestyle-items') == [370, 2, 30, 1400, 600, 2300, 0]
+    finally:
+        s.close()
+    for code in (15503, 15504, 15505):
+        s = Session(bundle)
+        try:
+            s.action(1100, code)
+            assert last(s, 'test.lifestyle-item-rejected') == [1, 1000, 0, 0]
+        finally:
+            s.close()

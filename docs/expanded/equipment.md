@@ -928,3 +928,29 @@ completed attempt or spend resources again.
 `expanded-owned-fishing.t` / `test_owned_fishing` cover owner mismatch, inaccessible
 tools, preview purity, item retargeting, replay, rollback, undo and save continuation.
 These fixtures are authored but unrun while checks are paused.
+
+
+## Physical lifestyle packages
+
+With the campaign library included, `RpgExpandedLifestyleItem` connects a
+`RpgExpandedLifestyle` price to ordinary equipment acquisition (full-2008,
+B265–B266). Set `lifestyle`, a unique `id`, `approved` and `evidence`. Supported
+packages are `rations-week`, `wardrobe`, `ordinary-outfit`, `winter-outfit`,
+`formal-outfit` and `cosmetics-month`. One item represents one package and must
+have quantity one at acquisition. Create distinct objects for distinct packages.
+
+Cost and weight derive from the selected lifestyle. For a wardrobe, provide
+`exactWeight` in hundredths of a pound, at least 2000; the source supplies a
+minimum, not an exact weight. Other packages retain their listed weight and
+reject conflicting overrides. Cultural outfit pricing remains an explicit
+lifestyle choice. Ordinary acquisition handles availability, permission, purse
+charges and inventory ownership, including replay protection. Local offers can
+adjust the baseline through the existing market interface.
+
+This adapter represents physical goods, so lodging, restaurant meals and monthly
+household coverage are rejected. It does not consume rations, grant clothing
+bonuses, infer initial wardrobe entitlement or replace prepaid living expenses.
+Those integrations remain outstanding. `expanded-lifestyle-items.t` /
+`test_lifestyle_items` specify physical purchases, exact/minimum weights, invalid
+services, rollback, undo and save continuation. Fixtures remain unrun while
+checks are paused.

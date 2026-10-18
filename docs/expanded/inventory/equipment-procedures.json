@@ -214,9 +214,13 @@
       "pages": "B265",
       "module": "equipment",
       "kind": "table",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For food pricing cap status above three at three except author exceptions. Breakfast/lunch costs one percent of venue monthly living cost, dinner two percent; a week of travel rations costs five percent and weighs fourteen pounds; liquor bottle costs one percent. Define meal coverage versus prepaid living costs.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
     },
     {
       "id": "equipment-procedures-wardrobe-entitlement",
@@ -234,9 +238,13 @@
       "pages": "B266",
       "module": "equipment",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The source conservative-clothing setting exception at technology five or higher caps many individual outfits at status two; high-status fashion-specialist benefit still needs status-three expenditure. Make this an authored cultural clothing policy rather than a universal rule inferred from gender.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
     },
     {
       "id": "equipment-procedures-clothing-wardrobe",
@@ -244,9 +252,13 @@
       "pages": "B266",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Listed wardrobe costs 100 percent of applicable monthly living cost and weighs at least twenty pounds. Complete ordinary, sleeping, formal, cold-weather and occupational clothing set; final exact weight is authored.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
     },
     {
       "id": "equipment-procedures-clothing-ordinary-outfit",
@@ -254,9 +266,13 @@
       "pages": "B266",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Listed ordinary-outfit costs 20 percent of applicable monthly living cost and weighs two pounds. One complete normal outfit including footwear.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
     },
     {
       "id": "equipment-procedures-clothing-winter-outfit",
@@ -264,9 +280,13 @@
       "pages": "B266",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Listed winter-outfit costs 30 percent of applicable monthly living cost and weighs four pounds. One heavier outfit with head covering and boots.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
     },
     {
       "id": "equipment-procedures-clothing-formal-outfit",
@@ -274,9 +294,13 @@
       "pages": "B266",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Listed formal-outfit costs 40 percent of applicable monthly living cost and weighs two pounds. One formal outfit with its normal accessories.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
     },
     {
       "id": "equipment-procedures-clothing-cosmetics",
@@ -284,9 +308,13 @@
       "pages": "B266",
       "module": "equipment",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Listed cosmetics costs 10 percent of applicable monthly living cost and weighs two pounds. One month supply.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
     },
     {
       "id": "equipment-procedures-lifestyle-assets",
