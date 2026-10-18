@@ -1,0 +1,759 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B479-B483",
+  "review": "Enchantment chapter first text pass, including level costs, item catalogue, ceremonies, creation, use and market procedures. Underlying spell definitions, trait prerequisites, cross-reference review and executable tests remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "enchantment-eligibility",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Items are usable without magical aptitude unless explicitly restricted. A campaign may replace this assumption only through a declared profile choice.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-permanence",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Enchantments persist indefinitely but breaking or wearing out an item removes its magical properties; ordinary physical repair does not restore them.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-base-spell",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The very-hard foundational enchantment spell is required for every other enchantment; prerequisites are aptitude level two and at least one spell in each of ten other colleges. Effective enchanting skill is the lower of foundational and specific spell skill.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-weapon-accuracy",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The weapon-accuracy enchantment adds effective attack skill, requires foundational enchantment plus five air-college spells, and costs one-tenth the listed energy when placed on individual ammunition.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-defense",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The defensive enchantment grants a defense bonus on armor, clothing, shields or weapons and requires foundational enchantment. Integrate stacking with other defense bonuses explicitly.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-armor",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The armor-strengthening enchantment increases clothing or armor resistance and requires foundational enchantment; it does not automatically apply to every carried object.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-energy-supply",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The item-energy enchantment requires foundational enchantment and the energy-recovery spell. Each level reduces casting and maintenance energy for spells on that item by one, not for the user's own spells.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-energy-mana",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Halve the item-energy reduction in low magic, rounding down; double it in high or very high magic. Do not confuse this enchantment level with an item's effective casting skill.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-maintenance-free",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "When energy reduction reaches zero maintenance cost, the spell stays on after initial casting but its wearer must remain awake. When casting cost also reaches zero, it is fully continuous, with voluntary deactivation allowed.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-weapon-damage",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The weapon-damage enchantment adds basic damage, requires foundational enchantment plus five earth-college spells, costs one-tenth energy for ammunition and double energy for a projectile-launching weapon.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-conduit",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The casting-conduit enchantment costs thirty energy and requires foundational enchantment; its reach and casting effects use the B240 conduit procedure. A rod-shaped enchanted item does not automatically have it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-ceremony",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Enchanting always uses ceremonial magic. Every participating mage knows both required spells at least fifteen, or twenty in low magic; unskilled spectators cannot supply energy.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-materials",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Validate the specific host item, required material and any cash-denominated magical supplies before beginning; energy cost is distinct from ordinary casting cost.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-multiple-spells",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An item may hold multiple spells, each requiring a separate enchantment. Existing enchantments neither substitute for the new operation nor penalize it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-skill",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Record effective magical skill separately for each contained spell, initially the lower of the caster's two required skills, including any ceremonial extra-energy skill increase.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-skill-discovery",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A found or critically successful item's true effective skill remains hidden until magical analysis; ordinary identification or preview must not disclose it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-mana",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An item works only at effective magical skill at least fifteen; low magic temporarily subtracts five and no magic suppresses it completely. Suppression does not permanently erase the recorded enchantment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-success-roll",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Enchanting rolls are secret, sixteen always fails and seventeen/eighteen critically fail. Ordinary success creates the enchantment; critical success increases item skill by two dice, and natural three permits a specific authored extra enhancement.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-critical-failure",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Critical enchanting failure destroys the host item and all used materials, including previous enchantments attached to that destroyed item.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-rapid-time",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rapid enchantment takes ceil(required energy/100) hours. At completion, the success roll spends all contributed energy whether successful or not; preflight validates every contributor's available energy.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-rapid-assistants",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A rapid enchantment caster and assistants contribute their own fatigue or health through ceremonial accounting. Each assistant imposes -1 caster skill; reject a group that would bring effective skill below fifteen.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-rapid-bystanders",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Any nonparticipant within ten yards adds a further -1 to rapid enchantment. Evaluate actual scene presence at the relevant stage rather than granting a permanently cached clean-room bonus.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-rapid-failure",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary rapid-enchantment failure creates an authored altered spell or side effect, hidden until analysis or use. Store the actual effect and player knowledge separately.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-slow-work",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Slow enchantment requires one full eight-hour mage-day per energy point. A mage may work on only one enchantment at a time and cannot contribute a second shift to this or another project.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-slow-interruption",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An interrupted actively enchanting mage is missing one die fatigue and casts other spells at -3 while retaining concentration; losing concentration forfeits that day. Disturbance outside active work does not impose those penalties. Repeated interruptions must not repeatedly subtract an already missing amount without a source-backed rule.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-slow-attendance",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "All original assistants must attend each day; skipped or interrupted work needs two days to make up, and losing a mage ends the project. Persist roster, attendance and make-up obligations.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-slow-settlement",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Roll on the final day without an additional fatigue or health charge: energy was invested through work. Ordinary failure wastes time and materials, but an already enchanted host receiving another spell remains intact.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-activation",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary item activation needs no ritual but retains the contained spell's casting time and energy cost; high item skill does not reduce either. Use its skill with normal casting modifiers and resistance contests.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-exclusive-user",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only one person can use an item at once; first eligible toucher has priority. An ineligible person does not reserve it. Release and subsequent claim require a tested ownership contract.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-continuous-item",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An intrinsically continuous item applies its spell to a user who wears or wields it appropriately, with no ritual, casting delay or energy cost. Its effects cease when that relationship ends; it does not teach or grant an independent casting ability.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-global-restriction",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If any enchantment on an item is restricted to magically gifted users, that restriction applies to every spell on the item.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-foggy-failure-option",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With an explicit campaign option, an enchanting failure by exactly one may instead succeed with max(1,one die minus three) side effects. Record precedence relative to each method's normal failure, and do not reinterpret a critical failure.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-weapon-accuracy-1",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "weapon-accuracy level 1 has base enchanting energy 250; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-weapon-accuracy-2",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "weapon-accuracy level 2 has base enchanting energy 1000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-weapon-accuracy-3",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "weapon-accuracy level 3 has base enchanting energy 5000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-defense-1",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "defense level 1 has base enchanting energy 100; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-defense-2",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "defense level 2 has base enchanting energy 500; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-defense-3",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "defense level 3 has base enchanting energy 2000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-defense-4",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "defense level 4 has base enchanting energy 8000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-defense-5",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "defense level 5 has base enchanting energy 20000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-armor-1",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "armor level 1 has base enchanting energy 50; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-armor-2",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "armor level 2 has base enchanting energy 200; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-armor-3",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "armor level 3 has base enchanting energy 800; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-armor-4",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "armor level 4 has base enchanting energy 3000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-armor-5",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "armor level 5 has base enchanting energy 8000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-energy-supply-1",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "energy-supply level 1 has base enchanting energy 500; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-energy-supply-2",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "energy-supply level 2 has base enchanting energy 1000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-energy-supply-3",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "energy-supply level 3 has base enchanting energy 2000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-energy-supply-4",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "energy-supply level 4 has base enchanting energy 4000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-weapon-damage-1",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "weapon-damage level 1 has base enchanting energy 250; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-weapon-damage-2",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "weapon-damage level 2 has base enchanting energy 1000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-weapon-damage-3",
+      "source": "full-2008",
+      "pages": "B481",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "weapon-damage level 3 has base enchanting energy 5000; apply its specific host and material requirements, including any ammunition or launcher adjustment.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-energy-supply-progression",
+      "source": "full-2008",
+      "pages": "B480",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Beyond level four, double item-energy enchantment cost per additional level.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-host-A",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Host category A requires armor or clothing; validate actual item construction and size, not only a display label.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-host-J",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Host category J requires jewelry; validate actual item construction and size, not only a display label.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-host-S",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Host category S requires organic rod no longer than six feet; validate actual item construction and size, not only a display label.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-host-Sh",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Host category Sh requires shield; validate actual item construction and size, not only a display label.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-host-W",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Host category W requires weapon; validate actual item construction and size, not only a display label.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-weapon-accuracy",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The weapon-accuracy item requires the B480 level table energy and host weapon; use mode is continuous. Additional magical-material price is 0. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-visual-blur",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The visual-blur item requires 100 per imposed -1 energy and host jewelry or organic rod; use mode is self-only activation. Additional magical-material price is 0. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-defense",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The defense item requires the B480 level table energy and host armor/clothing, shield or weapon; use mode is continuous. Additional magical-material price is 0. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-energy-deflection",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The energy-deflection item requires 200 energy and host jewelry, shield or weapon; use mode is self-only activation. Additional magical-material price is 0. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-projectile-deflection",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The projectile-deflection item requires 200 energy and host jewelry, shield or weapon; use mode is self-only activation. Additional magical-material price is 0. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-explosive-flame",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The explosive-flame item requires 1200 energy and host organic rod; use mode is ordinary spell activation, gifted-user restricted. Additional magical-material price is 500. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-flame-projectile",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The flame-projectile item requires 800 energy and host organic rod; use mode is ordinary spell activation, gifted-user restricted. Additional magical-material price is 400. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-armor",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The armor item requires the B480 level table energy and host armor or clothing; use mode is continuous. Additional magical-material price is 0. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-haste",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The haste item requires 250 per +1 energy and host armor/clothing or jewelry; use mode is self-only activation. Additional magical-material price is 0. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-cold-weapon",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The cold-weapon item requires 750 energy and host weapon; use mode is continuous. Additional magical-material price is 2000. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-lightning-projectile",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The lightning-projectile item requires 800 energy and host organic rod; use mode is ordinary spell activation, gifted-user restricted. Additional magical-material price is 1200. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-weapon-damage",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The weapon-damage item requires the B481 level table energy and host weapon; use mode is continuous. Additional magical-material price is 0. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-item-conduit",
+      "source": "full-2008",
+      "pages": "B482",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The conduit item requires 30 energy and host organic rod; use mode is continuous, gifted-user restricted. Additional magical-material price is 0. Resolve the underlying spell definition before enabling it.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-market-common",
+      "source": "full-2008",
+      "pages": "B482-B483",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Where enchantment is an ordinary trade, an authored market can use twenty-five per energy point; this is a campaign choice, not a universal price.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-market-mass",
+      "source": "full-2008",
+      "pages": "B482-B483",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An optional mass-production market uses one per energy point for enchantments a typical local group can complete in one hour. Determine the cutoff from that actual group; do not assume all enchantments below one hundred qualify.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-market-rare",
+      "source": "full-2008",
+      "pages": "B482-B483",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Where enchanters are scarce, an authored market can charge fifty or more per energy point; without an established magic market, price is negotiated rather than inferred.",
+      "tests": []
+    },
+    {
+      "id": "enchantment-market-materials",
+      "source": "full-2008",
+      "pages": "B482-B483",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "In every magic-item pricing mode, add host-item cost and special magical materials to the enchantment price exactly once.",
+      "tests": []
+    }
+  ]
+}

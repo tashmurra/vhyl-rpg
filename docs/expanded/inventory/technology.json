@@ -1,0 +1,1359 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B471-B479; B483-B485",
+  "review": "First text pass of electronics, inventions, artifact investigation, damage, repair and maintenance; defect and investigation result tables are in technology-outcomes.json. Visual numeric audit, trait/skill cross-references and implementation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "technology-radio",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Communicators use the communication trait procedures with electronics-operation communications replacing intelligence checks. Ordinary radio has light-speed delay and cannot penetrate more than a few yards of water; medium, format and range are explicit equipment properties.",
+      "tests": []
+    },
+    {
+      "id": "technology-extended-range",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Extending communication range requires communications operation at -1 per ten-percent extension, capped at doubling normal range; reject greater extension before a roll.",
+      "tests": []
+    },
+    {
+      "id": "technology-sensor-effect",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An active sensor grants its defined senses only while operated; preserve underlying sensory limitations and distinguish added senses from enhancement of an existing sense.",
+      "tests": []
+    },
+    {
+      "id": "technology-hands-free-sensor",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hands-free sensors require a ready action to activate/deactivate; visual devices replace unaided vision and retain their peripheral restriction until switched off or removed.",
+      "tests": []
+    },
+    {
+      "id": "technology-manual-sensor",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Manual sensors reserve their specified hands and require continuous aim actions, constraining movement and attacks.",
+      "tests": []
+    },
+    {
+      "id": "technology-sight",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A sight requires the host device to be ready and occupy its normal hands; weapon benefits require an aimed attack, while observation without firing still requires aim actions.",
+      "tests": []
+    },
+    {
+      "id": "technology-mounted-sensor",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mounted sensors require proximity to the controls and a valid posture; distinguish manually operated controls from displays that permit simultaneous other actions.",
+      "tests": []
+    },
+    {
+      "id": "technology-sensor-check",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A wholly new sense uses electronics-operation sensors; an augmented existing sense normally uses the ordinary sense check. Complex instruments require an explicitly specified alternate skill.",
+      "tests": []
+    },
+    {
+      "id": "technology-intensifier",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Image intensifiers require ambient light and do not solve total darkness or fog; early technology-seven units grant seven darkness-penalty reduction levels, technology-eight units nine, with any magnification separately fitted.",
+      "tests": []
+    },
+    {
+      "id": "technology-thermal",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Technology-eight thermal imaging grants infrared sight, often one to three telescopic levels, and can operate in darkness or smoke. The two-to-three weight and four-to-six price factors relative to intensifiers are authored equipment choices, not random multipliers.",
+      "tests": []
+    },
+    {
+      "id": "technology-multispectral",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Technology-nine multispectral imaging combines the relevant visible, infrared and ultraviolet sensory traits, including camouflage detection and fitted magnification; early technology-eight availability remains rare and authored.",
+      "tests": []
+    },
+    {
+      "id": "technology-active-sensor",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Active sensors ignore darkness and range penalties through rated range, then impose -2 per doubling beyond range. Emission detectors may detect the scan at twice its rated range; preserve sensor-medium limitations from the underlying scanning trait.",
+      "tests": []
+    },
+    {
+      "id": "technology-active-display",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Before technology nine, portable active sensors normally report range and speed rather than an environmental image; mounted imaging capability must be an explicit installation.",
+      "tests": []
+    },
+    {
+      "id": "technology-computer-complexity",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A program cannot run above the host complexity. Concurrent capacity equals two host-level programs, twenty one level below, two hundred two below, and so on; mixed loads consume the same weighted capacity.",
+      "tests": []
+    },
+    {
+      "id": "technology-computer-storage",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use the reference decimal storage approximations: one gigabyte equals one thousand megabytes and one terabyte equals one thousand gigabytes. Reserve storage for actual data and recordings.",
+      "tests": []
+    },
+    {
+      "id": "technology-terminal",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Human computer use requires a terminal. A terminal connected to several hosts normally operates one at a time and takes one second to switch, unless explicit special hardware changes that.",
+      "tests": []
+    },
+    {
+      "id": "technology-computer-link",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Linking computers requires authored compatibility, an available connection, known address and applicable credentials. Suitable installed software permits data transfer or using the weaker host as a terminal.",
+      "tests": []
+    },
+    {
+      "id": "technology-recorder",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A technology-eight-or-later computer with a microphone or camera can record until storage fills; no sensor is inferred from the computer alone.",
+      "tests": []
+    },
+    {
+      "id": "technology-software-bonus",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Task software can grant a specified equipment bonus, provide a utility, or satisfy a technical prerequisite. Apply the equipment-bonus rules rather than silently stacking identical software instances.",
+      "tests": []
+    },
+    {
+      "id": "technology-software-prerequisite",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Required technical software generally has complexity two at technology seven, four at eight, six at nine and the same progression thereafter. Missing software may force the specified lower-technology skill procedure; superior software needs an explicit bonus or time benefit.",
+      "tests": []
+    },
+    {
+      "id": "technology-robot-program",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Robot programs may grant skills, traits or personality modules only through declared hardwired or modular capacity; installing software is not free permanent character advancement.",
+      "tests": []
+    },
+    {
+      "id": "technology-software-copies",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A purchased software copy belongs to a host and permits multiple simultaneous instances within processing capacity. Copying and legal permissions use campaign decisions; each instance does not incur a new purchase.",
+      "tests": []
+    },
+    {
+      "id": "technology-invention-proposal",
+      "source": "full-2008",
+      "pages": "B473",
+      "module": "technology",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An invention begins with an authored function, mechanism, technology, relevant skills, complexity, retail value and equipment requirements. Approval of feasibility must precede resource spending; a clear proposal can receive an explicitly awarded +1 or +2.",
+      "tests": []
+    },
+    {
+      "id": "technology-invention-skill",
+      "source": "full-2008",
+      "pages": "B473",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The inventor must know the required invention skill; required related subjects cap the effective invention skill at the lowest applicable skill.",
+      "tests": []
+    },
+    {
+      "id": "technology-ordinary-tech-limit",
+      "source": "full-2008",
+      "pages": "B473",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary invention permits own technology or at most one level above it; more advanced designs require a separately enabled and purchased cinematic invention capability.",
+      "tests": []
+    },
+    {
+      "id": "technology-invention-complexity",
+      "source": "full-2008",
+      "pages": "B473",
+      "module": "technology",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Assign invention difficulty independently of technology. Skill and retail-price bands are suggested assignment criteria, not hard skill prerequisites inferred from price alone.",
+      "tests": []
+    },
+    {
+      "id": "technology-software-invention",
+      "source": "full-2008",
+      "pages": "B473",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For software use numerical complexity: levels one through three map to simple, four/five average, six/seven complex and eight or more amazing for time and cost. Concept penalty is twice numerical complexity.",
+      "tests": []
+    },
+    {
+      "id": "technology-concept-modifiers",
+      "source": "full-2008",
+      "pages": "B473",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Concept modifiers include +5 for a working model or +2 for a known existing design without one, +1 through +5 for an authored variant, -5 for campaign-new technology and -5 for an ordinary one-level advance; define applicability rather than granting mutually exclusive copying bonuses together.",
+      "tests": []
+    },
+    {
+      "id": "technology-concept-day",
+      "source": "full-2008",
+      "pages": "B473",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A secret concept check is available once per inventor per day. Ordinary failure permits another day's attempt; success creates a testable theory, while critical failure creates a hidden flawed theory that cannot produce a working prototype.",
+      "tests": []
+    },
+    {
+      "id": "technology-blueprints",
+      "source": "full-2008",
+      "pages": "B473",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Actual acquired blueprints bypass the concept stage; merely hearing of an existing device does not.",
+      "tests": []
+    },
+    {
+      "id": "technology-older-invention",
+      "source": "full-2008",
+      "pages": "B473",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For each technology level below the inventor, reduce difficulty by one category to a minimum of simple. Suitable historical sources allow the higher of research and invention skill for the concept check.",
+      "tests": []
+    },
+    {
+      "id": "technology-prototype-check",
+      "source": "full-2008",
+      "pages": "B473-B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Prototype checks are secret and retain concept modifiers. Each qualifying assistant with a required skill at least twenty adds +1, maximum +4; inadequate facilities impose an authored -1 through -10.",
+      "tests": []
+    },
+    {
+      "id": "technology-prototype-failure",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Failed prototypes may be retried only with new time and attempt cost. Critical failure causes an authored accident dealing at least two dice damage to inventor and every assistant and destroys facilities, requiring full rebuilding.",
+      "tests": []
+    },
+    {
+      "id": "technology-flawed-theory",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A flawed theory never yields a working prototype. A critical prototype success reveals the flaw instead; preserve secret state so previews and ordinary failures do not reveal it.",
+      "tests": []
+    },
+    {
+      "id": "technology-prototype-duration",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Divide prototype work duration by skilled workers, with minimum one day. Physically huge projects can require an authored extension; retain each participant's time reservation.",
+      "tests": []
+    },
+    {
+      "id": "technology-ordinary-facilities",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Facilities must be funded before an inventor's first prototype attempt. One-level-advanced ordinary invention triples cost; suitable related facilities of equal or higher complexity divide it by ten.",
+      "tests": []
+    },
+    {
+      "id": "technology-ordinary-attempt-cost",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each ordinary prototype attempt consumes the item's retail cost, tripled for a one-level advance, separately from reusable facilities.",
+      "tests": []
+    },
+    {
+      "id": "technology-prototype-bugs",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Critical prototype success has no bugs; success by at least three creates half a die of minor bugs; other success creates half a die major plus one die minor bugs. Resolve fractional counts using the supplied general rounding rule after cross-reference verification.",
+      "tests": []
+    },
+    {
+      "id": "technology-testing",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each testing week allows an operation-skill check at -3: success discovers one bug, critical success all. Ordinary failure triggers a present major bug or finds nothing; critical failure creates an authored major-like incident or false confidence without identifying a real bug.",
+      "tests": []
+    },
+    {
+      "id": "technology-latent-bug",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An operation failure by at least five surfaces an undiscovered bug, and critical failure always surfaces an existing major bug. Known, latent and triggered states must not be conflated.",
+      "tests": []
+    },
+    {
+      "id": "technology-copy-production",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An individual copy costs twenty percent retail for parts alone or full retail with labor; production time is half the prototype duration. Record whether duration is derived from a prior prototype or newly assessed as required by the selected procedure.",
+      "tests": []
+    },
+    {
+      "id": "technology-production-line",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A production line costs twenty times retail to establish. Per-copy time is min(prototype duration divided by seven, retail/100 hours); parts cost twenty percent retail, or fifty percent with labor.",
+      "tests": []
+    },
+    {
+      "id": "technology-patron-funding",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional patron funding requires the equipment-enhanced patron and one appearance check per new invention; record funding obligations and promised access, with authored consequences for violating them.",
+      "tests": []
+    },
+    {
+      "id": "technology-self-funded-work",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional self-built facilities require at least ten percent up front. Remaining cost divided by monthly income adds work months without earned income, while living expenses still accrue; reject division by zero or undefined income.",
+      "tests": []
+    },
+    {
+      "id": "technology-investor-funding",
+      "source": "full-2008",
+      "pages": "B474",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional investor financing uses finance with concept modifiers and, on success, creates explicit ownership and profit shares rather than free unencumbered cash.",
+      "tests": []
+    },
+    {
+      "id": "technology-cinematic-eligibility",
+      "source": "full-2008",
+      "pages": "B475",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cinematic invention requires its purchased trait and an enabled campaign option; it does not grant missing scientific or technical skills. Designs violating ordinary physics need separate world permission.",
+      "tests": []
+    },
+    {
+      "id": "technology-cinematic-concept",
+      "source": "full-2008",
+      "pages": "B475",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cinematic invention uses milder difficulty penalties, ignores the campaign-new-technology penalty, permits any authored technology with -5 per level above the inventor, and uses software complexity rather than twice complexity.",
+      "tests": []
+    },
+    {
+      "id": "technology-cinematic-tools",
+      "source": "full-2008",
+      "pages": "B475",
+      "module": "technology",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The author may waive inadequate-tools penalties for cinematic invention; do not infer waiver merely from the trait.",
+      "tests": []
+    },
+    {
+      "id": "technology-cinematic-overtime",
+      "source": "full-2008",
+      "pages": "B475",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cinematic prototype durations assume eight-hour days. Extended shifts use long-task health checks; failure loses fatigue without a skill penalty. At zero fatigue the inventor collapses and must rest one die days.",
+      "tests": []
+    },
+    {
+      "id": "technology-cinematic-facilities",
+      "source": "full-2008",
+      "pages": "B475",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Facilities use the difficulty's base plus one increment per level above campaign technology; divide by ten only for existing suitable facilities of at least equal difficulty and technology.",
+      "tests": []
+    },
+    {
+      "id": "technology-cinematic-prototype-cost",
+      "source": "full-2008",
+      "pages": "B475",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For each level above campaign technology, double native retail and accumulate every term including the base. A native price of four thousand advanced three levels costs sixty thousand per attempt, not thirty-two thousand.",
+      "tests": []
+    },
+    {
+      "id": "technology-cinematic-bugs",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cinematic success by at least three has no bugs; lesser success has half a die minor bugs and no major bugs. For technology above the inventor, each minor bug invokes the special defect table.",
+      "tests": []
+    },
+    {
+      "id": "technology-cinematic-production",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use the accumulated technology-adjusted prototype price as retail in cinematic production calculations.",
+      "tests": []
+    },
+    {
+      "id": "technology-rapid-concept",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The separately purchased rapid invention capability changes concept duration to one die minutes and retains cinematic modifiers; ordinary cinematic invention does not gain this speed.",
+      "tests": []
+    },
+    {
+      "id": "technology-rapid-parts",
+      "source": "full-2008",
+      "pages": "B476-B477",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rapid invention can scrounge from actual available sources, using scavenging with plentiful parts or an authored relevant technical skill with limited sources. Apply category penalties; success sets project cost to (one die minus one) times one hundred, possibly zero.",
+      "tests": []
+    },
+    {
+      "id": "technology-rapid-purchase",
+      "source": "full-2008",
+      "pages": "B477",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "When parts must be bought, calculate cinematic facility and prototype costs then divide by one hundred. Critical prototype failure ruins parts and requires replacement before resuming.",
+      "tests": []
+    },
+    {
+      "id": "technology-analyze-device",
+      "source": "full-2008",
+      "pages": "B477",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A cinematic inventor analyzes equipment with the concept skill/modifiers, taking one die times ten minutes, or one die minutes with rapid capability.",
+      "tests": []
+    },
+    {
+      "id": "technology-modify-device",
+      "source": "full-2008",
+      "pages": "B477",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only after successful analysis may the inventor attempt an approved functional modification with prototype skill/modifiers; duration is one die hours ordinarily or one die times ten minutes with rapid capability.",
+      "tests": []
+    },
+    {
+      "id": "technology-hired-inventor",
+      "source": "full-2008",
+      "pages": "B477",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If campaign rules permit hired cinematic invention, charge ordinary cinematic facilities, one hundred fifty percent prototype cost per item and the inventor's pay; availability remains authored.",
+      "tests": []
+    },
+    {
+      "id": "technology-supplied-gadgets",
+      "source": "full-2008",
+      "pages": "B477",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An optional fifteen-point background permits equipment from an inventor contact under campaign rules. Alternatively a specific-invention background buys one unique bug-free item, with normal production costs for copies; these are accounting contributions, not a generic free-item toggle.",
+      "tests": []
+    },
+    {
+      "id": "technology-early-device",
+      "source": "full-2008",
+      "pages": "B478",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An explicitly allowed anachronistic device doubles price and weight for each technology level by which its listed technology exceeds the campaign; do not stack this procedure silently with cinematic prototype pricing.",
+      "tests": []
+    },
+    {
+      "id": "technology-unknown-device-skill",
+      "source": "full-2008",
+      "pages": "B478",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An experimenter chooses an operation skill and the author decides whether it suits an analogous known device. Intuitive guidance can narrow choices. An appropriate check contributes its signed margin to a subsequent three-dice outcome roll.",
+      "tests": []
+    },
+    {
+      "id": "technology-unknown-device-inappropriate",
+      "source": "full-2008",
+      "pages": "B478",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An inappropriate skill normally contributes a failure margin of ten regardless of the rolled margin; critical success instead reveals the mismatch and permits choosing another skill.",
+      "tests": []
+    },
+    {
+      "id": "technology-unknown-device-retries",
+      "source": "full-2008",
+      "pages": "B478",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each experiment takes one minute. Each attempt after the first adds cumulative -1 to the outcome table; history is per experimenter and device, and duplicate results are rerolled for that person. Define exhausted-result behavior explicitly rather than looping forever.",
+      "tests": []
+    },
+    {
+      "id": "technology-unknown-device-modifiers",
+      "source": "full-2008",
+      "pages": "B478",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Outcome-table modifiers include danger awareness +2, intuition +4, readable labels +2 or actual manuals +4, authored simplicity +1..+5 or complexity -1..-5, remote supernatural manipulation -1, tools/robot manipulation -2 or crude poking -4. Optional manual search uses research at -5.",
+      "tests": []
+    },
+    {
+      "id": "technology-unconventional-science",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An optional unconventional-science check can grant invention concept/prototype +5 for ordinary invention or +1 for cinematic invention, with max(1,one die minus three) side effects. Resolve the underlying skill's success/failure contract before implementing the bonus.",
+      "tests": []
+    },
+    {
+      "id": "technology-experimental-effects",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Campaign-authored experimental devices can acquire side effects; a defect is persistent state with specified triggers, affected subjects, resource consequences and expiry.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-defense",
+      "source": "full-2008",
+      "pages": "B483",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Objects use normal attack and size rules but receive no defense unless under sentient control. Being held, piloted or a sentient machine supplies the appropriate controller, not an automatic defense bonus.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-construction",
+      "source": "full-2008",
+      "pages": "B483",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Complex machines use nonliving injury, solid objects homogeneous injury, and nets or mattresses diffuse injury; apply the corresponding wound modifiers rather than character defaults.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-reliability",
+      "source": "full-2008",
+      "pages": "B483",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary machinery in repair defaults to health ten and solid homogeneous objects twelve. Authored poor condition changes this by -1..-3, rugged quality by +1..+2; a machine character retains its actual health.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-capacity",
+      "source": "full-2008",
+      "pages": "B483",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Where capacity is not listed, use the object table or ceil(4*cuberoot(pounds)) for complex nonliving objects and ceil(8*cuberoot(pounds)) for solid homogeneous objects. Unusual fragility/toughness requires an explicit override.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-low-capacity",
+      "source": "full-2008",
+      "pages": "B483",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Below one-third remaining capacity, apply the authored reduced-function policy, which may halve effectiveness; do not assume every object has a movement score to halve.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-zero",
+      "source": "full-2008",
+      "pages": "B483",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At zero or negative remaining capacity, check reliability each second under actual stress or use, but not while idle. Failure disables the object; sentient machines become unconscious, homogeneous objects may retain specified partial use, and ropes/cables are severed.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-destruction",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Negative-capacity thresholds use the general destruction checks, with automatic destruction at negative five times maximum capacity. Destroyed computers lose stored data; disabled and destroyed are distinct persistent states.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-shock",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply ordinary temporary shock to operation of damaged objects unless their backup-system trait prevents it; a driver suffers the vehicle's penalty without taking its injury personally.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-major-damage",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A major hit to a machine with subsystems can require an authored reliability check; failure disables a specified subsystem or causes a defined leak, not an unstructured arbitrary result.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-stun",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Nonsentient objects ignore knockdown and stun. Sentient machines with intelligence at least one can suffer these as malfunctions and must recover through the applicable procedure.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-location",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Human/animal-shaped machines use their anatomy; other objects use explicitly modeled components. Crippling disables the actual component and its dependent functions.",
+      "tests": []
+    },
+    {
+      "id": "technology-object-fragility",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Combustible, flammable, explosive and brittle construction flags invoke their trait effects; do not replace all of them with a generic damage multiplier.",
+      "tests": []
+    },
+    {
+      "id": "technology-structure-reliability",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Sound buildings normally have reliability twelve; poor construction nine through eleven and earthquake-resistant structures thirteen or fourteen are authored definitions. Use structural-table protection and capacity.",
+      "tests": []
+    },
+    {
+      "id": "technology-structure-disabled",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A failed zero-capacity stress check creates large breaches and removes electrical power. Negative-capacity destruction checks determine collapse, automatic at negative five times capacity.",
+      "tests": []
+    },
+    {
+      "id": "technology-collapse",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Collapse deals three dice crushing plus one die per story overhead. A successful dive for cover grants exterior-wall resistance but leaves the victim trapped; critical success avoids injury completely.",
+      "tests": []
+    },
+    {
+      "id": "technology-no-natural-repair",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary artifacts do not naturally heal, regain disabled function or recover crippled components; unusual self-repair must be explicitly provided.",
+      "tests": []
+    },
+    {
+      "id": "technology-repair-skill",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Select the suitable repair skill for the actual device and fault, using its skill scope and authored approval; a generic mechanic score does not repair every technology.",
+      "tests": []
+    },
+    {
+      "id": "technology-minor-repair",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Repair of a damaged object with positive capacity takes thirty minutes per attempt and an appropriate skill check, including tools, time and price modifiers. Success restores max(1,success margin) capacity, capped at the object's undamaged maximum.",
+      "tests": []
+    },
+    {
+      "id": "technology-major-repair",
+      "source": "full-2008",
+      "pages": "B484-B485",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At zero or negative capacity, obtain spare parts costing one die times ten percent original price and apply an additional -2 to repair checks. Track parts and repaired faults so retrying does not fabricate supplies or indiscriminately clear every subsystem failure.",
+      "tests": []
+    },
+    {
+      "id": "technology-replacement",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Destruction from a failed threshold check or negative-five-capacity boundary makes an ordinary device irreparable; replacement costs its full original price and creates a new object.",
+      "tests": []
+    },
+    {
+      "id": "technology-repair-hire",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A typical technician charges twenty per hour and has skill nine plus one die; unusual expertise may cost more. Persist the hired worker's generated skill rather than rerolling every check.",
+      "tests": []
+    },
+    {
+      "id": "technology-maintenance",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Moving, precise, complex or stressed equipment requires a defined maintenance schedule and technical skill. Apply the maintenance-trait procedure, with current reliability losses persisting across injury and exposure checks.",
+      "tests": []
+    },
+    {
+      "id": "technology-maintenance-recovery",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each lost reliability point requires a separate major repair to restore; restoring ordinary damage capacity does not also restore all maintenance loss.",
+      "tests": []
+    },
+    {
+      "id": "technology-maintenance-exempt",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "No-moving-parts items, properly stored equipment and unused sealed-case artifacts are exempt under the stated maintenance conditions; merely leaving equipment outside is not storage.",
+      "tests": []
+    },
+    {
+      "id": "technology-environment-failure",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Careless exposure of maintenance-requiring equipment triggers current reliability +4. Extreme environments add one check per item per day independently of particular mistreatment; default reliability is ten if unspecified.",
+      "tests": []
+    },
+    {
+      "id": "technology-environment-modifiers",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Significant daily cleaning can grant +1 with authored qualification; unusually severe conditions impose -1 or -2. Failed exposure requires minor repair, critical failure major repair, with malfunction knowledge allowed to remain hidden until use.",
+      "tests": []
+    },
+    {
+      "id": "technology-shield-option",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional shield damage triggers when its defense bonus makes the difference on any active defense. Assess the attack against shield protection/capacity; nonpenetration still transmits full knockback.",
+      "tests": []
+    },
+    {
+      "id": "technology-shield-disabled",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A disabled/destroyed shield grants no defense bonus but still burdens the carrier until dropped; at negative ten times capacity it falls away. Preserve this threshold even though ordinary destruction occurs earlier.",
+      "tests": []
+    },
+    {
+      "id": "technology-shield-penetration",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shield cover resistance is its resistance plus one-quarter health capacity. Excess damage can continue through cover; with locations, one die 1-2 hits the shield arm and 3-6 the original target. Resolve current-versus-maximum capacity and fractional cover rules explicitly from the cross-references.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-eligibility",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Destroyed weapons are unusable. Disabled missile weapons and weapons of at most one pound are also unusable; other disabled weapons can yield the specified partial-use form and detached pieces.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-retype",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A surviving broken piece uses its new weapon type's skill and damage, occupies a real hand or ground location and remains linked to the original damage event. An unlisted weapon requires an authored analogous breakage choice.",
+      "tests": []
+    },
+    {
+      "id": "technology-optics-1",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Magnification 2 through 3 grants telescopic level 1; later levels continue the doubling progression.",
+      "tests": []
+    },
+    {
+      "id": "technology-optics-2",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Magnification 4 through 7 grants telescopic level 2; later levels continue the doubling progression.",
+      "tests": []
+    },
+    {
+      "id": "technology-optics-3",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Magnification 8 through 15 grants telescopic level 3; later levels continue the doubling progression.",
+      "tests": []
+    },
+    {
+      "id": "technology-optics-4",
+      "source": "full-2008",
+      "pages": "B471",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Magnification 16 through 31 grants telescopic level 4; later levels continue the doubling progression.",
+      "tests": []
+    },
+    {
+      "id": "technology-storage-novel",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The novel reference storage allowance is 10 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
+      "tests": []
+    },
+    {
+      "id": "technology-storage-road-atlas",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The road-atlas reference storage allowance is 100 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
+      "tests": []
+    },
+    {
+      "id": "technology-storage-regional-navigation",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The regional-navigation reference storage allowance is 1000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
+      "tests": []
+    },
+    {
+      "id": "technology-storage-vehicle-plans",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The vehicle-plans reference storage allowance is 1000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
+      "tests": []
+    },
+    {
+      "id": "technology-storage-global-navigation",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The global-navigation reference storage allowance is 100000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
+      "tests": []
+    },
+    {
+      "id": "technology-storage-school-library",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The school-library reference storage allowance is 100000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
+      "tests": []
+    },
+    {
+      "id": "technology-storage-city-library",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The city-library reference storage allowance is 1000000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
+      "tests": []
+    },
+    {
+      "id": "technology-storage-university-library",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The university-library reference storage allowance is 10000000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
+      "tests": []
+    },
+    {
+      "id": "technology-storage-major-library",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The major-library reference storage allowance is 100000000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
+      "tests": []
+    },
+    {
+      "id": "technology-storage-mind",
+      "source": "full-2008",
+      "pages": "B472",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The mind reference storage allowance is 100000000 megabytes; vehicle-plans represents one hundred small or ten complex vehicle plans. Capacity does not automatically grant possession of that information.",
+      "tests": []
+    },
+    {
+      "id": "technology-invention-simple",
+      "source": "full-2008",
+      "pages": "B473-B477",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Simple invention: suggested skill at most 14, retail at most 100; ordinary penalty -6, prototype time one die minus two days, facilities 50000. Cinematic penalty 0, facility increment 100000 per advanced level; rapid prototype time two dice minutes, scavenging penalty 0. Optional unique-invention background costs 5 character points.",
+      "tests": []
+    },
+    {
+      "id": "technology-invention-average",
+      "source": "full-2008",
+      "pages": "B473-B477",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Average invention: suggested skill 15 through 17, retail at most 10000; ordinary penalty -10, prototype time two dice days, facilities 100000. Cinematic penalty -2, facility increment 250000 per advanced level; rapid prototype time one die minus two hours, but rolls one/two take thirty minutes, scavenging penalty -2. Optional unique-invention background costs 15 character points.",
+      "tests": []
+    },
+    {
+      "id": "technology-invention-complex",
+      "source": "full-2008",
+      "pages": "B473-B477",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Complex invention: suggested skill 18 through 20, retail at most 1000000; ordinary penalty -14, prototype time one die months, facilities 250000. Cinematic penalty -4, facility increment 500000 per advanced level; rapid prototype time one die hours, scavenging penalty -6. Optional unique-invention background costs 30 character points.",
+      "tests": []
+    },
+    {
+      "id": "technology-invention-amazing",
+      "source": "full-2008",
+      "pages": "B473-B477",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Amazing invention: suggested skill at least 21, retail above 1000000; ordinary penalty -22, prototype time three dice months, facilities 500000. Cinematic penalty -8, facility increment 1000000 per advanced level; rapid prototype time four dice hours, scavenging penalty -10. Optional unique-invention background costs 50 character points.",
+      "tests": []
+    },
+    {
+      "id": "technology-armor-wood-plastic",
+      "source": "full-2008",
+      "pages": "B483",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Typical wood-plastic objects have resistance 2, unless their actual definition overrides it.",
+      "tests": []
+    },
+    {
+      "id": "technology-armor-small-mixed-metal",
+      "source": "full-2008",
+      "pages": "B483",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Typical small-mixed-metal objects have resistance 4, unless their actual definition overrides it.",
+      "tests": []
+    },
+    {
+      "id": "technology-armor-solid-metal-weapon",
+      "source": "full-2008",
+      "pages": "B483",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Typical solid-metal-weapon objects have resistance 6, unless their actual definition overrides it.",
+      "tests": []
+    },
+    {
+      "id": "technology-armor-quarter-inch-mild-steel",
+      "source": "full-2008",
+      "pages": "B483",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Typical quarter-inch-mild-steel objects have resistance 14, unless their actual definition overrides it.",
+      "tests": []
+    },
+    {
+      "id": "technology-repair-price-low",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Original device price at most 1000 gives repair modifier 1; resolve sub-unit price boundaries before accepting fractional currency.",
+      "tests": []
+    },
+    {
+      "id": "technology-repair-price-ordinary",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Original device price above 1000 through 10000 gives repair modifier 0; resolve sub-unit price boundaries before accepting fractional currency.",
+      "tests": []
+    },
+    {
+      "id": "technology-repair-price-costly",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Original device price 10001 through 100000 gives repair modifier -1; resolve sub-unit price boundaries before accepting fractional currency.",
+      "tests": []
+    },
+    {
+      "id": "technology-repair-price-expensive",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Original device price 100001 through 1000000 gives repair modifier -2; resolve sub-unit price boundaries before accepting fractional currency.",
+      "tests": []
+    },
+    {
+      "id": "technology-repair-price-exceptional",
+      "source": "full-2008",
+      "pages": "B484",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Original device price above 1000000 gives repair modifier -3; resolve sub-unit price boundaries before accepting fractional currency.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-axe-low",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "One-die 1-3 on a one-handed axe/mace leaves a light club; 4-6 leaves no usable weapon.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-pole-low",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Polearm breakage 1-2 leaves an eight-foot pole using long-spear rules with thrust+2 crushing.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-pole-middle",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Polearm breakage 3-4 leaves a quarterstaff in hand and an axe on the ground with reach one and -4 attack.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-pole-high",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Polearm breakage 5-6 leaves a light club in hand and a heavy axe on the ground with reach two and -2 attack.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-thrusting-sword",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Light thrusting sword breakage 1-3 converts a smallsword to dagger or rapier to smallsword, retaining impaling damage; 4-6 is unusable.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-spear-low",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Spear breakage 1-3 leaves a quarterstaff.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-spear-high",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Spear breakage 4-6 leaves a baton in hand and a reach-one spear on the ground with normal damage.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-cutting-sword",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Sword/saber breakage 1-3 retains cutting attacks at -2 damage, replaces impaling thrust with thrust crushing, and reduces reach two to one; 4-6 is unusable.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-large-axe-low",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Two-handed axe/mace breakage 1-3 leaves a quarterstaff.",
+      "tests": []
+    },
+    {
+      "id": "technology-broken-large-axe-high",
+      "source": "full-2008",
+      "pages": "B485",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Two-handed axe/mace breakage 4-6 leaves a light club in hand and a reach-one axe on the ground at -4 attack.",
+      "tests": []
+    }
+  ]
+}

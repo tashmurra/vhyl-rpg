@@ -26,6 +26,8 @@ copies of the reference books.
 | `full-2008` | B437–B444 | [Poison, illness and aging](poison-illness-aging.json) | Delivery, catalogue entries, intoxication, withdrawal, contagion, infection and aging enumerated; cross-reference audit open |
 | `full-2008` | B455–B461 | [Creatures, training and swarms](creatures.json) | Encounter values, training table, natural damage and swarm procedures transcribed; full trait and ancestry resolution pending |
 | `full-2008` | B462–B470 | [Vehicles, travel and mounted combat](vehicles.json) | Catalogue rows, terrain multipliers, mounts and control consequences transcribed; visual and cross-reference audits pending |
+| `full-2008` | B471–B479; B483–B485 | [Technology procedures](technology.json) and [outcome tables](technology-outcomes.json) | Electronics, inventions, investigation, defects, object damage and repair enumerated; cross-reference and numeric audits pending |
+| `full-2008` | B479–B483 | [Enchantment and magic items](enchantment.json) | Creation, level costs, item catalogue, use and pricing enumerated; underlying spells pending |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 

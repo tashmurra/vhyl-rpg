@@ -6,7 +6,7 @@
     {
       "id": "campaign",
       "title": "Economics, laws, jobs, hirelings and world travel",
-      "pages": "B347; B486-B522; B529-B534; B544-B546",
+      "pages": "B347; B474; B477; B482-B483; B486-B522; B529-B534; B544-B546",
       "source": "full-2008",
       "status": "pending",
       "tests": []
@@ -86,7 +86,7 @@
     {
       "id": "magic",
       "title": "Spell procedures, catalogue and enchantment",
-      "pages": "B234-B253; B480-B482",
+      "pages": "B234-B253; B479-B483",
       "source": "full-2008",
       "status": "pending",
       "tests": []
@@ -292,6 +292,9 @@
     "inventory/radiation.json",
     "inventory/poison-illness-aging.json",
     "inventory/creatures.json",
-    "inventory/vehicles.json"
+    "inventory/vehicles.json",
+    "inventory/technology.json",
+    "inventory/technology-outcomes.json",
+    "inventory/enchantment.json"
   ]
 }
