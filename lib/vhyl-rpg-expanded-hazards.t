@@ -5032,6 +5032,8 @@ class RpgExpandedFreeFallExposure: object
     skill = nil
     native = nil
     susceptible = nil
+    entrySusceptible = nil
+    effectiveSusceptibility() { return self.result == nil ? (self.susceptible || self.profile.freeFallSusceptible(true)) : self.entrySusceptible; }
     approved = nil
     evidence = nil
     startedAt = nil
@@ -5046,13 +5048,15 @@ class RpgExpandedFreeFallExposure: object
     checks = []
     result = nil
     boundDefinition = nil
-    definition() { return [self.id,self.profile,self.skill,self.native,self.susceptible,self.approved,self.evidence,self.startedAt]; }
+    definition() { return [self.id,self.profile,self.skill,self.native,self.susceptible,self.approved,self.evidence,self.startedAt,self.entrySusceptible]; }
     validateReceipt()
     {
         if (self.result == nil || !holds(self.profile.freeFallExposures,self)) rpgExpandedReject('free-fall-owner');
         local current = self.definition();
         for (local i = 1; i <= current.length(); i += 1)
             if (current[i] != self.boundDefinition[i]) rpgExpandedReject('free-fall-binding');
+        if (self.endedAt == nil && !self.adapted && self.entrySusceptible != (self.susceptible || self.profile.freeFallSusceptible(true)))
+            rpgExpandedReject('free-fall-susceptibility-changed');
         local expected = self.result.unaffected;
         foreach (local check in self.checks)
         {
@@ -5068,9 +5072,9 @@ class RpgExpandedFreeFallExposure: object
     {
         local value = new RpgExpandedFreeFallResult();
         value.context = new RpgLiteContext(); value.context.attribute = rpgHT; value.context.kind = 'resistance';
-        value.context.modifier = self.susceptible ? -4 : 0;
+        value.context.modifier = self.effectiveSusceptibility() ? -4 : 0;
         value.score = rpgLiteScore(self.profile,value.context);
-        if (!self.susceptible)
+        if (!self.effectiveSusceptibility())
         {
             local skill = self.skill;
             if (skill == nil)
@@ -5124,7 +5128,7 @@ class RpgExpandedFreeFallExposure: object
         if (self.profile.dead || self.profile.unconscious) { value.reason = 'free-fall-patient-unavailable'; return value; }
         foreach (local prior in self.profile.freeFallExposures)
         { prior.validateReceipt(); if (prior.id == self.id || prior.endedAt == nil && !prior.adapted) rpgExpandedReject('free-fall-overlap'); }
-        if (self.native && self.susceptible) rpgExpandedReject('free-fall-physiology-conflict');
+        if (self.native && self.effectiveSusceptibility()) rpgExpandedReject('free-fall-physiology-conflict');
         if (!self.native)
         {
             value = self.resistance(); if (value.status != 'ready') return value;
@@ -5139,6 +5143,7 @@ class RpgExpandedFreeFallExposure: object
         if (value.status != 'ready') return value;
         if (!self.native) value.check = rpgLiteCheck(self.profile,value.context);
         value.unaffected = self.native || value.check.achieved;
+        self.entrySusceptible = self.effectiveSusceptibility();
         self.startedAt = rpgLedger.seconds; self.dueAt = self.startedAt + 28800; self.adapted = value.unaffected;
         self.boundDefinition = self.definition(); value.status = 'resolved'; self.result = value;
         self.profile.freeFallExposures = self.profile.freeFallExposures + [self];
@@ -5166,7 +5171,7 @@ class RpgExpandedFreeFallAdaptation: object
             if (self.exposure != self.boundExposure || !holds(self.exposure.checks,self)) rpgExpandedReject('free-fall-adaptation-owner');
             value.status = 'reused'; return value;
         }
-        if (self.exposure.endedAt != nil || self.exposure.adapted || self.exposure.profile.dead || self.exposure.susceptible)
+        if (self.exposure.endedAt != nil || self.exposure.adapted || self.exposure.profile.dead || self.exposure.effectiveSusceptibility())
         { value.reason = 'free-fall-adaptation-unavailable'; return value; }
         if (rpgLedger.seconds != self.exposure.dueAt) { value.reason = 'free-fall-adaptation-time'; return value; }
         self.exposure.motion.validateReceipt(); self.exposure.nausea.validateReceipt();
@@ -5200,7 +5205,7 @@ modify rpgLedger
             if (exposure.result != nil && !exposure.profile.dead)
             {
                 exposure.validateReceipt();
-                if (exposure.endedAt == nil && !exposure.adapted && !exposure.susceptible && self.seconds+seconds > exposure.dueAt)
+                if (exposure.endedAt == nil && !exposure.adapted && !exposure.effectiveSusceptibility() && self.seconds+seconds > exposure.dueAt)
                     rpgExpandedReject('free-fall-adaptation-boundary');
             }
         return nil;

@@ -71,3 +71,8 @@ Free-fall exposure now owns entry resistance, persistent nausea, hourly motion
 triggers, eight-hour adaptation and return-to-gravity relief. Physiological
 exceptions require author evidence. Trait accounting, training restrictions,
 sealed-suit choking and general task caps remain outstanding; fixtures are unrun.
+
+
+Free-fall susceptibility now has fixed trait accounting, explicit campaign
+relevance, template copying, learning restrictions and hazard dispatch. Ancestry
+composition and mid-exposure trait changes remain pending; fixtures are unrun.

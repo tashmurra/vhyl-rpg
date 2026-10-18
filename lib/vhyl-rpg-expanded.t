@@ -486,7 +486,11 @@ modify RpgExpandedProfile
 
 modify RpgExpandedProfile
     socialSkillLearningReason(skill) { return nil; }
-    skillLearningReason(skill) { return self.socialSkillLearningReason(skill); }
+    skillLearningReason(skill)
+    {
+        local reason = self.physiologySkillLearningReason(skill);
+        return reason != nil ? reason : self.socialSkillLearningReason(skill);
+    }
 ;
 modify RpgLiteSkill
     requiresSocialInteraction = nil
@@ -605,4 +609,10 @@ modify RpgExpandedProfile
 modify RpgLiteSkill
     studyIdentity() { return self.id; }
     studySpecialty() { return self.specialty; }
+;
+
+/* Optional trait module hooks; foundation-only characters keep existing behavior. */
+modify RpgExpandedProfile
+    freeFallSusceptible(activeOnly) { return nil; }
+    physiologySkillLearningReason(skill) { return nil; }
 ;

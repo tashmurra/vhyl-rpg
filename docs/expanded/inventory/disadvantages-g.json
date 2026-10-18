@@ -524,9 +524,13 @@
       "pages": "B156",
       "module": "hazards",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Freefall sickness costs -10 only in regular-space-travel campaigns. It prohibits learning freefall skill, allowing defaults only, gives -4 to initial adaptation health and, if that first check fails, requires return to normal gravity for recovery. Integrate B434 adaptation and keep episode identity across subsequent checks.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_free_fall_trait",
+        "tests/expanded.py::test_free_fall"
+      ],
+      "validation_note": "Fixed -10 purchase with explicit regular-space-travel scope, template factory/copy, learning gate and character/paid-skill rejection of prohibited training. Active trait dispatches to owned hazard entry, -4 health and inability to adapt; return to normal gravity ends the episode. Ancestry composition, mid-exposure transformation and broad integration validation remain pending. Fixtures authored, unrun."
     }
   ]
 }

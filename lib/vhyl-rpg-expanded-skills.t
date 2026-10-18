@@ -95,6 +95,8 @@ rpgExpandedPaidSkill(profile, skill, visited)
     rpgExpandedValidateSkill(skill);
     local training = rpgExpandedTrainingFor(profile, skill);
     if (training == nil || training.points == 0) return nil;
+    local physiologyReason = profile.physiologySkillLearningReason(skill);
+    if (physiologyReason != nil) rpgExpandedReject(physiologyReason);
     local wildcard = skill.ofKind(RpgExpandedSkill) && skill.wildcard;
     if (wildcard && !profile.rules.wildcardSkills) rpgExpandedReject('wildcard-disabled');
     local base = profile.attributeScore(skill.attribute); local credit = 0;
@@ -268,6 +270,7 @@ modify RpgExpandedProfile
     skillLearningReason(skill)
     {
         rpgExpandedValidateSkill(skill);
+        local physiologyReason = self.physiologySkillLearningReason(skill); if (physiologyReason != nil) return physiologyReason;
         local socialReason = self.socialSkillLearningReason(skill); if (socialReason != nil) return socialReason;
         if (skill.ofKind(RpgExpandedSkill) && skill.wildcard && !self.rules.wildcardSkills)
             return 'wildcard-disabled';

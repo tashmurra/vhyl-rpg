@@ -1217,3 +1217,29 @@ Character templates preserve this feature and reject conflicting compositions.
 Ancestry packages also support a mandatory bound native-pressure feature;
 changing-pressure procedures remain pending. Tier, mitigation, purchase-copy and exposure-binding fixtures are
 authored but unrun.
+
+
+## Free-fall susceptibility
+
+`RpgExpandedFreeFallSusceptibility` costs -10 points, with `level = 1`,
+`approved = true` and `scope = 'regular-space-travel'`. The scope is the author's
+explicit declaration that the campaign features regular space travel; omitting it
+rejects the purchase (`full-2008`, B156). The fixed trait rejects alternative cost,
+levels, self-control or custom skill lists. Template plain/copy operations preserve
+the declaration and create independent purchases.
+
+An active, unmitigated purchase supplies susceptibility to free-fall entry: health
+-4 and no eight-hour adaptation after failure. Character validation and the shared
+learning gate reject paid free-fall training, including optional specialties by
+study identity. Defaults remain usable. The paid-skill resolver also rejects an
+invalid injected purchase. Temporarily mitigating the hazard effect does not
+remove the prohibition on buying the skill; removing the trait is a separate
+character-development decision.
+
+An unresolved free-fall exposure binds the effective susceptibility at entry.
+Changing protection or trait activation during that episode rejects instead of
+rewriting its recovery rules. Return to normal gravity before starting an exposure
+with changed physiology. General free-fall task caps, ancestry composition and
+mid-exposure trait transformation remain pending. The integration fixture is
+[`expanded-free-fall-trait.t`](../../tests/fixtures/expanded-free-fall-trait.t);
+its cost, campaign, learning and hazard cases are authored but unrun.

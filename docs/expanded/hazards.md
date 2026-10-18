@@ -2123,9 +2123,9 @@ B434, using the skill/default comparison described on B197. Supply a unique `id`
 `profile`, `approved = true` and original `evidence` establishing first entry,
 physiology and continuing free fall. `native = true` avoids an entry check.
 `susceptible = true` selects the B156 susceptibility procedure: health -4 at
-entry and no subsequent adaptation checks. These physiological flags are explicit
-author facts; automatic trait purchase accounting and learning prohibition are
-not yet supplied by this interface. Contradictory native/susceptible facts reject.
+entry and no subsequent adaptation checks. These physiological flags are explicit author facts. When the traits module is
+installed, an active `RpgExpandedFreeFallSusceptibility` purchase automatically
+supplies susceptibility; the trait also supplies purchase and learning restrictions. Contradictory native/susceptible facts reject.
 
 An optional expanded `skill` must be the dexterity/average `free-fall` skill.
 Ordinary resistance selects the better of health and the supplied skill score.
@@ -2148,8 +2148,8 @@ only this exposure's causes, including for susceptible characters. Resolve a
 completed motion hour before leaving at its exact boundary. Repeated entry,
 adaptation and exit operations do not duplicate costs or rolls.
 
-Sealed-suit choking/drowning, automatic susceptibility-trait accounting, training
-restrictions and general free-fall task caps remain outstanding. The fixture
+Sealed-suit choking/drowning, mid-exposure trait changes, ancestry composition
+and general free-fall task caps remain outstanding. The fixture
 [`expanded-free-fall.t`](../../tests/fixtures/expanded-free-fall.t) covers entry,
 health/default choice, hourly integration, adaptation, return to gravity,
 independent nausea, rollback, undo, replay and save continuation. It is unrun

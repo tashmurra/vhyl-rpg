@@ -1592,3 +1592,71 @@ modify rpgExpandedTemplateTraits
         trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
     }
 ;
+
+/** B156 susceptibility; scope records the required campaign relevance. */
+class RpgExpandedFreeFallSusceptibility: RpgLiteTrait
+    id = 'free-fall-susceptibility'
+    labelId = 'free-fall-susceptibility'
+    points = -10
+    approved = nil
+    templatePurchaseKind = 'expanded-free-fall-susceptibility'
+    creationCost()
+    {
+        if (!self.approved) rpgExpandedReject('unapproved-trait');
+        if (self.id != 'free-fall-susceptibility' || self.points != -10 || self.level != 1
+            || self.controlled || self.skills.length() != 0) rpgExpandedReject('free-fall-susceptibility-definition');
+        if (self.scope != 'regular-space-travel') rpgExpandedReject('free-fall-susceptibility-campaign');
+        return -10;
+    }
+;
+modify RpgExpandedProfile
+    freeFallSusceptible(activeOnly)
+    {
+        local count = 0; local present = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'free-fall-susceptibility')
+            {
+                if (!trait.ofKind(RpgExpandedFreeFallSusceptibility)) rpgExpandedReject('free-fall-susceptibility-definition');
+                trait.creationCost(); count += 1;
+                if (!activeOnly || trait.active && !trait.mitigated) present = true;
+            }
+        if (count > 1) rpgExpandedReject('free-fall-susceptibility-duplicate');
+        return present;
+    }
+    physiologySkillLearningReason(skill)
+    {
+        if (self.freeFallSusceptible(nil) && skill.ofKind(RpgLiteSkill) && skill.studyIdentity() == 'free-fall')
+            return 'free-fall-susceptibility-learning';
+        return inherited(skill);
+    }
+    skillScore(skill)
+    {
+        if (self.freeFallSusceptible(nil) && skill.ofKind(RpgLiteSkill) && skill.studyIdentity() == 'free-fall')
+            foreach (local training in self.skills)
+                if (training.points > 0 && training.skill.ofKind(RpgLiteSkill) && training.skill.studyIdentity() == 'free-fall')
+                    rpgExpandedReject('free-fall-susceptibility-learning');
+        return inherited(skill);
+    }
+    validateFeatures()
+    {
+        inherited();
+        if (self.freeFallSusceptible(nil))
+            foreach (local training in self.skills)
+                if (training.points > 0 && training.skill.ofKind(RpgLiteSkill) && training.skill.studyIdentity() == 'free-fall')
+                    rpgExpandedReject('free-fall-susceptibility-learning');
+        return nil;
+    }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id != 'free-fall-susceptibility') return inherited(id,level,scope);
+        local trait = new RpgExpandedFreeFallSusceptibility(); trait.level = level; trait.scope = scope; trait.approved = true;
+        trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedFreeFallSusceptibility)) return inherited(trait);
+        trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
+    }
+;

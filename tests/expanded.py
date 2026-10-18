@@ -9163,6 +9163,8 @@ def test(build):
     test_acceleration_impact(Session, acceleration_impact, build.out)
     free_fall = build.build('expanded-free-fall',ROOT / 'tests/fixtures/expanded-free-fall.t')
     test_free_fall(Session, free_fall, build.out)
+    free_fall_trait = build.build('expanded-free-fall-trait',ROOT / 'tests/fixtures/expanded-free-fall-trait.t')
+    test_free_fall_trait(Session, free_fall_trait)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19491,5 +19493,34 @@ def test_free_fall(Session, bundle, out):
         for code in (9103, 9100, 9111, 9109, 9104):
             s.action(2285, code)
         assert last(s, 'test.free-fall') == [1, 0, 0, 0, 3]
+    finally:
+        s.close()
+
+
+def test_free_fall_trait(Session, bundle):
+    """B156 cost, campaign restriction, learning prohibition and hazard dispatch; unrun."""
+    s = Session(bundle)
+    try:
+        for code in (9200, 9201, 9202, 9203, 9205):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall-trait') == [-10, 1, 'free-fall-susceptibility-learning']
+        assert last(s, 'test.free-fall-trait-copy') == [1, -10, 'regular-space-travel']
+        assert last(s, 'test.free-fall-learning') == ['free-fall-susceptibility-learning']
+        assert last(s, 'test.free-fall-campaign') == ['free-fall-susceptibility-campaign']
+        for code in (30, 9100, 9104, 9106):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall') == [1, 0, 0, 0, 3]
+        assert last(s, 'test.free-fall-recovery') == ['blocked', 'free-fall-adaptation-unavailable']
+        for code in (9204, 9206):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall-trait-binding') == ['free-fall-susceptibility-changed']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (9200, 9204, 9201, 30, 9100, 9104):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall-trait') == [-10, 0, 'free-fall-susceptibility-learning']
+        assert last(s, 'test.free-fall') == [0, 1, 0, 0, 3]
     finally:
         s.close()
