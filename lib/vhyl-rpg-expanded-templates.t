@@ -1,8 +1,20 @@
 /* Include after expanded characters and skills. Source: full-2008, B258-B259.
  * Only character packages are implemented; ancestry cost exceptions are pending. */
 
+/** Shared catalogue rows keep their original three fields. A fourth field is
+ * an explicit self-control purchase resolved by the installed trait module. */
+rpgExpandedTemplateTrait(row)
+{
+    if (row.length() == 3) return rpgLiteMakeTrait(row[1],row[2],row[3]);
+    if (row.length() == 4) return rpgExpandedTemplateTraits.rated(row[1],row[2],row[3],row[4]);
+    rpgExpandedReject('template-trait');
+}
+modify RpgLiteTrait
+    templatePurchaseKind = 'shared-catalogue'
+;
+
 /** Character package factory. Every call creates fresh owned training and traits.
- * Skill rows are [definition, points]; trait rows are [Lite ID, level, scope]. */
+ * Skill rows are [definition, points]; trait rows are [Lite ID, level, scope], optionally followed by a supported rating. */
 class RpgExpandedTemplate: object
     st = 10
     dx = 10
@@ -42,8 +54,7 @@ class RpgExpandedTemplate: object
         }
         foreach (local row in self.traitRows)
         {
-            if (row.length() != 3) rpgExpandedReject('template-trait');
-            p.traits = p.traits + [rpgLiteMakeTrait(row[1],row[2],row[3])];
+            p.traits = p.traits + [rpgExpandedTemplateTrait(row)];
         }
         try { rpgLiteValidateTraits(p); }
         catch (RpgLiteCharacterError error) { rpgExpandedReject(error.reason); }
@@ -110,7 +121,14 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
             foreach (local current in result.traits)
                 if (current.id == trait.id && current.scope == trait.scope) found = current;
             if (found == nil) result.traits = result.traits + [trait];
-            else if (trait.level > found.level) found.level = trait.level;
+            else
+            {
+                if (trait.templatePurchaseKind != found.templatePurchaseKind
+                    || trait.controlled != found.controlled
+                    || trait.controlled && trait.selfControlNumber() != found.selfControlNumber())
+                    rpgExpandedReject('template-trait-purchase-conflict');
+                if (trait.level > found.level) found.level = trait.level;
+            }
         }
         first = nil;
     }
@@ -171,8 +189,7 @@ class RpgExpandedTemplateOption: object
         }
         foreach (local row in self.traitRows)
         {
-            if (row.length() != 3) rpgExpandedReject('template-trait');
-            total += rpgLiteMakeTrait(row[1],row[2],row[3]).creationCost();
+            total += rpgExpandedTemplateTrait(row).creationCost();
         }
         rpgInteger(total, -1000000, 1000000); return total;
     }

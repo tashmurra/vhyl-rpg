@@ -198,3 +198,40 @@ choice cases are included in the native validation suite.
 
 The prerelease record applies to the original subset. Checks for this merged
 expanded suite remain paused.
+
+## Purchased self-control in template rows
+
+With the traits module installed, `traitRows` also accepts
+`['truthfulness', 1, scope, rating]`, where `rating` is 6, 9, 12 or 15.
+`rpgExpandedTemplateTrait(row)` resolves both the original three-field form and
+this explicit four-field purchase. The latter creates a fresh
+`RpgExpandedTruthfulness`, preserving its concrete trigger interface and the
+selected rating. The existing three-field form retains shared catalogue behavior.
+Other four-field trait IDs currently reject as `template-rated-trait-unavailable`;
+the same rejection occurs when the traits module is absent.
+
+For example:
+
+```text
+candidInvestigator: RpgExpandedTemplate
+    traitRows = [['truthfulness',1,nil,9]]
+;
+```
+
+The purchased disadvantage contributes −7 points to character accounting and the
+negative-point limit. Choice options accept the same row and use that price for
+their signed point bounds. No additional package cost is charged. Separate calls
+create separate trait objects, so changing one character's rating cannot change
+another character or its source template.
+
+Composition deduplicates matching purchases once. Different ratings, or a mix of
+shared and explicit rated purchases for the same trait and scope, reject with
+`template-trait-purchase-conflict`. Resolve those requirements in the authored
+templates before combining them; automatic selection between those conflicting
+purchases is not implemented. These guards do not complete the broader modifier,
+ancestry or full catalogue composition requirements.
+
+Sources: full-2008, B121, B159 and B259. `test_template_composition` specifies the
+four prices, fresh ownership, choice accounting, duplicate purchase handling,
+conflicting definitions, unsupported IDs and disadvantage-limit rejection.
+Assertions are authored and unrun while checks remain paused.

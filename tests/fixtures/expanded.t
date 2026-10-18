@@ -1863,6 +1863,49 @@ act(verb, args)
         eventValue(obligationHero.earnedPoints); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws);
         return nil;
     }
+    if (verb == 1250)
+    {
+        local rules = new RpgExpandedRules(); local a = new RpgExpandedTemplate();
+        a.traitRows = [['truthfulness',1,nil,args[1]]];
+        local b = new RpgExpandedTemplate(); b.traitRows = a.traitRows;
+        local p = a.create(rules); local combined = rpgExpandedCombineTemplates([a,b],rules,100,50);
+        event('test.template-rated'); eventValue(rpgExpandedCharacterCost(p,nil));
+        eventValue(rpgExpandedCharacterCost(combined,nil)); eventValue(combined.traits.length());
+        eventValue(combined.traits[1].selfControlNumber());
+        eventValue(combined.traits[1].ofKind(RpgExpandedTruthfulness));
+        p.traits[1].selfControlRating = 6;
+        eventValue(combined.traits[1].selfControlNumber());
+        local fresh = a.create(rules); eventValue(fresh.traits[1].selfControlNumber());
+        local option = new RpgExpandedTemplateOption(); option.id = 'candor'; option.traitRows = a.traitRows;
+        local group = new RpgExpandedTemplateChoice(); group.id = 'conduct'; group.options = [option];
+        group.minimumPoints = option.cost(); group.maximumPoints = option.cost();
+        local choice = new RpgExpandedTemplate(); choice.choiceGroups = [group];
+        local selected = choice.createSelected(rules,[['conduct',['candor']]]);
+        eventValue(rpgExpandedCharacterCost(selected,nil)); eventValue(selected.traits[1].selfControlNumber());
+        eventValue(selected.templateChoices[1][2]); return nil;
+    }
+    if (verb == 1251)
+    {
+        local rules = new RpgExpandedRules(); local a = new RpgExpandedTemplate();
+        local b = new RpgExpandedTemplate(); a.traitRows = [['truthfulness',1,nil,9]];
+        b.traitRows = [['truthfulness',1,nil,15]];
+        event('test.template-rated-invalid');
+        try { rpgExpandedCombineTemplates([a,b],rules,100,50); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        b.traitRows = [['truthfulness',1,nil]];
+        try { rpgExpandedCombineTemplates([a,b],rules,100,50); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        a.traitRows = [['truthfulness',1,nil,11]];
+        try { a.create(rules); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        a.traitRows = [['status',1,nil,12]];
+        try { a.create(rules); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        a.traitRows = [['truthfulness',1,nil,6]]; a.disadvantageLimit = 9;
+        try { a.create(rules); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

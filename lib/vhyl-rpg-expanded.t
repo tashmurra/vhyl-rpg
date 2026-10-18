@@ -158,3 +158,9 @@ rpgExpandedTechnologyModifier(skillTL, equipmentTL, cognitive)
     return 2 * difference + 1;
 }
 
+
+/** Optional trait module resolves explicit rated template purchases. */
+rpgExpandedTemplateTraits: object
+    rated(id, level, scope, rating)
+    { rpgExpandedReject('template-rated-trait-unavailable'); }
+;

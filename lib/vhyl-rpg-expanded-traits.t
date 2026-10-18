@@ -441,6 +441,7 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
 
 /** B159 truthfulness; existing shared scoring supplies its permanent skill penalties. */
 class RpgExpandedTruthfulness: RpgExpandedDisadvantage
+    templatePurchaseKind = 'expanded-truthfulness'
     id = 'truthfulness'
     points = -5
     controlled = true
@@ -493,5 +494,17 @@ class RpgExpandedTruthfulnessTrigger: RpgExpandedSelfControlTrigger
             value.statement = self.failureChoice == 'truth' ? self.truth : self.falsehood;
         }
         return value;
+    }
+;
+
+/** B121/B159: preserve the purchased rating and the concrete behavior type. */
+modify rpgExpandedTemplateTraits
+    rated(id, level, scope, rating)
+    {
+        if (id != 'truthfulness') rpgExpandedReject('template-rated-trait-unavailable');
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedTruthfulness(); trait.labelId = id;
+        trait.level = level; trait.scope = scope; trait.approved = true;
+        trait.selfControlRating = rating; trait.creationCost(); return trait;
     }
 ;

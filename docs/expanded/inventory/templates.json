@@ -11,9 +11,12 @@
       "pages": "B258-B259; B448",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Charge the sum of resolved component investments once; applying a package must not additionally charge the package label or grant a package discount.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_template_composition"
+      ],
+      "validation_note": " Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete."
     },
     {
       "id": "package-choice-before-commit",
@@ -25,10 +28,11 @@
       "acceptance": "Resolve required choices and their budgets before creating or changing a profile; incomplete or ineligible selections cannot leave partial investments.",
       "tests": [
         "tests/expanded.py::test_template_choices",
-        "tests/expanded.py::test_template_score_options"
+        "tests/expanded.py::test_template_score_options",
+        "tests/expanded.py::test_template_composition"
       ],
       "existing_feature": "template-choice-groups",
-      "validation_note": "Choice identity, eligibility, count and signed budget gates include score changes before fresh-profile construction. Native cases unrun; extended components and exchange options pending."
+      "validation_note": "Choice identity, eligibility, count and signed budget gates include score changes before fresh-profile construction. Native cases unrun; extended components and exchange options pending. Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete."
     },
     {
       "id": "package-personal-customization",
@@ -100,7 +104,7 @@
         "tests/expanded.py::test_template_composition"
       ],
       "existing_feature": "occupational-template-composition",
-      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending."
+      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending. Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete."
     },
     {
       "id": "package-merge-conflict",
@@ -114,7 +118,7 @@
         "tests/expanded.py::test_template_composition"
       ],
       "existing_feature": "occupational-template-composition",
-      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending."
+      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending. Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete."
     },
     {
       "id": "package-merge-unselected-options",

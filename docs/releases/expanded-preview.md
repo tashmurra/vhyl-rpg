@@ -665,3 +665,8 @@ repairs and other tool uses remain incomplete.
   `5935592` through `84c3e5a`. Self-control trait pricing now rejects a rating on
   an uncontrolled disadvantage, including through character accounting. Added
   regression assertions; checks remain paused and the PR remains draft.
+
+- Templates and choice options now accept explicit truthfulness self-control
+  purchases. Fresh instances preserve the rating and concrete effect type;
+  matching requirements charge once, while differing or unsupported purchases
+  reject. Added price, ownership, composition and budget assertions, still unrun.

@@ -7287,6 +7287,15 @@ def test_template_composition(s):
             12, 12, 12, 12, 14, 13, 22, 5, 8, 2, 137, 8, 2]
     s.action(1135)
     assert last(s, 'test.template-conflicts') == ['exclusive-traits', 'empty-template-composition', 9]
+    # B121/B159: fixed -5 base, fractional magnitudes discarded. B259: pay once.
+    for rating, cost in [(6,-10),(9,-7),(12,-5),(15,-2)]:
+        s.action(1250, rating)
+        assert last(s, 'test.template-rated') == [
+            cost,cost,1,rating,True,rating,rating,cost,rating,'candor']
+    s.action(1251)
+    assert last(s, 'test.template-rated-invalid') == [
+        'template-trait-purchase-conflict','template-trait-purchase-conflict',
+        'self-control-rating','template-rated-trait-unavailable','point-budget']
     assert state(s) == before, 'template composition changed live character state'
 
 

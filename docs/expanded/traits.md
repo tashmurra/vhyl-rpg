@@ -754,3 +754,8 @@ authored resistance procedure; it does not establish catalogue eligibility or
 implement that procedure's consequences. Pure numeric pricing remains available
 for assessment. Regression assertions cover all three rejection paths and remain
 unrun while checks are paused. Source: full-2008, B121.
+
+The template adapter accepts an explicit truthfulness rating in a fourth trait-row
+field, retaining `RpgExpandedTruthfulness` behavior and fresh ownership. See
+[purchased template traits](templates.md#purchased-self-control-in-template-rows)
+for supported rows, composition guards and choice accounting.
