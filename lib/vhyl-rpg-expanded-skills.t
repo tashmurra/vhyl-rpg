@@ -1562,3 +1562,12 @@ rpgExpandedBiologySubfield(parent,id,subfield,approved,evidence)
     value.subfieldEvidence = evidence; value.techLevel = parent.techLevel; value.prerequisite = parent.prerequisite;
     rpgExpandedValidateSkill(value); return value;
 }
+
+modify RpgExpandedNaturalistSkill
+    validateNatureObservation(planet,planetType)
+    {
+        self.validateDefinition();
+        if (self.planet != planet || self.planetType != planetType) rpgExpandedReject('nature-observation-planet');
+        return nil;
+    }
+;

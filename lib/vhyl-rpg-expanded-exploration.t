@@ -3403,3 +3403,75 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Full-2008 B211: an authored practical finding, not a resource-producing action. */
+class RpgExpandedNatureFinding: RpgExpandedResult
+    finding = nil
+    score = nil
+;
+class RpgExpandedNatureObservation: object
+    id = nil
+    profile = nil
+    skill = nil
+    occurrence = nil
+    purpose = nil
+    planet = nil
+    planetType = nil
+    accessible = nil
+    approved = nil
+    evidence = nil
+    finding = nil
+    modifier = 0
+    result = nil
+    boundDefinition = nil
+    boundFinding = nil
+    definition()
+    { return [self.id,self.profile,self.skill,self.occurrence,self.purpose,self.planet,self.planetType,self.accessible,self.approved,self.evidence,self.finding,self.modifier]; }
+    context()
+    { local value = new RpgLiteContext(); value.skill = self.skill; value.kind = 'nature-observation'; value.modifier = self.modifier; return value; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || !holds(self.profile.natureObservations,self))
+            rpgExpandedReject('nature-observation-history');
+        local facts = self.definition();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('nature-observation-binding');
+        if (self.result.finding != self.boundFinding) rpgExpandedReject('nature-observation-result-binding');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedNatureFinding();
+        if (self.result != nil)
+        { self.validateReceipt(); value.status = 'reused'; value.finding = self.result.finding; value.check = self.result.check; return value; }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || self.occurrence == nil
+            || self.planet == nil || self.planet == '' || self.planetType == nil || self.planetType == '')
+            rpgExpandedReject('nature-observation-definition');
+        if (!holds(['plant-safety','animal-safety','shelter','weather'],self.purpose)) rpgExpandedReject('nature-observation-purpose');
+        self.skill.validateNatureObservation(self.planet,self.planetType);
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.finding == nil || self.finding == '')
+        { value.reason = 'nature-observation-facts-required'; return value; }
+        if (!self.accessible) { value.reason = 'nature-observation-inaccessible'; return value; }
+        if (self.profile.dead || self.profile.unconscious || self.profile.stunned)
+        { value.reason = 'nature-observation-observer-unavailable'; return value; }
+        foreach (local prior in self.profile.natureObservations)
+            if (prior.id == self.id || prior.occurrence == self.occurrence && prior.purpose == self.purpose)
+                rpgExpandedReject('nature-observation-repeat');
+        rpgInteger(self.modifier,-100,100); value.score = rpgLiteScore(self.profile,self.context());
+        if (value.score == nil || value.score < 3) { value.reason = 'nature-observation-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.profile,self.context());
+        if (value.check.achieved) value.finding = self.finding;
+        self.boundDefinition = self.definition(); self.boundFinding = value.finding;
+        value.status = 'resolved'; self.result = value;
+        self.profile.natureObservations = self.profile.natureObservations + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    natureObservations = []
+;

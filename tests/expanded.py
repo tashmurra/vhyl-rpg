@@ -9388,6 +9388,8 @@ def test(build):
     test_biology_subfields(Session, biology_subfields)
     biology_foraging = build.build("expanded-biology-foraging",ROOT / "tests/fixtures/expanded-biology-foraging.t")
     test_biology_foraging(Session, biology_foraging)
+    nature_observation = build.build("expanded-nature-observation",ROOT / "tests/fixtures/expanded-nature-observation.t")
+    test_nature_observation(Session, nature_observation)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23763,3 +23765,34 @@ def test_biology_foraging(Session, bundle):
             assert last(s,'test.plant-owned') == [1,3,0,1,0]
         finally:
             s.close()
+
+
+def test_nature_observation(Session, bundle):
+    """B211 findings use purchased biology defaults and retain one owned outcome; unrun."""
+    for failure in (False,True):
+        s = Session(bundle)
+        try:
+            s.action(2285,1606 if failure else 31)
+            s.action(2285,20302)
+            assert last(s,'test.nature-assessment') == ['ready',None,11]
+            s.action(2285,20301)
+            s.action(2285,20303)
+            assert last(s,'test.nature-history') == [0,0,0,0]
+            s.action(2285,20300)
+            assert last(s,'test.nature-finding') == ['resolved',None if failure else 'These berries are unsafe to eat']
+            s.command('undo')
+            s.action(2285,20303)
+            assert last(s,'test.nature-history') == [0,0,0,0]
+            for code in (20300,20300,20303):
+                s.action(2285,code)
+            assert last(s,'test.nature-history') == [1,3,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (20304,20302,20300,20303):
+            s.action(2285,code)
+        assert last(s,'test.nature-assessment') == ['blocked','nature-observation-inaccessible',None]
+        assert last(s,'test.nature-history') == [0,0,0,0]
+    finally:
+        s.close()

@@ -791,3 +791,7 @@ rpgExpandedFirstAidEquipment: object
 modify RpgLiteSkill
     firstAidContext(equipmentTL) { rpgExpandedReject('first-aid-expanded-skill-required'); }
 ;
+
+modify RpgLiteSkill
+    validateNatureObservation(planet,planetType) { rpgExpandedReject('nature-observation-expanded-skill-required'); }
+;

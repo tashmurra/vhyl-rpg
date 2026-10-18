@@ -256,9 +256,10 @@
       "acceptance": "Require planet identity when travel makes it relevant. Default at -4 only between planets of the same type and reveal only authored practical environmental information.",
       "tests": [
         "tests/expanded.py::test_nature_defaults",
-        "tests/expanded.py::test_biology_foraging"
+        "tests/expanded.py::test_biology_foraging",
+        "tests/expanded.py::test_nature_observation"
       ],
-      "validation_note": "Matching planet-type typed biology supplies -3; purchased optional biology subfields supply -5 through explicit optional-specialty propagation. Forage fixtures cover shared yield history, preview, rollback, undo and replay. Other practical nature findings remain authored and overall validation is pending. Fixtures unrun.",
+      "validation_note": "Matching planet-type typed biology supplies -3; purchased optional biology subfields supply -5 through explicit optional-specialty propagation. Forage fixtures cover shared yield history, preview, rollback, undo and replay. Owned nature observations now resolve plant/animal safety, shelter and weather findings with explicit author evidence, access, occurrence and planet binding; failed checks reveal no finding. Disclosure and broader environmental action integration remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",

@@ -1658,3 +1658,32 @@ reserve. The traits module then supplies active levels and validates eligibility
 the reserve snapshots them when starting. Without the traits module this option
 rejects explicitly. The original author-supplied `reserveLevels` mode remains
 available when the option is absent. See [Exceptional breath reserve](traits.md#exceptional-breath-reserve).
+
+
+## Practical nature observations
+
+`RpgExpandedNatureObservation` resolves the naturalist information tasks in
+full-2008 B211. Supply a unique `id`, expanded `profile`, typed naturalist `skill`,
+`occurrence` object, `planet`, `planetType`, and `purpose`: `plant-safety`,
+`animal-safety`, `shelter` or `weather`. The skill's planet must match; its normal
+purchased/default score applies, including biology defaults.
+
+The author supplies the exact supportable `finding`, `approved`, and concrete
+`evidence` describing what can be learned from the available signs. Set
+`accessible` only when the observer has the required access and senses; use
+`modifier` for applicable authored conditions. Preview is pure. `resolve()` rolls
+once, returns the finding on success and no conclusion on failure, then retains
+the result in `profile.natureObservations`. Replay binds the request and finding.
+A new record cannot reroll the same occurrence and purpose for the same observer;
+a genuinely changed situation requires a new authored occurrence.
+
+The observation neither produces food nor changes shelter, exposure or poison
+state. Those actions use their existing ledgers after a player decision. No fixed
+duration is specified for these knowledge checks; authors account for travel,
+search and inspection separately. The result is not automatically broadcast to
+other characters or turned into their beliefs. Task access and the truth of the
+finding are explicit author responsibilities, not inferred from a generic hook.
+
+`test_nature_observation` covers success/failure, biology defaults, pure preview,
+inaccessible evidence, replay, rollback and undo without resource or time changes.
+Fixtures remain unrun while checks are paused.
