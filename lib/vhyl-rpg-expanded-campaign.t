@@ -481,6 +481,7 @@ rpgExpandedTypicalJobPay(techLevel)
 class RpgExpandedJobAssessment: RpgExpandedResult
     score = nil
     skill = nil
+    ratings = []
 ;
 
 /** Job qualifications and roll selection, full-2008 B516. Prerequisite rows
@@ -494,14 +495,11 @@ class RpgExpandedJob: object
     fixedScore = 12
     rollModifier = 0
     requirementsApproved = nil
-    assess(profile)
+    qualifications(profile)
     {
         if (self.id == nil || profile == nil || !profile.ofKind(RpgExpandedProfile))
             rpgExpandedReject('job-profile');
         rpgExpandedValidate(profile);
-        if (!holds(['fixed','attribute','specific','best','worst'],self.rollMode))
-            rpgExpandedReject('job-roll-mode');
-        rpgInteger(self.rollModifier,-1000,1000);
         local value = new RpgExpandedJobAssessment(); local seen = []; local ratings = [];
         foreach (local row in self.prerequisites)
         {
@@ -517,11 +515,20 @@ class RpgExpandedJob: object
             if (rating == nil || rating < minimum) { value.reason = 'job-skill-minimum'; return value; }
             ratings = ratings + [[row[1],rating]];
         }
+        if (!self.requirementsApproved) { value.reason = 'job-other-requirements'; return value; }
+        value.ratings = ratings; value.status = 'ready'; return value;
+    }
+    assess(profile)
+    {
+        local value = self.qualifications(profile); if (value.status != 'ready') return value;
+        value.status = 'blocked'; local ratings = value.ratings;
+        if (!holds(['fixed','attribute','specific','best','worst'],self.rollMode))
+            rpgExpandedReject('job-roll-mode');
+        rpgInteger(self.rollModifier,-1000,1000);
         if (ratings.length() > 0 && holds(['fixed','attribute'],self.rollMode))
             rpgExpandedReject('job-prerequisite-roll-required');
         if (ratings.length() == 0 && holds(['specific','best','worst'],self.rollMode))
             rpgExpandedReject('job-roll-prerequisite-required');
-        if (!self.requirementsApproved) { value.reason = 'job-other-requirements'; return value; }
         if (self.rollMode == 'fixed') { rpgInteger(self.fixedScore,3,1000); value.score = self.fixedScore; }
         else if (self.rollMode == 'attribute') value.score = profile.attributeScore(self.rollAttribute);
         else
@@ -890,6 +897,56 @@ class RpgExpandedRecruitingModifiers: object
         value.modifier += bonus;
         if (self.combatRisk && !self.combatantRole) value.modifier -= 2;
         if (self.illegal && !self.waiveIllegalPenalty) value.modifier -= 5;
+        value.status = 'ready'; return value;
+    }
+;
+
+
+/** Job-search modifiers and IQ target, full-2008 B518. Selecting one qualifying
+ * skill avoids inventing stacking rules for jobs with several prerequisites. */
+class RpgExpandedJobSeekingModifiers: object
+    profile = nil
+    job = nil
+    population = 0
+    monthlyPay = 1
+    advertising = 0
+    supportedStatus = 0
+    simultaneousJobs = 1
+    qualificationSkill = nil
+    otherAbilityBonus = 0
+    otherAbilityEvidence = nil
+    lazy = nil
+    employerRequired = true
+    assess()
+    {
+        if (self.job == nil || !self.job.ofKind(RpgExpandedJob)) rpgExpandedReject('job-search-job');
+        local value = self.job.qualifications(self.profile); if (value.status != 'ready') return value;
+        value.status = 'blocked';
+        if (!self.employerRequired) { value.reason = 'job-search-self-employment'; return value; }
+        rpgInteger(self.supportedStatus,-2,8); rpgInteger(self.simultaneousJobs,1,1000);
+        rpgInteger(self.otherAbilityBonus,0,1000);
+        if (self.otherAbilityBonus != 0 && self.otherAbilityEvidence == nil)
+            rpgExpandedReject('job-search-ability-evidence');
+        local skill = self.qualificationSkill;
+        if (skill == nil && self.job.prerequisites.length() == 1) skill = self.job.prerequisites[1][1];
+        if (skill == nil && self.job.prerequisites.length() > 1)
+            rpgExpandedReject('job-search-qualification-choice');
+        local experience = 0; local found = skill == nil;
+        foreach (local row in self.job.prerequisites)
+            if (row[1] == skill)
+            {
+                local minimum = row[2] + (row[3] ? self.profile.attributeScore(skill.attribute) : 0);
+                experience = self.profile.skillScore(skill) - minimum; found = true;
+            }
+        if (!found) rpgExpandedReject('job-search-qualification-skill');
+        if (experience > 2) experience = 2;
+        value.modifier = rpgExpandedEmploymentPopulation(self.population)
+            + rpgExpandedEmploymentAdvertising(self.monthlyPay,self.advertising,nil)
+            + experience + self.otherAbilityBonus - 2 * self.supportedStatus
+            - (self.simultaneousJobs - 1) - (self.lazy ? 5 : 0);
+        value.score = self.profile.attributeScore(rpgIQ) + value.modifier;
+        value.skill = skill;
+        if (value.score < 3) { value.reason = 'job-search-roll-unavailable'; return value; }
         value.status = 'ready'; return value;
     }
 ;

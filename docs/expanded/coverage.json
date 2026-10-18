@@ -884,6 +884,18 @@
         "tests/expanded.py::test_employment_market"
       ],
       "validation_note": "Job wealth pay, population, advertising and recruiting modifiers authored. Checks unrun; persistent search resolution and job-seeker-specific modifiers remain pending."
+    },
+    {
+      "id": "job-seeking-assessment",
+      "module": "campaign",
+      "pages": "B516; B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedJobSeekingModifiers",
+      "tests": [
+        "tests/expanded.py::test_job_seeking"
+      ],
+      "validation_note": "Qualifications separated from monthly performance; IQ search modifiers and explicit prerequisite/ability choices authored. Checks unrun; weekly execution and simultaneous-batch enforcement remain pending."
     }
   ],
   "detailed_inventories": [

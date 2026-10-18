@@ -552,3 +552,39 @@ particular, waiving the illegal-work penalty must not waive those consequences.
 population boundaries, advertising thresholds, offered-pay thresholds and risk
 exceptions. The minimal campaign fixture includes these cases. They remain unrun
 while checks are paused.
+
+
+## Assessing a job search
+
+`RpgExpandedJob.qualifications(profile)` validates purchased prerequisite skills,
+minimum scores and authored non-skill requirements independently of the monthly
+performance roll. Its result includes `ratings` as `[skill, score]` pairs.
+`assess(profile)` still supplies the monthly performance target. A difficult
+performance roll does not itself lower the intelligence target for finding work.
+
+`RpgExpandedJobSeekingModifiers` takes `profile`, `job`, `population`,
+`monthlyPay`, `advertising`, the job's `supportedStatus`, and `simultaneousJobs`.
+Its assessment combines the population and advertising modifiers with the job's
+scarcity penalty and the penalty for additional simultaneous searches. Set `lazy`
+only when the authored character has the relevant work-avoidance disadvantage;
+the full trait catalogue does not yet supply that effect automatically.
+
+A single prerequisite is selected automatically for overqualification. For jobs
+with several prerequisites, explicitly select `qualificationSkill` from the job's
+requirements. This author choice resolves which skill the employer considers;
+bonuses are not summed across prerequisites. The selected skill gives +1 for
+exceeding its minimum by one level, or +2 for two or more. Other helpful abilities
+may supply `otherAbilityBonus` only with an `otherAbilityEvidence` reference to the
+concrete authored qualification. Meeting every prerequisite is still required.
+
+The result contains `modifier` and intelligence-based `score`; a target below
+three is unavailable. Self-employment (`employerRequired = nil`) is rejected by
+this employer-search procedure. Assessment does not spend advertising money or
+perform the weekly roll, and `simultaneousJobs` must describe the actual search
+batch rather than being independently chosen to avoid its penalty. Persistent
+weekly search execution and enforcement of that batch remain pending.
+
+`test_job_seeking` covers qualification boundaries, the capped experience bonus,
+scarcity, advertising, simultaneous searches, the disadvantage penalty, author
+bonus evidence, and separation from monthly performance difficulty. The authored
+cases remain unrun while checks are paused.

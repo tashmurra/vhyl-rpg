@@ -1432,6 +1432,34 @@ act(verb, args)
         value = payment.pay(); eventValue(value.reason); eventValue(payer.money);
         eventValue(dependent.livingPayments.length()); return nil;
     }
+    if (verb == 1227)
+    {
+        local p = new RpgExpandedProfile(); p.rules = expandedRules;
+        local skill = new RpgExpandedSkill(); skill.id = 'seeking-records'; skill.attribute = rpgIQ; skill.difficulty = 0;
+        local training = new RpgExpandedTraining(); training.skill = skill; training.points = 4; p.skills = [training];
+        local job = new RpgExpandedJob(); job.id = 'seeking-clerk'; job.prerequisites = [[skill,args[1],nil]];
+        job.rollMode = 'specific'; job.rollSkill = skill; job.rollModifier = -100; job.requirementsApproved = true;
+        local context = new RpgExpandedJobSeekingModifiers(); context.profile = p; context.job = job;
+        context.population = args[2]; context.supportedStatus = args[3]; context.simultaneousJobs = args[4];
+        context.monthlyPay = 1000; context.advertising = args[5]; context.lazy = args[6] == 1;
+        local value = context.assess(); event('test.job-seeking'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.modifier); eventValue(value.score); return nil;
+    }
+    if (verb == 1228)
+    {
+        local p = new RpgExpandedProfile(); p.rules = expandedRules;
+        local job = new RpgExpandedJob(); job.id = 'seeking-unskilled'; job.requirementsApproved = true;
+        local context = new RpgExpandedJobSeekingModifiers(); context.profile = p; context.job = job; context.population = 5000;
+        event('test.job-seeking-gates'); local value = context.assess(); eventValue(value.score);
+        context.employerRequired = nil; eventValue(context.assess().reason); context.employerRequired = true;
+        context.otherAbilityBonus = 2;
+        try { context.assess(); } catch (RpgExpandedError error) { eventValue(error.reason); }
+        context.otherAbilityEvidence = 'portfolio-matches-employer-needs'; eventValue(context.assess().score);
+        local skill = new RpgExpandedSkill(); skill.id = 'seeking-other'; skill.attribute = rpgIQ; skill.difficulty = 0;
+        context.qualificationSkill = skill;
+        try { context.assess(); } catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;
