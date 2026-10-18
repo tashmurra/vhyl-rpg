@@ -908,6 +908,12 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_collapse_defense(s):
+    s.action(1993)
+    assert last(s, 'test.collapse-defense') == [0,None,None,None,0,0]
+    assert last(s, 'test.recovered-defense') == [9,0,4,0,600]
+
+
 def test_fatigue_strength(s):
     for strength, health, fatigue, injury, enabled, expected in [
             (11,12,8,0,1,[11,11,10,11,11,2400,5,8,0,0]),
@@ -4392,6 +4398,7 @@ def test(build):
     fresh(Session,hazards,test_action_gate)
     fresh(Session,hazards,test_health_maneuver)
     fresh(Session,hazards,test_fatigue_strength)
+    fresh(Session,hazards,test_collapse_defense)
     maneuver_transactions = build.build('expanded-maneuver-transactions',ROOT / 'tests/fixtures/expanded-maneuver-transactions.t')
     fresh(Session,maneuver_transactions,test_maneuver_transactions)
     test_maneuver_route_parity(Session,maneuver_transactions)

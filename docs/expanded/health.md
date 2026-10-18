@@ -1145,7 +1145,7 @@ rejection, and refusal to reuse a gate in the next round.
 `test_maneuver_persistence` saves before the first action, after its health outcome,
 and after the round boundary, then continues each phase in a separate process.
 These checks are authored but unrun. The route-parity fixture below covers this
-maneuver entry point; automatic defense integration remains outstanding.
+maneuver entry point; owned defense-turn consciousness checks remain outstanding.
 
 ## Low-fatigue strength checks
 
@@ -1187,3 +1187,21 @@ exception rollback, undo and deterministic replay of the first turn, rollback of
 the round boundary, and rejection of a consumed gate on the following turn.
 The fixture is authored but unrun; it establishes no passing parity claim yet.
 Other shared health operations still need equivalent route coverage.
+
+
+## Defense eligibility during exhausted collapse
+
+The shared defense scorer now consults `healthBlocksDefense()`. Its Lite default
+returns false. The expanded health implementation blocks defenses during conscious
+exhaustion collapse while FP remains zero or below, and during an active owned
+cardiac arrest. This is an eligibility query: it does not roll, spend a defense,
+or modify the character. The usual unconsciousness and other existing defense
+restrictions still apply.
+
+Ordinary rest clears expanded collapse when FP becomes positive, restoring defense
+eligibility subject to the remaining restrictions. Dodge can still be reduced by
+low fatigue after eligibility returns. `test_collapse_defense` creates collapse
+through a committed failed effort, records the absence of Dodge, Block and Parry,
+then records the return of Dodge after recovery, with no extra random draws.
+The fixture is authored but unrun. This guard does not yet replace the legacy
+consciousness/effort checks for a defense attempted during Do Nothing.

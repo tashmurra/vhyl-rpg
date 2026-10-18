@@ -1833,6 +1833,7 @@ modify RpgExpandedProfile
         inherited(); if (self.fp() > 0) self.exhaustionCollapsed = nil; return nil;
     }
     exhaustionBlocksAction() { return inherited() || self.exhaustionCollapsed && self.fp() <= 0; }
+    healthBlocksDefense() { return inherited() || self.exhaustionBlocksAction() || self.cardiacArrest != nil; }
 ;
 
 class RpgExpandedEffortResult: RpgExpandedExhaustionOutcome

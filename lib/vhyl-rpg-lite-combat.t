@@ -135,7 +135,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
 {
     local profile = fighter.profile; local incoming = attacker.mode();
     if (!request.aware || request.fromBehind || request.immobilized || profile.dead || profile.unconscious
-        || fighter.maneuver == 'all-out-attack') return nil;
+        || fighter.maneuver == 'all-out-attack' || profile.healthBlocksDefense()) return nil;
     local score = 0;
     if (kind == 'dodge')
     {

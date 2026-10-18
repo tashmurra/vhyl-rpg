@@ -343,6 +343,7 @@ modify RpgLiteProfile
     validateBreathStart() { return nil; }
     afterFatigueRecovery() { return nil; }
     exhaustionBlocksAction() { return nil; }
+    healthBlocksDefense() { return nil; }
 ;
 
 /** Authored poison or disease parameters: resistance, delay, cycle, damage and recovery modifier. */

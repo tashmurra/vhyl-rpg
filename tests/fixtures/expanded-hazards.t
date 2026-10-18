@@ -12,6 +12,26 @@ modify gameMain initialRoom = hazardRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 1993)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.fatigue = 10;
+        local fighter = new RpgLiteFighter(); fighter.profile = patient;
+        local attacker = new RpgLiteFighter(); attacker.profile = new RpgLiteProfile();
+        attacker.weapon = rpgLiteMakeWeapon('punch',10); local request = new RpgLiteManeuver();
+        local gate = new RpgExpandedEffort(); gate.id = 'defense-collapse'; gate.profile = patient;
+        gate.evidence = 'Failed effort before the attempted defense';
+        rpgRandom.seed(9); gate.apply(); local draws = rpgRandom.draws; local clock = rpgLedger.seconds;
+        event('test.collapse-defense'); eventValue(patient.unconscious ? 1 : 0);
+        eventValue(rpgLiteDefenseScore(fighter,attacker,request,'dodge'));
+        eventValue(rpgLiteDefenseScore(fighter,attacker,request,'block'));
+        eventValue(rpgLiteDefenseScore(fighter,attacker,request,'parry'));
+        eventValue(rpgRandom.draws - draws); eventValue(rpgLedger.seconds - clock);
+        rpgLiteRest(patient,600,true,true,nil,true);
+        event('test.recovered-defense'); eventValue(patient.fatigue); eventValue(patient.exhaustionCollapsed ? 1 : 0);
+        eventValue(rpgLiteDefenseScore(fighter,attacker,request,'dodge'));
+        eventValue(rpgRandom.draws - draws); eventValue(rpgLedger.seconds - clock); return nil;
+    }
+
     if (verb == 1991)
     {
         local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();

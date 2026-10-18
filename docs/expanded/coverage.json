@@ -199,6 +199,7 @@
         "tests/expanded.py::test_maneuver_route_parity",
         "tests/expanded.py::test_maneuver_persistence",
         "tests/expanded.py::test_effort_recovery",
+        "tests/expanded.py::test_collapse_defense",
         "tests/expanded.py::test_effort_transactions",
         "tests/expanded.py::test_effort_persistence"
       ],
