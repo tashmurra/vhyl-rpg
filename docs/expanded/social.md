@@ -962,3 +962,28 @@ now modifies both acting skill and target resistance for the six ordinary
 influence skills. The new resistance hook defaults to zero, preserving existing
 behavior without the trait. Unsupported effective resistance below three is
 rejected before rolling rather than returned as a misleading ordinary outcome.
+
+### Player-authored gesture exchanges (full-2008, B125)
+
+`RpgExpandedGestureExchange` records communication between two player characters
+without a shared signing language. Supply distinct expanded `sender` and
+`recipient` profiles, `playerParticipants = true`, a visible `gesture`, the
+sender's `intendedMeaning`, and the recipient's chosen `interpretedMeaning`.
+Set `interpretation` to `understood`, `misunderstood`, or `unresolved`; the last
+requires a nil interpreted meaning. These are player choices, never inferred by
+a skill roll. Also supply `observed`, `approved` and scene `evidence`.
+
+`assess()` previews without mutation; `apply()` records the exchange in both
+participants' `gestureExchanges`. An authored `seconds` duration advances the
+shared clock once, with no randomness. Zero seconds is appropriate only when
+another action already accounts for the communication. The default requires
+movement; authors can explicitly describe a channel that does not. Participant
+health and the bound exchange are checked after elapsed-time hooks; propagate
+interruptions to the transaction boundary for rollback.
+
+Replay does not charge time or duplicate records. The receipt preserves both
+meanings without treating either as a world fact or forcing belief. Shared
+languages and NPC interpretation need their own communication procedures.
+Communication-study credit is still pending. Authored fixtures cover all three
+interpretations, unavailable observation, interruption, undo and save replay;
+checks remain paused.

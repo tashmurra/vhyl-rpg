@@ -171,9 +171,9 @@
       "pages": "B125",
       "module": "traits",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For nonshared signing between player characters, the source requires authored communication rather than a success roll. Provide explicit conveyed meaning/gesture choices with no random roll; a generic callback alone does not establish the contract.",
-      "tests": []
+      "tests": ["tests/fixtures/expanded-gesture-exchange.t", "tests/expanded.py::test_gesture_exchange"]
     },
     {
       "id": "disadvantages-b-compelled-aid",

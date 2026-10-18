@@ -9070,6 +9070,8 @@ def test(build):
     test_training_interruption(Session, training_interruption, build.out)
     speech_limitation = build.build('expanded-speech-limitation',ROOT / 'tests/fixtures/expanded-speech-limitation.t')
     test_speech_limitation(Session, speech_limitation)
+    gesture_exchange = build.build('expanded-gesture-exchange',ROOT / 'tests/fixtures/expanded-gesture-exchange.t')
+    test_gesture_exchange(Session, gesture_exchange, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17071,5 +17073,51 @@ def test_speech_limitation(Session, bundle):
     try:
         s.action(2285,3809)
         assert last(s,'test.speech-effort') == ['articulated-speech-unavailable']
+    finally:
+        s.close()
+
+
+def test_gesture_exchange(Session, bundle, out):
+    for setup,interpretation in (((),'understood'),((3904,),'misunderstood'),((3905,),'unresolved')):
+        s = Session(bundle)
+        try:
+            for code in setup+(3900,3903):
+                s.action(2285,code)
+            assert last(s,'test.gesture-state') == [0,0,0,0,0,None]
+            for code in (3901,3901,3903):
+                s.action(2285,code)
+            assert last(s,'test.gesture-state') == [1,1,10,0,0,interpretation]
+        finally:
+            s.close()
+    for code,reason in ((3906,'gesture-exchange-not-observed'),(3907,'gesture-exchange-scope')):
+        s = Session(bundle)
+        try:
+            for action in (code,3901,3903):
+                s.action(2285,action)
+            assert last(s,'test.gesture-exchange') == ['blocked',reason]
+            assert last(s,'test.gesture-state') == [0,0,0,0,0,None]
+        finally:
+            s.close()
+    path = out / 'expanded-gesture-exchange.zsave'
+    s = Session(bundle)
+    try:
+        for code in (3902,3903,3908,3903):
+            s.action(2285,code)
+            if code == 3903:
+                assert last(s,'test.gesture-state') == [0,0,0,0,0,None]
+        s.action(2285,3901)
+        s.command('undo')
+        s.action(2285,3903)
+        assert last(s,'test.gesture-state') == [0,0,0,0,0,None]
+        s.action(2285,3901)
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,3901)
+        s.action(2285,3903)
+        assert last(s,'test.gesture-state') == [1,1,10,0,0,'understood']
     finally:
         s.close()

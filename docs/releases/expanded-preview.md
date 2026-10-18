@@ -1181,3 +1181,8 @@ expanded influence procedure remains partial.
   articulated-speech/vocalization gates. Nonverbal contexts remain available;
   authored gestures and communication study are still pending. Fixtures are
   unrun (full-2008 B125).
+
+- Added owned player-authored gesture exchanges without skill rolls, recording
+  intent and interpretation separately and charging elapsed time once. Added
+  unrun interruption, undo and save fixtures. Communication-study integration
+  remains pending (full-2008 B125).

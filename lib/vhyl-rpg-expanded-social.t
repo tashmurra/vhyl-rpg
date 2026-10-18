@@ -1820,3 +1820,98 @@ class RpgExpandedCallousnessReactionContext: RpgLiteSocialContext
         return nil;
     }
 ;
+
+modify RpgExpandedProfile
+    gestureExchanges = []
+;
+class RpgExpandedGestureResult: RpgExpandedResult
+    intendedMeaning = nil
+    interpretedMeaning = nil
+    interpretation = nil
+;
+/** B125 player-authored communication without a shared signing language. */
+class RpgExpandedGestureExchange: object
+    id = nil
+    sender = nil
+    recipient = nil
+    playerParticipants = nil
+    sharedSigningLanguage = nil
+    gesture = nil
+    intendedMeaning = nil
+    interpretedMeaning = nil
+    interpretation = nil
+    observed = nil
+    requiresMovement = true
+    approved = nil
+    evidence = nil
+    seconds = 0
+    startedAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition()
+    {
+        return [self.id,self.sender,self.recipient,self.playerParticipants,self.sharedSigningLanguage,
+            self.gesture,self.intendedMeaning,self.interpretedMeaning,self.interpretation,self.observed,
+            self.requiresMovement,self.approved,self.evidence,self.seconds];
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.sender == nil || !self.sender.ofKind(RpgExpandedProfile)
+            || self.recipient == nil || !self.recipient.ofKind(RpgExpandedProfile) || self.sender == self.recipient)
+            rpgExpandedReject('gesture-exchange-participants');
+        local value = new RpgExpandedGestureResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local i = 1; i <= current.length(); i += 1)
+                if (current[i] != self.boundDefinition[i]) rpgExpandedReject('gesture-exchange-binding');
+            if (!holds(self.sender.gestureExchanges,self) || !holds(self.recipient.gestureExchanges,self)
+                || self.completedAt != self.startedAt + self.seconds) rpgExpandedReject('gesture-exchange-history');
+            value.status = 'reused'; return value;
+        }
+        rpgInteger(self.seconds,0,86400);
+        foreach (local profile in [self.sender,self.recipient])
+            foreach (local prior in profile.gestureExchanges)
+                if (prior.id == self.id) rpgExpandedReject('gesture-exchange-duplicate');
+        if (!self.playerParticipants || self.sharedSigningLanguage)
+        { value.reason = 'gesture-exchange-scope'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.gesture == nil || self.gesture == ''
+            || self.intendedMeaning == nil || self.intendedMeaning == '')
+        { value.reason = 'gesture-exchange-authorship-required'; return value; }
+        if (!holds(['understood','misunderstood','unresolved'],self.interpretation)
+            || self.interpretation != 'unresolved' && (self.interpretedMeaning == nil || self.interpretedMeaning == '')
+            || self.interpretation == 'unresolved' && self.interpretedMeaning != nil)
+        { value.reason = 'gesture-exchange-player-interpretation-required'; return value; }
+        if (!self.observed) { value.reason = 'gesture-exchange-not-observed'; return value; }
+        value.reason = self.conditionsReason(); if (value.reason != nil) return value;
+        rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds); rpgLedger.validateAdvance(self.seconds);
+        value.status = 'ready'; value.seconds = self.seconds; return value;
+    }
+    conditionsReason()
+    {
+        if (self.sender.dead || self.sender.unconscious || self.recipient.dead || self.recipient.unconscious)
+            return 'gesture-exchange-participant-unavailable';
+        return self.sender.healthEffortReason('gesture',nil,nil,self.requiresMovement);
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local start = rpgLedger.seconds;
+        local sent = self.sender.gestureExchanges.length(); local received = self.recipient.gestureExchanges.length();
+        rpgSpendTime(self.seconds);
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != definition[i]) rpgExpandedReject('gesture-exchange-interrupted');
+        if (rpgLedger.seconds != start + value.seconds || self.sender.gestureExchanges.length() != sent
+            || self.recipient.gestureExchanges.length() != received) rpgExpandedReject('gesture-exchange-interrupted');
+        if (self.conditionsReason() != nil) rpgExpandedReject('gesture-exchange-conditions-changed');
+        self.boundDefinition = definition; self.startedAt = start; self.completedAt = rpgLedger.seconds;
+        value.intendedMeaning = self.intendedMeaning; value.interpretedMeaning = self.interpretedMeaning;
+        value.interpretation = self.interpretation;
+        self.sender.gestureExchanges = self.sender.gestureExchanges + [self];
+        self.recipient.gestureExchanges = self.recipient.gestureExchanges + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
