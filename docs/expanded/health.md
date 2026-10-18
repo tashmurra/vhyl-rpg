@@ -3987,3 +3987,27 @@ care operation binds the final credit in the same transaction.
 saved continuation for successful, cancelled and bandage-linked care. Fixtures
 remain unrun. This closes receipt integrity gaps; automatic wound enrollment,
 multiple-wound aggregation and loss-basis reconciliation remain incomplete.
+
+### Player actions for bleeding care
+
+`RpgExpandedBleedingAidAction` takes one `care` receipt and an `operation`:
+`preview`, `start`, `completion-preview`, `complete` or `cancel`. Bind command
+verbs to these actions, or call `perform(context.asker)` from a dialogue choice.
+The command path uses `context.actor`. Both require the acting person's
+`rpgProfile` to be the receipt's `healer`; being the patient alone does not grant
+authority over another person's treatment. Self-care works when patient and
+healer are the same profile, subject to the existing care assessment.
+
+Starting records the interval. Advance the shared clock through the game's
+ordinary authored activity; completing never charges that minute again. The
+player action does not assert `uninterrupted`, available supplies or permission:
+authored care evidence and the actual interval still determine those facts.
+Cancellation records interruption without a benefit or roll. Repeated operations
+retain the receipt's existing replay behavior. The event
+`rpg.expanded.bleeding-aid` contains operation, status and reason.
+
+`test_bleeding_actions` and `expanded-bleeding-actions.t` specify command, structured
+and dialogue parity, healer authority, pure previews, premature completion,
+shared time, one bandage credit, cancellation, rollback, undo and replay. They
+remain unrun while checks are paused. Neither this action adapter nor the care
+receipt supplies automatic movement, equipment consumption or wound aggregation.

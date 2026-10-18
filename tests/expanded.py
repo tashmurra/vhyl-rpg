@@ -9719,6 +9719,8 @@ def test(build):
     test_bleeding_care_boundaries(Session, bleeding, build.out)
     bleeding_receipts = build.build('expanded-bleeding-receipts', ROOT / 'tests/fixtures/expanded-bleeding-receipts.t')
     test_bleeding_receipts(Session, bleeding_receipts, build.out)
+    bleeding_actions = build.build('expanded-bleeding-actions', ROOT / 'tests/fixtures/expanded-bleeding-actions.t')
+    test_bleeding_actions(Session, bleeding_actions)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
     fresh(Session,health,test_critical_major_wound)
@@ -25964,5 +25966,67 @@ def test_bleeding_receipts(Session, bundle, out):
         try:
             s.command(f':restore {path}\n@2287'); s.action(2285,42)
             assert last(s,'test.bleeding-aid') == ['reused',None,0]
+        finally:
+            s.close()
+
+
+def test_bleeding_actions(Session, bundle):
+    """One treatment across native routes, with healer authority and shared time; unrun."""
+    for route in ('parser','structured','dialogue'):
+        def perform(s, operation):
+            if route == 'parser':
+                s.command({'preview':'assess care','start':'start care','completion-preview':'assess completion',
+                           'complete':'complete care','cancel':'cancel care','rollback':'rollback care'}[operation])
+            elif route == 'structured':
+                s.action({'preview':26110,'start':26111,'completion-preview':26112,
+                          'complete':26113,'cancel':26114,'rollback':26115}[operation])
+            else:
+                s.action(80,'bleeding-care'); s.select(operation)
+        def state(s):
+            s.action(2287)
+            return last(s,'test.bleeding-minute-state')
+        s = Session(bundle)
+        try:
+            for code in (0,1,47,30):
+                s.action(2285,code)
+            before = state(s)
+            perform(s,'preview')
+            assert last(s,'rpg.expanded.bleeding-aid') == ['preview','ready',None]
+            assert state(s) == before
+            perform(s,'start'); perform(s,'start')
+            assert last(s,'rpg.expanded.bleeding-aid') == ['start','reused',None]
+            assert state(s) == before
+            perform(s,'complete')
+            assert last(s,'rpg.expanded.bleeding-aid') == ['complete','blocked','bleeding-aid-not-due']
+            s.action(2285,4); due = state(s)
+            perform(s,'completion-preview')
+            assert last(s,'rpg.expanded.bleeding-aid') == ['completion-preview','ready',None]
+            assert state(s) == due
+            perform(s,'rollback'); assert state(s) == due
+            perform(s,'complete'); s.command('undo'); assert state(s) == due
+            perform(s,'complete'); completed = state(s)
+            assert completed[0] == 1 and completed[4] == 60 and completed[-2:] == [60,3]
+            perform(s,'complete'); perform(s,'cancel'); assert state(s) == completed
+        finally:
+            s.close()
+        for outsider in (80,81):
+            s = Session(bundle)
+            try:
+                for code in (0,1,outsider):
+                    s.action(2285,code)
+                before = state(s)
+                for operation in ('preview','start','completion-preview','complete','cancel'):
+                    perform(s,operation)
+                    assert last(s,'rpg.expanded.bleeding-aid') == [operation,'blocked','bleeding-aid-action-healer-required']
+                    assert state(s) == before
+            finally:
+                s.close()
+        s = Session(bundle)
+        try:
+            for code in (0,1):
+                s.action(2285,code)
+            perform(s,'start'); perform(s,'cancel'); perform(s,'complete')
+            assert last(s,'rpg.expanded.bleeding-aid') == ['complete','reused',None]
+            assert state(s)[-2:] == [0,0]
         finally:
             s.close()

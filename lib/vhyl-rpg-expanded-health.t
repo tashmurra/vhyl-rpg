@@ -9046,3 +9046,26 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Shared command/dialogue access to one healer-owned bleeding treatment. */
+class RpgExpandedBleedingAidAction: Action
+    care = nil
+    operation = 'preview'
+    perform(actor)
+    {
+        if (self.care == nil || !self.care.ofKind(RpgExpandedBleedingAid)
+            || !holds(['preview','start','completion-preview','complete','cancel'],self.operation))
+            rpgExpandedReject('bleeding-aid-action-definition');
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile == nil || actor.rpgProfile != self.care.healer)
+            value.reason = 'bleeding-aid-action-healer-required';
+        else if (self.operation == 'preview') value = self.care.assess();
+        else if (self.operation == 'start') value = self.care.start();
+        else if (self.operation == 'completion-preview') value = self.care.assessCompletion();
+        else if (self.operation == 'complete') value = self.care.complete();
+        else value = self.care.cancel();
+        event('rpg.expanded.bleeding-aid'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;
