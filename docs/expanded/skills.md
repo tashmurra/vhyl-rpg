@@ -666,3 +666,32 @@ rule without adding random draws. The orientation-sense trait supplies the print
 the shared skill score. Integration with all movement/vehicle subsystems remains pending. The minimal fixture
 [`expanded-free-fall-skill.t`](../../tests/fixtures/expanded-free-fall-skill.t)
 contains independent default/cap values and saved-game continuation; it is unrun.
+
+
+## Ground-vehicle operation
+
+`RpgExpandedDrivingSkill` implements the nine B188 specialties using
+`specialty`: `automobile`, `construction-equipment`, `halftrack`, `heavy-wheeled`,
+`hovercraft`, `locomotive`, `mecha`, `motorcycle` and `tracked`. Supply `techLevel`.
+The skill is DX/Average, with DX−5 and IQ−5 attribute defaults. Directed defaults
+use actually purchased compatible sources through the existing resolver; this
+does not permit chains of unpaid defaults. Automobile/heavy-wheeled and
+halftrack/tracked use their paired −2 defaults. The other listed cross-specialty
+penalties remain distinct. Motorcycle uses Bicycling−4, while mecha additionally
+allows same-technology Battlesuit−3. Mixed legacy Driving sources at the same
+technology reject rather than silently assuming expanded specialty semantics.
+
+`RpgExpandedDrivingContext` uses the ordinary shared score/check interface. Its
+`task` is `operation`, `map-reading`, `simple-malfunction` or `traffic-rules`; the
+latter three use IQ with the existing relative skill level. Specify
+`conditionsPenalty`, `repairPenalty`, `unfamiliarControls` and
+`unfamiliarTypePenalty` from actual authored conditions. Negative condition and
+repair penalties must be at least −2; an unfamiliar type penalty must be at
+least −4. Unfamiliar controls impose −2. Nonzero penalties require `evidence`.
+This context rejects an additional generic familiarity record to avoid charging
+the same unfamiliarity twice.
+
+`expanded-driving.t` / `test_driving` specify selected default boundaries, IQ
+task substitution, combined modifiers and invalid penalty rejection. Fixtures
+remain unrun. Per-vehicle familiarity acquisition, minimum-strength effects,
+control-loss consequences and vehicle movement integration remain outstanding.

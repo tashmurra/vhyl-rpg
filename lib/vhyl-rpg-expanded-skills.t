@@ -917,3 +917,76 @@ class RpgExpandedFreeFallSkill: RpgExpandedSkill
         return nil;
     }
 ;
+
+/** B188 ground-vehicle specialties and directed defaults. */
+class RpgExpandedDrivingSkill: RpgExpandedSkill
+    id = 'driving'
+    attribute = rpgDX
+    difficulty = 1
+    defaultPenalty = -5
+    attributeDefaults = [[rpgIQ,-5]]
+    validateDefinition()
+    {
+        if (self.id != 'driving' || self.attribute != rpgDX || self.difficulty != 1 || self.defaultPenalty != -5
+            || self.techLevel == nil || self.wildcard || self.optionalParent != nil
+            || !holds(['automobile','construction-equipment','halftrack','heavy-wheeled','hovercraft',
+                'locomotive','mecha','motorcycle','tracked'],self.specialty))
+            rpgExpandedReject('driving-skill-definition');
+        rpgInteger(self.techLevel,0,12); return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (source == self || training.points <= 0 || !source.ofKind(RpgLiteSkill)) continue;
+            if (self.specialty == 'motorcycle')
+            {
+                if (source.studyIdentity() == 'bicycling') edges = edges + [[source,-4]];
+                continue;
+            }
+            if (self.specialty == 'mecha' && source.studyIdentity() == 'battlesuit' && source.techLevel == self.techLevel)
+                edges = edges + [[source,-3]];
+            if (source.id != 'driving' || source.techLevel != self.techLevel) continue;
+            if (!source.ofKind(RpgExpandedDrivingSkill)) rpgExpandedReject('driving-expanded-source-required');
+            source.validateDefinition();
+            if (source.specialty == self.specialty) continue;
+            local penalty = holds(['construction-equipment','hovercraft','locomotive','mecha'],self.specialty) ? -5 : -4;
+            if (self.specialty == 'automobile' && source.specialty == 'heavy-wheeled'
+                || self.specialty == 'heavy-wheeled' && source.specialty == 'automobile'
+                || self.specialty == 'halftrack' && source.specialty == 'tracked'
+                || self.specialty == 'tracked' && source.specialty == 'halftrack') penalty = -2;
+            edges = edges + [[source,penalty]];
+        }
+        return edges;
+    }
+;
+/** B188 authored driving conditions, with IQ-based knowledge tasks. */
+class RpgExpandedDrivingContext: RpgExpandedSkillContext
+    task = 'operation'
+    rollAttribute = (self.task == 'operation' ? nil : rpgIQ)
+    conditionsPenalty = 0
+    repairPenalty = 0
+    unfamiliarControls = nil
+    unfamiliarTypePenalty = 0
+    evidence = nil
+    skillUseModifier(profile)
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedDrivingSkill)
+            || !holds(['operation','map-reading','simple-malfunction','traffic-rules'],self.task)
+            || self.fixedBase != nil || self.familiarity != nil)
+            rpgExpandedReject('driving-context-definition');
+        self.skill.validateDefinition();
+        rpgInteger(self.conditionsPenalty,-100,0); rpgInteger(self.repairPenalty,-100,0);
+        rpgInteger(self.unfamiliarTypePenalty,-100,0);
+        if (self.conditionsPenalty == -1 || self.repairPenalty == -1
+            || self.unfamiliarTypePenalty < 0 && self.unfamiliarTypePenalty > -4)
+            rpgExpandedReject('driving-context-minimum-penalty');
+        local penalty = self.conditionsPenalty + self.repairPenalty + self.unfamiliarTypePenalty
+            + (self.unfamiliarControls ? -2 : 0);
+        if (penalty != 0 && (self.evidence == nil || self.evidence == ''))
+            rpgExpandedReject('driving-context-evidence');
+        local base = inherited(profile); return base == nil ? nil : base + penalty;
+    }
+;

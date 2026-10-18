@@ -9312,6 +9312,8 @@ def test(build):
     test_motion_scores(Session, motion_scores, build.out)
     motion_catalogue = build.build("expanded-motion-catalogue",ROOT / "tests/fixtures/expanded-motion-catalogue.t")
     test_motion_catalogue(Session, motion_catalogue)
+    driving = build.build("expanded-driving",ROOT / "tests/fixtures/expanded-driving.t")
+    test_driving(Session, driving)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -22449,5 +22451,19 @@ def test_motion_catalogue(Session, bundle):
         assert last(s, 'test.motion-specialty') == ['vehicle-operation-specialty-conflict']
         s.action(1100, 16403)
         assert last(s, 'test.motion-class-conflict') == ['vehicle-operation-class-conflict']
+    finally:
+        s.close()
+
+
+def test_driving(Session, bundle):
+    """B188 typed specialties, IQ defaults and task modifiers; unrun."""
+    s = Session(bundle)
+    try:
+        for code in (16500, 16501):
+            s.action(1100, code)
+        assert last(s, 'test.driving-defaults') == [14, 12, 10, 9, 9]
+        assert last(s, 'test.driving-context') == [14, 16, 4, 0]
+        s.action(1100, 16502)
+        assert last(s, 'test.driving-context') == [14, 16, 'driving-context-minimum-penalty', 0]
     finally:
         s.close()

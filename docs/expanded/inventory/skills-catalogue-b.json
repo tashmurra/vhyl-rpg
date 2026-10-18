@@ -568,9 +568,11 @@
       "pages": "B188",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_driving"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -618,7 +620,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending."
     },
     {
       "id": "catalogue-skill-driving-construction",
@@ -626,9 +629,11 @@
       "pages": "B188",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_driving"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -676,7 +681,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending."
     },
     {
       "id": "catalogue-skill-driving-halftrack",
@@ -684,9 +690,11 @@
       "pages": "B188",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_driving"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -734,7 +742,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending."
     },
     {
       "id": "catalogue-skill-driving-heavy-wheeled",
@@ -742,9 +751,11 @@
       "pages": "B188",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_driving"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -792,7 +803,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending."
     },
     {
       "id": "catalogue-skill-driving-hovercraft",
@@ -800,9 +812,11 @@
       "pages": "B188",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_driving"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -850,7 +864,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending."
     },
     {
       "id": "catalogue-skill-driving-rail",
@@ -858,9 +873,11 @@
       "pages": "B188",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_driving"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -908,7 +925,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending."
     },
     {
       "id": "catalogue-skill-driving-articulated",
@@ -916,9 +934,11 @@
       "pages": "B188",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_driving"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -970,7 +990,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending."
     },
     {
       "id": "catalogue-skill-driving-motorcycle",
@@ -978,9 +999,11 @@
       "pages": "B188",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_driving"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -1000,7 +1023,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending."
     },
     {
       "id": "catalogue-skill-driving-tracked",
@@ -1008,9 +1032,11 @@
       "pages": "B188",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Validate vehicle category and controls; use intelligence for rules, maps and minor faults. Apply condition, repair, control and subtype unfamiliarity penalties independently.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_driving"
+      ],
       "reference_data": {
         "attribute": "dx",
         "difficulty": "average",
@@ -1058,7 +1084,8 @@
           ]
         ],
         "prerequisites": []
-      }
+      },
+      "validation_note": "Typed B188 Driving specialties implement attribute and directed purchased-skill defaults, same-technology driving sources and IQ-based knowledge tasks. Context implements authored condition/repair/control/type penalties. Selected expected-value fixtures authored but unrun; complete specialty matrix verification, owned familiarity acquisition, vehicle movement and control-loss consequences remain pending."
     },
     {
       "id": "catalogue-driving-category-boundaries",
