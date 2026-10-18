@@ -1,0 +1,759 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B369-B377",
+  "review": "Attack, grapple, collision, projectile and defense text inventoried with rapid-fire rows. Detailed techniques, special combat, injury, boundary reconciliation and executable validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "attack-defense-sequence",
+      "source": "full-2008",
+      "pages": "B369",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Validate selected target, mode, readiness, reach and spatial access before attack roll. Resolve multiple attacks sequentially: each attack, eligible defense, then damage. Later attacks see consequences of earlier ones.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-roll",
+      "source": "full-2008",
+      "pages": "B369",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Attack uses effective skill; 3-4 critically hit and 17-18 miss. Reconcile low-score legality with general checks and critical rules without changing Lite dispatch.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-ready",
+      "source": "full-2008",
+      "pages": "B369",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One-handed weapons require the holding hand, two-handed weapons both hands; unwieldy weapons can become unready after use unless strength qualifies. Natural weapons require an unoccupied, unrestrained body part and suitable access.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-deceptive",
+      "source": "full-2008",
+      "pages": "B369-B370",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Declared melee deception exchanges each -2 effective attack skill for -1 defense against this attack, keeping final attack skill at least ten. A campaign can instead restrict choice to -4/-2. Validate before rolling.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-rapid-strike",
+      "source": "full-2008",
+      "pages": "B370",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary or committed melee attack can replace exactly one available attack with two at -6 each, using ready weapons. Different targets are allowed; do not recursively split additional attacks.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-grab-item",
+      "source": "full-2008",
+      "pages": "B370",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Grabbing a held item needs an empty hand or a suitable grabbing weapon; attack dexterity or grappling skill at -4 with normal defense. On later turns, each full-turn regular strength contest transfers the item on victory or loses grip on defeat; retain unresolved ties under regular-contest rules.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-grapple-hit",
+      "source": "full-2008",
+      "pages": "B370",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Grappling requires a free hand and close range, uses dexterity or grappling skill and normal defense, and causes no initial damage. Evaluation and feint can apply. Record participants and held parts.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-grapple-effect",
+      "source": "full-2008",
+      "pages": "B370",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Torso grapple imposes -4 dexterity and prevents departure unless target strength exceeds twice holder strength, in which case holder becomes encumbrance. B371 instead allows movement at equality; preserve this boundary discrepancy for a documented policy.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-grapple-arms",
+      "source": "full-2008",
+      "pages": "B370",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each committed arm after the first two adds +2 to the grapple attack. Occupied arms cannot parry. Release is free on the holder\u2019s turn, with per-arm occupancy updated.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-grapple-posture",
+      "source": "full-2008",
+      "pages": "B370",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "To grapple a prone, kneeling or seated target, holder kneels or lies unless target size exceeds holder by at least two. The posture adjustment can use the attack\u2019s step; reconcile this specific permission with ordinary posture transitions.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-grapple-location",
+      "source": "full-2008",
+      "pages": "B370",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Targeted grapples use half the normal location penalty; dexterity -4 applies only to that part. Specify rounding through B400. Holding an arm/hand permits a later regular strength contest to force release, but not automatically take the weapon.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-takedown",
+      "source": "full-2008",
+      "pages": "B370",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After grappling a standing target, compare each participant\u2019s best strength, dexterity or grappling skill; nonstanding initiator takes posture attack penalty. Loser falls and releases any grip on winner; tie changes nothing. Initiator selects legal adjacent footprint for a fallen target.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-pin",
+      "source": "full-2008",
+      "pages": "B370",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Pin requires a grounded target held by torso. Regular strength contest adds +3 per size difference to larger participant and +3 to the participant with more free hands. Victory pins; defeat/tie does nothing. Holder stays to maintain pin but can free one hand.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-strangle",
+      "source": "full-2008",
+      "pages": "B370-B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Neck hold uses strength against the higher of victim strength/health. One hand gives -5, each beyond two +2. A larger holder can squeeze torso at -5 unless possessing the body-constriction capability. Victory deals crushing equal to victory margin through normal armor; neck injury uses 1.5 factor.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-strangle-suffocation",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Any qualifying damage through protection, including blunt trauma, starts one fatigue loss on each victim turn until escape. Link suffocation to the actual hold and avoid a second environmental charge for the same cause.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-advanced-holds",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Choke, joint lock and neck/limb twist depend on specified skills, held locations and B403-B404 procedures. A generic grapple state does not implement these techniques.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-holder-actions",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A holder can bite or use close-reach natural strikers with hands occupied; free hands permit close attacks or ready actions. Aim, feint, concentration, wait and ranged attacks require the victim to be pinned.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-drag",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Pinned targets can be moved within lifting/dragging and encumbrance limits. Without a pin, departure releases the target unless holder strength is at least twice target strength; sufficiently strong holders may carry/pull instead.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-held-actions",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Held actors cannot use captured limbs or bite with held head/neck; allowed attacks are unarmed or close-reach weapons. Aim, feint, concentration, wait and ranged attacks are prohibited. A pin prohibits physically moving maneuvers.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-held-ready",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A free hand permits readying with dexterity check; failure drops the item. Ability toggles requiring ready succeed without this extra check.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-escape",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Escape is a quick strength contest. Holder receives +5 for two hands, or pin bonuses +10 with two/+5 with one. Additional arms beyond two add +2 to the relevant participant; stunned holder takes -4. Unconscious holder releases automatically. A successful escape permits immediate one-yard movement.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-pin-retry",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Pinned escape attempts occur at most once per ten seconds. Store the deadline on the restraint episode so recreating a request cannot reset it.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-collision-attack",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Collision attack uses dexterity or eligible brawling/sumo skill and bypasses move-and-attack melee -4/cap-nine. Mount attacks use riding; vehicle attacks operation skill, with mount/vehicle health capacity for damage.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-collision-miss",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After target dodge, move at least two yards beyond if allowance remains; resolve other targets or obstacles in the path. A solid-obstacle collision applies attacker\u2019s damage to self and optionally obstacle.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-collision-dice",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each participant inflicts crushing dice equal to own health capacity times relative speed divided by 100. Head-on speed includes opponent\u2019s prior-turn approach. Fractions up to .25/.5/below one use 1d-3/1d-2/1d-1; at least one die rounds half upward. Strong committed option can increase damage.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-collision-fall",
+      "source": "full-2008",
+      "pages": "B371",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Compare damage rolls: equal or greater attacker damage forces target dexterity to avoid falling; at least double knocks target down automatically. Opponent damage at least double instead knocks attacker down. Resolve zero-value ties and interaction with armor using detailed collision rules.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-tackle",
+      "source": "full-2008",
+      "pages": "B372",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Flying tackle requires at least two legs and one free arm, gives +4 attack and one additional reach, and permits jumping skill. Attacker ends lying whether attack succeeds or fails, with legal shared footprint.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-pounce",
+      "source": "full-2008",
+      "pages": "B372",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Four-or-more-legged pounce uses tackle with a dexterity, acrobatics or jumping check to remain standing. A mounted rider checks riding-4 to avoid falling.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-shield-rush",
+      "source": "full-2008",
+      "pages": "B372",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shield collision uses shield skill, adds shield defense bonus to damage and assigns incoming collision damage to shield. Attacker can still fall when opponent damage doubles own basic damage.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-shove",
+      "source": "full-2008",
+      "pages": "B372",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One/two-handed shove uses dexterity or sumo skill with normal defense; double thrust crushing, applying -1 per die for one hand. Result causes knockback only, never direct injury.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-ranged-classification",
+      "source": "full-2008",
+      "pages": "B372",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Projectile spells and eligible attack abilities use ranged attack rules; aura, direct resisted and melee modifiers can change classification. Do not route every supernatural effect through weapon attack.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-range",
+      "source": "full-2008",
+      "pages": "B372",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Require distance within maximum and any minimum range. Half-damage distance affects damage rather than legality. Use actual weapon or ability definition.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-speed-range",
+      "source": "full-2008",
+      "pages": "B372-B373",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Combine range yards and applicable speed yards/second before lookup, choosing the larger penalty between boundaries. Optional human-speed simplification ignores speed through movement ten except flight, sprinting and similar cases; record policy.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-throw",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Thrown items leave inventory and ready state whether they hit or miss. Use strength-based range or specific catalogue definition; later reuse requires retrieval and readying.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-catch",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Thrown attacks permit block/parry. An unarmed parry succeeding by at least five or critically catches the weapon; update hand occupancy and inventory atomically.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-weapon-strength",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Muscle-powered projectiles use wielder strength except bows/crossbows use weapon strength where specified. Do not substitute current character strength for a fixed weapon rating.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-reload",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shots and reload duration determine owned ready progress. Magazine/belt replacement restores capacity with actual ammunition; individually loaded weapons gain one shot per interval unless a qualifying loader changes it.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-burst-declaration",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Declare positive shot count before rolling, bounded by firing rate and loaded ammunition. One burst uses one attack roll and one ammunition expenditure, not one attack per projectile.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-burst-hits",
+      "source": "full-2008",
+      "pages": "B374",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "On successful rapid fire, hits equal one plus floor(success margin/recoil), limited to shots fired. Spraying, suppression and special projectile types require separate B408-B409 procedures.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-defense-eligibility",
+      "source": "full-2008",
+      "pages": "B374",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Defense requires awareness of attack possibility and freedom to react; forbidden maneuver, unconsciousness, immobilization or unawareness denies defense before any roll. Critical hits deny active defense.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-defense-roll",
+      "source": "full-2008",
+      "pages": "B374",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Defense rolls 3-4 succeed even with effective defense one or two, and 17-18 fail. Never reuse a general low-target rejection that suppresses these permitted defense rolls.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-defense-injury",
+      "source": "full-2008",
+      "pages": "B374",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Stun gives -4 defense. Shock never penalizes active defense; temporary attribute effects require their separate rules.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-shield-bonus",
+      "source": "full-2008",
+      "pages": "B374",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ready shield bonus applies to dodge, parry and block from front or shield side for melee, thrown and muscle-powered projectiles. Firearm eligibility requires the optional shield-damage procedure; do not globally add shield bonus.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-dodge-score",
+      "source": "full-2008",
+      "pages": "B374",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Dodge is floor(basic speed+3) minus encumbrance level. Permit repeated dodges against different attacks without a cumulative count penalty; one dodge per given attack.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-burst-dodge",
+      "source": "full-2008",
+      "pages": "B375",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Successful dodge removes one hit plus success margin; critical dodge removes all hits in that attack. Retain remaining hits for independent damage resolution.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-acrobatic-dodge",
+      "source": "full-2008",
+      "pages": "B375",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Requires invested acrobatics, or aerial skill while flying; once per actor turn. Roll before dodge: success adds two, failure subtracts two. May combine with retreat; store usage even on failure.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-interpose",
+      "source": "full-2008",
+      "pages": "B375",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Declare protective dodge after attack succeeds but before ally defense, with legal step to intercept. Success transfers hit to protector; failure preserves ally defense. Either attempt prevents protector retreat until next turn, and cannot combine with retreat.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-vehicle-dodge",
+      "source": "full-2008",
+      "pages": "B375",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Vehicle dodge uses floor(operator skill/2)+handling with actual evasive maneuver eligibility, not personal speed+3.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-block",
+      "source": "full-2008",
+      "pages": "B375",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Block requires ready shield/cloak or legally lifted body, score floor(skill/2)+3. Permit melee, thrown, projected liquids and muscle-powered missiles, not bullets/beams. One block attempt per turn, even on failure.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-parry-readiness",
+      "source": "full-2008",
+      "pages": "B376",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Parry requires ready weapon or eligible empty hands. An unbalanced weapon used to attack this turn cannot parry. Apply actual weapon defensive modifier.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-parry-score",
+      "source": "full-2008",
+      "pages": "B376",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Parry is floor(skill/2)+3 plus applicable modifiers. Off-hand -4 skill gives -2 parry unless exempted; do not subtract both.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-parry-projectiles",
+      "source": "full-2008",
+      "pages": "B376",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary parry covers melee and thrown attacks. A nearby ranged attacker within reach may have the weapon/arm parried rather than the projectile. Special distant projectile defenses require their capabilities.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-parry-count",
+      "source": "full-2008",
+      "pages": "B376",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Track attempts per weapon/hand per actor turn: repeated penalty is -4, reduced to -2 for fencing or eligible mastery, and -1 for both. Reset at the actor turn boundary, not on a new attacker.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-parry-thrown",
+      "source": "full-2008",
+      "pages": "B376",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Thrown-weapon parry penalty is -1 normally or -2 for objects of at most one pound.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-parry-counterdamage",
+      "source": "full-2008",
+      "pages": "B376",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After armed parry of an unarmed attack, optional immediate weapon skill check can injure the attacking limb with no defense. Check takes -4 for specified trained striking/grappling attack skills. Damage uses the parrying weapon.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-improvised-parry",
+      "source": "full-2008",
+      "pages": "B376",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Author assigns a suitable skill to improvised defensive objects. A bow loses bow function after one parry even if usable briefly as a club. Most improvised objects use cheap breakage quality.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-unarmed-parry",
+      "source": "full-2008",
+      "pages": "B376-B377",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Handless creatures cannot use ordinary unarmed parry. Eligible boxing/brawling/throwing/striking skills or higher dexterity use one hand; wrestling/sumo require two. Weapon parry penalty is -3 except thrusts or designated trained skills. Respect individual skill restrictions.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-failed-hand-parry",
+      "source": "full-2008",
+      "pages": "B377",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With hit locations enabled, failed unarmed parry against a weapon lets attacker choose original location or parrying arm. Apply location injury once, including actual crippling threshold.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-heavy-weight",
+      "source": "full-2008",
+      "pages": "B376",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Natural strikes count as weight strength/10; body collisions count as full strength. Weapon parrying at least triple its weight risks breakage: 2-in-6 at triple, +1 per further whole multiple, quality +2 cheap/-1 fine/-2 very fine.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-heavy-break",
+      "source": "full-2008",
+      "pages": "B376",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A broken parrying weapon still defends unless breakage odds exceeded six-in-six. Preserve pre-roll odds and distinguish automatic breakage from invalidated defense.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-heavy-limit",
+      "source": "full-2008",
+      "pages": "B376",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A one-handed/unarmed parry cannot stop weight exceeding basic lift; two-handed limit is twice basic lift. Attack proceeds; surviving weapon drops, or unarmed defender moves back one yard and checks dexterity against falling. Resolve breakage and relocation atomically.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-retreat",
+      "source": "full-2008",
+      "pages": "B377",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Retreat is a legal away-step added to melee defense: dodge +3, block/parry +1, selected mobile unarmed/fencing parries +3. It does not cancel reach for the triggering attacker\u2019s remaining attacks; bonus persists against that attacker until next turn.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-retreat-follow",
+      "source": "full-2008",
+      "pages": "B377",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An attacker with unused permitted step may follow retreat. Preserve step expenditure and the order of reactions.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-retreat-limit",
+      "source": "full-2008",
+      "pages": "B377",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One retreat per actor turn; reject while sitting, kneeling, stunned, or after movement faster than basic move on previous turn. Lying actors can roll away. Require a valid destination.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-drop",
+      "source": "full-2008",
+      "pages": "B377",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ranged dodge-and-drop gives +3 and leaves actor prone; bonus applies against that foe for the turn. Newly reached cover protects subsequent attacks but not the triggering attack.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-protective-drop",
+      "source": "full-2008",
+      "pages": "B377",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Protective dodge-and-drop within a step puts both actors prone on success; protector takes hit unless success margin is at least three, when neither is hit. Intercepting an explosive creates a contact explosion under B415.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-dive-cover",
+      "source": "full-2008",
+      "pages": "B377",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Against area/cone/explosion, a legal step can reach cover or increase blast distance. Success moves before effect; failure applies effect before movement. Flying/swimming dodge-and-drop requires concealment below and does not create prone posture; blast-distance diving remains possible.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-burst-band-2",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 2 through 4 shots gives attack bonus +0. Validate both boundaries and use committed shot count.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-burst-band-5",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 5 through 8 shots gives attack bonus +1. Validate both boundaries and use committed shot count.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-burst-band-9",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 9 through 12 shots gives attack bonus +2. Validate both boundaries and use committed shot count.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-burst-band-13",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 13 through 16 shots gives attack bonus +3. Validate both boundaries and use committed shot count.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-burst-band-17",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 17 through 24 shots gives attack bonus +4. Validate both boundaries and use committed shot count.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-burst-band-25",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 25 through 49 shots gives attack bonus +5. Validate both boundaries and use committed shot count.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-burst-band-50",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 50 through 99 shots gives attack bonus +6. Validate both boundaries and use committed shot count.",
+      "tests": []
+    },
+    {
+      "id": "attack-defense-burst-extension",
+      "source": "full-2008",
+      "pages": "B373",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Beyond the 50\u201399 band, each doubling increases the rapid-fire attack bonus by one. Verify integer band boundaries independently.",
+      "tests": []
+    }
+  ]
+}

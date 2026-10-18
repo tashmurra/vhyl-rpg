@@ -310,6 +310,7 @@
     "inventory/object-durability.json",
     "inventory/reactions.json",
     "inventory/combat-turns.json",
-    "inventory/appendix.json"
+    "inventory/appendix.json",
+    "inventory/attacks-defenses.json"
   ]
 }

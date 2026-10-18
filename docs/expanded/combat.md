@@ -92,3 +92,32 @@ their own margin calculation, while evaluation survives active defense.
 Full-turn maneuvers consume the whole second even for actors with additional
 maneuver capabilities. Shared time accounting must distinguish that constraint
 from extra attacks, free item release and ongoing ability maintenance.
+
+## Attack and defense state
+
+The [attack and defense inventory](inventory/attacks-defenses.json) covers
+B369–B377. A burst has one declared ammunition expenditure and attack roll, but
+can produce several hits. A successful dodge removes only the permitted number;
+a critical dodge removes all. Remaining hits must pass individually through the
+shared damage path. Sequential melee attacks likewise see equipment, posture and
+injury changes caused by earlier attacks.
+
+Defense legality precedes the roll. Ordinary blocking has a per-turn attempt
+limit, while repeated parries count separately for each hand or weapon. Retreat
+belongs to one opponent and persists against that opponent's remaining attacks;
+it does not retroactively put those attacks out of reach. Protective dodges can
+transfer a hit to another actor and consume later retreat eligibility even when
+the interception fails.
+
+Grapples need owned relationships between actors and body parts, with occupied
+hands, posture, pin state and escape deadlines. A single `grappled` flag cannot
+represent holding an item, restraining one limb, pinning a torso and strangling.
+The supplied text differs at the exact twice-strength movement boundary between
+B370 and B371. That case remains unresolved until a precedence policy is
+documented and independently tested.
+
+Collision attacks use each participant's health capacity and relative movement
+to determine damage. Mounts and vehicles substitute their own capacity and the
+appropriate control skill. Shield collisions redirect incoming damage to the
+shield without removing the actor's fall risk. These integrations remain pending;
+the inventory does not establish an executable combat module.
