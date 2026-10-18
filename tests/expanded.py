@@ -458,6 +458,14 @@ def test_bandage_persistence(Session, bundle, out):
             second.close()
 
 
+def test_first_aid_treatment(s):
+    for seed, expected in [(1, ['resolved', 6, 0, 3, 600, 4, 'reused', 0, 1]),
+                           (5, ['resolved', 0, 5, 14, 600, 3, 'reused', 0, 1])]:
+        s.action(1627, seed)
+        assert last(s, 'test.first-aid-preview') == ['ready', 9, 0, 0]
+        assert last(s, 'test.first-aid-treatment') == expected
+
+
 def test_bandage_rejections(s):
     for code, reason in [(1, 'bandage-evidence'), (2, 'bandage-eligible-injury'),
                          (3, 'bandage-eligible-injury'), (4, 'bandage-injury-eligibility-unavailable'),
@@ -2891,6 +2899,7 @@ def test(build):
     fresh(Session,health,test_expanded_first_aid_values)
     fresh(Session,health,test_expanded_bandage)
     fresh(Session,health,test_bandage_rejections)
+    fresh(Session,health,test_first_aid_treatment)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_bandage_transactions)
     test_bandage_persistence(Session,wounds,build.out)

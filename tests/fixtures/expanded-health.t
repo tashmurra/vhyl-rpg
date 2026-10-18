@@ -338,5 +338,24 @@ act(verb,args)
         eventValue(p.injury - injury); eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws);
         eventValue(wound.bandage == nil ? 0 : 1); return nil;
     }
+    if (verb == 1627)
+    {
+        local p = new RpgExpandedProfile(); p.st = 30; p.rules = new RpgExpandedRules(); p.rules.scaledInjuryShock = true;
+        local wound = new RpgExpandedWound(); wound.id = 'first-aid-target'; wound.profile = p; wound.amount = 12; wound.apply();
+        local healer = new RpgLiteProfile(); healer.iq = 12; healer.techLevel = 8;
+        local skill = rpgLiteMakeSkill('first-aid',8,nil); local training = new RpgTraining(); training.skill = skill;
+        training.points = 1; healer.skills = [training];
+        local bandage = new RpgExpandedBandage(); bandage.wound = wound; bandage.healer = healer;
+        bandage.evidence = 'Pressure treats this injury'; bandage.eligibleInjury = 12; bandage.apply();
+        local request = new RpgExpandedFirstAid(); request.bandage = bandage; request.healer = healer; request.skill = skill;
+        request.comfortable = true; request.careEvidence = 'Warm, calm, still and comfortable throughout treatment';
+        rpgRandom.seed(args[1]); local time = rpgLedger.seconds; local preview = request.assess();
+        event('test.first-aid-preview'); eventValue(preview.status); eventValue(p.injury);
+        eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws);
+        local value = request.apply(); local repeat = request.apply();
+        event('test.first-aid-treatment'); eventValue(value.status); eventValue(value.healed); eventValue(value.injury);
+        eventValue(p.injury); eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws);
+        eventValue(repeat.status); eventValue(repeat.seconds); eventValue(p.aidUsed ? 1 : 0); return nil;
+    }
     return vhylAct(verb,args);
 }

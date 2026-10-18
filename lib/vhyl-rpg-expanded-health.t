@@ -242,6 +242,10 @@ modify RpgExpandedProfile
                     || bandage.eligibleInjury != bandage.boundEligibleInjury
                     || bandage.result.status != 'resolved' || bandage.result.seconds != 60)
                     rpgExpandedReject('bandage-history');
+                if (bandage.treatment != nil && (!bandage.treatment.ofKind(RpgExpandedFirstAid)
+                    || bandage.treatment.bandage != bandage || bandage.treatment.result == nil
+                    || bandage.treatment.assess().status != 'reused'))
+                    rpgExpandedReject('first-aid-history');
             }
             if (wound.durationRecord != nil && (!wound.durationRecord.ofKind(RpgExpandedCripplingDuration)
                 || wound.durationRecord.wound != wound || wound.durationRecord.boundWound != wound
@@ -1318,5 +1322,113 @@ class RpgExpandedBandage: object
         self.boundEvidence = self.evidence; self.boundEligibleInjury = self.eligibleInjury;
         self.wound.bandage = self; value.status = 'resolved'; self.result = value;
         return value;
+    }
+;
+
+/** Post-bandaging treatment for an uninterrupted authored care interval, B424. */
+class RpgExpandedFirstAidResult: RpgExpandedResult
+    healed = 0
+    injury = 0
+    healingRoll = nil
+    context = nil
+    failureWound = nil
+;
+
+modify RpgExpandedBandage
+    treatment = nil
+;
+
+class RpgExpandedFirstAid: object
+    bandage = nil
+    healer = nil
+    skill = nil
+    modifier = 0
+    careEvidence = nil
+    comfortable = nil
+    dropDestination = nil
+    boundBandage = nil
+    boundHealer = nil
+    boundSkill = nil
+    boundModifier = 0
+    boundEvidence = nil
+    boundDestination = nil
+    result = nil
+    assess()
+    {
+        local value = new RpgExpandedFirstAidResult();
+        if (self.bandage == nil || !self.bandage.ofKind(RpgExpandedBandage))
+            rpgExpandedReject('first-aid-bandage');
+        if (self.result != nil)
+        {
+            if (self.bandage != self.boundBandage || self.healer != self.boundHealer
+                || self.skill != self.boundSkill || self.modifier != self.boundModifier
+                || self.careEvidence != self.boundEvidence || self.dropDestination != self.boundDestination
+                || !self.comfortable || self.bandage.treatment != self)
+                rpgExpandedReject('first-aid-binding');
+            value.status = 'reused'; value.check = self.result.check; value.healed = self.result.healed;
+            value.injury = self.result.injury; value.healingRoll = self.result.healingRoll;
+            value.failureWound = self.result.failureWound; return value;
+        }
+        if (self.bandage.result == nil || self.bandage.assess().status != 'reused')
+            rpgExpandedReject('first-aid-bandage-incomplete');
+        local wound = self.bandage.wound; local patient = wound.profile;
+        if (self.bandage.treatment != nil || patient.aidUsed)
+        { value.reason = 'first-aid-already-treated'; return value; }
+        if (wound.committedSerial != patient.woundSerial)
+        { value.reason = 'first-aid-earlier-wound-unavailable'; return value; }
+        if (self.healer == nil || !self.healer.ofKind(RpgLiteProfile)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)
+            || self.skill.id != 'first-aid' || self.skill.techLevel == nil)
+            rpgExpandedReject('first-aid-definition');
+        if (patient.dead || patient.mortal || self.healer.dead || self.healer.unconscious || self.healer.stunned)
+        { value.reason = 'first-aid-condition'; return value; }
+        if (patient.diseaseInjury > 0 || patient.temperatureInjury > 0 || patient.level('unhealing') > 0)
+        { value.reason = 'first-aid-injury-eligibility-unavailable'; return value; }
+        if (!self.comfortable || self.careEvidence == nil || self.careEvidence == '')
+        { value.reason = 'first-aid-care-evidence'; return value; }
+        if (patient.injury <= 0)
+        { value.reason = 'first-aid-no-injury'; return value; }
+        rpgInteger(self.modifier,-100,100);
+        value.seconds = rpgExpandedFirstAidTable(self.skill.techLevel).tableSeconds;
+        value.context = new RpgLiteContext(); value.context.skill = self.skill;
+        value.context.kind = 'first-aid'; value.context.modifier = self.modifier;
+        local score = rpgLiteScore(self.healer,value.context);
+        if (score == nil || score < 3)
+        { value.reason = 'first-aid-score-unavailable'; return value; }
+        if (patient.unconscious && patient.fp() > 0 && patient.ht < 3)
+        { value.reason = 'first-aid-wake-score-unavailable'; return value; }
+        value.failureWound = new RpgExpandedWound(); value.failureWound.id = 'first-aid-injury-' + wound.id;
+        value.failureWound.profile = patient; value.failureWound.amount = 2 + self.bandage.result.healed;
+        value.failureWound.dropDestination = self.dropDestination;
+        local failure = value.failureWound.assess();
+        if (failure.status != 'ready') { value.reason = failure.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local patient = self.bandage.wound.profile;
+        rpgSpendTime(value.seconds);
+        value.check = rpgLiteCheck(self.healer,value.context);
+        if (value.check.achieved && value.check.critical != 'success') value.healingRoll = rpgRandom.die();
+        local outcome = rpgExpandedFirstAidOutcome(patient.maxHP,self.skill.techLevel,
+            value.check.score,value.check.roll,value.healingRoll,self.bandage.result.healed);
+        if (outcome.injury > 0)
+        {
+            local harm = value.failureWound.apply();
+            if (harm.status != 'resolved') rpgExpandedReject('first-aid-injury-commit-changed');
+            value.injury = harm.health.injury;
+        }
+        else
+        {
+            value.failureWound = nil;
+            local eligible = self.bandage.eligibleInjury - self.bandage.result.healed;
+            if (outcome.additionalHealing < eligible) eligible = outcome.additionalHealing;
+            if (eligible > 0) value.healed = rpgLiteHeal(patient,eligible);
+        }
+        patient.aidUsed = true; self.bandage.treatment = self;
+        self.boundBandage = self.bandage; self.boundHealer = self.healer; self.boundSkill = self.skill;
+        self.boundModifier = self.modifier; self.boundEvidence = self.careEvidence; self.boundDestination = self.dropDestination;
+        value.status = 'resolved'; self.result = value; return value;
     }
 ;

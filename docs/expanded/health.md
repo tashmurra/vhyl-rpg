@@ -811,3 +811,36 @@ undo, replay, duplicate requests and changed evidence after completion.
 `test_bandage_persistence` saves before and after treatment, restores in a separate
 process and continues or reuses the same owned request. These are authored
 expectations; all new fixtures remain unrun while checks are paused.
+
+
+## Post-bandaging treatment
+
+`RpgExpandedFirstAid` applies the B424 treatment stage after an owned bandage.
+Supply `bandage`, `healer`, a technology-specific `first-aid` `skill`, and the
+combined applicable `modifier`. Set `comfortable = true` and `careEvidence` to
+establish that the patient stays warm, comfortable, calm and still for this
+uninterrupted interval. The current API executes the whole interval atomically;
+it does not schedule intervening world events or handle interruptions.
+
+Assessment checks the completed bandage, current wound serial, patient and healer
+conditions, usable skill score, care evidence and the possible critical-failure
+wound before spending time or randomness. Set `dropDestination` when that failure
+could require an equipment drop. A blocked failure path blocks the request before
+its skill roll, even if the actual roll might succeed.
+
+Execution charges only the additional table interval: the bandage already charged
+its own minute. Ordinary success draws one healing die; critical success uses the
+maximum without that die. Additional recovery is capped by the original authored
+eligible injury minus actual bandage healing, and by current injury through the
+shared healing function. Critical failure uses an owned wound for two points plus
+actual prior bandage recovery. It can trigger the usual injury consequences.
+The patient's shared `aidUsed` marker and the bandage's `treatment` receipt prevent
+another treatment from spending resources again. Reusing the completed request
+returns its historical outcome with zero new seconds.
+
+This stage remains partial: earlier-wound allocation, interrupted care, bleeding,
+complete equipment/physiology/diagnosis contexts and treatment transaction/save
+fixtures remain incomplete. Authors supply the applicable contextual modifier;
+that input alone does not constitute implementation of every context rule.
+`test_first_aid_treatment` provides successful and critical-failure expectations,
+preview purity and repeated-request checks. It is authored but unrun.

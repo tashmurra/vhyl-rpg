@@ -126,7 +126,8 @@
         "tests/expanded.py::test_expanded_bandage",
         "tests/expanded.py::test_bandage_rejections",
         "tests/expanded.py::test_bandage_transactions",
-        "tests/expanded.py::test_bandage_persistence"
+        "tests/expanded.py::test_bandage_persistence",
+        "tests/expanded.py::test_first_aid_treatment"
       ],
       "validation_note": "Partial recovery includes owned scheduled physician checks with shared-time eligibility and pure first-aid table/outcome calculations. Fixtures unrun. Owned expanded first aid, continuous-care scheduling, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },
