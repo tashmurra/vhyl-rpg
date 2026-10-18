@@ -341,7 +341,23 @@ reused boundary identities are rejected. The event observes an already reached
 calendar boundary and does not spend calendar time again.
 
 Automatic calendar scheduling, trait substitutions, rejuvenation, capacity-limited
-trait interactions and aging-specific transaction/save fixtures remain incomplete.
+trait interactions and verified aging transaction/save behavior remain incomplete.
 `test_aging_events` covers a normal event, a terminal low attribute, unchanged
 advancement balances, pure preview, repeated execution and rejected calendar facts.
 All fixtures remain unrun while checks are paused.
+
+
+The dedicated
+[`expanded-aging-transactions.t`](../../tests/fixtures/expanded-aging-transactions.t)
+includes character accounting to check the effect on total point value.
+`test_aging_transactions` exercises preview, exception rollback, undo, deterministic
+replay, duplicate calendar boundaries, changed bound facts and history validation.
+`test_aging_death_transactions` checks that rollback and undo also restore a living
+profile after a terminal result. The tests assert that earned and unspent points
+are unchanged throughout.
+
+`test_aging_persistence` restores saves made before and after both ordinary aging
+and natural death in a separate process. It continues or reuses the same event and
+checks attributes, character cost, death state, history, randomness and shared
+time. These fixtures use the exact compiled game and remain unrun while checks
+are paused; they are not a verified compatibility claim.

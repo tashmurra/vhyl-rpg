@@ -1263,9 +1263,12 @@
       "status": "partial",
       "acceptance": "The ordinary annual sequence starts at fifty and uses the birthday, or first day of the game year when no exact birthday is recorded.",
       "tests": [
-        "tests/expanded.py::test_aging_events"
+        "tests/expanded.py::test_aging_events",
+        "tests/expanded.py::test_aging_transactions",
+        "tests/expanded.py::test_aging_death_transactions",
+        "tests/expanded.py::test_aging_persistence"
       ],
-      "validation_note": "Owned authored calendar-boundary events commit ordered rolls, base losses and natural death while retaining advancement balances. Fixtures unrun. Automatic calendar timing, substitutions, rejuvenation, trait interactions and aging transaction/save coverage remain incomplete."
+      "validation_note": "Owned aging events record ordered losses, point-value changes and natural death without spending advancement points. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Automatic calendar timing, substitutions, rejuvenation and trait interactions remain incomplete."
     },
     {
       "id": "aging-frequency-seventy",
@@ -1329,9 +1332,12 @@
       "acceptance": "Each aging event makes four health rolls in order for strength, dexterity, intelligence and health; luck cannot alter these rolls.",
       "tests": [
         "tests/expanded.py::test_aging_sequence",
-        "tests/expanded.py::test_aging_events"
+        "tests/expanded.py::test_aging_events",
+        "tests/expanded.py::test_aging_transactions",
+        "tests/expanded.py::test_aging_death_transactions",
+        "tests/expanded.py::test_aging_persistence"
       ],
-      "validation_note": "Owned authored calendar-boundary events commit ordered rolls, base losses and natural death while retaining advancement balances. Fixtures unrun. Automatic calendar timing, substitutions, rejuvenation, trait interactions and aging transaction/save coverage remain incomplete."
+      "validation_note": "Owned aging events record ordered losses, point-value changes and natural death without spending advancement points. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Automatic calendar timing, substitutions, rejuvenation and trait interactions remain incomplete."
     },
     {
       "id": "aging-technology-modifier",
@@ -1395,9 +1401,12 @@
       "acceptance": "Aging loss reduces character value and all dependent secondary characteristics and skills; it grants no spendable point refund.",
       "tests": [
         "tests/expanded.py::test_aging_sequence",
-        "tests/expanded.py::test_aging_events"
+        "tests/expanded.py::test_aging_events",
+        "tests/expanded.py::test_aging_transactions",
+        "tests/expanded.py::test_aging_death_transactions",
+        "tests/expanded.py::test_aging_persistence"
       ],
-      "validation_note": "Owned authored calendar-boundary events commit ordered rolls, base losses and natural death while retaining advancement balances. Fixtures unrun. Automatic calendar timing, substitutions, rejuvenation, trait interactions and aging transaction/save coverage remain incomplete."
+      "validation_note": "Owned aging events record ordered losses, point-value changes and natural death without spending advancement points. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Automatic calendar timing, substitutions, rejuvenation and trait interactions remain incomplete."
     },
     {
       "id": "aging-death",
@@ -1409,9 +1418,12 @@
       "acceptance": "An attribute reduced to zero by aging causes natural death.",
       "tests": [
         "tests/expanded.py::test_aging_sequence",
-        "tests/expanded.py::test_aging_events"
+        "tests/expanded.py::test_aging_events",
+        "tests/expanded.py::test_aging_transactions",
+        "tests/expanded.py::test_aging_death_transactions",
+        "tests/expanded.py::test_aging_persistence"
       ],
-      "validation_note": "Owned authored calendar-boundary events commit ordered rolls, base losses and natural death while retaining advancement balances. Fixtures unrun. Automatic calendar timing, substitutions, rejuvenation, trait interactions and aging transaction/save coverage remain incomplete."
+      "validation_note": "Owned aging events record ordered losses, point-value changes and natural death without spending advancement points. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Automatic calendar timing, substitutions, rejuvenation and trait interactions remain incomplete."
     },
     {
       "id": "aging-alternative-loss",

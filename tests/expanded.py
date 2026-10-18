@@ -549,6 +549,70 @@ def test_infection_progression(s):
     assert last(s, 'test.infection-recovered') == [1,5,2,0,2,0,3]
 
 
+def aging_state(s):
+    s.action(1821)
+    return last(s, 'test.aging-state')
+
+
+def test_aging_transactions(s):
+    before = aging_state(s)
+    assert before == [10,10,10,10,0,0,0,7,7,0,0,50]
+    s.action(1820, 5)
+    assert last(s, 'test.aging-operation') == ['ready',None]
+    assert aging_state(s) == before
+    s.action(1820, 2)
+    assert aging_state(s) == before
+    s.action(1820, 1)
+    aged = aging_state(s)
+    assert aged == [10,9,10,10,0,1,-20,7,7,12,0,50]
+    s.command('undo')
+    assert aging_state(s) == before
+    s.action(1820, 1)
+    for code in [1,3,4,6]:
+        s.action(1820, code)
+        assert aging_state(s) == aged
+
+
+def test_aging_death_transactions(s):
+    s.action(1820, 0)
+    before = aging_state(s)
+    assert before == [1,10,10,3,0,0,-160,7,7,0,0,50]
+    s.action(1820, 2)
+    assert aging_state(s) == before
+    s.action(1820, 1)
+    assert aging_state(s) == [0,9,9,2,1,1,-220,7,7,12,0,50]
+    s.command('undo')
+    assert aging_state(s) == before
+
+
+def test_aging_persistence(Session, bundle, out):
+    for terminal in [False,True]:
+        for completed in [False,True]:
+            path = out / f'expanded-aging-{terminal}-{completed}.zsave'
+            first = Session(bundle)
+            try:
+                if terminal:
+                    first.action(1820, 0)
+                if completed:
+                    first.action(1820, 1)
+                saved = aging_state(first)
+                first.command(f':save {path}')
+            finally:
+                first.close()
+            second = Session(bundle)
+            try:
+                second.command(f':restore {path}\n@1821')
+                assert aging_state(second) == saved
+                second.action(1820, 1)
+                expected = ([0,9,9,2,1,1,-220,7,7,12,0,50] if terminal
+                            else [10,9,10,10,0,1,-20,7,7,12,0,50])
+                assert aging_state(second) == expected
+                second.action(1820, 1); second.action(1820, 6)
+                assert aging_state(second) == expected
+            finally:
+                second.close()
+
+
 def test_aging_events(s):
     for code, preview, expected in [
             (0,['ready',None,0],['resolved','reused',10,9,10,10,0,1,7,7,12,0,20]),
@@ -3204,6 +3268,10 @@ def test(build):
     fresh(Session,hazards,test_aging_assessments)
     fresh(Session,hazards,test_aging_sequence)
     fresh(Session,hazards,test_aging_events)
+    aging_transactions = build.build('expanded-aging-transactions',ROOT / 'tests/fixtures/expanded-aging-transactions.t')
+    fresh(Session,aging_transactions,test_aging_transactions)
+    fresh(Session,aging_transactions,test_aging_death_transactions)
+    test_aging_persistence(Session,aging_transactions,build.out)
     fresh(Session,hazards,test_infection_progression)
     hazard_transactions = build.build('expanded-hazards-transactions',ROOT / 'tests/fixtures/expanded-hazards-transactions.t')
     fresh(Session,hazard_transactions,test_immunity_transactions)
