@@ -259,3 +259,9 @@ Periodic substance requirements can now restore access by consuming one uniquely
 owned inventory dose. Receipts prevent duplicate consumption and release the
 injury boundary. Assisted ingestion, regurgitation and automatic scheduling remain
 pending; rollback, undo and save-continuation fixtures are authored but unrun.
+
+
+Sustenance deadlines now bind fixed periods or explicit campaign-calendar dates
+after restoration. Missed deadlines start one new deprivation episode under a
+clock guard. Timely fulfillment and automatic recurrence remain pending; fixed
+and calendar-boundary persistence fixtures are authored but unrun.

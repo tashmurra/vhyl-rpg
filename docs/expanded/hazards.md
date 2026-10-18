@@ -2260,3 +2260,34 @@ establish ingestion; the author must provide that fact from the actual action.
 [`expanded-sustenance-dose.t`](../../tests/fixtures/expanded-sustenance-dose.t)
 and `test_sustenance_dose` specify both boundary choices, absent stock, one-time
 consumption, clock release, rollback, undo and save continuation. Fixtures are unrun.
+
+
+### Owning a later missed deadline
+
+`RpgExpandedSustenanceDeadline` registers the next period after an episode's
+recorded restoration. Supply unique `id`, the restored `source` episode, approval
+and evidence. Register at the same shared time as restoration, before advancing
+time. Hourly, daily and weekly requirements calculate their fixed due time.
+For monthly, seasonal or yearly requirements, supply `calendarId`, `boundaryId`
+and `calendarDueAt`, with evidence identifying the actual one-, three- or
+twelve-month campaign boundary. These dates are authored calendar facts, not a
+fixed-seconds conversion. Duplicate source registrations and calendar boundary
+identities for the same requirement reject.
+
+Pure `assess()` reports the interval; `register()` binds the deadline once.
+The clock cannot cross it unsettled. At exactly `dueAt`, supply a fresh matching
+`RpgExpandedSustenanceDeprivation` with evidence of missed access to
+`assessMissed(episode)` and `miss(episode)`. The latter starts that episode once;
+its first injury is one injury interval later, not at the missed deadline.
+Replay retains both receipts without another episode or time charge.
+
+This covers the missed-deadline path. Settling the deadline with timely access,
+early doses, initial access before any deprivation and automatic recurrence are
+still pending. Do not register a cycle whose timely satisfaction needs those
+unsupported paths. Continuous requirements use a separate access model and reject
+this periodic API.
+
+[`expanded-sustenance-deadline.t`](../../tests/fixtures/expanded-sustenance-deadline.t)
+and `test_sustenance_deadline` specify a fixed day, an authored 28-day calendar
+month, boundary guards, replay, rollback, undo and save continuation. Fixtures
+remain unrun; the calendar example is not a universal month-length rule.

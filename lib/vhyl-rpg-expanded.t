@@ -660,3 +660,7 @@ modify RpgExpandedProfile
     sustenanceContactSeconds(trait) { rpgExpandedReject('sustenance-traits-module-required'); }
     validateSustenanceDose(trait) { rpgExpandedReject('sustenance-traits-module-required'); }
 ;
+
+modify RpgExpandedProfile
+    sustenancePeriod(trait) { rpgExpandedReject('sustenance-traits-module-required'); }
+;

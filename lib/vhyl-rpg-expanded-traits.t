@@ -2756,3 +2756,12 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+modify RpgExpandedProfile
+    sustenancePeriod(trait)
+    {
+        self.sustenanceInjuryInterval(trait); local row = rpgExpandedSustenanceSchedule(trait.frequency);
+        if (trait.frequency == 'continuous') rpgExpandedReject('sustenance-continuous-access-required');
+        return [row[4],row[5]];
+    }
+;

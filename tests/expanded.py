@@ -9222,6 +9222,8 @@ def test(build):
     test_sustenance_interruption(Session, sustenance_interruption, build.out)
     sustenance_dose = build.build('expanded-sustenance-dose',ROOT / 'tests/fixtures/expanded-sustenance-dose.t')
     test_sustenance_dose(Session, sustenance_dose, build.out)
+    sustenance_deadline = build.build('expanded-sustenance-deadline',ROOT / 'tests/fixtures/expanded-sustenance-deadline.t')
+    test_sustenance_deadline(Session, sustenance_deadline, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20756,3 +20758,42 @@ def test_sustenance_dose(Session, bundle, out):
         assert last(s, 'test.sustenance-dose-state') == [0, 1, 0, 0, 0, 0]
     finally:
         s.close()
+
+
+def test_sustenance_deadline(Session, bundle, out):
+    """Fixed period and explicit campaign month; missed-boundary ownership. Unrun."""
+    for setup, due in (((), 86400), ((12100,), 2419200)):
+        path = out / f'expanded-sustenance-deadline-{due}.zsave'
+        s = Session(bundle)
+        try:
+            for code in setup + (12000, 12002, 12101, 12103, 12108):
+                s.action(2285, code)
+            assert last(s, 'test.sustenance-deadline-preview') == ['ready', due, 0]
+            assert last(s, 'test.sustenance-deadline-state') == [0, 1, 0, 0, 0]
+            s.action(2285, 12102)
+            s.command('undo')
+            s.action(2285, 12108)
+            assert last(s, 'test.sustenance-deadline-state') == [0, 1, 0, 0, 0]
+            for code in (12102, 12102, 12104, 12105, 12107, 12108):
+                s.action(2285, code)
+            assert last(s, 'test.sustenance-deadline-boundary') == ['sustenance-deadline-boundary']
+            assert last(s, 'test.sustenance-deadline-state') == [1, 1, 0, due, 0]
+            s.action(2285, 12106)
+            s.command('undo')
+            s.action(2285, 12108)
+            assert last(s, 'test.sustenance-deadline-state') == [1, 1, 0, due, 0]
+            for code in (12106, 12106, 12105, 12108):
+                s.action(2285, code)
+            assert last(s, 'test.sustenance-deadline-boundary') == ['accepted']
+            assert last(s, 'test.sustenance-deadline-state') == [1, 2, 1, due, 0]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (12106, 12108):
+                s.action(2285, code)
+            assert last(s, 'test.sustenance-deadline-state') == [1, 2, 1, due, 0]
+        finally:
+            s.close()

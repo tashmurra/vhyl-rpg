@@ -5561,3 +5561,117 @@ class RpgExpandedSustenanceDose: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    sustenanceDeadlines = []
+;
+/** Own the next deadline after actual restored access; calendar dates are authored. */
+class RpgExpandedSustenanceDeadline: object
+    id = nil
+    source = nil
+    approved = nil
+    evidence = nil
+    calendarId = nil
+    boundaryId = nil
+    calendarDueAt = nil
+    registeredAt = nil
+    dueAt = nil
+    boundDefinition = nil
+    missedEpisode = nil
+    definition()
+    {
+        return [self.id,self.source,self.approved,self.evidence,self.calendarId,self.boundaryId,self.calendarDueAt,
+            self.registeredAt,self.dueAt];
+    }
+    validateReceipt()
+    {
+        if (self.registeredAt == nil || self.boundDefinition == nil || !holds(self.source.profile.sustenanceDeadlines,self))
+            rpgExpandedReject('sustenance-deadline-history');
+        self.source.validateReceipt(); local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('sustenance-deadline-binding');
+        if (self.missedEpisode != nil)
+        {
+            if (self.missedEpisode.startedAt != self.dueAt || self.missedEpisode.profile != self.source.profile
+                || self.missedEpisode.requirement != self.source.requirement)
+                rpgExpandedReject('sustenance-deadline-missed-binding');
+            self.missedEpisode.validateReceipt();
+        }
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.source == nil || !self.source.ofKind(RpgExpandedSustenanceDeprivation))
+            rpgExpandedReject('sustenance-deadline-definition');
+        self.source.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.registeredAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundDefinition != nil || self.dueAt != nil || self.missedEpisode != nil)
+            rpgExpandedReject('sustenance-deadline-uncommitted-state');
+        if (self.source.restoration == nil) { value.reason = 'sustenance-deadline-restoration-required'; return value; }
+        if (self.source.profile.dead) { value.reason = 'sustenance-dead'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'sustenance-deadline-author-facts'; return value; }
+        if (rpgLedger.seconds != self.source.restoration.completedAt)
+        { value.reason = 'sustenance-deadline-register-at-restoration'; return value; }
+        local period = self.source.profile.sustenancePeriod(self.source.requirement);
+        if (period[1] > 0)
+        {
+            if (self.calendarId != nil || self.boundaryId != nil || self.calendarDueAt != nil)
+                rpgExpandedReject('sustenance-fixed-period-calendar');
+            rpgInteger(rpgLedger.seconds,0,2147483647 - period[1]); value.seconds = period[1];
+        }
+        else
+        {
+            if (self.calendarId == nil || self.calendarId == '' || self.boundaryId == nil || self.boundaryId == '')
+                rpgExpandedReject('sustenance-calendar-identity');
+            rpgInteger(self.calendarDueAt,rpgLedger.seconds + 1,2147483647); value.seconds = self.calendarDueAt - rpgLedger.seconds;
+        }
+        foreach (local prior in self.source.profile.sustenanceDeadlines)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.source == self.source
+                || self.calendarId != nil && prior.calendarId == self.calendarId && prior.boundaryId == self.boundaryId
+                    && prior.source.requirement == self.source.requirement) rpgExpandedReject('sustenance-deadline-duplicate');
+        }
+        value.status = 'ready'; return value;
+    }
+    register()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.registeredAt = rpgLedger.seconds; self.dueAt = self.registeredAt + value.seconds; self.boundDefinition = self.definition();
+        self.source.profile.sustenanceDeadlines = self.source.profile.sustenanceDeadlines + [self]; value.status = 'resolved'; return value;
+    }
+    assessMissed(episode)
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.missedEpisode != nil)
+        {
+            if (episode != self.missedEpisode) rpgExpandedReject('sustenance-deadline-replacement');
+            value.status = 'reused'; return value;
+        }
+        if (episode == nil || !episode.ofKind(RpgExpandedSustenanceDeprivation) || episode.startedAt != nil
+            || episode.profile != self.source.profile || episode.requirement != self.source.requirement)
+            rpgExpandedReject('sustenance-deadline-episode');
+        if (rpgLedger.seconds != self.dueAt) { value.reason = 'sustenance-deadline-not-due'; return value; }
+        return episode.assess();
+    }
+    miss(episode)
+    {
+        local value = self.assessMissed(episode); if (value.status != 'ready') return value;
+        episode.begin(); self.missedEpisode = episode; value.status = 'resolved'; return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local deadline = firstObj(RpgExpandedSustenanceDeadline); deadline != nil; deadline = nextObj(deadline,RpgExpandedSustenanceDeadline))
+            if (deadline.registeredAt != nil)
+            {
+                deadline.validateReceipt();
+                if (!deadline.source.profile.dead && deadline.missedEpisode == nil && self.seconds + seconds > deadline.dueAt)
+                    rpgExpandedReject('sustenance-deadline-boundary');
+            }
+        return nil;
+    }
+;
