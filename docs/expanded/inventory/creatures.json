@@ -2288,6 +2288,20 @@
         "tests/expanded.py::test_animal_performance"
       ],
       "validation_note": "Owned distinct performance receipt and replay authored; fixtures unrun. Audience consequences and creature behavior remain authored and are not claimed as implemented."
+    },
+    {
+      "id": "creature-training-daily-check",
+      "source": "full-2008",
+      "pages": "B175; B458-B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Roll handling once per training day; success credits learning and failure does not. A badly failed check provokes an attack. Preserve explicit author classification where the supplied passage does not define a numerical threshold.",
+      "tests": [
+        "tests/expanded.py::test_animal_daily",
+        "tests/expanded.py::test_animal_daily_failure"
+      ],
+      "validation_note": "Owned checks credit one successful day and retain failed days for explicit classification. Ordinary failure resolution authored; fixtures unrun. Attack execution and learned milestones remain pending."
     }
   ],
   "exclusions": [

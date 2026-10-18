@@ -327,6 +327,8 @@ class RpgExpandedAnimalTrainingSession: object
         if (!self.approved || !self.uninterrupted || self.evidence == nil || self.evidence == '')
         { value.reason = 'animal-session-author-facts'; return value; }
         local animal = self.course.plan.animal;
+        if (self.course.requiredDays != nil && self.course.successfulDays >= self.course.requiredDays)
+        { value.reason = 'animal-training-milestone-required'; return value; }
         if (self.course.pendingDay != nil || animal.pendingAnimalTrainingCourse != nil)
         { value.reason = 'animal-training-daily-check-required'; return value; }
         foreach (local participant in [animal,self.course.plan.trainer])
@@ -382,6 +384,129 @@ class RpgExpandedAnimalTrainingSession: object
         self.course.plan.animal.animalTrainingSessions = self.course.plan.animal.animalTrainingSessions + [self];
         if (value.dailyCheckRequired)
         { self.course.pendingDay = value.day; self.course.plan.animal.pendingAnimalTrainingCourse = self.course; }
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedAnimalCourse
+    checks = []
+    pendingFailure = nil
+;
+class RpgExpandedAnimalTrainingCheckResult: RpgExpandedResult
+    day = nil
+    score = nil
+    creditedDays = 0
+    failureAdjudicationRequired = nil
+;
+
+/** B175 daily check: credit learning only after both sessions. */
+class RpgExpandedAnimalTrainingCheck: object
+    course = nil
+    speciesModifier = 0
+    approved = nil
+    evidence = nil
+    result = nil
+    definitionSnapshot = nil
+    failureResolution = nil
+    definition() { return [self.course,self.speciesModifier,self.evidence]; }
+    context()
+    {
+        local value = new RpgLiteContext(); value.skill = self.course.plan.skill;
+        value.modifier = (self.course.plan.wild ? -5 : 0) + self.speciesModifier; return value;
+    }
+    assess()
+    {
+        if (self.course == nil || !self.course.ofKind(RpgExpandedAnimalCourse)) rpgExpandedReject('animal-training-check-course');
+        local quote = self.course.assess(); local value = new RpgExpandedAnimalTrainingCheckResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.definitionSnapshot == nil || current.length() != self.definitionSnapshot.length())
+                rpgExpandedReject('animal-training-check-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('animal-training-check-binding');
+            if (!holds(self.course.checks,self)) rpgExpandedReject('animal-training-check-history');
+            value.status = 'reused'; value.check = self.result.check; value.score = self.result.score; value.day = self.result.day;
+            value.creditedDays = self.result.creditedDays; value.failureAdjudicationRequired = self.result.failureAdjudicationRequired; return value;
+        }
+        if (quote.status != 'ready') { value.reason = quote.reason; return value; }
+        rpgInteger(self.speciesModifier,-1000,0);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'animal-training-check-author-facts'; return value; }
+        if (self.course.pendingDay == nil || self.course.plan.animal.pendingAnimalTrainingCourse != self.course)
+        { value.reason = 'animal-training-check-attendance-required'; return value; }
+        if (self.course.pendingFailure != nil) { value.reason = 'animal-training-failure-unresolved'; return value; }
+        value.day = self.course.pendingDay;
+        foreach (local prior in self.course.checks)
+            if (prior.result.day == value.day) { value.reason = 'animal-training-day-already-checked'; return value; }
+        local attendance = 0;
+        foreach (local session in self.course.sessions)
+            if (session.result != nil && session.result.day == value.day) { session.assess(); attendance += 1; }
+        if (attendance != 2) rpgExpandedReject('animal-training-check-attendance');
+        foreach (local participant in [self.course.plan.animal,self.course.plan.trainer])
+            if (participant.dead || participant.unconscious || participant.stunned || participant.hp() <= 0 || participant.fp() <= 0)
+            { value.reason = 'animal-training-participant-unavailable'; return value; }
+        local context = self.context(); value.score = rpgLiteScore(self.course.plan.trainer,context);
+        if (value.score == nil) { value.reason = context.unavailableReason(self.course.plan.trainer); return value; }
+        if (value.score < 3) { value.reason = 'too-difficult'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.course.plan.trainer,self.context());
+        if (value.check.status != 'resolved') rpgExpandedReject('animal-training-check-changed');
+        if (value.check.achieved)
+        {
+            self.course.successfulDays += 1; value.creditedDays = 1;
+            self.course.pendingDay = nil; self.course.plan.animal.pendingAnimalTrainingCourse = nil;
+        }
+        else
+        { self.course.pendingFailure = self; value.failureAdjudicationRequired = true; }
+        self.course.checks = self.course.checks + [self]; self.definitionSnapshot = self.definition();
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+/** Source leaves "badly failed" to adjudication; no numerical threshold is invented. */
+class RpgExpandedAnimalTrainingFailure: object
+    attempt = nil
+    classification = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundAttempt = nil
+    boundClassification = nil
+    boundEvidence = nil
+    assess()
+    {
+        if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedAnimalTrainingCheck) || self.attempt.result == nil
+            || self.attempt.result.check.achieved) rpgExpandedReject('animal-training-failure-attempt');
+        self.attempt.assess(); local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.attempt != self.boundAttempt || self.classification != self.boundClassification
+                || self.evidence != self.boundEvidence || self.attempt.failureResolution != self)
+                rpgExpandedReject('animal-training-failure-binding');
+            value.status = 'reused'; return value;
+        }
+        if (!holds(['ordinary','attack'],self.classification)) rpgExpandedReject('animal-training-failure-classification');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'animal-training-failure-author-facts'; return value; }
+        if (self.attempt.course.pendingFailure != self.attempt || self.attempt.failureResolution != nil
+            || self.attempt.course.pendingDay != self.attempt.result.day
+            || self.attempt.course.plan.animal.pendingAnimalTrainingCourse != self.attempt.course)
+        { value.reason = 'animal-training-failure-not-pending'; return value; }
+        if (self.classification == 'attack') { value.reason = 'animal-training-attack-execution-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local course = self.attempt.course;
+        course.pendingFailure = nil; course.pendingDay = nil; course.plan.animal.pendingAnimalTrainingCourse = nil;
+        self.attempt.failureResolution = self; self.boundAttempt = self.attempt;
+        self.boundClassification = self.classification; self.boundEvidence = self.evidence;
         value.status = 'resolved'; self.result = value; return value;
     }
 ;

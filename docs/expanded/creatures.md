@@ -82,8 +82,8 @@ animal's authored mental package; the plan reports its -5 training modifier.
 
 `assess()` returns structured eligibility, days and the source schedule: four
 hours daily in two two-hour sessions. It neither rolls nor spends time, awards
-behavior or changes character points. Daily handling rolls, failed-day progress,
-attack consequences and shared trainer/animal scheduling remain pending. A plan
+behavior or changes character points. Owned attendance and daily checks are described below. Attack execution and
+learned milestones remain pending. A plan
 must not be treated as a completed course.
 
 ## Handling modifiers
@@ -174,7 +174,7 @@ animal intelligence at the first committed session. Retargeting that plan reject
 A session charges 7,200 seconds through the shared time ledger, rechecks the plan
 and both participants, and records attendance on the course and animal. It grants
 no learned behavior or successful training day. `successfulDays` remains zero
-until the still-pending daily check procedure awards progress. Sessions do not
+until a successful daily check awards progress. Sessions do not
 roll and therefore preserve random state.
 
 A session may end exactly at midnight but cannot straddle a day boundary. The
@@ -187,7 +187,7 @@ time is silently credited to a trainer.
 After the second session, `dailyCheckRequired` is true, `course.pendingDay` records
 that day, and `animal.pendingAnimalTrainingCourse` identifies the course. Further
 sessions reject until the daily check is resolved. Do not clear these fields to
-simulate success: daily rolls, failed-day credit, bad-failure attacks and learned
+simulate success: use the owned daily check below. Bad-failure attacks and learned
 milestones remain unimplemented. Attendance alone is not a training course.
 
 `test_animal_sessions` and `test_animal_session_persistence` author two-session
@@ -195,3 +195,37 @@ accounting, competing-course rejection, midnight rejection, pending-check gating
 preview, interruption rollback, undo, replay, binding and cross-process
 continuation. Fixtures remain unrun. Source: `full-2008`, B458–B459; daily check
 requirement: B175.
+
+## Daily training checks and failed days
+
+After two sessions, create `RpgExpandedAnimalTrainingCheck` with its `course`,
+approval and evidence. The check uses the trainer's shared handling skill context,
+the plan's wild-animal penalty and an optional sourced `speciesModifier`. It
+requires both attendance receipts and available participants before randomness.
+No further time is charged for the already-accounted training day.
+
+A successful check adds exactly one to `successfulDays` and clears the pending
+day. A failed check adds none and sets `course.pendingFailure` to its owned
+receipt. Replaying the check never awards a second day. Another check cannot
+reroll the same day. Reaching `requiredDays` blocks further attendance pending the
+still-unimplemented learned-milestone procedure; points and behavior are not
+awarded by this counter.
+
+B175 says a badly failed training roll provokes an attack but does not give a
+numerical threshold here. `RpgExpandedAnimalTrainingFailure` therefore requires
+an explicit `classification`, approval and evidence from the author, instead of
+inventing a margin cutoff. `ordinary` closes the failed day with no learning.
+`attack` currently rejects with `animal-training-attack-execution-unavailable`,
+leaving the course unresolved until the required attack can be executed. Do not
+classify a bad failure as ordinary merely to bypass that missing procedure.
+
+Failure classification is an explicit adjudication record, not a callback. It
+binds the failed check and author evidence, supports undo/replay, and cannot clear
+another course's pending day. Historical `failureAdjudicationRequired` describes
+the check's original outcome; inspect `failureResolution` and `pendingFailure`
+for its current resolution state.
+
+`test_animal_daily` and `test_animal_daily_failure` author required attendance,
+preview, rollback, credit-once, no duplicate time charge, unavailable participants,
+retargeting, failed-day holds, ordinary classification, unsupported attacks, undo
+and replay. Fixtures remain unrun. Sources: `full-2008`, B175 and B458–B459.

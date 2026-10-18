@@ -1541,6 +1541,68 @@ def test_animal_session_persistence(Session,bundle,out):
         second.close()
 
 
+def animal_daily_state(s):
+    s.action(2210)
+    return last(s,'test.animal-daily-state')
+
+
+def test_animal_daily(s):
+    s.action(2209,1)
+    assert last(s,'test.animal-daily')[:2] == ['blocked','animal-training-check-attendance-required']
+    s.action(2209,0)
+    initial = [0,0,0,0,0,14400]
+    for code in [3,2]:
+        s.action(2209,code)
+        assert animal_daily_state(s) == initial
+    s.action(2209,6)
+    assert last(s,'test.animal-daily')[:2] == ['blocked','animal-training-participant-unavailable']
+    s.command('undo')
+    s.action(2209,1)
+    assert last(s,'test.animal-daily') == ['resolved',None,11,1,0]
+    credited = [1,None,0,1,3,14400]
+    assert animal_daily_state(s) == credited
+    s.command('undo')
+    assert animal_daily_state(s) == initial
+    s.action(2209,1)
+    s.action(2209,7)
+    assert animal_daily_state(s) == credited
+    s.action(2209,1)
+    assert last(s,'test.animal-daily') == ['reused',None,11,1,0]
+    assert animal_daily_state(s) == credited
+    s.action(2209,8)
+    assert last(s,'test.animal-daily')[:2] == ['blocked','animal-training-check-attendance-required']
+    assert animal_daily_state(s) == credited
+
+
+def test_animal_daily_failure(Session,bundle):
+    for code,score in [(4,6),(5,7),(9,11)]:
+        s = Session(bundle)
+        try:
+            s.action(2209,0)
+            s.action(2209,code)
+            assert last(s,'test.animal-daily') == ['resolved',None,score,0,1]
+            pending = [0,0,1,1,3,14400]
+            assert animal_daily_state(s) == pending
+            s.action(2209,8)
+            assert last(s,'test.animal-daily')[:2] == ['blocked','animal-training-failure-unresolved']
+            s.action(2209,11)
+            assert last(s,'test.animal-training-failure') == ['blocked','animal-training-attack-execution-unavailable']
+            assert animal_daily_state(s) == pending
+            s.command('undo')
+            s.action(2209,10)
+            assert last(s,'test.animal-training-failure') == ['resolved',None]
+            resolved = [0,None,0,1,3,14400]
+            assert animal_daily_state(s) == resolved
+            s.command('undo')
+            assert animal_daily_state(s) == pending
+            s.action(2209,10)
+            s.action(2209,10)
+            assert last(s,'test.animal-training-failure') == ['reused',None]
+            assert animal_daily_state(s) == resolved
+        finally:
+            s.close()
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -7401,6 +7463,8 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
+    fresh(Session,creatures,test_animal_daily)
+    test_animal_daily_failure(Session,creatures)
     test_animal_session_persistence(Session,creatures,build.out)
     fresh(Session,creatures,test_animal_sessions)
     test_animal_performance(Session,creatures)

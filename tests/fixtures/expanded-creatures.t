@@ -31,6 +31,10 @@ animalSessionTwo: RpgExpandedAnimalTrainingSession id = 'afternoon' course = ani
     approved = true uninterrupted = true evidence = 'Second two-hour training session';
 animalSessionOther: RpgExpandedAnimalTrainingSession id = 'other-course' course = animalOtherCourse
     approved = true uninterrupted = true evidence = 'Competing training course';
+animalDailyCheck: RpgExpandedAnimalTrainingCheck course = animalCourse approved = true evidence = 'Assess the completed training day';
+animalOtherCheck: RpgExpandedAnimalTrainingCheck course = animalCourse approved = true evidence = 'Another daily check';
+animalTrainingFailure: RpgExpandedAnimalTrainingFailure attempt = animalDailyCheck classification = 'ordinary'
+    approved = true evidence = 'Author classifies this as a day without learning';
 handlingInput: object code = 0;
 handlingClockFault: object enabled = nil;
 modify rpgLedger
@@ -44,6 +48,26 @@ class AnimalHandlingAction: Action
     exec(context)
     {
         local code = handlingInput.code;
+        if (code >= 60)
+        {
+            if (code == 60) { animalSessionOne.apply(); animalSessionTwo.apply(); return nil; }
+            if (code == 64) animalDailyCheck.speciesModifier = -5;
+            if (code == 65) animalTrainer.iq = 6;
+            if (code == 66) trainingAnimal.unconscious = true;
+            if (code == 67) animalDailyCheck.evidence = 'Changed daily decision';
+            if (code == 69) rpgRandom.seed(5);
+            if (code == 70 || code == 71)
+            {
+                if (code == 71) animalTrainingFailure.classification = 'attack';
+                local resolved = animalTrainingFailure.apply();
+                event('test.animal-training-failure'); eventValue(resolved.status); eventValue(resolved.reason); return nil;
+            }
+            local request = code == 68 ? animalOtherCheck : animalDailyCheck;
+            local value = code == 63 ? request.assess() : request.apply();
+            event('test.animal-daily'); eventValue(value.status); eventValue(value.reason); eventValue(value.score);
+            eventValue(value.creditedDays); eventValue(value.failureAdjudicationRequired ? 1 : 0);
+            if (code == 62) throw new RpgError(); return nil;
+        }
         if (code >= 40)
         {
             if (code == 46) handlingClockFault.enabled = true;
@@ -102,6 +126,13 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2209) { handlingInput.code = 60 + args[1]; return vhylAct(2203,args); }
+    if (verb == 2210)
+    {
+        event('test.animal-daily-state'); eventValue(animalCourse.successfulDays); eventValue(animalCourse.pendingDay);
+        eventValue(animalCourse.pendingFailure == nil ? 0 : 1); eventValue(animalCourse.checks.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2207) { handlingInput.code = 40 + args[1]; return vhylAct(2203,args); }
     if (verb == 2208)
     {
