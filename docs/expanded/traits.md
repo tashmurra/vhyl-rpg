@@ -513,3 +513,45 @@ technology permission interface adds campaign and world gates. Owned cinematic
 execution and advancement between these tiers remain incomplete; pricing and
 permission are not a complete implementation of the trait. The permission fixtures
 are authored and unrun. Source: `full-2008`, B56–B57 and B475.
+
+
+## Fear-induced behavioral quirks
+
+`RpgExpandedMentalQuirk` represents the recurring-action branch of the mental
+quirk contract in `full-2008`, B162–B163. Set `approved`, `triggerText` and
+`responseText` to a concrete situation and behavior the player can portray.
+Empty descriptions are invalid. The trait retains the shared `quirk` identity,
+one level and minus-one character value. Passive labels and unspecified
+callbacks do not satisfy this interface. Narrow numeric-penalty quirks require
+separate effect implementations.
+
+`RpgExpandedFearQuirkAcquisition` records an authored fear consequence. Supply
+an `id`, unique `eventId`, expanded `profile`, a new `quirk`, `approved` and
+`relationEvidence` explaining how it relates to the frightening event and the
+character. This is an explicit author-selected outcome interface, not a full
+fear-table roll. It requires completed character creation. Apply it inside an
+engine action transaction.
+
+The acquisition installs the trait, reduces character value by one and advances
+`developmentRevision`. It changes neither `earnedPoints` nor `unspentPoints`.
+Its receipt permits this fear-induced quirk beyond the normal five-quirk creation
+limit and excludes its acquired negative point from that creation limit's
+negative-point budget. Ordinary quirks still use the five-quirk limit. Removing
+an acquired trait removes its allowance; replaying the old acquisition does not
+reinstall it or grant points. Event and behavior bindings prevent retargeting an
+existing receipt. Quirk changes and buy-off still need their own procedures.
+
+`RpgExpandedQuirkPortrayal` makes the author contract explicit for a scene. Supply
+an `id`, owning `profile`, `quirk`, `triggerPresent`, `decision`, `observedBehavior`
+and `approved`. When triggered, the decision is `followed` or `departed`; otherwise
+it must be `inapplicable`. The record retains the observed behavior and decision
+once, under normal transaction and save handling. It does not force the player's
+choice, invent an advancement penalty, or pretend the character followed the
+quirk. Any authored advancement sanction requires its own supported ledger
+operation; automatic sanction handling is not implemented here.
+
+`test_fear_quirks` specifies sixth-quirk acquisition, unchanged spendable points,
+creation-budget validation, ordinary-sixth-quirk rejection, portrayal decisions,
+preview, rollback, undo, replay and cross-process continuation. The fixture is
+unrun. Compound stun-plus-quirk integration and the broader fear trait outcomes
+remain incomplete.

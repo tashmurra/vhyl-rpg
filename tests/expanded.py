@@ -1664,6 +1664,78 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_fear_quirks(Session,bundle,out):
+    def state(s):
+        s.action(2265)
+        return last(s,'test.quirk-state')
+    before = [-5,5,10,7,0,0,0,0,0]
+    after = [-6,6,10,7,1,1,0,0,0]
+    s = Session(bundle)
+    try:
+        s.action(2264,3)
+        assert last(s,'test.quirk-valid') == [5]
+        for code in [1,2]:
+            s.action(2264,code)
+            assert state(s) == before
+        s.action(2264,0)
+        assert last(s,'test.quirk-acquisition') == ['resolved',None,-1]
+        assert state(s) == after
+        s.command('undo')
+        assert state(s) == before
+        s.action(2264,0)
+        s.action(2264,3)
+        assert last(s,'test.quirk-valid') == [6]
+        s.action(2264,0)
+        assert state(s) == after
+        for code in [5,6]:
+            s.action(2264,code)
+            assert state(s) == after
+        s.action(2264,4)
+        assert state(s) == [-6,6,10,7,1,1,1,0,0]
+        s.action(2264,4)
+        assert last(s,'test.quirk-portrayal') == ['reused',None]
+    finally: s.close()
+    for setup,reason in [(8,'fear-quirk-relation-required'),(9,'fear-quirk-after-creation')]:
+        s = Session(bundle)
+        try:
+            s.action(2264,setup)
+            s.action(2264,0)
+            assert last(s,'test.quirk-acquisition') == ['blocked',reason,0]
+            assert state(s) == before
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        s.action(2264,3)
+        s.action(2264,11) # An ordinary sixth quirk has no fear-event exemption.
+        valid_count = sum(e['id']=='test.quirk-valid' for e in s.log)
+        s.action(2264,3)
+        assert sum(e['id']=='test.quirk-valid' for e in s.log) == valid_count
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in [0,7,4]: s.action(2264,code)
+        assert last(s,'test.quirk-portrayal') == ['blocked','quirk-portrayal-decision']
+        assert state(s) == after
+    finally: s.close()
+    path = out / 'expanded-fear-quirk.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2264,0)
+        first.command(f':save {path}\n@2265')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+    finally: first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2265')
+        second.action(2264,0)
+        assert state(second) == after
+        second.action(2264,3)
+        assert last(second,'test.quirk-valid') == [6]
+        second.action(2264,4)
+        assert state(second) == [-6,6,10,7,1,1,1,0,0]
+    finally: second.close()
+
+
 def test_fear_fatigue(Session,bundle):
     def state(s):
         s.action(2263)
@@ -8736,6 +8808,8 @@ def test(build):
     test_infection_persistence(Session,hazard_transactions,build.out)
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
     fear = build.build('expanded-fear',ROOT / 'tests/fixtures/expanded-fear.t')
+    fear_quirks = build.build('expanded-fear-quirks',ROOT / 'tests/fixtures/expanded-fear-quirks.t')
+    test_fear_quirks(Session,fear_quirks,build.out)
     test_fear_stun(Session,fear)
     test_fear_fatigue(Session,fear)
     test_fear_fatigue_stun(Session,fear,build.out)

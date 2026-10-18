@@ -21,7 +21,8 @@
       "source": "full-2008",
       "status": "partial",
       "tests": [
-        "tests/expanded.py::test_numbers"
+        "tests/expanded.py::test_numbers",
+        "tests/expanded.py::test_fear_quirks"
       ]
     },
     {
@@ -437,7 +438,8 @@
       "status": "partial",
       "tests": [
         "tests/expanded.py::test_numbers",
-        "tests/expanded.py::test_maintenance_prices"
+        "tests/expanded.py::test_maintenance_prices",
+        "tests/expanded.py::test_fear_quirks"
       ]
     },
     {
@@ -1273,6 +1275,18 @@
         "tests/expanded.py::test_employment_wealth_payroll"
       ],
       "validation_note": "Shared next-level obligations, spending priority, explicit-category wage integration and automatic successive review after payment authored. All related cases remain unrun; source completeness and full integration validation remain open."
+    },
+    {
+      "id": "fear-mental-quirk-acquisition",
+      "module": "traits",
+      "pages": "B162-B163; B360-B361",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedFearQuirkAcquisition",
+      "tests": [
+        "tests/expanded.py::test_fear_quirks"
+      ],
+      "validation_note": "Owned behavioral quirk acquisition and scene adjudication are authored. Fixtures unrun; numeric-penalty quirks, compound integration and sanctions remain incomplete."
     }
   ],
   "detailed_inventories": [

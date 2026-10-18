@@ -60,6 +60,7 @@ class RpgLiteProfile: RpgProfile
     healthManeuverReason(kind) { return nil; }
     healthDefensePenalty() { return 0; }
     afterNeedsCycle(needs) { return nil; }
+    quirkCountsTowardCreationLimit(trait) { return true; }
     naturalRecoveryInterval() { return 86400; }
     naturalRecoveryModifier() { return 0; }
     naturalRecoveryAmount() { return 1; }
@@ -378,7 +379,7 @@ rpgLiteValidateTraits(profile)
     {
         if (!trait.ofKind(RpgLiteTrait) || trait.id == nil || holds(ids, trait.id) && trait.id != 'quirk') rpgLiteInvalidCharacter('duplicate-or-invalid-trait');
         ids = ids + [trait.id];
-        if (trait.id == 'quirk' || trait.scope == 'quirk') quirks += 1;
+        if ((trait.id == 'quirk' || trait.scope == 'quirk') && profile.quirkCountsTowardCreationLimit(trait)) quirks += 1;
         if (trait.id == 'night-vision' && trait.level > 9
             || trait.skills.length() > 0 && trait.level > 4) rpgLiteInvalidCharacter('trait-level');
     }

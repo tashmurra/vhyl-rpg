@@ -11,9 +11,12 @@
       "pages": "B162",
       "module": "characters",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Minor individual traits cost -1 each, at most five credited quirks, and can be bought off for one point each. Preserve mental/physical classification and count quirks contributed by templates or active packages without duplicating the actor allowance.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_quirks"
+      ],
+      "validation_note": "Behavioral mental-quirk contract and owned fear-acquisition exception authored with explicit scene decisions. Numeric-penalty quirks, buy-off and advancement sanctions remain incomplete. Fixtures unrun."
     },
     {
       "id": "disadvantages-i-quirk-contract",
@@ -21,9 +24,12 @@
       "pages": "B162-B163",
       "module": "traits",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A mental quirk needs a concrete recurring action/choice or a small occasional/narrow penalty agreed with the author. Merely passive appearance or a name with no limiting effect is insufficient. Track compliance decisions and authored advancement consequences; do not declare every unspecified callback a completed contract.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_quirks"
+      ],
+      "validation_note": "Behavioral mental-quirk contract and owned fear-acquisition exception authored with explicit scene decisions. Numeric-penalty quirks, buy-off and advancement sanctions remain incomplete. Fixtures unrun."
     },
     {
       "id": "disadvantages-i-quirk-change",

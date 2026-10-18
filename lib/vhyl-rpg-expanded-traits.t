@@ -122,3 +122,146 @@ modify RpgExpandedProfile
         return found == nil || !found.active || found.mitigated ? nil : found.tier;
     }
 ;
+
+/** B162-B163 behavioral quirk: a concrete recurring choice, not a passive label. */
+class RpgExpandedMentalQuirk: RpgLiteTrait
+    id = 'quirk'
+    approved = nil
+    triggerText = nil
+    responseText = nil
+    fearAcquisition = nil
+    validateBehavior()
+    {
+        if (!self.approved || self.triggerText == nil || self.triggerText == ''
+            || self.responseText == nil || self.responseText == '' || self.id != 'quirk' || self.level != 1)
+            rpgExpandedReject('mental-quirk-behavior');
+        return nil;
+    }
+    creationCost() { self.validateBehavior(); return -1; }
+;
+
+/** B360-B361 authored mental-quirk consequence; never grants spendable points. */
+class RpgExpandedFearQuirkAcquisition: object
+    id = nil
+    eventId = nil
+    profile = nil
+    quirk = nil
+    approved = nil
+    relationEvidence = nil
+    result = nil
+    boundId = nil
+    boundEventId = nil
+    boundProfile = nil
+    boundQuirk = nil
+    boundEvidence = nil
+    boundTriggerText = nil
+    boundResponseText = nil
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.eventId == nil || self.eventId == ''
+            || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.quirk == nil || !self.quirk.ofKind(RpgExpandedMentalQuirk)) rpgExpandedReject('fear-quirk-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.eventId != self.boundEventId || self.profile != self.boundProfile
+                || self.quirk != self.boundQuirk || self.relationEvidence != self.boundEvidence
+                || self.quirk.triggerText != self.boundTriggerText || self.quirk.responseText != self.boundResponseText
+                || !holds(self.profile.fearQuirkAcquisitions,self)) rpgExpandedReject('fear-quirk-binding');
+            value.status = 'reused'; return value;
+        }
+        rpgExpandedValidate(self.profile); self.quirk.validateBehavior();
+        if (!self.profile.creationComplete) { value.reason = 'fear-quirk-after-creation'; return value; }
+        if (!self.approved || self.relationEvidence == nil || self.relationEvidence == '')
+        { value.reason = 'fear-quirk-relation-required'; return value; }
+        if (self.profile.dead) { value.reason = 'fear-quirk-dead'; return value; }
+        if (holds(self.profile.traits,self.quirk) || self.quirk.fearAcquisition != nil)
+        { value.reason = 'fear-quirk-already-owned'; return value; }
+        foreach (local prior in self.profile.fearQuirkAcquisitions)
+            if (prior.id == self.id || prior.eventId == self.eventId) rpgExpandedReject('fear-quirk-duplicate');
+        rpgInteger(self.profile.developmentRevision,0,2147483646);
+        value.points = -1; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundId = self.id; self.boundEventId = self.eventId; self.boundProfile = self.profile;
+        self.boundQuirk = self.quirk; self.boundEvidence = self.relationEvidence;
+        self.boundTriggerText = self.quirk.triggerText; self.boundResponseText = self.quirk.responseText;
+        self.profile.traits = self.profile.traits + [self.quirk]; self.quirk.fearAcquisition = self;
+        self.profile.fearQuirkAcquisitions = self.profile.fearQuirkAcquisitions + [self];
+        self.profile.developmentRevision += 1; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    fearQuirkAcquisitions = []
+    quirkPortrayals = []
+    quirkCountsTowardCreationLimit(trait)
+    {
+        if (trait.ofKind(RpgExpandedMentalQuirk) && trait.fearAcquisition != nil)
+        {
+            local award = trait.fearAcquisition;
+            if (!award.ofKind(RpgExpandedFearQuirkAcquisition) || award.profile != self || award.quirk != trait
+                || award.result == nil || !holds(self.fearQuirkAcquisitions,award)) rpgExpandedReject('fear-quirk-ownership');
+            award.assess(); return nil;
+        }
+        return inherited(trait);
+    }
+    postCreationDisadvantageAllowance()
+    {
+        local value = inherited();
+        if (self.creationComplete)
+            foreach (local award in self.fearQuirkAcquisitions)
+                if (holds(self.traits,award.quirk))
+                {
+                    award.assess();
+                    if (self.quirkCountsTowardCreationLimit(award.quirk)) rpgExpandedReject('fear-quirk-limit');
+                    value += 1;
+                }
+        return value;
+    }
+;
+
+/** Explicit author adjudication of a behavioral quirk in one scene. */
+class RpgExpandedQuirkPortrayal: object
+    id = nil
+    profile = nil
+    quirk = nil
+    triggerPresent = nil
+    decision = nil
+    observedBehavior = nil
+    approved = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.quirk,self.triggerPresent,self.decision,self.observedBehavior,self.approved]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.quirk == nil || !self.quirk.ofKind(RpgExpandedMentalQuirk)) rpgExpandedReject('quirk-portrayal-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('quirk-portrayal-binding');
+            if (!holds(self.profile.quirkPortrayals,self)) rpgExpandedReject('quirk-portrayal-history');
+            value.status = 'reused'; return value;
+        }
+        self.quirk.validateBehavior();
+        if (!holds(self.profile.traits,self.quirk)) { value.reason = 'quirk-portrayal-not-owned'; return value; }
+        if (!self.approved || self.observedBehavior == nil || self.observedBehavior == '')
+        { value.reason = 'quirk-portrayal-evidence'; return value; }
+        if (self.triggerPresent ? !holds(['followed','departed'],self.decision) : self.decision != 'inapplicable')
+        { value.reason = 'quirk-portrayal-decision'; return value; }
+        foreach (local prior in self.profile.quirkPortrayals)
+            if (prior.id == self.id) rpgExpandedReject('quirk-portrayal-duplicate');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.profile.quirkPortrayals = self.profile.quirkPortrayals + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

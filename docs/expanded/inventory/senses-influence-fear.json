@@ -510,9 +510,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "New fear-induced traits must relate to the event and character; lower character value without awarding spendable points.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_quirks"
+      ],
+      "validation_note": "Owned behavioral mental-quirk acquisition and explicit scene portrayal records authored. Character value decreases without granting spendable points; a receipt supplies the creation-limit exception. Other fear traits, compound outcomes and advancement sanctions remain incomplete. Fixtures unrun."
     },
     {
       "id": "fear-inappropriate-result",
@@ -1019,9 +1022,10 @@
       "status": "partial",
       "acceptance": "Acquire an event-related mental quirk, including beyond the ordinary personal quirk limit.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_quirks"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned behavioral mental-quirk acquisition and explicit scene portrayal records authored. Character value decreases without granting spendable points; a receipt supplies the creation-limit exception. Other fear traits, compound outcomes and advancement sanctions remain incomplete. Fixtures unrun."
     },
     {
       "id": "fear-outcome-14-15",

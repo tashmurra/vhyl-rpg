@@ -119,3 +119,9 @@ recovery attempts in the same second. Its transaction and clock fixtures are unr
 Fatigue-plus-stun fear outcomes now share owned one-point fatigue injuries,
 collapse handling and timed recovery. Their maximum possible cost is assessed
 before rolling. New boundary and continuation fixtures remain unrun.
+
+
+Behavioral mental quirks can be acquired from an authored fear event without
+awarding advancement points. Owned receipts permit the source's creation-limit
+exception and preserve concrete scene portrayal decisions. Broader trait outcomes
+and compound integration remain unfinished; new fixtures are unrun.

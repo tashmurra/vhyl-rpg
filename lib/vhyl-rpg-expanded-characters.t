@@ -74,7 +74,7 @@ rpgExpandedValidateCharacter(profile)
         }
     }
     if (rpgExpandedCharacterCost(profile, nil) > profile.pointBudget
-        || -rpgExpandedCharacterCost(profile, true) > profile.disadvantageLimit)
+        || -rpgExpandedCharacterCost(profile, true) - profile.postCreationDisadvantageAllowance() > profile.disadvantageLimit)
         rpgExpandedReject('point-budget');
     return true;
 }
