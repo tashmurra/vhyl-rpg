@@ -112,6 +112,9 @@ class RpgExpandedAcquisition: object
     item = nil
     mode = 'purchase'
     quote = nil
+    marketOffer = nil
+    boundMarketOffer = nil
+    boundMarketFacts = nil
     startingPurchase = nil
     available = nil
     permitted = nil
@@ -128,7 +131,19 @@ class RpgExpandedAcquisition: object
         if (self.claimed && (self.profile != self.claimedProfile || self.item != self.claimedItem))
             rpgExpandedReject('acquisition-retargeted');
         local value = new RpgExpandedAcquisitionResult(); value.item = self.item;
-        if (self.claimed) { value.status = 'reused'; return value; }
+        if (self.claimed)
+        {
+            if (self.marketOffer != self.boundMarketOffer) rpgExpandedReject('acquisition-market-retargeted');
+            if (self.marketOffer != nil)
+            {
+                local facts = self.marketOffer.definition() + [self.mode,self.quote,self.startingPurchase];
+                if (self.boundMarketFacts == nil || facts.length() != self.boundMarketFacts.length())
+                    rpgExpandedReject('acquisition-market-binding');
+                for (local index = 1; index <= facts.length(); index += 1)
+                    if (facts[index] != self.boundMarketFacts[index]) rpgExpandedReject('acquisition-market-binding');
+            }
+            value.status = 'reused'; return value;
+        }
         rpgExpandedValidate(self.profile);
         rpgInteger(self.profile.money, 0, 2147483647);
         self.item.validateAcquisition();
@@ -136,6 +151,13 @@ class RpgExpandedAcquisition: object
         rpgInteger(self.item.weight, 0, 2147483647 / self.item.quantity);
         rpgInteger(self.item.cost, 0, 2147483647);
         if (self.quote != nil) rpgInteger(self.quote, 0, 2147483647);
+        if (self.marketOffer != nil)
+        {
+            if (!self.marketOffer.ofKind(RpgExpandedMarketOffer) || self.mode != 'purchase'
+                || self.quote != nil || self.startingPurchase) rpgExpandedReject('acquisition-market-price-source');
+            value.reason = self.marketOffer.assess(self.profile,self.item);
+            if (value.reason != nil) return value;
+        }
         if (self.startingPurchase)
         {
             if (self.mode != 'purchase' || self.quote != nil)
@@ -153,6 +175,7 @@ class RpgExpandedAcquisition: object
             if (owner.ofKind(RpgLiteProfile) && holds(owner.equipment,self.item))
             { value.reason = 'equipment-already-owned'; return value; }
         local price = self.mode == 'issue' ? 0 : self.quote == nil ? self.item.cost : self.quote;
+        if (self.marketOffer != nil) price = self.marketOffer.price;
         if (self.startingPurchase)
             price = rpgExpandedStartingEquipmentPrice(price,self.item.techLevel,self.profile.campaignTL);
         if (self.profile.money < price) { value.reason = 'equipment-unaffordable'; return value; }
@@ -162,6 +185,8 @@ class RpgExpandedAcquisition: object
     {
         local value = self.assess();
         if (value.status != 'ready') return value;
+        self.boundMarketOffer = self.marketOffer;
+        if (self.marketOffer != nil) self.boundMarketFacts = self.marketOffer.definition() + [self.mode,self.quote,self.startingPurchase];
         self.profile.money -= value.money;
         self.profile.equipment = self.profile.equipment + [self.item];
         self.claimed = true; self.claimedProfile = self.profile; self.claimedItem = self.item;
@@ -1239,4 +1264,34 @@ class RpgExpandedWildernessTools: RpgExpandedFishingTools
     }
     configure(context)
     { inherited(context); context.modifier += self.weatherPenalty; return context; }
+;
+
+
+modify RpgExpandedProfile
+    moneyUnit = 'campaign-unit'
+;
+/** B264 authored local offer, preserving catalogue baseline independently. */
+class RpgExpandedMarketOffer: object
+    id = nil
+    item = nil
+    market = nil
+    currency = 'campaign-unit'
+    baselinePrice = nil
+    price = nil
+    approved = nil
+    evidence = nil
+    definition()
+    {
+        return [self.id,self.item,self.market,self.currency,self.baselinePrice,self.price,self.approved,self.evidence];
+    }
+    assess(profile,item)
+    {
+        if (self.id == nil || self.id == '' || self.item != item || self.market == nil || self.currency == nil || self.currency == '')
+            rpgExpandedReject('market-offer-definition');
+        rpgInteger(self.baselinePrice,0,2147483647); rpgInteger(self.price,0,2147483647);
+        if (self.baselinePrice != item.cost) rpgExpandedReject('market-offer-baseline');
+        if (self.currency != profile.moneyUnit) return 'market-offer-currency';
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'market-offer-evidence-required';
+        return nil;
+    }
 ;

@@ -9272,6 +9272,8 @@ def test(build):
     test_dependent_trait_replacement(Session, dependent_trait_replacement, build.out)
     dependent_motivation_replacement = build.build('expanded-dependent-motivation-replacement',ROOT / 'tests/fixtures/expanded-dependent-motivation-replacement.t')
     test_dependent_motivation_replacement(Session, dependent_motivation_replacement, build.out)
+    market_offers = build.build('expanded-market-offers',ROOT / 'tests/fixtures/expanded-market-offers.t')
+    test_market_offers(Session, market_offers, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -21711,5 +21713,50 @@ def test_dependent_motivation_replacement(Session, bundle, out):
         for code in (14500, 14402, 14505):
             s.action(2285, code)
         assert last(s, 'test.loss-motivation-reject') == ['dependent-replacement-trait-binding']
+    finally:
+        s.close()
+
+
+def test_market_offers(Session, bundle, out):
+    """B264 actual local prices preserve baseline and use the existing purse; unrun."""
+    path = out / 'market-offers.zsave'
+    s = Session(bundle)
+    try:
+        for code in (14600, 14602, 14603):
+            s.action(2285, code)
+        assert last(s, 'test.market-preview') == ['ready', None, 25]
+        assert last(s, 'test.market-state') == [30, 0, 20, 20, 0]
+        s.action(2285, 14601)
+        s.command('undo')
+        s.action(2285, 14603)
+        assert last(s, 'test.market-state') == [30, 0, 20, 20, 0]
+        for code in (14601, 14601, 14603):
+            s.action(2285, code)
+        assert last(s, 'test.market-state') == [5, 1, 20, 20, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (14606, 14601, 14603, 14607):
+            s.action(2285, code)
+        assert last(s, 'test.market-state') == [5, 1, 50, 20, 0]
+        assert last(s, 'test.market-reject') == ['acquisition-market-binding']
+    finally:
+        s.close()
+    for setup, reason in [(14604, 'market-offer-currency'), (14605, 'market-offer-evidence-required')]:
+        s = Session(bundle)
+        try:
+            for code in (setup, 14600, 14601, 14603):
+                s.action(2285, code)
+            assert last(s, 'test.market-preview') == ['blocked', reason, 0]
+            assert last(s, 'test.market-state') == [30, 0, 20, 20, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 14608)
+        assert last(s, 'test.market-reject') == ['acquisition-market-price-source']
     finally:
         s.close()

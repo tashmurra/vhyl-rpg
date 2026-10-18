@@ -701,3 +701,29 @@ specialty that does not match the actual planet and terrain, then supplies both
 weather and equipment modifiers through the shared skill context. Use it with
 [daily wilderness survival](health.md#daily-wilderness-survival); this condition
 record does not itself resolve care or create equipment.
+
+
+## Authored local market offers
+
+`RpgExpandedMarketOffer` separates the listed baseline from a merchant's actual
+price (`full-2008`, B264). Supply `id`, the physical `item`, `market` identity,
+`currency`, `baselinePrice`, `price`, approval and evidence explaining local
+conditions. Before purchase, the baseline must match `item.cost`. Price adjustment
+is an authored world fact; no universal shortage or negotiation multiplier is
+invented. `profile.moneyUnit` identifies the existing purse's unit, defaulting to
+`campaign-unit`; mismatched offers block instead of performing implicit exchange.
+
+Assign the offer to `RpgExpandedAcquisition.marketOffer`. Availability, permission,
+ownership and affordability still use the existing acquisition path. Market offers
+cannot combine with raw `quote`, starting-equipment pricing or issued items.
+Commit subtracts the actual offer price from the same `profile.money` and transfers
+the same physical item. It leaves the listed item cost unchanged. Replay binds the
+accepted offer's identity, currency, baseline, price and author facts, so later
+edits cannot turn an accepted sale into a different transaction. Later changes to
+the item's current baseline do not rewrite the accepted baseline or charge again.
+
+Ordinary acquisitions without a market offer retain their existing behavior.
+Currency conversion, physical coin inventories and automated negotiation remain
+pending. `expanded-market-offers.t` and `test_market_offers` specify independent
+baseline/offer values, currency and evidence rejection, conflicting price sources,
+preview, rollback, undo, replay and saved continuation. Fixtures remain unrun.

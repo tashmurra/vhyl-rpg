@@ -21,9 +21,12 @@
       "pages": "B264",
       "module": "equipment",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Listed currency values are neutral campaign units for ordinary local trade without shortage/surplus. Author defines currency, market availability and price adjustments; retain listed baseline independently from an actual offer.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_market_offers"
+      ],
+      "validation_note": "Typed authored market offer separates baseline and actual price, identifies market/currency and binds accepted facts through shared acquisition. Currency conversion and automatic market modeling remain pending. Fixtures unrun."
     },
     {
       "id": "equipment-procedures-coinage",

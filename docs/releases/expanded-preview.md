@@ -1850,3 +1850,9 @@ disadvantage adapters and mixed settlements remain pending. Fixtures are unrun.
 Dependent disadvantage replacement now also supports low motivation, preserving
 self-control pricing, authored choice obligations and historical buyoff cost.
 Other adapters and mixed settlements remain pending. Integration fixtures unrun.
+
+
+Equipment acquisitions now accept explicit market offers with separate baseline
+and local prices, authored currency/market context and bound accepted-sale facts.
+They use the existing purse and inventory. Currency conversion and physical money
+remain pending. Integration fixtures are authored but unrun.
