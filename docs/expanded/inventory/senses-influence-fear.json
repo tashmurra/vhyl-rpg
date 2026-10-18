@@ -41,9 +41,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After failing to notice or understand a dangerous event, a qualifying danger-warning trait permits a secret perception roll; success discloses the warning rather than fabricated full knowledge.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_danger_warning"
+      ],
+      "validation_note": "Ordinary existing 15-point trait now supports one retained secret Perception check per authored hazard situation, general warning on success and detail only for raw3/4. Optional owned failed-sense/comprehension trigger is validated. Psychic/foresight integration, automatic orchestration and controlled disclosure remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-vision-modifiers",

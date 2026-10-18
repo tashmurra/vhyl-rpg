@@ -2209,6 +2209,35 @@ new observation or automatic disclosure is produced.
 
 `test_sense_comprehension` specifies hearing/vision prerequisites, ordinary and
 expert scores, language proficiency, wrong observers, health denial, failure,
-rollback, undo and saved continuation. Fixtures remain unrun. Danger warnings,
-special-sense interpretation, domain-specific context adapters and shared player
-actions for comprehension remain pending.
+rollback, undo and saved continuation. Fixtures remain unrun. Special-sense interpretation, domain-specific context
+adapters and shared player actions for comprehension remain pending. Ordinary
+danger-warning follow-up is described below.
+
+## Ordinary danger-warning follow-up
+
+`RpgExpandedOrdinaryDangerWarning` uses the existing fifteen-point ordinary
+warning trait (`danger-sense`) under full-2008 B47/B358. Supply a unique `id`,
+`profile`, hazard `situation`, `hazardPresent`, `approved`, concrete `evidence`,
+a general `warningText` and a `detailText` describing the nature of the danger.
+A profile with a psychic variant or foresight cannot also use this ordinary
+purchase; those capabilities require their own integration.
+
+For the B358 fallback, set `failedAttempt` to an owned vision observation,
+hearing observation or sense comprehension by the same profile. It must contain
+an actual failed check. Unresolved attempts, successful checks and health-denied
+attempts do not qualify. For a directly authored impending hazard under B47,
+leave the trigger nil. Only one warning receipt per profile and situation can
+resolve, regardless of which trigger is used.
+
+`assess()` is pure. `resolve()` makes one secret Perception check with no time or
+resource charge. Success supplies the general warning; a raw roll of three or
+four supplies the authored detail. Failure supplies no warning. The check is
+retained as `secretCheck`, while the public result's `check` stays nil. The
+procedure emits no event or automatic disclosure. Authors should reveal only
+the resulting warning, not the private receipt or roll. Replay preserves both
+successful and failed results without another check.
+
+`test_danger_warning` specifies normal/detail/failure outcomes, trait suppression,
+failed-detection and comprehension triggers, public-result secrecy, rollback,
+undo and save continuation. Fixtures remain unrun. Automatic orchestration,
+psychic/foresight integration and controlled disclosure remain pending.

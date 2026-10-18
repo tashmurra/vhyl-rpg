@@ -384,9 +384,12 @@
       "pages": "B47",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Fifteen-point danger warning makes one secret perception check per hazard situation. Success warns enough to act, raw3/4 adds nature detail. Included in foresight trait, so reject duplicate purchase. Psychic-sensory membership limitation -10% adds actual interference.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_danger_warning"
+      ],
+      "validation_note": "Ordinary existing 15-point trait now supports one retained secret Perception check per authored hazard situation, general warning on success and detail only for raw3/4. Optional owned failed-sense/comprehension trigger is validated. Psychic/foresight integration, automatic orchestration and controlled disclosure remain pending. Fixtures authored, unrun."
     },
     {
       "id": "traits-c-risk-luck",

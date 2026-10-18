@@ -4517,3 +4517,104 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+class RpgExpandedOrdinaryWarningResult: RpgExpandedResult
+    warning = nil
+;
+/** B47/B358 ordinary danger warning. The check remains private to the receipt. */
+class RpgExpandedOrdinaryDangerWarning: object
+    id = nil
+    profile = nil
+    situation = nil
+    failedAttempt = nil
+    hazardPresent = nil
+    approved = nil
+    evidence = nil
+    warningText = nil
+    detailText = nil
+    result = nil
+    secretCheck = nil
+    recordedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.situation == nil)
+            rpgExpandedReject('ordinary-warning-definition');
+        if (self.failedAttempt != nil && !self.failedAttempt.ofKind(RpgExpandedVisionObservation)
+            && !self.failedAttempt.ofKind(RpgExpandedHearingObservation) && !self.failedAttempt.ofKind(RpgExpandedSenseComprehension))
+            rpgExpandedReject('ordinary-warning-trigger');
+        return [self.id,self.profile,self.situation,self.failedAttempt,self.hazardPresent,self.approved,
+            self.evidence,self.warningText,self.detailText];
+    }
+    outcomeDefinition()
+    {
+        return [self.recordedAt,self.result,self.result.warning,self.secretCheck,self.secretCheck.score,self.secretCheck.roll,
+            self.secretCheck.margin,self.secretCheck.achieved,self.secretCheck.critical];
+    }
+    triggerReason()
+    {
+        if (self.failedAttempt == nil) return nil;
+        if (self.failedAttempt.profile != self.profile) return 'ordinary-warning-trigger-owner';
+        if (self.failedAttempt.result == nil) return 'ordinary-warning-trigger-unresolved';
+        if (self.failedAttempt.assess().status != 'reused') rpgExpandedReject('ordinary-warning-trigger-receipt');
+        if (self.failedAttempt.result.check == nil || self.failedAttempt.result.check.achieved)
+            return 'ordinary-warning-failed-check-required';
+        return nil;
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedOrdinaryWarningResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.ordinaryDangerWarnings,self) || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('ordinary-warning-history');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('ordinary-warning-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('ordinary-warning-outcome');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('ordinary-warning-outcome');
+            if (self.recordedAt > rpgLedger.seconds || self.triggerReason() != nil) rpgExpandedReject('ordinary-warning-receipt');
+            value.status = 'reused'; value.warning = self.result.warning; return value;
+        }
+        if (self.secretCheck != nil || self.recordedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil)
+            rpgExpandedReject('ordinary-warning-uncommitted');
+        if (self.profile.level('danger-sense') <= 0) { value.reason = 'ordinary-warning-trait-required'; return value; }
+        if (self.profile.level('precognition') > 0 || self.profile.level('psionic-danger-warning') > 0)
+            rpgExpandedReject('ordinary-warning-duplicate-ability');
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'ordinary-warning-observer-unavailable'; return value; }
+        if (!self.approved || !self.hazardPresent || self.evidence == nil || self.evidence == ''
+            || self.warningText == nil || self.warningText == '' || self.detailText == nil || self.detailText == '')
+        { value.reason = 'ordinary-warning-hazard-facts-required'; return value; }
+        foreach (local prior in self.profile.ordinaryDangerWarnings)
+            if (prior.id == self.id || prior.situation == self.situation) rpgExpandedReject('ordinary-warning-situation-used');
+        value.reason = self.triggerReason(); if (value.reason != nil) return value;
+        if (self.profile.attributeScore(rpgPerception) < 3) { value.reason = 'ordinary-warning-score'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.secretCheck = rpgCheck(self.profile.attributeScore(rpgPerception),rpgRandom.roll());
+        if (self.secretCheck.achieved) value.warning = self.secretCheck.roll <= 4 ? self.detailText : self.warningText;
+        self.recordedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value; self.boundOutcome = self.outcomeDefinition();
+        self.profile.ordinaryDangerWarnings = self.profile.ordinaryDangerWarnings + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    ordinaryDangerWarnings = []
+    validateFeatures()
+    {
+        inherited(); local ids = []; local situations = [];
+        foreach (local warning in self.ordinaryDangerWarnings)
+        {
+            if (warning == nil || !warning.ofKind(RpgExpandedOrdinaryDangerWarning) || warning.profile != self
+                || holds(ids,warning.id) || holds(situations,warning.situation) || warning.assess().status != 'reused')
+                rpgExpandedReject('ordinary-warning-history');
+            ids = ids + [warning.id]; situations = situations + [warning.situation];
+        }
+        return nil;
+    }
+;

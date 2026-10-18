@@ -9524,6 +9524,8 @@ def test(build):
     test_sense_actions(Session,sense_actions)
     sense_comprehension = build.build('expanded-sense-comprehension',ROOT / 'tests/fixtures/expanded-sense-comprehension.t')
     test_sense_comprehension(Session,sense_comprehension,build.out)
+    danger_warning = build.build('expanded-danger-warning',ROOT / 'tests/fixtures/expanded-danger-warning.t')
+    test_danger_warning(Session,danger_warning,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26626,3 +26628,55 @@ def test_sense_comprehension(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_danger_warning(Session, bundle, out):
+    """B47/B358 one private warning roll, raw3/4 detail, failure triggers; unrun."""
+    detail = 'The crossing is about to collapse'
+    def state(s):
+        s.action(1680,27702)
+        return last(s,'test.ordinary-warning')
+    s = Session(bundle)
+    path = out / 'ordinary-warning.zsave'
+    try:
+        s.action(1680,27703)
+        assert last(s,'test.warning-preview') == ['ready',None]
+        assert state(s) == [0,None,1,0,0]
+        s.action(1680,27701); assert state(s) == [0,None,1,0,0]
+        s.action(1680,27700); s.command('undo'); assert state(s) == [0,None,1,0,0]
+        s.action(1680,27700); s.action(1680,27700); assert state(s) == [1,detail,1,3,0]
+        s.action(1680,27709); assert state(s) == [1,detail,1,3,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,27700)
+        assert state(s) == [1,detail,1,3,0]
+    finally:
+        s.close()
+    for code,warning,count in ((27704,detail,1),(27705,'Something is wrong nearby',1),(27004,None,1),
+                                (27707,None,0),(27708,None,0)):
+        s = Session(bundle)
+        try:
+            s.action(1680,code); s.action(1680,27700); s.action(1680,27700)
+            assert state(s) == [count,warning,1,3 if count else 0,0]
+        finally:
+            s.close()
+    for failed in (True,False):
+        s = Session(bundle)
+        try:
+            s.action(1680,27710)
+            if failed:
+                s.action(1680,27004)
+            s.action(1680,27400); s.action(1680,27706); s.action(1680,27700)
+            assert state(s) == ([1,detail,1,6,0] if failed else [0,None,1,3,0])
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (27400,27004,27600,27706,27711,27700):
+            s.action(1680,code)
+        assert state(s) == [1,detail,1,9,2]
+    finally:
+        s.close()
