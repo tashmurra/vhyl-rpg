@@ -1820,3 +1820,25 @@ modify RpgExpandedPsychologyContext
             self.group,self.smallGroupApproved,self.members.length()] + self.members;
     }
 ;
+
+/** One campaign representation per species; split disciplines remain separate purchases. */
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local psychology = [];
+        foreach (local training in self.skills)
+        {
+            local skill = training.skill;
+            if (training.points <= 0 || !skill.ofKind(RpgExpandedPsychologySkill)) continue;
+            foreach (local prior in psychology)
+                if (prior.specialty == skill.specialty)
+                {
+                    if (prior.discipline == skill.discipline) rpgExpandedReject('psychology-duplicate-discipline');
+                    if (prior.discipline == 'general' || skill.discipline == 'general')
+                        rpgExpandedReject('psychology-mixed-campaign-split');
+                }
+            psychology = psychology + [skill];
+        }
+        return nil;
+    }
+;

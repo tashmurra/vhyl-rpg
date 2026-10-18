@@ -860,3 +860,23 @@ Skill rows continue to retain their typed catalogue definitions while each
 created character owns fresh training records. `test_native_planet_template`
 specifies native biology scoring, package composition, background conflicts,
 invalid values, profile isolation, rollback and undo. Fixtures remain unrun.
+
+
+## Psychology disciplines in character packages
+
+Applied and experimental psychology are separate purchases when the campaign
+uses the optional split (full-2008 B216). A package may include either, and
+composition can retain both with their own training and point costs. For example,
+IQ 12 with four points in each discipline costs 48 points in these purchases and
+attributes combined, and gives a trained rating of 12 in each discipline.
+
+Character feature validation rejects purchased general psychology together with
+a split discipline for the same species, and rejects two definitions purchasing
+the same species/discipline. This prevents duplicated catalogue identities from
+bypassing the campaign choice. Untrained definitions remain usable as default
+queries. Existing template composition still reuses the original typed skill
+definitions and constructs independent training records.
+
+`test_psychology_templates` specifies combined cost and ratings, mixed campaign
+representation rejection, duplicate-discipline rejection and construction
+rollback. Fixtures remain unrun while checks are paused.

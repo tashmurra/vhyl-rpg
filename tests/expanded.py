@@ -9412,6 +9412,8 @@ def test(build):
     test_psychology_actions(Session, psychology_actions)
     native_planet_template = build.build("expanded-native-planet-template",ROOT / "tests/fixtures/expanded-native-planet-template.t")
     test_native_planet_template(Session, native_planet_template)
+    psychology_templates = build.build("expanded-psychology-templates",ROOT / "tests/fixtures/expanded-psychology-templates.t")
+    test_psychology_templates(Session, psychology_templates)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24145,5 +24147,24 @@ def test_native_planet_template(Session, bundle):
         try:
             s.action(1680,code)
             assert last(s,'test.planet-template-error') == [reason]
+        finally:
+            s.close()
+
+
+def test_psychology_templates(Session, bundle):
+    """Split disciplines are separate paid skills; unsplit and split forms cannot coexist; unrun."""
+    s = Session(bundle)
+    try:
+        s.action(1680,21501); s.action(1680,21502)
+        assert last(s,'test.psychology-template') == [None,None,None,None,0]
+        s.action(1680,21500); s.action(1680,21502)
+        assert last(s,'test.psychology-template') == [2,48,12,12,0]
+    finally:
+        s.close()
+    for code, reason in ((21503,'psychology-mixed-campaign-split'),(21504,'psychology-duplicate-discipline')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code)
+            assert last(s,'test.psychology-template-error') == [reason]
         finally:
             s.close()
