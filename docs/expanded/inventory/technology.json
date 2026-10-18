@@ -388,9 +388,12 @@
       "status": "partial",
       "acceptance": "Prototype checks are secret and retain concept modifiers. Each qualifying assistant with a required skill at least twenty adds +1, maximum +4; inadequate facilities impose an authored -1 through -10.",
       "tests": [
-        "tests/expanded.py::test_prototype_assessments"
+        "tests/expanded.py::test_prototype_assessments",
+        "tests/expanded.py::test_prototype_completion",
+        "tests/expanded.py::test_prototype_completion_outcomes",
+        "tests/expanded.py::test_prototype_completion_persistence"
       ],
-      "validation_note": "Pure supplied-dice duration, qualified-team modifiers and secret outcome assessments authored; fixtures unrun. Owned work/funding, injuries, actual defects and lifecycle remain pending."
+      "validation_note": "Owned secret completion connects work, current skills, conditional bug dice, bug-free inventory delivery, flawed-theory discovery and accident wounds; fixtures unrun. Executable defects, testing, software delivery and broader accidents remain incomplete."
     },
     {
       "id": "technology-prototype-failure",
@@ -404,9 +407,12 @@
         "tests/expanded.py::test_prototype_assessments",
         "tests/expanded.py::test_prototype_accident",
         "tests/expanded.py::test_prototype_accident_protection",
-        "tests/expanded.py::test_prototype_accident_persistence"
+        "tests/expanded.py::test_prototype_accident_persistence",
+        "tests/expanded.py::test_prototype_completion",
+        "tests/expanded.py::test_prototype_completion_outcomes",
+        "tests/expanded.py::test_prototype_completion_persistence"
       ],
-      "validation_note": "Owned supplied-outcome accident contract uses expanded wounds for every participant and destroys facilities; fixtures unrun. Secret completion dispatch, broader anatomy and secondary accident effects remain incomplete."
+      "validation_note": "Owned secret completion connects work, current skills, conditional bug dice, bug-free inventory delivery, flawed-theory discovery and accident wounds; fixtures unrun. Executable defects, testing, software delivery and broader accidents remain incomplete."
     },
     {
       "id": "technology-flawed-theory",
@@ -414,9 +420,14 @@
       "pages": "B474",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A flawed theory never yields a working prototype. A critical prototype success reveals the flaw instead; preserve secret state so previews and ordinary failures do not reveal it.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_prototype_completion",
+        "tests/expanded.py::test_prototype_completion_outcomes",
+        "tests/expanded.py::test_prototype_completion_persistence"
+      ],
+      "validation_note": "Owned secret completion connects work, current skills, conditional bug dice, bug-free inventory delivery, flawed-theory discovery and accident wounds; fixtures unrun. Executable defects, testing, software delivery and broader accidents remain incomplete."
     },
     {
       "id": "technology-prototype-duration",
@@ -475,9 +486,12 @@
       "status": "partial",
       "acceptance": "Critical prototype success has no bugs; success by at least three creates half a die of minor bugs; other success creates half a die major plus one die minor bugs. Resolve fractional counts using the supplied general rounding rule after cross-reference verification.",
       "tests": [
-        "tests/expanded.py::test_prototype_assessments"
+        "tests/expanded.py::test_prototype_assessments",
+        "tests/expanded.py::test_prototype_completion",
+        "tests/expanded.py::test_prototype_completion_outcomes",
+        "tests/expanded.py::test_prototype_completion_persistence"
       ],
-      "validation_note": "Pure supplied-dice duration, qualified-team modifiers and secret outcome assessments authored; fixtures unrun. Owned work/funding, injuries, actual defects and lifecycle remain pending."
+      "validation_note": "Owned secret completion connects work, current skills, conditional bug dice, bug-free inventory delivery, flawed-theory discovery and accident wounds; fixtures unrun. Executable defects, testing, software delivery and broader accidents remain incomplete."
     },
     {
       "id": "technology-testing",

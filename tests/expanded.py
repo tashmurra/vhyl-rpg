@@ -973,6 +973,69 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def prototype_completion_state(s):
+    s.action(2110)
+    return last(s,'test.prototype-completion-state')
+
+
+def test_prototype_completion(s):
+    s.action(2109,0)
+    initial = [1,'testable',0,None,None,0,0,0,345600]
+    for code in [7,2]:
+        s.action(2109,code)
+        assert prototype_completion_state(s) == initial
+    s.action(2109,8)
+    assert last(s,'test.prototype-completion') == ['blocked','prototype-accident-author-facts',None,0,0]
+    s.command('undo')
+    s.action(2109,1)
+    failed = [0,'testable',0,0,0,0,0,3,345600]
+    assert prototype_completion_state(s) == failed
+    s.command('undo')
+    assert prototype_completion_state(s) == initial
+    s.action(2109,1)
+    for code in [1,9]:
+        s.action(2109,code)
+        assert prototype_completion_state(s) == failed
+
+
+def test_prototype_completion_outcomes(Session,bundle):
+    for code,expected in [
+            (3,[0,'testable',0,1,5,0,0,5,345600]),
+            (4,[0,'testable',1,0,0,0,0,3,345600]),
+            (5,[0,None,0,0,0,0,0,3,345600]),
+            (6,[0,'testable',0,0,0,4,1,5,345600])]:
+        s = Session(bundle)
+        try:
+            s.action(2109,0)
+            s.action(2109,code)
+            assert prototype_completion_state(s) == expected
+            s.action(2109,1)
+            assert prototype_completion_state(s) == expected
+        finally:
+            s.close()
+
+
+def test_prototype_completion_persistence(Session,bundle,out):
+    for code in [3,4,5,6]:
+        path = out / f'expanded-prototype-completion-{code}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2109,0)
+            first.action(2109,code)
+            saved = prototype_completion_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2110')
+            assert prototype_completion_state(second) == saved
+            second.action(2109,1)
+            assert prototype_completion_state(second) == saved
+        finally:
+            second.close()
+
+
 def prototype_accident_state(s):
     s.action(2108)
     return last(s,'test.prototype-accident-state')
@@ -6365,6 +6428,9 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_prototype_completion)
+    test_prototype_completion_outcomes(Session,invention)
+    test_prototype_completion_persistence(Session,invention,build.out)
     fresh(Session,invention,test_prototype_accident)
     fresh(Session,invention,test_prototype_accident_protection)
     test_prototype_accident_persistence(Session,invention,build.out)

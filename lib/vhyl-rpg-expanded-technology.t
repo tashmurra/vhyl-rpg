@@ -1772,6 +1772,7 @@ class RpgExpandedPrototypeStart: object
         if (!holds(['testable','flawed'],self.project.theory))
         { value.reason = 'prototype-theory-required'; return value; }
         if (self.project.activePrototype != nil) { value.reason = 'prototype-already-active'; return value; }
+        if (self.project.workingPrototype != nil) { value.reason = 'prototype-already-created'; return value; }
         foreach (local prior in self.project.prototypes)
             if (prior.id == self.id) rpgExpandedReject('prototype-start-duplicate');
         local facility = self.project.facilities;
@@ -2005,5 +2006,128 @@ class RpgExpandedPrototypeAccident: object
         }
         self.attempt.facilities.destroyed = true; self.definitionSnapshot = self.definition();
         value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedInventionProject
+    workingPrototype = nil
+    flawedTheoryDiscovered = nil
+;
+modify RpgExpandedPrototypeStart
+    completion = nil
+;
+
+class RpgExpandedPrototypeCompletionResult: RpgExpandedResult
+    score = nil
+    outcome = nil
+    delivery = nil
+    delivered = nil
+    pendingDefects = nil
+;
+
+/** Secret completion of a funded, fully worked physical prototype. */
+class RpgExpandedPrototypeCompletion: object
+    attempt = nil
+    recipient = nil
+    item = nil
+    accident = nil
+    knowledge = 'new'
+    variantBonus = 0
+    campaignNew = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    definitionSnapshot = nil
+    definition()
+    {
+        local value = [self.attempt,self.recipient,self.item,self.accident,self.knowledge,self.variantBonus,self.campaignNew,self.evidence];
+        return value + self.accident.definition();
+    }
+    assess()
+    {
+        if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedPrototypeStart) || self.attempt.result == nil)
+            rpgExpandedReject('prototype-completion-attempt');
+        self.attempt.assess(); local value = new RpgExpandedPrototypeCompletionResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.definitionSnapshot.length()) rpgExpandedReject('prototype-completion-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('prototype-completion-binding');
+            if (self.attempt.completion != self) rpgExpandedReject('prototype-completion-history');
+            value.status = 'reused'; value.score = self.result.score; value.modifier = self.result.modifier;
+            value.outcome = self.result.outcome; value.delivery = self.result.delivery;
+            value.delivered = self.result.delivered; value.pendingDefects = self.result.pendingDefects; return value;
+        }
+        if (self.attempt.completion != nil) { value.reason = 'prototype-already-completed'; return value; }
+        value.reason = self.attempt.workReason(); if (value.reason != nil) return value;
+        if (self.attempt.workedSeconds != self.attempt.result.seconds)
+        { value.reason = 'prototype-work-incomplete'; return value; }
+        local project = self.attempt.project; local proposal = project.proposal;
+        if (proposal.softwareComplexity != nil) { value.reason = 'prototype-software-delivery-unavailable'; return value; }
+        if (!holds(['testable','flawed'],project.theory)) { value.reason = 'prototype-theory-required'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'prototype-completion-author-facts'; return value; }
+        if (!holds(['new','exists','model'],self.knowledge)) rpgExpandedReject('prototype-completion-knowledge');
+        rpgInteger(self.variantBonus,0,5);
+        local assessment = proposal.assess();
+        if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
+        local base = nil;
+        foreach (local subject in [proposal.skill] + proposal.relatedSkills)
+        {
+            local context = new RpgLiteContext(); context.skill = subject;
+            local score = rpgLiteScore(proposal.inventor,context);
+            if (score == nil) { value.reason = context.unavailableReason(proposal.inventor); return value; }
+            if (base == nil || score < base) base = score;
+        }
+        value.modifier = assessment.conceptModifier + (self.knowledge == 'model' ? 5 : self.knowledge == 'exists' ? 2 : 0)
+            + self.variantBonus - (self.campaignNew ? 5 : 0)
+            + rpgExpandedPrototypeTeamModifier(proposal,self.attempt.assistants,self.attempt.toolsPenalty);
+        value.score = base + value.modifier; rpgInteger(value.score,-1000,1000);
+        if (value.score < 3) { value.reason = 'too-difficult'; return value; }
+        if (self.accident == nil || !self.accident.ofKind(RpgExpandedPrototypeAccident)
+            || self.accident.attempt != self.attempt || self.accident.result != nil || self.accident.outcome != nil)
+            rpgExpandedReject('prototype-completion-accident');
+        local potential = new RpgExpandedPrototypeAccident(); potential.attempt = self.attempt;
+        potential.targets = self.accident.targets; potential.approved = self.accident.approved; potential.evidence = self.accident.evidence;
+        potential.outcome = rpgExpandedPrototypeOutcome(12,17,nil,[]);
+        local safety = potential.assess();
+        if (safety.status != 'ready') { value.reason = safety.reason; return value; }
+        value.delivery = new RpgExpandedAcquisition(); value.delivery.profile = self.recipient;
+        value.delivery.item = self.item; value.delivery.mode = 'issue'; value.delivery.available = true; value.delivery.permitted = true;
+        local grant = value.delivery.assess();
+        if (grant.status != 'ready') { value.reason = grant.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local check = rpgCheck(value.score,rpgRandom.roll()); local bugs = [];
+        local flawed = self.attempt.project.theory == 'flawed';
+        if (!flawed && check.achieved && check.critical != 'success')
+        {
+            bugs = [rpgRandom.die()];
+            if (check.margin < 3) bugs = bugs + [rpgRandom.die()];
+        }
+        value.outcome = rpgExpandedPrototypeOutcome(value.score,check.roll,flawed,bugs);
+        if (value.outcome.accident)
+        {
+            self.accident.outcome = value.outcome;
+            if (self.accident.apply().status != 'resolved') rpgExpandedReject('prototype-completion-accident-changed');
+        }
+        if (value.outcome.working)
+        {
+            self.attempt.project.workingPrototype = self;
+            value.pendingDefects = value.outcome.majorBugs + value.outcome.minorBugs > 0;
+            if (!value.pendingDefects)
+            {
+                if (value.delivery.acquire().status != 'resolved') rpgExpandedReject('prototype-completion-delivery-changed');
+                value.delivered = true;
+            }
+        }
+        if (value.outcome.revealedFlaw)
+        { self.attempt.project.flawedTheoryDiscovered = true; self.attempt.project.theory = nil; }
+        self.attempt.completion = self; self.attempt.project.activePrototype = nil;
+        self.definitionSnapshot = self.definition(); value.status = 'resolved'; self.result = value; return value;
     }
 ;

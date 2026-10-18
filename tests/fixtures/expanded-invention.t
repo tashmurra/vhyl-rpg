@@ -43,11 +43,39 @@ modify rpgLedger
 prototypeAccidentTarget: RpgExpandedPrototypeAccidentTarget id = 'lab-accident-wound' profile = conceptUser destination = 'laboratory-floor';
 prototypeAccident: RpgExpandedPrototypeAccident attempt = prototypeStart targets = [prototypeAccidentTarget]
     approved = true evidence = 'Crushing machinery accident; torso protection assessed';
+prototypeProduct: RpgLiteItem id = 'survey-prototype' cost = 1000 weight = 100;
+prototypeCompletion: RpgExpandedPrototypeCompletion attempt = prototypeStart recipient = conceptUser item = prototypeProduct
+    accident = prototypeAccident approved = true evidence = 'Completed optical design and specified accident consequences';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 100)
+        {
+            if (code == 100)
+            {
+                conceptBlueprint.apply(); conceptFacilities.fund(); prototypeStart.begin();
+                for (local day = 1; day <= 4; day += 1)
+                {
+                    local work = new RpgExpandedPrototypeWork(); work.id = day; work.attempt = prototypeStart;
+                    work.seconds = 86400; work.approved = true; work.uninterrupted = true; work.evidence = 'Complete day'; work.apply();
+                }
+                rpgRandom.seed(1); return nil;
+            }
+            if (code == 103) prototypeCompletion.knowledge = 'model';
+            if (code == 104 || code == 105)
+            { prototypeCompletion.knowledge = 'model'; prototypeCompletion.variantBonus = 5; rpgRandom.seed(6); }
+            if (code == 105) conceptProject.theory = 'flawed';
+            if (code == 106) rpgRandom.seed(5);
+            if (code == 108) prototypeAccident.approved = nil;
+            if (code == 109) prototypeCompletion.evidence = 'Changed completion';
+            local value = code == 107 ? prototypeCompletion.assess() : prototypeCompletion.apply();
+            event('test.prototype-completion'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.outcome == nil ? nil : value.outcome.check.roll);
+            eventValue(value.delivered ? 1 : 0); eventValue(value.pendingDefects ? 1 : 0);
+            if (code == 102) throw new RpgError(); return nil;
+        }
         if (code >= 80)
         {
             if (code == 80)
@@ -141,6 +169,16 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2109) { conceptInput.code = 100 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2110)
+    {
+        event('test.prototype-completion-state'); eventValue(conceptProject.activePrototype == nil ? 0 : 1);
+        eventValue(conceptProject.theory); eventValue(conceptUser.equipment.length());
+        eventValue(prototypeCompletion.result == nil ? nil : prototypeCompletion.result.outcome.majorBugs);
+        eventValue(prototypeCompletion.result == nil ? nil : prototypeCompletion.result.outcome.minorBugs);
+        eventValue(conceptUser.injury); eventValue(conceptFacilities.destroyed ? 1 : 0);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2107) { conceptInput.code = 80 + args[1]; return vhylAct(2097,args); }
     if (verb == 2108)
     {

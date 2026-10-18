@@ -901,8 +901,7 @@ Changing the bound project, payer, participants, calendar or evidence rejects.
 Use an action transaction so failed execution restores money, random state and
 project state together. Funding does not reserve participants against other
 activities: shared work scheduling, interruption, completion rolls, accidents,
-defect creation and cancellation/refunds remain incomplete. An active attempt
-cannot yet be completed through this interface.
+defect creation and cancellation/refunds remain incomplete. Use the separate secret completion interface after recording all required work.
 
 `test_prototype_start`, `test_prototype_start_calendar` and
 `test_prototype_start_persistence` author preflight rejection, rollback, undo,
@@ -930,7 +929,7 @@ Receipts in `attempt.workIntervals` retain actual start/end times. Replaying one
 adds no time or work, even after later progress. A new interval cannot exceed the
 remaining duration. No extra currency or random draw is involved. Prototype
 completion remains a separate secret operation: reaching the required duration
-does not yet roll or create a working object, and the attempt remains active.
+does not itself roll or create a working object; call the separate completion interface.
 
 The original team and time basis stay bound. Participant substitution, partial
 credit for an interrupted interval, simultaneous unrelated projects, automatic
@@ -969,7 +968,7 @@ participants, randomness and facilities. There is no additional cost or elapsed
 time. Replay returns the historical receipt without another injury or destruction.
 
 This is a concrete consequence contract for supplied critical-failure outcomes;
-it does not yet make the secret prototype completion roll or close the active
+the completion interface below makes the secret roll and closes the active
 attempt. It supports standard torso wounds and the listed physical damage types,
 not arbitrary multi-location explosions, secondary fires or unsupported anatomy.
 Those combinations must await explicit support. Actual rebuilding still uses a
@@ -979,3 +978,42 @@ new facilities funding request and the recorded full cost.
 `test_prototype_accident_persistence` author preflight, rollback, undo, replay,
 protection, funding preservation and cross-process wound continuation. These
 fixtures remain unrun. Source: `full-2008`, B474, with existing injury procedures.
+
+
+## Secret prototype completion
+
+`RpgExpandedPrototypeCompletion` connects a fully worked attempt to its secret
+roll. Supply the recipient and authored physical prototype `item`, a fresh
+`accident` contract covering the whole team, approval and evidence. Select the
+current `knowledge`, `variantBonus` and `campaignNew` facts as for concepts.
+Prototype checks use the lowest current contextual required skill, proposal
+modifiers, qualified assistants and the bound tools penalty; historical research
+does not replace the invention skill for this stage.
+
+`assess()` verifies both delivery and every possible accident wound before any
+roll. `apply()` rolls once, draws only the bug dice required by the actual outcome,
+applies accidents through the wound contract and closes the active attempt.
+Ordinary failure preserves the theory for a newly funded retry. A critical
+success on a flawed theory discovers the flaw and clears that theory, allowing
+a new concept attempt; it never creates a working object.
+
+A working prototype with no bugs is issued through the existing inventory
+acquisition ledger without charging its retail cost again. A prototype with bugs
+is retained in the completion receipt with `pendingDefects`; it is **not delivered**
+as usable equipment. Executable defect assignment, subsequent testing and delivery
+remain pending. `project.workingPrototype` retains either successful result and
+blocks treating a second attempt as ordinary prototype construction; later copies
+need the production procedure, which is still incomplete.
+
+The result stays private and emits no player-facing event. Narrative disclosure
+must not reveal secret bug counts or flawed-theory state merely because an author
+can inspect the receipt. Replay returns the historical outcome without another
+roll, injury, item or charge. Use the usual action transaction to keep all these
+consequences atomic. Software prototypes and unsupported accident configurations
+reject before rolling rather than silently using physical-item delivery.
+
+`test_prototype_completion`, `test_prototype_completion_outcomes` and
+`test_prototype_completion_persistence` author preview, missing accident approval,
+rollback, undo, ordinary failure, unresolved defects, bug-free delivery, flawed
+theory discovery, accident dispatch, replay and cross-process continuation.
+Fixtures remain unrun. Source: `full-2008`, B473–B474.
