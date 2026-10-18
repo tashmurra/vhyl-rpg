@@ -20,6 +20,11 @@ warningRequest: RpgExpandedDangerWarning id = 'loose-masonry' profile = warningO
     hazardPresent = true approved = true interferenceKnown = true evidence = 'Stone will fall before the next step'
     warningText = 'Pause: something is wrong.' detailText = 'Loose masonry above the doorway is about to fall.';
 warningInput: object code = 0 forcedRoll = 0;
+warningRules: RpgExpandedRules;
+modify warningObserver rules = warningRules creationComplete = true developmentOpen = true earnedPoints = 20 unspentPoints = 20;
+warningAdvancement: RpgExpandedPsionicTalentAdvancement id = 'improve-warning' profile = warningObserver
+    talent = warningTalent targetLevel = 4 permitted = true evidence = 'Practice during downtime';
+
 modify rpgRandom
     roll()
     {
@@ -31,6 +36,19 @@ class WarningTestAction: Action
     exec(context)
     {
         local code = warningInput.code;
+        if (code >= 20)
+        {
+            if (code == 23) warningObserver.unspentPoints = 0;
+            if (code == 24) warningObserver.traits = [warningAbility];
+            if (code == 25 || code == 26) warningObserver.traits = [];
+            if (code == 26) warningAdvancement.newPowerApproved = true;
+            if (code == 27) warningObserver.developmentOpen = nil;
+            if (code == 28) warningAdvancement.targetLevel = 5;
+            if (code == 29) { warningAdvancement.targetLevel = 5; warningAdvancement.aboveFourApproved = true; }
+            local value = code == 21 ? warningAdvancement.assess() : warningAdvancement.apply();
+            event('test.psionic-advance'); eventValue(value.status); eventValue(value.reason); eventValue(value.points);
+            if (code == 22) throw new RpgError(); return nil;
+        }
         if (code == 4) warningRequest.suppressed = true;
         if (code == 5) rpgRandom.seed(5);
         if (code == 6) rpgRandom.seed(6);
@@ -67,6 +85,13 @@ warningVerb: Verb code = 2231 action = warningAction label = 'sense danger';
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2238) { warningInput.code = 20 + args[1]; return vhylAct(2231,args); }
+    if (verb == 2239)
+    {
+        event('test.psionic-advance-state'); eventValue(warningTalent.level); eventValue(warningObserver.unspentPoints);
+        eventValue(warningObserver.developmentRevision); eventValue(warningObserver.psionicTalentAdvancements.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2234)
     {
         local owner = new RpgExpandedProfile(); local source = new RpgExpandedProfile();

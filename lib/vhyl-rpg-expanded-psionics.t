@@ -397,3 +397,80 @@ modify RpgExpandedProfile
     onUnconscious() { inherited(); self.restoreDefaultStatic(); return nil; }
     onSleep() { inherited(); self.restoreDefaultStatic(); return nil; }
 ;
+
+modify RpgExpandedProfile
+    psionicTalentAdvancements = []
+;
+
+/** Owned earned-point purchase; creation accounting continues to use the same trait. */
+class RpgExpandedPsionicTalentAdvancement: object
+    id = nil
+    profile = nil
+    talent = nil
+    targetLevel = 1
+    permitted = nil
+    newPowerApproved = nil
+    aboveFourApproved = nil
+    requiresDowntime = true
+    evidence = nil
+    result = nil
+    snapshot = nil
+    definition()
+    { return [self.id,self.profile,self.talent,self.talent.power,self.targetLevel,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.talent == nil || !self.talent.ofKind(RpgExpandedPsionicTalent))
+            rpgExpandedReject('psionic-talent-advancement-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.snapshot == nil || self.snapshot.length() != current.length()) rpgExpandedReject('psionic-talent-advancement-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.snapshot[index]) rpgExpandedReject('psionic-talent-advancement-binding');
+            if (!holds(self.profile.psionicTalentAdvancements,self)) rpgExpandedReject('psionic-talent-advancement-history');
+            value.status = 'reused'; return value;
+        }
+        rpgExpandedValidate(self.profile); self.talent.validateTalent();
+        rpgInteger(self.targetLevel,1,100);
+        rpgInteger(self.profile.unspentPoints,0,1000000);
+        rpgInteger(self.profile.developmentRevision,0,2147483646);
+        if (!self.profile.creationComplete) { value.reason = 'psionic-advancement-after-creation'; return value; }
+        if (!self.permitted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'psionic-advancement-permission'; return value; }
+        if (self.requiresDowntime && !self.profile.developmentOpen)
+        { value.reason = 'rpg.downtime-required'; return value; }
+        if (self.targetLevel > 4 && !self.aboveFourApproved)
+        { value.reason = 'psionic-talent-level-permission'; return value; }
+        local owned = holds(self.profile.traits,self.talent); local member = owned;
+        foreach (local trait in self.profile.traits)
+        {
+            if (trait != self.talent && trait.id == self.talent.id) rpgExpandedReject('psionic-talent-id-conflict');
+            if (trait.ofKind(RpgExpandedPsionicTalent) && trait != self.talent && trait.power.id == self.talent.power.id)
+                rpgExpandedReject('psionic-duplicate-talent');
+            if (trait.ofKind(RpgExpandedPsionicDangerSense) && trait.power == self.talent.power)
+            { trait.validateAbility(); member = true; }
+        }
+        if (!member && !self.newPowerApproved) { value.reason = 'psionic-new-power-permission'; return value; }
+        foreach (local prior in self.profile.psionicTalentAdvancements)
+            if (prior.id == self.id) rpgExpandedReject('psionic-talent-advancement-duplicate');
+        local priorLevel = owned ? self.talent.level : 0;
+        if (self.targetLevel <= priorLevel) { value.reason = 'psionic-talent-not-increase'; return value; }
+        value.points = (self.targetLevel-priorLevel) * self.talent.power.talentPoints;
+        if (value.points > self.profile.unspentPoints) { value.reason = 'rpg.insufficient-points'; return value; }
+        value.reason = self.profile.developmentSpendingReason(); if (value.reason != nil) return value;
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.snapshot = self.definition();
+        self.profile.unspentPoints -= value.points; self.profile.developmentRevision += 1;
+        self.talent.level = self.targetLevel;
+        if (self.targetLevel > 4) self.talent.aboveFourApproved = true;
+        if (!holds(self.profile.traits,self.talent)) self.profile.traits = self.profile.traits + [self.talent];
+        self.profile.psionicTalentAdvancements = self.profile.psionicTalentAdvancements + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

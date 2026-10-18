@@ -59,8 +59,8 @@ ability, roll dice or alter any ledger. Automatic roll integration is pending.
 `rpgExpandedPsionicLatentEligibility(profile, power, abilityId)` checks whether
 an owned talent permits an eligible first-ability purchase. Temporarily inactive
 talent remains owned potential, although its use bonus is zero. A ready result
-is permission only: purchase, point spending, current ability membership,
-new-family permissions and executable ability effects remain pending.
+is permission only: the ability purchase itself remains pending. Talent purchases use the owned
+advancement interface below.
 
 The [minimal fixture](../../tests/fixtures/expanded-psionics.t) and
 `test_psionic_talents` specify five-point costs, the four-level limit, explicit
@@ -215,3 +215,34 @@ expectations, default-on persistence after waking, undo and exception rollback.
 These new dispatch hooks preserve the old assignments and consume no extra
 randomness when psionics is absent. Regression and native fixtures remain unrun;
 compatibility is not yet verified at this head.
+
+## Earned-point talent advancement
+
+`RpgExpandedPsionicTalentAdvancement` installs or improves an owned talent using
+the existing advancement ledger. Set `id`, expanded `profile`, `talent`,
+`targetLevel`, `permitted` and `evidence`. The character must have completed
+creation. By default `requiresDowntime` honours `developmentOpen`; the author
+can explicitly waive that requirement. Purchases also honour
+`developmentSpendingReason`, so mandatory spending cannot be bypassed.
+
+An existing talent establishes access to its own family. The implemented danger
+warning ability also establishes membership even without talent. With neither,
+`newPowerApproved` is required. Membership from other abilities must be added
+alongside their actual implementations; a string in a catalogue does not count
+as an owned power. Duplicate talent families and conflicting trait IDs are
+rejected. A target above four requires `aboveFourApproved`.
+
+`assess()` returns the positive difference between current and target talent
+costs (or the full target cost for a first purchase). `apply()` runs inside an
+action transaction, debits `unspentPoints`, increments `developmentRevision`,
+updates the existing trait or installs the new one, and records the receipt in
+`psionicTalentAdvancements`. It does not award points, add time, roll dice or
+create a second point ledger. The retained trait continues to contribute its
+full current cost to expanded character accounting. Replaying the purchase
+returns zero additional cost and never lowers a later improved talent.
+
+`test_psionic_advancement` specifies delta costs, first talent with an owned
+ability, new-family permission, higher-level approval, insufficient funds,
+downtime, preview purity, replay, exception rollback and undo. These assertions
+are authored but unrun. Ability purchases, modifier buyoffs and advancement
+through arbitrary unimplemented abilities remain pending.

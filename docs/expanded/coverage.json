@@ -275,9 +275,10 @@
         "tests/expanded.py::test_psionic_resistance",
         "tests/expanded.py::test_psionic_static",
         "tests/expanded.py::test_static_ready",
-        "tests/expanded.py::test_static_health_defaults"
+        "tests/expanded.py::test_static_health_defaults",
+        "tests/expanded.py::test_psionic_advancement"
       ],
-      "validation_note": "Ready switching and shared unconscious/sleep default-on hooks authored; fixtures unrun. Direct external state writes and separate resilience bodies require explicit integration."
+      "validation_note": "Owned talent advancement shares the point ledger, spending gates and revision, with explicit first-family permission; fixtures unrun. Ability purchases and other power membership integrations remain pending."
     },
     {
       "id": "skills",

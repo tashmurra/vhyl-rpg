@@ -1664,6 +1664,39 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_psionic_advancement(Session,bundle):
+    def state(s):
+        s.action(2239)
+        return last(s,'test.psionic-advance-state')
+    s=Session(bundle)
+    try:
+        for code in [1,2]:
+            s.action(2238,code)
+            assert state(s) == [2,20,0,0,0,0]
+        s.action(2238,0)
+        assert last(s,'test.psionic-advance') == ['resolved',None,10]
+        assert state(s) == [4,10,1,1,0,0]
+        s.action(2238,0)
+        assert last(s,'test.psionic-advance') == ['reused',None,0]
+        assert state(s) == [4,10,1,1,0,0]
+    finally: s.close()
+    for code,status,reason,points in [
+            (3,'blocked','rpg.insufficient-points',10),
+            (4,'resolved',None,20),
+            (5,'blocked','psionic-new-power-permission',0),
+            (6,'resolved',None,20),
+            (7,'blocked','rpg.downtime-required',0),
+            (8,'blocked','psionic-talent-level-permission',0),
+            (9,'resolved',None,15)]:
+        s=Session(bundle)
+        try:
+            s.action(2238,code)
+            assert last(s,'test.psionic-advance') == [status,reason,points]
+            s.command('undo')
+            assert state(s) == [2,20,0,0,0,0]
+        finally: s.close()
+
+
 def test_static_health_defaults(Session,bundle):
     def state(s):
         s.action(2237)
@@ -7900,6 +7933,7 @@ def test(build):
     psionics = build.build('expanded-psionics',ROOT / 'tests/fixtures/expanded-psionics.t')
     fresh(Session,psionics,test_psionic_talents)
     test_psionic_warning(Session,psionics)
+    test_psionic_advancement(Session,psionics)
     test_psionic_resistance(Session,psionics)
     fresh(Session,psionics,test_psionic_static)
     static_ready = build.build('expanded-static-ready',ROOT / 'tests/fixtures/expanded-static-ready.t')

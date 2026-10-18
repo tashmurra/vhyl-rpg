@@ -34,9 +34,12 @@
       "pages": "B254-B255",
       "module": "psionics",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Acquiring the first ability or talent in an unrelated power after creation requires a specific campaign permission or authored transformation event; existing power membership grants no blanket access.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_psionic_advancement"
+      ],
+      "validation_note": "Owned talent advancement shares the point ledger, spending gates and revision, with explicit first-family permission; fixtures unrun. Ability purchases and other power membership integrations remain pending."
     },
     {
       "id": "psionic-mandatory-limitations",
@@ -120,9 +123,10 @@
       "status": "partial",
       "acceptance": "A character with a power's talent but no abilities can buy an eligible first ability within that power using earned points.",
       "tests": [
-        "tests/expanded.py::test_psionic_talents"
+        "tests/expanded.py::test_psionic_talents",
+        "tests/expanded.py::test_psionic_advancement"
       ],
-      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
+      "validation_note": "Owned talent advancement shares the point ledger, spending gates and revision, with explicit first-family permission; fixtures unrun. Ability purchases and other power membership integrations remain pending."
     },
     {
       "id": "psionic-existing-power-advancement",
@@ -199,9 +203,10 @@
       "status": "partial",
       "acceptance": "Ordinary talents cost five points per level and normally stop at four; exceeding four requires a specific campaign permission.",
       "tests": [
-        "tests/expanded.py::test_psionic_talents"
+        "tests/expanded.py::test_psionic_talents",
+        "tests/expanded.py::test_psionic_advancement"
       ],
-      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
+      "validation_note": "Owned talent advancement shares the point ledger, spending gates and revision, with explicit first-family permission; fixtures unrun. Ability purchases and other power membership integrations remain pending."
     },
     {
       "id": "psionic-layered-ability-levels",
