@@ -1751,14 +1751,47 @@ it. Binding changes are rejected before clock advance. Dead characters no longer
 block the clock. Episode scheduling and wound timestamps follow the exact-game
 save policy; no old-save migration is supplied.
 
-**This lifecycle is incomplete.** Minute execution, automatic wound enrollment,
+**This lifecycle is incomplete.** Automatic wound enrollment,
 subsequent-wound aggregation, the loss-basis policy and first-aid termination are
 not yet supplied. Do not enable bleeding in a playable integration until those
-operations are available: an active episode currently stops time at its first
-required check. This boundary is intentional and must not be bypassed by manually
+operations are available for the intended scenario. An active episode stops time
+at each required check until it is resolved below. This boundary must not be bypassed by manually
 changing the deadline or clearing ownership fields.
 
 `test_bleeding_onset` and the
 [fixture](../../tests/fixtures/expanded-bleeding.t) specify opt-in, wound ownership,
 eligibility evidence, registration timing, preview, rollback, undo, replay and
 cross-process preservation of the exact minute boundary. They remain unrun.
+
+
+### Executing a bleeding minute
+
+`RpgExpandedBleedingMinute` requires a unique `id`, owned `episode`, explicit
+`lossBasis`, `basisEvidence` and `approved`. At exactly `episode.nextCheckAt`,
+`assess()` prepares the HT context and all possible injury before any die roll.
+`apply()` rolls once, commits any blood-loss injury through an owned expanded
+wound, records the result, and either schedules the next minute or stops the
+episode. It does not spend the elapsed minute again. Advance the shared ledger
+to the deadline, then resolve the check inside an action transaction.
+
+The episode retains the clear-minute streak. Ordinary or critical failure resets
+it; critical success or three successive clear minutes sets `stoppedAt` and clears
+`profile.bleedingEpisode`. Death also releases the pending clock boundary. Minute
+receipts retain their committed injury, check and timestamp. Replay reports
+`reused` without another roll, wound or deadline change. Distinct attempts cannot
+resolve the same minute twice.
+
+The loss basis remains an explicit, approved source interpretation; this does not
+claim automatic aggregation of healing, later injuries or preceding blood loss.
+The standard wound adapter is supported only at maximum HP six or greater and
+without `rules.lastWounds`. Smaller bodies would introduce an unresolved
+blood-loss/major-wound interaction; the optional injury-ignoring rule also needs
+explicit reconciliation. Both are rejected before randomness. Other unsupported
+wound configurations propagate their normal preflight blocker.
+
+`test_bleeding_minutes` specifies exact due times, retained failed/successful
+minutes, injury amounts, reset/termination of the streak, replay, preview,
+rollback, undo, saved continuation and release of the clock after termination.
+These fixtures remain unrun. First-aid termination, automatic wound enrollment,
+multiple-wound aggregation and a fully reconciled loss basis still prevent a
+complete bleeding-system claim.

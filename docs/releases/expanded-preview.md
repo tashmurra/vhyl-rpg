@@ -190,3 +190,9 @@ Optional bleeding now has concrete wound classifications, owned onset receipts
 and a protected first-minute boundary. Minute execution and first-aid termination
 are still pending, so active bleeding is not yet suitable for playable integration.
 Onset transaction and save fixtures are authored and unrun.
+
+Owned bleeding minutes now resolve exact due checks, record shared injury and
+stop naturally on a critical success or three clear minutes. Time and randomness
+are not charged again on replay. First-aid termination and aggregation remain
+pending; small-body and last-wounds combinations are explicitly blocked. New
+transaction and persistence fixtures are authored and unrun.

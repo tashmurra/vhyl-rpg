@@ -279,9 +279,10 @@
       "status": "partial",
       "acceptance": "At each minute after injury, roll health with -1 per five health lost; record the source-backed wound-loss basis and avoid reprocessing elapsed boundaries.",
       "tests": [
-        "tests/expanded.py::test_bleeding_onset"
+        "tests/expanded.py::test_bleeding_onset",
+        "tests/expanded.py::test_bleeding_minutes"
       ],
-      "validation_note": "Owned opted-in onset, concrete wound classification, timestamp and first-minute clock boundary authored. Minute execution, aggregation, loss-basis reconciliation and first-aid termination pending. Fixtures unrun."
+      "validation_note": "Owned minute execution, shared injury records, replay, deadline progression and natural cessation authored. First-aid termination, multi-wound aggregation, loss-basis reconciliation and special injury policies pending. Fixtures unrun."
     },
     {
       "id": "health-bleeding-outcomes",
@@ -292,9 +293,10 @@
       "status": "partial",
       "acceptance": "Ordinary bleeding failure loses one health, critical failure loses three, critical success ends bleeding, and ordinary success prevents that minute's loss.",
       "tests": [
-        "tests/expanded.py::test_bleeding_outcomes"
+        "tests/expanded.py::test_bleeding_outcomes",
+        "tests/expanded.py::test_bleeding_minutes"
       ],
-      "validation_note": "Pure supplied-roll outcome and streak arithmetic authored; persistent episodes, shared injury execution, wound loss basis and first-aid termination pending. Fixtures unrun."
+      "validation_note": "Owned minute execution, shared injury records, replay, deadline progression and natural cessation authored. First-aid termination, multi-wound aggregation, loss-basis reconciliation and special injury policies pending. Fixtures unrun."
     },
     {
       "id": "health-bleeding-streak",
@@ -305,9 +307,10 @@
       "status": "partial",
       "acceptance": "Three consecutive minutes without bleeding end the episode; a bleeding minute resets the streak and successful first aid can stop further losses.",
       "tests": [
-        "tests/expanded.py::test_bleeding_outcomes"
+        "tests/expanded.py::test_bleeding_outcomes",
+        "tests/expanded.py::test_bleeding_minutes"
       ],
-      "validation_note": "Pure supplied-roll outcome and streak arithmetic authored; persistent episodes, shared injury execution, wound loss basis and first-aid termination pending. Fixtures unrun."
+      "validation_note": "Owned minute execution, shared injury records, replay, deadline progression and natural cessation authored. First-aid termination, multi-wound aggregation, loss-basis reconciliation and special injury policies pending. Fixtures unrun."
     },
     {
       "id": "health-bleeding-wound-policy",

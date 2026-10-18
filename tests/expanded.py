@@ -8986,6 +8986,7 @@ def test(build):
     fresh(Session,health,test_bleeding_outcomes)
     bleeding = build.build('expanded-bleeding', ROOT / 'tests/fixtures/expanded-bleeding.t')
     test_bleeding_onset(Session, bleeding, build.out)
+    test_bleeding_minutes(Session, bleeding, build.out)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
     fresh(Session,health,test_critical_major_wound)
@@ -9515,5 +9516,82 @@ def test_bleeding_onset(Session, bundle, out):
             s.action(2285, 1)
             assert last(s, 'test.bleeding-onset') == ['blocked', reason]
             assert state(s)[1] == 0
+        finally:
+            s.close()
+
+
+def test_bleeding_minutes(Session, bundle, out):
+    def state(s):
+        s.action(2287)
+        return last(s, 'test.bleeding-minute-state')
+    def setup(s):
+        for code in (0, 1, 4):
+            s.action(2285, code)
+    s = Session(bundle)
+    path = out / 'expanded-bleeding-minutes.zsave'
+    try:
+        setup(s)
+        before = state(s)
+        assert before == [2, 1, 0, 0, None, 60, 60, 0]
+        s.action(2285, 21)
+        assert last(s, 'test.bleeding-minute')[:2] == ['ready', None]
+        assert state(s) == before
+        s.action(2285, 22)
+        assert state(s) == before
+        s.action(2285, 20)
+        assert state(s) == [2, 1, 1, 1, None, 120, 60, 3]
+        s.command('undo')
+        assert state(s) == before
+        s.action(2285, 30)
+        s.action(2285, 20)
+        saved = state(s)
+        s.action(2285, 20)
+        assert last(s, 'test.bleeding-minute')[:2] == ['reused', None]
+        assert state(s) == saved
+        s.command(f':save {path}\n@2287')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2287')
+        assert state(s) == saved
+        s.action(2285, 4)
+        s.action(2285, 23)
+        assert state(s) == [2, 1, 2, 2, None, 180, 120, 6]
+        s.action(2285, 4)
+        s.action(2285, 24)
+        assert state(s) == [2, 1, 3, 3, 180, 180, 180, 9]
+        s.action(2285, 5)
+        assert state(s)[6] == 241  # Completed episodes no longer block time.
+    finally:
+        s.close()
+    for change, injury, wounds, streak, stopped in [(26, 5, 2, 0, None),
+                                                   (29, 3, 2, 0, None),
+                                                   (31, 2, 1, 1, 60)]:
+        s = Session(bundle)
+        try:
+            setup(s)
+            s.action(2285, change)
+            before = state(s)
+            s.action(2285, 22)
+            assert state(s) == before
+            s.action(2285, 20)
+            after = state(s)
+            assert after[:5] == [injury, wounds, 1, streak, stopped]
+            assert after[-1] == 3
+            s.action(2285, 20)
+            assert state(s) == after
+        finally:
+            s.close()
+    for change, reason in [(27, 'bleeding-injury-policy-unimplemented'),
+                           (28, 'bleeding-loss-basis-required')]:
+        s = Session(bundle)
+        try:
+            setup(s)
+            s.action(2285, change)
+            before = state(s)
+            s.action(2285, 20)
+            assert last(s, 'test.bleeding-minute')[:2] == ['blocked', reason]
+            assert state(s) == before
         finally:
             s.close()

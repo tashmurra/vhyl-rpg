@@ -3331,3 +3331,92 @@ modify rpgLedger
         return nil;
     }
 ;
+
+modify RpgExpandedBleedingResult
+    wound = nil
+    context = nil
+;
+
+/** One owned due-minute check. Loss-basis policy is explicit author evidence
+ * until multi-wound/healing aggregation is reconciled from the reference. */
+class RpgExpandedBleedingMinute: object
+    id = nil
+    episode = nil
+    lossBasis = 0
+    basisEvidence = nil
+    approved = nil
+    dropDestination = nil
+    result = nil
+    boundDefinition = nil
+    resolvedAt = nil
+    definition()
+    {
+        return [self.id,self.episode,self.lossBasis,self.basisEvidence,self.approved,self.dropDestination];
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil
+            || !self.episode.ofKind(RpgExpandedBleedingEpisode)) rpgExpandedReject('bleeding-minute-definition');
+        local value = new RpgExpandedBleedingResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('bleeding-minute-binding');
+            if (!holds(self.episode.minutes,self)) rpgExpandedReject('bleeding-minute-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.episode.result == nil) { value.reason = 'bleeding-episode-not-started'; return value; }
+        self.episode.assess();
+        local profile = self.episode.classification.wound.profile;
+        if (self.episode.stoppedAt != nil || profile.dead || profile.bleedingEpisode != self.episode)
+        { value.reason = 'bleeding-episode-inactive'; return value; }
+        if (rpgLedger.seconds != self.episode.nextCheckAt)
+        { value.reason = 'bleeding-minute-not-due'; return value; }
+        if (!self.approved || self.basisEvidence == nil || self.basisEvidence == '')
+        { value.reason = 'bleeding-loss-basis-required'; return value; }
+        rpgInteger(self.lossBasis,0,1000000); rpgInteger(rpgLedger.seconds,0,2147483587);
+        foreach (local prior in self.episode.minutes)
+            if (prior.id == self.id || prior.resolvedAt == rpgLedger.seconds) rpgExpandedReject('bleeding-minute-duplicate');
+        /* The ordinary wound interface would add a major-wound check below this
+         * capacity. Blood-loss-specific small-body handling needs its own rule. */
+        if (profile.maxHP < 6 || profile.rules.lastWounds)
+        { value.reason = 'bleeding-injury-policy-unimplemented'; return value; }
+        local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'bleeding';
+        context.modifier = -(self.lossBasis / 5);
+        local score = rpgLiteScore(profile,context);
+        if (score == nil || score < 3) { value.reason = 'bleeding-score-unavailable'; return value; }
+        value.context = context;
+        value.wound = new RpgExpandedWound(); value.wound.id = 'bleeding-' + self.episode.id + '-' + self.id;
+        value.wound.profile = profile; value.wound.amount = 3; value.wound.dropDestination = self.dropDestination;
+        local maximumLoss = value.wound.assess();
+        if (maximumLoss.status != 'ready') { value.reason = maximumLoss.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local prepared = self.assess(); if (prepared.status != 'ready') return prepared;
+        local profile = self.episode.classification.wound.profile;
+        local check = rpgLiteCheck(profile,prepared.context);
+        local value = rpgExpandedBleedingOutcome(profile.ht,self.lossBasis,
+            check.score - profile.ht + self.lossBasis / 5,check.roll,self.episode.clearMinutes);
+        if (value.status != 'ready') rpgExpandedReject('bleeding-minute-outcome-changed');
+        value.check = check;
+        if (value.injury > 0)
+        {
+            prepared.wound.amount = value.injury;
+            local committed = prepared.wound.apply();
+            if (committed.status != 'resolved') rpgExpandedReject('bleeding-injury-changed');
+            value.wound = prepared.wound; value.injury = committed.health.injury;
+        }
+        self.episode.clearMinutes = value.clearMinutes;
+        if (value.stopped || profile.dead)
+        {
+            self.episode.stoppedAt = rpgLedger.seconds; profile.bleedingEpisode = nil;
+        }
+        else self.episode.nextCheckAt += 60;
+        self.boundDefinition = self.definition(); self.resolvedAt = rpgLedger.seconds;
+        self.episode.minutes = self.episode.minutes + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
