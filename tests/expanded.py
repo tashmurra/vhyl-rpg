@@ -9023,6 +9023,8 @@ def test(build):
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
     test_jump_profile(Session, jump_profile)
     test_jump_travel(Session, jump_profile)
+    jump_preparation = build.build('expanded-jump-preparation',ROOT / 'tests/fixtures/expanded-jump-preparation.t')
+    test_jump_preparation(Session, jump_preparation, build.out)
     jump_fall = build.build('expanded-jump-fall',ROOT / 'tests/fixtures/expanded-jump-fall.t')
     test_jump_fall(Session, jump_fall, build.out)
     throw_release = build.build('expanded-throw-release',ROOT / 'tests/fixtures/expanded-throw-release.t')
@@ -15418,5 +15420,52 @@ def test_jump_travel(Session, bundle):
         for code in (1303,1332):
             s.action(2285,code)
         assert last(s,'test.jump-travel') == ['ready',None,26880,1800,4,0,0]
+    finally:
+        s.close()
+
+
+def test_jump_preparation(Session, bundle, out):
+    def state(s):
+        s.action(2285,1344)
+        return last(s,'test.jump-preparation')
+    path = out / 'expanded-jump-preparation.zsave'
+    s = Session(bundle)
+    try:
+        for code in (1340,1342):
+            s.action(2285,code)
+        assert state(s) == [0,0,0,100,0,0]
+        s.action(2285,1341)
+        s.command('undo')
+        assert state(s) == [0,0,0,100,0,0]
+        for code in (1341,1343):
+            s.action(2285,code)
+        assert state(s) == [1,1,0,100,1,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1341,1343):
+            s.action(2285,code)
+        assert state(s) == [2,2,1,200,2,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        assert state(s) == [2,2,1,200,2,0]
+        s.action(2285,1345)
+        assert state(s) == [2,0,0,100,2,0]
+        s.action(2285,1341)
+        assert state(s) == [1,1,0,100,2,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (1340,1341,1343,1346,1343,1341):
+            s.action(2285,code)
+        assert state(s) == [1,3,0,100,2,0]
     finally:
         s.close()

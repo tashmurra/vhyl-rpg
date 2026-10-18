@@ -6670,3 +6670,23 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Preparation uses the normal battle scheduler and one fresh health gate per turn. */
+class RpgExpandedJumpPrepareManeuver: RpgExpandedHealthManeuver
+    kind = 'concentrate'
+    preparation = nil
+    available(fighter)
+    {
+        if (self.kind != 'concentrate' || self.preparation == nil
+            || !self.preparation.ofKind(RpgExpandedJumpPreparationReceipt))
+            rpgExpandedReject('jump-prepare-maneuver-definition');
+        local reason = inherited(fighter); if (reason != nil) return reason;
+        return self.preparation.available(fighter);
+    }
+    apply(fighter,result)
+    {
+        inherited(fighter,result);
+        self.preparation.record(fighter);
+        return nil;
+    }
+;

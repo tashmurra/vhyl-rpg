@@ -1153,3 +1153,27 @@ range. Maximum-distance speed does not let an unprepared standing jump exceed
 its own distance limit. These are pure assessments; time commitment, travel
 interruption, position changes and jump attacks remain pending. The speed table
 and profile-boundary fixtures in `test_jump_travel` are authored, unrun.
+
+### Recording combat jump preparation
+
+`RpgExpandedJumpPreparation` binds a `fighter` and its active `battle`. Use
+health's `RpgExpandedJumpPrepareManeuver` for each preparation turn, with this
+object as `preparation` and a fresh `RpgExpandedActionGate` as `healthGate`.
+Call the existing battle's `step` method. The battle spends its normal time;
+the preparation object charges no additional time or randomness.
+
+Two consecutive successful concentration turns establish readiness. Turn stamps,
+the shared ledger and increasing concentration counters must agree. A lost
+concentration counter invalidates readiness; unrelated concentration or skipped
+turns restart the sequence. Changing the fighter/battle after recording is
+rejected. Readiness lasts through the interval before the next action and cannot
+be recovered merely by setting the distance request's `prepared` flag.
+
+Set `RpgExpandedJumpDistance.preparation` and call `combatAssessment()` to derive
+full or half distance from this receipt. This method ignores the request's
+manually supplied `prepared` value. It does not perform or consume the subsequent
+jump; launch, travel interruption and position changes remain pending. Existing
+manual assessment remains available for authored situations outside this adapter.
+The `expanded-jump-preparation.t` fixture covers consecutive turns, interruption,
+unrelated concentration, rollback, undo and saved continuation. Assertions remain
+unrun while checks are paused.

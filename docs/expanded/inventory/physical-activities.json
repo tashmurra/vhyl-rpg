@@ -310,9 +310,10 @@
       "status": "partial",
       "acceptance": "Full combat jump distance requires two consecutive concentration maneuvers; an unprepared jump has half distance.",
       "tests": [
-        "tests/expanded.py::test_jump_assessment"
+        "tests/expanded.py::test_jump_assessment",
+        "tests/expanded.py::test_jump_preparation"
       ],
-      "validation_note": "Pure ordinary distance assessment implements standing/running formulas and independent caps, explicit half-skill substitution, preparation halving and optional fifth-based encumbrance factors without losing fractional inches. Printed examples, boundaries and preview purity assertions authored, unrun. Owned preparation, skill eligibility, difficult-jump rolls, enhanced traits, optional strength basis, movement and landing consequences remain pending; effective basis below two is explicitly unsupported."
+      "validation_note": "Pure distance preparation halving now has a battle-owned concentration adapter. Two consecutive successful health-gated concentration turns establish readiness; fighter/battle binding, concentration count, round stamps and ledger progression detect interruption or unrelated work. The battle alone charges time. Combat assessment derives preparation from the receipt. Consecutive/interrupted turns, unrelated concentration, rollback, undo and save continuation assertions authored, unrun. Actual launch consumption, travel and position changes remain pending."
     },
     {
       "id": "activity-jump-combat-small",

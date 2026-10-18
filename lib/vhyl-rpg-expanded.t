@@ -321,3 +321,9 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     enhancedJumpLevels() { return 0; }
 ;
+
+class RpgExpandedJumpPreparationReceipt: object
+    available(fighter) { return 'jump-preparation-unavailable'; }
+    record(fighter) { rpgExpandedReject('jump-preparation-unavailable'); }
+    readyFor(profile) { return nil; }
+;

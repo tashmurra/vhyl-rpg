@@ -3098,3 +3098,11 @@ locations and anatomy, critical hits and complete timed attack composition
 remain incomplete. `tests/fixtures/expanded-thrown-limbs.t` contains unrun
 assertions for all four locations, shield accuracy penalties, cutting severance,
 impaling damage, drops, knockdown, rollback, undo and saved continuation.
+
+## Jump preparation maneuvers
+
+`RpgExpandedJumpPrepareManeuver` extends the health-aware maneuver adapter with
+a concrete preparation receipt. Give every use a fresh action gate and pass the
+maneuver to the existing battle scheduler. Failed health permission records no
+preparation; successful turns record concentration without an additional time
+charge. See [recording combat jump preparation](exploration.md#recording-combat-jump-preparation).

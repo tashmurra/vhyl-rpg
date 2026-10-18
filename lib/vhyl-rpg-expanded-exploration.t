@@ -2357,3 +2357,61 @@ modify RpgExpandedJumpDistance
         return rpgExpandedAssessJumpTravel(self.profile.move(),maximum.broadInchTenths,distanceInchTenths);
     }
 ;
+
+/** B352 two consecutive concentration turns owned by an existing battle. */
+class RpgExpandedJumpPreparation: RpgExpandedJumpPreparationReceipt
+    fighter = nil
+    battle = nil
+    turns = 0
+    lastBattleSecond = nil
+    lastConcentration = nil
+    lastLedgerSecond = nil
+    boundFighter = nil
+    boundBattle = nil
+    available(fighter)
+    {
+        if (self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter) || self.fighter != fighter
+            || self.battle == nil || !self.battle.ofKind(RpgLiteBattle))
+            rpgExpandedReject('jump-preparation-definition');
+        if (self.turns > 0 && (self.fighter != self.boundFighter || self.battle != self.boundBattle))
+            rpgExpandedReject('jump-preparation-binding');
+        if (!self.battle.active || self.battle.current() != fighter) return 'jump-preparation-turn';
+        if (self.lastBattleSecond == self.battle.seconds) return 'jump-preparation-duplicate-turn';
+        return nil;
+    }
+    record(fighter)
+    {
+        local reason = self.available(fighter); if (reason != nil) rpgExpandedReject(reason);
+        if (fighter.maneuver != 'concentrate' || fighter.concentration < 1)
+            rpgExpandedReject('jump-preparation-maneuver');
+        if (self.lastBattleSecond == self.battle.seconds) rpgExpandedReject('jump-preparation-duplicate-turn');
+        if (self.lastBattleSecond != nil && self.battle.seconds == self.lastBattleSecond + 1
+            && rpgLedger.seconds == self.lastLedgerSecond + 1 && fighter.concentration == self.lastConcentration + 1) self.turns = 2;
+        else self.turns = 1;
+        self.boundFighter = fighter; self.boundBattle = self.battle; self.lastLedgerSecond = rpgLedger.seconds;
+        self.lastBattleSecond = self.battle.seconds; self.lastConcentration = fighter.concentration;
+        return nil;
+    }
+    readyFor(profile)
+    {
+        if (self.fighter == nil || self.battle == nil || self.fighter.profile != profile
+            || self.fighter != self.boundFighter || self.battle != self.boundBattle
+            || !self.battle.active || self.turns < 2 || self.fighter.concentration != self.lastConcentration
+            || self.fighter.maneuver != 'concentrate') return nil;
+        return self.battle.seconds >= self.lastBattleSecond && self.battle.seconds <= self.lastBattleSecond + 1
+            && rpgLedger.seconds - self.lastLedgerSecond == self.battle.seconds - self.lastBattleSecond;
+    }
+;
+modify RpgExpandedJumpDistance
+    preparation = nil
+    combatAssessment()
+    {
+        if (self.preparation == nil || !self.preparation.ofKind(RpgExpandedJumpPreparationReceipt))
+            rpgExpandedReject('jump-preparation-receipt-required');
+        local request = new RpgExpandedJumpDistance(); request.profile = self.profile; request.skill = self.skill;
+        request.runYards = self.runYards; request.prepared = self.preparation.readyFor(self.profile);
+        request.encumbranceOption = self.encumbranceOption; request.strengthOption = self.strengthOption;
+        request.bodyWeightHundredths = self.bodyWeightHundredths; request.bodyWeightEvidence = self.bodyWeightEvidence;
+        return request.assess();
+    }
+;

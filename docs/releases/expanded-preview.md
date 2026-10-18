@@ -988,3 +988,8 @@ Enhanced-jump travel assessment now calculates speed from current ground Move
 and maximum broad-jump range, retains fractional speeds and gives bounded
 whole-second travel time. Actual launch distance is checked independently.
 Time commitment and position changes remain pending; new assertions are unrun.
+
+Combat jump preparation now records consecutive concentration turns through the
+existing battle scheduler and health gates. Combat distance assessment derives
+preparation from that record. Interruption, unrelated concentration, ledger
+drift, rollback and saved continuation have authored coverage; checks remain paused.
