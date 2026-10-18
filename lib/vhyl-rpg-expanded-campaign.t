@@ -741,3 +741,71 @@ class RpgExpandedLifestyle: object
         value.status = 'ready'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    livingPayments = []
+    lastLivingPaymentAt = -1
+    fundedLivingStatus = nil
+;
+
+/** Full-period household payment, B265/B516. Members are [beneficiary, status].
+ * Per-beneficiary receipts prevent another payer from charging the same period. */
+class RpgExpandedLivingPayment: object
+    id = nil
+    period = nil
+    payer = nil
+    dueAt = 0
+    members = []
+    approved = nil
+    claimed = nil
+    boundPayer = nil
+    boundId = nil
+    boundPeriod = nil
+    assess()
+    {
+        if (self.id == nil || self.period == nil || self.payer == nil || !self.payer.ofKind(RpgExpandedProfile)
+            || self.members.length() == 0) rpgExpandedReject('living-payment-target');
+        if (self.claimed && (self.payer != self.boundPayer || self.id != self.boundId || self.period != self.boundPeriod))
+            rpgExpandedReject('living-payment-retargeted');
+        rpgInteger(self.dueAt,0,2147483647);
+        local value = new RpgExpandedAcquisitionResult(); local seen = []; local paid = 0; local total = 0;
+        foreach (local member in self.members)
+        {
+            if (member.length() != 2 || member[1] == nil || !member[1].ofKind(RpgExpandedProfile) || holds(seen,member[1]))
+                rpgExpandedReject('living-payment-member');
+            seen = seen + [member[1]]; local cost = rpgExpandedLivingCost(member[2]);
+            if (cost > 2147483647 - total) rpgExpandedReject('living-payment-limit');
+            total += cost; local covered = nil;
+            foreach (local receipt in member[1].livingPayments)
+                if (receipt[1] == self.period)
+                {
+                    if (receipt[2] != self.id || receipt[3] != self.payer || receipt[4] != member[2])
+                    { value.reason = 'living-period-already-covered'; return value; }
+                    paid += 1; covered = true;
+                }
+            if (!covered && self.dueAt <= member[1].lastLivingPaymentAt)
+                rpgExpandedReject('living-payment-date-order');
+        }
+        if (paid == self.members.length()) { value.status = 'reused'; return value; }
+        if (paid != 0) { value.reason = 'living-payment-partial-overlap'; return value; }
+        if (self.claimed) rpgExpandedReject('living-payment-members-changed');
+        if (!self.approved) { value.reason = 'living-payment-unapproved'; return value; }
+        if (rpgLedger.seconds < self.dueAt) { value.reason = 'living-payment-not-due'; return value; }
+        rpgExpandedValidate(self.payer); rpgInteger(self.payer.money,0,2147483647);
+        if (self.payer.money < total) { value.reason = 'living-payment-funds'; return value; }
+        value.money = total; value.status = 'ready'; return value;
+    }
+    pay()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.payer.money -= value.money;
+        foreach (local member in self.members)
+        {
+            member[1].livingPayments = member[1].livingPayments
+                + [[self.period,self.id,self.payer,member[2],rpgExpandedLivingCost(member[2]),self.dueAt]];
+            member[1].lastLivingPaymentAt = self.dueAt; member[1].fundedLivingStatus = member[2];
+        }
+        self.claimed = true; self.boundPayer = self.payer; self.boundId = self.id; self.boundPeriod = self.period;
+        value.status = 'resolved'; return value;
+    }
+;

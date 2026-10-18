@@ -858,7 +858,20 @@
       "tests": [
         "tests/expanded.py::test_lifestyle_prices"
       ],
-      "validation_note": "Monthly table and related lodging/food/clothing prices with status caps authored. Checks unrun; monthly settlement, dependents and lifestyle consequences pending."
+      "validation_note": "Monthly table and related lodging/food/clothing prices with status caps authored. Checks unrun; regional overrides and lifestyle consequences pending."
+    },
+    {
+      "id": "household-living-payment",
+      "module": "campaign",
+      "pages": "B265; B516",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLivingPayment",
+      "tests": [
+        "tests/expanded.py::test_household_payment",
+        "tests/expanded.py::test_living_persistence"
+      ],
+      "validation_note": "Full-period household costs and per-beneficiary receipts authored, including dependent support. Checks unrun; installments, local overrides and lifestyle consequences pending."
     }
   ],
   "detailed_inventories": [

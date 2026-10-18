@@ -478,10 +478,38 @@ The convention cannot be applied to non-outfit purchases.
 
 These are price assessments, not money deductions or inventory creation. Use an
 acquisition for physical goods and assign authored weights where the table supplies
-none. Monthly payment, dependent support, hospitality exceptions, regional price
-variations and consequences of living below status remain pending. Values beyond
+none. Hospitality exceptions, regional price variations and consequences of living
+below status remain pending. Values beyond
 the supported money range are explicitly rejected.
 
 `tests/expanded.py::test_lifestyle_prices` covers the complete monthly table, price
 percentages, weight units, status caps and clothing exceptions. These cases remain
 unrun while checks are paused.
+
+
+## Paying household expenses
+
+`RpgExpandedLivingPayment` pays one full period for an explicit household. Set an
+`id`, shared calendar `period` identifier, `payer`, `dueAt`, `approved`, and
+`members` as `[beneficiary, supportedStatus]` pairs. Include the payer as a member
+when paying their own expenses; dependents can be members without contributing
+money. The period identifier must be canonical across every payer in the campaign.
+Use this operation only when the campaign requires living-expense accounting.
+
+`assess()` sums the generic monthly costs and checks approval, chronology, available
+funds and prior beneficiary receipts without spending money, time or randomness.
+`pay()` deducts the total from the payer's existing balance and saves each member's
+period, payment ID, payer, supported status, cost and date. A repeated payment
+returns `reused`; a different payer cannot pay an already covered period again.
+Partly overlapping households are rejected before any deduction. Perform payment
+inside the normal action transaction so exceptions and undo restore every member.
+
+`fundedLivingStatus` records the most recently funded lifestyle. It does not change
+purchased status or automatically influence an encounter. Authors still supply
+calendar boundaries, organizational support and the consequences of living above
+or below status. Installments, partial periods and local price overrides are not
+supported by this full-period operation. It does not advance the shared clock.
+
+The authored `test_household_payment` and `test_living_persistence` cover independent
+cost totals, preview purity, repeated payment, competing payers, rollback, undo and
+cross-process receipt preservation. These tests remain unrun while checks are paused.

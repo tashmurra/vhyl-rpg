@@ -979,6 +979,37 @@ def test_job_variable_month(s):
     assert job_state(s) == [580, 400, 1, 1, 3, 100]
 
 
+def living_state(s):
+    s.action(1219)
+    return last(s, 'test.living-state')
+
+
+def test_household_payment(s):
+    initial = living_state(s)
+    assert initial == [2000, 0, 0, None, None, 0, 0]
+    s.action(1222)
+    assert last(s, 'test.living-gates') == [
+        'living-payment-unapproved', 'living-payment-not-due', 'living-payment-funds',
+        899, 0, 'living-payment-member', 'resolved', 299,
+        'living-payment-partial-overlap', 299, 0]
+    assert living_state(s) == initial
+    s.action(1220)
+    assert last(s, 'test.living-preview') == ['ready', 900]
+    assert living_state(s) == initial
+    s.action(1100, 79)
+    assert living_state(s) == initial
+    s.action(1100, 78)
+    assert last(s, 'test.living-payment') == ['resolved', 900]
+    assert living_state(s) == [1100, 1, 1, 0, -1, 0, 0]
+    s.command('undo')
+    assert living_state(s) == initial
+    s.action(1100, 78); s.action(1100, 78)
+    assert last(s, 'test.living-payment') == ['reused', 0]
+    s.action(1221)
+    assert last(s, 'test.living-other-payer') == ['blocked', 'living-period-already-covered', 2000]
+    assert living_state(s) == [1100, 1, 1, 0, -1, 0, 0]
+
+
 def test_lifestyle_prices(s):
     for status, expected in zip(range(-2, 9), [100, 300, 600, 1200, 3000, 12000, 60000, 600000, 6000000, 60000000, 600000000]):
         s.action(1217, status)
@@ -1077,6 +1108,27 @@ def test_trade_modifiers(s):
             assert last(s, 'test.trade-offer-modifier') == [expected]
     s.action(1198)
     assert last(s, 'test.trade-skill-modifier') == [2, 3, 4, 0]
+
+
+def test_living_persistence(Session, bundle, out):
+    path = out / 'expanded-living.zsave'
+    first = Session(bundle)
+    try:
+        first.action(1100, 78)
+        saved = living_state(first)
+        first.command(f':save {path}\n@1219')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@1219')
+        assert living_state(second) == saved
+        second.action(1100, 78)
+        assert last(second, 'test.living-payment') == ['reused', 0]
+        assert living_state(second) == saved
+    finally:
+        second.close()
 
 
 def test_trade_persistence(Session, bundle, out):
@@ -1373,7 +1425,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_service_anniversary,test_service_failure,test_service_automatic,test_rescue_loyalty,test_rescue_no_decrease,test_rescue_ungrateful,test_rescue_sacrifice,test_loyalty_pay,test_job_qualifications,test_job_month,test_job_demotion,test_job_dismissal,test_job_variable_month,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_service_anniversary,test_service_failure,test_service_automatic,test_rescue_loyalty,test_rescue_no_decrease,test_rescue_ungrateful,test_rescue_sacrifice,test_loyalty_pay,test_job_qualifications,test_job_month,test_job_demotion,test_job_dismissal,test_job_variable_month,test_household_payment,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')
@@ -1387,6 +1439,7 @@ def test(build):
     fresh(Session,minimal,test_campaign_minimal)
     fresh(Session,minimal,test_job_earnings)
     fresh(Session,minimal,test_lifestyle_prices)
+    test_living_persistence(Session,bundle,build.out)
     test_trade_persistence(Session,bundle,build.out)
     test_reputation_persistence(Session,bundle,build.out)
     test_equipment_persistence(Session,bundle,build.out)

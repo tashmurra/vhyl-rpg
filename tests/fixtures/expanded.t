@@ -91,6 +91,10 @@ workerFailure: RpgExpandedJobFailure evidence = 'courier-contract';
 workerEmployment: RpgExpandedEmployment id = 'courier-post' owner = jobWorker job = workerJob
     monthlyPay = 400 raiseTiming = 'next-month' failurePolicy = workerFailure;
 workerMonth: RpgExpandedJobMonth employment = workerEmployment month = 1 dueAt = 100 fullMonthWorked = true;
+householdPayer: RpgExpandedProfile rules = expandedRules money = 2000;
+householdDependent: RpgExpandedProfile rules = expandedRules;
+householdPayment: RpgExpandedLivingPayment id = 'household-first-month' period = 'first-month'
+    payer = householdPayer members = [[householdPayer,0],[householdDependent,-1]] approved = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -301,6 +305,11 @@ class ExpandedTestAction: Action
             local value = workerMonth.settle(); event('test.job-month');
             eventValue(value.status); eventValue(value.money); eventValue(value.nextPay);
             if (code == 73) throw new RpgError();
+        }
+        if (code == 78 || code == 79)
+        {
+            local value = householdPayment.pay(); event('test.living-payment'); eventValue(value.status); eventValue(value.money);
+            if (code == 79) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -1385,6 +1394,43 @@ act(verb, args)
     {
         local value = workerMonth.assess(); event('test.job-month-preview'); eventValue(value.status);
         eventValue(value.reason); eventValue(value.check); return nil;
+    }
+    if (verb == 1219)
+    {
+        event('test.living-state'); eventValue(householdPayer.money);
+        eventValue(householdPayer.livingPayments.length()); eventValue(householdDependent.livingPayments.length());
+        eventValue(householdPayer.fundedLivingStatus); eventValue(householdDependent.fundedLivingStatus);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 1220)
+    {
+        local value = householdPayment.assess(); event('test.living-preview'); eventValue(value.status); eventValue(value.money); return nil;
+    }
+    if (verb == 1221)
+    {
+        local payer = new RpgExpandedProfile(); payer.rules = expandedRules; payer.money = 2000;
+        local payment = new RpgExpandedLivingPayment(); payment.id = 'duplicate-support'; payment.period = 'first-month';
+        payment.payer = payer; payment.members = [[householdDependent,-1]]; payment.approved = true;
+        local value = payment.pay(); event('test.living-other-payer'); eventValue(value.status); eventValue(value.reason);
+        eventValue(payer.money); return nil;
+    }
+    if (verb == 1222)
+    {
+        local payer = new RpgExpandedProfile(); payer.rules = expandedRules; payer.money = 899;
+        local dependent = new RpgExpandedProfile(); dependent.rules = expandedRules;
+        local payment = new RpgExpandedLivingPayment(); payment.id = 'gate-household'; payment.period = 'gate-period';
+        payment.payer = payer; payment.members = [[payer,0],[dependent,-1]];
+        event('test.living-gates'); local value = payment.assess(); eventValue(value.reason);
+        payment.approved = true; payment.dueAt = 1;
+        value = payment.assess(); eventValue(value.reason);
+        payment.dueAt = 0; value = payment.pay(); eventValue(value.reason);
+        eventValue(payer.money); eventValue(dependent.livingPayments.length());
+        payment.members = [[payer,0],[payer,-1]];
+        try { payment.assess(); } catch (RpgExpandedError error) { eventValue(error.reason); }
+        payment.members = [[payer,0]]; value = payment.pay(); eventValue(value.status); eventValue(payer.money);
+        payment.members = [[payer,0],[dependent,-1]];
+        value = payment.pay(); eventValue(value.reason); eventValue(payer.money);
+        eventValue(dependent.livingPayments.length()); return nil;
     }
     return vhylAct(verb,args);
 }
