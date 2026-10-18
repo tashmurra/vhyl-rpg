@@ -2,7 +2,7 @@
 #include <vhyl-rpg-expanded-skills.t>
 crossMedicalSkill: RpgExpandedSkill id = 'physician' attribute = rpgIQ difficulty = 2 techLevel = 8;
 crossMedicalTraining: RpgTraining skill = crossMedicalSkill points = 4;
-crossMedicalKnowledge: RpgExpandedSkill id = 'physiology' attribute = rpgIQ difficulty = 2 techLevel = 8 specialty = 'river-folk';
+crossMedicalKnowledge: RpgExpandedPhysiologySkill techLevel = 8 specialty = 'river-folk';
 crossMedicalKnowledgeTraining: RpgTraining skill = crossMedicalKnowledge points = 4;
 crossPhysician: RpgExpandedProfile rules = healthRules iq = 12 techLevel = 8 skills = [crossMedicalTraining,crossMedicalKnowledgeTraining];
 physicianKnowledge: RpgExpandedPhysiologyCheck id = 'physician-knowledge' profile = crossPhysician subject = physicianPatient operation = physicianCheck

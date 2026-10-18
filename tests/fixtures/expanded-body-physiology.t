@@ -1,5 +1,5 @@
 #include "expanded-body-reading.t"
-physiologySkill: RpgExpandedSkill id = 'physiology' attribute = rpgIQ difficulty = 2 techLevel = 8 specialty = 'river-folk';
+physiologySkill: RpgExpandedPhysiologySkill techLevel = 8 specialty = 'river-folk';
 physiologyTraining: RpgTraining skill = physiologySkill points = 4;
 biologySkill: RpgExpandedSkill id = 'biology' attribute = rpgIQ difficulty = 3 techLevel = 8 specialty = 'temperate';
 biologyTraining: RpgTraining skill = biologySkill points = 8;

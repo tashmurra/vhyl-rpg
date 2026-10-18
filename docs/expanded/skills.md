@@ -769,3 +769,28 @@ technology levels reject. The exploration library's
 breath-duration bonus through an owned receipt. The separate `RpgExpandedBreathingRecovery` operation implements two-minute
 quiet-rest checks through the shared fatigue ledger. The `test_breath_preparation` fixture
 covers this integration and remains unrun.
+
+
+## Physiology catalogue skill
+
+`RpgExpandedPhysiologySkill` implements the IQ/Hard skill at an explicit
+`techLevel` and species `specialty` (full-2008 B213). Use a species identifier even
+in a single-species setting so medical knowledge receipts identify their subject.
+The skill supplies IQ-6 and same-technology defaults from purchased diagnosis,
+physician or surgery at -5. The existing resolver rejects chained untrained
+defaults and supports purchased improvements through `RpgExpandedTraining`.
+
+Cross-species defaults are author decisions, not a universal table. Add
+`RpgExpandedPhysiologyDefault` objects to the target skill's `speciesDefaults`.
+Each requires a typed `source` skill with a different specialty at the same
+technology, an explicit nonpositive `penalty`, `approved = true`, and concrete
+`evidence` explaining the relationship in this world. Duplicate sources reject.
+No relationship is assumed merely because another physiology specialty is trained.
+A source with no purchased training cannot supply a default.
+
+This typed skill can be used by `RpgExpandedPhysiologyCheck`, including the
+body-reading, first-aid, physician-healing and surgery integrations. Existing
+explicitly authored skill objects remain supported. `test_physiology_skill`
+provides independent expectations for each printed default, mismatched technology,
+authored relationships, untrained sources and invalid definitions. These fixtures
+and the updated medical integration fixtures remain unrun while checks are paused.

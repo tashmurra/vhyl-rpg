@@ -940,9 +940,10 @@
       "pages": "B213",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require species specialization when applicable and explicit author-approved cross-species defaults.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_physiology_skill", "tests/expanded.py::test_body_physiology", "tests/expanded.py::test_first_aid_physiology", "tests/expanded.py::test_physician_physiology"],
+      "validation_note": "Typed IQ/Hard, explicit-TL species skill implements IQ-6 and paid same-TL medical defaults at -5. Cross-species edges require explicit author approval and evidence; untrained sources and duplicate edges reject. Medical knowledge fixtures use the typed definition. Fixtures authored but unrun; full catalogue integration and validation remain pending.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",

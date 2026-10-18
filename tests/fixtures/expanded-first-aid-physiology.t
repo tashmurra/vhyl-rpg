@@ -2,7 +2,7 @@
 #include <vhyl-rpg-expanded-skills.t>
 crossAidSkill: RpgExpandedSkill id = 'first-aid' attribute = rpgIQ difficulty = 0 techLevel = 8;
 crossAidTraining: RpgTraining skill = crossAidSkill points = 1;
-crossPhysiologySkill: RpgExpandedSkill id = 'physiology' attribute = rpgIQ difficulty = 2 techLevel = 8 specialty = 'river-folk';
+crossPhysiologySkill: RpgExpandedPhysiologySkill techLevel = 8 specialty = 'river-folk';
 crossPhysiologyTraining: RpgTraining skill = crossPhysiologySkill points = 4;
 crossHealer: RpgExpandedProfile rules = healthRules iq = 12 techLevel = 8 skills = [crossAidTraining,crossPhysiologyTraining];
 crossKnowledge: RpgExpandedPhysiologyCheck id = 'aid-knowledge' profile = crossHealer subject = aidPatient operation = aidRequest

@@ -1356,3 +1356,61 @@ modify RpgExpandedDiagnosisSkill
         context.skill = self; context.kind = 'diagnosis'; context.equipmentTL = equipmentTL; return context;
     }
 ;
+
+/** Full-2008 B213: an authored relationship between species specialties. */
+class RpgExpandedPhysiologyDefault: object
+    source = nil
+    penalty = nil
+    approved = nil
+    evidence = nil
+    assessFor(target)
+    {
+        if (self.source == nil || !self.source.ofKind(RpgExpandedPhysiologySkill)
+            || self.source == target || self.source.specialty == target.specialty
+            || self.source.techLevel != target.techLevel)
+            rpgExpandedReject('physiology-default-source');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('physiology-default-evidence');
+        rpgInteger(self.penalty,-100,0); return [self.source,self.penalty];
+    }
+;
+
+/** B213 printed defaults plus explicit author decisions between species. */
+class RpgExpandedPhysiologySkill: RpgExpandedSkill
+    id = 'physiology'
+    attribute = rpgIQ
+    difficulty = 2
+    defaultPenalty = -6
+    speciesDefaults = []
+    validateDefinition()
+    {
+        if (self.id != 'physiology' || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != -6
+            || self.defaultAttribute != nil || self.alternateAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil
+            || self.specialty == nil || self.specialty == '' || self.techLevel == nil)
+            rpgExpandedReject('physiology-skill-definition');
+        rpgInteger(self.techLevel,0,12);
+        local seen = [];
+        foreach (local relation in self.speciesDefaults)
+        {
+            if (relation == nil || !relation.ofKind(RpgExpandedPhysiologyDefault))
+                rpgExpandedReject('physiology-default-definition');
+            local pair = relation.assessFor(self);
+            if (holds(seen,pair[1])) rpgExpandedReject('physiology-default-duplicate');
+            seen = seen + [pair[1]];
+        }
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill) || source.techLevel != self.techLevel) continue;
+            if (holds(['diagnosis','physician','surgery'],source.id)) edges = edges + [[source,-5]];
+        }
+        foreach (local relation in self.speciesDefaults) edges = edges + [relation.assessFor(self)];
+        return edges;
+    }
+;

@@ -9374,6 +9374,8 @@ def test(build):
     test_first_aid_physiology(Session, first_aid_physiology)
     physician_physiology = build.build("expanded-physician-physiology",ROOT / "tests/fixtures/expanded-physician-physiology.t")
     test_physician_physiology(Session, physician_physiology, build.out)
+    physiology_skill = build.build("expanded-physiology-skill",ROOT / "tests/fixtures/expanded-physiology-skill.t")
+    test_physiology_skill(Session, physiology_skill)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23567,3 +23569,25 @@ def test_physician_physiology(Session, bundle, out):
         assert last(s,'test.physician-physiology-error') == ['physician-physiology-binding']
     finally:
         s.close()
+
+
+def test_physiology_skill(Session, bundle):
+    """B213: IQ-6, three medical defaults, and authored species relationships; unrun."""
+    for setup, expected in (((),6),((19601,),11),((19602,),11),((19603,),11),
+                            ((19601,19604),6),((19605,),6),((19605,19606),14),
+                            ((19605,19606,19607),6)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,19600):
+                s.action(1680,code)
+            assert last(s,'test.physiology-skill') == [expected,0,0]
+        finally:
+            s.close()
+    for code, reason in ((19608,'physiology-default-evidence'),(19609,'physiology-skill-definition'),
+                         (19610,'physiology-default-duplicate')):
+        s = Session(bundle)
+        try:
+            s.action(1680,code)
+            assert last(s,'test.physiology-skill-error') == [reason]
+        finally:
+            s.close()
