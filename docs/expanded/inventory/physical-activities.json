@@ -544,9 +544,12 @@
       "pages": "B354",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Land-dweller water movement is floor(basic movement/5), minimum one, before applicable purchased changes; aquatic and amphibious actors use full basic movement.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swimming_movement_endurance"
+      ],
+      "validation_note": "Pure ordinary water movement and HT/Swimming endurance selection authored; fixtures unrun. Owned movement/endurance intervals, low-fatigue/injury adjustments, heat, extra effort and balance-check integration remain incomplete."
     },
     {
       "id": "activity-swim-distance",
@@ -554,9 +557,12 @@
       "pages": "B354",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use ten-second distance intervals for long swims and apply encumbrance to ten times water movement; water movement one with heavy encumbrance covers four yards in ten seconds.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swimming_movement_endurance"
+      ],
+      "validation_note": "Pure ordinary water movement and HT/Swimming endurance selection authored; fixtures unrun. Owned movement/endurance intervals, low-fatigue/injury adjustments, heat, extra effort and balance-check integration remain incomplete."
     },
     {
       "id": "activity-swim-fatigue",
@@ -564,9 +570,12 @@
       "pages": "B355",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At top speed roll the higher of health or swimming each minute; slow swimming or floating checks every thirty minutes. Failure costs one fatigue and low-fatigue state halves water movement.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swimming_movement_endurance"
+      ],
+      "validation_note": "Pure ordinary water movement and HT/Swimming endurance selection authored; fixtures unrun. Owned movement/endurance intervals, low-fatigue/injury adjustments, heat, extra effort and balance-check integration remain incomplete."
     },
     {
       "id": "activity-swim-rescue",

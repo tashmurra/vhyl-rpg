@@ -760,6 +760,20 @@ def test_cold_persistence(Session, bundle, out):
             second.close()
 
 
+def test_swimming_movement_endurance(s):
+    for move, adapted, load, water, distance in [(1,0,0,1,10),(4,0,3,1,4),
+            (9,0,0,1,10),(10,0,0,2,20),(15,0,4,3,6),
+            (5,1,0,5,50),(5,1,3,5,20),(7,1,1,7,56)]:
+        s.action(1878, move, adapted, load)
+        assert last(s, 'test.swim-movement') == [water,distance,10]
+    for points, weight, pace, score, trained, interval in [
+            (0,0,'top-speed',10,0,60),(1,0,'slow',10,0,1800),
+            (4,0,'floating',12,1,1800),(4,3000,'top-speed',10,0,60),
+            (8,3000,'top-speed',11,1,60)]:
+        s.action(1879, points, weight, pace)
+        assert last(s, 'test.swim-endurance') == ['ready',score,trained,interval,1,0,0]
+
+
 def test_swimming_encounter(s):
     s.action(1876)
     assert last(s, 'test.swim-entry') == [10,1,'struggling',5,3]
@@ -3890,6 +3904,7 @@ def test(build):
     fresh(Session,exploration,test_swimming_assessments)
     fresh(Session,exploration,test_swimming_encounter)
     fresh(Session,exploration,test_swimming_context)
+    fresh(Session,exploration,test_swimming_movement_endurance)
     fresh(Session,exploration,test_breath_reserve)
     breath_transactions = build.build('expanded-breath-transactions',ROOT / 'tests/fixtures/expanded-breath-transactions.t')
     fresh(Session,breath_transactions,test_breath_transactions)

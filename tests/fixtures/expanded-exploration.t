@@ -99,5 +99,23 @@ act(verb,args)
         local value = check.assess(); event('test.swim-score'); eventValue(value.status); eventValue(value.reason);
         eventValue(value.context == nil ? nil : rpgLiteScore(patient,value.context)); eventValue(patient.fatigue); eventValue(rpgRandom.draws); return nil;
     }
+    if (verb == 1878)
+    {
+        local value = rpgExpandedSwimmingMovement(args[1],args[2] == 1,args[3]);
+        event('test.swim-movement'); eventValue(value.waterMove); eventValue(value.yardsPerTenSeconds);
+        eventValue(value.seconds); return nil;
+    }
+    if (verb == 1879)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();
+        local skill = new RpgLiteSkill(); skill.id = 'swimming'; skill.attribute = rpgHT; skill.difficulty = 0; skill.defaultPenalty = -4;
+        local training = new RpgTraining(); training.skill = skill; training.points = args[1]; patient.skills = [training];
+        local item = new RpgLiteItem(); item.weight = args[2]; patient.equipment = [item];
+        local time = rpgLedger.seconds; local draws = rpgRandom.draws;
+        local value = rpgExpandedSwimmingEndurance(patient,skill,args[3]);
+        event('test.swim-endurance'); eventValue(value.status); eventValue(value.score);
+        eventValue(value.context.skill == skill ? 1 : 0); eventValue(value.seconds); eventValue(value.failureFatigue);
+        eventValue(rpgLedger.seconds - time); eventValue(rpgRandom.draws - draws); return nil;
+    }
     return vhylAct(verb,args);
 }

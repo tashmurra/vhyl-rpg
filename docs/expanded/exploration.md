@@ -178,3 +178,36 @@ protection and leaving. `test_swimming_context` covers untrained caps, trained a
 untrained encumbrance, default availability and explicit unsupported states. These
 fixtures remain unrun while checks are paused; dedicated transaction and
 cross-process continuation fixtures are still outstanding.
+
+
+## Water movement and endurance assessment
+
+`rpgExpandedSwimmingMovement(basicMove, adapted, encumbrance)` supplies the B354
+ordinary movement calculation. A land-dweller's water Move is one fifth of positive
+Basic Move, rounded down with a minimum of one. An aquatic or amphibious actor
+uses full Basic Move. The `adapted` input must reflect an established capability;
+it does not grant that capability or breathing independence. The helper returns
+`waterMove` and `yardsPerTenSeconds`, using encumbrance factors without prematurely
+rounding away fractional per-second movement. For water Move one and heavy
+encumbrance, the ten-second distance is four yards.
+
+This helper is before injury, exhaustion, purchased water movement, current,
+terrain or maneuver effects. It must not substitute for those adjustments. In
+particular, B355/B426 requires reduced movement below one-third remaining fatigue;
+that interaction is not yet integrated here. No movement or elapsed time is
+committed by assessing a distance.
+
+`rpgExpandedSwimmingEndurance(profile, skill, pace)` compares HT with the supplied
+Swimming skill through the shared scorer and selects the higher target. Ties use
+HT. No skill is required to use HT. Pace is `top-speed`, `slow` or `floating`:
+the first checks every sixty seconds, the others every eighteen hundred seconds.
+Failure costs one fatigue. The assessment supplies `context`, `score`, `seconds`
+and `failureFatigue` without rolling or spending. It excludes the intentional-entry
+and build bonuses of the separate balance-check procedure. A skill context still
+receives its ordinary encumbrance modifier once through the shared scorer.
+
+Owned endurance intervals, intersections with balance checks, heat surcharges,
+extra effort and movement changes at fatigue thresholds remain incomplete.
+`test_swimming_movement_endurance` records movement boundaries, the printed
+heavy-encumbrance example, adapted movement, HT/skill selection and pace intervals.
+These fixtures remain unrun while checks are paused.

@@ -430,3 +430,46 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+class RpgExpandedSwimmingMovement: RpgExpandedResult
+    waterMove = 0
+    yardsPerTenSeconds = 0
+;
+
+/** Ordinary water movement before injury, fatigue or purchased movement changes. B354. */
+rpgExpandedSwimmingMovement(basicMove, adapted, encumbrance)
+{
+    rpgInteger(basicMove,1,1000); rpgInteger(encumbrance,0,4);
+    local value = new RpgExpandedSwimmingMovement();
+    value.waterMove = adapted ? basicMove : basicMove / 5;
+    if (!adapted && value.waterMove < 1) value.waterMove = 1;
+    /* Ten-second distance preserves fractional per-second encumbered speed. */
+    value.yardsPerTenSeconds = value.waterMove * [10,8,6,4,2][encumbrance + 1];
+    value.seconds = 10; value.status = 'ready'; return value;
+}
+
+class RpgExpandedSwimmingEnduranceAssessment: RpgExpandedResult
+    context = nil
+    score = nil
+    failureFatigue = 1
+;
+
+/** HT or Swimming, whichever is higher, without balance-check entry bonuses. B355. */
+rpgExpandedSwimmingEndurance(profile, skill, pace)
+{
+    if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('swimming-endurance-profile');
+    if (!holds(['top-speed','slow','floating'],pace)) rpgExpandedReject('swimming-pace');
+    local value = new RpgExpandedSwimmingEnduranceAssessment(); value.seconds = pace == 'top-speed' ? 60 : 1800;
+    value.context = new RpgLiteContext(); value.context.attribute = rpgHT; value.context.kind = 'swimming-endurance';
+    value.score = rpgLiteScore(profile,value.context);
+    if (skill != nil)
+    {
+        if (!skill.ofKind(RpgLiteSkill) || skill.id != 'swimming' || skill.attribute != rpgHT || skill.difficulty != 0)
+            rpgExpandedReject('swimming-skill-definition');
+        local alternate = new RpgLiteContext(); alternate.skill = skill; alternate.kind = 'swimming-endurance';
+        local score = rpgLiteScore(profile,alternate);
+        if (score != nil && (value.score == nil || score > value.score)) { value.score = score; value.context = alternate; }
+    }
+    if (value.score == nil || value.score < 3) { value.reason = 'swimming-endurance-score'; return value; }
+    value.status = 'ready'; return value;
+}
