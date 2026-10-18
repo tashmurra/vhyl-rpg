@@ -696,3 +696,50 @@ rpgExpandedWarTrainingValue(baseValue, priceIncludesWarTraining)
 {
     return rpgExpandedAnimalScaledValue(baseValue,priceIncludesWarTraining ? 1 : 2,1);
 }
+
+class RpgExpandedNaturalDamage: RpgExpandedResult
+    dice = 0
+    adds = 0
+    damageType = nil
+    skillBonus = 0
+    anatomyBonus = 0
+;
+
+/** B460: unmodified thrust input, with anatomy and trained brawling applied once. */
+rpgExpandedNaturalDamage(thrustDice, thrustAdds, kind, anatomy, weakBite, horizontal, dexterity, brawlingScore)
+{
+    rpgInteger(thrustDice,1,100); rpgInteger(thrustAdds,-1000,1000);
+    rpgInteger(dexterity,1,1000);
+    if (brawlingScore != nil) rpgInteger(brawlingScore,-1000,1000);
+    if (!holds(['bite','claw','kick','striker'],kind)) rpgExpandedReject('animal-natural-attack-kind');
+    if (weakBite && kind != 'bite') rpgExpandedReject('animal-natural-unused-weak-bite');
+    if (horizontal && kind != 'kick') rpgExpandedReject('animal-natural-unused-horizontal');
+    local value = new RpgExpandedNaturalDamage(); value.dice = thrustDice;
+    value.damageType = 'cr'; local perDie = 0; local flat = 0;
+    if (kind == 'bite')
+    {
+        if (!holds(['ordinary','sharp-teeth','fangs'],anatomy)) rpgExpandedReject('animal-natural-bite-anatomy');
+        flat = -1; if (weakBite) perDie -= 2;
+        if (anatomy == 'sharp-teeth') value.damageType = 'cut';
+        if (anatomy == 'fangs') value.damageType = 'imp';
+    }
+    else if (kind == 'striker')
+    {
+        if (!holds(['cr','cut','imp'],anatomy)) rpgExpandedReject('animal-natural-striker-type');
+        value.damageType = anatomy; perDie = 1;
+    }
+    else
+    {
+        if (!holds(['ordinary','blunt-claws','sharp-claws','hooves'],anatomy)
+            || (kind == 'claw' && anatomy == 'hooves')) rpgExpandedReject('animal-natural-limb-anatomy');
+        if (kind == 'claw') flat = -1;
+        if (anatomy == 'blunt-claws' || anatomy == 'hooves') perDie += 1;
+        if (anatomy == 'sharp-claws') value.damageType = 'cut';
+        if (kind == 'kick' && horizontal && !holds(['blunt-claws','sharp-claws'],anatomy)) perDie -= 1;
+    }
+    value.anatomyBonus = flat + perDie * thrustDice;
+    value.skillBonus = brawlingScore != nil && brawlingScore >= dexterity + 2 ? thrustDice : 0;
+    value.adds = thrustAdds + value.anatomyBonus + value.skillBonus;
+    if (value.adds < -1000 || value.adds > 1000) rpgExpandedReject('animal-natural-damage-limit');
+    value.status = 'ready'; return value;
+}

@@ -16,7 +16,7 @@ pending implementation and validation.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
-Include `vhyl-rpg-expanded-creatures.t` after the expanded foundation. It provides training assessments and owned task/calming checks; it does not yet execute training days or creature combat. The convenience umbrella includes it without activating any rules.
+Include `vhyl-rpg-expanded-creatures.t` after the expanded foundation. It provides owned training days and milestones, task/calming checks, exact valuation assessments and natural-attack formulas. Creature combat execution remains incomplete. The convenience umbrella includes it without activating any rules.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
 
@@ -316,3 +316,39 @@ applying any helper.
 multipliers, Move premiums, already-included war training, fractional prices,
 zero prices and unsupported qualification cases. Fixtures remain unrun.
 Source: `full-2008`, B459.
+## Natural attack damage
+
+`rpgExpandedNaturalDamage(thrustDice, thrustAdds, kind, anatomy, weakBite,
+horizontal, dexterity, brawlingScore)` assesses the natural-attack formulas in
+`full-2008`, B460. Supply **unmodified thrust** for the animal's current strength.
+Do not supply an encounter's already adjusted bite or kick: that would count
+anatomy and skill twice. A missing brawling score is `nil`.
+
+Supported combinations:
+
+| Kind | Anatomy values |
+| --- | --- |
+| `bite` | `ordinary`, `sharp-teeth`, `fangs` |
+| `claw` | `ordinary`, `blunt-claws`, `sharp-claws` |
+| `kick` | `ordinary`, `blunt-claws`, `sharp-claws`, `hooves` |
+| `striker` | `cr`, `cut`, `imp`, as established by the actual trait |
+
+Use `weakBite` only for bites and `horizontal` only for kicks. Horizontal
+posture reduces kicking damage when the limb lacks claws; it cancels the hoof
+bonus. Brawling at dexterity plus two contributes one point per die to every
+supported attack. Invalid anatomy combinations are rejected.
+
+The `RpgExpandedNaturalDamage` result contains `dice`, `adds`, `damageType`,
+`anatomyBonus` and `skillBonus`. For example, raw thrust `2d-1`, horizontal
+hooves and no qualifying brawling produce `2d-1` crushing; qualifying brawling
+changes this to `2d+1`. The function makes no rolls and changes no ledger.
+Negative adds remain intact until basic damage is rolled and its minimum is
+applied by the damage resolver.
+
+This assessment does not establish attack legality, choose a target, roll an
+attack or apply an injury. Complete strength-table lookup, creature catalogue
+wiring and combat dispatch remain pending. In particular, do not use the Lite
+strength table for animals above its supported range. The authored
+`test_animal_natural_damage` fixture covers the formula branches and the skill
+threshold; it remains unrun while checks are paused.
+

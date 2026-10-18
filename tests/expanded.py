@@ -1664,6 +1664,33 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_animal_natural_damage(s):
+    # Independent B460 examples use raw thrust 2d-1, not precomputed creature attacks.
+    for kind,anatomy,weak,horizontal,score,adds,dtype,anatomy_bonus,skill_bonus in [
+            ('bite','ordinary',0,0,10,-2,'cr',-1,0),
+            ('bite','sharp-teeth',0,0,11,-2,'cut',-1,0),
+            ('bite','fangs',0,0,12,0,'imp',-1,2),
+            ('bite','ordinary',1,0,10,-6,'cr',-5,0),
+            ('bite','ordinary',1,0,12,-4,'cr',-5,2),
+            ('claw','ordinary',0,0,10,-2,'cr',-1,0),
+            ('claw','blunt-claws',0,0,10,0,'cr',1,0),
+            ('claw','sharp-claws',0,0,12,0,'cut',-1,2),
+            ('kick','ordinary',0,0,10,-1,'cr',0,0),
+            ('kick','ordinary',0,1,10,-3,'cr',-2,0),
+            ('kick','hooves',0,0,10,1,'cr',2,0),
+            ('kick','hooves',0,1,10,-1,'cr',0,0),
+            ('kick','blunt-claws',0,1,10,1,'cr',2,0),
+            ('kick','sharp-claws',0,1,12,1,'cut',0,2),
+            ('striker','cr',0,0,10,1,'cr',2,0),
+            ('striker','cut',0,0,12,3,'cut',2,2),
+            ('striker','imp',0,0,12,3,'imp',2,2)]:
+        s.action(2214,2,-1,kind,anatomy,weak,horizontal,10,score)
+        assert last(s,'test.natural-damage') == ['ready',2,adds,dtype,anatomy_bonus,skill_bonus,0,0]
+    # Missing skill grants no bonus. Negative adds remain a formula, not premature damage clamping.
+    s.action(2214,1,-6,'bite','ordinary',1,0,10,None)
+    assert last(s,'test.natural-damage') == ['ready',1,-9,'cr',-3,0,0,0]
+
+
 def test_animal_values(s):
     for args,numerator,denominator,money in [
             (('domestic',100,2,0),100,1,100),
@@ -7555,6 +7582,7 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
+    fresh(Session,creatures,test_animal_natural_damage)
     fresh(Session,creatures,test_animal_values)
     test_learned_animal_tasks(Session,creatures)
     test_animal_milestones(Session,creatures)

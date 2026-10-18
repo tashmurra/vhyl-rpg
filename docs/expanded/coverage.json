@@ -71,7 +71,8 @@
         "tests/expanded.py::test_animal_daily_failure",
         "tests/expanded.py::test_animal_milestones",
         "tests/expanded.py::test_learned_animal_tasks",
-        "tests/expanded.py::test_animal_values"
+        "tests/expanded.py::test_animal_values",
+        "tests/expanded.py::test_animal_natural_damage"
       ]
     },
     {

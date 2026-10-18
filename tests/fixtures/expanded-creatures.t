@@ -167,6 +167,13 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2214)
+    {
+        local value = rpgExpandedNaturalDamage(args[1],args[2],args[3],args[4],args[5] != 0,args[6] != 0,args[7],args[8]);
+        event('test.natural-damage'); eventValue(value.status); eventValue(value.dice); eventValue(value.adds);
+        eventValue(value.damageType); eventValue(value.anatomyBonus); eventValue(value.skillBonus);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2213)
     {
         local value = nil;

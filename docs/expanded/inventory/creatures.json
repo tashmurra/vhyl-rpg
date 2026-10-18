@@ -848,9 +848,12 @@
       "pages": "B460",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A bite starts at thrust minus one; ordinary bite damage is crushing, sharp teeth change it to cutting and fangs to impaling.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust assessment authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, complete strength tables and catalogue wiring remain pending."
     },
     {
       "id": "creature-natural-damage-weak-bite",
@@ -858,9 +861,12 @@
       "pages": "B460",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Weak bite adds a further penalty of two per die to bite damage.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust assessment authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, complete strength tables and catalogue wiring remain pending."
     },
     {
       "id": "creature-natural-damage-claw",
@@ -868,9 +874,12 @@
       "pages": "B460",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A claw starts at thrust minus one; blunt claws add one per die and remain crushing, while sharp claws change damage to cutting without that bonus.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust assessment authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, complete strength tables and catalogue wiring remain pending."
     },
     {
       "id": "creature-natural-damage-kick",
@@ -878,9 +887,12 @@
       "pages": "B460",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A kick starts at thrust; blunt claws or hooves add one per die crushing, while sharp claws yield cutting without that bonus.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust assessment authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, complete strength tables and catalogue wiring remain pending."
     },
     {
       "id": "creature-natural-damage-horizontal-kick",
@@ -888,9 +900,12 @@
       "pages": "B460",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Horizontal posture imposes -1 per die kicking without claws, cancelling the ordinary hoof bonus for the specified large-herbivore case.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust assessment authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, complete strength tables and catalogue wiring remain pending."
     },
     {
       "id": "creature-natural-damage-striker",
@@ -898,9 +913,12 @@
       "pages": "B460",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Horns, tusks and other strikers use thrust plus one per die with the damage type supplied by the actual striker trait.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust assessment authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, complete strength tables and catalogue wiring remain pending."
     },
     {
       "id": "creature-natural-damage-brawling",
@@ -908,9 +926,12 @@
       "pages": "B460",
       "module": "creatures",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Brawling at dexterity+2 or better adds one per die to these natural attacks; do not apply the bonus both in a precomputed profile and during attack resolution.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust assessment authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, complete strength tables and catalogue wiring remain pending."
     },
     {
       "id": "creature-catalogue-small-ape",
@@ -2328,7 +2349,7 @@
         "tests/expanded.py::test_animal_daily",
         "tests/expanded.py::test_animal_daily_failure"
       ],
-      "validation_note": "Owned checks credit one successful day and retain failed days for explicit classification. Ordinary failure resolution authored; fixtures unrun. Attack execution and learned milestones remain pending."
+      "validation_note": "Owned checks credit one successful day and retain failed days for explicit classification. Ordinary failure resolution and learned milestones authored; fixtures unrun. Attack execution remains pending."
     },
     {
       "id": "creature-mount-move-price",
