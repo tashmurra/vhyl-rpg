@@ -175,8 +175,8 @@ and releases only that contribution. It does not heal any injury or release anot
 illness's restriction. Day receipts retain their outcome for idempotent replay,
 and profile validation checks order, timestamps and injury contributions.
 
-Active physician supervision blocks pending integration of B443 medical-care
-bonuses. Exceptional infection types, complete immunity, discovery, interruption,
+Qualified physician supervision can provide the B443/B424 bonus as described
+below. Exceptional infection types, complete immunity, discovery, interruption,
 other disease procedures and verified transaction/save behavior remain incomplete.
 `test_infection_progression` covers an early request, failed daily check, reuse,
 recovery and preservation of a separate disease-injury restriction. The fixture
@@ -227,3 +227,29 @@ operation to check that it consumes no additional randomness.
 four, before and after a later exposure. It checks the original roll, immunity,
 injury and random draw count, including history validation after restoration.
 These fixtures also remain unrun while checks are paused.
+
+
+## Physician-supported infection recovery
+
+For a daily infection check under medical supervision, set `practice` to the
+patient's existing `RpgExpandedMedicalPractice` and `continuousCare = true`.
+`careEvidence` must establish qualified care for the whole daily interval. The
+practice must be the patient's single assigned provider, meet its skill and
+equipment requirements, remain available, and have admitted the patient no later
+than the interval's start. Late admission cannot supply a retrospective bonus.
+
+The result reports `physicianBonus = 1`, added to the recovery check together with
+qualifying antibiotic and contamination modifiers (`full-2008`, B443; B424).
+This bonus does not heal injury or grant another daily infection roll. The
+request spends no extra time and does not advance the separate physician-check
+schedule. Changing doctors or care conditions after completion does not change
+the historical result; changing the request's bound inputs is rejected.
+
+Medical rosters now retain `medicalAdmittedAt` separately from
+`medicalCareSince`, which advances after scheduled physician checks. Release
+clears admission; readmission starts a new care interval. This timestamp does not
+certify continuous care by itself: the author must still supply the interval fact.
+Automatic care scheduling and interruption remain incomplete.
+`test_infection_supervision` records the combined bonus and no-spending rejection
+expectations for absent continuous care, late admission and an unavailable doctor.
+The fixture remains unrun while checks are paused.

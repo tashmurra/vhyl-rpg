@@ -887,3 +887,10 @@ stabilization or disability repair. Those inventory entries remain partial or
 pending. `test_surgery_assessments` records expected technology rows, combined
 penalties, field-expedient exceptions, infection triggers and failure damage.
 The fixtures remain unrun while checks are paused.
+
+
+The medical roster also records `medicalAdmittedAt` for the current assignment.
+It remains fixed when a scheduled physician check advances `medicalCareSince`;
+release clears it and readmission records a new start. The hazards module uses
+this timestamp when assessing care over a full infection interval. This preserves
+one provider roster and avoids treating a check timestamp as the admission date.

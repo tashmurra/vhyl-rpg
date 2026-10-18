@@ -1180,9 +1180,10 @@
         "tests/expanded.py::test_infection_assessments",
         "tests/expanded.py::test_infection_progression",
         "tests/expanded.py::test_infection_transactions",
-        "tests/expanded.py::test_infection_persistence"
+        "tests/expanded.py::test_infection_persistence",
+        "tests/expanded.py::test_infection_supervision"
       ],
-      "validation_note": "Owned acquisition and exact-boundary progression use shared disease-injury restrictions. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Scheduling/catch-up, physician care, complete immunity, discovery and other disease procedures remain incomplete."
+      "validation_note": "Owned infection progression integrates the qualified roster bonus with antibiotic modifiers and shared recovery restrictions. Fixtures authored but unrun. Automatic care scheduling, interruption, catch-up, broader disease treatment and verified cross-module behavior remain incomplete."
     },
     {
       "id": "infection-surgical-eligibility",

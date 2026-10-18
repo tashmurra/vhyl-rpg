@@ -986,6 +986,7 @@ modify RpgLiteProfile
 modify RpgExpandedProfile
     medicalSupervision = nil
     medicalCareSince = nil
+    medicalAdmittedAt = nil
     medicalCareInterval = 0
     medicalLastCheckAt = nil
     medicalChecks = []
@@ -1010,6 +1011,9 @@ modify RpgExpandedProfile
                 || practice.physician == nil || practice.physician != practice.boundPhysician
                 || practice.physician.medicalPractice != practice || practice.id != practice.boundId)
                 rpgExpandedReject('medical-supervision-owner');
+            if (self.medicalAdmittedAt == nil || self.medicalCareSince == nil
+                || self.medicalAdmittedAt > self.medicalCareSince || self.medicalCareSince > rpgLedger.seconds)
+                rpgExpandedReject('medical-supervision-clock');
         }
         return nil;
     }
@@ -1074,6 +1078,7 @@ class RpgExpandedMedicalPractice: object
         local slow = patient.level('slow-healing'); rpgInteger(slow,0,3);
         local interval = value.intervalSeconds;
         for (local index = 0; index < slow; index += 1) interval *= 2;
+        patient.medicalAdmittedAt = rpgLedger.seconds;
         patient.medicalCareSince = rpgLedger.seconds; patient.medicalCareInterval = interval;
         self.boundPhysician = self.physician; self.boundId = self.id;
         self.physician.medicalPractice = self; self.patients = self.patients + [patient];
@@ -1087,6 +1092,7 @@ class RpgExpandedMedicalPractice: object
         local remaining = [];
         foreach (local member in self.patients) if (member != patient) remaining = remaining + [member];
         self.patients = remaining; patient.medicalSupervision = nil;
+        patient.medicalAdmittedAt = nil;
         patient.medicalCareSince = nil; patient.medicalCareInterval = 0;
         if (remaining.length() == 0) self.physician.medicalPractice = nil;
         local value = new RpgExpandedResult(); value.status = 'resolved'; return value;

@@ -84,5 +84,27 @@ act(verb,args)
         eventValue(patient.diseaseResistances.length()); eventValue(patient.diseaseResistance('same-agent').firstRoll);
         return nil;
     }
+    if (verb == 1804)
+    {
+        local patient = new RpgExpandedProfile(); patient.ht = 9; patient.rules = new RpgExpandedRules(); patient.rules.scaledInjuryShock = true;
+        local wound = new RpgExpandedWound(); wound.profile = patient; wound.id = 'supervised-wound'; wound.amount = 2; wound.apply();
+        local exposure = new RpgExpandedInfectionExposure(); exposure.wound = wound; exposure.diseaseId = 'care-agent';
+        exposure.conditions = new RpgExpandedInfectionContext(); exposure.conditions.untreatedDirtyWound = true;
+        exposure.evidence = 'Observed exposure'; rpgRandom.seed(5); exposure.apply();
+        local doctor = new RpgLiteProfile(); doctor.iq = 12; doctor.techLevel = 8;
+        local skill = rpgLiteMakeSkill('physician',8,nil); local training = new RpgTraining(); training.skill = skill; training.points = 4;
+        doctor.skills = [training]; local practice = new RpgExpandedMedicalPractice(); practice.id = 'care-practice';
+        practice.physician = doctor; practice.skill = skill; practice.advancedEquipment = true;
+        if (args[1] != 3) practice.admit(patient);
+        rpgSpendTime(86400); if (args[1] == 3) practice.admit(patient);
+        if (args[1] == 4) practice.available = nil;
+        local day = new RpgExpandedInfectionDay(); day.id = 'care-day'; day.exposure = exposure; day.practice = practice;
+        day.continuousCare = args[1] != 2; day.antibiotics = args[1] == 1; day.medicalTL = 8;
+        day.careEvidence = 'Documented care throughout the interval';
+        local time = rpgLedger.seconds; rpgRandom.seed(1); local value = day.apply();
+        event('test.infection-supervision'); eventValue(value.status); eventValue(value.reason); eventValue(value.physicianBonus);
+        eventValue(value.check == nil ? 0 : value.check.score); eventValue(value.ended ? 1 : 0);
+        eventValue(patient.injury); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds - time); return nil;
+    }
     return vhylAct(verb,args);
 }
