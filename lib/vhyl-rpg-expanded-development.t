@@ -21,13 +21,25 @@ class RpgExpandedStudy: object
     creditOwner = nil
     creditTraining = nil
     creditSkill = nil
+    validateOwnership()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.training == nil || !self.training.ofKind(RpgTraining)
+            || self.training.skill == nil || !self.training.skill.ofKind(RpgSkill)
+            || !holds(self.profile.skills,self.training)) rpgExpandedReject('study-ownership');
+        local copies = 0;
+        for (local profile = firstObj(RpgProfile); profile != nil; profile = nextObj(profile,RpgProfile))
+            foreach (local training in profile.skills)
+                if (training == self.training) copies += 1;
+        if (copies != 1 || rpgExpandedTrainingFor(self.profile,self.training.skill) != self.training)
+            rpgExpandedReject('study-shared-training');
+        return nil;
+    }
     assess(seconds)
     {
         rpgInteger(seconds, 1, 57600);
         local value = new RpgExpandedResult();
-        if (profile == nil || !profile.ofKind(RpgExpandedProfile)
-            || training == nil || !holds(profile.skills, training))
-            rpgExpandedReject('study-ownership');
+        self.validateOwnership();
         if (self.creditOwner != nil && (self.creditOwner != self.profile
             || self.creditTraining != self.training || self.creditSkill != self.training.skill))
             rpgExpandedReject('study-retargeted');
@@ -129,6 +141,7 @@ class RpgExpandedCommunicationStudy: object
             || self.study == nil || !self.study.ofKind(RpgExpandedStudy) || self.study.profile == nil
             || !self.study.profile.ofKind(RpgExpandedProfile) || self.study.training == nil
             || !holds(self.study.profile.skills,self.study.training)) rpgExpandedReject('communication-study-ownership');
+        self.study.validateOwnership();
         local value = new RpgExpandedResult();
         if (self.result != nil)
         {

@@ -96,3 +96,10 @@ Writing, shared languages, language-proficiency study and other channels require
 concrete adapters and remain pending. Zero-duration exchanges grant no credit.
 The fixtures cover full-rate accumulation, threshold crossing, duplicate claims,
 historical eligibility, rollback, undo and saves; they remain unrun.
+
+Both ordinary and communication study require an exclusive training slot:
+the same `RpgTraining` object cannot appear twice or belong to another profile.
+This is checked at assessment and again after ordinary study advances time, so
+an elapsed-time hook cannot transfer or share the slot before credit is awarded.
+The ownership fixtures exercise both entry points and interruption rollback;
+they remain unrun while checks are paused.

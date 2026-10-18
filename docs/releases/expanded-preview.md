@@ -1191,3 +1191,7 @@ expanded influence procedure remains partial.
   using recorded eligibility and elapsed time without a second time charge.
   Credit shares the existing study track and rejects duplicate claims. Other
   communication channels remain pending; new fixtures are unrun.
+
+- Study now rejects shared or duplicated training objects before awarding credit,
+  including communication credit and ownership changes during elapsed-time hooks.
+  Added unrun ownership fixtures and an interruption regression case.

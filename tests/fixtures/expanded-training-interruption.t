@@ -11,6 +11,7 @@ modify rpgLedger
         if (code == 3702 || code == 3713) learningBar.mitigated = nil;
         if (code == 3703) learningTraining.points = 2;
         if (code == 3704) self.seconds += 1;
+        if (code == 3705) bleedHealer.skills = [bleedAidTraining,learningTraining];
         if (code == 3710) learningFamiliarity.equipmentType = interruptedEquipmentType;
         if (code == 3711) learningFamiliarity.recognized = true;
         if (code == 3712) learningFamiliarity.available = nil;
@@ -22,7 +23,7 @@ modify BleedTestAction
     exec(context)
     {
         local code = bleedInput.code;
-        if (code >= 3700 && code <= 3704 || code == 3720 || code == 3724)
+        if (code >= 3700 && code <= 3705 || code == 3720 || code == 3724)
         {
             local value = learningStudy.advance(code == 3724 ? 1 : 3600);
             event('test.training-session'); eventValue(value.status); return nil;

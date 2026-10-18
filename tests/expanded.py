@@ -9074,6 +9074,8 @@ def test(build):
     test_gesture_exchange(Session, gesture_exchange, build.out)
     communication_study = build.build('expanded-communication-study',ROOT / 'tests/fixtures/expanded-communication-study.t')
     test_communication_study(Session, communication_study, build.out)
+    study_ownership = build.build('expanded-study-ownership',ROOT / 'tests/fixtures/expanded-study-ownership.t')
+    test_study_ownership(Session, study_ownership)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17004,7 +17006,7 @@ def test_technique_eligibility(Session, bundle):
 
 def test_training_interruption(Session, bundle, out):
     initial = [0,'self',1,1,0,1,0,1,1,0,0,0]
-    for code in tuple(range(3700,3705))+tuple(range(3710,3715)):
+    for code in tuple(range(3700,3706))+tuple(range(3710,3715)):
         s = Session(bundle)
         try:
             s.action(2285,code)
@@ -17167,3 +17169,15 @@ def test_communication_study(Session, bundle, out):
         assert last(s,'test.communication-study-state') == [40,0,1,10,0,1]
     finally:
         s.close()
+
+
+def test_study_ownership(Session, bundle):
+    for setup in (4100,4101):
+        for action in (4102,4103):
+            s = Session(bundle)
+            try:
+                for code in (3901,setup,action):
+                    s.action(2285,code)
+                assert last(s,'test.study-ownership') == ['study-shared-training',0,1,10,0]
+            finally:
+                s.close()
