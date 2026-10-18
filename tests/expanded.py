@@ -9428,6 +9428,8 @@ def test(build):
     test_paleontology_actions(Session,paleontology_actions)
     paleontology_equipment = build.build("expanded-paleontology-equipment",ROOT / "tests/fixtures/expanded-paleontology-equipment.t")
     test_paleontology_equipment(Session,paleontology_equipment,build.out)
+    paleontology_familiarity = build.build("expanded-paleontology-familiarity",ROOT / "tests/fixtures/expanded-paleontology-familiarity.t")
+    test_paleontology_familiarity(Session,paleontology_familiarity,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24417,3 +24419,47 @@ def test_paleontology_equipment(Session, bundle, out):
         assert last(s,'test.fossil-equipment-error') == ['paleontology-duplicate-equipment']
     finally:
         s.close()
+
+
+def test_paleontology_familiarity(Session, bundle, out):
+    """B169 familiarity affects a new roll once, while old findings retain their modifier; unrun."""
+    path = out / 'paleontology-familiarity.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,22301)
+        assert last(s,'test.fossil-familiarity') == ['ready',17,-2]
+        s.action(1680,21902)
+        assert last(s,'test.paleontology-history') == [0,0,0]
+        s.action(1680,22300)
+        assert last(s,'test.fossil-familiarity') == ['resolved',17,-2]
+        s.command('undo'); s.action(1680,21902)
+        assert last(s,'test.paleontology-history') == [0,0,0]
+        s.action(1680,21901); s.action(1680,21902)
+        assert last(s,'test.paleontology-history') == [0,0,0]
+        s.action(1680,22300); s.action(1680,22302); s.action(1680,22300)
+        assert last(s,'test.fossil-familiarity') == ['reused',17,-2]
+        s.action(1680,22301)
+        assert last(s,'test.fossil-familiarity') == ['ready',19,0]
+        s.action(1680,21902)
+        assert last(s,'test.paleontology-history') == [1,3,28800]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681')
+        s.action(1680,22300)
+        assert last(s,'test.fossil-familiarity') == ['reused',17,-2]
+        s.action(1680,22301)
+        assert last(s,'test.fossil-familiarity') == ['ready',19,0]
+    finally:
+        s.close()
+    for code, reason in ((22303,'paleontology-assessment-binding'),
+                         (22304,'paleontology-assessment-result-binding'),
+                         (22305,'paleontology-assessment-result-binding')):
+        s = Session(bundle)
+        try:
+            s.action(1680,22300); s.action(1680,code)
+            assert last(s,'test.fossil-familiarity-error') == [reason]
+        finally:
+            s.close()

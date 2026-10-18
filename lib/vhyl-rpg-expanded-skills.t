@@ -2012,12 +2012,23 @@ class RpgExpandedPaleontologyContext: RpgExpandedSkillContext
 
 /** Snapshot the specimen study context for owned exploration results. */
 modify RpgExpandedPaleontologyContext
+    paleontologyFamiliarityModifier(profile)
+    {
+        if (self.familiarity == nil) return 0;
+        if (!self.familiarity.ofKind(RpgExpandedFamiliarity) || self.familiarity.owner != profile || self.familiarity.skill != self.skill)
+            rpgExpandedReject('familiarity-context');
+        return self.familiarity.modifier();
+    }
     paleontologyFacts()
     {
         self.validatePaleontology();
-        if (self.familiarity != nil) rpgExpandedReject('paleontology-assessment-familiarity-unsupported');
+        if (self.familiarity != nil && !self.familiarity.ofKind(RpgExpandedFamiliarity))
+            rpgExpandedReject('familiarity-context');
         local facts = [self.skill,self.task,self.laboratory,self.equipmentModifier,self.approved,self.evidence,
             self.modifier,self.equipmentTL,self.softwareTechnologyEnabled,self.skill.specialty,self.skill.techLevel,self.laboratoryEquipment];
+        if (self.familiarity != nil)
+            facts = facts + [self.familiarity,self.familiarity.owner,self.familiarity.skill,self.familiarity.equipmentType,
+                self.familiarity.initial,self.familiarity.requiredSeconds,self.familiarity.penalty];
         return self.laboratoryEquipment == nil ? facts
             : facts + rpgExpandedPaleontologyEquipment.definition(self.laboratoryEquipment,self);
     }

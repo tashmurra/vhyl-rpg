@@ -3512,6 +3512,7 @@ class RpgExpandedNatureObservationAction: Action
 class RpgExpandedPaleontologyResult: RpgExpandedResult
     finding = nil
     score = nil
+    familiarityModifier = 0
 ;
 class RpgExpandedPaleontologyAssessment: RpgExpandedPaleontologyReceipt
     id = nil
@@ -3526,6 +3527,8 @@ class RpgExpandedPaleontologyAssessment: RpgExpandedPaleontologyReceipt
     boundDefinition = nil
     boundFinding = nil
     boundSucceeded = nil
+    boundScore = nil
+    boundFamiliarityModifier = nil
     definition()
     { return [self.id,self.profile,self.context,self.specimen,self.finding,self.approved,self.evidence,self.accessible] + self.context.paleontologyFacts(); }
     validateReceipt()
@@ -3536,7 +3539,7 @@ class RpgExpandedPaleontologyAssessment: RpgExpandedPaleontologyReceipt
         if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('paleontology-assessment-binding');
         for (local i = 1; i <= facts.length(); i += 1)
             if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('paleontology-assessment-binding');
-        if (self.result.finding != self.boundFinding || self.result.check == nil || self.result.check.achieved != self.boundSucceeded)
+        if (self.result.score != self.boundScore || self.result.familiarityModifier != self.boundFamiliarityModifier || self.result.finding != self.boundFinding || self.result.check == nil || self.result.check.achieved != self.boundSucceeded)
             rpgExpandedReject('paleontology-assessment-result-binding');
         return nil;
     }
@@ -3544,7 +3547,7 @@ class RpgExpandedPaleontologyAssessment: RpgExpandedPaleontologyReceipt
     {
         local value = new RpgExpandedPaleontologyResult();
         if (self.result != nil)
-        { self.validateReceipt(); value.status = 'reused'; value.check = self.result.check; value.finding = self.result.finding; return value; }
+        { self.validateReceipt(); value.status = 'reused'; value.check = self.result.check; value.finding = self.result.finding; value.score = self.result.score; value.familiarityModifier = self.result.familiarityModifier; return value; }
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
             || self.context == nil || !self.context.ofKind(RpgLiteContext) || self.specimen == nil)
             rpgExpandedReject('paleontology-assessment-definition');
@@ -3561,6 +3564,7 @@ class RpgExpandedPaleontologyAssessment: RpgExpandedPaleontologyReceipt
         }
         local reason = self.context.unavailableReason(self.profile);
         if (reason != nil) { value.reason = reason; return value; }
+        value.familiarityModifier = self.context.paleontologyFamiliarityModifier(self.profile);
         value.score = rpgLiteScore(self.profile,self.context);
         if (value.score == nil || value.score < 3) { value.reason = 'paleontology-assessment-score-unavailable'; return value; }
         value.status = 'ready'; return value;
@@ -3570,6 +3574,7 @@ class RpgExpandedPaleontologyAssessment: RpgExpandedPaleontologyReceipt
         local value = self.assess(); if (value.status != 'ready') return value;
         value.check = rpgLiteCheck(self.profile,self.context);
         if (value.check.achieved) value.finding = self.finding;
+        self.boundScore = value.score; self.boundFamiliarityModifier = value.familiarityModifier;
         self.boundDefinition = self.definition(); self.boundFinding = value.finding; self.boundSucceeded = value.check.achieved;
         self.result = value; value.status = 'resolved'; self.profile.paleontologyAssessments = self.profile.paleontologyAssessments + [self]; return value;
     }

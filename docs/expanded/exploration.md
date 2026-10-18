@@ -1742,9 +1742,9 @@ printing specifies no fixed study duration here, so this operation adds none.
 
 The receipt binds the specimen, conclusion, approvals, task, specialty, technology,
 laboratory flag and scoring inputs. Changing those facts after resolution rejects
-rather than rerolling. Profile validation checks owned history. Familiarity contexts
-are explicitly unsupported for this receipt until their changing state can be
-bound. Laboratory access may use an authored fact or the live equipment interface below.
+rather than rerolling. Profile validation checks owned history. Familiarity records bind their owner, skill, equipment type and configured
+penalty; the result retains the modifier used for its original roll. Later practice
+or recognition can improve new studies without rewriting previous findings. Laboratory access may use an authored fact or the live equipment interface below.
 Include social for the disclosure and action interfaces below.
 
 `test_paleontology_assessment` specifies preview purity, successful and failed
@@ -1797,3 +1797,18 @@ checks current access. Changing the bound adequacy, tool quality or technology
 rejects reuse. `test_paleontology_equipment` specifies owned and borrowed access,
 revocation, quality, technology differences, rollback, undo, save continuation and
 replay after losing access. Fixtures remain unrun.
+
+
+### Familiarity and retained findings
+
+Attach an owned `RpgExpandedFamiliarity` to the fossil context's `familiarity`
+field when that equipment type requires it. The normal familiarity penalty applies
+once alongside laboratory quality and technology. Assessment results expose the
+`familiarityModifier` used, and replay returns the original score and modifier.
+Practice uses the existing familiarity time ledger. A new specimen study sees the
+improved familiarity; an already resolved study retains its original outcome.
+Changing the bound familiarity identity or penalty rejects reuse.
+
+`test_paleontology_familiarity` specifies preview purity, the initial penalty,
+practice removing the penalty for a new study, old-result replay, rollback, undo,
+save continuation and receipt tampering. It remains unrun while checks are paused.
