@@ -337,6 +337,7 @@ modify RpgLiteProfile
     heatExtra = 0
     /* Optional hazard libraries may reject conflicting climate ownership. */
     validateClimateAdvance() { return nil; }
+    validateSuffocation() { return nil; }
 ;
 
 /** Authored poison or disease parameters: resistance, delay, cycle, damage and recovery modifier. */
@@ -415,6 +416,7 @@ class RpgLiteExposure: object
 rpgLiteSuffocate(profile, seconds, cleanAir)
 {
     rpgInteger(seconds, 0, 86400);
+    profile.validateSuffocation();
     if (cleanAir)
     {
         if (profile.airClock > 120 && !rpgLiteAttributeCheck(profile, rpgHT, 'brain-injury', 0).achieved && profile.iq > 1)

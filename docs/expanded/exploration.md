@@ -8,15 +8,15 @@
 
 - `RpgExpandedTaskTime` — B346; tested in `tests/expanded.py::test_numbers`.
 
-The module provides only these interfaces. Its full catalogue and remaining chapter procedures are not implemented. See the integration guide for restrictions.
+The module also provides the breath interfaces below. Its full catalogue and remaining chapter procedures are not implemented. See the integration guide for restrictions.
 
 ## Remaining source obligations
 
 The first source pass is recorded in the [task-resolution inventory](inventory/task-resolution.json),
 [physical-activity inventory](inventory/physical-activities.json) and
 [sense, influence and fear inventory](inventory/senses-influence-fear.json).
-These are pending requirements, with only the existing task-time helper mapped
-as partial. Numeric rows have not yet received independent validation.
+These include pending requirements and partial mappings for task timing and
+breath reserves. Numeric rows have not yet received independent validation.
 
 `RpgExpandedTaskTime` assesses a duration and modifier. It does not execute a
 task, record the single cinematic instant attempt, resolve skill-specific timing
@@ -50,3 +50,47 @@ altitude and level-flight deceleration; updraft searches have a one-minute retry
 boundary. Winged movement checks clearance and individual wing injury. Space
 travel can consume a velocity-change reserve while continuing to coast. These
 requirements remain pending, and the task-time helper does not implement them.
+
+
+## Breath duration and owned reserves
+
+`rpgExpandedBreathDuration(health, activity, prepared, ventilation,
+controlSucceeded, reserveLevels)` assesses the B351–B352 duration. Activity is
+`none`, `mild` or `heavy`; ventilation is `none`, `air` or `oxygen`. Unprepared
+breath halves the base duration and cannot claim prior hyperventilation. A
+successful breathing-control check multiplies duration by one and a half, and
+each eligible reserve level doubles it. All factors combine before final
+rounding down to whole seconds under B9. This helper draws no dice and spends
+nothing. It does not perform the breathing-control check or grant a trait.
+
+`RpgExpandedBreathReserve` owns one fixed-activity interval. Supply a unique `id`,
+`profile`, the assessment inputs and `evidence` recording the actual preparation,
+oxygen source, control-check outcome and eligible reserve levels. Prepared breath
+requires a previously completed one-second action; in combat that action must
+be concentration. The library does not charge that action again. It currently
+accepts these facts from the author and does not implement the action or catalogue
+eligibility checks. Record the source of each applicable fact in the evidence.
+
+`start()` snapshots health and duration at the current shared time. Repeating it
+returns the original receipt. A second active reserve, or an existing nonzero
+`airClock`, blocks a new one. `assess()` returns elapsed and remaining seconds
+without advancing time. The author must keep activity and preparation conditions
+fixed; changing exertion, interruption, unconscious inhalation and exceptional
+physiology remain unsupported and need explicit scenario handling. Changing
+bound request fields is rejected rather than silently replenishing air.
+
+`resumeAir(evidence)` ends the reserve when breathable air is restored before or
+at expiry. It never restores fatigue. After expiry it blocks with
+`breath-suffocation-unresolved`, because downstream fatigue and brain-injury
+procedures must first account for the elapsed time. The active reserve prevents
+calling `rpgLiteSuffocate` through a default-inert `validateSuffocation()` hook,
+so the two procedures cannot consume or reset the same exposure independently.
+Owned suffocation handoff, drowning, resuscitation and vacuum adjustments remain
+incomplete. An expired assessment alone does not count as implementing them.
+
+The minimal [`expanded-exploration.t`](../../tests/fixtures/expanded-exploration.t)
+fixture covers independent duration expectations, combined-factor rounding,
+preparation rejection, exact expiry boundaries, duplicate reserves and shared-ledger
+ownership. `test_breath_duration` and `test_breath_reserve` are authored but unrun
+while checks are paused. Transaction, undo and save-continuation coverage for
+these new interfaces remains to be added.

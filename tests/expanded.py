@@ -760,6 +760,31 @@ def test_cold_persistence(Session, bundle, out):
             second.close()
 
 
+def test_breath_duration(s):
+    for health, activity, prepared, ventilation, control, levels, seconds in [
+            (10,'none',1,'none',0,0,100),(10,'mild',1,'none',0,0,40),
+            (10,'heavy',1,'none',0,0,10),(11,'heavy',0,'none',0,0,5),
+            (10,'heavy',1,'air',0,0,15),(10,'heavy',1,'oxygen',0,0,25),
+            (10,'heavy',1,'air',1,0,22),(10,'heavy',1,'oxygen',1,0,37),
+            (3,'heavy',0,'none',1,0,2),(3,'heavy',0,'none',1,1,4),
+            (10,'mild',1,'oxygen',1,2,600)]:
+        s.action(1870, health, activity, prepared, ventilation, control, levels)
+        assert last(s, 'test.breath-duration') == ['ready',None,seconds,0,0]
+    s.action(1870, 10, 'mild', 0, 'oxygen', 0, 0)
+    assert last(s, 'test.breath-duration') == ['blocked','breath-ventilation-preparation',0,0,0]
+
+
+def test_breath_reserve(s):
+    for elapsed, remaining, exhausted, status, reason, active in [
+            (39,1,0,'resolved',None,0),(40,0,1,'resolved',None,0),
+            (41,0,1,'blocked','breath-suffocation-unresolved',1)]:
+        s.action(1871, elapsed)
+        assert last(s, 'test.breath-reserve') == [
+            'resolved','reused',elapsed,remaining,exhausted,status,reason,active,elapsed,0,0]
+    s.action(1872)
+    assert last(s, 'test.breath-conflict') == ['breath-existing-exposure',1,0,0,0]
+
+
 def immersion_state(s):
     s.action(1861)
     return last(s, 'test.immersion-state')
@@ -3567,6 +3592,9 @@ def test(build):
     fresh(Session,social,test_information_reactions)
     fresh(Session,social,test_trade_reactions)
     fresh(Session,social,test_trade_modifiers)
+    exploration = build.build('expanded-exploration',ROOT / 'tests/fixtures/expanded-exploration.t')
+    fresh(Session,exploration,test_breath_duration)
+    fresh(Session,exploration,test_breath_reserve)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_infection_acquisition)

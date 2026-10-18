@@ -67,8 +67,11 @@
       "source": "full-2008",
       "status": "partial",
       "tests": [
-        "tests/expanded.py::test_numbers"
-      ]
+        "tests/expanded.py::test_numbers",
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve"
+      ],
+      "validation_note": "Fixed-activity breath reserves and duration arithmetic authored; new fixtures unrun. Preparation actions, skill and trait integration, activity changes and suffocation handoff remain incomplete."
     },
     {
       "id": "hazards",

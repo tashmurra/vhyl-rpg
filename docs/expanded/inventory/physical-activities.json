@@ -121,9 +121,13 @@
       "pages": "B351-B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Breath duration assumes one second of preparation, requiring concentration in combat; without that opportunity halve duration.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored; fixtures unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
     },
     {
       "id": "activity-breath-hyperventilation",
@@ -131,9 +135,13 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Prepared hyperventilation multiplies duration by 1.5, or 2.5 with pure oxygen; these are alternatives, not cumulative oxygen and ordinary bonuses.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored; fixtures unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
     },
     {
       "id": "activity-breath-control",
@@ -141,9 +149,13 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A successful breath-control roll adds a further factor of 1.5 to permitted breath duration.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored; fixtures unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
     },
     {
       "id": "activity-breath-trait",
@@ -151,9 +163,13 @@
       "pages": "B352",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Each breath-holding advantage level doubles duration regardless of preparation circumstances.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored; fixtures unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
     },
     {
       "id": "activity-breath-expiry",
@@ -881,9 +897,13 @@
       "pages": "B351-B352",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Prepared breath-holding duration is health multiplied by 10 seconds for none exertion, before other breath modifiers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored; fixtures unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
     },
     {
       "id": "breath-exertion-mild",
@@ -891,9 +911,13 @@
       "pages": "B351-B352",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Prepared breath-holding duration is health multiplied by 4 seconds for mild exertion, before other breath modifiers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored; fixtures unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
     },
     {
       "id": "breath-exertion-heavy",
@@ -901,9 +925,13 @@
       "pages": "B351-B352",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Prepared breath-holding duration is health multiplied by 1 seconds for heavy exertion, before other breath modifiers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored; fixtures unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
     },
     {
       "id": "lifting-capacity-one-hand",
