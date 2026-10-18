@@ -1099,3 +1099,66 @@ class RpgExpandedServiceAnniversary: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedLoyalty
+    rescues = []
+;
+
+class RpgExpandedRescueResult: RpgExpandedLoyaltyResult
+    total = nil
+    change = 0
+;
+
+/** Rescue gratitude, full-2008 B519. World risk and a completed rescue are
+ * explicit facts. A reaction below good never reduces existing loyalty. */
+class RpgExpandedRescueLoyalty: object
+    loyalty = nil
+    id = nil
+    evidence = nil
+    rescued = nil
+    riskedLifeOrMission = nil
+    rescueBonus = 3
+    otherModifier = 0
+    sacrificeBonus = 0
+    seriousSacrifice = nil
+    assess()
+    {
+        if (self.loyalty == nil || !self.loyalty.ofKind(RpgExpandedLoyalty) || self.id == nil)
+            rpgExpandedReject('rescue-loyalty-target');
+        self.loyalty.validate(); local value = new RpgExpandedRescueResult();
+        foreach (local receipt in self.loyalty.rescues)
+            if (receipt[1] == self.id) { value.status = 'reused'; return value; }
+        if (!self.loyalty.initialized) { value.reason = 'loyalty-uninitialized'; return value; }
+        if (!self.rescued || !self.riskedLifeOrMission || self.evidence == nil)
+        { value.reason = 'rescue-loyalty-evidence'; return value; }
+        rpgInteger(self.rescueBonus,3,1000); rpgInteger(self.otherModifier,-1000,1000);
+        rpgInteger(self.rescueBonus + self.otherModifier,-1000,1000);
+        if (self.loyalty.rating() != self.loyalty.base)
+        { value.reason = 'rescue-temporary-loyalty-unresolved'; return value; }
+        rpgInteger(self.sacrificeBonus,0,1000);
+        if (self.sacrificeBonus > 0 && !self.seriousSacrifice) rpgExpandedReject('rescue-sacrifice-evidence');
+        local possible = 18 + self.rescueBonus + self.otherModifier;
+        if (possible < self.loyalty.base) possible = self.loyalty.base;
+        if (possible > 1018 - self.sacrificeBonus) rpgExpandedReject('rescue-loyalty-limit');
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess();
+        if (value.status == 'reused')
+        {
+            foreach (local receipt in self.loyalty.rescues)
+                if (receipt[1] == self.id)
+                { value.check = receipt[2]; value.total = receipt[3]; value.rating = receipt[4]; }
+            return value;
+        }
+        if (value.status != 'ready') return value;
+        value.check = rpgRandom.roll(); value.total = value.check + self.rescueBonus + self.otherModifier;
+        value.rating = self.loyalty.base;
+        if (value.total >= 13 && value.total > value.rating) value.rating = value.total;
+        value.rating += self.sacrificeBonus;
+        value.change = value.rating - self.loyalty.base; self.loyalty.base = value.rating;
+        self.loyalty.rescues = self.loyalty.rescues + [[self.id,value.check,value.total,value.rating,self.evidence,self.sacrificeBonus]];
+        value.status = 'resolved'; return value;
+    }
+;

@@ -79,6 +79,8 @@ crewDanger: RpgExpandedLoyaltyDanger loyalty = crewLoyalty incident = 'noncombat
 crewPerformance: RpgExpandedLoyaltyChange loyalty = crewLoyalty id = 'survey-expedition'
     evidence = 'expedition-complete' continuing = true adventureComplete = true performance = 'great-success';
 crewAnniversary: RpgExpandedServiceAnniversary loyalty = crewLoyalty year = 1 anniversaryAt = 100 completedService = true;
+crewRescue: RpgExpandedRescueLoyalty loyalty = crewLoyalty id = 'river-rescue'
+    evidence = 'rescue-complete' rescued = true riskedLifeOrMission = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -256,6 +258,15 @@ class ExpandedTestAction: Action
             local value = crewAnniversary.resolve(); event('test.service-anniversary');
             eventValue(value.status); eventValue(value.rating); eventValue(value.check); eventValue(value.change);
             if (code == 59) throw new RpgError();
+        }
+        if (code == 63 || code == 64 || code == 65 || code == 66 || code == 67)
+        {
+            crewLoyalty.preset = code == 65 ? 17 : 9; crewLoyalty.initialize();
+            if (code == 66) crewRescue.otherModifier = -1;
+            if (code == 67) { crewRescue.sacrificeBonus = 2; crewRescue.seriousSacrifice = true; }
+            local value = crewRescue.resolve(); event('test.rescue-loyalty');
+            eventValue(value.status); eventValue(value.check); eventValue(value.total); eventValue(value.rating); eventValue(value.change);
+            if (code == 64) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -1300,6 +1311,11 @@ act(verb, args)
         event('test.service-gates'); eventValue(anniversary.assess().reason);
         anniversary.completedService = true; eventValue(anniversary.assess().reason);
         anniversary.year = 2; eventValue(anniversary.assess().reason); return nil;
+    }
+    if (verb == 1209)
+    {
+        event('test.rescue-state'); eventValue(crewLoyalty.base); eventValue(crewLoyalty.rescues.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     return vhylAct(verb,args);
 }

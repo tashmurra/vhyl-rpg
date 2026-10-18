@@ -781,6 +781,21 @@
         "tests/expanded.py::test_service_automatic"
       ],
       "validation_note": "Chronological authored anniversary dates, annual checks and one-time base bonuses implemented. Checks unrun; calendar scheduling and full loyalty integration pending."
+    },
+    {
+      "id": "rescue-loyalty-changes",
+      "module": "social",
+      "pages": "B519",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedRescueLoyalty",
+      "tests": [
+        "tests/expanded.py::test_rescue_loyalty",
+        "tests/expanded.py::test_rescue_no_decrease",
+        "tests/expanded.py::test_rescue_ungrateful",
+        "tests/expanded.py::test_rescue_sacrifice"
+      ],
+      "validation_note": "Saved rescue reaction and optional authored sacrifice bonus implemented. Checks unrun; comparison under temporary loyalty modifiers remains explicitly blocked."
     }
   ],
   "detailed_inventories": [

@@ -550,3 +550,33 @@ skipped years, success/failure, automatic outcomes, duplicate years, rollback an
 undo. The fixture uses a deliberately short authored calendar interval to exercise
 date behavior without assuming a world calendar. Checks remain paused and unrun.
 Calendar scheduling and rescue/pay integration are still incomplete.
+
+
+## Rescue gratitude
+
+`RpgExpandedRescueLoyalty` represents one completed rescue from full-2008 B519.
+Provide the owned relationship, unique rescue `id`, concrete `evidence`, `rescued`
+and `riskedLifeOrMission`. `rescueBonus` is at least +3; the author may choose more
+for the nature of the rescue. Other applicable reaction adjustments belong in
+`otherModifier`. The assessment validates these facts before any roll.
+
+`resolve()` rolls 3d plus those modifiers. At a total of 13 or higher, base loyalty
+becomes the greater of its previous value and the reaction total. A lower reaction
+leaves it unchanged. A serious injury or death among the rescuers may justify an
+optional additional permanent bonus: set `seriousSacrifice` and an explicit
+`sacrificeBonus`. The source leaves that amount to the author; zero is the default.
+This authored extra bonus is applied in addition to the ordinary gratitude result.
+
+The relationship's `rescues` history stores the roll, total, resulting rating,
+evidence and extra bonus. Reusing the rescue ID returns the saved result without
+rerolling or applying a bonus again. A private preview contains no loyalty or dice.
+No rescue time or injury is charged here: those must already be represented by the
+actual rescue operation. Rescue itself is not simulated by setting these facts.
+
+Interactions between temporary loyalty modifiers and the source's “original
+loyalty” comparison remain unresolved. When current effective loyalty differs from
+base, this operation returns `rescue-temporary-loyalty-unresolved` before rolling.
+The independent cases `test_rescue_loyalty`, `test_rescue_no_decrease`,
+`test_rescue_ungrateful` and `test_rescue_sacrifice` cover gratitude thresholds,
+retained higher loyalty, optional sacrifice, replay, rollback and undo. Checks
+remain paused and unrun.
