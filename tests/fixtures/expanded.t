@@ -550,6 +550,55 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1137)
+    {
+        local rules = new RpgExpandedRules(); local skill = new RpgExpandedSkill();
+        local a = new RpgExpandedTemplateOption(); a.id = 'training'; a.skillRows = [[skill,4]];
+        local b = new RpgExpandedTemplateOption(); b.id = 'position'; b.traitRows = [['status',1,nil]];
+        local group = new RpgExpandedTemplateChoice(); group.id = 'focus'; group.options = [a,b];
+        group.minimumPoints = 4; group.maximumPoints = 4;
+        local template = new RpgExpandedTemplate(); template.choiceGroups = [group];
+        event('test.template-choice');
+        local p = template.createSelected(rules,[['focus',['training']]]);
+        eventValue(rpgExpandedCharacterCost(p,nil)); eventValue(p.skills[1].points);
+        eventValue(p.templateChoices[1][1]); eventValue(p.templateChoices[1][2]);
+        p.skills[1].points = 20;
+        p = template.createSelected(rules,[['focus',['training']]]); eventValue(p.skills[1].points);
+        try { template.create(rules); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { template.createSelected(rules,[]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { template.createSelected(rules,[['focus',['position']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        group.maximumChoices = 2;
+        try { template.createSelected(rules,[['focus',['training','training']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        a.eligible = nil;
+        try { template.createSelected(rules,[['focus',['training']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
+    if (verb == 1138)
+    {
+        local rules = new RpgExpandedRules();
+        local option = new RpgExpandedTemplateOption(); option.id = 'limitation';
+        option.traitRows = [['low-status',1,nil]];
+        local group = new RpgExpandedTemplateChoice(); group.id = 'background'; group.options = [option];
+        group.minimumPoints = -5; group.maximumPoints = -5;
+        local template = new RpgExpandedTemplate(); template.choiceGroups = [group];
+        event('test.template-choice-conflicts');
+        local p = template.createSelected(rules,[['background',['limitation']]]);
+        eventValue(rpgExpandedCharacterCost(p,nil)); eventValue(p.traits.length());
+        template.traitRows = [['status',1,nil]];
+        try { template.createSelected(rules,[['background',['limitation']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        template.traitRows = [];
+        try { template.createSelected(rules,[['background',[]]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { template.createSelected(rules,[['unknown',['limitation']]]); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

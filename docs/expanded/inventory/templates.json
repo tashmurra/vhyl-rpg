@@ -21,9 +21,13 @@
       "pages": "B259; B449",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Resolve required choices and their budgets before creating or changing a profile; incomplete or ineligible selections cannot leave partial investments.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_template_choices"
+      ],
+      "existing_feature": "template-choice-groups",
+      "validation_note": "Choice identity, eligibility, count and signed budget gates precede fresh-profile construction. Native cases unrun; other component kinds pending."
     },
     {
       "id": "package-personal-customization",

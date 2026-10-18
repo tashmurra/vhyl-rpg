@@ -307,6 +307,19 @@ def test_template_technology(s):
     assert state(s) == before, 'template technology selection changed live state'
 
 
+def test_template_choices(s):
+    before = state(s)
+    s.action(1137)
+    assert last(s, 'test.template-choice') == [
+        4, 4, 'focus', 'training', 4, 'template-unresolved-choices',
+        'template-choice-groups', 'template-choice-points',
+        'template-choice-option', 'template-choice-ineligible']
+    s.action(1138)
+    assert last(s, 'test.template-choice-conflicts') == [
+        -5, 1, 'exclusive-traits', 'template-choice-count', 'template-choice-groups']
+    assert state(s) == before, 'choice resolution changed live state'
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -384,7 +397,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     test_recognition_persistence(Session,bundle,build.out)

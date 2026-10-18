@@ -14,7 +14,7 @@ The fresh-profile factory and occupational composition interface below are avail
 trait instances. Skill definitions may be shared as immutable definitions. This
 factory currently handles basic/secondary scores, skill investments and traits
 from the existing Lite catalogue. It validates the resulting character costs.
-Ancestry exceptions, choice groups and the full trait catalogue are not implemented. It does not mutate or upgrade an existing character.
+Ancestry exceptions and the full trait catalogue are not implemented. Explicit skill/trait choice groups are described below. It does not mutate or upgrade an existing character.
 
 ## Remaining source obligations
 
@@ -83,7 +83,7 @@ other previously created characters are not changed.
 
 Current composition supports the fields of the basic factory only. Definitions
 with additional contributions, languages or equipment are explicitly rejected.
-Technology settings must agree across the selected templates. Ancestry, lenses, selectable options,
+Technology settings must agree across the selected templates. Ancestry, lenses, composition of templates with unresolved choices,
 modifier-bearing trait definitions and rich conflict diagnostics remain pending.
 Template authors must share the same immutable skill definition for requirements
 that denote the same skill and specialty; distinct definition objects are distinct
@@ -112,3 +112,42 @@ access remains outside this interface.
 `tests/expanded.py::test_template_technology` covers campaign inheritance, explicit
 personal pricing, single charging during composition, mismatched settings and
 rejection of an inaccessible starting skill. These cases are authored but unrun.
+
+## Explicit choice groups
+
+Add `RpgExpandedTemplateChoice` objects to `template.choiceGroups`. Each group has
+an `id`, concrete `options`, `minimumChoices` and `maximumChoices` (both default
+to one), and optional signed `minimumPoints`/`maximumPoints` bounds. Each
+`RpgExpandedTemplateOption` has an `id`, an authored `eligible` flag, and the same
+`skillRows` and `traitRows` formats as the basic factory. This currently supports
+skill investments and Lite catalogue traits; attribute choices and extended trait
+specifications remain pending.
+
+Call `template.createSelected(rules, selections)` with one row per group:
+`[['focus', ['training']], ['background', ['limitation']]]`. Every group must be
+present, including an explicit empty selection for an optional group whose minimum
+is zero. Unknown or repeated groups/options, wrong counts, ineligible choices and
+out-of-range point totals are rejected. Setting both point bounds to 15 expresses
+an exact 15-point selection; setting both to −30 expresses a negative 30-point
+selection. A selection's price is the sum of its components, without an extra
+package charge or discount.
+
+Only after resolving the choices does the factory construct and validate a fresh
+profile. It stores `[group ID, option ID]` pairs in `profile.templateChoices` for
+presentation and saved character provenance. Choice receipts grant no extra
+abilities or restrictions on later advancement. Creating another character from
+the same selections creates new investments and traits. Calling ordinary
+`create(rules)` on a template with choice groups returns
+`template-unresolved-choices` rather than silently omitting them.
+
+Selected rows cannot duplicate a mandatory skill investment, and conflicting traits
+are rejected by the normal template validation. More elaborate exchange options,
+partial improvements to a mandatory purchase, attribute choices and composing
+unresolved choice-bearing templates still need explicit implementations. The
+current author interface offers concrete alternatives; it does not infer option
+eligibility from narrative labels.
+
+`tests/expanded.py::test_template_choices` covers signed prices, exact point limits,
+selection receipts, fresh ownership, unresolved and missing groups, duplicate and
+ineligible options, wrong counts and selected trait conflicts. The cases remain
+unrun while validation is paused.

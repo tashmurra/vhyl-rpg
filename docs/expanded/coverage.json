@@ -419,6 +419,18 @@
         "tests/expanded.py::test_template_technology"
       ],
       "validation_note": "Campaign defaults, explicit personal levels and composition conflicts authored. Native checks unrun."
+    },
+    {
+      "id": "template-choice-groups",
+      "module": "templates",
+      "pages": "B258-B259",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedTemplateChoice",
+      "tests": [
+        "tests/expanded.py::test_template_choices"
+      ],
+      "validation_note": "Concrete skill/Lite-trait options, counts, signed cost bounds and selection receipts authored. Checks unrun; attribute choices, exchanges and unresolved composition pending."
     }
   ],
   "detailed_inventories": [

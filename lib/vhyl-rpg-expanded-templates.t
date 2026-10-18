@@ -16,12 +16,14 @@ class RpgExpandedTemplate: object
     moveAdjustment = 0
     skillRows = []
     traitRows = []
+    choiceGroups = []
     campaignTL = 3
     techLevel = nil
     pointBudget = 100
     disadvantageLimit = 50
     create(rules)
     {
+        if (self.choiceGroups.length() != 0) rpgExpandedReject('template-unresolved-choices');
         local p = new RpgExpandedProfile(); p.rules = rules;
         p.campaignTL = self.campaignTL;
         p.techLevel = self.techLevel == nil ? self.campaignTL : self.techLevel;
@@ -43,6 +45,8 @@ class RpgExpandedTemplate: object
             if (row.length() != 3) rpgExpandedReject('template-trait');
             p.traits = p.traits + [rpgLiteMakeTrait(row[1],row[2],row[3])];
         }
+        try { rpgLiteValidateTraits(p); }
+        catch (RpgLiteCharacterError error) { rpgExpandedReject(error.reason); }
         rpgExpandedValidateCharacter(p); return p;
     }
 ;
@@ -129,3 +133,110 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
     catch (RpgLiteCharacterError error) { rpgExpandedReject(error.reason); }
     rpgExpandedValidateCharacter(result); return result;
 }
+
+/** A concrete selectable component bundle; rows follow the template factory. */
+class RpgExpandedTemplateOption: object
+    id = nil
+    eligible = true
+    skillRows = []
+    traitRows = []
+    cost()
+    {
+        local total = 0;
+        foreach (local row in self.skillRows)
+        {
+            if (row.length() != 2 || row[1] == nil || !row[1].ofKind(RpgSkill))
+                rpgExpandedReject('template-skill');
+            rpgInteger(row[2], 1, 10000); total += row[2];
+        }
+        foreach (local row in self.traitRows)
+        {
+            if (row.length() != 3) rpgExpandedReject('template-trait');
+            total += rpgLiteMakeTrait(row[1],row[2],row[3]).creationCost();
+        }
+        rpgInteger(total, -1000000, 1000000); return total;
+    }
+;
+
+/** Count and signed point bounds for one authored choice group. */
+class RpgExpandedTemplateChoice: object
+    id = nil
+    options = []
+    minimumChoices = 1
+    maximumChoices = 1
+    minimumPoints = nil
+    maximumPoints = nil
+;
+
+modify RpgExpandedProfile
+    templateChoices = []
+;
+
+modify RpgExpandedTemplate
+    /** selections: one [group ID, [option IDs]] row for every group. */
+    createSelected(rules, selections)
+    {
+        if (selections.length() != self.choiceGroups.length())
+            rpgExpandedReject('template-choice-groups');
+        local selectedGroups = [];
+        foreach (local row in selections)
+        {
+            if (row.length() != 2 || holds(selectedGroups,row[1]))
+                rpgExpandedReject('template-choice-groups');
+            selectedGroups = selectedGroups + [row[1]];
+        }
+        local skillRows = self.skillRows; local traitRows = self.traitRows;
+        local ids = []; local receipt = [];
+        foreach (local group in self.choiceGroups)
+        {
+            if (!group.ofKind(RpgExpandedTemplateChoice) || group.id == nil || holds(ids,group.id))
+                rpgExpandedReject('template-choice-definition');
+            ids = ids + [group.id];
+            rpgInteger(group.minimumChoices, 0, 1000);
+            rpgInteger(group.maximumChoices, group.minimumChoices, 1000);
+            if (group.minimumPoints != nil) rpgInteger(group.minimumPoints, -1000000, 1000000);
+            if (group.maximumPoints != nil) rpgInteger(group.maximumPoints, -1000000, 1000000);
+            if (group.minimumPoints != nil && group.maximumPoints != nil
+                && group.minimumPoints > group.maximumPoints)
+                rpgExpandedReject('template-choice-definition');
+            local chosen = nil;
+            foreach (local row in selections) if (row[1] == group.id) chosen = row[2];
+            if (chosen == nil) rpgExpandedReject('template-choice-groups');
+            if (chosen.length() < group.minimumChoices || chosen.length() > group.maximumChoices)
+                rpgExpandedReject('template-choice-count');
+            local optionIds = [];
+            foreach (local option in group.options)
+            {
+                if (!option.ofKind(RpgExpandedTemplateOption) || option.id == nil || holds(optionIds,option.id))
+                    rpgExpandedReject('template-choice-definition');
+                optionIds = optionIds + [option.id]; option.cost();
+            }
+            local used = []; local total = 0;
+            foreach (local id in chosen)
+            {
+                if (holds(used,id) || !holds(optionIds,id)) rpgExpandedReject('template-choice-option');
+                used = used + [id];
+                foreach (local option in group.options)
+                    if (option.id == id)
+                    {
+                        if (!option.eligible) rpgExpandedReject('template-choice-ineligible');
+                        total += option.cost(); skillRows = skillRows + option.skillRows;
+                        traitRows = traitRows + option.traitRows;
+                        receipt = receipt + [[group.id,option.id]];
+                    }
+            }
+            if (group.minimumPoints != nil && total < group.minimumPoints
+                || group.maximumPoints != nil && total > group.maximumPoints)
+                rpgExpandedReject('template-choice-points');
+        }
+        local resolved = new RpgExpandedTemplate();
+        resolved.st = self.st; resolved.dx = self.dx; resolved.iq = self.iq; resolved.ht = self.ht;
+        resolved.hpAdjustment = self.hpAdjustment; resolved.fpAdjustment = self.fpAdjustment;
+        resolved.willAdjustment = self.willAdjustment; resolved.perceptionAdjustment = self.perceptionAdjustment;
+        resolved.speedQuarterAdjustment = self.speedQuarterAdjustment; resolved.moveAdjustment = self.moveAdjustment;
+        resolved.campaignTL = self.campaignTL; resolved.techLevel = self.techLevel;
+        resolved.pointBudget = self.pointBudget; resolved.disadvantageLimit = self.disadvantageLimit;
+        resolved.skillRows = skillRows; resolved.traitRows = traitRows;
+        local profile = resolved.create(rules); profile.templateChoices = receipt; return profile;
+    }
+;
