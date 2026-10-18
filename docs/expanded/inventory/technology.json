@@ -424,9 +424,12 @@
       "status": "partial",
       "acceptance": "Divide prototype work duration by skilled workers, with minimum one day. Physically huge projects can require an authored extension; retain each participant's time reservation.",
       "tests": [
-        "tests/expanded.py::test_prototype_assessments"
+        "tests/expanded.py::test_prototype_assessments",
+        "tests/expanded.py::test_prototype_start",
+        "tests/expanded.py::test_prototype_start_calendar",
+        "tests/expanded.py::test_prototype_start_persistence"
       ],
-      "validation_note": "Pure supplied-dice duration, qualified-team modifiers and secret outcome assessments authored; fixtures unrun. Owned work/funding, injuries, actual defects and lifecycle remain pending."
+      "validation_note": "Owned attempt funding and rolled duration with explicit month intervals authored; fixtures unrun. Work scheduling, completion, accidents and defect lifecycle remain incomplete."
     },
     {
       "id": "technology-ordinary-facilities",
@@ -449,9 +452,14 @@
       "pages": "B474",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Each ordinary prototype attempt consumes the item's retail cost, tripled for a one-level advance, separately from reusable facilities.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_prototype_start",
+        "tests/expanded.py::test_prototype_start_calendar",
+        "tests/expanded.py::test_prototype_start_persistence"
+      ],
+      "validation_note": "Owned attempt funding and rolled duration with explicit month intervals authored; fixtures unrun. Work scheduling, completion, accidents and defect lifecycle remain incomplete."
     },
     {
       "id": "technology-prototype-bugs",

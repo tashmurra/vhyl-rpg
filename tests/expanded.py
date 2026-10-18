@@ -973,6 +973,67 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def prototype_start_state(s):
+    s.action(2105)
+    return last(s,'test.prototype-start-state')
+
+
+def test_prototype_start(s):
+    s.action(2104,0)
+    initial = [900000,0,None,0,0,0]
+    for code in [3,2]:
+        s.action(2104,code)
+        assert prototype_start_state(s) == initial
+    for code,reason in [(4,'prototype-attempt-funds'),(5,'prototype-facilities-required'),(8,'prototype-participant-unavailable')]:
+        s.action(2104,code)
+        assert last(s,'test.prototype-start') == ['blocked',reason,0,0]
+        s.command('undo')
+        assert prototype_start_state(s) == initial
+    s.action(2104,1)
+    assert last(s,'test.prototype-start') == ['resolved',None,1000,345600]
+    begun = [899000,1,345600,0,2,0]
+    assert prototype_start_state(s) == begun
+    s.command('undo')
+    assert prototype_start_state(s) == initial
+    s.action(2104,1)
+    for code in [1,6]:
+        s.action(2104,code)
+        assert prototype_start_state(s) == begun
+    s.action(2104,7)
+    assert last(s,'test.prototype-start') == ['blocked','prototype-already-active',0,0]
+    assert prototype_start_state(s) == begun
+
+
+def test_prototype_start_calendar(s):
+    s.action(2104,9)
+    s.action(2104,1)
+    assert last(s,'test.prototype-start') == ['blocked','prototype-calendar-required',0,0]
+    assert prototype_start_state(s) == [750000,0,None,0,0,0]
+    s.action(2104,10)
+    assert last(s,'test.prototype-start') == ['resolved',None,1000,5097600]
+    assert prototype_start_state(s) == [749000,1,5097600,0,1,0]
+
+
+def test_prototype_start_persistence(Session,bundle,out):
+    path = out / 'expanded-prototype-start.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2104,0)
+        first.action(2104,1)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2105')
+        assert prototype_start_state(second) == [899000,1,345600,0,2,0]
+        second.action(2104,1)
+        assert last(second,'test.prototype-start') == ['reused',None,0,345600]
+        assert prototype_start_state(second) == [899000,1,345600,0,2,0]
+    finally:
+        second.close()
+
+
 def test_invention_blueprints(s):
     initial = [0,0,None,0,0]
     for code in [11,12]:
@@ -6205,6 +6266,9 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_prototype_start)
+    fresh(Session,invention,test_prototype_start_calendar)
+    test_prototype_start_persistence(Session,invention,build.out)
     fresh(Session,invention,test_invention_blueprints)
     test_invention_blueprint_persistence(Session,invention,build.out)
     fresh(Session,invention,test_invention_facilities)

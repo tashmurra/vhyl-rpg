@@ -871,3 +871,40 @@ approval/acquisition gates, preview purity, rollback, undo, replay, reference
 binding, preserved daily opportunity, subsequent facilities funding and
 cross-process continuation. They remain unrun while checks are paused. Source:
 `full-2008`, B473.
+
+
+## Funding and sizing a prototype attempt
+
+`RpgExpandedPrototypeStart` binds a unique `id`, project, expanded payer,
+`assistants`, tools penalty, approval and evidence. It requires a held theory and
+funded, intact facilities. Every participant must be available and trained in at
+least one required subject. Qualification for the assistant bonus still uses the
+higher twenty-skill threshold. One active attempt per project is supported.
+
+`assess()` validates all facts and sufficient money before randomness or spending.
+`begin()` charges the separate per-attempt retail cost once, rolls the source's
+duration dice once, and records the resulting `seconds`, dice and rational duration.
+It sets `project.activePrototype` and appends the request to `project.prototypes`.
+The facilities payment is not charged again. `workedSeconds` initially remains
+zero and the shared clock does not advance merely for funding the attempt.
+
+For complex or amazing projects, provide `monthDays` covering respectively six or
+eighteen successive month intervals from the authored work origin and
+`calendarEvidence`. Each interval is one through forty whole days; different
+calendars outside that range reject. The entire array is validated before rolling,
+then only the rolled number of months is used. Divide by skilled worker count,
+apply the one-day minimum, and add any authored `extraSeconds` for an unusually
+large project. That extension is a scheduling decision, not an automatic size rule.
+
+Replay preserves the original duration without another cost or random draw.
+Changing the bound project, payer, participants, calendar or evidence rejects.
+Use an action transaction so failed execution restores money, random state and
+project state together. Funding does not reserve participants against other
+activities: shared work scheduling, interruption, completion rolls, accidents,
+defect creation and cancellation/refunds remain incomplete. An active attempt
+cannot yet be completed through this interface.
+
+`test_prototype_start`, `test_prototype_start_calendar` and
+`test_prototype_start_persistence` author preflight rejection, rollback, undo,
+replay, exact seeded duration, explicit month conversion and save continuation.
+They remain unrun while checks are paused. Source: `full-2008`, B474.

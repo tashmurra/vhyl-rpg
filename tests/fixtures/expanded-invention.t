@@ -25,11 +25,29 @@ conceptFacilities: RpgExpandedInventionFacilities project = conceptProject payer
 conceptReplacement: RpgExpandedInventionFacilities project = conceptProject payer = conceptUser approved = true evidence = 'Rebuild laboratory';
 conceptBlueprint: RpgExpandedInventionBlueprint project = conceptProject reference = 'survey-design-drawings'
     acquired = true actualDesign = true approved = true evidence = 'Complete acquired construction drawings';
+prototypeStart: RpgExpandedPrototypeStart id = 'prototype-one' project = conceptProject payer = conceptUser
+    approved = true evidence = 'Fund one attempt with the inventor working alone';
+prototypeSecond: RpgExpandedPrototypeStart id = 'prototype-two' project = conceptProject payer = conceptUser
+    approved = true evidence = 'Second attempt';
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 40)
+        {
+            if (code == 49) { conceptProposal.category = 'complex'; conceptBlueprint.apply(); conceptFacilities.fund(); return nil; }
+            if (code == 50) { prototypeStart.monthDays = [31,28,31,30,31,30]; prototypeStart.calendarEvidence = 'Authored upcoming month intervals'; }
+            if (code == 40) { conceptBlueprint.apply(); conceptFacilities.fund(); return nil; }
+            if (code == 44) conceptUser.money = 999;
+            if (code == 45) conceptFacilities.destroyed = true;
+            if (code == 46) prototypeStart.evidence = 'Changed attempt';
+            if (code == 48) conceptUser.unconscious = true;
+            local value = code == 43 ? prototypeStart.assess() : code == 47 ? prototypeSecond.begin() : prototypeStart.begin();
+            event('test.prototype-start'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.money); eventValue(value.seconds);
+            if (code == 42) throw new RpgError(); return nil;
+        }
         if (code >= 10 && code <= 15)
         {
             if (code == 13) conceptBlueprint.actualDesign = nil;
@@ -71,6 +89,13 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2104) { conceptInput.code = 40 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2105)
+    {
+        event('test.prototype-start-state'); eventValue(conceptUser.money); eventValue(conceptProject.prototypes.length());
+        eventValue(prototypeStart.result == nil ? nil : prototypeStart.result.seconds);
+        eventValue(prototypeStart.workedSeconds); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2102) { conceptInput.code = 20 + args[1]; return vhylAct(2097,args); }
     if (verb == 2103)
     {

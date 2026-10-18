@@ -1715,3 +1715,114 @@ class RpgExpandedInventionBlueprint: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedInventionProject
+    prototypes = []
+    activePrototype = nil
+;
+
+class RpgExpandedPrototypeStartResult: RpgExpandedResult
+    money = 0
+    durationDice = []
+    duration = nil
+;
+
+/** Fund and size one prototype attempt; work advancement and secret completion are separate. */
+class RpgExpandedPrototypeStart: object
+    id = nil
+    project = nil
+    payer = nil
+    assistants = []
+    toolsPenalty = 0
+    approved = nil
+    evidence = nil
+    /* Exact whole-day lengths of successive months beginning at this project's work origin. */
+    monthDays = []
+    calendarEvidence = nil
+    extraSeconds = 0
+    result = nil
+    facilities = nil
+    definitionSnapshot = nil
+    startedAt = nil
+    workedSeconds = 0
+    definition()
+    {
+        return [self.id,self.project,self.payer,self.toolsPenalty,self.evidence,self.calendarEvidence,
+            self.extraSeconds,self.assistants.length(),self.monthDays.length()] + self.assistants + self.monthDays;
+    }
+    assess()
+    {
+        if (self.project == nil || !self.project.ofKind(RpgExpandedInventionProject)
+            || self.payer == nil || !self.payer.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('prototype-start-definition');
+        self.project.validate(); local value = new RpgExpandedPrototypeStartResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.definitionSnapshot.length()) rpgExpandedReject('prototype-start-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('prototype-start-binding');
+            if (!holds(self.project.prototypes,self)) rpgExpandedReject('prototype-start-history');
+            value.status = 'reused'; value.seconds = self.result.seconds;
+            value.duration = self.result.duration; value.durationDice = self.result.durationDice; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('prototype-start-id');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'prototype-start-approval'; return value; }
+        if (!holds(['testable','flawed'],self.project.theory))
+        { value.reason = 'prototype-theory-required'; return value; }
+        if (self.project.activePrototype != nil) { value.reason = 'prototype-already-active'; return value; }
+        foreach (local prior in self.project.prototypes)
+            if (prior.id == self.id) rpgExpandedReject('prototype-start-duplicate');
+        local facility = self.project.facilities;
+        if (facility == nil || !facility.ofKind(RpgExpandedInventionFacilities) || facility.result == nil
+            || facility.project != self.project || facility.destroyed)
+        { value.reason = 'prototype-facilities-required'; return value; }
+        facility.assess(); rpgExpandedValidate(self.payer); rpgInteger(self.payer.money,0,2147483647);
+        local proposal = self.project.proposal; local assessment = proposal.assess();
+        if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
+        value.modifier = rpgExpandedPrototypeTeamModifier(proposal,self.assistants,self.toolsPenalty);
+        foreach (local participant in [proposal.inventor] + self.assistants)
+        {
+            if (participant.dead || participant.unconscious || participant.stunned || participant.hp() <= 0 || participant.fp() <= 0)
+            { value.reason = 'prototype-participant-unavailable'; return value; }
+            local trained = nil;
+            foreach (local subject in [proposal.skill] + proposal.relatedSkills)
+                foreach (local training in participant.skills)
+                    if (training.skill == subject && training.points > 0) trained = true;
+            if (!trained) { value.reason = 'prototype-worker-unskilled'; return value; }
+        }
+        rpgInteger(self.extraSeconds,0,31536000);
+        if (holds(['complex','amazing'],assessment.category))
+        {
+            local count = assessment.category == 'complex' ? 6 : 18;
+            if (self.monthDays.length() != count || self.calendarEvidence == nil || self.calendarEvidence == '')
+            { value.reason = 'prototype-calendar-required'; return value; }
+            foreach (local days in self.monthDays) rpgInteger(days,1,40);
+        }
+        else if (self.monthDays.length() != 0) rpgExpandedReject('prototype-unused-calendar');
+        if (self.payer.money < assessment.attemptCost) { value.reason = 'prototype-attempt-funds'; return value; }
+        value.money = assessment.attemptCost;
+        value.duration = assessment.category; value.status = 'ready'; return value;
+    }
+    begin()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local count = value.duration == 'average' ? 2 : value.duration == 'amazing' ? 3 : 1;
+        for (local index = 1; index <= count; index += 1) value.durationDice = value.durationDice + [rpgRandom.die()];
+        value.duration = rpgExpandedPrototypeDuration(value.duration,value.durationDice,self.assistants.length()+1);
+        local days = value.duration.numerator;
+        if (value.duration.unit == 'months')
+        {
+            days = 0;
+            for (local index = 1; index <= value.duration.numerator; index += 1) days += self.monthDays[index];
+        }
+        value.seconds = days * 86400 / value.duration.denominator;
+        if (value.seconds < 86400) value.seconds = 86400;
+        value.seconds += self.extraSeconds;
+        self.payer.money -= value.money;
+        self.facilities = self.project.facilities; self.startedAt = rpgLedger.seconds;
+        self.definitionSnapshot = self.definition(); self.project.prototypes = self.project.prototypes + [self];
+        self.project.activePrototype = self; value.status = 'resolved'; self.result = value; return value;
+    }
+;
