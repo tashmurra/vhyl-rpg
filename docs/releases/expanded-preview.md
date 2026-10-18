@@ -1199,3 +1199,8 @@ expanded influence procedure remains partial.
 - Interrogation questions now apply callousness's past-victim penalty from an
   explicit bound fact, alongside the existing coercion bonus. Added unrun
   integration, interruption, undo and save fixtures (full-2008 B125).
+
+- Added compelled assistance with self-control pricing, authored opportunities
+  and owned offer/decline decisions. Failed resistance requires an offer without
+  automatically spending promised resources. Added unrun persistence fixtures;
+  automatic scene discovery remains pending (full-2008 B125).

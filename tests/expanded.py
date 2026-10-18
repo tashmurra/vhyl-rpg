@@ -9078,6 +9078,8 @@ def test(build):
     test_study_ownership(Session, study_ownership)
     callous_interrogation = build.build('expanded-callous-interrogation',ROOT / 'tests/fixtures/expanded-callous-interrogation.t')
     test_callous_interrogation(Session, callous_interrogation, build.out)
+    compelled_aid = build.build('expanded-compelled-aid',ROOT / 'tests/fixtures/expanded-compelled-aid.t')
+    test_compelled_aid(Session, compelled_aid, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17230,5 +17232,56 @@ def test_callous_interrogation(Session, bundle, out):
         for code in (521,4200,4203):
             s.action(2285,code)
         assert last(s,'test.callous-question-binding') == ['interrogation-question-binding',6,300]
+    finally:
+        s.close()
+
+
+def test_compelled_aid(Session, bundle, out):
+    for setup,draws,active in (((),3,0),((4307,),3,1),((4305,),0,1)):
+        s = Session(bundle)
+        try:
+            for code in (30,)+setup+(4300,4308):
+                s.action(2285,code)
+            assert last(s,'test.aid-state') == [0,0,0,0,0]
+            for code in (4301,4301,4308):
+                s.action(2285,code)
+            assert last(s,'test.aid-state') == [active,1,0,draws,0]
+            s.action(2285,4303)
+            assert last(s,'test.aid-choice') == (['blocked','compelled-aid-offer-required'] if active
+                                                else ['resolved','assistance-declined'])
+            if active:
+                for code in (4304,4303,4303,4308):
+                    s.action(2285,code)
+                assert last(s,'test.aid-state') == [0,1,1,draws,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (4306,4301,4308):
+            s.action(2285,code)
+        assert last(s,'test.aid-trigger') == ['blocked','compelled-aid-opportunity-required',-15]
+        assert last(s,'test.aid-state') == [0,0,0,0,0]
+    finally:
+        s.close()
+    path = out / 'expanded-compelled-aid.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,4307,4302,4308):
+            s.action(2285,code)
+        assert last(s,'test.aid-state') == [0,0,0,0,0]
+        s.action(2285,4301)
+        s.command('undo')
+        s.action(2285,4308)
+        assert last(s,'test.aid-state') == [0,0,0,0,0]
+        s.action(2285,4301)
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (4301,4304,4303,4308):
+            s.action(2285,code)
+        assert last(s,'test.aid-state') == [0,1,1,3,0]
     finally:
         s.close()

@@ -1081,3 +1081,75 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     communicationStudyEligible() { return self.speechLimitationLevel() == 2; }
 ;
+
+/** B125 assistance compulsion, with the shared four-tier self-control pricing. */
+class RpgExpandedCompelledAid: RpgExpandedDisadvantage
+    id = 'compelled-aid'
+    points = -15
+    controlled = true
+    validateDefinition()
+    {
+        if (self.id != 'compelled-aid' || self.points != -15 || self.level != 1 || !self.controlled
+            || self.percentages.length() != 0) rpgExpandedReject('compelled-aid-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedAidTrigger: RpgExpandedSelfControlTrigger
+    recipient = nil
+    assistance = nil
+    aidAvailable = nil
+    shouldResist = nil
+    approved = nil
+    decision = nil
+    definition()
+    {
+        return inherited() + [self.recipient,self.assistance,self.aidAvailable,self.shouldResist,self.approved];
+    }
+    assess()
+    {
+        if (self.trait == nil || !self.trait.ofKind(RpgExpandedCompelledAid)
+            || self.recipient == nil || !self.recipient.ofKind(RpgLiteProfile) || self.recipient == self.profile)
+            rpgExpandedReject('compelled-aid-participants');
+        local value = inherited(); if (value.status != 'ready') return value;
+        if (!self.approved || !self.aidAvailable || !self.shouldResist || self.assistance == nil || self.assistance == '')
+        { value.status = 'blocked'; value.reason = 'compelled-aid-opportunity-required'; return value; }
+        if (self.trait.mitigated)
+        { value.status = 'blocked'; value.reason = 'compelled-aid-mitigated'; return value; }
+        return value;
+    }
+;
+/** Record the player's response; offering help does not spend the promised resources. */
+class RpgExpandedAidDecision: object
+    source = nil
+    choice = nil
+    result = nil
+    boundChoice = nil
+    boundSource = nil
+    assess()
+    {
+        if (self.source == nil || !self.source.ofKind(RpgExpandedAidTrigger)
+            || !holds(['offer','decline'],self.choice)) rpgExpandedReject('compelled-aid-choice');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.source != self.boundSource || self.choice != self.boundChoice || self.source.decision != self)
+                rpgExpandedReject('compelled-aid-choice-binding');
+            self.source.assess(); value.status = 'reused'; return value;
+        }
+        if (self.source.result == nil) { value.reason = 'compelled-aid-unresolved'; return value; }
+        self.source.assess();
+        if (self.source.decision != nil) { value.reason = 'compelled-aid-already-decided'; return value; }
+        if (self.source.active && self.choice != 'offer') { value.reason = 'compelled-aid-offer-required'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundSource = self.source; self.boundChoice = self.choice; self.source.decision = self;
+        self.source.active = nil; value.reason = self.choice == 'offer' ? 'assistance-offered' : 'assistance-declined';
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

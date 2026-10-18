@@ -1052,3 +1052,25 @@ Nonshared signing between player characters uses `RpgExpandedGestureExchange`
 in the social library. Its sender can receive full-rate credit through
 `RpgExpandedCommunicationStudy` in development; other channels remain pending. The fixture covers costs, channel distinctions, compatibility
 and rejection without random draws; checks remain paused.
+
+### Compelled assistance (full-2008, B125)
+
+`RpgExpandedCompelledAid` has a -15 base price and uses the shared self-control
+ratings. Create one `RpgExpandedAidTrigger` per occurrence, identifying the
+recipient, available `assistance`, why the character `shouldResist`, approval and
+evidence. The author must establish actual means to help; the trait creates no
+items, money or abilities. Hostility, orders and possible traps do not exempt an
+otherwise eligible opportunity. `assess()` is pure; `resolve()` uses the existing
+self-control machinery, including voluntary surrender and the explicit campaign
+policy for point-funded resistance. Repeated resolution does not reroll.
+
+Bind an `RpgExpandedAidDecision` to the resolved trigger with `choice = 'offer'`
+or `'decline'`. A failed check requires the offer. Recording it satisfies this
+obligation without performing or paying for the promised assistance; use the
+relevant action and resource rules for subsequent help. The recorded choice
+cannot be changed on replay. Authors must route this scene decision through the
+interface; automatic parser/dialogue discovery of aid opportunities is pending.
+
+The fixture covers resistance, surrender, invalid opportunities, required offers,
+replay, rollback, undo and save continuation. It remains unrun while checks are
+paused, so the inventory entry remains partial.

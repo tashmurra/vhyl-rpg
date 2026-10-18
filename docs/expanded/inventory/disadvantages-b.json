@@ -181,9 +181,9 @@
       "pages": "B125",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Compelled assistance is base -15 with self-control. When aid is possible/requested but should be resisted, failure requires an offer of help even to enemies or despite orders. Author identifies available assistance and consequences without inventing resources the actor lacks.",
-      "tests": []
+      "tests": ["tests/fixtures/expanded-compelled-aid.t", "tests/expanded.py::test_compelled_aid"]
     },
     {
       "id": "disadvantages-b-low-motivation",
