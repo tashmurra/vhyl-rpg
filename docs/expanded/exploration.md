@@ -92,5 +92,14 @@ The minimal [`expanded-exploration.t`](../../tests/fixtures/expanded-exploration
 fixture covers independent duration expectations, combined-factor rounding,
 preparation rejection, exact expiry boundaries, duplicate reserves and shared-ledger
 ownership. `test_breath_duration` and `test_breath_reserve` are authored but unrun
-while checks are paused. Transaction, undo and save-continuation coverage for
-these new interfaces remains to be added.
+while checks are paused. The dedicated
+[`expanded-breath-transactions.t`](../../tests/fixtures/expanded-breath-transactions.t)
+adds authored transaction fixtures for exceptions after start and air restoration,
+undo and replay, preview purity, rejected bound-field mutation and duplicate
+reserves. Historical calls against an ended reserve must leave a newer active
+reserve intact. Separate-process saves cover the start, the second before expiry,
+exact expiry, restored air and unresolved post-expiry exposure. Restoring an
+expired reserve must not reset its clock or permit a new breath to erase the
+unresolved suffocation interval. These transaction and persistence fixtures also
+remain unrun; they do not establish passing validation or complete suffocation
+coverage.

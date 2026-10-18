@@ -760,6 +760,97 @@ def test_cold_persistence(Session, bundle, out):
             second.close()
 
 
+def breath_state(s):
+    s.action(1881)
+    return last(s, 'test.breath-state')
+
+
+def test_breath_transactions(s):
+    initial = breath_state(s)
+    assert initial == [0,0,0,0,0,0,0,0,0,'mild',2,0]
+    s.action(1880, 1)
+    assert breath_state(s) == initial
+    s.action(1880, 0)
+    started = breath_state(s)
+    assert started == [1,1,1,0,40,40,0,0,0,'mild',2,0]
+    s.command('undo')
+    assert breath_state(s) == initial
+    s.action(1880, 0)
+    for code in [0,6,7,8,9,12]:
+        s.action(1880, code)
+        assert breath_state(s) == started
+    s.action(1880, 2)
+    assert breath_state(s) == [1,1,1,0,40,1,39,39,0,'mild',2,0]
+    s.action(1880, 3)
+    due = breath_state(s)
+    assert due == [1,1,1,0,40,0,40,40,0,'mild',2,0]
+    s.action(1880, 5)
+    assert breath_state(s) == due
+    s.action(1880, 4)
+    ended = breath_state(s)
+    assert ended == [0,1,1,1,40,0,40,40,0,'mild',2,0]
+    s.command('undo')
+    assert breath_state(s) == due
+    for code in [4,4,0,7]:
+        s.action(1880, code)
+        assert breath_state(s) == ended
+    s.action(1880, 9)
+    second = breath_state(s)
+    assert second == [1,2,1,1,40,0,40,40,0,'mild',2,0]
+    # Historical calls must not clear the newer reserve or reset the clock.
+    for code in [0,4,7,12]:
+        s.action(1880, code)
+        assert breath_state(s) == second
+
+
+def test_breath_expired_transactions(s):
+    for code in [0,2,3,10]:
+        s.action(1880, code)
+    expired = breath_state(s)
+    assert expired == [1,1,1,0,40,0,41,41,0,'mild',2,0]
+    for code in [0,4,8,9,12,7]:
+        s.action(1880, code)
+        assert breath_state(s) == expired
+
+
+def test_breath_persistence(Session, bundle, out):
+    for stage in range(5):
+        path = out / f'expanded-breath-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1880, 0)
+            if stage >= 1:
+                first.action(1880, 2)
+            if stage >= 2:
+                first.action(1880, 3)
+            if stage == 3:
+                first.action(1880, 4)
+            if stage == 4:
+                first.action(1880, 10)
+            saved = breath_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1881')
+            assert breath_state(second) == saved
+            second.action(1880, 7)
+            if stage == 0:
+                second.action(1880, 2)
+            if stage <= 1:
+                second.action(1880, 3)
+            second.action(1880, 4)
+            if stage == 4:
+                assert breath_state(second) == [1,1,1,0,40,0,41,41,0,'mild',2,0]
+                assert last(second, 'test.breath-operation') == ['blocked','breath-suffocation-unresolved']
+            else:
+                assert breath_state(second) == [0,1,1,1,40,0,40,40,0,'mild',2,0]
+            second.action(1880, 7)
+        finally:
+            second.close()
+
+
 def test_breath_duration(s):
     for health, activity, prepared, ventilation, control, levels, seconds in [
             (10,'none',1,'none',0,0,100),(10,'mild',1,'none',0,0,40),
@@ -3595,6 +3686,10 @@ def test(build):
     exploration = build.build('expanded-exploration',ROOT / 'tests/fixtures/expanded-exploration.t')
     fresh(Session,exploration,test_breath_duration)
     fresh(Session,exploration,test_breath_reserve)
+    breath_transactions = build.build('expanded-breath-transactions',ROOT / 'tests/fixtures/expanded-breath-transactions.t')
+    fresh(Session,breath_transactions,test_breath_transactions)
+    fresh(Session,breath_transactions,test_breath_expired_transactions)
+    test_breath_persistence(Session,breath_transactions,build.out)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_infection_acquisition)
