@@ -1980,8 +1980,8 @@ to skip either an agony payment or an illness recovery boundary. No separate
 injury, fatigue or time balance is introduced. Run commits inside normal engine
 actions and let exceptions propagate so transaction rollback restores all effects.
 
-Recompression treatment and emergency ascent from an active plan
-and simultaneous explosive decompression remain pending. This procedure does not
+Recompression symptom treatment is described below. Emergency ascent from an
+active plan and simultaneous explosive decompression remain pending. This procedure does not
 claim those combinations. The minimal integration fixture is
 [`expanded-decompression-illness.t`](../../tests/fixtures/expanded-decompression-illness.t).
 Its onset, recovery, preview, replay, rollback, undo and cross-process continuation
@@ -1998,3 +1998,45 @@ paralysis and agony records retain their existing behavior.
 [`expanded-decompression-paralysis.t`](../../tests/fixtures/expanded-decompression-paralysis.t)
 covers missing position evidence, conscious immobility, failed hourly recovery,
 transition to agony, rollback, undo and save continuation. These fixtures are unrun.
+
+
+## Recompression symptom treatment
+
+`RpgExpandedRecompression` binds an illness `episode` to an active pressure
+`exposure` for the same patient. The maintained pressure must equal the original
+illness exposure. Supply `highestConfirmed = true`, `approved = true`, a unique
+`id`, and `evidence` confirming that this is the highest relevant pressure
+experienced. A more complex pressure history needs explicit author review; the
+library does not infer the highest pressure from unrelated historical episodes.
+
+`assess()` is a preview; `begin()` records the start time without advancing time
+or rolling. Create a fresh `RpgExpandedRecompressionCheck` pointing to `treatment`
+for each check, exactly every 300 seconds after treatment begins. Each check uses
+health +4 (`full-2008`, B435). Failure leaves symptoms in place. Success clears
+this illness's agony, paralysis or owned unconsciousness. It does not revive a
+dead patient or clear another cause of unconsciousness. Repeated requests return
+the recorded outcome without rerolling or charging resources.
+
+Continue existing agony minute payments and pressure entry/minute checks while
+treatment is active. The five-minute deadline cannot be skipped. Ordinary hourly
+illness recovery remains available until symptom relief; when deadlines coincide,
+the author chooses which check to resolve first. Successful treatment can prevent
+an outstanding illness check, but never erases already committed consequences.
+At a minute boundary, resolve treatment before charging the next minute if it
+succeeds; prior fatigue remains spent. Standard timed agony retains its prior
+payment behavior.
+
+Call `cancel()` before ending or changing the maintained pressure. Cancellation
+ends treatment eligibility without curing symptoms or resetting ordinary illness
+recovery. A later approved treatment has its own five-minute start time. Pressure
+exposure remains active after symptom relief until the author ends it, so its own
+crushing checks and safe-return requirements still apply.
+
+This currently implements symptom relief. The source's phrase about recovery
+from all effects does not explicitly specify how to reconcile previously applied
+injury with the shared wound ledger; injury restoration remains unresolved and is
+not counted as implemented. Emergency ascent and multi-stage treatment changes
+also remain pending. See
+[`expanded-recompression.t`](../../tests/fixtures/expanded-recompression.t) for
+minimal integration and authored rollback, undo, replay and persistence fixtures.
+All new fixtures remain unrun while checks are paused.

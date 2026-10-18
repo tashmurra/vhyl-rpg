@@ -9155,6 +9155,8 @@ def test(build):
     test_decompression_illness_outcomes(Session, decompression_illness)
     decompression_paralysis = build.build('expanded-decompression-paralysis',ROOT / 'tests/fixtures/expanded-decompression-paralysis.t')
     test_decompression_paralysis(Session, decompression_paralysis, build.out)
+    recompression = build.build('expanded-recompression',ROOT / 'tests/fixtures/expanded-recompression.t')
+    test_recompression(Session, recompression, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19279,5 +19281,64 @@ def test_decompression_paralysis(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.decompression-paralysis')[:6] == [0, 1, 0, 'lying', 0, 1]
         assert last(s, 'test.decompression-illness')[:3] == ['agony', 2, 1]
+    finally:
+        s.close()
+
+
+def test_recompression(Session, bundle, out):
+    """B435 five-minute HT+4 recovery, with shared condition/fatigue ledgers; unrun."""
+    path = out / 'expanded-recompression.zsave'
+    for onset in (30, 8608):
+        s = Session(bundle)
+        try:
+            for code in (onset, 8600, 8602, 8800, 8801):
+                s.action(2285, code)
+            assert last(s, 'test.recompression-result')[:2] == ['blocked', 'recompression-check-time']
+            for code in (8805, 8803, 8804):
+                s.action(2285, code)
+            fatigue = 5 if onset == 30 else 0
+            phase = 'agony' if onset == 30 else 'unconscious'
+            assert last(s, 'test.recompression') == [phase, 0, int(onset == 30), 0, int(onset != 30), fatigue, 300, 3]
+            s.action(2285, 8801)
+            s.command('undo')
+            s.action(2285, 8804)
+            assert last(s, 'test.recompression')[0:2] == [phase, 0]
+            for code in (8801, 8801, 8806, 8804):
+                s.action(2285, code)
+            assert last(s, 'test.recompression') == ['recovered', 1, 0, 0, 0, fatigue, 900, 6]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (8608, 8600, 8700, 8602, 8800, 8805, 8807, 8801, 8804):
+            s.action(2285, code)
+        assert last(s, 'test.recompression') == ['paralysis', 1, 0, 1, 0, 0, 300, 6]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (30, 8805, 8802, 8802, 8804):
+            s.action(2285, code)
+        assert last(s, 'test.recompression') == ['recovered', 2, 0, 0, 0, 0, 600, 9]
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (8608, 8600, 8602, 8800, 8809):
+            s.action(2285, code)
+        assert last(s, 'test.recompression-boundary') == ['recompression-check-boundary', 0, 3]
+        for code in (8808, 8806, 8804):
+            s.action(2285, code)
+        assert last(s, 'test.recompression') == ['unconscious', 0, 0, 0, 1, 0, 600, 3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (8608, 8600, 8602, 8810, 8800, 8811):
+            s.action(2285, code)
+        assert last(s, 'test.recompression-preview') == ['blocked', 'recompression-pressure-required', 3]
     finally:
         s.close()

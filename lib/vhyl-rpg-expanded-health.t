@@ -5681,12 +5681,13 @@ class RpgExpandedAgony: RpgExpandedCoughing
     history() { return self.profile.agonyHistory; }
     remember() { self.profile.agonyHistory = self.profile.agonyHistory + [self]; }
     receiptKind() { return 'agony'; }
+    requiresPayments() { return true; }
     onsetLowPain = nil
     onsetHighPain = nil
     validateReceipt()
     {
         inherited(); local count = self.payments.length();
-        if (rpgLedger.seconds < self.expiresAt && (self.profile.level('low-pain-threshold') != self.onsetLowPain
+        if (self.requiresPayments() && rpgLedger.seconds < self.expiresAt && (self.profile.level('low-pain-threshold') != self.onsetLowPain
             || self.profile.level('high-pain-threshold') != self.onsetHighPain)) rpgExpandedReject('agony-pain-threshold-changed');
         if (count == 0 || count > (self.durationSeconds - 1) / 60 + 1) rpgExpandedReject('agony-payment-history');
         local expected = count == (self.durationSeconds - 1) / 60 + 1 ? self.expiresAt : self.startedAt + count * 60;
@@ -5730,7 +5731,7 @@ class RpgExpandedAgony: RpgExpandedCoughing
         local value = new RpgExpandedResult();
         foreach (local prior in self.payments)
             if (prior.id == self.id + '-' + id) return prior.assess();
-        if (self.profile.dead || rpgLedger.seconds >= self.expiresAt)
+        if (self.profile.dead || !self.requiresPayments() || rpgLedger.seconds >= self.expiresAt)
         { value.reason = 'agony-payment-inactive'; return value; }
         if (rpgLedger.seconds != self.nextPaymentAt)
         { value.reason = 'agony-payment-time'; return value; }
@@ -5812,7 +5813,7 @@ modify rpgLedger
             if (episode.result != nil && !episode.profile.dead)
             {
                 episode.validateReceipt();
-                if (episode.nextPaymentAt < episode.expiresAt && self.seconds + seconds > episode.nextPaymentAt)
+                if (episode.requiresPayments() && episode.nextPaymentAt < episode.expiresAt && self.seconds + seconds > episode.nextPaymentAt)
                     rpgExpandedReject('agony-minute-boundary');
             }
         return nil;

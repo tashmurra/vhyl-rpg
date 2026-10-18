@@ -2384,9 +2384,12 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Recompression to the highest experienced pressure allows health+4 checks every five minutes to recover effects short of death.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_recompression"
+      ],
+      "validation_note": "Owned sustained-pressure treatment and five-minute HT+4 checks clear illness-owned agony, paralysis and unconsciousness. Existing fatigue, injury and concurrent pressure/hourly deadlines remain on their shared ledgers. Whether the source all-effects wording restores accrued injury is unresolved; no healing is invented. Fixture authored, unrun."
     },
     {
       "id": "hazard-decompression-combination",

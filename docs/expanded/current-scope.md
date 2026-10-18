@@ -47,3 +47,9 @@ the pressure catalogue or hazards module.
 The paralysis alternative now uses an owned conscious condition and explicit onset
 balance evidence. Both paralysis and agony remain active at the hourly recovery
 boundary. Its integration and persistence fixtures are authored but unrun.
+
+
+Recompression now has owned five-minute symptom-recovery checks at health +4,
+with shared pressure and fatigue deadlines and persistent treatment receipts.
+Accrued-injury restoration remains an explicit unresolved source interpretation;
+treatment is partial and its lifecycle fixtures remain unrun.

@@ -4538,6 +4538,8 @@ class RpgExpandedDecompressionIllness: object
     dueAt = nil
     phase = nil
     agony = nil
+    recompressions = []
+    symptomRelief = nil
     recoveries = []
     result = nil
     boundDefinition = nil
@@ -4555,6 +4557,15 @@ class RpgExpandedDecompressionIllness: object
         {
             if (recovery.episode != self || recovery.boundEpisode != self || recovery.result == nil) rpgExpandedReject('decompression-recovery-history');
             expected = recovery.result.phase;
+        }
+        if (self.symptomRelief != nil)
+        {
+            local relief = self.symptomRelief;
+            if (relief.treatment.episode != self || relief.boundTreatment != relief.treatment
+                || !holds(self.recompressions,relief.treatment) || !holds(relief.treatment.checks,relief)
+                || relief.result == nil || !relief.result.check.achieved)
+                rpgExpandedReject('decompression-relief-owner');
+            expected = 'recovered';
         }
         if (self.phase != expected || self.dueAt != self.startedAt + (self.recoveries.length()+1) * 3600)
             rpgExpandedReject('decompression-illness-state');
@@ -4695,6 +4706,7 @@ class RpgExpandedDecompressionParalysis: RpgExpandedParalysis
 /** Keep pain active at the hourly boundary until its recovery is committed. */
 class RpgExpandedDecompressionAgony: RpgExpandedAgony
     episode = nil
+    requiresPayments() { return self.episode.phase == 'agony' && self.episode.agony == self; }
     definition() { return inherited() + [self.episode]; }
     active()
     {
@@ -4707,5 +4719,129 @@ class RpgExpandedDecompressionAgony: RpgExpandedAgony
         if (prior.ofKind(RpgExpandedDecompressionAgony) && prior.episode == self.episode
             && rpgLedger.seconds == prior.expiresAt) return nil;
         return inherited(prior);
+    }
+;
+
+/** B435 sustained recompression: five-minute HT+4 symptom recovery. */
+class RpgExpandedRecompression: object
+    id = nil
+    episode = nil
+    exposure = nil
+    highestConfirmed = nil
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    dueAt = nil
+    cancelledAt = nil
+    boundCancelledAt = nil
+    checks = []
+    boundDefinition = nil
+    definition() { return [self.id,self.episode,self.exposure,self.highestConfirmed,self.approved,self.evidence,self.startedAt]; }
+    active() { return self.startedAt != nil && self.cancelledAt == nil && !self.episode.profile().dead
+        && holds(['agony','unconscious','paralysis'],self.episode.phase); }
+    validate()
+    {
+        self.episode.validateReceipt(); self.exposure.validateBinding();
+        local current = self.definition();
+        if (!holds(self.episode.recompressions,self)) rpgExpandedReject('recompression-owner');
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('recompression-binding');
+        if (self.cancelledAt != self.boundCancelledAt || self.dueAt != self.startedAt + (self.checks.length()+1)*300)
+            rpgExpandedReject('recompression-clock-binding');
+        for (local i = 1; i <= self.checks.length(); i += 1)
+        {
+            local check = self.checks[i];
+            if (check.treatment != self || check.boundTreatment != self || check.result == nil
+                || check.checkedAt != self.startedAt + i*300) rpgExpandedReject('recompression-check-history');
+        }
+        if (self.active() && self.exposure.endedAt != nil) rpgExpandedReject('recompression-pressure-interrupted');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedDecompressionIllness)
+            || self.exposure == nil || !self.exposure.ofKind(RpgExpandedPressureExposure)) rpgExpandedReject('recompression-definition');
+        if (self.startedAt != nil) { self.validate(); value.status = 'reused'; return value; }
+        self.episode.validateReceipt(); self.exposure.validateBinding();
+        if (!self.approved || !self.highestConfirmed || self.evidence == nil || self.evidence == '')
+        { value.reason = 'recompression-highest-pressure-evidence'; return value; }
+        if (!holds(['agony','unconscious','paralysis'],self.episode.phase) || self.episode.profile().dead)
+        { value.reason = 'recompression-patient-inactive'; return value; }
+        if (self.exposure.profile != self.episode.profile() || self.exposure.endedAt != nil
+            || self.exposure.pressure != self.episode.source.pressure)
+        { value.reason = 'recompression-pressure-required'; return value; }
+        foreach (local prior in self.episode.recompressions)
+        {
+            prior.validate();
+            if (prior.id == self.id || prior.active()) rpgExpandedReject('recompression-overlap');
+        }
+        rpgInteger(rpgLedger.seconds,0,2147483347);
+        value.status = 'ready'; value.modifier = 4; value.seconds = 300; return value;
+    }
+    begin()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.startedAt = rpgLedger.seconds; self.dueAt = self.startedAt + 300;
+        self.boundDefinition = self.definition(); self.episode.recompressions = self.episode.recompressions + [self];
+        value.status = 'resolved'; return value;
+    }
+    cancel()
+    {
+        self.validate(); local value = new RpgExpandedResult();
+        if (self.cancelledAt != nil) { value.status = 'reused'; return value; }
+        self.cancelledAt = rpgLedger.seconds; self.boundCancelledAt = self.cancelledAt;
+        value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedRecompressionCheck: object
+    treatment = nil
+    boundTreatment = nil
+    checkedAt = nil
+    result = nil
+    assess()
+    {
+        if (self.treatment == nil || !self.treatment.ofKind(RpgExpandedRecompression)) rpgExpandedReject('recompression-check-treatment');
+        self.treatment.validate(); local value = new RpgExpandedDecompressionIllnessResult();
+        if (self.result != nil)
+        {
+            if (self.treatment != self.boundTreatment || !holds(self.treatment.checks,self)) rpgExpandedReject('recompression-check-owner');
+            value.status = 'reused'; return value;
+        }
+        if (!self.treatment.active()) { value.reason = 'recompression-check-inactive'; return value; }
+        if (rpgLedger.seconds != self.treatment.dueAt) { value.reason = 'recompression-check-time'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483347);
+        value.modifier = 4; value.seconds = 300; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local treatment = self.treatment; local episode = treatment.episode; local oldPhase = episode.phase;
+        value.check = rpgLiteAttributeCheck(episode.profile(),rpgHT,'resistance',4);
+        value.phase = value.check.achieved ? 'recovered' : episode.phase;
+        self.boundTreatment = treatment; self.checkedAt = rpgLedger.seconds;
+        value.status = 'resolved'; self.result = value;
+        treatment.checks = treatment.checks + [self]; treatment.dueAt += 300;
+        if (value.check.achieved)
+        {
+            episode.symptomRelief = self; episode.phase = 'recovered';
+            if (oldPhase == 'unconscious' && !episode.profile().unconsciousRecoveryOwned() && !episode.profile().dead && !episode.profile().mortal
+                && episode.profile().hp() > 0 && episode.profile().fp() > 0) episode.profile().unconscious = nil;
+        }
+        treatment.validate(); return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local treatment = firstObj(RpgExpandedRecompression); treatment != nil; treatment = nextObj(treatment,RpgExpandedRecompression))
+            if (treatment.startedAt != nil)
+            {
+                treatment.validate();
+                if (treatment.active() && self.seconds + seconds > treatment.dueAt) rpgExpandedReject('recompression-check-boundary');
+            }
+        return nil;
     }
 ;

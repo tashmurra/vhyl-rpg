@@ -1482,3 +1482,9 @@ balance, defenses, hourly injury and transition to agony. Illness-owned pain and
 paralysis remain active until recovery commits, closing the exact-boundary gap.
 The additional fixtures remain unrun. Recompression and emergency ascent remain
 outstanding.
+
+
+Recompression now has owned five-minute symptom-recovery checks at health +4,
+with shared pressure and fatigue deadlines and persistent treatment receipts.
+Accrued-injury restoration remains an explicit unresolved source interpretation;
+treatment is partial and its lifecycle fixtures remain unrun.
