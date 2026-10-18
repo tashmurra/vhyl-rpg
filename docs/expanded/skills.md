@@ -14,7 +14,8 @@ The module provides only these interfaces. Its full catalogue and remaining chap
 
 The [skill procedure inventory](inventory/skills-procedures.json) records individual
 cost-table cells, default rules, familiarity requirements and technique definitions.
-Attribute-based techniques and technique-to-technique defaults remain unsupported.
+Attribute-based defaults, technique default chains and explicit uncapped techniques
+now have runtime support; their new native cases are authored but not yet run.
 The catalogue inventory currently covers [B174–B185](inventory/skills-catalogue-a.json),
 [B186–B197](inventory/skills-catalogue-b.json),
 [B198–B209](inventory/skills-catalogue-c.json) and
@@ -45,7 +46,7 @@ sweeping. Structured metadata records attribute-based defaults, parent technique
 chains, separate specialties, caps and cinematic exceptions. The camera technique
 is explicitly uncapped; ranged weapon retention has a Dexterity-based variant.
 Rope descent does not restate its difficulty, so that interpretation remains
-explicitly unresolved. These records do not expand the current runtime interface.
+explicitly unresolved. Catalogue definitions and their operational effects remain pending.
 
 The [first skill-summary segment](inventory/skill-summary-a.json) maps 44 rows.
 It exposed missing Dexterity defaults for aerial and aquatic acrobatics and missing
@@ -150,3 +151,32 @@ a watchkeeper trained above default while underway. The author must define any
 consequences or operating restriction; the recommendation alone does not establish
 automatic failure or forbid all emergency operation. These are procedure requirements awaiting
 vehicle-state integration, not behavior supplied by catalogue metadata alone.
+
+## Technique default bases
+
+Set exactly one of `skill`, `attribute` or `parentTechnique` on an owned
+`RpgExpandedTechnique`. A skill basis requires a purchased point. A technique
+basis may itself have zero points: the chain ultimately reaches its selected
+skill or attribute. Each technique instance represents one chosen specialty;
+raising that basis raises its descendants without another point charge.
+`maximumAboveSkill` remains the compatibility name for the cap above the selected
+basis, including an attribute or parent technique. Set it to `nil` only for an
+explicitly uncapped definition. `hard` selects the B230 pricing column.
+
+Register each purchased instance once in the owner's `contributions`, with its
+own identifier. Referencing a parent does not purchase it or charge its points
+again. Default-only intermediate instances can have zero points. Cross-owner
+references, cycles and multiple selected bases are rejected. These score methods
+are pure; they do not spend advancement points, time or randomness.
+
+For example, an attribute-based definition with `attribute = rpgST`,
+`penalty = -4`, `hard = true`, and `maximumAboveSkill = 3` costs eight points
+to reach Strength +3. This describes its rating only; situational strength bonuses
+and the associated combat action still require the combat implementation.
+Additional prerequisites, cinematic permissions and catalogue effects are not
+inferred from a default graph.
+
+`tests/expanded.py::test_technique_bases` covers zero-point intermediate defaults,
+parent advancement, contribution accounting, attribute caps, uncapped ratings,
+cycles, ambiguous bases, ownership and preview purity. These new checks have not
+run while build validation is paused.

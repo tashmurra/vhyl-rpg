@@ -199,13 +199,15 @@
     {
       "id": "technique-investment",
       "module": "skills",
-      "pages": "B230",
+      "pages": "B229-B232",
       "source": "full-2008",
-      "status": "implemented",
+      "status": "partial",
       "symbol": "RpgExpandedTechnique",
       "tests": [
-        "tests/expanded.py::test_numbers"
-      ]
+        "tests/expanded.py::test_numbers",
+        "tests/expanded.py::test_technique_bases"
+      ],
+      "validation_note": "Attribute bases, technique chains, ownership and uncapped ratings added; new native checks authored but not run while validation is paused. Catalogue prerequisites and operational effects remain pending."
     },
     {
       "id": "positive-trait-pricing",

@@ -110,29 +110,57 @@ modify RpgExpandedProfile
     }
 ;
 
-/** Owned technique investment, counted as a character contribution.
- * Each technique specializes in one trained parent skill. */
+/** Owned technique investment. Select exactly one default basis. Caps are
+ * relative to that basis; nil maximumAboveSkill explicitly means uncapped. */
 class RpgExpandedTechnique: RpgExpandedContribution
     skill = nil
+    attribute = nil
+    parentTechnique = nil
     penalty = 0
     maximumAboveSkill = 0
     hard = nil
     points = 0
     amounts(profile) { return [self.points]; }
-    validate(profile)
+    validate(profile) { return self.validateChain(profile, []); }
+    validateChain(profile, visited)
     {
-        rpgInteger(self.penalty, -100, 0); rpgInteger(self.maximumAboveSkill, 0, 100);
+        if (holds(visited, self)) rpgExpandedReject('cyclic-technique-default');
+        if (self.owner != profile) rpgExpandedReject('technique-ownership');
+        local bases = (self.skill != nil ? 1 : 0)
+            + (self.attribute != nil ? 1 : 0) + (self.parentTechnique != nil ? 1 : 0);
+        if (bases != 1) rpgExpandedReject('technique-default-basis');
+        rpgInteger(self.penalty, -100, 0);
+        if (self.maximumAboveSkill != nil) rpgInteger(self.maximumAboveSkill, 0, 100);
         rpgInteger(self.points, 0, 1000000);
-        local training = rpgExpandedTrainingFor(profile, self.skill);
-        if (training == nil || training.points < 1) rpgExpandedReject('technique-prerequisite');
-        if (self.points > self.maximumAboveSkill - self.penalty + (self.hard ? 1 : 0))
+        if (self.skill != nil)
+        {
+            local training = rpgExpandedTrainingFor(profile, self.skill);
+            if (training == nil || training.points < 1) rpgExpandedReject('technique-prerequisite');
+        }
+        if (self.attribute != nil) profile.attributeScore(self.attribute);
+        if (self.parentTechnique != nil)
+        {
+            if (!self.parentTechnique.ofKind(RpgExpandedTechnique))
+                rpgExpandedReject('technique-default-basis');
+            self.parentTechnique.validateChain(profile, visited + [self]);
+        }
+        if (self.maximumAboveSkill != nil
+            && self.points > self.maximumAboveSkill - self.penalty + (self.hard ? 1 : 0))
             rpgExpandedReject('technique-cap');
         return nil;
     }
     score()
     {
+        rpgExpandedValidate(self.owner);
         self.validate(self.owner);
-        local base = self.owner.skillScore(self.skill);
+        return self.resolvedScore();
+    }
+    /* Internal recursion after the complete default graph has been validated. */
+    resolvedScore()
+    {
+        local base = self.parentTechnique != nil ? self.parentTechnique.resolvedScore()
+            : self.attribute != nil ? self.owner.attributeScore(self.attribute)
+            : self.owner.skillScore(self.skill);
         if (base == nil) rpgExpandedReject('technique-prerequisite');
         local improvement = self.points - (self.hard && self.points > 0 ? 1 : 0);
         return base + self.penalty + improvement;

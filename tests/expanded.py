@@ -81,6 +81,21 @@ def test_negative_pricing(s):
     assert state(s) == before, 'negative pricing spent time, points or randomness'
 
 
+def test_technique_bases(s):
+    before = state(s)
+    # B230-232: a zero-point intermediate technique still permits the default.
+    for points, expected in [(0, [10, 12, 13, 50]),
+                             (2, [11, 13, 14, 52]),
+                             (4, [13, 15, 16, 54])]:
+        s.action(1116, points)
+        assert last(s, 'test.technique-chain') == expected
+    s.action(1117)
+    assert last(s, 'test.technique-bases') == [
+        15, 'technique-cap', 27, 'technique-default-basis',
+        'cyclic-technique-default', 'technique-ownership']
+    assert state(s) == before, 'technique assessment changed persistent state'
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -158,7 +173,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     test_persistence(Session,bundle,build.out)

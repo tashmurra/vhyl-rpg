@@ -169,6 +169,45 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1116)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.dx = 12;
+        local a = new RpgExpandedSkill(); a.attribute = rpgDX; a.difficulty = 1;
+        local training = new RpgExpandedTraining(); training.skill = a; training.points = 4;
+        p.skills = [training];
+        local parent = new RpgExpandedTechnique(); parent.owner = p; parent.id = 'parent';
+        parent.skill = a; parent.maximumAboveSkill = 4;
+        local child = new RpgExpandedTechnique(); child.owner = p; child.id = 'child';
+        child.parentTechnique = parent; child.penalty = -3; child.hard = true;
+        child.points = args[1]; p.contributions = [parent,child];
+        event('test.technique-chain'); eventValue(child.score());
+        parent.points = 2; eventValue(child.score());
+        training.points = 8; eventValue(child.score());
+        eventValue(rpgExpandedCharacterCost(p,nil));
+        return nil;
+    }
+    if (verb == 1117)
+    {
+        local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules(); p.st = 12;
+        local t = new RpgExpandedTechnique(); t.owner = p; t.attribute = rpgST;
+        t.hard = true; t.penalty = -4; t.maximumAboveSkill = 3; t.points = 8;
+        event('test.technique-bases'); eventValue(t.score());
+        t.points = 9;
+        try { t.score(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        t.maximumAboveSkill = nil; t.points = 20; eventValue(t.score());
+        t.parentTechnique = t;
+        try { t.score(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        t.attribute = nil;
+        try { t.score(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        local other = new RpgExpandedTechnique(); other.owner = new RpgExpandedProfile();
+        t.parentTechnique = other;
+        try { t.score(); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;
