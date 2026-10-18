@@ -420,12 +420,14 @@ modify RpgLiteItem
     {
         self.validateBodySupports(profile);
         if (!inherited(profile)) return nil;
+        if (self.bodySupports.length() == 0 && profile.ofKind(RpgExpandedProfile)
+            && profile.supportReserved(nil)) return nil;
         if (profile.ofKind(RpgExpandedProfile) && profile.bodyParts.length() > 0
             && holds(['punch','brass-knuckles'],self.id) && self.bodySupports.length() == 0)
             rpgExpandedReject('unarmed-hand-support-required');
         foreach (local part in self.bodySupports)
         {
-            if (!part.functional()) return nil;
+            if (!part.functional() || profile.supportReserved(part)) return nil;
             if (part.kind == 'arm')
             {
                 local hand = nil;
@@ -440,10 +442,11 @@ modify RpgLiteItem
     attackHandCount(profile, requested)
     {
         self.validateBodySupports(profile);
-        if (self.bodySupports.length() == 0) return inherited(profile,requested);
+        if (self.bodySupports.length() == 0)
+            return profile.ofKind(RpgExpandedProfile) && profile.supportReserved(nil) ? 0 : inherited(profile,requested);
         local arms = [];
         foreach (local part in self.bodySupports)
-            if (part.functional())
+            if (part.functional() && !profile.supportReserved(part))
             {
                 local arm = part.kind == 'hand' ? part.parent : part;
                 if (!holds(arms,arm)) arms = arms + [arm];
@@ -455,10 +458,12 @@ modify RpgLiteItem
     {
         self.validateBodySupports(profile);
         if (!inherited(profile)) return nil;
+        if (self.bodySupports.length() == 0 && profile.ofKind(RpgExpandedProfile)
+            && profile.supportReserved(nil)) return nil;
         foreach (local part in self.bodySupports)
         {
             if (part.kind != 'arm') rpgExpandedReject('shield-arm-support-required');
-            if (!part.functional()) return nil;
+            if (!part.functional() || profile.supportReserved(part)) return nil;
         }
         return true;
     }

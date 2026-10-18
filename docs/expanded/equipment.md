@@ -542,3 +542,22 @@ the health change, blocked time before and after recovery, saved pending state,
 and release allowing time to advance. Assertions remain unrun. Dedicated limb-wound fixtures now cover bound hands, parent arms, unbound hands
 and combined knockdown/unconsciousness; they remain unrun. Remaining support-loss
 causes, retention/reallocation and coordinated movement remain incomplete.
+
+### Reserved hands during shared carrying
+
+The profile's `supportReserved(part)` hook reports hands/arms used by an active
+shared carry. `reservedLiftingHandsReason(hands)` prevents a new pickup or shared
+lift from claiming them. Both default to no restriction without an active carry.
+Health-aware equipment checks now exclude reserved supports from attacks, parries,
+active shield blocks and available attack-hand counts. A different, explicitly
+bound free hand remains available. With no hand mapping, active hand use is blocked
+rather than silently assuming a spare hand. Passive shield defense is unchanged;
+this hook controls active use, not the physical presence of the shield.
+
+Normal lowering and support-loss detection deliberately check the support's
+functionality without rejecting the carry's own reservation. Closing the carry
+releases its reservation. The fixture specifies both-hand and one-hand carrying,
+free-hand use, active versus passive shield behavior, a rejected strike before RNG,
+and restored availability after lowering. These assertions remain unrun; broader
+combat movement, unarmed defense capacity and automatic readiness changes remain
+pending.

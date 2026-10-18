@@ -8991,6 +8991,8 @@ def test(build):
     test_shared_support_loss(Session, shared_release, build.out)
     shared_limb = build.build('expanded-shared-limb', ROOT / 'tests/fixtures/expanded-shared-limb.t')
     test_shared_limb(Session, shared_limb, build.out)
+    shared_hands = build.build('expanded-shared-hands', ROOT / 'tests/fixtures/expanded-shared-hands.t')
+    test_shared_hands(Session, shared_hands)
     lifting_skill = build.build('expanded-lifting-skill', ROOT / 'tests/fixtures/expanded-lifting-skill.t')
     test_lifting_skill(Session, lifting_skill, build.out)
     test_skilled_pickup(Session, lifting_skill, build.out)
@@ -13536,5 +13538,28 @@ def test_shared_limb(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.shared-support-loss') == [3,1,1,4]
         assert state(s) == [4,1,0,3,1,1,4,3]
+    finally:
+        s.close()
+
+
+def test_shared_hands(Session, bundle):
+    s = Session(bundle)
+    try:
+        s.action(2285, 820)
+        assert last(s, 'test.shared-hands') == [1,1,1,1,1,2,None,0,0]
+        for code in (781,820,821):
+            s.action(2285, code)
+        assert last(s, 'test.shared-hands') == [0,0,0,0,0,2,'lifting-shared-support-occupied',4,0]
+        assert last(s, 'test.shared-hand-attack') == ['weapon-not-ready',0]
+        for code in (784,820):
+            s.action(2285, code)
+        assert last(s, 'test.shared-hands') == [1,1,1,1,1,2,None,6,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (815,781,820):
+            s.action(2285, code)
+        assert last(s, 'test.shared-hands') == [0,0,0,1,0,2,'lifting-shared-support-occupied',2,0]
     finally:
         s.close()

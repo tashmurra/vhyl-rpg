@@ -745,3 +745,7 @@ repairs and other tool uses remain incomplete.
 - Added shared-carry integration fixtures using real limb-wound operations, covering
   bound hands, parent arms, unbound-hand exclusion, combined incapacitation events,
   rollback, undo and saved injury continuation. All assertions remain unrun.
+
+- Reserved shared-carry supports now reject conflicting weapon, parry, active
+  shield and new lifting use while preserving an explicitly free hand. Lowering
+  releases reservations. Added capability and pre-RNG strike fixtures, unrun.

@@ -455,6 +455,7 @@ class RpgExpandedEquipmentLift: RpgExpandedLiftIdentity
         rpgInteger(self.freeHands,0,100);
         if (self.freeHands < required) { value.reason = 'lifting-free-hands'; return value; }
         value.reason = self.profile.liftingHandsReason(self.hands,required);
+        if (value.reason == nil) value.reason = self.profile.reservedLiftingHandsReason(self.hands);
         if (value.reason != nil) return value;
         if (self.profile.dead || self.profile.unconscious || self.profile.mortal || self.profile.stunned
             || self.profile.mentalStun || self.profile.hp() <= 0 || self.profile.fp() <= 0
@@ -647,7 +648,9 @@ class RpgExpandedSharedCarry: object
             if (row[1] == nil || !row[1].ofKind(RpgExpandedProfile)) rpgExpandedReject('shared-carry-member');
             rpgInteger(row[3],0,100);
             if (row[3] < required) { blocked.reason = 'shared-carry-free-hands'; return blocked; }
-            blocked.reason = row[1].liftingHandsReason(row[4],required); if (blocked.reason != nil) return blocked;
+            blocked.reason = row[1].liftingHandsReason(row[4],required);
+            if (blocked.reason == nil) blocked.reason = row[1].reservedLiftingHandsReason(row[4]);
+            if (blocked.reason != nil) return blocked;
             foreach (local prior in row[1].sharedCarries)
                 if (prior.id == self.id) rpgExpandedReject('shared-carry-duplicate');
         }
@@ -836,5 +839,31 @@ modify rpgLedger
             for (local carry = firstObj(RpgExpandedSharedCarry); carry != nil; carry = nextObj(carry,RpgExpandedSharedCarry))
                 if (carry.pendingSupportLoss()) rpgExpandedReject('shared-support-loss-unresolved');
         return nil;
+    }
+;
+
+
+modify RpgExpandedProfile
+    supportReserved(part)
+    {
+        foreach (local carry in self.sharedCarries)
+            if (carry.endedAt == nil)
+            {
+                carry.validateReceipt();
+                foreach (local row in carry.members)
+                    if (row[1] == self)
+                    {
+                        if (part == nil || row[4].length() == 0) return true;
+                        foreach (local hand in row[4])
+                            if (hand == part || hand.parent == part || part.parent == hand.parent) return true;
+                    }
+            }
+        return inherited(part);
+    }
+    reservedLiftingHandsReason(hands)
+    {
+        if (hands.length() == 0 && self.supportReserved(nil)) return 'lifting-shared-support-unmapped';
+        foreach (local hand in hands) if (self.supportReserved(hand)) return 'lifting-shared-support-occupied';
+        return inherited(hands);
     }
 ;
