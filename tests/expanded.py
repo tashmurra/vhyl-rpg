@@ -1664,6 +1664,62 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_swarm_persistence(Session,bundle,out):
+    path = out / 'expanded-swarm-combat.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2220,0)
+        first.action(2222,3)
+        first.command(f':save {path}')
+    finally: first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2221')
+        assert last(second,'test.swarm-health') == [1,1,1,0,0]
+        second.action(2220,0)
+        assert last(second,'test.swarm-attack')[:2] == ['reused',None]
+        second.action(2222,0)
+        assert last(second,'test.swarm-counter')[:2] == ['reused',None]
+        second.action(2223)
+        assert last(second,'test.swarm-counter-state') == [2,0,1,1,0,0]
+        second.action(2220,7)
+        assert last(second,'test.swarm-attack') == ['resolved',None,1,1]
+        # Same-second supplemental action is independently permitted after a swarm attack.
+        second.action(2222,7)
+        assert last(second,'test.swarm-counter') == ['resolved',None,2,0]
+        second.action(2221)
+        assert last(second,'test.swarm-health') == [2,2,2,0,1]
+        second.action(2223)
+        assert last(second,'test.swarm-counter-state') == [4,0,2,2,0,1]
+        second.command('undo')
+        second.action(2223)
+        assert last(second,'test.swarm-counter-state') == [2,0,1,1,0,1]
+    finally: second.close()
+
+
+def test_swarm_exposure_persistence(Session,bundle,out):
+    path = out / 'expanded-swarm-exposure.zsave'
+    first=Session(bundle)
+    try:
+        first.action(2216,0)
+        first.action(2216,7)
+        assert last(first,'test.swarm-protection') == ['active',None,1,1,0]
+        first.command(f':save {path}')
+    finally: first.close()
+    second=Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2217')
+        assert last(second,'test.swarm-state') == [0,0,1]
+        second.action(2216,0)
+        assert last(second,'test.swarm-protection') == ['active',None,1,1,0]
+        second.action(2216,7)
+        assert last(second,'test.swarm-protection') == ['active',None,2,0,0]
+        second.command('undo')
+        second.action(2216,1)
+        assert last(second,'test.swarm-protection') == ['active',None,1,1,0]
+    finally: second.close()
+
+
 def test_swarm_counterattacks(Session,bundle):
     def state(s):
         s.action(2223)
@@ -7705,6 +7761,8 @@ def test(build):
     swarms = build.build('expanded-swarms',ROOT / 'tests/fixtures/expanded-swarms.t')
     test_swarm_attacks(Session,swarms)
     test_swarm_counterattacks(Session,swarms)
+    test_swarm_persistence(Session,swarms,build.out)
+    test_swarm_exposure_persistence(Session,creatures,build.out)
     test_swarm_protection(Session,creatures)
     fresh(Session,creatures,test_animal_strength_damage)
     fresh(Session,creatures,test_animal_natural_damage)

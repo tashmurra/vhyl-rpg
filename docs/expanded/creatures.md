@@ -470,3 +470,12 @@ Direct weapon attacks against swarms still require that integration.
 `test_swarm_counterattacks` specifies exact injury thresholds, repeated-receipt
 behavior, per-second limits, invalid flying stomps, pure assessment, rollback,
 undo and diffuse caps. The fixture is authored and unrun while checks are paused.
+
+The authored `test_swarm_persistence` closes the initial native session, restores
+its exact compiled game in a new process, replays both attack receipts, then
+continues the next contact interval and supplemental counterattack. It checks
+that the wound and dispersal ledgers retain their separate histories and that
+undo removes only the latest action. `test_swarm_exposure_persistence` restores
+one second before clothing protection expires, crosses the boundary, and undoes
+that step. These are validation specifications, not passing results: execution
+remains paused. No old-save migration is introduced.

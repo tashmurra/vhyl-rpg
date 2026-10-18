@@ -76,7 +76,9 @@
         "tests/expanded.py::test_animal_strength_damage",
         "tests/expanded.py::test_swarm_protection",
         "tests/expanded.py::test_swarm_attacks",
-        "tests/expanded.py::test_swarm_counterattacks"
+        "tests/expanded.py::test_swarm_counterattacks",
+        "tests/expanded.py::test_swarm_persistence",
+        "tests/expanded.py::test_swarm_exposure_persistence"
       ]
     },
     {
