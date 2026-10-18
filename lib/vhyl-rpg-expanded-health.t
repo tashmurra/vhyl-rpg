@@ -555,8 +555,9 @@ modify RpgLiteFighter
     }
     unarmedParryCapacity()
     {
-        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
-            || self.profile.bodyParts.length() == 0) return inherited();
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) return inherited();
+        if (self.profile.bodyParts.length() == 0)
+            return self.profile.supportReserved(nil) ? 0 : inherited();
         self.profile.validateBodyParts(); rpgInteger(self.freeHands,0,1000);
         local occupied = [];
         foreach (local item in self.profile.equipment)
@@ -575,7 +576,8 @@ modify RpgLiteFighter
         }
         local count = 0;
         foreach (local part in self.profile.bodyParts)
-            if (part.kind == 'arm' && part.functional() && !holds(occupied,part)) count += 1;
+            if (part.kind == 'arm' && part.functional() && !holds(occupied,part)
+                && !self.profile.supportReserved(part)) count += 1;
         return count < self.freeHands ? count : self.freeHands;
     }
 ;

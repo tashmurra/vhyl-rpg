@@ -2726,3 +2726,8 @@ disabling support injury without duplicating the wound or rolling again on repla
 The fixture also specifies wound/event rollback, undo, saved pending injury and
 emergency release. Expected injury limits use full-2008 B421; knockdown uses B420.
 These assertions are authored and unrun, not evidence of passing integration.
+
+Unarmed parry capacity excludes arms reserved for shared carrying while retaining
+functional-limb and authored free-hand limits. Mapped free arms remain available;
+unmapped shared support does not imply a spare defense limb. Defense-query
+assertions are included in `test_shared_hands` and remain unrun.

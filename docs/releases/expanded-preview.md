@@ -749,3 +749,7 @@ repairs and other tool uses remain incomplete.
 - Reserved shared-carry supports now reject conflicting weapon, parry, active
   shield and new lifting use while preserving an explicitly free hand. Lowering
   releases reservations. Added capability and pre-RNG strike fixtures, unrun.
+
+- Connected shared-carry reservations to unarmed parry capacity, including mapped
+  free arms and conservative handling of unmapped supports. Added direct defense
+  query assertions; checks remain paused.

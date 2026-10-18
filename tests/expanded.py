@@ -13547,13 +13547,19 @@ def test_shared_hands(Session, bundle):
     try:
         s.action(2285, 820)
         assert last(s, 'test.shared-hands') == [1,1,1,1,1,2,None,0,0]
+        s.action(2285, 822)
+        assert last(s, 'test.shared-unarmed') == [2,8,8,2,0]
         for code in (781,820,821):
             s.action(2285, code)
         assert last(s, 'test.shared-hands') == [0,0,0,0,0,2,'lifting-shared-support-occupied',4,0]
         assert last(s, 'test.shared-hand-attack') == ['weapon-not-ready',0]
+        s.action(2285, 822)
+        assert last(s, 'test.shared-unarmed') == [0,None,None,0,0]
         for code in (784,820):
             s.action(2285, code)
         assert last(s, 'test.shared-hands') == [1,1,1,1,1,2,None,6,0]
+        s.action(2285, 822)
+        assert last(s, 'test.shared-unarmed') == [2,8,8,2,0]
     finally:
         s.close()
     s = Session(bundle)
@@ -13561,5 +13567,7 @@ def test_shared_hands(Session, bundle):
         for code in (815,781,820):
             s.action(2285, code)
         assert last(s, 'test.shared-hands') == [0,0,0,1,0,2,'lifting-shared-support-occupied',2,0]
+        s.action(2285, 822)
+        assert last(s, 'test.shared-unarmed') == [1,8,None,0,0]
     finally:
         s.close()

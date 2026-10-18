@@ -26,6 +26,19 @@ modify BleedTestAction
             carryLeftWeapon.ready = nil;
             event('test.shared-hand-attack'); eventValue(value.reason); eventValue(rpgRandom.draws); return nil;
         }
+        if (code == 822)
+        {
+            local defender = new RpgLiteFighter(); defender.profile = carryPartner;
+            local attacker = new RpgLiteFighter(); attacker.profile = bleedProfile;
+            local weapon = new RpgLiteWeapon(); weapon.id = 'punch';
+            local mode = new RpgLiteAttackMode(); mode.base = 'thrust'; weapon.modes = [mode]; attacker.weapon = weapon;
+            local request = new RpgLiteManeuver();
+            event('test.shared-unarmed'); eventValue(defender.unarmedParryCapacity());
+            eventValue(rpgLiteDefenseScore(defender,attacker,request,'parry'));
+            eventValue(rpgLiteDefenseScore(defender,attacker,request,'parry-other'));
+            defender.profile = bleedProfile; eventValue(defender.unarmedParryCapacity());
+            eventValue(rpgRandom.draws); return nil;
+        }
         return inherited(context);
     }
 ;

@@ -559,5 +559,17 @@ functionality without rejecting the carry's own reservation. Closing the carry
 releases its reservation. The fixture specifies both-hand and one-hand carrying,
 free-hand use, active versus passive shield behavior, a rejected strike before RNG,
 and restored availability after lowering. These assertions remain unrun; broader
-combat movement, unarmed defense capacity and automatic readiness changes remain
-pending.
+combat movement and automatic readiness changes remain pending. Unarmed defense
+capacity now excludes reserved supporting arms, as described below.
+
+Unarmed parry capacity now uses the same support reservations. With defined
+anatomy it counts only functioning, unoccupied, unreserved arms and still respects
+the fighter's authored `freeHands` limit. One mapped free arm permits the ordinary
+unarmed parry but does not satisfy the two-arm requirement for the other-hand
+parry. If a shared carry has no anatomical mapping, it does not assume a free
+unarmed defense limb. Lowering or emergency release restores availability through
+the same reservation query; no second mutable hand-count ledger is introduced.
+
+`test_shared_hands` now specifies actual defense-score queries for these cases,
+including unchanged scores before and after carrying and zero RNG consumption.
+Assertions remain unrun while checks are paused.
