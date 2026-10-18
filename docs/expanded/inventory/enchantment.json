@@ -33,7 +33,28 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "The very-hard foundational enchantment spell is required for every other enchantment; prerequisites are aptitude level two and at least one spell in each of ten other colleges. Effective enchanting skill is the lower of foundational and specific spell skill.",
-      "tests": []
+      "tests": [],
+      "spell_data": {
+        "key": "enchant-foundation",
+        "groups": [
+          "enchantment"
+        ],
+        "classes": [
+          "enchantment"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "very-hard",
+        "casting_seconds": "selected enchantment method",
+        "energy": {
+          "method": "specific enchantment operation"
+        },
+        "maintenance": null,
+        "duration": "permanent until item destruction",
+        "prerequisites": {
+          "aptitude": 2,
+          "distinct_other_group_count": 10
+        }
+      }
     },
     {
       "id": "enchantment-weapon-accuracy",
@@ -43,7 +64,41 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "The weapon-accuracy enchantment adds effective attack skill, requires foundational enchantment plus five air-college spells, and costs one-tenth the listed energy when placed on individual ammunition.",
-      "tests": []
+      "tests": [],
+      "spell_data": {
+        "key": "enchant-weapon-accuracy",
+        "groups": [
+          "enchantment"
+        ],
+        "classes": [
+          "enchantment"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "selected enchantment method",
+        "energy": {
+          "level_costs": [
+            250,
+            1000,
+            5000
+          ],
+          "ammunition_multiplier": [
+            1,
+            10
+          ]
+        },
+        "maintenance": null,
+        "duration": "permanent until item destruction",
+        "prerequisites": {
+          "spells_all": [
+            "enchant-foundation"
+          ],
+          "group_count": {
+            "group": "air",
+            "minimum": 5
+          }
+        }
+      }
     },
     {
       "id": "enchantment-defense",
@@ -53,7 +108,35 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "The defensive enchantment grants a defense bonus on armor, clothing, shields or weapons and requires foundational enchantment. Integrate stacking with other defense bonuses explicitly.",
-      "tests": []
+      "tests": [],
+      "spell_data": {
+        "key": "enchant-defense",
+        "groups": [
+          "enchantment"
+        ],
+        "classes": [
+          "enchantment"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "selected enchantment method",
+        "energy": {
+          "level_costs": [
+            100,
+            500,
+            2000,
+            8000,
+            20000
+          ]
+        },
+        "maintenance": null,
+        "duration": "permanent until item destruction",
+        "prerequisites": {
+          "spells_all": [
+            "enchant-foundation"
+          ]
+        }
+      }
     },
     {
       "id": "enchantment-armor",
@@ -63,7 +146,35 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "The armor-strengthening enchantment increases clothing or armor resistance and requires foundational enchantment; it does not automatically apply to every carried object.",
-      "tests": []
+      "tests": [],
+      "spell_data": {
+        "key": "enchant-armor",
+        "groups": [
+          "enchantment"
+        ],
+        "classes": [
+          "enchantment"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "selected enchantment method",
+        "energy": {
+          "level_costs": [
+            50,
+            200,
+            800,
+            3000,
+            8000
+          ]
+        },
+        "maintenance": null,
+        "duration": "permanent until item destruction",
+        "prerequisites": {
+          "spells_all": [
+            "enchant-foundation"
+          ]
+        }
+      }
     },
     {
       "id": "enchantment-energy-supply",
@@ -73,7 +184,36 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "The item-energy enchantment requires foundational enchantment and the energy-recovery spell. Each level reduces casting and maintenance energy for spells on that item by one, not for the user's own spells.",
-      "tests": []
+      "tests": [],
+      "spell_data": {
+        "key": "enchant-energy-supply",
+        "groups": [
+          "enchantment"
+        ],
+        "classes": [
+          "enchantment"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "selected enchantment method",
+        "energy": {
+          "level_costs": [
+            500,
+            1000,
+            2000,
+            4000
+          ],
+          "further_level_multiplier": 2
+        },
+        "maintenance": null,
+        "duration": "permanent until item destruction",
+        "prerequisites": {
+          "spells_all": [
+            "enchant-foundation",
+            "rest-energy-recovery"
+          ]
+        }
+      }
     },
     {
       "id": "enchantment-energy-mana",
@@ -103,7 +243,42 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "The weapon-damage enchantment adds basic damage, requires foundational enchantment plus five earth-college spells, costs one-tenth energy for ammunition and double energy for a projectile-launching weapon.",
-      "tests": []
+      "tests": [],
+      "spell_data": {
+        "key": "enchant-weapon-damage",
+        "groups": [
+          "enchantment"
+        ],
+        "classes": [
+          "enchantment"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "selected enchantment method",
+        "energy": {
+          "level_costs": [
+            250,
+            1000,
+            5000
+          ],
+          "ammunition_multiplier": [
+            1,
+            10
+          ],
+          "launcher_multiplier": 2
+        },
+        "maintenance": null,
+        "duration": "permanent until item destruction",
+        "prerequisites": {
+          "spells_all": [
+            "enchant-foundation"
+          ],
+          "group_count": {
+            "group": "earth",
+            "minimum": 5
+          }
+        }
+      }
     },
     {
       "id": "enchantment-conduit",
@@ -113,7 +288,29 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "The casting-conduit enchantment costs thirty energy and requires foundational enchantment; its reach and casting effects use the B240 conduit procedure. A rod-shaped enchanted item does not automatically have it.",
-      "tests": []
+      "tests": [],
+      "spell_data": {
+        "key": "enchant-conduit",
+        "groups": [
+          "enchantment"
+        ],
+        "classes": [
+          "enchantment"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "selected enchantment method",
+        "energy": {
+          "fixed": 30
+        },
+        "maintenance": null,
+        "duration": "permanent until item destruction",
+        "prerequisites": {
+          "spells_all": [
+            "enchant-foundation"
+          ]
+        }
+      }
     },
     {
       "id": "enchantment-ceremony",
@@ -222,7 +419,7 @@
       "module": "magic",
       "kind": "procedure",
       "status": "pending",
-      "acceptance": "Any nonparticipant within ten yards adds a further -1 to rapid enchantment. Evaluate actual scene presence at the relevant stage rather than granting a permanently cached clean-room bonus.",
+      "acceptance": "If any nonparticipant is within ten yards, rapid enchantment takes one additional minus-one penalty, regardless of the number of bystanders. Assistant penalties are separate and counted individually. Evaluate actual scene presence at the relevant stage rather than permanently caching a clean-room bonus; eventual fixtures must distinguish zero, one and several bystanders.",
       "tests": []
     },
     {

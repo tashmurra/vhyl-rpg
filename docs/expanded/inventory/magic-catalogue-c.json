@@ -359,7 +359,11 @@
         "prerequisites": {
           "aptitude": 1
         },
-        "resistance": "target spell"
+        "resistance": "target spell",
+        "use_requirements": {
+          "knows_target_spell": true,
+          "effective_skill": "minimum of counter skill and target spell skill"
+        }
       }
     },
     {

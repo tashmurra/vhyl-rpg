@@ -587,7 +587,8 @@
         "prerequisites": {
           "aptitude": 1,
           "distinct_group_count": 10
-        }
+        },
+        "source_disagreement": "B247 specifies ten different groups; B306 specifies ten other groups. Counting the own group requires an explicit precedence decision before runtime completeness."
       }
     },
     {
@@ -721,7 +722,8 @@
             "fatigue-transfer"
           ],
           "aptitude": 1
-        }
+        },
+        "activation": "passive while resting; no ritual or die roll"
       }
     },
     {

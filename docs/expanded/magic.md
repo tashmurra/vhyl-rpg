@@ -157,3 +157,17 @@ contract before execution; ordinary casting affordability rules alone cannot exp
 it. Return travel also distinguishes original possessions from later acquisitions.
 Water and fog effects depend on actual volumes, paths and geometry. Catalogue
 enumeration is now recorded, but no spell execution or validation is claimed.
+
+The [spell-summary reconciliation ledger](inventory/spell-summary.json) maps all
+100 summary rows to the detailed spell or enchantment entries. Mapping is not
+field verification or runtime coverage. The detailed rest-recovery spell is passive,
+with no ritual or roll; its summary timing must not introduce a new cast action.
+Countering magic has one learning definition and a separate requirement to know
+the target spell. Enchantment metadata now includes the seven creation spells;
+nearby nonparticipants impose one collective penalty on rapid enchantment, while
+assistants are counted individually. These procedures still need implementation
+and independent fixtures.
+
+Planar summoning has a recorded prerequisite conflict: the detailed entry says
+ten different groups, while the summary says ten other groups. The metadata
+retains the detailed wording, and the eligibility decision remains unresolved.

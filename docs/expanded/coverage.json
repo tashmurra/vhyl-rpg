@@ -365,6 +365,7 @@
     "inventory/general-equipment-b.json",
     "inventory/reference-overview.json",
     "inventory/condensed-combat.json",
-    "inventory/example-compositions.json"
+    "inventory/example-compositions.json",
+    "inventory/spell-summary.json"
   ]
 }

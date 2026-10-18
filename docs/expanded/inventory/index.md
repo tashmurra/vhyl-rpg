@@ -66,6 +66,7 @@ reconciliation remain open; reading a chapter is not proof of complete coverage.
 | `full-2008` | B288 camping section | [Camping and survival equipment](general-equipment-a.json) | 47 distinct profiles visually reviewed; capacities, prerequisites and supply clocks recorded; execution pending |
 | `full-2008` | B288 communications; B289 | [Tools, communications and accessories](general-equipment-b.json) | 79 profiles visually reviewed; skill-specific uses, supplies and mount modifiers recorded; execution pending |
 | `full-2008` | B290–B296 | [Development and transformations](development.json) | Advancement, study, maintenance and transformation procedures enumerated; existing study mappings remain partial |
+| `full-2008` | B304–B306 spell table | [Spell summary reconciliation](spell-summary.json) | All 100 rows mapped; field-by-field reconciliation and execution remain pending |
 | `full-2008` | B307–B323 mechanical constructions | [Example composition requirements](example-compositions.json) | Reusable attack/template combinations recorded; named characters and fiction excluded; component integration pending |
 | `full-2008` | B324–B328 | [Condensed combat appendix](condensed-combat.json) | Procedures inventoried; critical-hit variant and detailed-rule precedence recorded; execution pending |
 | `full-2008` | B343–B349 | [Task resolution](task-resolution.json) | Roll procedures, equipment modifiers, timing, projects and contests enumerated |
