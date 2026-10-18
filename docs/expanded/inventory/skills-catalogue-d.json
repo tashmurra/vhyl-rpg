@@ -552,8 +552,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Require a handling check first for difficult animals; without skill fifteen in the caravan, cap ordinary travel to eighty percent. Keep load and route decisions authored.",
-      "tests": ["tests/expanded.py::test_packing_skill", "tests/expanded.py::test_packing_attempt"],
-      "validation_note": "Typed packing defaults and pure caravan expertise threshold implemented. Owned packing rolls bind committed handling success to the same handler, animal and occurrence. Inventory movement, evaluation/route findings, native actions and journey execution integration remain pending. Fixtures unrun.",
+      "tests": ["tests/expanded.py::test_packing_skill", "tests/expanded.py::test_packing_attempt", "tests/expanded.py::test_packing_findings"],
+      "validation_note": "Typed packing defaults and pure caravan expertise threshold implemented. Owned packing rolls bind committed handling success to the same handler, animal and occurrence. Evaluation/route tasks require concrete authored findings, reveal them only on success and preserve them across replay. Inventory movement, knowledge delivery, native actions and journey execution integration remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "average",

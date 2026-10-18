@@ -1845,5 +1845,25 @@ roll adds none; authored handling durations still use the common ledger.
 
 `test_packing_attempt` specifies blocked prerequisites, successful ordering,
 preview purity, rollback, undo, save continuation, replay and mismatched occurrence
-rejection. Fixtures remain unrun. Inventory movement, authored evaluation/route
-findings, shared native actions and journey execution integration remain pending.
+rejection. Fixtures remain unrun. Inventory movement, knowledge delivery, shared native actions and journey execution
+integration remain pending.
+
+
+### Packing evaluations and route recommendations
+
+For `task = 'evaluate'` or `task = 'route'`, supply `finding` alongside approved
+`evidence`. An evaluation should describe the animal's suitability for the proposed
+work; a route finding should identify an authored route suitable for the actual
+animals and load. The engine requires that concrete conclusion before rolling.
+`load` and `unload` reject this information field rather than presenting a loading
+roll as an evaluation.
+
+Preview returns no finding. A successful committed check returns the approved
+finding, while a failed check returns none. Repeating the operation retains the
+original outcome, including failure. The request and result bind the finding so
+that later edits cannot replace a completed recommendation. Receiving the finding
+in a character's knowledge ledger is a separate integration still pending.
+
+`test_packing_findings` specifies route and evaluation results, missing findings,
+inapplicable load findings, preview purity, success and failure, rollback, undo,
+save continuation and changed-result rejection. Fixtures remain unrun.

@@ -3630,6 +3630,7 @@ class RpgExpandedPackTrain: object
 /** B212: an owned packing roll after any required handling, with authored load/route facts. */
 class RpgExpandedPackingResult: RpgExpandedResult
     score = nil
+    finding = nil
 ;
 class RpgExpandedPackingAttempt: object
     id = nil
@@ -3638,6 +3639,7 @@ class RpgExpandedPackingAttempt: object
     skill = nil
     occurrence = nil
     task = 'load'
+    finding = nil
     difficult = nil
     handling = nil
     approved = nil
@@ -3646,10 +3648,11 @@ class RpgExpandedPackingAttempt: object
     result = nil
     boundDefinition = nil
     boundSucceeded = nil
+    boundFinding = nil
     definition()
     {
         local facts = [self.id,self.profile,self.animal,self.skill,self.occurrence,self.task,self.difficult,self.handling,
-            self.approved,self.evidence,self.modifier];
+            self.approved,self.evidence,self.modifier,self.finding];
         return self.handling == nil ? facts : facts + rpgExpandedPackingHandling.definition(self.handling);
     }
     context() { local value = new RpgLiteContext(); value.skill = self.skill; value.modifier = self.modifier; return value; }
@@ -3664,14 +3667,14 @@ class RpgExpandedPackingAttempt: object
         if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('packing-binding');
         for (local i = 1; i <= facts.length(); i += 1)
             if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('packing-binding');
-        if (self.result.check == nil || self.result.check.achieved != self.boundSucceeded) rpgExpandedReject('packing-result-binding');
+        if (self.result.finding != self.boundFinding || self.result.check == nil || self.result.check.achieved != self.boundSucceeded) rpgExpandedReject('packing-result-binding');
         return nil;
     }
     assess()
     {
         local value = new RpgExpandedPackingResult();
         if (self.result != nil)
-        { self.validateReceipt(); value.status = 'reused'; value.check = self.result.check; return value; }
+        { self.validateReceipt(); value.status = 'reused'; value.check = self.result.check; value.finding = self.result.finding; return value; }
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
             || self.animal == nil || !self.animal.ofKind(RpgExpandedProfile) || self.animal == self.profile
             || self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || self.occurrence == nil
@@ -3679,6 +3682,11 @@ class RpgExpandedPackingAttempt: object
         self.skill.validatePacking(); rpgInteger(self.modifier,-100,100);
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'packing-facts-required'; return value; }
+        if (holds(['evaluate','route'],self.task))
+        {
+            if (self.finding == nil || self.finding == '') { value.reason = 'packing-finding-required'; return value; }
+        }
+        else if (self.finding != nil) rpgExpandedReject('packing-finding-inapplicable');
         foreach (local participant in [self.profile,self.animal])
             if (participant.dead || participant.unconscious || participant.stunned)
             { value.reason = 'packing-participant-unavailable'; return value; }
@@ -3702,6 +3710,8 @@ class RpgExpandedPackingAttempt: object
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         value.check = rpgLiteCheck(self.profile,self.context()); self.boundSucceeded = value.check.achieved;
+        if (value.check.achieved) value.finding = self.finding;
+        self.boundFinding = value.finding;
         self.boundDefinition = self.definition(); self.result = value; value.status = 'resolved';
         self.profile.packingAttempts = self.profile.packingAttempts + [self]; return value;
     }

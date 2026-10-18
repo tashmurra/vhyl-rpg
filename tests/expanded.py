@@ -9434,6 +9434,8 @@ def test(build):
     test_packing_skill(Session,packing_skill)
     packing_attempt = build.build("expanded-packing-attempt",ROOT / "tests/fixtures/expanded-packing-attempt.t")
     test_packing_attempt(Session,packing_attempt,build.out)
+    packing_findings = build.build("expanded-packing-findings",ROOT / "tests/fixtures/expanded-packing-findings.t")
+    test_packing_findings(Session,packing_findings,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -24528,5 +24530,58 @@ def test_packing_attempt(Session, bundle, out):
             s.action(1680,code)
         assert last(s,'test.packing-result') == ['blocked','packing-handling-failed']
         assert last(s,'test.packing-state') == [0,1,3,0]
+    finally:
+        s.close()
+
+
+def test_packing_findings(Session, bundle, out):
+    """B212 authored route and animal evaluation findings are success-only; unrun."""
+    for failure in (False,True):
+        path = out / f'packing-finding-{failure}.zsave'
+        s = Session(bundle)
+        try:
+            if failure:
+                s.action(1680,22505)
+            s.action(1680,22601)
+            assert last(s,'test.packing-finding') == ['ready',None,None]
+            s.action(1680,22501); s.action(1680,22506)
+            assert last(s,'test.packing-state') == [0,0,0,0]
+            s.action(1680,22600)
+            finding = None if failure else 'The eastern pass is suitable for these pack animals'
+            assert last(s,'test.packing-finding') == ['resolved',None,finding]
+            s.command('undo'); s.action(1680,22506)
+            assert last(s,'test.packing-state') == [0,0,0,0]
+            s.action(1680,22600); s.action(1680,22600)
+            assert last(s,'test.packing-finding') == ['reused',None,finding]
+            s.action(1680,22506)
+            assert last(s,'test.packing-state') == [1,0,3,0]
+            s.command(f':save {path}')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@1681'); s.action(1680,22600)
+            assert last(s,'test.packing-finding') == ['reused',None,finding]
+        finally:
+            s.close()
+    for code, reason in ((22604,'packing-binding'),(22605,'packing-result-binding')):
+        s = Session(bundle)
+        try:
+            s.action(1680,22600); s.action(1680,code)
+            assert last(s,'test.packing-finding-error') == [reason]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,22602); s.action(1680,22600)
+        assert last(s,'test.packing-finding') == ['blocked','packing-finding-required',None]
+        s.action(1680,22603); s.action(1680,22600)
+        assert last(s,'test.packing-finding') == ['resolved',None,'This animal can carry the proposed load']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,22606)
+        assert last(s,'test.packing-finding-error') == ['packing-finding-inapplicable']
     finally:
         s.close()
